@@ -8,12 +8,13 @@ SSOT:   $ROOT/docs/FULL-SPEC.md
 Агенты: $ROOT/docs/AGENTS.md
 Запуск: $ROOT/ЗАПУСК.md
 
-Сделано (Phase 1 slice, ЗАПУСК Step B):
-  ✓ content → content/cards|parts|cats|stages (3 стартера + 12 карт)
-  ✓ battle  → battle/ (mythfel-battle Go, CreatePvE/CreatePvP, golden)
+Сделано:
+  ✓ ЗАПУСК Step B — content → content/cards|parts|cats|stages
+  ✓ ЗАПУСК Step B — battle  → battle/ (mythfel-battle Go)
+  ✓ ЗАПУСК Step C — client  → client/ (BattlePresenter + stateDiff HUD)
 
 Дальше (ЗАПУСК Step C / docs/AGENTS.md порядок):
-  client presenter к бою → backend limits/inventory → liveops schemas → hub/shop → qa §13
+  backend limits/inventory → liveops schemas → client hub/shop → qa §13
 
 Шаблон промпта: см. docs/AGENTS.md раздел «Как ставить задачу»
 EOF

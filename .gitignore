@@ -30,6 +30,12 @@ Thumbs.db
 coverage/
 .nyc_output/
 
+# .NET (mythfel-client)
+**/bin/
+**/obj/
+*.user
+*.suo
+
 # Capacitor / Android (generated locally — never commit signing keys)
 apps/mobile-capacitor/android/
 apps/mobile-capacitor/ios/
