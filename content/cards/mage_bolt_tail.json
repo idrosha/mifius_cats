@@ -1,0 +1,15 @@
+{
+  "cardId": "card_mage_bolt_tail",
+  "name_key": "card.mage_bolt_tail",
+  "roleGate": "mage",
+  "element": "bolt",
+  "cost": 2,
+  "atk": 6,
+  "shield": 0,
+  "hits": 1,
+  "targetRule": "backline",
+  "tags": ["attack", "control", "backline"],
+  "effectOps": [
+    { "op": "apply_status", "status": "weak", "stacks": 1, "duration": 1 }
+  ]
+}

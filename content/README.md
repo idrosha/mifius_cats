@@ -4,7 +4,7 @@
 
 | Путь | Содержимое |
 |---|---|
-| `cards/` | 12 CardDef (по 4 на стартера tank/fighter/support) |
+| `cards/` | CardDef стартеров (4× tank/fighter/support) + backline-атаки mage/ranger (§3.4) |
 | `parts/` | PartDef стартеров (eyes/ears пассивы; muzzle/headwear/back/tail → карты) |
 | `cats/starters.json` | 3 стартера: tank·stone, fighter·fire, support·water |
 | `stages/test_yard_1.json` | Тестовый узел Двора для golden replay |

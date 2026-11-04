@@ -7,8 +7,8 @@
   "atk": 5,
   "shield": 0,
   "hits": 1,
-  "targetRule": "nearest",
-  "tags": ["attack", "taunt"],
+  "targetRule": "backline",
+  "tags": ["attack", "taunt", "backline"],
   "effectOps": [
     { "op": "apply_status", "status": "taunt", "stacks": 1, "duration": 1 }
   ]

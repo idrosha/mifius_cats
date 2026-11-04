@@ -41,4 +41,27 @@ func TestContentCatalog_StartersAndCards(t *testing.T) {
 	if _, ok := cat.Stages["test_yard_1"]; !ok {
 		t.Fatal("missing test_yard_1")
 	}
+
+	// §3.4: multiple roles ship ≥1 backline attack (formation pierce).
+	backlineByRole := map[string]bool{}
+	for _, c := range cat.Cards {
+		if c.TargetRule != "backline" {
+			continue
+		}
+		hasAttack := false
+		for _, tag := range c.Tags {
+			if tag == "attack" {
+				hasAttack = true
+				break
+			}
+		}
+		if hasAttack && c.RoleGate != "" {
+			backlineByRole[c.RoleGate] = true
+		}
+	}
+	for _, role := range []string{"tank", "fighter", "support", "mage", "ranger"} {
+		if !backlineByRole[role] {
+			t.Fatalf("missing backline attack for role %s", role)
+		}
+	}
 }

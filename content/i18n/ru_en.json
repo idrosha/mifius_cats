@@ -11,6 +11,8 @@
   "card.support_water_headwear": { "ru": "Чистый родник", "en": "Clear Spring" },
   "card.support_water_back": { "ru": "Волна опеки", "en": "Ward Wave" },
   "card.support_water_tail": { "ru": "Мягкий всплеск", "en": "Soft Splash" },
+  "card.mage_bolt_tail": { "ru": "Хвост-разряд", "en": "Spark Tail" },
+  "card.ranger_grass_muzzle": { "ru": "Засадный укус", "en": "Ambush Bite" },
   "stage.test_yard_1": { "ru": "Двор: учебный двор", "en": "Yard: practice gate" },
   "card.bot_nibble": { "ru": "Покус", "en": "Nibble" },
   "card.bot_shell": { "ru": "Кожура", "en": "Husk" },
