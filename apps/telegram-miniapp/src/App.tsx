@@ -6,6 +6,7 @@ import type {
   OnlineMatchPublicDto,
 } from "@mir-games/adapters-telegram";
 import type { AppBootstrap } from "./bootstrap";
+import type { NavTab } from "./components/AppShell";
 import { getLevel, MAP_LOCATIONS } from "@mir-games/question-bank";
 import { MenuScreen } from "./screens/MenuScreen";
 import { MapScreen } from "./screens/MapScreen";
@@ -88,6 +89,28 @@ export function App({ boot }: Props) {
     void refreshFromServer();
   }, [refreshFromServer]);
 
+  function onNavigate(tab: NavTab): void {
+    if (tab === "menu") {
+      setRoute({ name: "menu" });
+      return;
+    }
+    if (tab === "map") {
+      setRoute({ name: "map" });
+      return;
+    }
+    if (tab === "championship") {
+      setRoute({ name: "championship-lobby" });
+      return;
+    }
+    if (tab === "shop") {
+      setRoute({ name: "shop" });
+      return;
+    }
+    if (tab === "account") {
+      setRoute({ name: "account" });
+    }
+  }
+
   function onMenuSelect(id: string): void {
     if (id === "single") {
       setRoute({ name: "map" });
@@ -157,7 +180,9 @@ export function App({ boot }: Props) {
       <MenuScreen
         displayName={displayName}
         avatar={avatar}
+        totalPoints={totalPoints}
         onSelect={onMenuSelect}
+        onNavigate={onNavigate}
         onAvatar={() => setRoute({ name: "account" })}
       />
     );
@@ -171,8 +196,10 @@ export function App({ boot }: Props) {
         playerId={player.playerId}
         avatar={avatar}
         onlineApi={onlineApi}
+        totalPoints={totalPoints}
         onMatched={(match) => setRoute({ name: "online-match", match })}
         onBack={() => setRoute({ name: "menu" })}
+        onNavigate={onNavigate}
       />
     );
   }
@@ -204,11 +231,13 @@ export function App({ boot }: Props) {
         playerId={player.playerId}
         championshipApi={championshipApi}
         payment={payment}
+        totalPoints={totalPoints}
         onStarted={(run) => setRoute({ name: "championship-run", run })}
         onAccountRefresh={() => {
           void refreshFromServer();
         }}
         onBack={() => setRoute({ name: "menu" })}
+        onNavigate={onNavigate}
       />
     );
   }
@@ -246,6 +275,7 @@ export function App({ boot }: Props) {
         account={account}
         onAccountChange={applyAccount}
         onBack={() => setRoute({ name: "menu" })}
+        onNavigate={onNavigate}
       />
     );
   }
@@ -258,6 +288,9 @@ export function App({ boot }: Props) {
         onAccountChange={applyAccount}
         onDisplayNameChange={setDisplayName}
         onBack={() => setRoute({ name: "menu" })}
+        onNavigate={onNavigate}
+        onSettings={() => setRoute({ name: "settings" })}
+        onShop={() => setRoute({ name: "shop" })}
       />
     );
   }
@@ -269,7 +302,8 @@ export function App({ boot }: Props) {
         storage={storage}
         account={account}
         onAccountChange={applyAccount}
-        onBack={() => setRoute({ name: "menu" })}
+        onBack={() => setRoute({ name: "account" })}
+        onNavigate={onNavigate}
       />
     );
   }
@@ -282,6 +316,7 @@ export function App({ boot }: Props) {
         onBack={() => setRoute({ name: "menu" })}
         onPlayLevel={startLevel}
         onAvatar={() => setRoute({ name: "account" })}
+        onNavigate={onNavigate}
       />
     );
   }
@@ -292,6 +327,7 @@ export function App({ boot }: Props) {
         avatar={avatar}
         locationTitle={route.locationTitle}
         locationArtClass={route.locationArtClass}
+        totalPoints={totalPoints}
         onFinished={(result) => {
           void finishPlay(result);
         }}
@@ -304,8 +340,11 @@ export function App({ boot }: Props) {
         result={route.result}
         avatar={avatar}
         commitError={route.commitError}
+        totalPoints={totalPoints}
         onMap={() => setRoute({ name: "map" })}
         onMenu={() => setRoute({ name: "menu" })}
+        onShop={() => setRoute({ name: "shop" })}
+        onNavigate={onNavigate}
       />
     );
   }

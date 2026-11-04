@@ -2,7 +2,7 @@
   "name": "@mir-games/telegram-miniapp",
   "version": "0.1.0",
   "private": true,
-  "description": "Telegram Mini App thin client for Мир Квизов",
+  "description": "Telegram Mini App thin client for \u041c\u0438\u0440 \u041a\u0432\u0438\u0437\u043e\u0432",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -16,7 +16,8 @@
     "@mir-games/platform-contracts": "0.1.0",
     "@mir-games/question-bank": "0.1.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "@mir-games/quiz-ui": "0.1.0"
   },
   "devDependencies": {
     "@types/react": "^19.0.10",

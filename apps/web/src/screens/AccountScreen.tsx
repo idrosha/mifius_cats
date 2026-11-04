@@ -1,5 +1,6 @@
 import { useState } from "react";
 import type { AccountSnapshotDto, ShopApiClient } from "@mir-games/adapters-web";
+import { AppShell, type NavTab } from "../components/AppShell";
 import { AvatarView } from "../components/AvatarView";
 
 type Props = {
@@ -9,6 +10,9 @@ type Props = {
   onAccountChange: (next: AccountSnapshotDto) => void;
   onDisplayNameChange: (name: string) => void;
   onBack: () => void;
+  onNavigate: (tab: NavTab) => void;
+  onSettings?: () => void;
+  onShop?: () => void;
 };
 
 export function AccountScreen({
@@ -17,7 +21,9 @@ export function AccountScreen({
   account,
   onAccountChange,
   onDisplayNameChange,
-  onBack,
+  onNavigate,
+  onSettings,
+  onShop,
 }: Props) {
   const [nameDraft, setNameDraft] = useState(account.displayName ?? "");
   const [error, setError] = useState<string | null>(null);
@@ -40,65 +46,127 @@ export function AccountScreen({
   }
 
   return (
-    <section className="screen account-screen">
-      <button type="button" className="link-back" onClick={onBack}>
-        ← Меню
-      </button>
-      <header className="brand-header">
-        <p className="brand">Мир Квизов</p>
-        <h1>Аккаунт</h1>
-        <p className="subtitle">{account.playerId}</p>
-      </header>
+    <AppShell
+      title="Profil"
+      coins={account.totalPoints}
+      active="account"
+      onNavigate={onNavigate}
+      onProfile={() => undefined}
+    >
+      <section className="screen account-screen">
+        <header className="brand-header">
+          <p className="eyebrow">
+            <span className="ms">explore</span>
+            Исследователь
+          </p>
+          <h1>{account.displayName ?? "Профиль"}</h1>
+          <p className="subtitle">{account.playerId}</p>
+        </header>
 
-      <AvatarView loadout={account.avatar} size="lg" label={account.displayName ?? "Игрок"} />
+        <div className="profile-stage">
+          <AvatarView loadout={account.avatar} size="lg" label={account.displayName ?? "Игрок"} />
+        </div>
 
-      {error ? <p className="error-banner">{error}</p> : null}
+        {error ? <p className="error-banner">{error}</p> : null}
 
-      <h2 className="section-title">Профиль</h2>
-      <label className="field">
-        <span>Имя</span>
-        <input
-          value={nameDraft}
-          onChange={(e) => setNameDraft(e.target.value)}
-          maxLength={40}
+        <label className="field">
+          <span>Имя</span>
+          <input
+            value={nameDraft}
+            onChange={(e) => setNameDraft(e.target.value)}
+            maxLength={40}
+            disabled={busy}
+          />
+        </label>
+        <button
+          type="button"
+          className="btn btn-block"
           disabled={busy}
-        />
-      </label>
-      <button type="button" className="btn-primary" disabled={busy} onClick={() => void saveProfile()}>
-        Сохранить
-      </button>
+          onClick={() => void saveProfile()}
+        >
+          Сохранить профиль
+        </button>
 
-      <h2 className="section-title">Статистика</h2>
-      <dl className="stats-grid">
-        <div>
-          <dt>Пройдено уровней</dt>
-          <dd>{account.stats.levelsCompleted}</dd>
+        <div className="bento">
+          <div className="bento-card">
+            <dt>Очки</dt>
+            <dd>{account.totalPoints}</dd>
+          </div>
+          <div className="bento-card">
+            <dt>Попытки</dt>
+            <dd>{account.retryCredits}</dd>
+          </div>
         </div>
-        <div>
-          <dt>Всего попыток</dt>
-          <dd>{account.stats.totalAttempts}</dd>
-        </div>
-        <div>
-          <dt>Сумма лучших очков</dt>
-          <dd>{account.stats.bestScoreSum}</dd>
-        </div>
-        <div>
-          <dt>Вторые попытки</dt>
-          <dd>{account.secondAttemptCount}</dd>
-        </div>
-        <div>
-          <dt>Очки</dt>
-          <dd>{account.totalPoints}</dd>
-        </div>
-        <div>
-          <dt>Попытки на складе</dt>
-          <dd>{account.retryCredits}</dd>
-        </div>
-        <div>
-          <dt>Онлайн-рейтинг</dt>
-          <dd>{account.onlineRating ?? "—"}</dd>
-        </div>
-      </dl>
-    </section>
+
+        <h2 className="section-title">Статистика</h2>
+        <dl className="stats-grid">
+          <div>
+            <dt>Пройдено уровней</dt>
+            <dd>{account.stats.levelsCompleted}</dd>
+          </div>
+          <div>
+            <dt>Всего попыток</dt>
+            <dd>{account.stats.totalAttempts}</dd>
+          </div>
+          <div>
+            <dt>Сумма лучших</dt>
+            <dd>{account.stats.bestScoreSum}</dd>
+          </div>
+          <div>
+            <dt>Вторые попытки</dt>
+            <dd>{account.secondAttemptCount}</dd>
+          </div>
+          <div>
+            <dt>Онлайн-рейтинг</dt>
+            <dd>{account.onlineRating ?? "—"}</dd>
+          </div>
+          <div>
+            <dt>Деньги (stub)</dt>
+            <dd>{account.moneyBalance}</dd>
+          </div>
+        </dl>
+
+        <ul className="settings-list">
+          <li>
+            <button
+              type="button"
+              className="settings-row"
+              style={{ width: "100%", border: 0, background: "var(--surface-container-lowest)" }}
+              onClick={() => (onShop ? onShop() : onNavigate("shop"))}
+            >
+              <div className="settings-row-main">
+                <div className="settings-row-icon">
+                  <span className="ms">checkroom</span>
+                </div>
+                <div>
+                  <strong>В гардероб</strong>
+                  <p className="subtitle">Примерка и покупка</p>
+                </div>
+              </div>
+              <span className="ms">chevron_right</span>
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              className="settings-row"
+              style={{ width: "100%", border: 0, background: "var(--surface-container-lowest)" }}
+              onClick={() => (onSettings ? onSettings() : onNavigate("menu"))}
+            >
+              <div className="settings-row-main">
+                <div className="settings-row-icon">
+                  <span className="ms">settings</span>
+                </div>
+                <div>
+                  <strong>Настройки</strong>
+                  <p className="subtitle">Язык и звук</p>
+                </div>
+              </div>
+              <span className="ms">chevron_right</span>
+            </button>
+          </li>
+        </ul>
+      </section>
+    </AppShell>
   );
 }

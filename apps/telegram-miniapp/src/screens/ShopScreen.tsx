@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import type { ShopApiClient, AccountSnapshotDto, ShopItem } from "@mir-games/adapters-telegram";
 import type { PaymentPort } from "@mir-games/platform-contracts";
+import { AppShell, type NavTab } from "../components/AppShell";
 import { AvatarView } from "../components/AvatarView";
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -20,6 +21,7 @@ type Props = {
   account: AccountSnapshotDto;
   onAccountChange: (next: AccountSnapshotDto) => void;
   onBack: () => void;
+  onNavigate: (tab: NavTab) => void;
 };
 
 export function ShopScreen({
@@ -29,6 +31,7 @@ export function ShopScreen({
   account,
   onAccountChange,
   onBack,
+  onNavigate,
 }: Props) {
   const [items, setItems] = useState<ShopItem[]>([]);
   const [category, setCategory] = useState<string>("hats");
@@ -99,12 +102,19 @@ export function ShopScreen({
   }
 
   return (
+    <AppShell
+      title="Magazin"
+      coins={account.totalPoints}
+      active="shop"
+      onNavigate={onNavigate}
+      onProfile={() => onNavigate("account")}
+    >
     <section className="screen shop-screen">
-      <button type="button" className="link-back" onClick={onBack}>
-        ← Меню
-      </button>
       <header className="brand-header">
-        <p className="brand">Мир Квизов</p>
+        <p className="eyebrow">
+          <span className="ms">styler</span>
+          Гардероб экспедиций
+        </p>
         <h1>Магазин</h1>
         <p className="subtitle">
           Очки: {account.totalPoints} · Деньги (stub): {account.moneyBalance} · Попытки:{" "}
@@ -112,7 +122,9 @@ export function ShopScreen({
         </p>
       </header>
 
-      <AvatarView loadout={account.avatar} size="lg" label="Экипировка" />
+      <div className="profile-stage">
+        <AvatarView loadout={account.avatar} size="lg" label="Экипировка" />
+      </div>
 
       {error ? <p className="error-banner">{error}</p> : null}
 
@@ -254,6 +266,10 @@ export function ShopScreen({
           })}
         </ul>
       </div>
+      <button type="button" className="btn-secondary btn-block" onClick={onBack} style={{ marginTop: "1rem" }}>
+        На главную
+      </button>
     </section>
+    </AppShell>
   );
 }

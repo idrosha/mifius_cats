@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { AccountSnapshotDto, ShopApiClient } from "@mir-games/adapters-telegram";
 import type { StoragePort } from "@mir-games/platform-contracts";
+import { AppShell, type NavTab } from "../components/AppShell";
 
 type Props = {
   playerId: string;
@@ -9,6 +10,7 @@ type Props = {
   account: AccountSnapshotDto;
   onAccountChange: (next: AccountSnapshotDto) => void;
   onBack: () => void;
+  onNavigate: (tab: NavTab) => void;
 };
 
 export function SettingsScreen({
@@ -18,6 +20,7 @@ export function SettingsScreen({
   account,
   onAccountChange,
   onBack,
+  onNavigate,
 }: Props) {
   const [language, setLanguage] = useState(account.settings.language);
   const [soundEnabled, setSoundEnabled] = useState(account.settings.soundEnabled);
@@ -40,42 +43,72 @@ export function SettingsScreen({
   }
 
   return (
-    <section className="screen settings-screen">
-      <button type="button" className="link-back" onClick={onBack}>
-        ← Меню
-      </button>
-      <header className="brand-header">
-        <p className="brand">Мир Квизов</p>
-        <h1>Настройки</h1>
-      </header>
+    <AppShell
+      title="Nastroiki"
+      coins={account.totalPoints}
+      active="account"
+      onNavigate={onNavigate}
+      onProfile={() => onNavigate("account")}
+    >
+      <section className="screen settings-screen">
+        <header className="brand-header">
+          <p className="eyebrow">
+            <span className="ms">tune</span>
+            Интерфейс
+          </p>
+          <h1>Настройки</h1>
+        </header>
 
-      {error ? <p className="error-banner">{error}</p> : null}
+        {error ? <p className="error-banner">{error}</p> : null}
 
-      <label className="field">
-        <span>Язык</span>
-        <select
-          value={language}
-          onChange={(e) => setLanguage(e.target.value)}
-          disabled={busy}
-        >
-          <option value="ru">Русский</option>
-          <option value="en">English</option>
-        </select>
-      </label>
+        <ul className="settings-list">
+          <li className="settings-row">
+            <div className="settings-row-main">
+              <div className="settings-row-icon">
+                <span className="ms">language</span>
+              </div>
+              <div>
+                <strong>Язык атласа</strong>
+                <p className="subtitle">Сейчас MVP: RU</p>
+              </div>
+            </div>
+            <select
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+              disabled={busy}
+              aria-label="Язык"
+            >
+              <option value="ru">Русский</option>
+              <option value="en">English</option>
+            </select>
+          </li>
+          <li className="settings-row">
+            <div className="settings-row-main">
+              <div className="settings-row-icon">
+                <span className="ms">graphic_eq</span>
+              </div>
+              <div>
+                <strong>Звуки и эмбиент</strong>
+                <p className="subtitle">Пока stub</p>
+              </div>
+            </div>
+            <input
+              type="checkbox"
+              checked={soundEnabled}
+              onChange={(e) => setSoundEnabled(e.target.checked)}
+              disabled={busy}
+              aria-label="Звук"
+            />
+          </li>
+        </ul>
 
-      <label className="field checkbox-field">
-        <input
-          type="checkbox"
-          checked={soundEnabled}
-          onChange={(e) => setSoundEnabled(e.target.checked)}
-          disabled={busy}
-        />
-        <span>Звук</span>
-      </label>
-
-      <button type="button" className="btn-primary" disabled={busy} onClick={() => void save()}>
-        Сохранить
-      </button>
-    </section>
+        <button type="button" className="btn btn-block" disabled={busy} onClick={() => void save()}>
+          Сохранить
+        </button>
+        <button type="button" className="btn-secondary btn-block" onClick={onBack} style={{ marginTop: "0.55rem" }}>
+          Назад
+        </button>
+      </section>
+    </AppShell>
   );
 }
