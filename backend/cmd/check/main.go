@@ -1,4 +1,4 @@
-// check — smoke CLI: free 3/5 лимиты и pass ×2 (FULL-SPEC §5 / §13.2–3).
+// check — smoke CLI: limits §5 + pity hard80 + IAP sandbox yarn→jar (§13.2–4 / §13.9).
 package main
 
 import (
@@ -26,4 +26,37 @@ func main() {
 	if free.Bowls != 3 || free.PvPTickets != 5 || pass.Bowls != 6 || pass.PvPTickets != 10 {
 		os.Exit(1)
 	}
+
+	pity := economy.DefaultPity()
+	fmt.Printf("pity soft/hard: %d/%d (want 50/80)\n", pity.Soft, pity.Hard)
+	if pity.Soft != 50 || pity.Hard != 80 {
+		os.Exit(1)
+	}
+
+	p := economy.NewPlayer("demo-pity")
+	state := economy.NewPityState()
+	pool := economy.DefaultStaticJarPool()
+	state.Since[economy.JarTableCats] = pity.Hard - 1
+	drop, err := economy.OpenJar(p, state, economy.JarTableCats, pity, pool, economy.OpenJarOpts{})
+	if err != nil || !drop.PityTriggered || drop.Rarity != "rare" {
+		fmt.Printf("hard80 pity failed: drop=%+v err=%v\n", drop, err)
+		os.Exit(1)
+	}
+	fmt.Printf("hard80 pity: triggered=%v rarity=%s\n", drop.PityTriggered, drop.Rarity)
+
+	iapUser := economy.NewPlayer("demo-iap")
+	ledger := economy.NewMemoryIAPLedger()
+	jar, err := economy.SandboxYarnThenJar(
+		iapUser, ledger,
+		economy.IAPReceipt{
+			Platform: "sandbox", ProductKind: economy.IAPKindYarn,
+			ProductID: "sandbox.yarn.unit", TransactionID: "smoke-tx-1", YarnGrant: 1,
+		},
+		economy.NewPityState(), pity, pool, economy.JarTableCats, 1,
+	)
+	if err != nil || jar.Origin != "jar" || iapUser.Yarn != 0 {
+		fmt.Printf("iap yarn→jar failed: jar=%+v yarn=%d err=%v\n", jar, iapUser.Yarn, err)
+		os.Exit(1)
+	}
+	fmt.Printf("iap sandbox yarn→jar: origin=%s template=%s yarn_left=%d\n", jar.Origin, jar.TemplateID, iapUser.Yarn)
 }

@@ -9,7 +9,7 @@ import (
 )
 
 // §13.4 / §13.2–3 / §5 — конфиг LiveOps несёт SSOT-числа soft launch.
-// Pity *срабатывание* (jar RNG) здесь не проверяем → BLOCKED в ACCEPTANCE.md.
+// Pity *срабатывание* — backend TestOpenJar_HardPityTriggersAt80 (ACCEPTANCE PASS).
 
 func TestLiveOps_PityAndLimits_MatchSSOT(t *testing.T) {
 	root := repoRoot(t)

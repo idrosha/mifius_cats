@@ -16,15 +16,15 @@
 ```
 
 Ожидание: exit `0` если все **запускаемые** автогейты зелёные.  
-Пункты §13 без реализации (pity RNG, IAP, PvP replay UI) → `BLOCKED` в отчёте, не fail и не «баг фичи».
+Оставшийся BLOCKED MUST: **§13.6** PvP replay. PARTIAL: §13.1 tutorial, §13.8 locale UI.
 
 ## DoD slice
 
 - Чеклист 1:1 с FULL-SPEC §13
-- Автогейты на текущий код: limits/pass, illegal play, golden Двор, LiveOps pity/limits/flags, i18n ru+en
+- Автогейты: limits/pass, pity hard80, IAP sandbox yarn→jar, illegal play, golden Двор, LiveOps, i18n ru+en
 - Client (`dotnet test`) — опционально, если есть SDK
 - Soft-launch gate **не** зелёный, пока есть BLOCKED по MUST §13
 
-## Не в этом PR
+## Не пилит qa
 
-Реализация pity/IAP/replay/tutorial, Unity UI, правка FULL-SPEC.
+Реализация фич (pity/IAP — `backend/`), Unity UI, правка FULL-SPEC.

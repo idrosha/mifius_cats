@@ -71,7 +71,7 @@ func SpendFish(p *Player, amount int) error {
 	return nil
 }
 
-// SpendYarn — premium spend (§2.5 yarn); IAP grant остаётся отдельно (§8.3 validate IAP — не в этом slice).
+// SpendYarn — premium spend (§2.5 yarn); IAP grant — ValidateAndGrantIAP (§8.3 / §13.9).
 func SpendYarn(p *Player, amount int) error {
 	if p == nil {
 		return ErrNilPlayer
