@@ -15,9 +15,12 @@ SSOT:   $ROOT/docs/FULL-SPEC.md
   ✓ ЗАПУСК Step C — backend → backend/ (limits 3/5 + inventory §7.5)
   ✓ ЗАПУСК Step C — liveops → liveops/ (JSON Schema §7.4 + validate)
   ✓ ЗАПУСК Step C — client  → client/ (Hub + Shop + Soon flags)
+  ✓ qa §13 — чеклист + ./qa/run-acceptance.sh (gate PARTIAL/BLOCKED)
 
-Дальше (ЗАПУСК Step C / docs/AGENTS.md порядок):
-  qa §13 → soft launch
+Дальше (docs/AGENTS.md / §14 Phase 3→4):
+  закрыть BLOCKED §13.4 pity · §13.6 replay · §13.9 IAP
+  → затем soft launch (§13 зелёный)
 
 Шаблон промпта: см. docs/AGENTS.md раздел «Как ставить задачу»
+Харнесс: ./qa/run-acceptance.sh   чеклист: qa/ACCEPTANCE.md
 EOF
