@@ -1,30 +1,208 @@
 /* Mythfel Web HUD — chrome over Stitch screens (Tailwind lives in index from Stitch). */
 .hidden { display: none !important; }
 
-#hudChrome {
-  position: fixed;
-  top: 0.4rem;
-  right: 0.4rem;
+:root {
+  --primary: #fdba45;
+  --primary-container: #d99b26;
+  --surface: #161310;
+  --surface-high: #2e2926;
+  --surface-mid: #231f1c;
+  --outline: #504535;
+  --on-surface: #eae1db;
+  --muted: #d5c4af;
+  --nav-h: auto;
+  --stitch-source: "tavern-hearth-battler";
+}
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  height: 100%;
+  background: var(--surface);
+  color: var(--on-surface);
+}
+
+/* Full-viewport shell: stretch evenly, no cramped left column */
+.mythfel-shell {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+#app {
+  flex: 1 1 auto;
+  width: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.stitch-view {
+  width: 100%;
+  flex: 1 1 auto;
+  min-height: 100%;
+  padding-bottom: 0.25rem;
+  box-sizing: border-box;
+}
+
+/* ——— Primary + subtabs (single chrome; kills double-nav) ——— */
+.mythfel-nav {
+  position: sticky;
+  top: 0;
   z-index: 70;
+  width: 100%;
+  flex-shrink: 0;
+  background: rgba(17, 13, 11, 0.96);
+  border-bottom: 1px solid var(--outline);
+  backdrop-filter: blur(10px);
+}
+
+.mythfel-nav-top {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  width: 100%;
+  max-width: none;
+  padding: 0.45rem 0.85rem;
+  box-sizing: border-box;
+}
+
+.mythfel-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 0;
+  background: transparent;
+  color: var(--on-surface);
+  cursor: pointer;
+  padding: 0.15rem 0.25rem;
+  text-align: left;
+}
+.mythfel-brand-mark {
+  width: 2.1rem;
+  height: 2.1rem;
+  border-radius: 0.55rem;
+  display: grid;
+  place-items: center;
+  background: var(--surface-high);
+  box-shadow: inset 0 1px 1px rgba(253, 186, 69, 0.3);
+  font-size: 1rem;
+}
+.mythfel-brand-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+.mythfel-brand-text strong {
+  font-family: Rubik, sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  color: var(--primary);
+}
+.mythfel-brand-text span {
+  font-family: "Nunito Sans", sans-serif;
+  font-size: 0.65rem;
+  color: var(--muted);
+}
+
+.mythfel-primary {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.3rem;
+  min-width: 0;
+  width: 100%;
+}
+
+.mythfel-primary button {
+  font-family: Rubik, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid var(--outline);
+  background: var(--surface-mid);
+  color: var(--muted);
+  border-radius: 0.45rem;
+  padding: 0.4rem 0.75rem;
+  white-space: nowrap;
+}
+.mythfel-primary button:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+}
+.mythfel-primary button.active {
+  background: var(--primary-container);
+  color: #1a1308;
+  border-color: var(--primary);
+}
+
+.mythfel-chrome {
   display: flex;
   gap: 0.35rem;
   align-items: center;
   flex-wrap: wrap;
   justify-content: flex-end;
-  max-width: min(100%, 28rem);
-  pointer-events: none;
 }
-#hudChrome > * { pointer-events: auto; }
+
+.mythfel-subtabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: stretch;
+  gap: 0.25rem;
+  width: 100%;
+  padding: 0.35rem 0.85rem 0.55rem;
+  box-sizing: border-box;
+  border-top: 1px solid rgba(80, 69, 53, 0.45);
+  background: rgba(22, 19, 16, 0.92);
+}
+.mythfel-subtabs:empty { display: none; }
+
+.mythfel-subtabs button {
+  flex: 1 1 auto;
+  min-width: max(6.5rem, 12%);
+  font-family: Rubik, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  border-radius: 0.4rem;
+  padding: 0.4rem 0.65rem;
+  text-align: center;
+}
+.mythfel-subtabs button:hover {
+  background: var(--surface-high);
+  color: var(--on-surface);
+}
+.mythfel-subtabs button.active {
+  background: var(--surface-high);
+  color: var(--primary);
+  border-color: var(--outline);
+}
+.mythfel-subtabs button.stub::after,
+.mythfel-subtabs button.soon::after {
+  content: " · stub";
+  opacity: 0.65;
+  font-weight: 600;
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.mythfel-subtabs button.soon::after { content: " · скоро"; }
 
 .status-pill {
   font-family: Rubik, sans-serif;
   font-size: 10px;
   padding: 0.2rem 0.45rem;
   border-radius: 999px;
-  border: 1px solid #504535;
+  border: 1px solid var(--outline);
   background: #1f1b18cc;
-  color: #d5c4af;
-  backdrop-filter: blur(6px);
+  color: var(--muted);
 }
 .status-pill.ok { color: #89d98c; border-color: #005b1e; }
 .status-pill.bad { color: #ffb4ab; border-color: #93000a; }
@@ -35,16 +213,16 @@
   font-size: 10px;
   font-weight: 700;
   cursor: pointer;
-  border: 1px solid #504535;
-  background: #2e2926;
-  color: #eae1db;
+  border: 1px solid var(--outline);
+  background: var(--surface-high);
+  color: var(--on-surface);
   border-radius: 0.4rem;
   padding: 0.2rem 0.4rem;
 }
 .locale-switch button.active {
-  background: #d99b26;
+  background: var(--primary-container);
   color: #1a1308;
-  border-color: #fdba45;
+  border-color: var(--primary);
 }
 
 #toast {
@@ -53,9 +231,9 @@
   left: 50%;
   transform: translateX(-50%);
   z-index: 80;
-  background: #2e2926;
-  color: #eae1db;
-  border: 1px solid #fdba45;
+  background: var(--surface-high);
+  color: var(--on-surface);
+  border: 1px solid var(--primary);
   padding: 0.5rem 0.85rem;
   border-radius: 0.5rem;
   font-size: 13px;
@@ -66,9 +244,11 @@
   position: sticky;
   bottom: 0;
   z-index: 60;
+  width: 100%;
+  flex-shrink: 0;
   background: rgba(17, 13, 11, 0.94);
   backdrop-filter: blur(8px);
-  border-top: 1px solid #504535;
+  border-top: 1px solid var(--outline);
   padding: 0.5rem 0.75rem;
 }
 .mythfel-wire-inner {
@@ -76,8 +256,9 @@
   flex-wrap: wrap;
   gap: 0.4rem;
   align-items: center;
-  max-width: 1600px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
 }
 .mythfel-wire-label {
   font-family: Rubik, sans-serif;
@@ -85,7 +266,7 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: #fdba45;
+  color: var(--primary);
   margin-right: 0.35rem;
 }
 .wire-btn {
@@ -93,13 +274,13 @@
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
-  border: 1px solid #504535;
-  background: #2e2926;
-  color: #eae1db;
+  border: 1px solid var(--outline);
+  background: var(--surface-high);
+  color: var(--on-surface);
   border-radius: 0.5rem;
   padding: 0.35rem 0.65rem;
 }
-.wire-btn:hover { border-color: #fdba45; color: #fdba45; }
+.wire-btn:hover { border-color: var(--primary); color: var(--primary); }
 .wire-btn:disabled { opacity: 0.45; cursor: not-allowed; }
 .wire-btn.wire-hidden,
 .wire-panel.wire-hidden { display: none !important; }
@@ -108,11 +289,11 @@
   margin: 0.35rem 0;
   padding: 0.45rem 0.65rem;
   border-radius: 0.5rem;
-  border: 1px solid #504535;
+  border: 1px solid var(--outline);
   width: 100%;
   font-size: 12px;
 }
-.banner.warn { background: #3a2a12; color: #fdba45; }
+.banner.warn { background: #3a2a12; color: var(--primary); }
 .banner.win { background: #12301a; color: #89d98c; }
 .banner.lose { background: #3a1210; color: #ffb4ab; }
 
@@ -122,7 +303,7 @@
   overflow: auto;
   font-size: 11px;
   background: #110d0b;
-  color: #d5c4af;
+  color: var(--muted);
   padding: 0.4rem;
   border-radius: 0.4rem;
   margin-top: 0.35rem;
@@ -143,12 +324,12 @@
 .card-grid .tile,
 .formation-lanes .lane-card,
 .potion-tray .potion-chip {
-  background: #231f1c;
-  border: 1px solid #504535;
+  background: var(--surface-mid);
+  border: 1px solid var(--outline);
   border-radius: 0.5rem;
   padding: 0.45rem;
   min-width: 7rem;
-  color: #eae1db;
+  color: var(--on-surface);
   font-size: 12px;
 }
 .unit.enemy { border-color: #ff826c; }
@@ -176,98 +357,79 @@
   justify-content: space-between;
   gap: 0.5rem;
   padding: 0.4rem 0.5rem;
-  border: 1px solid #504535;
+  border: 1px solid var(--outline);
   border-radius: 0.45rem;
   margin-bottom: 0.3rem;
   background: #1f1b18;
-  color: #eae1db;
+  color: var(--on-surface);
   font-size: 12px;
 }
 
 .panel-boot,
 .boot-card {
-  min-height: 100vh;
+  min-height: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: #161310;
-  color: #eae1db;
+  background: var(--surface);
+  color: var(--on-surface);
   font-family: "Nunito Sans", sans-serif;
   gap: 0.5rem;
   text-align: center;
   padding: 2rem;
+  box-sizing: border-box;
 }
 .boot-card h2 {
   font-family: Rubik, sans-serif;
-  color: #fdba45;
+  color: var(--primary);
   margin: 0;
 }
 .eyebrow {
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: #fdba45;
+  color: var(--primary);
   margin: 0;
 }
 .soon-links { display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center; }
 .soon-links button {
   font-family: Rubik, sans-serif;
   cursor: pointer;
-  border: 1px solid #504535;
-  background: #2e2926;
-  color: #eae1db;
+  border: 1px solid var(--outline);
+  background: var(--surface-high);
+  color: var(--on-surface);
   border-radius: 0.5rem;
   padding: 0.4rem 0.7rem;
 }
 
-/* Stitch screens are full-bleed; leave room for wire dock */
-.stitch-view { padding-bottom: 0.25rem; }
-body { margin: 0; }
-
-/* Stitch desktop-only nav is `hidden lg:flex` — force visible so phone/QA viewports can navigate */
+/*
+ * Kill Stitch per-screen header nav (duplicate flat bar under #appNav).
+ * Keep brand/resources row of Stitch headers, hide only the link strip.
+ */
+.stitch-view > header nav,
 .stitch-view header nav[data-active-classes],
-.stitch-view header nav.hidden,
-.stitch-view header .hidden.lg\:flex {
-  display: flex !important;
+.stitch-view header .hidden.lg\:flex:has(a[data-path]),
+.stitch-view header nav.flex {
+  display: none !important;
 }
 
-/* Always-on app tab strip (soft-launch graph) */
-#appTabs {
-  position: sticky;
-  top: 0;
-  z-index: 65;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-  padding: 0.45rem 0.65rem;
-  background: rgba(17, 13, 11, 0.94);
-  border-bottom: 1px solid #504535;
-  backdrop-filter: blur(8px);
+/* Stitch fixed headers sit under our chrome — offset content */
+.stitch-view > header.fixed,
+.stitch-view > header[class*="fixed"] {
+  top: var(--mythfel-nav-offset, 0px) !important;
 }
-#appTabs button {
-  font-family: Rubik, sans-serif;
-  font-size: 11px;
-  font-weight: 700;
-  cursor: pointer;
-  border: 1px solid #504535;
-  background: #231f1c;
-  color: #d5c4af;
-  border-radius: 0.45rem;
-  padding: 0.3rem 0.55rem;
-}
-#appTabs button.active {
-  background: #d99b26;
-  color: #1a1308;
-  border-color: #fdba45;
-}
-#appTabs button.soon {
-  opacity: 0.75;
+.mythfel-shell {
+  --mythfel-nav-offset: 0px; /* Stitch headers stay in-flow relative to their section; our nav is sticky above */
 }
 
-/* Mark Stitch provenance for verify */
-:root {
-  --primary: #fdba45;
-  --primary-container: #d99b26;
-  --stitch-source: "tavern-hearth-battler";
+@media (max-width: 900px) {
+  .mythfel-nav-top {
+    grid-template-columns: 1fr;
+    justify-items: stretch;
+  }
+  .mythfel-chrome { justify-content: flex-start; }
+  .mythfel-primary { justify-content: flex-start; }
+  .mythfel-subtabs button { min-width: 42%; flex: 1 1 42%; }
 }

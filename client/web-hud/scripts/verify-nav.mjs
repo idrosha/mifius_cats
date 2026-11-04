@@ -17,6 +17,7 @@ const REQUIRED_VIEWS = [
   "viewHub",
   "viewYard",
   "viewFormation",
+  "viewBossRaid",
   "viewBattle",
   "viewResult",
   "viewPvp",
@@ -26,18 +27,38 @@ const REQUIRED_VIEWS = [
   "viewTavern",
   "viewPass",
   "viewSoon",
+  "viewGear",
+  "viewHome",
+  "viewCraft",
+  "viewBreeding",
+  "viewAuction",
+  "viewGuild",
+  "viewChatGlobal",
+  "viewChatGuild",
+  "viewChatFriends",
+  "viewRatingPlayers",
+  "viewRatingGuilds",
 ];
 
 const REQUIRED_NAV_IDS = [
   "hub",
   "yard",
   "formation",
+  "boss_raid",
   "pvp",
   "collection",
   "shop",
   "market",
   "tavern",
   "pass",
+  "auction",
+  "gear",
+  "home",
+  "craft",
+  "breeding",
+  "guild",
+  "chat_global",
+  "rating_players",
 ];
 
 const REQUIRED_BUTTONS = [
@@ -45,6 +66,8 @@ const REQUIRED_BUTTONS = [
   "btnFormationBattle",
   "btnFormationYard",
   "btnFormationTavern",
+  "btnBossRaidHub",
+  "btnBossRaidFormation",
   "btnTavernFormation",
   "btnTavernHub",
   "btnResultHub",
@@ -61,12 +84,14 @@ const REQUIRED_BUTTONS = [
   "btnSellStarter",
   "btnEndTurn",
   "btnBackHub",
+  "btnBrandHub",
 ];
 
 const STITCH_SRC = [
   "hub.html",
   "yard.html",
   "formation.html",
+  "boss_raid.html",
   "battle.html",
   "tavern.html",
   "collection.html",
@@ -100,17 +125,48 @@ ok(
     html.includes("lh3.googleusercontent.com") &&
     html.includes('data-stitch="hub"'),
 );
+ok("appNav primary+subtabs shell", html.includes('id="appNav"') && html.includes('id="appSubTabs"'));
+ok(
+  "css kills stitch double-nav",
+  css.includes(".stitch-view > header nav") && css.includes("display: none"),
+);
+ok(
+  "css full-viewport shell",
+  css.includes("mythfel-shell") && css.includes("min-height: 100vh"),
+);
 ok(
   "css stitch tokens",
   css.includes("--primary-container") && css.includes("Rubik"),
 );
 ok(
-  "app TABS includes tavern/market/formation",
-  REQUIRED_NAV_IDS.every((id) => js.includes(`id: "${id}"`)),
+  "app NAV primary/subtabs",
+  js.includes("const NAV =") &&
+    js.includes("nav.primary.character") &&
+    js.includes("nav.primary.combat") &&
+    REQUIRED_NAV_IDS.every((id) => js.includes(`id: "${id}"`)),
 );
 ok("app navigate()", js.includes("function navigate("));
 ok("app battle/devapi CreatePvE", js.includes("/api/battle/v1/CreatePvE"));
 ok("app no client damage authority note", js.includes("No combat authority"));
+ok("boss_raid remap from pve_12", js.includes('boss_raid') && html.includes('data-stitch="boss_raid"'));
+ok(
+  "рейд-на-дога → boss_raid (not soon)",
+  js.includes('"рейд-на-дога": "boss_raid"') || js.includes('"рейд-на-дога":"boss_raid"'),
+);
+ok(
+  "бой-3v3 → formation",
+  js.includes('"бой-3v3": "formation"') || js.includes('"бой-3v3":"formation"'),
+);
+
+const bossSrc = path.join(DESIGN, "stitch-src", "boss_raid.html");
+if (fs.existsSync(bossSrc)) {
+  const body = fs.readFileSync(bossSrc, "utf8");
+  ok(
+    "boss_raid not mislabeled Бой PvE",
+    !body.includes("Бой PvE (12") && body.includes("Рейд"),
+  );
+  ok("boss_raid has legion/12 content", /12/.test(body) && /Дог|босс|Босс/i.test(body));
+}
 
 for (const f of STITCH_SRC) {
   const p = path.join(DESIGN, "stitch-src", f);
@@ -124,6 +180,8 @@ for (const f of STITCH_SRC) {
   }
 }
 
+ok("Мифмир rename in yard source", fs.readFileSync(path.join(DESIGN, "stitch-src", "yard.html"), "utf8").includes("Мифмир"));
+
 const transitions = [
   ["hub→yard", 'navigate("yard")'],
   ["yard→formation", 'navigate("formation")'],
@@ -132,6 +190,8 @@ const transitions = [
   ["shop→tavern", 'navigate("tavern")'],
   ["market sell", "btnSellStarter"],
   ["result→hub", 'navigate("hub")'],
+  ["boss_raid route", 'navigate("boss_raid")'],
+  ["auction stub", 'navigate("auction")'],
 ];
 for (const [name, needle] of transitions) {
   ok(`transition ${name}`, js.includes(needle));
@@ -151,9 +211,13 @@ try {
       "http / is Stitch (not portal-grid restyle)",
       body.includes("cdn.tailwindcss.com") && body.includes("data-stitch="),
     );
+    ok("http / has appSubTabs", body.includes('id="appSubTabs"'));
+    ok("http / has viewBossRaid", body.includes('id="viewBossRaid"'));
     const loc = await fetch(`${BASE}/loc.json`);
     const locJson = await loc.json();
     ok("http /loc.json hub.tab.tavern", !!locJson["hub.tab.tavern"]);
+    ok("http /loc.json nav.primary.combat", !!locJson["nav.primary.combat"]);
+    ok("http /loc.json Мифмир", locJson["hub.tab.yard"]?.ru === "Мифмир");
     const battle = await fetch(`${BASE}/api/battle/healthz`);
     const b = await battle.json();
     ok("proxy battle healthz", battle.ok && b?.ok === true);
@@ -169,4 +233,7 @@ try {
 const failed = checks.filter((c) => !c.pass);
 console.log("\n---");
 console.log(`Total ${checks.length} · pass ${checks.length - failed.length} · fail ${failed.length}`);
+if (failed.length) {
+  for (const f of failed) console.log("FAIL detail:", f.name, f.detail);
+}
 process.exit(failed.length ? 1 : 0);

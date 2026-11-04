@@ -3,6 +3,7 @@
  * Build Mythfel Web HUD from vendored Stitch HTML (design/stitch-src).
  * Emits public/index.html + public/stitch/*.html partials with real Stitch markup.
  * Interactive smoke controls live in a single #wireDock (unique IDs).
+ * App chrome: #appNav primary + subtabs (no duplicate Stitch header nav).
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -18,6 +19,7 @@ const SCREENS = [
   { id: "hub", file: "hub.html", view: "viewHub" },
   { id: "yard", file: "yard.html", view: "viewYard" },
   { id: "formation", file: "formation.html", view: "viewFormation" },
+  { id: "boss_raid", file: "boss_raid.html", view: "viewBossRaid" },
   { id: "battle", file: "battle.html", view: "viewBattle" },
   { id: "result_win", file: "result_win.html", view: "viewResultWin" },
   { id: "result_lose", file: "result_lose.html", view: "viewResultLose" },
@@ -29,6 +31,18 @@ const SCREENS = [
   { id: "pvp", file: "pvp.html", view: "viewPvp" },
   { id: "soon_farm", file: "soon_farm.html", view: "viewSoonFarm" },
   { id: "soon_clan", file: "soon_clan.html", view: "viewSoonClan" },
+  // Stitch stubs (нужен мок)
+  { id: "gear", file: "gear.html", view: "viewGear" },
+  { id: "home", file: "home.html", view: "viewHome" },
+  { id: "craft", file: "craft.html", view: "viewCraft" },
+  { id: "breeding", file: "breeding.html", view: "viewBreeding" },
+  { id: "auction", file: "auction.html", view: "viewAuction" },
+  { id: "guild", file: "guild.html", view: "viewGuild" },
+  { id: "chat_global", file: "chat_global.html", view: "viewChatGlobal" },
+  { id: "chat_guild", file: "chat_guild.html", view: "viewChatGuild" },
+  { id: "chat_friends", file: "chat_friends.html", view: "viewChatFriends" },
+  { id: "rating_players", file: "rating_players.html", view: "viewRatingPlayers" },
+  { id: "rating_guilds", file: "rating_guilds.html", view: "viewRatingGuilds" },
 ];
 
 function extractBody(html) {
@@ -83,14 +97,27 @@ const index = `<!DOCTYPE html>
   <style>${baseStyle}</style>
   <link rel="stylesheet" href="/styles.css" />
 </head>
-<body class="bg-surface font-body-md text-body-md text-on-surface min-h-screen">
-  <div id="hudChrome" aria-label="status">
-    <div id="liveopsPill" class="status-pill">LiveOps…</div>
-    <div id="battlePill" class="status-pill">Battle…</div>
-    <div class="locale-switch" id="localeSwitch"></div>
-  </div>
+<body class="bg-surface font-body-md text-body-md text-on-surface mythfel-shell">
+  <header id="appNav" class="mythfel-nav" aria-label="Mythfel navigation">
+    <div class="mythfel-nav-top">
+      <button type="button" class="mythfel-brand" id="btnBrandHub" title="Хаб">
+        <span class="mythfel-brand-mark" aria-hidden="true">🐾</span>
+        <span class="mythfel-brand-text">
+          <strong>МИФИУС</strong>
+          <span id="brandSub">Ур. 1 · Soft Launch</span>
+        </span>
+      </button>
+      <nav id="appTabs" class="mythfel-primary" aria-label="Основные разделы"></nav>
+      <div id="hudChrome" class="mythfel-chrome" aria-label="status">
+        <div id="liveopsPill" class="status-pill">LiveOps…</div>
+        <div id="battlePill" class="status-pill">Battle…</div>
+        <div class="locale-switch" id="localeSwitch"></div>
+      </div>
+    </div>
+    <nav id="appSubTabs" class="mythfel-subtabs" aria-label="Подразделы"></nav>
+  </header>
+
   <div id="toast" class="hidden" role="status"></div>
-  <nav id="appTabs" aria-label="Mythfel screens"></nav>
 
   <main id="app">
     <section id="viewBoot" class="stitch-view panel-boot">
@@ -118,17 +145,19 @@ ${sections.join("\n")}
       <span class="mythfel-wire-label">HUD</span>
       <button type="button" class="wire-btn" data-for="yard" id="btnTutorial">Туториал → бой</button>
       <button type="button" class="wire-btn" data-for="yard" id="btnYardToFormation">Расстановка</button>
-      <button type="button" class="wire-btn" data-for="yard" id="btnYardBattle">Бой во Дворе</button>
+      <button type="button" class="wire-btn" data-for="yard" id="btnYardBattle">Бой в Мифмире</button>
       <button type="button" class="wire-btn" data-for="yard" id="btnYardAuto">Автопобеда</button>
       <button type="button" class="wire-btn" data-for="formation" id="btnFormationBattle">В бой</button>
-      <button type="button" class="wire-btn" data-for="formation" id="btnFormationYard">Во Двор</button>
+      <button type="button" class="wire-btn" data-for="formation" id="btnFormationYard">В Мифмир</button>
       <button type="button" class="wire-btn" data-for="formation" id="btnFormationTavern">В Таверну</button>
+      <button type="button" class="wire-btn" data-for="boss_raid" id="btnBossRaidHub">В Хаб</button>
+      <button type="button" class="wire-btn" data-for="boss_raid" id="btnBossRaidFormation">Строй 3v3</button>
       <button type="button" class="wire-btn" data-for="battle" id="btnEndTurn">Конец хода</button>
       <button type="button" class="wire-btn" data-for="battle" id="btnKeep">Keep</button>
       <button type="button" class="wire-btn" data-for="battle" id="btnSurrender">Сдаться</button>
       <button type="button" class="wire-btn" data-for="battle" id="btnBackHub">В хаб</button>
       <button type="button" class="wire-btn" data-for="result" id="btnResultHub">В Хаб</button>
-      <button type="button" class="wire-btn" data-for="result" id="btnResultYard">Во Двор</button>
+      <button type="button" class="wire-btn" data-for="result" id="btnResultYard">В Мифмир</button>
       <button type="button" class="wire-btn" data-for="result" id="btnResultRetry">Повторить</button>
       <button type="button" class="wire-btn" data-for="result" id="btnResultFormation">Расстановка</button>
       <button type="button" class="wire-btn" data-for="collection" id="btnColFormation">Расстановка</button>
@@ -155,40 +184,39 @@ ${sections.join("\n")}
       <p class="eyebrow hidden" id="resultEyebrow"></p>
       <h2 class="hidden" id="resultTitle"></h2>
       <p class="hidden" id="resultLead"></p>
-      <p class="hidden" id="hubEyebrow"></p>
+      <p class="eyebrow hidden" id="hubEyebrow"></p>
       <h2 class="hidden" id="hubTitle"></h2>
       <p class="hidden" id="hubLead"></p>
       <div class="hidden" id="hubPortals"></div>
       <p class="hidden" id="yardEyebrow"></p>
       <h2 class="hidden" id="yardTitle"></h2>
       <p class="hidden" id="yardLead"></p>
-      <p class="hidden" id="formEyebrow"></p>
+      <p class="eyebrow hidden" id="formEyebrow"></p>
       <h2 class="hidden" id="formTitle"></h2>
       <p class="hidden" id="formLead"></p>
-      <p class="hidden" id="colEyebrow"></p>
+      <p class="eyebrow hidden" id="colEyebrow"></p>
       <h2 class="hidden" id="colTitle"></h2>
       <p class="hidden" id="colLead"></p>
-      <p class="hidden" id="shopEyebrow"></p>
+      <p class="eyebrow hidden" id="shopEyebrow"></p>
       <h2 class="hidden" id="shopTitle"></h2>
       <p class="hidden" id="shopLead"></p>
-      <p class="hidden" id="marketEyebrow"></p>
+      <p class="eyebrow hidden" id="marketEyebrow"></p>
       <h2 class="hidden" id="marketTitle"></h2>
       <p class="hidden" id="marketLead"></p>
-      <p class="hidden" id="tavernEyebrow"></p>
+      <p class="eyebrow hidden" id="tavernEyebrow"></p>
       <h2 class="hidden" id="tavernTitle"></h2>
       <p class="hidden" id="tavernLead"></p>
       <span class="hidden" id="drinksLabel"></span>
       <span class="hidden" id="potionsLabel"></span>
       <div class="hidden" id="drinkList"></div>
       <div class="hidden" id="potionList"></div>
-      <p class="hidden" id="passEyebrow"></p>
+      <p class="eyebrow hidden" id="passEyebrow"></p>
       <h2 class="hidden" id="passTitle"></h2>
       <p class="hidden" id="passLead"></p>
-      <p class="hidden" id="pvpEyebrow"></p>
+      <p class="eyebrow hidden" id="pvpEyebrow"></p>
       <h2 class="hidden" id="pvpTitle"></h2>
       <p class="hidden" id="pvpLead"></p>
       <h2 class="hidden" id="battleHeading"></h2>
-      <span class="hidden" id="brandSub"></span>
       <span class="hidden" id="curGold"></span>
       <span class="hidden" id="curMilk"></span>
       <span class="hidden" id="curEnergy"></span>

@@ -56,8 +56,8 @@
     "en": "Ambush Bite"
   },
   "stage.test_yard_1": {
-    "ru": "Двор: учебный двор",
-    "en": "Yard: practice gate"
+    "ru": "Мифмир: учебный двор",
+    "en": "Mythmir: practice gate"
   },
   "card.bot_nibble": {
     "ru": "Покус",
@@ -108,8 +108,8 @@
     "en": "Poke+"
   },
   "hub.tab.yard": {
-    "ru": "Двор",
-    "en": "Yard"
+    "ru": "Мифмир",
+    "en": "Mythmir"
   },
   "hub.tab.pvp": {
     "ru": "PvP",
@@ -124,8 +124,8 @@
     "en": "Shop"
   },
   "hub.tab.clans": {
-    "ru": "Кланы",
-    "en": "Clans"
+    "ru": "Гильдии",
+    "en": "Guilds"
   },
   "hub.tab.more": {
     "ru": "Ещё",
@@ -180,12 +180,12 @@
     "en": "Your three starter cats"
   },
   "tutorial.step.yard_battle": {
-    "ru": "Бой во Дворе",
-    "en": "Yard battle"
+    "ru": "Бой в Мифмире",
+    "en": "Mythmir battle"
   },
   "tutorial.step.victory": {
-    "ru": "Победа во Дворе",
-    "en": "Yard victory"
+    "ru": "Победа в Мифмире",
+    "en": "Mythmir victory"
   },
   "tutorial.step.overtime": {
     "ru": "Дольше 10 минут",
@@ -200,7 +200,7 @@
     "en": "Formation"
   },
   "hub.tab.market": {
-    "ru": "Маркет",
+    "ru": "Рынок",
     "en": "Market"
   },
   "hub.tab.tavern": {
@@ -216,12 +216,12 @@
     "en": "Tavern «Dragon Mug»"
   },
   "hub.home.lead": {
-    "ru": "Soft launch: Двор + PvP. Порталы → экраны Stitch.",
-    "en": "Soft launch: Yard + PvP. Portals → Stitch screens."
+    "ru": "Soft launch: Мифмир + PvP. Навигация — primary/subtabs.",
+    "en": "Soft launch: Mythmir + PvP. Primary/subtab navigation."
   },
   "hub.portal.yard": {
-    "ru": "PvE кампания Двора",
-    "en": "Yard PvE campaign"
+    "ru": "PvE кампания Мифмира",
+    "en": "Mythmir PvE campaign"
   },
   "hub.portal.formation": {
     "ru": "Строй 3v3 перед боем",
@@ -474,5 +474,125 @@
   "result.lose": {
     "ru": "Поражение в бою",
     "en": "Defeat in battle"
+  },
+  "nav.primary.character": {
+    "ru": "Персонаж",
+    "en": "Character"
+  },
+  "nav.primary.combat": {
+    "ru": "Бои",
+    "en": "Combat"
+  },
+  "nav.primary.trade": {
+    "ru": "Торговля",
+    "en": "Trade"
+  },
+  "nav.primary.guilds": {
+    "ru": "Гильдии",
+    "en": "Guilds"
+  },
+  "nav.primary.chats": {
+    "ru": "Чаты",
+    "en": "Chats"
+  },
+  "nav.primary.pass": {
+    "ru": "Боевой пасс",
+    "en": "Battle Pass"
+  },
+  "nav.primary.ratings": {
+    "ru": "Рейтинги",
+    "en": "Ratings"
+  },
+  "nav.sub.gear": {
+    "ru": "Экипировка",
+    "en": "Gear"
+  },
+  "nav.sub.home": {
+    "ru": "Дом",
+    "en": "Home"
+  },
+  "nav.sub.farm": {
+    "ru": "Ферма",
+    "en": "Farm"
+  },
+  "nav.sub.collection": {
+    "ru": "Коллекции питомцев",
+    "en": "Pet collection"
+  },
+  "nav.sub.craft": {
+    "ru": "Крафт",
+    "en": "Craft"
+  },
+  "nav.sub.breeding": {
+    "ru": "Скрещивание",
+    "en": "Breeding"
+  },
+  "nav.sub.mythmir": {
+    "ru": "Мифмир (PvE)",
+    "en": "Mythmir (PvE)"
+  },
+  "nav.sub.formation": {
+    "ru": "Строй 3v3",
+    "en": "3v3 formation"
+  },
+  "nav.sub.pvp": {
+    "ru": "PvP",
+    "en": "PvP"
+  },
+  "nav.sub.boss_raid": {
+    "ru": "Данжи / рейд",
+    "en": "Boss dungeons"
+  },
+  "nav.sub.tavern": {
+    "ru": "Таверна",
+    "en": "Tavern"
+  },
+  "nav.sub.shop": {
+    "ru": "Магазин",
+    "en": "Shop"
+  },
+  "nav.sub.market": {
+    "ru": "Рынок",
+    "en": "Market"
+  },
+  "nav.sub.auction": {
+    "ru": "Аукцион",
+    "en": "Auction"
+  },
+  "nav.sub.guild": {
+    "ru": "Моя гильдия",
+    "en": "My guild"
+  },
+  "nav.sub.chat_global": {
+    "ru": "Общий",
+    "en": "Global"
+  },
+  "nav.sub.chat_guild": {
+    "ru": "Гильдия",
+    "en": "Guild"
+  },
+  "nav.sub.chat_friends": {
+    "ru": "Друзья",
+    "en": "Friends"
+  },
+  "nav.sub.pass": {
+    "ru": "Боевой пасс",
+    "en": "Battle Pass"
+  },
+  "nav.sub.rating_players": {
+    "ru": "Игроки",
+    "en": "Players"
+  },
+  "nav.sub.rating_guilds": {
+    "ru": "Гильдии",
+    "en": "Guilds"
+  },
+  "hub.tab.boss_raid": {
+    "ru": "Рейд",
+    "en": "Raid"
+  },
+  "hub.tab.auction": {
+    "ru": "Аукцион",
+    "en": "Auction"
   }
 }
