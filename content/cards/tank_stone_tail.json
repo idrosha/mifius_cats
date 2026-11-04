@@ -1,0 +1,15 @@
+{
+  "cardId": "card_tank_stone_tail",
+  "name_key": "card.tank_stone_tail",
+  "roleGate": "tank",
+  "element": "stone",
+  "cost": 1,
+  "atk": 5,
+  "shield": 0,
+  "hits": 1,
+  "targetRule": "nearest",
+  "tags": ["attack", "taunt"],
+  "effectOps": [
+    { "op": "apply_status", "status": "taunt", "stacks": 1, "duration": 1 }
+  ]
+}

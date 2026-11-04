@@ -1,0 +1,16 @@
+{
+  "cardId": "card_support_water_headwear",
+  "name_key": "card.support_water_headwear",
+  "roleGate": "support",
+  "element": "water",
+  "cost": 1,
+  "atk": 0,
+  "shield": 0,
+  "hits": 0,
+  "targetRule": "ally_lowest_hp",
+  "tags": ["heal", "cleanse"],
+  "effectOps": [
+    { "op": "heal", "amount": 6 },
+    { "op": "cleanse" }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "cardId": "card_tank_stone_back",
+  "name_key": "card.tank_stone_back",
+  "roleGate": "tank",
+  "element": "stone",
+  "cost": 2,
+  "atk": 4,
+  "shield": 6,
+  "hits": 1,
+  "targetRule": "nearest",
+  "tags": ["shield", "taunt", "attack"],
+  "effectOps": [
+    { "op": "apply_status", "status": "taunt", "stacks": 1, "duration": 1 }
+  ]
+}

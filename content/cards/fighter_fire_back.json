@@ -1,0 +1,13 @@
+{
+  "cardId": "card_fighter_fire_back",
+  "name_key": "card.fighter_fire_back",
+  "roleGate": "fighter",
+  "element": "fire",
+  "cost": 2,
+  "atk": 12,
+  "shield": 0,
+  "hits": 1,
+  "targetRule": "nearest",
+  "tags": ["attack"],
+  "effectOps": []
+}

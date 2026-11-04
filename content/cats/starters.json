@@ -1,0 +1,53 @@
+[
+  {
+    "templateId": "starter_tank_stone",
+    "role": "tank",
+    "element": "stone",
+    "level": 1,
+    "baseStats": { "hp": 45, "atk": 4, "spd": 3, "skill": 2, "charm": 4 },
+    "parts": {
+      "eyes": "part_tank_stone_eyes",
+      "ears": "part_tank_stone_ears",
+      "muzzle": "part_tank_stone_muzzle",
+      "headwear": "part_tank_stone_headwear",
+      "back": "part_tank_stone_back",
+      "tail": "part_tank_stone_tail"
+    },
+    "rarity": "common",
+    "origin": "starter"
+  },
+  {
+    "templateId": "starter_fighter_fire",
+    "role": "fighter",
+    "element": "fire",
+    "level": 1,
+    "baseStats": { "hp": 32, "atk": 8, "spd": 6, "skill": 3, "charm": 3 },
+    "parts": {
+      "eyes": "part_fighter_fire_eyes",
+      "ears": "part_fighter_fire_ears",
+      "muzzle": "part_fighter_fire_muzzle",
+      "headwear": "part_fighter_fire_headwear",
+      "back": "part_fighter_fire_back",
+      "tail": "part_fighter_fire_tail"
+    },
+    "rarity": "common",
+    "origin": "starter"
+  },
+  {
+    "templateId": "starter_support_water",
+    "role": "support",
+    "element": "water",
+    "level": 1,
+    "baseStats": { "hp": 28, "atk": 3, "spd": 5, "skill": 7, "charm": 6 },
+    "parts": {
+      "eyes": "part_support_water_eyes",
+      "ears": "part_support_water_ears",
+      "muzzle": "part_support_water_muzzle",
+      "headwear": "part_support_water_headwear",
+      "back": "part_support_water_back",
+      "tail": "part_support_water_tail"
+    },
+    "rarity": "common",
+    "origin": "starter"
+  }
+]
