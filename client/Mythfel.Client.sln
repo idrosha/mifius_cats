@@ -11,6 +11,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{FF5D2B0C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mythfel.Client.Tests", "tests\Mythfel.Client.Tests\Mythfel.Client.Tests.csproj", "{29C344BD-678D-4C1F-AF28-10A9798E654D}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{665C7FD3-1EAE-4613-85B2-C89FA2991457}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mythfel.LocalSmoke", "tools\Mythfel.LocalSmoke\Mythfel.LocalSmoke.csproj", "{FADF1F6C-D7E1-4018-BC16-6E7798C70F87}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,9 +32,14 @@ Global
 		{29C344BD-678D-4C1F-AF28-10A9798E654D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29C344BD-678D-4C1F-AF28-10A9798E654D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29C344BD-678D-4C1F-AF28-10A9798E654D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FADF1F6C-D7E1-4018-BC16-6E7798C70F87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FADF1F6C-D7E1-4018-BC16-6E7798C70F87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FADF1F6C-D7E1-4018-BC16-6E7798C70F87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FADF1F6C-D7E1-4018-BC16-6E7798C70F87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{9F646D50-0226-4695-83AC-2B601DCBD660} = {EEE7C6B9-540C-4FEF-B625-54ADBC8012BD}
 		{29C344BD-678D-4C1F-AF28-10A9798E654D} = {FF5D2B0C-21CE-404A-94F5-27C07A68FC36}
+		{FADF1F6C-D7E1-4018-BC16-6E7798C70F87} = {665C7FD3-1EAE-4613-85B2-C89FA2991457}
 	EndGlobalSection
 EndGlobal

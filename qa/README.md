@@ -8,7 +8,8 @@
 | `ACCEPTANCE.md` | Чеклист §13.1–§13.10 + статус Auto / Manual / Blocked |
 | `run-acceptance.sh` | Харнесс §13: пакеты + `gate/` |
 | `SOFT_LAUNCH.md` | Phase 4 in-repo gate (§14) |
-| `DEVICE_SMOKE.md` | Ручной smoke §13 на устройстве + geo |
+| `DEVICE_SMOKE.md` | How-to LocalSmoke + ручной smoke §13 на устройстве + geo |
+| `run-local-smoke.sh` | CDN stub + battle/devapi + Mythfel.LocalSmoke (без Unity/secrets) |
 | `run-soft-launch.sh` | Phase 4: §13 + CDN stub + geo example |
 | `gate/` | Узкие Go-проверки SSOT-чисел/i18n/CDN stub |
 | `BUG_TEMPLATE.md` | Шаблон бага с battleId / seed / replay |
@@ -17,11 +18,13 @@
 # из корня репо
 ./qa/run-acceptance.sh
 ./qa/run-soft-launch.sh
+./qa/run-local-smoke.sh    # runnable path до Unity/mobile
 ```
 
 Ожидание: exit `0` если все **запускаемые** автогейты зелёные.  
 Автогейт §13.1–§13.10 закрыт (client Tutorial/Locale/Replay/Soon при наличии .NET).  
-Phase 4 in-repo: + CDN stub smoke + geo example; device rows — MANUAL.
+Phase 4 in-repo: + CDN stub smoke + geo example.  
+LocalSmoke закрывает presenter-петлю без Editor; device rows — MANUAL (нужен Unity build).
 
 ## DoD slice
 
