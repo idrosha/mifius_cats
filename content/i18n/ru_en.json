@@ -23,5 +23,20 @@
   "card.bot_sip": { "ru": "Глоток", "en": "Sip" },
   "card.bot_poke": { "ru": "Тычок", "en": "Poke" },
   "card.bot_sip2": { "ru": "Глоток+", "en": "Sip+" },
-  "card.bot_poke2": { "ru": "Тычок+", "en": "Poke+" }
+  "card.bot_poke2": { "ru": "Тычок+", "en": "Poke+" },
+  "hub.tab.yard": { "ru": "Двор", "en": "Yard" },
+  "hub.tab.pvp": { "ru": "PvP", "en": "PvP" },
+  "hub.tab.collection": { "ru": "Коллекция", "en": "Collection" },
+  "hub.tab.shop": { "ru": "Магазин", "en": "Shop" },
+  "hub.tab.clans": { "ru": "Кланы", "en": "Clans" },
+  "hub.tab.more": { "ru": "Ещё", "en": "More" },
+  "hub.soon.clan_boss.title": { "ru": "Клан-босс", "en": "Clan Boss" },
+  "hub.soon.farm.title": { "ru": "Ферма", "en": "Farm" },
+  "hub.soon.nursery.title": { "ru": "Питомник", "en": "Nursery" },
+  "hub.soon.body": { "ru": "Скоро", "en": "Coming soon" },
+  "shop.kind.yarn": { "ru": "Клубки", "en": "Yarn" },
+  "shop.kind.gacha_jar": { "ru": "Банки", "en": "Jars" },
+  "shop.kind.pass": { "ru": "Пасс", "en": "Pass" },
+  "shop.kind.battle_potion": { "ru": "Зелья", "en": "Potions" },
+  "shop.kind.slot_expand": { "ru": "Слоты", "en": "Slots" }
 }
