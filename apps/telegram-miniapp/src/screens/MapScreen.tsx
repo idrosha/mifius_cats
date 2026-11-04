@@ -1,7 +1,7 @@
 import type { AvatarLoadout, SinglePlayerProgress } from "@mir-games/game-core";
 import { isLevelUnlocked } from "@mir-games/game-core";
 import { AvatarView } from "../components/AvatarView";
-import { MAP_LOCATIONS } from "../content/egypt-level";
+import { MAP_LOCATIONS } from "@mir-games/question-bank";
 
 type Props = {
   progress: SinglePlayerProgress;

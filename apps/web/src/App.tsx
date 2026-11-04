@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import type { LevelRunResult, LevelSession } from "@mir-games/game-core";
 import type { AccountSnapshotDto, OnlineMatchPublicDto } from "@mir-games/adapters-web";
 import type { AppBootstrap } from "./bootstrap";
-import { EGYPT_LEVEL, MAP_LOCATIONS } from "./content/egypt-level";
+import { getLevel, MAP_LOCATIONS } from "@mir-games/question-bank";
 import { MenuScreen } from "./screens/MenuScreen";
 import { MapScreen } from "./screens/MapScreen";
 import { PlayScreen } from "./screens/PlayScreen";
@@ -95,10 +95,12 @@ export function App({ boot }: Props) {
   }
 
   function startLevel(levelIndex: number): void {
-    if (levelIndex !== 1) {
+    const level = getLevel(levelIndex);
+    if (!level) {
+      window.alert("Уровень не найден");
       return;
     }
-    const session = engine.startLevel(EGYPT_LEVEL);
+    const session = engine.startLevel(level);
     if (!session) {
       window.alert("Уровень закрыт");
       return;
