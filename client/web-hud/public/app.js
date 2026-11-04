@@ -1,7 +1,6 @@
 /**
- * Mythfel Web HUD — Stitch Tavern Hearth shell over battle/devapi + LiveOps.
- * Mirrors HubPresenter / BattlePresenter / TutorialPresenter.
- * No combat authority: damage/results only from server stateDiff (§3.6 / §8.2).
+ * Mythfel Web HUD — real Stitch HTML screens + battle/devapi / LiveOps.
+ * Visual SSOT = design/stitch-src (built into index). No combat authority on client.
  */
 
 const STARTERS = [
@@ -13,7 +12,21 @@ const YARD_STAGE = "test_yard_1";
 const TUTORIAL_BUDGET_MS = 10 * 60 * 1000;
 const CLIENT_REGION = (new URLSearchParams(location.search).get("region") || "RU").toUpperCase();
 
-/** Top nav — coherent Stitch graph merged with FULL-SPEC §6 SL tabs. */
+/** Stitch header data-path → app tab */
+const PATH_TO_TAB = {
+  "главный-хаб": "hub",
+  "бой-3v3": "battle",
+  "rejd-na-doga": "soon",
+  "рейд-на-дога": "soon",
+  "двор-усадьбы": "yard",
+  коллекция: "collection",
+  "лавка-и-маркет": "shop",
+  "pvp-арена": "pvp",
+  "battle-pass": "pass",
+  гильдия: "clans",
+  бой: "battle",
+};
+
 const TABS = [
   { id: "hub", key: "hub.tab.hub" },
   { id: "yard", key: "hub.tab.yard" },
@@ -68,6 +81,7 @@ const state = {
     { id: "lot_1", name: "starter_support_water", bid: 120, side: "buy" },
     { id: "lot_2", name: "yarn_ball", bid: 80, side: "buy" },
   ],
+  wireMode: "hub",
 };
 
 const $ = (id) => document.getElementById(id);
@@ -111,7 +125,9 @@ async function api(path, opts = {}) {
     data = { raw: text };
   }
   if (!res.ok) {
-    const err = new Error(typeof data === "string" ? data : data?.error || data?.raw || text || res.statusText);
+    const err = new Error(
+      typeof data === "string" ? data : data?.error || data?.raw || text || res.statusText,
+    );
     err.status = res.status;
     err.data = data;
     throw err;
@@ -145,9 +161,69 @@ function featureFlags() {
   return state.liveOps?.feature_flags || {};
 }
 
+function logicalViewId() {
+  if (state.battle && !state.battle.result) return "viewBattle";
+  if (state.battle?.result && state.lastResult) {
+    return state.lastResult.result === "p1_win" ? "viewResultWin" : "viewResultLose";
+  }
+  if (state.soon && (state.tab === "clans" || state.tab === "more")) {
+    if (state.soon === "clan_boss") return "viewSoonClan";
+    if (state.soon === "nursery") return "viewSoon";
+    return "viewSoonFarm";
+  }
+  switch (state.tab) {
+    case "hub":
+      return "viewHub";
+    case "yard":
+      return "viewYard";
+    case "formation":
+      return "viewFormation";
+    case "battle":
+      return "viewBattle";
+    case "pvp":
+      return "viewPvp";
+    case "collection":
+      return "viewCollection";
+    case "shop":
+      return "viewShop";
+    case "market":
+      return "viewMarket";
+    case "tavern":
+      return "viewTavern";
+    case "pass":
+      return "viewPass";
+    default:
+      return "viewHub";
+  }
+}
+
+function wireModeFor(viewId) {
+  if (viewId === "viewResultWin" || viewId === "viewResultLose" || viewId === "viewResult") {
+    return "result";
+  }
+  if (viewId === "viewSoonFarm" || viewId === "viewSoonClan" || viewId === "viewSoon") {
+    return "soon";
+  }
+  return viewId.replace(/^view/, "").toLowerCase();
+}
+
 function showView(id) {
   for (const el of document.querySelectorAll("main > section")) {
     el.classList.toggle("hidden", el.id !== id);
+  }
+  // Keep logical aliases present for verify-nav probes
+  if (id === "viewResultWin" || id === "viewResultLose") {
+    $("viewResult")?.classList.add("hidden");
+  }
+  state.wireMode = wireModeFor(id);
+  updateWireDock();
+}
+
+function updateWireDock() {
+  const mode = state.wireMode;
+  for (const el of document.querySelectorAll("#wireDock [data-for]")) {
+    const match = el.getAttribute("data-for") === mode;
+    el.classList.toggle("wire-hidden", !match);
   }
 }
 
@@ -160,6 +236,10 @@ function navigate(tab, { soon = null, clearBattle = true } = {}) {
   state.soon = soon;
   if (tab === "clans") state.soon = "clan_boss";
   if (tab === "more" && !state.soon) state.soon = "farm";
+  if (tab === "soon") {
+    state.tab = "more";
+    state.soon = "farm";
+  }
   renderAll();
 }
 
@@ -180,42 +260,51 @@ function renderLocale() {
 }
 
 function renderCurrency() {
-  $("curGold").textContent = String(state.wallet.gold);
-  $("curMilk").textContent = String(state.wallet.milk);
-  $("curEnergy").textContent = state.wallet.energy;
-  $("curGems").textContent = String(state.wallet.gems);
-  $("brandSub").textContent =
-    state.locale === "ru" ? "Ур. 1 · Soft Launch" : "Lv. 1 · Soft Launch";
+  const set = (id, v) => {
+    const el = $(id);
+    if (el) el.textContent = String(v);
+  };
+  set("curGold", state.wallet.gold);
+  set("curMilk", state.wallet.milk);
+  set("curEnergy", state.wallet.energy);
+  set("curGems", state.wallet.gems);
+  set(
+    "brandSub",
+    state.locale === "ru" ? "Ур. 1 · Soft Launch" : "Lv. 1 · Soft Launch",
+  );
 }
 
 function renderTabs() {
   const flags = featureFlags();
-  const nav = $("hubTabs");
-  nav.innerHTML = "";
-  const battleActive = !!state.battle && !state.lastResult;
-  for (const tab of TABS) {
-    const b = document.createElement("button");
-    b.type = "button";
-    b.textContent = t(tab.key, tab.id);
-    const isSoon =
-      (tab.id === "clans" && !flags.clan_boss_gameplay) || tab.id === "more";
-    if (isSoon) b.classList.add("soon");
-    const active =
-      !battleActive &&
-      ((state.tab === tab.id && !state.soon) ||
-        (tab.id === "clans" && state.soon === "clan_boss") ||
-        (tab.id === "more" && (state.soon === "farm" || state.soon === "nursery")));
-    b.classList.toggle("active", active);
-    b.addEventListener("click", () => {
-      if (tab.id === "clans" && !flags.clan_boss_gameplay) {
-        navigate("clans", { soon: "clan_boss" });
-      } else if (tab.id === "more") {
-        navigate("more", { soon: state.soon === "nursery" ? "nursery" : "farm" });
-      } else {
-        navigate(tab.id);
-      }
-    });
-    nav.appendChild(b);
+  const targets = [$("appTabs"), $("hubTabs")].filter(Boolean);
+  for (const nav of targets) {
+    nav.innerHTML = "";
+    const battleActive = !!state.battle && !state.lastResult;
+    for (const tab of TABS) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = t(tab.key, tab.id);
+      b.dataset.tab = tab.id;
+      const isSoon =
+        (tab.id === "clans" && !flags.clan_boss_gameplay) || tab.id === "more";
+      if (isSoon) b.classList.add("soon");
+      const active =
+        !battleActive &&
+        ((state.tab === tab.id && !state.soon) ||
+          (tab.id === "clans" && state.soon === "clan_boss") ||
+          (tab.id === "more" && (state.soon === "farm" || state.soon === "nursery")));
+      b.classList.toggle("active", active);
+      b.addEventListener("click", () => {
+        if (tab.id === "clans" && !flags.clan_boss_gameplay) {
+          navigate("clans", { soon: "clan_boss" });
+        } else if (tab.id === "more") {
+          navigate("more", { soon: state.soon === "nursery" ? "nursery" : "farm" });
+        } else {
+          navigate(tab.id);
+        }
+      });
+      nav.appendChild(b);
+    }
   }
 }
 
@@ -230,6 +319,7 @@ function starterMeta(id) {
 
 function renderStarters(intoId) {
   const box = $(intoId);
+  if (!box) return;
   box.innerHTML = "";
   for (const id of STARTERS) {
     const m = starterMeta(id);
@@ -240,46 +330,64 @@ function renderStarters(intoId) {
   }
 }
 
+function softNavigateFromLabel(label) {
+  const soft = [
+    ["в поход", () => navigate("formation")],
+    ["в бой pvp", () => navigate("pvp")],
+    ["к рейду", () => navigate("more", { soon: "farm" })],
+    ["главный хаб", () => navigate("hub")],
+    ["двор", () => navigate("yard")],
+    ["коллекция", () => navigate("collection")],
+    ["лавка", () => navigate("shop")],
+    ["маркет", () => navigate("market")],
+    ["таверна", () => navigate("tavern")],
+    ["pvp", () => navigate("pvp")],
+    ["арена", () => navigate("pvp")],
+    ["пасс", () => navigate("pass")],
+    ["расстанов", () => navigate("formation")],
+    ["клан", () => navigate("clans", { soon: "clan_boss" })],
+    ["ферма", () => navigate("more", { soon: "farm" })],
+    ["питомник", () => navigate("more", { soon: "nursery" })],
+  ];
+  const low = label.toLowerCase();
+  for (const [needle, fn] of soft) {
+    if (low.includes(needle)) {
+      fn();
+      return true;
+    }
+  }
+  return false;
+}
+
+function bindStitchNav(root) {
+  if (!root || root.dataset.navBound === "1") return;
+  root.dataset.navBound = "1";
+  root.addEventListener("click", (e) => {
+    const a = e.target.closest("a[data-path], a[href='#'], button");
+    if (!a || !root.contains(a)) return;
+    const path = (a.getAttribute("data-path") || "").toLowerCase();
+    const tab = PATH_TO_TAB[path];
+    if (tab) {
+      e.preventDefault();
+      if (tab === "clans") navigate("clans", { soon: "clan_boss" });
+      else if (tab === "soon") navigate("more", { soon: "farm" });
+      else if (tab === "battle") navigate("formation");
+      else navigate(tab);
+      return;
+    }
+    const label = (a.textContent || "").trim();
+    if (softNavigateFromLabel(label)) {
+      e.preventDefault();
+    }
+  });
+}
+
 function renderHub() {
   $("hubEyebrow").textContent = t("hub.tab.hub", "Главный Хаб");
-  $("hubTitle").textContent = t("hub.home.title", "Таверна «Драконья Кружка»");
-  $("hubLead").textContent = t(
-    "hub.home.lead",
-    "Soft launch: Двор + PvP. Порталы → экраны Stitch.",
-  );
-  const portals = [
-    { id: "yard", icon: "cottage", title: "hub.tab.yard", desc: "hub.portal.yard" },
-    { id: "formation", icon: "swords", title: "hub.tab.formation", desc: "hub.portal.formation" },
-    { id: "pvp", icon: "sports_mma", title: "hub.tab.pvp", desc: "hub.portal.pvp" },
-    { id: "collection", icon: "pets", title: "hub.tab.collection", desc: "hub.portal.collection" },
-    { id: "shop", icon: "storefront", title: "hub.tab.shop", desc: "hub.portal.shop" },
-    { id: "market", icon: "gavel", title: "hub.tab.market", desc: "hub.portal.market" },
-    { id: "tavern", icon: "local_cafe", title: "hub.tab.tavern", desc: "hub.portal.tavern" },
-    { id: "pass", icon: "military_tech", title: "hub.tab.pass", desc: "hub.portal.pass" },
-    { id: "clans", icon: "groups", title: "hub.tab.clans", desc: "hub.portal.clans", soon: "clan_boss" },
-    { id: "farm", icon: "agriculture", title: "hub.soon.farm.title", desc: "hub.portal.farm", soon: "farm" },
-    { id: "nursery", icon: "cruelty_free", title: "hub.soon.nursery.title", desc: "hub.portal.nursery", soon: "nursery" },
-  ];
+  $("hubTitle").textContent = t("hub.home.title", "Мифиус");
+  $("hubLead").textContent = t("hub.home.lead", "Stitch hub screen");
   const box = $("hubPortals");
-  box.innerHTML = "";
-  for (const p of portals) {
-    const b = document.createElement("button");
-    b.type = "button";
-    b.className = `portal${p.soon ? " soon-portal" : ""}`;
-    b.innerHTML = `
-      <span class="material-symbols-outlined icon">${p.icon}</span>
-      <span class="title">${t(p.title)}</span>
-      <span class="desc">${t(p.desc, p.desc)}</span>
-      ${p.soon ? `<span class="badge">${t("hub.soon.body", "Скоро")}</span>` : ""}
-    `;
-    b.addEventListener("click", () => {
-      if (p.soon === "clan_boss") navigate("clans", { soon: "clan_boss" });
-      else if (p.soon === "farm") navigate("more", { soon: "farm" });
-      else if (p.soon === "nursery") navigate("more", { soon: "nursery" });
-      else navigate(p.id);
-    });
-    box.appendChild(b);
-  }
+  if (box) box.innerHTML = "";
 }
 
 function renderYard() {
@@ -314,6 +422,7 @@ function renderFormation() {
     "Авангард → Центр → Тыл. Зелья из Таверны — слоты ниже (stub).",
   );
   const lanes = $("formationLanes");
+  if (!lanes) return;
   lanes.innerHTML = "";
   const labels = [
     t("formation.lane.vanguard", "Авангард"),
@@ -337,7 +446,7 @@ function renderFormation() {
     const def = POTIONS.find((p) => p.id === pid);
     const chip = document.createElement("span");
     chip.className = "potion-chip";
-    chip.innerHTML = `<span class="material-symbols-outlined" style="font-size:16px">science</span>${t(def?.nameKey || pid, pid)}`;
+    chip.textContent = t(def?.nameKey || pid, pid);
     tray.appendChild(chip);
   }
   if (!state.ownedPotions.length) {
@@ -348,36 +457,23 @@ function renderFormation() {
 function renderShop() {
   $("shopEyebrow").textContent = t("hub.tab.shop");
   $("shopTitle").textContent = t("hub.tab.shop");
-  for (const b of $("shopSubtabs").querySelectorAll("button")) {
-    b.classList.toggle("active", b.dataset.shop === state.shopTab);
-  }
-  const offersMode = state.shopTab === "offers";
-  $("offerList").classList.toggle("hidden", !offersMode);
-  $("gachaPanel").classList.toggle("hidden", offersMode);
-  $("shopLead").textContent = offersMode
-    ? state.locale === "ru"
+  $("shopLead").textContent =
+    state.locale === "ru"
       ? "Офферы только из LiveOps (пустой каталог → пустой UI)."
-      : "Offers only from LiveOps (empty catalog → empty UI)."
-    : t("shop.gacha.lead", "Stub гачи: pity/банки — на backend.");
-  if (!offersMode) {
-    $("gachaTitle").textContent = t("shop.gacha.title", "Алтарь Призыва");
-    $("gachaLead").textContent = t("shop.gacha.lead", "Stub гачи.");
-    return;
-  }
+      : "Offers only from LiveOps (empty catalog → empty UI).";
   const list = $("offerList");
+  if (!list) return;
   list.innerHTML = "";
   const offers = state.liveOps?.shop?.offers || [];
   if (!offers.length) {
     const li = document.createElement("li");
-    li.innerHTML = `<span>${state.locale === "ru" ? "Нет офферов в LiveOps" : "No LiveOps offers"}</span>
-      <button type="button" class="ghost" id="btnEmptyToTavern">${t("hub.tab.tavern", "Таверна")}</button>`;
+    li.textContent = state.locale === "ru" ? "Нет офферов в LiveOps" : "No LiveOps offers";
     list.appendChild(li);
-    li.querySelector("button")?.addEventListener("click", () => navigate("tavern"));
     return;
   }
   for (const o of offers) {
     const li = document.createElement("li");
-    li.innerHTML = `<span>${o.offer_id || o.offerId || "?"} · ${o.kind || "?"}</span>`;
+    li.textContent = `${o.offer_id || o.offerId || "?"} · ${o.kind || "?"}`;
     list.appendChild(li);
   }
 }
@@ -389,32 +485,15 @@ function renderMarket() {
     "market.lead",
     "Buy/sell stub (без денег/крипты). Лоты локальные для ручного QA.",
   );
-  for (const b of $("marketSubtabs").querySelectorAll("button")) {
-    b.classList.toggle("active", b.dataset.market === state.marketTab);
-  }
-  const buy = state.marketTab === "buy";
-  $("marketList").classList.toggle("hidden", !buy);
-  $("marketSell").classList.toggle("hidden", buy);
-  if (!buy) {
-    $("sellTitle").textContent = t("market.sell.title", "Выставить лот");
-    $("sellLead").textContent = t("market.sell.lead", "Stub: выставить starter.");
-    return;
-  }
   const list = $("marketList");
+  if (!list) return;
   list.innerHTML = "";
-  const lots = state.marketLots.filter((l) => l.side === "buy" || !l.side);
-  if (!lots.length) {
-    const li = document.createElement("li");
-    li.textContent = t("market.empty", "Лотов нет");
-    list.appendChild(li);
-    return;
-  }
-  for (const lot of lots) {
+  for (const lot of state.marketLots) {
     const li = document.createElement("li");
     li.innerHTML = `<span>${lot.name} · ${lot.bid} 💎</span>`;
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "primary";
+    btn.className = "wire-btn";
     btn.textContent = t("market.buy", "Купить");
     btn.addEventListener("click", () => {
       if (state.wallet.gems < lot.bid) {
@@ -434,52 +513,27 @@ function renderMarket() {
 function renderTavern() {
   $("tavernEyebrow").textContent = t("hub.tab.tavern", "Таверна");
   $("tavernTitle").textContent = t("tavern.title", "Таверна «Усатый Хмель»");
-  $("tavernLead").textContent = t(
-    "tavern.lead",
-    "Молоко, напитки и зелья. Лимит зелий в бой — UI stub.",
-  );
-  $("drinksLabel").textContent = t("tavern.drinks", "Напитки");
-  $("potionsLabel").textContent = t("tavern.potions", "Зелья");
+  $("tavernLead").textContent = t("tavern.lead", "Молоко, напитки и зелья.");
+  // Stitch already paints drinks/potions; wire dock still hosts stubs for owned state
   const drinks = $("drinkList");
-  drinks.innerHTML = "";
-  for (const d of DRINKS) {
-    const tile = document.createElement("div");
-    tile.className = "tile";
-    tile.innerHTML = `<strong>${t(d.nameKey, d.id)}</strong><div class="meta">${t(d.effectKey, "")}</div>
-      <div class="price"><span>${d.price} 🐟</span></div>`;
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "primary";
-    btn.textContent = t("tavern.buy", "Купить");
-    btn.addEventListener("click", () => {
-      state.wallet.milk += d.id === "fresh_milk" ? 1 : 0;
-      toast(t("tavern.bought", "Куплено (stub)"));
-      renderCurrency();
-    });
-    tile.querySelector(".price").appendChild(btn);
-    drinks.appendChild(tile);
-  }
   const pots = $("potionList");
-  pots.innerHTML = "";
-  for (const p of POTIONS) {
-    const tile = document.createElement("div");
-    tile.className = "tile";
-    tile.innerHTML = `<strong>${t(p.nameKey, p.id)}</strong><div class="meta">${t(p.effectKey, "")}</div>
-      <div class="price"><span>${p.price} 🐟</span></div>`;
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = "primary";
-    btn.textContent = state.ownedPotions.includes(p.id)
-      ? t("tavern.owned", "В ранце")
-      : t("tavern.buy", "Купить");
-    btn.disabled = state.ownedPotions.includes(p.id);
-    btn.addEventListener("click", () => {
-      if (!state.ownedPotions.includes(p.id)) state.ownedPotions.push(p.id);
-      toast(t("tavern.bought", "Куплено (stub)"));
-      renderAll();
-    });
-    tile.querySelector(".price").appendChild(btn);
-    pots.appendChild(tile);
+  if (drinks) {
+    drinks.innerHTML = "";
+    for (const d of DRINKS) {
+      const tile = document.createElement("div");
+      tile.className = "tile";
+      tile.textContent = t(d.nameKey, d.id);
+      drinks.appendChild(tile);
+    }
+  }
+  if (pots) {
+    pots.innerHTML = "";
+    for (const p of POTIONS) {
+      const tile = document.createElement("div");
+      tile.className = "tile";
+      tile.textContent = t(p.nameKey, p.id);
+      pots.appendChild(tile);
+    }
   }
 }
 
@@ -488,11 +542,11 @@ function renderPass() {
   $("passTitle").textContent = t("pass.title", "Зов Тёплого Очага");
   $("passLead").textContent = t("pass.lead", "Треки пасса — stub наград.");
   const list = $("passList");
+  if (!list) return;
   list.innerHTML = "";
   for (const row of PASS_REWARDS) {
     const li = document.createElement("li");
-    li.innerHTML = `<span>Lv ${row.lvl}: ${t(row.free)} / ★ ${t(row.gold)}</span>
-      <button type="button" disabled>${t("pass.claim", "Забрать")}</button>`;
+    li.textContent = `Lv ${row.lvl}: ${t(row.free)} / ★ ${t(row.gold)}`;
     list.appendChild(li);
   }
 }
@@ -508,6 +562,7 @@ function renderSoon() {
   $("soonTitle").textContent = t(titleKey);
   $("soonBody").textContent = t("hub.soon.body");
   const links = $("soonLinks");
+  if (!links) return;
   links.innerHTML = "";
   const flags = featureFlags();
   const options = [
@@ -579,16 +634,13 @@ function renderBattle() {
   for (const c of diff.hand || []) {
     const b = document.createElement("button");
     b.type = "button";
+    b.className = "wire-btn";
     b.disabled = !c.playable || !!diff.result || diff.active !== 0;
-    b.innerHTML = `<span class="cost">${c.cost}</span>${t(c.name_key, c.cardId)}
-      <span class="sub">${c.unitId} #${c.handIndex}${state.selectedKeep?.mode ? " · KEEP?" : ""}</span>`;
+    b.innerHTML = `<span class="cost">${c.cost}</span> ${t(c.name_key, c.cardId)}
+      <span class="sub">${c.unitId} #${c.handIndex}</span>`;
     b.addEventListener("click", async () => {
       if (state.selectedKeep?.mode) {
-        await submitAction({
-          kind: "keep",
-          unitId: c.unitId,
-          handIndex: c.handIndex,
-        });
+        await submitAction({ kind: "keep", unitId: c.unitId, handIndex: c.handIndex });
         state.selectedKeep = null;
         return;
       }
@@ -723,6 +775,7 @@ async function refreshReplays() {
       li.innerHTML = `<span>${item.battleId} · ${item.result || "?"} · frames ${item.frameCount ?? "?"}</span>`;
       const b = document.createElement("button");
       b.type = "button";
+      b.className = "wire-btn";
       b.textContent = "Open";
       b.addEventListener("click", async () => {
         const { data: frames } = await api(
@@ -736,7 +789,8 @@ async function refreshReplays() {
     }
     if (!(data || []).length) {
       const li = document.createElement("li");
-      li.textContent = state.locale === "ru" ? "Реплеев нет — запусти автобой PvP" : "No replays — run PvP auto";
+      li.textContent =
+        state.locale === "ru" ? "Реплеев нет — запусти автобой PvP" : "No replays — run PvP auto";
       list.appendChild(li);
     }
   } catch (err) {
@@ -776,70 +830,59 @@ function renderAll() {
     lo.className = "status-pill ok";
   }
 
-  if (state.battle && !state.battle.result) {
-    showView("viewBattle");
+  const viewId = logicalViewId();
+  showView(viewId);
+  bindStitchNav($(viewId));
+
+  if (viewId === "viewBattle" && state.battle && !state.battle.result) {
     renderBattle();
     return;
   }
-
-  if (state.battle?.result && state.lastResult) {
-    showView("viewResult");
+  if (viewId === "viewResultWin" || viewId === "viewResultLose") {
     renderResult();
     return;
   }
-
-  if (state.soon && (state.tab === "clans" || state.tab === "more")) {
-    showView("viewSoon");
+  if (viewId === "viewSoon" || viewId === "viewSoonFarm" || viewId === "viewSoonClan") {
     renderSoon();
     return;
   }
 
   switch (state.tab) {
     case "hub":
-      showView("viewHub");
       renderHub();
       break;
     case "yard":
-      showView("viewYard");
       renderYard();
       break;
     case "formation":
-      showView("viewFormation");
       renderFormation();
       break;
     case "pvp":
-      showView("viewPvp");
       $("pvpEyebrow").textContent = t("hub.tab.pvp");
       $("pvpTitle").textContent = t("hub.tab.pvp");
       break;
     case "collection":
-      showView("viewCollection");
       $("colEyebrow").textContent = t("hub.tab.collection");
       $("colTitle").textContent = t("hub.tab.collection");
       $("colLead").textContent =
         state.locale === "ru"
-          ? "Stub: стартовая тройка из content (без инвентаря Nakama)."
-          : "Stub: starter trio from content (no Nakama inventory).";
+          ? "Stub: стартовая тройка из content."
+          : "Stub: starter trio from content.";
       renderStarters("collectionCards");
       break;
     case "shop":
-      showView("viewShop");
       renderShop();
       break;
     case "market":
-      showView("viewMarket");
       renderMarket();
       break;
     case "tavern":
-      showView("viewTavern");
       renderTavern();
       break;
     case "pass":
-      showView("viewPass");
       renderPass();
       break;
     default:
-      showView("viewHub");
       renderHub();
   }
 }
@@ -911,22 +954,11 @@ function wireButtons() {
   $("btnPassShop").addEventListener("click", () => navigate("shop"));
   $("btnPassHub").addEventListener("click", () => navigate("hub"));
   $("btnSoonHub").addEventListener("click", () => navigate("hub"));
-
-  $("shopSubtabs").addEventListener("click", (e) => {
-    const b = e.target.closest("button[data-shop]");
-    if (!b) return;
-    state.shopTab = b.dataset.shop;
-    renderShop();
-  });
-  $("marketSubtabs").addEventListener("click", (e) => {
-    const b = e.target.closest("button[data-market]");
-    if (!b) return;
-    state.marketTab = b.dataset.market;
-    renderMarket();
-  });
 }
 
 async function main() {
+  window.mythfelNavigate = navigate;
+  window.mythfelStartYard = startYard;
   wireButtons();
   showView("viewBoot");
   $("bootMsg").textContent = "Boot → LiveOps fetch…";

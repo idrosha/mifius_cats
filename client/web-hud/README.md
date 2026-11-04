@@ -1,6 +1,6 @@
 # Mythfel Web HUD (ручной smoke без Unity)
 
-Тонкий HTML/JS клиент в визуале **Stitch Tavern Hearth Battler**: Hub-порталы + полный граф экранов поверх существующих stubs.
+Браузерный клиент на **настоящем Stitch HTML/CSS** (Tavern Hearth Battler): экраны из `design/stitch-src/*.html` собираются в `public/index.html` через `scripts/build-stitch.mjs` (Tailwind + Material Symbols + aida art).
 
 - LiveOps CDN stub → `:8090`
 - `battle/cmd/devapi` → `:8081`
@@ -8,7 +8,13 @@
 
 Боевые числа и результат — только из `stateDiff` сервера (§3.6 / §8.2). Клиент не считает урон/награды.
 
-Дизайн: `design/DESIGN.md`, карта экранов: `design/SCREEN-MAP.md`.
+Дизайн-токены: `design/DESIGN.md`. Карта экранов: `design/SCREEN-MAP.md`.
+
+Пересборка после правок stitch-src:
+
+```bash
+node client/web-hud/scripts/build-stitch.mjs
+```
 
 ## Запуск
 
@@ -41,19 +47,15 @@ cd client/web-hud && node server.mjs
 | Экран | Переходы |
 |---|---|
 | Boot | LiveOps + battle healthz → Hub |
-| Hub | порталы → Yard / Formation / PvP / Collection / Shop / Market / Tavern / Pass / Soon |
+| Hub | Stitch header `data-path` + wire dock → Yard / Formation / PvP / Collection / Shop / Market / Tavern / Pass / Soon |
 | Двор | → Formation / Battle / Tutorial / AutoPlay |
 | Расстановка | → Battle / Yard / Tavern |
-| Battle | stateDiff; итог → Result |
+| Battle | stateDiff; итог → Result (win/lose Stitch) |
 | Result | Hub / Yard / Retry / Formation |
-| Таверна | напитки + зелья (stub) → Formation / Hub |
-| Маркет | buy/sell stub (без денег/крипты) |
-| Лавка | LiveOps offers + Gacha stub → Tavern |
-| Пасс | stub трек |
-| PvP | autoPlay + replays; → Formation |
+| Таверна / Маркет / Лавка / Пасс / PvP | как в SCREEN-MAP |
 | Soon | Farm / Nursery / Clan boss |
 
-Проверка навигации: `node client/web-hud/scripts/verify-nav.mjs` (при поднятом HUD).
+Проверка: `node client/web-hud/scripts/verify-nav.mjs` (при поднятом HUD).
 
 ## Stub / вне скоупа
 
