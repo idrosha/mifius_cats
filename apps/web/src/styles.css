@@ -1039,3 +1039,46 @@ button {
 .delta-down {
   color: var(--danger);
 }
+
+
+/* —— Phase 7 championship —— */
+.championship-avatar-row {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 0.75rem 0 1rem;
+}
+
+.championship-stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.65rem 1rem;
+  margin: 0.5rem 0 1rem;
+}
+
+.championship-stats dt {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: color-mix(in srgb, var(--ink) 55%, transparent);
+}
+
+.championship-stats dd {
+  margin: 0.15rem 0 0;
+  font-weight: 700;
+}
+
+.championship-days {
+  font-size: 0.85rem;
+  color: color-mix(in srgb, var(--ink) 70%, transparent);
+}
+
+.championship-board {
+  margin: 0.75rem 0 1rem;
+  padding-left: 1.1rem;
+  color: color-mix(in srgb, var(--ink) 78%, transparent);
+}
+
+.championship-hud {
+  align-items: flex-start;
+}

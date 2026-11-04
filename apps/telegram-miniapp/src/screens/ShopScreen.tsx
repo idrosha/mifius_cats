@@ -216,20 +216,42 @@ export function ShopScreen({
       <div className={`champ-lock ${account.championshipParticipated ? "is-open" : ""}`}>
         {!account.championshipParticipated ? (
           <p className="champ-lock-msg">
-            Секция заблокирована. Разблокировка — участием в чемпионате (Phase 7). Купить за очки
-            или деньги нельзя.
+            Секция заблокирована. Разблокировка — подтверждённым участием в чемпионате. Купить за
+            очки или деньги нельзя.
           </p>
-        ) : null}
+        ) : (
+          <p className="champ-lock-msg">Секция открыта участием. Наденьте предметы на аватар.</p>
+        )}
         <ul className="shop-list">
-          {championship.map((item) => (
-            <li key={item.id} className="shop-row is-locked">
-              <div>
-                <strong>{item.title}</strong>
-                <p className="shop-meta">чемпионат</p>
-              </div>
-              <span className="badge">{account.championshipParticipated ? "открыто" : "лок"}</span>
-            </li>
-          ))}
+          {championship.map((item) => {
+            const owned = account.ownedItemIds.includes(item.id);
+            const equipped = Object.values(account.avatar.equipped).includes(item.id);
+            return (
+              <li
+                key={item.id}
+                className={`shop-row ${account.championshipParticipated ? "" : "is-locked"}`}
+              >
+                <div>
+                  <strong>{item.title}</strong>
+                  <p className="shop-meta">чемпионат</p>
+                </div>
+                {account.championshipParticipated && owned ? (
+                  <button
+                    type="button"
+                    className="btn-secondary"
+                    disabled={busy || equipped}
+                    onClick={() => void equip(item.id)}
+                  >
+                    {equipped ? "надето" : "надеть"}
+                  </button>
+                ) : (
+                  <span className="badge">
+                    {account.championshipParticipated ? "открыто" : "лок"}
+                  </span>
+                )}
+              </li>
+            );
+          })}
         </ul>
       </div>
     </section>

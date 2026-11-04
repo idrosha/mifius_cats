@@ -34,3 +34,10 @@ export type {
   OnlineMatchPublicDto,
   OnlineQueueResponse,
 } from "./online-client.js";
+
+export { createChampionshipApiClient } from "./championship-client.js";
+export type {
+  ChampionshipApiClient,
+  ChampionshipRunDto,
+  ChampionshipStatusDto,
+} from "./championship-client.js";

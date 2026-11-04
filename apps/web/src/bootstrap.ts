@@ -1,7 +1,9 @@
 import {
+  createChampionshipApiClient,
   createOnlineApiClient,
   createProgressApiClient,
   createWebAdapters,
+  type ChampionshipApiClient,
   type OnlineApiClient,
   type ProgressApiClient,
   type ShopApiClient,
@@ -23,6 +25,7 @@ export type AppBootstrap = {
   progressApi: ProgressApiClient;
   shopApi: ShopApiClient;
   onlineApi: OnlineApiClient;
+  championshipApi: ChampionshipApiClient;
   player: PlayerIdentity;
 };
 
@@ -50,6 +53,7 @@ export async function bootstrapApp(): Promise<AppBootstrap> {
 
   const progressApi = createProgressApiClient(apiBaseUrl);
   const onlineApi = createOnlineApiClient(apiBaseUrl);
+  const championshipApi = createChampionshipApiClient(apiBaseUrl);
   const snapshot = await progressApi.load(player.playerId);
   const payment = adapters.createPayment(player.playerId);
 
@@ -74,6 +78,7 @@ export async function bootstrapApp(): Promise<AppBootstrap> {
     progressApi,
     shopApi: adapters.shopApi,
     onlineApi,
+    championshipApi,
     player,
   };
 }

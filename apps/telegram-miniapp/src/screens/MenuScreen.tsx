@@ -7,7 +7,7 @@ type MenuItem = {
 const ITEMS: MenuItem[] = [
   { id: "single", title: "Одиночная игра" },
   { id: "online", title: "Онлайн" },
-  { id: "championship", title: "Чемпионат", stub: true },
+  { id: "championship", title: "Чемпионат" },
   { id: "leaders", title: "Лидеры", stub: true },
   { id: "shop", title: "Магазин" },
   { id: "account", title: "Аккаунт" },

@@ -95,3 +95,24 @@ export type {
   PublicSingleChoiceQuestion,
   PublicTextQuestion,
 } from "./online.js";
+
+export {
+  CHAMPIONSHIP_ENTRY_PRODUCT_ID,
+  DEFAULT_CHAMPIONSHIP_CONFIG,
+  DEFAULT_ENTRY_FEE_MONEY,
+  DEFAULT_OPEN_DAYS_OF_MONTH,
+  DEFAULT_PRIZE_POOL_SHARE,
+  assertValidStubChampionshipReceipt,
+  championshipPeriodKey,
+  createChampionshipConfig,
+  isChampionshipOpenOn,
+  normalizeOpenDays,
+  prizeContributionFromEntry,
+  selectChampionshipWinner,
+} from "./championship.js";
+export type {
+  ChampionshipConfig,
+  ChampionshipEntrySnapshot,
+  ChampionshipPeriodStatus,
+  WinnerSelection,
+} from "./championship.js";

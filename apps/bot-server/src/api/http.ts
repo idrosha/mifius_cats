@@ -1,5 +1,6 @@
 import { createServer, type IncomingMessage, type ServerResponse } from "node:http";
 import {
+  CHAMPIONSHIP_ENTRY_PRODUCT_ID,
   getShopCatalog,
   type AvatarLoadout,
   type EquipmentSlot,
@@ -7,6 +8,7 @@ import {
   type PlayerAnswer,
   type ShopCurrency,
 } from "@mir-games/game-core";
+import type { ChampionshipStore } from "../championship/store.js";
 import type { MatchStore, MatchmakingMode } from "../online/match-store.js";
 import type { ProgressStore } from "../progress/store.js";
 
@@ -14,6 +16,7 @@ export type HttpApiOptions = {
   port: number;
   store: ProgressStore;
   matches: MatchStore;
+  championship: ChampionshipStore;
   /** CORS origin for the miniapp / web (e.g. http://localhost:5173). */
   corsOrigin: string;
 };
@@ -99,7 +102,7 @@ function parsePlayerAnswer(raw: unknown): PlayerAnswer | null {
 }
 
 export function startHttpApi(options: HttpApiOptions): Promise<{ close: () => Promise<void> }> {
-  const { port, store, matches, corsOrigin } = options;
+  const { port, store, matches, championship, corsOrigin } = options;
 
   const server = createServer(async (req, res) => {
     try {
@@ -282,11 +285,104 @@ export function startHttpApi(options: HttpApiOptions): Promise<{ close: () => Pr
           const provider = typeof body.provider === "string" ? body.provider : "";
           const receiptId = typeof body.receiptId === "string" ? body.receiptId : "";
           const productId = typeof body.productId === "string" ? body.productId : "";
+          // Championship entry is a paid product confirmed via the same PaymentPort stub path.
+          if (productId === CHAMPIONSHIP_ENTRY_PRODUCT_ID) {
+            championship.enter(playerId, { provider, receiptId, productId });
+            sendJson(res, 200, { ok: true, account: store.snapshot(playerId) }, corsOrigin);
+            return;
+          }
           store.confirmStubReceipt(playerId, { provider, receiptId, productId });
           sendJson(res, 200, { ok: true, account: store.snapshot(playerId) }, corsOrigin);
         } catch (err) {
           const message = err instanceof Error ? err.message : String(err);
           sendJson(res, 409, { ok: false, error: message }, corsOrigin);
+        }
+        return;
+      }
+
+      if (method === "GET" && url.pathname === "/api/championship/status") {
+        const playerId = url.searchParams.get("playerId");
+        if (!playerId) {
+          sendJson(res, 400, { error: "playerId required" }, corsOrigin);
+          return;
+        }
+        sendJson(res, 200, championship.getStatus(playerId), corsOrigin);
+        return;
+      }
+
+      if (method === "POST" && url.pathname === "/api/championship/enter") {
+        const body = await readJson(req);
+        try {
+          const playerId = requirePlayerId(body);
+          const provider = typeof body.provider === "string" ? body.provider : "";
+          const receiptId = typeof body.receiptId === "string" ? body.receiptId : "";
+          const productId =
+            typeof body.productId === "string" ? body.productId : CHAMPIONSHIP_ENTRY_PRODUCT_ID;
+          const status = championship.enter(playerId, { provider, receiptId, productId });
+          sendJson(res, 200, status, corsOrigin);
+        } catch (err) {
+          const message = err instanceof Error ? err.message : String(err);
+          const status = message.includes("required") ? 400 : 409;
+          sendJson(res, status, { error: message }, corsOrigin);
+        }
+        return;
+      }
+
+      if (method === "POST" && url.pathname === "/api/championship/start") {
+        const body = await readJson(req);
+        try {
+          const playerId = requirePlayerId(body);
+          sendJson(res, 200, championship.startRun(playerId), corsOrigin);
+        } catch (err) {
+          const message = err instanceof Error ? err.message : String(err);
+          sendJson(res, 409, { error: message }, corsOrigin);
+        }
+        return;
+      }
+
+      if (method === "GET" && url.pathname === "/api/championship/run") {
+        const playerId = url.searchParams.get("playerId");
+        if (!playerId) {
+          sendJson(res, 400, { error: "playerId required" }, corsOrigin);
+          return;
+        }
+        try {
+          sendJson(res, 200, championship.getRun(playerId), corsOrigin);
+        } catch (err) {
+          const message = err instanceof Error ? err.message : String(err);
+          sendJson(res, 404, { error: message }, corsOrigin);
+        }
+        return;
+      }
+
+      if (method === "POST" && url.pathname === "/api/championship/answer") {
+        const body = await readJson(req);
+        try {
+          const playerId = requirePlayerId(body);
+          const roundIndex = typeof body.roundIndex === "number" ? body.roundIndex : -1;
+          if (roundIndex < 0) {
+            sendJson(res, 400, { error: "roundIndex required" }, corsOrigin);
+            return;
+          }
+          const answer = parsePlayerAnswer(body.answer ?? null);
+          sendJson(res, 200, championship.submitAnswer(playerId, roundIndex, answer), corsOrigin);
+        } catch (err) {
+          const message = err instanceof Error ? err.message : String(err);
+          const status = message.includes("not found") || message.includes("No active") ? 404 : 409;
+          sendJson(res, status, { error: message }, corsOrigin);
+        }
+        return;
+      }
+
+      if (method === "POST" && url.pathname === "/api/championship/settle") {
+        const body = await readJson(req);
+        try {
+          const playerId = requirePlayerId(body);
+          const periodKey = typeof body.periodKey === "string" ? body.periodKey : undefined;
+          sendJson(res, 200, championship.settle(playerId, periodKey), corsOrigin);
+        } catch (err) {
+          const message = err instanceof Error ? err.message : String(err);
+          sendJson(res, 409, { error: message }, corsOrigin);
         }
         return;
       }

@@ -1,6 +1,10 @@
 import { useCallback, useEffect, useState } from "react";
 import type { LevelRunResult, LevelSession } from "@mir-games/game-core";
-import type { AccountSnapshotDto, OnlineMatchPublicDto } from "@mir-games/adapters-web";
+import type {
+  AccountSnapshotDto,
+  ChampionshipRunDto,
+  OnlineMatchPublicDto,
+} from "@mir-games/adapters-web";
 import type { AppBootstrap } from "./bootstrap";
 import { getLevel, MAP_LOCATIONS } from "@mir-games/question-bank";
 import { MenuScreen } from "./screens/MenuScreen";
@@ -14,6 +18,9 @@ import { SettingsScreen } from "./screens/SettingsScreen";
 import { OnlineLobbyScreen } from "./screens/OnlineLobbyScreen";
 import { OnlineMatchScreen } from "./screens/OnlineMatchScreen";
 import { OnlineResultScreen } from "./screens/OnlineResultScreen";
+import { ChampionshipLobbyScreen } from "./screens/ChampionshipLobbyScreen";
+import { ChampionshipRunScreen } from "./screens/ChampionshipRunScreen";
+import { ChampionshipResultScreen } from "./screens/ChampionshipResultScreen";
 
 type Route =
   | { name: "menu" }
@@ -26,10 +33,12 @@ type Route =
   | { name: "online-lobby" }
   | { name: "online-match"; match: OnlineMatchPublicDto }
   | { name: "online-result"; match: OnlineMatchPublicDto }
+  | { name: "championship-lobby" }
+  | { name: "championship-run"; run: ChampionshipRunDto }
+  | { name: "championship-result"; run: ChampionshipRunDto }
   | { name: "stub"; title: string };
 
 const STUB_TITLES: Record<string, string> = {
-  championship: "Чемпионат",
   leaders: "Лидеры",
 };
 
@@ -38,7 +47,16 @@ type Props = {
 };
 
 export function App({ boot }: Props) {
-  const { engine, progressApi, shopApi, onlineApi, payment, storage, player } = boot;
+  const {
+    engine,
+    progressApi,
+    shopApi,
+    onlineApi,
+    championshipApi,
+    payment,
+    storage,
+    player,
+  } = boot;
   const [route, setRoute] = useState<Route>({ name: "menu" });
   const [progress, setProgress] = useState(() => engine.getProgress());
   const [avatar, setAvatar] = useState(() => engine.getAvatar());
@@ -77,6 +95,10 @@ export function App({ boot }: Props) {
     }
     if (id === "online") {
       setRoute({ name: "online-lobby" });
+      return;
+    }
+    if (id === "championship") {
+      setRoute({ name: "championship-lobby" });
       return;
     }
     if (id === "shop") {
@@ -161,6 +183,45 @@ export function App({ boot }: Props) {
       <OnlineResultScreen
         match={route.match}
         onAgain={() => setRoute({ name: "online-lobby" })}
+        onMenu={() => {
+          void refreshFromServer();
+          setRoute({ name: "menu" });
+        }}
+      />
+    );
+  }
+  if (route.name === "championship-lobby") {
+    return (
+      <ChampionshipLobbyScreen
+        playerId={player.playerId}
+        championshipApi={championshipApi}
+        payment={payment}
+        onStarted={(run) => setRoute({ name: "championship-run", run })}
+        onAccountRefresh={() => {
+          void refreshFromServer();
+        }}
+        onBack={() => setRoute({ name: "menu" })}
+      />
+    );
+  }
+  if (route.name === "championship-run") {
+    return (
+      <ChampionshipRunScreen
+        playerId={player.playerId}
+        championshipApi={championshipApi}
+        initialRun={route.run}
+        onFinished={(run) => setRoute({ name: "championship-result", run })}
+      />
+    );
+  }
+  if (route.name === "championship-result") {
+    return (
+      <ChampionshipResultScreen
+        run={route.run}
+        onLobby={() => {
+          void refreshFromServer();
+          setRoute({ name: "championship-lobby" });
+        }}
         onMenu={() => {
           void refreshFromServer();
           setRoute({ name: "menu" });
