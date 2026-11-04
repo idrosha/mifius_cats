@@ -1,0 +1,15 @@
+{
+  "cardId": "card_support_water_back",
+  "name_key": "card.support_water_back",
+  "roleGate": "support",
+  "element": "water",
+  "cost": 2,
+  "atk": 0,
+  "shield": 4,
+  "hits": 0,
+  "targetRule": "ally_all",
+  "tags": ["buff", "shield"],
+  "effectOps": [
+    { "op": "buff", "stat": "atk", "amount": 2, "duration": 2 }
+  ]
+}

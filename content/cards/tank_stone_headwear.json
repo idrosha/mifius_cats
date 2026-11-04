@@ -1,0 +1,13 @@
+{
+  "cardId": "card_tank_stone_headwear",
+  "name_key": "card.tank_stone_headwear",
+  "roleGate": "tank",
+  "element": "stone",
+  "cost": 1,
+  "atk": 0,
+  "shield": 10,
+  "hits": 0,
+  "targetRule": "self",
+  "tags": ["shield"],
+  "effectOps": []
+}

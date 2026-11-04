@@ -1,0 +1,15 @@
+{
+  "cardId": "card_fighter_fire_tail",
+  "name_key": "card.fighter_fire_tail",
+  "roleGate": "fighter",
+  "element": "fire",
+  "cost": 2,
+  "atk": 7,
+  "shield": 0,
+  "hits": 2,
+  "targetRule": "nearest",
+  "tags": ["attack", "ruffle"],
+  "effectOps": [
+    { "op": "apply_status", "status": "ruffle", "stacks": 3, "duration": 0 }
+  ]
+}

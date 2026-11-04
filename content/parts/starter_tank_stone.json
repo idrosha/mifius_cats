@@ -1,0 +1,56 @@
+[
+  {
+    "partId": "part_tank_stone_eyes",
+    "slot": "eyes",
+    "element": "stone",
+    "cardId": null,
+    "passiveOps": [{ "op": "stat_mod", "stat": "hp", "amount": 5 }],
+    "artKey": "part.tank_stone_eyes",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_tank_stone_ears",
+    "slot": "ears",
+    "element": "stone",
+    "cardId": null,
+    "passiveOps": [{ "op": "stat_mod", "stat": "charm", "amount": 2 }],
+    "artKey": "part.tank_stone_ears",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_tank_stone_muzzle",
+    "slot": "muzzle",
+    "element": "stone",
+    "cardId": "card_tank_stone_muzzle",
+    "passiveOps": [],
+    "artKey": "part.tank_stone_muzzle",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_tank_stone_headwear",
+    "slot": "headwear",
+    "element": "stone",
+    "cardId": "card_tank_stone_headwear",
+    "passiveOps": [],
+    "artKey": "part.tank_stone_headwear",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_tank_stone_back",
+    "slot": "back",
+    "element": "stone",
+    "cardId": "card_tank_stone_back",
+    "passiveOps": [],
+    "artKey": "part.tank_stone_back",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_tank_stone_tail",
+    "slot": "tail",
+    "element": "stone",
+    "cardId": "card_tank_stone_tail",
+    "passiveOps": [],
+    "artKey": "part.tank_stone_tail",
+    "rarity": "common"
+  }
+]

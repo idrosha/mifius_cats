@@ -1,0 +1,15 @@
+{
+  "cardId": "card_support_water_tail",
+  "name_key": "card.support_water_tail",
+  "roleGate": "support",
+  "element": "water",
+  "cost": 1,
+  "atk": 3,
+  "shield": 0,
+  "hits": 1,
+  "targetRule": "nearest",
+  "tags": ["heal", "attack"],
+  "effectOps": [
+    { "op": "heal", "amount": 4, "target": "self" }
+  ]
+}
