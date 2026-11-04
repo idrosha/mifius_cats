@@ -1,6 +1,6 @@
 # Мифоус / Mythfel — полное ТЗ приложения
 
-**Версия:** 1.1 · **SSOT** (единственный источник правды для сборки)  
+**Версия:** 1.2 · **SSOT** (единственный источник правды для сборки)  
 **Язык дока:** RU (строки игры: RU+EN)  
 **Стек:** Unity C# URP 2D · Nakama · battle-service Go · LiveOps JSON  
 **Крипта/NFT:** нет  
@@ -36,12 +36,13 @@
 
 ### MUST
 - Аккаунт (device + optional email/social later)
-- 3 стартовых котика, коллекция 15 слотов / 5 пресетов
+- Стартовый грант (§5.1): 3 боевых котика + идентичные колоды у всех новых игроков; коллекция 15 слотов / 5 пресетов
+- 1 farm-cat в инвентаре при регистрации (без crop-геймплея на SL; см. §5.1)
 - Бой 3v3 vs бот (Мифмир / PvE) и vs игрок (Дуэли + Арена 4 нед)
 - Последовательные ходы, 4 карты/котик, пассивы глаз/ушей
 - 5 ролей × 6 стихий (контент не обязан покрыть все 30 пар)
 - Миски: 3 PvE / 5 PvP в день; пасс ×2
-- Боевые зелья: ≤1 каждого вида на бой
+- Боевые зелья: ≤1 каждого вида на бой; на старте каталог SL ×1 (§5.1, §10)
 - Гача + pity 50/80, показ шансов
 - Платный пасс: ×2 лимитов + no-ads + трек наград
 - Rewarded ads (без пасса)
@@ -52,10 +53,11 @@
 - Кросс-платформенный PvP: общий матчмейкинг mobile / web / desktop (Steam PC в том же пуле)
 
 ### MUST NOT (SL)
-- Реальный клан-босс / ферма / питомник геймплей
+- Реальный клан-босс / ферма / питомник геймплей (инвентарный farm-cat без сбора — ок, §5.1)
 - P2W победа на арене
 - Крипта, маркетплейс игроков за деньги
 - 9 «нравов» Axie-стиль (у нас роли+стихии)
+- Стартовая экипировка pendant/bow; RNG альтернативных стартовых колод
 
 ### POST-SL
 Кланы полные → клан-босс 8–12 → ферма → питомник → сезоны контента.
@@ -75,10 +77,13 @@
 | `support` | Хил/чистота/бафф | — | `heal`/`cleanse`/`buff` |
 
 **Пресет 3v3:** tank + (fighter\|ranger\|mage) + support.  
-**Стартеры:** tank·stone, fighter·fire, support·water.
+**Стартеры:** tank·stone, fighter·fire, support·water (`starter_tank_stone`, `starter_fighter_fire`, `starter_support_water`).
+
+**Equal decks (fair PvP):** все новые аккаунты получают **один и тот же** фиксированный стартовый кит карт (те же `templateId` → части → карты). Без RNG и без альтернативных стартовых колод. Роли сохраняют свои колоды из content; кит команды идентичен между игроками (§5.1).
 
 **Формация (критична, PvP = PvE):** слоты команды `lane 0..2` = фронт → тыл.  
 Рекомендуемый порядок ролей: `tank` (фронт) → `fighter`/`mage`/`ranger` (середина) → `support` (тыл).  
+Дефолт-пресет стартеров: lane0 tank → lane1 fighter → lane2 support.  
 Порядок котиков в бою влияет на дефолтный таргет и тай-брейки (см. §3.4 Targeting).
 
 ### §2.2 Стихии (ровно 6)
@@ -178,7 +183,7 @@ Season 28 days. Rating. Same anti-P2W. Soft-cap pendant/bow rarity optional via 
 
 ### §4.4 Post-SL stubs (UI only на SL)
 - Clan boss 8–12, 1 cat each, shared HP, turn-based  
-- Farm daily visit or crop rot  
+- Farm daily visit or crop rot (на SL: вкладка «Скоро»; 1 farm-cat в инвентаре без сбора — §5.1)  
 - Nursery breed with ingredients  
 
 ---
@@ -197,6 +202,29 @@ IAP: yarn packs, pass, slot expand, maybe jar bundles.
 Server validates all purchases.
 
 **Анти-P2W арены:** нельзя купить победу; potions capped; power farmable.
+
+### §5.1 Starter grant (регистрация)
+
+Выдаётся **атомарно** сервером при создании профиля (`NewPlayer` + `GrantStarterKit`). Клиент не inventорит награды.
+
+| Позиция | Значение |
+|---|---|
+| Боевые коты | `starter_tank_stone` + `starter_fighter_fire` + `starter_support_water` (level 1, rarity common, `origin: starter`) |
+| Колоды | 3×4 карты с частей `muzzle/headwear/back/tail`; **идентичный кит у всех новых игроков** (equal decks / fair PvP, §2.1) |
+| Пресет | lane0 tank → lane1 fighter → lane2 support |
+| Зелья | все 6 id каталога SL (§10) — **×1** каждого |
+| Экипировка | **нет** pendant / bow |
+| Farm-cat | **1** × `starter_farm_grass` (`origin` farm); crop-loop **выкл.** до Phase 6 / `feature_flags.farm_gameplay`; UI «Скоро» |
+| `bowls` | 3 (дневной кап free) |
+| `pvpTickets` | 5 (spend после unlock `pve_unlock_n=3`) |
+| `fish` | 200 |
+| `scrap` | 20 |
+| `yarn` | 0 |
+| `medals` | 0 |
+| Jar key | 0 при регистрации |
+
+**Tutorial rewards** (отдельно от регистрационного гранта, после первой победы Двора / `test_yard_1`): +50 fish, +1 `potion_life`, +1 jar key.  
+Доп. farm-cats — unlock/buy с уровнем (LiveOps-цены; не стартовый грант).
 
 ---
 
@@ -228,8 +256,9 @@ Server validates all purchases.
 catId, templateId?, role, element, level, xp,
 parts: {eyes,ears,muzzle,headwear,back,tail}, // partIds
 pendantId?, bowByPart: {muzzle?, headwear?, back?, tail?},
-rarity, origin: starter|jar|workshop|nursery
+rarity, origin: starter|farm|jar|workshop|nursery
 ```
+`origin: farm` — инвентарный farm-cat (§5.1); на SL без crop-геймплея.
 
 ### §7.2 CardDef (data-driven)
 ```
@@ -268,7 +297,8 @@ Reject illegal actions. Rate-limit. Log seed+inputs.
 Один сервис для mobile / web / desktop (Steam); протокол боя платформо-независим.
 
 ### §8.3 Economy-service (может быть модуль Nakama + hooks)
-Grant rewards, spend currency, open jar (server RNG + pity), activate pass, validate IAP receipt, daily refill bowls/tickets (timezone UTC+0 or player tz later).
+Grant rewards, spend currency, open jar (server RNG + pity), activate pass, validate IAP receipt, daily refill bowls/tickets (timezone UTC+0 or player tz later).  
+`GrantStarterKit` — атомарно с `NewPlayer` по таблице §5.1 (fixed templates, без RNG колод).
 
 ### §8.4 LiveOps CDN
 Signed JSON, versioned. Client caches; server authoritative for combat numbers.  
@@ -306,12 +336,25 @@ Assets/
 | Eye/ear passives | 10–16 |
 | Pendants | 12 |
 | Bows | 16 |
-| Potions | 6 |
+| Potions | 6 (каталог ниже) |
 | PvE nodes | ≥15 across 3 chapters |
-| Starter cats | 3 |
+| Starter cats | 3 боевых + 1 farm-cat template (`starter_farm_grass`) |
 | Jar tables | 2 (cats, gear) |
 
 Карты: короткие имена, ≤140 символов эффекта RU.
+
+**Battle potions (SL каталог, грант ×1 — §5.1):**
+
+| potionId | RU (name_key) |
+|---|---|
+| `potion_life` | Зелье жизни |
+| `potion_stone_skin` | Зелье Каменной Шкуры |
+| `potion_spark_claw` | Эликсир Искрящих Когтей |
+| `potion_nine_lives` | Настой Девяти Жизней |
+| `potion_cleanse` | Отвар Очищения |
+| `potion_mint` | Мятный боевой отвар |
+
+Числа эффектов — LiveOps / potion JSON (не хардкод клиента).
 
 ---
 
@@ -384,4 +427,4 @@ CI: schema validate card JSON; battle golden replays; client compile.
 
 ---
 
-*Конец SSOT v1.1. Механика-расширение и лор — приложения, не дублировать сюда.*
+*Конец SSOT v1.2. Механика-расширение и лор — приложения, не дублировать сюда.*
