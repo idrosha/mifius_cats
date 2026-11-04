@@ -11,8 +11,10 @@
     "bot": "npm run start -w @mir-games/bot-server",
     "bot:dev": "npm run dev -w @mir-games/bot-server",
     "bot:build": "npm run build -w @mir-games/bot-server",
-    "build": "npm run build -w @mir-games/platform-contracts && npm run build -w @mir-games/game-core && npm run build -w @mir-games/bot-server",
-    "typecheck": "npm run build -w @mir-games/platform-contracts && npm run typecheck -w @mir-games/platform-contracts && npm run typecheck -w @mir-games/game-core && npm run typecheck -w @mir-games/bot-server",
+    "miniapp:dev": "npm run dev -w @mir-games/telegram-miniapp",
+    "miniapp:build": "npm run build -w @mir-games/telegram-miniapp",
+    "build": "npm run build -w @mir-games/platform-contracts && npm run build -w @mir-games/game-core && npm run build -w @mir-games/adapters-telegram && npm run build -w @mir-games/bot-server && npm run build -w @mir-games/telegram-miniapp",
+    "typecheck": "npm run build -w @mir-games/platform-contracts && npm run typecheck -w @mir-games/platform-contracts && npm run typecheck -w @mir-games/game-core && npm run build -w @mir-games/game-core && npm run typecheck -w @mir-games/adapters-telegram && npm run build -w @mir-games/adapters-telegram && npm run typecheck -w @mir-games/bot-server && npm run typecheck -w @mir-games/telegram-miniapp",
     "test": "npm run build -w @mir-games/platform-contracts && npm run test -w @mir-games/game-core",
     "test:core": "npm run test -w @mir-games/game-core"
   },

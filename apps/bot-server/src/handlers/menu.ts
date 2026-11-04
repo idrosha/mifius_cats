@@ -2,12 +2,38 @@ import type { Context } from "grammy";
 
 const SOON = "Скоро 🚧";
 
+let miniappUrl: string | null = null;
+
+export function setMiniappUrl(url: string | null): void {
+  miniappUrl = url;
+}
+
 async function replySoon(ctx: Context, title: string): Promise<void> {
   await ctx.reply(`*${title}*\n\n${SOON}`, { parse_mode: "Markdown" });
 }
 
 export async function handleSingle(ctx: Context): Promise<void> {
-  await replySoon(ctx, "Одиночная игра");
+  if (miniappUrl) {
+    await ctx.reply(
+      [
+        "*Одиночная игра*",
+        "",
+        "Откройте Mini App, чтобы пройти тематический уровень:",
+        miniappUrl,
+      ].join("\n"),
+      { parse_mode: "Markdown" },
+    );
+    return;
+  }
+  await ctx.reply(
+    [
+      "*Одиночная игра*",
+      "",
+      "Mini App готов в репозитории (`apps/telegram-miniapp`).",
+      "Задайте `MINIAPP_URL` в окружении bot-server, чтобы получить ссылку здесь.",
+    ].join("\n"),
+    { parse_mode: "Markdown" },
+  );
 }
 
 export async function handleOnline(ctx: Context): Promise<void> {
