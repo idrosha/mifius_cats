@@ -142,7 +142,11 @@ export function assertValidStubChampionshipReceipt(receipt: {
   if (!receipt.provider || !receipt.receiptId || !receipt.productId) {
     throw new Error("provider, receiptId and productId required");
   }
-  if (receipt.provider !== "stub-telegram" && receipt.provider !== "stub-web") {
+  if (
+    receipt.provider !== "stub-telegram" &&
+    receipt.provider !== "stub-web" &&
+    receipt.provider !== "stub-play"
+  ) {
     throw new Error(`Unsupported payment provider stub: ${receipt.provider}`);
   }
   if (!receipt.receiptId.startsWith("stub:")) {
