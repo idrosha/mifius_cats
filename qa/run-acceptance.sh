@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Mythfel QA — acceptance harness (FULL-SPEC §13).
 # Exit 0 = все запускаемые автогейты зелёные.
-# BLOCKED-пункты (§13.4 runtime, §13.6, §13.9) не валят exit; см. ACCEPTANCE.md.
+# BLOCKED-пункты (§13.6 replay) не валят exit; см. ACCEPTANCE.md.
 set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
@@ -41,8 +41,8 @@ echo "root: $ROOT"
 run_gate "§13.1+5" "battle go test (golden Двор + illegal play)" \
   bash -c "cd '$ROOT/battle' && go test ./..."
 
-# §13.2 + §13.3 — backend limits / pass / no-ads
-run_gate "§13.2+3" "backend economy + cmd/check" \
+# §13.2 + §13.3 + §13.4 + §13.9 — limits / pass / pity hard80 / IAP sandbox yarn→jar
+run_gate "§13.2+3+4+9" "backend economy (limits+pity+iap) + cmd/check" \
   bash -c "cd '$ROOT/backend' && go test ./... && go run ./cmd/check"
 
 # LiveOps schema (supports §13.10 + pity numbers present)
@@ -68,14 +68,12 @@ echo "FAIL runnable: $fail"
 echo "SKIP toolchain: $skip"
 echo
 echo "BLOCKED (не fail харнесса — нет реализации MUST):"
-echo "  §13.4 pity hard80 trigger (jar RNG / pity state)"
 echo "  §13.6 PvP replay open"
-echo "  §13.9 IAP sandbox yarn → jar"
 echo "PARTIAL:"
 echo "  §13.1 нет туториала (golden победа Двора есть)"
 echo "  §13.8 i18n ru/en данные есть; UI switch — нет"
 echo
-echo "Итог soft-launch gate: NOT READY (см. qa/ACCEPTANCE.md)"
+echo "Итог soft-launch gate: NOT READY (остался §13.6; см. qa/ACCEPTANCE.md)"
 echo "Чеклист: $ROOT/qa/ACCEPTANCE.md"
 
 if [[ "$fail" -gt 0 ]]; then
