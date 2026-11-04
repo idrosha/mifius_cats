@@ -1,40 +1,34 @@
 # Stitch → Web HUD screen map
 
-Sources: Project store `internal/stitch-ui/*.zip` (Tavern Hearth Battler DESIGN.md).
+Sources: vendored `design/stitch-src/*.html` from Project store `internal/stitch-ui/*.zip`.
+Build: `node client/web-hud/scripts/build-stitch.mjs` → embeds **actual Stitch body HTML** + Tailwind config into `public/index.html`.
 
-## Coherent nav graph (merged zip1+zip2+zip3)
+## Coherent nav graph
 
-| Screen id | Role | Prefer source |
-|---|---|---|
-| hub | Главный Хаб | zip3/4b2f landscape |
-| yard | Двор (PvE) | zip2 `_1`, zip1 `landscape_6` |
-| formation | Расстановка pre-battle | zip2 `formation` |
-| battle | Бой HUD | zip1 `landscape_1` / `3v3_landscape` (layout only; combat = battle/devapi) |
-| result | Победа / Поражение | zip2 `landscape_1` / `landscape_2` |
-| collection | Коллекция | zip1 `landscape_4` |
-| shop | Лавка | zip1 `landscape_3` (merchant tab) |
-| market | Маркетплейс buy/sell stub | zip1 `landscape_3` auction + task brief |
-| tavern | Таверна milk/drinks/potions | zip1 root `code.html` |
-| pvp | PvP Арена / дуэли | zip1 `pvp`, zip2 `pvp_landscape` |
-| pass | Пасс | zip1 `battle_pass` |
-| gacha | Призыв (shop sub) | zip1 `landscape_5` |
-| soon_farm | Ферма «Скоро» | zip3/e4fa, zip2 `_3` |
-| soon_clan | Кланы «Скоро» | zip2 `landscape_3` |
-| soon_nursery | Питомник «Скоро» | hub portal |
+| Screen id | View id | Source file | Zip origin |
+|---|---|---|---|
+| hub | viewHub | hub.html | zip4 / zip3 landscape (Главный Хаб) |
+| yard | viewYard | yard.html | zip1 landscape_6 |
+| formation | viewFormation | formation.html | zip2 formation |
+| battle | viewBattle | battle.html | zip1 3v3_landscape |
+| result | viewResultWin / Lose | result_*.html | zip2 landscape_1/2 |
+| collection | viewCollection | collection.html | zip1 landscape_4 |
+| shop | viewShop | shop.html | zip1 landscape_3 |
+| market | viewMarket | shop.html (auction) | zip1 landscape_3 |
+| tavern | viewTavern | tavern.html | zip1 root |
+| pvp | viewPvp | pvp.html | zip1 pvp |
+| pass | viewPass | pass.html | zip1 battle_pass |
+| soon_farm | viewSoonFarm | soon_farm.html | e4fa / zip3 |
+| soon_clan | viewSoonClan | soon_clan.html | zip2 landscape_3 |
 
-## Deduped / not separate playable screens
+## Integration notes
 
-| Source | Why |
-|---|---|
-| zip1 `landscape_2` | Alternate 3v3 battle → folded into `battle` |
-| zip2 `pve_12` | 12-cat legion — not SL 3v3; reference only |
-| zip2 `_2` | Оружейная — post-SL; collection link → soon |
-| zip2 `landscape_4` | Алтарь возвышения → collection detail stub |
-| zip1 `landscape_5` | Gacha altar → shop sub-tab |
-| Duplicate farm (zip3 vs e4fa) | Identical; one Soon sheet |
+- Stitch markup is **not** re-implemented in hand CSS. Tokens + Tailwind config come from Stitch `code.html`.
+- `#wireDock` adds unique HUD control IDs (battle/devapi smoke) without replacing Stitch layout.
+- Stitch header `a[data-path]` → `navigate()` via soft map in `app.js`.
+- Combat authority remains `battle/devapi` stateDiff only.
 
 ## Soft-launch constraints (FULL-SPEC §1 / §6)
 
 - Playable: Hub, Yard→Formation→Battle, PvP smoke, Collection, Shop, Pass, Tavern, Market stub.
 - Farm / Nursery / Clan boss = Soon sheets only.
-- No combat authority on client; battle/devapi remains SoT.

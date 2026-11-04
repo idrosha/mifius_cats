@@ -9,6 +9,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC = path.resolve(__dirname, "../public");
+const DESIGN = path.resolve(__dirname, "../design");
 const BASE = (process.argv[2] || "http://127.0.0.1:8088").replace(/\/$/, "");
 
 const REQUIRED_VIEWS = [
@@ -62,6 +63,18 @@ const REQUIRED_BUTTONS = [
   "btnBackHub",
 ];
 
+const STITCH_SRC = [
+  "hub.html",
+  "yard.html",
+  "formation.html",
+  "battle.html",
+  "tavern.html",
+  "collection.html",
+  "shop.html",
+  "pvp.html",
+  "pass.html",
+];
+
 const checks = [];
 function ok(name, pass, detail = "") {
   checks.push({ name, pass: !!pass, detail });
@@ -79,17 +92,43 @@ for (const id of REQUIRED_VIEWS) {
 for (const id of REQUIRED_BUTTONS) {
   ok(`html#${id}`, html.includes(`id="${id}"`));
 }
-ok("css stitch tokens", css.includes("--primary-container") && css.includes("Rubik"));
-ok("app TABS includes tavern/market/formation", REQUIRED_NAV_IDS.every((id) => js.includes(`id: "${id}"`)));
+
+ok(
+  "stitch html applied (tailwind + material + aida)",
+  html.includes("cdn.tailwindcss.com") &&
+    html.includes("Material+Symbols") &&
+    html.includes("lh3.googleusercontent.com") &&
+    html.includes('data-stitch="hub"'),
+);
+ok(
+  "css stitch tokens",
+  css.includes("--primary-container") && css.includes("Rubik"),
+);
+ok(
+  "app TABS includes tavern/market/formation",
+  REQUIRED_NAV_IDS.every((id) => js.includes(`id: "${id}"`)),
+);
 ok("app navigate()", js.includes("function navigate("));
 ok("app battle/devapi CreatePvE", js.includes("/api/battle/v1/CreatePvE"));
 ok("app no client damage authority note", js.includes("No combat authority"));
+
+for (const f of STITCH_SRC) {
+  const p = path.join(DESIGN, "stitch-src", f);
+  ok(`vendored stitch-src/${f}`, fs.existsSync(p));
+  if (fs.existsSync(p)) {
+    const body = fs.readFileSync(p, "utf8");
+    ok(
+      `stitch-src/${f} has tailwind`,
+      body.includes("cdn.tailwindcss.com") || body.includes("tailwind.config"),
+    );
+  }
+}
 
 const transitions = [
   ["hub→yard", 'navigate("yard")'],
   ["yard→formation", 'navigate("formation")'],
   ["formation→tavern", 'navigate("tavern")'],
-  ["tavern→formation", 'btnTavernFormation'],
+  ["tavern→formation", "btnTavernFormation"],
   ["shop→tavern", 'navigate("tavern")'],
   ["market sell", "btnSellStarter"],
   ["result→hub", 'navigate("hub")'],
@@ -108,6 +147,10 @@ try {
     const page = await fetch(`${BASE}/`);
     const body = await page.text();
     ok("http / serves index", page.ok && body.includes("viewHub"));
+    ok(
+      "http / is Stitch (not portal-grid restyle)",
+      body.includes("cdn.tailwindcss.com") && body.includes("data-stitch="),
+    );
     const loc = await fetch(`${BASE}/loc.json`);
     const locJson = await loc.json();
     ok("http /loc.json hub.tab.tavern", !!locJson["hub.tab.tavern"]);
