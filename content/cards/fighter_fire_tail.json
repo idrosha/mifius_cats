@@ -7,8 +7,8 @@
   "atk": 7,
   "shield": 0,
   "hits": 2,
-  "targetRule": "nearest",
-  "tags": ["attack", "ruffle"],
+  "targetRule": "backline",
+  "tags": ["attack", "ruffle", "backline"],
   "effectOps": [
     { "op": "apply_status", "status": "ruffle", "stacks": 3, "duration": 0 }
   ]

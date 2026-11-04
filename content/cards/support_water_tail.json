@@ -7,8 +7,8 @@
   "atk": 3,
   "shield": 0,
   "hits": 1,
-  "targetRule": "nearest",
-  "tags": ["heal", "attack"],
+  "targetRule": "backline",
+  "tags": ["heal", "attack", "backline"],
   "effectOps": [
     { "op": "heal", "amount": 4, "target": "self" }
   ]

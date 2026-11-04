@@ -70,6 +70,10 @@
 **Пресет 3v3:** tank + (fighter\|ranger\|mage) + support.  
 **Стартеры:** tank·stone, fighter·fire, support·water.
 
+**Формация (критична, PvP = PvE):** слоты команды `lane 0..2` = фронт → тыл.  
+Рекомендуемый порядок ролей: `tank` (фронт) → `fighter`/`mage`/`ranger` (середина) → `support` (тыл).  
+Порядок котиков в бою влияет на дефолтный таргет и тай-брейки (см. §3.4 Targeting).
+
 ### §2.2 Стихии (ровно 6)
 
 | element | +15% vs | −15% vs |
@@ -131,7 +135,14 @@ Unused energy/cards не переносятся (кроме Keep).
 - **Mouse Hour:** from turn 10 maxHP decay (config).
 - **Ruffle→Claw Mode:** 10 stacks → +1E, draw1, +50% dmg; no drops/ruffle that turn.
 - **Last Meow:** lethal → chance(charm) survive at 1 HP for N ticks.
-- **Targeting:** nearest → same lane → top on tie; taunt/stealth/ambush override.
+- **Targeting (одно ядро PvP/PvE):** формация важна.
+  - Дефолт `nearest` (фронт-приоритет по роли живых врагов):  
+    `tank` → `fighter` → `mage` → `ranger` → `support`;  
+    затем nearer lane к актёру → меньший lane → меньший id.  
+  - `backline`: приоритет тыла — `support` → `ranger` → `mage` → `fighter` → `tank`;  
+    затем больший lane → nearer к актёру → id. Атакующие карты с `targetRule: backline` бьют в тыл (саппорт/стрелки), а не танков спереди.  
+  - Прочие: `self`, `ally_lowest_hp`, `ally_all`, `all_enemies`, `lowest_hp`.  
+  - Overrides: `taunt` принуждает цель; `stealth` скрывает от обычного таргета; `ambush` (тег карты) обходит stealth.
 - **Potions:** loadout pre-match, ≤1 per potionId.
 
 ### §3.5 Статусы MVP
@@ -214,6 +225,8 @@ rarity, origin: starter|jar|workshop|nursery
 ```
 cardId, name_key, roleGate?, element, cost, atk, shield, hits,
 targetRule, tags[], effectOps[]  // DSL ops, не хардкод C#
+// targetRule: nearest | backline | self | ally_lowest_hp | ally_all | all_enemies | lowest_hp
+// backline-атаки: ≥1 карта с attack+backline на несколько ролей (tank/fighter/mage/ranger/…)
 ```
 
 ### §7.3 PartDef
