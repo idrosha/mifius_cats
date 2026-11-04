@@ -1,0 +1,301 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://mythfel.com/schemas/liveops.schema.json",
+  "title": "Mythfel LiveOps Config",
+  "description": "Remote balance/limits — FULL-SPEC §7.4. Change without client store release.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "class_mods",
+    "energy_table",
+    "milk_thresholds",
+    "mouse_hour",
+    "limits",
+    "pity",
+    "shop",
+    "season",
+    "feature_flags"
+  ],
+  "properties": {
+    "version": {
+      "type": "string",
+      "pattern": "^[0-9]+$",
+      "description": "Config major version (CDN signed JSON §8.4)"
+    },
+    "class_mods": { "$ref": "#/$defs/class_mods" },
+    "energy_table": { "$ref": "#/$defs/energy_table" },
+    "milk_thresholds": { "$ref": "#/$defs/milk_thresholds" },
+    "mouse_hour": { "$ref": "#/$defs/mouse_hour" },
+    "limits": { "$ref": "#/$defs/limits" },
+    "pity": { "$ref": "#/$defs/pity" },
+    "shop": { "$ref": "#/$defs/shop" },
+    "season": { "$ref": "#/$defs/season" },
+    "feature_flags": { "$ref": "#/$defs/feature_flags" }
+  },
+  "$defs": {
+    "role": {
+      "type": "string",
+      "enum": ["tank", "fighter", "mage", "ranger", "support"]
+    },
+    "element": {
+      "type": "string",
+      "enum": ["fire", "water", "grass", "bolt", "stone", "ice"]
+    },
+    "class_mods": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "element_advantage",
+        "element_disadvantage",
+        "kinship",
+        "roles",
+        "elements",
+        "strong_vs",
+        "weak_vs"
+      ],
+      "properties": {
+        "element_advantage": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "§2.2 +15% vs strong"
+        },
+        "element_disadvantage": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "§2.2 −15% vs weak"
+        },
+        "kinship": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "description": "§2.2 +10% when card element == cat element"
+        },
+        "roles": {
+          "type": "array",
+          "minItems": 5,
+          "maxItems": 5,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/role" }
+        },
+        "elements": {
+          "type": "array",
+          "minItems": 6,
+          "maxItems": 6,
+          "uniqueItems": true,
+          "items": { "$ref": "#/$defs/element" }
+        },
+        "strong_vs": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["fire", "water", "grass", "bolt", "stone", "ice"],
+          "properties": {
+            "fire": { "type": "array", "items": { "$ref": "#/$defs/element" } },
+            "water": { "type": "array", "items": { "$ref": "#/$defs/element" } },
+            "grass": { "type": "array", "items": { "$ref": "#/$defs/element" } },
+            "bolt": { "type": "array", "items": { "$ref": "#/$defs/element" } },
+            "stone": { "type": "array", "items": { "$ref": "#/$defs/element" } },
+            "ice": { "type": "array", "items": { "$ref": "#/$defs/element" } }
+          }
+        },
+        "weak_vs": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["fire", "water", "grass", "bolt", "stone", "ice"],
+          "properties": {
+            "fire": { "type": "array", "items": { "$ref": "#/$defs/element" } },
+            "water": { "type": "array", "items": { "$ref": "#/$defs/element" } },
+            "grass": { "type": "array", "items": { "$ref": "#/$defs/element" } },
+            "bolt": { "type": "array", "items": { "$ref": "#/$defs/element" } },
+            "stone": { "type": "array", "items": { "$ref": "#/$defs/element" } },
+            "ice": { "type": "array", "items": { "$ref": "#/$defs/element" } }
+          }
+        }
+      }
+    },
+    "energy_draw": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["energy", "draw"],
+      "properties": {
+        "energy": { "type": "integer", "minimum": 0 },
+        "draw": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "energy_table": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rows"],
+      "properties": {
+        "rows": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["turn_min", "turn_max", "first", "second"],
+            "properties": {
+              "turn_min": { "type": "integer", "minimum": 1 },
+              "turn_max": {
+                "description": "null = open-ended (4+)",
+                "type": ["integer", "null"],
+                "minimum": 1
+              },
+              "first": { "$ref": "#/$defs/energy_draw" },
+              "second": { "$ref": "#/$defs/energy_draw" }
+            }
+          }
+        }
+      }
+    },
+    "milk_thresholds": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["drops_per_burst", "draw_bonus_every_nth_burst", "burst_bonus_energy"],
+      "properties": {
+        "drops_per_burst": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "§3.4 Milk Burst; Phase1 §16 default 3"
+        },
+        "draw_bonus_every_nth_burst": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "§3.4 every 2nd burst +1 draw"
+        },
+        "burst_bonus_energy": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "§3.4 +1 E forever per burst"
+        }
+      }
+    },
+    "mouse_hour": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["start_turn", "max_hp_decay"],
+      "properties": {
+        "start_turn": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "§3.4 from turn 10"
+        },
+        "max_hp_decay": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "maxHP decay per turn; Phase1 §16 default 1"
+        }
+      }
+    },
+    "limits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["pve_per_day_free", "pvp_per_day_free", "pass_multiplier"],
+      "properties": {
+        "pve_per_day_free": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "§5 Free PvE/day = 3"
+        },
+        "pvp_per_day_free": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "§5 Free PvP/day = 5"
+        },
+        "pass_multiplier": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "§5 Pass ×2"
+        }
+      }
+    },
+    "pity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["soft", "hard"],
+      "properties": {
+        "soft": { "type": "integer", "minimum": 1, "description": "§5 soft50" },
+        "hard": { "type": "integer", "minimum": 1, "description": "§5 / §13.4 hard80" }
+      }
+    },
+    "shop": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["offer_kinds", "offers"],
+      "properties": {
+        "offer_kinds": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string",
+            "enum": ["yarn", "gacha_jar", "pass", "battle_potion", "slot_expand"]
+          },
+          "description": "§5 / §2.5 / §6 Shop kinds — no invented SKUs"
+        },
+        "offers": {
+          "type": "array",
+          "description": "Empty until priced catalog; refs must resolve in content/",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["offer_id", "kind"],
+            "properties": {
+              "offer_id": { "type": "string", "minLength": 1 },
+              "kind": {
+                "type": "string",
+                "enum": ["yarn", "gacha_jar", "pass", "battle_potion", "slot_expand"]
+              },
+              "card_id": { "type": "string", "minLength": 1 },
+              "part_id": { "type": "string", "minLength": 1 },
+              "template_id": { "type": "string", "minLength": 1 },
+              "stage_id": { "type": "string", "minLength": 1 }
+            }
+          }
+        }
+      }
+    },
+    "season": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["duration_days", "soft_cap_pendant_bow_rarity"],
+      "properties": {
+        "duration_days": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "§4.3 Arena season 28 days"
+        },
+        "soft_cap_pendant_bow_rarity": {
+          "type": "boolean",
+          "description": "§4.3 optional; §16 default off until phase 5"
+        }
+      }
+    },
+    "feature_flags": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "clan_boss_gameplay",
+        "farm_gameplay",
+        "nursery_gameplay",
+        "arena_soft_cap_rarity"
+      ],
+      "properties": {
+        "clan_boss_gameplay": {
+          "type": "boolean",
+          "description": "§1 MUST NOT on SL — Soon tab"
+        },
+        "farm_gameplay": {
+          "type": "boolean",
+          "description": "§1 MUST NOT on SL — Soon tab"
+        },
+        "nursery_gameplay": {
+          "type": "boolean",
+          "description": "§1 MUST NOT on SL — Soon tab"
+        },
+        "arena_soft_cap_rarity": {
+          "type": "boolean",
+          "description": "§16 soft-cap off until phase 5"
+        }
+      }
+    }
+  }
+}

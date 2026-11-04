@@ -1,0 +1,80 @@
+{
+  "version": "1",
+  "class_mods": {
+    "element_advantage": 0.15,
+    "element_disadvantage": 0.15,
+    "kinship": 0.1,
+    "roles": ["tank", "fighter", "mage", "ranger", "support"],
+    "elements": ["fire", "water", "grass", "bolt", "stone", "ice"],
+    "strong_vs": {
+      "fire": ["grass", "ice"],
+      "water": ["fire", "stone"],
+      "grass": ["water", "stone"],
+      "bolt": ["water", "ice"],
+      "stone": ["bolt", "fire"],
+      "ice": ["grass", "stone"]
+    },
+    "weak_vs": {
+      "fire": ["water", "stone"],
+      "water": ["grass", "bolt"],
+      "grass": ["fire", "ice"],
+      "bolt": ["stone", "grass"],
+      "stone": ["water", "grass"],
+      "ice": ["fire", "bolt"]
+    }
+  },
+  "energy_table": {
+    "rows": [
+      {
+        "turn_min": 1,
+        "turn_max": 1,
+        "first": { "energy": 1, "draw": 3 },
+        "second": { "energy": 2, "draw": 4 }
+      },
+      {
+        "turn_min": 2,
+        "turn_max": 3,
+        "first": { "energy": 2, "draw": 4 },
+        "second": { "energy": 3, "draw": 4 }
+      },
+      {
+        "turn_min": 4,
+        "turn_max": null,
+        "first": { "energy": 3, "draw": 5 },
+        "second": { "energy": 3, "draw": 5 }
+      }
+    ]
+  },
+  "milk_thresholds": {
+    "drops_per_burst": 3,
+    "draw_bonus_every_nth_burst": 2,
+    "burst_bonus_energy": 1
+  },
+  "mouse_hour": {
+    "start_turn": 10,
+    "max_hp_decay": 1
+  },
+  "limits": {
+    "pve_per_day_free": 3,
+    "pvp_per_day_free": 5,
+    "pass_multiplier": 2
+  },
+  "pity": {
+    "soft": 50,
+    "hard": 80
+  },
+  "shop": {
+    "offer_kinds": ["yarn", "gacha_jar", "pass", "battle_potion", "slot_expand"],
+    "offers": []
+  },
+  "season": {
+    "duration_days": 28,
+    "soft_cap_pendant_bow_rarity": false
+  },
+  "feature_flags": {
+    "clan_boss_gameplay": false,
+    "farm_gameplay": false,
+    "nursery_gameplay": false,
+    "arena_soft_cap_rarity": false
+  }
+}
