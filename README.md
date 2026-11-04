@@ -34,7 +34,8 @@ packages/
 ```bash
 npm install
 cp .env.example .env
-# при желании: TELEGRAM_BOT_TOKEN=... (без токена поднимется только HTTP API)
+# при желании: TELEGRAM_BOT_TOKEN=... или TELEGRAM_BOT_TOKEN_MQ=...
+# (без токена поднимется только HTTP API; bot-server читает корневой .env)
 ```
 
 ### 1) HTTP API + опционально бот
@@ -44,7 +45,7 @@ npm run bot:dev
 # API: http://127.0.0.1:8787/health
 ```
 
-Без `TELEGRAM_BOT_TOKEN` процесс работает в режиме API-only (удобно для браузерного демо).
+Без `TELEGRAM_BOT_TOKEN` / `TELEGRAM_BOT_TOKEN_MQ` процесс работает в режиме API-only (удобно для браузерного демо).
 
 ### 2) Web
 
@@ -105,7 +106,7 @@ npm test
 
 ## Безопасность
 
-- Переменные: `TELEGRAM_BOT_TOKEN`, `HTTP_PORT`, `CORS_ORIGIN`, `MINIAPP_URL`, `VITE_API_BASE_URL`, `CHAMPIONSHIP_OPEN_DAYS`
+- Переменные: `TELEGRAM_BOT_TOKEN` (или `TELEGRAM_BOT_TOKEN_MQ`), `HTTP_PORT`, `CORS_ORIGIN`, `MINIAPP_URL`, `VITE_API_BASE_URL`, `CHAMPIONSHIP_OPEN_DAYS`
 - Пример без значений: `.env.example`
 - `.env` в `.gitignore` — не коммитить
 - В клиенте секретов нет; Play Billing / Stars keys не кладём в репозиторий

@@ -1,5 +1,5 @@
 import { createChampionshipConfig } from "@mir-games/game-core";
-import { loadConfig } from "./config.js";
+import { loadConfig, loadEnvFiles } from "./config.js";
 import { createBot, registerBotCommands } from "./bot.js";
 import { createStubPorts } from "./ports/stubs.js";
 import { createInMemoryProgressStore } from "./progress/store.js";
@@ -9,6 +9,7 @@ import { startHttpApi } from "./api/http.js";
 import { setMiniappUrl } from "./handlers/menu.js";
 
 async function main(): Promise<void> {
+  loadEnvFiles();
   const config = loadConfig();
   const ports = createStubPorts();
   const store = createInMemoryProgressStore();
@@ -32,7 +33,7 @@ async function main(): Promise<void> {
 
   if (!config.telegramBotToken) {
     console.log(
-      "TELEGRAM_BOT_TOKEN not set — HTTP API only (browser demo). Set the token in env to also start the bot.",
+      "TELEGRAM_BOT_TOKEN / TELEGRAM_BOT_TOKEN_MQ not set — HTTP API only (browser demo). Set either in root .env (or env) to also start the bot.",
     );
     return;
   }
@@ -43,7 +44,9 @@ async function main(): Promise<void> {
   console.log("Мир Квизов bot-server starting (long polling)…");
   await bot.start({
     onStart: () => {
-      console.log("Bot is running. Token is read from TELEGRAM_BOT_TOKEN only.");
+      console.log(
+        "Bot is running. Token from TELEGRAM_BOT_TOKEN or TELEGRAM_BOT_TOKEN_MQ (root .env).",
+      );
     },
   });
 }

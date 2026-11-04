@@ -18,7 +18,7 @@ npm run web:dev               # :5174
 # npm run tv:dev              # :5176 (TV large UI + dpad)
 ```
 
-Optional bot UX: set `TELEGRAM_BOT_TOKEN` in `.env` (env only — never commit) and restart `bot:dev`.
+Optional bot UX: set `TELEGRAM_BOT_TOKEN` or `TELEGRAM_BOT_TOKEN_MQ` in root `.env` (env only — never commit) and restart `bot:dev`.
 
 ---
 
@@ -60,7 +60,7 @@ Optional bot UX: set `TELEGRAM_BOT_TOKEN` in `.env` (env only — never commit) 
 
 ## Bot `/start`
 
-- [ ] With `TELEGRAM_BOT_TOKEN` set: send `/start` → bot replies with menu / deep-link to miniapp (no token in logs or repo)
+- [ ] With `TELEGRAM_BOT_TOKEN` or `TELEGRAM_BOT_TOKEN_MQ` set: send `/start` → bot replies with menu / deep-link to miniapp (no token in logs or repo)
 - [ ] Without token: API-only mode still serves `/health` and client stub auth (`demo:…`)
 
 ## Phase 8 shells (smoke)
