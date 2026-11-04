@@ -19,11 +19,13 @@ SSOT:   $ROOT/docs/FULL-SPEC.md
   ✓ backend — pity hard80 + IAP sandbox yarn→jar (§13.4 / §13.9)
   ✓ battle+client — PvP replay store / GetReplay / ReplayList open (§13.6)
   ✓ client — TutorialPresenter §13.1 + HubPresenter.SetLocale §13.8
+  ✓ Phase 4 in-repo — CDN stub :8090 + geo example + ./qa/run-soft-launch.sh
 
-Дальше (docs/AGENTS.md / §14 Phase 4 Soft launch):
-  MANUAL Unity Play smoke (§13 на устройстве) + прод wiring (IAP verify, LiveOps CDN)
-  → soft launch на ограниченном гео
+Дальше (вне репо / MANUAL):
+  DEVICE smoke на телефоне (qa/DEVICE_SMOKE.md) + прод LiveOps CDN signing + store IAP verify
+  → закрыть Phase 4 §14 на реальном ограниченном гео
+  → Phase 5 clans/boss только после этого
 
 Шаблон промпта: см. docs/AGENTS.md раздел «Как ставить задачу»
-Харнесс: ./qa/run-acceptance.sh   чеклист: qa/ACCEPTANCE.md
+Харнесс: ./qa/run-soft-launch.sh   чеклист: qa/SOFT_LAUNCH.md + qa/DEVICE_SMOKE.md
 EOF

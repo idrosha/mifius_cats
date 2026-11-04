@@ -1,0 +1,4 @@
+{
+  "description": "Phase 4 §14 — пример ограниченного гео. Подставить реальный ops-список при релизе. Не store credentials / не секреты подписи CDN.",
+  "allowlist": ["RU", "BY", "KZ"]
+}

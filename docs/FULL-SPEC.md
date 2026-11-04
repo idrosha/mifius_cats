@@ -246,7 +246,9 @@ Reject illegal actions. Rate-limit. Log seed+inputs.
 Grant rewards, spend currency, open jar (server RNG + pity), activate pass, validate IAP receipt, daily refill bowls/tickets (timezone UTC+0 or player tz later).
 
 ### §8.4 LiveOps CDN
-Signed JSON, versioned. Client caches; server authoritative for combat numbers.
+Signed JSON, versioned. Client caches; server authoritative for combat numbers.  
+Local SL wiring: stub on `http://localhost:8090` (см. `ЗАПУСК.md`). Production signing keys **out of repo**.  
+Phase 4 geo (§14): ops ISO allowlist + analytics `soft_launch_flag` (§11); not store credentials.
 
 ---
 
@@ -326,7 +328,7 @@ Assets/
 | 1 Slice | 3v3 vs bot на server seed |
 | 2 PvE | главы 1–3 + прогрессия |
 | 3 PvP+$ | дуэли, арена, магазин, пасс, ads, pity |
-| 4 Soft launch | §13 зелёный на ограниченном гео |
+| 4 Soft launch | §13 зелёный на ограниченном гео (ops allowlist + device smoke; CDN signed JSON) |
 | 5 Clans/boss | North Star жив |
 | 6 Farm/nursery | daily retention loop |
 | 7 LiveOps seasons | контент без смены ядра |
