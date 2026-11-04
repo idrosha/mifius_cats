@@ -38,5 +38,11 @@
   "shop.kind.gacha_jar": { "ru": "Банки", "en": "Jars" },
   "shop.kind.pass": { "ru": "Пасс", "en": "Pass" },
   "shop.kind.battle_potion": { "ru": "Зелья", "en": "Potions" },
-  "shop.kind.slot_expand": { "ru": "Слоты", "en": "Slots" }
+  "shop.kind.slot_expand": { "ru": "Слоты", "en": "Slots" },
+  "locale.name.ru": { "ru": "Русский", "en": "Russian" },
+  "locale.name.en": { "ru": "English", "en": "English" },
+  "tutorial.step.starters": { "ru": "Три стартовых котика", "en": "Your three starter cats" },
+  "tutorial.step.yard_battle": { "ru": "Бой во Дворе", "en": "Yard battle" },
+  "tutorial.step.victory": { "ru": "Победа во Дворе", "en": "Yard victory" },
+  "tutorial.step.overtime": { "ru": "Дольше 10 минут", "en": "Over 10 minutes" }
 }

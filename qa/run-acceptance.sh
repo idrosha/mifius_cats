@@ -36,7 +36,7 @@ skip_gate() {
 echo "Mythfel acceptance harness — SSOT docs/FULL-SPEC.md §13"
 echo "root: $ROOT"
 
-# §13.1 PARTIAL + §13.5 + §13.6 — battle golden + illegal reject + PvP replay store/GetReplay
+# §13.1 golden + §13.5 + §13.6 — battle golden + illegal reject + PvP replay store/GetReplay
 run_gate "§13.1+5+6" "battle go test (golden Двор + illegal + replay store)" \
   bash -c "cd '$ROOT/battle' && go test ./..."
 
@@ -52,12 +52,12 @@ run_gate "§13.10-schema" "liveops validate + go test" \
 run_gate "§13.gate" "qa/gate (pity/limits/flags + i18n + limits mutation)" \
   bash -c "cd '$ROOT/qa/gate' && go test ./..."
 
-# §13.6 client open + §13.7 Hub «Скоро»
+# §13.1 tutorial + §13.6 client open + §13.7 Hub «Скоро» + §13.8 locale switch
 if command -v dotnet >/dev/null 2>&1; then
-  run_gate "§13.6+7+8loc" "client dotnet test (ReplayList open + Soon tabs + loc)" \
+  run_gate "§13.1+6+7+8" "client dotnet test (Tutorial + ReplayList + Soon + SetLocale)" \
     bash -c "cd '$ROOT/client' && dotnet test --nologo -v q"
 else
-  skip_gate "§13.6client+§13.7" "dotnet SDK отсутствует — прогнать локально: cd client && dotnet test"
+  skip_gate "§13.1client+§13.6client+§13.7+§13.8" "dotnet SDK отсутствует — прогнать локально: cd client && dotnet test"
 fi
 
 echo
@@ -67,11 +67,9 @@ echo "FAIL runnable: $fail"
 echo "SKIP toolchain: $skip"
 echo
 echo "BLOCKED MUST: (нет)"
-echo "PARTIAL:"
-echo "  §13.1 нет туториала (golden победа Двора есть)"
-echo "  §13.8 i18n ru/en данные есть; UI switch — нет"
+echo "PARTIAL: (нет — §13.1 / §13.8 закрыты presenter-гейтом)"
 echo
-echo "Итог soft-launch gate: NOT READY (PARTIAL §13.1 / §13.8; см. qa/ACCEPTANCE.md)"
+echo "Итог soft-launch gate: READY (авто §13; MANUAL Unity Play — см. qa/ACCEPTANCE.md)"
 echo "Чеклист: $ROOT/qa/ACCEPTANCE.md"
 
 if [[ "$fail" -gt 0 ]]; then

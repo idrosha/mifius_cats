@@ -5,7 +5,7 @@ using Mythfel.Client.UI;
 namespace Mythfel.Client.Meta;
 
 /// <summary>
-/// Hub presenter (§9 Game/Meta): tab navigation + feature-flag «Скоро» sheets.
+/// Hub presenter (§9 Game/Meta): tab navigation + feature-flag «Скоро» sheets + RU/EN switch.
 /// No fake farm/clan-boss gameplay (§1 MUST NOT / skill client).
 /// </summary>
 public sealed class HubPresenter
@@ -19,6 +19,8 @@ public sealed class HubPresenter
         (HubTabId.Clans, "hub.tab.clans"),
         (HubTabId.More, "hub.tab.more"),
     };
+
+    private static readonly string[] LocaleCodes = { "ru", "en" };
 
     private readonly ILiveOpsSource _liveOps;
     private readonly ILocCatalog _loc;
@@ -68,6 +70,16 @@ public sealed class HubPresenter
         _view.Render(State);
     }
 
+    /// <summary>
+    /// RU/EN переключение (§13.8). Re-resolves tab/Soon labels via <see cref="ILocCatalog"/>.
+    /// </summary>
+    public void SetLocale(string locale)
+    {
+        _loc.SetLocale(locale);
+        State = BuildState(State.ActiveTab, State.ActiveSoonSheet);
+        _view.Render(State);
+    }
+
     private HubViewState BuildState(HubTabId active, SoonSheetId? soon)
     {
         var flags = _liveOps.Current.FeatureFlags;
@@ -98,6 +110,19 @@ public sealed class HubPresenter
             soonBodyKey = "hub.soon.body";
         }
 
+        var localeOptions = new List<LocaleOptionView>(LocaleCodes.Length);
+        foreach (var code in LocaleCodes)
+        {
+            var nameKey = $"locale.name.{code}";
+            localeOptions.Add(new LocaleOptionView
+            {
+                Locale = code,
+                NameKey = nameKey,
+                DisplayName = _loc.Resolve(nameKey),
+                IsActive = code == _loc.CurrentLocale,
+            });
+        }
+
         return new HubViewState
         {
             ActiveTab = active,
@@ -107,6 +132,8 @@ public sealed class HubPresenter
             SoonTitle = soonTitleKey is null ? null : _loc.Resolve(soonTitleKey),
             SoonBodyKey = soonBodyKey,
             SoonBody = soonBodyKey is null ? null : _loc.Resolve(soonBodyKey),
+            CurrentLocale = _loc.CurrentLocale,
+            LocaleOptions = localeOptions,
         };
     }
 }

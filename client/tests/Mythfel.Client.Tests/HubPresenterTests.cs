@@ -112,6 +112,8 @@ public class HubPresenterTests
         ["hub.soon.farm.title"] = Dict("Ферма", "Farm"),
         ["hub.soon.nursery.title"] = Dict("Питомник", "Nursery"),
         ["hub.soon.body"] = Dict("Скоро", "Coming soon"),
+        ["locale.name.ru"] = Dict("Русский", "Russian"),
+        ["locale.name.en"] = Dict("English", "English"),
     });
 
     private static IReadOnlyDictionary<string, string> Dict(string ru, string en) =>

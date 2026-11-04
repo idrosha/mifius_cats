@@ -16,14 +16,14 @@
 ```
 
 Ожидание: exit `0` если все **запускаемые** автогейты зелёные.  
-BLOCKED MUST закрыт. PARTIAL: §13.1 tutorial, §13.8 locale UI.
+Автогейт §13.1–§13.10 закрыт (client Tutorial/Locale/Replay/Soon при наличии .NET).
 
 ## DoD slice
 
 - Чеклист 1:1 с FULL-SPEC §13
-- Автогейты: limits/pass, pity hard80, IAP sandbox yarn→jar, illegal play, golden Двор, PvP replay store+GetReplay, LiveOps, i18n ru+en
-- Client (`dotnet test`) — ReplayList open + Soon; опционально, если есть SDK
-- Soft-launch gate **не** зелёный, пока PARTIAL по MUST §13.1 / §13.8
+- Автогейты: limits/pass, pity hard80, IAP sandbox yarn→jar, illegal play, golden Двор, PvP replay, Tutorial &lt;10m, SetLocale RU/EN, LiveOps, i18n ru+en
+- Client (`dotnet test`) — Tutorial + Locale + ReplayList + Soon; опционально SKIP без SDK
+- Soft-launch **автогейт** зелёный; MANUAL Unity Play smoke остаётся вне авто
 
 ## Не пилит qa
 

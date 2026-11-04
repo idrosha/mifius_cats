@@ -7,6 +7,13 @@ namespace Mythfel.Client.Net;
 /// </summary>
 public interface IBattleNetClient
 {
+    /// <summary>CreatePvE — stageId, team, potions → first stateDiff (§8.2).</summary>
+    Task<StateDiff> CreatePvEAsync(
+        string stageId,
+        IReadOnlyList<string> team,
+        IReadOnlyList<string>? potions = null,
+        CancellationToken ct = default);
+
     Task<StateDiff> SubmitActionAsync(string battleId, BattleAction action, CancellationToken ct = default);
 
     /// <summary>List last ≤10 PvP for local user (§3.6 / §6 ReplayList).</summary>
