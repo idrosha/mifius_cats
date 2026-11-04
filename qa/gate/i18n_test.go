@@ -7,7 +7,7 @@ import (
 	"testing"
 )
 
-// §13.8 — контентные строки SL должны иметь и ru, и en (переключатель UI — PARTIAL).
+// §13.8 — контентные строки SL должны иметь и ru, и en (UI switch: HubPresenter.SetLocale).
 
 func TestI18n_AllKeysHaveRuAndEn(t *testing.T) {
 	root := repoRoot(t)

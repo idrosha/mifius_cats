@@ -18,10 +18,11 @@ SSOT:   $ROOT/docs/FULL-SPEC.md
   ✓ qa §13 — чеклист + ./qa/run-acceptance.sh
   ✓ backend — pity hard80 + IAP sandbox yarn→jar (§13.4 / §13.9)
   ✓ battle+client — PvP replay store / GetReplay / ReplayList open (§13.6)
+  ✓ client — TutorialPresenter §13.1 + HubPresenter.SetLocale §13.8
 
-Дальше (docs/AGENTS.md / §14 Phase 3→4):
-  закрыть PARTIAL §13.1 tutorial + §13.8 locale UI
-  → затем soft launch (§13 зелёный)
+Дальше (docs/AGENTS.md / §14 Phase 4 Soft launch):
+  MANUAL Unity Play smoke (§13 на устройстве) + прод wiring (IAP verify, LiveOps CDN)
+  → soft launch на ограниченном гео
 
 Шаблон промпта: см. docs/AGENTS.md раздел «Как ставить задачу»
 Харнесс: ./qa/run-acceptance.sh   чеклист: qa/ACCEPTANCE.md

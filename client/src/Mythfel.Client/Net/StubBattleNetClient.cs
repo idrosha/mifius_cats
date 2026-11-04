@@ -11,6 +11,9 @@ public sealed class StubBattleNetClient : IBattleNetClient
     private readonly List<ReplayListItem> _replays = new();
     private readonly Dictionary<string, IReadOnlyList<ReplayFrame>> _framesByBattle = new();
 
+    public string? LastCreatePvEStageId { get; private set; }
+    public IReadOnlyList<string>? LastCreatePvETeam { get; private set; }
+
     public void Enqueue(StateDiff diff) => _responses.Enqueue(diff);
 
     public void SetReplayList(IEnumerable<ReplayListItem> items)
@@ -21,6 +24,30 @@ public sealed class StubBattleNetClient : IBattleNetClient
 
     public void SetReplay(string battleId, IReadOnlyList<ReplayFrame> frames) =>
         _framesByBattle[battleId] = frames;
+
+    public Task<StateDiff> CreatePvEAsync(
+        string stageId,
+        IReadOnlyList<string> team,
+        IReadOnlyList<string>? potions = null,
+        CancellationToken ct = default)
+    {
+        if (string.IsNullOrEmpty(stageId))
+            throw new ArgumentException("stageId required", nameof(stageId));
+        if (team is null || team.Count == 0)
+            throw new ArgumentException("team required", nameof(team));
+
+        LastCreatePvEStageId = stageId;
+        LastCreatePvETeam = team.ToList();
+        _ = potions;
+
+        if (_responses.Count == 0)
+        {
+            throw new InvalidOperationException(
+                "StubBattleNetClient has no queued stateDiff; enqueue server payloads only.");
+        }
+
+        return Task.FromResult(_responses.Dequeue());
+    }
 
     public Task<StateDiff> SubmitActionAsync(string battleId, BattleAction action, CancellationToken ct = default)
     {
