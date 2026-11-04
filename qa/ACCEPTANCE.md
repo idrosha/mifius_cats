@@ -20,10 +20,11 @@
 ## Итог soft-launch gate
 
 **Готов по автогейту §13.1–§13.10** (client slices при наличии .NET: Tutorial / Locale / Replay / Soon).  
-Остаётся вне автогейта: MANUAL Unity Play smoke (туториал на устройстве), прод IAP verify, remote LiveOps CDN wiring — не BLOCKED MUST по текущему чеклисту.
+Phase 4 in-repo: `./qa/run-soft-launch.sh` (CDN stub + geo example). MANUAL device — `qa/DEVICE_SMOKE.md`.  
+Вне репо: прод IAP verify, signed LiveOps CDN keys, store listing geo — blockers реального launch.
 
 Out-of-scope SL (§1 MUST NOT — клан-босс / ферма / питомник геймплей) → не баги; «Скоро» (§13.7) ожидаемо.
 
 ## Ручной прогон (когда появится клиент Play)
 
-См. `ЗАПУСК.md` §3. Для каждого PASS выше — smoke на устройстве. Баги → `BUG_TEMPLATE.md` с seed/replay.
+См. `ЗАПУСК.md` Step D + `qa/DEVICE_SMOKE.md`. Баги → `BUG_TEMPLATE.md` с seed/replay.

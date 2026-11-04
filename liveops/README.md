@@ -20,9 +20,11 @@ Versioned remote config + JSON Schema. SSOT: `docs/FULL-SPEC.md` §7.4, §8.4; s
 cd liveops
 go test ./...
 go run ./cmd/validate
+go run ./cmd/cdn-stub -geo soft-launch/geo_allowlist.example.json
+# → http://localhost:8090/v1/liveops.json  (X-LiveOps-Signature: stub)
 ```
 
-Changelog: одна строка на изменение — `CHANGELOG.md`.
+Soft launch ops: `soft-launch/README.md`. Changelog: одна строка на изменение — `CHANGELOG.md`.
 
 ## DoD slice
 
@@ -30,7 +32,8 @@ Changelog: одна строка на изменение — `CHANGELOG.md`.
 - `config/v1/liveops.json` валиден
 - CI/`go test` падает на unknown `card_id` / неполную схему
 - Без выдуманных shop SKU/цен
+- CDN stub + example geo allowlist (Phase 4); без production signing keys
 
-## Не в этом PR
+## Не в дереве liveops
 
-CDN hosting, client LiveOps fetch, wiring battle/backend к remote JSON, hub/shop UI.
+Production CDN keys, store credentials, priced shop catalog, Unity Addressables.

@@ -1,0 +1,43 @@
+# Mythfel Phase 4 — soft launch in-repo gate (§13 + CDN stub + geo example).
+# No production secrets / store credentials required.
+name: mythfel-soft-launch
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "battle/**"
+      - "backend/**"
+      - "liveops/**"
+      - "client/**"
+      - "content/**"
+      - "qa/**"
+      - "docs/FULL-SPEC.md"
+      - "ЗАПУСК.md"
+      - ".github/workflows/mythfel-soft-launch.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "battle/**"
+      - "backend/**"
+      - "liveops/**"
+      - "client/**"
+      - "content/**"
+      - "qa/**"
+      - "docs/FULL-SPEC.md"
+      - "ЗАПУСК.md"
+      - ".github/workflows/mythfel-soft-launch.yml"
+
+jobs:
+  soft-launch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.22.x"
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+      - name: Phase 4 soft-launch harness
+        run: ./qa/run-soft-launch.sh

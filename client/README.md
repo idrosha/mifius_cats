@@ -9,7 +9,7 @@ Unity-oriented **presenter** слой. Source of truth боя — `battle/` (§3
 ```
 Assets/Game/Battle/   ← BattlePresenter, StateDiff, ViewState
 Assets/Game/Meta/     ← HubPresenter, ShopPresenter, ReplayListPresenter, TutorialPresenter, Soon sheets
-Assets/Game/LiveOps/  ← LiveOpsConfig mirror + ILiveOpsSource
+Assets/Game/LiveOps/  ← LiveOpsConfig + Stub/HttpLiveOpsSource + SoftLaunchGeo
 Assets/Game/Net/      ← IBattleNetClient stubs (CreatePvE / SubmitAction / ListReplays / GetReplay)
 Assets/Game/Data/     ← Loc (name_key) + CurrentLocale / SetLocale
 Assets/Game/UI/       ← IBattleHudView / IHubView / IShopView / IReplayListView / ITutorialView
@@ -24,6 +24,7 @@ Assets/Game/UI/       ← IBattleHudView / IHubView / IShopView / IReplayListVie
 - `TutorialPresenter` — starters → CreatePvE `test_yard_1` → `p1_win` &lt;10 мин (§13.1); `tutorial_step` ids
 - `ShopPresenter` биндит `shop.offers` из LiveOps; пустой каталог → пустой UI (без выдуманных цен)
 - `ReplayListPresenter` — список ≤10 PvP + `OpenAsync` через GetReplay frames (§13.6)
+- `HttpLiveOpsSource` — Boot fetch с CDN stub (`X-LiveOps-Signature: stub`); `SoftLaunchGeo` + `soft_launch_flag` (§11/§14)
 - Нет локального расчёта урона/наград/цен
 - Локализация через `name_key`, не хардкод RU
 - `dotnet test` зелёный
@@ -35,4 +36,4 @@ dotnet test
 
 ## Не в этом PR
 
-Nakama auth, Addressables-арт, hotkeys PC, фейковый геймплей фермы/клан-босса, IAP checkout UI.
+Nakama auth, Addressables-арт, hotkeys PC, фейковый геймплей фермы/клан-босса, IAP checkout UI, production CDN signature verify.
