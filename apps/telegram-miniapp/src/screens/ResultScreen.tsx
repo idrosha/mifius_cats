@@ -10,19 +10,25 @@ type Props = {
 };
 
 export function ResultScreen({ result, avatar, commitError, onMap, onMenu }: Props) {
+  const wrong = result.totalQuestions - result.correctCount;
   return (
     <section className="screen result-screen">
+      <div className="travel-atmosphere" aria-hidden="true" />
       <header className="result-header">
-        <p className="brand">Мир Квизов</p>
+        <p className="brand-kicker">Мир Квизов</p>
         <h1>Уровень пройден</h1>
-        <AvatarView loadout={avatar} size="lg" />
+        <AvatarView loadout={avatar} size="lg" label="Путешественник" />
       </header>
       <dl className="result-stats">
         <div>
           <dt>Верных</dt>
-          <dd>
+          <dd className="ok">
             {result.correctCount}/{result.totalQuestions}
           </dd>
+        </div>
+        <div>
+          <dt>Ошибки</dt>
+          <dd className="error">{wrong}</dd>
         </div>
         <div>
           <dt>Очки</dt>

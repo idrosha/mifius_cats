@@ -25,7 +25,7 @@ import { ChampionshipResultScreen } from "./screens/ChampionshipResultScreen";
 type Route =
   | { name: "menu" }
   | { name: "map" }
-  | { name: "play"; session: LevelSession; locationTitle: string }
+  | { name: "play"; session: LevelSession; locationTitle: string; locationArtClass: string }
   | { name: "result"; result: LevelRunResult; commitError: string | null }
   | { name: "shop" }
   | { name: "account" }
@@ -132,6 +132,7 @@ export function App({ boot }: Props) {
       name: "play",
       session,
       locationTitle: loc?.title ?? "Уровень",
+      locationArtClass: loc?.artClass ?? "loc-egypt",
     });
   }
 
@@ -152,7 +153,14 @@ export function App({ boot }: Props) {
   );
 
   if (route.name === "menu") {
-    return <MenuScreen displayName={displayName} onSelect={onMenuSelect} />;
+    return (
+      <MenuScreen
+        displayName={displayName}
+        avatar={avatar}
+        onSelect={onMenuSelect}
+        onAvatar={() => setRoute({ name: "account" })}
+      />
+    );
   }
   if (route.name === "stub") {
     return <StubScreen title={route.title} onBack={() => setRoute({ name: "menu" })} />;
@@ -273,6 +281,7 @@ export function App({ boot }: Props) {
         totalPoints={totalPoints}
         onBack={() => setRoute({ name: "menu" })}
         onPlayLevel={startLevel}
+        onAvatar={() => setRoute({ name: "account" })}
       />
     );
   }
@@ -282,6 +291,7 @@ export function App({ boot }: Props) {
         session={route.session}
         avatar={avatar}
         locationTitle={route.locationTitle}
+        locationArtClass={route.locationArtClass}
         onFinished={(result) => {
           void finishPlay(result);
         }}

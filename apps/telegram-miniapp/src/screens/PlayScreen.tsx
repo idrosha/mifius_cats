@@ -15,6 +15,7 @@ type Props = {
   session: LevelSession;
   avatar: AvatarLoadout;
   locationTitle: string;
+  locationArtClass?: string;
   onFinished: (result: LevelRunResult) => void;
 };
 
@@ -22,9 +23,10 @@ function questionKey(q: Question | null, index: number): string {
   return q ? `${q.id}:${index}` : `done:${index}`;
 }
 
-export function PlayScreen({ session, avatar, locationTitle, onFinished }: Props) {
+export function PlayScreen({ session, avatar, locationTitle, locationArtClass = "loc-egypt", onFinished }: Props) {
   const [, tick] = useReducer((n: number) => n + 1, 0);
   const [multiPick, setMultiPick] = useState<string[]>([]);
+  const [singlePick, setSinglePick] = useState<string | null>(null);
   const state = session.getState();
   const question = session.currentQuestion();
   const remainingMs = session.remainingMs();
@@ -38,6 +40,7 @@ export function PlayScreen({ session, avatar, locationTitle, onFinished }: Props
       if (session.isTimedOut()) {
         const submit = session.submit(null);
         setMultiPick([]);
+        setSinglePick(null);
         tick();
         if (submit.ok && submit.finished && submit.result) {
           onFinished(submit.result);
@@ -49,11 +52,13 @@ export function PlayScreen({ session, avatar, locationTitle, onFinished }: Props
 
   useEffect(() => {
     setMultiPick([]);
+    setSinglePick(null);
   }, [state.questionIndex]);
 
   function submitAnswer(answer: PlayerAnswer): void {
     const result = session.submit(answer);
     setMultiPick([]);
+    setSinglePick(null);
     tick();
     if (result.ok && result.finished && result.result) {
       onFinished(result.result);
@@ -70,40 +75,54 @@ export function PlayScreen({ session, avatar, locationTitle, onFinished }: Props
 
   return (
     <section className="screen play-screen" key={questionKey(question, state.questionIndex)}>
-      <header className="play-hud">
-        <div className="play-hud-text">
-          <p className="brand">Мир Квизов</p>
-          <p className="play-meta">
-            {locationTitle} · вопрос {state.questionIndex + 1}/30
-          </p>
-          <TimerBar remainingMs={remainingMs} />
-        </div>
-        <AvatarView loadout={avatar} size="sm" />
+      <header className="play-top">
+        <p className="brand-kicker">Мир Квизов</p>
+        <p className="play-meta">
+          {locationTitle} · вопрос {state.questionIndex + 1}/30
+        </p>
+        <TimerBar remainingMs={remainingMs} />
       </header>
 
-      <div className="question-panel">
-        <p className="domain">
-          {question.domain} · {question.difficulty}
-        </p>
-        <h1 className="prompt">{question.prompt}</h1>
-        {question.format === "single_choice" ? (
-          <SingleChoice
-            question={question}
-            onPick={(optionId) => submitAnswer({ format: "single_choice", optionId })}
-          />
-        ) : null}
-        {question.format === "multi_choice" ? (
-          <MultiChoice
-            question={question}
-            selected={multiPick}
-            onToggle={(id) =>
-              setMultiPick((prev) =>
-                prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
-              )
-            }
-            onSubmit={() => submitAnswer({ format: "multi_choice", optionIds: [...multiPick] })}
-          />
-        ) : null}
+      <div className={`play-zone-image ${locationArtClass}`}>
+        <div className="play-zone-image-art" aria-hidden="true" />
+        <div className="play-zone-image-body">
+          <p className="domain">
+            {question.domain} · {question.difficulty}
+          </p>
+          <h1 className="prompt">{question.prompt}</h1>
+        </div>
+      </div>
+
+      <div className="play-zone-bottom">
+        <aside className="play-zone-avatar">
+          <AvatarView loadout={avatar} size="lg" label="Вы" />
+        </aside>
+        <div className="play-zone-answers">
+          {question.format === "single_choice" ? (
+            <SingleChoice
+              question={question}
+              selected={singlePick}
+              onPick={setSinglePick}
+              onSubmit={() => {
+                if (singlePick) {
+                  submitAnswer({ format: "single_choice", optionId: singlePick });
+                }
+              }}
+            />
+          ) : null}
+          {question.format === "multi_choice" ? (
+            <MultiChoice
+              question={question}
+              selected={multiPick}
+              onToggle={(id) =>
+                setMultiPick((prev) =>
+                  prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
+                )
+              }
+              onSubmit={() => submitAnswer({ format: "multi_choice", optionIds: [...multiPick] })}
+            />
+          ) : null}
+        </div>
       </div>
     </section>
   );
@@ -111,18 +130,31 @@ export function PlayScreen({ session, avatar, locationTitle, onFinished }: Props
 
 function SingleChoice({
   question,
+  selected,
   onPick,
+  onSubmit,
 }: {
   question: SingleChoiceQuestion;
+  selected: string | null;
   onPick: (optionId: string) => void;
+  onSubmit: () => void;
 }) {
   return (
-    <div className="options" role="listbox" aria-label="Варианты">
+    <div className="options options-list" role="listbox" aria-label="Варианты">
       {question.options.map((opt) => (
-        <button key={opt.id} type="button" className="option" onClick={() => onPick(opt.id)}>
+        <button
+          key={opt.id}
+          type="button"
+          className={`option ${selected === opt.id ? "is-selected" : ""}`}
+          aria-selected={selected === opt.id}
+          onClick={() => onPick(opt.id)}
+        >
           {opt.label}
         </button>
       ))}
+      <button type="button" className="btn btn-submit" disabled={!selected} onClick={onSubmit}>
+        Ответить
+      </button>
     </div>
   );
 }
@@ -139,7 +171,7 @@ function MultiChoice({
   onSubmit: () => void;
 }) {
   return (
-    <div className="options multi">
+    <div className="options options-list multi">
       <p className="hint">Может быть несколько верных ответов</p>
       {question.options.map((opt) => {
         const on = selected.includes(opt.id);
@@ -155,7 +187,7 @@ function MultiChoice({
           </button>
         );
       })}
-      <button type="button" className="btn" disabled={selected.length === 0} onClick={onSubmit}>
+      <button type="button" className="btn btn-submit" disabled={selected.length === 0} onClick={onSubmit}>
         Ответить
       </button>
     </div>
