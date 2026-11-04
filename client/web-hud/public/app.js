@@ -15,31 +15,103 @@ const CLIENT_REGION = (new URLSearchParams(location.search).get("region") || "RU
 /** Stitch header data-path → app tab */
 const PATH_TO_TAB = {
   "главный-хаб": "hub",
-  "бой-3v3": "battle",
-  "rejd-na-doga": "soon",
-  "рейд-на-дога": "soon",
+  "бой-3v3": "formation", // 3v3 строй = PvE formation (не рейд)
+  "rejd-na-doga": "boss_raid", // легион 12 / рейд на босса
+  "рейд-на-дога": "boss_raid",
   "двор-усадьбы": "yard",
+  мифмир: "yard",
   коллекция: "collection",
   "лавка-и-маркет": "shop",
+  лавка: "shop",
+  маркетплейс: "market",
   "pvp-арена": "pvp",
   "battle-pass": "pass",
-  гильдия: "clans",
-  бой: "battle",
+  гильдия: "guild",
+  бой: "formation",
+  расстановка: "formation",
+  таверна: "tavern",
+  пасс: "pass",
+  pvp: "pvp",
+  ферма: "farm",
 };
 
-const TABS = [
-  { id: "hub", key: "hub.tab.hub" },
-  { id: "yard", key: "hub.tab.yard" },
-  { id: "formation", key: "hub.tab.formation" },
-  { id: "pvp", key: "hub.tab.pvp" },
-  { id: "collection", key: "hub.tab.collection" },
-  { id: "shop", key: "hub.tab.shop" },
-  { id: "market", key: "hub.tab.market" },
-  { id: "tavern", key: "hub.tab.tavern" },
-  { id: "pass", key: "hub.tab.pass" },
-  { id: "clans", key: "hub.tab.clans", soon: "clan_boss" },
-  { id: "more", key: "hub.tab.more" },
+/**
+ * Primary tabs + adaptive subtabs (game HUD IA).
+ * Route ids stay stable (yard = Мифмир PvE map).
+ */
+const NAV = [
+  {
+    id: "character",
+    key: "nav.primary.character",
+    tabs: [
+      { id: "gear", key: "nav.sub.gear", stub: true },
+      { id: "home", key: "nav.sub.home", stub: true },
+      { id: "farm", key: "nav.sub.farm", soon: "farm" },
+      { id: "collection", key: "nav.sub.collection" },
+      { id: "craft", key: "nav.sub.craft", stub: true },
+      { id: "breeding", key: "nav.sub.breeding", stub: true },
+    ],
+  },
+  {
+    id: "combat",
+    key: "nav.primary.combat",
+    tabs: [
+      { id: "yard", key: "nav.sub.mythmir" },
+      { id: "formation", key: "nav.sub.formation" },
+      { id: "pvp", key: "nav.sub.pvp" },
+      { id: "boss_raid", key: "nav.sub.boss_raid" },
+    ],
+  },
+  {
+    id: "trade",
+    key: "nav.primary.trade",
+    tabs: [
+      { id: "tavern", key: "nav.sub.tavern" },
+      { id: "shop", key: "nav.sub.shop" },
+      { id: "market", key: "nav.sub.market" },
+      { id: "auction", key: "nav.sub.auction", stub: true },
+    ],
+  },
+  {
+    id: "guilds",
+    key: "nav.primary.guilds",
+    tabs: [{ id: "guild", key: "nav.sub.guild", soon: "clan_boss" }],
+  },
+  {
+    id: "chats",
+    key: "nav.primary.chats",
+    tabs: [
+      { id: "chat_global", key: "nav.sub.chat_global", stub: true },
+      { id: "chat_guild", key: "nav.sub.chat_guild", stub: true },
+      { id: "chat_friends", key: "nav.sub.chat_friends", stub: true },
+    ],
+  },
+  {
+    id: "pass",
+    key: "nav.primary.pass",
+    tabs: [{ id: "pass", key: "nav.sub.pass" }],
+  },
+  {
+    id: "ratings",
+    key: "nav.primary.ratings",
+    tabs: [
+      { id: "rating_players", key: "nav.sub.rating_players", stub: true },
+      { id: "rating_guilds", key: "nav.sub.rating_guilds", stub: true },
+    ],
+  },
 ];
+
+/** Flat list kept for verify-nav id: "…" probes */
+const TABS = NAV.flatMap((g) => g.tabs.map((t) => ({ ...t, group: g.id }))).concat([
+  { id: "hub", key: "hub.tab.hub", group: "hub" },
+]);
+
+function findNavForTab(tabId) {
+  for (const g of NAV) {
+    if (g.tabs.some((t) => t.id === tabId)) return g;
+  }
+  return null;
+}
 
 const DRINKS = [
   { id: "fresh_milk", nameKey: "tavern.drink.milk", effectKey: "tavern.drink.milk.fx", price: 20 },
@@ -67,6 +139,7 @@ const state = {
   liveOps: null,
   liveOpsMeta: {},
   tab: "hub",
+  primary: "combat",
   soon: null,
   battle: null,
   lastResult: null,
@@ -166,35 +239,38 @@ function logicalViewId() {
   if (state.battle?.result && state.lastResult) {
     return state.lastResult.result === "p1_win" ? "viewResultWin" : "viewResultLose";
   }
-  if (state.soon && (state.tab === "clans" || state.tab === "more")) {
-    if (state.soon === "clan_boss") return "viewSoonClan";
-    if (state.soon === "nursery") return "viewSoon";
-    return "viewSoonFarm";
+  if (state.soon === "clan_boss" && (state.tab === "guild" || state.tab === "clans")) {
+    return "viewSoonClan";
   }
-  switch (state.tab) {
-    case "hub":
-      return "viewHub";
-    case "yard":
-      return "viewYard";
-    case "formation":
-      return "viewFormation";
-    case "battle":
-      return "viewBattle";
-    case "pvp":
-      return "viewPvp";
-    case "collection":
-      return "viewCollection";
-    case "shop":
-      return "viewShop";
-    case "market":
-      return "viewMarket";
-    case "tavern":
-      return "viewTavern";
-    case "pass":
-      return "viewPass";
-    default:
-      return "viewHub";
-  }
+  if (state.soon === "farm" && state.tab === "farm") return "viewSoonFarm";
+  if (state.soon === "nursery" && state.tab === "breeding") return "viewSoon";
+
+  const map = {
+    hub: "viewHub",
+    yard: "viewYard",
+    formation: "viewFormation",
+    boss_raid: "viewBossRaid",
+    battle: "viewBattle",
+    pvp: "viewPvp",
+    collection: "viewCollection",
+    shop: "viewShop",
+    market: "viewMarket",
+    tavern: "viewTavern",
+    pass: "viewPass",
+    gear: "viewGear",
+    home: "viewHome",
+    craft: "viewCraft",
+    breeding: "viewBreeding",
+    farm: "viewSoonFarm",
+    auction: "viewAuction",
+    guild: "viewGuild",
+    chat_global: "viewChatGlobal",
+    chat_guild: "viewChatGuild",
+    chat_friends: "viewChatFriends",
+    rating_players: "viewRatingPlayers",
+    rating_guilds: "viewRatingGuilds",
+  };
+  return map[state.tab] || "viewHub";
 }
 
 function wireModeFor(viewId) {
@@ -204,6 +280,15 @@ function wireModeFor(viewId) {
   if (viewId === "viewSoonFarm" || viewId === "viewSoonClan" || viewId === "viewSoon") {
     return "soon";
   }
+  const special = {
+    viewBossRaid: "boss_raid",
+    viewChatGlobal: "chat_global",
+    viewChatGuild: "chat_guild",
+    viewChatFriends: "chat_friends",
+    viewRatingPlayers: "rating_players",
+    viewRatingGuilds: "rating_guilds",
+  };
+  if (special[viewId]) return special[viewId];
   return viewId.replace(/^view/, "").toLowerCase();
 }
 
@@ -227,19 +312,31 @@ function updateWireDock() {
   }
 }
 
-function navigate(tab, { soon = null, clearBattle = true } = {}) {
+function navigate(tab, { soon = null, clearBattle = true, primary = null } = {}) {
   if (clearBattle) {
     state.battle = null;
     state.selectedKeep = null;
   }
+  // legacy aliases
+  if (tab === "clans") tab = "guild";
+  if (tab === "more") {
+    tab = "farm";
+    soon = soon || "farm";
+  }
+  if (tab === "soon") {
+    tab = "farm";
+    soon = "farm";
+  }
+  if (tab === "battle") tab = "formation";
+
   state.tab = tab;
   state.soon = soon;
-  if (tab === "clans") state.soon = "clan_boss";
-  if (tab === "more" && !state.soon) state.soon = "farm";
-  if (tab === "soon") {
-    state.tab = "more";
-    state.soon = "farm";
-  }
+  if (tab === "guild") state.soon = "clan_boss";
+  if (tab === "farm") state.soon = "farm";
+  if (tab === "breeding" && !state.soon) state.soon = null;
+
+  const group = findNavForTab(tab);
+  state.primary = primary || group?.id || state.primary || "combat";
   renderAll();
 }
 
@@ -275,36 +372,51 @@ function renderCurrency() {
 }
 
 function renderTabs() {
-  const flags = featureFlags();
-  const targets = [$("appTabs"), $("hubTabs")].filter(Boolean);
-  for (const nav of targets) {
-    nav.innerHTML = "";
-    const battleActive = !!state.battle && !state.lastResult;
-    for (const tab of TABS) {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.textContent = t(tab.key, tab.id);
-      b.dataset.tab = tab.id;
-      const isSoon =
-        (tab.id === "clans" && !flags.clan_boss_gameplay) || tab.id === "more";
-      if (isSoon) b.classList.add("soon");
-      const active =
-        !battleActive &&
-        ((state.tab === tab.id && !state.soon) ||
-          (tab.id === "clans" && state.soon === "clan_boss") ||
-          (tab.id === "more" && (state.soon === "farm" || state.soon === "nursery")));
-      b.classList.toggle("active", active);
-      b.addEventListener("click", () => {
-        if (tab.id === "clans" && !flags.clan_boss_gameplay) {
-          navigate("clans", { soon: "clan_boss" });
-        } else if (tab.id === "more") {
-          navigate("more", { soon: state.soon === "nursery" ? "nursery" : "farm" });
-        } else {
-          navigate(tab.id);
-        }
+  const primaryEl = $("appTabs");
+  const subEl = $("appSubTabs");
+  const hubTabs = $("hubTabs");
+  if (hubTabs) hubTabs.innerHTML = "";
+
+  if (!primaryEl || !subEl) return;
+
+  const battleActive = !!state.battle && !state.battle.result;
+  const activeGroup =
+    findNavForTab(state.tab) ||
+    NAV.find((g) => g.id === state.primary) ||
+    NAV.find((g) => g.id === "combat");
+  if (state.tab !== "hub") state.primary = activeGroup.id;
+
+  primaryEl.innerHTML = "";
+  for (const group of NAV) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = t(group.key, group.id);
+    b.dataset.primary = group.id;
+    b.classList.toggle("active", !battleActive && group.id === state.primary);
+    b.addEventListener("click", () => {
+      const first = group.tabs[0];
+      navigate(first.id, {
+        soon: first.soon || null,
+        primary: group.id,
       });
-      nav.appendChild(b);
-    }
+    });
+    primaryEl.appendChild(b);
+  }
+
+  subEl.innerHTML = "";
+  for (const tab of activeGroup.tabs) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.textContent = t(tab.key, tab.id);
+    b.dataset.tab = tab.id;
+    if (tab.stub) b.classList.add("stub");
+    if (tab.soon) b.classList.add("soon");
+    const active = !battleActive && state.tab === tab.id;
+    b.classList.toggle("active", active);
+    b.addEventListener("click", () => {
+      navigate(tab.id, { soon: tab.soon || null, primary: activeGroup.id });
+    });
+    subEl.appendChild(b);
   }
 }
 
@@ -334,20 +446,31 @@ function softNavigateFromLabel(label) {
   const soft = [
     ["в поход", () => navigate("formation")],
     ["в бой pvp", () => navigate("pvp")],
-    ["к рейду", () => navigate("more", { soon: "farm" })],
+    ["к рейду", () => navigate("boss_raid")],
+    ["рейд", () => navigate("boss_raid")],
+    ["легион", () => navigate("boss_raid")],
     ["главный хаб", () => navigate("hub")],
+    ["мифмир", () => navigate("yard")],
     ["двор", () => navigate("yard")],
     ["коллекция", () => navigate("collection")],
     ["лавка", () => navigate("shop")],
     ["маркет", () => navigate("market")],
+    ["аукцион", () => navigate("auction")],
     ["таверна", () => navigate("tavern")],
     ["pvp", () => navigate("pvp")],
     ["арена", () => navigate("pvp")],
     ["пасс", () => navigate("pass")],
     ["расстанов", () => navigate("formation")],
-    ["клан", () => navigate("clans", { soon: "clan_boss" })],
-    ["ферма", () => navigate("more", { soon: "farm" })],
-    ["питомник", () => navigate("more", { soon: "nursery" })],
+    ["строй", () => navigate("formation")],
+    ["гильдия", () => navigate("guild", { soon: "clan_boss" })],
+    ["клан", () => navigate("guild", { soon: "clan_boss" })],
+    ["ферма", () => navigate("farm", { soon: "farm" })],
+    ["питомник", () => navigate("breeding")],
+    ["скрещиван", () => navigate("breeding")],
+    ["крафт", () => navigate("craft")],
+    ["экипиров", () => navigate("gear")],
+    ["чат", () => navigate("chat_global")],
+    ["рейтинг", () => navigate("rating_players")],
   ];
   const low = label.toLowerCase();
   for (const [needle, fn] of soft) {
@@ -369,10 +492,7 @@ function bindStitchNav(root) {
     const tab = PATH_TO_TAB[path];
     if (tab) {
       e.preventDefault();
-      if (tab === "clans") navigate("clans", { soon: "clan_boss" });
-      else if (tab === "soon") navigate("more", { soon: "farm" });
-      else if (tab === "battle") navigate("formation");
-      else navigate(tab);
+      navigate(tab);
       return;
     }
     const label = (a.textContent || "").trim();
@@ -857,6 +977,8 @@ function renderAll() {
     case "formation":
       renderFormation();
       break;
+    case "boss_raid":
+      break;
     case "pvp":
       $("pvpEyebrow").textContent = t("hub.tab.pvp");
       $("pvpTitle").textContent = t("hub.tab.pvp");
@@ -882,12 +1004,22 @@ function renderAll() {
     case "pass":
       renderPass();
       break;
+    case "farm":
+      state.soon = "farm";
+      renderSoon();
+      break;
+    case "guild":
+      state.soon = "clan_boss";
+      // prefer painted guild stub; Soon sheet still available via wire
+      break;
     default:
-      renderHub();
+      // stub screens are self-painted Stitch placeholders
+      break;
   }
 }
 
 function wireButtons() {
+  $("btnBrandHub")?.addEventListener("click", () => navigate("hub"));
   $("btnTutorial").addEventListener("click", () => startTutorial());
   $("btnYardBattle").addEventListener("click", () => startYard(false));
   $("btnYardAuto").addEventListener("click", () => startYard(true));
@@ -895,6 +1027,8 @@ function wireButtons() {
   $("btnFormationBattle").addEventListener("click", () => startYard(false));
   $("btnFormationYard").addEventListener("click", () => navigate("yard"));
   $("btnFormationTavern").addEventListener("click", () => navigate("tavern"));
+  $("btnBossRaidHub")?.addEventListener("click", () => navigate("hub"));
+  $("btnBossRaidFormation")?.addEventListener("click", () => navigate("formation"));
   $("btnEndTurn").addEventListener("click", () => submitAction({ kind: "endTurn" }));
   $("btnKeep").addEventListener("click", () => {
     if (!state.battle?.canKeep || state.battle?.result) return;
@@ -933,7 +1067,7 @@ function wireButtons() {
   $("btnPvpFormation").addEventListener("click", () => navigate("formation"));
   $("btnRefreshReplays").addEventListener("click", () => refreshReplays());
   $("btnColFormation").addEventListener("click", () => navigate("formation"));
-  $("btnColForge").addEventListener("click", () => navigate("more", { soon: "farm" }));
+  $("btnColForge").addEventListener("click", () => navigate("farm", { soon: "farm" }));
   $("btnGacha1").addEventListener("click", () => toast(t("shop.gacha.stub", "Гача stub")));
   $("btnGacha10").addEventListener("click", () => toast(t("shop.gacha.stub", "Гача stub")));
   $("btnShopToTavern").addEventListener("click", () => navigate("tavern"));
@@ -970,6 +1104,7 @@ async function main() {
     bp.textContent = battleOk ? "Battle :8081 OK" : "Battle DOWN";
     bp.className = `status-pill ${battleOk ? "ok" : "bad"}`;
     state.tab = "hub";
+    state.primary = "combat";
     renderAll();
   } catch (err) {
     $("bootMsg").textContent = `Boot fail: ${err.message}. Подними CDN :8090 и battle :8081 (см. README).`;

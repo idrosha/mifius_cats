@@ -48,8 +48,9 @@ cd client/web-hud && node server.mjs
 |---|---|
 | Boot | LiveOps + battle healthz → Hub |
 | Hub | Stitch header `data-path` + wire dock → Yard / Formation / PvP / Collection / Shop / Market / Tavern / Pass / Soon |
-| Двор | → Formation / Battle / Tutorial / AutoPlay |
-| Расстановка | → Battle / Yard / Tavern |
+| Мифмир (PvE map) | → Formation / Battle / Tutorial / AutoPlay |
+| Расстановка 3v3 | → Battle / Мифмир / Tavern |
+| Рейд / легион 12 | boss_raid (мок; не путать с 3v3) |
 | Battle | stateDiff; итог → Result (win/lose Stitch) |
 | Result | Hub / Yard / Retry / Formation |
 | Таверна / Маркет / Лавка / Пасс / PvP | как в SCREEN-MAP |

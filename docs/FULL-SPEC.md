@@ -19,7 +19,7 @@
 | Платформы | Mobile (iOS, Android), PC (**Steam** + desktop), Web — **один** Unity-проект |
 | Кросс-плей | Игроки матчятся **независимо от клиента** (mobile / web / desktop). Общий пул матчмейкинга; сегментации PvP по платформе нет |
 | North Star | Кланы + рейтинг кланов |
-| Soft launch | Двор + PvP (+ магазин/пасс/гача). Ферма, питомник, клан-босс = вкладка «Скоро» |
+| Soft launch | Мифмир (PvE, бывш. Двор) + PvP (+ магазин/пасс/гача). Ферма, питомник, клан-босс = вкладка «Скоро» |
 | Домены | `mifous.ru`, `mythfel.com` (зарегистрировать) |
 | Bundle | `com.mythfel.game` |
 
@@ -37,7 +37,7 @@
 ### MUST
 - Аккаунт (device + optional email/social later)
 - 3 стартовых котика, коллекция 15 слотов / 5 пресетов
-- Бой 3v3 vs бот (Двор) и vs игрок (Дуэли + Арена 4 нед)
+- Бой 3v3 vs бот (Мифмир / PvE) и vs игрок (Дуэли + Арена 4 нед)
 - Последовательные ходы, 4 карты/котик, пассивы глаз/ушей
 - 5 ролей × 6 стихий (контент не обязан покрыть все 30 пар)
 - Миски: 3 PvE / 5 PvP в день; пасс ×2
@@ -164,9 +164,11 @@ Unused energy/cards не переносятся (кроме Keep).
 
 ## §4. Режимы
 
-### §4.1 Двор (PvE)
+### §4.1 Мифмир (PvE; бывш. «Двор»)
 Graph глав 1–3 на SL. Cost: 1 bowl. Rewards: fish, xp, scrap, jar keys.  
-AI: scripted decks per node.
+AI: scripted decks per node.  
+UI name: **Мифмир** (кампания / карта). Route id `yard` / `YardMap` сохраняется для совместимости.  
+Отдельно: рейд/легион 8–12 (данжи на боссов) ≠ строй 3v3.
 
 ### §4.2 Дуэли
 Unranked/points. Unlock after `pve_unlock_n=3`. Cost: 1 pvp ticket.
@@ -204,8 +206,8 @@ Server validates all purchases.
 
 1. `Boot` → patch/LiveOps fetch  
 2. `Title` / login  
-3. `Hub` tabs: Двор · PvP · Коллекция · Магазин · Кланы(soon) · Ещё  
-4. `YardMap` → `Battle`  
+3. `Hub` chrome: primary (Персонаж · Бои · Торговля · Гильдии · Чаты · Боевой пасс · Рейтинги) + subtabs; PvE map = **Мифмир**  
+4. `YardMap` (Мифмир) → Formation 3v3 → `Battle`; рейд/легион — отдельный экран  
 5. `PvPMenu` (Дуэли/Арена) → matchmaking → `Battle`  
 6. `Collection` (cats, presets×5, pendants/bows)  
 7. `Shop` (yarn, jars, pass, potions)  
@@ -326,13 +328,13 @@ Assets/
 - Privacy: GDPR/152-ФЗ baseline (privacy policy URL).  
 - Gacha odds displayed.  
 - Crash-free sessions &gt; 99% soft launch target.  
-- Offline: Двор **optional later**; SL = online required for progress.
+- Offline: Мифмир **optional later**; SL = online required for progress.
 
 ---
 
 ## §13. Acceptance soft launch
 
-1. Туториал → победа Двора &lt;10 мин на стартерах.  
+1. Туториал → победа в Мифмире &lt;10 мин на стартерах.  
 2. 3 PvE + 5 PvP лимиты соблюдаются server-side.  
 3. Пасс ×2 и no-ads.  
 4. Гача pity срабатывает на hard 80.  
