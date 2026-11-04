@@ -1,0 +1,16 @@
+{
+  "cardId": "card_shop_support_water_a_tail",
+  "name_key": "card.shop_support_water_a_tail",
+  "roleGate": "support",
+  "element": "water",
+  "cost": 1,
+  "atk": 2,
+  "shield": 0,
+  "hits": 1,
+  "targetRule": "nearest",
+  "tags": [
+    "buff",
+    "attack"
+  ],
+  "effectOps": []
+}

@@ -15,6 +15,9 @@ const BASE = (process.argv[2] || "http://127.0.0.1:8088").replace(/\/$/, "");
 const REQUIRED_VIEWS = [
   "viewBoot",
   "viewHub",
+  "viewCodex",
+  "viewPractice",
+  "viewLogin",
   "viewYard",
   "viewFormation",
   "viewBossDungeon",
@@ -43,6 +46,9 @@ const REQUIRED_VIEWS = [
 
 const REQUIRED_NAV_IDS = [
   "hub",
+  "codex",
+  "practice",
+  "login",
   "yard",
   "formation",
   "boss_dungeon",
@@ -67,6 +73,11 @@ const REQUIRED_NAV_IDS = [
 ];
 
 const REQUIRED_BUTTONS = [
+  "btnLoginEnter",
+  "btnPracticeBattle",
+  "btnPracticeHub",
+  "btnCodexHub",
+  "btnBossFirstWave",
   "btnYardToFormation",
   "btnFormationBattle",
   "btnFormationYard",
@@ -97,6 +108,9 @@ const REQUIRED_BUTTONS = [
 
 const STITCH_SRC = [
   "hub.html",
+  "codex.html",
+  "practice.html",
+  "login.html",
   "yard.html",
   "formation.html",
   "boss_dungeon.html",
@@ -203,6 +217,12 @@ for (const f of STITCH_SRC) {
 }
 
 ok("Мифмир rename in yard source", fs.readFileSync(path.join(DESIGN, "stitch-src", "yard.html"), "utf8").includes("Мифмир"));
+ok("yard has mission list host", fs.readFileSync(path.join(DESIGN, "stitch-src", "yard.html"), "utf8").includes("mythmirMissionList"));
+ok("tavern milk banner", fs.readFileSync(path.join(DESIGN, "stitch-src", "tavern.html"), "utf8").includes("tavernMilkBanner"));
+ok("shop common cats host", fs.readFileSync(path.join(DESIGN, "stitch-src", "shop.html"), "utf8").includes("shopCommonCats"));
+ok("boss first host", fs.readFileSync(path.join(DESIGN, "stitch-src", "boss_dungeon.html"), "utf8").includes("bossFirstHost"));
+ok("app pvp unlock helper", js.includes("function pvpUnlocked"));
+ok("app practice start", js.includes("function startPractice"));
 
 const transitions = [
   ["hub→yard", 'navigate("yard")'],
@@ -219,6 +239,11 @@ const transitions = [
   ["craft route", 'navigate("craft")'],
   ["chat_global route", 'navigate("chat_global")'],
   ["rating_players route", 'navigate("rating_players")'],
+  ["login route", 'navigate("login")'],
+  ["practice route", 'navigate("practice")'],
+  ["codex route", 'navigate("codex")'],
+  ["gate tip", "Подними ранг в боях"],
+  ["practice stage", "practice_dummy_1"],
 ];
 for (const [name, needle] of transitions) {
   ok(`transition ${name}`, js.includes(needle));
@@ -235,6 +260,9 @@ for (const f of [
   "gear.html",
   "chat_global.html",
   "rating_players.html",
+  "login.html",
+  "practice.html",
+  "codex.html",
 ]) {
   const body = fs.readFileSync(path.join(DESIGN, "stitch-src", f), "utf8");
   ok(

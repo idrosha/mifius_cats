@@ -87,13 +87,16 @@ func LoadContentIDs(contentRoot string) (*ContentIDs, error) {
 		}
 	}
 
-	starterPath := filepath.Join(contentRoot, "cats", "starters.json")
-	if _, err := os.Stat(starterPath); err == nil {
+	catFiles, err := filepath.Glob(filepath.Join(contentRoot, "cats", "*.json"))
+	if err != nil {
+		return nil, err
+	}
+	for _, starterPath := range catFiles {
 		var starters []struct {
 			TemplateID string `json:"templateId"`
 		}
 		if err := readJSON(starterPath, &starters); err != nil {
-			return nil, fmt.Errorf("starters: %w", err)
+			return nil, fmt.Errorf("cats %s: %w", starterPath, err)
 		}
 		for _, s := range starters {
 			if s.TemplateID != "" {

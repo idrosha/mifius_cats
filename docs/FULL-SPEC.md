@@ -170,13 +170,14 @@ Unused energy/cards не переносятся (кроме Keep).
 ## §4. Режимы
 
 ### §4.1 Мифмир (PvE; бывш. «Двор»)
-Graph глав 1–3 на SL. Cost: 1 bowl. Rewards: fish, xp, scrap, jar keys.  
+UI: **карта + список миссий**. Soft launch: **5 стейджей × 3 боя** (мелкие → средние → мелкие+питбосс). Cost: 1 bowl. Rewards: fish, xp, scrap, jar keys.  
 AI: scripted decks per node.  
 UI name: **Мифмир** (кампания / карта). Route id `yard` / `YardMap` сохраняется для совместимости.  
-Отдельно: рейд/легион 8–12 (данжи на боссов) ≠ строй 3v3.
+Отдельно: рейд/легион 8–12 (данжи на боссов) ≠ строй 3v3. Первый босс (UI): 3 волны (~6 / ~10 / босс+4); ядро боя остаётся 3v3.
 
 ### §4.2 Дуэли
-Unranked/points. Unlock after `pve_unlock_n=3`. Cost: 1 pvp ticket.
+Unranked/points. Unlock after `pve_unlock_n=3` успешных **PvE или practice** боёв. Cost: 1 pvp ticket.  
+Practice: отдельный экран «Тренировочный лагерь» (`practice`).
 
 ### §4.3 Арена
 Season 28 days. Rating. Same anti-P2W. Soft-cap pendant/bow rarity optional via LiveOps.
@@ -238,7 +239,9 @@ Server validates all purchases.
 4. `YardMap` (Мифмир) → Formation 3v3 → `Battle`; рейд/легион — отдельный экран  
 5. `PvPMenu` (Дуэли/Арена) → matchmaking → `Battle`  
 6. `Collection` (cats, presets×5, pendants/bows)  
-7. `Shop` (yarn, jars, pass, potions)  
+7. `Shop` (yarn, jars, pass, potions, **common_cat** ×2 варианта/класс)
+7b. `Tavern` — молочный бар (HP/energy); зелья крафтеров на market/auction
+7c. `Codex` / `Login` / `Practice` — day-1 формы  
 8. `Pass`  
 9. `Battle` HUD: board 3+3, hand, energy, milk, keep, end turn, potion tray  
 10. `Result` + rewards  
