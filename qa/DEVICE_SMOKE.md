@@ -14,6 +14,10 @@ SSOT: `docs/FULL-SPEC.md` §13 (на устройстве), §12 mobile-first, �
 ```bash
 # из корня репо; нужны Go + .NET 8 SDK
 ./qa/run-local-smoke.sh
+
+# браузерный HUD (Go + Node 20+; без Unity / без .NET)
+./qa/run-web-hud.sh
+# → http://127.0.0.1:8088/   (см. client/web-hud/README.md)
 ```
 
 Что поднимает скрипт:
@@ -23,6 +27,7 @@ SSOT: `docs/FULL-SPEC.md` §13 (на устройстве), §12 mobile-first, �
 | LiveOps CDN stub | `http://127.0.0.1:8090/v1/liveops.json` | только `X-LiveOps-Signature: stub` |
 | battle/devapi | `http://127.0.0.1:8081` | нет (localhost CreatePvE / SubmitAction / replay) |
 | Mythfel.LocalSmoke | console | нет |
+| Mythfel Web HUD (`run-web-hud.sh`) | `http://127.0.0.1:8088/` | нет (прокси к CDN + battle) |
 
 Ручной запуск по частям (если отладка):
 

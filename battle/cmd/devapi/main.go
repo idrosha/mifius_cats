@@ -128,6 +128,9 @@ func (s *server) createPvE(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "autoPlay: "+err.Error(), http.StatusInternalServerError)
 			return
 		}
+	} else if err := b.AdvancePvEBots(); err != nil {
+		http.Error(w, "bot: "+err.Error(), http.StatusInternalServerError)
+		return
 	}
 	s.mu.Lock()
 	s.battles[id] = b
@@ -196,6 +199,10 @@ func (s *server) submitAction(w http.ResponseWriter, r *http.Request) {
 	}
 	if err := b.SubmitAction(req.Action); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest) // illegal → reject (§13.5)
+		return
+	}
+	if err := b.AdvancePvEBots(); err != nil {
+		http.Error(w, "bot: "+err.Error(), http.StatusInternalServerError)
 		return
 	}
 	if b.Mode == sim.ModePvP && b.Finished() {
