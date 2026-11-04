@@ -68,3 +68,13 @@ cd client/web-hud && node server.mjs
 - Маркетплейс за деньги / крипта (запрещено §1)
 
 См. также: `qa/DEVICE_SMOKE.md`, корневой `ЗАПУСК.md` §3.
+
+
+See design/SCREEN-MAP.md for soft-launch routes.
+
+
+## Soft-launch additions
+
+- login / practice / codex (Stitch 3a8d)
+- Mythmir map + mission list; PvP unlock after 3 wins
+- Shop common cats ×8; tavern milk; first boss waves

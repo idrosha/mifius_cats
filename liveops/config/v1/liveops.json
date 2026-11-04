@@ -4,23 +4,72 @@
     "element_advantage": 0.15,
     "element_disadvantage": 0.15,
     "kinship": 0.1,
-    "roles": ["tank", "fighter", "mage", "ranger", "support"],
-    "elements": ["fire", "water", "grass", "bolt", "stone", "ice"],
+    "roles": [
+      "tank",
+      "fighter",
+      "mage",
+      "ranger",
+      "support"
+    ],
+    "elements": [
+      "fire",
+      "water",
+      "grass",
+      "bolt",
+      "stone",
+      "ice"
+    ],
     "strong_vs": {
-      "fire": ["grass", "ice"],
-      "water": ["fire", "stone"],
-      "grass": ["water", "stone"],
-      "bolt": ["water", "ice"],
-      "stone": ["bolt", "fire"],
-      "ice": ["grass", "stone"]
+      "fire": [
+        "grass",
+        "ice"
+      ],
+      "water": [
+        "fire",
+        "stone"
+      ],
+      "grass": [
+        "water",
+        "stone"
+      ],
+      "bolt": [
+        "water",
+        "ice"
+      ],
+      "stone": [
+        "bolt",
+        "fire"
+      ],
+      "ice": [
+        "grass",
+        "stone"
+      ]
     },
     "weak_vs": {
-      "fire": ["water", "stone"],
-      "water": ["grass", "bolt"],
-      "grass": ["fire", "ice"],
-      "bolt": ["stone", "grass"],
-      "stone": ["water", "grass"],
-      "ice": ["fire", "bolt"]
+      "fire": [
+        "water",
+        "stone"
+      ],
+      "water": [
+        "grass",
+        "bolt"
+      ],
+      "grass": [
+        "fire",
+        "ice"
+      ],
+      "bolt": [
+        "stone",
+        "grass"
+      ],
+      "stone": [
+        "water",
+        "grass"
+      ],
+      "ice": [
+        "fire",
+        "bolt"
+      ]
     }
   },
   "energy_table": {
@@ -28,20 +77,38 @@
       {
         "turn_min": 1,
         "turn_max": 1,
-        "first": { "energy": 1, "draw": 3 },
-        "second": { "energy": 2, "draw": 4 }
+        "first": {
+          "energy": 1,
+          "draw": 3
+        },
+        "second": {
+          "energy": 2,
+          "draw": 4
+        }
       },
       {
         "turn_min": 2,
         "turn_max": 3,
-        "first": { "energy": 2, "draw": 4 },
-        "second": { "energy": 3, "draw": 4 }
+        "first": {
+          "energy": 2,
+          "draw": 4
+        },
+        "second": {
+          "energy": 3,
+          "draw": 4
+        }
       },
       {
         "turn_min": 4,
         "turn_max": null,
-        "first": { "energy": 3, "draw": 5 },
-        "second": { "energy": 3, "draw": 5 }
+        "first": {
+          "energy": 3,
+          "draw": 5
+        },
+        "second": {
+          "energy": 3,
+          "draw": 5
+        }
       }
     ]
   },
@@ -57,15 +124,144 @@
   "limits": {
     "pve_per_day_free": 3,
     "pvp_per_day_free": 5,
-    "pass_multiplier": 2
+    "pass_multiplier": 2,
+    "pve_unlock_n": 3
   },
   "pity": {
     "soft": 50,
     "hard": 80
   },
   "shop": {
-    "offer_kinds": ["yarn", "gacha_jar", "pass", "battle_potion", "slot_expand"],
-    "offers": []
+    "offer_kinds": [
+      "yarn",
+      "gacha_jar",
+      "pass",
+      "battle_potion",
+      "slot_expand",
+      "common_cat"
+    ],
+    "offers": [
+      {
+        "offer_id": "yarn_small",
+        "kind": "yarn"
+      },
+      {
+        "offer_id": "jar_common",
+        "kind": "gacha_jar"
+      },
+      {
+        "offer_id": "shop_cat_tank_common_a",
+        "kind": "common_cat",
+        "template_id": "shop_tank_stone_a",
+        "price_fish": 800,
+        "role": "tank",
+        "variant": "a",
+        "deck": [
+          "card_shop_tank_stone_a_muzzle",
+          "card_shop_tank_stone_a_headwear",
+          "card_shop_tank_stone_a_back",
+          "card_shop_tank_stone_a_tail"
+        ]
+      },
+      {
+        "offer_id": "shop_cat_tank_common_b",
+        "kind": "common_cat",
+        "template_id": "shop_tank_stone_b",
+        "price_fish": 850,
+        "role": "tank",
+        "variant": "b",
+        "deck": [
+          "card_shop_tank_stone_b_muzzle",
+          "card_shop_tank_stone_b_headwear",
+          "card_shop_tank_stone_b_back",
+          "card_shop_tank_stone_b_tail"
+        ]
+      },
+      {
+        "offer_id": "shop_cat_fighter_common_a",
+        "kind": "common_cat",
+        "template_id": "shop_fighter_fire_a",
+        "price_fish": 800,
+        "role": "fighter",
+        "variant": "a",
+        "deck": [
+          "card_shop_fighter_fire_a_muzzle",
+          "card_shop_fighter_fire_a_headwear",
+          "card_shop_fighter_fire_a_back",
+          "card_shop_fighter_fire_a_tail"
+        ]
+      },
+      {
+        "offer_id": "shop_cat_fighter_common_b",
+        "kind": "common_cat",
+        "template_id": "shop_fighter_fire_b",
+        "price_fish": 850,
+        "role": "fighter",
+        "variant": "b",
+        "deck": [
+          "card_shop_fighter_fire_b_muzzle",
+          "card_shop_fighter_fire_b_headwear",
+          "card_shop_fighter_fire_b_back",
+          "card_shop_fighter_fire_b_tail"
+        ]
+      },
+      {
+        "offer_id": "shop_cat_ranger_common_a",
+        "kind": "common_cat",
+        "template_id": "shop_ranger_grass_a",
+        "price_fish": 800,
+        "role": "ranger",
+        "variant": "a",
+        "deck": [
+          "card_shop_ranger_grass_a_muzzle",
+          "card_shop_ranger_grass_a_headwear",
+          "card_shop_ranger_grass_a_back",
+          "card_shop_ranger_grass_a_tail"
+        ]
+      },
+      {
+        "offer_id": "shop_cat_ranger_common_b",
+        "kind": "common_cat",
+        "template_id": "shop_ranger_grass_b",
+        "price_fish": 850,
+        "role": "ranger",
+        "variant": "b",
+        "deck": [
+          "card_shop_ranger_grass_b_muzzle",
+          "card_shop_ranger_grass_b_headwear",
+          "card_shop_ranger_grass_b_back",
+          "card_shop_ranger_grass_b_tail"
+        ]
+      },
+      {
+        "offer_id": "shop_cat_support_common_a",
+        "kind": "common_cat",
+        "template_id": "shop_support_water_a",
+        "price_fish": 800,
+        "role": "support",
+        "variant": "a",
+        "deck": [
+          "card_shop_support_water_a_muzzle",
+          "card_shop_support_water_a_headwear",
+          "card_shop_support_water_a_back",
+          "card_shop_support_water_a_tail"
+        ]
+      },
+      {
+        "offer_id": "shop_cat_support_common_b",
+        "kind": "common_cat",
+        "template_id": "shop_support_water_b",
+        "price_fish": 850,
+        "role": "support",
+        "variant": "b",
+        "deck": [
+          "card_shop_support_water_b_muzzle",
+          "card_shop_support_water_b_headwear",
+          "card_shop_support_water_b_back",
+          "card_shop_support_water_b_tail"
+        ]
+      }
+    ]
   },
   "season": {
     "duration_days": 28,

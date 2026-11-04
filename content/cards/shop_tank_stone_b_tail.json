@@ -1,0 +1,16 @@
+{
+  "cardId": "card_shop_tank_stone_b_tail",
+  "name_key": "card.shop_tank_stone_b_tail",
+  "roleGate": "tank",
+  "element": "stone",
+  "cost": 1,
+  "atk": 0,
+  "shield": 11,
+  "hits": 0,
+  "targetRule": "self",
+  "tags": [
+    "shield",
+    "taunt"
+  ],
+  "effectOps": []
+}

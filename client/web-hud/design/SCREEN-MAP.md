@@ -37,6 +37,9 @@ Build: `node client/web-hud/scripts/build-stitch.mjs` → embeds **actual Stitch
 | Screen id | View id | Source file | Notes |
 |---|---|---|---|
 | hub | viewHub | hub.html | brand → hub |
+| login | viewLogin | login.html | Boot→Login (3a8d `_3`) |
+| practice | viewPractice | practice.html | Тренировочный лагерь (3a8d `_1`) |
+| codex | viewCodex | codex.html | Кодекс Мифмира (3a8d `_2`) |
 | yard | viewYard | yard.html | **Мифмир** PvE map |
 | formation | viewFormation | formation.html | PvE / PvP **3v3** строй |
 | boss_dungeon | viewBossDungeon | boss_dungeon.html | выбор данжа **перед** легионом (2a9f) |
@@ -76,3 +79,13 @@ Backend: `economy.GrantStarterKit` / `NewPlayerWithStarter`.
 - Playable: Hub, Мифмир→Formation→Battle, PvP smoke, Collection, Shop, Pass, Tavern, Market, Auction, Boss dungeon→raid, Chats, Ratings, Guild home mock, Craft/Breeding mocks.
 - Farm / Clan boss gameplay = Soon sheets.
 - **Дом (`home`)** — единственный TRUE gap без мока в 2a9f/940b.
+
+
+## Soft-launch content (2026-11-04)
+
+1. Мифмир: карта + список миссий (`mythmirMissionList`); 5 stages × 3 fights in `content/stages/mythmir_*` + `content/campaign/mythmir_sl.json`.
+2. Practice wins + PvE wins unlock PvP at `limits.pve_unlock_n` (default 3).
+3. Shop: 8 `common_cat` offers (2 variants × 4 roles).
+4. Tavern: milk restore only; potions → market/auction.
+5. First boss: `boss_first_w1..w3` on dungeon screen.
+6. Gated forms tip: «Подними ранг в боях».

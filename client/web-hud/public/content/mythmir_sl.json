@@ -1,0 +1,135 @@
+{
+  "version": 1,
+  "nodes": [
+    {
+      "stageIndex": 1,
+      "id": "mythmir_1",
+      "title_key": "mythmir.stage.1",
+      "title_ru": "Врата Усадьбы",
+      "fights": [
+        {
+          "fightIndex": 1,
+          "stageId": "mythmir_1_f1",
+          "label_ru": "Мелкие питомцы",
+          "label_key": "stage.mythmir_1_f1"
+        },
+        {
+          "fightIndex": 2,
+          "stageId": "mythmir_1_f2",
+          "label_ru": "Средние питомцы",
+          "label_key": "stage.mythmir_1_f2"
+        },
+        {
+          "fightIndex": 3,
+          "stageId": "mythmir_1_f3",
+          "label_ru": "Мелкие + питбосс",
+          "label_key": "stage.mythmir_1_f3"
+        }
+      ]
+    },
+    {
+      "stageIndex": 2,
+      "id": "mythmir_2",
+      "title_key": "mythmir.stage.2",
+      "title_ru": "Тропа Одуванчиков",
+      "fights": [
+        {
+          "fightIndex": 1,
+          "stageId": "mythmir_2_f1",
+          "label_ru": "Мелкие питомцы",
+          "label_key": "stage.mythmir_2_f1"
+        },
+        {
+          "fightIndex": 2,
+          "stageId": "mythmir_2_f2",
+          "label_ru": "Средние питомцы",
+          "label_key": "stage.mythmir_2_f2"
+        },
+        {
+          "fightIndex": 3,
+          "stageId": "mythmir_2_f3",
+          "label_ru": "Мелкие + питбосс",
+          "label_key": "stage.mythmir_2_f3"
+        }
+      ]
+    },
+    {
+      "stageIndex": 3,
+      "id": "mythmir_3",
+      "title_key": "mythmir.stage.3",
+      "title_ru": "Заброшенные Амбары",
+      "fights": [
+        {
+          "fightIndex": 1,
+          "stageId": "mythmir_3_f1",
+          "label_ru": "Мелкие питомцы",
+          "label_key": "stage.mythmir_3_f1"
+        },
+        {
+          "fightIndex": 2,
+          "stageId": "mythmir_3_f2",
+          "label_ru": "Средние питомцы",
+          "label_key": "stage.mythmir_3_f2"
+        },
+        {
+          "fightIndex": 3,
+          "stageId": "mythmir_3_f3",
+          "label_ru": "Мелкие + питбосс",
+          "label_key": "stage.mythmir_3_f3"
+        }
+      ]
+    },
+    {
+      "stageIndex": 4,
+      "id": "mythmir_4",
+      "title_key": "mythmir.stage.4",
+      "title_ru": "Псарня Старого Сада",
+      "fights": [
+        {
+          "fightIndex": 1,
+          "stageId": "mythmir_4_f1",
+          "label_ru": "Мелкие питомцы",
+          "label_key": "stage.mythmir_4_f1"
+        },
+        {
+          "fightIndex": 2,
+          "stageId": "mythmir_4_f2",
+          "label_ru": "Средние питомцы",
+          "label_key": "stage.mythmir_4_f2"
+        },
+        {
+          "fightIndex": 3,
+          "stageId": "mythmir_4_f3",
+          "label_ru": "Мелкие + питбосс",
+          "label_key": "stage.mythmir_4_f3"
+        }
+      ]
+    },
+    {
+      "stageIndex": 5,
+      "id": "mythmir_5",
+      "title_key": "mythmir.stage.5",
+      "title_ru": "Логово Питбосса",
+      "fights": [
+        {
+          "fightIndex": 1,
+          "stageId": "mythmir_5_f1",
+          "label_ru": "Мелкие питомцы",
+          "label_key": "stage.mythmir_5_f1"
+        },
+        {
+          "fightIndex": 2,
+          "stageId": "mythmir_5_f2",
+          "label_ru": "Средние питомцы",
+          "label_key": "stage.mythmir_5_f2"
+        },
+        {
+          "fightIndex": 3,
+          "stageId": "mythmir_5_f3",
+          "label_ru": "Мелкие + питбосс",
+          "label_key": "stage.mythmir_5_f3"
+        }
+      ]
+    }
+  ]
+}

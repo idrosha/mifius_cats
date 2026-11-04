@@ -23,24 +23,55 @@
       "pattern": "^[0-9]+$",
       "description": "Config major version (CDN signed JSON §8.4)"
     },
-    "class_mods": { "$ref": "#/$defs/class_mods" },
-    "energy_table": { "$ref": "#/$defs/energy_table" },
-    "milk_thresholds": { "$ref": "#/$defs/milk_thresholds" },
-    "mouse_hour": { "$ref": "#/$defs/mouse_hour" },
-    "limits": { "$ref": "#/$defs/limits" },
-    "pity": { "$ref": "#/$defs/pity" },
-    "shop": { "$ref": "#/$defs/shop" },
-    "season": { "$ref": "#/$defs/season" },
-    "feature_flags": { "$ref": "#/$defs/feature_flags" }
+    "class_mods": {
+      "$ref": "#/$defs/class_mods"
+    },
+    "energy_table": {
+      "$ref": "#/$defs/energy_table"
+    },
+    "milk_thresholds": {
+      "$ref": "#/$defs/milk_thresholds"
+    },
+    "mouse_hour": {
+      "$ref": "#/$defs/mouse_hour"
+    },
+    "limits": {
+      "$ref": "#/$defs/limits"
+    },
+    "pity": {
+      "$ref": "#/$defs/pity"
+    },
+    "shop": {
+      "$ref": "#/$defs/shop"
+    },
+    "season": {
+      "$ref": "#/$defs/season"
+    },
+    "feature_flags": {
+      "$ref": "#/$defs/feature_flags"
+    }
   },
   "$defs": {
     "role": {
       "type": "string",
-      "enum": ["tank", "fighter", "mage", "ranger", "support"]
+      "enum": [
+        "tank",
+        "fighter",
+        "mage",
+        "ranger",
+        "support"
+      ]
     },
     "element": {
       "type": "string",
-      "enum": ["fire", "water", "grass", "bolt", "stone", "ice"]
+      "enum": [
+        "fire",
+        "water",
+        "grass",
+        "bolt",
+        "stone",
+        "ice"
+      ]
     },
     "class_mods": {
       "type": "object",
@@ -75,39 +106,117 @@
           "minItems": 5,
           "maxItems": 5,
           "uniqueItems": true,
-          "items": { "$ref": "#/$defs/role" }
+          "items": {
+            "$ref": "#/$defs/role"
+          }
         },
         "elements": {
           "type": "array",
           "minItems": 6,
           "maxItems": 6,
           "uniqueItems": true,
-          "items": { "$ref": "#/$defs/element" }
+          "items": {
+            "$ref": "#/$defs/element"
+          }
         },
         "strong_vs": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["fire", "water", "grass", "bolt", "stone", "ice"],
+          "required": [
+            "fire",
+            "water",
+            "grass",
+            "bolt",
+            "stone",
+            "ice"
+          ],
           "properties": {
-            "fire": { "type": "array", "items": { "$ref": "#/$defs/element" } },
-            "water": { "type": "array", "items": { "$ref": "#/$defs/element" } },
-            "grass": { "type": "array", "items": { "$ref": "#/$defs/element" } },
-            "bolt": { "type": "array", "items": { "$ref": "#/$defs/element" } },
-            "stone": { "type": "array", "items": { "$ref": "#/$defs/element" } },
-            "ice": { "type": "array", "items": { "$ref": "#/$defs/element" } }
+            "fire": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/element"
+              }
+            },
+            "water": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/element"
+              }
+            },
+            "grass": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/element"
+              }
+            },
+            "bolt": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/element"
+              }
+            },
+            "stone": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/element"
+              }
+            },
+            "ice": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/element"
+              }
+            }
           }
         },
         "weak_vs": {
           "type": "object",
           "additionalProperties": false,
-          "required": ["fire", "water", "grass", "bolt", "stone", "ice"],
+          "required": [
+            "fire",
+            "water",
+            "grass",
+            "bolt",
+            "stone",
+            "ice"
+          ],
           "properties": {
-            "fire": { "type": "array", "items": { "$ref": "#/$defs/element" } },
-            "water": { "type": "array", "items": { "$ref": "#/$defs/element" } },
-            "grass": { "type": "array", "items": { "$ref": "#/$defs/element" } },
-            "bolt": { "type": "array", "items": { "$ref": "#/$defs/element" } },
-            "stone": { "type": "array", "items": { "$ref": "#/$defs/element" } },
-            "ice": { "type": "array", "items": { "$ref": "#/$defs/element" } }
+            "fire": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/element"
+              }
+            },
+            "water": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/element"
+              }
+            },
+            "grass": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/element"
+              }
+            },
+            "bolt": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/element"
+              }
+            },
+            "stone": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/element"
+              }
+            },
+            "ice": {
+              "type": "array",
+              "items": {
+                "$ref": "#/$defs/element"
+              }
+            }
           }
         }
       }
@@ -115,16 +224,27 @@
     "energy_draw": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["energy", "draw"],
+      "required": [
+        "energy",
+        "draw"
+      ],
       "properties": {
-        "energy": { "type": "integer", "minimum": 0 },
-        "draw": { "type": "integer", "minimum": 0 }
+        "energy": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "draw": {
+          "type": "integer",
+          "minimum": 0
+        }
       }
     },
     "energy_table": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["rows"],
+      "required": [
+        "rows"
+      ],
       "properties": {
         "rows": {
           "type": "array",
@@ -132,16 +252,31 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["turn_min", "turn_max", "first", "second"],
+            "required": [
+              "turn_min",
+              "turn_max",
+              "first",
+              "second"
+            ],
             "properties": {
-              "turn_min": { "type": "integer", "minimum": 1 },
-              "turn_max": {
-                "description": "null = open-ended (4+)",
-                "type": ["integer", "null"],
+              "turn_min": {
+                "type": "integer",
                 "minimum": 1
               },
-              "first": { "$ref": "#/$defs/energy_draw" },
-              "second": { "$ref": "#/$defs/energy_draw" }
+              "turn_max": {
+                "description": "null = open-ended (4+)",
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 1
+              },
+              "first": {
+                "$ref": "#/$defs/energy_draw"
+              },
+              "second": {
+                "$ref": "#/$defs/energy_draw"
+              }
             }
           }
         }
@@ -150,7 +285,11 @@
     "milk_thresholds": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["drops_per_burst", "draw_bonus_every_nth_burst", "burst_bonus_energy"],
+      "required": [
+        "drops_per_burst",
+        "draw_bonus_every_nth_burst",
+        "burst_bonus_energy"
+      ],
       "properties": {
         "drops_per_burst": {
           "type": "integer",
@@ -172,7 +311,10 @@
     "mouse_hour": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["start_turn", "max_hp_decay"],
+      "required": [
+        "start_turn",
+        "max_hp_decay"
+      ],
       "properties": {
         "start_turn": {
           "type": "integer",
@@ -189,7 +331,11 @@
     "limits": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["pve_per_day_free", "pvp_per_day_free", "pass_multiplier"],
+      "required": [
+        "pve_per_day_free",
+        "pvp_per_day_free",
+        "pass_multiplier"
+      ],
       "properties": {
         "pve_per_day_free": {
           "type": "integer",
@@ -205,29 +351,55 @@
           "type": "integer",
           "minimum": 1,
           "description": "§5 Pass ×2"
+        },
+        "pve_unlock_n": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "§4.2 / §14 PvP unlock after N PvE or practice wins"
         }
       }
     },
     "pity": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["soft", "hard"],
+      "required": [
+        "soft",
+        "hard"
+      ],
       "properties": {
-        "soft": { "type": "integer", "minimum": 1, "description": "§5 soft50" },
-        "hard": { "type": "integer", "minimum": 1, "description": "§5 / §13.4 hard80" }
+        "soft": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "§5 soft50"
+        },
+        "hard": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "§5 / §13.4 hard80"
+        }
       }
     },
     "shop": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["offer_kinds", "offers"],
+      "required": [
+        "offer_kinds",
+        "offers"
+      ],
       "properties": {
         "offer_kinds": {
           "type": "array",
           "uniqueItems": true,
           "items": {
             "type": "string",
-            "enum": ["yarn", "gacha_jar", "pass", "battle_potion", "slot_expand"]
+            "enum": [
+              "yarn",
+              "gacha_jar",
+              "pass",
+              "battle_potion",
+              "slot_expand",
+              "common_cat"
+            ]
           },
           "description": "§5 / §2.5 / §6 Shop kinds — no invented SKUs"
         },
@@ -237,17 +409,58 @@
           "items": {
             "type": "object",
             "additionalProperties": false,
-            "required": ["offer_id", "kind"],
+            "required": [
+              "offer_id",
+              "kind"
+            ],
             "properties": {
-              "offer_id": { "type": "string", "minLength": 1 },
+              "offer_id": {
+                "type": "string",
+                "minLength": 1
+              },
               "kind": {
                 "type": "string",
-                "enum": ["yarn", "gacha_jar", "pass", "battle_potion", "slot_expand"]
+                "enum": [
+                  "yarn",
+                  "gacha_jar",
+                  "pass",
+                  "battle_potion",
+                  "slot_expand",
+                  "common_cat"
+                ]
               },
-              "card_id": { "type": "string", "minLength": 1 },
-              "part_id": { "type": "string", "minLength": 1 },
-              "template_id": { "type": "string", "minLength": 1 },
-              "stage_id": { "type": "string", "minLength": 1 }
+              "card_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "part_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "template_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "stage_id": {
+                "type": "string",
+                "minLength": 1
+              },
+              "price_fish": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "role": {
+                "type": "string"
+              },
+              "variant": {
+                "type": "string"
+              },
+              "deck": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
             }
           }
         }
@@ -256,7 +469,10 @@
     "season": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["duration_days", "soft_cap_pendant_bow_rarity"],
+      "required": [
+        "duration_days",
+        "soft_cap_pendant_bow_rarity"
+      ],
       "properties": {
         "duration_days": {
           "type": "integer",

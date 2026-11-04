@@ -17,6 +17,9 @@ const OUT_INDEX = path.join(ROOT, "public", "index.html");
 
 const SCREENS = [
   { id: "hub", file: "hub.html", view: "viewHub" },
+  { id: "login", file: "login.html", view: "viewLogin" },
+  { id: "practice", file: "practice.html", view: "viewPractice" },
+  { id: "codex", file: "codex.html", view: "viewCodex" },
   { id: "yard", file: "yard.html", view: "viewYard" },
   { id: "formation", file: "formation.html", view: "viewFormation" },
   { id: "boss_raid", file: "boss_raid.html", view: "viewBossRaid" },
@@ -143,6 +146,12 @@ ${sections.join("\n")}
   <aside id="wireDock" class="mythfel-wire" aria-label="HUD wire controls">
     <div class="mythfel-wire-inner">
       <span class="mythfel-wire-label">HUD</span>
+            <button type="button" class="wire-btn" data-for="login" id="btnLoginEnter">Войти → Хаб</button>
+      <button type="button" class="wire-btn" data-for="practice" id="btnPracticeBattle">Тренировочный бой</button>
+      <button type="button" class="wire-btn" data-for="practice" id="btnPracticeHub">В Хаб</button>
+      <button type="button" class="wire-btn" data-for="codex" id="btnCodexHub">В Хаб</button>
+      <button type="button" class="wire-btn" data-for="yard" id="btnYardMissionRefresh">Обновить миссии</button>
+      <button type="button" class="wire-btn" data-for="boss_dungeon" id="btnBossFirstWave">Первый босс · волна</button>
       <button type="button" class="wire-btn" data-for="yard" id="btnTutorial">Туториал → бой</button>
       <button type="button" class="wire-btn" data-for="yard" id="btnYardToFormation">Расстановка</button>
       <button type="button" class="wire-btn" data-for="yard" id="btnYardBattle">Бой в Мифмире</button>
@@ -225,6 +234,7 @@ ${sections.join("\n")}
       <span class="hidden" id="curEnergy"></span>
       <span class="hidden" id="curGems"></span>
       <div class="wire-panel" data-for="yard"><div class="card-grid" id="starterCards"></div></div>
+      <div class="hidden" id="gateTipBanner"></div>
       <div class="wire-panel" data-for="formation">
         <div class="formation-lanes" id="formationLanes"></div>
         <div class="potion-tray" id="formationPotions"></div>

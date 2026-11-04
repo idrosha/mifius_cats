@@ -598,5 +598,317 @@
   "hub.tab.auction": {
     "ru": "Аукцион",
     "en": "Auction"
+  },
+  "mythmir.stage.1": {
+    "ru": "Врата Усадьбы",
+    "en": "Врата Усадьбы"
+  },
+  "stage.mythmir_1_f1": {
+    "ru": "Врата Усадьбы — Мелкие питомцы",
+    "en": "Врата Усадьбы — Мелкие питомцы"
+  },
+  "stage.mythmir_1_f2": {
+    "ru": "Врата Усадьбы — Средние питомцы",
+    "en": "Врата Усадьбы — Средние питомцы"
+  },
+  "stage.mythmir_1_f3": {
+    "ru": "Врата Усадьбы — Мелкие + питбосс",
+    "en": "Врата Усадьбы — Мелкие + питбосс"
+  },
+  "mythmir.stage.2": {
+    "ru": "Тропа Одуванчиков",
+    "en": "Тропа Одуванчиков"
+  },
+  "stage.mythmir_2_f1": {
+    "ru": "Тропа Одуванчиков — Мелкие питомцы",
+    "en": "Тропа Одуванчиков — Мелкие питомцы"
+  },
+  "stage.mythmir_2_f2": {
+    "ru": "Тропа Одуванчиков — Средние питомцы",
+    "en": "Тропа Одуванчиков — Средние питомцы"
+  },
+  "stage.mythmir_2_f3": {
+    "ru": "Тропа Одуванчиков — Мелкие + питбосс",
+    "en": "Тропа Одуванчиков — Мелкие + питбосс"
+  },
+  "mythmir.stage.3": {
+    "ru": "Заброшенные Амбары",
+    "en": "Заброшенные Амбары"
+  },
+  "stage.mythmir_3_f1": {
+    "ru": "Заброшенные Амбары — Мелкие питомцы",
+    "en": "Заброшенные Амбары — Мелкие питомцы"
+  },
+  "stage.mythmir_3_f2": {
+    "ru": "Заброшенные Амбары — Средние питомцы",
+    "en": "Заброшенные Амбары — Средние питомцы"
+  },
+  "stage.mythmir_3_f3": {
+    "ru": "Заброшенные Амбары — Мелкие + питбосс",
+    "en": "Заброшенные Амбары — Мелкие + питбосс"
+  },
+  "mythmir.stage.4": {
+    "ru": "Псарня Старого Сада",
+    "en": "Псарня Старого Сада"
+  },
+  "stage.mythmir_4_f1": {
+    "ru": "Псарня Старого Сада — Мелкие питомцы",
+    "en": "Псарня Старого Сада — Мелкие питомцы"
+  },
+  "stage.mythmir_4_f2": {
+    "ru": "Псарня Старого Сада — Средние питомцы",
+    "en": "Псарня Старого Сада — Средние питомцы"
+  },
+  "stage.mythmir_4_f3": {
+    "ru": "Псарня Старого Сада — Мелкие + питбосс",
+    "en": "Псарня Старого Сада — Мелкие + питбосс"
+  },
+  "mythmir.stage.5": {
+    "ru": "Логово Питбосса",
+    "en": "Логово Питбосса"
+  },
+  "stage.mythmir_5_f1": {
+    "ru": "Логово Питбосса — Мелкие питомцы",
+    "en": "Логово Питбосса — Мелкие питомцы"
+  },
+  "stage.mythmir_5_f2": {
+    "ru": "Логово Питбосса — Средние питомцы",
+    "en": "Логово Питбосса — Средние питомцы"
+  },
+  "stage.mythmir_5_f3": {
+    "ru": "Логово Питбосса — Мелкие + питбосс",
+    "en": "Логово Питбосса — Мелкие + питбосс"
+  },
+  "stage.practice_dummy_1": {
+    "ru": "Тренировочный манекен",
+    "en": "Тренировочный манекен"
+  },
+  "stage.boss_first_w1": {
+    "ru": "Архипёс · волна 1 (мелкие)",
+    "en": "Архипёс · волна 1 (мелкие)"
+  },
+  "stage.boss_first_w2": {
+    "ru": "Архипёс · волна 2 (стая)",
+    "en": "Архипёс · волна 2 (стая)"
+  },
+  "stage.boss_first_w3": {
+    "ru": "Архипёс · волна 3 (босс)",
+    "en": "Архипёс · волна 3 (босс)"
+  },
+  "nav.sub.practice": {
+    "ru": "Тренировка",
+    "en": "Тренировка"
+  },
+  "nav.sub.codex": {
+    "ru": "Кодекс",
+    "en": "Кодекс"
+  },
+  "nav.sub.login": {
+    "ru": "Вход",
+    "en": "Вход"
+  },
+  "gate.tip.rank": {
+    "ru": "Подними ранг в боях",
+    "en": "Подними ранг в боях"
+  },
+  "gate.tip.pvp": {
+    "ru": "PvP откроется после 3 побед в Мифмире или тренировке",
+    "en": "PvP откроется после 3 побед в Мифмире или тренировке"
+  },
+  "tavern.lead_milk": {
+    "ru": "Молочный бар: восстанови HP и энергию после боя. Зелья — на рынке у крафтеров.",
+    "en": "Молочный бар: восстанови HP и энергию после боя. Зелья — на рынке у крафтеров."
+  },
+  "shop.common_cats": {
+    "ru": "Обычные коты",
+    "en": "Обычные коты"
+  },
+  "shop.lead_common": {
+    "ru": "Фиксированные колоды по классу · 2 варианта · за рыбок",
+    "en": "Фиксированные колоды по классу · 2 варианта · за рыбок"
+  },
+  "mythmir.mission_list": {
+    "ru": "Список миссий",
+    "en": "Список миссий"
+  },
+  "boss.first.title": {
+    "ru": "Первый босс: Архипёс",
+    "en": "Первый босс: Архипёс"
+  },
+  "boss.first.wave": {
+    "ru": "Волна",
+    "en": "Волна"
+  },
+  "practice.lead": {
+    "ru": "Тренировочный лагерь — победы считаются к открытию PvP",
+    "en": "Тренировочный лагерь — победы считаются к открытию PvP"
+  },
+  "codex.lead": {
+    "ru": "Кодекс Мифмира — механики, строй, походы",
+    "en": "Кодекс Мифмира — механики, строй, походы"
+  },
+  "login.cta": {
+    "ru": "Войти как Хранитель",
+    "en": "Войти как Хранитель"
+  },
+  "card.shop_tank_stone_a_muzzle": {
+    "ru": "tank A · muzzle",
+    "en": "tank A · muzzle"
+  },
+  "card.shop_tank_stone_a_headwear": {
+    "ru": "tank A · headwear",
+    "en": "tank A · headwear"
+  },
+  "card.shop_tank_stone_a_back": {
+    "ru": "tank A · back",
+    "en": "tank A · back"
+  },
+  "card.shop_tank_stone_a_tail": {
+    "ru": "tank A · tail",
+    "en": "tank A · tail"
+  },
+  "shop.offer.shop_cat_tank_common_a": {
+    "ru": "Обычный танк A",
+    "en": "Common tank A"
+  },
+  "card.shop_tank_stone_b_muzzle": {
+    "ru": "tank B · muzzle",
+    "en": "tank B · muzzle"
+  },
+  "card.shop_tank_stone_b_headwear": {
+    "ru": "tank B · headwear",
+    "en": "tank B · headwear"
+  },
+  "card.shop_tank_stone_b_back": {
+    "ru": "tank B · back",
+    "en": "tank B · back"
+  },
+  "card.shop_tank_stone_b_tail": {
+    "ru": "tank B · tail",
+    "en": "tank B · tail"
+  },
+  "shop.offer.shop_cat_tank_common_b": {
+    "ru": "Обычный танк B",
+    "en": "Common tank B"
+  },
+  "card.shop_fighter_fire_a_muzzle": {
+    "ru": "fighter A · muzzle",
+    "en": "fighter A · muzzle"
+  },
+  "card.shop_fighter_fire_a_headwear": {
+    "ru": "fighter A · headwear",
+    "en": "fighter A · headwear"
+  },
+  "card.shop_fighter_fire_a_back": {
+    "ru": "fighter A · back",
+    "en": "fighter A · back"
+  },
+  "card.shop_fighter_fire_a_tail": {
+    "ru": "fighter A · tail",
+    "en": "fighter A · tail"
+  },
+  "shop.offer.shop_cat_fighter_common_a": {
+    "ru": "Обычный боец A",
+    "en": "Common fighter A"
+  },
+  "card.shop_fighter_fire_b_muzzle": {
+    "ru": "fighter B · muzzle",
+    "en": "fighter B · muzzle"
+  },
+  "card.shop_fighter_fire_b_headwear": {
+    "ru": "fighter B · headwear",
+    "en": "fighter B · headwear"
+  },
+  "card.shop_fighter_fire_b_back": {
+    "ru": "fighter B · back",
+    "en": "fighter B · back"
+  },
+  "card.shop_fighter_fire_b_tail": {
+    "ru": "fighter B · tail",
+    "en": "fighter B · tail"
+  },
+  "shop.offer.shop_cat_fighter_common_b": {
+    "ru": "Обычный боец B",
+    "en": "Common fighter B"
+  },
+  "card.shop_ranger_grass_a_muzzle": {
+    "ru": "ranger A · muzzle",
+    "en": "ranger A · muzzle"
+  },
+  "card.shop_ranger_grass_a_headwear": {
+    "ru": "ranger A · headwear",
+    "en": "ranger A · headwear"
+  },
+  "card.shop_ranger_grass_a_back": {
+    "ru": "ranger A · back",
+    "en": "ranger A · back"
+  },
+  "card.shop_ranger_grass_a_tail": {
+    "ru": "ranger A · tail",
+    "en": "ranger A · tail"
+  },
+  "shop.offer.shop_cat_ranger_common_a": {
+    "ru": "Обычный стрелок A",
+    "en": "Common ranger A"
+  },
+  "card.shop_ranger_grass_b_muzzle": {
+    "ru": "ranger B · muzzle",
+    "en": "ranger B · muzzle"
+  },
+  "card.shop_ranger_grass_b_headwear": {
+    "ru": "ranger B · headwear",
+    "en": "ranger B · headwear"
+  },
+  "card.shop_ranger_grass_b_back": {
+    "ru": "ranger B · back",
+    "en": "ranger B · back"
+  },
+  "card.shop_ranger_grass_b_tail": {
+    "ru": "ranger B · tail",
+    "en": "ranger B · tail"
+  },
+  "shop.offer.shop_cat_ranger_common_b": {
+    "ru": "Обычный стрелок B",
+    "en": "Common ranger B"
+  },
+  "card.shop_support_water_a_muzzle": {
+    "ru": "support A · muzzle",
+    "en": "support A · muzzle"
+  },
+  "card.shop_support_water_a_headwear": {
+    "ru": "support A · headwear",
+    "en": "support A · headwear"
+  },
+  "card.shop_support_water_a_back": {
+    "ru": "support A · back",
+    "en": "support A · back"
+  },
+  "card.shop_support_water_a_tail": {
+    "ru": "support A · tail",
+    "en": "support A · tail"
+  },
+  "shop.offer.shop_cat_support_common_a": {
+    "ru": "Обычный поддержка A",
+    "en": "Common support A"
+  },
+  "card.shop_support_water_b_muzzle": {
+    "ru": "support B · muzzle",
+    "en": "support B · muzzle"
+  },
+  "card.shop_support_water_b_headwear": {
+    "ru": "support B · headwear",
+    "en": "support B · headwear"
+  },
+  "card.shop_support_water_b_back": {
+    "ru": "support B · back",
+    "en": "support B · back"
+  },
+  "card.shop_support_water_b_tail": {
+    "ru": "support B · tail",
+    "en": "support B · tail"
+  },
+  "shop.offer.shop_cat_support_common_b": {
+    "ru": "Обычный поддержка B",
+    "en": "Common support B"
   }
 }

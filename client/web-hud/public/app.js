@@ -8,9 +8,12 @@ const STARTERS = [
   "starter_fighter_fire",
   "starter_support_water",
 ];
-const YARD_STAGE = "test_yard_1";
+const YARD_STAGE = "mythmir_1_f1"; // default first fight; campaign selects others
+const PRACTICE_STAGE = "practice_dummy_1";
 const TUTORIAL_BUDGET_MS = 10 * 60 * 1000;
 const CLIENT_REGION = (new URLSearchParams(location.search).get("region") || "RU").toUpperCase();
+const GATE_TIP = "Подними ранг в боях";
+const PVE_UNLOCK_N = 3;
 
 /** Stitch header data-path → app tab */
 const PATH_TO_TAB = {
@@ -42,6 +45,12 @@ const PATH_TO_TAB = {
   подземелья: "boss_dungeon",
   рейтинги: "rating_players",
   чат: "chat_global",
+  тренировка: "practice",
+  "тренировочный-лагерь": "practice",
+  кодекс: "codex",
+  "кодекс-мифмира": "codex",
+  вход: "login",
+  регистрация: "login",
 };
 
 /**
@@ -54,11 +63,12 @@ const NAV = [
     key: "nav.primary.character",
     tabs: [
       { id: "gear", key: "nav.sub.gear" },
-      { id: "home", key: "nav.sub.home", stub: true }, // TRUE gap — нет мока Stitch
-      { id: "farm", key: "nav.sub.farm", soon: "farm" },
+      { id: "home", key: "nav.sub.home", stub: true, gated: true },
+      { id: "farm", key: "nav.sub.farm", soon: "farm", gated: true },
       { id: "collection", key: "nav.sub.collection" },
-      { id: "craft", key: "nav.sub.craft" },
-      { id: "breeding", key: "nav.sub.breeding" },
+      { id: "craft", key: "nav.sub.craft", gated: true },
+      { id: "breeding", key: "nav.sub.breeding", gated: true },
+      { id: "codex", key: "nav.sub.codex" },
     ],
   },
   {
@@ -66,10 +76,11 @@ const NAV = [
     key: "nav.primary.combat",
     tabs: [
       { id: "yard", key: "nav.sub.mythmir" },
+      { id: "practice", key: "nav.sub.practice" },
       { id: "formation", key: "nav.sub.formation" },
-      { id: "pvp", key: "nav.sub.pvp" },
+      { id: "pvp", key: "nav.sub.pvp", gated: "pvp" },
       { id: "boss_dungeon", key: "nav.sub.boss_dungeon" },
-      { id: "boss_raid", key: "nav.sub.boss_raid" },
+      { id: "boss_raid", key: "nav.sub.boss_raid", gated: true },
     ],
   },
   {
@@ -85,7 +96,7 @@ const NAV = [
   {
     id: "guilds",
     key: "nav.primary.guilds",
-    tabs: [{ id: "guild", key: "nav.sub.guild" }],
+    tabs: [{ id: "guild", key: "nav.sub.guild", gated: true }],
   },
   {
     id: "chats",
@@ -114,6 +125,7 @@ const NAV = [
 /** Flat list kept for verify-nav id: "…" probes */
 const TABS = NAV.flatMap((g) => g.tabs.map((t) => ({ ...t, group: g.id }))).concat([
   { id: "hub", key: "hub.tab.hub", group: "hub" },
+  { id: "login", key: "nav.sub.login", group: "auth" },
 ]);
 
 function findNavForTab(tabId) {
@@ -125,8 +137,6 @@ function findNavForTab(tabId) {
 
 const DRINKS = [
   { id: "fresh_milk", nameKey: "tavern.drink.milk", effectKey: "tavern.drink.milk.fx", price: 20 },
-  { id: "honey_brew", nameKey: "tavern.drink.honey", effectKey: "tavern.drink.honey.fx", price: 35 },
-  { id: "mint_infusion", nameKey: "tavern.drink.mint", effectKey: "tavern.drink.mint.fx", price: 25 },
 ];
 
 const POTIONS = [
@@ -166,6 +176,17 @@ const state = {
     { id: "lot_2", name: "yarn_ball", bid: 80, side: "buy" },
   ],
   wireMode: "hub",
+  loggedIn: false,
+  selectedStageId: YARD_STAGE,
+  battleMode: "pve", // pve | practice | boss
+  bossWaveIndex: 0,
+  campaign: null,
+  bossFirst: null,
+  progress: {
+    pveWins: 0,
+    practiceWins: 0,
+    clearedFights: {}, // stageId -> true
+  },
 };
 
 const $ = (id) => document.getElementById(id);
@@ -182,6 +203,49 @@ function toast(msg) {
   el.classList.remove("hidden");
   clearTimeout(toast._t);
   toast._t = setTimeout(() => el.classList.add("hidden"), 2200);
+}
+
+function unlockN() {
+  const n = state.liveOps?.limits?.pve_unlock_n;
+  return typeof n === "number" ? n : PVE_UNLOCK_N;
+}
+
+function totalUnlockWins() {
+  return (state.progress.pveWins || 0) + (state.progress.practiceWins || 0);
+}
+
+function pvpUnlocked() {
+  return totalUnlockWins() >= unlockN();
+}
+
+function showGateTip(custom) {
+  const msg = custom || t("gate.tip.rank", GATE_TIP);
+  toast(msg);
+  const banner = $("gateTipBanner");
+  if (banner) {
+    banner.textContent = msg;
+    banner.classList.remove("hidden");
+  }
+}
+
+function persistProgress() {
+  try {
+    localStorage.setItem("mythfel_sl_progress", JSON.stringify(state.progress));
+  } catch (_) {}
+}
+
+function loadProgress() {
+  try {
+    const raw = localStorage.getItem("mythfel_sl_progress");
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      state.progress = {
+        pveWins: parsed.pveWins || 0,
+        practiceWins: parsed.practiceWins || 0,
+        clearedFights: parsed.clearedFights || {},
+      };
+    }
+  } catch (_) {}
 }
 
 function log(msg, which = "battle") {
@@ -258,6 +322,9 @@ function logicalViewId() {
 
   const map = {
     hub: "viewHub",
+    login: "viewLogin",
+    practice: "viewPractice",
+    codex: "viewCodex",
     yard: "viewYard",
     formation: "viewFormation",
     boss_dungeon: "viewBossDungeon",
@@ -325,7 +392,7 @@ function updateWireDock() {
   }
 }
 
-function navigate(tab, { soon = null, clearBattle = true, primary = null } = {}) {
+function navigate(tab, { soon = null, clearBattle = true, primary = null, fromGate = false } = {}) {
   if (clearBattle) {
     state.battle = null;
     state.selectedKeep = null;
@@ -342,14 +409,25 @@ function navigate(tab, { soon = null, clearBattle = true, primary = null } = {})
   }
   if (tab === "battle") tab = "formation";
 
+  // Day-1: all forms present. Gated tabs still open, but tip on entry for meta gates.
+  const navTab = findNavForTab(tab)?.tabs?.find((x) => x.id === tab) || TABS.find((x) => x.id === tab);
+  if (navTab?.gated && tab !== "pvp") {
+    showGateTip();
+  }
+  if (tab === "pvp" && !pvpUnlocked()) {
+    showGateTip(t("gate.tip.pvp", "PvP откроется после 3 побед в Мифмире или тренировке"));
+  }
+
   state.tab = tab;
   state.soon = soon;
-  // guild home = painted Stitch; clan-boss gameplay still «Скоро» via explicit soon
+  // Farm still has Soon art sheet, but form is present (not hidden).
   if (tab === "farm") state.soon = "farm";
   if (tab === "breeding" && !state.soon) state.soon = null;
 
   const group = findNavForTab(tab);
   state.primary = primary || group?.id || state.primary || "combat";
+  // Login chrome: hide nav while on login
+  document.body.classList.toggle("mythfel-login", tab === "login");
   renderAll();
 }
 
@@ -438,6 +516,8 @@ function renderTabs() {
     b.dataset.tab = tab.id;
     if (tab.stub) b.classList.add("stub");
     if (tab.soon) b.classList.add("soon");
+    if (tab.gated) b.classList.add("gated");
+    if (tab.id === "pvp" && !pvpUnlocked()) b.classList.add("locked");
     const active = !battleActive && state.tab === tab.id;
     b.classList.toggle("active", active);
     b.addEventListener("click", () => {
@@ -518,6 +598,14 @@ function softNavigateFromLabel(label) {
     ["экипиров", () => navigate("gear")],
     ["чат", () => navigate("chat_global")],
     ["рейтинг", () => navigate("rating_players")],
+    ["тренир", () => navigate("practice")],
+    ["манекен", () => navigate("practice")],
+    ["кодекс", () => navigate("codex")],
+    ["вход", () => navigate("login")],
+    ["войти", () => { state.loggedIn = true; navigate("hub"); }],
+    ["регистрац", () => { state.loggedIn = true; navigate("hub"); }],
+    ["начать тренир", () => startPractice(false)],
+    ["тренировка (манекен)", () => startPractice(false)],
   ];
   const low = label.toLowerCase();
   for (const [needle, fn] of soft) {
@@ -549,19 +637,34 @@ function bindStitchNav(root) {
   });
 }
 
+function bindHubPortals() {
+  const root = $("viewHub");
+  if (!root || root.dataset.hubPortalsBound === "1") return;
+  root.dataset.hubPortalsBound = "1";
+  root.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-hub-go]");
+    if (!btn) return;
+    e.preventDefault();
+    navigate(btn.getAttribute("data-hub-go"));
+  });
+}
+
 function renderHub() {
   $("hubEyebrow").textContent = t("hub.tab.hub", "Главный Хаб");
   $("hubTitle").textContent = t("hub.home.title", "Мифиус");
   $("hubLead").textContent = t("hub.home.lead", "Stitch hub screen");
   const box = $("hubPortals");
   if (box) box.innerHTML = "";
+  renderUnlockProgress();
 }
 
 function renderYard() {
   $("yardEyebrow").textContent = t("hub.tab.yard");
   $("yardTitle").textContent = t("hub.tab.yard");
-  $("yardLead").textContent = `${t("stage.test_yard_1")} · ${YARD_STAGE}`;
+  $("yardLead").textContent = `${t("mythmir.mission_list", "Список миссий")} · ${state.selectedStageId}`;
   renderStarters("starterCards");
+  renderMythmirMissions();
+  renderUnlockProgress();
   const banner = $("tutorialBanner");
   if (state.tutorial) {
     banner.classList.remove("hidden");
@@ -579,6 +682,90 @@ function renderYard() {
   } else {
     banner.classList.add("hidden");
   }
+}
+
+function renderUnlockProgress() {
+  const el = $("unlockProgress");
+  if (!el) return;
+  const n = unlockN();
+  const wins = totalUnlockWins();
+  el.textContent = state.locale === "ru"
+    ? `К PvP: ${wins}/${n} побед (Мифмир ${state.progress.pveWins} + тренировка ${state.progress.practiceWins})`
+    : `PvP unlock: ${wins}/${n} wins (Mythmir ${state.progress.pveWins} + practice ${state.progress.practiceWins})`;
+}
+
+function isFightUnlocked(stageIndex, fightIndex) {
+  if (stageIndex === 1 && fightIndex === 1) return true;
+  const nodes = state.campaign?.nodes || [];
+  // sequential: previous fight in same stage, or last fight of previous stage
+  if (fightIndex > 1) {
+    const prevId = nodes[stageIndex - 1]?.fights?.[fightIndex - 2]?.stageId;
+    return !!(prevId && state.progress.clearedFights[prevId]);
+  }
+  if (stageIndex > 1) {
+    const prevStage = nodes[stageIndex - 2];
+    const last = prevStage?.fights?.[prevStage.fights.length - 1]?.stageId;
+    return !!(last && state.progress.clearedFights[last]);
+  }
+  return true;
+}
+
+function renderMythmirMissions() {
+  const box = $("mythmirMissionList");
+  if (!box) return;
+  box.innerHTML = "";
+  const nodes = state.campaign?.nodes || [];
+  for (const node of nodes) {
+    const head = document.createElement("div");
+    head.className = "mission-stage";
+    head.innerHTML = `<strong>${node.stageIndex}. ${t(node.title_key, node.title_ru)}</strong>`;
+    box.appendChild(head);
+    for (const fight of node.fights) {
+      const unlocked = isFightUnlocked(node.stageIndex, fight.fightIndex);
+      const cleared = !!state.progress.clearedFights[fight.stageId];
+      const row = document.createElement("button");
+      row.type = "button";
+      row.className = "mission-fight" + (fight.stageId === state.selectedStageId ? " active" : "") + (unlocked ? "" : " locked");
+      row.textContent = `${node.stageIndex}-${fight.fightIndex} ${fight.label_ru}${cleared ? " ✓" : ""}${unlocked ? "" : " 🔒"}`;
+      row.addEventListener("click", () => {
+        if (!unlocked) {
+          showGateTip();
+          return;
+        }
+        state.selectedStageId = fight.stageId;
+        state.battleMode = "pve";
+        toast(`${t(fight.label_key, fight.label_ru)}`);
+        renderMythmirMissions();
+        renderAll();
+      });
+      box.appendChild(row);
+    }
+  }
+}
+
+function renderBossFirst() {
+  const box = $("bossFirstPanel");
+  if (!box) return;
+  box.innerHTML = "";
+  const waves = state.bossFirst?.waves || [
+    { wave: 1, stageId: "boss_first_w1", theme: "wave_small_6" },
+    { wave: 2, stageId: "boss_first_w2", theme: "wave_pets_10" },
+    { wave: 3, stageId: "boss_first_w3", theme: "wave_boss_plus_4" },
+  ];
+  const hints = ["~6 мелких", "~10 питомцев", "босс + 4"];
+  waves.forEach((w, i) => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "mission-fight";
+    b.textContent = `${t("boss.first.wave", "Волна")} ${w.wave}: ${hints[i] || w.theme}`;
+    b.addEventListener("click", () => {
+      state.selectedStageId = w.stageId;
+      state.battleMode = "boss";
+      state.bossWaveIndex = i;
+      startYard(false);
+    });
+    box.appendChild(b);
+  });
 }
 
 function renderFormation() {
@@ -617,31 +804,48 @@ function renderFormation() {
     tray.appendChild(chip);
   }
   if (!state.ownedPotions.length) {
-    tray.textContent = t("formation.no_potions", "Нет зелий — зайди в Таверну");
+    tray.textContent = t("formation.no_potions", "Нет зелий — рынок у крафтеров");
   }
 }
 
 function renderShop() {
   $("shopEyebrow").textContent = t("hub.tab.shop");
   $("shopTitle").textContent = t("hub.tab.shop");
-  $("shopLead").textContent =
-    state.locale === "ru"
-      ? "Офферы только из LiveOps (пустой каталог → пустой UI)."
-      : "Offers only from LiveOps (empty catalog → empty UI).";
+  $("shopLead").textContent = t("shop.lead_common", "Фиксированные колоды по классу · 2 варианта · за рыбок");
   const list = $("offerList");
-  if (!list) return;
-  list.innerHTML = "";
-  const offers = state.liveOps?.shop?.offers || [];
-  if (!offers.length) {
-    const li = document.createElement("li");
-    li.textContent = state.locale === "ru" ? "Нет офферов в LiveOps" : "No LiveOps offers";
-    list.appendChild(li);
-    return;
+  if (list) {
+    list.innerHTML = "";
+    const offers = (state.liveOps?.shop?.offers || []).filter((o) => o.kind !== "common_cat");
+    for (const o of offers) {
+      const li = document.createElement("li");
+      li.textContent = `${o.offer_id || o.offerId || "?"} · ${o.kind || "?"}`;
+      list.appendChild(li);
+    }
   }
-  for (const o of offers) {
-    const li = document.createElement("li");
-    li.textContent = `${o.offer_id || o.offerId || "?"} · ${o.kind || "?"}`;
-    list.appendChild(li);
+  const cats = $("shopCommonCats");
+  if (!cats) return;
+  cats.innerHTML = "";
+  const common = (state.liveOps?.shop?.offers || []).filter((o) => o.kind === "common_cat");
+  const title = document.createElement("div");
+  title.className = "mission-stage";
+  title.textContent = t("shop.common_cats", "Обычные коты");
+  cats.appendChild(title);
+  for (const o of common) {
+    const row = document.createElement("button");
+    row.type = "button";
+    row.className = "mission-fight";
+    const name = t(`shop.offer.${o.offer_id}`, o.offer_id);
+    const deck = (o.deck || []).slice(0, 4).join(", ");
+    row.innerHTML = `<strong>${name}</strong><div class="meta">${o.role} · ${o.variant} · ${o.price_fish || "?"} 🐟</div><div class="meta">${deck}</div>`;
+    row.addEventListener("click", () => {
+      toast(state.locale === "ru" ? `Купить ${name} — stub (сервер авторитетен)` : `Buy ${name} — stub`);
+    });
+    cats.appendChild(row);
+  }
+  if (!common.length) {
+    const empty = document.createElement("div");
+    empty.textContent = state.locale === "ru" ? "Нет common_cat в LiveOps" : "No common_cat offers";
+    cats.appendChild(empty);
   }
 }
 
@@ -680,8 +884,7 @@ function renderMarket() {
 function renderTavern() {
   $("tavernEyebrow").textContent = t("hub.tab.tavern", "Таверна");
   $("tavernTitle").textContent = t("tavern.title", "Таверна «Усатый Хмель»");
-  $("tavernLead").textContent = t("tavern.lead", "Молоко, напитки и зелья.");
-  // Stitch already paints drinks/potions; wire dock still hosts stubs for owned state
+  $("tavernLead").textContent = t("tavern.lead_milk", "Молочный бар: восстанови HP и энергию после боя. Зелья — на рынке у крафтеров.");
   const drinks = $("drinkList");
   const pots = $("potionList");
   if (drinks) {
@@ -690,17 +893,17 @@ function renderTavern() {
       const tile = document.createElement("div");
       tile.className = "tile";
       tile.textContent = t(d.nameKey, d.id);
+      tile.addEventListener("click", () => toast(state.locale === "ru" ? "Молоко выпито — HP/энергия восстановлены (stub)" : "Milk restored HP/energy (stub)"));
       drinks.appendChild(tile);
     }
   }
   if (pots) {
     pots.innerHTML = "";
-    for (const p of POTIONS) {
-      const tile = document.createElement("div");
-      tile.className = "tile";
-      tile.textContent = t(p.nameKey, p.id);
-      pots.appendChild(tile);
-    }
+    const tip = document.createElement("div");
+    tip.className = "tile";
+    tip.textContent = state.locale === "ru" ? "Зелья → Рынок / Аукцион" : "Potions → Market / Auction";
+    tip.addEventListener("click", () => navigate("market"));
+    pots.appendChild(tip);
   }
 }
 
@@ -862,15 +1065,29 @@ async function applyDiff(diff, note = "") {
   }
   if (diff.result) {
     state.lastResult = { battleId: diff.battleId, result: diff.result };
+    if (diff.result === "p1_win") {
+      if (state.battleMode === "practice") {
+        state.progress.practiceWins += 1;
+      } else if (state.battleMode === "boss") {
+        state.progress.pveWins += 1;
+        state.progress.clearedFights[state.selectedStageId] = true;
+      } else {
+        state.progress.pveWins += 1;
+        state.progress.clearedFights[state.selectedStageId] = true;
+      }
+      persistProgress();
+      log(`unlock wins=${totalUnlockWins()}/${unlockN()} mode=${state.battleMode}`);
+    }
   }
   renderAll();
 }
 
-async function createPvE({ autoPlay = false, seed = 0 } = {}) {
+async function createPvE({ autoPlay = false, seed = 0, stageId = null } = {}) {
+  const sid = stageId || state.selectedStageId || YARD_STAGE;
   const { data } = await api("/api/battle/v1/CreatePvE", {
     method: "POST",
     body: JSON.stringify({
-      stageId: YARD_STAGE,
+      stageId: sid,
       team: STARTERS,
       potions: [],
       seed,
@@ -905,12 +1122,19 @@ async function submitAction(action) {
 
 async function startYard(autoPlay = false) {
   try {
+    if (!state.battleMode) state.battleMode = "pve";
     const diff = await createPvE({ autoPlay, seed: autoPlay ? 20261104 : 0 });
-    await applyDiff(diff, autoPlay ? "CreatePvE autoPlay" : "CreatePvE");
+    await applyDiff(diff, autoPlay ? "CreatePvE autoPlay" : `CreatePvE ${state.selectedStageId}`);
   } catch (err) {
     log(`CreatePvE fail: ${err.message}`);
     alert(err.message);
   }
+}
+
+async function startPractice(autoPlay = false) {
+  state.battleMode = "practice";
+  state.selectedStageId = PRACTICE_STAGE;
+  await startYard(autoPlay);
 }
 
 async function startTutorial() {
@@ -966,6 +1190,10 @@ async function refreshReplays() {
 }
 
 async function pvpAuto() {
+  if (!pvpUnlocked()) {
+    showGateTip(t("gate.tip.pvp", "PvP откроется после 3 побед в Мифмире или тренировке"));
+    return;
+  }
   try {
     const { data } = await api("/api/battle/v1/CreatePvP", {
       method: "POST",
@@ -1017,6 +1245,14 @@ function renderAll() {
   switch (state.tab) {
     case "hub":
       renderHub();
+      bindHubPortals();
+      break;
+    case "login":
+      break;
+    case "practice":
+      renderUnlockProgress();
+      break;
+    case "codex":
       break;
     case "yard":
       renderYard();
@@ -1025,12 +1261,14 @@ function renderAll() {
       renderFormation();
       break;
     case "boss_dungeon":
+      renderBossFirst();
       break;
     case "boss_raid":
       break;
     case "pvp":
       $("pvpEyebrow").textContent = t("hub.tab.pvp");
       $("pvpTitle").textContent = t("hub.tab.pvp");
+      renderUnlockProgress();
       break;
     case "collection":
       $("colEyebrow").textContent = t("hub.tab.collection");
@@ -1067,9 +1305,31 @@ function renderAll() {
 
 function wireButtons() {
   $("btnBrandHub")?.addEventListener("click", () => navigate("hub"));
-  $("btnTutorial").addEventListener("click", () => startTutorial());
-  $("btnYardBattle").addEventListener("click", () => startYard(false));
-  $("btnYardAuto").addEventListener("click", () => startYard(true));
+  $("btnLoginEnter")?.addEventListener("click", () => {
+    state.loggedIn = true;
+    navigate("hub");
+  });
+  $("btnPracticeBattle")?.addEventListener("click", () => startPractice(false));
+  $("btnPracticeHub")?.addEventListener("click", () => navigate("hub"));
+  $("btnCodexHub")?.addEventListener("click", () => navigate("hub"));
+  $("btnBossFirstWave")?.addEventListener("click", () => {
+    state.battleMode = "boss";
+    state.selectedStageId = state.bossFirst?.waves?.[state.bossWaveIndex]?.stageId || "boss_first_w1";
+    startYard(false);
+  });
+  $("btnTutorial").addEventListener("click", () => {
+    state.battleMode = "pve";
+    state.selectedStageId = YARD_STAGE;
+    startTutorial();
+  });
+  $("btnYardBattle").addEventListener("click", () => {
+    state.battleMode = "pve";
+    startYard(false);
+  });
+  $("btnYardAuto").addEventListener("click", () => {
+    state.battleMode = "pve";
+    startYard(true);
+  });
   $("btnYardToFormation").addEventListener("click", () => navigate("formation"));
   $("btnFormationBattle").addEventListener("click", () => startYard(false));
   $("btnFormationYard").addEventListener("click", () => navigate("yard"));
@@ -1151,22 +1411,44 @@ async function bootStarterGrant() {
   );
 }
 
+async function loadCampaign() {
+  try {
+    const { data } = await api("/content/mythmir_sl.json");
+    state.campaign = data;
+  } catch (err) {
+    console.warn("campaign load", err);
+    state.campaign = { nodes: [] };
+  }
+  try {
+    const { data } = await api("/content/boss_first_sl.json");
+    state.bossFirst = data;
+  } catch (err) {
+    state.bossFirst = null;
+  }
+}
+
 async function main() {
   window.mythfelNavigate = navigate;
   window.mythfelStartYard = startYard;
+  window.mythfelStartPractice = startPractice;
   wireButtons();
   showView("viewBoot");
   $("bootMsg").textContent = "Boot → LiveOps fetch…";
   try {
+    loadProgress();
     await loadLoc();
     await bootLiveOps();
+    await loadCampaign();
     await bootStarterGrant();
     const battleOk = await checkBattle();
     const bp = $("battlePill");
     bp.textContent = battleOk ? "Battle :8081 OK" : "Battle DOWN";
     bp.className = `status-pill ${battleOk ? "ok" : "bad"}`;
-    state.tab = "hub";
+    // Boot → Login → Hub (FULL-SPEC §6)
+    state.loggedIn = false;
+    state.tab = "login";
     state.primary = "combat";
+    document.body.classList.add("mythfel-login");
     renderAll();
   } catch (err) {
     $("bootMsg").textContent = `Boot fail: ${err.message}. Подними CDN :8090 и battle :8081 (см. README).`;

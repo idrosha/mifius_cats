@@ -48,13 +48,21 @@ func LoadCatalog(root string) (*Catalog, error) {
 		}
 	}
 
-	starterPath := filepath.Join(root, "cats", "starters.json")
-	var starters []CatTemplate
-	if err := readJSON(starterPath, &starters); err != nil {
-		return nil, fmt.Errorf("starters: %w", err)
+	catFiles, err := filepath.Glob(filepath.Join(root, "cats", "*.json"))
+	if err != nil {
+		return nil, err
 	}
-	for _, s := range starters {
-		cat.Starters[s.TemplateID] = s
+	if len(catFiles) == 0 {
+		return nil, fmt.Errorf("cats: no json files")
+	}
+	for _, f := range catFiles {
+		var starters []CatTemplate
+		if err := readJSON(f, &starters); err != nil {
+			return nil, fmt.Errorf("cats %s: %w", f, err)
+		}
+		for _, s := range starters {
+			cat.Starters[s.TemplateID] = s
+		}
 	}
 
 	stageFiles, err := filepath.Glob(filepath.Join(root, "stages", "*.json"))

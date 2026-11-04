@@ -433,3 +433,29 @@ html, body {
   .mythfel-primary { justify-content: flex-start; }
   .mythfel-subtabs button { min-width: 42%; flex: 1 1 42%; }
 }
+
+
+/* Soft-launch overlays + gated nav */
+.mythfel-login #appNav { opacity: 0.35; pointer-events: none; }
+.mythfel-login #wireDock { opacity: 1; }
+.mythfel-subtabs button.gated::after { content: " ·"; opacity: 0.5; }
+.mythfel-subtabs button.locked { opacity: 0.65; }
+.mission-stage { margin-top: 0.5rem; color: #fdba45; }
+.mission-fight {
+  text-align: left;
+  padding: 0.4rem 0.55rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(157, 143, 123, 0.35);
+  background: #1f1b18;
+  color: #eae1db;
+  cursor: pointer;
+}
+.mission-fight.active { border-color: #fdba45; box-shadow: 0 0 0 1px rgba(253, 186, 69, 0.35); }
+.mission-fight.locked { opacity: 0.55; }
+.mission-fight .meta { font-size: 11px; color: #d5c4af; }
+#gateTipBanner {
+  position: fixed; bottom: 4.5rem; left: 50%; transform: translateX(-50%);
+  z-index: 80; padding: 0.55rem 0.9rem; border-radius: 0.75rem;
+  background: #2e2926; border: 1px solid #fdba45; color: #eae1db;
+  max-width: 90vw;
+}

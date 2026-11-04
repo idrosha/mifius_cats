@@ -1,0 +1,237 @@
+{
+  "stageId": "boss_first_w1",
+  "chapter": 99,
+  "name_key": "stage.boss_first_w1",
+  "bowlCost": 1,
+  "enemyTeam": [
+    {
+      "templateId": "bot_grass_dummy_tank_bw1",
+      "role": "tank",
+      "element": "grass",
+      "level": 1,
+      "baseStats": {
+        "hp": 17,
+        "atk": 2,
+        "spd": 2,
+        "skill": 1,
+        "charm": 1
+      },
+      "deck": [
+        {
+          "cardId": "card_bot_nibble_bw1",
+          "name_key": "card.bot_nibble",
+          "element": "grass",
+          "cost": 1,
+          "atk": 3,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_bot_shell_bw1",
+          "name_key": "card.bot_shell",
+          "element": "grass",
+          "cost": 1,
+          "atk": 0,
+          "shield": 3,
+          "hits": 0,
+          "targetRule": "self",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_bot_nibble2_bw1",
+          "name_key": "card.bot_nibble2",
+          "element": "grass",
+          "cost": 1,
+          "atk": 3,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_bot_shell2_bw1",
+          "name_key": "card.bot_shell2",
+          "element": "grass",
+          "cost": 1,
+          "atk": 0,
+          "shield": 3,
+          "hits": 0,
+          "targetRule": "self",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": []
+        }
+      ]
+    },
+    {
+      "templateId": "bot_grass_dummy_fighter_bw1",
+      "role": "fighter",
+      "element": "grass",
+      "level": 1,
+      "baseStats": {
+        "hp": 13,
+        "atk": 3,
+        "spd": 4,
+        "skill": 1,
+        "charm": 1
+      },
+      "deck": [
+        {
+          "cardId": "card_bot_scratch_bw1",
+          "name_key": "card.bot_scratch",
+          "element": "grass",
+          "cost": 1,
+          "atk": 4,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_bot_scratch2_bw1",
+          "name_key": "card.bot_scratch2",
+          "element": "grass",
+          "cost": 1,
+          "atk": 4,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_bot_scratch3_bw1",
+          "name_key": "card.bot_scratch3",
+          "element": "grass",
+          "cost": 1,
+          "atk": 4,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_bot_scratch4_bw1",
+          "name_key": "card.bot_scratch4",
+          "element": "grass",
+          "cost": 1,
+          "atk": 4,
+          "hits": 1,
+          "shield": 0,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        }
+      ]
+    },
+    {
+      "templateId": "bot_grass_dummy_support_bw1",
+      "role": "support",
+      "element": "grass",
+      "level": 1,
+      "baseStats": {
+        "hp": 11,
+        "atk": 1,
+        "spd": 3,
+        "skill": 2,
+        "charm": 2
+      },
+      "deck": [
+        {
+          "cardId": "card_bot_sip_bw1",
+          "name_key": "card.bot_sip",
+          "element": "grass",
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "ally_lowest_hp",
+          "tags": [
+            "heal"
+          ],
+          "effectOps": [
+            {
+              "op": "heal",
+              "amount": 3
+            }
+          ]
+        },
+        {
+          "cardId": "card_bot_poke_bw1",
+          "name_key": "card.bot_poke",
+          "element": "grass",
+          "cost": 1,
+          "atk": 2,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_bot_sip2_bw1",
+          "name_key": "card.bot_sip2",
+          "element": "grass",
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "ally_lowest_hp",
+          "tags": [
+            "heal"
+          ],
+          "effectOps": [
+            {
+              "op": "heal",
+              "amount": 3
+            }
+          ]
+        },
+        {
+          "cardId": "card_bot_poke2_bw1",
+          "name_key": "card.bot_poke2",
+          "element": "grass",
+          "cost": 1,
+          "atk": 2,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "boss": "first_archdog",
+    "wave": 1,
+    "theme": "wave_small_6",
+    "uiEnemyCountHint": 6
+  }
+}

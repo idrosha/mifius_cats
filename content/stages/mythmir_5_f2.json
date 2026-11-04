@@ -1,0 +1,238 @@
+{
+  "stageId": "mythmir_5_f2",
+  "chapter": 5,
+  "name_key": "stage.mythmir_5_f2",
+  "bowlCost": 1,
+  "enemyTeam": [
+    {
+      "templateId": "bot_grass_dummy_tank_m5f2",
+      "role": "tank",
+      "element": "grass",
+      "level": 1,
+      "baseStats": {
+        "hp": 20,
+        "atk": 2,
+        "spd": 2,
+        "skill": 1,
+        "charm": 1
+      },
+      "deck": [
+        {
+          "cardId": "card_bot_nibble_m5f2",
+          "name_key": "card.bot_nibble",
+          "element": "grass",
+          "cost": 1,
+          "atk": 3,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_bot_shell_m5f2",
+          "name_key": "card.bot_shell",
+          "element": "grass",
+          "cost": 1,
+          "atk": 0,
+          "shield": 3,
+          "hits": 0,
+          "targetRule": "self",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_bot_nibble2_m5f2",
+          "name_key": "card.bot_nibble2",
+          "element": "grass",
+          "cost": 1,
+          "atk": 3,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_bot_shell2_m5f2",
+          "name_key": "card.bot_shell2",
+          "element": "grass",
+          "cost": 1,
+          "atk": 0,
+          "shield": 3,
+          "hits": 0,
+          "targetRule": "self",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": []
+        }
+      ]
+    },
+    {
+      "templateId": "bot_grass_dummy_fighter_m5f2",
+      "role": "fighter",
+      "element": "grass",
+      "level": 1,
+      "baseStats": {
+        "hp": 15,
+        "atk": 3,
+        "spd": 4,
+        "skill": 1,
+        "charm": 1
+      },
+      "deck": [
+        {
+          "cardId": "card_bot_scratch_m5f2",
+          "name_key": "card.bot_scratch",
+          "element": "grass",
+          "cost": 1,
+          "atk": 4,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_bot_scratch2_m5f2",
+          "name_key": "card.bot_scratch2",
+          "element": "grass",
+          "cost": 1,
+          "atk": 4,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_bot_scratch3_m5f2",
+          "name_key": "card.bot_scratch3",
+          "element": "grass",
+          "cost": 1,
+          "atk": 4,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_bot_scratch4_m5f2",
+          "name_key": "card.bot_scratch4",
+          "element": "grass",
+          "cost": 1,
+          "atk": 4,
+          "hits": 1,
+          "shield": 0,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        }
+      ]
+    },
+    {
+      "templateId": "bot_grass_dummy_support_m5f2",
+      "role": "support",
+      "element": "grass",
+      "level": 1,
+      "baseStats": {
+        "hp": 13,
+        "atk": 1,
+        "spd": 3,
+        "skill": 2,
+        "charm": 2
+      },
+      "deck": [
+        {
+          "cardId": "card_bot_sip_m5f2",
+          "name_key": "card.bot_sip",
+          "element": "grass",
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "ally_lowest_hp",
+          "tags": [
+            "heal"
+          ],
+          "effectOps": [
+            {
+              "op": "heal",
+              "amount": 3
+            }
+          ]
+        },
+        {
+          "cardId": "card_bot_poke_m5f2",
+          "name_key": "card.bot_poke",
+          "element": "grass",
+          "cost": 1,
+          "atk": 2,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_bot_sip2_m5f2",
+          "name_key": "card.bot_sip2",
+          "element": "grass",
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "ally_lowest_hp",
+          "tags": [
+            "heal"
+          ],
+          "effectOps": [
+            {
+              "op": "heal",
+              "amount": 3
+            }
+          ]
+        },
+        {
+          "cardId": "card_bot_poke2_m5f2",
+          "name_key": "card.bot_poke2",
+          "element": "grass",
+          "cost": 1,
+          "atk": 2,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        }
+      ]
+    }
+  ],
+  "meta": {
+    "stageIndex": 5,
+    "fightIndex": 2,
+    "title_ru": "Логово Питбосса",
+    "fight_ru": "Средние питомцы",
+    "waveTheme": "medium"
+  }
+}

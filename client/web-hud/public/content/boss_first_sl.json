@@ -1,0 +1,21 @@
+{
+  "bossId": "first_archdog",
+  "title_ru": "Архипёс — первый босс",
+  "waves": [
+    {
+      "wave": 1,
+      "stageId": "boss_first_w1",
+      "theme": "wave_small_6"
+    },
+    {
+      "wave": 2,
+      "stageId": "boss_first_w2",
+      "theme": "wave_pets_10"
+    },
+    {
+      "wave": 3,
+      "stageId": "boss_first_w3",
+      "theme": "wave_boss_plus_4"
+    }
+  ]
+}
