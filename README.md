@@ -6,8 +6,10 @@
 
 ```
 apps/
-  bot-server/     # Telegram bot-server (grammY), подтверждение экономики и порты
-packages/         # позже: game-core и общие пакеты
+  bot-server/              # Telegram bot-server (grammY), подтверждение экономики
+packages/
+  platform-contracts/      # порты (TypeScript interfaces)
+  game-core/               # правила квиза без DOM / Telegram
 ```
 
 Секреты (токен бота, GitHub secrets) хранятся **только в окружении / секретах CI**. Не коммитьте `.env` и не вставляйте реальные токены в код, README или историю git.

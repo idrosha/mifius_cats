@@ -11,7 +11,10 @@
     "bot": "npm run start -w @mir-games/bot-server",
     "bot:dev": "npm run dev -w @mir-games/bot-server",
     "bot:build": "npm run build -w @mir-games/bot-server",
-    "typecheck": "npm run typecheck -w @mir-games/bot-server"
+    "build": "npm run build -w @mir-games/platform-contracts && npm run build -w @mir-games/game-core && npm run build -w @mir-games/bot-server",
+    "typecheck": "npm run build -w @mir-games/platform-contracts && npm run typecheck -w @mir-games/platform-contracts && npm run typecheck -w @mir-games/game-core && npm run typecheck -w @mir-games/bot-server",
+    "test": "npm run build -w @mir-games/platform-contracts && npm run test -w @mir-games/game-core",
+    "test:core": "npm run test -w @mir-games/game-core"
   },
   "engines": {
     "node": ">=20"
