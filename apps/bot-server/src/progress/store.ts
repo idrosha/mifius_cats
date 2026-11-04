@@ -280,8 +280,12 @@ export function createInMemoryProgressStore(nowMs: () => number = () => Date.now
       if (!receipt.provider || !receipt.receiptId || !receipt.productId) {
         throw new Error("provider, receiptId and productId required");
       }
-      // Stub providers only — no real payment secrets or Telegram Stars keys.
-      if (receipt.provider !== "stub-telegram" && receipt.provider !== "stub-web") {
+      // Stub providers only — no real payment secrets, Stars keys, or Play Billing keys.
+      if (
+        receipt.provider !== "stub-telegram" &&
+        receipt.provider !== "stub-web" &&
+        receipt.provider !== "stub-play"
+      ) {
         throw new Error(`Unsupported payment provider stub: ${receipt.provider}`);
       }
       if (!receipt.receiptId.startsWith("stub:")) {

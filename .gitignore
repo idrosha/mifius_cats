@@ -29,3 +29,11 @@ Thumbs.db
 # Coverage / test
 coverage/
 .nyc_output/
+
+# Capacitor / Android (generated locally — never commit signing keys)
+apps/mobile-capacitor/android/
+apps/mobile-capacitor/ios/
+*.jks
+*.keystore
+local.properties
+.capacitor/

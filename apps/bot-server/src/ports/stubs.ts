@@ -14,7 +14,9 @@ export function createStubPorts(): BotServerPorts {
     payment: {
       async confirmReceipt(payload) {
         if (
-          (payload.provider === "stub-telegram" || payload.provider === "stub-web") &&
+          (payload.provider === "stub-telegram" ||
+            payload.provider === "stub-web" ||
+            payload.provider === "stub-play") &&
           payload.receiptId.startsWith("stub:")
         ) {
           return { ok: true };

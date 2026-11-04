@@ -1,6 +1,6 @@
 # Мир Квизов (`mir_games`)
 
-Кроссплатформенные познавательные квизы: одно игровое ядро, платформы только в адаптерах. Клиенты — Telegram-бот + Mini App + Web.
+Кроссплатформенные познавательные квизы: одно игровое ядро, платформы только в адаптерах. Клиенты — Telegram-бот + Mini App + Web + Capacitor Android shell + TV web.
 
 ## Структура (monorepo)
 
@@ -9,19 +9,25 @@ apps/
   bot-server/              # Telegram bot + HTTP API (прогресс, auth stub)
   telegram-miniapp/        # Telegram Mini App (Vite + React)
   web/                     # Browser web client (Vite + React)
+  mobile-capacitor/        # Capacitor Android thin shell (Phase 8)
+  tv-web/                  # TV / leanback thin client (Phase 8)
 content/
   question-bank/           # банк вопросов сингл (JSON, блок 1: 10×30)
 packages/
   platform-contracts/      # порты (TypeScript interfaces)
-  game-core/               # правила квиза без DOM / Telegram
+  game-core/               # правила квиза без DOM / Telegram / Capacitor
   question-bank/           # адаптер JSON → LevelDefinition + карта
   adapters-telegram/       # адаптеры портов для Mini App
   adapters-web/            # адаптеры портов для браузера
+  adapters-mobile/         # Haptics + Play Billing stubs (Capacitor)
+  adapters-tv/             # InputPort dpad/gamepad + safe-zone profile
 ```
 
-Секреты (токен бота, GitHub secrets) хранятся **только в окружении / секретах CI**. Не коммитьте `.env` и не вставляйте реальные токены в код, README или историю git.
+Секреты (токен бота, GitHub secrets, Play Billing) хранятся **только в окружении / секретах CI**. Не коммитьте `.env` и не вставляйте реальные токены в код, README или историю git.
 
-## Локальный запуск (Phase 7 demo)
+Ручной чеклист: [`MANUAL_QA.md`](./MANUAL_QA.md).
+
+## Локальный запуск
 
 Требования: Node.js 20+.
 
@@ -42,34 +48,13 @@ npm run bot:dev
 
 ### 2) Web
 
-В другом терминале:
-
 ```bash
 export VITE_API_BASE_URL=http://127.0.0.1:8787
 npm run web:dev
 # открыть http://127.0.0.1:5174
 ```
 
-Демо-потоки:
-
-- **Чемпионат (Phase 7):** Меню → Чемпионат → «Вступить» (PaymentPort stub / Stars stub, квитанция `stub:` на сервере) → фонд растёт → «Играть» (3 раунда, аватар виден) → «Определить победителя» → выплата stub на баланс. Секция магазина «Только за чемпионат» открывается после подтверждённого входа. Дни месяца: `CHAMPIONSHIP_OPEN_DAYS` (по умолчанию `*`).
-- **Онлайн (Phase 6):** Меню → Онлайн → «Найти матч» (stub-соперник) → 3 раунда (выбор / мульти / свободный текст) → результат. Аватар виден в лобби и в матче. Очки и рейтинг пишет только bot-server (`POST /api/online/answer` не принимает client score).
-- **Сингл:** Меню → Одиночная игра → карта из 10 стран (Египет → … → Мексика) → 30 вопросов на уровень → результат. Следующий уровень открывается после предыдущего; переход к следующему блоку из 10 — при ≥1000 очков за завершённый блок. Аватар виден на карте / в игре / результате.
-- **Магазин:** Меню → Магазин → купить косметику за очки или stub-деньги → «надеть» → аватар обновляется. Секция «Только за чемпионат» открывается участием. Купить «Повторная попытка уровня» — кредит появляется в аккаунте.
-- **Аккаунт:** Меню → Аккаунт → статистика, онлайн-рейтинг, правка имени, счётчик вторых попыток.
-- **Настройки:** язык + звук (сервер + локальный StoragePort-кэш).
-
-Auth — локальный demo id (`demo:web-demo`) через `/api/auth/verify`. Стартовый stub-баланс денег позволяет покупать без реальных платежей; очки копятся с прохождений.
-
-Smoke API:
-
-```bash
-# после npm run bot:dev
-curl -s "http://127.0.0.1:8787/api/championship/status?playerId=demo:web-demo"
-curl -s -X POST http://127.0.0.1:8787/api/online/queue \
-  -H 'Content-Type: application/json' \
-  -d '{"playerId":"demo:web-demo","mode":"stub-bot"}'
-```
+Демо-потоки: чемпионат / онлайн / сингл (10 стран) / магазин / аккаунт — см. `MANUAL_QA.md`.
 
 ### 3) Mini App
 
@@ -79,7 +64,37 @@ npm run miniapp:dev
 # открыть http://127.0.0.1:5173
 ```
 
-Тот же магазин / аккаунт / аватар, что и на web.
+### 4) Capacitor Android shell (Phase 8)
+
+Browser smoke (без Android SDK):
+
+```bash
+export VITE_API_BASE_URL=http://127.0.0.1:8787
+npm run mobile:dev
+# http://127.0.0.1:5175
+```
+
+Native (нужны Android Studio / SDK):
+
+```bash
+export VITE_API_BASE_URL=http://10.0.2.2:8787   # эмулятор → host
+npm run mobile:build
+npm run mobile:cap:add      # один раз — создаёт android/ (gitignored)
+npm run mobile:cap:sync
+npm run mobile:cap:open
+```
+
+Подробности: `apps/mobile-capacitor/README.md`. Billing — только `stub-play`, без Play Console ключей.
+
+### 5) TV / Web (Phase 8)
+
+```bash
+export VITE_API_BASE_URL=http://127.0.0.1:8787
+npm run tv:dev
+# http://127.0.0.1:5176
+```
+
+Крупный UI, safe-zone ~5%, фокус стрелками / gamepad stub. Подробности: `apps/tv-web/README.md`.
 
 ### Проверки
 
@@ -93,4 +108,4 @@ npm test
 - Переменные: `TELEGRAM_BOT_TOKEN`, `HTTP_PORT`, `CORS_ORIGIN`, `MINIAPP_URL`, `VITE_API_BASE_URL`, `CHAMPIONSHIP_OPEN_DAYS`
 - Пример без значений: `.env.example`
 - `.env` в `.gitignore` — не коммитить
-- В клиенте секретов нет; initData HMAC-проверка — следующий шаг после стабильного токена в env сервера
+- В клиенте секретов нет; Play Billing / Stars keys не кладём в репозиторий
