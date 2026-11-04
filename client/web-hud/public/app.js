@@ -24,6 +24,8 @@ const PATH_TO_TAB = {
   "лавка-и-маркет": "shop",
   лавка: "shop",
   маркетплейс: "market",
+  рынок: "market",
+  аукцион: "auction",
   "pvp-арена": "pvp",
   "battle-pass": "pass",
   гильдия: "guild",
@@ -33,6 +35,13 @@ const PATH_TO_TAB = {
   пасс: "pass",
   pvp: "pvp",
   ферма: "farm",
+  питомник: "breeding",
+  скрещивание: "breeding",
+  крафт: "craft",
+  данжи: "boss_dungeon",
+  подземелья: "boss_dungeon",
+  рейтинги: "rating_players",
+  чат: "chat_global",
 };
 
 /**
@@ -44,12 +53,12 @@ const NAV = [
     id: "character",
     key: "nav.primary.character",
     tabs: [
-      { id: "gear", key: "nav.sub.gear", stub: true },
-      { id: "home", key: "nav.sub.home", stub: true },
+      { id: "gear", key: "nav.sub.gear" },
+      { id: "home", key: "nav.sub.home", stub: true }, // TRUE gap — нет мока Stitch
       { id: "farm", key: "nav.sub.farm", soon: "farm" },
       { id: "collection", key: "nav.sub.collection" },
-      { id: "craft", key: "nav.sub.craft", stub: true },
-      { id: "breeding", key: "nav.sub.breeding", stub: true },
+      { id: "craft", key: "nav.sub.craft" },
+      { id: "breeding", key: "nav.sub.breeding" },
     ],
   },
   {
@@ -59,6 +68,7 @@ const NAV = [
       { id: "yard", key: "nav.sub.mythmir" },
       { id: "formation", key: "nav.sub.formation" },
       { id: "pvp", key: "nav.sub.pvp" },
+      { id: "boss_dungeon", key: "nav.sub.boss_dungeon" },
       { id: "boss_raid", key: "nav.sub.boss_raid" },
     ],
   },
@@ -69,21 +79,21 @@ const NAV = [
       { id: "tavern", key: "nav.sub.tavern" },
       { id: "shop", key: "nav.sub.shop" },
       { id: "market", key: "nav.sub.market" },
-      { id: "auction", key: "nav.sub.auction", stub: true },
+      { id: "auction", key: "nav.sub.auction" },
     ],
   },
   {
     id: "guilds",
     key: "nav.primary.guilds",
-    tabs: [{ id: "guild", key: "nav.sub.guild", soon: "clan_boss" }],
+    tabs: [{ id: "guild", key: "nav.sub.guild" }],
   },
   {
     id: "chats",
     key: "nav.primary.chats",
     tabs: [
-      { id: "chat_global", key: "nav.sub.chat_global", stub: true },
-      { id: "chat_guild", key: "nav.sub.chat_guild", stub: true },
-      { id: "chat_friends", key: "nav.sub.chat_friends", stub: true },
+      { id: "chat_global", key: "nav.sub.chat_global" },
+      { id: "chat_guild", key: "nav.sub.chat_guild" },
+      { id: "chat_friends", key: "nav.sub.chat_friends" },
     ],
   },
   {
@@ -95,8 +105,8 @@ const NAV = [
     id: "ratings",
     key: "nav.primary.ratings",
     tabs: [
-      { id: "rating_players", key: "nav.sub.rating_players", stub: true },
-      { id: "rating_guilds", key: "nav.sub.rating_guilds", stub: true },
+      { id: "rating_players", key: "nav.sub.rating_players" },
+      { id: "rating_guilds", key: "nav.sub.rating_guilds" },
     ],
   },
 ];
@@ -148,8 +158,9 @@ const state = {
   logLines: [],
   shopTab: "offers",
   marketTab: "buy",
-  wallet: { gold: 1480, milk: 12, energy: "85/90", gems: 40 },
-  ownedPotions: ["stone_skin", "spark_claw", "nine_lives"],
+  wallet: { gold: 0, milk: 0, energy: "0/0", gems: 0 },
+  profile: null, // GrantStarterKit smoke (§5.1)
+  ownedPotions: [],
   marketLots: [
     { id: "lot_1", name: "starter_support_water", bid: 120, side: "buy" },
     { id: "lot_2", name: "yarn_ball", bid: 80, side: "buy" },
@@ -249,6 +260,7 @@ function logicalViewId() {
     hub: "viewHub",
     yard: "viewYard",
     formation: "viewFormation",
+    boss_dungeon: "viewBossDungeon",
     boss_raid: "viewBossRaid",
     battle: "viewBattle",
     pvp: "viewPvp",
@@ -281,6 +293,7 @@ function wireModeFor(viewId) {
     return "soon";
   }
   const special = {
+    viewBossDungeon: "boss_dungeon",
     viewBossRaid: "boss_raid",
     viewChatGlobal: "chat_global",
     viewChatGuild: "chat_guild",
@@ -331,7 +344,7 @@ function navigate(tab, { soon = null, clearBattle = true, primary = null } = {})
 
   state.tab = tab;
   state.soon = soon;
-  if (tab === "guild") state.soon = "clan_boss";
+  // guild home = painted Stitch; clan-boss gameplay still «Скоро» via explicit soon
   if (tab === "farm") state.soon = "farm";
   if (tab === "breeding" && !state.soon) state.soon = null;
 
@@ -361,14 +374,28 @@ function renderCurrency() {
     const el = $(id);
     if (el) el.textContent = String(v);
   };
-  set("curGold", state.wallet.gold);
-  set("curMilk", state.wallet.milk);
-  set("curEnergy", state.wallet.energy);
-  set("curGems", state.wallet.gems);
+  const p = state.profile;
+  // Prefer §5.1 grant currencies when profile loaded
+  set("curGold", p ? p.fish : state.wallet.gold);
+  set("curMilk", p ? p.bowls : state.wallet.milk);
+  set("curEnergy", p ? `${p.pvpTickets}/5` : state.wallet.energy);
+  set("curGems", p ? p.yarn : state.wallet.gems);
   set(
     "brandSub",
     state.locale === "ru" ? "Ур. 1 · Soft Launch" : "Lv. 1 · Soft Launch",
   );
+}
+
+/** Apply GrantStarterKit payload (§5.1) — client never invents rewards. */
+function applyStarterGrant(profile) {
+  state.profile = profile;
+  state.ownedPotions = (profile.potions || []).map((x) => x.potionId || x.id);
+  state.wallet = {
+    gold: profile.fish,
+    milk: profile.bowls,
+    energy: `${profile.pvpTickets}/5`,
+    gems: profile.yarn,
+  };
 }
 
 function renderTabs() {
@@ -429,15 +456,33 @@ function starterMeta(id) {
   return map[id] || { role: "?", element: "?", lane: "?" };
 }
 
+function combatStarterIds() {
+  const cats = state.profile?.cats || [];
+  const combat = cats
+    .filter((c) => c.origin === "starter" || STARTERS.includes(c.templateId))
+    .map((c) => c.templateId);
+  return combat.length ? combat : STARTERS;
+}
+
 function renderStarters(intoId) {
   const box = $(intoId);
   if (!box) return;
   box.innerHTML = "";
-  for (const id of STARTERS) {
+  const ids = combatStarterIds();
+  for (const id of ids) {
     const m = starterMeta(id);
     const d = document.createElement("div");
     d.className = "tile";
     d.innerHTML = `<strong>${id}</strong><div class="meta">${m.role} · ${m.element} · ${m.lane}</div>`;
+    box.appendChild(d);
+  }
+  const farm = (state.profile?.cats || []).find(
+    (c) => c.templateId === "starter_farm_grass" || c.origin === "farm",
+  );
+  if (farm) {
+    const d = document.createElement("div");
+    d.className = "tile";
+    d.innerHTML = `<strong>${farm.templateId}</strong><div class="meta">farm · inventory · SL no crop</div>`;
     box.appendChild(d);
   }
 }
@@ -446,6 +491,8 @@ function softNavigateFromLabel(label) {
   const soft = [
     ["в поход", () => navigate("formation")],
     ["в бой pvp", () => navigate("pvp")],
+    ["данж", () => navigate("boss_dungeon")],
+    ["подземел", () => navigate("boss_dungeon")],
     ["к рейду", () => navigate("boss_raid")],
     ["рейд", () => navigate("boss_raid")],
     ["легион", () => navigate("boss_raid")],
@@ -462,8 +509,8 @@ function softNavigateFromLabel(label) {
     ["пасс", () => navigate("pass")],
     ["расстанов", () => navigate("formation")],
     ["строй", () => navigate("formation")],
-    ["гильдия", () => navigate("guild", { soon: "clan_boss" })],
-    ["клан", () => navigate("guild", { soon: "clan_boss" })],
+    ["гильдия", () => navigate("guild")],
+    ["клан", () => navigate("guild")],
     ["ферма", () => navigate("farm", { soon: "farm" })],
     ["питомник", () => navigate("breeding")],
     ["скрещиван", () => navigate("breeding")],
@@ -977,6 +1024,8 @@ function renderAll() {
     case "formation":
       renderFormation();
       break;
+    case "boss_dungeon":
+      break;
     case "boss_raid":
       break;
     case "pvp":
@@ -988,8 +1037,8 @@ function renderAll() {
       $("colTitle").textContent = t("hub.tab.collection");
       $("colLead").textContent =
         state.locale === "ru"
-          ? "Stub: стартовая тройка из content."
-          : "Stub: starter trio from content.";
+          ? "Стартовый грант §5.1: 3 боевых + 1 farm-cat (equal decks)."
+          : "Starter grant §5.1: 3 combat + 1 farm-cat (equal decks).";
       renderStarters("collectionCards");
       break;
     case "shop":
@@ -1009,11 +1058,9 @@ function renderAll() {
       renderSoon();
       break;
     case "guild":
-      state.soon = "clan_boss";
-      // prefer painted guild stub; Soon sheet still available via wire
+      // painted Stitch guild home (clan-boss gameplay remains Soon)
       break;
     default:
-      // stub screens are self-painted Stitch placeholders
       break;
   }
 }
@@ -1027,8 +1074,11 @@ function wireButtons() {
   $("btnFormationBattle").addEventListener("click", () => startYard(false));
   $("btnFormationYard").addEventListener("click", () => navigate("yard"));
   $("btnFormationTavern").addEventListener("click", () => navigate("tavern"));
+  $("btnBossDungeonRaid")?.addEventListener("click", () => navigate("boss_raid"));
+  $("btnBossDungeonHub")?.addEventListener("click", () => navigate("hub"));
   $("btnBossRaidHub")?.addEventListener("click", () => navigate("hub"));
   $("btnBossRaidFormation")?.addEventListener("click", () => navigate("formation"));
+  $("btnBossRaidDungeon")?.addEventListener("click", () => navigate("boss_dungeon"));
   $("btnEndTurn").addEventListener("click", () => submitAction({ kind: "endTurn" }));
   $("btnKeep").addEventListener("click", () => {
     if (!state.battle?.canKeep || state.battle?.result) return;
@@ -1090,6 +1140,17 @@ function wireButtons() {
   $("btnSoonHub").addEventListener("click", () => navigate("hub"));
 }
 
+async function bootStarterGrant() {
+  const { data } = await api("/api/dev/starter", {
+    method: "POST",
+    body: JSON.stringify({ userId: "local_smoke" }),
+  });
+  applyStarterGrant(data);
+  log(
+    `GrantStarterKit ok cats=${(data.cats || []).length} potions=${(data.potions || []).length} fish=${data.fish}`,
+  );
+}
+
 async function main() {
   window.mythfelNavigate = navigate;
   window.mythfelStartYard = startYard;
@@ -1099,6 +1160,7 @@ async function main() {
   try {
     await loadLoc();
     await bootLiveOps();
+    await bootStarterGrant();
     const battleOk = await checkBattle();
     const bp = $("battlePill");
     bp.textContent = battleOk ? "Battle :8081 OK" : "Battle DOWN";

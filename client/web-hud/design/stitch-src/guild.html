@@ -1,17 +1,476 @@
 <!DOCTYPE html>
-<html class="dark" lang="ru"><head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Гильдия — Мифиус</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{surface:"#161310","on-surface":"#eae1db",primary:"#fdba45","primary-container":"#d99b26","surface-container":"#231f1c","surface-container-high":"#2e2926","on-surface-variant":"#d5c4af","outline":"#9d8f7b"}}}};</script>
-<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@600;700&family=Rubik:wght@700;800&display=swap" rel="stylesheet"/>
-</head>
-<body class="bg-surface text-on-surface min-h-screen">
-<main class="min-h-screen w-full flex flex-col items-center justify-center gap-4 px-8 py-16 text-center" style="background:radial-gradient(ellipse at 50% 20%,#2e2926 0%,#161310 70%);">
-  <p class="text-xs tracking-[0.2em] uppercase text-primary font-bold">Stub · Нужен мок Stitch</p>
-  <h1 class="text-4xl font-black text-primary" style="font-family:Rubik,sans-serif">Гильдия</h1>
-  <p class="max-w-xl text-on-surface-variant" style="font-family:'Nunito Sans',sans-serif">Переход в свою гильдию (мок / Скоро).</p>
-  <p class="mt-4 px-4 py-2 rounded-lg border border-outline/40 bg-surface-container text-sm text-primary">Нужен мок Stitch — экран ещё не сверстан в Stitch</p>
-</main>
-</body></html>
+
+<html class="dark" lang="ru"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><title>Гильдия — Мифиус</title><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@500;600;700&amp;family=Rubik:wght@600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = { darkMode: "class", theme: { extend: { "colors": { "on-error": "#690005", "on-primary-fixed": "#281900", "on-secondary-container": "#82d186", "on-primary-fixed-variant": "#604100", "on-primary-container": "#523700", "on-background": "#eae1db", "on-error-container": "#ffdad6", "secondary-fixed": "#a4f6a6", "surface-container-highest": "#393430", "surface-container": "#231f1c", "secondary-container": "#005b1e", "outline-variant": "#504535", "inverse-surface": "#eae1db", "tertiary-fixed-dim": "#ffb4a6", "tertiary": "#ffb4a6", "on-surface-variant": "#d5c4af", "tertiary-container": "#ff826c", "primary-fixed": "#ffdeae", "secondary-fixed-dim": "#89d98c", "surface-bright": "#3d3835", "surface-dim": "#161310", "background": "#161310", "on-primary": "#432c00", "on-tertiary-fixed-variant": "#8d1607", "primary-fixed-dim": "#fdba45", "surface-container-high": "#2e2926", "tertiary-fixed": "#ffdad4", "surface-tint": "#fdba45", "inverse-primary": "#7f5700", "on-surface": "#eae1db", "outline": "#9d8f7b", "primary-container": "#d99b26", "surface-container-lowest": "#110d0b", "secondary": "#89d98c", "on-tertiary": "#660700", "error-container": "#93000a", "surface-container-low": "#1f1b18", "on-secondary-fixed-variant": "#00531b", "inverse-on-surface": "#342f2c", "on-tertiary-container": "#7c0a00", "error": "#ffb4ab", "surface": "#161310", "on-secondary-fixed": "#002106", "surface-variant": "#393430", "on-secondary": "#003910", "primary": "#fdba45", "on-tertiary-fixed": "#3f0300" }, "borderRadius": { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" }, "spacing": { "gutter-tablet": "1rem", "space-sm": "0.5rem", "margin-tablet": "1.5rem", "margin": "1rem", "gutter": "0.75rem", "space-xs": "0.25rem", "space-lg": "1rem", "space-md": "0.75rem", "space-xl": "1.5rem" }, "fontFamily": { "body-lg": [ "Nunito Sans" ], "headline-xl": [ "Rubik" ], "label-lg": [ "Rubik" ], "headline-lg": [ "Rubik" ], "body-sm": [ "Nunito Sans" ], "headline-lg-mobile": [ "Rubik" ], "body-md": [ "Nunito Sans" ], "label-sm": [ "Rubik" ], "headline-xl-mobile": [ "Rubik" ], "label-md": [ "Rubik" ], "stat-numeral": [ "Rubik" ], "headline-md": [ "Rubik" ] }, "fontSize": { "body-lg": [ "16px", { "lineHeight": "22px", "fontWeight": "600" } ], "headline-xl": [ "36px", { "lineHeight": "44px", "fontWeight": "800" } ], "label-lg": [ "14px", { "lineHeight": "18px", "fontWeight": "700" } ], "headline-lg": [ "26px", { "lineHeight": "32px", "fontWeight": "700" } ], "body-sm": [ "12px", { "lineHeight": "16px", "fontWeight": "500" } ], "headline-lg-mobile": [ "22px", { "lineHeight": "28px", "fontWeight": "700" } ], "body-md": [ "14px", { "lineHeight": "20px", "fontWeight": "500" } ], "label-sm": [ "10px", { "lineHeight": "12px", "fontWeight": "700" } ], "headline-xl-mobile": [ "28px", { "lineHeight": "34px", "fontWeight": "800" } ], "label-md": [ "12px", { "lineHeight": "16px", "fontWeight": "600" } ], "stat-numeral": [ "20px", { "lineHeight": "20px", "fontWeight": "800" } ], "headline-md": [ "18px", { "lineHeight": "24px", "fontWeight": "600" } ] } } } };</script></head><body class="bg-background font-body-md text-body-md text-on-surface min-h-screen flex flex-col"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-low/95 backdrop-blur-md shadow-[0_4px_16px_rgba(0,0,0,0.5)]"><div class="h-16 w-full px-margin-tablet flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md"><button aria-label="Назад" class="w-10 h-10 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors flex items-center justify-center text-primary" type="button"><span class="material-symbols-outlined text-[22px]">arrow_back</span></button><div class="flex flex-col"><span class="font-headline-md text-headline-md text-primary tracking-wide leading-none">Мифиус</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Мифические котики</span></div></div><nav class="hidden lg:flex items-center gap-space-xs bg-surface-container-lowest px-space-xs py-space-xs rounded-xl" data-active-classes="bg-primary-container text-on-primary-container font-label-md text-label-md"><a class="px-space-md py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all font-label-md text-label-md" data-path="arena" href="#">Арена</a><a class="px-space-md py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all font-label-md text-label-md" data-path="market" href="#">Лавка</a><a aria-current="page" class="px-space-md py-space-xs rounded-lg transition-all bg-primary-container text-on-primary-container font-label-md text-label-md" data-path="guild" href="#">Гильдия</a><a class="px-space-md py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all font-label-md text-label-md" data-path="chat" href="#">Таверна</a><a class="px-space-md py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all font-label-md text-label-md" data-path="leaderboards" href="#">Рейтинги</a></nav><div class="flex items-center gap-space-sm"><div class="hidden sm:flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-space-xs rounded-full"><span class="material-symbols-outlined text-secondary text-[18px]">set_meal</span><span class="font-stat-numeral text-label-md text-on-surface">1,420</span></div><div class="hidden md:flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-space-xs rounded-full"><span class="material-symbols-outlined text-tertiary text-[18px]">toys</span><span class="font-stat-numeral text-label-md text-on-surface">350</span></div><div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-space-xs rounded-full"><span class="material-symbols-outlined text-secondary text-[18px]">bolt</span><span class="font-stat-numeral text-label-md text-on-surface">60/60</span></div><div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-space-xs rounded-full"><span class="material-symbols-outlined text-primary text-[18px]">diamond</span><span class="font-stat-numeral text-label-md text-primary">84</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 flex-1 bg-background"><div class="flex flex-col w-full">
+<div class="relative w-full p-space-md lg:p-margin-tablet">
+<!-- Ambient Hearth Glow Background Effect -->
+<div class="absolute top-0 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
+<div class="absolute bottom-10 right-10 w-80 h-80 bg-tertiary-container/10 rounded-full blur-3xl pointer-events-none -z-10"></div>
+<!-- Guild Banner Title Ribbon -->
+<div class="w-full bg-surface-container-high rounded-xl p-space-md lg:px-space-xl lg:py-space-md shadow-md mb-space-lg flex flex-col md:flex-row md:items-center justify-between gap-space-md relative overflow-hidden">
+<div class="absolute -right-8 -top-8 w-32 h-32 bg-primary/5 rounded-full blur-xl pointer-events-none"></div>
+<div class="flex items-center gap-space-md min-w-0">
+<div class="w-12 h-12 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary shadow-inner shrink-0">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: 'FILL' 1;">shield</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary">Моя гильдия</span>
+<span class="font-label-sm text-label-sm text-outline-variant">•</span>
+<span class="font-label-sm text-label-sm bg-surface-container px-space-xs py-0.5 rounded text-on-surface-variant">ID: #4092-LU</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface truncate">Орден Золотой Лапы</h1>
+</div>
+</div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-md py-space-xs rounded-lg">
+<span class="material-symbols-outlined text-primary text-[20px]">military_tech</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant leading-none">Уровень клана</span>
+<span class="font-stat-numeral text-label-md text-primary">Ур. 7</span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-md py-space-xs rounded-lg">
+<span class="material-symbols-outlined text-secondary text-[20px]">workspace_premium</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant leading-none">Лига</span>
+<span class="font-label-md text-label-md text-secondary">Серебряный ранг</span>
+</div>
+</div>
+<button class="w-10 h-10 rounded-lg bg-surface-container hover:bg-surface-bright text-on-surface transition-all flex items-center justify-center" title="Поделиться" type="button">
+<span class="material-symbols-outlined text-[20px]">share</span>
+</button>
+</div>
+</div>
+<!-- Main Guild Hall Layout Grid (Desktop 3-Column Ergonomic HUD) -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
+<!-- LEFT COLUMN: Guild Crest & Clan Vitals (3 Cols) -->
+<div class="lg:col-span-3 flex flex-col gap-space-md">
+<!-- Wooden Carved Crest Plaque -->
+<div class="bg-surface-container rounded-xl p-space-md flex flex-col items-center text-center shadow-lg relative overflow-hidden">
+<div class="w-full flex items-center justify-between pb-space-sm text-on-surface-variant">
+<span class="font-label-sm text-label-sm uppercase tracking-wider">Штандарт Ордена</span>
+<span class="font-label-sm text-label-sm text-secondary flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span> Открытый набор
+            </span>
+</div>
+<!-- Banner Illustrated Crest Placeholder -->
+<div class="relative my-space-sm w-36 h-48 rounded-xl overflow-hidden shadow-inner bg-surface-container-lowest">
+<img class="w-full h-full object-cover" data-alt="A magical hand-carved medieval wooden heraldic shield featuring an embossed glowing golden feline cat paw emblem flanked by crossed lightning storm daggers. Warm fairy-tale amber tavern atmosphere, candle glow, ancient runic filigree, storybook fantasy art." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAODFnthvCSwqMcLatm0cLUxFppXDUKIU2SYrnhtSgUvZKfnfy8LN_aQQz001hkjaf8skFt_RFdXjYU3duhG6MNhAlXlhGpCbFHEANK-k9O_w-qZfrgB0HkkN7OxrfxbU-io-cnpoXmVBMIcmFFbXed8RVsmXvvLGGBt8G0q7CLz4UWeENFSKSSSop_BM8NzccFn6u-PfCDR0vULaz5g4_9tmGVyLVxX9igrIQUw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 via-transparent to-transparent"></div>
+<div class="absolute bottom-2 left-0 right-0 text-center">
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-widest drop-shadow">Девиз: Коготь и Молния</span>
+</div>
+</div>
+<!-- Stats Grid inside Left Panel -->
+<div class="w-full grid grid-cols-1 gap-space-xs mt-space-sm">
+<div class="bg-surface-container-high p-space-sm rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">group</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Участники</span>
+</div>
+<span class="font-stat-numeral text-label-md text-on-surface">24 <span class="text-on-surface-variant text-body-sm font-normal">/ 30</span></span>
+</div>
+<div class="bg-surface-container-high p-space-sm rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-tertiary text-[18px]">toys</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Вклад клана</span>
+</div>
+<span class="font-stat-numeral text-label-md text-primary">142,500 <span class="text-body-sm text-on-surface-variant font-normal">🧶</span></span>
+</div>
+<div class="bg-surface-container-high p-space-sm rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[18px]">trophy</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Ранг в сезоне</span>
+</div>
+<div class="flex items-center gap-1">
+<span class="font-stat-numeral text-label-md text-secondary">#14</span>
+<span class="font-label-sm text-label-sm text-secondary">▲ 2</span>
+</div>
+</div>
+</div>
+<!-- Clan XP Progress Bar -->
+<div class="w-full mt-space-md text-left">
+<div class="flex justify-between items-center mb-1">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Опыт до Ур. 8</span>
+<span class="font-label-sm text-label-sm text-primary">8,450 / 10,000 XP</span>
+</div>
+<div class="w-full h-2.5 bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary-container to-primary rounded-full transition-all duration-500" style="width: 84.5%;"></div>
+</div>
+</div>
+<!-- Left Column Actions -->
+<div class="w-full flex flex-col gap-space-xs mt-space-md">
+<button class="w-full py-space-sm px-space-md bg-gradient-to-r from-primary to-primary-container text-on-primary font-label-md text-label-md rounded-lg shadow-md hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-space-xs" id="contributeBtn" type="button">
+<span class="material-symbols-outlined text-[18px]">volunteer_activism</span>
+<span>Внести вклад (+500 🧶)</span>
+</button>
+<div class="grid grid-cols-2 gap-space-xs">
+<button class="w-full py-space-xs px-space-sm bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-sm text-label-sm rounded-lg transition-colors flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+<span>Устав</span>
+</button>
+<button class="w-full py-space-xs px-space-sm bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-sm text-label-sm rounded-lg transition-colors flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">settings</span>
+<span>Настройки</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Tavern Perk Card -->
+<div class="bg-surface-container rounded-xl p-space-md shadow-md flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-high text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[22px]">local_fire_department</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface">Тепло Очага (Бонус)</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">+8% к серебру во всех вылазках</span>
+</div>
+</div>
+</div>
+<!-- CENTER COLUMN: Guild Member Roster (6 Cols) -->
+<div class="lg:col-span-6 flex flex-col gap-space-md min-w-0">
+<!-- Roster Controls & Filters -->
+<div class="bg-surface-container rounded-xl p-space-md shadow-md flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">groups</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Состав гильдии</h2>
+<span class="bg-surface-container-high text-on-surface-variant font-label-sm text-label-sm px-2 py-0.5 rounded-full">24</span>
+</div>
+<!-- Quick Search / View Filter Tabs -->
+<div class="flex items-center bg-surface-container-lowest p-1 rounded-lg self-start sm:self-auto">
+<button class="px-space-sm py-1 rounded bg-surface-container-high text-primary font-label-sm text-label-sm transition-all" type="button">Все</button>
+<button class="px-space-sm py-1 rounded text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-all" type="button">Офицеры</button>
+<button class="px-space-sm py-1 rounded text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm transition-all" type="button">В сети (18)</button>
+</div>
+</div>
+<!-- Interactive Member Roster Table Card Grid -->
+<div class="w-full overflow-x-auto">
+<div class="min-w-[560px] flex flex-col gap-space-xs">
+<!-- Table Header -->
+<div class="grid grid-cols-12 px-space-sm py-1.5 text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider bg-surface-container-lowest/50 rounded-lg">
+<div class="col-span-4">Хранитель &amp; Должность</div>
+<div class="col-span-4">Боевой котик</div>
+<div class="col-span-2 text-right">БМ / Вклад</div>
+<div class="col-span-2 text-right">Статус</div>
+</div>
+<!-- Member 1: Guild Master -->
+<div class="grid grid-cols-12 items-center p-space-sm bg-surface-container-high/60 hover:bg-surface-container-high rounded-xl transition-all shadow-sm group">
+<div class="col-span-4 flex items-center gap-space-sm min-w-0 pr-2">
+<div class="relative shrink-0">
+<div class="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center text-primary font-headline-md text-headline-md overflow-hidden ring-2 ring-primary">
+<img class="w-full h-full object-cover" data-alt="Charming cute digital portrait avatar of a brave calico warrior cat wearing a miniature golden leather commander helm with soft whiskers and glowing amber eyes, storybook fantasy cartoon character." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCd62KrCwtG3K-z7dndIHCK3cpvAaSyBDykQ7DglWr3FlsrLYzfqne76BrL-Zo9Qulnh_ezfevC--5dXHHfTNwM8YG0W-kt3eVUtOSetor4Rp02eQtq1SjtQAcxBKwyN4ovegAbzoGKY_duB0ScfonH_RjcrM0NIM1gurXKSwBaAsU-gVS8tveUDapjKZ3GjdopHONIhBctk0gPlw9n84liuuIFoVVg2UOwnBt8hA"/>
+</div>
+<span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-secondary rounded-full ring-2 ring-surface-container-high"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate group-hover:text-primary transition-colors">@CatCommander</span>
+<span class="font-label-sm text-label-sm text-primary flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[13px]">stars</span> Глава гильдии
+                    </span>
+</div>
+</div>
+<div class="col-span-4 flex items-center gap-space-xs min-w-0 pr-2">
+<div class="w-8 h-8 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary shrink-0">
+<span class="material-symbols-outlined text-[18px]">bolt</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface truncate">Барсик Громовержец</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant leading-none">Ур. 60 • Молния</span>
+</div>
+</div>
+<div class="col-span-2 flex flex-col items-end text-right">
+<span class="font-stat-numeral text-label-md text-on-surface">32,840</span>
+<span class="font-body-sm text-body-sm text-primary leading-none">24,500 🧶</span>
+</div>
+<div class="col-span-2 flex flex-col items-end text-right">
+<span class="font-label-sm text-label-sm text-secondary bg-secondary-container/30 px-1.5 py-0.5 rounded text-center">В сети</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant leading-none mt-1">Осада: Готов</span>
+</div>
+</div>
+<!-- Member 2: Officer StormPaws -->
+<div class="grid grid-cols-12 items-center p-space-sm bg-surface-container-high/60 hover:bg-surface-container-high rounded-xl transition-all shadow-sm group">
+<div class="col-span-4 flex items-center gap-space-sm min-w-0 pr-2">
+<div class="relative shrink-0">
+<div class="w-10 h-10 rounded-full bg-secondary/20 flex items-center justify-center text-secondary font-headline-md text-headline-md overflow-hidden ring-2 ring-primary/40">
+<img class="w-full h-full object-cover" data-alt="Stylized storybook portrait avatar of an agile storm cat rogue with blue-gray fur wearing a feathered tricorn tavern hat and leather collar, whimsical 2D fantasy creature battler." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCaj7X8d5WvUerJH5skLoEDL3fC870e-C5c3DEvRpn3-eqSNZUvyZvFa4VEbBqKlzOcd97XAgP4aaHGHmn0YhymU-sUC81nZdPJybtvjA5zB55AhgCs-N_tH6mnAq2wSo0DBV4_17gqcOIcpKtPiBtiuzcqDMXGMsyCDbE8TEA1fVeFVn0rJlWrpBSCU-RAbPpwYXX-dJubguRnPUdkYO4pPZ1t2oJ5_zc-HXs7IQ"/>
+</div>
+<span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-secondary rounded-full ring-2 ring-surface-container-high"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate group-hover:text-primary transition-colors">@StormPaws</span>
+<span class="font-label-sm text-label-sm text-primary-fixed-dim">Офицер</span>
+</div>
+</div>
+<div class="col-span-4 flex items-center gap-space-xs min-w-0 pr-2">
+<div class="w-8 h-8 rounded-lg bg-surface-container-lowest flex items-center justify-center text-secondary shrink-0">
+<span class="material-symbols-outlined text-[18px]">forest</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface truncate">Муррена Лесная</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant leading-none">Ур. 58 • Природа</span>
+</div>
+</div>
+<div class="col-span-2 flex flex-col items-end text-right">
+<span class="font-stat-numeral text-label-md text-on-surface">29,150</span>
+<span class="font-body-sm text-body-sm text-primary leading-none">19,200 🧶</span>
+</div>
+<div class="col-span-2 flex flex-col items-end text-right">
+<span class="font-label-sm text-label-sm text-secondary bg-secondary-container/30 px-1.5 py-0.5 rounded text-center">В сети</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant leading-none mt-1">Осада: Готов</span>
+</div>
+</div>
+<!-- Member 3: Officer LunaWhiskers -->
+<div class="grid grid-cols-12 items-center p-space-sm bg-surface-container-high/60 hover:bg-surface-container-high rounded-xl transition-all shadow-sm group">
+<div class="col-span-4 flex items-center gap-space-sm min-w-0 pr-2">
+<div class="relative shrink-0">
+<div class="w-10 h-10 rounded-full bg-tertiary/20 flex items-center justify-center text-tertiary font-headline-md text-headline-md overflow-hidden ring-2 ring-primary/40">
+<img class="w-full h-full object-cover" data-alt="Charming painted avatar portrait of a mystic white Persian cat sorceress wearing an amethyst crystal pendant and glowing starry runes around feline ears, storybook tavern card game." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBub4gafgC9ta_Qa8Bb7CL2cuTnjtVe5aOLv1Ga02rGOzk_BmY7yxydvdyhrThlPbXqudD2PUjHd-J4mQP7OJpVXNcWdNjBJKjM1YXfogPO6nDyGmwpd_epVucY47FhGM4PMtY1sM4_fTljN1Rxv5oD7JUXE-Sc6nMSjCRqdfazxxoGub3x2QRyVRrVWxJgb2wdJulcEVpRVjIISayRlKQlTUMadFbEFmN8qQWPzA"/>
+</div>
+<span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-outline-variant rounded-full ring-2 ring-surface-container-high"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate group-hover:text-primary transition-colors">@LunaWhiskers</span>
+<span class="font-label-sm text-label-sm text-primary-fixed-dim">Офицер</span>
+</div>
+</div>
+<div class="col-span-4 flex items-center gap-space-xs min-w-0 pr-2">
+<div class="w-8 h-8 rounded-lg bg-surface-container-lowest flex items-center justify-center text-tertiary shrink-0">
+<span class="material-symbols-outlined text-[18px]">auto_fix_high</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface truncate">Селена Луноликая</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant leading-none">Ур. 57 • Магия</span>
+</div>
+</div>
+<div class="col-span-2 flex flex-col items-end text-right">
+<span class="font-stat-numeral text-label-md text-on-surface">28,420</span>
+<span class="font-body-sm text-body-sm text-primary leading-none">16,700 🧶</span>
+</div>
+<div class="col-span-2 flex flex-col items-end text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant">2 ч. назад</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant leading-none mt-1">Осада: Готов</span>
+</div>
+</div>
+<!-- Member 4: Veteran ShadowClaw -->
+<div class="grid grid-cols-12 items-center p-space-sm bg-surface-container-high/60 hover:bg-surface-container-high rounded-xl transition-all shadow-sm group">
+<div class="col-span-4 flex items-center gap-space-sm min-w-0 pr-2">
+<div class="relative shrink-0">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest flex items-center justify-center text-on-surface font-headline-md text-headline-md overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Dramatic stylized illustration of a black cat assassin with piercing golden eyes and leather armor vambraces, storybook fantasy tactical animal RPG style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBBtKrRdggIrdWGdfLefRb5xwwJPIpjavNpVzinEwj_ztQoE6u8cbJWQB26Vz6jb4bSnZme3-ARRykJQ8TcmoRPDlixMQ816sydQpeM5tZ6OE-VGEMy8xJDSac8kH5xyO7VXxbfP97nQ3q41m3Hxz4EgiGmU105K2WC07B-QCZI07e4phOPfMEA_IF44HjJxu_PMP2JOPuUIzHHnuxG14Y1czIB4yzydAW1Wfsg-g"/>
+</div>
+<span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-secondary rounded-full ring-2 ring-surface-container-high"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate group-hover:text-primary transition-colors">@ShadowClaw</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Ветеран</span>
+</div>
+</div>
+<div class="col-span-4 flex items-center gap-space-xs min-w-0 pr-2">
+<div class="w-8 h-8 rounded-lg bg-surface-container-lowest flex items-center justify-center text-on-surface-variant shrink-0">
+<span class="material-symbols-outlined text-[18px]">dark_mode</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface truncate">Тенеус Ночной</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant leading-none">Ур. 55 • Тьма</span>
+</div>
+</div>
+<div class="col-span-2 flex flex-col items-end text-right">
+<span class="font-stat-numeral text-label-md text-on-surface">26,900</span>
+<span class="font-body-sm text-body-sm text-primary leading-none">14,100 🧶</span>
+</div>
+<div class="col-span-2 flex flex-col items-end text-right">
+<span class="font-label-sm text-label-sm text-secondary bg-secondary-container/30 px-1.5 py-0.5 rounded text-center">В сети</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant leading-none mt-1">Осада: Готов</span>
+</div>
+</div>
+<!-- Member 5: Private FishHunter -->
+<div class="grid grid-cols-12 items-center p-space-sm bg-surface-container-high/60 hover:bg-surface-container-high rounded-xl transition-all shadow-sm group">
+<div class="col-span-4 flex items-center gap-space-sm min-w-0 pr-2">
+<div class="relative shrink-0">
+<div class="w-10 h-10 rounded-full bg-surface-container-lowest flex items-center justify-center text-on-surface font-headline-md text-headline-md overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Whimsical cute illustration of an orange tabby fisherman cat holding a mini brass harpoon with a tiny fish bone talisman in fur, cozy tavern lighting, fantasy card battler." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwMMm3EvezwjTG8Tle7arbEImk48VRlf8Gn4pzc3-MLGOhNaj6CAoSBa8LXs6LK1SVCV-03yGEzAMSHNYtA23pyW7ks0DfFpvPPGGPKnMkBmnCaIdxhrPtmFdEhZflCMjXEe6ZNF-4K6jeCDDQDqRIsWjoONckEAO1FUiqQJcEBwmODWJJq027XfO3nK_LnYWCxWvYhfySCpAcD5YiAU3YZs89g4t4_LChVwMXTA"/>
+</div>
+<span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 bg-outline-variant rounded-full ring-2 ring-surface-container-high"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate group-hover:text-primary transition-colors">@FishHunter</span>
+<span class="font-label-sm text-label-sm text-outline">Рядовой</span>
+</div>
+</div>
+<div class="col-span-4 flex items-center gap-space-xs min-w-0 pr-2">
+<div class="w-8 h-8 rounded-lg bg-surface-container-lowest flex items-center justify-center text-secondary shrink-0">
+<span class="material-symbols-outlined text-[18px]">waves</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-sm text-label-sm text-on-surface truncate">Карась Водоплёс</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant leading-none">Ур. 52 • Вода</span>
+</div>
+</div>
+<div class="col-span-2 flex flex-col items-end text-right">
+<span class="font-stat-numeral text-label-md text-on-surface">22,350</span>
+<span class="font-body-sm text-body-sm text-primary leading-none">8,900 🧶</span>
+</div>
+<div class="col-span-2 flex flex-col items-end text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Вчера</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant leading-none mt-1">Осада: В запасе</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Pagination / Quick Summary -->
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Показано 5 из 24 соратников</span>
+<div class="flex items-center gap-space-xs">
+<button class="w-8 h-8 rounded-lg bg-surface-container-high hover:bg-surface-bright flex items-center justify-center text-on-surface-variant transition-colors disabled:opacity-40" disabled="" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<span class="font-label-sm text-label-sm px-2 text-primary">1 / 5</span>
+<button class="w-8 h-8 rounded-lg bg-surface-container-high hover:bg-surface-bright flex items-center justify-center text-on-surface transition-colors" type="button">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Weekly Clan Milestone Chest Tracker -->
+<div class="bg-surface-container rounded-xl p-space-md shadow-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">featured_seasonal_and_gifts</span>
+<span class="font-label-md text-label-md text-on-surface">Сундуки еженедельного вклада</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary">3/4 открыто</span>
+</div>
+<div class="grid grid-cols-4 gap-space-sm pt-space-xs">
+<div class="bg-surface-container-high p-space-xs rounded-lg flex flex-col items-center text-center opacity-70">
+<span class="material-symbols-outlined text-secondary text-[22px]">lock_open</span>
+<span class="font-label-sm text-label-sm text-on-surface mt-1">25k 🧶</span>
+<span class="font-body-sm text-body-sm text-secondary">Забрано</span>
+</div>
+<div class="bg-surface-container-high p-space-xs rounded-lg flex flex-col items-center text-center opacity-70">
+<span class="material-symbols-outlined text-secondary text-[22px]">lock_open</span>
+<span class="font-label-sm text-label-sm text-on-surface mt-1">60k 🧶</span>
+<span class="font-body-sm text-body-sm text-secondary">Забрано</span>
+</div>
+<div class="bg-surface-container-high p-space-xs rounded-lg flex flex-col items-center text-center opacity-70">
+<span class="material-symbols-outlined text-secondary text-[22px]">lock_open</span>
+<span class="font-label-sm text-label-sm text-on-surface mt-1">100k 🧶</span>
+<span class="font-body-sm text-body-sm text-secondary">Забрано</span>
+</div>
+<div class="bg-surface-container-high p-space-xs rounded-lg flex flex-col items-center text-center ring-1 ring-primary/40">
+<span class="material-symbols-outlined text-primary text-[22px] animate-bounce">inventory_2</span>
+<span class="font-label-sm text-label-sm text-primary mt-1">150k 🧶</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">95%</span>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Guild Events, Clan Boss & Tavern Log (3 Cols) -->
+<div class="lg:col-span-3 flex flex-col gap-space-md">
+<!-- Clan-Boss Raid Banner Card -->
+<div class="bg-surface-container rounded-xl overflow-hidden shadow-lg flex flex-col">
+<div class="relative w-full h-40 bg-surface-container-lowest overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="Fierce mythic three-headed fantasy hellhound guardian known as Arch-Hound Cerberus engulfed in molten blue tavern flame embers and stone armor chains, storybook dark tactical creature battler illustration." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCywFPWlG5R7TZoiulmvL7QDwpDOj23ZCSFqretaj1BiKwm-3eKXWPbqDhERxOkvd5hpt-CxXj7sk8Y926CC_EP3a7Crp4bN1v1jDnIk0wriq6PZNS2MCN6Pv_pDOychouJdZ03Fhh3pnA-He-PV6xR5EMl9DCLdqVOzGUuzRqErKaiuT06r1Q9IDY6z4IJ1xBKYuGaD4vHsPKek-ZiII9KKZp59aXAd_rv3r20vA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container via-surface-container/30 to-transparent"></div>
+<div class="absolute top-2 left-2 bg-error-container/90 backdrop-blur-sm text-on-error-container px-2 py-0.5 rounded font-label-sm text-label-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error animate-ping"></span>
+<span>Клан-Босс</span>
+</div>
+<div class="absolute bottom-2 left-3 right-3 flex items-center justify-between">
+<div>
+<span class="font-label-sm text-label-sm text-tertiary-fixed uppercase tracking-wider">Сезонное бедствие</span>
+<h3 class="font-headline-md text-headline-md text-on-surface leading-tight">Архипёс Цербер</h3>
+</div>
+</div>
+</div>
+<div class="p-space-md flex flex-col gap-space-sm bg-surface-container">
+<div class="flex items-center justify-between bg-surface-container-high p-space-xs px-space-sm rounded-lg">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Статус осады:</span>
+<span class="font-label-sm text-label-sm text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">hourglass_top</span>
+<span>Через 3 дня</span>
+</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Подготовьте защитников с элементом Воды и Молнии. Награда за призыв: Осколки Рун Древних и 10,000 Клубков.
+            </p>
+<button class="w-full py-space-xs px-space-sm bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-sm text-label-sm rounded-lg transition-colors flex items-center justify-center gap-1" type="button">
+<span class="material-symbols-outlined text-[16px]">visibility</span>
+<span>Разведка и награды</span>
+</button>
+</div>
+</div>
+<!-- Tavern Activity Log (Журнал активности) -->
+<div class="bg-surface-container rounded-xl p-space-md shadow-md flex flex-col gap-space-sm">
+<div class="flex items-center justify-between pb-1">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[20px]">history_edu</span>
+<h3 class="font-headline-md text-headline-md text-on-surface">Летопись клана</h3>
+</div>
+<button class="text-primary hover:underline font-label-sm text-label-sm" type="button">Вся</button>
+</div>
+<!-- Activity items -->
+<div class="flex flex-col gap-space-xs">
+<div class="p-space-xs bg-surface-container-high/50 rounded-lg flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">swords</span>
+<div class="flex flex-col min-w-0">
+<p class="font-body-sm text-body-sm text-on-surface leading-tight">
+<span class="text-primary font-label-sm">@CatCommander</span> победил на Арене (+42 кубка)
+                </p>
+<span class="font-label-sm text-label-sm text-outline mt-0.5">8 мин. назад</span>
+</div>
+</div>
+<div class="p-space-xs bg-surface-container-high/50 rounded-lg flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[18px] shrink-0 mt-0.5">toll</span>
+<div class="flex flex-col min-w-0">
+<p class="font-body-sm text-body-sm text-on-surface leading-tight">
+<span class="text-primary font-label-sm">@StormPaws</span> внес <span class="text-primary">1,500 🧶</span> в казну
+                </p>
+<span class="font-label-sm text-label-sm text-outline mt-0.5">25 мин. назад</span>
+</div>
+</div>
+<div class="p-space-xs bg-surface-container-high/50 rounded-lg flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-tertiary text-[18px] shrink-0 mt-0.5">military_tech</span>
+<div class="flex flex-col min-w-0">
+<p class="font-body-sm text-body-sm text-on-surface leading-tight">
+<span class="text-primary font-label-sm">@ShadowClaw</span> пробудил талант котика <span class="text-on-surface-variant font-label-sm">«Ночной Коготь IV»</span>
+</p>
+<span class="font-label-sm text-label-sm text-outline mt-0.5">2 ч. назад</span>
+</div>
+</div>
+<div class="p-space-xs bg-surface-container-high/50 rounded-lg flex items-start gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[18px] shrink-0 mt-0.5">person_add</span>
+<div class="flex flex-col min-w-0">
+<p class="font-body-sm text-body-sm text-on-surface leading-tight">
+<span class="text-primary font-label-sm">@FishHunter</span> вступил в Орден!
+                </p>
+<span class="font-label-sm text-label-sm text-outline mt-0.5">Вчера, 19:40</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Inline Micro-Interaction Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const contributeBtn = document.getElementById('contributeBtn');
+      if (contributeBtn) {
+        contributeBtn.addEventListener('click', () => {
+          const originalText = contributeBtn.innerHTML;
+          contributeBtn.disabled = true;
+          contributeBtn.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span><span>Передаем клубки...</span>';
+          setTimeout(() => {
+            contributeBtn.innerHTML = '<span class="material-symbols-outlined text-[18px]">check_circle</span><span>Вклад внесен!</span>';
+            setTimeout(() => {
+              contributeBtn.innerHTML = originalText;
+              contributeBtn.disabled = false;
+            }, 1800);
+          }, 800);
+        });
+      }
+    });
+  </script>
+</div></main><footer class="w-full bg-surface-container-lowest/90 py-space-sm"><div class="w-full px-margin-tablet flex flex-wrap items-center justify-between gap-space-sm"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs"><span class="w-2 h-2 rounded-full bg-secondary"></span><span class="font-label-sm text-label-sm text-on-surface-variant">Сервер: Лукоморье (24мс)</span></div><span class="font-label-sm text-label-sm text-outline-variant">•</span><span class="font-label-sm text-label-sm text-on-surface-variant">Сезон IV: Hearth &amp; Claw</span></div><div class="flex items-center gap-space-md"><span class="font-label-sm text-label-sm text-on-surface-variant">Игроков онлайн: 4,812</span><span class="font-label-sm text-label-sm text-outline-variant">•</span><span class="font-label-sm text-label-sm text-outline">v0.9.4 Early Access</span></div></div></footer></body></html>

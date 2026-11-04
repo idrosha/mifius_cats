@@ -539,9 +539,13 @@
     "ru": "PvP",
     "en": "PvP"
   },
+  "nav.sub.boss_dungeon": {
+    "ru": "Данжи",
+    "en": "Dungeons"
+  },
   "nav.sub.boss_raid": {
-    "ru": "Данжи / рейд",
-    "en": "Boss dungeons"
+    "ru": "Рейд / легион",
+    "en": "Raid / legion"
   },
   "nav.sub.tavern": {
     "ru": "Таверна",

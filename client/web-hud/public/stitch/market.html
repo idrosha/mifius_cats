@@ -1,404 +1,354 @@
 <section id="viewMarket" class="stitch-view hidden" data-stitch="market">
-<header class="fixed top-0 left-0 w-full z-50 bg-surface-container-low/95 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.6)]"><div class="h-20 w-full px-margin flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md shrink-0"><div class="w-10 h-10 rounded-lg bg-surface-container-high flex items-center justify-center text-primary shadow-[inset_0_1px_1px_rgba(253,186,69,0.3)]"><span class="material-symbols-outlined text-[24px]">pets</span></div><div class="flex flex-col"><span class="font-headline-md text-headline-md text-primary tracking-wide leading-none">МИФИУС</span><span class="font-label-sm text-label-sm text-on-surface-variant leading-none mt-1">Ур. 42 Хранитель Усов</span></div></div><div class="hidden xl:flex items-center gap-space-sm bg-surface-container-lowest px-space-md py-1.5 rounded-xl shadow-[inset_0_2px_4px_rgba(0,0,0,0.7)]"><div class="flex items-center gap-1.5 px-space-xs"><span class="material-symbols-outlined text-primary text-[18px]">monetization_on</span><span class="font-stat-numeral text-stat-numeral text-on-surface">148,250</span></div><div class="w-px h-4 bg-surface-variant"></div><div class="flex items-center gap-1.5 px-space-xs"><span class="material-symbols-outlined text-secondary text-[18px]">water_drop</span><span class="font-stat-numeral text-stat-numeral text-on-surface">3,420</span></div><div class="w-px h-4 bg-surface-variant"></div><div class="flex items-center gap-1.5 px-space-xs"><span class="material-symbols-outlined text-primary-container text-[18px]">bolt</span><span class="font-stat-numeral text-stat-numeral text-on-surface">85/90</span></div><div class="w-px h-4 bg-surface-variant"></div><div class="flex items-center gap-1.5 px-space-xs"><span class="material-symbols-outlined text-tertiary-container text-[18px]">diamond</span><span class="font-stat-numeral text-stat-numeral text-on-surface">1,280</span></div></div><nav class="hidden lg:flex items-center gap-space-xs bg-surface-container px-space-xs py-1 rounded-xl shadow-inner" data-active-classes="bg-primary-container text-on-primary font-label-md"><a class="font-label-md text-label-md text-on-surface-variant px-space-sm py-1.5 rounded-lg hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="главный-хаб" href="#">Главный Хаб</a><a class="font-label-md text-label-md text-on-surface-variant px-space-sm py-1.5 rounded-lg hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="бой-3v3" href="#">Бой 3v3</a><a class="font-label-md text-label-md text-on-surface-variant px-space-sm py-1.5 rounded-lg hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="рейд-на-дога" href="#">Рейд на Дога</a><a class="font-label-md text-label-md text-on-surface-variant px-space-sm py-1.5 rounded-lg hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="мифмир" href="#">Мифмир</a><a class="font-label-md text-label-md text-on-surface-variant px-space-sm py-1.5 rounded-lg hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="коллекция" href="#">Коллекция</a><a class="font-label-md text-label-md text-on-surface-variant px-space-sm py-1.5 rounded-lg hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="лавка-и-маркет" href="#">Лавка и Маркет</a><a class="font-label-md text-label-md text-on-surface-variant px-space-sm py-1.5 rounded-lg hover:bg-surface-container-high hover:text-on-surface transition-colors" data-path="pvp-арена" href="#">PvP Арена</a></nav><div class="flex items-center gap-space-sm shrink-0"><button aria-label="Настройки" class="w-9 h-9 rounded-lg bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">settings</span></button><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-20 pb-8 flex-1 bg-surface"><div class="flex flex-col w-full">
-<div class="w-full max-w-[1720px] mx-auto px-margin space-y-space-lg pb-12">
-<!-- Top Bar: Navigation Tabs & Resource Overview -->
-<div class="flex flex-col xl:flex-row items-stretch xl:items-center justify-between gap-space-md bg-surface-container-low/80 backdrop-blur-md p-space-sm rounded-xl shadow-lg">
-<!-- Market Tabs -->
-<nav class="flex items-center gap-space-xs overflow-x-auto pb-1 xl:pb-0" id="market-tabs"><button class="tab-btn flex items-center gap-2 px-space-md py-2 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md transition-all shadow-md shrink-0" data-tab="shop"><span class="material-symbols-outlined text-[18px]">storefront</span><span class="">Лавка Торговца (Коробки и Пряжа)</span></button><button class="tab-btn flex items-center gap-2 px-space-md py-2 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-md text-label-md transition-all shrink-0" data-tab="gacha"><span class="material-symbols-outlined text-[18px]">auto_awesome</span><span class="">Призыв Котиков (Гача)</span></button><button class="tab-btn flex items-center gap-2 px-space-md py-2 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-md text-label-md transition-all shrink-0" data-tab="auction"><span class="material-symbols-outlined text-[18px]">gavel</span><span class="">Аукцион Хранителей (P2P Маркет)</span></button><button class="tab-btn flex items-center gap-2 px-space-md py-2 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-md text-label-md transition-all shrink-0" data-tab="blackmarket"><span class="material-symbols-outlined text-[18px]">skull</span><span class="">Черный Рынок Псарни</span></button></nav>
-<!-- Active Tavern Currency Pod -->
-<div class="flex items-center justify-end gap-space-md bg-surface-container-lowest/90 px-space-md py-1.5 rounded-lg shadow-inner shrink-0"><div class="flex items-center gap-1.5" title="Золотая Рыбка (Монеты)"><span class="material-symbols-outlined text-primary text-[20px]">set_meal</span><span class="font-stat-numeral text-stat-numeral text-on-surface" id="player-gold">148,250</span></div><div class="w-px h-5 bg-surface-variant"></div><div class="flex items-center gap-1.5" title="Волшебная Пряжа (Кристаллы)"><span class="material-symbols-outlined text-tertiary-container text-[20px]">all_inclusive</span><span class="font-stat-numeral text-stat-numeral text-on-surface" id="player-gems">1,280</span></div><div class="w-px h-5 bg-surface-variant"></div><div class="flex items-center gap-1.5" title="Астральные Ключи Сундуков"><span class="material-symbols-outlined text-secondary text-[20px]">key</span><span class="font-stat-numeral text-stat-numeral text-on-surface">14</span></div></div>
-</div>
-<!-- Main Landscape Layout (3-Column Widescreen Tavern Vista) -->
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-start">
-<!-- LEFT COLUMN: Merchant Felix (Character & Storybook Dialogue) -->
-<div class="lg:col-span-3 flex flex-col gap-space-md">
-<div class="bg-surface-container rounded-xl p-space-md shadow-xl relative overflow-hidden flex flex-col items-center text-center">
-<!-- Ambient Tavern Hearth Glow -->
-<div class="absolute -top-10 -left-10 w-44 h-44 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
-<div class="absolute -bottom-8 -right-8 w-44 h-44 bg-tertiary-container/10 rounded-full blur-3xl pointer-events-none"></div>
-<!-- Merchant Dialogue Cloud -->
-<div class="relative w-full bg-surface-container-high rounded-xl p-space-md mb-space-md shadow-md text-left">
-<div class="flex items-center gap-2 mb-1.5">
-<span class="material-symbols-outlined text-primary text-[18px]">chat</span>
-<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider">Купец Феликс Мяурис</span>
-</div>
-<p class="font-body-md text-body-md text-on-surface italic leading-relaxed">«Мяу! Волшебная пряжа, сундуки редкостей и ключи тайников только сегодня! Зелья и напитки ищи в Таверне, а здесь — чистая экипировка и призыв!»</p>
-<!-- Triangle indicator for dialogue bubble -->
-<div class="absolute -bottom-2 left-10 w-4 h-4 bg-surface-container-high rotate-45"></div>
-</div>
-<!-- Merchant Portrait Art -->
-<div class="relative w-full aspect-square rounded-xl overflow-hidden bg-surface-container-lowest shadow-2xl group">
-<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" data-alt="Digital concept art of Felix the mythical cat merchant in a warm fantasy tavern setting. A fluffy calico cat wearing an ornate deep velvet hood trimmed with golden embroidery and mystical bronze amulets, seated behind an antique wooden counter littered with glowing potion vials, ancient parchment scrolls, and stacks of gold coins, soft warm tavern hearth lighting casting deep cozy shadows, whimsical fairy-tale style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4qCUgMk-yX0KDsAojUg9Xsyb-9CESN0Onosa3xsvX62KiJ_x21gG04IJfu_iOTyWob6e4-uzgZzZTqQsBavwwO8Z4Fo0J5qfs9xpMA2WjNGa9fSI6wsHu1L9J-6VV-qIbU7OmKv3nQd4Dr57UecDgr5TDcZsfQZ7MUjfxAgUpMu1ChwX5PLHowHn4WQdzEOLLhe44fSM7P8DNRxKl3Wiunv2Vcd2_UgGiPn8FrQ">
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent opacity-80"></div>
-<div class="absolute bottom-3 left-3 right-3 flex items-center justify-between">
-<span class="px-2.5 py-1 rounded bg-surface-container-lowest/80 backdrop-blur-sm text-primary font-label-sm text-label-sm shadow">
-                ★ 12 лет на рынке Мурляндии
-              </span>
-<span class="flex items-center gap-1 px-2 py-1 rounded bg-secondary-container/80 text-on-secondary-container font-label-sm text-label-sm">
-<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
-                В лавке
-              </span>
-</div>
-</div>
-<!-- Merchant Reputation & Perks -->
-<div class="w-full mt-space-md bg-surface-container-low p-space-sm rounded-lg flex flex-col gap-2 text-left">
-<div class="flex items-center justify-between font-label-sm text-label-sm">
-<span class="text-on-surface-variant">Уровень доверия гильдии</span>
-<span class="text-primary font-stat-numeral text-label-md">Ранг V</span>
-</div>
-<div class="w-full h-2 rounded-full bg-surface-container-lowest overflow-hidden">
-<div class="h-full bg-gradient-to-r from-primary-container to-primary rounded-full" style="width: 78%;"></div>
-</div>
-<span class="text-on-surface-variant font-body-sm text-body-sm text-center">
-              Скидка 10% на свитки и снаряжение активна
-            </span>
-</div>
-</div>
-<!-- Special Limited Timer Banner -->
-<div class="bg-surface-container-high rounded-xl p-space-md shadow-lg flex items-center gap-space-md">
-<div class="w-12 h-12 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary-container shrink-0">
-<span class="material-symbols-outlined text-[28px]">hourglass_top</span>
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-low/95 backdrop-blur-md shadow-[0_4px_16px_rgba(0,0,0,0.5)]"><div class="h-16 w-full px-margin-tablet flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md"><button aria-label="Назад" class="w-10 h-10 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors flex items-center justify-center text-primary" type="button"><span class="material-symbols-outlined text-[22px]">arrow_back</span></button><div class="flex flex-col"><span class="font-headline-md text-headline-md text-primary tracking-wide leading-none">Мифиус</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Мифические котики</span></div></div><nav class="hidden lg:flex items-center gap-space-xs bg-surface-container-lowest px-space-xs py-space-xs rounded-xl" data-active-classes="bg-primary-container text-on-primary-container font-label-md text-label-md"><a class="px-space-md py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all font-label-md text-label-md" data-path="arena" href="#">Арена</a><a aria-current="page" class="px-space-md py-space-xs rounded-lg transition-all bg-primary-container text-on-primary-container font-label-md text-label-md" data-path="market" href="#">Лавка</a><a class="px-space-md py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all font-label-md text-label-md" data-path="guild" href="#">Гильдия</a><a class="px-space-md py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all font-label-md text-label-md" data-path="chat" href="#">Таверна</a><a class="px-space-md py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all font-label-md text-label-md" data-path="leaderboards" href="#">Рейтинги</a></nav><div class="flex items-center gap-space-sm"><div class="hidden sm:flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-space-xs rounded-full"><span class="material-symbols-outlined text-secondary text-[18px]">set_meal</span><span class="font-stat-numeral text-label-md text-on-surface">1,420</span></div><div class="hidden md:flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-space-xs rounded-full"><span class="material-symbols-outlined text-tertiary text-[18px]">toys</span><span class="font-stat-numeral text-label-md text-on-surface">350</span></div><div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-space-xs rounded-full"><span class="material-symbols-outlined text-secondary text-[18px]">bolt</span><span class="font-stat-numeral text-label-md text-on-surface">60/60</span></div><div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-space-xs rounded-full"><span class="material-symbols-outlined text-primary text-[18px]">diamond</span><span class="font-stat-numeral text-label-md text-primary">84</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 flex-1 bg-background"><div class="flex flex-col w-full">
+<div class="relative w-full overflow-hidden px-margin-tablet py-space-lg flex flex-col gap-space-lg">
+<div class="absolute -top-24 -left-16 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute top-1/3 -right-20 w-80 h-80 bg-secondary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="relative z-10 w-full flex flex-col lg:flex-row lg:items-center justify-between gap-space-md bg-surface-container-low p-space-md lg:p-space-lg rounded-xl shadow-md">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-surface-container flex items-center justify-center text-primary shadow-inner">
+<span class="material-symbols-outlined text-[28px]">storefront</span>
 </div>
 <div class="flex flex-col min-w-0">
-<span class="font-label-sm text-label-sm text-primary uppercase">Смена ассортимента</span>
-<span class="font-stat-numeral text-headline-md text-on-surface" id="refresh-timer">05:40:03</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant truncate">Новые котики и руны</span>
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+<span>Торговля</span>
+<span class="material-symbols-outlined text-[14px]">chevron_right</span>
+<span class="text-primary font-bold">Рынок знахаря</span>
+</div>
+<span class="font-headline-lg text-headline-lg text-on-surface tracking-wide">Лавка Алхимических Снадобий</span>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-space-xs sm:gap-space-sm bg-surface-container-lowest p-space-xs rounded-xl shadow-inner">
+<div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-surface-container/60" title="Рыбка">
+<span class="material-symbols-outlined text-secondary text-[20px]">set_meal</span>
+<span class="font-stat-numeral text-stat-numeral text-on-surface">14,850</span>
+</div>
+<div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-surface-container/60" title="Клубки ниток">
+<span class="material-symbols-outlined text-tertiary text-[20px]">toys</span>
+<span class="font-stat-numeral text-stat-numeral text-tertiary-fixed" id="player-yarn">920</span>
+</div>
+<div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-surface-container/60" title="Боевая Энергия">
+<span class="material-symbols-outlined text-secondary text-[20px]">bolt</span>
+<span class="font-stat-numeral text-stat-numeral text-secondary">85<span class="text-on-surface-variant font-body-sm text-body-sm">/100</span></span>
+</div>
+<div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-surface-container/60" title="Самоцветы">
+<span class="material-symbols-outlined text-primary text-[20px]">diamond</span>
+<span class="font-stat-numeral text-stat-numeral text-primary">385</span>
 </div>
 </div>
 </div>
-<!-- CENTER COLUMN: Main Market Showcase (Featured Showcase & Items Grid) -->
-<div class="lg:col-span-6 flex flex-col gap-space-lg">
-<!-- Showcase Hero: Сундук Древнего Мифика (Гача-бокс) -->
-<div class="relative bg-surface-container rounded-xl overflow-hidden shadow-2xl p-space-lg">
-<div class="absolute -right-20 -top-20 w-80 h-80 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
-<div class="grid grid-cols-1 md:grid-cols-12 gap-space-md items-center relative z-10">
-<div class="md:col-span-5 relative aspect-square rounded-xl overflow-hidden bg-surface-container-lowest shadow-xl">
-<img class="w-full h-full object-cover" data-alt="An ancient mystical cat gacha treasure chest glowing with ethereal golden and amber runes. Elaborate brass paw-shaped clasps, carved mahogany wood grain, swirling celestial mist spilling from slightly opened lid, floating ancient sigils, illuminated from within with bright divine warm light, high fantasy tactile game asset." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdvaUCYf8DZj6NCkzfsmm19X5g9M6gg9NxtWDfBy8OqNHgDvs6e7pPeWUh_N0IN-PCAZQ733dHlrzqlU3lOtKUTi54sjwBhvGEfGHpc0wFaNwyx7AFWsOn-GIvGznBEoff5dPMdH6294Uuvq5egAND_TlnRdq8rCAIcpiLIlEoxZmv2_Q1PLsqOC1OMdl2jtphg0_PRwy8gxbOPAz0rDckhHinf23sl1kGz2TZTw">
-<div class="absolute top-2 left-2 px-2 py-0.5 rounded bg-tertiary-container text-on-tertiary font-label-sm text-label-sm uppercase">
-                Шанс 4.5% Мифик
-              </div>
+<div class="relative z-10 w-full flex flex-col md:flex-row items-stretch md:items-center gap-space-md bg-surface-container p-space-md rounded-xl shadow-md">
+<div class="relative flex-shrink-0 flex items-center justify-center">
+<div class="w-16 h-16 rounded-xl bg-surface-container-high overflow-hidden shadow-inner flex items-center justify-center">
+<img class="w-full h-full object-cover" data-alt="Charming hand-drawn portrait of an elderly Persian cat alchemist merchant with fluffy grey and cream fur, brass spectacles perched on snout, velvet embroidered skullcap, warm glowing amber workshop background in 2D classic fantasy storybook game style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6MTWRJHOB-NfE5gUHX-E-aVgLt2KVVpf39MticQ9BwdYllWcrwwggPrd01uvgqvanYfzXPf5JMAzJxGcvRYjPrz65jzSugZqD57ibtcjopfS7asXtejw9MRbYyB0A7fR9r9S-_yyf_kMynqV4tP6q6k9zBX-wDMW-n4GoMa4rL17HKq5I0u0qHW2DlrzH0qgYJ4Vd_9SdkZp0LKMFGrMw5rHymoWWp0uwxZLwdw"/>
 </div>
-<div class="md:col-span-7 flex flex-col gap-space-sm">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-primary text-[20px]">stars</span>
-<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider">Главное Предложение Недели</span>
+<div class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-primary flex items-center justify-center shadow">
+<span class="material-symbols-outlined text-on-primary text-[14px]">auto_fix</span>
 </div>
-<h2 class="font-headline-lg text-headline-lg text-on-surface leading-tight">
-                Сундук Древнего Мифика
-              </h2>
-<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
-                Открой запечатанные врата астрального питомника. Гарантированный кот ранга <span class="text-primary font-bold">Эпик</span> или выше при серии из 10 призывов.
-              </p>
-<!-- Gacha Buttons Tray -->
-<div class="grid grid-cols-2 gap-space-sm pt-space-xs">
-<!-- 1x Pull -->
-<button class="buy-action-btn flex flex-col items-center justify-center p-space-sm rounded-xl bg-surface-container-high hover:bg-surface-bright active:scale-95 transition-all shadow-md group" data-cost="350" data-curr="кристаллов" data-item="1x Призыв">
-<span class="font-label-md text-label-md text-on-surface">1x Призыв</span>
-<div class="flex items-center gap-1 mt-1 text-tertiary-container group-hover:scale-105 transition-transform">
-<span class="material-symbols-outlined text-[16px]">diamond</span>
-<span class="font-stat-numeral text-stat-numeral">350</span>
 </div>
+<div class="flex-1 flex flex-col justify-center">
+<div class="flex items-center gap-space-xs">
+<span class="font-label-md text-label-md text-primary uppercase tracking-wider">Мастер Бальтазар Мурр</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">• Главный Зельевар Обители</span>
+</div>
+<p class="font-body-lg text-body-lg text-on-surface italic mt-0.5">
+          «Свежие настои и зачарованные свитки прямиком из алхимической башни Хранителя! Готовьте мурлык к тяжелым походам с умом!»
+        </p>
+</div>
+<div class="self-start md:self-center flex items-center gap-space-xs bg-surface-container-lowest px-space-md py-space-sm rounded-lg text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-[20px]">lightbulb</span>
+<span class="font-body-sm text-body-sm">Боевые зелья также продаются в Таверне у старого мурлыки</span>
+</div>
+</div>
+<div class="relative z-10 flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex items-center bg-surface-container-lowest p-space-xs rounded-xl shadow-inner">
+<button class="flex items-center gap-space-xs px-space-lg py-space-xs rounded-lg bg-primary-container text-on-primary-container font-label-lg text-label-lg transition-all shadow-sm" id="tab-potions" onclick="switchCategory('potions')">
+<span class="material-symbols-outlined text-[20px]">science</span>
+<span>Зелья и Отвары</span>
+<span class="ml-1 px-1.5 py-0.2 rounded-full bg-surface-container-lowest/40 font-stat-numeral text-label-sm">4</span>
 </button>
-<!-- 10x Pull with discount tag -->
-<button class="buy-action-btn relative flex flex-col items-center justify-center p-space-sm rounded-xl bg-primary-container text-on-primary hover:brightness-110 active:scale-95 transition-all shadow-lg overflow-hidden group" data-cost="3150" data-curr="кристаллов" data-item="10x Призыв">
-<div class="absolute -top-1 -right-6 bg-error text-on-error font-label-sm text-label-sm px-6 py-0.5 rotate-12 shadow">
-                    -10%
-                  </div>
-<span class="font-label-md text-label-md tracking-wide">10x Призыв</span>
-<div class="flex items-center gap-1 mt-1 font-stat-numeral text-stat-numeral group-hover:scale-105 transition-transform">
-<span class="material-symbols-outlined text-[16px]">diamond</span>
-<span class="">3,150</span>
-<span class="text-[12px] opacity-75 line-through ml-1">3,500</span>
+<button class="flex items-center gap-space-xs px-space-lg py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg transition-all" id="tab-scrolls" onclick="switchCategory('scrolls')">
+<span class="material-symbols-outlined text-[20px]">history_edu</span>
+<span>Свитки крафта</span>
+<span class="ml-1 px-1.5 py-0.2 rounded-full bg-surface-container/40 font-stat-numeral text-label-sm">2</span>
+</button>
 </div>
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-label-md text-label-md bg-surface-container-low px-space-md py-space-xs rounded-lg">
+<span class="material-symbols-outlined text-primary text-[18px]">update</span>
+<span>Обновление витрины через:</span>
+<span class="font-stat-numeral text-label-md text-on-surface tracking-wider" id="countdown-timer">05:42:19</span>
+</div>
+</div>
+</div>
+<div class="relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-space-md" id="product-grid">
+<div class="product-card group flex flex-col justify-between bg-surface-container p-space-md rounded-xl shadow-md hover:bg-surface-container-high transition-all" data-category="potions">
+<div class="flex flex-col gap-space-sm">
+<div class="relative w-full h-44 rounded-lg bg-surface-container-lowest overflow-hidden flex items-center justify-center shadow-inner">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Painted 2D storybook glass vial filled with glowing pale blue lunar mint potion, soft crescent moonlight particles, cork stopper bound with silver twine, mossy alchemy bench in dark tavern background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDy804Rn0_rSzPm4XSK8u73lCbJSMgCpkCJVJrcuPp36Q0y2UpMSx8yE1ZYc1bxx8uVHWwESba1VGcxGOrToCD3V5rVtDX28KAT5f5GmqV2U_A4uCacSFEiS6l-gIGcihPXCxHfG5n0mKgh4-8sT6c7MTfHczuQboAkxOlQWpwMhTnyMZSrVlAI2QQc2SvuMB0q3X0fmizux2HiiM71piQArEguTOv9hxn44NE1zg"/>
+<div class="absolute top-space-xs left-space-xs bg-surface-container-lowest/80 backdrop-blur-sm px-space-xs py-0.5 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-secondary text-[16px]">air</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase">Воздух</span>
+</div>
+<div class="absolute top-space-xs right-space-xs bg-surface-container-lowest/80 backdrop-blur-sm px-space-xs py-0.5 rounded font-label-sm text-label-sm text-on-surface">
+              Редкость: Редкое
+            </div>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="font-headline-md text-headline-md text-on-surface font-bold">Настойка Лунной Мяты</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Освежающий травяной настой, ускоряющий реакцию лап.</span>
+</div>
+<div class="bg-surface-container-lowest p-space-xs rounded-lg flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[20px]">speed</span>
+<span class="font-body-md text-body-md text-on-surface"><strong class="text-secondary">+15%</strong> скорость атаки на 3 хода</span>
+</div>
+</div>
+<div class="pt-space-md flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-md py-space-xs rounded-lg">
+<span class="material-symbols-outlined text-tertiary text-[18px]">toys</span>
+<span class="font-stat-numeral text-label-lg text-tertiary-fixed">250</span>
+</div>
+<button class="flex-1 py-space-xs px-space-md rounded-lg bg-primary text-on-primary hover:bg-primary-container font-label-lg text-label-lg shadow transition-colors flex items-center justify-center gap-space-xs" onclick="purchaseItem('Настойка Лунной Мяты', 250)">
+<span class="material-symbols-outlined text-[18px]">shopping_cart</span>
+<span>Купить</span>
+</button>
+</div>
+</div>
+<div class="product-card group flex flex-col justify-between bg-surface-container p-space-md rounded-xl shadow-md hover:bg-surface-container-high transition-all" data-category="potions">
+<div class="flex flex-col gap-space-sm">
+<div class="relative w-full h-44 rounded-lg bg-surface-container-lowest overflow-hidden flex items-center justify-center shadow-inner">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Painted 2D fantasy lightning potion in crackling glass flask with electric violet sparks, bronze rune rim, sparking ozone vapor, dark warm wood apothecary shelf backdrop." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCy0jgAunl-kpSX4g_5XqPf67LMZ-lGczOl0EZCg7NSdykHVfmgCf4M9bfLYb_SNw_aXJs1I7PWycYZ85SEJRpAfH8viMv0APB2O85WENIIJSFyqkI_efoSXoiN86rbvwqlcqr-ypD6EUjJXdVBDEtheUX04c-6GFy04kNNvDYN9Y1fFb15ocrwOqBK2Ke5uPCEu68LlsWujaVRT2kJ5VRgnnnrNYDSxQ3v2FXMuw"/>
+<div class="absolute top-space-xs left-space-xs bg-surface-container-lowest/80 backdrop-blur-sm px-space-xs py-0.5 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[16px]">bolt</span>
+<span class="font-label-sm text-label-sm text-primary uppercase">Молния</span>
+</div>
+<div class="absolute top-space-xs right-space-xs bg-surface-container-lowest/80 backdrop-blur-sm px-space-xs py-0.5 rounded font-label-sm text-label-sm text-primary">
+              Редкость: Эпическое
+            </div>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="font-headline-md text-headline-md text-on-surface font-bold">Эликсир Громового Когтя</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Заряжает шерсть и когти чистой грозовой энергией туч.</span>
+</div>
+<div class="bg-surface-container-lowest p-space-xs rounded-lg flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">electric_bolt</span>
+<span class="font-body-md text-body-md text-on-surface"><strong class="text-primary">+25%</strong> урон молнией, 35% шанс шока</span>
+</div>
+</div>
+<div class="pt-space-md flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-md py-space-xs rounded-lg">
+<span class="material-symbols-outlined text-tertiary text-[18px]">toys</span>
+<span class="font-stat-numeral text-label-lg text-tertiary-fixed">480</span>
+</div>
+<button class="flex-1 py-space-xs px-space-md rounded-lg bg-primary text-on-primary hover:bg-primary-container font-label-lg text-label-lg shadow transition-colors flex items-center justify-center gap-space-xs" onclick="purchaseItem('Эликсир Громового Когтя', 480)">
+<span class="material-symbols-outlined text-[18px]">shopping_cart</span>
+<span>Купить</span>
+</button>
+</div>
+</div>
+<div class="product-card group flex flex-col justify-between bg-surface-container p-space-md rounded-xl shadow-md hover:bg-surface-container-high transition-all" data-category="potions">
+<div class="flex flex-col gap-space-sm">
+<div class="relative w-full h-44 rounded-lg bg-surface-container-lowest overflow-hidden flex items-center justify-center shadow-inner">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Illustrated 2D fantasy spherical potion bottle with blazing red liquid and dancing embers inside, glowing ember light reflections, brass dragon-shaped clasp, cozy tavern setting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdnauqEXs7DghQx-Gy-EwyDbwp4iMwmMpLJZLqjKCzjvh51wOSOK7cYITpg6staz-7cS7sjHMEbcCCQHg89A45ZRashttegxnvq9_9khZWdOH3GxLe42QJveBmRGe30WzFN3l3l_spsxdAfzXUhAxnO1AZfjSLKcydVV-Ujydu2mSKr-RLH6_4EGU-LkH43wOsPpIRd1fyZ96wIYJQDVLdtV0ekzzJdGoBJyjo9A"/>
+<div class="absolute top-space-xs left-space-xs bg-surface-container-lowest/80 backdrop-blur-sm px-space-xs py-0.5 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-tertiary-container text-[16px]">local_fire_department</span>
+<span class="font-label-sm text-label-sm text-tertiary uppercase">Огонь</span>
+</div>
+<div class="absolute top-space-xs right-space-xs bg-surface-container-lowest/80 backdrop-blur-sm px-space-xs py-0.5 rounded font-label-sm text-label-sm text-tertiary">
+              Редкость: Легендарное
+            </div>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="font-headline-md text-headline-md text-on-surface font-bold">Флакон Огненного Мурчания</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Превращает каждое мурлыканье в обжигающее пламя дракона.</span>
+</div>
+<div class="bg-surface-container-lowest p-space-xs rounded-lg flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-tertiary text-[20px]">whatshot</span>
+<span class="font-body-md text-body-md text-on-surface"><strong class="text-tertiary">+30%</strong> атака огня на весь бой</span>
+</div>
+</div>
+<div class="pt-space-md flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-md py-space-xs rounded-lg">
+<span class="material-symbols-outlined text-tertiary text-[18px]">toys</span>
+<span class="font-stat-numeral text-label-lg text-tertiary-fixed">650</span>
+</div>
+<button class="flex-1 py-space-xs px-space-md rounded-lg bg-primary text-on-primary hover:bg-primary-container font-label-lg text-label-lg shadow transition-colors flex items-center justify-center gap-space-xs" onclick="purchaseItem('Флакон Огненного Мурчания', 650)">
+<span class="material-symbols-outlined text-[18px]">shopping_cart</span>
+<span>Купить</span>
+</button>
+</div>
+</div>
+<div class="product-card group flex flex-col justify-between bg-surface-container p-space-md rounded-xl shadow-md hover:bg-surface-container-high transition-all" data-category="scrolls">
+<div class="flex flex-col gap-space-sm">
+<div class="relative w-full h-44 rounded-lg bg-surface-container-lowest overflow-hidden flex items-center justify-center shadow-inner">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Aged leather-tied parchment scroll with glowing claw engravings, inscribed sharp runes, warm bronze sealing wax with paw print emblem, 2D classic fairy-tale card battler art style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_H9lgDbHNNl7w0odLYZxcQEgjaP3avKtYnw00cBgif_GIpI7YFajG-BkkXBeiV-e8X9zWieDy3yJn-DeIonVlt-J_EGk-NAl9dUaYX2sXn0ICaLJN5z_NdOt3tAObAAs9MNT3ZN-ebkQK_iB2V33vEox7f8MoX_DBPnpuqzd7iz9JyiMHx4u-BiqfoSbHMVKL6ZLm8OApx_TcaUIMSRQc3jbz9t4-urwLLVoaHA"/>
+<div class="absolute top-space-xs left-space-xs bg-surface-container-lowest/80 backdrop-blur-sm px-space-xs py-0.5 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-on-surface text-[16px]">hardware</span>
+<span class="font-label-sm text-label-sm text-on-surface uppercase">Сталь</span>
+</div>
+<div class="absolute top-space-xs right-space-xs bg-surface-container-lowest/80 backdrop-blur-sm px-space-xs py-0.5 rounded font-label-sm text-label-sm text-on-surface-variant">
+              Редкость: Обычное
+            </div>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="font-headline-md text-headline-md text-on-surface font-bold">Свиток Заточки Когтей</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Древняя инструкция оружейников для полировки боевых когтей.</span>
+</div>
+<div class="bg-surface-container-lowest p-space-xs rounded-lg flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">colorize</span>
+<span class="font-body-md text-body-md text-on-surface">Бафф физ. урона <strong class="text-primary">+12%</strong> когтистому бойцу</span>
+</div>
+</div>
+<div class="pt-space-md flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-md py-space-xs rounded-lg">
+<span class="material-symbols-outlined text-tertiary text-[18px]">toys</span>
+<span class="font-stat-numeral text-label-lg text-tertiary-fixed">180</span>
+</div>
+<button class="flex-1 py-space-xs px-space-md rounded-lg bg-primary text-on-primary hover:bg-primary-container font-label-lg text-label-lg shadow transition-colors flex items-center justify-center gap-space-xs" onclick="purchaseItem('Свиток Заточки Когтей', 180)">
+<span class="material-symbols-outlined text-[18px]">shopping_cart</span>
+<span>Купить</span>
+</button>
+</div>
+</div>
+<div class="product-card group flex flex-col justify-between bg-surface-container p-space-md rounded-xl shadow-md hover:bg-surface-container-high transition-all" data-category="potions">
+<div class="flex flex-col gap-space-sm">
+<div class="relative w-full h-44 rounded-lg bg-surface-container-lowest overflow-hidden flex items-center justify-center shadow-inner">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Dense stone-crafted earthen flask with luminous emerald amber moss growing around it, heavy granite base, floating crystal dust, warm cozy apothecary lighting 2D art." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBCgQYH1o-4rg2MNY8_BybuOTXF1mrQGHuY-pGw_aE-pG7-hKt-6jZ5UE0BdgXS_PQN8AfCWOqVXUW9oyzIxsJffNtxXG6cRQs_a_94wMacHUgYHjV8musiDimOIHo0eYvVw0E8AYKhNXxqu3zl5Ixb_ogL6no8oJZDpiCDPAuB3p-flPMn-V55Gw5EAH2LC8qS_vTLWEImevndssJCKXbfANoWdre981TtEo5X5w"/>
+<div class="absolute top-space-xs left-space-xs bg-surface-container-lowest/80 backdrop-blur-sm px-space-xs py-0.5 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-secondary text-[16px]">landscape</span>
+<span class="font-label-sm text-label-sm text-secondary uppercase">Земля</span>
+</div>
+<div class="absolute top-space-xs right-space-xs bg-surface-container-lowest/80 backdrop-blur-sm px-space-xs py-0.5 rounded font-label-sm text-label-sm text-secondary">
+              Редкость: Редкое
+            </div>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="font-headline-md text-headline-md text-on-surface font-bold">Эликсир Каменной Шкуры</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Превращает мягкий подшерсток в непробиваемую гранитную броню.</span>
+</div>
+<div class="bg-surface-container-lowest p-space-xs rounded-lg flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[20px]">shield</span>
+<span class="font-body-md text-body-md text-on-surface"><strong class="text-secondary">+400</strong> прочности щита на 2 хода</span>
+</div>
+</div>
+<div class="pt-space-md flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-md py-space-xs rounded-lg">
+<span class="material-symbols-outlined text-tertiary text-[18px]">toys</span>
+<span class="font-stat-numeral text-label-lg text-tertiary-fixed">320</span>
+</div>
+<button class="flex-1 py-space-xs px-space-md rounded-lg bg-primary text-on-primary hover:bg-primary-container font-label-lg text-label-lg shadow transition-colors flex items-center justify-center gap-space-xs" onclick="purchaseItem('Эликсир Каменной Шкуры', 320)">
+<span class="material-symbols-outlined text-[18px]">shopping_cart</span>
+<span>Купить</span>
+</button>
+</div>
+</div>
+<div class="product-card group flex flex-col justify-between bg-surface-container p-space-md rounded-xl shadow-md hover:bg-surface-container-high transition-all" data-category="scrolls">
+<div class="flex flex-col gap-space-sm">
+<div class="relative w-full h-44 rounded-lg bg-surface-container-lowest overflow-hidden flex items-center justify-center shadow-inner">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="Ornate celestial rolled scroll with radiant golden tassels, sacred cat constellation star chart, surrounded by glowing fairy embers on antique velvet tablecloth in 2D game illustration style." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5gdSSrKdcx5UdQ_4a3WuwKK3aon-f-LIW_QFjbZpeQentnFfQwMPHL-9oQMsT1yMyTWR2_fTnqI_EiAYWE4USV1ZVjWfywbh1xfMThB4KC5YlgWOyG_hIHxDR-PZW_tl1-7-vR0ygD3_a6ppCfkGgBZnrGa70NVqdnNJVqQaNTVF7ogepFkMeFRbxUHGOVXGJAYVAEre1wGBFz8kYr4vrVOiZtRHAqyg5QEC2tA"/>
+<div class="absolute top-space-xs left-space-xs bg-surface-container-lowest/80 backdrop-blur-sm px-space-xs py-0.5 rounded flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[16px]">stars</span>
+<span class="font-label-sm text-label-sm text-primary uppercase">Мистика</span>
+</div>
+<div class="absolute top-space-xs right-space-xs bg-surface-container-lowest/80 backdrop-blur-sm px-space-xs py-0.5 rounded font-label-sm text-label-sm text-primary">
+              Редкость: Реликтовое
+            </div>
+</div>
+<div class="flex flex-col gap-0.5">
+<span class="font-headline-md text-headline-md text-on-surface font-bold">Свиток Древнего Единства</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Связывает ауры трех котиков в единый нерушимый мифический поток.</span>
+</div>
+<div class="bg-surface-container-lowest p-space-xs rounded-lg flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">groups</span>
+<span class="font-body-md text-body-md text-on-surface">Усиление связи отряда: <strong class="text-primary">+15%</strong> ко всем силам</span>
+</div>
+</div>
+<div class="pt-space-md flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-md py-space-xs rounded-lg">
+<span class="material-symbols-outlined text-tertiary text-[18px]">toys</span>
+<span class="font-stat-numeral text-label-lg text-tertiary-fixed">850</span>
+</div>
+<button class="flex-1 py-space-xs px-space-md rounded-lg bg-primary text-on-primary hover:bg-primary-container font-label-lg text-label-lg shadow transition-colors flex items-center justify-center gap-space-xs" onclick="purchaseItem('Свиток Древнего Единства', 850)">
+<span class="material-symbols-outlined text-[18px]">shopping_cart</span>
+<span>Купить</span>
 </button>
 </div>
 </div>
 </div>
-</div>
-<!-- Catalog Grid (Regular Tavern Items) -->
-<div class="flex items-center justify-between p-space-sm px-space-md rounded-xl bg-surface-container-high/90 border border-outline-variant/40 shadow-sm"><div class="flex items-center gap-2 text-on-surface"><span class="text-[18px]">🍺</span><span class="font-body-md text-body-md"><span class="text-primary font-bold">Зелья и боевые напитки</span> — подаются в Таверне у камина!</span></div><a href="#" data-path="мифмир" class="flex items-center gap-1 font-label-sm text-label-sm text-primary hover:text-primary-fixed underline transition-colors">Перейти в Таверну <span class="material-symbols-outlined text-[16px]">arrow_forward</span></a></div><div class="flex items-center justify-between">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-primary text-[22px]">inventory_2</span>
-<h3 class="font-headline-md text-headline-md text-on-surface">Товары Стеллажа Феликса</h3>
-</div>
-<span class="font-label-sm text-label-sm text-on-surface-variant">Склад пополнен</span>
-</div>
-<div class="grid grid-cols-1 sm:grid-cols-3 gap-space-md">
-<!-- Item 1: Эликсир Чистого Молока -->
-<div class="bg-surface-container rounded-xl p-space-md flex flex-col justify-between shadow-lg hover:shadow-2xl transition-all group"><div><div class="relative w-full aspect-square rounded-lg overflow-hidden bg-surface-container-lowest mb-space-sm flex items-center justify-center"><div class="w-24 h-24 rounded-full bg-gradient-to-tr from-tertiary-container/30 to-primary/40 flex items-center justify-center text-primary group-hover:scale-105 transition-transform duration-300 shadow-inner"><span class="material-symbols-outlined text-[56px] text-tertiary-container">all_inclusive</span></div><div class="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-tertiary-container/90 text-on-tertiary font-label-sm text-label-sm">Ресурс Крафта</div></div><h4 class="font-label-lg text-label-lg text-on-surface mb-1">Клубок Чародейской Пряжи</h4><p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">Священная пряжа для улучшения талисманов и пробуждения пассивных способностей котиков.</p></div><div class="pt-space-md mt-auto flex items-center justify-between"><div class="flex items-center gap-1 text-primary"><span class="material-symbols-outlined text-[18px]">set_meal</span><span class="font-stat-numeral text-stat-numeral">850</span></div><button class="buy-action-btn px-space-md py-1.5 rounded-lg bg-surface-container-high hover:bg-primary-container hover:text-on-primary text-on-surface font-label-md text-label-md transition-all active:scale-95 shadow" data-cost="850" data-curr="рыбки" data-item="Чародейская Пряжа">Купить</button></div></div>
-<!-- Item 2: Рунический Панцирь Танка -->
-<div class="bg-surface-container rounded-xl p-space-md flex flex-col justify-between shadow-lg hover:shadow-2xl transition-all group">
-<div>
-<div class="relative w-full aspect-square rounded-lg overflow-hidden bg-surface-container-lowest mb-space-sm">
-<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="An ornate heavy bronze feline battle chestplate armor etched with glowing green and gold runes, reinforced with mythical iron scales, designed for a warrior cat champion, resting on a pedestal in an armory, moody warm tavern background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVit1_gR0jHMCa1rB_IXFGCiIAoW3Z7KIFNYppwxa-81akEs433Q6hy4lKU79Whl63Aa5LAmriqDexXhTQ4DrLpHlI78lAvhc3tRChD2IOF4PnbIOpB8L_bXo5Kchflx3qmT0ZI9gOJLOyPzUYZ-ZPWtNbAxRh5mUp8Iu3qJaVVInZDxQZ9W0h3ZKFcIfBU1ILJgI1E2wehNZbjoQ9slBfeSbLD-VnRSx0Miey0w">
-<div class="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-surface-container-highest/90 text-primary font-label-sm text-label-sm">
-                  Броня I-Линии
-                </div>
-</div>
-<h4 class="font-label-lg text-label-lg text-on-surface mb-1">
-                Рунический Панцирь Танка
-              </h4>
-<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
-                Редкое снаряжение первой линии. Повышает щиты и снижает входящий критический урон на 22%.
-              </p>
-</div>
-<div class="pt-space-md mt-auto flex items-center justify-between">
-<div class="flex items-center gap-1 text-primary">
-<span class="material-symbols-outlined text-[18px]">monetization_on</span>
-<span class="font-stat-numeral text-stat-numeral">2,800</span>
-</div>
-<button class="buy-action-btn px-space-md py-1.5 rounded-lg bg-surface-container-high hover:bg-primary-container hover:text-on-primary text-on-surface font-label-md text-label-md transition-all active:scale-95 shadow" data-cost="2800" data-curr="золота" data-item="Рунический Панцирь">
-                Купить
-              </button>
-</div>
-</div>
-<!-- Item 3: Свиток Штормового Когтя -->
-<div class="bg-surface-container rounded-xl p-space-md flex flex-col justify-between shadow-lg hover:shadow-2xl transition-all group">
-<div>
-<div class="relative w-full aspect-square rounded-lg overflow-hidden bg-surface-container-lowest mb-space-sm">
-<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" data-alt="An ancient mystical rolled parchment scroll bound with an electric cyan and gold silk ribbon, lightning spark glyphs humming around the paper edges, glowing magical feline martial skill treatise, warm dark fantasy background." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwJh2VxuJ53C_ooDG3QYqgWKWVSj5Aa5scQA3pc70i8uAUFWIH5NtCaoIr9BkeIW7slEx8_lCM1O0aUHuNrU9MX8xSx08Zz-JnLXekuskjRbJSzn9DxfDOUL9eSiB4pXU1sFFgDenEwA8Dy1t2MD1lHYtFUavC0iSOVWXYyP7nWEicYyEmCYUViaOqwQvalyU4fruKEV9tCsR9WBOhhf_ZFUATaoAf6tPLAfNxRw">
-<div class="absolute bottom-2 left-2 px-2 py-0.5 rounded bg-primary-container/90 text-on-primary font-label-sm text-label-sm">
-                  Навык Бойца
-                </div>
-</div>
-<h4 class="font-label-lg text-label-lg text-on-surface mb-1">
-                Свиток Штормового Когтя
-              </h4>
-<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2">
-                Улучшение активного приема. Наносит 3 быстрых удара лапой и накладывает шок на цель.
-              </p>
-</div>
-<div class="pt-space-md mt-auto flex items-center justify-between">
-<div class="flex items-center gap-1 text-tertiary-container">
-<span class="material-symbols-outlined text-[18px]">diamond</span>
-<span class="font-stat-numeral text-stat-numeral">450</span>
-</div>
-<button class="buy-action-btn px-space-md py-1.5 rounded-lg bg-surface-container-high hover:bg-primary-container hover:text-on-primary text-on-surface font-label-md text-label-md transition-all active:scale-95 shadow" data-cost="450" data-curr="кристаллов" data-item="Свиток Штормового Когтя">
-                Купить
-              </button>
-</div>
-</div>
-</div>
-</div>
-<!-- RIGHT COLUMN: P2P Guardian Auction Board (Live Player Trades) -->
-<div class="lg:col-span-3 flex flex-col gap-space-md">
-<div class="bg-surface-container rounded-xl p-space-md shadow-xl flex flex-col gap-space-md">
-<!-- Auction Header -->
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-2">
-<div class="w-8 h-8 rounded-lg bg-primary-container/20 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined text-[20px]">gavel</span>
-</div>
-<div>
-<h3 class="font-headline-md text-headline-md text-on-surface leading-tight">Аукцион Хранителей</h3>
-<span class="font-label-sm text-label-sm text-on-surface-variant">Живые торги игроков (P2P)</span>
-</div>
-</div>
-<button class="px-2 py-1 rounded bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-sm text-label-sm flex items-center gap-1 transition-colors" title="Выставить котика на аукцион">
-<span class="material-symbols-outlined text-[14px]">add</span>
-              Мой лот
-            </button>
-</div>
-<!-- P2P Lots Feed -->
-<div class="flex flex-col gap-space-sm" id="auction-lots-container">
-<!-- Lot 1: Танк Баюн -->
-<div class="lot-card bg-surface-container-low hover:bg-surface-container-high p-space-sm rounded-xl transition-all shadow-md group">
-<div class="flex gap-space-sm items-center">
-<div class="relative w-14 h-14 rounded-lg overflow-hidden shrink-0 bg-surface-container-lowest">
-<img class="w-full h-full object-cover" data-alt="Close up face portrait of a massive fluffy Siberian Forest cat dressed in iron gladiator armor with glowing emerald eyes and brave stoic expression, warm tavern rim lighting." src="https://lh3.googleusercontent.com/aida-public/AB6AXuC1L5p6IHoTPv59z-aRazfY8tRiUGkUnwna8q2W-R6Sjkjg_LN-mYkfO2dYIz4_FQnYKJs56HK7eMOTX0J0GkYAbJKglo2G5Ys2M4v6bIIeaWmh9TH6WgPuUbI7VEF1PXD2nlOvGkhhhxWPGdnPCGlHVDMLcHSyUnYq2Yhq0JWB62hWmH16Q0TTNxXefiDWE8xGYKF6ihHJZw4LMpMYqYupYi107UFelBGvDwa3FA">
-<span class="absolute bottom-0 right-0 px-1 rounded-tl bg-secondary text-on-secondary font-label-sm text-[9px]">Ур.40</span>
-</div>
-<div class="flex flex-col min-w-0 flex-1">
-<div class="flex items-center justify-between">
-<span class="font-label-md text-label-md text-on-surface truncate">Баюн Непоколебимый</span>
-<span class="px-1.5 py-0.2 rounded bg-surface-variant font-label-sm text-[10px] text-secondary">Танк</span>
-</div>
-<div class="flex items-center justify-between mt-1 text-on-surface-variant font-body-sm text-body-sm">
-<span class="flex items-center gap-1 text-[11px] text-error">
-<span class="material-symbols-outlined text-[13px]">alarm</span> 14 мин
-                    </span>
-<div class="flex items-center gap-1 text-tertiary-container font-stat-numeral text-label-md">
-<span class="material-symbols-outlined text-[14px]">diamond</span>
-<span class="">850</span>
-</div>
-</div>
-</div>
-</div>
-<button class="bid-btn w-full mt-2 py-1 rounded bg-surface-container hover:bg-primary-container hover:text-on-primary text-on-surface font-label-sm text-label-sm transition-all active:scale-98">
-                Сделать ставку (900)
-              </button>
-</div>
-<!-- Lot 2: Боец Коготь Ветра -->
-<div class="lot-card bg-surface-container-low hover:bg-surface-container-high p-space-sm rounded-xl transition-all shadow-md group">
-<div class="flex gap-space-sm items-center">
-<div class="relative w-14 h-14 rounded-lg overflow-hidden shrink-0 bg-surface-container-lowest">
-<img class="w-full h-full object-cover" data-alt="Portrait of a sleek Bengal cat warrior adorned with golden tribal assassin paint and leather pauldron, intense amber eyes, tavern fantasy atmosphere." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBvV30Kt6xZqhzGAkf9MR7lnzSHB9XdQr0icjkrECuDcGO-xaRHF8mhYrU2Zlm9tzf0nqYljRcG2fSJwz-AfXSD4rKFKGcsb6UlQeZwWTAHl_J7cIAQmUqikZkoANuf77DDq0fa0H9RHVEiD3ArH6Y3_4a5TztGXXzDkIxhqu4fsR7u57C7ZwEzl9gdS_-ta27c-UqfSxNyqbyLCw8zic8I4kDqMcxaqjfDdp7q5w">
-<span class="absolute bottom-0 right-0 px-1 rounded-tl bg-primary text-on-primary font-label-sm text-[9px]">Ур.38</span>
-</div>
-<div class="flex flex-col min-w-0 flex-1">
-<div class="flex items-center justify-between">
-<span class="font-label-md text-label-md text-on-surface truncate">Шепот Заката</span>
-<span class="px-1.5 py-0.2 rounded bg-surface-variant font-label-sm text-[10px] text-primary">Боец</span>
-</div>
-<div class="flex items-center justify-between mt-1 text-on-surface-variant font-body-sm text-body-sm">
-<span class="flex items-center gap-1 text-[11px] text-on-surface-variant">
-<span class="material-symbols-outlined text-[13px]">alarm</span> 01 ч 22 м
-                    </span>
-<div class="flex items-center gap-1 text-tertiary-container font-stat-numeral text-label-md">
-<span class="material-symbols-outlined text-[14px]">diamond</span>
-<span class="">1,100</span>
-</div>
-</div>
-</div>
-</div>
-<button class="bid-btn w-full mt-2 py-1 rounded bg-surface-container hover:bg-primary-container hover:text-on-primary text-on-surface font-label-sm text-label-sm transition-all active:scale-98">
-                Сделать ставку (1,150)
-              </button>
-</div>
-<!-- Lot 3: Саппорт Лунолапка -->
-<div class="lot-card bg-surface-container-low hover:bg-surface-container-high p-space-sm rounded-xl transition-all shadow-md group">
-<div class="flex gap-space-sm items-center">
-<div class="relative w-14 h-14 rounded-lg overflow-hidden shrink-0 bg-surface-container-lowest">
-<img class="w-full h-full object-cover" data-alt="Portrait of a mystic white Persian cat priestess wearing a diaphanous lavender veil and an amber crystal pendant, glowing healing aura around soft fur." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfSqdcjTTqRXRWtqf8exlzoDt5lor0WZjEsxDz4IdCuunXWJCgVibEzg2jENvP6WtLLn-eJhDOcaGEGg55vtwArcE4epHx_0zwFSJzL3-JdQTXXroWnA2VZoDLdbm_4yKw2KVNYc5jmD_mB3sBqXLTsgSuCYxT2I21Rh8yTuSmF2ONXILzIklwca2YhNoJE4IVvHdxU76I9YDPg8dKOuBotZ6pOTcB9wqjZyE40A">
-<span class="absolute bottom-0 right-0 px-1 rounded-tl bg-tertiary-container text-on-tertiary font-label-sm text-[9px]">Ур.45</span>
-</div>
-<div class="flex flex-col min-w-0 flex-1">
-<div class="flex items-center justify-between">
-<span class="font-label-md text-label-md text-on-surface truncate">Оракул Селеста</span>
-<span class="px-1.5 py-0.2 rounded bg-surface-variant font-label-sm text-[10px] text-tertiary">Саппорт</span>
-</div>
-<div class="flex items-center justify-between mt-1 text-on-surface-variant font-body-sm text-body-sm">
-<span class="flex items-center gap-1 text-[11px] text-on-surface-variant">
-<span class="material-symbols-outlined text-[13px]">alarm</span> 03 ч 05 м
-                    </span>
-<div class="flex items-center gap-1 text-tertiary-container font-stat-numeral text-label-md">
-<span class="material-symbols-outlined text-[14px]">diamond</span>
-<span class="">2,400</span>
-</div>
-</div>
-</div>
-</div>
-<button class="bid-btn w-full mt-2 py-1 rounded bg-surface-container hover:bg-primary-container hover:text-on-primary text-on-surface font-label-sm text-label-sm transition-all active:scale-98">
-                Сделать ставку (2,500)
-              </button>
-</div>
-<!-- Lot 4: Стрелок Арбалетчик -->
-<div class="lot-card bg-surface-container-low hover:bg-surface-container-high p-space-sm rounded-xl transition-all shadow-md group">
-<div class="flex gap-space-sm items-center">
-<div class="relative w-14 h-14 rounded-lg overflow-hidden shrink-0 bg-surface-container-lowest">
-<img class="w-full h-full object-cover" data-alt="Portrait of an alert Siamese cat ranger wearing a hooded forest green cloak with miniature brass crossbow strapped to its back, sharp focused gaze." src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1Hc-eGPnCXVJuBtCSv1dpbbKzK1WhwOX3u04u0vyTqYv9GoOT-F1TpsspSuk4-TakCT4_hravB-k3GJdtepRcgTogUVgsWhd1UXhhbrVEsQYWwHgyGXV617gVoFVhdDEWj69vijsx5YNZ1InHvFvUIyzCKCMWayNp7Kj77cG3Ho_-m3ZYIXwHjQ9fvB5YKE6wyDKgkPO6kD4JXx14wA59vbC5PWuhNAxqJ38ilg">
-<span class="absolute bottom-0 right-0 px-1 rounded-tl bg-secondary-fixed text-on-secondary font-label-sm text-[9px]">Ур.33</span>
-</div>
-<div class="flex flex-col min-w-0 flex-1">
-<div class="flex items-center justify-between">
-<span class="font-label-md text-label-md text-on-surface truncate">Стрелок Сиам</span>
-<span class="px-1.5 py-0.2 rounded bg-surface-variant font-label-sm text-[10px] text-secondary">Стрелок</span>
-</div>
-<div class="flex items-center justify-between mt-1 text-on-surface-variant font-body-sm text-body-sm">
-<span class="flex items-center gap-1 text-[11px] text-on-surface-variant">
-<span class="material-symbols-outlined text-[13px]">alarm</span> 06 ч 40 м
-                    </span>
-<div class="flex items-center gap-1 text-tertiary-container font-stat-numeral text-label-md">
-<span class="material-symbols-outlined text-[14px]">diamond</span>
-<span class="">620</span>
-</div>
-</div>
-</div>
-</div>
-<button class="bid-btn w-full mt-2 py-1 rounded bg-surface-container hover:bg-primary-container hover:text-on-primary text-on-surface font-label-sm text-label-sm transition-all active:scale-98">
-                Сделать ставку (650)
-              </button>
-</div>
-</div>
-<a class="w-full py-2 rounded-lg bg-surface-container-high hover:bg-surface-bright text-center font-label-md text-label-md text-primary transition-colors flex items-center justify-center gap-1" href="#">
-<span class="">Смотреть все 84 лота</span>
-<span class="material-symbols-outlined text-[16px]">chevron_right</span>
-</a>
-</div>
-</div>
-</div>
-<!-- Notification Toast (Purchase feedback) -->
-<div class="fixed bottom-12 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none bg-surface-container-high px-space-md py-space-sm rounded-xl shadow-2xl flex items-center gap-space-sm" id="toast">
-<span class="material-symbols-outlined text-secondary text-[24px]" id="toast-icon">check_circle</span>
+<div class="relative z-10 w-full flex flex-col sm:flex-row items-center justify-between gap-space-md bg-surface-container-lowest p-space-md rounded-xl shadow-inner mt-space-sm">
+<div class="flex items-center gap-space-md">
+<span class="material-symbols-outlined text-primary text-[24px]">verified</span>
 <div class="flex flex-col">
-<span class="font-label-md text-label-md text-on-surface" id="toast-title">Покупка успешна!</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant" id="toast-desc">Товар отправлен в твой инвентарь.</span>
+<span class="font-label-md text-label-md text-on-surface">Гарантия Гильдии Алхимиков</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Все купленные зелья и свитки мгновенно попадают в ваш Сундук Инвентаря.</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<button class="px-space-md py-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md transition-colors flex items-center gap-space-xs" type="button">
+<span class="material-symbols-outlined text-[18px]">backpack</span>
+<span>Открыть Сундук</span>
+</button>
 </div>
 </div>
 </div>
-<!-- Interactive Scripts for Market Actions -->
+<div class="fixed bottom-10 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-space-sm bg-surface-container-highest px-space-lg py-space-md rounded-xl shadow-xl" id="toast">
+<span class="material-symbols-outlined text-secondary text-[24px]">check_circle</span>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold" id="toast-title">Приобретено</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant" id="toast-desc">Предмет добавлен в инвентарь</span>
+</div>
+</div>
 <script>
-    (function() {
-      // Countdown Timer Logic
-      let seconds = 5 * 3600 + 42 * 60 + 19;
-      const timerEl = document.getElementById('refresh-timer');
-      setInterval(() => {
-        if (seconds > 0) {
-          seconds--;
-          const h = Math.floor(seconds / 3600).toString().padStart(2, '0');
-          const m = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
-          const s = (seconds % 60).toString().padStart(2, '0');
-          if (timerEl) timerEl.textContent = `${h}:${m}:${s}`;
-        }
-      }, 1000);
+    let currentYarn = 920;
 
-      // Tab switcher interaction
-      const tabs = document.querySelectorAll('.tab-btn');
-      tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-          tabs.forEach(t => {
-            t.classList.remove('bg-primary-container', 'text-on-primary', 'shadow-md');
-            t.classList.add('bg-surface-container', 'text-on-surface-variant');
-          });
-          tab.classList.add('bg-primary-container', 'text-on-primary', 'shadow-md');
-          tab.classList.remove('bg-surface-container', 'text-on-surface-variant');
+    function switchCategory(category) {
+      const potionsTab = document.getElementById('tab-potions');
+      const scrollsTab = document.getElementById('tab-scrolls');
+      const cards = document.querySelectorAll('.product-card');
+
+      if (category === 'potions') {
+        potionsTab.className = "flex items-center gap-space-xs px-space-lg py-space-xs rounded-lg bg-primary-container text-on-primary-container font-label-lg text-label-lg transition-all shadow-sm";
+        scrollsTab.className = "flex items-center gap-space-xs px-space-lg py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg transition-all";
+        cards.forEach(card => {
+          if (card.dataset.category === 'potions') {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
         });
-      });
-
-      // Toast notification helper
-      const toast = document.getElementById('toast');
-      const toastTitle = document.getElementById('toast-title');
-      const toastDesc = document.getElementById('toast-desc');
-      let toastTimeout;
-
-      function showToast(title, desc) {
-        if (!toast) return;
-        toastTitle.textContent = title;
-        toastDesc.textContent = desc;
-        toast.classList.remove('translate-y-24', 'opacity-0');
-        clearTimeout(toastTimeout);
-        toastTimeout = setTimeout(() => {
-          toast.classList.add('translate-y-24', 'opacity-0');
-        }, 3000);
+      } else {
+        scrollsTab.className = "flex items-center gap-space-xs px-space-lg py-space-xs rounded-lg bg-primary-container text-on-primary-container font-label-lg text-label-lg transition-all shadow-sm";
+        potionsTab.className = "flex items-center gap-space-xs px-space-lg py-space-xs rounded-lg text-on-surface-variant hover:text-on-surface font-label-lg text-label-lg transition-all";
+        cards.forEach(card => {
+          if (card.dataset.category === 'scrolls') {
+            card.classList.remove('hidden');
+          } else {
+            card.classList.add('hidden');
+          }
+        });
       }
+    }
 
-      // Buy Buttons
-      const buyButtons = document.querySelectorAll('.buy-action-btn');
-      buyButtons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          const item = btn.dataset.item || 'Предмет';
-          const cost = btn.dataset.cost || '0';
-          const curr = btn.dataset.curr || '';
-          showToast(`Куплено: ${item}!`, `Списано ${cost} ${curr}. Купец Феликс довольно мурлычет!`);
-        });
-      });
+    function purchaseItem(name, cost) {
+      if (currentYarn >= cost) {
+        currentYarn -= cost;
+        document.getElementById('player-yarn').innerText = currentYarn;
+        showToast('Успешная покупка!', '«' + name + '» бережно уложен в вашу сумку.');
+      } else {
+        showToast('Недостаточно клубков!', 'Сразитесь на Арене, чтобы собрать еще клубков ниток.');
+      }
+    }
 
-      // Bid Buttons
-      const bidButtons = document.querySelectorAll('.bid-btn');
-      bidButtons.forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.preventDefault();
-          btn.textContent = 'Ставка принята!';
-          btn.classList.add('bg-secondary-container', 'text-on-secondary-container');
-          showToast('Ставка размещена!', 'Вы являетесь лидером торга за этого мифического котика.');
-          setTimeout(() => {
-            btn.textContent = 'Поднять ставку';
-            btn.classList.remove('bg-secondary-container', 'text-on-secondary-container');
-          }, 4000);
-        });
-      });
-    })();
+    function showToast(title, desc) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toast-title').innerText = title;
+      document.getElementById('toast-desc').innerText = desc;
+      toast.classList.remove('translate-y-24', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+      setTimeout(() => {
+        toast.classList.add('translate-y-24', 'opacity-0');
+        toast.classList.remove('translate-y-0', 'opacity-100');
+      }, 3000);
+    }
   </script>
-</div></main><footer class="fixed bottom-0 left-0 w-full z-40 bg-surface-container-lowest/90 backdrop-blur-sm shadow-[0_-1px_6px_rgba(0,0,0,0.5)]"><div class="h-8 w-full px-margin flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant"><div class="flex items-center gap-space-md"><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span class="">Сервер: Теплый Очаг-RU</span></div><div class="flex items-center gap-1"><span class="material-symbols-outlined text-[14px] text-secondary">signal_cellular_alt</span><span class="">24 мс</span></div></div><div class="flex items-center gap-space-md"><span class="hidden sm:inline">Версия 0.42.8-beta</span><span class="text-primary">Усадьба Мурок онлайн</span></div></div></footer>
+</div></main><footer class="w-full bg-surface-container-lowest/90 py-space-sm"><div class="w-full px-margin-tablet flex flex-wrap items-center justify-between gap-space-sm"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs"><span class="w-2 h-2 rounded-full bg-secondary"></span><span class="font-label-sm text-label-sm text-on-surface-variant">Сервер: Лукоморье (24мс)</span></div><span class="font-label-sm text-label-sm text-outline-variant">•</span><span class="font-label-sm text-label-sm text-on-surface-variant">Сезон IV: Hearth &amp; Claw</span></div><div class="flex items-center gap-space-md"><span class="font-label-sm text-label-sm text-on-surface-variant">Игроков онлайн: 4,812</span><span class="font-label-sm text-label-sm text-outline-variant">•</span><span class="font-label-sm text-label-sm text-outline">v0.9.4 Early Access</span></div></div></footer>
 </section>

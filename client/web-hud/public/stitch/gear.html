@@ -1,8 +1,455 @@
 <section id="viewGear" class="stitch-view hidden" data-stitch="gear">
-<main class="min-h-screen w-full flex flex-col items-center justify-center gap-4 px-8 py-16 text-center" style="background:radial-gradient(ellipse at 50% 20%,#2e2926 0%,#161310 70%);">
-  <p class="text-xs tracking-[0.2em] uppercase text-primary font-bold">Stub · Нужен мок Stitch</p>
-  <h1 class="text-4xl font-black text-primary" style="font-family:Rubik,sans-serif">Экипировка</h1>
-  <p class="max-w-xl text-on-surface-variant" style="font-family:'Nunito Sans',sans-serif">Оружие, доспехи и аксессуары котиков.</p>
-  <p class="mt-4 px-4 py-2 rounded-lg border border-outline/40 bg-surface-container text-sm text-primary">Нужен мок Stitch — экран ещё не сверстан в Stitch</p>
-</main>
+<header class="fixed top-0 w-full z-50 bg-surface-container-low/95 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.6)]"><div class="h-20 w-full px-space-xl flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg"><a class="flex items-center gap-space-xs px-space-md py-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all shadow-[0_2px_6px_rgba(0,0,0,0.4)]" data-path="tavern-hub" href="#"><span class="material-symbols-outlined text-[20px] text-primary">arrow_back</span><span class="font-label-lg text-label-lg">В Хаб</span></a><div class="flex flex-col"><span class="font-headline-md text-headline-md text-primary tracking-wide">Мифиус</span><span class="font-label-sm text-label-sm uppercase tracking-wider text-on-surface-variant">Инвентарь и Сумка Хранителя</span></div></div><nav class="flex items-center gap-space-xs bg-surface-container-lowest/80 p-space-xs rounded-xl shadow-inner" data-active-classes="bg-primary-container text-on-primary-container font-label-md"><a class="px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface transition-colors font-label-md text-label-md" data-path="vse-predmety" href="#">Все предметы</a><a class="px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface transition-colors font-label-md text-label-md" data-path="snaryazhenie" href="#">Снаряжение</a><a class="px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface transition-colors font-label-md text-label-md" data-path="materialy" href="#">Материалы</a><a class="px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface transition-colors font-label-md text-label-md" data-path="zelya-i-eda" href="#">Зелья и Еда</a><a class="px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface transition-colors font-label-md text-label-md" data-path="semena-i-urozhay" href="#">Семена и Урожай</a><a class="px-space-md py-space-sm rounded-lg text-on-surface-variant hover:text-on-surface transition-colors font-label-md text-label-md" data-path="oskolki-i-relikvii" href="#">Осколки и Реликвии</a></nav><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-space-md py-space-xs rounded-lg bg-surface-container-lowest/90 shadow-sm"><span class="material-symbols-outlined text-[18px] text-secondary">set_meal</span><span class="font-stat-numeral text-stat-numeral text-secondary">14,850</span></div><div class="flex items-center gap-space-xs px-space-md py-space-xs rounded-lg bg-surface-container-lowest/90 shadow-sm"><span class="material-symbols-outlined text-[18px] text-tertiary">fiber_manual_record</span><span class="font-stat-numeral text-stat-numeral text-tertiary">920</span></div><div class="flex items-center gap-space-xs px-space-md py-space-xs rounded-lg bg-surface-container-lowest/90 shadow-sm"><span class="material-symbols-outlined text-[18px] text-primary">bolt</span><span class="font-stat-numeral text-stat-numeral text-primary">85<span class="font-label-md text-label-md text-on-surface-variant font-normal">/100</span></span></div><div class="flex items-center gap-space-xs px-space-md py-space-xs rounded-lg bg-surface-container-lowest/90 shadow-sm"><span class="material-symbols-outlined text-[18px] text-secondary-fixed-dim">diamond</span><span class="font-stat-numeral text-stat-numeral text-secondary-fixed-dim">385</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-20 flex-1 bg-surface-dim"><div class="flex flex-col w-full">
+<!-- Top Ambient Lantern Glow / Living Mist Layer -->
+<div class="relative w-full overflow-hidden bg-surface-container-lowest">
+<!-- Ambient Radial Atmosphere (Fireplace Hearth Glow) -->
+<div class="absolute -top-32 left-1/3 w-[600px] h-[350px] bg-primary/10 rounded-full blur-[110px] pointer-events-none"></div>
+<div class="absolute bottom-0 right-10 w-[450px] h-[300px] bg-tertiary-container/10 rounded-full blur-[100px] pointer-events-none"></div>
+<!-- Main 3-Column Tactical Inventory Canvas -->
+<div class="w-full px-space-lg py-space-md grid grid-cols-12 gap-space-md max-w-[1920px] mx-auto min-h-[calc(100vh-8.5rem)]">
+<!-- ========================================== -->
+<!-- LEFT COLUMN: Categories & Capacity Tracker  -->
+<!-- ========================================== -->
+<section class="col-span-12 lg:col-span-3 flex flex-col gap-space-md bg-surface-container-low/95 p-space-md rounded-xl shadow-xl backdrop-blur-md">
+<!-- Capacity Header Widget -->
+<div class="bg-surface-container p-space-md rounded-lg flex flex-col gap-space-xs shadow-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">inventory_2</span>
+<span class="font-headline-md text-headline-md text-on-surface">Вместимость</span>
+</div>
+<span class="font-stat-numeral text-stat-numeral text-primary">84 <span class="font-body-sm text-body-sm text-on-surface-variant font-normal">/ 120</span></span>
+</div>
+<!-- Segmented Progress Bar -->
+<div class="w-full h-3 bg-surface-container-lowest rounded-full overflow-hidden p-0.5 shadow-inner mt-1">
+<div class="h-full bg-gradient-to-r from-primary-container via-primary to-secondary rounded-full shadow-[0_0_8px_rgba(253,186,69,0.5)] transition-all duration-500" style="width: 70%;"></div>
+</div>
+<button class="mt-space-xs w-full py-space-xs px-space-sm bg-surface-container-high hover:bg-surface-bright text-primary transition-all rounded-lg flex items-center justify-center gap-space-xs shadow-sm hover:scale-[1.01] active:scale-[0.99]" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary-fixed-dim">diamond</span>
+<span class="font-label-md text-label-md">+10 ячеек за 50 самоцветов</span>
+</button>
+</div>
+<!-- Inventory Categories Navigator -->
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline px-space-xs mb-1">Разделы сумки</span>
+<button class="flex items-center justify-between px-space-md py-space-sm rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md shadow-md transition-all" type="button">
+<span class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px]">all_inbox</span>
+              Все предметы
+            </span>
+<span class="px-space-xs py-0.5 bg-on-primary-container/20 text-on-primary-container rounded font-stat-numeral text-body-sm">84</span>
+</button>
+<button class="flex items-center justify-between px-space-md py-space-sm rounded-lg bg-surface-container/60 hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all" type="button">
+<span class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-primary">swords</span>
+              Экипировка
+            </span>
+<span class="px-space-xs py-0.5 bg-surface-container-lowest text-outline rounded font-body-sm text-body-sm">18</span>
+</button>
+<button class="flex items-center justify-between px-space-md py-space-sm rounded-lg bg-surface-container/60 hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all" type="button">
+<span class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-secondary">spa</span>
+              Материалы и Травы
+            </span>
+<span class="px-space-xs py-0.5 bg-surface-container-lowest text-outline rounded font-body-sm text-body-sm">32</span>
+</button>
+<button class="flex items-center justify-between px-space-md py-space-sm rounded-lg bg-surface-container/60 hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all" type="button">
+<span class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-tertiary">science</span>
+              Зелья и Эликсиры
+            </span>
+<span class="px-space-xs py-0.5 bg-surface-container-lowest text-outline rounded font-body-sm text-body-sm">14</span>
+</button>
+<button class="flex items-center justify-between px-space-md py-space-sm rounded-lg bg-surface-container/60 hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all" type="button">
+<span class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-primary-fixed">grass</span>
+              Семена и Урожай
+            </span>
+<span class="px-space-xs py-0.5 bg-surface-container-lowest text-outline rounded font-body-sm text-body-sm">12</span>
+</button>
+<button class="flex items-center justify-between px-space-md py-space-sm rounded-lg bg-surface-container/60 hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all" type="button">
+<span class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[18px] text-secondary-fixed-dim">auto_awesome</span>
+              Осколки и Реликвии
+            </span>
+<span class="px-space-xs py-0.5 bg-surface-container-lowest text-outline rounded font-body-sm text-body-sm">8</span>
+</button>
+</div>
+<!-- Filter by Rarity -->
+<div class="flex flex-col gap-space-xs pt-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline px-space-xs">Редкость предметов</span>
+<div class="grid grid-cols-3 gap-1">
+<button class="py-1 px-2 rounded bg-surface-bright text-on-surface font-label-sm text-label-sm text-center shadow-inner" type="button">Все</button>
+<button class="py-1 px-2 rounded bg-surface-container-lowest text-outline hover:text-on-surface font-label-sm text-label-sm text-center" type="button">Обычн.</button>
+<button class="py-1 px-2 rounded bg-surface-container-lowest text-secondary hover:text-secondary-fixed font-label-sm text-label-sm text-center" type="button">Необычн.</button>
+<button class="py-1 px-2 rounded bg-surface-container-lowest text-[#70a5f9] hover:text-[#9bc2ff] font-label-sm text-label-sm text-center" type="button">Редкие</button>
+<button class="py-1 px-2 rounded bg-surface-container-lowest text-[#d685ff] hover:text-[#e4aeff] font-label-sm text-label-sm text-center" type="button">Эпич.</button>
+<button class="py-1 px-2 rounded bg-surface-container-lowest text-primary hover:text-primary-fixed font-label-sm text-label-sm text-center" type="button">Мифич.</button>
+</div>
+</div>
+<!-- Filter by Element Tag -->
+<div class="flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline px-space-xs">Стихийное родство</span>
+<div class="grid grid-cols-4 gap-1">
+<button class="flex flex-col items-center justify-center py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors" title="Молния" type="button">
+<span class="material-symbols-outlined text-[18px] text-primary">bolt</span>
+<span class="font-label-sm text-[9px] text-primary">Молния</span>
+</button>
+<button class="flex flex-col items-center justify-center py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors" title="Огонь" type="button">
+<span class="material-symbols-outlined text-[18px] text-tertiary">local_fire_department</span>
+<span class="font-label-sm text-[9px] text-tertiary">Огонь</span>
+</button>
+<button class="flex flex-col items-center justify-center py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors" title="Листва" type="button">
+<span class="material-symbols-outlined text-[18px] text-secondary">eco</span>
+<span class="font-label-sm text-[9px] text-secondary">Листва</span>
+</button>
+<button class="flex flex-col items-center justify-center py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors" title="Вода" type="button">
+<span class="material-symbols-outlined text-[18px] text-[#70a5f9]">water_drop</span>
+<span class="font-label-sm text-[9px] text-[#70a5f9]">Вода</span>
+</button>
+</div>
+</div>
+<!-- Quick Batch Actions Footer -->
+<div class="mt-auto pt-space-sm flex flex-col gap-space-xs">
+<button class="w-full py-space-sm px-space-md rounded-lg bg-surface-container-high hover:bg-error-container text-on-surface hover:text-on-error-container transition-all flex items-center justify-center gap-space-xs shadow-md" type="button">
+<span class="material-symbols-outlined text-[18px] text-error">recycling</span>
+<span class="font-label-md text-label-md">Быстрая утилизация мусора</span>
+</button>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- CENTER COLUMN: Dense RPG Item Grid (6x5)   -->
+<!-- ========================================== -->
+<section class="col-span-12 lg:col-span-5 flex flex-col gap-space-md bg-surface-container-low/95 p-space-md rounded-xl shadow-xl backdrop-blur-md">
+<!-- Controls Bar: Search & Quick Filters -->
+<div class="flex items-center gap-space-xs bg-surface-container p-space-xs rounded-lg shadow-inner">
+<div class="relative flex-1 flex items-center">
+<span class="material-symbols-outlined absolute left-2 text-[18px] text-outline">search</span>
+<input class="w-full bg-surface-container-lowest/80 pl-8 pr-2 py-1.5 rounded-lg text-on-surface placeholder:text-outline font-body-sm text-body-sm focus:outline-none focus:ring-1 focus:ring-primary" placeholder="Поиск предмета по названию..." type="text"/>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-1.5 rounded-lg bg-surface-container-lowest text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center" title="Только для боя" type="button">
+<span class="material-symbols-outlined text-[18px]">sports_martial_arts</span>
+</button>
+<button class="p-1.5 rounded-lg bg-surface-container-lowest text-on-surface-variant hover:text-primary transition-colors flex items-center justify-center" title="Заблокированные" type="button">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+</button>
+<div class="px-2 py-1 bg-surface-container-lowest rounded-lg flex items-center gap-1 cursor-pointer">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Редкость ↓</span>
+<span class="material-symbols-outlined text-[14px] text-outline">expand_more</span>
+</div>
+</div>
+</div>
+<!-- Item Grid Container (Dense Scrollable Hearthstone/Tactical Grid) -->
+<div class="flex-1 overflow-y-auto pr-1">
+<div class="grid grid-cols-5 sm:grid-cols-6 gap-2">
+<!-- Slot 1: Кинжал Перуна (Active Selected) -->
+<div class="group relative aspect-square rounded-xl bg-surface-container-high p-1 shadow-lg cursor-pointer transform hover:scale-105 transition-all duration-150 ring-2 ring-primary bg-gradient-to-b from-primary/20 via-surface-container-high to-surface-container-lowest shadow-[0_0_14px_rgba(253,186,69,0.35)]">
+<div class="w-full h-full rounded-lg overflow-hidden relative bg-surface-container-lowest flex items-center justify-center">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1WBe5ebXW7qU0v4LhWLG4amG2-4uSHor3jz6ud6TZ0VwNp3pZaVXWjlNelomMe1nDwJD03KcbJUCQHMchPi87qU_pKXfMDXpan3ThNMYfBae8U72JLKkWWPsNfB6dkuD__2-Cw8fjuDge4ZUX9h8HfngKZaj49_sF6gmgIBNrSvKjTDCF0JDqHOd9JQr21UfPdOsCBP8_h8YGHS2SKp01FaZGAxaLZm-je818icgew"/>
+<!-- Level / Upgrade Tag -->
+<span class="absolute top-1 left-1 px-1 py-0.2 bg-primary text-on-primary font-label-sm text-[10px] rounded shadow-sm">+12</span>
+<!-- Element Pip -->
+<span class="absolute top-1 right-1 text-primary drop-shadow-[0_1px_3px_rgba(0,0,0,0.9)] text-[12px] font-bold">⚡</span>
+<span class="absolute bottom-1 right-1 px-1 py-0 bg-surface-container-lowest/80 text-on-surface font-label-sm text-[9px] rounded">ур.60</span>
+</div>
+</div>
+<!-- Slot 2: Кираса Саламандры -->
+<div class="group relative aspect-square rounded-xl bg-surface-container-high p-1 shadow-md cursor-pointer transform hover:scale-105 transition-all duration-150 hover:shadow-[0_0_12px_rgba(214,133,255,0.4)]">
+<div class="w-full h-full rounded-lg overflow-hidden relative bg-surface-container-lowest flex items-center justify-center">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1X_CHkDtnb68IWmnir1S-6oXrM-B05iuFjlX4c1Vyjo-WULYJBDhAQjXp2dT0X8ziuaJ7oDJBCj9Gg-OR0neAAoUnUV9mzR4LPBpdB7z-e3isgnKBNuVLTb_aE3bAFJMhbWOczwZpUkXGo5HugHJBvNCB9oXAUu2aBtnJmaR_1oXVN8yopSYUfTS9mUuHE40jIJJiQObtCPjOY0RD2db05k7HWV3q-uMsXtYUH8IqI"/>
+<span class="absolute top-1 left-1 px-1 py-0.2 bg-[#bb61ff] text-on-surface font-label-sm text-[10px] rounded shadow-sm">+10</span>
+<span class="absolute top-1 right-1 text-tertiary drop-shadow text-[12px] font-bold">🔥</span>
+</div>
+</div>
+<!-- Slot 3: Шлем Бури -->
+<div class="group relative aspect-square rounded-xl bg-surface-container-high p-1 shadow-md cursor-pointer transform hover:scale-105 transition-all duration-150 hover:shadow-[0_0_12px_rgba(253,186,69,0.3)]">
+<div class="w-full h-full rounded-lg overflow-hidden relative bg-surface-container-lowest flex items-center justify-center">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1Vou06hHerBmbZNEbxjevrkcUi_lvqluxYRWvV726EtLSdPg2xHxW5OhpEl6-MeEwrQrYcCM9uWOTCIcmr05lBWqfjZdxOiEj9O5B0tJIv_nWBXms83UXIlgT00VRq1euDTlZkW-SFMG5Chpeijatb6_Ph3EDlLqt9P1SWdgqFka9TjN8laHcBl7H0yCYvab8G8AyjrcdRQ4k42A0GwFh39BRGcXhNt0Z9ngRT4Ow"/>
+<span class="absolute top-1 left-1 px-1 py-0.2 bg-primary text-on-primary font-label-sm text-[10px] rounded shadow-sm">+10</span>
+<span class="absolute top-1 right-1 text-primary text-[12px] font-bold">⚡</span>
+</div>
+</div>
+<!-- Slot 4: Мягкие Сапожки -->
+<div class="group relative aspect-square rounded-xl bg-surface-container-high p-1 shadow-md cursor-pointer transform hover:scale-105 transition-all duration-150 hover:shadow-[0_0_12px_rgba(112,165,249,0.3)]">
+<div class="w-full h-full rounded-lg overflow-hidden relative bg-surface-container-lowest flex items-center justify-center">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1WgMvYm-fPGftJ1z73Oixh00eG1ZNohFGlrKKroAw2ixL7R1yBSnew4BFRgKdx7yBSnubVam4NelUqCLot4tC-3LxRa-KPfR92wwLg3VX6mMjFJGYCfZ7_AdDwUcUSv7NaONzLLgcy71NM7Qv8EaAMhxm_BTzw14XDyuLmvwMceKjwXy77RwLVFfA8pQKdoadWy93h33t_lOezsfTiX0vgj05f4yuCoVk91yn625vs"/>
+<span class="absolute top-1 left-1 px-1 py-0.2 bg-[#488bf5] text-on-surface font-label-sm text-[10px] rounded shadow-sm">+8</span>
+<span class="absolute top-1 right-1 text-secondary text-[12px] font-bold">🍃</span>
+</div>
+</div>
+<!-- Slot 5: Перстень Солнца -->
+<div class="group relative aspect-square rounded-xl bg-surface-container-high p-1 shadow-md cursor-pointer transform hover:scale-105 transition-all duration-150 hover:shadow-[0_0_12px_rgba(112,165,249,0.3)]">
+<div class="w-full h-full rounded-lg overflow-hidden relative bg-surface-container-lowest flex items-center justify-center">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1Xo1sEmzpjccq_geA6xY09lTjBmGCAOxfZL_MrTfIIKaf21NVHmOqbhhFocXjENKbuGlVMtYU7D9GIJwEwL3tLveep8xXisn4cg4FZSC9KrDW6sXl2uF1Qc1-LLo52FMQWECTgukBHkViojaJsqwgwBErxIARI5hHpb7-yEMLtetf8VQ7zxR9weQ5_7GSBQ_xShI9gjzV1jp0GkuENhSXM2sE-JHZ-hhInYZDJ93vk"/>
+<span class="absolute top-1 left-1 px-1 py-0.2 bg-[#488bf5] text-on-surface font-label-sm text-[10px] rounded shadow-sm">+8</span>
+</div>
+</div>
+<!-- Slot 6: Бубенец Удачи -->
+<div class="group relative aspect-square rounded-xl bg-surface-container-high p-1 shadow-md cursor-pointer transform hover:scale-105 transition-all duration-150 hover:shadow-[0_0_12px_rgba(214,133,255,0.4)]">
+<div class="w-full h-full rounded-lg overflow-hidden relative bg-surface-container-lowest flex items-center justify-center">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1U95pdC2YY_glcqmIxHw0UazPYmObR72NmFcb6RzuDU_lpn9m0d2MHhF8k2H2Z65_0p0wwsXzyXJeCq4OfDi4ECbvmO9fBbmdT80qmZlHV20q8WlsNASYf0mkaLH8ThCRRyP2UYspvUCgnUk1G-udpSfNGjLG4ptVxa-5NPpYVAZJEnWWxD8Fpn3_mas24D1XZwcp4jjeXEWCHXEgwtzqTHuuHiJCxXBBgXTOgbklg"/>
+<span class="absolute top-1 left-1 px-1 py-0.2 bg-[#bb61ff] text-on-surface font-label-sm text-[10px] rounded shadow-sm">+10</span>
+</div>
+</div>
+<!-- Slot 7: Звездный Корень (Материал, Необычный) -->
+<div class="group relative aspect-square rounded-xl bg-surface-container p-1 shadow-sm cursor-pointer hover:bg-surface-container-high transition-all">
+<div class="w-full h-full rounded-lg overflow-hidden relative bg-surface-container-lowest flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-[28px] text-secondary">psychology_alt</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant truncate w-full px-1 text-center">Корень</span>
+<span class="absolute bottom-1 right-1 font-stat-numeral text-[11px] text-secondary bg-surface-container-lowest/90 px-1 rounded">x24</span>
+</div>
+</div>
+<!-- Slot 8: Громовая Пыльца (Материал, Редкий) -->
+<div class="group relative aspect-square rounded-xl bg-surface-container p-1 shadow-sm cursor-pointer hover:bg-surface-container-high transition-all">
+<div class="w-full h-full rounded-lg overflow-hidden relative bg-surface-container-lowest flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-[28px] text-[#70a5f9]">blur_on</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant truncate w-full px-1 text-center">Пыльца</span>
+<span class="absolute bottom-1 right-1 font-stat-numeral text-[11px] text-[#70a5f9] bg-surface-container-lowest/90 px-1 rounded">x15</span>
+</div>
+</div>
+<!-- Slot 9: Эликсир Громового Когтя (Зелье) -->
+<div class="group relative aspect-square rounded-xl bg-surface-container p-1 shadow-sm cursor-pointer hover:bg-surface-container-high transition-all">
+<div class="w-full h-full rounded-lg overflow-hidden relative bg-surface-container-lowest flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-[28px] text-primary">science</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant truncate w-full px-1 text-center">Эликсир</span>
+<span class="absolute bottom-1 right-1 font-stat-numeral text-[11px] text-primary bg-surface-container-lowest/90 px-1 rounded">x4</span>
+</div>
+</div>
+<!-- Slot 10: Флакон Огненного Мурчания (Зелье) -->
+<div class="group relative aspect-square rounded-xl bg-surface-container p-1 shadow-sm cursor-pointer hover:bg-surface-container-high transition-all">
+<div class="w-full h-full rounded-lg overflow-hidden relative bg-surface-container-lowest flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-[28px] text-tertiary">local_fire_department</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant truncate w-full px-1 text-center">Мурчание</span>
+<span class="absolute bottom-1 right-1 font-stat-numeral text-[11px] text-tertiary bg-surface-container-lowest/90 px-1 rounded">x2</span>
+</div>
+</div>
+<!-- Slot 11: Свиток Заточки Когтей -->
+<div class="group relative aspect-square rounded-xl bg-surface-container p-1 shadow-sm cursor-pointer hover:bg-surface-container-high transition-all">
+<div class="w-full h-full rounded-lg overflow-hidden relative bg-surface-container-lowest flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-[28px] text-outline">history_edu</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant truncate w-full px-1 text-center">Свиток</span>
+<span class="absolute bottom-1 right-1 font-stat-numeral text-[11px] text-on-surface bg-surface-container-lowest/90 px-1 rounded">x3</span>
+</div>
+</div>
+<!-- Slot 12: Чистая Вода Ключа -->
+<div class="group relative aspect-square rounded-xl bg-surface-container p-1 shadow-sm cursor-pointer hover:bg-surface-container-high transition-all">
+<div class="w-full h-full rounded-lg overflow-hidden relative bg-surface-container-lowest flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-[28px] text-[#70a5f9]">opacity</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant truncate w-full px-1 text-center">Ключ вода</span>
+<span class="absolute bottom-1 right-1 font-stat-numeral text-[11px] text-[#70a5f9] bg-surface-container-lowest/90 px-1 rounded">x50</span>
+</div>
+</div>
+<!-- Slot 13: Эссенция Жизни (Реликвия Мифик) -->
+<div class="group relative aspect-square rounded-xl bg-surface-container p-1 shadow-sm cursor-pointer hover:bg-surface-container-high transition-all ring-1 ring-primary/40">
+<div class="w-full h-full rounded-lg overflow-hidden relative bg-surface-container-lowest flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-[28px] text-primary">award_star</span>
+<span class="font-label-sm text-[10px] text-primary truncate w-full px-1 text-center">Эссенция</span>
+<span class="absolute bottom-1 right-1 font-stat-numeral text-[11px] text-primary bg-surface-container-lowest/90 px-1 rounded">x1</span>
+</div>
+</div>
+<!-- Slot 14: Клубок Судьбы (Материал x350) -->
+<div class="group relative aspect-square rounded-xl bg-surface-container p-1 shadow-sm cursor-pointer hover:bg-surface-container-high transition-all">
+<div class="w-full h-full rounded-lg overflow-hidden relative bg-surface-container-lowest flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-[28px] text-tertiary-fixed">fiber_manual_record</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant truncate w-full px-1 text-center">Клубок</span>
+<span class="absolute bottom-1 right-1 font-stat-numeral text-[11px] text-tertiary-fixed bg-surface-container-lowest/90 px-1 rounded">x350</span>
+</div>
+</div>
+<!-- Slot 15: Семена Лунной Мяты -->
+<div class="group relative aspect-square rounded-xl bg-surface-container p-1 shadow-sm cursor-pointer hover:bg-surface-container-high transition-all">
+<div class="w-full h-full rounded-lg overflow-hidden relative bg-surface-container-lowest flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-[28px] text-secondary">potted_plant</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant truncate w-full px-1 text-center">Семена</span>
+<span class="absolute bottom-1 right-1 font-stat-numeral text-[11px] text-secondary bg-surface-container-lowest/90 px-1 rounded">x18</span>
+</div>
+</div>
+<!-- Slot 16: Золотая Пшеница -->
+<div class="group relative aspect-square rounded-xl bg-surface-container p-1 shadow-sm cursor-pointer hover:bg-surface-container-high transition-all">
+<div class="w-full h-full rounded-lg overflow-hidden relative bg-surface-container-lowest flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-[28px] text-primary">grain</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant truncate w-full px-1 text-center">Пшеница</span>
+<span class="absolute bottom-1 right-1 font-stat-numeral text-[11px] text-primary bg-surface-container-lowest/90 px-1 rounded">x42</span>
+</div>
+</div>
+<!-- Slot 17: Осколок Грома -->
+<div class="group relative aspect-square rounded-xl bg-surface-container p-1 shadow-sm cursor-pointer hover:bg-surface-container-high transition-all">
+<div class="w-full h-full rounded-lg overflow-hidden relative bg-surface-container-lowest flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-[28px] text-primary">electric_bolt</span>
+<span class="font-label-sm text-[10px] text-primary truncate w-full px-1 text-center">Осколок</span>
+<span class="absolute bottom-1 right-1 font-stat-numeral text-[11px] text-primary bg-surface-container-lowest/90 px-1 rounded">x6</span>
+</div>
+</div>
+<!-- Slot 18: Осколок Пламени -->
+<div class="group relative aspect-square rounded-xl bg-surface-container p-1 shadow-sm cursor-pointer hover:bg-surface-container-high transition-all">
+<div class="w-full h-full rounded-lg overflow-hidden relative bg-surface-container-lowest flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-[28px] text-tertiary">whatshot</span>
+<span class="font-label-sm text-[10px] text-tertiary truncate w-full px-1 text-center">Пламя</span>
+<span class="absolute bottom-1 right-1 font-stat-numeral text-[11px] text-tertiary bg-surface-container-lowest/90 px-1 rounded">x9</span>
+</div>
+</div>
+<!-- Empty / Available Slots -->
+<div class="aspect-square rounded-xl bg-surface-container/30 p-1 flex items-center justify-center">
+<div class="w-full h-full rounded-lg bg-surface-container-lowest/40 flex items-center justify-center">
+<span class="font-label-sm text-[10px] text-outline/40">19</span>
+</div>
+</div>
+<div class="aspect-square rounded-xl bg-surface-container/30 p-1 flex items-center justify-center">
+<div class="w-full h-full rounded-lg bg-surface-container-lowest/40 flex items-center justify-center">
+<span class="font-label-sm text-[10px] text-outline/40">20</span>
+</div>
+</div>
+<div class="aspect-square rounded-xl bg-surface-container/30 p-1 flex items-center justify-center">
+<div class="w-full h-full rounded-lg bg-surface-container-lowest/40 flex items-center justify-center">
+<span class="font-label-sm text-[10px] text-outline/40">21</span>
+</div>
+</div>
+<div class="aspect-square rounded-xl bg-surface-container/30 p-1 flex items-center justify-center">
+<div class="w-full h-full rounded-lg bg-surface-container-lowest/40 flex items-center justify-center">
+<span class="font-label-sm text-[10px] text-outline/40">22</span>
+</div>
+</div>
+<!-- Locked Slots (End of Bag Tier) -->
+<div class="aspect-square rounded-xl bg-surface-container-lowest/60 p-1 flex items-center justify-center opacity-60">
+<div class="w-full h-full rounded-lg bg-surface-container-lowest flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-[18px] text-outline">lock</span>
+<span class="font-label-sm text-[9px] text-outline">Заблокир.</span>
+</div>
+</div>
+<div class="aspect-square rounded-xl bg-surface-container-lowest/60 p-1 flex items-center justify-center opacity-60">
+<div class="w-full h-full rounded-lg bg-surface-container-lowest flex flex-col items-center justify-center">
+<span class="material-symbols-outlined text-[18px] text-outline">lock</span>
+<span class="font-label-sm text-[9px] text-outline">Заблокир.</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Inventory Footer Quick Info -->
+<div class="flex items-center justify-between px-space-xs text-outline text-body-sm">
+<span>Свободно: 36 ячеек</span>
+<span class="flex items-center gap-1">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>
+            Сумка не загромождена
+          </span>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- RIGHT COLUMN: Item Inspection Card (Detail)-->
+<!-- ========================================== -->
+<section class="col-span-12 lg:col-span-4 flex flex-col gap-space-md bg-surface-container-low/95 p-space-md rounded-xl shadow-xl backdrop-blur-md">
+<!-- Header Banner: Name, Rarity & Category -->
+<div class="flex items-start justify-between gap-space-sm bg-surface-container p-space-md rounded-lg shadow-sm">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-lg text-headline-lg text-primary tracking-tight">Кинжал Перуна</span>
+<span class="font-label-lg text-label-lg px-space-xs py-0.5 rounded bg-primary/20 text-primary">+12</span>
+</div>
+<span class="font-label-md text-label-md text-primary-fixed-dim">Мифический кинжал бури • Ур. предмета: 60</span>
+</div>
+<button class="w-7 h-7 rounded-full bg-surface-container-highest hover:bg-surface-bright flex items-center justify-center text-outline hover:text-on-surface transition-colors" title="Заблокировать предмет" type="button">
+<span class="material-symbols-outlined text-[16px]">lock_open</span>
+</button>
+</div>
+<!-- Large Item Visual Box & Element Affinity -->
+<div class="relative w-full h-44 rounded-xl overflow-hidden bg-surface-container-lowest shadow-inner flex items-center justify-center">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1WBe5ebXW7qU0v4LhWLG4amG2-4uSHor3jz6ud6TZ0VwNp3pZaVXWjlNelomMe1nDwJD03KcbJUCQHMchPi87qU_pKXfMDXpan3ThNMYfBae8U72JLKkWWPsNfB6dkuD__2-Cw8fjuDge4ZUX9h8HfngKZaj49_sF6gmgIBNrSvKjTDCF0JDqHOd9JQr21UfPdOsCBP8_h8YGHS2SKp01FaZGAxaLZm-je818icgew"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
+<!-- Tactical Overlay Pills -->
+<div class="absolute top-2 left-2 flex items-center gap-1 bg-surface-container-lowest/80 backdrop-blur-sm px-2 py-1 rounded-lg">
+<span class="text-primary font-bold text-[14px]">⚡</span>
+<span class="font-label-md text-label-md text-primary">Стихия Молнии</span>
+</div>
+<div class="absolute bottom-2 left-2 flex items-center gap-1 bg-surface-container-lowest/90 px-2 py-0.5 rounded-lg">
+<span class="material-symbols-outlined text-secondary text-[16px]">verified</span>
+<span class="font-label-sm text-label-sm text-on-surface">Заточен Хранителем</span>
+</div>
+<div class="absolute bottom-2 right-2 flex items-center gap-1 bg-surface-container-lowest/90 px-2 py-0.5 rounded-lg">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Прочность: 100/100</span>
+</div>
+</div>
+<!-- Core Combat Statistics Block -->
+<div class="flex flex-col gap-space-xs bg-surface-container p-space-md rounded-lg shadow-sm">
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-outline">Боевые параметры</span>
+<div class="grid grid-cols-3 gap-space-xs">
+<div class="bg-surface-container-lowest/80 p-space-xs rounded-lg flex flex-col items-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Атака</span>
+<span class="font-stat-numeral text-stat-numeral text-primary">+240</span>
+</div>
+<div class="bg-surface-container-lowest/80 p-space-xs rounded-lg flex flex-col items-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Крит. шанс</span>
+<span class="font-stat-numeral text-stat-numeral text-secondary">+18%</span>
+</div>
+<div class="bg-surface-container-lowest/80 p-space-xs rounded-lg flex flex-col items-center">
+<span class="font-body-sm text-body-sm text-on-surface-variant">Скор. атаки</span>
+<span class="font-stat-numeral text-stat-numeral text-[#70a5f9]">+12%</span>
+</div>
+</div>
+</div>
+<!-- Rune / Set Bonus Effect Block -->
+<div class="bg-surface-container p-space-md rounded-lg flex flex-col gap-1 shadow-sm">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">bolt</span>
+              Громовая Цепь (Набор Перуна 2/4)
+            </span>
+<span class="font-label-sm text-label-sm text-secondary">Активно</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant leading-relaxed">
+            Каждый 3-й удар когтем порождает цепную молнию, поражающую 2 случайные цели на 150 ед. электро-урона со 100% шансом наложения <span class="text-primary font-bold">Шока</span>.
+          </p>
+</div>
+<!-- Equippable Characters & Value Info -->
+<div class="bg-surface-container p-space-sm rounded-lg flex flex-col gap-1 shadow-sm font-body-sm text-body-sm">
+<div class="flex items-center justify-between">
+<span class="text-outline">Экипировано:</span>
+<span class="text-secondary font-label-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+              Барсик Громовержец
+            </span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant">
+<span class="text-outline">Также подходит:</span>
+<span>Муррена Ветрокрылая</span>
+</div>
+<div class="flex items-center justify-between pt-1 border-t-0 text-on-surface-variant">
+<span class="text-outline">Ценность у скупщика:</span>
+<span class="text-secondary font-stat-numeral text-body-md flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">set_meal</span>
+              1,200
+            </span>
+</div>
+</div>
+<!-- Primary Action Group -->
+<div class="flex flex-col gap-space-xs mt-auto">
+<!-- Main Primary Battle Commitment CTA -->
+<button class="w-full py-space-sm px-space-md bg-gradient-to-r from-primary via-primary-container to-primary hover:brightness-110 text-on-primary-container font-label-lg text-label-lg rounded-xl shadow-lg flex items-center justify-center gap-space-xs transition-transform active:scale-95" type="button">
+<span class="material-symbols-outlined text-[20px]">swords</span>
+            Снять с Барсика (в сумку)
+          </button>
+<!-- Secondary Tactical Actions -->
+<div class="grid grid-cols-2 gap-space-xs">
+<button class="py-space-xs px-space-sm bg-surface-container hover:bg-surface-container-high text-on-surface rounded-lg font-label-md text-label-md flex items-center justify-center gap-1 shadow-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-primary">hardware</span>
+              Кузница
+            </button>
+<button class="py-space-xs px-space-sm bg-surface-container hover:bg-surface-container-high text-on-surface rounded-lg font-label-md text-label-md flex items-center justify-center gap-1 shadow-sm transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px] text-tertiary">storefront</span>
+              Аукцион
+            </button>
+</div>
+</div>
+</section>
+</div>
+<!-- Bottom Status & Hotkey Hint Banner -->
+<div class="w-full px-space-xl py-space-xs bg-surface-container-lowest/90 flex items-center justify-between text-outline font-body-sm text-body-sm shadow-inner">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-[16px] text-primary">lightbulb</span>
+<span>Подсказка: Зажмите [Shift] для мгновенного перемещения предмета в быстрый слот боя. Клик правой кнопкой открывает контекстное меню чар.</span>
+</div>
+<div class="flex items-center gap-space-md">
+<span>Синхронизация с таверной: <span class="text-secondary">Онлайн</span></span>
+</div>
+</div>
+</div>
+</div></main><footer class="w-full bg-surface-container-lowest py-space-sm"><div class="w-full px-space-xl flex items-center justify-between"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-[16px] text-outline">backpack</span><span class="font-body-sm text-body-sm text-on-surface-variant">Вместимость сумки: 142 / 200 ячеек</span></div><div class="flex items-center gap-space-lg"><span class="font-body-sm text-body-sm text-on-surface-variant">Таверна «Хроники Котиков» • Версия 1.4.2</span><span class="font-body-sm text-body-sm text-outline">Горячие клавиши: [Esc] Хаб • [Tab] Переключить вкладку</span></div></div></footer>
 </section>
