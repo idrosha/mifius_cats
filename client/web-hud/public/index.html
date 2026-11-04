@@ -1,14 +1,26 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" class="dark">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Мифоус — Web HUD</title>
+  <title>Мифиус — Web HUD</title>
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body>
   <header class="app-header">
-    <div class="brand">Мифоус <span>Web HUD</span></div>
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true"><span class="material-symbols-outlined">pets</span></div>
+      <div>
+        <div class="brand-title">МИФИУС</div>
+        <div class="brand-sub" id="brandSub">Ур. 1 · Soft Launch</div>
+      </div>
+    </div>
+    <div class="currency-bar" aria-label="currencies">
+      <span class="currency" title="gold"><span class="material-symbols-outlined">monetization_on</span><span id="curGold">0</span></span>
+      <span class="currency milk" title="milk"><span class="material-symbols-outlined">water_drop</span><span id="curMilk">0</span></span>
+      <span class="currency energy" title="energy"><span class="material-symbols-outlined">bolt</span><span id="curEnergy">85/90</span></span>
+      <span class="currency gems" title="crystals"><span class="material-symbols-outlined">diamond</span><span id="curGems">0</span></span>
+    </div>
     <div id="liveopsPill" class="status-pill">LiveOps…</div>
     <div id="battlePill" class="status-pill">Battle…</div>
     <div class="locale-switch" id="localeSwitch" aria-label="locale"></div>
@@ -18,24 +30,49 @@
 
   <main>
     <section id="viewBoot" class="panel">
-      <h2>Boot</h2>
+      <p class="eyebrow">Boot</p>
+      <h2>Мифиус</h2>
       <p class="lead" id="bootMsg">Загрузка LiveOps…</p>
+    </section>
+
+    <section id="viewHub" class="panel hidden">
+      <p class="eyebrow" id="hubEyebrow">Главный Хаб</p>
+      <h2 id="hubTitle">Таверна «Драконья Кружка»</h2>
+      <p class="lead" id="hubLead">Soft launch: Двор + PvP. Порталы ведут на экраны Stitch-графа.</p>
+      <div class="portal-grid" id="hubPortals"></div>
     </section>
 
     <section id="viewYard" class="panel hidden">
       <div id="tutorialBanner" class="banner warn hidden"></div>
+      <p class="eyebrow" id="yardEyebrow">Двор Усадьбы</p>
       <h2 id="yardTitle">Двор</h2>
       <p class="lead" id="yardLead">PvE 3v3 vs бот · stage test_yard_1 · стартовая тройка</p>
-      <div class="starters" id="starterCards"></div>
+      <div class="card-grid" id="starterCards"></div>
       <div class="row">
         <button type="button" class="primary" id="btnTutorial">Туториал → бой</button>
+        <button type="button" class="primary" id="btnYardToFormation">Расстановка → бой</button>
         <button type="button" id="btnYardBattle">Бой во Дворе</button>
         <button type="button" id="btnYardAuto">Автопобеда (smoke)</button>
       </div>
     </section>
 
+    <section id="viewFormation" class="panel hidden">
+      <p class="eyebrow" id="formEyebrow">Расстановка</p>
+      <h2 id="formTitle">Строй отряда 3v3</h2>
+      <p class="lead" id="formLead">Авангард → Центр → Тыл. Зелья из Таверны — слоты ниже (stub).</p>
+      <div class="formation-lanes" id="formationLanes"></div>
+      <p class="eyebrow">Зелья из Таверны</p>
+      <div class="potion-tray" id="formationPotions"></div>
+      <div class="row">
+        <button type="button" class="primary" id="btnFormationBattle">В бой</button>
+        <button type="button" id="btnFormationYard">Назад во Двор</button>
+        <button type="button" class="ghost" id="btnFormationTavern">В Таверну за зельями</button>
+      </div>
+    </section>
+
     <section id="viewBattle" class="panel hidden">
       <div id="resultBanner" class="banner hidden"></div>
+      <p class="eyebrow">Бой</p>
       <h2 id="battleHeading">Бой</h2>
       <div class="stats" id="battleStats"></div>
       <div class="board">
@@ -58,11 +95,25 @@
       <div class="log" id="battleLog"></div>
     </section>
 
+    <section id="viewResult" class="panel hidden">
+      <p class="eyebrow" id="resultEyebrow">Итог</p>
+      <h2 id="resultTitle">Результат</h2>
+      <p class="lead" id="resultLead"></p>
+      <div class="row">
+        <button type="button" class="primary" id="btnResultHub">В Главный Хаб</button>
+        <button type="button" id="btnResultYard">Во Двор</button>
+        <button type="button" id="btnResultRetry">Повторить бой</button>
+        <button type="button" class="ghost" id="btnResultFormation">Смена формации</button>
+      </div>
+    </section>
+
     <section id="viewPvp" class="panel hidden">
+      <p class="eyebrow" id="pvpEyebrow">PvP Арена</p>
       <h2 id="pvpTitle">PvP</h2>
-      <p class="lead" id="pvpLead">Дуэли / Арена — smoke через CreatePvP autoPlay (оба стартера). Матчмейкинг Nakama — stub.</p>
+      <p class="lead" id="pvpLead">Дуэли / Арена — smoke через CreatePvP autoPlay. Матчмейкинг Nakama — stub.</p>
       <div class="row">
         <button type="button" class="primary" id="btnPvpAuto">Автобой PvP (smoke)</button>
+        <button type="button" id="btnPvpFormation">Расстановка → PvP</button>
         <button type="button" id="btnRefreshReplays">Обновить реплеи</button>
       </div>
       <ul class="replay-list" id="replayList"></ul>
@@ -70,24 +121,106 @@
     </section>
 
     <section id="viewCollection" class="panel hidden">
+      <p class="eyebrow" id="colEyebrow">Коллекция</p>
       <h2 id="colTitle">Коллекция</h2>
       <p class="lead" id="colLead">Stub: стартовая тройка из content (без инвентаря Nakama).</p>
-      <div class="starters" id="collectionCards"></div>
+      <div class="card-grid" id="collectionCards"></div>
+      <div class="row">
+        <button type="button" id="btnColFormation">В расстановку</button>
+        <button type="button" class="ghost" id="btnColForge">Оружейная (скоро)</button>
+      </div>
     </section>
 
     <section id="viewShop" class="panel hidden">
+      <p class="eyebrow" id="shopEyebrow">Лавка</p>
       <h2 id="shopTitle">Магазин</h2>
+      <div class="subtabs" id="shopSubtabs">
+        <button type="button" data-shop="offers" class="active">Офферы LiveOps</button>
+        <button type="button" data-shop="gacha">Призыв</button>
+      </div>
       <p class="lead" id="shopLead">Офферы только из LiveOps (пустой каталог → пустой UI).</p>
       <ul class="offer-list" id="offerList"></ul>
+      <div id="gachaPanel" class="hidden">
+        <div class="tile">
+          <strong id="gachaTitle">Алтарь Призыва</strong>
+          <p class="meta" id="gachaLead">Stub гачи: pity/банки — на backend. Здесь только UI-переход.</p>
+          <div class="row" style="margin-top:0.65rem">
+            <button type="button" class="primary" id="btnGacha1">1× Призыв (stub)</button>
+            <button type="button" id="btnGacha10">10× Призыв (stub)</button>
+            <button type="button" class="ghost" id="btnShopToTavern">Зелья → Таверна</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="viewMarket" class="panel hidden">
+      <p class="eyebrow" id="marketEyebrow">Маркетплейс</p>
+      <h2 id="marketTitle">Аукцион Хранителей</h2>
+      <p class="lead" id="marketLead">Buy/sell stub (без денег/крипты). Лоты локальные для ручного QA.</p>
+      <div class="subtabs" id="marketSubtabs">
+        <button type="button" data-market="buy" class="active">Купить</button>
+        <button type="button" data-market="sell">Продать</button>
+      </div>
+      <ul class="market-list" id="marketList"></ul>
+      <div id="marketSell" class="hidden">
+        <div class="tile">
+          <strong id="sellTitle">Выставить лот</strong>
+          <p class="meta" id="sellLead">Stub: выставить starter в локальный список.</p>
+          <div class="row" style="margin-top:0.65rem">
+            <button type="button" class="primary" id="btnSellStarter">Продать starter_tank_stone</button>
+            <button type="button" class="ghost" id="btnMarketToShop">В Лавку</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="viewTavern" class="panel hidden">
+      <p class="eyebrow" id="tavernEyebrow">Таверна</p>
+      <h2 id="tavernTitle">Таверна «Усатый Хмель»</h2>
+      <p class="lead" id="tavernLead">Молоко, напитки и зелья. Лимит зелий в бой — по SSOT (UI stub).</p>
+      <div class="tavern-layout">
+        <div>
+          <p class="eyebrow" id="drinksLabel">Напитки</p>
+          <div class="card-grid" id="drinkList"></div>
+        </div>
+        <div>
+          <p class="eyebrow" id="potionsLabel">Зелья</p>
+          <div class="card-grid" id="potionList"></div>
+        </div>
+      </div>
+      <div class="row">
+        <button type="button" class="primary" id="btnTavernFormation">К расстановке</button>
+        <button type="button" id="btnTavernHub">В Главный Хаб</button>
+      </div>
+    </section>
+
+    <section id="viewPass" class="panel hidden">
+      <p class="eyebrow" id="passEyebrow">Пасс</p>
+      <h2 id="passTitle">Зов Тёплого Очага</h2>
+      <p class="lead" id="passLead">Треки пасса из LiveOps / stub наград.</p>
+      <ul class="pass-list" id="passList"></ul>
+      <div class="row">
+        <button type="button" id="btnPassShop">В Лавку</button>
+        <button type="button" class="ghost" id="btnPassHub">В Хаб</button>
+      </div>
     </section>
 
     <section id="viewSoon" class="panel soon-sheet hidden">
       <h2 id="soonTitle">Скоро</h2>
       <p id="soonBody">Скоро</p>
       <div class="soon-links" id="soonLinks"></div>
+      <div class="row" style="justify-content:center;margin-top:1rem">
+        <button type="button" class="primary" id="btnSoonHub">В Главный Хаб</button>
+      </div>
     </section>
   </main>
 
+  <footer class="app-footer">
+    <span>Сервер: soft-launch · battle/devapi</span>
+    <span>Web HUD · Stitch Tavern Hearth</span>
+  </footer>
+
+  <div id="toast" class="toast hidden" role="status"></div>
   <script type="module" src="/app.js"></script>
 </body>
 </html>

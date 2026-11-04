@@ -1,0 +1,129 @@
+#!/usr/bin/env node
+/**
+ * Static + HTTP smoke for Stitch Web HUD navigation graph.
+ * Usage: node client/web-hud/scripts/verify-nav.mjs [baseUrl]
+ */
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const PUBLIC = path.resolve(__dirname, "../public");
+const BASE = (process.argv[2] || "http://127.0.0.1:8088").replace(/\/$/, "");
+
+const REQUIRED_VIEWS = [
+  "viewBoot",
+  "viewHub",
+  "viewYard",
+  "viewFormation",
+  "viewBattle",
+  "viewResult",
+  "viewPvp",
+  "viewCollection",
+  "viewShop",
+  "viewMarket",
+  "viewTavern",
+  "viewPass",
+  "viewSoon",
+];
+
+const REQUIRED_NAV_IDS = [
+  "hub",
+  "yard",
+  "formation",
+  "pvp",
+  "collection",
+  "shop",
+  "market",
+  "tavern",
+  "pass",
+];
+
+const REQUIRED_BUTTONS = [
+  "btnYardToFormation",
+  "btnFormationBattle",
+  "btnFormationYard",
+  "btnFormationTavern",
+  "btnTavernFormation",
+  "btnTavernHub",
+  "btnResultHub",
+  "btnResultYard",
+  "btnResultRetry",
+  "btnResultFormation",
+  "btnPvpFormation",
+  "btnColFormation",
+  "btnShopToTavern",
+  "btnMarketToShop",
+  "btnPassShop",
+  "btnPassHub",
+  "btnSoonHub",
+  "btnSellStarter",
+  "btnEndTurn",
+  "btnBackHub",
+];
+
+const checks = [];
+function ok(name, pass, detail = "") {
+  checks.push({ name, pass: !!pass, detail });
+  const mark = pass ? "PASS" : "FAIL";
+  console.log(`${mark}  ${name}${detail ? " — " + detail : ""}`);
+}
+
+const html = fs.readFileSync(path.join(PUBLIC, "index.html"), "utf8");
+const js = fs.readFileSync(path.join(PUBLIC, "app.js"), "utf8");
+const css = fs.readFileSync(path.join(PUBLIC, "styles.css"), "utf8");
+
+for (const id of REQUIRED_VIEWS) {
+  ok(`html#${id}`, html.includes(`id="${id}"`));
+}
+for (const id of REQUIRED_BUTTONS) {
+  ok(`html#${id}`, html.includes(`id="${id}"`));
+}
+ok("css stitch tokens", css.includes("--primary-container") && css.includes("Rubik"));
+ok("app TABS includes tavern/market/formation", REQUIRED_NAV_IDS.every((id) => js.includes(`id: "${id}"`)));
+ok("app navigate()", js.includes("function navigate("));
+ok("app battle/devapi CreatePvE", js.includes("/api/battle/v1/CreatePvE"));
+ok("app no client damage authority note", js.includes("No combat authority"));
+
+const transitions = [
+  ["hub→yard", 'navigate("yard")'],
+  ["yard→formation", 'navigate("formation")'],
+  ["formation→tavern", 'navigate("tavern")'],
+  ["tavern→formation", 'btnTavernFormation'],
+  ["shop→tavern", 'navigate("tavern")'],
+  ["market sell", "btnSellStarter"],
+  ["result→hub", 'navigate("hub")'],
+];
+for (const [name, needle] of transitions) {
+  ok(`transition ${name}`, js.includes(needle));
+}
+
+let httpOk = false;
+try {
+  const res = await fetch(`${BASE}/healthz`);
+  const data = await res.json();
+  httpOk = res.ok && data?.ok === true;
+  ok("http /healthz", httpOk, BASE);
+  if (httpOk) {
+    const page = await fetch(`${BASE}/`);
+    const body = await page.text();
+    ok("http / serves index", page.ok && body.includes("viewHub"));
+    const loc = await fetch(`${BASE}/loc.json`);
+    const locJson = await loc.json();
+    ok("http /loc.json hub.tab.tavern", !!locJson["hub.tab.tavern"]);
+    const battle = await fetch(`${BASE}/api/battle/healthz`);
+    const b = await battle.json();
+    ok("proxy battle healthz", battle.ok && b?.ok === true);
+    const live = await fetch(`${BASE}/api/liveops/v1/liveops.json`, {
+      headers: { "X-Client-Region": "RU" },
+    });
+    ok("proxy liveops", live.ok);
+  }
+} catch (err) {
+  ok("http /healthz", false, String(err.message || err));
+}
+
+const failed = checks.filter((c) => !c.pass);
+console.log("\n---");
+console.log(`Total ${checks.length} · pass ${checks.length - failed.length} · fail ${failed.length}`);
+process.exit(failed.length ? 1 : 0);

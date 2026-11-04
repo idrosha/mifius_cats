@@ -1,50 +1,478 @@
 {
-  "card.tank_stone_muzzle": { "ru": "Каменный оскал", "en": "Stone Snarl" },
-  "card.tank_stone_headwear": { "ru": "Галька-шлем", "en": "Pebble Helm" },
-  "card.tank_stone_back": { "ru": "Щит-валун", "en": "Boulder Guard" },
-  "card.tank_stone_tail": { "ru": "Хвост-утёс", "en": "Cliff Tail" },
-  "card.fighter_fire_muzzle": { "ru": "Огненный укус", "en": "Fire Bite" },
-  "card.fighter_fire_headwear": { "ru": "Искры на ушах", "en": "Spark Crest" },
-  "card.fighter_fire_back": { "ru": "Пламенный удар", "en": "Flame Strike" },
-  "card.fighter_fire_tail": { "ru": "Хлыст жара", "en": "Heat Lash" },
-  "card.support_water_muzzle": { "ru": "Капля жизни", "en": "Life Drop" },
-  "card.support_water_headwear": { "ru": "Чистый родник", "en": "Clear Spring" },
-  "card.support_water_back": { "ru": "Волна опеки", "en": "Ward Wave" },
-  "card.support_water_tail": { "ru": "Мягкий всплеск", "en": "Soft Splash" },
-  "card.mage_bolt_tail": { "ru": "Хвост-разряд", "en": "Spark Tail" },
-  "card.ranger_grass_muzzle": { "ru": "Засадный укус", "en": "Ambush Bite" },
-  "stage.test_yard_1": { "ru": "Двор: учебный двор", "en": "Yard: practice gate" },
-  "card.bot_nibble": { "ru": "Покус", "en": "Nibble" },
-  "card.bot_shell": { "ru": "Кожура", "en": "Husk" },
-  "card.bot_nibble2": { "ru": "Покус+", "en": "Nibble+" },
-  "card.bot_shell2": { "ru": "Кожура+", "en": "Husk+" },
-  "card.bot_scratch": { "ru": "Царапка", "en": "Scratch" },
-  "card.bot_scratch2": { "ru": "Царапка 2", "en": "Scratch 2" },
-  "card.bot_scratch3": { "ru": "Царапка 3", "en": "Scratch 3" },
-  "card.bot_scratch4": { "ru": "Царапка 4", "en": "Scratch 4" },
-  "card.bot_sip": { "ru": "Глоток", "en": "Sip" },
-  "card.bot_poke": { "ru": "Тычок", "en": "Poke" },
-  "card.bot_sip2": { "ru": "Глоток+", "en": "Sip+" },
-  "card.bot_poke2": { "ru": "Тычок+", "en": "Poke+" },
-  "hub.tab.yard": { "ru": "Двор", "en": "Yard" },
-  "hub.tab.pvp": { "ru": "PvP", "en": "PvP" },
-  "hub.tab.collection": { "ru": "Коллекция", "en": "Collection" },
-  "hub.tab.shop": { "ru": "Магазин", "en": "Shop" },
-  "hub.tab.clans": { "ru": "Кланы", "en": "Clans" },
-  "hub.tab.more": { "ru": "Ещё", "en": "More" },
-  "hub.soon.clan_boss.title": { "ru": "Клан-босс", "en": "Clan Boss" },
-  "hub.soon.farm.title": { "ru": "Ферма", "en": "Farm" },
-  "hub.soon.nursery.title": { "ru": "Питомник", "en": "Nursery" },
-  "hub.soon.body": { "ru": "Скоро", "en": "Coming soon" },
-  "shop.kind.yarn": { "ru": "Клубки", "en": "Yarn" },
-  "shop.kind.gacha_jar": { "ru": "Банки", "en": "Jars" },
-  "shop.kind.pass": { "ru": "Пасс", "en": "Pass" },
-  "shop.kind.battle_potion": { "ru": "Зелья", "en": "Potions" },
-  "shop.kind.slot_expand": { "ru": "Слоты", "en": "Slots" },
-  "locale.name.ru": { "ru": "Русский", "en": "Russian" },
-  "locale.name.en": { "ru": "English", "en": "English" },
-  "tutorial.step.starters": { "ru": "Три стартовых котика", "en": "Your three starter cats" },
-  "tutorial.step.yard_battle": { "ru": "Бой во Дворе", "en": "Yard battle" },
-  "tutorial.step.victory": { "ru": "Победа во Дворе", "en": "Yard victory" },
-  "tutorial.step.overtime": { "ru": "Дольше 10 минут", "en": "Over 10 minutes" }
+  "card.tank_stone_muzzle": {
+    "ru": "Каменный оскал",
+    "en": "Stone Snarl"
+  },
+  "card.tank_stone_headwear": {
+    "ru": "Галька-шлем",
+    "en": "Pebble Helm"
+  },
+  "card.tank_stone_back": {
+    "ru": "Щит-валун",
+    "en": "Boulder Guard"
+  },
+  "card.tank_stone_tail": {
+    "ru": "Хвост-утёс",
+    "en": "Cliff Tail"
+  },
+  "card.fighter_fire_muzzle": {
+    "ru": "Огненный укус",
+    "en": "Fire Bite"
+  },
+  "card.fighter_fire_headwear": {
+    "ru": "Искры на ушах",
+    "en": "Spark Crest"
+  },
+  "card.fighter_fire_back": {
+    "ru": "Пламенный удар",
+    "en": "Flame Strike"
+  },
+  "card.fighter_fire_tail": {
+    "ru": "Хлыст жара",
+    "en": "Heat Lash"
+  },
+  "card.support_water_muzzle": {
+    "ru": "Капля жизни",
+    "en": "Life Drop"
+  },
+  "card.support_water_headwear": {
+    "ru": "Чистый родник",
+    "en": "Clear Spring"
+  },
+  "card.support_water_back": {
+    "ru": "Волна опеки",
+    "en": "Ward Wave"
+  },
+  "card.support_water_tail": {
+    "ru": "Мягкий всплеск",
+    "en": "Soft Splash"
+  },
+  "card.mage_bolt_tail": {
+    "ru": "Хвост-разряд",
+    "en": "Spark Tail"
+  },
+  "card.ranger_grass_muzzle": {
+    "ru": "Засадный укус",
+    "en": "Ambush Bite"
+  },
+  "stage.test_yard_1": {
+    "ru": "Двор: учебный двор",
+    "en": "Yard: practice gate"
+  },
+  "card.bot_nibble": {
+    "ru": "Покус",
+    "en": "Nibble"
+  },
+  "card.bot_shell": {
+    "ru": "Кожура",
+    "en": "Husk"
+  },
+  "card.bot_nibble2": {
+    "ru": "Покус+",
+    "en": "Nibble+"
+  },
+  "card.bot_shell2": {
+    "ru": "Кожура+",
+    "en": "Husk+"
+  },
+  "card.bot_scratch": {
+    "ru": "Царапка",
+    "en": "Scratch"
+  },
+  "card.bot_scratch2": {
+    "ru": "Царапка 2",
+    "en": "Scratch 2"
+  },
+  "card.bot_scratch3": {
+    "ru": "Царапка 3",
+    "en": "Scratch 3"
+  },
+  "card.bot_scratch4": {
+    "ru": "Царапка 4",
+    "en": "Scratch 4"
+  },
+  "card.bot_sip": {
+    "ru": "Глоток",
+    "en": "Sip"
+  },
+  "card.bot_poke": {
+    "ru": "Тычок",
+    "en": "Poke"
+  },
+  "card.bot_sip2": {
+    "ru": "Глоток+",
+    "en": "Sip+"
+  },
+  "card.bot_poke2": {
+    "ru": "Тычок+",
+    "en": "Poke+"
+  },
+  "hub.tab.yard": {
+    "ru": "Двор",
+    "en": "Yard"
+  },
+  "hub.tab.pvp": {
+    "ru": "PvP",
+    "en": "PvP"
+  },
+  "hub.tab.collection": {
+    "ru": "Коллекция",
+    "en": "Collection"
+  },
+  "hub.tab.shop": {
+    "ru": "Магазин",
+    "en": "Shop"
+  },
+  "hub.tab.clans": {
+    "ru": "Кланы",
+    "en": "Clans"
+  },
+  "hub.tab.more": {
+    "ru": "Ещё",
+    "en": "More"
+  },
+  "hub.soon.clan_boss.title": {
+    "ru": "Клан-босс",
+    "en": "Clan Boss"
+  },
+  "hub.soon.farm.title": {
+    "ru": "Ферма",
+    "en": "Farm"
+  },
+  "hub.soon.nursery.title": {
+    "ru": "Питомник",
+    "en": "Nursery"
+  },
+  "hub.soon.body": {
+    "ru": "Скоро",
+    "en": "Coming soon"
+  },
+  "shop.kind.yarn": {
+    "ru": "Клубки",
+    "en": "Yarn"
+  },
+  "shop.kind.gacha_jar": {
+    "ru": "Банки",
+    "en": "Jars"
+  },
+  "shop.kind.pass": {
+    "ru": "Пасс",
+    "en": "Pass"
+  },
+  "shop.kind.battle_potion": {
+    "ru": "Зелья",
+    "en": "Potions"
+  },
+  "shop.kind.slot_expand": {
+    "ru": "Слоты",
+    "en": "Slots"
+  },
+  "locale.name.ru": {
+    "ru": "Русский",
+    "en": "Russian"
+  },
+  "locale.name.en": {
+    "ru": "English",
+    "en": "English"
+  },
+  "tutorial.step.starters": {
+    "ru": "Три стартовых котика",
+    "en": "Your three starter cats"
+  },
+  "tutorial.step.yard_battle": {
+    "ru": "Бой во Дворе",
+    "en": "Yard battle"
+  },
+  "tutorial.step.victory": {
+    "ru": "Победа во Дворе",
+    "en": "Yard victory"
+  },
+  "tutorial.step.overtime": {
+    "ru": "Дольше 10 минут",
+    "en": "Over 10 minutes"
+  },
+  "hub.tab.hub": {
+    "ru": "Хаб",
+    "en": "Hub"
+  },
+  "hub.tab.formation": {
+    "ru": "Расстановка",
+    "en": "Formation"
+  },
+  "hub.tab.market": {
+    "ru": "Маркет",
+    "en": "Market"
+  },
+  "hub.tab.tavern": {
+    "ru": "Таверна",
+    "en": "Tavern"
+  },
+  "hub.tab.pass": {
+    "ru": "Пасс",
+    "en": "Pass"
+  },
+  "hub.home.title": {
+    "ru": "Таверна «Драконья Кружка»",
+    "en": "Tavern «Dragon Mug»"
+  },
+  "hub.home.lead": {
+    "ru": "Soft launch: Двор + PvP. Порталы → экраны Stitch.",
+    "en": "Soft launch: Yard + PvP. Portals → Stitch screens."
+  },
+  "hub.portal.yard": {
+    "ru": "PvE кампания Двора",
+    "en": "Yard PvE campaign"
+  },
+  "hub.portal.formation": {
+    "ru": "Строй 3v3 перед боем",
+    "en": "3v3 lineup before battle"
+  },
+  "hub.portal.pvp": {
+    "ru": "Дуэли и арена (smoke)",
+    "en": "Duels & arena (smoke)"
+  },
+  "hub.portal.collection": {
+    "ru": "Казарма и пресеты",
+    "en": "Barracks & presets"
+  },
+  "hub.portal.shop": {
+    "ru": "Лавка и призыв",
+    "en": "Shop & summon"
+  },
+  "hub.portal.market": {
+    "ru": "Купить / продать (stub)",
+    "en": "Buy / sell (stub)"
+  },
+  "hub.portal.tavern": {
+    "ru": "Молоко, напитки, зелья",
+    "en": "Milk, drinks, potions"
+  },
+  "hub.portal.pass": {
+    "ru": "Сезонный пасс",
+    "en": "Season pass"
+  },
+  "hub.portal.clans": {
+    "ru": "Клан и босс — скоро",
+    "en": "Clan & boss — soon"
+  },
+  "hub.portal.farm": {
+    "ru": "Угодья усадьбы — скоро",
+    "en": "Estate farm — soon"
+  },
+  "hub.portal.nursery": {
+    "ru": "Питомник — скоро",
+    "en": "Nursery — soon"
+  },
+  "formation.title": {
+    "ru": "Строй отряда 3v3",
+    "en": "Squad formation 3v3"
+  },
+  "formation.lead": {
+    "ru": "Авангард → Центр → Тыл. Зелья из Таверны — слоты ниже (stub).",
+    "en": "Vanguard → Center → Rear. Tavern potions in slots below (stub)."
+  },
+  "formation.lane.vanguard": {
+    "ru": "Авангард",
+    "en": "Vanguard"
+  },
+  "formation.lane.center": {
+    "ru": "Центр",
+    "en": "Center"
+  },
+  "formation.lane.rear": {
+    "ru": "Тыл",
+    "en": "Rear"
+  },
+  "formation.no_potions": {
+    "ru": "Нет зелий — зайди в Таверну",
+    "en": "No potions — visit the Tavern"
+  },
+  "tavern.title": {
+    "ru": "Таверна «Усатый Хмель»",
+    "en": "Tavern «Whiskered Hops»"
+  },
+  "tavern.lead": {
+    "ru": "Молоко, напитки и зелья. Лимит зелий в бой — UI stub.",
+    "en": "Milk, drinks, potions. Battle potion cap — UI stub."
+  },
+  "tavern.drinks": {
+    "ru": "Напитки",
+    "en": "Drinks"
+  },
+  "tavern.potions": {
+    "ru": "Зелья",
+    "en": "Potions"
+  },
+  "tavern.buy": {
+    "ru": "Купить",
+    "en": "Buy"
+  },
+  "tavern.owned": {
+    "ru": "В ранце",
+    "en": "Owned"
+  },
+  "tavern.bought": {
+    "ru": "Куплено (stub)",
+    "en": "Bought (stub)"
+  },
+  "tavern.drink.milk": {
+    "ru": "Парное молоко",
+    "en": "Fresh milk"
+  },
+  "tavern.drink.milk.fx": {
+    "ru": "+15 энергии",
+    "en": "+15 energy"
+  },
+  "tavern.drink.honey": {
+    "ru": "Медовый отвар",
+    "en": "Honey brew"
+  },
+  "tavern.drink.honey.fx": {
+    "ru": "+5% крит (1 бой)",
+    "en": "+5% crit (1 battle)"
+  },
+  "tavern.drink.mint": {
+    "ru": "Мятный настой",
+    "en": "Mint infusion"
+  },
+  "tavern.drink.mint.fx": {
+    "ru": "Сброс усталости",
+    "en": "Reset fatigue"
+  },
+  "tavern.potion.stone": {
+    "ru": "Зелье Каменной Шкуры",
+    "en": "Stone Skin potion"
+  },
+  "tavern.potion.stone.fx": {
+    "ru": "+800 брони на 2 хода",
+    "en": "+800 armor for 2 turns"
+  },
+  "tavern.potion.spark": {
+    "ru": "Эликсир Искрящих Когтей",
+    "en": "Sparking Claw elixir"
+  },
+  "tavern.potion.spark.fx": {
+    "ru": "+25% урон молнии",
+    "en": "+25% lightning damage"
+  },
+  "tavern.potion.nine": {
+    "ru": "Настой Девяти Жизней",
+    "en": "Nine Lives infusion"
+  },
+  "tavern.potion.nine.fx": {
+    "ru": "Спасение +1200 HP",
+    "en": "Rescue +1200 HP"
+  },
+  "tavern.potion.cleanse": {
+    "ru": "Отвар Очищения",
+    "en": "Cleansing decoction"
+  },
+  "tavern.potion.cleanse.fx": {
+    "ru": "Снимает негативы",
+    "en": "Removes debuffs"
+  },
+  "market.title": {
+    "ru": "Аукцион Хранителей",
+    "en": "Keepers' Auction"
+  },
+  "market.lead": {
+    "ru": "Buy/sell stub (без денег/крипты). Лоты локальные для ручного QA.",
+    "en": "Buy/sell stub (no real money/crypto). Local lots for manual QA."
+  },
+  "market.buy": {
+    "ru": "Купить",
+    "en": "Buy"
+  },
+  "market.empty": {
+    "ru": "Лотов нет",
+    "en": "No lots"
+  },
+  "market.no_gems": {
+    "ru": "Не хватает кристаллов",
+    "en": "Not enough crystals"
+  },
+  "market.bought": {
+    "ru": "Куплено (stub)",
+    "en": "Bought (stub)"
+  },
+  "market.listed": {
+    "ru": "Лот выставлен (stub)",
+    "en": "Lot listed (stub)"
+  },
+  "market.sell.title": {
+    "ru": "Выставить лот",
+    "en": "List a lot"
+  },
+  "market.sell.lead": {
+    "ru": "Stub: выставить starter в локальный список.",
+    "en": "Stub: list a starter in the local board."
+  },
+  "pass.title": {
+    "ru": "Зов Тёплого Очага",
+    "en": "Call of the Warm Hearth"
+  },
+  "pass.lead": {
+    "ru": "Треки пасса — stub наград.",
+    "en": "Pass tracks — stub rewards."
+  },
+  "pass.claim": {
+    "ru": "Забрать",
+    "en": "Claim"
+  },
+  "pass.reward.fish_50": {
+    "ru": "50 рыбок",
+    "en": "50 fish"
+  },
+  "pass.reward.yarn_10": {
+    "ru": "10 пряжи",
+    "en": "10 yarn"
+  },
+  "pass.reward.scrap": {
+    "ru": "Лом",
+    "en": "Scrap"
+  },
+  "pass.reward.potion_skin": {
+    "ru": "Зелье Шкуры x3",
+    "en": "Skin potion x3"
+  },
+  "pass.reward.bowl": {
+    "ru": "Миска",
+    "en": "Bowl"
+  },
+  "pass.reward.chest": {
+    "ru": "Сундук",
+    "en": "Chest"
+  },
+  "pass.reward.ticket": {
+    "ru": "Билет арены",
+    "en": "Arena ticket"
+  },
+  "pass.reward.potion_nine": {
+    "ru": "Зелье 9 Жизней x5",
+    "en": "Nine Lives x5"
+  },
+  "shop.gacha.title": {
+    "ru": "Алтарь Призыва",
+    "en": "Summon Altar"
+  },
+  "shop.gacha.lead": {
+    "ru": "Stub гачи: pity/банки — на backend.",
+    "en": "Gacha stub: pity/jars on backend."
+  },
+  "shop.gacha.stub": {
+    "ru": "Гача stub",
+    "en": "Gacha stub"
+  },
+  "result.eyebrow": {
+    "ru": "Итог боя",
+    "en": "Battle result"
+  },
+  "result.win": {
+    "ru": "Блестящая победа!",
+    "en": "Brilliant victory!"
+  },
+  "result.lose": {
+    "ru": "Поражение в бою",
+    "en": "Defeat in battle"
+  }
 }

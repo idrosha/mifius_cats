@@ -1,12 +1,14 @@
 # Mythfel Web HUD (ручной smoke без Unity)
 
-Тонкий HTML/JS клиент: Hub + Battle HUD поверх существующих stubs.
+Тонкий HTML/JS клиент в визуале **Stitch Tavern Hearth Battler**: Hub-порталы + полный граф экранов поверх существующих stubs.
 
 - LiveOps CDN stub → `:8090`
 - `battle/cmd/devapi` → `:8081`
 - этот HUD → `:8088` (проксирует оба API, без CORS)
 
 Боевые числа и результат — только из `stateDiff` сервера (§3.6 / §8.2). Клиент не считает урон/награды.
+
+Дизайн: `design/DESIGN.md`, карта экранов: `design/SCREEN-MAP.md`.
 
 ## Запуск
 
@@ -34,25 +36,32 @@ cd client/web-hud && node server.mjs
 
 Регион soft-launch: `?region=RU` (header `X-Client-Region`).
 
-## Что играбельно
+## Граф навигации (Stitch)
 
-| Экран | Поведение |
+| Экран | Переходы |
 |---|---|
-| Boot | fetch LiveOps + healthz battle |
-| Hub | вкладки §6; Кланы/Ферма/Питомник → «Скоро» по `feature_flags` |
-| Двор / Туториал | CreatePvE `test_yard_1` + стартеры; ручной ход → сервер крутит бота P2 |
-| Battle HUD | board 3+3, hand, energy, milk, keep, end turn, surrender |
-| Автопобеда | CreatePvE `autoPlay` (smoke §13.1) |
-| PvP smoke | CreatePvP autoPlay + List/GetReplay |
-| Магазин | офферы из LiveOps (сейчас пусто — пустой UI) |
-| RU/EN | keys из `content/i18n/ru_en.json` |
+| Boot | LiveOps + battle healthz → Hub |
+| Hub | порталы → Yard / Formation / PvP / Collection / Shop / Market / Tavern / Pass / Soon |
+| Двор | → Formation / Battle / Tutorial / AutoPlay |
+| Расстановка | → Battle / Yard / Tavern |
+| Battle | stateDiff; итог → Result |
+| Result | Hub / Yard / Retry / Formation |
+| Таверна | напитки + зелья (stub) → Formation / Hub |
+| Маркет | buy/sell stub (без денег/крипты) |
+| Лавка | LiveOps offers + Gacha stub → Tavern |
+| Пасс | stub трек |
+| PvP | autoPlay + replays; → Formation |
+| Soon | Farm / Nursery / Clan boss |
+
+Проверка навигации: `node client/web-hud/scripts/verify-nav.mjs` (при поднятом HUD).
 
 ## Stub / вне скоупа
 
-- Nakama auth, инвентарь, лимиты bowls/tickets, IAP, гача
+- Nakama auth, инвентарь, лимиты bowls/tickets, IAP, гача RNG
 - Unity / WebGL, арт Addressables
 - Реальный матчмейкинг PvP (только local autoPlay)
 - Ферма / питомник / клан-босс геймплей (только «Скоро»)
 - Production CDN signature
+- Маркетплейс за деньги / крипта (запрещено §1)
 
 См. также: `qa/DEVICE_SMOKE.md`, корневой `ЗАПУСК.md` §3.
