@@ -13,9 +13,10 @@ SSOT:   $ROOT/docs/FULL-SPEC.md
   ✓ ЗАПУСК Step B — battle  → battle/ (mythfel-battle Go)
   ✓ ЗАПУСК Step C — client  → client/ (BattlePresenter + stateDiff HUD)
   ✓ ЗАПУСК Step C — backend → backend/ (limits 3/5 + inventory §7.5)
+  ✓ ЗАПУСК Step C — liveops → liveops/ (JSON Schema §7.4 + validate)
 
 Дальше (ЗАПУСК Step C / docs/AGENTS.md порядок):
-  liveops schemas → client hub/shop → qa §13
+  client hub/shop → qa §13
 
 Шаблон промпта: см. docs/AGENTS.md раздел «Как ставить задачу»
 EOF
