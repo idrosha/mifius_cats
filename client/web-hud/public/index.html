@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Мифоус — Web HUD</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand">Мифоус <span>Web HUD</span></div>
+    <div id="liveopsPill" class="status-pill">LiveOps…</div>
+    <div id="battlePill" class="status-pill">Battle…</div>
+    <div class="locale-switch" id="localeSwitch" aria-label="locale"></div>
+  </header>
+
+  <nav class="tabs" id="hubTabs" aria-label="hub"></nav>
+
+  <main>
+    <section id="viewBoot" class="panel">
+      <h2>Boot</h2>
+      <p class="lead" id="bootMsg">Загрузка LiveOps…</p>
+    </section>
+
+    <section id="viewYard" class="panel hidden">
+      <div id="tutorialBanner" class="banner warn hidden"></div>
+      <h2 id="yardTitle">Двор</h2>
+      <p class="lead" id="yardLead">PvE 3v3 vs бот · stage test_yard_1 · стартовая тройка</p>
+      <div class="starters" id="starterCards"></div>
+      <div class="row">
+        <button type="button" class="primary" id="btnTutorial">Туториал → бой</button>
+        <button type="button" id="btnYardBattle">Бой во Дворе</button>
+        <button type="button" id="btnYardAuto">Автопобеда (smoke)</button>
+      </div>
+    </section>
+
+    <section id="viewBattle" class="panel hidden">
+      <div id="resultBanner" class="banner hidden"></div>
+      <h2 id="battleHeading">Бой</h2>
+      <div class="stats" id="battleStats"></div>
+      <div class="board">
+        <div>
+          <div class="meta" style="color:var(--muted);font-size:0.75rem;margin-bottom:0.25rem">Враги</div>
+          <div class="lane-row" id="enemyBoard"></div>
+        </div>
+        <div>
+          <div class="meta" style="color:var(--muted);font-size:0.75rem;margin-bottom:0.25rem">Союзники</div>
+          <div class="lane-row" id="allyBoard"></div>
+        </div>
+      </div>
+      <div class="hand" id="hand"></div>
+      <div class="actions" id="battleActions">
+        <button type="button" class="primary" id="btnEndTurn">Конец хода</button>
+        <button type="button" id="btnKeep" disabled>Keep</button>
+        <button type="button" class="danger" id="btnSurrender">Сдаться</button>
+        <button type="button" id="btnBackHub">В хаб</button>
+      </div>
+      <div class="log" id="battleLog"></div>
+    </section>
+
+    <section id="viewPvp" class="panel hidden">
+      <h2 id="pvpTitle">PvP</h2>
+      <p class="lead" id="pvpLead">Дуэли / Арена — smoke через CreatePvP autoPlay (оба стартера). Матчмейкинг Nakama — stub.</p>
+      <div class="row">
+        <button type="button" class="primary" id="btnPvpAuto">Автобой PvP (smoke)</button>
+        <button type="button" id="btnRefreshReplays">Обновить реплеи</button>
+      </div>
+      <ul class="replay-list" id="replayList"></ul>
+      <div class="log" id="pvpLog"></div>
+    </section>
+
+    <section id="viewCollection" class="panel hidden">
+      <h2 id="colTitle">Коллекция</h2>
+      <p class="lead" id="colLead">Stub: стартовая тройка из content (без инвентаря Nakama).</p>
+      <div class="starters" id="collectionCards"></div>
+    </section>
+
+    <section id="viewShop" class="panel hidden">
+      <h2 id="shopTitle">Магазин</h2>
+      <p class="lead" id="shopLead">Офферы только из LiveOps (пустой каталог → пустой UI).</p>
+      <ul class="offer-list" id="offerList"></ul>
+    </section>
+
+    <section id="viewSoon" class="panel soon-sheet hidden">
+      <h2 id="soonTitle">Скоро</h2>
+      <p id="soonBody">Скоро</p>
+      <div class="soon-links" id="soonLinks"></div>
+    </section>
+  </main>
+
+  <script type="module" src="/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "@mythfel/web-hud",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Thin Mythfel browser HUD for manual QA against battle/devapi + LiveOps CDN stub",
+  "type": "module",
+  "scripts": {
+    "start": "node server.mjs",
+    "dev": "node server.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

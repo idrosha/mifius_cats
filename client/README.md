@@ -49,6 +49,17 @@ dotnet run --project tools/Mythfel.LocalSmoke -- --stub-only
 `HttpBattleNetClient` → `battle/cmd/devapi` (§8.2 CreatePvE / SubmitAction / replay).  
 Unity Hub Play Mode — когда появится отдельный Unity-проект; этот slice его не содержит.
 
+## Web HUD (браузер, без Unity / WebGL)
+
+Тонкий HTML/JS для ручного PvE Двор / туториал против тех же stubs:
+
+```bash
+../qa/run-web-hud.sh
+# или: cd web-hud && node server.mjs   # после CDN :8090 + battle :8081
+```
+
+How-to: `web-hud/README.md`.
+
 ## Не в этом PR
 
 Nakama auth, Addressables-арт, Unity scene/Play Mode, hotkeys PC, фейковый геймплей фермы/клан-босса, IAP checkout UI, production CDN signature verify.

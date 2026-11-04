@@ -80,3 +80,25 @@ func (b *Battle) AutoPlay(maxTurns int) error {
 	}
 	return nil
 }
+
+// AdvancePvEBots runs scripted AI while it is the P2 (bot) turn.
+// Used after interactive SubmitAction so the player sees P1 again without inventing combat on the client.
+func (b *Battle) AdvancePvEBots() error {
+	if b.Mode != ModePvE {
+		return nil
+	}
+	guards := 0
+	for !b.Finished() && b.Active == SideP2 {
+		a := b.ChooseAction()
+		if err := b.SubmitAction(a); err != nil {
+			if err2 := b.SubmitAction(Action{Kind: ActionEndTurn}); err2 != nil {
+				return err2
+			}
+		}
+		guards++
+		if guards > 500 {
+			return errRunaway
+		}
+	}
+	return nil
+}

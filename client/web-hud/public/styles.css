@@ -1,0 +1,270 @@
+:root {
+  --bg0: #1a1714;
+  --bg1: #2a241c;
+  --bg2: #3a3228;
+  --ink: #f3ebe0;
+  --muted: #b8a894;
+  --accent: #d4a24c;
+  --accent-dim: #8a6a2e;
+  --ally: #6f9e6a;
+  --enemy: #c45c4a;
+  --danger: #e07060;
+  --ok: #7cba6e;
+  --line: #4a4034;
+  --card: #322a22;
+  --radius: 10px;
+  --font-display: "Segoe UI", "Trebuchet MS", sans-serif;
+  --font-body: "Segoe UI", "Trebuchet MS", sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: radial-gradient(120% 80% at 50% -10%, #3d3226 0%, var(--bg0) 55%);
+  color: var(--ink);
+  font-family: var(--font-body);
+}
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid var(--line);
+  background: linear-gradient(180deg, #2c241c, #1e1a16);
+}
+.brand {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.35rem;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+.brand span { color: var(--ink); font-weight: 500; font-size: 0.85rem; margin-left: 0.4rem; }
+.status-pill {
+  font-size: 0.75rem;
+  color: var(--muted);
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+}
+.status-pill.ok { color: var(--ok); border-color: #3d6a38; }
+.status-pill.bad { color: var(--danger); border-color: #7a3a32; }
+
+.locale-switch { margin-left: auto; display: flex; gap: 0.35rem; }
+.locale-switch button,
+.tabs button,
+.actions button,
+.panel button,
+.hand button,
+.soon-links button {
+  font: inherit;
+  cursor: pointer;
+  border: 1px solid var(--line);
+  background: var(--bg2);
+  color: var(--ink);
+  border-radius: 8px;
+  padding: 0.4rem 0.7rem;
+}
+.locale-switch button.active,
+.tabs button.active {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: #fff8e8;
+}
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  padding: 0.65rem 1rem;
+  border-bottom: 1px solid var(--line);
+  background: rgba(0,0,0,0.18);
+}
+.tabs button.soon { opacity: 0.75; }
+.tabs button.soon::after {
+  content: " ·";
+  color: var(--muted);
+}
+
+main {
+  flex: 1;
+  padding: 1rem;
+  max-width: 960px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.panel {
+  background: linear-gradient(165deg, var(--bg1), #221c17);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 1rem;
+}
+.panel h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1.25rem;
+  font-family: var(--font-display);
+}
+.panel p.lead {
+  margin: 0 0 1rem;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+.row { display: flex; flex-wrap: wrap; gap: 0.5rem; align-items: center; }
+.hidden { display: none !important; }
+
+.starters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  margin: 0.75rem 0 1rem;
+}
+.starter {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.65rem;
+  background: var(--card);
+  font-size: 0.85rem;
+}
+.starter strong { display: block; color: var(--accent); margin-bottom: 0.2rem; }
+
+.board {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0.75rem 0;
+}
+.lane-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+.unit {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0.5rem;
+  background: var(--card);
+  min-height: 4.5rem;
+}
+.unit.ally { border-color: #4a6e46; }
+.unit.enemy { border-color: #7a443c; }
+.unit.dead { opacity: 0.45; filter: grayscale(0.6); }
+.unit .meta { font-size: 0.72rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+.unit .hp {
+  margin-top: 0.35rem;
+  font-weight: 600;
+}
+.hp-bar {
+  height: 6px;
+  background: #1a1510;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 0.25rem;
+}
+.hp-bar > i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, var(--ally), #a8d09a);
+}
+.unit.enemy .hp-bar > i { background: linear-gradient(90deg, var(--enemy), #e8a090); }
+
+.stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem 1.25rem;
+  margin: 0.5rem 0 0.75rem;
+  font-size: 0.9rem;
+}
+.stats b { color: var(--accent); }
+
+.hand {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin: 0.5rem 0 0.75rem;
+}
+.hand button {
+  min-width: 7.5rem;
+  text-align: left;
+  background: #3a3026;
+}
+.hand button:disabled { opacity: 0.45; cursor: not-allowed; }
+.hand button .cost {
+  display: inline-block;
+  min-width: 1.2rem;
+  margin-right: 0.35rem;
+  color: var(--accent);
+  font-weight: 700;
+}
+.hand button .sub { display: block; font-size: 0.7rem; color: var(--muted); }
+
+.actions { display: flex; flex-wrap: wrap; gap: 0.45rem; }
+button.primary {
+  background: var(--accent-dim);
+  border-color: var(--accent);
+  color: #fff8e8;
+  font-weight: 600;
+}
+button.danger { border-color: var(--danger); color: #ffd2ca; }
+
+.log {
+  margin-top: 0.85rem;
+  max-height: 8rem;
+  overflow: auto;
+  font-size: 0.78rem;
+  color: var(--muted);
+  border-top: 1px dashed var(--line);
+  padding-top: 0.5rem;
+  white-space: pre-wrap;
+}
+
+.banner {
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
+  margin-bottom: 0.75rem;
+  border: 1px solid var(--line);
+  background: #2a221a;
+}
+.banner.win { border-color: #4a6e46; color: #c8e6c0; }
+.banner.lose { border-color: #7a443c; color: #f0c0b8; }
+.banner.warn { border-color: var(--accent-dim); color: #f0d9a8; }
+
+.soon-sheet {
+  text-align: center;
+  padding: 2rem 1rem;
+}
+.soon-sheet h2 { font-size: 1.6rem; color: var(--accent); }
+.soon-links { margin-top: 1rem; display: flex; flex-wrap: wrap; gap: 0.4rem; justify-content: center; }
+
+.offer-list { list-style: none; padding: 0; margin: 0.5rem 0 0; }
+.offer-list li {
+  padding: 0.5rem 0.65rem;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  margin-bottom: 0.35rem;
+  background: var(--card);
+  font-size: 0.9rem;
+}
+.replay-list { list-style: none; padding: 0; margin: 0.5rem 0; }
+.replay-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 0.45rem 0.55rem;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.85rem;
+}
+.replay-list button { padding: 0.25rem 0.5rem; font-size: 0.8rem; }
+
+@media (max-width: 640px) {
+  .starters { grid-template-columns: 1fr; }
+  .brand { font-size: 1.15rem; }
+  main { padding: 0.75rem; }
+}
