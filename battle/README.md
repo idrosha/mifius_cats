@@ -15,4 +15,9 @@ cd battle
 go test ./...
 UPDATE_GOLDEN=1 go test -run Golden ./...   # перезаписать golden
 go run ./cmd/sim -content ../content
+
+# локальный §8.2 stub для LocalSmoke / DEVICE_SMOKE (без Nakama / secrets)
+go run ./cmd/devapi -content ../content   # http://127.0.0.1:8081
 ```
+
+`internal/statediff` — JSON stateDiff для клиента. `cmd/devapi` — CreatePvE / SubmitAction / replay in-memory.

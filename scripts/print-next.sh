@@ -20,12 +20,14 @@ SSOT:   $ROOT/docs/FULL-SPEC.md
   ✓ battle+client — PvP replay store / GetReplay / ReplayList open (§13.6)
   ✓ client — TutorialPresenter §13.1 + HubPresenter.SetLocale §13.8
   ✓ Phase 4 in-repo — CDN stub :8090 + geo example + ./qa/run-soft-launch.sh
+  ✓ LocalSmoke — ./qa/run-local-smoke.sh (presenter+hub+battle/devapi, без store secrets)
 
 Дальше (вне репо / MANUAL):
-  DEVICE smoke на телефоне (qa/DEVICE_SMOKE.md) + прод LiveOps CDN signing + store IAP verify
+  ./qa/run-local-smoke.sh → отметить desktop-колонку qa/DEVICE_SMOKE.md
+  Unity/mobile build + DEVICE rows на телефоне + прод LiveOps CDN signing + store IAP verify
   → закрыть Phase 4 §14 на реальном ограниченном гео
   → Phase 5 clans/boss только после этого
 
 Шаблон промпта: см. docs/AGENTS.md раздел «Как ставить задачу»
-Харнесс: ./qa/run-soft-launch.sh   чеклист: qa/SOFT_LAUNCH.md + qa/DEVICE_SMOKE.md
+Харнесс: ./qa/run-local-smoke.sh   чеклист: qa/DEVICE_SMOKE.md
 EOF

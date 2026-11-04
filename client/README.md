@@ -34,6 +34,21 @@ cd client
 dotnet test
 ```
 
+## LocalSmoke (ручной runnable path без Unity)
+
+Console-хост presenter+hub+battle против локальных stubs. How-to: `qa/DEVICE_SMOKE.md` §0.
+
+```bash
+# из корня репо (поднимает CDN :8090 + battle/devapi :8081 + LocalSmoke)
+../qa/run-local-smoke.sh
+
+# или только stub payloads:
+dotnet run --project tools/Mythfel.LocalSmoke -- --stub-only
+```
+
+`HttpBattleNetClient` → `battle/cmd/devapi` (§8.2 CreatePvE / SubmitAction / replay).  
+Unity Hub Play Mode — когда появится отдельный Unity-проект; этот slice его не содержит.
+
 ## Не в этом PR
 
-Nakama auth, Addressables-арт, hotkeys PC, фейковый геймплей фермы/клан-босса, IAP checkout UI, production CDN signature verify.
+Nakama auth, Addressables-арт, Unity scene/Play Mode, hotkeys PC, фейковый геймплей фермы/клан-босса, IAP checkout UI, production CDN signature verify.

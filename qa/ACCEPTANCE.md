@@ -25,6 +25,7 @@ Phase 4 in-repo: `./qa/run-soft-launch.sh` (CDN stub + geo example). MANUAL devi
 
 Out-of-scope SL (§1 MUST NOT — клан-босс / ферма / питомник геймплей) → не баги; «Скоро» (§13.7) ожидаемо.
 
-## Ручной прогон (когда появится клиент Play)
+## Ручной прогон
 
-См. `ЗАПУСК.md` Step D + `qa/DEVICE_SMOKE.md`. Баги → `BUG_TEMPLATE.md` с seed/replay.
+До Unity Play: `./qa/run-local-smoke.sh` (см. `qa/DEVICE_SMOKE.md` §0).  
+На устройстве: `ЗАПУСК.md` Step D + `qa/DEVICE_SMOKE.md` §2–§4. Баги → `BUG_TEMPLATE.md` с seed/replay.
