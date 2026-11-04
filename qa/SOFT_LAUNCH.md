@@ -9,6 +9,8 @@ Done when (§14): **§13 зелёный на ограниченном гео**.
 | Geo | `liveops/soft-launch/geo_allowlist.example.json` | Ops allowlist / store listing geos |
 | Device | `qa/DEVICE_SMOKE.md` + `./qa/run-local-smoke.sh` | Реальный девайс + Unity/mobile build |
 | Analytics | `soft_launch_flag` stub (§11) | Прод analytics sink |
+| Кросс-плей | Общий матчмейкинг + один battle-service (§0, §8) | Smoke: mobile↔web↔desktop в одном пуле |
+| Steam (PC) | Целевой канал дистрибуции (§0); LocalSmoke = desktop path | Steam listing / SDK — вне SL-gate, без секретов в репо |
 
 ```bash
 ./qa/run-soft-launch.sh
@@ -17,3 +19,5 @@ Done when (§14): **§13 зелёный на ограниченном гео**.
 
 Exit `0` на soft-launch = auto §13 + geo example + CDN stub smoke зелёные.  
 LocalSmoke = desktop runnable path без store secrets. Device rows remain MANUAL.
+
+**Locked product (§0):** игроки матчятся независимо от клиента; серверный авторитет боя уже это поддерживает. Не требовать раздельных PvP-очередей по платформе. Steam — цель PC-разработки/дистрибуции рядом с mobile/web; конкретные store API не часть этого gate.

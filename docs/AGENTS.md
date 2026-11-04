@@ -31,14 +31,14 @@
 - **Не трогает:** UI Unity, магазин, гача UI
 
 ### 2. `client` — Unity клиент
-- **Читает:** §6, §9, §2–§3 (только презентация), §12 UI-часть  
-- **Пишет:** `mythfel-client` presenter/UI/net stubs  
+- **Читает:** §6, §9, §2–§3 (только презентация), §12 UI-часть; §0 платформы/кросс-плей  
+- **Пишет:** `mythfel-client` presenter/UI/net stubs (mobile / web / PC·Steam из одного проекта)  
 - **Скилл:** `docs/skills/client.md`  
-- **Не трогает:** формулу урона на клиенте как source of truth
+- **Не трогает:** формулу урона на клиенте как source of truth; выдуманные Steamworks/store API без задачи
 
 ### 3. `backend` — Nakama + economy RPC
-- **Читает:** §5, §7.5, §8.1, §8.3, §4, §11  
-- **Пишет:** auth, inventory, limits, IAP validate, jars/pity, pass  
+- **Читает:** §5, §7.5, §8.1, §8.3, §4, §11; §0 кросс-плей  
+- **Пишет:** auth, inventory, limits, IAP validate, jars/pity, pass; матчмейкинг **общий пул** (не сегментировать по платформе)  
 - **Скилл:** `docs/skills/backend.md`  
 - **Не трогает:** VFX, арт
 
@@ -92,7 +92,9 @@ DoD: <проверка из §13 или тест>
 3. Не предлагать крипту, 9 axie-классов, одновременные ходы Classic.  
 4. Не расширять скоуп SL (§1 MUST NOT).  
 5. Спор правил → патч FULL-SPEC, не «временное исключение» в коде.  
-6. Всё вне `docs/FULL-SPEC.md` — не SSOT (архивы в `/agent/artifacts` не читать без нужды).
+6. Всё вне `docs/FULL-SPEC.md` — не SSOT (архивы в `/agent/artifacts` не читать без нужды).  
+7. Кросс-плей locked (§0): не предлагать раздельные PvP-пулы mobile/web/Steam.  
+8. Steam = целевой PC-канал; не выдумывать store API в SSOT/коде без отдельной задачи.
 
 ---
 
@@ -109,3 +111,5 @@ Phase1 battle(+content минимальный)
 ```
 
 Не начинать клан-босс/ферму до закрытия Phase 4.
+
+Soft launch: UI mobile-first; матчмейкинг и бой — кросс-платформенные (общий сервер). Steam входит в целевые PC-билды наряду с mobile/web (§0, §14).

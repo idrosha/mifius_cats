@@ -1,6 +1,6 @@
 # Мифоус / Mythfel — полное ТЗ приложения
 
-**Версия:** 1.0 · **SSOT** (единственный источник правды для сборки)  
+**Версия:** 1.1 · **SSOT** (единственный источник правды для сборки)  
 **Язык дока:** RU (строки игры: RU+EN)  
 **Стек:** Unity C# URP 2D · Nakama · battle-service Go · LiveOps JSON  
 **Крипта/NFT:** нет  
@@ -16,13 +16,19 @@
 | Имя | **Мифоус** / **Mythfel** |
 | Питч | Мифические котики (роль+стихия), карточный пошаговый 3v3 |
 | Аудитория | Подростки + взрослые |
-| Платформы | iOS, Android → PC → Web (один Unity-проект) |
+| Платформы | Mobile (iOS, Android), PC (**Steam** + desktop), Web — **один** Unity-проект |
+| Кросс-плей | Игроки матчятся **независимо от клиента** (mobile / web / desktop). Общий пул матчмейкинга; сегментации PvP по платформе нет |
 | North Star | Кланы + рейтинг кланов |
 | Soft launch | Двор + PvP (+ магазин/пасс/гача). Ферма, питомник, клан-босс = вкладка «Скоро» |
 | Домены | `mifous.ru`, `mythfel.com` (зарегистрировать) |
 | Bundle | `com.mythfel.game` |
 
 **Не бренд:** Битва котиков/котов, Battle Cats, Axie, Lunacia.
+
+**Платформы / дистрибуция (требования, без API сторов в SSOT):**  
+- Цели: mobile stores, **Steam (PC)**, web-клиент.  
+- Бой и награды — единый серверный авторитет (§3.6, §8.2); клиент только input + VFX.  
+- Конкретные Steamworks / IAP / store SDK — вне SSOT; подключать отдельной задачей по чеклисту стора.
 
 ---
 
@@ -43,6 +49,7 @@
 - Реплеи последних 10 PvP
 - RU+EN
 - Вкладки «Скоро»: Клан-босс, Ферма, Питомник
+- Кросс-платформенный PvP: общий матчмейкинг mobile / web / desktop (Steam PC в том же пуле)
 
 ### MUST NOT (SL)
 - Реальный клан-босс / ферма / питомник геймплей
@@ -150,7 +157,8 @@ Unused energy/cards не переносятся (кроме Keep).
 
 ### §3.6 Авторитет
 Только server симулирует. Client = input + VFX.  
-`battleSeed` + inputs → replay. Хранить 10 последних PvP/user.
+`battleSeed` + inputs → replay. Хранить 10 последних PvP/user.  
+Один battle-service обслуживает все клиенты; кросс-плей (§0) не требует отдельной симуляции на платформу.
 
 ---
 
@@ -243,7 +251,8 @@ targetRule, tags[], effectOps[]  // DSL ops, не хардкод C#
 ## §8. API / сервисы
 
 ### §8.1 Nakama
-Auth, storage profile, friends, clans (basic), leaderboards (arena), matchmaker tickets, wallet mirror optional.
+Auth, storage profile, friends, clans (basic), leaderboards (arena), matchmaker tickets, wallet mirror optional.  
+Matchmaker: **общий пул** для всех клиентов; ticket/query **не** фильтрует по `platform` / store (кросс-плей §0). Метаданные клиента (os/build) — только аналитика/диагностика.
 
 ### §8.2 battle-service (Go)
 | RPC | In | Out |
@@ -253,7 +262,8 @@ Auth, storage profile, friends, clans (basic), leaderboards (arena), matchmaker 
 | `SubmitAction` | battleId, playCards[] / keep[] / potion / endTurn | stateDiff |
 | `GetReplay` | battleId | frames |
 
-Reject illegal actions. Rate-limit. Log seed+inputs.
+Reject illegal actions. Rate-limit. Log seed+inputs.  
+Один сервис для mobile / web / desktop (Steam); протокол боя платформо-независим.
 
 ### §8.3 Economy-service (может быть модуль Nakama + hooks)
 Grant rewards, spend currency, open jar (server RNG + pity), activate pass, validate IAP receipt, daily refill bowls/tickets (timezone UTC+0 or player tz later).
@@ -281,6 +291,8 @@ Assets/
 - Никакой боевой логики «только на клиенте» для онлайн/наград.
 - Addressables для артов карт.
 - Localization: Unity Locale RU/EN, keys = `name_key`.
+- Целевые билды: mobile, web, **PC/Steam** из одного проекта; UI mobile-first (§6), PC-hotkeys later.
+- Не выдумывать в SSOT/коде store-specific API (Steamworks и т.п.) без отдельной задачи.
 
 ---
 
@@ -341,7 +353,7 @@ Assets/
 | 1 Slice | 3v3 vs bot на server seed |
 | 2 PvE | главы 1–3 + прогрессия |
 | 3 PvP+$ | дуэли, арена, магазин, пасс, ads, pity |
-| 4 Soft launch | §13 зелёный на ограниченном гео (ops allowlist + device smoke; CDN signed JSON) |
+| 4 Soft launch | §13 зелёный на ограниченном гео (ops allowlist + device smoke; CDN signed JSON); кросс-плей в одном матчмейкинг-пуле; Steam — целевой PC-канал (сборка/дистрибуция, без обязательного store SDK в SL-gate) |
 | 5 Clans/boss | North Star жив |
 | 6 Farm/nursery | daily retention loop |
 | 7 LiveOps seasons | контент без смены ядра |
@@ -365,8 +377,9 @@ CI: schema validate card JSON; battle golden replays; client compile.
 - `pve_unlock_n = 3`
 - TZ игрока для рефилла = UTC  
 - Soft-cap рарности на арене = off до фазы 5  
-- Mobile-first soft launch  
+- Mobile-first soft launch (UX); кросс-плей и Steam как PC-цель — locked §0  
+- Матчмейкинг без сегментации по платформе  
 
 ---
 
-*Конец SSOT v1.0. Механика-расширение и лор — приложения, не дублировать сюда.*
+*Конец SSOT v1.1. Механика-расширение и лор — приложения, не дублировать сюда.*
