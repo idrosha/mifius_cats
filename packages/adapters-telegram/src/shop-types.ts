@@ -18,6 +18,7 @@ export type AccountSnapshotDto = {
   retryCredits: number;
   secondAttemptCount: number;
   championshipParticipated: boolean;
+  onlineRating: number;
   settings: {
     language: string;
     soundEnabled: boolean;

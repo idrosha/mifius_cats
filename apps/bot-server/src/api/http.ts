@@ -4,13 +4,16 @@ import {
   type AvatarLoadout,
   type EquipmentSlot,
   type LevelRunResult,
+  type PlayerAnswer,
   type ShopCurrency,
 } from "@mir-games/game-core";
+import type { MatchStore, MatchmakingMode } from "../online/match-store.js";
 import type { ProgressStore } from "../progress/store.js";
 
 export type HttpApiOptions = {
   port: number;
   store: ProgressStore;
+  matches: MatchStore;
   /** CORS origin for the miniapp / web (e.g. http://localhost:5173). */
   corsOrigin: string;
 };
@@ -71,8 +74,32 @@ function requirePlayerId(body: JsonBody): string {
   return playerId;
 }
 
+function parsePlayerAnswer(raw: unknown): PlayerAnswer | null {
+  if (raw === null) {
+    return null;
+  }
+  if (!raw || typeof raw !== "object") {
+    throw new Error("answer must be an object or null");
+  }
+  const answer = raw as Record<string, unknown>;
+  const format = answer.format;
+  if (format === "single_choice" && typeof answer.optionId === "string") {
+    return { format: "single_choice", optionId: answer.optionId };
+  }
+  if (format === "multi_choice" && Array.isArray(answer.optionIds)) {
+    return {
+      format: "multi_choice",
+      optionIds: answer.optionIds.filter((id): id is string => typeof id === "string"),
+    };
+  }
+  if (format === "text" && typeof answer.text === "string") {
+    return { format: "text", text: answer.text };
+  }
+  throw new Error("Invalid answer payload");
+}
+
 export function startHttpApi(options: HttpApiOptions): Promise<{ close: () => Promise<void> }> {
-  const { port, store, corsOrigin } = options;
+  const { port, store, matches, corsOrigin } = options;
 
   const server = createServer(async (req, res) => {
     try {
@@ -291,6 +318,75 @@ export function startHttpApi(options: HttpApiOptions): Promise<{ close: () => Pr
           const message = err instanceof Error ? err.message : String(err);
           sendJson(res, 409, { error: message }, corsOrigin);
         }
+        return;
+      }
+
+      if (method === "POST" && url.pathname === "/api/online/queue") {
+        const body = await readJson(req);
+        try {
+          const playerId = requirePlayerId(body);
+          const modeRaw = typeof body.mode === "string" ? body.mode : "stub-bot";
+          const mode: MatchmakingMode =
+            modeRaw === "queue-human" ? "queue-human" : "stub-bot";
+          const result = matches.joinQueue(playerId, { mode });
+          sendJson(res, 200, result, corsOrigin);
+        } catch (err) {
+          const message = err instanceof Error ? err.message : String(err);
+          sendJson(res, 409, { error: message }, corsOrigin);
+        }
+        return;
+      }
+
+      if (method === "GET" && url.pathname === "/api/online/match") {
+        const matchId = url.searchParams.get("matchId");
+        const playerId = url.searchParams.get("playerId");
+        if (!matchId || !playerId) {
+          sendJson(res, 400, { error: "matchId and playerId required" }, corsOrigin);
+          return;
+        }
+        try {
+          sendJson(res, 200, matches.getMatch(matchId, playerId), corsOrigin);
+        } catch (err) {
+          const message = err instanceof Error ? err.message : String(err);
+          sendJson(res, 404, { error: message }, corsOrigin);
+        }
+        return;
+      }
+
+      if (method === "POST" && url.pathname === "/api/online/answer") {
+        const body = await readJson(req);
+        try {
+          const playerId = requirePlayerId(body);
+          const matchId = typeof body.matchId === "string" ? body.matchId : "";
+          const roundIndex = typeof body.roundIndex === "number" ? body.roundIndex : -1;
+          if (!matchId || roundIndex < 0) {
+            sendJson(res, 400, { error: "matchId and roundIndex required" }, corsOrigin);
+            return;
+          }
+          // Client may send answer or null (timeout). Score is never accepted from client.
+          const answer = parsePlayerAnswer(body.answer ?? null);
+          const view = matches.submitAnswer(playerId, matchId, roundIndex, answer);
+          sendJson(res, 200, view, corsOrigin);
+        } catch (err) {
+          const message = err instanceof Error ? err.message : String(err);
+          const status = message.includes("not found") ? 404 : 409;
+          sendJson(res, status, { error: message }, corsOrigin);
+        }
+        return;
+      }
+
+      if (method === "GET" && url.pathname === "/api/online/rating") {
+        const playerId = url.searchParams.get("playerId");
+        if (!playerId) {
+          sendJson(res, 400, { error: "playerId required" }, corsOrigin);
+          return;
+        }
+        sendJson(
+          res,
+          200,
+          { playerId, rating: matches.getRating(playerId) },
+          corsOrigin,
+        );
         return;
       }
 

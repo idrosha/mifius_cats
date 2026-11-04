@@ -1,4 +1,5 @@
 import {
+  ONLINE_RATING_START,
   applyLevelResult,
   createEmptyProgress,
   equipOwnedItem,
@@ -37,6 +38,8 @@ export type PlayerSave = {
   secondAttemptCount: number;
   /** Phase 7 sets this; championship shop stays locked until then. */
   championshipParticipated: boolean;
+  /** Online ladder rating — server source of truth (Phase 6). */
+  onlineRating: number;
   settings: PlayerSettings;
   /** Idempotency set for stub payment receipts. */
   processedReceiptIds: string[];
@@ -54,6 +57,7 @@ export type AccountSnapshot = {
   retryCredits: number;
   secondAttemptCount: number;
   championshipParticipated: boolean;
+  onlineRating: number;
   settings: PlayerSettings;
   stats: {
     levelsCompleted: number;
@@ -77,6 +81,8 @@ export type ProgressStore = {
   ): PlayerSave;
   /** Test / Phase 7 hook. */
   markChampionshipParticipated(playerId: string): PlayerSave;
+  getOnlineRating(playerId: string): number;
+  setOnlineRating(playerId: string, rating: number): PlayerSave;
   snapshot(playerId: string): AccountSnapshot;
 };
 
@@ -119,6 +125,7 @@ function toSnapshot(save: PlayerSave): AccountSnapshot {
     retryCredits: save.retryCredits,
     secondAttemptCount: save.secondAttemptCount,
     championshipParticipated: save.championshipParticipated,
+    onlineRating: save.onlineRating,
     settings: { ...save.settings },
     stats: computeStats(save.progress),
   };
@@ -169,6 +176,7 @@ export function createInMemoryProgressStore(nowMs: () => number = () => Date.now
       retryCredits: 0,
       secondAttemptCount: 0,
       championshipParticipated: false,
+      onlineRating: ONLINE_RATING_START,
       settings: { ...DEFAULT_SETTINGS },
       processedReceiptIds: [],
       updatedAtMs: nowMs(),
@@ -296,6 +304,15 @@ export function createInMemoryProgressStore(nowMs: () => number = () => Date.now
       const save = getOrCreate(playerId);
       const next = unlockChampionshipCosmetics(economyFromSave(save));
       applyEconomy(save, next);
+      save.updatedAtMs = nowMs();
+      return save;
+    },
+    getOnlineRating(playerId) {
+      return getOrCreate(playerId).onlineRating;
+    },
+    setOnlineRating(playerId, rating) {
+      const save = getOrCreate(playerId);
+      save.onlineRating = Math.max(0, Math.floor(rating));
       save.updatedAtMs = nowMs();
       return save;
     },

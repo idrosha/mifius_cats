@@ -37,7 +37,30 @@ export async function handleSingle(ctx: Context): Promise<void> {
 }
 
 export async function handleOnline(ctx: Context): Promise<void> {
-  await replySoon(ctx, "Онлайн");
+  if (miniappUrl) {
+    await ctx.reply(
+      [
+        "*Онлайн*",
+        "",
+        "MVP: три раунда (выбор / мульти / свободный текст).",
+        "Очки и рейтинг считает только сервер.",
+        "",
+        "Откройте Mini App:",
+        miniappUrl,
+      ].join("\n"),
+      { parse_mode: "Markdown" },
+    );
+    return;
+  }
+  await ctx.reply(
+    [
+      "*Онлайн*",
+      "",
+      "MVP готов в web / Mini App: Меню → Онлайн.",
+      "Задайте `MINIAPP_URL`, чтобы получить ссылку здесь.",
+    ].join("\n"),
+    { parse_mode: "Markdown" },
+  );
 }
 
 export async function handleChampionship(ctx: Context): Promise<void> {

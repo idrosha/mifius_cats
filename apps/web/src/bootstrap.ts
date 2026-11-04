@@ -1,6 +1,8 @@
 import {
+  createOnlineApiClient,
   createProgressApiClient,
   createWebAdapters,
+  type OnlineApiClient,
   type ProgressApiClient,
   type ShopApiClient,
 } from "@mir-games/adapters-web";
@@ -20,6 +22,7 @@ export type AppBootstrap = {
   storage: StoragePort;
   progressApi: ProgressApiClient;
   shopApi: ShopApiClient;
+  onlineApi: OnlineApiClient;
   player: PlayerIdentity;
 };
 
@@ -46,6 +49,7 @@ export async function bootstrapApp(): Promise<AppBootstrap> {
   }
 
   const progressApi = createProgressApiClient(apiBaseUrl);
+  const onlineApi = createOnlineApiClient(apiBaseUrl);
   const snapshot = await progressApi.load(player.playerId);
   const payment = adapters.createPayment(player.playerId);
 
@@ -69,6 +73,7 @@ export async function bootstrapApp(): Promise<AppBootstrap> {
     storage: adapters.storage,
     progressApi,
     shopApi: adapters.shopApi,
+    onlineApi,
     player,
   };
 }

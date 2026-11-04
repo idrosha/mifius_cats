@@ -71,3 +71,27 @@ export type {
   ShopProductKind,
   ShopSection,
 } from "./shop.js";
+
+export {
+  ONLINE_ROUNDS_PER_MATCH,
+  ONLINE_RATING_PER_SCORE_DIFF,
+  ONLINE_RATING_START,
+  applyOnlineRating,
+  assertOnlineMatchDefinition,
+  computeOnlineRatingDelta,
+  gradeOnlineAnswer,
+  nextRoundDeadlineMs,
+  scoreFromGraded,
+  toPublicQuestion,
+} from "./online.js";
+export type {
+  OnlineMatchDefinition,
+  OnlineMatchPlayerSnapshot,
+  OnlineMatchStatus,
+  OnlineRoundDefinition,
+  OnlineRoundKind,
+  PublicMultiChoiceQuestion,
+  PublicQuestion,
+  PublicSingleChoiceQuestion,
+  PublicTextQuestion,
+} from "./online.js";

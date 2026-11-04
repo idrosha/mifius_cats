@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import type { LevelRunResult, LevelSession } from "@mir-games/game-core";
-import type { AccountSnapshotDto } from "@mir-games/adapters-telegram";
+import type { AccountSnapshotDto, OnlineMatchPublicDto } from "@mir-games/adapters-telegram";
 import type { AppBootstrap } from "./bootstrap";
 import { EGYPT_LEVEL, MAP_LOCATIONS } from "./content/egypt-level";
 import { MenuScreen } from "./screens/MenuScreen";
@@ -11,6 +11,9 @@ import { StubScreen } from "./screens/StubScreen";
 import { ShopScreen } from "./screens/ShopScreen";
 import { AccountScreen } from "./screens/AccountScreen";
 import { SettingsScreen } from "./screens/SettingsScreen";
+import { OnlineLobbyScreen } from "./screens/OnlineLobbyScreen";
+import { OnlineMatchScreen } from "./screens/OnlineMatchScreen";
+import { OnlineResultScreen } from "./screens/OnlineResultScreen";
 
 type Route =
   | { name: "menu" }
@@ -20,10 +23,12 @@ type Route =
   | { name: "shop" }
   | { name: "account" }
   | { name: "settings" }
+  | { name: "online-lobby" }
+  | { name: "online-match"; match: OnlineMatchPublicDto }
+  | { name: "online-result"; match: OnlineMatchPublicDto }
   | { name: "stub"; title: string };
 
 const STUB_TITLES: Record<string, string> = {
-  online: "Онлайн",
   championship: "Чемпионат",
   leaders: "Лидеры",
 };
@@ -33,7 +38,7 @@ type Props = {
 };
 
 export function App({ boot }: Props) {
-  const { engine, progressApi, shopApi, payment, storage, player } = boot;
+  const { engine, progressApi, shopApi, onlineApi, payment, storage, player } = boot;
   const [route, setRoute] = useState<Route>({ name: "menu" });
   const [progress, setProgress] = useState(() => engine.getProgress());
   const [avatar, setAvatar] = useState(() => engine.getAvatar());
@@ -68,6 +73,10 @@ export function App({ boot }: Props) {
   function onMenuSelect(id: string): void {
     if (id === "single") {
       setRoute({ name: "map" });
+      return;
+    }
+    if (id === "online") {
+      setRoute({ name: "online-lobby" });
       return;
     }
     if (id === "shop") {
@@ -123,6 +132,39 @@ export function App({ boot }: Props) {
   }
   if (route.name === "stub") {
     return <StubScreen title={route.title} onBack={() => setRoute({ name: "menu" })} />;
+  }
+  if (route.name === "online-lobby") {
+    return (
+      <OnlineLobbyScreen
+        playerId={player.playerId}
+        avatar={avatar}
+        onlineApi={onlineApi}
+        onMatched={(match) => setRoute({ name: "online-match", match })}
+        onBack={() => setRoute({ name: "menu" })}
+      />
+    );
+  }
+  if (route.name === "online-match") {
+    return (
+      <OnlineMatchScreen
+        playerId={player.playerId}
+        onlineApi={onlineApi}
+        initialMatch={route.match}
+        onFinished={(match) => setRoute({ name: "online-result", match })}
+      />
+    );
+  }
+  if (route.name === "online-result") {
+    return (
+      <OnlineResultScreen
+        match={route.match}
+        onAgain={() => setRoute({ name: "online-lobby" })}
+        onMenu={() => {
+          void refreshFromServer();
+          setRoute({ name: "menu" });
+        }}
+      />
+    );
   }
   if (route.name === "shop" && account) {
     return (

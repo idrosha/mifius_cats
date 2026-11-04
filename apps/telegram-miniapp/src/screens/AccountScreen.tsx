@@ -94,6 +94,10 @@ export function AccountScreen({
           <dt>Попытки на складе</dt>
           <dd>{account.retryCredits}</dd>
         </div>
+        <div>
+          <dt>Онлайн-рейтинг</dt>
+          <dd>{account.onlineRating ?? "—"}</dd>
+        </div>
       </dl>
     </section>
   );

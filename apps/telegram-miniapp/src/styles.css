@@ -764,3 +764,72 @@ button {
   font-size: 1.35rem;
   font-weight: 800;
 }
+
+/* —— Phase 6 online —— */
+.online-lobby-header .subtitle {
+  max-width: 36ch;
+}
+
+.online-lobby-avatars,
+.online-result-avatars {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin: 1.25rem 0;
+}
+
+.online-avatar-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: flex-start;
+}
+
+.online-hud {
+  align-items: flex-start;
+}
+
+.online-rating,
+.online-status,
+.online-scoreline,
+.online-feedback,
+.online-rating-delta {
+  margin: 0.5rem 0;
+}
+
+.online-scoreline {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.text-answer {
+  display: grid;
+  gap: 0.55rem;
+  margin-top: 0.75rem;
+}
+
+.text-answer-label {
+  font-size: 0.85rem;
+  color: color-mix(in srgb, var(--ink) 70%, transparent);
+}
+
+.text-answer-input {
+  font: inherit;
+  padding: 0.7rem 0.75rem;
+  border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  background: color-mix(in srgb, var(--paper) 85%, white);
+  border-radius: 0;
+}
+
+.online-round-list {
+  margin: 1rem 0;
+  padding-left: 1.1rem;
+  color: color-mix(in srgb, var(--ink) 75%, transparent);
+}
+
+.delta-up {
+  color: var(--ok);
+}
+
+.delta-down {
+  color: var(--danger);
+}

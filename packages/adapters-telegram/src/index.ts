@@ -28,6 +28,13 @@ export type {
   ShopItem,
 } from "./shop-types.js";
 
+export { createOnlineApiClient } from "./online-client.js";
+export type {
+  OnlineApiClient,
+  OnlineMatchPublicDto,
+  OnlineQueueResponse,
+} from "./online-client.js";
+
 export type {
   TelegramWebApp,
   TelegramWebAppUser,
