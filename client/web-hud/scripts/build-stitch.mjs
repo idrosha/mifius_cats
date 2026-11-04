@@ -25,15 +25,14 @@ const SCREENS = [
   { id: "result_lose", file: "result_lose.html", view: "viewResultLose" },
   { id: "collection", file: "collection.html", view: "viewCollection" },
   { id: "shop", file: "shop.html", view: "viewShop" },
-  { id: "market", file: "shop.html", view: "viewMarket" },
+  { id: "market", file: "market.html", view: "viewMarket" },
   { id: "tavern", file: "tavern.html", view: "viewTavern" },
   { id: "pass", file: "pass.html", view: "viewPass" },
   { id: "pvp", file: "pvp.html", view: "viewPvp" },
   { id: "soon_farm", file: "soon_farm.html", view: "viewSoonFarm" },
   { id: "soon_clan", file: "soon_clan.html", view: "viewSoonClan" },
-  // Stitch stubs (нужен мок)
   { id: "gear", file: "gear.html", view: "viewGear" },
-  { id: "home", file: "home.html", view: "viewHome" },
+  { id: "home", file: "home.html", view: "viewHome" }, // stub — нет мока в 2a9f/940b
   { id: "craft", file: "craft.html", view: "viewCraft" },
   { id: "breeding", file: "breeding.html", view: "viewBreeding" },
   { id: "auction", file: "auction.html", view: "viewAuction" },
@@ -43,6 +42,7 @@ const SCREENS = [
   { id: "chat_friends", file: "chat_friends.html", view: "viewChatFriends" },
   { id: "rating_players", file: "rating_players.html", view: "viewRatingPlayers" },
   { id: "rating_guilds", file: "rating_guilds.html", view: "viewRatingGuilds" },
+  { id: "boss_dungeon", file: "boss_dungeon.html", view: "viewBossDungeon" },
 ];
 
 function extractBody(html) {
@@ -150,8 +150,11 @@ ${sections.join("\n")}
       <button type="button" class="wire-btn" data-for="formation" id="btnFormationBattle">В бой</button>
       <button type="button" class="wire-btn" data-for="formation" id="btnFormationYard">В Мифмир</button>
       <button type="button" class="wire-btn" data-for="formation" id="btnFormationTavern">В Таверну</button>
+      <button type="button" class="wire-btn" data-for="boss_dungeon" id="btnBossDungeonRaid">В рейд / легион</button>
+      <button type="button" class="wire-btn" data-for="boss_dungeon" id="btnBossDungeonHub">В Хаб</button>
       <button type="button" class="wire-btn" data-for="boss_raid" id="btnBossRaidHub">В Хаб</button>
       <button type="button" class="wire-btn" data-for="boss_raid" id="btnBossRaidFormation">Строй 3v3</button>
+      <button type="button" class="wire-btn" data-for="boss_raid" id="btnBossRaidDungeon">К выбору данжа</button>
       <button type="button" class="wire-btn" data-for="battle" id="btnEndTurn">Конец хода</button>
       <button type="button" class="wire-btn" data-for="battle" id="btnKeep">Keep</button>
       <button type="button" class="wire-btn" data-for="battle" id="btnSurrender">Сдаться</button>

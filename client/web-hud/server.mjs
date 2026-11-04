@@ -97,11 +97,89 @@ async function proxy(req, res, targetBase, stripPrefix) {
   res.end(buf);
 }
 
+/** §5.1 GrantStarterKit smoke — mirrors backend/economy; no client-invented rewards. */
+function grantStarterKit(userId = "local_smoke") {
+  const combat = [
+    { templateId: "starter_tank_stone", role: "tank", element: "stone", origin: "starter" },
+    { templateId: "starter_fighter_fire", role: "fighter", element: "fire", origin: "starter" },
+    { templateId: "starter_support_water", role: "support", element: "water", origin: "starter" },
+  ];
+  const cats = combat.map((c, i) => ({
+    catId: `${userId}_c${i + 1}`,
+    templateId: c.templateId,
+    role: c.role,
+    element: c.element,
+    level: 1,
+    rarity: "common",
+    origin: c.origin,
+    pendantId: "",
+    bowByPart: {},
+  }));
+  cats.push({
+    catId: `${userId}_farm1`,
+    templateId: "starter_farm_grass",
+    role: "farm",
+    element: "grass",
+    level: 1,
+    rarity: "common",
+    origin: "farm",
+    pendantId: "",
+    bowByPart: {},
+  });
+  const potionIds = [
+    "potion_life",
+    "potion_stone_skin",
+    "potion_spark_claw",
+    "potion_nine_lives",
+    "potion_cleanse",
+    "potion_mint",
+  ];
+  return {
+    userId,
+    fish: 200,
+    yarn: 0,
+    scrap: 20,
+    medals: 0,
+    bowls: 3,
+    pvpTickets: 5,
+    jarKey: 0,
+    cats,
+    presets: [
+      {
+        name: "starter",
+        catIds: [cats[0].catId, cats[1].catId, cats[2].catId],
+      },
+    ],
+    potions: potionIds.map((potionId) => ({ potionId, count: 1 })),
+    equalDecks: true,
+    gear: null,
+  };
+}
+
 const server = http.createServer(async (req, res) => {
   const u = new URL(req.url || "/", `http://${req.headers.host || "localhost"}`);
 
   if (u.pathname === "/healthz") {
     send(res, 200, { ok: true, service: "mythfel-web-hud" }, {
+      "Content-Type": "application/json; charset=utf-8",
+    });
+    return;
+  }
+
+  if (u.pathname === "/api/dev/starter" && (req.method === "POST" || req.method === "GET")) {
+    const chunks = [];
+    for await (const chunk of req) chunks.push(chunk);
+    let userId = "local_smoke";
+    try {
+      const body = Buffer.concat(chunks).toString("utf8");
+      if (body) {
+        const parsed = JSON.parse(body);
+        if (parsed?.userId) userId = String(parsed.userId);
+      }
+    } catch {
+      /* keep default */
+    }
+    send(res, 200, grantStarterKit(userId), {
       "Content-Type": "application/json; charset=utf-8",
     });
     return;
