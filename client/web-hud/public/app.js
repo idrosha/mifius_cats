@@ -1,7 +1,7 @@
 /**
- * Mythfel Web HUD — thin presenter over battle/devapi + LiveOps CDN stub.
- * Mirrors client HubPresenter / BattlePresenter / TutorialPresenter flows.
- * No combat authority: all damage/results from server stateDiff (§3.6 / §8.2).
+ * Mythfel Web HUD — Stitch Tavern Hearth shell over battle/devapi + LiveOps.
+ * Mirrors HubPresenter / BattlePresenter / TutorialPresenter.
+ * No combat authority: damage/results only from server stateDiff (§3.6 / §8.2).
  */
 
 const STARTERS = [
@@ -13,13 +13,39 @@ const YARD_STAGE = "test_yard_1";
 const TUTORIAL_BUDGET_MS = 10 * 60 * 1000;
 const CLIENT_REGION = (new URLSearchParams(location.search).get("region") || "RU").toUpperCase();
 
+/** Top nav — coherent Stitch graph merged with FULL-SPEC §6 SL tabs. */
 const TABS = [
+  { id: "hub", key: "hub.tab.hub" },
   { id: "yard", key: "hub.tab.yard" },
+  { id: "formation", key: "hub.tab.formation" },
   { id: "pvp", key: "hub.tab.pvp" },
   { id: "collection", key: "hub.tab.collection" },
   { id: "shop", key: "hub.tab.shop" },
+  { id: "market", key: "hub.tab.market" },
+  { id: "tavern", key: "hub.tab.tavern" },
+  { id: "pass", key: "hub.tab.pass" },
   { id: "clans", key: "hub.tab.clans", soon: "clan_boss" },
   { id: "more", key: "hub.tab.more" },
+];
+
+const DRINKS = [
+  { id: "fresh_milk", nameKey: "tavern.drink.milk", effectKey: "tavern.drink.milk.fx", price: 20 },
+  { id: "honey_brew", nameKey: "tavern.drink.honey", effectKey: "tavern.drink.honey.fx", price: 35 },
+  { id: "mint_infusion", nameKey: "tavern.drink.mint", effectKey: "tavern.drink.mint.fx", price: 25 },
+];
+
+const POTIONS = [
+  { id: "stone_skin", nameKey: "tavern.potion.stone", effectKey: "tavern.potion.stone.fx", price: 45 },
+  { id: "spark_claw", nameKey: "tavern.potion.spark", effectKey: "tavern.potion.spark.fx", price: 60 },
+  { id: "nine_lives", nameKey: "tavern.potion.nine", effectKey: "tavern.potion.nine.fx", price: 80 },
+  { id: "cleanse", nameKey: "tavern.potion.cleanse", effectKey: "tavern.potion.cleanse.fx", price: 35 },
+];
+
+const PASS_REWARDS = [
+  { lvl: 1, free: "pass.reward.fish_50", gold: "pass.reward.yarn_10" },
+  { lvl: 2, free: "pass.reward.scrap", gold: "pass.reward.potion_skin" },
+  { lvl: 3, free: "pass.reward.bowl", gold: "pass.reward.chest" },
+  { lvl: 4, free: "pass.reward.ticket", gold: "pass.reward.potion_nine" },
 ];
 
 const state = {
@@ -27,12 +53,21 @@ const state = {
   loc: {},
   liveOps: null,
   liveOpsMeta: {},
-  tab: "yard",
+  tab: "hub",
   soon: null,
   battle: null,
+  lastResult: null,
   selectedKeep: null,
   tutorial: null,
   logLines: [],
+  shopTab: "offers",
+  marketTab: "buy",
+  wallet: { gold: 1480, milk: 12, energy: "85/90", gems: 40 },
+  ownedPotions: ["stone_skin", "spark_claw", "nine_lives"],
+  marketLots: [
+    { id: "lot_1", name: "starter_support_water", bid: 120, side: "buy" },
+    { id: "lot_2", name: "yarn_ball", bid: 80, side: "buy" },
+  ],
 };
 
 const $ = (id) => document.getElementById(id);
@@ -41,6 +76,14 @@ function t(key, fallback = key) {
   const entry = state.loc[key];
   if (!entry) return fallback;
   return entry[state.locale] || entry.ru || entry.en || fallback;
+}
+
+function toast(msg) {
+  const el = $("toast");
+  el.textContent = msg;
+  el.classList.remove("hidden");
+  clearTimeout(toast._t);
+  toast._t = setTimeout(() => el.classList.add("hidden"), 2200);
 }
 
 function log(msg, which = "battle") {
@@ -108,6 +151,18 @@ function showView(id) {
   }
 }
 
+function navigate(tab, { soon = null, clearBattle = true } = {}) {
+  if (clearBattle) {
+    state.battle = null;
+    state.selectedKeep = null;
+  }
+  state.tab = tab;
+  state.soon = soon;
+  if (tab === "clans") state.soon = "clan_boss";
+  if (tab === "more" && !state.soon) state.soon = "farm";
+  renderAll();
+}
+
 function renderLocale() {
   const box = $("localeSwitch");
   box.innerHTML = "";
@@ -124,33 +179,41 @@ function renderLocale() {
   }
 }
 
+function renderCurrency() {
+  $("curGold").textContent = String(state.wallet.gold);
+  $("curMilk").textContent = String(state.wallet.milk);
+  $("curEnergy").textContent = state.wallet.energy;
+  $("curGems").textContent = String(state.wallet.gems);
+  $("brandSub").textContent =
+    state.locale === "ru" ? "Ур. 1 · Soft Launch" : "Lv. 1 · Soft Launch";
+}
+
 function renderTabs() {
   const flags = featureFlags();
   const nav = $("hubTabs");
   nav.innerHTML = "";
+  const battleActive = !!state.battle && !state.lastResult;
   for (const tab of TABS) {
     const b = document.createElement("button");
     b.type = "button";
-    b.textContent = t(tab.key);
+    b.textContent = t(tab.key, tab.id);
     const isSoon =
-      (tab.id === "clans" && !flags.clan_boss_gameplay) ||
-      tab.id === "more";
-    if (tab.id === "clans" && !flags.clan_boss_gameplay) b.classList.add("soon");
-    b.classList.toggle("active", state.tab === tab.id && !state.battle);
+      (tab.id === "clans" && !flags.clan_boss_gameplay) || tab.id === "more";
+    if (isSoon) b.classList.add("soon");
+    const active =
+      !battleActive &&
+      ((state.tab === tab.id && !state.soon) ||
+        (tab.id === "clans" && state.soon === "clan_boss") ||
+        (tab.id === "more" && (state.soon === "farm" || state.soon === "nursery")));
+    b.classList.toggle("active", active);
     b.addEventListener("click", () => {
-      state.battle = null;
-      state.selectedKeep = null;
       if (tab.id === "clans" && !flags.clan_boss_gameplay) {
-        state.tab = "clans";
-        state.soon = "clan_boss";
+        navigate("clans", { soon: "clan_boss" });
       } else if (tab.id === "more") {
-        state.tab = "more";
-        state.soon = state.soon || "farm";
+        navigate("more", { soon: state.soon === "nursery" ? "nursery" : "farm" });
       } else {
-        state.tab = tab.id;
-        state.soon = null;
+        navigate(tab.id);
       }
-      renderAll();
     });
     nav.appendChild(b);
   }
@@ -158,11 +221,11 @@ function renderTabs() {
 
 function starterMeta(id) {
   const map = {
-    starter_tank_stone: { role: "tank", element: "stone" },
-    starter_fighter_fire: { role: "fighter", element: "fire" },
-    starter_support_water: { role: "support", element: "water" },
+    starter_tank_stone: { role: "tank", element: "stone", lane: "vanguard" },
+    starter_fighter_fire: { role: "fighter", element: "fire", lane: "center" },
+    starter_support_water: { role: "support", element: "water", lane: "rear" },
   };
-  return map[id] || { role: "?", element: "?" };
+  return map[id] || { role: "?", element: "?", lane: "?" };
 }
 
 function renderStarters(intoId) {
@@ -171,13 +234,56 @@ function renderStarters(intoId) {
   for (const id of STARTERS) {
     const m = starterMeta(id);
     const d = document.createElement("div");
-    d.className = "starter";
-    d.innerHTML = `<strong>${id}</strong>${m.role} · ${m.element}`;
+    d.className = "tile";
+    d.innerHTML = `<strong>${id}</strong><div class="meta">${m.role} · ${m.element} · ${m.lane}</div>`;
     box.appendChild(d);
   }
 }
 
+function renderHub() {
+  $("hubEyebrow").textContent = t("hub.tab.hub", "Главный Хаб");
+  $("hubTitle").textContent = t("hub.home.title", "Таверна «Драконья Кружка»");
+  $("hubLead").textContent = t(
+    "hub.home.lead",
+    "Soft launch: Двор + PvP. Порталы → экраны Stitch.",
+  );
+  const portals = [
+    { id: "yard", icon: "cottage", title: "hub.tab.yard", desc: "hub.portal.yard" },
+    { id: "formation", icon: "swords", title: "hub.tab.formation", desc: "hub.portal.formation" },
+    { id: "pvp", icon: "sports_mma", title: "hub.tab.pvp", desc: "hub.portal.pvp" },
+    { id: "collection", icon: "pets", title: "hub.tab.collection", desc: "hub.portal.collection" },
+    { id: "shop", icon: "storefront", title: "hub.tab.shop", desc: "hub.portal.shop" },
+    { id: "market", icon: "gavel", title: "hub.tab.market", desc: "hub.portal.market" },
+    { id: "tavern", icon: "local_cafe", title: "hub.tab.tavern", desc: "hub.portal.tavern" },
+    { id: "pass", icon: "military_tech", title: "hub.tab.pass", desc: "hub.portal.pass" },
+    { id: "clans", icon: "groups", title: "hub.tab.clans", desc: "hub.portal.clans", soon: "clan_boss" },
+    { id: "farm", icon: "agriculture", title: "hub.soon.farm.title", desc: "hub.portal.farm", soon: "farm" },
+    { id: "nursery", icon: "cruelty_free", title: "hub.soon.nursery.title", desc: "hub.portal.nursery", soon: "nursery" },
+  ];
+  const box = $("hubPortals");
+  box.innerHTML = "";
+  for (const p of portals) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = `portal${p.soon ? " soon-portal" : ""}`;
+    b.innerHTML = `
+      <span class="material-symbols-outlined icon">${p.icon}</span>
+      <span class="title">${t(p.title)}</span>
+      <span class="desc">${t(p.desc, p.desc)}</span>
+      ${p.soon ? `<span class="badge">${t("hub.soon.body", "Скоро")}</span>` : ""}
+    `;
+    b.addEventListener("click", () => {
+      if (p.soon === "clan_boss") navigate("clans", { soon: "clan_boss" });
+      else if (p.soon === "farm") navigate("more", { soon: "farm" });
+      else if (p.soon === "nursery") navigate("more", { soon: "nursery" });
+      else navigate(p.id);
+    });
+    box.appendChild(b);
+  }
+}
+
 function renderYard() {
+  $("yardEyebrow").textContent = t("hub.tab.yard");
   $("yardTitle").textContent = t("hub.tab.yard");
   $("yardLead").textContent = `${t("stage.test_yard_1")} · ${YARD_STAGE}`;
   renderStarters("starterCards");
@@ -200,24 +306,193 @@ function renderYard() {
   }
 }
 
+function renderFormation() {
+  $("formEyebrow").textContent = t("hub.tab.formation", "Расстановка");
+  $("formTitle").textContent = t("formation.title", "Строй отряда 3v3");
+  $("formLead").textContent = t(
+    "formation.lead",
+    "Авангард → Центр → Тыл. Зелья из Таверны — слоты ниже (stub).",
+  );
+  const lanes = $("formationLanes");
+  lanes.innerHTML = "";
+  const labels = [
+    t("formation.lane.vanguard", "Авангард"),
+    t("formation.lane.center", "Центр"),
+    t("formation.lane.rear", "Тыл"),
+  ];
+  STARTERS.forEach((id, i) => {
+    const m = starterMeta(id);
+    const d = document.createElement("div");
+    d.className = "lane-card";
+    d.innerHTML = `
+      <div class="lane-label">${labels[i]}</div>
+      <h3>${id}</h3>
+      <div class="meta">${m.role} · ${m.element}</div>
+    `;
+    lanes.appendChild(d);
+  });
+  const tray = $("formationPotions");
+  tray.innerHTML = "";
+  for (const pid of state.ownedPotions) {
+    const def = POTIONS.find((p) => p.id === pid);
+    const chip = document.createElement("span");
+    chip.className = "potion-chip";
+    chip.innerHTML = `<span class="material-symbols-outlined" style="font-size:16px">science</span>${t(def?.nameKey || pid, pid)}`;
+    tray.appendChild(chip);
+  }
+  if (!state.ownedPotions.length) {
+    tray.textContent = t("formation.no_potions", "Нет зелий — зайди в Таверну");
+  }
+}
+
 function renderShop() {
+  $("shopEyebrow").textContent = t("hub.tab.shop");
   $("shopTitle").textContent = t("hub.tab.shop");
-  $("shopLead").textContent =
-    state.locale === "ru"
+  for (const b of $("shopSubtabs").querySelectorAll("button")) {
+    b.classList.toggle("active", b.dataset.shop === state.shopTab);
+  }
+  const offersMode = state.shopTab === "offers";
+  $("offerList").classList.toggle("hidden", !offersMode);
+  $("gachaPanel").classList.toggle("hidden", offersMode);
+  $("shopLead").textContent = offersMode
+    ? state.locale === "ru"
       ? "Офферы только из LiveOps (пустой каталог → пустой UI)."
-      : "Offers only from LiveOps (empty catalog → empty UI).";
+      : "Offers only from LiveOps (empty catalog → empty UI)."
+    : t("shop.gacha.lead", "Stub гачи: pity/банки — на backend.");
+  if (!offersMode) {
+    $("gachaTitle").textContent = t("shop.gacha.title", "Алтарь Призыва");
+    $("gachaLead").textContent = t("shop.gacha.lead", "Stub гачи.");
+    return;
+  }
   const list = $("offerList");
   list.innerHTML = "";
   const offers = state.liveOps?.shop?.offers || [];
   if (!offers.length) {
     const li = document.createElement("li");
-    li.textContent = state.locale === "ru" ? "Нет офферов в LiveOps" : "No LiveOps offers";
+    li.innerHTML = `<span>${state.locale === "ru" ? "Нет офферов в LiveOps" : "No LiveOps offers"}</span>
+      <button type="button" class="ghost" id="btnEmptyToTavern">${t("hub.tab.tavern", "Таверна")}</button>`;
     list.appendChild(li);
+    li.querySelector("button")?.addEventListener("click", () => navigate("tavern"));
     return;
   }
   for (const o of offers) {
     const li = document.createElement("li");
-    li.textContent = `${o.offer_id || o.offerId || "?"} · ${o.kind || "?"}`;
+    li.innerHTML = `<span>${o.offer_id || o.offerId || "?"} · ${o.kind || "?"}</span>`;
+    list.appendChild(li);
+  }
+}
+
+function renderMarket() {
+  $("marketEyebrow").textContent = t("hub.tab.market", "Маркетплейс");
+  $("marketTitle").textContent = t("market.title", "Аукцион Хранителей");
+  $("marketLead").textContent = t(
+    "market.lead",
+    "Buy/sell stub (без денег/крипты). Лоты локальные для ручного QA.",
+  );
+  for (const b of $("marketSubtabs").querySelectorAll("button")) {
+    b.classList.toggle("active", b.dataset.market === state.marketTab);
+  }
+  const buy = state.marketTab === "buy";
+  $("marketList").classList.toggle("hidden", !buy);
+  $("marketSell").classList.toggle("hidden", buy);
+  if (!buy) {
+    $("sellTitle").textContent = t("market.sell.title", "Выставить лот");
+    $("sellLead").textContent = t("market.sell.lead", "Stub: выставить starter.");
+    return;
+  }
+  const list = $("marketList");
+  list.innerHTML = "";
+  const lots = state.marketLots.filter((l) => l.side === "buy" || !l.side);
+  if (!lots.length) {
+    const li = document.createElement("li");
+    li.textContent = t("market.empty", "Лотов нет");
+    list.appendChild(li);
+    return;
+  }
+  for (const lot of lots) {
+    const li = document.createElement("li");
+    li.innerHTML = `<span>${lot.name} · ${lot.bid} 💎</span>`;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "primary";
+    btn.textContent = t("market.buy", "Купить");
+    btn.addEventListener("click", () => {
+      if (state.wallet.gems < lot.bid) {
+        toast(t("market.no_gems", "Не хватает кристаллов"));
+        return;
+      }
+      state.wallet.gems -= lot.bid;
+      state.marketLots = state.marketLots.filter((x) => x.id !== lot.id);
+      toast(t("market.bought", "Куплено (stub)"));
+      renderAll();
+    });
+    li.appendChild(btn);
+    list.appendChild(li);
+  }
+}
+
+function renderTavern() {
+  $("tavernEyebrow").textContent = t("hub.tab.tavern", "Таверна");
+  $("tavernTitle").textContent = t("tavern.title", "Таверна «Усатый Хмель»");
+  $("tavernLead").textContent = t(
+    "tavern.lead",
+    "Молоко, напитки и зелья. Лимит зелий в бой — UI stub.",
+  );
+  $("drinksLabel").textContent = t("tavern.drinks", "Напитки");
+  $("potionsLabel").textContent = t("tavern.potions", "Зелья");
+  const drinks = $("drinkList");
+  drinks.innerHTML = "";
+  for (const d of DRINKS) {
+    const tile = document.createElement("div");
+    tile.className = "tile";
+    tile.innerHTML = `<strong>${t(d.nameKey, d.id)}</strong><div class="meta">${t(d.effectKey, "")}</div>
+      <div class="price"><span>${d.price} 🐟</span></div>`;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "primary";
+    btn.textContent = t("tavern.buy", "Купить");
+    btn.addEventListener("click", () => {
+      state.wallet.milk += d.id === "fresh_milk" ? 1 : 0;
+      toast(t("tavern.bought", "Куплено (stub)"));
+      renderCurrency();
+    });
+    tile.querySelector(".price").appendChild(btn);
+    drinks.appendChild(tile);
+  }
+  const pots = $("potionList");
+  pots.innerHTML = "";
+  for (const p of POTIONS) {
+    const tile = document.createElement("div");
+    tile.className = "tile";
+    tile.innerHTML = `<strong>${t(p.nameKey, p.id)}</strong><div class="meta">${t(p.effectKey, "")}</div>
+      <div class="price"><span>${p.price} 🐟</span></div>`;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "primary";
+    btn.textContent = state.ownedPotions.includes(p.id)
+      ? t("tavern.owned", "В ранце")
+      : t("tavern.buy", "Купить");
+    btn.disabled = state.ownedPotions.includes(p.id);
+    btn.addEventListener("click", () => {
+      if (!state.ownedPotions.includes(p.id)) state.ownedPotions.push(p.id);
+      toast(t("tavern.bought", "Куплено (stub)"));
+      renderAll();
+    });
+    tile.querySelector(".price").appendChild(btn);
+    pots.appendChild(tile);
+  }
+}
+
+function renderPass() {
+  $("passEyebrow").textContent = t("hub.tab.pass", "Пасс");
+  $("passTitle").textContent = t("pass.title", "Зов Тёплого Очага");
+  $("passLead").textContent = t("pass.lead", "Треки пасса — stub наград.");
+  const list = $("passList");
+  list.innerHTML = "";
+  for (const row of PASS_REWARDS) {
+    const li = document.createElement("li");
+    li.innerHTML = `<span>Lv ${row.lvl}: ${t(row.free)} / ★ ${t(row.gold)}</span>
+      <button type="button" disabled>${t("pass.claim", "Забрать")}</button>`;
     list.appendChild(li);
   }
 }
@@ -252,6 +527,16 @@ function renderSoon() {
     });
     links.appendChild(b);
   }
+}
+
+function renderResult() {
+  const r = state.lastResult;
+  const win = r?.result === "p1_win";
+  $("resultEyebrow").textContent = t("result.eyebrow", "Итог боя");
+  $("resultTitle").textContent = win
+    ? t("result.win", "Блестящая победа!")
+    : t("result.lose", "Поражение в бою");
+  $("resultLead").textContent = `${r?.battleId || "?"} · ${r?.result || "?"}`;
 }
 
 function unitCard(u, side) {
@@ -339,6 +624,7 @@ function renderBattle() {
 
 async function applyDiff(diff, note = "") {
   state.battle = diff;
+  state.lastResult = null;
   if (note) log(note);
   if (state.tutorial && state.tutorial.step !== "victory") {
     state.tutorial.battleId = diff.battleId;
@@ -354,6 +640,9 @@ async function applyDiff(diff, note = "") {
         log(`tutorial_step=victory (${Math.round(elapsed / 1000)}s)`);
       }
     }
+  }
+  if (diff.result) {
+    state.lastResult = { battleId: diff.battleId, result: diff.result };
   }
   renderAll();
 }
@@ -478,6 +767,7 @@ async function pvpAuto() {
 
 function renderAll() {
   renderLocale();
+  renderCurrency();
   renderTabs();
 
   const lo = $("liveopsPill");
@@ -486,9 +776,15 @@ function renderAll() {
     lo.className = "status-pill ok";
   }
 
-  if (state.battle) {
+  if (state.battle && !state.battle.result) {
     showView("viewBattle");
     renderBattle();
+    return;
+  }
+
+  if (state.battle?.result && state.lastResult) {
+    showView("viewResult");
+    renderResult();
     return;
   }
 
@@ -499,26 +795,52 @@ function renderAll() {
   }
 
   switch (state.tab) {
+    case "hub":
+      showView("viewHub");
+      renderHub();
+      break;
     case "yard":
       showView("viewYard");
       renderYard();
       break;
+    case "formation":
+      showView("viewFormation");
+      renderFormation();
+      break;
     case "pvp":
       showView("viewPvp");
+      $("pvpEyebrow").textContent = t("hub.tab.pvp");
       $("pvpTitle").textContent = t("hub.tab.pvp");
       break;
     case "collection":
       showView("viewCollection");
+      $("colEyebrow").textContent = t("hub.tab.collection");
       $("colTitle").textContent = t("hub.tab.collection");
+      $("colLead").textContent =
+        state.locale === "ru"
+          ? "Stub: стартовая тройка из content (без инвентаря Nakama)."
+          : "Stub: starter trio from content (no Nakama inventory).";
       renderStarters("collectionCards");
       break;
     case "shop":
       showView("viewShop");
       renderShop();
       break;
+    case "market":
+      showView("viewMarket");
+      renderMarket();
+      break;
+    case "tavern":
+      showView("viewTavern");
+      renderTavern();
+      break;
+    case "pass":
+      showView("viewPass");
+      renderPass();
+      break;
     default:
-      showView("viewYard");
-      renderYard();
+      showView("viewHub");
+      renderHub();
   }
 }
 
@@ -526,6 +848,10 @@ function wireButtons() {
   $("btnTutorial").addEventListener("click", () => startTutorial());
   $("btnYardBattle").addEventListener("click", () => startYard(false));
   $("btnYardAuto").addEventListener("click", () => startYard(true));
+  $("btnYardToFormation").addEventListener("click", () => navigate("formation"));
+  $("btnFormationBattle").addEventListener("click", () => startYard(false));
+  $("btnFormationYard").addEventListener("click", () => navigate("yard"));
+  $("btnFormationTavern").addEventListener("click", () => navigate("tavern"));
   $("btnEndTurn").addEventListener("click", () => submitAction({ kind: "endTurn" }));
   $("btnKeep").addEventListener("click", () => {
     if (!state.battle?.canKeep || state.battle?.result) return;
@@ -536,12 +862,68 @@ function wireButtons() {
   $("btnSurrender").addEventListener("click", () => submitAction({ kind: "surrender" }));
   $("btnBackHub").addEventListener("click", () => {
     state.battle = null;
+    state.lastResult = null;
     state.selectedKeep = null;
-    state.tab = "yard";
-    renderAll();
+    navigate("hub");
+  });
+  $("btnResultHub").addEventListener("click", () => {
+    state.battle = null;
+    state.lastResult = null;
+    navigate("hub");
+  });
+  $("btnResultYard").addEventListener("click", () => {
+    state.battle = null;
+    state.lastResult = null;
+    navigate("yard");
+  });
+  $("btnResultRetry").addEventListener("click", () => {
+    state.battle = null;
+    state.lastResult = null;
+    startYard(false);
+  });
+  $("btnResultFormation").addEventListener("click", () => {
+    state.battle = null;
+    state.lastResult = null;
+    navigate("formation");
   });
   $("btnPvpAuto").addEventListener("click", () => pvpAuto());
+  $("btnPvpFormation").addEventListener("click", () => navigate("formation"));
   $("btnRefreshReplays").addEventListener("click", () => refreshReplays());
+  $("btnColFormation").addEventListener("click", () => navigate("formation"));
+  $("btnColForge").addEventListener("click", () => navigate("more", { soon: "farm" }));
+  $("btnGacha1").addEventListener("click", () => toast(t("shop.gacha.stub", "Гача stub")));
+  $("btnGacha10").addEventListener("click", () => toast(t("shop.gacha.stub", "Гача stub")));
+  $("btnShopToTavern").addEventListener("click", () => navigate("tavern"));
+  $("btnSellStarter").addEventListener("click", () => {
+    state.marketLots.push({
+      id: `lot_${Date.now()}`,
+      name: "starter_tank_stone",
+      bid: 100,
+      side: "buy",
+    });
+    state.marketTab = "buy";
+    toast(t("market.listed", "Лот выставлен (stub)"));
+    renderAll();
+  });
+  $("btnMarketToShop").addEventListener("click", () => navigate("shop"));
+  $("btnTavernFormation").addEventListener("click", () => navigate("formation"));
+  $("btnTavernHub").addEventListener("click", () => navigate("hub"));
+  $("btnPassShop").addEventListener("click", () => navigate("shop"));
+  $("btnPassHub").addEventListener("click", () => navigate("hub"));
+  $("btnSoonHub").addEventListener("click", () => navigate("hub"));
+
+  $("shopSubtabs").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-shop]");
+    if (!b) return;
+    state.shopTab = b.dataset.shop;
+    renderShop();
+  });
+  $("marketSubtabs").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-market]");
+    if (!b) return;
+    state.marketTab = b.dataset.market;
+    renderMarket();
+  });
 }
 
 async function main() {
@@ -555,7 +937,7 @@ async function main() {
     const bp = $("battlePill");
     bp.textContent = battleOk ? "Battle :8081 OK" : "Battle DOWN";
     bp.className = `status-pill ${battleOk ? "ok" : "bad"}`;
-    state.tab = "yard";
+    state.tab = "hub";
     renderAll();
   } catch (err) {
     $("bootMsg").textContent = `Boot fail: ${err.message}. Подними CDN :8090 и battle :8081 (см. README).`;
