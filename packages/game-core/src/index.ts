@@ -47,3 +47,27 @@ export type {
   SinglePlayerProgress,
   TextQuestion,
 } from "./types.js";
+
+export {
+  CATEGORY_TO_SLOT,
+  COSMETIC_CATEGORIES,
+  SLOT_TO_CATEGORY,
+  STARTER_ITEM_IDS,
+  STARTER_MONEY_BALANCE,
+  equipOwnedItem,
+  findShopItem,
+  getShopCatalog,
+  prepareRetryForCommit,
+  purchaseShopItem,
+  unequipSlot,
+  unlockChampionshipCosmetics,
+} from "./shop.js";
+export type {
+  CosmeticCategory,
+  EconomyMutationResult,
+  PlayerEconomy,
+  ShopCurrency,
+  ShopItem,
+  ShopProductKind,
+  ShopSection,
+} from "./shop.js";

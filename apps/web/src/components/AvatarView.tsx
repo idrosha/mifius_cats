@@ -9,19 +9,32 @@ type Props = {
 
 /**
  * Always-visible player avatar (product rule 2026-11-04).
- * Cosmetics are represented as slot chips until art assets land.
+ * Equipped cosmetics drive data-* attributes for CSS colors / layers.
  */
 export function AvatarView({ loadout, size = "md", label = "Вы" }: Props) {
-  const slots = Object.entries(loadout.equipped);
+  const eq = loadout.equipped;
+  const slots = Object.entries(eq);
   return (
     <div className={`avatar avatar-${size}`} aria-label={`Аватар: ${label}`}>
-      <div className="avatar-figure" aria-hidden="true">
+      <div
+        className="avatar-figure"
+        aria-hidden="true"
+        data-hat={eq.hat ?? ""}
+        data-glasses={eq.glasses ?? ""}
+        data-shirt={eq.shirt ?? ""}
+        data-sweater={eq.sweater ?? ""}
+        data-accessory={eq.accessory ?? ""}
+        data-pants={eq.pants ?? ""}
+        data-shoes={eq.shoes ?? ""}
+      >
         <div className="avatar-head" />
-        <div className="avatar-torso" data-shirt={loadout.equipped.shirt ?? ""} />
-        <div className="avatar-legs" data-pants={loadout.equipped.pants ?? ""} />
-        <div className="avatar-feet" data-shoes={loadout.equipped.shoes ?? ""} />
-        {loadout.equipped.hat ? <div className="avatar-hat" /> : null}
-        {loadout.equipped.glasses ? <div className="avatar-glasses" /> : null}
+        <div className="avatar-torso" />
+        <div className="avatar-sweater" />
+        <div className="avatar-legs" />
+        <div className="avatar-feet" />
+        {eq.hat ? <div className="avatar-hat" /> : null}
+        {eq.glasses ? <div className="avatar-glasses" /> : null}
+        {eq.accessory ? <div className="avatar-accessory" /> : null}
       </div>
       <div className="avatar-meta">
         <span className="avatar-label">{label}</span>

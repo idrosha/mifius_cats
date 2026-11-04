@@ -3,12 +3,10 @@ import type {
   LevelRunResult,
   SinglePlayerProgress,
 } from "@mir-games/game-core";
+import type { AccountSnapshotDto } from "./shop-types.js";
 
-export type ProgressSnapshot = {
-  progress: SinglePlayerProgress;
-  avatar: AvatarLoadout;
-  totalPoints: number;
-};
+/** Progress load still returns the full account snapshot from bot-server. */
+export type ProgressSnapshot = AccountSnapshotDto;
 
 export type ProgressApiClient = {
   load(playerId: string): Promise<ProgressSnapshot>;
@@ -57,3 +55,5 @@ export function createProgressApiClient(apiBaseUrl: string): ProgressApiClient {
     },
   };
 }
+
+export type { SinglePlayerProgress };

@@ -13,9 +13,20 @@ export { createTelegramStorage } from "./storage.js";
 export { createTelegramAnalytics } from "./analytics.js";
 export { createTelegramHaptics } from "./haptics.js";
 export { createTelegramLifecycle } from "./lifecycle.js";
+export { createTelegramPayment } from "./payment.js";
+export type { TelegramPaymentOptions } from "./payment.js";
 
 export { createProgressApiClient } from "./progress-client.js";
 export type { ProgressApiClient, ProgressSnapshot } from "./progress-client.js";
+
+export { createShopApiClient } from "./shop-client.js";
+export type { ShopApiClient } from "./shop-client.js";
+export type {
+  AccountSnapshotDto,
+  ShopCatalogResponse,
+  ShopCurrency,
+  ShopItem,
+} from "./shop-types.js";
 
 export type {
   TelegramWebApp,

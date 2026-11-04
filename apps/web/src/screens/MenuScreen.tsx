@@ -9,9 +9,9 @@ const ITEMS: MenuItem[] = [
   { id: "online", title: "Онлайн", stub: true },
   { id: "championship", title: "Чемпионат", stub: true },
   { id: "leaders", title: "Лидеры", stub: true },
-  { id: "shop", title: "Магазин", stub: true },
-  { id: "account", title: "Аккаунт", stub: true },
-  { id: "settings", title: "Настройки", stub: true },
+  { id: "shop", title: "Магазин" },
+  { id: "account", title: "Аккаунт" },
+  { id: "settings", title: "Настройки" },
 ];
 
 type Props = {
@@ -36,7 +36,11 @@ export function MenuScreen({ displayName, onSelect }: Props) {
             onClick={() => onSelect(item.id)}
           >
             <span>{item.title}</span>
-            {item.stub ? <span className="badge">скоро</span> : <span className="badge go">играть</span>}
+            {item.stub ? (
+              <span className="badge">скоро</span>
+            ) : (
+              <span className="badge go">{item.id === "single" ? "играть" : "открыть"}</span>
+            )}
           </button>
         ))}
       </nav>

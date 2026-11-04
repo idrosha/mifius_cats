@@ -1,17 +1,28 @@
 import type { GameCorePorts } from "@mir-games/game-core";
-import type { AuthPort, LifecyclePort } from "@mir-games/platform-contracts";
+import type {
+  AuthPort,
+  LifecyclePort,
+  PaymentPort,
+  StoragePort,
+} from "@mir-games/platform-contracts";
 import { createWebAnalytics } from "./analytics.js";
 import { createWebAuth, type WebAuthOptions } from "./auth.js";
 import { createWebClock } from "./clock.js";
 import { createWebHaptics } from "./haptics.js";
 import { createWebLifecycle } from "./lifecycle.js";
+import { createWebPayment } from "./payment.js";
 import { createWebRandom } from "./random.js";
+import { createShopApiClient } from "./shop-client.js";
 import { createWebStorage } from "./storage.js";
 
 export type WebAdapterBundle = {
   gameCorePorts: GameCorePorts;
   auth: AuthPort;
   lifecycle: LifecyclePort;
+  storage: StoragePort;
+  /** PaymentPort is wired after playerId is known via `withPayment`. */
+  createPayment: (playerId: string) => PaymentPort;
+  shopApi: ReturnType<typeof createShopApiClient>;
 };
 
 export type CreateWebAdaptersOptions = {
@@ -22,7 +33,7 @@ export type CreateWebAdaptersOptions = {
   storagePrefix?: string;
 };
 
-/** Wire browser adapters for game-core + auth (no Telegram SDK). */
+/** Wire browser adapters for game-core + auth + PaymentPort/StoragePort stubs. */
 export function createWebAdapters(
   options: CreateWebAdaptersOptions,
 ): WebAdapterBundle {
@@ -39,6 +50,7 @@ export function createWebAdapters(
   };
   const auth = createWebAuth(authOptions);
   const lifecycle = createWebLifecycle();
+  const shopApi = createShopApiClient(options.apiBaseUrl);
 
   return {
     gameCorePorts: {
@@ -50,5 +62,14 @@ export function createWebAdapters(
     },
     auth,
     lifecycle,
+    storage,
+    shopApi,
+    createPayment(playerId: string) {
+      return createWebPayment({
+        playerId,
+        shopApi,
+        provider: "stub-web",
+      });
+    },
   };
 }

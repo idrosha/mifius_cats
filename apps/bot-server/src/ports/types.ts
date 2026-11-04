@@ -1,7 +1,7 @@
 /**
- * Platform ports the game-core will talk to later.
- * Bot-server confirms untrusted-client economy (saves, initData, receipts, retries, championship fee).
- * Keep adapters here; no DOM / Telegram SDK leakage into packages/game-core.
+ * Server-side port shapes used by the bot process.
+ * Client-facing contracts live in @mir-games/platform-contracts;
+ * economy confirmation always runs through bot-server HTTP / these stubs.
  */
 
 export type AuthPort = {
@@ -9,8 +9,14 @@ export type AuthPort = {
   verifyPlayer(initData: string): Promise<{ playerId: string } | null>;
 };
 
+/** Receipt confirmation — no real payment secrets; stub providers only. */
 export type PaymentPort = {
-  confirmReceipt(payload: unknown): Promise<{ ok: boolean }>;
+  confirmReceipt(payload: {
+    provider: string;
+    receiptId: string;
+    productId: string;
+    payload?: unknown;
+  }): Promise<{ ok: boolean; reason?: string }>;
 };
 
 export type StoragePort = {
@@ -30,7 +36,7 @@ export type RandomPort = {
   next(): number;
 };
 
-/** Placeholder registry — wire real adapters when game-core lands. */
+/** Placeholder registry — HTTP API uses ProgressStore for economy truth. */
 export type BotServerPorts = {
   auth: AuthPort;
   payment: PaymentPort;

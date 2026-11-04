@@ -3,12 +3,9 @@ import type {
   LevelRunResult,
   SinglePlayerProgress,
 } from "@mir-games/game-core";
+import type { AccountSnapshotDto } from "./shop-types.js";
 
-export type ProgressSnapshot = {
-  progress: SinglePlayerProgress;
-  avatar: AvatarLoadout;
-  totalPoints: number;
-};
+export type ProgressSnapshot = AccountSnapshotDto;
 
 export type ProgressApiClient = {
   load(playerId: string): Promise<ProgressSnapshot>;
@@ -19,10 +16,7 @@ export type ProgressApiClient = {
   saveAvatar(playerId: string, avatar: AvatarLoadout): Promise<ProgressSnapshot>;
 };
 
-/**
- * Thin HTTP client for bot-server progress endpoints.
- * Economy / unlocks remain server-authoritative.
- */
+/** Thin HTTP client for bot-server progress endpoints. */
 export function createProgressApiClient(apiBaseUrl: string): ProgressApiClient {
   async function parse(res: Response): Promise<ProgressSnapshot> {
     if (!res.ok) {
@@ -57,3 +51,5 @@ export function createProgressApiClient(apiBaseUrl: string): ProgressApiClient {
     },
   };
 }
+
+export type { SinglePlayerProgress };

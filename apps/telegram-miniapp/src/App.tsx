@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import type { LevelRunResult, LevelSession } from "@mir-games/game-core";
+import type { AccountSnapshotDto } from "@mir-games/adapters-telegram";
 import type { AppBootstrap } from "./bootstrap";
 import { EGYPT_LEVEL, MAP_LOCATIONS } from "./content/egypt-level";
 import { MenuScreen } from "./screens/MenuScreen";
@@ -7,21 +8,24 @@ import { MapScreen } from "./screens/MapScreen";
 import { PlayScreen } from "./screens/PlayScreen";
 import { ResultScreen } from "./screens/ResultScreen";
 import { StubScreen } from "./screens/StubScreen";
+import { ShopScreen } from "./screens/ShopScreen";
+import { AccountScreen } from "./screens/AccountScreen";
+import { SettingsScreen } from "./screens/SettingsScreen";
 
 type Route =
   | { name: "menu" }
   | { name: "map" }
   | { name: "play"; session: LevelSession; locationTitle: string }
   | { name: "result"; result: LevelRunResult; commitError: string | null }
+  | { name: "shop" }
+  | { name: "account" }
+  | { name: "settings" }
   | { name: "stub"; title: string };
 
 const STUB_TITLES: Record<string, string> = {
   online: "Онлайн",
   championship: "Чемпионат",
   leaders: "Лидеры",
-  shop: "Магазин",
-  account: "Аккаунт",
-  settings: "Настройки",
 };
 
 type Props = {
@@ -29,20 +33,33 @@ type Props = {
 };
 
 export function App({ boot }: Props) {
-  const { engine, progressApi, player } = boot;
+  const { engine, progressApi, shopApi, payment, storage, player } = boot;
   const [route, setRoute] = useState<Route>({ name: "menu" });
   const [progress, setProgress] = useState(() => engine.getProgress());
   const [avatar, setAvatar] = useState(() => engine.getAvatar());
   const [totalPoints, setTotalPoints] = useState(0);
+  const [account, setAccount] = useState<AccountSnapshotDto | null>(null);
+  const [displayName, setDisplayName] = useState(player.displayName);
+
+  const applyAccount = useCallback(
+    (snap: AccountSnapshotDto) => {
+      engine.setProgress(snap.progress);
+      engine.setAvatar(snap.avatar);
+      setProgress(snap.progress);
+      setAvatar(snap.avatar);
+      setTotalPoints(snap.totalPoints);
+      setAccount(snap);
+      if (snap.displayName) {
+        setDisplayName(snap.displayName);
+      }
+    },
+    [engine],
+  );
 
   const refreshFromServer = useCallback(async () => {
     const snap = await progressApi.load(player.playerId);
-    engine.setProgress(snap.progress);
-    engine.setAvatar(snap.avatar);
-    setProgress(snap.progress);
-    setAvatar(snap.avatar);
-    setTotalPoints(snap.totalPoints);
-  }, [engine, player.playerId, progressApi]);
+    applyAccount(snap);
+  }, [applyAccount, player.playerId, progressApi]);
 
   useEffect(() => {
     void refreshFromServer();
@@ -51,6 +68,18 @@ export function App({ boot }: Props) {
   function onMenuSelect(id: string): void {
     if (id === "single") {
       setRoute({ name: "map" });
+      return;
+    }
+    if (id === "shop") {
+      setRoute({ name: "shop" });
+      return;
+    }
+    if (id === "account") {
+      setRoute({ name: "account" });
+      return;
+    }
+    if (id === "settings") {
+      setRoute({ name: "settings" });
       return;
     }
     setRoute({ name: "stub", title: STUB_TITLES[id] ?? id });
@@ -79,25 +108,57 @@ export function App({ boot }: Props) {
       try {
         engine.commitRun(result);
         const snap = await progressApi.commit(player.playerId, result);
-        engine.setProgress(snap.progress);
-        engine.setAvatar(snap.avatar);
-        setProgress(snap.progress);
-        setAvatar(snap.avatar);
-        setTotalPoints(snap.totalPoints);
+        applyAccount(snap);
       } catch (err) {
         commitError = err instanceof Error ? err.message : String(err);
         setProgress(engine.getProgress());
       }
       setRoute({ name: "result", result, commitError });
     },
-    [engine, player.playerId, progressApi],
+    [applyAccount, engine, player.playerId, progressApi],
   );
 
   if (route.name === "menu") {
-    return <MenuScreen displayName={player.displayName} onSelect={onMenuSelect} />;
+    return <MenuScreen displayName={displayName} onSelect={onMenuSelect} />;
   }
   if (route.name === "stub") {
     return <StubScreen title={route.title} onBack={() => setRoute({ name: "menu" })} />;
+  }
+  if (route.name === "shop" && account) {
+    return (
+      <ShopScreen
+        playerId={player.playerId}
+        shopApi={shopApi}
+        payment={payment}
+        account={account}
+        onAccountChange={applyAccount}
+        onBack={() => setRoute({ name: "menu" })}
+      />
+    );
+  }
+  if (route.name === "account" && account) {
+    return (
+      <AccountScreen
+        playerId={player.playerId}
+        shopApi={shopApi}
+        account={account}
+        onAccountChange={applyAccount}
+        onDisplayNameChange={setDisplayName}
+        onBack={() => setRoute({ name: "menu" })}
+      />
+    );
+  }
+  if (route.name === "settings" && account) {
+    return (
+      <SettingsScreen
+        playerId={player.playerId}
+        shopApi={shopApi}
+        storage={storage}
+        account={account}
+        onAccountChange={applyAccount}
+        onBack={() => setRoute({ name: "menu" })}
+      />
+    );
   }
   if (route.name === "map") {
     return (
@@ -122,13 +183,20 @@ export function App({ boot }: Props) {
       />
     );
   }
+  if (route.name === "result") {
+    return (
+      <ResultScreen
+        result={route.result}
+        avatar={avatar}
+        commitError={route.commitError}
+        onMap={() => setRoute({ name: "map" })}
+        onMenu={() => setRoute({ name: "menu" })}
+      />
+    );
+  }
   return (
-    <ResultScreen
-      result={route.result}
-      avatar={avatar}
-      commitError={route.commitError}
-      onMap={() => setRoute({ name: "map" })}
-      onMenu={() => setRoute({ name: "menu" })}
-    />
+    <section className="screen">
+      <p>Загрузка аккаунта…</p>
+    </section>
   );
 }

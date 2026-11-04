@@ -2,15 +2,24 @@ import {
   createProgressApiClient,
   createWebAdapters,
   type ProgressApiClient,
+  type ShopApiClient,
 } from "@mir-games/adapters-web";
 import { createGameCore, type GameCoreEngine } from "@mir-games/game-core";
-import type { AuthPort, PlayerIdentity } from "@mir-games/platform-contracts";
+import type {
+  AuthPort,
+  PaymentPort,
+  PlayerIdentity,
+  StoragePort,
+} from "@mir-games/platform-contracts";
 
 export type AppBootstrap = {
   apiBaseUrl: string;
   engine: GameCoreEngine;
   auth: AuthPort;
+  payment: PaymentPort;
+  storage: StoragePort;
   progressApi: ProgressApiClient;
+  shopApi: ShopApiClient;
   player: PlayerIdentity;
 };
 
@@ -38,10 +47,14 @@ export async function bootstrapApp(): Promise<AppBootstrap> {
 
   const progressApi = createProgressApiClient(apiBaseUrl);
   const snapshot = await progressApi.load(player.playerId);
+  const payment = adapters.createPayment(player.playerId);
 
   const engine = createGameCore(adapters.gameCorePorts);
   engine.setProgress(snapshot.progress);
   engine.setAvatar(snapshot.avatar);
+
+  // Cache settings locally via StoragePort (UI only).
+  await adapters.storage.set("settings-cache", snapshot.settings);
 
   adapters.gameCorePorts.analytics?.identify(player.playerId, {
     displayName: player.displayName ?? null,
@@ -52,7 +65,10 @@ export async function bootstrapApp(): Promise<AppBootstrap> {
     apiBaseUrl,
     engine,
     auth: adapters.auth,
+    payment,
+    storage: adapters.storage,
     progressApi,
+    shopApi: adapters.shopApi,
     player,
   };
 }

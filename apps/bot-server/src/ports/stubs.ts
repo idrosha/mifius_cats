@@ -1,6 +1,9 @@
 import type { BotServerPorts } from "./types.js";
 
-/** Temporary stubs until game-core + real adapters are wired. */
+/**
+ * Temporary stubs for the bot process.
+ * Real economy confirmation is ProgressStore + /api/shop/confirm-receipt (no secrets).
+ */
 export function createStubPorts(): BotServerPorts {
   return {
     auth: {
@@ -9,8 +12,14 @@ export function createStubPorts(): BotServerPorts {
       },
     },
     payment: {
-      async confirmReceipt() {
-        return { ok: false };
+      async confirmReceipt(payload) {
+        if (
+          (payload.provider === "stub-telegram" || payload.provider === "stub-web") &&
+          payload.receiptId.startsWith("stub:")
+        ) {
+          return { ok: true };
+        }
+        return { ok: false, reason: "Unsupported or invalid stub receipt" };
       },
     },
     storage: {
