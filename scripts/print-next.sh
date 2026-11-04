@@ -17,9 +17,10 @@ SSOT:   $ROOT/docs/FULL-SPEC.md
   ✓ ЗАПУСК Step C — client  → client/ (Hub + Shop + Soon flags)
   ✓ qa §13 — чеклист + ./qa/run-acceptance.sh
   ✓ backend — pity hard80 + IAP sandbox yarn→jar (§13.4 / §13.9)
+  ✓ battle+client — PvP replay store / GetReplay / ReplayList open (§13.6)
 
 Дальше (docs/AGENTS.md / §14 Phase 3→4):
-  закрыть BLOCKED §13.6 PvP replay (+ PARTIAL §13.1 tutorial, §13.8 locale UI)
+  закрыть PARTIAL §13.1 tutorial + §13.8 locale UI
   → затем soft launch (§13 зелёный)
 
 Шаблон промпта: см. docs/AGENTS.md раздел «Как ставить задачу»

@@ -29,4 +29,4 @@ go run ./cmd/check
 
 ## Не в этом PR
 
-Nakama runtime wiring, production store receipt verify, priced yarn/jar SKU catalog, weighted drop % (StaticJarPool = common / forced rare), battle CreatePvE/PvP, PvP replay (§13.6).
+Nakama runtime wiring, production store receipt verify, priced yarn/jar SKU catalog, weighted drop % (StaticJarPool = common / forced rare), battle CreatePvE/PvP (см. `battle/`).

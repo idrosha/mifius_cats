@@ -6,6 +6,7 @@ Go-пакет симулятора 3v3. **Одно ядро** для PvE и PvP 
 |---|---|
 | `mode.CreatePvE` | `stageId`, враги из stage, AI на стороне P2 |
 | `mode.CreatePvP` | `matchId`, две человеческие команды |
+| `replay.Store` | last 10 PvP/user; `GetReplay(battleId)` → frames (§3.6) |
 
 Боевые правила — только `docs/FULL-SPEC.md` §3 (+ роли/стихии §2.1–2.2).
 

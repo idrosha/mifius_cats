@@ -16,15 +16,15 @@
 ```
 
 Ожидание: exit `0` если все **запускаемые** автогейты зелёные.  
-Оставшийся BLOCKED MUST: **§13.6** PvP replay. PARTIAL: §13.1 tutorial, §13.8 locale UI.
+BLOCKED MUST закрыт. PARTIAL: §13.1 tutorial, §13.8 locale UI.
 
 ## DoD slice
 
 - Чеклист 1:1 с FULL-SPEC §13
-- Автогейты: limits/pass, pity hard80, IAP sandbox yarn→jar, illegal play, golden Двор, LiveOps, i18n ru+en
-- Client (`dotnet test`) — опционально, если есть SDK
-- Soft-launch gate **не** зелёный, пока есть BLOCKED по MUST §13
+- Автогейты: limits/pass, pity hard80, IAP sandbox yarn→jar, illegal play, golden Двор, PvP replay store+GetReplay, LiveOps, i18n ru+en
+- Client (`dotnet test`) — ReplayList open + Soon; опционально, если есть SDK
+- Soft-launch gate **не** зелёный, пока PARTIAL по MUST §13.1 / §13.8
 
 ## Не пилит qa
 
-Реализация фич (pity/IAP — `backend/`), Unity UI, правка FULL-SPEC.
+Реализация фич (`battle/` replay, `backend/` economy), Unity UI, правка FULL-SPEC.
