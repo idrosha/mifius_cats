@@ -1,6 +1,6 @@
 # mythfel-client (ЗАПУСК Step C)
 
-Unity-oriented **presenter** к бою. Source of truth боя — `battle/` (§3 / §8.2); клиент только input + отображение `stateDiff`.
+Unity-oriented **presenter** слой. Source of truth боя — `battle/` (§3 / §8.2); economy/IAP — сервер (§8.3). Клиент только input + отображение `stateDiff` / LiveOps.
 
 ## Раскладка (§9)
 
@@ -8,9 +8,11 @@ Unity-oriented **presenter** к бою. Source of truth боя — `battle/` (§
 
 ```
 Assets/Game/Battle/   ← BattlePresenter, StateDiff, ViewState
+Assets/Game/Meta/     ← HubPresenter, ShopPresenter, Soon sheets
+Assets/Game/LiveOps/  ← LiveOpsConfig mirror + ILiveOpsSource
 Assets/Game/Net/      ← IBattleNetClient stubs
 Assets/Game/Data/     ← Loc (name_key)
-Assets/Game/UI/       ← IBattleHudView контракт HUD §6
+Assets/Game/UI/       ← IBattleHudView / IHubView / IShopView
 ```
 
 Этот slice **не** тянет UnityEngine: собирается без Editor.
@@ -18,8 +20,9 @@ Assets/Game/UI/       ← IBattleHudView контракт HUD §6
 ## DoD slice
 
 - `BattlePresenter.ApplyStateDiff` биндит HUD (board 3+3, hand, energy, milk, keep, potions, result)
-- Нет локального расчёта урона/наград
-- Действия уходят в `IBattleNetClient.SubmitAction` → ответный `stateDiff`
+- `HubPresenter` — вкладки §6 (Двор · PvP · Коллекция · Магазин · Кланы · Ещё); «Скоро» по `feature_flags`
+- `ShopPresenter` биндит `shop.offers` из LiveOps; пустой каталог → пустой UI (без выдуманных цен)
+- Нет локального расчёта урона/наград/цен
 - Локализация через `name_key`, не хардкод RU
 - `dotnet test` зелёный
 
@@ -30,4 +33,4 @@ dotnet test
 
 ## Не в этом PR
 
-Hub/Shop, Nakama auth, Addressables-арт, hotkeys PC, ферма/клан-босс.
+Nakama auth, Addressables-арт, hotkeys PC, фейковый геймплей фермы/клан-босса, IAP checkout UI.
