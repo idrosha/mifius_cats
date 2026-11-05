@@ -170,11 +170,38 @@ for (const id of REQUIRED_BUTTONS) {
 }
 
 ok(
-  "stitch html applied (tailwind + material + aida)",
+  "stitch html applied (tailwind + material + local stitch assets)",
   html.includes("cdn.tailwindcss.com") &&
     html.includes("Material+Symbols") &&
-    html.includes("lh3.googleusercontent.com") &&
+    html.includes("/stitch-assets/") &&
     html.includes('data-stitch="hub"'),
+);
+ok(
+  "no remote lh3 image hosts in built index",
+  !/lh3\.googleusercontent\.com\/(?:aida-public|aida)\//.test(html),
+);
+ok(
+  "login hero uses local stitch asset",
+  fs.readFileSync(path.join(DESIGN, "stitch-src", "login.html"), "utf8").includes("/stitch-assets/login-hero.png"),
+);
+ok(
+  "yard map uses local scenic bg",
+  fs.readFileSync(path.join(DESIGN, "stitch-src", "yard.html"), "utf8").includes("/stitch-assets/yard-map-bg.png"),
+);
+ok(
+  "codex has scenic stitch-ref layer",
+  fs.readFileSync(path.join(DESIGN, "stitch-src", "codex.html"), "utf8").includes("/stitch-ref/3a8d/codex.png"),
+);
+ok(
+  "vendored stitch-assets present",
+  fs.existsSync(path.join(PUBLIC, "stitch-assets", "login-hero.png")) &&
+    fs.existsSync(path.join(PUBLIC, "stitch-assets", "manifest.json")) &&
+    fs.readdirSync(path.join(PUBLIC, "stitch-assets")).filter((f) => f.endsWith(".jpg")).length >= 100,
+);
+ok(
+  "public stitch-ref screenshots present",
+  fs.existsSync(path.join(PUBLIC, "stitch-ref", "hub.png")) &&
+    fs.existsSync(path.join(PUBLIC, "stitch-ref", "8-9-10", "home.png")),
 );
 ok("appNav primary+subtabs shell", html.includes('id="appNav"') && html.includes('id="appSubTabs"'));
 ok(
