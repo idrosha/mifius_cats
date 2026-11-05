@@ -3,6 +3,18 @@
 Sources: vendored `design/stitch-src/*.html` (Project store zips `stitch-ui-new` 2a9f + 940b + 3a8d + packs **8/9/10**).
 Build: `node client/web-hud/scripts/build-stitch.mjs` → embeds **actual Stitch body HTML** + Tailwind config into `public/index.html`.
 
+## Local art (required)
+
+Stitch LH3 hosts are **not** used at runtime:
+
+| Kind | Path | Notes |
+|---|---|---|
+| `aida-public` JPEGs | `public/stitch-assets/*.jpg` | vendored by `scripts/vendor-stitch-assets.mjs` |
+| Ephemeral `/aida/` (returns HTML) | replaced with `stitch-ref` / hero PNGs | login, gear, auction, breeding, equip |
+| Screen.png refs | `public/stitch-ref/**` (from `design/stitch-ref`) | scenic shells (codex/yard bg, fallbacks) |
+
+Re-vendor after adding Stitch HTML with remote images: `node client/web-hud/scripts/vendor-stitch-assets.mjs` then `build-stitch.mjs`.
+
 ## Naming remap (Stitch bugs)
 
 | Stitch export / old label | Actual content | Route / view |
@@ -80,9 +92,10 @@ Backend: `economy.GrantStarterKit` / `NewPlayerWithStarter`.
 
 ## Soft-launch constraints (FULL-SPEC §1 / §6)
 
-- Playable: Hub, Мифмир→Formation→Battle, PvP smoke, Collection, Shop, Pass, Tavern, Market, Auction, Boss dungeon→raid, Chats, Ratings, Guild home mock, Craft/Breeding mocks.
+- Playable: Hub, Мифмир→Formation→Battle, PvP smoke, Collection, Shop, Pass, Tavern, Market, Auction, Boss dungeon→raid, Chats, Ratings, Guild home mock, Craft/Breeding mocks, Home/Heroes/equip forms (packs 8/9/10).
 - Farm / Clan boss gameplay = Soon sheets.
 - **Дом (`home`)** — pack 8 landscape (gap closed).
+- Runtime art: `/stitch-assets/` + `/stitch-ref/` only (no remote LH3).
 
 ## Pack 8 / 9 / 10 → routes
 
