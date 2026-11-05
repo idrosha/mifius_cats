@@ -1,7 +1,33 @@
-<section id="viewResultLose" class="stitch-view mythfel-form hidden hud-placeholder" data-stitch="result_lose" data-placeholder="1" data-layout="landscape">
-  <div class="boot-card">
-    <p class="eyebrow">Скоро · Stitch</p>
-    <h2>Поражение</h2>
-    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7/ba17/17eb.</p>
-  </div>
+<section id="viewResultLose" class="stitch-view mythfel-form hidden" data-stitch="result_lose" data-layout="landscape">
+<main class="w-full h-full min-h-0 flex flex-col bg-[#161310]" data-purpose="result-lose">
+    <div class="flex-1 flex flex-col items-center justify-center gap-4 px-6 py-8 text-center relative overflow-hidden">
+      <div class="absolute inset-0 opacity-40 bg-cover bg-center pointer-events-none" style="background-image:url('/stitch-ref/e608/arena_interior.png')"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-[#161310] via-[#161310]/85 to-[#2e1614]/70"></div>
+      <div class="relative z-10 max-w-3xl w-full flex flex-col gap-4 items-center">
+        <p class="eyebrow text-[#ffb4ab] uppercase tracking-[0.2em] text-xs font-bold">Итог боя · поражение</p>
+        <h1 class="font-black text-4xl md:text-5xl text-[#ffb4ab] drop-shadow-lg">Поражение в бою</h1>
+        <p class="text-sm text-[#d5c4af] max-w-xl" id="resultLoseLead">Отряд пал. Пересобери строй, зайди в таверну за молоком на льду и попробуй снова.</p>
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full mt-2">
+          <div class="rounded-xl border border-[#504535] bg-[#231f1c]/95 p-4 text-left">
+            <div class="text-[10px] uppercase text-[#9d8f7b] font-bold">Совет</div>
+            <div class="text-sm mt-1">Танк в авангарде · саппорт в тылу. Не ставь мага вперёд.</div>
+          </div>
+          <div class="rounded-xl border border-[#504535] bg-[#231f1c]/95 p-4 text-left">
+            <div class="text-[10px] uppercase text-[#9d8f7b] font-bold">Награды</div>
+            <div class="text-sm mt-1">Поражение · без мисок / без PvP тикетов. Опыт не теряется.</div>
+          </div>
+          <div class="rounded-xl border border-[#504535] bg-[#231f1c]/95 p-4 text-left">
+            <div class="text-[10px] uppercase text-[#9d8f7b] font-bold">Дальше</div>
+            <div class="text-sm mt-1">Строй → бой · или таверна (молоко на льду = HP после боя).</div>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-2 justify-center mt-4" data-purpose="result-lose-ctas">
+          <button type="button" class="wire-btn px-4 py-2 rounded-lg bg-[#d99b26] text-[#1a1308] font-bold" data-hud-action="result-retry">Повторить бой</button>
+          <button type="button" class="wire-btn px-4 py-2 rounded-lg border border-[#fdba45] text-[#fdba45] font-bold" data-hud-action="result-formation">Расстановка</button>
+          <button type="button" class="wire-btn px-4 py-2 rounded-lg border border-[#504535] text-[#eae1db] font-bold" data-hud-action="result-tavern">В Таверну</button>
+          <button type="button" class="wire-btn px-4 py-2 rounded-lg border border-[#504535] text-[#eae1db] font-bold" data-hud-action="result-hub">В Хаб</button>
+        </div>
+      </div>
+    </div>
+  </main>
 </section>

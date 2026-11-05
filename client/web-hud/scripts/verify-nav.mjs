@@ -443,12 +443,12 @@ for (const [name, needle] of transitions) {
   ok(`transition ${name}`, js.includes(needle));
 }
 
-// Placeholders present for still-missing IA forms
+// Working transition forms (no longer empty placeholders)
 for (const id of ["equip_cards", "result_lose", "soon_clan"]) {
   ok(
-    `placeholder host ${id}`,
+    `working host ${id}`,
     html.includes(`data-stitch="${id}"`) &&
-      new RegExp(`data-stitch="${id}"[^>]*data-placeholder="1"`).test(html),
+      !new RegExp(`data-stitch="${id}"[^>]*data-placeholder="1"`).test(html),
   );
 }
 

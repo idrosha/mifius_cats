@@ -513,26 +513,20 @@ html, body {
 }
 
 /*
- * Kill Stitch per-screen header nav (duplicate flat bar under #appNav).
- * Home must not show portals — only chrome primary/subtabs.
+ * Kill Stitch per-screen chrome entirely — only #appNav / #appSubTabs navigate.
+ * Prevents soft-label hijacks + empty double-nav holes (prefs: chrome only).
  */
+.stitch-view > header,
+.stitch-view > .fixed.top-0,
+.stitch-view > [class*="fixed"][class*="top-0"]:not(.mythfel-hud-panel):not(main):not(section) {
+  display: none !important;
+}
+
 .stitch-view > header nav,
 .stitch-view header nav[data-active-classes],
 .stitch-view header .hidden.lg\:flex:has(a[data-path]),
 .stitch-view header nav.flex {
   display: none !important;
-}
-
-/* Keep Stitch headers in-flow inside the landscape stage (flush, not viewport-fixed) */
-.stitch-view > header.fixed,
-.stitch-view > header[class*="fixed"],
-.stitch-view > header.sticky {
-  position: relative !important;
-  top: 0 !important;
-  left: auto !important;
-  right: auto !important;
-  width: 100% !important;
-  flex: 0 0 auto;
 }
 .mythfel-shell {
   --mythfel-nav-offset: 0px;
@@ -581,4 +575,91 @@ html, body {
   z-index: 80; padding: 0.55rem 0.9rem; border-radius: 0.75rem;
   background: #2e2926; border: 1px solid #fdba45; color: #eae1db;
   max-width: 90vw;
+}
+
+/* Kill Stitch footers that steal stage height / create empty holes */
+.stitch-view > footer,
+.stitch-view footer.fixed,
+.stitch-view footer[class*="fixed"] {
+  display: none !important;
+}
+
+/* Live HUD panels over painted forms — filled flush blocks */
+.mythfel-hud-panel {
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
+  z-index: 40;
+  max-width: min(28rem, 46%);
+  max-height: min(55%, 22rem);
+  overflow: auto;
+  padding: 0.65rem 0.75rem;
+  border-radius: 0.65rem;
+  border: 1px solid var(--outline);
+  background: rgba(31, 27, 24, 0.94);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+.stitch-view { position: relative; }
+.mythfel-panel-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: baseline;
+  color: var(--primary);
+  font-family: Rubik, sans-serif;
+  font-size: 12px;
+}
+.mythfel-panel-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.35rem;
+}
+.mythfel-panel-card {
+  border: 1px solid rgba(80, 69, 53, 0.55);
+  border-radius: 0.45rem;
+  padding: 0.4rem 0.5rem;
+  background: #231f1c;
+  font-size: 12px;
+}
+.mythfel-panel-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  align-items: center;
+}
+.mythfel-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+.mythfel-stat-grid > div {
+  background: #161310;
+  border: 1px solid rgba(80, 69, 53, 0.5);
+  border-radius: 0.4rem;
+  padding: 0.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+.mythfel-stat-grid span { font-size: 10px; color: var(--muted); }
+.mythfel-stat-grid strong { font-size: 14px; color: var(--primary); }
+.mythfel-stat-grid em { font-style: normal; font-size: 10px; color: #89d98c; }
+.wire-btn.active {
+  border-color: var(--primary);
+  color: var(--primary);
+  box-shadow: inset 0 0 0 1px rgba(253, 186, 69, 0.35);
+}
+
+/* Broken / missing img fallback — avoid literal "img" holes */
+.stitch-view img {
+  background: linear-gradient(135deg, #2e2926, #1f1b18);
+  min-height: 2rem;
+}
+.stitch-view img[src=""],
+.stitch-view img:not([src]) {
+  content: "";
+  outline: 1px dashed var(--outline);
 }

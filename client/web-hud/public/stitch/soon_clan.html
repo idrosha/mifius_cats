@@ -1,7 +1,38 @@
-<section id="viewSoonClan" class="stitch-view mythfel-form hidden hud-placeholder" data-stitch="soon_clan" data-placeholder="1" data-layout="landscape">
-  <div class="boot-card">
-    <p class="eyebrow">Скоро · Stitch</p>
-    <h2>Клан-босс</h2>
-    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7/ba17/17eb.</p>
-  </div>
+<section id="viewSoonClan" class="stitch-view mythfel-form hidden" data-stitch="soon_clan" data-layout="landscape">
+<main class="w-full h-full min-h-0 flex flex-col p-4 gap-3" data-purpose="clan-panel">
+    <header class="border-b border-[#504535] pb-2 flex flex-wrap justify-between gap-2">
+      <div>
+        <p class="text-[10px] uppercase tracking-widest text-[#fdba45] font-bold">Гильдии</p>
+        <h1 class="text-2xl font-black text-[#fdba45]">Клан Хранителя</h1>
+        <p class="text-sm text-[#d5c4af]">Создай клан, добавь / убери участников. Клан-босс gameplay — Soon (не GvG).</p>
+      </div>
+      <button type="button" class="px-3 py-1.5 rounded-lg border border-[#504535] text-sm" data-path="gildii">← Зал гильдии</button>
+    </header>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 flex-1 min-h-0">
+      <section class="lg:col-span-5 rounded-xl border border-[#504535] bg-[#231f1c] p-3 flex flex-col gap-2">
+        <h2 class="text-sm font-bold text-[#fdba45]">Создать / управление</h2>
+        <label class="text-xs text-[#9d8f7b]">Название клана</label>
+        <input id="clanNameInput" class="rounded-lg bg-[#161310] border border-[#504535] px-3 py-2 text-sm" placeholder="Лапка Очага" value="Лапка Очага" />
+        <div class="flex flex-wrap gap-2">
+          <button type="button" id="btnClanCreate" class="px-3 py-2 rounded-lg bg-[#d99b26] text-[#1a1308] font-bold text-sm">Создать клан</button>
+          <button type="button" id="btnClanDisband" class="px-3 py-2 rounded-lg border border-[#93000a] text-[#ffb4ab] font-bold text-sm">Распустить</button>
+        </div>
+        <div id="clanSummary" class="text-sm text-[#d5c4af] mt-2"></div>
+        <div class="mt-auto rounded-lg border border-dashed border-[#504535] p-3 text-xs text-[#9d8f7b]">
+          <strong class="text-[#fdba45]">Клан-босс · Soon</strong><br/>
+          1 кот с игрока, общее HP рейда. Не путать с Боем гильдий (GvG). Tip: подними ранг в боях.
+        </div>
+      </section>
+      <section class="lg:col-span-7 rounded-xl border border-[#504535] bg-[#1f1b18] p-3 flex flex-col gap-2 min-h-0">
+        <div class="flex flex-wrap items-center justify-between gap-2">
+          <h2 class="text-sm font-bold text-[#fdba45]">Участники</h2>
+          <div class="flex gap-2">
+            <input id="clanMemberInput" class="rounded-lg bg-[#161310] border border-[#504535] px-2 py-1.5 text-sm" placeholder="Ник участника" />
+            <button type="button" id="btnClanAddMember" class="px-3 py-1.5 rounded-lg border border-[#fdba45] text-[#fdba45] font-bold text-sm">Добавить</button>
+          </div>
+        </div>
+        <div id="clanMemberList" class="flex-1 overflow-auto flex flex-col gap-1 min-h-0"></div>
+      </section>
+    </div>
+  </main>
 </section>

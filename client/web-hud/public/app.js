@@ -203,6 +203,7 @@ const NAV = [
     tabs: [
       { id: "guild", key: "nav.sub.guild" },
       { id: "guild_battle", key: "nav.sub.guild_battle", gated: true },
+      { id: "soon_clan", key: "nav.sub.soon_clan", soon: "clan_boss" },
     ],
   },
   {
@@ -474,16 +475,33 @@ const state = {
     autofarm_blacksmith: false,
     autofarm_fish: false,
   },
+  /** Local HUD gear catalog — soft-launch stub (server later). */
+  gearCatalog: [
+    { id: "weapon_wood_claw", slot: "weapon", name: "Деревянный коготь", atk: 120, hp: 0, def: 0, spd: 4, rank: 1 },
+    { id: "armor_grey_plate", slot: "armor", name: "Серая кираса", atk: 0, hp: 420, def: 40, spd: 0, rank: 1 },
+    { id: "helm_grey_cap", slot: "helm", name: "Серый шлем", atk: 0, hp: 180, def: 25, spd: 0, rank: 1 },
+    { id: "boots_soft_pads", slot: "boots", name: "Мягкие лапки", atk: 0, hp: 0, def: 10, spd: 12, rank: 1 },
+    { id: "weapon_flint_bow", slot: "weapon", name: "Кремнёвый лук", atk: 160, hp: 0, def: 0, spd: 6, rank: 2 },
+    { id: "armor_green_mail", slot: "armor", name: "Зелёная кольчуга", atk: 0, hp: 620, def: 55, spd: 0, rank: 2 },
+  ],
+  /** catId → { weapon, armor, helm, boots } item ids */
+  equippedByCat: {},
+  selectedCatId: null,
+  /** Farm zones: farmer hired + crop cycle (local stub). */
+  farmState: {},
+  farmBag: [],
+  clan: null, // { name, members: string[], createdAt }
   wireMode: "hub",
   loggedIn: false,
   selectedStageId: YARD_STAGE,
-  battleMode: "pve", // pve | practice | boss | guild_demo
+  battleMode: "pve", // pve | practice | boss | guild_demo | pvp
   bossWaveIndex: 0,
   campaign: null,
   bossFirst: null,
   progress: {
     pveWins: 0,
     practiceWins: 0,
+    pvpWins: 0,
     clearedFights: {}, // stageId -> true
   },
 };
@@ -541,6 +559,7 @@ function loadProgress() {
       state.progress = {
         pveWins: parsed.pveWins || 0,
         practiceWins: parsed.practiceWins || 0,
+        pvpWins: parsed.pvpWins || 0,
         clearedFights: parsed.clearedFights || {},
       };
     }
@@ -657,6 +676,7 @@ function logicalViewId() {
     craft: "viewCraft",
     breeding: "viewBreeding",
     farm: "viewSoonFarm",
+    soon_clan: "viewSoonClan",
     auction: "viewAuction",
     guild: "viewGuild",
     guild_battle: "viewGuildBattle",
@@ -749,6 +769,7 @@ function navigate(tab, { soon = null, clearBattle = true, primary = null, fromGa
   state.soon = soon;
   // Farm still has Soon art sheet, but form is present (not hidden).
   if (tab === "farm") state.soon = "farm";
+  if (tab === "soon_clan") state.soon = "clan_boss";
   if (tab === "breeding" && !state.soon) state.soon = null;
   if (tab === "guild_battle" && soon == null) state.soon = null;
   if (tab === "guild" && soon == null) state.soon = null;
@@ -803,6 +824,112 @@ function applyStarterGrant(profile) {
     energy: `${profile.pvpTickets}/5`,
     gems: profile.yarn,
   };
+  const cats = profile?.cats || [];
+  if (!state.selectedCatId && cats.length) {
+    state.selectedCatId = cats.find((c) => c.role !== "farm")?.catId || cats[0].catId;
+  }
+  for (const c of cats) {
+    if (!state.equippedByCat[c.catId]) {
+      state.equippedByCat[c.catId] = { weapon: null, armor: null, helm: null, boots: null };
+    }
+  }
+  for (const z of FARM_ZONES) {
+    if (!state.farmState[z.id]) {
+      state.farmState[z.id] = {
+        farmer: null,
+        planted: false,
+        ready: false,
+        crop: z.kind === "crop" ? "seed_wheat" : z.id === "fishing" ? "bait" : null,
+      };
+    }
+  }
+}
+
+function baseStatsForCat(cat) {
+  const role = cat?.role || "fighter";
+  const table = {
+    tank: { atk: 80, hp: 1200, def: 90, spd: 40 },
+    fighter: { atk: 140, hp: 900, def: 50, spd: 55 },
+    assassin: { atk: 160, hp: 720, def: 35, spd: 70 },
+    ranger: { atk: 130, hp: 780, def: 40, spd: 65 },
+    mage: { atk: 150, hp: 700, def: 30, spd: 50 },
+    support: { atk: 70, hp: 850, def: 45, spd: 48 },
+    farm: { atk: 20, hp: 500, def: 20, spd: 30 },
+  };
+  return { ...(table[role] || table.fighter) };
+}
+
+function gearBonusForCat(catId) {
+  const eq = state.equippedByCat[catId] || {};
+  const bonus = { atk: 0, hp: 0, def: 0, spd: 0 };
+  for (const slot of ["weapon", "armor", "helm", "boots"]) {
+    const id = eq[slot];
+    if (!id) continue;
+    const item = state.gearCatalog.find((g) => g.id === id);
+    if (!item) continue;
+    bonus.atk += item.atk || 0;
+    bonus.hp += item.hp || 0;
+    bonus.def += item.def || 0;
+    bonus.spd += item.spd || 0;
+  }
+  return bonus;
+}
+
+function statsForCat(cat) {
+  const base = baseStatsForCat(cat);
+  const bonus = gearBonusForCat(cat.catId);
+  return {
+    atk: base.atk + bonus.atk,
+    hp: base.hp + bonus.hp,
+    def: base.def + bonus.def,
+    spd: base.spd + bonus.spd,
+    bonus,
+    base,
+  };
+}
+
+function equipItem(catId, itemId) {
+  const item = state.gearCatalog.find((g) => g.id === itemId);
+  if (!item || !catId) return;
+  if (!state.equippedByCat[catId]) {
+    state.equippedByCat[catId] = { weapon: null, armor: null, helm: null, boots: null };
+  }
+  // Unequip same item from other cats / same slot swap
+  for (const [cid, eq] of Object.entries(state.equippedByCat)) {
+    for (const slot of Object.keys(eq)) {
+      if (eq[slot] === itemId) eq[slot] = null;
+    }
+  }
+  state.equippedByCat[catId][item.slot] = itemId;
+  toast(`${item.name} → надето`);
+  renderHome();
+  renderEquipCards();
+  renderAll();
+}
+
+function unequipSlot(catId, slot) {
+  if (!state.equippedByCat[catId]) return;
+  const id = state.equippedByCat[catId][slot];
+  state.equippedByCat[catId][slot] = null;
+  const item = state.gearCatalog.find((g) => g.id === id);
+  toast(item ? `${item.name} → снято` : "Слот пуст");
+  renderHome();
+  renderEquipCards();
+  renderAll();
+}
+
+function ensureHudPanel(viewId, panelId, html) {
+  const view = $(viewId);
+  if (!view) return null;
+  let panel = view.querySelector(`#${panelId}`);
+  if (!panel) {
+    panel = document.createElement("div");
+    panel.id = panelId;
+    panel.className = "mythfel-hud-panel";
+    view.appendChild(panel);
+  }
+  if (html != null) panel.innerHTML = html;
+  return panel;
 }
 
 function renderTabs() {
@@ -1495,7 +1622,153 @@ function renderCodex() {
   article.appendChild(p);
 }
 
+function renderClanPanel() {
+  const summary = $("clanSummary");
+  const list = $("clanMemberList");
+  if (summary) {
+    summary.textContent = state.clan
+      ? `Клан «${state.clan.name}» · ${state.clan.members.length} уч.`
+      : "Клана нет — создай ниже.";
+  }
+  if (list) {
+    list.innerHTML = "";
+    if (!state.clan) {
+      list.innerHTML = `<div class="meta">Нет участников</div>`;
+    } else {
+      for (const name of state.clan.members) {
+        const row = document.createElement("div");
+        row.className = "mythfel-panel-card";
+        row.innerHTML = `<strong>${name}</strong>`;
+        const rm = document.createElement("button");
+        rm.type = "button";
+        rm.className = "wire-btn";
+        rm.textContent = "Убрать";
+        rm.addEventListener("click", () => {
+          state.clan.members = state.clan.members.filter((m) => m !== name);
+          toast(`Убран: ${name}`);
+          renderClanPanel();
+          renderGuild();
+        });
+        row.appendChild(rm);
+        list.appendChild(row);
+      }
+    }
+  }
+  const createBtn = $("btnClanCreate");
+  if (createBtn && !createBtn.dataset.bound) {
+    createBtn.dataset.bound = "1";
+    createBtn.addEventListener("click", () => {
+      const name = ($("clanNameInput")?.value || "").trim() || "Лапка Очага";
+      state.clan = {
+        name,
+        members: [state.session?.userId || "local_smoke"],
+        createdAt: Date.now(),
+      };
+      toast(`Клан «${name}» создан`);
+      renderClanPanel();
+      renderGuild();
+    });
+  }
+  const disband = $("btnClanDisband");
+  if (disband && !disband.dataset.bound) {
+    disband.dataset.bound = "1";
+    disband.addEventListener("click", () => {
+      state.clan = null;
+      toast("Клан распущен");
+      renderClanPanel();
+      renderGuild();
+    });
+  }
+  const addBtn = $("btnClanAddMember");
+  if (addBtn && !addBtn.dataset.bound) {
+    addBtn.dataset.bound = "1";
+    addBtn.addEventListener("click", () => {
+      if (!state.clan) {
+        toast("Сначала создай клан");
+        return;
+      }
+      const name = ($("clanMemberInput")?.value || "").trim();
+      if (!name) {
+        toast("Введи ник");
+        return;
+      }
+      if (state.clan.members.includes(name)) {
+        toast("Уже в клане");
+        return;
+      }
+      state.clan.members.push(name);
+      if ($("clanMemberInput")) $("clanMemberInput").value = "";
+      toast(`Добавлен: ${name}`);
+      renderClanPanel();
+      renderGuild();
+    });
+  }
+}
+
 function renderGuild() {
+  ensureHudPanel(
+    "viewGuild",
+    "guildClanQuick",
+    `<div class="mythfel-panel-head"><strong>Клан</strong><span class="meta" id="guildClanMeta"></span></div>
+     <div class="mythfel-panel-actions">
+       <button type="button" class="wire-btn" id="btnGuildCreateClan">Создать клан</button>
+       <button type="button" class="wire-btn" id="btnGuildAddMember">+ Участник</button>
+       <button type="button" class="wire-btn" id="btnGuildRemoveMember">− Участник</button>
+       <button type="button" class="wire-btn" data-path="soon_clan" id="btnGuildOpenClan">Карточка клана</button>
+     </div>
+     <div id="guildMemberPreview" class="meta"></div>`,
+  );
+  const meta = $("guildClanMeta");
+  if (meta) {
+    meta.textContent = state.clan
+      ? `«${state.clan.name}» · ${state.clan.members.length}`
+      : "нет клана";
+  }
+  const preview = $("guildMemberPreview");
+  if (preview) {
+    preview.textContent = state.clan ? state.clan.members.join(", ") : "—";
+  }
+  const mk = (id, fn) => {
+    const el = $(id);
+    if (el && !el.dataset.bound) {
+      el.dataset.bound = "1";
+      el.addEventListener("click", fn);
+    }
+  };
+  mk("btnGuildCreateClan", () => {
+    if (state.clan) {
+      toast(`Уже есть «${state.clan.name}»`);
+      return;
+    }
+    state.clan = {
+      name: "Лапка Очага",
+      members: [state.session?.userId || "local_smoke"],
+      createdAt: Date.now(),
+    };
+    toast("Клан создан");
+    renderGuild();
+  });
+  mk("btnGuildAddMember", () => {
+    if (!state.clan) {
+      toast("Сначала создай клан");
+      return;
+    }
+    const name = `Участник-${state.clan.members.length + 1}`;
+    state.clan.members.push(name);
+    toast(`Добавлен: ${name}`);
+    renderGuild();
+  });
+  mk("btnGuildRemoveMember", () => {
+    if (!state.clan || state.clan.members.length <= 1) {
+      toast("Некого убирать (остался лидер)");
+      return;
+    }
+    const removed = state.clan.members.pop();
+    toast(`Убран: ${removed}`);
+    renderGuild();
+  });
+  mk("btnGuildOpenClan", () => navigate("soon_clan", { soon: "clan_boss" }));
+
   const host = $("guildBattleHost");
   if (!host) return;
   host.innerHTML = "";
@@ -1538,8 +1811,124 @@ function renderGuild() {
   tip.type = "button";
   tip.className = "mission-fight";
   tip.innerHTML = `<strong>${t("guild.clan_boss", "Клан-босс")}</strong><div class="meta">Soon · не GvG</div>`;
-  tip.addEventListener("click", () => navigate("guild", { soon: "clan_boss" }));
+  tip.addEventListener("click", () => navigate("soon_clan", { soon: "clan_boss" }));
   host.appendChild(tip);
+}
+
+function renderHome() {
+  const cats = state.profile?.cats || [];
+  const cat = cats.find((c) => c.catId === state.selectedCatId) || cats[0];
+  if (!cat) return;
+  state.selectedCatId = cat.catId;
+  const stats = statsForCat(cat);
+  const eq = state.equippedByCat[cat.catId] || {};
+  ensureHudPanel(
+    "viewHome",
+    "homeEquipPanel",
+    `<div class="mythfel-panel-head"><strong>Персонаж · экип live</strong><span class="meta">${cat.templateId}</span></div>
+     <div id="homeCatPicker" class="mythfel-panel-actions"></div>
+     <div id="homeStatBlock" class="mythfel-stat-grid"></div>
+     <div id="homeGearBlock" class="mythfel-panel-grid"></div>`,
+  );
+  const picker = $("homeCatPicker");
+  if (picker) {
+    picker.innerHTML = "";
+    for (const c of cats.filter((x) => x.role !== "farm").slice(0, 8)) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "wire-btn" + (c.catId === cat.catId ? " active" : "");
+      b.textContent = `${c.role} · ${c.element}`;
+      b.addEventListener("click", () => {
+        state.selectedCatId = c.catId;
+        renderHome();
+      });
+      picker.appendChild(b);
+    }
+  }
+  const statBlock = $("homeStatBlock");
+  if (statBlock) {
+    statBlock.innerHTML = `
+      <div><span>ATK</span><strong>${stats.atk}</strong><em>+${stats.bonus.atk}</em></div>
+      <div><span>HP</span><strong>${stats.hp}</strong><em>+${stats.bonus.hp}</em></div>
+      <div><span>DEF</span><strong>${stats.def}</strong><em>+${stats.bonus.def}</em></div>
+      <div><span>SPD</span><strong>${stats.spd}</strong><em>+${stats.bonus.spd}</em></div>`;
+  }
+  const gearBlock = $("homeGearBlock");
+  if (gearBlock) {
+    gearBlock.innerHTML = "";
+    for (const item of state.gearCatalog) {
+      const worn = Object.values(eq).includes(item.id);
+      const onThis = eq[item.slot] === item.id;
+      const card = document.createElement("div");
+      card.className = "mythfel-panel-card";
+      card.innerHTML = `<strong>${item.name}</strong><div class="meta">R${item.rank} · ${item.slot} · +${item.atk}ATK +${item.hp}HP</div>`;
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "wire-btn";
+      btn.textContent = onThis ? "Снять" : worn ? "На другом" : "Надеть";
+      btn.addEventListener("click", () => {
+        if (onThis) unequipSlot(cat.catId, item.slot);
+        else equipItem(cat.catId, item.id);
+      });
+      card.appendChild(btn);
+      gearBlock.appendChild(card);
+    }
+  }
+}
+
+function renderEquipCards() {
+  const cats = (state.profile?.cats || []).filter((c) => c.role !== "farm");
+  const cat = cats.find((c) => c.catId === state.selectedCatId) || cats[0];
+  if (!cat) return;
+  state.selectedCatId = cat.catId;
+  const list = $("equipCardsCatList");
+  if (list) {
+    list.innerHTML = "";
+    for (const c of cats) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "wire-btn" + (c.catId === cat.catId ? " active" : "");
+      b.style.width = "100%";
+      b.style.textAlign = "left";
+      b.innerHTML = `<strong>${c.templateId}</strong><div class="meta">${c.role} · ${c.element}</div>`;
+      b.addEventListener("click", () => {
+        state.selectedCatId = c.catId;
+        renderEquipCards();
+      });
+      list.appendChild(b);
+    }
+  }
+  const items = $("equipCardsItemList");
+  const eq = state.equippedByCat[cat.catId] || {};
+  if (items) {
+    items.innerHTML = "";
+    for (const item of state.gearCatalog) {
+      const onThis = eq[item.slot] === item.id;
+      const card = document.createElement("div");
+      card.className = "mythfel-panel-card";
+      card.innerHTML = `<strong>${item.name}</strong><div class="meta">R${item.rank} · ${item.slot}</div>`;
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "wire-btn";
+      btn.textContent = onThis ? "Снять" : "Надеть";
+      btn.addEventListener("click", () => {
+        if (onThis) unequipSlot(cat.catId, item.slot);
+        else equipItem(cat.catId, item.id);
+      });
+      card.appendChild(btn);
+      items.appendChild(card);
+    }
+  }
+  const statsEl = $("equipCardsStats");
+  if (statsEl) {
+    const s = statsForCat(cat);
+    statsEl.innerHTML = `
+      <div>ATK <strong>${s.atk}</strong> <span class="meta">(+${s.bonus.atk})</span></div>
+      <div>HP <strong>${s.hp}</strong> <span class="meta">(+${s.bonus.hp})</span></div>
+      <div>DEF <strong>${s.def}</strong> <span class="meta">(+${s.bonus.def})</span></div>
+      <div>SPD <strong>${s.spd}</strong> <span class="meta">(+${s.bonus.spd})</span></div>
+      <div class="meta mt-2">Слоты: W=${eq.weapon || "—"} A=${eq.armor || "—"} H=${eq.helm || "—"} B=${eq.boots || "—"}</div>`;
+  }
 }
 
 function startGuildBattle() {
@@ -1588,30 +1977,177 @@ function renderAutofarmToggles(hostListId, { compact = false } = {}) {
   }
 }
 
+function farmCatCandidates() {
+  return (state.profile?.cats || []).filter((c) => c.role === "farm" || c.origin === "farm");
+}
+
+function hireFarmer(zoneId) {
+  const z = FARM_ZONES.find((x) => x.id === zoneId);
+  if (!z) return;
+  const fs = state.farmState[zoneId] || (state.farmState[zoneId] = { farmer: null, planted: false, ready: false, crop: null });
+  if (fs.farmer) {
+    toast("Фермер уже на зоне");
+    return;
+  }
+  const cost = 25;
+  if ((state.wallet.gold || 0) < cost) {
+    toast("Недостаточно рыбок (нужно 25)");
+    return;
+  }
+  const farmCats = farmCatCandidates();
+  const cat = farmCats[0] || (state.profile?.cats || [])[0];
+  if (!cat) {
+    toast("Нет кота для найма");
+    return;
+  }
+  state.wallet.gold -= cost;
+  fs.farmer = cat.catId;
+  toast(`Фермер нанят на «${z.label}» (−${cost} 🐟)`);
+  renderCurrency();
+  renderFarm();
+}
+
+function plantZone(zoneId) {
+  const z = FARM_ZONES.find((x) => x.id === zoneId);
+  const fs = state.farmState[zoneId];
+  if (!z || !fs) return;
+  if (!fs.farmer) {
+    toast("Сначала найми фермера на зону");
+    return;
+  }
+  if (fs.planted && !fs.ready) {
+    toast("Уже посажено — жди / собери");
+    return;
+  }
+  const seedCost = 5;
+  if ((state.wallet.gold || 0) < seedCost) {
+    toast("Нужны семена (5 🐟 stub)");
+    return;
+  }
+  state.wallet.gold -= seedCost;
+  fs.planted = true;
+  fs.ready = true; // local smoke: instant ready
+  fs.crop = z.id === "fishing" ? "fish_catch" : "crop_bundle";
+  toast(`Посажено на «${z.label}» (−${seedCost} 🐟) · готово к сбору`);
+  renderCurrency();
+  renderFarm();
+}
+
+function harvestZone(zoneId) {
+  const z = FARM_ZONES.find((x) => x.id === zoneId);
+  const fs = state.farmState[zoneId];
+  if (!z || !fs?.ready) {
+    toast("Нечего собирать");
+    return;
+  }
+  const loot = {
+    id: `farm_${zoneId}_${Date.now()}`,
+    name: fs.crop || "crop_bundle",
+    kind: z.id === "fishing" ? "fish" : "crop",
+    bid: z.id === "fishing" ? 18 : 12,
+    qty: 1,
+  };
+  state.farmBag.push(loot);
+  fs.planted = false;
+  fs.ready = false;
+  toast(`Собрано: ${loot.name} ×1 → сумка фермы`);
+  renderFarm();
+}
+
+function sellFarmLoot(channel = "market") {
+  if (!state.farmBag.length) {
+    toast("Сумка фермы пуста — посади и собери");
+    return;
+  }
+  const item = state.farmBag.shift();
+  const price = item.bid || 10;
+  if (channel === "auction") {
+    state.auctionLots.unshift({
+      id: `auc_farm_${Date.now()}`,
+      name: item.name,
+      bid: price * 2,
+      kind: item.kind || "crop",
+    });
+    toast(`Лот на аукционе: ${item.name} @ ${price * 2} 🐟`);
+    renderAuction();
+  } else {
+    state.wallet.gold = (state.wallet.gold || 0) + price;
+    toast(`Продано на рынке: ${item.name} +${price} 🐟`);
+    renderCurrency();
+    renderMarket();
+  }
+  renderFarm();
+}
+
 function renderFarm() {
+  const panel = ensureHudPanel(
+    "viewSoonFarm",
+    "farmLivePanel",
+    `<div class="mythfel-panel-head"><strong>Ферма · live stub</strong><span class="meta">найм · посадка · сбор · продажа</span></div>
+     <div id="farmLiveZones" class="mythfel-panel-grid"></div>
+     <div class="mythfel-panel-actions">
+       <button type="button" class="wire-btn" id="btnFarmSellMarket">Продать на рынке</button>
+       <button type="button" class="wire-btn" id="btnFarmSellAuction">Выставить на аукцион</button>
+       <span class="meta" id="farmBagMeta"></span>
+     </div>`,
+  );
+  const host = $("farmLiveZones") || panel?.querySelector("#farmLiveZones");
+  if (host) {
+    host.innerHTML = "";
+    for (const z of FARM_ZONES) {
+      const fs = state.farmState[z.id] || { farmer: null, planted: false, ready: false };
+      const row = document.createElement("div");
+      row.className = "mythfel-panel-card";
+      row.innerHTML = `<strong>${z.label}</strong>
+        <div class="meta">${z.kind} · фермер: ${fs.farmer ? "да" : "нет"} · ${fs.ready ? "готово" : fs.planted ? "растёт" : "пусто"}</div>`;
+      const actions = document.createElement("div");
+      actions.className = "mythfel-panel-actions";
+      const hire = document.createElement("button");
+      hire.type = "button";
+      hire.className = "wire-btn";
+      hire.textContent = "Нанять фермера";
+      hire.addEventListener("click", () => hireFarmer(z.id));
+      const plant = document.createElement("button");
+      plant.type = "button";
+      plant.className = "wire-btn";
+      plant.textContent = "Посадить";
+      plant.addEventListener("click", () => plantZone(z.id));
+      const harvest = document.createElement("button");
+      harvest.type = "button";
+      harvest.className = "wire-btn";
+      harvest.textContent = "Собрать";
+      harvest.addEventListener("click", () => harvestZone(z.id));
+      actions.append(hire, plant, harvest);
+      row.appendChild(actions);
+      host.appendChild(row);
+    }
+  }
+  const bagMeta = $("farmBagMeta");
+  if (bagMeta) bagMeta.textContent = `Сумка: ${state.farmBag.length} шт.`;
+  const sellM = $("btnFarmSellMarket");
+  if (sellM && !sellM.dataset.bound) {
+    sellM.dataset.bound = "1";
+    sellM.addEventListener("click", () => sellFarmLoot("market"));
+  }
+  const sellA = $("btnFarmSellAuction");
+  if (sellA && !sellA.dataset.bound) {
+    sellA.dataset.bound = "1";
+    sellA.addEventListener("click", () => sellFarmLoot("auction"));
+  }
+
   const zones = $("farmZonesList");
   if (zones) {
     zones.innerHTML = "";
     for (const z of FARM_ZONES) {
+      const fs = state.farmState[z.id] || {};
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "wire-btn";
-      btn.innerHTML = `<strong>${z.label}</strong><div class="meta">${z.kind} · ${z.role}${z.id === "fishing" ? " · fishing" : ""}</div>`;
+      btn.innerHTML = `<strong>${z.label}</strong><div class="meta">${z.kind} · ${fs.farmer ? "фермер" : "без фермера"}${fs.ready ? " · ready" : ""}</div>`;
       btn.addEventListener("click", () => {
-        if (typeof window.selectNode === "function") {
-          try {
-            window.selectNode(z.id);
-          } catch (_) {}
-        }
-        // SL: no live crop/fish authority — tip only
-        showGateTip(
-          t(
-            "farm.zone.tip",
-            z.id === "fishing"
-              ? "Рыбная заводя — Soon / подними ранг в боях"
-              : GATE_TIP,
-          ),
-        );
+        if (!fs.farmer) hireFarmer(z.id);
+        else if (!fs.ready) plantZone(z.id);
+        else harvestZone(z.id);
       });
       zones.appendChild(btn);
     }
@@ -1619,18 +2155,11 @@ function renderFarm() {
   const lead = $("farmAutofarmLead");
   if (lead) {
     lead.textContent = passActive()
-      ? t(
-          "farm.autofarm.lead.active",
-          "Пасс ACTIVE · тумблеры stub · seeds/bait с Рынка",
-        )
-      : t(
-          "farm.autofarm.lead.locked",
-          "Нужен ACTIVE пасс · иначе tip «Активируй боевой пасс»",
-        );
+      ? t("farm.autofarm.lead.active", "Пасс ACTIVE · тумблеры stub · seeds/bait с Рынка")
+      : t("farm.autofarm.lead.locked", "Нужен ACTIVE пасс · иначе tip «Активируй боевой пасс»");
   }
   renderAutofarmToggles("farmAutofarmList", { compact: true });
 
-  // Gate Stitch collect CTAs to tip (do not invent harvest rewards)
   const collectAll = $("collect-all-btn");
   if (collectAll && !collectAll.dataset.mythfelBound) {
     collectAll.dataset.mythfelBound = "1";
@@ -1639,7 +2168,9 @@ function renderFarm() {
       (ev) => {
         ev.preventDefault();
         ev.stopImmediatePropagation();
-        showGateTip();
+        const ready = FARM_ZONES.find((z) => state.farmState[z.id]?.ready);
+        if (ready) harvestZone(ready.id);
+        else toast("Нет готовых зон — посади урожай");
       },
       true,
     );
@@ -1652,7 +2183,9 @@ function renderFarm() {
       (ev) => {
         ev.preventDefault();
         ev.stopImmediatePropagation();
-        showGateTip();
+        const ready = FARM_ZONES.find((z) => state.farmState[z.id]?.ready);
+        if (ready) harvestZone(ready.id);
+        else toast("Нет готовых зон");
       },
       true,
     );
@@ -1799,7 +2332,26 @@ function renderResult() {
   $("resultTitle").textContent = win
     ? t("result.win", "Блестящая победа!")
     : t("result.lose", "Поражение в бою");
-  $("resultLead").textContent = `${r?.battleId || "?"} · ${r?.result || "?"}`;
+  $("resultLead").textContent = `${r?.battleId || "?"} · ${r?.result || "?"} · mode=${state.battleMode}`;
+  const loseLead = $("resultLoseLead");
+  if (loseLead && !win) {
+    loseLead.textContent = `${r?.battleId || "?"} · ${r?.result || "?"} · ${state.battleMode}. Пересобери строй и попробуй снова.`;
+  }
+  // Wire painted/lose CTAs once
+  document.querySelectorAll("[data-hud-action]").forEach((btn) => {
+    if (btn.dataset.bound) return;
+    btn.dataset.bound = "1";
+    btn.addEventListener("click", () => {
+      const act = btn.getAttribute("data-hud-action");
+      state.battle = null;
+      state.lastResult = null;
+      if (act === "result-retry") startYard(false);
+      else if (act === "result-formation") navigate("formation");
+      else if (act === "result-tavern") navigate("tavern");
+      else if (act === "result-hub") navigate("hub");
+      else if (act === "result-yard") navigate("yard");
+    });
+  });
 }
 
 function unitCard(u, side) {
@@ -1906,6 +2458,8 @@ async function applyDiff(diff, note = "") {
     if (diff.result === "p1_win") {
       if (state.battleMode === "practice") {
         state.progress.practiceWins += 1;
+      } else if (state.battleMode === "pvp") {
+        state.progress.pvpWins = (state.progress.pvpWins || 0) + 1;
       } else if (state.battleMode === "boss") {
         state.progress.pveWins += 1;
         state.progress.clearedFights[state.selectedStageId] = true;
@@ -2033,6 +2587,7 @@ async function pvpAuto() {
     return;
   }
   try {
+    state.battleMode = "pvp";
     const { data } = await api("/api/battle/v1/CreatePvP", {
       method: "POST",
       body: JSON.stringify({
@@ -2046,6 +2601,31 @@ async function pvpAuto() {
     log(`PvP auto ${data.battleId} → ${data.result}`, "pvp");
     await applyDiff(data, `PvP autoPlay ${data.result}`);
     await refreshReplays();
+  } catch (err) {
+    log(`PvP fail: ${err.message}`, "pvp");
+    alert(err.message);
+  }
+}
+
+/** Interactive PvP (same core; human turns until end / surrender). */
+async function pvpStart() {
+  if (!pvpUnlocked()) {
+    showGateTip(t("gate.tip.pvp", "PvP откроется после 3 побед в Мифмире или тренировке"));
+    return;
+  }
+  try {
+    state.battleMode = "pvp";
+    const { data } = await api("/api/battle/v1/CreatePvP", {
+      method: "POST",
+      body: JSON.stringify({
+        matchId: `web_${Date.now()}`,
+        team1: STARTERS,
+        team2: STARTERS,
+        seed: Date.now() % 1e9,
+        autoPlay: false,
+      }),
+    });
+    await applyDiff(data, "CreatePvP");
   } catch (err) {
     log(`PvP fail: ${err.message}`, "pvp");
     alert(err.message);
@@ -2080,7 +2660,11 @@ function renderAll() {
     renderFarm();
     return;
   }
-  if (viewId === "viewSoon" || viewId === "viewSoonClan") {
+  if (viewId === "viewSoonClan") {
+    renderClanPanel();
+    return;
+  }
+  if (viewId === "viewSoon") {
     renderSoon();
     return;
   }
@@ -2092,8 +2676,15 @@ function renderAll() {
       break;
     case "login":
       break;
+    case "home":
+      renderHome();
+      break;
+    case "equip_cards":
+      renderEquipCards();
+      break;
     case "practice":
       renderUnlockProgress();
+      bindPracticeFightCtas();
       break;
     case "codex":
       renderCodex();
@@ -2150,12 +2741,35 @@ function renderAll() {
       renderFarm();
       break;
     case "guild":
+      renderGuild();
+      break;
     case "guild_battle":
       renderGuild();
+      break;
+    case "soon_clan":
+      renderClanPanel();
       break;
     default:
       break;
   }
+}
+
+function bindPracticeFightCtas() {
+  const root = $("viewPractice");
+  if (!root || root.dataset.practiceBound === "1") return;
+  root.dataset.practiceBound = "1";
+  root.addEventListener("click", (ev) => {
+    const label = (ev.target.closest("button, a")?.textContent || "").toLowerCase();
+    if (
+      label.includes("тренировочный бой") ||
+      label.includes("начать бой") ||
+      label.includes("в бой") ||
+      label.includes("старт")
+    ) {
+      ev.preventDefault();
+      startPractice(false);
+    }
+  });
 }
 
 /** Soft-launch stub auth — any login/password succeeds; never blocks test flow. */
@@ -2299,21 +2913,40 @@ function wireButtons() {
   $("btnPvpAuto").addEventListener("click", () => pvpAuto());
   $("btnPvpFormation").addEventListener("click", () => navigate("formation"));
   $("btnRefreshReplays").addEventListener("click", () => refreshReplays());
+  $("btnHomeEquipDemo")?.addEventListener("click", () => {
+    navigate("home");
+    const catId = state.selectedCatId || state.profile?.cats?.[0]?.catId;
+    const item = state.gearCatalog[0];
+    if (catId && item) equipItem(catId, item.id);
+  });
+  $("btnFarmHireDemo")?.addEventListener("click", () => {
+    navigate("farm", { soon: "farm" });
+    const z = FARM_ZONES[0];
+    hireFarmer(z.id);
+    plantZone(z.id);
+  });
+  $("btnGuildClanDemo")?.addEventListener("click", () => {
+    navigate("guild");
+    if (!state.clan) {
+      state.clan = { name: "Лапка Очага", members: ["local_smoke"], createdAt: Date.now() };
+    }
+    state.clan.members.push(`Участник-${state.clan.members.length + 1}`);
+    renderGuild();
+    toast("Клан demo: создан + участник");
+  });
+  $("btnClanPanelOpen")?.addEventListener("click", () => navigate("soon_clan", { soon: "clan_boss" }));
   $("btnColFormation").addEventListener("click", () => navigate("formation"));
   $("btnColForge").addEventListener("click", () => navigate("farm", { soon: "farm" }));
   $("btnGacha1").addEventListener("click", () => toast(t("shop.gacha.stub", "Гача stub")));
   $("btnGacha10").addEventListener("click", () => toast(t("shop.gacha.stub", "Гача stub")));
   $("btnShopToTavern").addEventListener("click", () => navigate("tavern"));
-  $("btnSellStarter").addEventListener("click", () => {
-    // Legacy wire id: now quick-sell stub (market channel), not auction listing.
-    showGateTip(t("market.quick_sell.tip", "Quick sell — подними ранг в боях"));
-  });
-  $("btnMarketQuickSell")?.addEventListener("click", () => {
-    showGateTip(t("market.quick_sell.tip", "Quick sell — подними ранг в боях"));
-  });
+  $("btnSellStarter").addEventListener("click", () => sellFarmLoot("market"));
+  $("btnMarketQuickSell")?.addEventListener("click", () => sellFarmLoot("market"));
   $("btnAuctionList")?.addEventListener("click", () => {
-    showGateTip(t("auction.list.tip", "Выставление лота — подними ранг в боях"));
+    if (state.farmBag.length) sellFarmLoot("auction");
+    else showGateTip(t("auction.list.tip", "Нет лута — собери на ферме или подними ранг"));
   });
+  $("btnPvpStart")?.addEventListener("click", () => pvpStart());
   $("btnMarketToShop").addEventListener("click", () => navigate("shop"));
   $("btnMarketToAuction")?.addEventListener("click", () => navigate("auction"));
   $("btnAuctionToMarket")?.addEventListener("click", () => navigate("market"));

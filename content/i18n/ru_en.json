@@ -1166,5 +1166,9 @@
   "formation.tip.roles": {
     "ru": "Подсказка: саппорт и стрелок бьют с любого ряда — береги их в тылу.",
     "en": "Tip: support and ranger hit from any lane — keep them in the rear."
+  },
+  "nav.sub.soon_clan": {
+    "ru": "Клан",
+    "en": "Clan"
   }
 }

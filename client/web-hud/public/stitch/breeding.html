@@ -533,33 +533,7 @@
 </footer>
 </div>
 </div>
-<script>
-  (function() {
-    const igniteBtn = document.getElementById('btn-ignite-altar');
-    if (igniteBtn) {
-      igniteBtn.addEventListener('click', function() {
-        igniteBtn.classList.add('scale-95');
-        const origHTML = igniteBtn.innerHTML;
-        igniteBtn.innerHTML = '<span class="material-symbols-outlined text-on-primary text-[22px] animate-spin">cyclone</span><span class="font-label-lg text-label-lg text-on-primary uppercase tracking-wider font-extrabold">Слияние Стихий...</span>';
-        
-        setTimeout(() => {
-          igniteBtn.classList.remove('scale-95');
-          igniteBtn.innerHTML = '<span class="material-symbols-outlined text-on-secondary text-[22px]">check_circle</span><span class="font-label-lg text-label-lg text-on-secondary uppercase tracking-wider font-extrabold">Яйцо передано в Колыбель №3!</span>';
-          igniteBtn.classList.replace('from-primary', 'from-secondary');
-          igniteBtn.classList.replace('via-primary-fixed-dim', 'via-secondary');
-          igniteBtn.classList.replace('to-primary-container', 'to-secondary-fixed');
-          
-          setTimeout(() => {
-            igniteBtn.innerHTML = origHTML;
-            igniteBtn.classList.replace('from-secondary', 'from-primary');
-            igniteBtn.classList.replace('via-secondary', 'via-primary-fixed-dim');
-            igniteBtn.classList.replace('to-secondary-fixed', 'to-primary-container');
-          }, 3000);
-        }, 800);
-      });
-    }
-  })();
-</script></main>
+</main>
 <footer class="w-full h-10 bg-surface-container-lowest flex items-center justify-between px-space-lg shadow-[0_-2px_10px_rgba(0,0,0,0.5)] border-t border-outline-variant/20">
 <div class="flex items-center gap-space-md">
 <span class="font-label-sm text-label-sm text-on-surface-variant">© 2024 Мифиус: Мифические Котики RPG. Все права защищены.</span>
@@ -575,30 +549,4 @@
 <span class="font-label-sm text-label-sm text-secondary-fixed-dim">24ms</span>
 </div>
 </footer>
-<script>
-  (function() {
-    const collectBtn = document.getElementById('btn-collect-all');
-    if (collectBtn) {
-      collectBtn.addEventListener('click', () => {
-        collectBtn.classList.add('scale-95');
-        setTimeout(() => {
-          collectBtn.classList.remove('scale-95');
-          collectBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">check</span><span>Собрано! (+1,760)</span>';
-          collectBtn.classList.replace('bg-primary', 'bg-secondary');
-          collectBtn.classList.replace('text-on-primary', 'text-on-secondary');
-        }, 300);
-      });
-    }
-
-    const distributeBtn = document.getElementById('btn-distribute');
-    if (distributeBtn) {
-      distributeBtn.addEventListener('click', () => {
-        distributeBtn.classList.add('bg-primary-container', 'text-on-primary-container');
-        setTimeout(() => {
-          distributeBtn.classList.remove('bg-primary-container', 'text-on-primary-container');
-        }, 600);
-      });
-    }
-  })();
-</script>
 </section>
