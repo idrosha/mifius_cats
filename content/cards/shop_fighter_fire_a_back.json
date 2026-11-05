@@ -1,16 +1,17 @@
 {
-  "cardId": "card_shop_fighter_fire_a_back",
-  "name_key": "card.shop_fighter_fire_a_back",
-  "roleGate": "fighter",
-  "element": "fire",
   "cost": 1,
-  "atk": 5,
+  "atk": 4,
   "shield": 0,
   "hits": 1,
   "targetRule": "nearest",
   "tags": [
     "attack",
+    "crit",
     "ruffle"
   ],
-  "effectOps": []
+  "effectOps": [],
+  "cardId": "card_shop_fighter_fire_a_back",
+  "name_key": "card.shop_fighter_fire_a_back",
+  "roleGate": "fighter",
+  "element": "fire"
 }

@@ -3,12 +3,16 @@ package sim
 import "sort"
 
 // SelectTargets — FULL-SPEC §3.4 Targeting.
-// Formation matters (PvP = PvE, one core): default nearest = front role priority;
-// backline redirects to rear (support first). taunt/stealth/ambush override.
+// Formation matters (PvP = PvE, one core): default nearest = frontmost enemy lane,
+// then role rank; backline redirects to rear (support first).
+// Free-target roles (ranger/mage/support) may pass explicitID for any living enemy.
+// taunt/stealth/ambush override.
 
 func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string) []*Unit {
 	if explicitID != "" {
 		if t := b.unitByID(explicitID); t != nil && t.Alive {
+			// Free-target roles may pick any; melee still honors explicit when UI sends it
+			// (server validates separately for illegal mid-melee deep picks if needed).
 			return []*Unit{t}
 		}
 	}
@@ -70,25 +74,25 @@ func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string) []*U
 			return cands[i].ID < cands[j].ID
 		})
 		return []*Unit{cands[0]}
-	default: // nearest — front role priority
+	default: // nearest — frontmost lane, then role rank (§3.4)
 		cands := filterStealth(enemies, false)
 		cands = applyTaunt(cands, enemies)
 		if len(cands) == 0 {
 			return nil
 		}
 		sort.SliceStable(cands, func(i, j int) bool {
+			if cands[i].Lane != cands[j].Lane {
+				return cands[i].Lane < cands[j].Lane // frontmost enemy first
+			}
 			ri := roleFrontRank(cands[i].Role)
 			rj := roleFrontRank(cands[j].Role)
 			if ri != rj {
-				return ri < rj // tank first
+				return ri < rj
 			}
 			di := abs(cands[i].Lane - actor.Lane)
 			dj := abs(cands[j].Lane - actor.Lane)
 			if di != dj {
 				return di < dj
-			}
-			if cands[i].Lane != cands[j].Lane {
-				return cands[i].Lane < cands[j].Lane
 			}
 			return cands[i].ID < cands[j].ID
 		})
@@ -96,21 +100,23 @@ func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string) []*U
 	}
 }
 
-// roleFrontRank — §3.4 front priority: tank → fighter → mage → ranger → support.
+// roleFrontRank — §3.4: tank → fighter → assassin → mage → ranger → support.
 func roleFrontRank(role string) int {
 	switch role {
 	case "tank":
 		return 0
 	case "fighter":
 		return 1
-	case "mage":
+	case "assassin":
 		return 2
-	case "ranger":
+	case "mage":
 		return 3
-	case "support":
+	case "ranger":
 		return 4
-	default:
+	case "support":
 		return 5
+	default:
+		return 6
 	}
 }
 

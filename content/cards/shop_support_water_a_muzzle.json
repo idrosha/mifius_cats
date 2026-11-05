@@ -1,8 +1,4 @@
 {
-  "cardId": "card_shop_support_water_a_muzzle",
-  "name_key": "card.shop_support_water_a_muzzle",
-  "roleGate": "support",
-  "element": "water",
   "cost": 1,
   "atk": 0,
   "shield": 0,
@@ -14,7 +10,11 @@
   "effectOps": [
     {
       "op": "heal",
-      "amount": 3
+      "amount": 5
     }
-  ]
+  ],
+  "cardId": "card_shop_support_water_a_muzzle",
+  "name_key": "card.shop_support_water_a_muzzle",
+  "roleGate": "support",
+  "element": "water"
 }

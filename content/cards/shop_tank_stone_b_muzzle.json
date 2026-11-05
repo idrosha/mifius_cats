@@ -1,23 +1,23 @@
 {
-  "cardId": "card_shop_tank_stone_b_muzzle",
-  "name_key": "card.shop_tank_stone_b_muzzle",
-  "roleGate": "tank",
-  "element": "stone",
   "cost": 1,
-  "atk": 0,
-  "shield": 8,
-  "hits": 0,
-  "targetRule": "self",
+  "atk": 5,
+  "shield": 0,
+  "hits": 1,
+  "targetRule": "nearest",
   "tags": [
-    "shield",
-    "taunt"
+    "attack",
+    "pierce"
   ],
   "effectOps": [
     {
       "op": "apply_status",
-      "status": "taunt",
+      "status": "fragile",
       "stacks": 1,
       "duration": 2
     }
-  ]
+  ],
+  "cardId": "card_shop_tank_stone_b_muzzle",
+  "name_key": "card.shop_tank_stone_b_muzzle",
+  "roleGate": "tank",
+  "element": "stone"
 }

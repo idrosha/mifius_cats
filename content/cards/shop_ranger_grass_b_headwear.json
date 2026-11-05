@@ -1,16 +1,16 @@
 {
+  "cost": 2,
+  "atk": 3,
+  "shield": 0,
+  "hits": 1,
+  "targetRule": "all_enemies",
+  "tags": [
+    "attack",
+    "aoe"
+  ],
+  "effectOps": [],
   "cardId": "card_shop_ranger_grass_b_headwear",
   "name_key": "card.shop_ranger_grass_b_headwear",
   "roleGate": "ranger",
-  "element": "grass",
-  "cost": 1,
-  "atk": 5,
-  "shield": 0,
-  "hits": 1,
-  "targetRule": "nearest",
-  "tags": [
-    "ambush",
-    "attack"
-  ],
-  "effectOps": []
+  "element": "grass"
 }

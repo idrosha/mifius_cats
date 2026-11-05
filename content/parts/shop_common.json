@@ -154,7 +154,7 @@
     "passiveOps": [
       {
         "op": "stat_mod",
-        "stat": "spd",
+        "stat": "skill",
         "amount": 1
       }
     ],
@@ -220,7 +220,7 @@
     "passiveOps": [
       {
         "op": "stat_mod",
-        "stat": "spd",
+        "stat": "skill",
         "amount": 1
       }
     ],
@@ -261,6 +261,138 @@
     "cardId": "card_shop_fighter_fire_b_tail",
     "passiveOps": [],
     "artKey": "part.shop_fighter_fire_b.tail",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_shop_assassin_bolt_a_eyes",
+    "slot": "eyes",
+    "element": "bolt",
+    "cardId": null,
+    "passiveOps": [
+      {
+        "op": "stat_mod",
+        "stat": "atk",
+        "amount": 1
+      }
+    ],
+    "artKey": "part.shop_assassin_bolt_a.eyes",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_shop_assassin_bolt_a_ears",
+    "slot": "ears",
+    "element": "bolt",
+    "cardId": null,
+    "passiveOps": [
+      {
+        "op": "stat_mod",
+        "stat": "spd",
+        "amount": 1
+      }
+    ],
+    "artKey": "part.shop_assassin_bolt_a.ears",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_shop_assassin_bolt_a_muzzle",
+    "slot": "muzzle",
+    "element": "bolt",
+    "cardId": "card_shop_assassin_bolt_a_muzzle",
+    "passiveOps": [],
+    "artKey": "part.shop_assassin_bolt_a.muzzle",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_shop_assassin_bolt_a_headwear",
+    "slot": "headwear",
+    "element": "bolt",
+    "cardId": "card_shop_assassin_bolt_a_headwear",
+    "passiveOps": [],
+    "artKey": "part.shop_assassin_bolt_a.headwear",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_shop_assassin_bolt_a_back",
+    "slot": "back",
+    "element": "bolt",
+    "cardId": "card_shop_assassin_bolt_a_back",
+    "passiveOps": [],
+    "artKey": "part.shop_assassin_bolt_a.back",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_shop_assassin_bolt_a_tail",
+    "slot": "tail",
+    "element": "bolt",
+    "cardId": "card_shop_assassin_bolt_a_tail",
+    "passiveOps": [],
+    "artKey": "part.shop_assassin_bolt_a.tail",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_shop_assassin_bolt_b_eyes",
+    "slot": "eyes",
+    "element": "bolt",
+    "cardId": null,
+    "passiveOps": [
+      {
+        "op": "stat_mod",
+        "stat": "atk",
+        "amount": 1
+      }
+    ],
+    "artKey": "part.shop_assassin_bolt_b.eyes",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_shop_assassin_bolt_b_ears",
+    "slot": "ears",
+    "element": "bolt",
+    "cardId": null,
+    "passiveOps": [
+      {
+        "op": "stat_mod",
+        "stat": "spd",
+        "amount": 1
+      }
+    ],
+    "artKey": "part.shop_assassin_bolt_b.ears",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_shop_assassin_bolt_b_muzzle",
+    "slot": "muzzle",
+    "element": "bolt",
+    "cardId": "card_shop_assassin_bolt_b_muzzle",
+    "passiveOps": [],
+    "artKey": "part.shop_assassin_bolt_b.muzzle",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_shop_assassin_bolt_b_headwear",
+    "slot": "headwear",
+    "element": "bolt",
+    "cardId": "card_shop_assassin_bolt_b_headwear",
+    "passiveOps": [],
+    "artKey": "part.shop_assassin_bolt_b.headwear",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_shop_assassin_bolt_b_back",
+    "slot": "back",
+    "element": "bolt",
+    "cardId": "card_shop_assassin_bolt_b_back",
+    "passiveOps": [],
+    "artKey": "part.shop_assassin_bolt_b.back",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_shop_assassin_bolt_b_tail",
+    "slot": "tail",
+    "element": "bolt",
+    "cardId": "card_shop_assassin_bolt_b_tail",
+    "passiveOps": [],
+    "artKey": "part.shop_assassin_bolt_b.tail",
     "rarity": "common"
   },
   {
@@ -396,6 +528,138 @@
     "rarity": "common"
   },
   {
+    "partId": "part_shop_mage_fire_a_eyes",
+    "slot": "eyes",
+    "element": "fire",
+    "cardId": null,
+    "passiveOps": [
+      {
+        "op": "stat_mod",
+        "stat": "skill",
+        "amount": 1
+      }
+    ],
+    "artKey": "part.shop_mage_fire_a.eyes",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_shop_mage_fire_a_ears",
+    "slot": "ears",
+    "element": "fire",
+    "cardId": null,
+    "passiveOps": [
+      {
+        "op": "stat_mod",
+        "stat": "skill",
+        "amount": 1
+      }
+    ],
+    "artKey": "part.shop_mage_fire_a.ears",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_shop_mage_fire_a_muzzle",
+    "slot": "muzzle",
+    "element": "fire",
+    "cardId": "card_shop_mage_fire_a_muzzle",
+    "passiveOps": [],
+    "artKey": "part.shop_mage_fire_a.muzzle",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_shop_mage_fire_a_headwear",
+    "slot": "headwear",
+    "element": "fire",
+    "cardId": "card_shop_mage_fire_a_headwear",
+    "passiveOps": [],
+    "artKey": "part.shop_mage_fire_a.headwear",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_shop_mage_fire_a_back",
+    "slot": "back",
+    "element": "fire",
+    "cardId": "card_shop_mage_fire_a_back",
+    "passiveOps": [],
+    "artKey": "part.shop_mage_fire_a.back",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_shop_mage_fire_a_tail",
+    "slot": "tail",
+    "element": "fire",
+    "cardId": "card_shop_mage_fire_a_tail",
+    "passiveOps": [],
+    "artKey": "part.shop_mage_fire_a.tail",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_shop_mage_ice_b_eyes",
+    "slot": "eyes",
+    "element": "ice",
+    "cardId": null,
+    "passiveOps": [
+      {
+        "op": "stat_mod",
+        "stat": "skill",
+        "amount": 1
+      }
+    ],
+    "artKey": "part.shop_mage_ice_b.eyes",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_shop_mage_ice_b_ears",
+    "slot": "ears",
+    "element": "ice",
+    "cardId": null,
+    "passiveOps": [
+      {
+        "op": "stat_mod",
+        "stat": "skill",
+        "amount": 1
+      }
+    ],
+    "artKey": "part.shop_mage_ice_b.ears",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_shop_mage_ice_b_muzzle",
+    "slot": "muzzle",
+    "element": "ice",
+    "cardId": "card_shop_mage_ice_b_muzzle",
+    "passiveOps": [],
+    "artKey": "part.shop_mage_ice_b.muzzle",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_shop_mage_ice_b_headwear",
+    "slot": "headwear",
+    "element": "ice",
+    "cardId": "card_shop_mage_ice_b_headwear",
+    "passiveOps": [],
+    "artKey": "part.shop_mage_ice_b.headwear",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_shop_mage_ice_b_back",
+    "slot": "back",
+    "element": "ice",
+    "cardId": "card_shop_mage_ice_b_back",
+    "passiveOps": [],
+    "artKey": "part.shop_mage_ice_b.back",
+    "rarity": "common"
+  },
+  {
+    "partId": "part_shop_mage_ice_b_tail",
+    "slot": "tail",
+    "element": "ice",
+    "cardId": "card_shop_mage_ice_b_tail",
+    "passiveOps": [],
+    "artKey": "part.shop_mage_ice_b.tail",
+    "rarity": "common"
+  },
+  {
     "partId": "part_shop_support_water_a_eyes",
     "slot": "eyes",
     "element": "water",
@@ -403,7 +667,7 @@
     "passiveOps": [
       {
         "op": "stat_mod",
-        "stat": "atk",
+        "stat": "charm",
         "amount": 1
       }
     ],
@@ -418,7 +682,7 @@
     "passiveOps": [
       {
         "op": "stat_mod",
-        "stat": "spd",
+        "stat": "skill",
         "amount": 1
       }
     ],
@@ -469,7 +733,7 @@
     "passiveOps": [
       {
         "op": "stat_mod",
-        "stat": "atk",
+        "stat": "charm",
         "amount": 1
       }
     ],
@@ -484,7 +748,7 @@
     "passiveOps": [
       {
         "op": "stat_mod",
-        "stat": "spd",
+        "stat": "skill",
         "amount": 1
       }
     ],

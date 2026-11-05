@@ -59,7 +59,7 @@ func TestContentCatalog_StartersAndCards(t *testing.T) {
 			backlineByRole[c.RoleGate] = true
 		}
 	}
-	for _, role := range []string{"tank", "fighter", "support", "mage", "ranger"} {
+	for _, role := range []string{"tank", "fighter", "assassin", "support", "mage", "ranger"} {
 		if !backlineByRole[role] {
 			t.Fatalf("missing backline attack for role %s", role)
 		}

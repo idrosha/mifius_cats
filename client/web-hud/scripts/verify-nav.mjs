@@ -182,6 +182,17 @@ ok("app no client damage authority note", js.includes("No combat authority"));
 ok("app GrantStarterKit smoke", js.includes("/api/dev/starter") && js.includes("applyStarterGrant"));
 ok("app stub auth free login", js.includes("/api/dev/login") && js.includes("mythfelStubLogin") && js.includes("function stubLogin"));
 ok("app soft-launch test roster flag", js.includes("testRoster: true"));
+ok(
+  "app formation newbie tip",
+  js.includes("formation.tip.roles") && js.includes("formationRoleTip"),
+);
+ok(
+  "app 12 shop common variants meta",
+  js.includes("shop_assassin_bolt_a") &&
+    js.includes("shop_assassin_bolt_b") &&
+    js.includes("shop_mage_fire_a") &&
+    js.includes("shop_mage_ice_b"),
+);
 ok("boss_raid remap from pve_12", js.includes('boss_raid') && html.includes('data-stitch="boss_raid"'));
 ok(
   "boss_dungeon wired",
@@ -320,19 +331,24 @@ try {
       "shop_tank_stone_b",
       "shop_fighter_fire_a",
       "shop_fighter_fire_b",
+      "shop_assassin_bolt_a",
+      "shop_assassin_bolt_b",
       "shop_ranger_grass_a",
       "shop_ranger_grass_b",
+      "shop_mage_fire_a",
+      "shop_mage_ice_b",
       "shop_support_water_a",
       "shop_support_water_b",
     ];
     ok(
-      "http soft-launch test grant 12 cats",
+      "http soft-launch test grant 16 cats (3+12+farm)",
       starter.ok &&
         kit.fish === 200 &&
         kit.bowls === 3 &&
         kit.pvpTickets === 5 &&
         kit.yarn === 0 &&
-        kit.cats?.length === 12 &&
+        kit.cats?.length === 16 &&
+        kit.shopCommonGranted === 12 &&
         kit.potions?.length === 6 &&
         kit.gear === null &&
         kit.softLaunchTestRoster === true &&
@@ -340,6 +356,8 @@ try {
         shopIds.every((id) => kit.cats.some((c) => c.templateId === id)) &&
         (roles.tank || 0) >= 2 &&
         (roles.fighter || 0) >= 2 &&
+        (roles.assassin || 0) >= 2 &&
+        (roles.mage || 0) >= 2 &&
         (roles.ranger || 0) >= 2 &&
         (roles.support || 0) >= 2,
     );
@@ -365,7 +383,7 @@ try {
         loginBody.ok === true &&
         loginBody.stubAuth === true &&
         loginBody.passwordAccepted === true &&
-        loginBody.profile?.cats?.length === 12,
+        loginBody.profile?.cats?.length === 16,
     );
     const emptyLogin = await fetch(`${BASE}/api/dev/login`, {
       method: "POST",
@@ -375,7 +393,7 @@ try {
     const emptyBody = await emptyLogin.json();
     ok(
       "http stub login empty credentials ok",
-      emptyLogin.ok && emptyBody.ok === true && emptyBody.profile?.cats?.length === 12,
+      emptyLogin.ok && emptyBody.ok === true && emptyBody.profile?.cats?.length === 16,
     );
   }
 } catch (err) {

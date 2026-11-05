@@ -268,8 +268,8 @@
     "en": "Squad formation 3v3"
   },
   "formation.lead": {
-    "ru": "Авангард → Центр → Тыл. Зелья из Таверны — слоты ниже (stub).",
-    "en": "Vanguard → Center → Rear. Tavern potions in slots below (stub)."
+    "ru": "Авангард → Центр → Тыл. Не ставь саппорта/стрелка/мага вперёд — фронт для танка (и мили).",
+    "en": "Vanguard → Center → Rear. Keep support/ranger/mage off the front — front is for tanks (and melee)."
   },
   "formation.lane.vanguard": {
     "ru": "Авангард",
@@ -724,8 +724,8 @@
     "en": "Обычные коты"
   },
   "shop.lead_common": {
-    "ru": "Фиксированные колоды по классу · 2 варианта · за рыбок",
-    "en": "Фиксированные колоды по классу · 2 варианта · за рыбок"
+    "ru": "6 классов × 2 варианта = 12 обычных котов · фиксированные киты из 4 карт · за рыбок",
+    "en": "6 classes × 2 variants = 12 ordinary cats · fixed 4-card kits · fish"
   },
   "mythmir.mission_list": {
     "ru": "Список миссий",
@@ -752,163 +752,247 @@
     "en": "Войти как Хранитель"
   },
   "card.shop_tank_stone_a_muzzle": {
-    "ru": "tank A · muzzle",
-    "en": "tank A · muzzle"
+    "ru": "Каменный оскал",
+    "en": "Stone Snarl"
   },
   "card.shop_tank_stone_a_headwear": {
-    "ru": "tank A · headwear",
-    "en": "tank A · headwear"
+    "ru": "Галька-шлем",
+    "en": "Pebble Helm"
   },
   "card.shop_tank_stone_a_back": {
-    "ru": "tank A · back",
-    "en": "tank A · back"
+    "ru": "Щит-валун",
+    "en": "Boulder Guard"
   },
   "card.shop_tank_stone_a_tail": {
-    "ru": "tank A · tail",
-    "en": "tank A · tail"
+    "ru": "Хвост-утёс",
+    "en": "Cliff Tail"
   },
   "shop.offer.shop_cat_tank_common_a": {
-    "ru": "Обычный танк A",
-    "en": "Common tank A"
+    "ru": "Обычный танк A (щит/агро)",
+    "en": "Common tank A (shield/aggro)"
   },
   "card.shop_tank_stone_b_muzzle": {
-    "ru": "tank B · muzzle",
-    "en": "tank B · muzzle"
+    "ru": "Пробой когтем",
+    "en": "Pierce Claw"
   },
   "card.shop_tank_stone_b_headwear": {
-    "ru": "tank B · headwear",
-    "en": "tank B · headwear"
+    "ru": "Щит-осколок",
+    "en": "Shard Guard"
   },
   "card.shop_tank_stone_b_back": {
-    "ru": "tank B · back",
-    "en": "tank B · back"
+    "ru": "Бронелом",
+    "en": "Armor Break"
   },
   "card.shop_tank_stone_b_tail": {
-    "ru": "tank B · tail",
-    "en": "tank B · tail"
+    "ru": "Хвост-пробой",
+    "en": "Pierce Tail"
   },
   "shop.offer.shop_cat_tank_common_b": {
-    "ru": "Обычный танк B",
-    "en": "Common tank B"
+    "ru": "Обычный танк B (пробой)",
+    "en": "Common tank B (pierce)"
   },
   "card.shop_fighter_fire_a_muzzle": {
-    "ru": "fighter A · muzzle",
-    "en": "fighter A · muzzle"
+    "ru": "Парный укус",
+    "en": "Twin Bite"
   },
   "card.shop_fighter_fire_a_headwear": {
-    "ru": "fighter A · headwear",
-    "en": "fighter A · headwear"
+    "ru": "Искры-когти",
+    "en": "Spark Claws"
   },
   "card.shop_fighter_fire_a_back": {
-    "ru": "fighter A · back",
-    "en": "fighter A · back"
+    "ru": "Критовсечь",
+    "en": "Crit Slash"
   },
   "card.shop_fighter_fire_a_tail": {
-    "ru": "fighter A · tail",
-    "en": "fighter A · tail"
+    "ru": "Двойной хлыст",
+    "en": "Twin Lash"
   },
   "shop.offer.shop_cat_fighter_common_a": {
-    "ru": "Обычный боец A",
-    "en": "Common fighter A"
+    "ru": "Обычный боец A (парный/крит)",
+    "en": "Common fighter A (dual/crit)"
   },
   "card.shop_fighter_fire_b_muzzle": {
-    "ru": "fighter B · muzzle",
-    "en": "fighter B · muzzle"
+    "ru": "Двуручный удар",
+    "en": "Great Swing"
   },
   "card.shop_fighter_fire_b_headwear": {
-    "ru": "fighter B · headwear",
-    "en": "fighter B · headwear"
+    "ru": "Тяжёлый оскал",
+    "en": "Heavy Snarl"
   },
   "card.shop_fighter_fire_b_back": {
-    "ru": "fighter B · back",
-    "en": "fighter B · back"
+    "ru": "Молот жара",
+    "en": "Heat Hammer"
   },
   "card.shop_fighter_fire_b_tail": {
-    "ru": "fighter B · tail",
-    "en": "fighter B · tail"
+    "ru": "Тяжёлый хлыст",
+    "en": "Heavy Lash"
   },
   "shop.offer.shop_cat_fighter_common_b": {
-    "ru": "Обычный боец B",
-    "en": "Common fighter B"
+    "ru": "Обычный боец B (двуручный)",
+    "en": "Common fighter B (two-hand)"
+  },
+  "card.shop_assassin_bolt_a_muzzle": {
+    "ru": "Теневой укус",
+    "en": "Shadow Bite"
+  },
+  "card.shop_assassin_bolt_a_headwear": {
+    "ru": "Ускользнуть",
+    "en": "Slip Away"
+  },
+  "card.shop_assassin_bolt_a_back": {
+    "ru": "Крит из тени",
+    "en": "Shade Crit"
+  },
+  "card.shop_assassin_bolt_a_tail": {
+    "ru": "Исчезновение",
+    "en": "Vanish Strike"
+  },
+  "shop.offer.shop_cat_assassin_common_a": {
+    "ru": "Обычный убийца A (уворот/крит)",
+    "en": "Common assassin A (evade/crit)"
+  },
+  "card.shop_assassin_bolt_b_muzzle": {
+    "ru": "Укол в тыл",
+    "en": "Backstab"
+  },
+  "card.shop_assassin_bolt_b_headwear": {
+    "ru": "Тихий разряд",
+    "en": "Silent Bolt"
+  },
+  "card.shop_assassin_bolt_b_back": {
+    "ru": "Пронзить тыл",
+    "en": "Rear Pierce"
+  },
+  "card.shop_assassin_bolt_b_tail": {
+    "ru": "Казнь сзади",
+    "en": "Rear Execute"
+  },
+  "shop.offer.shop_cat_assassin_common_b": {
+    "ru": "Обычный убийца B (тыл/крит)",
+    "en": "Common assassin B (backline/crit)"
   },
   "card.shop_ranger_grass_a_muzzle": {
-    "ru": "ranger A · muzzle",
-    "en": "ranger A · muzzle"
+    "ru": "Метка охотника",
+    "en": "Hunter's Mark"
   },
   "card.shop_ranger_grass_a_headwear": {
-    "ru": "ranger A · headwear",
-    "en": "ranger A · headwear"
+    "ru": "Прицельный укус",
+    "en": "Aimed Bite"
   },
   "card.shop_ranger_grass_a_back": {
-    "ru": "ranger A · back",
-    "en": "ranger A · back"
+    "ru": "Стрела в тыл",
+    "en": "Rear Arrow"
   },
   "card.shop_ranger_grass_a_tail": {
-    "ru": "ranger A · tail",
-    "en": "ranger A · tail"
+    "ru": "Крит-засада",
+    "en": "Ambush Crit"
   },
   "shop.offer.shop_cat_ranger_common_a": {
-    "ru": "Обычный стрелок A",
-    "en": "Common ranger A"
+    "ru": "Обычный стрелок A (охотник)",
+    "en": "Common ranger A (hunter)"
   },
   "card.shop_ranger_grass_b_muzzle": {
-    "ru": "ranger B · muzzle",
-    "en": "ranger B · muzzle"
+    "ru": "Град стрел",
+    "en": "Arrow Storm"
   },
   "card.shop_ranger_grass_b_headwear": {
-    "ru": "ranger B · headwear",
-    "en": "ranger B · headwear"
+    "ru": "Тяжёлые стрелы",
+    "en": "Heavy Arrows"
   },
   "card.shop_ranger_grass_b_back": {
-    "ru": "ranger B · back",
-    "en": "ranger B · back"
+    "ru": "Метка слабого",
+    "en": "Weak Mark"
   },
   "card.shop_ranger_grass_b_tail": {
-    "ru": "ranger B · tail",
-    "en": "ranger B · tail"
+    "ru": "Залп по площади",
+    "en": "Volley"
   },
   "shop.offer.shop_cat_ranger_common_b": {
-    "ru": "Обычный стрелок B",
-    "en": "Common ranger B"
+    "ru": "Обычный стрелок B (AoE)",
+    "en": "Common ranger B (AoE)"
+  },
+  "card.shop_mage_fire_a_muzzle": {
+    "ru": "Огненный круг",
+    "en": "Fire Ring"
+  },
+  "card.shop_mage_fire_a_headwear": {
+    "ru": "Искра-крит",
+    "en": "Spark Crit"
+  },
+  "card.shop_mage_fire_a_back": {
+    "ru": "Волна жара",
+    "en": "Heat Wave"
+  },
+  "card.shop_mage_fire_a_tail": {
+    "ru": "Ожог тыла",
+    "en": "Rear Burn"
+  },
+  "shop.offer.shop_cat_mage_common_a": {
+    "ru": "Обычный маг A (огонь/AoE)",
+    "en": "Common mage A (fire/AoE)"
+  },
+  "card.shop_mage_ice_b_muzzle": {
+    "ru": "Ледяная буря",
+    "en": "Ice Storm"
+  },
+  "card.shop_mage_ice_b_headwear": {
+    "ru": "Морозный укус",
+    "en": "Frost Bite"
+  },
+  "card.shop_mage_ice_b_back": {
+    "ru": "Холодный фронт",
+    "en": "Cold Front"
+  },
+  "card.shop_mage_ice_b_tail": {
+    "ru": "Заморозка тыла",
+    "en": "Rear Freeze"
+  },
+  "shop.offer.shop_cat_mage_common_b": {
+    "ru": "Обычный маг B (лёд/стан)",
+    "en": "Common mage B (ice/freeze)"
   },
   "card.shop_support_water_a_muzzle": {
-    "ru": "support A · muzzle",
-    "en": "support A · muzzle"
+    "ru": "Капля жизни",
+    "en": "Life Drop"
   },
   "card.shop_support_water_a_headwear": {
-    "ru": "support A · headwear",
-    "en": "support A · headwear"
+    "ru": "Чистый родник",
+    "en": "Clear Spring"
   },
   "card.shop_support_water_a_back": {
-    "ru": "support A · back",
-    "en": "support A · back"
+    "ru": "Волна опеки",
+    "en": "Ward Wave"
   },
   "card.shop_support_water_a_tail": {
-    "ru": "support A · tail",
-    "en": "support A · tail"
+    "ru": "Очищение",
+    "en": "Cleanse Flow"
   },
   "shop.offer.shop_cat_support_common_a": {
-    "ru": "Обычный поддержка A",
-    "en": "Common support A"
+    "ru": "Обычная поддержка A (хил/чистота)",
+    "en": "Common support A (heal/cleanse)"
   },
   "card.shop_support_water_b_muzzle": {
-    "ru": "support B · muzzle",
-    "en": "support B · muzzle"
+    "ru": "Лёгкий хил",
+    "en": "Soft Heal"
   },
   "card.shop_support_water_b_headwear": {
-    "ru": "support B · headwear",
-    "en": "support B · headwear"
+    "ru": "Боевой настрой",
+    "en": "Battle Cheer"
   },
   "card.shop_support_water_b_back": {
-    "ru": "support B · back",
-    "en": "support B · back"
+    "ru": "Прилив силы",
+    "en": "Tide Buff"
   },
   "card.shop_support_water_b_tail": {
-    "ru": "support B · tail",
-    "en": "support B · tail"
+    "ru": "Ослабить врага",
+    "en": "Weaken"
   },
   "shop.offer.shop_cat_support_common_b": {
-    "ru": "Обычный поддержка B",
-    "en": "Common support B"
+    "ru": "Обычная поддержка B (хил/бафф)",
+    "en": "Common support B (heal/buff)"
+  },
+  "formation.tip.roles": {
+    "ru": "Подсказка: саппорт и стрелок бьют с любого ряда — береги их в тылу.",
+    "en": "Tip: support and ranger hit from any lane — keep them in the rear."
   }
 }

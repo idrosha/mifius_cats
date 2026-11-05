@@ -27,6 +27,8 @@ func (b *Battle) resolveCard(actor *Unit, card content.CardDef, targets []*Unit)
 	if hits <= 0 && card.Atk > 0 {
 		hits = 1
 	}
+	pierce := hasTag(card.Tags, "pierce")
+	crit := hasTag(card.Tags, "crit")
 	for h := 0; h < hits; h++ {
 		for _, t := range targets {
 			if !t.Alive || card.Atk <= 0 {
@@ -40,6 +42,9 @@ func (b *Battle) resolveCard(actor *Unit, card content.CardDef, targets []*Unit)
 			if actor.hasStatus("claw_mode") {
 				mul *= 1.5
 			}
+			if crit {
+				mul *= 1.5
+			}
 			if t.hasStatus("vuln") {
 				mul *= 1.25
 			}
@@ -47,7 +52,8 @@ func (b *Battle) resolveCard(actor *Unit, card content.CardDef, targets []*Unit)
 				mul *= 0.75
 			}
 			dealt := int(math.Floor(float64(dmg) * mul))
-			b.applyDamage(actor, t, dealt)
+			ignoreShield := pierce || t.hasStatus("fragile")
+			b.applyDamage(actor, t, dealt, ignoreShield)
 		}
 	}
 
@@ -63,12 +69,12 @@ func kinshipOnly(cardEl, unitEl string) float64 {
 	return 1.0
 }
 
-func (b *Battle) applyDamage(attacker, target *Unit, amount int) {
+func (b *Battle) applyDamage(attacker, target *Unit, amount int, ignoreShield bool) {
 	_ = attacker
 	if amount <= 0 || !target.Alive {
 		return
 	}
-	if target.Shield > 0 {
+	if !ignoreShield && target.Shield > 0 {
 		if amount <= target.Shield {
 			target.Shield -= amount
 			return
@@ -87,6 +93,15 @@ func (b *Battle) applyDamage(attacker, target *Unit, amount int) {
 		target.Alive = false
 		target.Statuses = nil
 	}
+}
+
+func hasTag(tags []string, want string) bool {
+	for _, t := range tags {
+		if t == want {
+			return true
+		}
+	}
+	return false
 }
 
 func (b *Battle) applyOp(actor *Unit, targets []*Unit, op map[string]any) {

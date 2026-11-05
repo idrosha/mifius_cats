@@ -160,7 +160,7 @@ func (b *Battle) tickStatuses(side Side) {
 		for _, s := range u.Statuses {
 			switch s.ID {
 			case "poison", "bleed":
-				b.applyDamage(nil, u, s.Stacks)
+				b.applyDamage(nil, u, s.Stacks, false)
 			}
 			if s.Duration > 0 {
 				s.Duration--

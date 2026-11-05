@@ -1,10 +1,6 @@
 {
-  "cardId": "card_shop_fighter_fire_b_muzzle",
-  "name_key": "card.shop_fighter_fire_b_muzzle",
-  "roleGate": "fighter",
-  "element": "fire",
-  "cost": 1,
-  "atk": 5,
+  "cost": 2,
+  "atk": 9,
   "shield": 0,
   "hits": 1,
   "targetRule": "nearest",
@@ -12,5 +8,9 @@
     "attack",
     "ruffle"
   ],
-  "effectOps": []
+  "effectOps": [],
+  "cardId": "card_shop_fighter_fire_b_muzzle",
+  "name_key": "card.shop_fighter_fire_b_muzzle",
+  "roleGate": "fighter",
+  "element": "fire"
 }

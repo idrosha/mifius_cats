@@ -1,16 +1,16 @@
 {
+  "cost": 1,
+  "atk": 4,
+  "shield": 0,
+  "hits": 1,
+  "targetRule": "nearest",
+  "tags": [
+    "attack",
+    "taunt"
+  ],
+  "effectOps": [],
   "cardId": "card_shop_tank_stone_a_tail",
   "name_key": "card.shop_tank_stone_a_tail",
   "roleGate": "tank",
-  "element": "stone",
-  "cost": 1,
-  "atk": 0,
-  "shield": 10,
-  "hits": 0,
-  "targetRule": "self",
-  "tags": [
-    "shield",
-    "taunt"
-  ],
-  "effectOps": []
+  "element": "stone"
 }

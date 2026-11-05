@@ -20,9 +20,9 @@ func TestSelectTargets_NearestPrefersTank(t *testing.T) {
 	}
 }
 
-func TestSelectTargets_NearestIgnoresMisplacedSupportFront(t *testing.T) {
+func TestSelectTargets_NearestPrefersFrontLane(t *testing.T) {
 	b, actor := baseBattleThreeRoles()
-	// Support standing in lane 0 still loses to tank by role front-priority.
+	// Misplaced support in lane 0 is the frontmost enemy (§3.4 lane-first).
 	for _, u := range b.Units {
 		if u.ID == "e_support" {
 			u.Lane = 0
@@ -32,8 +32,8 @@ func TestSelectTargets_NearestIgnoresMisplacedSupportFront(t *testing.T) {
 		}
 	}
 	got := b.SelectTargets(actor, "nearest", "")
-	if len(got) != 1 || got[0].ID != "e_tank" {
-		t.Fatalf("nearest must prefer tank role over front lane support, got %#v", ids(got))
+	if len(got) != 1 || got[0].ID != "e_support" {
+		t.Fatalf("nearest must prefer front lane over rear tank, got %#v", ids(got))
 	}
 }
 

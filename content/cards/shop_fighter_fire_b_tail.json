@@ -1,16 +1,17 @@
 {
+  "cost": 2,
+  "atk": 8,
+  "shield": 0,
+  "hits": 1,
+  "targetRule": "backline",
+  "tags": [
+    "attack",
+    "ruffle",
+    "backline"
+  ],
+  "effectOps": [],
   "cardId": "card_shop_fighter_fire_b_tail",
   "name_key": "card.shop_fighter_fire_b_tail",
   "roleGate": "fighter",
-  "element": "fire",
-  "cost": 1,
-  "atk": 6,
-  "shield": 0,
-  "hits": 1,
-  "targetRule": "nearest",
-  "tags": [
-    "attack",
-    "ruffle"
-  ],
-  "effectOps": []
+  "element": "fire"
 }

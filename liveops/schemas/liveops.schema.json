@@ -57,6 +57,7 @@
       "enum": [
         "tank",
         "fighter",
+        "assassin",
         "mage",
         "ranger",
         "support"
@@ -103,8 +104,8 @@
         },
         "roles": {
           "type": "array",
-          "minItems": 5,
-          "maxItems": 5,
+          "minItems": 6,
+          "maxItems": 6,
           "uniqueItems": true,
           "items": {
             "$ref": "#/$defs/role"

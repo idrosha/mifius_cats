@@ -1,0 +1,17 @@
+{
+  "cost": 2,
+  "atk": 3,
+  "shield": 0,
+  "hits": 1,
+  "targetRule": "all_enemies",
+  "tags": [
+    "attack",
+    "aoe",
+    "control"
+  ],
+  "effectOps": [],
+  "cardId": "card_shop_mage_ice_b_back",
+  "name_key": "card.shop_mage_ice_b_back",
+  "roleGate": "mage",
+  "element": "ice"
+}
