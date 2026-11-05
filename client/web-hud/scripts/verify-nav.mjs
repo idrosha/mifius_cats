@@ -220,6 +220,20 @@ ok(
     !/tabs:\s*\[[^\]]*\{ id: "formation"/s.test(js.match(/id: "combat"[\s\S]*?tabs:\s*\[[\s\S]*?\]/)?.[0] || ""),
 );
 ok("app navigate()", js.includes("function navigate("));
+ok(
+  "showView only toggles #app > section (not nested Stitch mains)",
+  js.includes('querySelectorAll("#app > section")') && !js.includes('querySelectorAll("main > section")'),
+);
+ok("gate tip auto-hides (no orphan banner)", js.includes("function hideGateTip") && js.includes("hideGateTip._t"));
+ok(
+  "home integrated hosts (no float-only panel)",
+  html.includes('id="homeCatPicker"') &&
+    html.includes('id="homeGearBlock"') &&
+    html.includes('id="homeHeroCard"') &&
+    html.includes('data-purpose="character-home"'),
+);
+ok("css kills leftover stitch pt-28 void", css.includes("padding-top: 0.75rem !important") && css.includes("pt-28"));
+ok("css subtabs even spacing nowrap", css.includes("space-evenly") && css.includes("flex-wrap: nowrap"));
 ok("app battle/devapi CreatePvE", js.includes("/api/battle/v1/CreatePvE"));
 ok("app no client damage authority note", js.includes("No combat authority"));
 ok("app GrantStarterKit smoke", js.includes("/api/dev/starter") && js.includes("applyStarterGrant"));
