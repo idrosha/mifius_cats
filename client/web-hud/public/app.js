@@ -218,11 +218,57 @@ const MARKET_STOCK = [
   { id: "tool_shovel", name: "Лопата", price: 50, kind: "tool", gated: false },
   { id: "tool_axe", name: "Топор", price: 55, kind: "tool", gated: false },
   { id: "tool_pick", name: "Кирка", price: 60, kind: "tool", gated: false },
+  { id: "bait_worm", name: "Наживка · червяк", price: 12, kind: "bait", gated: false },
+  { id: "bait_shiny", name: "Наживка · блесна", price: 28, kind: "bait", gated: false },
   { id: "res_wood", name: "Бревно", price: 8, kind: "resource", gated: false },
   { id: "res_ore", name: "Руда", price: 12, kind: "resource", gated: false },
   { id: "craft_herb_bundle", name: "Пучок трав (крафт)", price: 18, kind: "ingredient", gated: false },
   { id: "potion_stone_skin", name: "Зелье каменной шкуры", price: 45, kind: "potion", gated: false },
 ];
+
+/** Farm Soon zones — map pins + dock list (Phase 6 / SL stub). */
+const FARM_ZONES = [
+  { id: "wheat", label: "Пшеничные грядки", kind: "crop", role: "farmer" },
+  { id: "herbs", label: "Аптекарские грядки", kind: "crop", role: "farmer" },
+  { id: "garden", label: "Бахча & мята", kind: "crop", role: "farmer" },
+  { id: "orchard", label: "Яблоневый сад", kind: "crop", role: "farmer" },
+  { id: "fishing", label: "Рыбная заводя", kind: "water", role: "fisher" },
+  { id: "wood", label: "Дубовая лесопилка", kind: "gather", role: "woodcutter" },
+  { id: "mine", label: "Рудник", kind: "gather", role: "miner" },
+  { id: "stone", label: "Гранитный карьер", kind: "gather", role: "stonemason" },
+  { id: "forge", label: "Кузня", kind: "craft", role: "blacksmith" },
+  { id: "alchemist", label: "Склад алхимика", kind: "craft", role: "alchemist" },
+];
+
+/** Pass ACTIVE autofarm toggles — UI only; server ticks later. */
+const AUTOFARM_TOGGLES = [
+  {
+    id: "autofarm_crops",
+    label: "Фермеры: сбор + посев",
+    detail: "нужны seeds с Рынка",
+  },
+  {
+    id: "autofarm_alchemy",
+    label: "Mats → алхимик → зелья",
+    detail: "auto-craft potions",
+  },
+  {
+    id: "autofarm_gather",
+    label: "Дровосек / шахтёр / каменотёс → кузнец",
+    detail: "auto-gather",
+  },
+  {
+    id: "autofarm_blacksmith",
+    label: "Кузнец: auto-craft выбранных",
+    detail: "item id list stub",
+  },
+  {
+    id: "autofarm_fish",
+    label: "Рыбная заводя: auto-cast",
+    detail: "нужна наживка",
+  },
+];
+const PASS_ACTIVE_TIP = "Активируй боевой пасс";
 
 const SHOP_STUB_ROWS = [
   { id: "iap_yarn", label: "IAP · пряжа / донат", detail: "yarn packs", gated: false },
@@ -252,9 +298,9 @@ const CODEX_ENTRIES = [
     titleRu: "Добыча ресурсов",
     titleEn: "Resource gathering",
     bodyRu:
-      "На soft launch глубокая ферма выключена (вкладка «Скоро»). Семена и расходные лопата/топор/кирка покупаются на Рынке (stub). Крафт-ингредиенты и ресурсы можно сбыть на Рынке (NPC) или выставить на Аукцион. Сбор с грядок — post-SL.",
+      "На soft launch глубокая ферма выключена (вкладка «Скоро»), но HUD показывает 10 зон усадьбы, включая Рыбную заводь. Семена, наживка, лопата/топор/кирка — на Рынке (stub). Pass ACTIVE даёт тумблеры автофермы (сбор+посев, алхимик, gather→кузнец). Сбор/крафт loop — post-SL / tip.",
     bodyEn:
-      "Deep farm is off on soft launch (Soon tab). Seeds and shovel/axe/pick are Market stubs. Craft ingredients/resources sell via Market NPC or Auction. Crop harvest is post-SL.",
+      "Deep farm is off on soft launch (Soon tab), but HUD shows 10 estate zones including the fishing cove. Seeds, bait, shovel/axe/pick are Market stubs. Pass ACTIVE unlocks autofarm toggles (harvest+replant, alchemist, gather→blacksmith). Live crop/craft loop is post-SL / tip.",
   },
   {
     id: "trade",
@@ -329,6 +375,14 @@ const state = {
   ],
   codexEntryId: "forms",
   guildBattleSize: 3,
+  passActiveStub: false,
+  autofarm: {
+    autofarm_crops: false,
+    autofarm_alchemy: false,
+    autofarm_gather: false,
+    autofarm_blacksmith: false,
+    autofarm_fish: false,
+  },
   wireMode: "hub",
   loggedIn: false,
   selectedStageId: YARD_STAGE,
@@ -461,6 +515,19 @@ async function checkBattle() {
 
 function featureFlags() {
   return state.liveOps?.feature_flags || {};
+}
+
+/** Smoke / stub: pass ACTIVE until real passActiveUntil from profile. */
+function passActive() {
+  if (state.passActiveStub) return true;
+  const until = state.profile?.passActiveUntil;
+  if (!until) return false;
+  const ts = typeof until === "number" ? until : Date.parse(until);
+  return Number.isFinite(ts) && ts > Date.now();
+}
+
+function showPassGateTip() {
+  showGateTip(t("gate.tip.pass", PASS_ACTIVE_TIP));
 }
 
 function logicalViewId() {
@@ -1354,20 +1421,165 @@ function startGuildBattle() {
   startYard(false);
 }
 
+function renderAutofarmToggles(hostListId, { compact = false } = {}) {
+  const list = $(hostListId);
+  if (!list) return;
+  list.innerHTML = "";
+  const active = passActive();
+  for (const row of AUTOFARM_TOGGLES) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "wire-btn";
+    const on = !!state.autofarm[row.id];
+    const mark = on ? "ON" : "OFF";
+    btn.innerHTML = compact
+      ? `<strong>${row.label}</strong><div class="meta">${mark}${active ? "" : " · pass gated"}</div>`
+      : `<strong>${row.label}</strong><div class="meta">${row.detail} · ${mark}${active ? "" : " · pass gated"}</div>`;
+    if (!active) btn.classList.add("gated");
+    btn.addEventListener("click", () => {
+      if (!passActive()) {
+        showPassGateTip();
+        return;
+      }
+      state.autofarm[row.id] = !state.autofarm[row.id];
+      toast(
+        state.autofarm[row.id]
+          ? t("farm.autofarm.on", "Автоферма ON · stub (сервер later)")
+          : t("farm.autofarm.off", "Автоферма OFF"),
+      );
+      renderFarm();
+      renderPass();
+    });
+    list.appendChild(btn);
+  }
+}
+
+function renderFarm() {
+  const zones = $("farmZonesList");
+  if (zones) {
+    zones.innerHTML = "";
+    for (const z of FARM_ZONES) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "wire-btn";
+      btn.innerHTML = `<strong>${z.label}</strong><div class="meta">${z.kind} · ${z.role}${z.id === "fishing" ? " · fishing" : ""}</div>`;
+      btn.addEventListener("click", () => {
+        if (typeof window.selectNode === "function") {
+          try {
+            window.selectNode(z.id);
+          } catch (_) {}
+        }
+        // SL: no live crop/fish authority — tip only
+        showGateTip(
+          t(
+            "farm.zone.tip",
+            z.id === "fishing"
+              ? "Рыбная заводя — Soon / подними ранг в боях"
+              : GATE_TIP,
+          ),
+        );
+      });
+      zones.appendChild(btn);
+    }
+  }
+  const lead = $("farmAutofarmLead");
+  if (lead) {
+    lead.textContent = passActive()
+      ? t(
+          "farm.autofarm.lead.active",
+          "Пасс ACTIVE · тумблеры stub · seeds/bait с Рынка",
+        )
+      : t(
+          "farm.autofarm.lead.locked",
+          "Нужен ACTIVE пасс · иначе tip «Активируй боевой пасс»",
+        );
+  }
+  renderAutofarmToggles("farmAutofarmList", { compact: true });
+
+  // Gate Stitch collect CTAs to tip (do not invent harvest rewards)
+  const collectAll = $("collect-all-btn");
+  if (collectAll && !collectAll.dataset.mythfelBound) {
+    collectAll.dataset.mythfelBound = "1";
+    collectAll.addEventListener(
+      "click",
+      (ev) => {
+        ev.preventDefault();
+        ev.stopImmediatePropagation();
+        showGateTip();
+      },
+      true,
+    );
+  }
+  const nodeCollect = $("node-collect-btn");
+  if (nodeCollect && !nodeCollect.dataset.mythfelBound) {
+    nodeCollect.dataset.mythfelBound = "1";
+    nodeCollect.addEventListener(
+      "click",
+      (ev) => {
+        ev.preventDefault();
+        ev.stopImmediatePropagation();
+        showGateTip();
+      },
+      true,
+    );
+  }
+}
+
 function renderPass() {
   $("passEyebrow").textContent = t("hub.tab.pass", "Пасс");
   $("passTitle").textContent = t("pass.title", "Зов Тёплого Очага");
   $("passLead").textContent = t(
     "pass.lead",
-    "×2 XP · боксы по текущему рангу · high ranks ~1 год с пассом.",
+    "×2 XP · боксы по текущему рангу · автоферма при ACTIVE · high ranks ~1 год с пассом.",
   );
   const list = $("passList");
-  if (!list) return;
-  list.innerHTML = "";
-  for (const row of PASS_REWARDS) {
-    const li = document.createElement("li");
-    li.textContent = `Lv ${row.lvl}: ${t(row.free, row.free)} / ★ ${t(row.gold, row.gold)}`;
-    list.appendChild(li);
+  if (list) {
+    list.innerHTML = "";
+    for (const row of PASS_REWARDS) {
+      const li = document.createElement("li");
+      li.textContent = `Lv ${row.lvl}: ${t(row.free, row.free)} / ★ ${t(row.gold, row.gold)}`;
+      list.appendChild(li);
+    }
+  }
+
+  const status = $("passAutofarmStatus");
+  if (status) {
+    status.innerHTML = passActive()
+      ? `<span class="meta">Статус: <strong>ACTIVE</strong> (stub)</span>`
+      : `<span class="meta">Статус: inactive · autofarm gated</span>`;
+  }
+  const passLeadHost = $("passAutofarmLead");
+  if (passLeadHost) {
+    passLeadHost.textContent = passActive()
+      ? t(
+          "pass.autofarm.lead.active",
+          "ACTIVE: фермеры / алхимик / gather→кузнец / auto-craft",
+        )
+      : t(
+          "pass.autofarm.lead.locked",
+          "Без ACTIVE пасса автоферма недоступна",
+        );
+  }
+  renderAutofarmToggles("passAutofarmList");
+
+  const stubBtn = $("btnPassActiveStub");
+  if (stubBtn && !stubBtn.dataset.mythfelBound) {
+    stubBtn.dataset.mythfelBound = "1";
+    stubBtn.addEventListener("click", () => {
+      state.passActiveStub = !state.passActiveStub;
+      toast(
+        state.passActiveStub
+          ? t("pass.active.stub.on", "Stub: пасс ACTIVE")
+          : t("pass.active.stub.off", "Stub: пасс inactive"),
+      );
+      renderPass();
+      renderFarm();
+    });
+  }
+  if (stubBtn) {
+    stubBtn.textContent = state.passActiveStub
+      ? t("pass.active.stub.toggle_off", "Stub: выключить ACTIVE")
+      : t("pass.active.stub.toggle_on", "Stub: пасс ACTIVE");
   }
 }
 
@@ -1687,7 +1899,12 @@ function renderAll() {
     renderResult();
     return;
   }
-  if (viewId === "viewSoon" || viewId === "viewSoonFarm" || viewId === "viewSoonClan") {
+  if (viewId === "viewSoonFarm") {
+    renderSoon();
+    renderFarm();
+    return;
+  }
+  if (viewId === "viewSoon" || viewId === "viewSoonClan") {
     renderSoon();
     return;
   }
@@ -1751,6 +1968,7 @@ function renderAll() {
     case "farm":
       state.soon = "farm";
       renderSoon();
+      renderFarm();
       break;
     case "guild":
     case "guild_battle":
