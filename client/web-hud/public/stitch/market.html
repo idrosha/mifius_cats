@@ -1,7 +1,456 @@
-<section id="viewMarket" class="stitch-view mythfel-form hidden hud-placeholder" data-stitch="market" data-placeholder="1" data-layout="landscape">
-  <div class="boot-card">
-    <p class="eyebrow">Скоро · Stitch</p>
-    <h2>Рынок</h2>
-    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7/ba17.</p>
-  </div>
+<section id="viewMarket" class="stitch-view mythfel-form hidden" data-stitch="market" data-layout="landscape">
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-low/95 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.65)]"><div class="h-28 w-full px-margin-tablet flex flex-col justify-between pt-space-sm pb-space-xs"><div class="flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-surface-container-highest"><span class="material-symbols-outlined text-primary text-[22px]">pets</span><span class="font-headline-md text-headline-md tracking-wider text-primary uppercase">МИФИУС: МИФИЧЕСКИЕ КОТИКИ</span></div><div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-full bg-surface-container-high"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span class="font-label-sm text-label-sm text-secondary">24ms</span></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-sm bg-surface-container-lowest px-space-md py-space-xs rounded-xl shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-primary text-[18px]">monetization_on</span><span class="font-stat-numeral text-stat-numeral text-primary">148,250</span></div><div class="w-px h-4 bg-outline-variant"></div><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-tertiary text-[18px]">set_meal</span><span class="font-label-lg text-label-lg text-on-surface">420</span></div><div class="w-px h-4 bg-outline-variant"></div><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-secondary text-[18px]">bolt</span><span class="font-label-lg text-label-lg text-secondary">85/90</span></div><div class="w-px h-4 bg-outline-variant"></div><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-primary-fixed text-[18px]">diamond</span><span class="font-stat-numeral text-stat-numeral text-primary-fixed">1,250</span></div></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="flex flex-col items-end"><span class="font-label-md text-label-md text-on-surface">Хранитель</span><span class="font-label-sm text-label-sm text-primary">Ур. 48</span></div><div class="relative"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-[0_0_10px_rgba(253,186,69,0.35)]"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><span class="absolute -bottom-1 -right-1 bg-secondary text-on-secondary font-label-sm text-[9px] px-1 rounded-full">VIP</span></div></div></div></div><div class="flex items-center justify-between border-t border-outline-variant/30 pt-space-xs"><nav class="flex items-center gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-bold shadow-[0_2px_8px_rgba(217,155,38,0.4)]"><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="main-hub" href="#">Главный Хаб</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="battles" href="#">Бои</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="trade-hub" href="#">Торговля</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="guilds" href="#">Гильдии</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="chats" href="#">Чаты</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="battle-pass" href="#">Пасс</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="leaderboards" href="#">Рейтинги</a></nav><div class="flex items-center gap-space-xs"><button class="p-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[18px]">volume_up</span></button><button class="p-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[18px]">settings</span></button></div></div></div><div class="w-full bg-surface-container-lowest/90 px-margin-tablet py-space-xs shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"><nav class="flex items-center gap-space-sm" data-active-classes="bg-surface-container-high text-primary font-bold shadow-[inset_0_0_0_1px_rgba(253,186,69,0.3)]"><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="trade-hub" href="#">Хаб Торговли (Главная)</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="tavern-bar" href="#">Таверна (Бар)</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="shop-donate" href="#">Магазин (Донат &amp; Лавка)</a><a aria-current="page" class="px-space-md py-space-xs rounded-lg transition-all bg-surface-container-high text-primary font-bold shadow-[inset_0_0_0_1px_rgba(253,186,69,0.3)]" data-path="market-resources" href="#">Рынок (Ресурсы &amp; Инструменты)</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="player-auctions" href="#">Аукцион (Торги Игроков)</a></nav></div></header><main class="w-full pt-28 pb-14 bg-surface min-h-[calc(100vh-3.5rem)] flex-1"><div class="flex flex-col w-full h-[calc(100vh-10.5rem)] px-margin-tablet py-space-sm select-none overflow-hidden">
+<!-- Top Banner / Merchant Welcome -->
+<div class="flex items-center justify-between px-space-md py-space-xs rounded-xl bg-surface-container-low shadow-sm mb-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="relative w-10 h-10 rounded-lg overflow-hidden bg-surface-container-high shadow-md shrink-0">
+<img class="w-full h-full object-cover" data-alt="A cozy anthropomorphic ginger tabby cat merchant wearing a rustic leather apron and spectacles, standing beside glowing wooden crates of mystical vegetables and mineral ores in a warm, amber-lit fantasy marketplace." src="/stitch-assets/a617164d40a8.jpg"/>
+</div>
+<div>
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-md text-headline-md text-on-surface">Базарный квартал: Лавка Дядюшки Мурлыки</span>
+<span class="px-space-xs py-0.5 rounded-full bg-primary/20 text-primary font-label-sm text-label-sm">Налог ярмарки: 0%</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Инвентарь обновляется с утренней зарёй • Спецзаказ для Кошачьих Усадеб</p>
+</div>
+</div>
+<div class="flex items-center gap-space-lg">
+<div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-md py-1 rounded-lg">
+<span class="material-symbols-outlined text-primary text-[18px]">account_balance_wallet</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Казна:</span>
+<span class="font-stat-numeral text-stat-numeral text-primary" id="player-wallet-display">148,250</span>
+<span class="font-label-sm text-label-sm text-primary">G</span>
+</div>
+<div class="flex items-center gap-1.5 text-secondary font-label-md text-label-md bg-secondary-container/30 px-space-sm py-1 rounded-lg">
+<span class="material-symbols-outlined text-[16px]">verified</span>
+<span>Скидка Усадьбы: +5% к выкупу</span>
+</div>
+</div>
+</div>
+<!-- Main 3-Column Work Area (Strict No Scroll 16:9 Desktop Layout) -->
+<div class="grid grid-cols-12 gap-space-md flex-1 min-h-0">
+<!-- LEFT COLUMN: Инструменты Усадьбы и Фермы -->
+<div class="col-span-4 flex flex-col bg-surface-container-low rounded-xl p-space-md shadow-md min-h-0">
+<div class="flex items-center justify-between pb-space-xs mb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">construction</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Инструменты Усадьбы</h2>
+</div>
+<span class="px-space-xs py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm">+25% к сбору</span>
+</div>
+<div class="grid grid-rows-4 gap-space-xs flex-1 min-h-0">
+<!-- Tool 1 -->
+<div class="group relative flex items-center justify-between p-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high transition-all shadow-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0 relative overflow-hidden shadow-inner">
+<img class="w-full h-full object-cover" data-alt="A rugged forged iron garden shovel with an ornate carved wooden handle adorned with golden cat paw runes, glowing faintly on dark parchment in a fantasy game inventory." src="/stitch-assets/47f8894b481a.jpg"/>
+<span class="absolute bottom-0 right-0 bg-surface-container-lowest/90 px-1 font-label-sm text-[9px] text-primary">T2</span>
+</div>
+<div class="min-w-0">
+<h3 class="font-label-lg text-label-lg text-on-surface truncate group-hover:text-primary transition-colors">Железная Лопата Землекопа</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Огороды и редкие лесные травы</p>
+<div class="flex items-center gap-space-xs mt-0.5">
+<span class="font-label-sm text-label-sm text-secondary">Прочность: 350/350</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm text-primary">+25% корней</span>
+</div>
+</div>
+</div>
+<button class="shrink-0 flex items-center gap-1 px-space-sm py-1.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary transition-transform active:scale-95 shadow-sm" onclick="buyItem('Железная Лопата', 450)">
+<span class="font-stat-numeral text-stat-numeral text-[16px]">450</span>
+<span class="material-symbols-outlined text-[16px]">monetization_on</span>
+</button>
+</div>
+<!-- Tool 2 -->
+<div class="group relative flex items-center justify-between p-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high transition-all shadow-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0 relative overflow-hidden shadow-inner">
+<img class="w-full h-full object-cover" data-alt="A hefty double-edged steel lumberjack axe with emerald inlays and carved leaf patterns resting upon a mossy stump in a mystical fantasy RPG style." src="/stitch-assets/a3930536173a.jpg"/>
+<span class="absolute bottom-0 right-0 bg-surface-container-lowest/90 px-1 font-label-sm text-[9px] text-primary">T3</span>
+</div>
+<div class="min-w-0">
+<h3 class="font-label-lg text-label-lg text-on-surface truncate group-hover:text-primary transition-colors">Стальной Топор Лесоруба</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Дубовая лесопилка и валка чащи</p>
+<div class="flex items-center gap-space-xs mt-0.5">
+<span class="font-label-sm text-label-sm text-secondary">Прочность: 500/500</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm text-primary">+25% бревен</span>
+</div>
+</div>
+</div>
+<button class="shrink-0 flex items-center gap-1 px-space-sm py-1.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary transition-transform active:scale-95 shadow-sm" onclick="buyItem('Стальной Топор', 600)">
+<span class="font-stat-numeral text-stat-numeral text-[16px]">600</span>
+<span class="material-symbols-outlined text-[16px]">monetization_on</span>
+</button>
+</div>
+<!-- Tool 3 -->
+<div class="group relative flex items-center justify-between p-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high transition-all shadow-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0 relative overflow-hidden shadow-inner">
+<img class="w-full h-full object-cover" data-alt="A sturdy dwarven-style mining pickaxe made of tempered dark steel with glowing amber crystal shards bound to the shaft, fantasy weapon collectible." src="/stitch-assets/3913681bd418.jpg"/>
+<span class="absolute bottom-0 right-0 bg-surface-container-lowest/90 px-1 font-label-sm text-[9px] text-primary">T3</span>
+</div>
+<div class="min-w-0">
+<h3 class="font-label-lg text-label-lg text-on-surface truncate group-hover:text-primary transition-colors">Горняцкая Кирка</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Каменоломня, рудники и самоцветы</p>
+<div class="flex items-center gap-space-xs mt-0.5">
+<span class="font-label-sm text-label-sm text-secondary">Прочность: 480/480</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm text-primary">+25% руды</span>
+</div>
+</div>
+</div>
+<button class="shrink-0 flex items-center gap-1 px-space-sm py-1.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary transition-transform active:scale-95 shadow-sm" onclick="buyItem('Горняцкая Кирка', 650)">
+<span class="font-stat-numeral text-stat-numeral text-[16px]">650</span>
+<span class="material-symbols-outlined text-[16px]">monetization_on</span>
+</button>
+</div>
+<!-- Tool 4 -->
+<div class="group relative flex items-center justify-between p-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high transition-all shadow-sm">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-12 h-12 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0 relative overflow-hidden shadow-inner">
+<img class="w-full h-full object-cover" data-alt="An elegant handcrafted fishing rod laced with shimmering enchanted spider-silk line and polished river-shell reel, fantasy tabletop icon." src="/stitch-assets/77562e5db1aa.jpg"/>
+<span class="absolute bottom-0 right-0 bg-surface-container-lowest/90 px-1 font-label-sm text-[9px] text-primary">T2</span>
+</div>
+<div class="min-w-0">
+<h3 class="font-label-lg text-label-lg text-on-surface truncate group-hover:text-primary transition-colors">Шёлковая Удочка</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">Рыбацкая заводь и ночной лов</p>
+<div class="flex items-center gap-space-xs mt-0.5">
+<span class="font-label-sm text-label-sm text-secondary">Прочность: 300/300</span>
+<span class="w-1 h-1 rounded-full bg-outline-variant"></span>
+<span class="font-label-sm text-label-sm text-primary">+25% улова</span>
+</div>
+</div>
+</div>
+<button class="shrink-0 flex items-center gap-1 px-space-sm py-1.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary transition-transform active:scale-95 shadow-sm" onclick="buyItem('Шёлковая Удочка', 500)">
+<span class="font-stat-numeral text-stat-numeral text-[16px]">500</span>
+<span class="material-symbols-outlined text-[16px]">monetization_on</span>
+</button>
+</div>
+</div>
+</div>
+<!-- CENTER COLUMN: Лавка Семян и Базовых Ресурсов -->
+<div class="col-span-4 flex flex-col bg-surface-container-low rounded-xl p-space-md shadow-md min-h-0">
+<div class="flex items-center justify-between pb-space-xs mb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-secondary text-[20px]">yard</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Семена и Ресурсы</h2>
+</div>
+<span class="text-on-surface-variant font-label-sm text-label-sm">Оптовые связки</span>
+</div>
+<div class="flex flex-col flex-1 justify-between min-h-0 gap-space-sm">
+<!-- Sub-block A: Семена -->
+<div class="flex flex-col flex-1 min-h-0 bg-surface-container rounded-lg p-space-xs">
+<div class="flex items-center gap-space-xs px-space-xs py-0.5 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[15px] text-secondary">psychiatry</span>
+<span>Семена для Фермы (пачки по 10 шт.)</span>
+</div>
+<div class="grid grid-rows-3 gap-1 flex-1 min-h-0 mt-1">
+<div class="flex items-center justify-between px-space-sm py-1 rounded bg-surface-container-high hover:bg-surface-bright transition-colors">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="material-symbols-outlined text-secondary text-[18px]">grass</span>
+<div class="truncate">
+<span class="font-label-md text-label-md text-on-surface">Семена Кошачьей Мяты</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">(х10)</span>
+</div>
+</div>
+<button class="flex items-center gap-1 px-space-xs py-1 rounded bg-surface-container-highest hover:bg-primary-container text-primary hover:text-on-primary font-label-md text-label-md transition-colors" onclick="buyItem('Семена Мяты', 120)">
+<span>120 G</span>
+<span class="material-symbols-outlined text-[14px]">shopping_cart</span>
+</button>
+</div>
+<div class="flex items-center justify-between px-space-sm py-1 rounded bg-surface-container-high hover:bg-surface-bright transition-colors">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="material-symbols-outlined text-tertiary text-[18px]">local_fire_department</span>
+<div class="truncate">
+<span class="font-label-md text-label-md text-on-surface">Семена Огненной Тыквы</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">(х10)</span>
+</div>
+</div>
+<button class="flex items-center gap-1 px-space-xs py-1 rounded bg-surface-container-highest hover:bg-primary-container text-primary hover:text-on-primary font-label-md text-label-md transition-colors" onclick="buyItem('Семена Тыквы', 180)">
+<span>180 G</span>
+<span class="material-symbols-outlined text-[14px]">shopping_cart</span>
+</button>
+</div>
+<div class="flex items-center justify-between px-space-sm py-1 rounded bg-surface-container-high hover:bg-surface-bright transition-colors">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="material-symbols-outlined text-secondary-fixed text-[18px]">eco</span>
+<div class="truncate">
+<span class="font-label-md text-label-md text-on-surface">Саженцы Лечебных Трав</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">(х10)</span>
+</div>
+</div>
+<button class="flex items-center gap-1 px-space-xs py-1 rounded bg-surface-container-highest hover:bg-primary-container text-primary hover:text-on-primary font-label-md text-label-md transition-colors" onclick="buyItem('Саженцы Трав', 150)">
+<span>150 G</span>
+<span class="material-symbols-outlined text-[14px]">shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Sub-block B: Строительные Ресурсы -->
+<div class="flex flex-col flex-1 min-h-0 bg-surface-container rounded-lg p-space-xs">
+<div class="flex items-center gap-space-xs px-space-xs py-0.5 text-on-surface-variant font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[15px] text-primary">domain</span>
+<span>Строительные Ресурсы (пачки по 50 шт.)</span>
+</div>
+<div class="grid grid-rows-3 gap-1 flex-1 min-h-0 mt-1">
+<div class="flex items-center justify-between px-space-sm py-1 rounded bg-surface-container-high hover:bg-surface-bright transition-colors">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="material-symbols-outlined text-primary-fixed-dim text-[18px]">forest</span>
+<div class="truncate">
+<span class="font-label-md text-label-md text-on-surface">Брус Дубовый</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">(х50)</span>
+</div>
+</div>
+<button class="flex items-center gap-1 px-space-xs py-1 rounded bg-surface-container-highest hover:bg-primary-container text-primary hover:text-on-primary font-label-md text-label-md transition-colors" onclick="buyItem('Брус Дубовый', 250)">
+<span>250 G</span>
+<span class="material-symbols-outlined text-[14px]">shopping_cart</span>
+</button>
+</div>
+<div class="flex items-center justify-between px-space-sm py-1 rounded bg-surface-container-high hover:bg-surface-bright transition-colors">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="material-symbols-outlined text-outline text-[18px]">terrain</span>
+<div class="truncate">
+<span class="font-label-md text-label-md text-on-surface">Серый Гранит</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">(х50)</span>
+</div>
+</div>
+<button class="flex items-center gap-1 px-space-xs py-1 rounded bg-surface-container-highest hover:bg-primary-container text-primary hover:text-on-primary font-label-md text-label-md transition-colors" onclick="buyItem('Серый Гранит', 300)">
+<span>300 G</span>
+<span class="material-symbols-outlined text-[14px]">shopping_cart</span>
+</button>
+</div>
+<div class="flex items-center justify-between px-space-sm py-1 rounded bg-surface-container-high hover:bg-surface-bright transition-colors">
+<div class="flex items-center gap-space-xs min-w-0">
+<span class="material-symbols-outlined text-primary-fixed text-[18px]">view_in_ar</span>
+<div class="truncate">
+<span class="font-label-md text-label-md text-on-surface">Железная Руда</span>
+<span class="text-on-surface-variant font-body-sm text-body-sm">(х50)</span>
+</div>
+</div>
+<button class="flex items-center gap-1 px-space-xs py-1 rounded bg-surface-container-highest hover:bg-primary-container text-primary hover:text-on-primary font-label-md text-label-md transition-colors" onclick="buyItem('Железная Руда', 400)">
+<span>400 G</span>
+<span class="material-symbols-outlined text-[14px]">shopping_cart</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- RIGHT COLUMN: Быстрая Продажа Добычи -->
+<div class="col-span-4 flex flex-col bg-surface-container-low rounded-xl p-space-md shadow-md min-h-0 justify-between">
+<div>
+<div class="flex items-center justify-between pb-space-xs mb-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary-fixed text-[20px]">sell</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Скупка Добычи</h2>
+</div>
+<button class="px-space-sm py-1 rounded bg-surface-container-highest hover:bg-surface-bright text-primary font-label-sm text-label-sm transition-colors" onclick="selectAllLoot()">
+            Выбрать всю лишнюю
+          </button>
+</div>
+<!-- Inventory Tray / Loot Cards -->
+<div class="grid grid-cols-2 gap-space-xs mb-space-xs">
+<!-- Item 1: Berries -->
+<div class="cursor-pointer p-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high transition-all flex items-center justify-between group" id="loot-item-1" onclick="toggleLoot(1, 4800)">
+<div class="flex items-center gap-space-xs min-w-0">
+<div class="w-9 h-9 rounded bg-surface-container-highest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-tertiary text-[20px]">nutrition</span>
+</div>
+<div class="min-w-0">
+<div class="font-label-md text-label-md text-on-surface truncate">Лесные ягоды</div>
+<div class="font-stat-numeral text-[13px] text-secondary">1,200 шт.</div>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-primary">+4,800 G</span>
+<div class="loot-check w-4 h-4 rounded bg-primary text-on-primary flex items-center justify-center mx-auto mt-0.5">
+<span class="material-symbols-outlined text-[12px] font-bold">check</span>
+</div>
+</div>
+</div>
+<!-- Item 2: Fish -->
+<div class="cursor-pointer p-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high transition-all flex items-center justify-between group" id="loot-item-2" onclick="toggleLoot(2, 5400)">
+<div class="flex items-center gap-space-xs min-w-0">
+<div class="w-9 h-9 rounded bg-surface-container-highest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[20px]">set_meal</span>
+</div>
+<div class="min-w-0">
+<div class="font-label-md text-label-md text-on-surface truncate">Озерная рыбка</div>
+<div class="font-stat-numeral text-[13px] text-secondary">450 шт.</div>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-primary">+5,400 G</span>
+<div class="loot-check w-4 h-4 rounded bg-primary text-on-primary flex items-center justify-center mx-auto mt-0.5">
+<span class="material-symbols-outlined text-[12px] font-bold">check</span>
+</div>
+</div>
+</div>
+<!-- Item 3: Timber -->
+<div class="cursor-pointer p-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high transition-all flex items-center justify-between group" id="loot-item-3" onclick="toggleLoot(3, 4250)">
+<div class="flex items-center gap-space-xs min-w-0">
+<div class="w-9 h-9 rounded bg-surface-container-highest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-outline text-[20px]">forest</span>
+</div>
+<div class="min-w-0">
+<div class="font-label-md text-label-md text-on-surface truncate">Дикие брёвна</div>
+<div class="font-stat-numeral text-[13px] text-secondary">300 шт.</div>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-primary">+4,250 G</span>
+<div class="loot-check w-4 h-4 rounded bg-primary text-on-primary flex items-center justify-center mx-auto mt-0.5">
+<span class="material-symbols-outlined text-[12px] font-bold">check</span>
+</div>
+</div>
+</div>
+<!-- Item 4: Gray Junk -->
+<div class="cursor-pointer p-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high transition-all flex items-center justify-between group" id="loot-item-4" onclick="toggleLoot(4, 4000)">
+<div class="flex items-center gap-space-xs min-w-0">
+<div class="w-9 h-9 rounded bg-surface-container-highest flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant text-[20px]">inventory_2</span>
+</div>
+<div class="min-w-0">
+<div class="font-label-md text-label-md text-on-surface truncate">Серый хлам похода</div>
+<div class="font-stat-numeral text-[13px] text-outline">84 предм.</div>
+</div>
+</div>
+<div class="text-right">
+<span class="font-label-sm text-label-sm text-primary">+4,000 G</span>
+<div class="loot-check w-4 h-4 rounded bg-primary text-on-primary flex items-center justify-center mx-auto mt-0.5">
+<span class="material-symbols-outlined text-[12px] font-bold">check</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Payout Summary Box -->
+<div class="bg-surface-container-lowest p-space-sm rounded-xl shadow-inner mt-space-xs">
+<div class="flex items-center justify-between mb-1 text-on-surface-variant font-body-sm text-body-sm">
+<span>Выбрано предметов:</span>
+<span class="font-label-md text-label-md text-on-surface" id="selected-count-label">4 категории (полный сброс)</span>
+</div>
+<div class="flex items-baseline justify-between py-1">
+<span class="font-label-lg text-label-lg text-on-surface">Итого к получению:</span>
+<div class="flex items-baseline gap-1">
+<span class="font-headline-lg text-headline-lg text-primary" id="total-revenue-label">+18,450</span>
+<span class="font-label-lg text-label-lg text-primary">Золота</span>
+</div>
+</div>
+<!-- Big Amber Sell Button -->
+<button class="w-full mt-2 py-space-sm rounded-xl bg-gradient-to-b from-primary to-primary-container hover:brightness-110 active:scale-[0.99] text-on-primary font-headline-md text-headline-md uppercase tracking-wider flex items-center justify-center gap-space-xs shadow-[0_4px_16px_rgba(217,155,38,0.35)] transition-all" id="quick-sell-btn" onclick="executeQuickSell()">
+<span class="material-symbols-outlined text-[24px]">payments</span>
+<span>Быстро Продать Всю Добычу</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Notification Toast Alert Overlay -->
+<div class="pointer-events-none fixed top-32 right-12 z-50 transform translate-y-[-20px] opacity-0 transition-all duration-300 bg-surface-container-highest px-space-md py-space-sm rounded-xl shadow-xl flex items-center gap-space-sm" id="market-toast">
+<span class="material-symbols-outlined text-secondary text-[24px]" id="market-toast-icon">check_circle</span>
+<span class="font-label-lg text-label-lg text-on-surface" id="market-toast-text">Сделка успешно завершена!</span>
+</div>
+</div>
+<script>
+  let playerGold = 148250;
+  const lootState = {
+    1: { name: "Лесные ягоды", amount: 4800, selected: true },
+    2: { name: "Озерная рыбка", amount: 5400, selected: true },
+    3: { name: "Дикие брёвна", amount: 4250, selected: true },
+    4: { name: "Серый хлам", amount: 4000, selected: true }
+  };
+
+  function updateLootUI() {
+    let total = 0;
+    let count = 0;
+    for (const id in lootState) {
+      const item = lootState[id];
+      const card = document.getElementById('loot-item-' + id);
+      const checkIcon = card.querySelector('.loot-check');
+      if (item.selected) {
+        total += item.amount;
+        count++;
+        card.classList.remove('opacity-40');
+        checkIcon.classList.remove('hidden');
+      } else {
+        card.classList.add('opacity-40');
+        checkIcon.classList.add('hidden');
+      }
+    }
+    document.getElementById('total-revenue-label').textContent = '+' + total.toLocaleString('ru-RU');
+    document.getElementById('selected-count-label').textContent = count > 0 ? count + ' категории к сдаче' : 'Ничего не выбрано';
+    
+    const sellBtn = document.getElementById('quick-sell-btn');
+    if (total === 0) {
+      sellBtn.classList.add('opacity-50', 'pointer-events-none');
+    } else {
+      sellBtn.classList.remove('opacity-50', 'pointer-events-none');
+    }
+  }
+
+  function toggleLoot(id) {
+    lootState[id].selected = !lootState[id].selected;
+    updateLootUI();
+  }
+
+  function selectAllLoot() {
+    for (const id in lootState) {
+      lootState[id].selected = true;
+    }
+    updateLootUI();
+    showToast("Вся лишняя добыча подготовлена к продаже!");
+  }
+
+  function executeQuickSell() {
+    let earned = 0;
+    for (const id in lootState) {
+      if (lootState[id].selected) {
+        earned += lootState[id].amount;
+        lootState[id].selected = false;
+      }
+    }
+    if (earned > 0) {
+      playerGold += earned;
+      document.getElementById('player-wallet-display').textContent = playerGold.toLocaleString('ru-RU');
+      updateLootUI();
+      showToast("Успешно продано на +" + earned.toLocaleString('ru-RU') + " Золота!");
+    }
+  }
+
+  function buyItem(name, cost) {
+    if (playerGold >= cost) {
+      playerGold -= cost;
+      document.getElementById('player-wallet-display').textContent = playerGold.toLocaleString('ru-RU');
+      showToast("Куплено: " + name + " (-" + cost + " G)");
+    } else {
+      showToast("Недостаточно золота в казне!", true);
+    }
+  }
+
+  function showToast(msg, isError = false) {
+    const toast = document.getElementById('market-toast');
+    const toastText = document.getElementById('market-toast-text');
+    const toastIcon = document.getElementById('market-toast-icon');
+    
+    toastText.textContent = msg;
+    if (isError) {
+      toastIcon.textContent = 'error';
+      toastIcon.className = 'material-symbols-outlined text-error text-[24px]';
+    } else {
+      toastIcon.textContent = 'check_circle';
+      toastIcon.className = 'material-symbols-outlined text-secondary text-[24px]';
+    }
+
+    toast.classList.remove('opacity-0', 'translate-y-[-20px]');
+    toast.classList.add('opacity-100', 'translate-y-0');
+
+    setTimeout(() => {
+      toast.classList.remove('opacity-100', 'translate-y-0');
+      toast.classList.add('opacity-0', 'translate-y-[-20px]');
+    }, 2400);
+  }
+
+  updateLootUI();
+</script></main><footer class="fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_-4px_16px_rgba(0,0,0,0.6)] h-14"><div class="w-full px-margin-tablet h-full flex items-center justify-between"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm"><span class="px-1.5 py-0.5 rounded bg-surface-container-high font-mono text-primary shadow-inner">[M]</span><span>Карта Мира</span></div><div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm"><span class="px-1.5 py-0.5 rounded bg-surface-container-high font-mono text-primary shadow-inner">[C]</span><span>Колода Котиков</span></div><div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm"><span class="px-1.5 py-0.5 rounded bg-surface-container-high font-mono text-primary shadow-inner">[I]</span><span>Инвентарь</span></div><div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm"><span class="px-1.5 py-0.5 rounded bg-surface-container-high font-mono text-primary shadow-inner">[T]</span><span>Торговый Чат</span></div><div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm"><span class="px-1.5 py-0.5 rounded bg-surface-container-high font-mono text-primary shadow-inner">[ESC]</span><span>Меню</span></div></div><div class="flex items-center gap-space-md"><span class="font-body-sm text-body-sm text-on-surface-variant">© Таверна «Мифиус» v1.4.2</span><div class="flex items-center gap-space-xs text-secondary font-label-sm text-label-sm"><span class="material-symbols-outlined text-[16px]">cloud_done</span><span>Сервер активен</span></div></div></div></footer>
 </section>

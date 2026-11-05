@@ -117,6 +117,12 @@ const SCREEN_FALLBACKS = {
   "chat_global.html": ["/stitch-ref/ba17/chat.png", "/stitch-ref/ba17/pass_sanctum.png", "/stitch-ref/64d5/cat_portrait.png"],
   "chat_guild.html": ["/stitch-ref/ba17/chat.png", "/stitch-ref/18c7/guild.png", "/stitch-ref/64d5/cat_portrait.png"],
   "chat_friends.html": ["/stitch-ref/ba17/chat.png", "/stitch-ref/0268/home.png", "/stitch-ref/64d5/cat_portrait.png"],
+  "tavern.html": ["/stitch-ref/17eb/tavern.png", "/stitch-ref/17eb/tavern_map.png", "/stitch-ref/64d5/cat_portrait.png"],
+  "shop.html": ["/stitch-ref/17eb/shop.png", "/stitch-ref/17eb/trade_hub.png", "/stitch-ref/64d5/cat_portrait.png"],
+  "market.html": ["/stitch-ref/17eb/market.png", "/stitch-ref/17eb/trade_hub.png", "/stitch-ref/64d5/farm.png"],
+  "auction.html": ["/stitch-ref/17eb/auction.png", "/stitch-ref/17eb/trade_hub.png", "/stitch-ref/0268/gear.png"],
+  "rating_players.html": ["/stitch-ref/17eb/rating.png", "/stitch-ref/ba17/pass.png", "/stitch-ref/64d5/cat_portrait.png"],
+  "rating_guilds.html": ["/stitch-ref/17eb/rating.png", "/stitch-ref/18c7/guild.png", "/stitch-ref/64d5/cat_portrait.png"],
 };
 
 function vendorEphemeral() {
@@ -172,7 +178,7 @@ fs.writeFileSync(
   JSON.stringify(
     {
       generatedAt: new Date().toISOString(),
-      packs: ["0268", "64d5", "e608", "4da7", "18c7", "ba17"],
+      packs: ["0268", "64d5", "e608", "4da7", "18c7", "ba17", "17eb"],
       mappings: Object.fromEntries(urlMap),
       publicCount: publicUrls.length,
       ephemeralCount: ephemeralUrls.length,

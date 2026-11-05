@@ -1,4 +1,4 @@
-# Stitch screen map — packs 0268 + 64d5 + e608 + 4da7 + 18c7 + ba17
+# Stitch screen map — packs 0268 + 64d5 + e608 + 4da7 + 18c7 + ba17 + 17eb
 
 Sources:
 - `media/stitch-new-0268/stitch_mythfel_mobile_game_ui_0268.zip`
@@ -7,6 +7,7 @@ Sources:
 - `media/stitch-battles-2/stitch_mythfel_mobile_game_ui__3__4da7.zip`
 - `media/stitch-battles-3/stitch_mythfel_mobile_game_ui__5__18c7.zip`
 - `media/stitch-battles-6/stitch_mythfel_mobile_game_ui__6__ba17.zip`
+- `media/stitch-other-7/stitch_mythfel_mobile_game_ui__7__17eb.zip`
 
 DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 
@@ -40,6 +41,12 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | `chat_global` | `chat_global.html` | ba17 root | Чаты · одна компоновка (общий) |
 | `chat_guild` | `chat_guild.html` | ba17 root | Чаты · та же компоновка (гильдия) |
 | `chat_friends` | `chat_friends.html` | ba17 root | Чаты · та же компоновка (друзья) |
+| `tavern` | `tavern.html` | 17eb `pve` | Таверна · молоко со льдом + PvE бафф-напитки |
+| `shop` | `shop.html` | 17eb `_2` | Магазин · донат / пасс / ингредиенты / 12 котов / серая броня |
+| `market` | `market.html` | 17eb `_3` | Рынок · инструменты / семена / скупка |
+| `auction` | `auction.html` | 17eb `_4` | Аукцион · лоты игроков |
+| `rating_players` | `rating_players.html` | 17eb `_5` | Рейтинг · игроки (одна компоновка ×2) |
+| `rating_guilds` | `rating_guilds.html` | 17eb `_5` | Рейтинг · гильдии (та же компоновка) |
 
 ## Art-only (not separate routes)
 
@@ -63,12 +70,15 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | Practice fight screenshot | `stitch-ref/18c7/practice.png` |
 | Pass / chat screenshots | `stitch-ref/ba17/pass.png`, `chat.png` |
 | Pass reward sanctum art | `stitch-ref/ba17/pass_sanctum.png` |
+| Trade hub (4 locations) | `stitch-ref/17eb/trade_hub.{html,png}` — art-only; live routes = tavern/shop/market/auction |
+| Tavern map art | `stitch-ref/17eb/tavern_map.png` |
+| Trade / rating screenshots | `stitch-ref/17eb/{tavern,shop,market,auction,rating}.png` |
 
 ## Placeholders (IA route, no painted mock yet)
 
-`result_lose`, `shop`, `market`, `tavern` (milk bar ≠ login), `soon_clan`, `equip_cards`, `auction`, `rating_*`.
+`result_lose`, `soon_clan`, `equip_cards`.
 
-§7 gaps still open: practice **start / win / lose**; shared `result_lose`; per-mode fight/win for Mythmir / PvP / dungeon / raid / GvG (only practice fight painted in 18c7). Pack ba17 does **not** close battle gaps.
+§7 gaps still open: practice **start / win / lose**; shared `result_lose`; per-mode fight/win for Mythmir / PvP / dungeon / raid / GvG (only practice fight painted in 18c7). Pack 17eb closes trade + ratings; no battle gaps.
 
 ## Nav prefs (2026-11-05)
 
@@ -76,6 +86,8 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 - `formation` inline before fights — **not** a Бои subtab.
 - Home: no on-screen portals (chrome `#appNav` only).
 - Chats: one Stitch layout wired to all three channel subtabs.
+- Ratings: one Stitch layout wired to players + guilds subtabs.
+- Trade hub mock is art-only; primary Торговля opens first subtab (`tavern`).
 
 ## Layout rule (all forms)
 
