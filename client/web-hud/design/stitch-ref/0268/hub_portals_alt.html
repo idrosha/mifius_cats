@@ -1,0 +1,390 @@
+<!DOCTYPE html><html class="dark" lang="ru" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@500;600;700;800&amp;family=Rubik:wght@600;700;800;900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;height:100%;overflow:hidden;}body{overscroll-behavior:none;}}::-webkit-scrollbar{display:none;}
+.golden-glow { box-shadow: 0 0 25px rgba(253, 186, 69, 0.45), inset 0 1px 1px rgba(255,255,255,0.4); }
+.card-hover-fx { transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
+.card-hover-fx:hover { transform: translateY(-3px) scale(1.015); }
+</style><script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"on-primary-fixed":"#281900","on-secondary-fixed":"#002106","tertiary-fixed":"#ffdad4","surface-tint":"#fdba45","on-tertiary-fixed":"#3f0300","outline":"#9d8f7b","secondary-fixed-dim":"#89d98c","on-secondary":"#003910","secondary-fixed":"#a4f6a6","on-secondary-container":"#82d186","tertiary":"#ffb4a6","primary-container":"#d99b26","on-primary":"#432c00","on-tertiary-container":"#7c0a00","background":"#161310","on-tertiary-fixed-variant":"#8d1607","error-container":"#93000a","surface-container":"#231f1c","surface-variant":"#393430","on-surface":"#eae1db","surface-dim":"#161310","on-secondary-fixed-variant":"#00531b","primary-fixed":"#ffdeae","secondary-container":"#005b1e","tertiary-container":"#ff826c","tertiary-fixed-dim":"#ffb4a6","surface":"#161310","on-tertiary":"#660700","primary-fixed-dim":"#fdba45","surface-container-highest":"#393430","surface-container-high":"#2e2926","inverse-on-surface":"#342f2c","primary":"#fdba45","error":"#ffb4ab","outline-variant":"#504535","inverse-surface":"#eae1db","surface-container-low":"#1f1b18","inverse-primary":"#7f5700","surface-bright":"#3d3835","on-background":"#eae1db","on-surface-variant":"#d5c4af","on-error-container":"#ffdad6","on-primary-container":"#523700","on-primary-fixed-variant":"#604100","secondary":"#89d98c","surface-container-lowest":"#110d0b","on-error":"#690005"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin-tablet":"1.5rem","space-lg":"1rem","space-sm":"0.5rem","space-xl":"1.5rem","gutter-tablet":"1rem","space-xs":"0.25rem","space-md":"0.75rem","gutter":"0.75rem","margin":"1rem"},"fontFamily":{"label-md":["Rubik"],"headline-xl":["Rubik"],"headline-lg":["Rubik"],"body-lg":["Nunito Sans"],"headline-lg-mobile":["Rubik"],"label-lg":["Rubik"],"body-md":["Nunito Sans"],"body-sm":["Nunito Sans"],"stat-numeral":["Rubik"],"headline-xl-mobile":["Rubik"],"headline-md":["Rubik"],"label-sm":["Rubik"]},"fontSize":{"label-md":["12px",{"lineHeight":"16px","fontWeight":"600"}],"headline-xl":["36px",{"lineHeight":"44px","fontWeight":"800"}],"headline-lg":["26px",{"lineHeight":"32px","fontWeight":"700"}],"body-lg":["16px",{"lineHeight":"22px","fontWeight":"600"}],"headline-lg-mobile":["22px",{"lineHeight":"28px","fontWeight":"700"}],"label-lg":["14px",{"lineHeight":"18px","fontWeight":"700"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"500"}],"body-sm":["12px",{"lineHeight":"16px","fontWeight":"500"}],"stat-numeral":["20px",{"lineHeight":"20px","fontWeight":"800"}],"headline-xl-mobile":["28px",{"lineHeight":"34px","fontWeight":"800"}],"headline-md":["18px",{"lineHeight":"24px","fontWeight":"600"}],"label-sm":["10px",{"lineHeight":"12px","fontWeight":"700"}]}}}};</script></head>
+<body class="bg-surface font-body-md text-body-md text-on-surface w-screen h-screen overflow-hidden flex flex-col selection:bg-primary selection:text-on-primary select-none">
+<!-- TOP NAVIGATION BAR (Full-Bleed Widescreen Header) -->
+<header class="h-16 w-full shrink-0 z-50 bg-surface-container-lowest/95 border-b border-surface-variant/70 backdrop-blur-md px-5 flex items-center justify-between shadow-[0_4px_24px_rgba(0,0,0,0.85)] gap-2">
+<!-- Left: Game Brand & Realm -->
+<div class="flex items-center gap-3 shrink-0">
+<div class="w-11 h-11 rounded-xl bg-gradient-to-br from-primary via-primary-container to-amber-700 flex items-center justify-center text-on-primary shadow-lg ring-1 ring-primary/40">
+<span class="material-symbols-outlined text-[26px]">pets</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-[17px] tracking-wide text-primary uppercase font-extrabold drop-shadow">МИФИУС: МИФИЧЕСКИЕ КОТИКИ</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/40 text-secondary border border-secondary/30 text-[10px] font-bold uppercase tracking-wider">ONLINE</span>
+</div>
+<div class="flex items-center gap-1.5 text-on-surface-variant text-label-sm">
+<span class="material-symbols-outlined text-[13px] text-primary">fireplace</span>
+<span class="">Очаг Мурр-1</span>
+<span class="text-surface-variant">•</span>
+<span class="text-secondary font-medium">Пинг 24 мс</span>
+</div>
+</div>
+</div>
+<!-- Center: Currencies & Resources -->
+<div class="flex items-center gap-2.5 bg-surface-container-low/90 px-3.5 py-1 rounded-xl border border-outline-variant/50 shadow-inner backdrop-blur-md">
+<!-- Золотые монеты -->
+<div class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-surface-container-high transition-colors cursor-pointer group" title="Золотые монеты">
+<div class="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[17px]">monetization_on</span>
+</div>
+<div class="flex flex-col leading-none">
+<span class="font-stat-numeral text-[15px] text-on-surface font-extrabold tracking-tight">14,850</span>
+<span class="text-[9px] text-on-surface-variant uppercase font-semibold tracking-wider">Золото</span>
+</div>
+</div>
+<div class="w-px h-6 bg-surface-variant/80"></div>
+<!-- Клубки пряжи -->
+<div class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-surface-container-high transition-colors cursor-pointer group" title="Клубки пряжи">
+<div class="w-6 h-6 rounded-full bg-secondary/20 flex items-center justify-center text-secondary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[17px]">radio_button_checked</span>
+</div>
+<div class="flex flex-col leading-none">
+<span class="font-stat-numeral text-[15px] text-secondary-fixed-dim font-extrabold tracking-tight">920</span>
+<span class="text-[9px] text-on-surface-variant uppercase font-semibold tracking-wider">Пряжа</span>
+</div>
+</div>
+<div class="w-px h-6 bg-surface-variant/80"></div>
+<!-- Энергия -->
+<div class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-surface-container-high transition-colors cursor-pointer group" title="Энергия походов">
+<div class="w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[17px]">bolt</span>
+</div>
+<div class="flex flex-col leading-none">
+<div class="flex items-center gap-1 font-stat-numeral text-[15px] text-on-surface font-extrabold tracking-tight">
+<span class="">85/100</span>
+<span class="text-[10px] text-primary font-normal">(04:12 до +1)</span>
+</div>
+<span class="text-[9px] text-on-surface-variant uppercase font-semibold tracking-wider">Энергия</span>
+</div>
+</div>
+<div class="w-px h-6 bg-surface-variant/80"></div>
+<!-- Мифические кристаллы -->
+<div class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-surface-container-high transition-colors cursor-pointer group" title="Мифические кристаллы">
+<div class="w-6 h-6 rounded-full bg-tertiary-container/30 flex items-center justify-center text-tertiary group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[17px]">diamond</span>
+</div>
+<div class="flex flex-col leading-none">
+<span class="font-stat-numeral text-[15px] text-tertiary font-extrabold tracking-tight">385</span>
+<span class="text-[9px] text-on-surface-variant uppercase font-semibold tracking-wider">Кристаллы</span>
+</div>
+</div>
+</div>
+<!-- Navigation Tabs -->
+<nav aria-label="Главные разделы" class="flex items-center gap-1 bg-surface-container-lowest/80 px-2 py-1 rounded-xl border border-outline-variant/40 backdrop-blur-md">
+<a class="bg-primary text-on-primary font-bold px-3 py-1.5 rounded-lg shadow-sm text-xs font-label-md flex items-center gap-1.5" href="#"><span class="material-symbols-outlined text-[16px]">cottage</span><span class="">Главный Хаб</span></a>
+<a class="px-3 py-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg text-xs font-medium transition-colors font-label-md flex items-center gap-1" href="#"><span class="">Бой 3v3</span></a>
+<a class="px-3 py-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg text-xs font-medium transition-colors font-label-md flex items-center gap-1" href="#"><span class="">Рейд на Дога</span></a>
+<a class="px-3 py-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg text-xs font-medium transition-colors font-label-md flex items-center gap-1" href="#"><span class="">Двор Усадьбы</span></a>
+</nav>
+<!-- Right: Notifications, Help, Settings & Avatar -->
+<div class="flex items-center gap-3 shrink-0">
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gradient-to-r from-primary-container/40 to-amber-700/20 border border-primary/40 cursor-pointer">
+<span class="material-symbols-outlined text-[16px] text-primary">workspace_premium</span>
+<span class="font-label-sm text-primary text-[11px] font-bold whitespace-nowrap uppercase tracking-wider">Хранитель IV</span>
+</div>
+<button aria-label="Уведомления" class="relative w-9 h-9 rounded-lg bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface border border-outline-variant/40 transition-colors">
+<span class="material-symbols-outlined text-[20px]">notifications</span>
+<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span>
+</button>
+<button aria-label="Помощь" class="w-9 h-9 rounded-lg bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface border border-outline-variant/40 transition-colors">
+<span class="material-symbols-outlined text-[20px]">help_outline</span>
+</button>
+<button aria-label="Настройки" class="w-9 h-9 rounded-lg bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface border border-outline-variant/40 transition-colors">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+</button>
+<!-- Player Profile -->
+<div class="flex items-center gap-2.5 pl-2 border-l border-surface-variant">
+<div class="flex flex-col text-right leading-none">
+<div class="flex items-center justify-end gap-1.5">
+<span class="font-label-md text-on-surface font-bold text-[13px]">Хранитель Барсик</span>
+<span class="bg-primary/20 text-primary px-1.5 py-0.5 rounded text-[10px] font-stat-numeral font-bold">Ур. 42</span>
+</div>
+<span class="text-[10px] text-on-surface-variant mt-0.5">Владыка Очага</span>
+</div>
+<div class="relative w-10 h-10 rounded-xl overflow-hidden border-2 border-primary/60 shadow-md">
+<img alt="Барсик" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjBXmwU5oIZ3fkG10-IRXynnMnhPsf3KI55mIRuzMbn290o4QGLzcQzF798vf3FqW0Xe0zxDaxm4LopCT7TRYA-fJxcrfK9eV1-QDQWGFsQ068IUMofn-A56SX8cLB31ABflutxLiA3rCTN3ypXQqwEVG_Al1R3aiVUzL2uqQcqLGx22zu6h4LCsAm2jWXmzS6j4domHQVO6YZwvLpVi-0reFvl3o94GVhDzTJDA">
+<div class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-secondary border border-surface"></div>
+</div>
+</div>
+</div>
+</header>
+<!-- CENTER / BODY: Main Game Portals & Interactive Zones (Strictly 100% viewport fit, full-bleed) -->
+<main class="relative flex-1 w-full overflow-hidden flex flex-col px-6 py-3 items-center justify-center gap-4">
+<!-- Atmospheric Tavern Hearth battler background -->
+<div class="absolute inset-0 bg-cover bg-center" style="background-image: url(&quot;https://lh3.googleusercontent.com/aida/AEtjO1XxGFSH9xu2FKdWvM6lBI79MMJUNsZCnziPAhUZLwX8lBuaiPyaNoD6Ivsqd6cq5-HP3NKIG4EIOp3n_ajmix-jy5b4hXN0jNdQjkGabohkx0lSRdaAIqSaDClD6OjrjqBhI0vUGX_uGonl6nyUTAD4J0wi1s_byUM3N-Y4FfW0GRQOFf-RdJUoqla1pl5I4xRYLLDQ3vLc6StzfgoId5Q6yNhS4y2zzdn0oUM8cRI&quot;); filter: brightness(0.38) saturate(1.2);"></div>
+<div class="absolute inset-0 bg-gradient-to-b from-surface-container-lowest/85 via-surface-container-lowest/70 to-surface-container-lowest/95 pointer-events-none"></div>
+<!-- Top Hub Row: Atmospheric Title & Battle Pass Premium Widget -->
+<div class="relative z-10 flex flex-col gap-2 w-full max-w-6xl mx-auto shrink-0">
+<!-- Header Subtitle Bar -->
+<div class="flex items-center justify-between w-full">
+<div class="flex items-center gap-2.5 bg-surface-container-lowest/85 backdrop-blur-md px-3.5 py-1 rounded-xl border border-outline-variant/40 shadow-lg">
+<div class="w-6 h-6 rounded-lg bg-primary/20 border border-primary/40 flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[16px]">local_fire_department</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-[13px] text-on-surface font-extrabold tracking-wide">Главный Зал Таверны</span>
+<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-primary/20 text-primary border border-primary/30 uppercase">Обитель</span>
+<span class="text-[11px] text-on-surface-variant font-medium hidden md:inline">• Тёплый очаг горит спокойно</span>
+</div>
+</div>
+<div class="flex items-center gap-2 bg-surface-container-lowest/85 backdrop-blur-md px-3 py-1 rounded-xl border border-outline-variant/30 text-[11px]">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="text-secondary font-semibold">Событие «Осада Архипса» активно!</span>
+<span class="text-primary font-bold ml-1 font-stat-numeral">Осталось: 12 дн.</span>
+</div>
+</div>
+<!-- Centered Battle Pass Hero Banner -->
+<div class="relative w-full rounded-2xl overflow-hidden border backdrop-blur-md shadow-2xl p-4 flex items-center justify-between gap-5 card-hover-fx bg-surface/20 border-primary/20" style="background-color: rgba(22, 19, 16, 0.28);">
+
+<div class="absolute -right-10 -bottom-10 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="relative z-20 flex-1 flex flex-col gap-2 max-w-2xl">
+<div class="flex flex-wrap items-center gap-2">
+<span class="px-2.5 py-0.5 rounded-lg bg-gradient-to-r from-primary via-primary-container to-amber-500 text-on-primary font-headline-md text-[11px] font-extrabold uppercase tracking-wider shadow golden-glow flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">military_tech</span>
+            БОЕВОЙ ПАСС №1: СЕЗОН I
+          </span>
+<span class="px-2.5 py-0.5 rounded-lg bg-error-container text-error text-[10px] font-bold border border-error/30 uppercase tracking-wide flex items-center gap-1 animate-pulse">
+<span class="material-symbols-outlined text-[13px]">skull</span>
+            Питбосс: Генерал Дог Архипёс
+          </span>
+<span class="px-2.5 py-0.5 rounded-lg bg-surface-container-high text-on-surface-variant border border-outline-variant/40 text-[10px] font-medium">
+            3 Новых Данжа: Склеп Псов, Башни Пепла
+          </span>
+</div>
+<div>
+<h2 class="font-headline-lg text-[21px] font-extrabold text-on-surface leading-tight tracking-wide flex items-center gap-2">
+            Осада Архипса &amp; Врата Тьмы
+            <span class="text-primary font-label-md text-[11px] bg-primary/20 px-2 py-0.5 rounded border border-primary/30 uppercase font-bold whitespace-nowrap">EXCLUSIVE</span>
+</h2>
+<p class="text-body-sm text-[12px] text-on-surface-variant mt-0.5">
+            Сразитесь с легендарным Генералом Догом! Получите облик <strong class="text-primary font-bold">«Громовой Страж»</strong>, мифические кристаллы и удвоенный опыт за каждую победу.
+          </p>
+</div>
+<div class="bg-surface-container-low/90 rounded-xl p-2.5 border border-outline-variant/30 flex flex-col gap-1.5">
+<div class="flex items-center justify-between text-[11px]">
+<div class="flex items-center gap-2">
+<span class="font-stat-numeral font-bold text-primary text-[12px]">Уровень 24 / 50</span>
+<span class="text-on-surface-variant">• До легендарного сундука 1,550 XP</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-secondary text-[11px] font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[13px]">bolt</span>
+                ×2 Опыт (XP) · Автоферма включена
+              </span>
+<span class="font-stat-numeral text-on-surface text-[11px] font-bold">3,450 / 5,000 XP</span>
+</div>
+</div>
+<div class="w-full bg-surface-container-high h-2.5 rounded-full overflow-hidden border border-outline-variant/30">
+<div class="h-full bg-gradient-to-r from-primary via-amber-400 to-primary-container rounded-full shadow golden-glow" style="width: 69%"></div>
+</div>
+</div>
+<div class="flex items-center gap-3 pt-0.5">
+<button class="px-5 py-2 bg-gradient-to-r from-primary via-primary-container to-amber-500 hover:from-primary-fixed hover:to-primary text-on-primary font-headline-md text-[13px] font-extrabold rounded-xl shadow-lg golden-glow flex items-center gap-2 transition-all cursor-pointer" type="button">
+<span class="material-symbols-outlined text-[18px]">workspace_premium</span>
+<span class="">ОТКРЫТЬ БОЕВОЙ ПАСС</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+<button class="px-4 py-2 bg-surface-container hover:bg-surface-container-high text-on-surface hover:text-primary font-label-md text-[12px] font-bold rounded-xl border border-outline-variant/50 transition-colors flex items-center gap-1.5 cursor-pointer" type="button">
+<span class="material-symbols-outlined text-[16px] text-tertiary">swords</span>
+<span class="">ПОДРОБНЕЕ О СЕЗОНЕ / БОССЫ</span>
+</button>
+</div>
+</div>
+<div class="relative z-20 shrink-0 flex items-center gap-3">
+<div class="w-28 h-36 rounded-xl overflow-hidden relative border border-outline-variant/60 shadow-lg group cursor-pointer bg-surface-container">
+<img alt="Данж: Склеп Псов" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida/AEtjO1VOdUjip7yXrt8rCRB-7vvMwXIfHUeJdzne3Irazk6t2ocG_AwDUfX7E4fbcvm5zhpFyTvBflxhjPOAsWA8U6uzNOM8fezd8NEDEFnrpyuxcuhwHEU7Yd51-ngpoIsNdEBq5LWSO-8WQYUFpidPCJtb_bI96qRWYGB7hnBdipGC8aEJsfqizDvu8kgOd2lqSUf79JQl0xdyh1fouQe2XTtGgcKbysl7g0FSAt873Uk">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
+<div class="absolute bottom-1.5 left-1.5 right-1.5 text-center">
+<span class="px-1.5 py-0.5 rounded bg-surface-container-lowest/90 text-on-surface text-[9px] font-bold uppercase tracking-wider border border-outline-variant/40 block whitespace-nowrap">Данж: Склеп Псов</span>
+</div>
+</div>
+<div class="w-32 h-40 rounded-xl overflow-hidden relative border-2 border-error/70 shadow-xl group cursor-pointer bg-surface-container">
+<img alt="Генерал Дог Архипёс" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida/AEtjO1VXTbfCi2T6HUXST2rkbEvD1BhtiQkVyNMdrmM2VfC438aG7d0S29A4JehdNPUBulA5SmqyLb7NsFz8qhV8GfhBdy1aisV1DsouUhK0xEOvieV8RYW40UrbQA3jo5olx4Z9Ig-Q4u9MQcnnRFJ2dhbKCFywIRb5zWS-NXA8dhXaG-XdncxMDCfOaZ7mu2bDTkSjoNKqnUHmy_aJ8Q-0MGQlpcOFKqAFR-jKrbX8Fd8">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
+<div class="absolute top-1.5 right-1.5">
+<span class="px-1.5 py-0.5 rounded-full bg-error text-on-error text-[9px] font-extrabold uppercase shadow">БОСС</span>
+</div>
+<div class="absolute bottom-2 left-2 right-2 text-center">
+<span class="text-[11px] font-extrabold text-on-surface block leading-tight drop-shadow truncate">Генерал Дог Архипёс</span>
+<span class="text-[9px] text-error font-semibold block uppercase">Архипёс I</span>
+</div>
+</div>
+<div class="w-28 h-36 rounded-xl overflow-hidden relative border border-primary/60 shadow-lg group cursor-pointer bg-surface-container">
+<img alt="Скин: Громовой Страж" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://lh3.googleusercontent.com/aida/AEtjO1VS-1UJd51LrrOBwZmpVXNVeoyzGPzmd4y-Uj4xJpWDF_QTXl8OHhqWDzfvbzd4n7aRFFLEM-Gnrb7UrUcUrEBRgHYh_jSvMn6eDg7YoAxynmszGDtUE5cbBXvpexpzj1gY-bgYUYbvzPfuFmw54fyxM0FwoJ0KwykLdiLJZYptufRlGA4mwXwvxmCOI5dsyU3wOif6_hfL4sTy7au-ZULCImyuGDb8p-RuPZlNmvA">
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
+<div class="absolute top-1.5 left-1.5">
+<span class="px-1.5 py-0.5 rounded-full bg-primary/20 border border-primary/40 text-primary text-[8px] font-extrabold uppercase">EXCLUSIVE</span>
+</div>
+<div class="absolute bottom-1.5 left-1.5 right-1.5 text-center">
+<span class="px-1.5 py-0.5 rounded bg-surface-container-lowest/90 text-primary text-[9px] font-bold uppercase tracking-wider border border-primary/40 block whitespace-nowrap">Скин: Громовой Страж</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Exactly 8 Portals Clean Grid (2 rows x 4 columns) -->
+<div class="relative z-10 w-full max-w-6xl mx-auto grid grid-cols-4 gap-3 shrink-0">
+<!-- 1. МИФМИР (PvE Кампания) -->
+<a class="group relative p-3 rounded-xl border border-primary/50 hover:border-primary shadow-lg card-hover-fx flex flex-col justify-between transition-all min-h-[96px] overflow-hidden" href="#">
+<div class="absolute inset-0 bg-cover bg-no-repeat transition-transform duration-300 group-hover:scale-105" style="background-image: url(&quot;https://lh3.googleusercontent.com/aida/AEtjO1VOdUjip7yXrt8rCRB-7vvMwXIfHUeJdzne3Irazk6t2ocG_AwDUfX7E4fbcvm5zhpFyTvBflxhjPOAsWA8U6uzNOM8fezd8NEDEFnrpyuxcuhwHEU7Yd51-ngpoIsNdEBq5LWSO-8WQYUFpidPCJtb_bI96qRWYGB7hnBdipGC8aEJsfqizDvu8kgOd2lqSUf79JQl0xdyh1fouQe2XTtGgcKbysl7g0FSAt873Uk&quot;); background-position: center top;"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-surface-container-lowest/40 pointer-events-none"></div>
+<div class="relative z-10 flex items-center justify-between">
+<div class="w-8 h-8 rounded-lg bg-primary/20 text-primary border border-primary/40 flex items-center justify-center backdrop-blur-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[18px]">swords</span>
+</div>
+<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-primary/20 text-primary border border-primary/30 uppercase tracking-wide backdrop-blur-md whitespace-nowrap">ОСНОВНОЙ</span>
+</div>
+<div class="relative z-10 mt-1">
+<h3 class="font-headline-md text-[14px] text-on-surface font-extrabold group-hover:text-primary transition-colors flex items-center gap-1 leading-tight">Мифмир (PvE)<span class="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">arrow_forward</span></h3>
+<p class="font-body-sm text-[11px] text-on-surface-variant truncate">5 узлов, Двор и Окрестности</p>
+</div>
+</a>
+<!-- 2. БОЙ 3v3 (PvP Арена) -->
+<a class="group relative p-3 rounded-xl border border-outline-variant/60 hover:border-primary shadow-lg card-hover-fx flex flex-col justify-between transition-all min-h-[96px] overflow-hidden" href="#">
+<div class="absolute inset-0 bg-cover bg-no-repeat transition-transform duration-300 group-hover:scale-105" style="background-image: url(&quot;https://lh3.googleusercontent.com/aida/AEtjO1UTONOVCyLw5-W2qQYB7ZFyjsPwNAMvaP9-Hze_fhXtqELVRuBrcrZPNTUcRcrw4UB93AC8iI79oPbONvgsH2opuuc1opVfxbcNaxigBiSkzxqqoi_tGCKT9pI33FtildrClgnUOlDjsFK1a-261QTghBOrDrMhb8y5jL0_hrhBiFnwZBa_IqDZm9HyutkvtY4U43RBzVvPa9p8yiMdR_L4BSnzYqea5DLEqZOphwI&quot;); background-position: 50% 12%;"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-surface-container-lowest/40 pointer-events-none"></div>
+<div class="relative z-10 flex items-center justify-between">
+<div class="w-8 h-8 rounded-lg bg-primary/20 text-primary border border-primary/40 flex items-center justify-center backdrop-blur-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[18px]">sports_martial_arts</span>
+</div>
+<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-tertiary-container/30 text-tertiary border border-tertiary/30 uppercase tracking-wide backdrop-blur-md whitespace-nowrap">РЕЙТИНГ</span>
+</div>
+<div class="relative z-10 mt-1">
+<h3 class="font-headline-md text-[14px] text-on-surface font-extrabold group-hover:text-primary transition-colors flex items-center gap-1 leading-tight">Бой 3v3 Арена<span class="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">arrow_forward</span></h3>
+<p class="font-body-sm text-[11px] text-on-surface-variant truncate">Рейтинговые матчи и дуэли</p>
+</div>
+</a>
+<!-- 3. РЕЙД НА ДОГА -->
+<a class="group relative p-3 rounded-xl border border-outline-variant/60 hover:border-tertiary shadow-lg card-hover-fx flex flex-col justify-between transition-all min-h-[96px] overflow-hidden" href="#">
+<div class="absolute inset-0 bg-cover bg-no-repeat transition-transform duration-300 group-hover:scale-105" style="background-image: url(&quot;https://lh3.googleusercontent.com/aida/AEtjO1VXTbfCi2T6HUXST2rkbEvD1BhtiQkVyNMdrmM2VfC438aG7d0S29A4JehdNPUBulA5SmqyLb7NsFz8qhV8GfhBdy1aisV1DsouUhK0xEOvieV8RYW40UrbQA3jo5olx4Z9Ig-Q4u9MQcnnRFJ2dhbKCFywIRb5zWS-NXA8dhXaG-XdncxMDCfOaZ7mu2bDTkSjoNKqnUHmy_aJ8Q-0MGQlpcOFKqAFR-jKrbX8Fd8&quot;); background-position: 50% 15%;"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-surface-container-lowest/40 pointer-events-none"></div>
+<div class="relative z-10 flex items-center justify-between">
+<div class="w-8 h-8 rounded-lg bg-tertiary-container/30 text-tertiary border border-tertiary/40 flex items-center justify-center backdrop-blur-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[18px]">skull</span>
+</div>
+<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-error-container text-error border border-error/30 uppercase tracking-wide backdrop-blur-md animate-pulse whitespace-nowrap">БОСС</span>
+</div>
+<div class="relative z-10 mt-1">
+<h3 class="font-headline-md text-[14px] text-on-surface font-extrabold group-hover:text-tertiary transition-colors flex items-center gap-1 leading-tight">Рейд на Дога<span class="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">arrow_forward</span></h3>
+<p class="font-body-sm text-[11px] text-on-surface-variant truncate">Кооперативный гильд-босс</p>
+</div>
+</a>
+<!-- 4. ДВОР УСАДЬБЫ -->
+<a class="group relative p-3 rounded-xl border border-outline-variant/60 hover:border-secondary shadow-lg card-hover-fx flex flex-col justify-between transition-all min-h-[96px] overflow-hidden" href="#">
+<div class="absolute inset-0 bg-cover bg-no-repeat transition-transform duration-300 group-hover:scale-105" style="background-image: url(&quot;https://lh3.googleusercontent.com/aida/AEtjO1XxGFSH9xu2FKdWvM6lBI79MMJUNsZCnziPAhUZLwX8lBuaiPyaNoD6Ivsqd6cq5-HP3NKIG4EIOp3n_ajmix-jy5b4hXN0jNdQjkGabohkx0lSRdaAIqSaDClD6OjrjqBhI0vUGX_uGonl6nyUTAD4J0wi1s_byUM3N-Y4FfW0GRQOFf-RdJUoqla1pl5I4xRYLLDQ3vLc6StzfgoId5Q6yNhS4y2zzdn0oUM8cRI&quot;); background-position: center top;"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-surface-container-lowest/40 pointer-events-none"></div>
+<div class="relative z-10 flex items-center justify-between">
+<div class="w-8 h-8 rounded-lg bg-secondary/20 text-secondary border border-secondary/40 flex items-center justify-center backdrop-blur-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[18px]">yard</span>
+</div>
+<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-secondary-container/40 text-secondary border border-secondary/30 uppercase tracking-wide backdrop-blur-md whitespace-nowrap">УЮТ</span>
+</div>
+<div class="relative z-10 mt-1">
+<h3 class="font-headline-md text-[14px] text-on-surface font-extrabold group-hover:text-secondary transition-colors flex items-center gap-1 leading-tight">Двор Усадьбы<span class="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">arrow_forward</span></h3>
+<p class="font-body-sm text-[11px] text-on-surface-variant truncate">Сад кошачьей мяты и отдых</p>
+</div>
+</a>
+<!-- 5. КОЛЛЕКЦИЯ КОТИКОВ -->
+<a class="group relative p-3 rounded-xl border border-outline-variant/60 hover:border-primary shadow-lg card-hover-fx flex flex-col justify-between transition-all min-h-[96px] overflow-hidden" href="#">
+<div class="absolute inset-0 bg-cover bg-no-repeat transition-transform duration-300 group-hover:scale-105" style="background-image: url(&quot;https://lh3.googleusercontent.com/aida/AEtjO1Ww9C9pGPxcPRqzqAPkN_xCd2BN2Czj52l4YQBj93vR-0HiT_57N8u-jCD7bjaFJ8RSO2c816Ruqsuz98kwho63T70p2VihJABl4t4aOizxWEYeeO4y7UBrVwL9sSuBrdInmTwsfujuWtXMji5i67FJ9f8a_XF0pjg_x-_WJvM_jKqd-3Vp9CWWcs4trCWKkSbxjVOvS71I82QoKHeWuoXJkmgbuVlpys10bGafJnA&quot;); background-position: 50% 12%;"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-surface-container-lowest/40 pointer-events-none"></div>
+<div class="relative z-10 flex items-center justify-between">
+<div class="w-8 h-8 rounded-lg bg-primary/20 text-primary border border-primary/40 flex items-center justify-center backdrop-blur-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[18px]">auto_awesome</span>
+</div>
+<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-primary/20 text-primary border border-primary/30 uppercase tracking-wide backdrop-blur-md whitespace-nowrap">ГЕРОИ</span>
+</div>
+<div class="relative z-10 mt-1">
+<h3 class="font-headline-md text-[14px] text-on-surface font-extrabold group-hover:text-primary transition-colors flex items-center gap-1 leading-tight">Коллекция Котиков<span class="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">arrow_forward</span></h3>
+<p class="font-body-sm text-[11px] text-on-surface-variant truncate">Прокачка, таланты, экипировка</p>
+</div>
+</a>
+<!-- 6. ЛАВКА И МАРКЕТ -->
+<a class="group relative p-3 rounded-xl border border-outline-variant/60 hover:border-primary shadow-lg card-hover-fx flex flex-col justify-between transition-all min-h-[96px] overflow-hidden" href="#">
+<div class="absolute inset-0 bg-cover bg-no-repeat transition-transform duration-300 group-hover:scale-105" style="background-image: url(&quot;https://lh3.googleusercontent.com/aida/AEtjO1W3Z0JnSMMBbPq8kaaIxwT_2pKQGkO1XijvF-tOyTn-p18v5YYalVNvJkgCG8PsuW3Mj3e3urnws2kxdOa15d3mo8RSuonMKwpR5LXR7sDKS4CjRNutlDhkUDs0No5RgpNjVL05yCDSLUQMTq5929HKU76K60oIkgduhXFhwB9vtCPRw_YQtW2IwtLFd80J8otPKLMJhApQavnSTtARcva5kCvAZNd5kngVw3EMZZY&quot;); background-position: 50% 12%;"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-surface-container-lowest/40 pointer-events-none"></div>
+<div class="relative z-10 flex items-center justify-between">
+<div class="w-8 h-8 rounded-lg bg-primary/20 text-primary border border-primary/40 flex items-center justify-center backdrop-blur-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[18px]">storefront</span>
+</div>
+<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-primary/20 text-primary border border-primary/30 uppercase tracking-wide backdrop-blur-md whitespace-nowrap">МАРКЕТ</span>
+</div>
+<div class="relative z-10 mt-1">
+<h3 class="font-headline-md text-[14px] text-on-surface font-extrabold group-hover:text-primary transition-colors flex items-center gap-1 leading-tight">Лавка и Маркет<span class="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">arrow_forward</span></h3>
+<p class="font-body-sm text-[11px] text-on-surface-variant truncate">Сундуки, свитки и артефакты</p>
+</div>
+</a>
+<!-- 7. ТРЕНИРОВОЧНЫЙ ЛАГЕРЬ -->
+<a class="group relative p-3 rounded-xl border border-outline-variant/60 hover:border-secondary shadow-lg card-hover-fx flex flex-col justify-between transition-all min-h-[96px] overflow-hidden" href="#">
+<div class="absolute inset-0 bg-cover bg-no-repeat transition-transform duration-300 group-hover:scale-105" style="background-image: url(&quot;https://lh3.googleusercontent.com/aida/AEtjO1VS-1UJd51LrrOBwZmpVXNVeoyzGPzmd4y-Uj4xJpWDF_QTXl8OHhqWDzfvbzd4n7aRFFLEM-Gnrb7UrUcUrEBRgHYh_jSvMn6eDg7YoAxynmszGDtUE5cbBXvpexpzj1gY-bgYUYbvzPfuFmw54fyxM0FwoJ0KwykLdiLJZYptufRlGA4mwXwvxmCOI5dsyU3wOif6_hfL4sTy7au-ZULCImyuGDb8p-RuPZlNmvA&quot;); background-position: 50% 15%;"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-surface-container-lowest/40 pointer-events-none"></div>
+<div class="relative z-10 flex items-center justify-between">
+<div class="w-8 h-8 rounded-lg bg-secondary/20 text-secondary border border-secondary/40 flex items-center justify-center backdrop-blur-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[18px]">fitness_center</span>
+</div>
+<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-secondary-container/40 text-secondary border border-secondary/30 uppercase tracking-wide backdrop-blur-md whitespace-nowrap">ДОДЗЁ</span>
+</div>
+<div class="relative z-10 mt-1">
+<h3 class="font-headline-md text-[14px] text-on-surface font-extrabold group-hover:text-secondary transition-colors flex items-center gap-1 leading-tight">Тренировочный лагерь<span class="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">arrow_forward</span></h3>
+<p class="font-body-sm text-[11px] text-on-surface-variant truncate">Манекен урона и тест комбо</p>
+</div>
+</a>
+<!-- 8. ГИЛЬДИЯ КОГТЯ -->
+<a class="group relative p-3 rounded-xl border border-outline-variant/60 hover:border-primary shadow-lg card-hover-fx flex flex-col justify-between transition-all min-h-[96px] overflow-hidden" href="#">
+<div class="absolute inset-0 bg-cover bg-no-repeat transition-transform duration-300 group-hover:scale-105" style="background-image: url(&quot;https://lh3.googleusercontent.com/aida/AEtjO1Xiwam8_itGUEI466dLlMk1MOtg4IXz3tWc_gqtjYO9H_GFNrotOwXHu2Ky898mPuYpymTPCIk0kXrmQmOYrJ4kFU4ZwX39KkSuHEhz0Fvv75aMfXfoGiBttBo2e_kyHdgT9gOhhGAqYyiwfPHJKWeK6Y_A7QlZ9MFqcUql-CrTctVLh1Cq1GPLHX3V8nOu4DVVj29SBjKlV88v6zsDYKfas-Sh59IiXgT3V9jdyw&quot;); background-position: center top;"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-surface-container-lowest/40 pointer-events-none"></div>
+<div class="relative z-10 flex items-center justify-between">
+<div class="w-8 h-8 rounded-lg bg-primary/20 text-primary border border-primary/40 flex items-center justify-center backdrop-blur-md group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[18px]">shield</span>
+</div>
+<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-primary/20 text-primary border border-primary/30 uppercase tracking-wide backdrop-blur-md whitespace-nowrap">КЛАН</span>
+</div>
+<div class="relative z-10 mt-1">
+<h3 class="font-headline-md text-[14px] text-on-surface font-extrabold group-hover:text-primary transition-colors flex items-center gap-1 leading-tight">Гильдия Когтя<span class="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">arrow_forward</span></h3>
+<p class="font-body-sm text-[11px] text-on-surface-variant truncate">Клановые боссы и общие бонусы</p>
+</div>
+</a>
+</div>
+</main>
+<!-- BOTTOM BAR / QUICK ACTIONS (Full-Bleed 100% viewport pinned navigation) -->
+<footer class="h-14 w-full shrink-0 z-40 bg-surface-container-lowest/95 backdrop-blur-md border-t border-surface-variant/70 px-5 flex items-center justify-between shadow-[0_-4px_24px_rgba(0,0,0,0.85)]">
+<nav aria-label="Быстрый доступ" class="flex items-center gap-2">
+<a class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-[12px] font-label-md border border-outline-variant/40 transition-colors" href="#">
+<span class="material-symbols-outlined text-primary text-[18px]">local_bar</span>
+<span class="">Таверна &amp; Бар</span>
+</a>
+<a class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-[12px] font-label-md border border-outline-variant/40 transition-colors" href="#">
+<span class="material-symbols-outlined text-amber-400 text-[18px]">leaderboard</span>
+<span class="">Рейтинги</span>
+</a>
+<button class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-[12px] font-label-md border border-outline-variant/40 transition-colors group cursor-pointer" type="button">
+<span class="material-symbols-outlined text-secondary text-[18px]">chat</span>
+<span class="">Чат</span>
+<span class="px-1.5 py-0.2 rounded-full bg-secondary-container/40 text-secondary text-[10px] font-bold font-stat-numeral border border-secondary/30">42</span>
+</button>
+<a class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-[12px] font-label-md border border-outline-variant/40 transition-colors relative" href="#">
+<span class="material-symbols-outlined text-on-surface-variant text-[18px]">mail</span>
+<span class="">Почта</span>
+<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+</a>
+</nav>
+<div class="flex items-center gap-4">
+<div class="flex flex-col text-right leading-none">
+<span class="text-label-sm text-on-surface-variant text-[11px]">Отряд «Теплый Очаг» готов</span>
+<span class="text-primary text-[11px] font-bold mt-0.5">Энергия: -10</span>
+</div>
+<button class="px-6 py-2 bg-gradient-to-r from-primary via-primary-container to-amber-500 hover:from-primary-fixed hover:to-primary text-on-primary font-headline-md text-[14px] font-extrabold rounded-xl shadow-[0_4px_25px_rgba(217,155,38,0.55)] golden-glow flex items-center gap-2 transition-all cursor-pointer" type="button">
+<span class="material-symbols-outlined text-[20px]">explore</span>
+<span class="tracking-wide uppercase">В ПОХОД (PvE)</span>
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</footer>
+
+
+</body></html>

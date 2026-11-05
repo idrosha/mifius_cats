@@ -1,6 +1,6 @@
 /**
- * Mythfel Web HUD — battle/devapi + LiveOps wire logic.
- * Visual screens await new Stitch import; chrome + #wireDock are the shell.
+ * Mythfel Web HUD — battle/devapi + LiveOps wire logic + Stitch packs 0268/64d5.
+ * Formation is inline (no Бои subtab). Home = cat + equip + inventory (no portals).
  * No combat authority on client (§3.6 / §8.2).
  */
 
@@ -19,18 +19,24 @@ const PVE_UNLOCK_N = 3;
 /** Stitch header data-path → app tab */
 const PATH_TO_TAB = {
   "главный-хаб": "hub",
+  "glavnyy-khab": "hub",
+  "main-hub": "hub",
   "бой-3v3": "formation", // 3v3 строй = PvE formation (не рейд)
   "rejd-na-doga": "boss_raid", // легион 12 / рейд на босса
   "рейд-на-дога": "boss_raid",
   "двор-усадьбы": "yard",
   мифмир: "yard",
   коллекция: "collection",
+  "kollektsiya-pitomtsev": "collection",
+  "pet-collection": "collection",
   "лавка-и-маркет": "shop",
   лавка: "shop",
   маркетплейс: "market",
   рынок: "market",
   аукцион: "auction",
   "pvp-арена": "pvp",
+  "arena-bitv": "pvp",
+  "battle-arena": "pvp",
   "battle-pass": "pass",
   гильдия: "guild",
   "бой-гильдий": "guild_battle",
@@ -41,30 +47,52 @@ const PATH_TO_TAB = {
   пасс: "pass",
   pvp: "pvp",
   ферма: "farm",
+  ferma: "farm",
+  "tavern-farm": "farm",
   питомник: "breeding",
   скрещивание: "breeding",
+  "skreshchivanie": "breeding",
+  "cat-breeding": "breeding",
   крафт: "craft",
+  kraft: "craft",
+  crafting: "craft",
+  "crafting-forge": "craft",
   данжи: "boss_dungeon",
   подземелья: "boss_dungeon",
+  podzemelya: "boss_dungeon",
+  dungeons: "boss_dungeon",
   рейтинги: "rating_players",
   чат: "chat_global",
   тренировка: "practice",
   "тренировочный-лагерь": "practice",
   кодекс: "codex",
   "кодекс-мифмира": "codex",
+  "kodeks-mifmira": "codex",
+  "mythworld-codex": "codex",
+  "world-codex": "codex",
   вход: "login",
   регистрация: "login",
-  // packs 8/9/10 — hero cards + equipment forms
   "kodeks-geroev": "heroes",
   "heroes-codex": "heroes",
   "кодекс-героев": "heroes",
+  "personazh": "home",
+  character: "home",
+  "guardian-character": "home",
+  "guardian-house": "home",
   oruzheynaya: "gear",
   armory: "gear",
+  "ekipirovka-sumka": "gear",
+  "equipment-bag": "gear",
+  inventory: "gear",
   "sety-broni": "armor_sets",
   "sets-broni": "armor_sets",
   "armor-sets": "armor_sets",
+  "klassovye-sety": "class_sets",
+  "class-sets": "class_sets",
   "weapon-sets": "class_sets",
   "kartochki-ekipirovki": "equip_cards",
+  "equipment-cards": "equip_cards",
+  "gear-cards": "equip_cards",
   kuznitsa: "craft",
   blacksmith: "craft",
   taverna: "tavern",
@@ -75,18 +103,19 @@ const PATH_TO_TAB = {
 /**
  * Primary tabs + adaptive subtabs (game HUD IA).
  * Route ids stay stable (yard = Мифмир PvE map).
+ * formation is NOT a combat subtab — open inline via CTA / wire dock.
  */
 const NAV = [
   {
     id: "character",
-    key: "nav.primary.character",
+    key: "nav.primary.character", // Дом Хранителя
     tabs: [
+      { id: "home", key: "nav.sub.home" }, // Персонаж: кот + экип + инвентарь
       { id: "gear", key: "nav.sub.gear" },
       { id: "armor_sets", key: "nav.sub.armor_sets", gated: true },
       { id: "class_sets", key: "nav.sub.class_sets", gated: true },
       { id: "equip_cards", key: "nav.sub.equip_cards", gated: true },
       { id: "heroes", key: "nav.sub.heroes" },
-      { id: "home", key: "nav.sub.home", gated: true },
       { id: "farm", key: "nav.sub.farm", soon: "farm", gated: true },
       { id: "collection", key: "nav.sub.collection" },
       { id: "craft", key: "nav.sub.craft", gated: true },
@@ -100,7 +129,6 @@ const NAV = [
     tabs: [
       { id: "yard", key: "nav.sub.mythmir" },
       { id: "practice", key: "nav.sub.practice" },
-      { id: "formation", key: "nav.sub.formation" },
       { id: "pvp", key: "nav.sub.pvp", gated: "pvp" },
       { id: "boss_dungeon", key: "nav.sub.boss_dungeon" },
       { id: "boss_raid", key: "nav.sub.boss_raid", gated: true },
@@ -644,6 +672,8 @@ function navigate(tab, { soon = null, clearBattle = true, primary = null, fromGa
     soon = "farm";
   }
   if (tab === "battle") tab = "formation";
+  // Inline formation: keep combat primary highlighted even though it is not a subtab.
+  if (tab === "formation" && primary == null) primary = "combat";
 
   // Day-1: all forms present. Gated tabs still open, but tip on entry for meta gates.
   const navTab = findNavForTab(tab)?.tabs?.find((x) => x.id === tab) || TABS.find((x) => x.id === tab);
@@ -875,6 +905,9 @@ function softNavigateFromLabel(label) {
     ["оружейн", () => navigate("gear")],
     ["дом хран", () => navigate("home")],
     ["усадьб", () => navigate("home")],
+    ["персонаж", () => navigate("home")],
+    ["войти в таверн", () => navigate("hub")],
+    ["войти", () => navigate("hub")],
     ["чат", () => navigate("chat_global")],
     ["рейтинг", () => navigate("rating_players")],
     ["тренир", () => navigate("practice")],

@@ -1,0 +1,125 @@
+<aside id="wireDock" class="mythfel-wire" aria-label="HUD wire controls">
+    <div class="mythfel-wire-inner">
+      <span class="mythfel-wire-label">HUD</span>
+      <button type="button" class="wire-btn" data-for="login" id="btnLoginEnter">Войти → Хаб</button>
+      <button type="button" class="wire-btn" data-for="practice" id="btnPracticeBattle">Тренировочный бой</button>
+      <button type="button" class="wire-btn" data-for="practice" id="btnPracticeHub">В Хаб</button>
+      <button type="button" class="wire-btn" data-for="codex" id="btnCodexHub">В Хаб</button>
+      <button type="button" class="wire-btn" data-for="yard" id="btnYardMissionRefresh">Обновить миссии</button>
+      <button type="button" class="wire-btn" data-for="boss_dungeon" id="btnBossFirstWave">Первый босс · волна</button>
+      <button type="button" class="wire-btn" data-for="yard" id="btnTutorial">Туториал → бой</button>
+      <button type="button" class="wire-btn" data-for="yard" id="btnYardToFormation">Расстановка</button>
+      <button type="button" class="wire-btn" data-for="yard" id="btnYardBattle">Бой в Мифмире</button>
+      <button type="button" class="wire-btn" data-for="yard" id="btnYardAuto">Автопобеда</button>
+      <button type="button" class="wire-btn" data-for="formation" id="btnFormationBattle">В бой</button>
+      <button type="button" class="wire-btn" data-for="formation" id="btnFormationYard">В Мифмир</button>
+      <button type="button" class="wire-btn" data-for="formation" id="btnFormationTavern">В Таверну</button>
+      <button type="button" class="wire-btn" data-for="boss_dungeon" id="btnBossDungeonRaid">В рейд / легион</button>
+      <button type="button" class="wire-btn" data-for="boss_dungeon" id="btnBossDungeonHub">В Хаб</button>
+      <button type="button" class="wire-btn" data-for="boss_raid" id="btnBossRaidHub">В Хаб</button>
+      <button type="button" class="wire-btn" data-for="boss_raid" id="btnBossRaidFormation">Строй 3v3</button>
+      <button type="button" class="wire-btn" data-for="boss_raid" id="btnBossRaidDungeon">К выбору данжа</button>
+      <button type="button" class="wire-btn" data-for="battle" id="btnEndTurn">Конец хода</button>
+      <button type="button" class="wire-btn" data-for="battle" id="btnKeep">Keep</button>
+      <button type="button" class="wire-btn" data-for="battle" id="btnSurrender">Сдаться</button>
+      <button type="button" class="wire-btn" data-for="battle" id="btnBackHub">В хаб</button>
+      <button type="button" class="wire-btn" data-for="result" id="btnResultHub">В Хаб</button>
+      <button type="button" class="wire-btn" data-for="result" id="btnResultYard">В Мифмир</button>
+      <button type="button" class="wire-btn" data-for="result" id="btnResultRetry">Повторить</button>
+      <button type="button" class="wire-btn" data-for="result" id="btnResultFormation">Расстановка</button>
+      <button type="button" class="wire-btn" data-for="collection" id="btnColFormation">Расстановка</button>
+      <button type="button" class="wire-btn" data-for="collection" id="btnColForge">Оружейная → Скоро</button>
+      <button type="button" class="wire-btn" data-for="shop" id="btnShopToTavern">В Таверну</button>
+      <button type="button" class="wire-btn" data-for="shop" id="btnGacha1">Гача ×1</button>
+      <button type="button" class="wire-btn" data-for="shop" id="btnGacha10">Гача ×10</button>
+      <button type="button" class="wire-btn" data-for="market" id="btnSellStarter">Quick sell (gated)</button>
+      <button type="button" class="wire-btn" data-for="market" id="btnMarketQuickSell">Quick sell</button>
+      <button type="button" class="wire-btn" data-for="market" id="btnMarketToShop">В Лавку</button>
+      <button type="button" class="wire-btn" data-for="market" id="btnMarketToAuction">В Аукцион</button>
+      <button type="button" class="wire-btn" data-for="auction" id="btnAuctionList">Выставить лот (gated)</button>
+      <button type="button" class="wire-btn" data-for="auction" id="btnAuctionToMarket">В Рынок</button>
+      <button type="button" class="wire-btn" data-for="tavern" id="btnTavernFormation">К расстановке</button>
+      <button type="button" class="wire-btn" data-for="tavern" id="btnTavernHub">В Хаб</button>
+      <button type="button" class="wire-btn" data-for="pass" id="btnPassShop">В Лавку</button>
+      <button type="button" class="wire-btn" data-for="pass" id="btnPassHub">В Хаб</button>
+      <button type="button" class="wire-btn" data-for="guild" id="btnGuildBattle">Бой гильдий</button>
+      <button type="button" class="wire-btn" data-for="guild" id="btnGuildHub">В Хаб</button>
+      <button type="button" class="wire-btn" data-for="pvp" id="btnPvpAuto">Автобой PvP</button>
+      <button type="button" class="wire-btn" data-for="pvp" id="btnPvpFormation">Расстановка</button>
+      <button type="button" class="wire-btn" data-for="pvp" id="btnRefreshReplays">Реплеи</button>
+      <button type="button" class="wire-btn" data-for="soon" id="btnSoonHub">В Хаб</button>
+      <div id="shopSubtabs" class="hidden"></div>
+      <div id="marketSubtabs" class="hidden"></div>
+      <div id="gachaPanel" class="hidden"><h3 id="gachaTitle"></h3><p id="gachaLead"></p></div>
+      <div id="marketSell" class="hidden"><p id="sellLead"></p></div>
+      <div id="tutorialBanner" class="banner warn hidden"></div>
+      <div id="resultBanner" class="banner hidden"></div>
+      <p class="eyebrow hidden" id="resultEyebrow"></p>
+      <h2 class="hidden" id="resultTitle"></h2>
+      <p class="hidden" id="resultLead"></p>
+      <p class="eyebrow hidden" id="hubEyebrow"></p>
+      <h2 class="hidden" id="hubTitle"></h2>
+      <p class="hidden" id="hubLead"></p>
+      <div class="hidden" id="hubPortals"></div>
+      <p class="hidden" id="yardEyebrow"></p>
+      <h2 class="hidden" id="yardTitle"></h2>
+      <p class="hidden" id="yardLead"></p>
+      <p class="eyebrow hidden" id="formEyebrow"></p>
+      <h2 class="hidden" id="formTitle"></h2>
+      <p class="hidden" id="formLead"></p>
+      <p class="eyebrow hidden" id="colEyebrow"></p>
+      <h2 class="hidden" id="colTitle"></h2>
+      <p class="hidden" id="colLead"></p>
+      <p class="eyebrow hidden" id="shopEyebrow"></p>
+      <h2 class="hidden" id="shopTitle"></h2>
+      <p class="hidden" id="shopLead"></p>
+      <p class="eyebrow hidden" id="marketEyebrow"></p>
+      <h2 class="hidden" id="marketTitle"></h2>
+      <p class="hidden" id="marketLead"></p>
+      <p class="eyebrow hidden" id="auctionEyebrow"></p>
+      <h2 class="hidden" id="auctionTitle"></h2>
+      <p class="hidden" id="auctionLead"></p>
+      <ul class="hidden offer-list" id="auctionList"></ul>
+      <p class="eyebrow hidden" id="tavernEyebrow"></p>
+      <h2 class="hidden" id="tavernTitle"></h2>
+      <p class="hidden" id="tavernLead"></p>
+      <span class="hidden" id="drinksLabel"></span>
+      <span class="hidden" id="potionsLabel"></span>
+      <div class="hidden" id="drinkList"></div>
+      <div class="hidden" id="potionList"></div>
+      <p class="eyebrow hidden" id="passEyebrow"></p>
+      <h2 class="hidden" id="passTitle"></h2>
+      <p class="hidden" id="passLead"></p>
+      <p class="eyebrow hidden" id="pvpEyebrow"></p>
+      <h2 class="hidden" id="pvpTitle"></h2>
+      <p class="hidden" id="pvpLead"></p>
+      <h2 class="hidden" id="battleHeading"></h2>
+      <span class="hidden" id="curGold"></span>
+      <span class="hidden" id="curMilk"></span>
+      <span class="hidden" id="curEnergy"></span>
+      <span class="hidden" id="curGems"></span>
+      <div class="wire-panel" data-for="yard"><div class="card-grid" id="starterCards"></div></div>
+      <div class="hidden" id="gateTipBanner"></div>
+      <div class="wire-panel" data-for="formation">
+        <div class="formation-lanes" id="formationLanes"></div>
+        <div class="potion-tray" id="formationPotions"></div>
+      </div>
+      <div class="wire-panel" data-for="battle">
+        <div class="mythfel-battle-stats" id="battleStats"></div>
+        <div class="mythfel-board">
+          <div><div class="meta">Враги</div><div class="lane-row" id="enemyBoard"></div></div>
+          <div><div class="meta">Союзники</div><div class="lane-row" id="allyBoard"></div></div>
+        </div>
+        <div class="mythfel-hand" id="hand"></div>
+        <pre class="mythfel-log" id="battleLog"></pre>
+      </div>
+      <div class="wire-panel" data-for="collection"><div class="card-grid" id="collectionCards"></div></div>
+      <div class="wire-panel" data-for="shop"><ul class="offer-list" id="offerList"></ul></div>
+      <div class="wire-panel" data-for="market"><ul class="offer-list" id="marketList"></ul></div>
+      <div class="wire-panel" data-for="pass"><ul class="offer-list" id="passList"></ul></div>
+      <div class="wire-panel" data-for="pvp">
+        <ul class="replay-list" id="replayList"></ul>
+        <pre class="mythfel-log" id="pvpLog"></pre>
+      </div>
+    </div>
+  </aside>

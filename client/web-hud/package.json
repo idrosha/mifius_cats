@@ -6,7 +6,10 @@
   "type": "module",
   "scripts": {
     "start": "node server.mjs",
-    "dev": "node server.mjs"
+    "dev": "node server.mjs",
+    "vendor-stitch": "node scripts/vendor-stitch-assets.mjs",
+    "build-stitch": "node scripts/build-stitch.mjs",
+    "verify-nav": "node scripts/verify-nav.mjs"
   },
   "engines": {
     "node": ">=20"
