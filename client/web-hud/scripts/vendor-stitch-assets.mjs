@@ -103,6 +103,14 @@ const SCREEN_FALLBACKS = {
   "codex.html": ["/stitch-ref/64d5/heroes.png", "/stitch-ref/0268/hub.png"],
   "heroes.html": ["/stitch-ref/64d5/heroes.png", "/stitch-ref/64d5/cat_portrait.png"],
   "soon_farm.html": ["/stitch-ref/64d5/farm.png", "/stitch-ref/64d5/farm_map.png"],
+  "yard.html": ["/stitch-ref/e608/yard.png", "/stitch-ref/e608/arena_interior.png", "/stitch-ref/64d5/cat_portrait.png"],
+  "formation.html": ["/stitch-ref/e608/formation.png", "/stitch-ref/e608/battle_poster.png", "/stitch-ref/64d5/cat_portrait.png"],
+  "battle.html": ["/stitch-ref/e608/battle.png", "/stitch-ref/e608/arena_interior.png", "/stitch-ref/64d5/cat_portrait.png"],
+  "result_win.html": ["/stitch-ref/e608/result_win.png", "/stitch-ref/e608/victory_hall.png", "/stitch-ref/64d5/cat_portrait.png"],
+  "boss_dungeon.html": ["/stitch-ref/4da7/boss_dungeon.png", "/stitch-ref/e608/arena_dojo.png", "/stitch-ref/64d5/cat_portrait.png"],
+  "boss_raid.html": ["/stitch-ref/4da7/boss_raid.png", "/stitch-ref/e608/battle_poster.png", "/stitch-ref/64d5/cat_portrait.png"],
+  "pvp.html": ["/stitch-ref/4da7/pvp.png", "/stitch-ref/e608/arena_dojo.png", "/stitch-ref/64d5/cat_portrait.png"],
+  "guild_battle.html": ["/stitch-ref/4da7/guild_battle.png", "/stitch-ref/4da7/guild_fight.png", "/stitch-ref/64d5/cat_portrait.png"],
 };
 
 function vendorEphemeral() {
@@ -158,7 +166,7 @@ fs.writeFileSync(
   JSON.stringify(
     {
       generatedAt: new Date().toISOString(),
-      packs: ["0268", "64d5"],
+      packs: ["0268", "64d5", "e608", "4da7"],
       mappings: Object.fromEntries(urlMap),
       publicCount: publicUrls.length,
       ephemeralCount: ephemeralUrls.length,

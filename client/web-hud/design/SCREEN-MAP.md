@@ -1,8 +1,10 @@
-# Stitch screen map — packs 0268 + 64d5
+# Stitch screen map — packs 0268 + 64d5 + e608 + 4da7
 
 Sources:
 - `media/stitch-new-0268/stitch_mythfel_mobile_game_ui_0268.zip`
 - `media/stitch-new-0268/stitch_mythfel_mobile_game_ui__1__64d5.zip`
+- `media/stitch-battles-2/stitch_mythfel_mobile_game_ui__2__e608.zip`
+- `media/stitch-battles-2/stitch_mythfel_mobile_game_ui__3__4da7.zip`
 
 DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 
@@ -22,6 +24,14 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | `codex` | `codex.html` | 64d5 `_3` | Кодекс Мифмира |
 | `heroes` | `heroes.html` | 64d5 `_4` | Кодекс боевых архетипов |
 | `soon_farm` / `farm` | `soon_farm.html` | 64d5 `_5` | Ферма / угодья (Soon gameplay) |
+| `yard` | `yard.html` | e608 `pve` | Мифмир start: карта + узлы + волны; строй tip inline |
+| `formation` | `formation.html` | e608 `versus_3v3` | Строй 3v3 **inline** (не вкладка Бои) |
+| `battle` | `battle.html` | e608 `pve_3v3` | Shared fight UI (рука / HP / ход) |
+| `result_win` | `result_win.html` | e608 root | Shared victory template |
+| `boss_dungeon` | `boss_dungeon.html` | 4da7 `3` | Данжи start · 3 волны |
+| `boss_raid` | `boss_raid.html` | 4da7 `12` | Рейд / легион 12 start |
+| `pvp` | `pvp.html` | 4da7 `pvp` | PvP Арена start · подбор |
+| `guild_battle` | `guild_battle.html` | 4da7 root | Война гильдий lobby / башни |
 
 ## Art-only (not separate routes)
 
@@ -37,10 +47,16 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | Breeding altar | `stitch-ref/64d5/breeding_altar.png` |
 | Cat portrait | `stitch-ref/64d5/cat_portrait.png` |
 | Farm map | `stitch-ref/64d5/farm_map.png` |
+| Yard / battle / formation / win | `stitch-ref/e608/*.png` |
+| Arena / victory hall / poster BGs | `stitch-ref/e608/arena_*.png`, `victory_hall.png`, `battle_poster.png` |
+| Dungeon / raid / pvp / guild lobby | `stitch-ref/4da7/*.png` |
+| Guild fight HTML+PNG | `stitch-ref/4da7/guild_fight.*` (GvG fight art; live fight uses shared `battle`) |
 
-## Placeholders (IA route, no painted mock in these packs)
+## Placeholders (IA route, no painted mock yet)
 
-`practice`, `yard`, `formation` (inline only — no combat subtab), `battle`, `result_*`, `shop`, `market`, `tavern` (milk bar ≠ login), `pass`, `pvp`, `soon_clan`, `equip_cards`, `auction`, `guild`, `chat_*`, `rating_*`, `boss_dungeon`, `boss_raid`.
+`practice` (start/fight/lose), `result_lose`, `shop`, `market`, `tavern` (milk bar ≠ login), `pass`, `soon_clan`, `equip_cards`, `auction`, `guild` (hall), `chat_*`, `rating_*`.
+
+Per-mode fight/win variants beyond shared `battle` / `result_win` — still gap (brief wants start+fight+win/lose per mode).
 
 ## Nav prefs (2026-11-05)
 

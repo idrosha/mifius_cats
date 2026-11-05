@@ -1,5 +1,5 @@
 /**
- * Mythfel Web HUD — battle/devapi + LiveOps wire logic + Stitch packs 0268/64d5.
+ * Mythfel Web HUD — battle/devapi + LiveOps wire logic + Stitch packs 0268/64d5/e608/4da7.
  * Formation is inline (no Бои subtab). Home = cat + equip + inventory (no portals).
  * No combat authority on client (§3.6 / §8.2).
  */
@@ -20,12 +20,14 @@ const PVE_UNLOCK_N = 3;
 const PATH_TO_TAB = {
   "главный-хаб": "hub",
   "glavnyy-khab": "hub",
+  "glavnyj-khab": "hub",
   "main-hub": "hub",
   "бой-3v3": "formation", // 3v3 строй = PvE formation (не рейд)
   "rejd-na-doga": "boss_raid", // легион 12 / рейд на босса
   "рейд-на-дога": "boss_raid",
   "двор-усадьбы": "yard",
   мифмир: "yard",
+  "mythworld-pve": "yard",
   коллекция: "collection",
   "kollektsiya-pitomtsev": "collection",
   "pet-collection": "collection",
@@ -33,18 +35,28 @@ const PATH_TO_TAB = {
   лавка: "shop",
   маркетплейс: "market",
   рынок: "market",
+  marketplace: "shop",
   аукцион: "auction",
   "pvp-арена": "pvp",
+  "pvp-arena": "pvp",
   "arena-bitv": "pvp",
   "battle-arena": "pvp",
   "battle-pass": "pass",
+  "tavern-pass": "pass",
   гильдия: "guild",
+  guilds: "guild",
+  gildii: "guild",
   "бой-гильдий": "guild_battle",
+  "guild-war": "guild_battle",
+  "voyna-gildiy": "guild_battle",
   gvg: "guild_battle",
-  бой: "formation",
+  бой: "yard",
+  boi: "yard",
+  battles: "yard",
   расстановка: "formation",
   таверна: "tavern",
   пасс: "pass",
+  pass: "pass",
   pvp: "pvp",
   ферма: "farm",
   ferma: "farm",
@@ -61,10 +73,20 @@ const PATH_TO_TAB = {
   подземелья: "boss_dungeon",
   podzemelya: "boss_dungeon",
   dungeons: "boss_dungeon",
+  "dungeons-and-raids": "boss_dungeon",
+  "danzhi-i-reydy": "boss_dungeon",
   рейтинги: "rating_players",
+  leaderboards: "rating_players",
+  rejtingi: "rating_players",
+  reytingi: "rating_players",
   чат: "chat_global",
+  chaty: "chat_global",
+  chats: "chat_global",
   тренировка: "practice",
   "тренировочный-лагерь": "practice",
+  "training-dojo": "practice",
+  trenirovka: "practice",
+  torgovlya: "shop",
   кодекс: "codex",
   "кодекс-мифмира": "codex",
   "kodeks-mifmira": "codex",
@@ -606,7 +628,7 @@ function logicalViewId() {
     farm: "viewSoonFarm",
     auction: "viewAuction",
     guild: "viewGuild",
-    guild_battle: "viewGuild",
+    guild_battle: "viewGuildBattle",
     chat_global: "viewChatGlobal",
     chat_guild: "viewChatGuild",
     chat_friends: "viewChatFriends",
@@ -626,6 +648,7 @@ function wireModeFor(viewId) {
   const special = {
     viewBossDungeon: "boss_dungeon",
     viewBossRaid: "boss_raid",
+    viewGuildBattle: "guild_battle",
     viewChatGlobal: "chat_global",
     viewChatGuild: "chat_guild",
     viewChatFriends: "chat_friends",
@@ -868,15 +891,24 @@ function softNavigateFromLabel(label) {
   const soft = [
     ["в поход", () => navigate("formation")],
     ["в бой pvp", () => navigate("pvp")],
+    ["вступить в дуэль", () => navigate("formation")],
+    ["выступить легионом", () => navigate("formation")],
+    ["штурмовать данж", () => navigate("formation")],
+    ["штурмовать башн", () => startGuildBattle()],
+    ["штурмовать", () => navigate("formation")],
+    ["в бой", () => navigate("formation")],
+    ["следующий узел", () => navigate("yard")],
     ["данж", () => navigate("boss_dungeon")],
     ["подземел", () => navigate("boss_dungeon")],
     ["к рейду", () => navigate("boss_raid")],
     ["рейд", () => navigate("boss_raid")],
     ["легион", () => navigate("boss_raid")],
+    ["война гильдий", () => navigate("guild_battle")],
     ["главный хаб", () => navigate("hub")],
     ["мифмир", () => navigate("yard")],
     ["двор", () => navigate("yard")],
     ["коллекция", () => navigate("collection")],
+    ["лавка славы", () => navigate("shop")],
     ["лавка", () => navigate("shop")],
     ["маркет", () => navigate("market")],
     ["аукцион", () => navigate("auction")],
@@ -885,7 +917,9 @@ function softNavigateFromLabel(label) {
     ["арена", () => navigate("pvp")],
     ["пасс", () => navigate("pass")],
     ["расстанов", () => navigate("formation")],
+    ["сменить отряд", () => navigate("formation")],
     ["строй", () => navigate("formation")],
+    ["бой гильдий", () => navigate("guild_battle")],
     ["гильдия", () => navigate("guild")],
     ["клан", () => navigate("guild")],
     ["ферма", () => navigate("farm", { soon: "farm" })],
@@ -912,12 +946,15 @@ function softNavigateFromLabel(label) {
     ["рейтинг", () => navigate("rating_players")],
     ["тренир", () => navigate("practice")],
     ["манекен", () => navigate("practice")],
+    ["додзё", () => navigate("practice")],
     ["кодекс", () => navigate("codex")],
     ["вход", () => navigate("login")],
     ["войти", () => { stubLogin({ login: "soft_nav", password: "" }); }],
     ["регистрац", () => { stubLogin({ login: "soft_reg", password: "" }); }],
     ["начать тренир", () => startPractice(false)],
     ["тренировка (манекен)", () => startPractice(false)],
+    ["карта", () => navigate("yard")],
+    ["повтор", () => navigate("formation")],
   ];
   const low = label.toLowerCase();
   for (const [needle, fn] of soft) {
@@ -2239,6 +2276,12 @@ function wireButtons() {
   $("btnPassHub").addEventListener("click", () => navigate("hub"));
   $("btnGuildBattle")?.addEventListener("click", () => navigate("guild_battle"));
   $("btnGuildHub")?.addEventListener("click", () => navigate("hub"));
+  $("btnGuildBattleFormation")?.addEventListener("click", () => navigate("formation"));
+  $("btnGuildBattleHub")?.addEventListener("click", () => navigate("hub"));
+  $("btnGuildBattleStartWire")?.addEventListener("click", () => {
+    state.guildBattleSize = 3;
+    startGuildBattle();
+  });
   $("btnSoonHub").addEventListener("click", () => navigate("hub"));
 }
 
