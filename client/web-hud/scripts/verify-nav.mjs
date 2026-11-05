@@ -196,6 +196,19 @@ ok(
     js.includes("nav.primary.combat") &&
     REQUIRED_NAV_IDS.every((id) => js.includes(`id: "${id}"`)),
 );
+{
+  const combatTabs = js.match(/id:\s*"combat"[\s\S]*?tabs:\s*\[([\s\S]*?)\],\s*\},/);
+  ok(
+    "formation not a Бои menu tab (inline only)",
+    !!combatTabs && !combatTabs[1].includes('id: "formation"'),
+  );
+  ok(
+    "formation route kept for inline open",
+    js.includes('formation: "viewFormation"') &&
+      (js.includes('id: "formation", key: "nav.sub.formation"') ||
+        js.includes("id: \"formation\", key: \"nav.sub.formation\"")),
+  );
+}
 ok("app navigate()", js.includes("function navigate("));
 ok("app battle/devapi CreatePvE", js.includes("/api/battle/v1/CreatePvE"));
 ok("app no client damage authority note", js.includes("No combat authority"));
@@ -353,11 +366,15 @@ for (const f of [
     body.length > 5000 && !body.includes("Нужен мок Stitch"),
   );
 }
-ok(
-  "home is pack-8 Дом Хранителя (no stub)",
-  fs.readFileSync(path.join(DESIGN, "stitch-src", "home.html"), "utf8").includes("Дом Хранителя") &&
-    !fs.readFileSync(path.join(DESIGN, "stitch-src", "home.html"), "utf8").includes("Нужен мок Stitch"),
-);
+{
+  const homeSrc = fs.readFileSync(path.join(DESIGN, "stitch-src", "home.html"), "utf8");
+  ok(
+    "home is pack-8 Персонаж screen (no stub)",
+    homeSrc.includes(">Персонаж<") &&
+      homeSrc.includes("В Дом Хранителя") &&
+      !homeSrc.includes("Нужен мок Stitch"),
+  );
+}
 ok(
   "heroes is 12-archetype codex",
   /Кодекс Котиков|12 Архетип|Фолиант/i.test(
@@ -394,6 +411,22 @@ try {
     ok("http /loc.json nav.primary.combat", !!locJson["nav.primary.combat"]);
     ok("http /loc.json Мифмир", locJson["hub.tab.yard"]?.ru === "Мифмир");
     ok("http /loc.json nav.sub.boss_dungeon", !!locJson["nav.sub.boss_dungeon"]);
+    ok(
+      "http /loc.json primary Дом Хранителя",
+      locJson["nav.primary.character"]?.ru === "Дом Хранителя",
+    );
+    ok(
+      "http /loc.json home sub Персонаж",
+      locJson["nav.sub.home"]?.ru === "Персонаж",
+    );
+    ok(
+      "http /loc.json Рейд / легион 12",
+      locJson["nav.sub.boss_raid"]?.ru === "Рейд / легион 12",
+    );
+    ok(
+      "http /loc.json dungeon≠raid tips",
+      !!locJson["nav.tip.boss_dungeon"] && !!locJson["nav.tip.boss_raid"],
+    );
     const battle = await fetch(`${BASE}/api/battle/healthz`);
     const b = await battle.json();
     ok("proxy battle healthz", battle.ok && b?.ok === true);

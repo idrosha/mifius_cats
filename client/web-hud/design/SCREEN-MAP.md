@@ -55,7 +55,7 @@ Build: `node client/web-hud/scripts/build-stitch.mjs` → embeds **actual Stitch
 | soon_farm | viewSoonFarm | soon_farm.html | ферма «Скоро» |
 | soon_clan | viewSoonClan | soon_clan.html | клан-босс «Скоро» |
 | gear | viewGear | gear.html | сумка/инвентарь (2a9f) |
-| home | viewHome | home.html | **Дом Хранителя** (pack 8 landscape) |
+| home | viewHome | home.html | **Персонаж** (pack 8 landscape; primary group = Дом Хранителя) |
 | heroes | viewHeroes | heroes.html | Кодекс героев · 12 архетипов (pack 8/`12`) |
 | armor_sets | viewArmorSets | armor_sets.html | Атлас сетов брони (pack 8/`1_8`) |
 | class_sets | viewClassSets | class_sets.html | Арсенал классовых сетов (pack 9) |
@@ -82,13 +82,13 @@ Backend: `economy.GrantStarterKit` / `NewPlayerWithStarter`.
 
 - Playable: Hub, Мифмир→Formation→Battle, PvP smoke, Collection, Shop, Pass, Tavern, Market, Auction, Boss dungeon→raid, Chats, Ratings, Guild home mock, Craft/Breeding mocks.
 - Farm / Clan boss gameplay = Soon sheets.
-- **Дом (`home`)** — pack 8 landscape (gap closed).
+- **Персонаж (`home`)** — pack 8 landscape (gap closed). Primary nav group = **Дом Хранителя**. Formation = inline before fights (not a Бои tab). Данжи (`boss_dungeon`) ≠ Рейд/легион 12 (`boss_raid`).
 
 ## Pack 8 / 9 / 10 → routes
 
 | Zip | Folder | Form | Route |
 |---|---|---|---|
-| 8 `__5c8a` | `landscape` | Дом Хранителя | `home` |
+| 8 `__5c8a` | `landscape` | Персонаж (бывш. Дом Хранителя) | `home` |
 | 8 | `12` | Кодекс котиков-воителей (12 архетипов) | `heroes` |
 | 8 | `1_8` | Атлас сетов брони | `armor_sets` |
 | 8 | `8` | Кодекс карточек снаряжения (overview art) | ref only `equip_codex` |

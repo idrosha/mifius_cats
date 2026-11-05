@@ -99,10 +99,9 @@ const NAV = [
     tabs: [
       { id: "yard", key: "nav.sub.mythmir" },
       { id: "practice", key: "nav.sub.practice" },
-      { id: "formation", key: "nav.sub.formation" },
       { id: "pvp", key: "nav.sub.pvp", gated: "pvp" },
-      { id: "boss_dungeon", key: "nav.sub.boss_dungeon" },
-      { id: "boss_raid", key: "nav.sub.boss_raid", gated: true },
+      { id: "boss_dungeon", key: "nav.sub.boss_dungeon", tipKey: "nav.tip.boss_dungeon" },
+      { id: "boss_raid", key: "nav.sub.boss_raid", tipKey: "nav.tip.boss_raid", gated: true },
     ],
   },
   {
@@ -147,16 +146,20 @@ const NAV = [
   },
 ];
 
-/** Flat list kept for verify-nav id: "…" probes */
+/** Flat list kept for verify-nav id: "…" probes.
+ * `formation` is inline lineup (not a Бои menu tab) — open via fight CTAs. */
 const TABS = NAV.flatMap((g) => g.tabs.map((t) => ({ ...t, group: g.id }))).concat([
   { id: "hub", key: "hub.tab.hub", group: "hub" },
   { id: "login", key: "nav.sub.login", group: "auth" },
+  { id: "formation", key: "nav.sub.formation", group: "combat", inline: true },
 ]);
 
 function findNavForTab(tabId) {
   for (const g of NAV) {
     if (g.tabs.some((t) => t.id === tabId)) return g;
   }
+  const flat = TABS.find((t) => t.id === tabId);
+  if (flat?.group) return NAV.find((g) => g.id === flat.group) || null;
   return null;
 }
 
@@ -289,9 +292,9 @@ const CODEX_ENTRIES = [
     titleRu: "Основные экраны",
     titleEn: "Main screens",
     bodyRu:
-      "Вход → Хаб. Персонаж: экипировка, коллекция, кодекс; дом/ферма/крафт/скрещивание — tip «Подними ранг». Бои: Мифмир (карта+миссии), тренировка, строй 3v3, PvP после 3 побед, данжи, рейд. Торговля: таверна / магазин / рынок / аукцион. Гильдии: дом клана + бой гильдий. Пасс и рейтинги — отдельные вкладки.",
+      "Вход → Хаб. Дом Хранителя: экипировка, кодекс героев, Персонаж (home), ферма/крафт/скрещивание — tip «Подними ранг». Бои: Мифмир, тренировка, PvP после 3 побед, Данжи (boss_dungeon · 3 волны) ≠ Рейд/легион 12 (boss_raid). Строй отряда — inline перед боем, не отдельная вкладка. Торговля: таверна / магазин / рынок / аукцион. Гильдии: дом клана + бой гильдий. Пасс и рейтинги — отдельные вкладки.",
     bodyEn:
-      "Login → Hub. Character: gear, collection, codex; home/farm/craft/breeding tip «rank up». Combat: Mythmir (map+missions), practice, 3v3 formation, PvP after 3 wins, dungeons, raid. Trade: tavern / shop / market / auction. Guilds: hall + guild battle. Pass and ratings are separate tabs.",
+      "Login → Hub. Keeper's Home: gear, heroes codex, Character (home), farm/craft/breeding tip «rank up». Combat: Mythmir, practice, PvP after 3 wins, Dungeons (boss_dungeon · 3 waves) ≠ Raid/legion 12 (boss_raid). Squad formation opens inline before a fight — not a menu tab. Trade: tavern / shop / market / auction. Guilds: hall + guild battle. Pass and ratings are separate tabs.",
   },
   {
     id: "gather",
@@ -742,6 +745,7 @@ function renderTabs() {
     b.type = "button";
     b.textContent = t(tab.key, tab.id);
     b.dataset.tab = tab.id;
+    if (tab.tipKey) b.title = t(tab.tipKey, "");
     if (tab.stub) b.classList.add("stub");
     if (tab.soon) b.classList.add("soon");
     if (tab.gated) b.classList.add("gated");

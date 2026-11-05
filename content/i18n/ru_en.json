@@ -224,8 +224,8 @@
     "en": "Mythmir PvE campaign"
   },
   "hub.portal.formation": {
-    "ru": "Строй 3v3 перед боем",
-    "en": "3v3 lineup before battle"
+    "ru": "Строй отряда перед боем (inline)",
+    "en": "Squad lineup before battle (inline)"
   },
   "hub.portal.pvp": {
     "ru": "Дуэли и арена (smoke)",
@@ -520,8 +520,8 @@
     "en": "Defeat in battle"
   },
   "nav.primary.character": {
-    "ru": "Персонаж",
-    "en": "Character"
+    "ru": "Дом Хранителя",
+    "en": "Keeper's Home"
   },
   "nav.primary.combat": {
     "ru": "Бои",
@@ -552,8 +552,8 @@
     "en": "Gear"
   },
   "nav.sub.home": {
-    "ru": "Дом",
-    "en": "Home"
+    "ru": "Персонаж",
+    "en": "Character"
   },
   "nav.sub.farm": {
     "ru": "Ферма",
@@ -576,8 +576,8 @@
     "en": "Mythmir (PvE)"
   },
   "nav.sub.formation": {
-    "ru": "Строй 3v3",
-    "en": "3v3 formation"
+    "ru": "Строй отряда",
+    "en": "Squad formation"
   },
   "nav.sub.pvp": {
     "ru": "PvP",
@@ -587,9 +587,17 @@
     "ru": "Данжи",
     "en": "Dungeons"
   },
+  "nav.tip.boss_dungeon": {
+    "ru": "Данж ≠ рейд: boss_dungeon · первый босс 3 волны",
+    "en": "Dungeon ≠ raid: boss_dungeon · first boss 3 waves"
+  },
   "nav.sub.boss_raid": {
-    "ru": "Рейд / легион",
-    "en": "Raid / legion"
+    "ru": "Рейд / легион 12",
+    "en": "Raid / legion 12"
+  },
+  "nav.tip.boss_raid": {
+    "ru": "Рейд ≠ данж: boss_raid · легион 12",
+    "en": "Raid ≠ dungeon: boss_raid · legion 12"
   },
   "nav.sub.tavern": {
     "ru": "Таверна",

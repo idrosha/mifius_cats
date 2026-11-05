@@ -35,7 +35,7 @@ const SCREENS = [
   { id: "soon_farm", file: "soon_farm.html", view: "viewSoonFarm" },
   { id: "soon_clan", file: "soon_clan.html", view: "viewSoonClan" },
   { id: "gear", file: "gear.html", view: "viewGear" },
-  { id: "home", file: "home.html", view: "viewHome" }, // pack 8 landscape — Дом Хранителя
+  { id: "home", file: "home.html", view: "viewHome" }, // pack 8 landscape — nav label «Персонаж»
   { id: "heroes", file: "heroes.html", view: "viewHeroes" }, // pack 8/12 — Кодекс Героев
   { id: "armor_sets", file: "armor_sets.html", view: "viewArmorSets" }, // pack 8/1_8
   { id: "class_sets", file: "class_sets.html", view: "viewClassSets" }, // pack 9
@@ -166,7 +166,7 @@ ${sections.join("\n")}
       <button type="button" class="wire-btn" data-for="boss_dungeon" id="btnBossDungeonRaid">В рейд / легион</button>
       <button type="button" class="wire-btn" data-for="boss_dungeon" id="btnBossDungeonHub">В Хаб</button>
       <button type="button" class="wire-btn" data-for="boss_raid" id="btnBossRaidHub">В Хаб</button>
-      <button type="button" class="wire-btn" data-for="boss_raid" id="btnBossRaidFormation">Строй 3v3</button>
+      <button type="button" class="wire-btn" data-for="boss_raid" id="btnBossRaidFormation">Строй отряда</button>
       <button type="button" class="wire-btn" data-for="boss_raid" id="btnBossRaidDungeon">К выбору данжа</button>
       <button type="button" class="wire-btn" data-for="battle" id="btnEndTurn">Конец хода</button>
       <button type="button" class="wire-btn" data-for="battle" id="btnKeep">Keep</button>
