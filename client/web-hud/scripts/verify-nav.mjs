@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Static smoke for Stitch Web HUD navigation graph (packs 0268/64d5).
+ * Static smoke for Stitch Web HUD navigation graph (packs 0268/64d5/e608/4da7).
  * Usage: node client/web-hud/scripts/verify-nav.mjs [baseUrl]
  * HTTP checks skipped when HUD is not running (assignment default).
  */
@@ -34,6 +34,8 @@ const REQUIRED_VIEWS = [
   "viewBossRaid",
   "viewBattle",
   "viewResult",
+  "viewResultWin",
+  "viewResultLose",
   "viewPvp",
   "viewShop",
   "viewMarket",
@@ -43,6 +45,7 @@ const REQUIRED_VIEWS = [
   "viewEquipCards",
   "viewAuction",
   "viewGuild",
+  "viewGuildBattle",
   "viewChatGlobal",
   "viewChatGuild",
   "viewChatFriends",
@@ -99,6 +102,8 @@ const REQUIRED_BUTTONS = [
   "btnColFormation",
   "btnBrandHub",
   "btnSoonHub",
+  "btnGuildBattleFormation",
+  "btnGuildBattleHub",
 ];
 
 const STITCH_SRC = [
@@ -114,6 +119,14 @@ const STITCH_SRC = [
   "codex.html",
   "heroes.html",
   "soon_farm.html",
+  "yard.html",
+  "formation.html",
+  "battle.html",
+  "result_win.html",
+  "boss_dungeon.html",
+  "boss_raid.html",
+  "pvp.html",
+  "guild_battle.html",
 ];
 
 const checks = [];
@@ -135,7 +148,9 @@ ok(
     html.includes("Material+Symbols") &&
     html.includes("/stitch-assets/") &&
     html.includes('data-stitch="hub"') &&
-    html.includes('data-stitch="home"'),
+    html.includes('data-stitch="home"') &&
+    html.includes('data-stitch="yard"') &&
+    html.includes('data-stitch="battle"'),
 );
 ok(
   "no remote lh3 image hosts in built index",
@@ -149,7 +164,9 @@ ok(
 ok(
   "public stitch-ref screenshots present",
   fs.existsSync(path.join(PUBLIC, "stitch-ref", "0268", "home.png")) &&
-    fs.existsSync(path.join(PUBLIC, "stitch-ref", "64d5", "heroes.png")),
+    fs.existsSync(path.join(PUBLIC, "stitch-ref", "64d5", "heroes.png")) &&
+    fs.existsSync(path.join(PUBLIC, "stitch-ref", "e608", "yard.png")) &&
+    fs.existsSync(path.join(PUBLIC, "stitch-ref", "4da7", "pvp.png")),
 );
 ok("appNav primary+subtabs shell", html.includes('id="appNav"') && html.includes('id="appSubTabs"'));
 ok(
@@ -166,6 +183,8 @@ ok(
 );
 ok("html landscape layout meta", html.includes('data-layout="landscape"') && html.includes("landscape-flush"));
 ok("html mythfel-form class on views", html.includes("mythfel-form") && html.includes('data-stitch="home"'));
+ok("painted battle screens not placeholders", !html.includes('data-stitch="yard" data-placeholder') && html.includes('data-stitch="yard"'));
+ok("painted formation not placeholder", html.includes('data-stitch="formation"') && !/<section[^>]*data-stitch="formation"[^>]*data-placeholder/.test(html));
 
 ok(
   "app NAV primary/subtabs",
@@ -186,6 +205,7 @@ ok("app GrantStarterKit smoke", js.includes("/api/dev/starter") && js.includes("
 ok("app stub auth free login", js.includes("/api/dev/login") && js.includes("function stubLogin"));
 ok("app pvp unlock helper", js.includes("function pvpUnlocked"));
 ok("app milk_on_ice", js.includes("milk_on_ice"));
+ok("guild_battle has own view", js.includes('guild_battle: "viewGuildBattle"'));
 
 for (const f of STITCH_SRC) {
   const p = path.join(DESIGN, "stitch-src", f);
@@ -213,6 +233,18 @@ ok(
   "login has enter CTA",
   /Войти|Регистрац/i.test(fs.readFileSync(path.join(DESIGN, "stitch-src", "login.html"), "utf8")),
 );
+ok(
+  "yard is Mythmir start",
+  /Мифмир|В БОЙ/i.test(fs.readFileSync(path.join(DESIGN, "stitch-src", "yard.html"), "utf8")),
+);
+ok(
+  "battle is fight HUD",
+  /ЗАВЕРШИТЬ ХОД|РАУНД/i.test(fs.readFileSync(path.join(DESIGN, "stitch-src", "battle.html"), "utf8")),
+);
+ok(
+  "result_win is victory",
+  /Побед/i.test(fs.readFileSync(path.join(DESIGN, "stitch-src", "result_win.html"), "utf8")),
+);
 
 const transitions = [
   ["login→hub", 'navigate("hub")'],
@@ -222,6 +254,12 @@ const transitions = [
   ["formation→tavern", 'navigate("tavern")'],
   ["collection→formation", "btnColFormation"],
   ["pvp→formation", "btnPvpFormation"],
+  ["guild_battle→formation", "btnGuildBattleFormation"],
+  ["soft в бой→formation", '["в бой", () => navigate("formation")]'],
+  ["soft mythworld-pve", '"mythworld-pve": "yard"'],
+  ["soft pvp-arena path", '"pvp-arena": "pvp"'],
+  ["soft guild-war path", '"guild-war": "guild_battle"'],
+  ["soft dungeons-and-raids", '"dungeons-and-raids": "boss_dungeon"'],
   ["home route", 'navigate("home")'],
   ["gear route", 'navigate("gear")'],
   ["heroes route", 'navigate("heroes")'],
@@ -241,9 +279,12 @@ for (const [name, needle] of transitions) {
   ok(`transition ${name}`, js.includes(needle));
 }
 
-// Placeholders present for missing IA forms
-for (const id of ["yard", "tavern", "shop", "pvp", "equip_cards", "boss_raid"]) {
-  ok(`placeholder host ${id}`, html.includes(`data-stitch="${id}"`) && html.includes(`data-placeholder="1"`));
+// Placeholders present for still-missing IA forms
+for (const id of ["practice", "tavern", "shop", "equip_cards", "result_lose"]) {
+  ok(
+    `placeholder host ${id}`,
+    html.includes(`data-stitch="${id}"`) && html.includes(`data-placeholder="1"`),
+  );
 }
 
 let httpOk = false;

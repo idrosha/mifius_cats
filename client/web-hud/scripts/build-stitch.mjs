@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Build Mythfel Web HUD from vendored Stitch HTML (design/stitch-src).
- * Packs 0268 + 64d5 (2026-11-05) — partial IA coverage; missing routes get empty hosts.
+ * Packs 0268 + 64d5 + battles e608/4da7 — partial IA coverage; missing routes get empty hosts.
  * Emits public/index.html + public/stitch/*.html partials.
  */
 import fs from "node:fs";
@@ -14,7 +14,7 @@ const SRC = path.join(ROOT, "design", "stitch-src");
 const OUT_STITCH = path.join(ROOT, "public", "stitch");
 const OUT_INDEX = path.join(ROOT, "public", "index.html");
 
-/** Screens present in packs 0268 / 64d5 */
+/** Screens present in packs 0268 / 64d5 / e608 / 4da7 */
 const SCREENS = [
   { id: "hub", file: "hub.html", view: "viewHub" },
   { id: "login", file: "login.html", view: "viewLogin" },
@@ -28,22 +28,25 @@ const SCREENS = [
   { id: "codex", file: "codex.html", view: "viewCodex" },
   { id: "heroes", file: "heroes.html", view: "viewHeroes" },
   { id: "soon_farm", file: "soon_farm.html", view: "viewSoonFarm" },
+  // Battles packs e608 + 4da7
+  { id: "yard", file: "yard.html", view: "viewYard" },
+  { id: "formation", file: "formation.html", view: "viewFormation" }, // inline, not Бои subtab
+  { id: "battle", file: "battle.html", view: "viewBattle" },
+  { id: "result_win", file: "result_win.html", view: "viewResultWin" },
+  { id: "boss_dungeon", file: "boss_dungeon.html", view: "viewBossDungeon" },
+  { id: "boss_raid", file: "boss_raid.html", view: "viewBossRaid" },
+  { id: "pvp", file: "pvp.html", view: "viewPvp" },
+  { id: "guild_battle", file: "guild_battle.html", view: "viewGuildBattle" },
 ];
 
 /** IA routes without painted Stitch yet — empty hosts so navigate() still works */
 const PLACEHOLDERS = [
   { id: "practice", view: "viewPractice", label: "Тренировка" },
-  { id: "yard", view: "viewYard", label: "Мифмир" },
-  { id: "formation", view: "viewFormation", label: "Строй отряда (inline)" },
-  { id: "boss_raid", view: "viewBossRaid", label: "Рейд / легион 12" },
-  { id: "battle", view: "viewBattle", label: "Бой" },
-  { id: "result_win", view: "viewResultWin", label: "Победа" },
   { id: "result_lose", view: "viewResultLose", label: "Поражение" },
   { id: "shop", view: "viewShop", label: "Магазин" },
   { id: "market", view: "viewMarket", label: "Рынок" },
   { id: "tavern", view: "viewTavern", label: "Таверна (молоко)" },
   { id: "pass", view: "viewPass", label: "Боевой пасс" },
-  { id: "pvp", view: "viewPvp", label: "PvP" },
   { id: "soon_clan", view: "viewSoonClan", label: "Клан-босс" },
   { id: "equip_cards", view: "viewEquipCards", label: "Карточки экипировки" },
   { id: "auction", view: "viewAuction", label: "Аукцион" },
@@ -53,7 +56,6 @@ const PLACEHOLDERS = [
   { id: "chat_friends", view: "viewChatFriends", label: "Чат · друзья" },
   { id: "rating_players", view: "viewRatingPlayers", label: "Рейтинг · игроки" },
   { id: "rating_guilds", view: "viewRatingGuilds", label: "Рейтинг · гильдии" },
-  { id: "boss_dungeon", view: "viewBossDungeon", label: "Данжи" },
 ];
 
 function extractBody(html) {
@@ -97,7 +99,7 @@ for (const ph of PLACEHOLDERS) {
   <div class="boot-card">
     <p class="eyebrow">Скоро · Stitch</p>
     <h2>${ph.label}</h2>
-    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5.</p>
+    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7.</p>
   </div>
 </section>`;
   fs.writeFileSync(path.join(OUT_STITCH, `${ph.id}.html`), section, "utf8");
@@ -117,7 +119,7 @@ const index = `<!DOCTYPE html>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="shell-type" content="web_standard" />
-  <meta name="hud-ui" content="stitch-0268-64d5" />
+  <meta name="hud-ui" content="stitch-0268-64d5-e608-4da7" />
   <meta name="hud-layout" content="landscape-flush" />
   <title>Мифиус — Web HUD (Stitch)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
