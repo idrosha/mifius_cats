@@ -412,8 +412,52 @@
     "en": "Call of the Warm Hearth"
   },
   "pass.lead": {
-    "ru": "Треки пасса — stub наград.",
-    "en": "Pass tracks — stub rewards."
+    "ru": "×2 XP · боксы по рангу · автоферма при ACTIVE.",
+    "en": "×2 XP · rank boxes · autofarm when ACTIVE."
+  },
+  "gate.tip.pass": {
+    "ru": "Активируй боевой пасс",
+    "en": "Activate the battle pass"
+  },
+  "farm.autofarm.on": {
+    "ru": "Автоферма ON · stub (сервер later)",
+    "en": "Autofarm ON · stub (server later)"
+  },
+  "farm.autofarm.off": {
+    "ru": "Автоферма OFF",
+    "en": "Autofarm OFF"
+  },
+  "farm.autofarm.lead.active": {
+    "ru": "Пасс ACTIVE · тумблеры stub · seeds/bait с Рынка",
+    "en": "Pass ACTIVE · stub toggles · seeds/bait from Market"
+  },
+  "farm.autofarm.lead.locked": {
+    "ru": "Нужен ACTIVE пасс · иначе tip «Активируй боевой пасс»",
+    "en": "Need ACTIVE pass · else tip «Activate the battle pass»"
+  },
+  "pass.autofarm.lead.active": {
+    "ru": "ACTIVE: фермеры / алхимик / gather→кузнец / auto-craft",
+    "en": "ACTIVE: farmers / alchemist / gather→blacksmith / auto-craft"
+  },
+  "pass.autofarm.lead.locked": {
+    "ru": "Без ACTIVE пасса автоферма недоступна",
+    "en": "Autofarm locked without ACTIVE pass"
+  },
+  "pass.active.stub.on": {
+    "ru": "Stub: пасс ACTIVE",
+    "en": "Stub: pass ACTIVE"
+  },
+  "pass.active.stub.off": {
+    "ru": "Stub: пасс inactive",
+    "en": "Stub: pass inactive"
+  },
+  "pass.active.stub.toggle_on": {
+    "ru": "Stub: пасс ACTIVE",
+    "en": "Stub: pass ACTIVE"
+  },
+  "pass.active.stub.toggle_off": {
+    "ru": "Stub: выключить ACTIVE",
+    "en": "Stub: turn ACTIVE off"
   },
   "pass.claim": {
     "ru": "Забрать",

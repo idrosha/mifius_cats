@@ -195,7 +195,7 @@ Season 28 days. Rating. Same anti-P2W. Soft-cap pendant/bow rarity optional via 
 
 ### §4.4 Post-SL stubs (UI only на SL)
 - Clan boss 8–12, 1 cat each, shared HP, turn-based  
-- Farm daily visit or crop rot (на SL: вкладка «Скоро»; 1 farm-cat в инвентаре без сбора — §5.1)  
+- Farm daily visit or crop rot (на SL: вкладка «Скоро»; 1 farm-cat в инвентаре без сбора — §5.1). **Зоны усадьбы (HUD stub / Phase 6):** грядки (пшеница · травы · бахча/мята), сад, **рыбная заводя**, лесопилка (дровосек), рудник (шахтёр), карьер (каменотёс), кузня (кузнец), склад алхимика. Сбор/крафт на SL = tip, не live loop.  
 - Nursery breed with ingredients  
 
 ### §4.5 Бой гильдий (GvG)
@@ -217,6 +217,7 @@ Guild vs guild (клан vs клан). Сторона выставляет **3�
 | Gacha pity | soft50 / hard80 | same |
 
 Pass track: cosmetics, bows, fish, jar keys, **armor boxes by current rank** (гарантии сезона: R1×6 common; green+blue×3; R4+ ×1 each rarity unlocked).  
+**Pass ACTIVE perk — автономная ферма (Phase 6 / HUD stub на SL):** при активном платном пассе и купленных seeds/consumables на Рынке — фермеры auto-harvest + replant; gather mats → склад алхимика (auto-craft зелий); дровосек/шахтёр/каменотёс auto-gather → кузнец; кузнец может включить auto-craft выбранных предметов. Без ACTIVE пасса тумблеры gated. Сервер авторитетен; клиент не SoT.  
 IAP: yarn packs, pass, slot expand, maybe jar bundles.  
 Server validates all purchases.
 
@@ -271,7 +272,8 @@ Server validates all purchases.
 7d. `Auction` — player listings (cats, gear, ingredients) at own price
 7e. `Codex` / `Login` / `Practice` — day-1 формы  
 7f. `Guild` + `GuildBattle` (GvG 3–12; SL: entry + tip, §4.5)  
-8. `Pass` (×2 XP + rank boxes)  
+8. `Pass` (×2 XP + rank boxes + autofarm perk copy when ACTIVE)  
+8b. `Farm` Soon sheet — expanded zones incl. fishing + autofarm toggles (gated / stub; §4.4)  
 9. `Battle` HUD: board 3+3, hand, energy, milk, keep, end turn, potion tray  
 10. `Result` + rewards  
 11. `ReplayList` (10)  

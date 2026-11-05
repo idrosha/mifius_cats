@@ -258,6 +258,21 @@ ok("shop stub rows host", fs.readFileSync(path.join(DESIGN, "stitch-src", "shop.
 ok("market quick sell host", fs.readFileSync(path.join(DESIGN, "stitch-src", "market.html"), "utf8").includes("marketQuickSell"));
 ok("auction listing host", fs.readFileSync(path.join(DESIGN, "stitch-src", "auction.html"), "utf8").includes("auctionListingHost"));
 ok("boss first host", fs.readFileSync(path.join(DESIGN, "stitch-src", "boss_dungeon.html"), "utf8").includes("bossFirstHost"));
+ok(
+  "farm fishing node + hosts",
+  fs.readFileSync(path.join(DESIGN, "stitch-src", "soon_farm.html"), "utf8").includes("node-fishing") &&
+    fs.readFileSync(path.join(DESIGN, "stitch-src", "soon_farm.html"), "utf8").includes("farmZonesHost") &&
+    fs.readFileSync(path.join(DESIGN, "stitch-src", "soon_farm.html"), "utf8").includes("farmAutofarmHost") &&
+    fs.readFileSync(path.join(DESIGN, "stitch-src", "soon_farm.html"), "utf8").includes("Рыбная заводя"),
+);
+ok(
+  "pass autofarm host",
+  fs.readFileSync(path.join(DESIGN, "stitch-src", "pass.html"), "utf8").includes("passAutofarmHost") &&
+    fs.readFileSync(path.join(DESIGN, "stitch-src", "pass.html"), "utf8").includes("btnPassActiveStub"),
+);
+ok("app renderFarm + autofarm", js.includes("function renderFarm") && js.includes("AUTOFARM_TOGGLES") && js.includes("FARM_ZONES"));
+ok("app passActive helper", js.includes("function passActive") && js.includes("showPassGateTip"));
+ok("app market bait", js.includes("bait_worm") && js.includes("bait_shiny"));
 ok("app pvp unlock helper", js.includes("function pvpUnlocked"));
 ok("app practice start", js.includes("function startPractice"));
 ok("app renderAuction", js.includes("function renderAuction"));
@@ -303,7 +318,9 @@ const transitions = [
   ["class_sets route", 'navigate("class_sets")'],
   ["equip_cards route", 'navigate("equip_cards")'],
   ["home route", 'navigate("home")'],
+  ["farm route", 'navigate("farm"'],
   ["gate tip", "Подними ранг в боях"],
+  ["pass gate tip", "Активируй боевой пасс"],
   ["practice stage", "practice_dummy_1"],
 ];
 for (const [name, needle] of transitions) {
