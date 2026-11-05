@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Static smoke for Stitch Web HUD navigation graph (packs 0268/64d5/e608/4da7/18c7).
+ * Static smoke for Stitch Web HUD navigation graph (packs 0268/64d5/e608/4da7/18c7/ba17).
  * Usage: node client/web-hud/scripts/verify-nav.mjs [baseUrl]
  * HTTP checks skipped when HUD is not running (assignment default).
  */
@@ -129,6 +129,10 @@ const STITCH_SRC = [
   "guild_battle.html",
   "practice.html",
   "guild.html",
+  "pass.html",
+  "chat_global.html",
+  "chat_guild.html",
+  "chat_friends.html",
 ];
 
 const checks = [];
@@ -170,7 +174,9 @@ ok(
     fs.existsSync(path.join(PUBLIC, "stitch-ref", "e608", "yard.png")) &&
     fs.existsSync(path.join(PUBLIC, "stitch-ref", "4da7", "pvp.png")) &&
     fs.existsSync(path.join(PUBLIC, "stitch-ref", "18c7", "practice.png")) &&
-    fs.existsSync(path.join(PUBLIC, "stitch-ref", "18c7", "guild.png")),
+    fs.existsSync(path.join(PUBLIC, "stitch-ref", "18c7", "guild.png")) &&
+    fs.existsSync(path.join(PUBLIC, "stitch-ref", "ba17", "pass.png")) &&
+    fs.existsSync(path.join(PUBLIC, "stitch-ref", "ba17", "chat.png")),
 );
 ok("appNav primary+subtabs shell", html.includes('id="appNav"') && html.includes('id="appSubTabs"'));
 ok(
@@ -271,6 +277,38 @@ ok(
   html.includes('data-stitch="guild"') &&
     !/<section[^>]*data-stitch="guild"[^>]*data-placeholder/.test(html),
 );
+ok(
+  "pass is battle pass track",
+  /СЕЗОН|Боевой пасс|Сезонный Пропуск|Лап[ыа] Судьб/i.test(
+    fs.readFileSync(path.join(DESIGN, "stitch-src", "pass.html"), "utf8"),
+  ),
+);
+ok(
+  "chat_global is chats layout",
+  /Общий Чат|Чаты|Таверн/i.test(
+    fs.readFileSync(path.join(DESIGN, "stitch-src", "chat_global.html"), "utf8"),
+  ),
+);
+ok(
+  "painted pass not placeholder",
+  html.includes('data-stitch="pass"') &&
+    !/<section[^>]*data-stitch="pass"[^>]*data-placeholder/.test(html),
+);
+ok(
+  "painted chat_global not placeholder",
+  html.includes('data-stitch="chat_global"') &&
+    !/<section[^>]*data-stitch="chat_global"[^>]*data-placeholder/.test(html),
+);
+ok(
+  "painted chat_guild not placeholder",
+  html.includes('data-stitch="chat_guild"') &&
+    !/<section[^>]*data-stitch="chat_guild"[^>]*data-placeholder/.test(html),
+);
+ok(
+  "painted chat_friends not placeholder",
+  html.includes('data-stitch="chat_friends"') &&
+    !/<section[^>]*data-stitch="chat_friends"[^>]*data-placeholder/.test(html),
+);
 
 const transitions = [
   ["login→hub", 'navigate("hub")'],
@@ -289,7 +327,15 @@ const transitions = [
   ["soft trenirovka-dodzyo→practice", '"trenirovka-dodzyo": "practice"'],
   ["soft zal-gildii→guild", '"zal-gildii": "guild"'],
   ["soft вступить в рейд", '["вступить в рейд", () => navigate("boss_raid")]'],
+  ["soft вступить в группу", '["вступить в группу", () => navigate("boss_dungeon")]'],
+  ["soft дуэль→formation", '["дуэль", () => navigate("formation")]'],
+  ["soft забрать всё→pass", '["забрать всё", () => navigate("pass")]'],
+  ["soft в лс→chat_friends", '["в лс", () => navigate("chat_friends")]'],
   ["soft остановить тест", '["остановить тест", () => navigate("hub")]'],
+  ["soft tavern-pass→pass", '"tavern-pass": "pass"'],
+  ["soft chats→chat_global", 'chats: "chat_global"'],
+  ["pass route", 'navigate("pass")'],
+  ["chat_global route", 'navigate("chat_global")'],
   ["home route", 'navigate("home")'],
   ["gear route", 'navigate("gear")'],
   ["heroes route", 'navigate("heroes")'],

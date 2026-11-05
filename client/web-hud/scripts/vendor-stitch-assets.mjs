@@ -113,6 +113,10 @@ const SCREEN_FALLBACKS = {
   "guild_battle.html": ["/stitch-ref/4da7/guild_battle.png", "/stitch-ref/4da7/guild_fight.png", "/stitch-ref/64d5/cat_portrait.png"],
   "practice.html": ["/stitch-ref/18c7/practice.png", "/stitch-ref/e608/arena_dojo.png", "/stitch-ref/64d5/cat_portrait.png"],
   "guild.html": ["/stitch-ref/18c7/guild.png", "/stitch-ref/18c7/guild_interior_art.png", "/stitch-ref/64d5/cat_portrait.png"],
+  "pass.html": ["/stitch-ref/ba17/pass.png", "/stitch-ref/ba17/pass_sanctum.png", "/stitch-ref/64d5/cat_portrait.png"],
+  "chat_global.html": ["/stitch-ref/ba17/chat.png", "/stitch-ref/ba17/pass_sanctum.png", "/stitch-ref/64d5/cat_portrait.png"],
+  "chat_guild.html": ["/stitch-ref/ba17/chat.png", "/stitch-ref/18c7/guild.png", "/stitch-ref/64d5/cat_portrait.png"],
+  "chat_friends.html": ["/stitch-ref/ba17/chat.png", "/stitch-ref/0268/home.png", "/stitch-ref/64d5/cat_portrait.png"],
 };
 
 function vendorEphemeral() {
@@ -168,7 +172,7 @@ fs.writeFileSync(
   JSON.stringify(
     {
       generatedAt: new Date().toISOString(),
-      packs: ["0268", "64d5", "e608", "4da7", "18c7"],
+      packs: ["0268", "64d5", "e608", "4da7", "18c7", "ba17"],
       mappings: Object.fromEntries(urlMap),
       publicCount: publicUrls.length,
       ephemeralCount: ephemeralUrls.length,

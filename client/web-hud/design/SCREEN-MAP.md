@@ -1,4 +1,4 @@
-# Stitch screen map — packs 0268 + 64d5 + e608 + 4da7 + 18c7
+# Stitch screen map — packs 0268 + 64d5 + e608 + 4da7 + 18c7 + ba17
 
 Sources:
 - `media/stitch-new-0268/stitch_mythfel_mobile_game_ui_0268.zip`
@@ -6,6 +6,7 @@ Sources:
 - `media/stitch-battles-2/stitch_mythfel_mobile_game_ui__2__e608.zip`
 - `media/stitch-battles-2/stitch_mythfel_mobile_game_ui__3__4da7.zip`
 - `media/stitch-battles-3/stitch_mythfel_mobile_game_ui__5__18c7.zip`
+- `media/stitch-battles-6/stitch_mythfel_mobile_game_ui__6__ba17.zip`
 
 DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 
@@ -35,6 +36,10 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | `guild_battle` | `guild_battle.html` | 4da7 root | Война гильдий lobby / башни |
 | `practice` | `practice.html` | 18c7 `3v3_hud` | Тренировка **fight** (додзё 3v3 vs манекены); start/win/lose ещё нет |
 | `guild` | `guild.html` | 18c7 `_1` | Зал гильдии (главная) |
+| `pass` | `pass.html` | ba17 `4` | Боевой пасс · сезон / трек / claim |
+| `chat_global` | `chat_global.html` | ba17 root | Чаты · одна компоновка (общий) |
+| `chat_guild` | `chat_guild.html` | ba17 root | Чаты · та же компоновка (гильдия) |
+| `chat_friends` | `chat_friends.html` | ba17 root | Чаты · та же компоновка (друзья) |
 
 ## Art-only (not separate routes)
 
@@ -56,18 +61,21 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | Guild fight HTML+PNG | `stitch-ref/4da7/guild_fight.*` (GvG fight art; live fight uses shared `battle`) |
 | Guild members / tech / treasury | `stitch-ref/18c7/guild_{members,tech,treasury}.{html,png}` (+ art PNGs) |
 | Practice fight screenshot | `stitch-ref/18c7/practice.png` |
+| Pass / chat screenshots | `stitch-ref/ba17/pass.png`, `chat.png` |
+| Pass reward sanctum art | `stitch-ref/ba17/pass_sanctum.png` |
 
 ## Placeholders (IA route, no painted mock yet)
 
-`result_lose`, `shop`, `market`, `tavern` (milk bar ≠ login), `pass`, `soon_clan`, `equip_cards`, `auction`, `chat_*`, `rating_*`.
+`result_lose`, `shop`, `market`, `tavern` (milk bar ≠ login), `soon_clan`, `equip_cards`, `auction`, `rating_*`.
 
-§7 gaps still open: practice **start / win / lose**; shared `result_lose`; per-mode fight/win for Mythmir / PvP / dungeon / raid / GvG (only practice fight painted in 18c7).
+§7 gaps still open: practice **start / win / lose**; shared `result_lose`; per-mode fight/win for Mythmir / PvP / dungeon / raid / GvG (only practice fight painted in 18c7). Pack ba17 does **not** close battle gaps.
 
 ## Nav prefs (2026-11-05)
 
 - Primary **Дом Хранителя**; sub `home` = **Персонаж** (cat + equip + inventory).
 - `formation` inline before fights — **not** a Бои subtab.
 - Home: no on-screen portals (chrome `#appNav` only).
+- Chats: one Stitch layout wired to all three channel subtabs.
 
 ## Layout rule (all forms)
 
