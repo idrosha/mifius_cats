@@ -532,6 +532,15 @@ function starterMeta(id) {
     starter_tank_stone: { role: "tank", element: "stone", lane: "vanguard" },
     starter_fighter_fire: { role: "fighter", element: "fire", lane: "center" },
     starter_support_water: { role: "support", element: "water", lane: "rear" },
+    shop_tank_stone_a: { role: "tank", element: "stone", lane: "vanguard" },
+    shop_tank_stone_b: { role: "tank", element: "stone", lane: "vanguard" },
+    shop_fighter_fire_a: { role: "fighter", element: "fire", lane: "center" },
+    shop_fighter_fire_b: { role: "fighter", element: "fire", lane: "center" },
+    shop_ranger_grass_a: { role: "ranger", element: "grass", lane: "center" },
+    shop_ranger_grass_b: { role: "ranger", element: "grass", lane: "center" },
+    shop_support_water_a: { role: "support", element: "water", lane: "rear" },
+    shop_support_water_b: { role: "support", element: "water", lane: "rear" },
+    starter_farm_grass: { role: "farm", element: "grass", lane: "inventory" },
   };
   return map[id] || { role: "?", element: "?", lane: "?" };
 }
@@ -548,21 +557,30 @@ function renderStarters(intoId) {
   const box = $(intoId);
   if (!box) return;
   box.innerHTML = "";
+  const cats = state.profile?.cats || [];
+  if (cats.length) {
+    for (const c of cats) {
+      const m = starterMeta(c.templateId);
+      const role = c.role || m.role;
+      const element = c.element || m.element;
+      const d = document.createElement("div");
+      d.className = "tile";
+      const origin = c.origin || "?";
+      const extra =
+        role === "farm"
+          ? "farm · inventory · SL no crop"
+          : `${role} · ${element} · ${origin}${c.variant ? ` · ${c.variant}` : ""}`;
+      d.innerHTML = `<strong>${c.templateId}</strong><div class="meta">${extra}</div>`;
+      box.appendChild(d);
+    }
+    return;
+  }
   const ids = combatStarterIds();
   for (const id of ids) {
     const m = starterMeta(id);
     const d = document.createElement("div");
     d.className = "tile";
     d.innerHTML = `<strong>${id}</strong><div class="meta">${m.role} · ${m.element} · ${m.lane}</div>`;
-    box.appendChild(d);
-  }
-  const farm = (state.profile?.cats || []).find(
-    (c) => c.templateId === "starter_farm_grass" || c.origin === "farm",
-  );
-  if (farm) {
-    const d = document.createElement("div");
-    d.className = "tile";
-    d.innerHTML = `<strong>${farm.templateId}</strong><div class="meta">farm · inventory · SL no crop</div>`;
     box.appendChild(d);
   }
 }
@@ -602,8 +620,8 @@ function softNavigateFromLabel(label) {
     ["манекен", () => navigate("practice")],
     ["кодекс", () => navigate("codex")],
     ["вход", () => navigate("login")],
-    ["войти", () => { state.loggedIn = true; navigate("hub"); }],
-    ["регистрац", () => { state.loggedIn = true; navigate("hub"); }],
+    ["войти", () => { stubLogin({ login: "soft_nav", password: "" }); }],
+    ["регистрац", () => { stubLogin({ login: "soft_reg", password: "" }); }],
     ["начать тренир", () => startPractice(false)],
     ["тренировка (манекен)", () => startPractice(false)],
   ];
@@ -1273,10 +1291,13 @@ function renderAll() {
     case "collection":
       $("colEyebrow").textContent = t("hub.tab.collection");
       $("colTitle").textContent = t("hub.tab.collection");
-      $("colLead").textContent =
-        state.locale === "ru"
-          ? "Стартовый грант §5.1: 3 боевых + 1 farm-cat (equal decks)."
-          : "Starter grant §5.1: 3 combat + 1 farm-cat (equal decks).";
+      {
+        const n = state.profile?.cats?.length || 0;
+        $("colLead").textContent =
+          state.locale === "ru"
+            ? `Тестовый грант soft launch: ${n} котов (3 стартера + 8 shop common + farm). Пресет 3v3 — equal decks.`
+            : `Soft-launch test grant: ${n} cats (3 starters + 8 shop common + farm). 3v3 preset — equal decks.`;
+      }
       renderStarters("collectionCards");
       break;
     case "shop":
@@ -1303,12 +1324,80 @@ function renderAll() {
   }
 }
 
+/** Soft-launch stub auth — any login/password succeeds; never blocks test flow. */
+async function stubLogin({ login = "", password = "" } = {}) {
+  const btn = $("submitBtn");
+  const originalHtml = btn?.innerHTML;
+  if (btn) {
+    btn.disabled = true;
+    btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-lg">progress_activity</span> <span>Открытие портала...</span>`;
+  }
+  try {
+    const { data } = await api("/api/dev/login", {
+      method: "POST",
+      body: JSON.stringify({ login, password }),
+    });
+    if (data?.profile) applyStarterGrant(data.profile);
+    state.loggedIn = true;
+    state.session = data?.session || { userId: data?.profile?.userId || "guest_smoke" };
+    log(
+      `stubAuth ok user=${state.session.userId} cats=${(data?.profile?.cats || []).length}`,
+    );
+    toast(
+      state.locale === "ru"
+        ? "Свободный вход — любой логин/пароль"
+        : "Free login — any credentials",
+    );
+    navigate("hub");
+  } catch (err) {
+    // Still admit on network blip: local grant already loaded at boot.
+    console.warn("stub login", err);
+    state.loggedIn = true;
+    navigate("hub");
+  } finally {
+    if (btn && originalHtml) {
+      btn.disabled = false;
+      btn.innerHTML = originalHtml;
+    }
+  }
+}
+
+function wireLoginForm() {
+  window.mythfelStubLogin = (e) => {
+    e?.preventDefault?.();
+    const login = $("loginUserInput")?.value || "";
+    const password = $("passwordInput")?.value || "";
+    stubLogin({ login, password });
+  };
+  // Social stubs also free-enter
+  const root = $("viewLogin");
+  if (root && root.dataset.stubSocial !== "1") {
+    root.dataset.stubSocial = "1";
+    root.addEventListener("click", (ev) => {
+      const btn = ev.target.closest("button");
+      if (!btn || btn.id === "submitBtn" || btn.id === "tabLogin" || btn.id === "tabRegister") return;
+      const label = (btn.textContent || "").toLowerCase();
+      if (
+        label.includes("telegram") ||
+        label.includes("vk") ||
+        label.includes("google")
+      ) {
+        ev.preventDefault();
+        stubLogin({ login: `social_${label.trim().split(/\s+/)[0] || "oauth"}`, password: "" });
+      }
+    });
+  }
+}
+
 function wireButtons() {
   $("btnBrandHub")?.addEventListener("click", () => navigate("hub"));
   $("btnLoginEnter")?.addEventListener("click", () => {
-    state.loggedIn = true;
-    navigate("hub");
+    stubLogin({
+      login: $("loginUserInput")?.value || "wire_dock",
+      password: $("passwordInput")?.value || "",
+    });
   });
+  wireLoginForm();
   $("btnPracticeBattle")?.addEventListener("click", () => startPractice(false));
   $("btnPracticeHub")?.addEventListener("click", () => navigate("hub"));
   $("btnCodexHub")?.addEventListener("click", () => navigate("hub"));
@@ -1403,11 +1492,11 @@ function wireButtons() {
 async function bootStarterGrant() {
   const { data } = await api("/api/dev/starter", {
     method: "POST",
-    body: JSON.stringify({ userId: "local_smoke" }),
+    body: JSON.stringify({ userId: "local_smoke", testRoster: true }),
   });
   applyStarterGrant(data);
   log(
-    `GrantStarterKit ok cats=${(data.cats || []).length} potions=${(data.potions || []).length} fish=${data.fish}`,
+    `GrantStarterKit ok cats=${(data.cats || []).length} potions=${(data.potions || []).length} fish=${data.fish} testRoster=${!!data.softLaunchTestRoster}`,
   );
 }
 

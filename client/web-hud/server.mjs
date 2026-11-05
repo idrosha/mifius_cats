@@ -97,13 +97,39 @@ async function proxy(req, res, targetBase, stripPrefix) {
   res.end(buf);
 }
 
-/** §5.1 GrantStarterKit smoke — mirrors backend/economy; no client-invented rewards. */
-function grantStarterKit(userId = "local_smoke") {
+/**
+ * Soft-launch **test** roster for Web HUD smoke (not production NewPlayer §5.1).
+ * = §5.1 starters (3) + all 8 shop common variants (2× tank/fighter/ranger/support) + 1 farm
+ * → 12 cats. Production GrantStarterKit stays 3 combat + farm (equal decks).
+ */
+const SHOP_COMMON_COMBAT = [
+  { templateId: "shop_tank_stone_a", role: "tank", element: "stone", variant: "a" },
+  { templateId: "shop_tank_stone_b", role: "tank", element: "stone", variant: "b" },
+  { templateId: "shop_fighter_fire_a", role: "fighter", element: "fire", variant: "a" },
+  { templateId: "shop_fighter_fire_b", role: "fighter", element: "fire", variant: "b" },
+  { templateId: "shop_ranger_grass_a", role: "ranger", element: "grass", variant: "a" },
+  { templateId: "shop_ranger_grass_b", role: "ranger", element: "grass", variant: "b" },
+  { templateId: "shop_support_water_a", role: "support", element: "water", variant: "a" },
+  { templateId: "shop_support_water_b", role: "support", element: "water", variant: "b" },
+];
+
+function grantStarterKit(userId = "local_smoke", { testRoster = true } = {}) {
   const combat = [
     { templateId: "starter_tank_stone", role: "tank", element: "stone", origin: "starter" },
     { templateId: "starter_fighter_fire", role: "fighter", element: "fire", origin: "starter" },
     { templateId: "starter_support_water", role: "support", element: "water", origin: "starter" },
   ];
+  if (testRoster) {
+    for (const s of SHOP_COMMON_COMBAT) {
+      combat.push({
+        templateId: s.templateId,
+        role: s.role,
+        element: s.element,
+        origin: "shop",
+        variant: s.variant,
+      });
+    }
+  }
   const cats = combat.map((c, i) => ({
     catId: `${userId}_c${i + 1}`,
     templateId: c.templateId,
@@ -112,6 +138,7 @@ function grantStarterKit(userId = "local_smoke") {
     level: 1,
     rarity: "common",
     origin: c.origin,
+    variant: c.variant || null,
     pendantId: "",
     bowByPart: {},
   }));
@@ -153,6 +180,8 @@ function grantStarterKit(userId = "local_smoke") {
     potions: potionIds.map((potionId) => ({ potionId, count: 1 })),
     equalDecks: true,
     gear: null,
+    softLaunchTestRoster: !!testRoster,
+    shopCommonGranted: testRoster ? SHOP_COMMON_COMBAT.length : 0,
   };
 }
 
@@ -170,18 +199,60 @@ const server = http.createServer(async (req, res) => {
     const chunks = [];
     for await (const chunk of req) chunks.push(chunk);
     let userId = "local_smoke";
+    // Soft-launch Web HUD default: full test roster (12). Pass testRoster:false for pure §5.1.
+    let testRoster = u.searchParams.get("testRoster") !== "0";
     try {
       const body = Buffer.concat(chunks).toString("utf8");
       if (body) {
         const parsed = JSON.parse(body);
         if (parsed?.userId) userId = String(parsed.userId);
+        if (parsed?.testRoster === false || parsed?.testRoster === 0) testRoster = false;
+        if (parsed?.testRoster === true || parsed?.testRoster === 1) testRoster = true;
       }
     } catch {
       /* keep default */
     }
-    send(res, 200, grantStarterKit(userId), {
+    send(res, 200, grantStarterKit(userId, { testRoster }), {
       "Content-Type": "application/json; charset=utf-8",
     });
+    return;
+  }
+
+  /** Stub auth for soft-launch smoke — any login/password succeeds. */
+  if (u.pathname === "/api/dev/login" && req.method === "POST") {
+    const chunks = [];
+    for await (const chunk of req) chunks.push(chunk);
+    let login = "";
+    let password = "";
+    try {
+      const body = Buffer.concat(chunks).toString("utf8");
+      if (body) {
+        const parsed = JSON.parse(body);
+        login = String(parsed?.login ?? parsed?.user ?? parsed?.email ?? "");
+        password = String(parsed?.password ?? "");
+      }
+    } catch {
+      /* empty ok */
+    }
+    const userId = (login && login.trim()) || "guest_smoke";
+    const kit = grantStarterKit(userId.replace(/[^\w.-]+/g, "_").slice(0, 48), {
+      testRoster: true,
+    });
+    send(
+      res,
+      200,
+      {
+        ok: true,
+        stubAuth: true,
+        message: "free login — credentials not validated",
+        login: login || userId,
+        passwordAccepted: true,
+        passwordLength: password.length,
+        session: { userId: kit.userId, token: `stub_${kit.userId}` },
+        profile: kit,
+      },
+      { "Content-Type": "application/json; charset=utf-8" },
+    );
     return;
   }
 

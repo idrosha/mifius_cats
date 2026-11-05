@@ -559,7 +559,7 @@
 </label>
 <div class="relative flex items-center">
 <span class="material-symbols-outlined absolute left-3 text-outline pointer-events-none">ink_pen</span>
-<input class="w-full bg-surface-container-highest text-on-surface font-body-md text-body-md pl-10 pr-4 py-2.5 rounded-lg focus:outline-none focus:bg-surface-bright placeholder-outline/60 transition-colors shadow-inner" placeholder="kotovoi@mythius.ru" required="" type="text"/>
+<input class="w-full bg-surface-container-highest text-on-surface font-body-md text-body-md pl-10 pr-4 py-2.5 rounded-lg focus:outline-none focus:bg-surface-bright placeholder-outline/60 transition-colors shadow-inner" id="loginUserInput" name="login" autocomplete="username" placeholder="kotovoi@mythius.ru" type="text"/>
 </div>
 </div>
 <!-- Field 2: Secret Runic Password -->
@@ -574,7 +574,7 @@
 </div>
 <div class="relative flex items-center">
 <span class="material-symbols-outlined absolute left-3 text-outline pointer-events-none">key</span>
-<input class="w-full bg-surface-container-highest text-on-surface font-body-md text-body-md pl-10 pr-10 py-2.5 rounded-lg focus:outline-none focus:bg-surface-bright placeholder-outline/60 transition-colors shadow-inner" id="passwordInput" placeholder="••••••••••••" required="" type="password"/>
+<input class="w-full bg-surface-container-highest text-on-surface font-body-md text-body-md pl-10 pr-10 py-2.5 rounded-lg focus:outline-none focus:bg-surface-bright placeholder-outline/60 transition-colors shadow-inner" id="passwordInput" name="password" autocomplete="current-password" placeholder="••••••••••••" type="password"/>
 <button class="absolute right-3 text-outline hover:text-on-surface transition-colors flex items-center" onclick="togglePassword()" type="button">
 <span class="material-symbols-outlined" id="eyeIcon">visibility</span>
 </button>
@@ -588,7 +588,7 @@
               </label>
 <div class="relative flex items-center">
 <span class="material-symbols-outlined absolute left-3 text-outline pointer-events-none">lock_reset</span>
-<input class="w-full bg-surface-container-highest text-on-surface font-body-md text-body-md pl-10 pr-4 py-2.5 rounded-lg focus:outline-none focus:bg-surface-bright placeholder-outline/60 transition-colors shadow-inner" placeholder="••••••••••••" type="password"/>
+<input class="w-full bg-surface-container-highest text-on-surface font-body-md text-body-md pl-10 pr-4 py-2.5 rounded-lg focus:outline-none focus:bg-surface-bright placeholder-outline/60 transition-colors shadow-inner" id="passwordConfirmInput" name="passwordConfirm" autocomplete="new-password" placeholder="••••••••••••" type="password"/>
 </div>
 </div>
 <!-- Code of Cat Lands Checkbox -->
@@ -709,6 +709,11 @@
 
     function handleAuthSubmit(e) {
       e.preventDefault();
+      // Soft-launch stub: any login/password → hub (wired in app.js).
+      if (typeof window.mythfelStubLogin === "function") {
+        window.mythfelStubLogin(e);
+        return;
+      }
       const btn = document.getElementById('submitBtn');
       const originalHtml = btn.innerHTML;
       btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-lg">progress_activity</span> <span>Открытие портала...</span>`;
