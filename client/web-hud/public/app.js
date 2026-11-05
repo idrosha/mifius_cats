@@ -536,8 +536,12 @@ function starterMeta(id) {
     shop_tank_stone_b: { role: "tank", element: "stone", lane: "vanguard" },
     shop_fighter_fire_a: { role: "fighter", element: "fire", lane: "center" },
     shop_fighter_fire_b: { role: "fighter", element: "fire", lane: "center" },
-    shop_ranger_grass_a: { role: "ranger", element: "grass", lane: "center" },
-    shop_ranger_grass_b: { role: "ranger", element: "grass", lane: "center" },
+    shop_assassin_bolt_a: { role: "assassin", element: "bolt", lane: "center" },
+    shop_assassin_bolt_b: { role: "assassin", element: "bolt", lane: "center" },
+    shop_ranger_grass_a: { role: "ranger", element: "grass", lane: "rear" },
+    shop_ranger_grass_b: { role: "ranger", element: "grass", lane: "rear" },
+    shop_mage_fire_a: { role: "mage", element: "fire", lane: "rear" },
+    shop_mage_ice_b: { role: "mage", element: "ice", lane: "rear" },
     shop_support_water_a: { role: "support", element: "water", lane: "rear" },
     shop_support_water_b: { role: "support", element: "water", lane: "rear" },
     starter_farm_grass: { role: "farm", element: "grass", lane: "inventory" },
@@ -791,11 +795,19 @@ function renderFormation() {
   $("formTitle").textContent = t("formation.title", "Строй отряда 3v3");
   $("formLead").textContent = t(
     "formation.lead",
-    "Авангард → Центр → Тыл. Зелья из Таверны — слоты ниже (stub).",
+    "Авангард → Центр → Тыл. Не ставь саппорта/стрелка/мага вперёд — фронт для танка (и мили).",
   );
   const lanes = $("formationLanes");
   if (!lanes) return;
   lanes.innerHTML = "";
+  const tip = document.createElement("p");
+  tip.className = "meta formation-tip";
+  tip.id = "formationRoleTip";
+  tip.textContent = t(
+    "formation.tip.roles",
+    "Подсказка: саппорт и стрелок бьют с любого ряда — береги их в тылу.",
+  );
+  lanes.appendChild(tip);
   const labels = [
     t("formation.lane.vanguard", "Авангард"),
     t("formation.lane.center", "Центр"),
@@ -829,7 +841,7 @@ function renderFormation() {
 function renderShop() {
   $("shopEyebrow").textContent = t("hub.tab.shop");
   $("shopTitle").textContent = t("hub.tab.shop");
-  $("shopLead").textContent = t("shop.lead_common", "Фиксированные колоды по классу · 2 варианта · за рыбок");
+  $("shopLead").textContent = t("shop.lead_common", "6 классов × 2 варианта = 12 ordinary cats · fixed 4-card kits · fish");
   const list = $("offerList");
   if (list) {
     list.innerHTML = "";
@@ -1295,8 +1307,8 @@ function renderAll() {
         const n = state.profile?.cats?.length || 0;
         $("colLead").textContent =
           state.locale === "ru"
-            ? `Тестовый грант soft launch: ${n} котов (3 стартера + 8 shop common + farm). Пресет 3v3 — equal decks.`
-            : `Soft-launch test grant: ${n} cats (3 starters + 8 shop common + farm). 3v3 preset — equal decks.`;
+            ? `Тестовый грант soft launch: ${n} котов (3 стартера + 12 shop common ×6 классов + farm). Пресет 3v3 — equal decks.`
+            : `Soft-launch test grant: ${n} cats (3 starters + 12 shop common ×6 classes + farm). 3v3 preset — equal decks.`;
       }
       renderStarters("collectionCards");
       break;

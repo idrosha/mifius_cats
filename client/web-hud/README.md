@@ -77,4 +77,4 @@ See design/SCREEN-MAP.md for soft-launch routes.
 
 - login / practice / codex (Stitch 3a8d)
 - Mythmir map + mission list; PvP unlock after 3 wins
-- Shop common cats ×8; tavern milk; first boss waves
+- Shop common cats ×12 (2×6 classes incl. mage/assassin); tavern milk; first boss waves

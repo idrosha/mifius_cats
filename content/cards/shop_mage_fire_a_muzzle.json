@@ -1,0 +1,25 @@
+{
+  "cost": 2,
+  "atk": 3,
+  "shield": 0,
+  "hits": 1,
+  "targetRule": "all_enemies",
+  "tags": [
+    "attack",
+    "aoe",
+    "control",
+    "crit"
+  ],
+  "effectOps": [
+    {
+      "op": "apply_status",
+      "status": "weak",
+      "stacks": 1,
+      "duration": 1
+    }
+  ],
+  "cardId": "card_shop_mage_fire_a_muzzle",
+  "name_key": "card.shop_mage_fire_a_muzzle",
+  "roleGate": "mage",
+  "element": "fire"
+}

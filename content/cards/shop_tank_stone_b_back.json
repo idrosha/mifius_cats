@@ -1,16 +1,16 @@
 {
+  "cost": 1,
+  "atk": 6,
+  "shield": 0,
+  "hits": 1,
+  "targetRule": "nearest",
+  "tags": [
+    "attack",
+    "pierce"
+  ],
+  "effectOps": [],
   "cardId": "card_shop_tank_stone_b_back",
   "name_key": "card.shop_tank_stone_b_back",
   "roleGate": "tank",
-  "element": "stone",
-  "cost": 1,
-  "atk": 0,
-  "shield": 10,
-  "hits": 0,
-  "targetRule": "self",
-  "tags": [
-    "shield",
-    "taunt"
-  ],
-  "effectOps": []
+  "element": "stone"
 }

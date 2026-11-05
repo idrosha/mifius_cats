@@ -5,7 +5,7 @@
     "element": "stone",
     "level": 1,
     "baseStats": {
-      "hp": 42,
+      "hp": 44,
       "atk": 4,
       "spd": 3,
       "skill": 2,
@@ -20,7 +20,8 @@
       "tail": "part_shop_tank_stone_a_tail"
     },
     "rarity": "common",
-    "origin": "shop"
+    "origin": "shop",
+    "variant": "a"
   },
   {
     "templateId": "shop_tank_stone_b",
@@ -28,8 +29,8 @@
     "element": "stone",
     "level": 1,
     "baseStats": {
-      "hp": 44,
-      "atk": 5,
+      "hp": 40,
+      "atk": 6,
       "spd": 3,
       "skill": 2,
       "charm": 4
@@ -43,7 +44,8 @@
       "tail": "part_shop_tank_stone_b_tail"
     },
     "rarity": "common",
-    "origin": "shop"
+    "origin": "shop",
+    "variant": "b"
   },
   {
     "templateId": "shop_fighter_fire_a",
@@ -51,9 +53,9 @@
     "element": "fire",
     "level": 1,
     "baseStats": {
-      "hp": 30,
+      "hp": 28,
       "atk": 8,
-      "spd": 6,
+      "spd": 7,
       "skill": 3,
       "charm": 3
     },
@@ -66,7 +68,8 @@
       "tail": "part_shop_fighter_fire_a_tail"
     },
     "rarity": "common",
-    "origin": "shop"
+    "origin": "shop",
+    "variant": "a"
   },
   {
     "templateId": "shop_fighter_fire_b",
@@ -75,8 +78,8 @@
     "level": 1,
     "baseStats": {
       "hp": 32,
-      "atk": 9,
-      "spd": 6,
+      "atk": 10,
+      "spd": 5,
       "skill": 3,
       "charm": 3
     },
@@ -89,7 +92,56 @@
       "tail": "part_shop_fighter_fire_b_tail"
     },
     "rarity": "common",
-    "origin": "shop"
+    "origin": "shop",
+    "variant": "b"
+  },
+  {
+    "templateId": "shop_assassin_bolt_a",
+    "role": "assassin",
+    "element": "bolt",
+    "level": 1,
+    "baseStats": {
+      "hp": 24,
+      "atk": 8,
+      "spd": 9,
+      "skill": 4,
+      "charm": 4
+    },
+    "parts": {
+      "eyes": "part_shop_assassin_bolt_a_eyes",
+      "ears": "part_shop_assassin_bolt_a_ears",
+      "muzzle": "part_shop_assassin_bolt_a_muzzle",
+      "headwear": "part_shop_assassin_bolt_a_headwear",
+      "back": "part_shop_assassin_bolt_a_back",
+      "tail": "part_shop_assassin_bolt_a_tail"
+    },
+    "rarity": "common",
+    "origin": "shop",
+    "variant": "a"
+  },
+  {
+    "templateId": "shop_assassin_bolt_b",
+    "role": "assassin",
+    "element": "bolt",
+    "level": 1,
+    "baseStats": {
+      "hp": 24,
+      "atk": 8,
+      "spd": 8,
+      "skill": 4,
+      "charm": 4
+    },
+    "parts": {
+      "eyes": "part_shop_assassin_bolt_b_eyes",
+      "ears": "part_shop_assassin_bolt_b_ears",
+      "muzzle": "part_shop_assassin_bolt_b_muzzle",
+      "headwear": "part_shop_assassin_bolt_b_headwear",
+      "back": "part_shop_assassin_bolt_b_back",
+      "tail": "part_shop_assassin_bolt_b_tail"
+    },
+    "rarity": "common",
+    "origin": "shop",
+    "variant": "b"
   },
   {
     "templateId": "shop_ranger_grass_a",
@@ -112,7 +164,8 @@
       "tail": "part_shop_ranger_grass_a_tail"
     },
     "rarity": "common",
-    "origin": "shop"
+    "origin": "shop",
+    "variant": "a"
   },
   {
     "templateId": "shop_ranger_grass_b",
@@ -121,9 +174,9 @@
     "level": 1,
     "baseStats": {
       "hp": 28,
-      "atk": 8,
-      "spd": 8,
-      "skill": 4,
+      "atk": 7,
+      "spd": 7,
+      "skill": 5,
       "charm": 3
     },
     "parts": {
@@ -135,7 +188,56 @@
       "tail": "part_shop_ranger_grass_b_tail"
     },
     "rarity": "common",
-    "origin": "shop"
+    "origin": "shop",
+    "variant": "b"
+  },
+  {
+    "templateId": "shop_mage_fire_a",
+    "role": "mage",
+    "element": "fire",
+    "level": 1,
+    "baseStats": {
+      "hp": 24,
+      "atk": 5,
+      "spd": 5,
+      "skill": 8,
+      "charm": 3
+    },
+    "parts": {
+      "eyes": "part_shop_mage_fire_a_eyes",
+      "ears": "part_shop_mage_fire_a_ears",
+      "muzzle": "part_shop_mage_fire_a_muzzle",
+      "headwear": "part_shop_mage_fire_a_headwear",
+      "back": "part_shop_mage_fire_a_back",
+      "tail": "part_shop_mage_fire_a_tail"
+    },
+    "rarity": "common",
+    "origin": "shop",
+    "variant": "a"
+  },
+  {
+    "templateId": "shop_mage_ice_b",
+    "role": "mage",
+    "element": "ice",
+    "level": 1,
+    "baseStats": {
+      "hp": 24,
+      "atk": 5,
+      "spd": 5,
+      "skill": 8,
+      "charm": 3
+    },
+    "parts": {
+      "eyes": "part_shop_mage_ice_b_eyes",
+      "ears": "part_shop_mage_ice_b_ears",
+      "muzzle": "part_shop_mage_ice_b_muzzle",
+      "headwear": "part_shop_mage_ice_b_headwear",
+      "back": "part_shop_mage_ice_b_back",
+      "tail": "part_shop_mage_ice_b_tail"
+    },
+    "rarity": "common",
+    "origin": "shop",
+    "variant": "b"
   },
   {
     "templateId": "shop_support_water_a",
@@ -144,7 +246,7 @@
     "level": 1,
     "baseStats": {
       "hp": 28,
-      "atk": 3,
+      "atk": 2,
       "spd": 5,
       "skill": 7,
       "charm": 6
@@ -158,7 +260,8 @@
       "tail": "part_shop_support_water_a_tail"
     },
     "rarity": "common",
-    "origin": "shop"
+    "origin": "shop",
+    "variant": "a"
   },
   {
     "templateId": "shop_support_water_b",
@@ -166,8 +269,8 @@
     "element": "water",
     "level": 1,
     "baseStats": {
-      "hp": 30,
-      "atk": 4,
+      "hp": 28,
+      "atk": 3,
       "spd": 5,
       "skill": 7,
       "charm": 6
@@ -181,6 +284,7 @@
       "tail": "part_shop_support_water_b_tail"
     },
     "rarity": "common",
-    "origin": "shop"
+    "origin": "shop",
+    "variant": "b"
   }
 ]

@@ -7,6 +7,7 @@
     "roles": [
       "tank",
       "fighter",
+      "assassin",
       "mage",
       "ranger",
       "support"
@@ -206,10 +207,38 @@
         ]
       },
       {
+        "offer_id": "shop_cat_assassin_common_a",
+        "kind": "common_cat",
+        "template_id": "shop_assassin_bolt_a",
+        "price_fish": 900,
+        "role": "assassin",
+        "variant": "a",
+        "deck": [
+          "card_shop_assassin_bolt_a_muzzle",
+          "card_shop_assassin_bolt_a_headwear",
+          "card_shop_assassin_bolt_a_back",
+          "card_shop_assassin_bolt_a_tail"
+        ]
+      },
+      {
+        "offer_id": "shop_cat_assassin_common_b",
+        "kind": "common_cat",
+        "template_id": "shop_assassin_bolt_b",
+        "price_fish": 950,
+        "role": "assassin",
+        "variant": "b",
+        "deck": [
+          "card_shop_assassin_bolt_b_muzzle",
+          "card_shop_assassin_bolt_b_headwear",
+          "card_shop_assassin_bolt_b_back",
+          "card_shop_assassin_bolt_b_tail"
+        ]
+      },
+      {
         "offer_id": "shop_cat_ranger_common_a",
         "kind": "common_cat",
         "template_id": "shop_ranger_grass_a",
-        "price_fish": 800,
+        "price_fish": 900,
         "role": "ranger",
         "variant": "a",
         "deck": [
@@ -223,7 +252,7 @@
         "offer_id": "shop_cat_ranger_common_b",
         "kind": "common_cat",
         "template_id": "shop_ranger_grass_b",
-        "price_fish": 850,
+        "price_fish": 950,
         "role": "ranger",
         "variant": "b",
         "deck": [
@@ -231,6 +260,34 @@
           "card_shop_ranger_grass_b_headwear",
           "card_shop_ranger_grass_b_back",
           "card_shop_ranger_grass_b_tail"
+        ]
+      },
+      {
+        "offer_id": "shop_cat_mage_common_a",
+        "kind": "common_cat",
+        "template_id": "shop_mage_fire_a",
+        "price_fish": 900,
+        "role": "mage",
+        "variant": "a",
+        "deck": [
+          "card_shop_mage_fire_a_muzzle",
+          "card_shop_mage_fire_a_headwear",
+          "card_shop_mage_fire_a_back",
+          "card_shop_mage_fire_a_tail"
+        ]
+      },
+      {
+        "offer_id": "shop_cat_mage_common_b",
+        "kind": "common_cat",
+        "template_id": "shop_mage_ice_b",
+        "price_fish": 950,
+        "role": "mage",
+        "variant": "b",
+        "deck": [
+          "card_shop_mage_ice_b_muzzle",
+          "card_shop_mage_ice_b_headwear",
+          "card_shop_mage_ice_b_back",
+          "card_shop_mage_ice_b_tail"
         ]
       },
       {

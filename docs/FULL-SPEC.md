@@ -1,6 +1,6 @@
 # Мифоус / Mythfel — полное ТЗ приложения
 
-**Версия:** 1.2 · **SSOT** (единственный источник правды для сборки)  
+**Версия:** 1.3 · **SSOT** (единственный источник правды для сборки)  
 **Язык дока:** RU (строки игры: RU+EN)  
 **Стек:** Unity C# URP 2D · Nakama · battle-service Go · LiveOps JSON  
 **Крипта/NFT:** нет  
@@ -66,23 +66,28 @@
 
 ## §2. Игровые сущности
 
-### §2.1 Роли (ровно 5)
+### §2.1 Роли (ровно 6)
 
 | role | Задача | Статы уклон | Обязательные теги карт |
 |---|---|---|---|
-| `tank` | Щит, дразнилка | HP↑ | `shield`, `taunt` |
-| `fighter` | Физ. урон | ATK↑ | `attack`, `ruffle` |
-| `mage` | Контроль/DoT/AoE | Skill-эффекты | `poison`/`control`/`aoe` |
-| `ranger` | Приоритет целей | SPD↑ | `ambush`/`lowest_hp` |
+| `tank` | Щит, дразнилка / пробой брони | HP↑ | `shield`, `taunt` (вариант B: `pierce`) |
+| `fighter` | Физ. урон (парный/двуручный) | ATK↑ | `attack`, `ruffle` (+ `crit` у варианта A) |
+| `assassin` | Уворот/крит / удар в тыл | SPD↑ | `attack`, `crit` (+ `stealth` / `backline`) |
+| `mage` | Контроль/DoT/AoE | Skill-эффекты | `control`/`aoe` (+ `crit` fire / freeze→`stun` ice) |
+| `ranger` | Приоритет целей / AoE | SPD↑ | `ambush`/`lowest_hp`/`aoe` |
 | `support` | Хил/чистота/бафф | — | `heal`/`cleanse`/`buff` |
 
-**Пресет 3v3:** tank + (fighter\|ranger\|mage) + support.  
-**Стартеры:** tank·stone, fighter·fire, support·water (`starter_tank_stone`, `starter_fighter_fire`, `starter_support_water`).
+**Shop common (SL):** 6 классов × 2 варианта = **12** SKU (`common_cat`), у каждого свой 4-card kit (§2.3, §6 Shop).  
+Варианты (EN id): tank A hard-def+aggro / tank B **armor pierce** (fragile/pierce, не raw ATK); fighter A dual+crit / B two-hand; assassin A evade+crit / B backline+crit; ranger A hunter any-target+crit / B heavy AoE; mage A fire AoE+crit+debuff / B ice AoE+freeze(1)+debuff; support A heal+cleanse / B heal+buff/debuff.
+
+**Пресет 3v3:** tank + (fighter\|assassin\|ranger\|mage) + support.  
+**Стартеры:** tank·stone, fighter·fire, support·water (`starter_tank_stone`, `starter_fighter_fire`, `starter_support_water`) — equal decks; shop common — доп. контент.
 
 **Equal decks (fair PvP):** все новые аккаунты получают **один и тот же** фиксированный стартовый кит карт (те же `templateId` → части → карты). Без RNG и без альтернативных стартовых колод. Роли сохраняют свои колоды из content; кит команды идентичен между игроками (§5.1).
 
 **Формация (критична, PvP = PvE):** слоты команды `lane 0..2` = фронт → тыл.  
-Рекомендуемый порядок ролей: `tank` (фронт) → `fighter`/`mage`/`ranger` (середина) → `support` (тыл).  
+Рекомендуемый порядок ролей: `tank` (фронт) → `fighter`/`assassin` (середина) → `mage`/`ranger`/`support` (тыл).  
+**Newbie tip:** не ставить `support`/`ranger`/`mage` в авангард — они хрупкие и всё равно бьют freely; фронт = tank (и melee).  
 Дефолт-пресет стартеров: lane0 tank → lane1 fighter → lane2 support.  
 Порядок котиков в бою влияет на дефолтный таргет и тай-брейки (см. §3.4 Targeting).
 
@@ -147,13 +152,17 @@ Unused energy/cards не переносятся (кроме Keep).
 - **Mouse Hour:** from turn 10 maxHP decay (config).
 - **Ruffle→Claw Mode:** 10 stacks → +1E, draw1, +50% dmg; no drops/ruffle that turn.
 - **Last Meow:** lethal → chance(charm) survive at 1 HP for N ticks.
-- **Targeting (одно ядро PvP/PvE):** формация важна.
-  - Дефолт `nearest` (фронт-приоритет по роли живых врагов):  
-    `tank` → `fighter` → `mage` → `ranger` → `support`;  
-    затем nearer lane к актёру → меньший lane → меньший id.  
-  - `backline`: приоритет тыла — `support` → `ranger` → `mage` → `fighter` → `tank`;  
-    затем больший lane → nearer к актёру → id. Атакующие карты с `targetRule: backline` бьют в тыл (саппорт/стрелки), а не танков спереди.  
+- **Targeting (одно ядро PvP/PvE):** формация важна. Правила актёра:
+  1. **Фронт (lane 0) melee** — `tank` / `fighter` / `assassin`: дефолт только **ближайший фронт врага** (меньший enemy lane, затем role-rank); второй ряд достаёт только AoE (`all_enemies`).
+  2. **Середина/тыл melee** — `fighter` / `assassin` в lane 1–2: дефолт тот же nearest; дальше бьют карты с `targetRule: backline` (или тег `ranged`).
+  3. **Free-target роли** — `ranger` / `mage` / `support` **в любом слоте**: любые `targetRule` + явный выбор цели (UI/input `explicitID`).
+  - Дефолт `nearest`: сначала **меньший enemy lane** (фронт строя), затем role-rank  
+    `tank` → `fighter` → `assassin` → `mage` → `ranger` → `support`;  
+    затем nearer lane к актёру → меньший id.  
+  - `backline`: приоритет тыла — `support` → `ranger` → `mage` → `assassin` → `fighter` → `tank`;  
+    затем больший lane → nearer к актёру → id.  
   - Прочие: `self`, `ally_lowest_hp`, `ally_all`, `all_enemies`, `lowest_hp`.  
+  - Теги урона: `crit` → ×1.5 dmg; `pierce` / статус `fragile` → урон игнорит shield. Freeze = `stun` 1 ход.  
   - Overrides: `taunt` принуждает цель; `stealth` скрывает от обычного таргета; `ambush` (тег карты) обходит stealth.
 - **Potions:** loadout pre-match, ≤1 per potionId.
 
@@ -239,7 +248,7 @@ Server validates all purchases.
 4. `YardMap` (Мифмир) → Formation 3v3 → `Battle`; рейд/легион — отдельный экран  
 5. `PvPMenu` (Дуэли/Арена) → matchmaking → `Battle`  
 6. `Collection` (cats, presets×5, pendants/bows)  
-7. `Shop` (yarn, jars, pass, potions, **common_cat** ×2 варианта/класс)
+7. `Shop` (yarn, jars, pass, potions, **common_cat** ×2 варианта ×6 классов = 12 SKU)
 7b. `Tavern` — молочный бар (HP/energy); зелья крафтеров на market/auction
 7c. `Codex` / `Login` / `Practice` — day-1 формы  
 8. `Pass`  
@@ -268,7 +277,8 @@ rarity, origin: starter|farm|jar|workshop|nursery
 cardId, name_key, roleGate?, element, cost, atk, shield, hits,
 targetRule, tags[], effectOps[]  // DSL ops, не хардкод C#
 // targetRule: nearest | backline | self | ally_lowest_hp | ally_all | all_enemies | lowest_hp
-// backline-атаки: ≥1 карта с attack+backline на несколько ролей (tank/fighter/mage/ranger/…)
+// tags: crit | pierce | aoe | ambush | backline | ranged | …
+// backline-атаки: ≥1 карта с attack+backline на роли (tank/fighter/assassin/mage/ranger/…)
 ```
 
 ### §7.3 PartDef
@@ -335,7 +345,7 @@ Assets/
 
 | Тип | Кол-во |
 |---|---|
-| Card parts | 40–50 (≥8/role) |
+| Card parts | 40–50+ (≥8/role incl. assassin; shop 12×4 kits) |
 | Eye/ear passives | 10–16 |
 | Pendants | 12 |
 | Bows | 16 |
