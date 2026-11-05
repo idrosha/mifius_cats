@@ -65,6 +65,7 @@ const REQUIRED_NAV_IDS = [
   "craft",
   "breeding",
   "guild",
+  "guild_battle",
   "chat_global",
   "chat_guild",
   "chat_friends",
@@ -99,6 +100,8 @@ const REQUIRED_BUTTONS = [
   "btnMarketToShop",
   "btnPassShop",
   "btnPassHub",
+  "btnGuildBattle",
+  "btnGuildHub",
   "btnSoonHub",
   "btnSellStarter",
   "btnMarketQuickSell",
@@ -246,6 +249,20 @@ ok("app pvp unlock helper", js.includes("function pvpUnlocked"));
 ok("app practice start", js.includes("function startPractice"));
 ok("app renderAuction", js.includes("function renderAuction"));
 ok("app milk_on_ice", js.includes("milk_on_ice"));
+ok("app renderCodex", js.includes("function renderCodex") && js.includes("CODEX_ENTRIES"));
+ok("app renderGuild GvG", js.includes("function renderGuild") && js.includes("startGuildBattle"));
+ok("app guild_battle nav", js.includes('id: "guild_battle"'));
+ok("app market seeds+tools+resources", js.includes("seed_mint") && js.includes("tool_pick") && js.includes("res_ore"));
+ok("app auction sample lots", js.includes("weapon_flint_bow") && js.includes("armor_grey_pendant"));
+ok(
+  "stitch codex knowledge host",
+  fs.readFileSync(path.join(DESIGN, "stitch-src", "codex.html"), "utf8").includes("codexNavList") &&
+    fs.readFileSync(path.join(DESIGN, "stitch-src", "codex.html"), "utf8").includes('id="codexArticle"'),
+);
+ok(
+  "stitch guild battle host",
+  fs.readFileSync(path.join(DESIGN, "stitch-src", "guild.html"), "utf8").includes("guildBattleHost"),
+);
 
 const transitions = [
   ["hub→yard", 'navigate("yard")'],
@@ -267,6 +284,7 @@ const transitions = [
   ["login route", 'navigate("login")'],
   ["practice route", 'navigate("practice")'],
   ["codex route", 'navigate("codex")'],
+  ["guild_battle route", 'navigate("guild_battle")'],
   ["gate tip", "Подними ранг в боях"],
   ["practice stage", "practice_dummy_1"],
 ];

@@ -567,6 +567,98 @@
     "ru": "Моя гильдия",
     "en": "My guild"
   },
+  "nav.sub.guild_battle": {
+    "ru": "Бой гильдий",
+    "en": "Guild battle"
+  },
+  "guild.battle.title": {
+    "ru": "Бой гильдий (GvG)",
+    "en": "Guild vs guild (GvG)"
+  },
+  "guild.battle.lead": {
+    "ru": "3–12 котов на сторону. Матчмейкинг gated; размер 3 → демо 3v3 на ядре боя.",
+    "en": "3–12 cats per side. Matchmaking gated; size 3 → 3v3 core demo."
+  },
+  "guild.battle.start": {
+    "ru": "В бой гильдий",
+    "en": "Start guild battle"
+  },
+  "guild.battle.gate": {
+    "ru": "Бой гильдий 4–12 — подними ранг в боях",
+    "en": "Guild battle 4–12 — rank up in fights"
+  },
+  "guild.battle.demo": {
+    "ru": "GvG demo 3v3 — ядро боя; матчмейкинг не live",
+    "en": "GvG demo 3v3 — battle core; matchmaking not live"
+  },
+  "guild.clan_boss": {
+    "ru": "Клан-босс",
+    "en": "Clan boss"
+  },
+  "shop.lead_channels": {
+    "ru": "IAP · пасс · рыбки · breeding · 12 ordinary · grey armor · battle coins → gear",
+    "en": "IAP · pass · fish · breeding · 12 ordinary · grey armor · battle coins → gear"
+  },
+  "tavern.drink.milk_on_ice": {
+    "ru": "Молоко на льду",
+    "en": "Milk on ice"
+  },
+  "tavern.drink.milk_on_ice.fx": {
+    "ru": "HP после боя",
+    "en": "Post-fight HP"
+  },
+  "tavern.drink.cream_whisk": {
+    "ru": "Сливки с венчиком",
+    "en": "Cream whisk"
+  },
+  "tavern.drink.cream_whisk.fx": {
+    "ru": "ATK tip · PvE/данж",
+    "en": "ATK tip · PvE/dungeon"
+  },
+  "tavern.drink.moon_milk": {
+    "ru": "Лунное молоко",
+    "en": "Moon milk"
+  },
+  "tavern.drink.moon_milk.fx": {
+    "ru": "DEF tip · PvE/данж",
+    "en": "DEF tip · PvE/dungeon"
+  },
+  "tavern.drink.spice_milk": {
+    "ru": "Пряное молоко",
+    "en": "Spice milk"
+  },
+  "tavern.drink.spice_milk.fx": {
+    "ru": "SPD tip · PvE/данж",
+    "en": "SPD tip · PvE/dungeon"
+  },
+  "tavern.drink.herbal_milk": {
+    "ru": "Травяное молоко",
+    "en": "Herbal milk"
+  },
+  "tavern.drink.herbal_milk.fx": {
+    "ru": "Resist tip · PvE/данж",
+    "en": "Resist tip · PvE/dungeon"
+  },
+  "market.quick_sell": {
+    "ru": "Quick sell лута",
+    "en": "Quick sell loot"
+  },
+  "market.quick_sell.tip": {
+    "ru": "Quick sell — подними ранг в боях",
+    "en": "Quick sell — rank up in fights"
+  },
+  "market.catalog.buy": {
+    "ru": "Купить",
+    "en": "Buy"
+  },
+  "market.catalog.sell": {
+    "ru": "Сбыт крафта / ресурсов (NPC)",
+    "en": "Sell craft / resources (NPC)"
+  },
+  "auction.list_stub": {
+    "ru": "Выставить лот",
+    "en": "List a lot"
+  },
   "nav.sub.chat_global": {
     "ru": "Общий",
     "en": "Global"

@@ -32,6 +32,8 @@ const PATH_TO_TAB = {
   "pvp-арена": "pvp",
   "battle-pass": "pass",
   гильдия: "guild",
+  "бой-гильдий": "guild_battle",
+  gvg: "guild_battle",
   бой: "formation",
   расстановка: "formation",
   таверна: "tavern",
@@ -96,7 +98,10 @@ const NAV = [
   {
     id: "guilds",
     key: "nav.primary.guilds",
-    tabs: [{ id: "guild", key: "nav.sub.guild", gated: true }],
+    tabs: [
+      { id: "guild", key: "nav.sub.guild" },
+      { id: "guild_battle", key: "nav.sub.guild_battle", gated: true },
+    ],
   },
   {
     id: "chats",
@@ -187,20 +192,77 @@ const POTIONS = [
 ];
 
 const MARKET_STOCK = [
-  { id: "seed_wheat", name: "Семена пшеницы", price: 15, gated: true },
-  { id: "seed_herb", name: "Семена трав", price: 20, gated: true },
-  { id: "tool_shovel", name: "Лопата", price: 50, gated: true },
-  { id: "tool_axe", name: "Топор", price: 55, gated: true },
-  { id: "tool_pick", name: "Кирка", price: 60, gated: true },
+  { id: "seed_wheat", name: "Семена пшеницы", price: 15, kind: "seed", gated: false },
+  { id: "seed_herb", name: "Семена трав", price: 20, kind: "seed", gated: false },
+  { id: "seed_mint", name: "Семена мяты", price: 25, kind: "seed", gated: false },
+  { id: "tool_shovel", name: "Лопата", price: 50, kind: "tool", gated: false },
+  { id: "tool_axe", name: "Топор", price: 55, kind: "tool", gated: false },
+  { id: "tool_pick", name: "Кирка", price: 60, kind: "tool", gated: false },
+  { id: "res_wood", name: "Бревно", price: 8, kind: "resource", gated: false },
+  { id: "res_ore", name: "Руда", price: 12, kind: "resource", gated: false },
+  { id: "craft_herb_bundle", name: "Пучок трав (крафт)", price: 18, kind: "ingredient", gated: false },
+  { id: "potion_stone_skin", name: "Зелье каменной шкуры", price: 45, kind: "potion", gated: false },
 ];
 
 const SHOP_STUB_ROWS = [
-  { id: "iap_yarn", label: "IAP · пряжа / донат", gated: false },
-  { id: "pass_buy", label: "Боевой пасс (×2 XP)", gated: false },
-  { id: "fish_pack", label: "Пак рыбок (game coins)", gated: false },
-  { id: "breed_ing", label: "Ингредиенты breeding", gated: true },
-  { id: "armor_grey_r1", label: "Стартовая броня · grey R1", gated: false },
-  { id: "battle_coin_gear", label: "Gear за battle coins", gated: true },
+  { id: "iap_yarn", label: "IAP · пряжа / донат", detail: "yarn packs", gated: false },
+  { id: "pass_buy", label: "Боевой пасс (×2 XP)", detail: "season pass", gated: false },
+  { id: "fish_pack_s", label: "Пак рыбок S · 500", detail: "fish coins", gated: false },
+  { id: "fish_pack_m", label: "Пак рыбок M · 2000", detail: "fish coins", gated: false },
+  { id: "breed_mint", label: "Мята для breeding", detail: "nursery mat", gated: true },
+  { id: "breed_milkweed", label: "Молочай для breeding", detail: "nursery mat", gated: true },
+  { id: "armor_grey_plate", label: "Стартовая броня · grey R1 plate", detail: "Rank 1", gated: false },
+  { id: "armor_grey_pendant", label: "Стартовый кулон · grey R1", detail: "Rank 1", gated: false },
+  { id: "battle_coin_gear", label: "Gear за battle coins", detail: "medals → shop", gated: true },
+];
+
+/** Codex knowledge base — plain SL facts, no fluff. */
+const CODEX_ENTRIES = [
+  {
+    id: "forms",
+    titleRu: "Основные экраны",
+    titleEn: "Main screens",
+    bodyRu:
+      "Вход → Хаб. Персонаж: экипировка, коллекция, кодекс; дом/ферма/крафт/скрещивание — tip «Подними ранг». Бои: Мифмир (карта+миссии), тренировка, строй 3v3, PvP после 3 побед, данжи, рейд. Торговля: таверна / магазин / рынок / аукцион. Гильдии: дом клана + бой гильдий. Пасс и рейтинги — отдельные вкладки.",
+    bodyEn:
+      "Login → Hub. Character: gear, collection, codex; home/farm/craft/breeding tip «rank up». Combat: Mythmir (map+missions), practice, 3v3 formation, PvP after 3 wins, dungeons, raid. Trade: tavern / shop / market / auction. Guilds: hall + guild battle. Pass and ratings are separate tabs.",
+  },
+  {
+    id: "gather",
+    titleRu: "Добыча ресурсов",
+    titleEn: "Resource gathering",
+    bodyRu:
+      "На soft launch глубокая ферма выключена (вкладка «Скоро»). Семена и расходные лопата/топор/кирка покупаются на Рынке (stub). Крафт-ингредиенты и ресурсы можно сбыть на Рынке (NPC) или выставить на Аукцион. Сбор с грядок — post-SL.",
+    bodyEn:
+      "Deep farm is off on soft launch (Soon tab). Seeds and shovel/axe/pick are Market stubs. Craft ingredients/resources sell via Market NPC or Auction. Crop harvest is post-SL.",
+  },
+  {
+    id: "trade",
+    titleRu: "Торговля: магазин / рынок / аукцион / таверна",
+    titleEn: "Trade: shop / market / auction / tavern",
+    bodyRu:
+      "Магазин — студия: IAP/пасс/рыбки, 12 ordinary котов, grey броня, breeding mats. Таверна — только молоко (лёд = HP после боя; бафф-молоко только PvE/данжи, не ranked). Рынок — семена, tools, продажа крафта, quick sell по цене сервера. Аукцион — лоты игроков по своей цене (коты, оружие/броня, ингредиенты); без денег и крипты. Зелья крафтеров — рынок/аукцион, не таверна.",
+    bodyEn:
+      "Shop — studio: IAP/pass/fish, 12 ordinary cats, grey armor, breeding mats. Tavern — milk only (ice = post-fight HP; buff milk PvE/dungeons only, not ranked). Market — seeds, tools, craft sell, server-price quick sell. Auction — player lots at own price (cats, gear, ingredients); no cash/crypto. Craft potions → market/auction, not tavern.",
+  },
+  {
+    id: "battle",
+    titleRu: "Боевая система",
+    titleEn: "Battle system",
+    bodyRu:
+      "Пошаговый 3v3. Три линии: авангард / центр / тыл — не ставь support/ranger/mage вперёд. У каждого кота 4 карты; энергия растёт по ходам (сервер считает урон и награды). Победа — сбить всех врагов. Мифмир: миски. PvP: билеты после 3 побед. Данж «Архипёс»: 3 волны. Молоко-баффы запрещены в ranked.",
+    bodyEn:
+      "Turn-based 3v3. Three lanes: vanguard / center / rear — do not put support/ranger/mage in front. Four cards per cat; energy scales by turn (server owns damage/rewards). Win by clearing the enemy. Mythmir uses bowls. PvP tickets after 3 wins. Arch-Hound dungeon: 3 waves. Milk buffs banned in ranked.",
+  },
+  {
+    id: "guild_gvg",
+    titleRu: "Бой гильдий (GvG)",
+    titleEn: "Guild vs guild (GvG)",
+    bodyRu:
+      "Гильдия vs гильдия: 3–12 котов на сторону. На soft launch есть вход в HUD и правила; полный матчмейкинг и борд 4–12 — tip «Подними ранг» (флаг LiveOps). Размер 3 может идти через текущее ядро 3v3. Клан-босс (1 кот с игрока, общее HP) — отдельно, «Скоро».",
+    bodyEn:
+      "Guild vs guild: 3–12 cats per side. Soft launch has HUD entry + rules; full matchmaking and 4–12 boards tip «rank up» (LiveOps flag). Size 3 can reuse the 3v3 core. Clan boss (1 cat each, shared HP) is separate Soon content.",
+  },
 ];
 
 const PASS_REWARDS = [
@@ -229,17 +291,28 @@ const state = {
   profile: null, // GrantStarterKit smoke (§5.1)
   ownedPotions: [],
   marketLots: [
-    { id: "lot_1", name: "craft_herb_bundle", bid: 40, side: "npc" },
-    { id: "lot_2", name: "scrap_pile", bid: 25, side: "npc" },
+    { id: "lot_1", name: "craft_herb_bundle", bid: 40, side: "npc", kind: "ingredient" },
+    { id: "lot_2", name: "scrap_pile", bid: 25, side: "npc", kind: "resource" },
+    { id: "lot_3", name: "res_wood×5", bid: 30, side: "npc", kind: "resource" },
+    { id: "lot_4", name: "res_ore×3", bid: 28, side: "npc", kind: "resource" },
+    { id: "lot_5", name: "potion_spark_claw", bid: 55, side: "npc", kind: "potion" },
   ],
   auctionLots: [
     { id: "auc_1", name: "shop_tank_stone_a", bid: 900, kind: "cat" },
-    { id: "auc_2", name: "armor_grey_plate", bid: 150, kind: "armor" },
+    { id: "auc_2", name: "shop_fighter_fire_b", bid: 850, kind: "cat" },
+    { id: "auc_3", name: "shop_mage_ice_b", bid: 980, kind: "cat" },
+    { id: "auc_4", name: "armor_grey_plate", bid: 150, kind: "armor" },
+    { id: "auc_5", name: "armor_grey_pendant", bid: 120, kind: "armor" },
+    { id: "auc_6", name: "weapon_wood_claw", bid: 200, kind: "weapon" },
+    { id: "auc_7", name: "weapon_flint_bow", bid: 260, kind: "weapon" },
+    { id: "auc_8", name: "craft_mint_bundle", bid: 70, kind: "ingredient" },
   ],
+  codexEntryId: "forms",
+  guildBattleSize: 3,
   wireMode: "hub",
   loggedIn: false,
   selectedStageId: YARD_STAGE,
-  battleMode: "pve", // pve | practice | boss
+  battleMode: "pve", // pve | practice | boss | guild_demo
   bossWaveIndex: 0,
   campaign: null,
   bossFirst: null,
@@ -404,6 +477,7 @@ function logicalViewId() {
     farm: "viewSoonFarm",
     auction: "viewAuction",
     guild: "viewGuild",
+    guild_battle: "viewGuild",
     chat_global: "viewChatGlobal",
     chat_guild: "viewChatGuild",
     chat_friends: "viewChatFriends",
@@ -484,6 +558,8 @@ function navigate(tab, { soon = null, clearBattle = true, primary = null, fromGa
   // Farm still has Soon art sheet, but form is present (not hidden).
   if (tab === "farm") state.soon = "farm";
   if (tab === "breeding" && !state.soon) state.soon = null;
+  if (tab === "guild_battle" && soon == null) state.soon = null;
+  if (tab === "guild" && soon == null) state.soon = null;
 
   const group = findNavForTab(tab);
   state.primary = primary || group?.id || state.primary || "combat";
@@ -904,7 +980,7 @@ function renderShop() {
   $("shopTitle").textContent = t("hub.tab.shop");
   $("shopLead").textContent = t(
     "shop.lead_channels",
-    "IAP · пасс · рыбки · 12 common · grey armor · battle coins → gear",
+    "IAP · пасс · рыбки · breeding · 12 common · grey armor · battle coins → gear",
   );
   const list = $("offerList");
   if (list) {
@@ -933,7 +1009,7 @@ function renderShop() {
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "mission-fight";
-      btn.innerHTML = `<strong>${row.label}</strong><div class="meta">${row.gated ? "gated" : "stub"}</div>`;
+      btn.innerHTML = `<strong>${row.label}</strong><div class="meta">${row.detail || ""} · ${row.gated ? "gated" : "stub"}</div>`;
       btn.addEventListener("click", () => {
         if (row.gated) showGateTip();
         else toast(state.locale === "ru" ? `${row.label} — stub` : `${row.label} — stub`);
@@ -973,14 +1049,14 @@ function renderMarket() {
   $("marketTitle").textContent = t("market.title", "Рынок Усадьбы");
   $("marketLead").textContent = t(
     "market.lead",
-    "Семена · инструменты · продажа крафта · quick sell. Аукцион — отдельно.",
+    "Семена · инструменты · ингредиенты/ресурсы · quick sell. Аукцион — отдельно.",
   );
   const list = $("marketList");
   if (list) {
     list.innerHTML = "";
     for (const item of MARKET_STOCK) {
       const li = document.createElement("li");
-      li.innerHTML = `<span>${item.name} · ${item.price} 🐟${item.gated ? " · gated" : ""}</span>`;
+      li.innerHTML = `<span>${item.name} · ${item.kind} · ${item.price} 🐟${item.gated ? " · gated" : ""}</span>`;
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "wire-btn";
@@ -994,22 +1070,38 @@ function renderMarket() {
     }
     for (const lot of state.marketLots) {
       const li = document.createElement("li");
-      li.innerHTML = `<span>${lot.name} · sell ${lot.bid} 🐟</span>`;
+      li.innerHTML = `<span>NPC sell · ${lot.name} · ${lot.kind} · ${lot.bid} 🐟</span>`;
       list.appendChild(li);
     }
   }
   const catalog = $("marketCatalog");
   if (catalog) {
     catalog.innerHTML = "";
+    const buyTitle = document.createElement("div");
+    buyTitle.className = "mission-stage";
+    buyTitle.textContent = t("market.catalog.buy", "Купить");
+    catalog.appendChild(buyTitle);
     for (const item of MARKET_STOCK) {
       const row = document.createElement("button");
       row.type = "button";
       row.className = "mission-fight";
-      row.innerHTML = `<strong>${item.name}</strong><div class="meta">${item.price} 🐟 · ${item.gated ? "gated" : "stub"}</div>`;
+      row.innerHTML = `<strong>${item.name}</strong><div class="meta">${item.kind} · ${item.price} 🐟 · ${item.gated ? "gated" : "stub"}</div>`;
       row.addEventListener("click", () => {
         if (item.gated) showGateTip();
         else toast(t("market.bought", "Куплено (stub)"));
       });
+      catalog.appendChild(row);
+    }
+    const sellTitle = document.createElement("div");
+    sellTitle.className = "mission-stage";
+    sellTitle.textContent = t("market.catalog.sell", "Сбыт крафта / ресурсов (NPC)");
+    catalog.appendChild(sellTitle);
+    for (const lot of state.marketLots) {
+      const row = document.createElement("button");
+      row.type = "button";
+      row.className = "mission-fight";
+      row.innerHTML = `<strong>${lot.name}</strong><div class="meta">${lot.kind} · sell ${lot.bid} 🐟 · stub</div>`;
+      row.addEventListener("click", () => toast(t("market.listed", "Продано NPC (stub)")));
       catalog.appendChild(row);
     }
   }
@@ -1103,12 +1195,19 @@ function renderAuction() {
       if (el.tagName === "UL") {
         const row = document.createElement("li");
         row.innerHTML = `<span>${lot.name} · ${lot.kind} · ${lot.bid} 🐟</span>`;
+        row.style.cursor = "pointer";
+        row.addEventListener("click", () =>
+          toast(state.locale === "ru" ? `Ставка ${lot.name} — stub` : `Bid ${lot.name} — stub`),
+        );
         el.appendChild(row);
       } else {
         const row = document.createElement("button");
         row.type = "button";
         row.className = "mission-fight";
-        row.innerHTML = `<strong>${lot.name}</strong><div class="meta">${lot.kind} · ${lot.bid} 🐟</div>`;
+        row.innerHTML = `<strong>${lot.name}</strong><div class="meta">${lot.kind} · ${lot.bid} 🐟 · sample stub</div>`;
+        row.addEventListener("click", () =>
+          toast(state.locale === "ru" ? `Ставка ${lot.name} — stub` : `Bid ${lot.name} — stub`),
+        );
         el.appendChild(row);
       }
     }
@@ -1127,6 +1226,96 @@ function renderAuction() {
       el.appendChild(listBtn);
     }
   }
+}
+
+function renderCodex() {
+  const nav = $("codexNavList");
+  const article = $("codexArticle");
+  if (!nav || !article) return;
+  nav.innerHTML = "";
+  for (const entry of CODEX_ENTRIES) {
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "mission-fight";
+    if (entry.id === state.codexEntryId) btn.classList.add("active");
+    const title = state.locale === "ru" ? entry.titleRu : entry.titleEn;
+    btn.innerHTML = `<strong>${title}</strong>`;
+    btn.addEventListener("click", () => {
+      state.codexEntryId = entry.id;
+      renderCodex();
+    });
+    nav.appendChild(btn);
+  }
+  const cur = CODEX_ENTRIES.find((e) => e.id === state.codexEntryId) || CODEX_ENTRIES[0];
+  const h = document.createElement("h2");
+  h.className = "font-headline text-lg text-primary mb-2";
+  h.textContent = state.locale === "ru" ? cur.titleRu : cur.titleEn;
+  const p = document.createElement("p");
+  p.className = "text-sm text-on-surface-variant leading-relaxed";
+  p.textContent = state.locale === "ru" ? cur.bodyRu : cur.bodyEn;
+  article.innerHTML = "";
+  article.appendChild(h);
+  article.appendChild(p);
+}
+
+function renderGuild() {
+  const host = $("guildBattleHost");
+  if (!host) return;
+  host.innerHTML = "";
+  const title = document.createElement("div");
+  title.className = "mission-stage";
+  title.textContent = t("guild.battle.title", "Бой гильдий (GvG)");
+  host.appendChild(title);
+  const lead = document.createElement("p");
+  lead.className = "meta mb-2";
+  lead.textContent = t(
+    "guild.battle.lead",
+    "3–12 котов на сторону. Матчмейкинг gated; размер 3 → демо 3v3 на ядре боя.",
+  );
+  host.appendChild(lead);
+  const sizes = document.createElement("div");
+  sizes.className = "grid grid-cols-3 gap-2 mb-2";
+  for (const n of [3, 6, 12]) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "mission-fight";
+    if (state.guildBattleSize === n) b.classList.add("ring-1", "ring-primary");
+    b.innerHTML = `<strong>${n}</strong><div class="meta">${n === 3 ? "core OK" : "gated"}</div>`;
+    b.addEventListener("click", () => {
+      state.guildBattleSize = n;
+      renderGuild();
+    });
+    sizes.appendChild(b);
+  }
+  host.appendChild(sizes);
+  const go = document.createElement("button");
+  go.type = "button";
+  go.className = "mission-fight";
+  go.id = "btnGuildBattleStart";
+  go.innerHTML = `<strong>${t("guild.battle.start", "В бой гильдий")}</strong><div class="meta">${
+    state.guildBattleSize === 3 ? "demo 3v3 · CreatePvE" : "matchmaking gated"
+  }</div>`;
+  go.addEventListener("click", () => startGuildBattle());
+  host.appendChild(go);
+  const tip = document.createElement("button");
+  tip.type = "button";
+  tip.className = "mission-fight";
+  tip.innerHTML = `<strong>${t("guild.clan_boss", "Клан-босс")}</strong><div class="meta">Soon · не GvG</div>`;
+  tip.addEventListener("click", () => navigate("guild", { soon: "clan_boss" }));
+  host.appendChild(tip);
+}
+
+function startGuildBattle() {
+  const n = state.guildBattleSize || 3;
+  if (n !== 3) {
+    showGateTip(t("guild.battle.gate", "Бой гильдий 4–12 — подними ранг в боях"));
+    return;
+  }
+  // Reuse 3v3 battle core as GvG size-3 demo (FULL-SPEC §4.5).
+  state.battleMode = "guild_demo";
+  state.selectedStageId = PRACTICE_STAGE;
+  toast(t("guild.battle.demo", "GvG demo 3v3 — ядро боя; матчмейкинг не live"));
+  startYard(false);
 }
 
 function renderPass() {
@@ -1478,6 +1667,7 @@ function renderAll() {
       renderUnlockProgress();
       break;
     case "codex":
+      renderCodex();
       break;
     case "yard":
       renderYard();
@@ -1527,7 +1717,8 @@ function renderAll() {
       renderSoon();
       break;
     case "guild":
-      // painted Stitch guild home (clan-boss gameplay remains Soon)
+    case "guild_battle":
+      renderGuild();
       break;
     default:
       break;
@@ -1697,6 +1888,8 @@ function wireButtons() {
   $("btnTavernHub").addEventListener("click", () => navigate("hub"));
   $("btnPassShop").addEventListener("click", () => navigate("shop"));
   $("btnPassHub").addEventListener("click", () => navigate("hub"));
+  $("btnGuildBattle")?.addEventListener("click", () => navigate("guild_battle"));
+  $("btnGuildHub")?.addEventListener("click", () => navigate("hub"));
   $("btnSoonHub").addEventListener("click", () => navigate("hub"));
 }
 
