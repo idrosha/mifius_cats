@@ -1,6 +1,6 @@
 # Мифоус / Mythfel — полное ТЗ приложения
 
-**Версия:** 1.5 · **SSOT** (единственный источник правды для сборки)  
+**Версия:** 1.6 · **SSOT** (единственный источник правды для сборки)  
 **Язык дока:** RU (строки игры: RU+EN)  
 **Стек:** Unity C# URP 2D · Nakama · battle-service Go · LiveOps JSON  
 **Крипта/NFT:** нет  
@@ -15,6 +15,7 @@
 |---|---|
 | Имя | **Мифоус** / **Mythfel** |
 | Питч | Мифические котики (роль+стихия), карточный пошаговый 3v3 |
+| **Core fantasy** | Из **обычных** котов сделать **мифических** через скрещивание (питомник). Мифики редки; без free unlimited breeding |
 | Аудитория | Подростки + взрослые |
 | Платформы | Mobile (iOS, Android), PC (**Steam** + desktop), Web — **один** Unity-проект |
 | Кросс-плей | Игроки матчятся **независимо от клиента** (mobile / web / desktop). Общий пул матчмейкинга; сегментации PvP по платформе нет |
@@ -107,7 +108,8 @@
 ### §2.3 Части
 `eyes`,`ears` → пассив только.  
 `muzzle`,`headwear`,`back`,`tail` → по 1 карте.  
-Колода котика = 4. Команда = до 12 (+ `meow?` мусор).
+Колода котика = **N=4**. Команда = до 12 (+ `meow?` мусор).  
+Мифик из питомника (§4.4) тоже несёт ровно **N=4** карт (сильнейшие из смеси родителей).
 
 ### §2.4 Статы
 `hp`, `spd`, `skill` (комбо `floor(atk*skill/500)` при ≥2 картах одним юнитом), `charm` (Последнее мяу).  
@@ -196,7 +198,23 @@ Season 28 days. Rating. Same anti-P2W. Soft-cap pendant/bow rarity optional via 
 ### §4.4 Post-SL stubs (UI only на SL)
 - Clan boss 8–12, 1 cat each, shared HP, turn-based  
 - Farm daily visit or crop rot (на SL: вкладка «Скоро»; 1 farm-cat в инвентаре без сбора — §5.1). **Зоны усадьбы (HUD stub / Phase 6):** грядки (пшеница · травы · бахча/мята), сад, **рыбная заводя**, лесопилка (дровосек), рудник (шахтёр), карьер (каменотёс), кузня (кузнец), склад алхимика. Сбор/крафт на SL = tip, не live loop.  
-- Nursery breed with ingredients  
+- **Nursery / скрещивание** (SL: форма + tip, без live breed; Phase 6 — authority на сервере):
+
+#### §4.4.1 Питомник — core fantasy (LOCKED)
+**Цель игрока:** превращать **обычных** котов в **мифических** через скрещивание.  
+Не free unlimited breeding: коты/мифики остаются редкими (prefs + UI tip).
+
+| Правило | Значение |
+|---|---|
+| Вход | 2 родителя (обычные или выше) + breeding ingredients (Shop / farm post-SL) |
+| Шанс мифика | **Малый** (`nursery_mythic_chance`, LiveOps; дефолт низкий, не «часто») |
+| Не-мифик исход | Обычный кот (не гарантированный power-creep); детали non-mythic kit — LiveOps Phase 6 |
+| Мифик · карты | Пул = до **8** карт родителей (4+4). Из пула берутся **N=4 сильнейшие** → сет мифика |
+| Сила карты | LiveOps `card_power` (дефолт: `atk + shield`; tie-break `cardId` asc). Не клиент |
+| Мифик · прочее | `rarity: mythic`, `origin: nursery`; роль/стихия/части — серверный resolve Phase 6 (не выдумывать на SL) |
+| SL UI | Экран `breeding` / Soon «Питомник» показывает tip core fantasy; CTA gated («Подними ранг» / «Скоро») |
+
+**MUST NOT:** клиент как SoT награды/набора карт мифика; NFT/mint язык; безлимитный free breed.
 
 ### §4.5 Бой гильдий (GvG)
 Guild vs guild (клан vs клан). Сторона выставляет **3–12** котов. Soft currency only; без крипты.  
@@ -292,7 +310,8 @@ parts: {eyes,ears,muzzle,headwear,back,tail}, // partIds
 pendantId?, bowByPart: {muzzle?, headwear?, back?, tail?},
 rarity, origin: starter|farm|jar|workshop|nursery
 ```
-`origin: farm` — инвентарный farm-cat (§5.1); на SL без crop-геймплея.
+`origin: farm` — инвентарный farm-cat (§5.1); на SL без crop-геймплея.  
+`origin: nursery` + `rarity: mythic` — мифик из скрещивания (§4.4.1); колода = N=4 сильнейших карт смеси родителей.
 
 ### §7.2 CardDef (data-driven)
 ```
@@ -435,7 +454,7 @@ Assets/
 | 3 PvP+$ | дуэли, арена, магазин, пасс, ads, pity |
 | 4 Soft launch | §13 зелёный на ограниченном гео (ops allowlist + device smoke; CDN signed JSON); кросс-плей в одном матчмейкинг-пуле; Steam — целевой PC-канал (сборка/дистрибуция, без обязательного store SDK в SL-gate) |
 | 5 Clans/boss | North Star жив |
-| 6 Farm/nursery | daily retention loop |
+| 6 Farm/nursery | daily retention + **core fantasy** breed→mythic (§0, §4.4.1) |
 | 7 LiveOps seasons | контент без смены ядра |
 
 ---
@@ -462,4 +481,4 @@ CI: schema validate card JSON; battle golden replays; client compile.
 
 ---
 
-*Конец SSOT v1.2. Механика-расширение и лор — приложения, не дублировать сюда.*
+*Конец SSOT v1.6. Механика-расширение и лор — приложения, не дублировать сюда.*
