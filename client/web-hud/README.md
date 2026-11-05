@@ -2,48 +2,34 @@
 
 Тонкий браузерный клиент против `battle/cmd/devapi` + LiveOps CDN stub.
 
-**UI status:** old Stitch design pack removed from `main`. Visual screens await a clean new Stitch import. Kept: `server.mjs` proxy, `public/app.js` battle/nav wire logic, minimal chrome + `#wireDock` shell, `public/content/` JSON.
+**UI:** Stitch packs **0268 + 64d5** (Дом Хранителя / персонаж / коллекции / сеты / крафт / питомник / кодекс / ферма + login/hub). Остальные IA-маршруты — placeholder hosts. Formation — **inline** (не вкладка Бои). Home без порталов (chrome `#appNav`).
 
-- LiveOps CDN stub → `:8090`
-- `battle/cmd/devapi` → `:8081`
-- этот HUD → `:8088` (проксирует оба API, без CORS)
+**Layout:** landscape; same form size (16:9 `#app` stage); blocks filled; single flush level (`.mythfel-form`).
 
-Боевые числа и результат — только из `stateDiff` сервера (§3.6 / §8.2). Клиент не считает урон/награды.
+Боевые числа и результат — только из `stateDiff` сервера (§3.6 / §8.2).
 
 ## Запуск
 
-Из корня репо (нужны Go + Node 20+):
+Из корня репо (нужны Go + Node 20+) — **только по явной команде Andrew**:
 
 ```bash
 ./qa/run-web-hud.sh
+# → http://127.0.0.1:8088/?region=RU
 ```
 
-Или вручную в трёх терминалах:
+## Rebuild Stitch
 
 ```bash
-# 1) LiveOps
-cd liveops && go run ./cmd/cdn-stub -addr 127.0.0.1:8090 -geo soft-launch/geo_allowlist.example.json
-
-# 2) Battle
-cd battle && go run ./cmd/devapi -addr 127.0.0.1:8081 -content ../content
-
-# 3) HUD
-cd client/web-hud && node server.mjs
-# → http://127.0.0.1:8088/
+cd client/web-hud
+npm run vendor-stitch   # download aida-public + rewrite → local
+npm run build-stitch    # design/stitch-src → public/index.html + public/stitch/
+npm run verify-nav      # static graph; HTTP optional if HUD up
 ```
 
-Переменные HUD-сервера: `HUD_ADDR` (default `0.0.0.0`), `HUD_PORT` (8088), `BATTLE_URL`, `LIVEOPS_URL`.
-
-Регион soft-launch: `?region=RU` (header `X-Client-Region`).
+Карта экранов: `design/SCREEN-MAP.md`.
 
 ## Stub / вне скоупа
 
-- Nakama auth, инвентарь, лимиты bowls/tickets, IAP, гача RNG
-- Unity / WebGL, арт Addressables
-- Реальный матчмейкинг PvP (только local autoPlay)
-- Ферма / питомник / клан-босс геймплей (только «Скоро»)
-- Production CDN signature
-- Маркетплейс за деньги / крипта (запрещено §1)
-- Painted Stitch screens (awaiting re-import)
-
-См. также: `qa/DEVICE_SMOKE.md`, корневой `ЗАПУСК.md` §3.
+- Nakama auth, IAP, гача RNG, real PvP MM
+- Farm / nursery / clan-boss gameplay (Soon)
+- Painted mocks ещё не в паках: yard, tavern milk, shop/market/auction, battle/results, chats, ratings, equip_cards, guild, practice, pass, dungeons/raid

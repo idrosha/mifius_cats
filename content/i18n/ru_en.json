@@ -536,8 +536,8 @@
     "en": "Defeat in battle"
   },
   "nav.primary.character": {
-    "ru": "Персонаж",
-    "en": "Character"
+    "ru": "Дом Хранителя",
+    "en": "Keeper Home"
   },
   "nav.primary.combat": {
     "ru": "Бои",
@@ -568,8 +568,8 @@
     "en": "Gear"
   },
   "nav.sub.home": {
-    "ru": "Дом",
-    "en": "Home"
+    "ru": "Персонаж",
+    "en": "Character"
   },
   "nav.sub.farm": {
     "ru": "Ферма",
