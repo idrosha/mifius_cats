@@ -535,6 +535,12 @@ function pvpUnlocked() {
   return totalUnlockWins() >= unlockN();
 }
 
+function hideGateTip() {
+  const banner = $("gateTipBanner");
+  if (banner) banner.classList.add("hidden");
+  clearTimeout(hideGateTip._t);
+}
+
 function showGateTip(custom) {
   const msg = custom || t("gate.tip.rank", GATE_TIP);
   toast(msg);
@@ -542,6 +548,9 @@ function showGateTip(custom) {
   if (banner) {
     banner.textContent = msg;
     banner.classList.remove("hidden");
+    clearTimeout(hideGateTip._t);
+    // Never leave an orphan tip button floating on Tavern/Home after a gated click.
+    hideGateTip._t = setTimeout(() => hideGateTip(), 2400);
   }
 }
 
@@ -711,7 +720,9 @@ function wireModeFor(viewId) {
 }
 
 function showView(id) {
-  for (const el of document.querySelectorAll("main > section")) {
+  // ONLY top-level stage hosts under #app — never nested Stitch <main><section>
+  // (old "main > section" hid home/hub/equip body columns → brown void + float panel).
+  for (const el of document.querySelectorAll("#app > section")) {
     el.classList.toggle("hidden", el.id !== id);
   }
   // Keep logical aliases present for verify-nav probes
@@ -751,6 +762,7 @@ function navigate(tab, { soon = null, clearBattle = true, primary = null, fromGa
 
   // Day-1: all forms present. Gated tabs still open, but tip on entry for meta gates.
   const navTab = findNavForTab(tab)?.tabs?.find((x) => x.id === tab) || TABS.find((x) => x.id === tab);
+  let tipShown = false;
   if (tab === "breeding") {
     showGateTip(
       t(
@@ -758,12 +770,16 @@ function navigate(tab, { soon = null, clearBattle = true, primary = null, fromGa
         "Питомник: обычные → мифики (малый шанс). Пока — подними ранг в боях",
       ),
     );
+    tipShown = true;
   } else if (navTab?.gated && tab !== "pvp") {
     showGateTip();
+    tipShown = true;
   }
   if (tab === "pvp" && !pvpUnlocked()) {
     showGateTip(t("gate.tip.pvp", "PvP откроется после 3 побед в Мифмире или тренировке"));
+    tipShown = true;
   }
+  if (!tipShown) hideGateTip();
 
   state.tab = tab;
   state.soon = soon;
@@ -1822,22 +1838,20 @@ function renderHome() {
   state.selectedCatId = cat.catId;
   const stats = statsForCat(cat);
   const eq = state.equippedByCat[cat.catId] || {};
-  ensureHudPanel(
-    "viewHome",
-    "homeEquipPanel",
-    `<div class="mythfel-panel-head"><strong>Персонаж · экип live</strong><span class="meta">${cat.templateId}</span></div>
-     <div id="homeCatPicker" class="mythfel-panel-actions"></div>
-     <div id="homeStatBlock" class="mythfel-stat-grid"></div>
-     <div id="homeGearBlock" class="mythfel-panel-grid"></div>`,
-  );
+
+  // Drop legacy floating debug panel if present from older HUD builds.
+  $("homeEquipPanel")?.remove();
+
   const picker = $("homeCatPicker");
   if (picker) {
     picker.innerHTML = "";
-    for (const c of cats.filter((x) => x.role !== "farm").slice(0, 8)) {
+    for (const c of cats.filter((x) => x.role !== "farm").slice(0, 12)) {
       const b = document.createElement("button");
       b.type = "button";
       b.className = "wire-btn" + (c.catId === cat.catId ? " active" : "");
-      b.textContent = `${c.role} · ${c.element}`;
+      b.style.width = "100%";
+      b.style.textAlign = "left";
+      b.innerHTML = `<strong>${c.templateId || c.catId}</strong><div class="meta">${c.role} · ${c.element}</div>`;
       b.addEventListener("click", () => {
         state.selectedCatId = c.catId;
         renderHome();
@@ -1845,6 +1859,31 @@ function renderHome() {
       picker.appendChild(b);
     }
   }
+
+  const hero = $("homeHeroCard");
+  if (hero) {
+    const worn = Object.entries(eq)
+      .filter(([, id]) => id)
+      .map(([slot, id]) => {
+        const item = state.gearCatalog.find((g) => g.id === id);
+        return item ? `${slot}: ${item.name}` : null;
+      })
+      .filter(Boolean);
+    hero.innerHTML = `
+      <div>
+        <p class="text-[10px] uppercase tracking-widest text-[#fdba45] font-bold">Активный кот</p>
+        <h3 class="text-lg font-black text-[#fdba45]">${cat.templateId}</h3>
+        <p class="text-sm text-[#d5c4af]">${cat.role} · ${cat.element}</p>
+      </div>
+      <div class="mythfel-stat-grid">
+        <div><span>ATK</span><strong>${stats.atk}</strong><em>+${stats.bonus.atk}</em></div>
+        <div><span>HP</span><strong>${stats.hp}</strong><em>+${stats.bonus.hp}</em></div>
+        <div><span>DEF</span><strong>${stats.def}</strong><em>+${stats.bonus.def}</em></div>
+        <div><span>SPD</span><strong>${stats.spd}</strong><em>+${stats.bonus.spd}</em></div>
+      </div>
+      <div class="text-xs text-[#d5c4af]">${worn.length ? worn.join(" · ") : "Экип пуст — надень R1 из инвентаря →"}</div>`;
+  }
+
   const statBlock = $("homeStatBlock");
   if (statBlock) {
     statBlock.innerHTML = `
@@ -1853,6 +1892,7 @@ function renderHome() {
       <div><span>DEF</span><strong>${stats.def}</strong><em>+${stats.bonus.def}</em></div>
       <div><span>SPD</span><strong>${stats.spd}</strong><em>+${stats.bonus.spd}</em></div>`;
   }
+
   const gearBlock = $("homeGearBlock");
   if (gearBlock) {
     gearBlock.innerHTML = "";

@@ -1,671 +1,93 @@
 <section id="viewHome" class="stitch-view mythfel-form hidden" data-stitch="home" data-layout="landscape">
-<!-- BEGIN: MainHeader -->
-<header class="w-full bg-[#110e0c] border-b border-[#3c2f25] shadow-lg sticky top-0 z-50">
-<!-- Top row: Brand, Quick Status, Currencies, Player Profile -->
-<div class="px-4 py-2 flex items-center justify-between gap-4 border-b border-[#2a2119]">
-<!-- Brand & Server Status -->
-<div class="flex items-center gap-3">
-<div class="w-9 h-9 rounded-lg bg-gradient-to-br from-amber-500 to-amber-700 flex items-center justify-center font-fantasy font-black text-black shadow-glow-gold text-lg">
-          М
+<!-- Character desk: cat select + equip + inventory — landscape flush (prefs / SCREEN-MAP) -->
+  <main class="w-full h-full min-h-0 flex flex-col p-3 gap-3" data-purpose="character-home">
+    <header class="flex flex-wrap items-end justify-between gap-3 shrink-0 border-b border-[#3c2f25] pb-2">
+      <div>
+        <p class="text-[10px] uppercase tracking-widest text-amber-400 font-bold">Дом Хранителя · Персонаж</p>
+        <h1 class="font-fantasy text-xl sm:text-2xl font-black text-amber-400 tracking-wide">Кот · экип · инвентарь</h1>
+        <p class="text-sm text-neutral-400 max-w-2xl">
+          Выбери кота из отряда, надень серую броню и когти R1 — статы обновляются сразу. Без порталов на экране: только верхнее меню.
+        </p>
+      </div>
+      <div class="flex flex-wrap gap-2 text-xs font-semibold">
+        <div class="flex items-center gap-1.5 bg-black/40 px-2.5 py-1 rounded border border-amber-900/40" title="Рыба">
+          <span aria-hidden="true">🐟</span><span class="text-amber-300">14,850</span>
         </div>
-<div>
-<h1 class="text-sm font-fantasy font-bold tracking-wider text-amber-400 leading-none">МИФИУС: МИФИЧЕСКИЕ КОТИКИ</h1>
-<p class="text-[11px] text-neutral-400 flex items-center gap-1.5 mt-0.5">
-<span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-            Очаг Мурр-1 • Пинг 24 мс (ONLINE)
-          </p>
-</div>
-</div>
-<!-- Center Sub-Status: Forge Flame Buff -->
-<div class="hidden xl:flex items-center gap-2 px-3 py-1 bg-tavern-850 border border-amber-900/60 rounded-full text-xs">
-<span class="text-amber-400 font-bold flex items-center gap-1">
-<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24"><path d="M17.66 11.2C17.43 10.9 17.15 10.64 16.89 10.38C16.22 9.78 15.46 9.35 14.82 8.72C13.33 7.26 13 4.85 13.95 3C13 3.23 12.17 3.75 11.46 4.32C8.87 6.4 7.85 10.07 9.07 13.22C9.11 13.32 9.15 13.42 9.15 13.55C9.15 13.77 9 13.97 8.8 14.05C8.57 14.15 8.33 14.09 8.14 13.93C8.08 13.88 8.04 13.83 8 13.76C6.87 12.33 6.69 10.28 7.45 8.64C5.78 10.42 4.95 12.97 5.32 15.44C5.77 18.37 8.05 20.73 11 21C14.74 21.34 18 18.42 18.23 14.71C18.33 13.47 18.12 12.28 17.66 11.2Z"></path></svg>
-          Наковальня Хранителя:
-        </span>
-<span class="text-emerald-400 font-semibold">Пламя Готово</span>
-<span class="text-neutral-400 text-[11px]">(+5% к шансу заточки)</span>
-</div>
-<!-- Resource Header -->
-<div class="flex items-center gap-4 text-xs font-semibold">
-<!-- Gold -->
-<div class="flex items-center gap-1.5 bg-black/40 px-2.5 py-1 rounded border border-amber-900/40" title="Золотые монеты">
-<span class="text-base leading-none">🪙</span>
-<span class="text-amber-300">14,850</span>
-</div>
-<!-- Yarn -->
-<div class="flex items-center gap-1.5 bg-black/40 px-2.5 py-1 rounded border border-neutral-800" title="Клубки магии">
-<span class="text-base leading-none">🧶</span>
-<span class="text-cyan-300">920</span>
-</div>
-<!-- Energy -->
-<div class="flex items-center gap-1.5 bg-black/40 px-2.5 py-1 rounded border border-neutral-800" title="Энергия мурлыканья">
-<span class="text-base leading-none">⚡</span>
-<span class="text-yellow-400">85<span class="text-neutral-500 font-normal">/100</span></span>
-<span class="text-[10px] text-neutral-400 font-normal ml-0.5">(+1: 04:12)</span>
-</div>
-<!-- Mythic Crystals -->
-<div class="flex items-center gap-1.5 bg-black/40 px-2.5 py-1 rounded border border-purple-900/50" title="Мифические кристаллы">
-<span class="text-base leading-none">💎</span>
-<span class="text-fuchsia-300">385</span>
-</div>
-<!-- Notification & Settings Icons -->
-<div class="flex items-center gap-2 pl-2 border-l border-neutral-800">
-<button class="w-8 h-8 rounded bg-tavern-850 hover:bg-tavern-700 text-neutral-300 hover:text-amber-400 flex items-center justify-center transition border border-[#3c2f25]" title="Уведомления">
-<svg class="w-4 h-4 fill-current" viewbox="0 0 24 24"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.63-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.64 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"></path></svg>
-</button>
-<button class="w-8 h-8 rounded bg-tavern-850 hover:bg-tavern-700 text-neutral-300 hover:text-amber-400 flex items-center justify-center transition border border-[#3c2f25]" title="Настройки">
-<svg class="w-4 h-4 fill-current" viewbox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58c.18-.14.23-.41.12-.61l-1.92-3.32c-.12-.22-.37-.29-.59-.22l-2.39.96c-.5-.38-1.03-.7-1.62-.94l-.36-2.54c-.04-.24-.24-.41-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96c-.22-.08-.47 0-.59.22L2.74 8.87c-.12.21-.08.47.12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58c-.18.14-.23.41-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.38 1.03.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.56 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"></path></svg>
-</button>
-</div>
-</div>
-</div>
-<!-- Main Navigation Bar (Cleaned, without squad pills) -->
-<nav class="px-4 py-1.5 flex items-center justify-between text-xs font-semibold bg-[#161210]">
-<div class="flex items-center gap-1 sm:gap-2">
-<a class="px-3 py-1.5 rounded text-neutral-400 hover:text-neutral-200 hover:bg-tavern-800 transition" href="#">Главный Хаб</a>
-<a class="px-3 py-1.5 rounded text-amber-300 bg-amber-500/20 border border-amber-500/50 shadow-sm font-bold" href="#">Персонаж / Дом</a>
-<a class="px-3 py-1.5 rounded text-neutral-400 hover:text-neutral-200 hover:bg-tavern-800 transition" href="#">Экипировка</a>
-<a class="px-3 py-1.5 rounded text-neutral-400 hover:text-neutral-200 hover:bg-tavern-800 transition" href="#">Инвентарь</a>
-<a class="px-3 py-1.5 rounded text-neutral-400 hover:text-neutral-200 hover:bg-tavern-800 transition" href="#">Угодья / Ферма</a>
-<a class="px-3 py-1.5 rounded text-neutral-400 hover:text-neutral-200 hover:bg-tavern-800 transition" href="#">Крафт</a>
-<a class="px-3 py-1.5 rounded text-neutral-400 hover:text-neutral-200 hover:bg-tavern-800 transition" href="#">Поход (PvE)</a>
-<a class="px-3 py-1.5 rounded text-neutral-400 hover:text-neutral-200 hover:bg-tavern-800 transition text-rose-300 hover:text-rose-200" href="#">Арена (PvP)</a>
-</div>
-<div class="hidden sm:flex items-center gap-2 text-neutral-400 text-[11px]">
-<span class="inline-block w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-<span class="">Покои Героя • Режим снаряжения</span>
-</div>
-</nav>
-</header>
-<!-- END: MainHeader -->
-<!-- BEGIN: MainContentGrid -->
-<main class="p-3 lg:p-4 max-w-[1720px] mx-auto grid grid-cols-12 gap-3 lg:gap-4 items-stretch">
-<!-- ========================================== -->
-<!-- LEFT COLUMN: Hero Detail Stats & Builds    -->
-<!-- ========================================== -->
-<section class="col-span-12 lg:col-span-3 flex flex-col justify-between" data-purpose="hero-stats-and-roster">
-<!-- Selected Cat Headline & Full Stat Card -->
-<div class="wood-panel rounded-xl p-3.5 border border-[#3c2f25] relative overflow-hidden flex flex-col justify-between h-full">
-<div class="absolute -right-6 -bottom-6 w-36 h-36 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
-<div>
-<div class="flex items-start justify-between">
-<div class="flex items-center gap-3">
-<!-- Avatar Frame with Real Cat Hero Portrait /stitch-ref/64d5/breeding_altar.png -->
-<div class="w-14 h-14 rounded-lg border-2 border-amber-400 bg-gradient-to-br from-amber-700 via-tavern-900 to-black p-0.5 shadow-glow-gold relative overflow-hidden flex-shrink-0">
-<img alt="Аватар Барсика" class="w-full h-full object-cover rounded" src="/stitch-ref/64d5/breeding_altar.png"/>
-<span class="absolute -bottom-0.5 -right-0.5 bg-amber-500 text-black text-[10px] font-black px-1.5 rounded-tl shadow">50</span>
-</div>
-<div>
-<div class="flex items-center gap-1.5 text-xs text-amber-400 font-semibold">
-<span class="">⚡ Громовая Стихия</span>
-<span class="text-neutral-500">•</span>
-<span class="text-neutral-300">Ассасин</span>
-</div>
-<h2 class="text-base font-bold text-white tracking-wide">Барсик Громовержец</h2>
-<div class="flex items-center gap-1 text-amber-400 text-xs">
-                ★★★★★ <span class="text-[10px] text-neutral-400 ml-1">5★ Ранг Мифический</span>
-</div>
-</div>
-</div>
-</div>
-<!-- Combat Power Big Banner -->
-<div class="mt-3 bg-black/60 rounded-lg p-2.5 border border-amber-900/40 flex items-center justify-between shadow-inner">
-<div>
-<span class="text-[10px] uppercase font-bold tracking-wider text-neutral-400 block">Боевая Мощь (БМ)</span>
-<span class="text-2xl font-black text-amber-400 tracking-tight font-sans">18,450 <span class="text-xs text-amber-500/80 font-normal">БМ</span></span>
-</div>
-<span class="px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-700 text-emerald-400 text-[11px] font-semibold">
-            +2,140 экип.
-          </span>
-</div>
-<!-- Detailed Stat Breakdown -->
-<div class="mt-3 space-y-1.5 text-xs">
-<!-- ATK -->
-<div class="flex items-center justify-between bg-tavern-900/80 px-2.5 py-1.5 rounded border border-[#2b221a]">
-<span class="text-neutral-400 flex items-center gap-1.5">
-<span class="text-rose-400 font-bold">⚔️</span> Атака (ATK)
-            </span>
-<span class="font-bold text-neutral-100">
-              5,200 <span class="text-emerald-400 text-[11px] font-normal">(+1,480)</span>
-</span>
-</div>
-<!-- HP -->
-<div class="flex items-center justify-between bg-tavern-900/80 px-2.5 py-1.5 rounded border border-[#2b221a]">
-<span class="text-neutral-400 flex items-center gap-1.5">
-<span class="text-emerald-400 font-bold">💚</span> Здоровье (HP)
-            </span>
-<span class="font-bold text-neutral-100">
-              16,800 <span class="text-emerald-400 text-[11px] font-normal">(+4,200)</span>
-</span>
-</div>
-<!-- DEF -->
-<div class="flex items-center justify-between bg-tavern-900/80 px-2.5 py-1.5 rounded border border-[#2b221a]">
-<span class="text-neutral-400 flex items-center gap-1.5">
-<span class="text-blue-400 font-bold">🛡️</span> Защита (DEF)
-            </span>
-<span class="font-bold text-neutral-100">
-              1,580 <span class="text-emerald-400 text-[11px] font-normal">(+540)</span>
-</span>
-</div>
-<!-- SPD -->
-<div class="flex items-center justify-between bg-tavern-900/80 px-2.5 py-1.5 rounded border border-[#2b221a]">
-<span class="text-neutral-400 flex items-center gap-1.5">
-<span class="text-cyan-400 font-bold">👟</span> Скорость (SPD)
-            </span>
-<span class="font-bold text-neutral-100">
-              115 <span class="text-emerald-400 text-[11px] font-normal">(+18)</span>
-</span>
-</div>
-<!-- Crit Chance & DMG -->
-<div class="flex items-center justify-between bg-tavern-900/80 px-2.5 py-1.5 rounded border border-[#2b221a]">
-<span class="text-neutral-400 flex items-center gap-1.5">
-<span class="text-yellow-400 font-bold">💥</span> Крит Шанс / Урон
-            </span>
-<span class="font-bold text-amber-300">
-              38% <span class="text-neutral-400 font-normal">/</span> 185%
-            </span>
-</div>
-<!-- Lightning Resist -->
-<div class="flex items-center justify-between bg-tavern-900/80 px-2.5 py-1.5 rounded border border-[#2b221a]">
-<span class="text-neutral-400 flex items-center gap-1.5">
-<span class="text-purple-400 font-bold">⚡</span> Сопротивление грозе
-            </span>
-<span class="font-bold text-neutral-200">
-              40%
-            </span>
-</div>
-</div>
-<!-- Set Bonuses -->
-<div class="mt-3 pt-2.5 border-t border-[#34271e] space-y-2">
-<div class="flex items-center justify-between text-[11px]">
-<span class="font-bold text-neutral-400 uppercase tracking-wider">Комплекты снаряжения</span>
-<span class="text-amber-400 font-semibold">2 Активны</span>
-</div>
-<!-- Set 1 -->
-<div class="bg-black/40 p-2 rounded border border-amber-500/30 text-xs">
-<div class="flex items-center justify-between font-semibold">
-<span class="text-amber-300 flex items-center gap-1">⚡ Громовой Коготь</span>
-<span class="text-amber-400 text-[11px] bg-amber-950/60 px-1.5 py-0.2 rounded border border-amber-700/50">4/4</span>
-</div>
-<p class="text-[11px] text-neutral-300 mt-1 leading-tight">
-              +25% к электрическому урону и шанс Цепной молнии при крит. ударе.
-            </p>
-</div>
-<!-- Set 2 -->
-<div class="bg-black/40 p-2 rounded border border-emerald-500/30 text-xs">
-<div class="flex items-center justify-between font-semibold">
-<span class="text-emerald-300 flex items-center gap-1">🛡️ Шерстяной Оберег</span>
-<span class="text-emerald-400 text-[11px] bg-emerald-950/60 px-1.5 py-0.2 rounded border border-emerald-700/50">2/2</span>
-</div>
-<p class="text-[11px] text-neutral-300 mt-1 leading-tight">
-              +12% к прочности щита на старте боя.
-            </p>
-</div>
-</div>
-</div>
-<!-- Equipment Action Quick Buttons -->
-<div class="mt-4 grid grid-cols-2 gap-2 pt-2.5 border-t border-[#34271e]">
-<button class="bg-gradient-to-b from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-bold py-2 px-2 rounded-lg text-xs shadow-glow-gold transition flex items-center justify-center gap-1.5">
-<span class="">✨</span> Лучшее
-</button>
-<button class="bg-tavern-800 hover:bg-tavern-700 text-neutral-300 hover:text-white font-semibold py-2 px-2 rounded-lg text-xs border border-[#3d2f24] transition flex items-center justify-center gap-1.5">
-<span class="">🔄</span> Снять всё
-</button>
-</div>
-</div>
-</section>
-<!-- ========================================== -->
-<!-- CENTER COLUMN: Full-Height Cat & 8 Items   -->
-<!-- ========================================== -->
-<section class="col-span-12 lg:col-span-6 flex flex-col gap-3" data-purpose="character-mannequin-viewport">
-<!-- Mannequin Showcase Stage with Full-Body Cat Illustration -->
-<div class="wood-panel rounded-xl p-3 border border-[#3c2f25] relative min-h-[510px] flex flex-col justify-between overflow-hidden shadow-2xl">
-<!-- Background Full-Height Cat Art (/stitch-assets/e7645f511867.jpg) -->
-<div class="absolute inset-0 z-0 overflow-hidden flex items-center justify-center bg-black">
-<img alt="Барсик Громовержец в таверне" class="w-full h-full object-cover object-center filter brightness-95" src="/stitch-assets/e7645f511867.jpg"/>
-<div class="absolute inset-0 bg-gradient-to-t from-[#0d0a08] via-transparent to-[#110e0c]/80 pointer-events-none"></div>
-<div class="absolute inset-0 bg-gradient-to-r from-[#0d0a08]/60 via-transparent to-[#0d0a08]/60 pointer-events-none"></div>
-</div>
-<!-- Top Tool Strip -->
-<div class="relative z-10 flex items-center justify-between">
-<div class="flex items-center gap-2">
-<span class="px-2.5 py-1 rounded bg-black/75 backdrop-blur border border-amber-900/60 text-amber-300 font-bold text-xs flex items-center gap-1.5 shadow-lg">
-<svg class="w-3.5 h-3.5 fill-current" viewbox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"></path></svg>
-              Вид Снаряжения
-            </span>
-</div>
-<div class="flex items-center gap-2">
-<button class="p-1.5 rounded bg-black/75 backdrop-blur text-neutral-400 hover:text-amber-400 border border-neutral-800 transition" title="Вращать котика">
-<svg class="w-4 h-4 fill-current" viewbox="0 0 24 24"><path d="M12 6v3l4-4-4-4v3c-4.42 0-8 3.58-8 8 0 1.57.46 3.03 1.24 4.26L6.7 14.8c-.45-.83-.7-1.79-.7-2.8 0-3.31 2.69-6 6-6zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3c4.42 0 8-3.58 8-8 0-1.57-.46-3.03-1.24-4.26z"></path></svg>
-</button>
-<button class="p-1.5 rounded bg-black/75 backdrop-blur text-neutral-400 hover:text-amber-400 border border-neutral-800 transition" title="Скрыть интерфейс">
-<svg class="w-4 h-4 fill-current" viewbox="0 0 24 24"><path d="M12 4.5C7 4.5 2.73 7.61 1 12c1.73 4.39 6 7.5 11 7.5s9.27-3.11 11-7.5c-1.73-4.39-6-7.5-11-7.5zM12 17c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5zm0-8c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"></path></svg>
-</button>
-</div>
-</div>
-<!-- 8 Illustrated Equipment Slots Anchored Over Mannequin -->
-<div class="relative z-10 w-full flex-grow pointer-events-none">
-<!-- Top: Helmet (Шлем Бури) -> /stitch-ref/64d5/cat_portrait.png -->
-<div class="absolute top-1 left-1/2 -translate-x-1/2 flex flex-col items-center group cursor-pointer pointer-events-auto">
-<div class="w-14 h-14 p-0.5 rounded-xl bg-tavern-950/90 rune-frame slot-glow-mythic hover:scale-105 transition flex items-center justify-center relative overflow-hidden shadow-2xl">
-<img alt="Шлем Бури" class="w-full h-full object-cover rounded-lg" src="/stitch-ref/64d5/cat_portrait.png"/>
-<span class="absolute top-0.5 right-0.5 bg-amber-500 text-black text-[10px] font-black px-1 rounded shadow">+10</span>
-</div>
-<span class="text-[10px] font-bold text-amber-400 mt-1 drop-shadow bg-black/80 px-2 py-0.5 rounded border border-amber-900/40">Шлем Бури</span>
-<span class="text-[9px] text-emerald-400 font-semibold">✓ Надето</span>
-</div>
-<!-- Top-Left: Weapon (Кинжал Перуна) -> /stitch-ref/0268/gear.png -->
-<div class="absolute top-10 left-3 sm:left-7 flex flex-col items-center group cursor-pointer pointer-events-auto">
-<div class="w-14 h-14 p-0.5 rounded-xl bg-tavern-950/90 rune-frame slot-glow-mythic hover:scale-105 transition flex items-center justify-center relative overflow-hidden shadow-2xl">
-<img alt="Кинжал Перуна" class="w-full h-full object-cover rounded-lg" src="/stitch-ref/0268/gear.png"/>
-<span class="absolute top-0.5 right-0.5 bg-amber-500 text-black text-[10px] font-black px-1 rounded shadow">+12</span>
-</div>
-<span class="text-[10px] font-bold text-amber-400 mt-1 drop-shadow bg-black/80 px-2 py-0.5 rounded border border-amber-900/40">Кинжал Перуна</span>
-<span class="text-[9px] text-emerald-400 font-semibold">✓ Надето</span>
-</div>
-<!-- Top-Right: Armor (Кираса Саламандры) -> /stitch-ref/0268/home.png -->
-<div class="absolute top-10 right-3 sm:right-7 flex flex-col items-center group cursor-pointer pointer-events-auto">
-<div class="w-14 h-14 p-0.5 rounded-xl bg-tavern-950/90 rune-frame slot-glow-mythic hover:scale-105 transition flex items-center justify-center relative overflow-hidden shadow-2xl">
-<img alt="Кираса Саламандры" class="w-full h-full object-cover rounded-lg" src="/stitch-ref/0268/home.png"/>
-<span class="absolute top-0.5 right-0.5 bg-amber-500 text-black text-[10px] font-black px-1 rounded shadow">+12</span>
-</div>
-<span class="text-[10px] font-bold text-amber-400 mt-1 drop-shadow bg-black/80 px-2 py-0.5 rounded border border-amber-900/40">Кираса Саламандры</span>
-<span class="text-[9px] text-emerald-400 font-semibold">✓ Надето</span>
-</div>
-<!-- Mid-Left: Collar (Ошейник Сапфира) -> /stitch-ref/0268/home.png -->
-<div class="absolute top-1/2 -translate-y-9 left-2 sm:left-5 flex flex-col items-center group cursor-pointer pointer-events-auto">
-<div class="w-14 h-14 p-0.5 rounded-xl bg-tavern-950/90 rune-frame slot-glow-epic hover:scale-105 transition flex items-center justify-center relative overflow-hidden shadow-2xl">
-<img alt="Ошейник Сапфира" class="w-full h-full object-cover rounded-lg" src="/stitch-ref/0268/home.png"/>
-<span class="absolute top-0.5 right-0.5 bg-purple-500 text-white text-[10px] font-black px-1 rounded shadow">+9</span>
-</div>
-<span class="text-[10px] font-bold text-purple-300 mt-1 drop-shadow bg-black/80 px-2 py-0.5 rounded border border-purple-900/40">Ошейник Сапфира</span>
-<span class="text-[9px] text-emerald-400 font-semibold">✓ Надето</span>
-</div>
-<!-- Mid-Right: Belt (Пояс Исследователя) -> /stitch-ref/64d5/cat_portrait.png -->
-<div class="absolute top-1/2 -translate-y-9 right-2 sm:right-5 flex flex-col items-center group cursor-pointer pointer-events-auto">
-<div class="w-14 h-14 p-0.5 rounded-xl bg-tavern-950/90 rune-frame slot-glow-uncommon hover:scale-105 transition flex items-center justify-center relative overflow-hidden shadow-2xl">
-<img alt="Пояс Исследователя" class="w-full h-full object-cover rounded-lg" src="/stitch-ref/64d5/cat_portrait.png"/>
-<span class="absolute top-0.5 right-0.5 bg-emerald-500 text-black text-[10px] font-black px-1 rounded shadow">+8</span>
-</div>
-<span class="text-[10px] font-bold text-emerald-300 mt-1 drop-shadow bg-black/80 px-2 py-0.5 rounded border border-emerald-900/40">Пояс Исследователя</span>
-<span class="text-[9px] text-emerald-400 font-semibold">✓ Надето</span>
-</div>
-<!-- Bottom-Left: Ring (Перстень Солнца) -> /stitch-ref/0268/gear.png -->
-<div class="absolute bottom-2 left-4 sm:left-9 flex flex-col items-center group cursor-pointer pointer-events-auto">
-<div class="w-14 h-14 p-0.5 rounded-xl bg-tavern-950/90 rune-frame slot-glow-mythic hover:scale-105 transition flex items-center justify-center relative overflow-hidden shadow-2xl">
-<img alt="Перстень Солнца" class="w-full h-full object-cover rounded-lg" src="/stitch-ref/0268/gear.png"/>
-<span class="absolute top-0.5 right-0.5 bg-amber-500 text-black text-[10px] font-black px-1 rounded shadow">+12</span>
-</div>
-<span class="text-[10px] font-bold text-amber-400 mt-1 drop-shadow bg-black/80 px-2 py-0.5 rounded border border-amber-900/40">Перстень Солнца</span>
-<span class="text-[9px] text-emerald-400 font-semibold">✓ Надето</span>
-</div>
-<!-- Bottom-Center: Boots (Мягкие Сапожки) -> /stitch-ref/0268/home.png -->
-<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 flex flex-col items-center group cursor-pointer pointer-events-auto">
-<div class="w-14 h-14 p-0.5 rounded-xl bg-tavern-950/90 rune-frame slot-glow-rare hover:scale-105 transition flex items-center justify-center relative overflow-hidden shadow-2xl">
-<img alt="Мягкие Сапожки" class="w-full h-full object-cover rounded-lg" src="/stitch-ref/0268/home.png"/>
-<span class="absolute top-0.5 right-0.5 bg-blue-500 text-white text-[10px] font-black px-1 rounded shadow">+8</span>
-</div>
-<span class="text-[10px] font-bold text-blue-300 mt-1 drop-shadow bg-black/80 px-2 py-0.5 rounded border border-blue-900/40">Мягкие Сапожки</span>
-<span class="text-[9px] text-emerald-400 font-semibold">✓ Надето</span>
-</div>
-<!-- Bottom-Right: Bell (Бубенец Удачи) -> /stitch-ref/64d5/cat_portrait.png -->
-<div class="absolute bottom-2 right-4 sm:right-9 flex flex-col items-center group cursor-pointer pointer-events-auto">
-<div class="w-14 h-14 p-0.5 rounded-xl bg-tavern-950/90 rune-frame slot-glow-epic hover:scale-105 transition flex items-center justify-center relative overflow-hidden shadow-2xl">
-<img alt="Бубенец Удачи" class="w-full h-full object-cover rounded-lg" src="/stitch-ref/64d5/cat_portrait.png"/>
-<span class="absolute top-0.5 right-0.5 bg-purple-500 text-white text-[10px] font-black px-1 rounded shadow">+11</span>
-</div>
-<span class="text-[10px] font-bold text-purple-300 mt-1 drop-shadow bg-black/80 px-2 py-0.5 rounded border border-purple-900/40">Бубенец Удачи</span>
-<span class="text-[9px] text-emerald-400 font-semibold">✓ Надето</span>
-</div>
-</div>
-<!-- Quick Set Bonus Footnote -->
-<div class="relative z-10 bg-black/75 backdrop-blur border border-neutral-800 rounded-md p-1.5 text-center text-[11px] text-neutral-300">
-          Активен набор экипировки: <strong class="text-amber-400 font-semibold">«Громовой Коготь» (4 из 4 предметов)</strong>
-</div>
-</div>
-<!-- Quick Item Inspect & Upgrade Bar (Кузница) -->
-<div class="wood-panel rounded-xl p-3 border border-[#3c2f25]">
-<div class="flex flex-col sm:flex-row items-center justify-between gap-3">
-<!-- Selected Weapon Info with Real Weapon Illustration /stitch-ref/0268/gear.png -->
-<div class="flex items-center gap-3">
-<div>
-<div class="flex items-center gap-2">
-<span class="text-[10px] uppercase font-bold text-amber-400 bg-amber-950/70 border border-amber-700/60 px-1.5 py-0.2 rounded">Мифический Ранг</span>
-<span class="text-[11px] text-neutral-400">Оружие когтей</span>
-</div>
-<h3 class="text-sm font-bold text-white tracking-wide">Громовой Кинжал Перуна +12</h3>
-<div class="flex items-center gap-3 text-[11px] text-neutral-300 mt-0.5">
-<span class="">Базовый урон: <strong class="text-amber-300">+680 ATK</strong></span>
-<span class="">Крит. вероятность: <strong class="text-amber-300">+12.4%</strong></span>
-<span class="text-cyan-400">Гнездо руны: Руна Бури I</span>
-</div>
-</div>
-</div>
-<!-- Forge Buttons -->
-<div class="flex items-center gap-2 w-full sm:w-auto justify-end">
-<button class="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-black font-bold px-3 py-2 rounded-lg text-xs shadow-glow-gold transition flex items-center gap-2">
-<svg class="w-4 h-4 fill-current" viewbox="0 0 24 24"><path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z"></path></svg>
-<div>
-<div class="">Заточить в Кузне (+13)</div>
-<div class="text-[10px] text-black/80 font-normal">Шанс: 75% • 1,200 🪙 40 🪵</div>
-</div>
-</button>
-<button class="bg-tavern-800 hover:bg-tavern-700 text-neutral-200 border border-[#3e3025] font-semibold px-2.5 py-2 rounded-lg text-xs transition" title="Инкрустировать руны">
-              💎 Инкрустировать
-            </button>
-</div>
-</div>
-</div>
-</section>
-<!-- ========================================== -->
-<!-- RIGHT COLUMN: Equipment Inventory Grid     -->
-<!-- ========================================== -->
-<section class="col-span-12 lg:col-span-3 flex flex-col justify-between" data-purpose="inventory-equipping-view">
-<div class="wood-panel rounded-xl p-3 border border-[#3c2f25] flex flex-col justify-between h-full">
-<div>
-<!-- Header & Capacity -->
-<div class="flex items-center justify-between pb-2 border-b border-[#30251d]">
-<div class="flex items-center gap-1.5">
-<span class="text-sm">🎒</span>
-<h3 class="text-xs font-bold text-neutral-200 uppercase tracking-wide">Инвентарь Снаряжения</h3>
-</div>
-<span class="text-[11px] text-neutral-400 font-medium">Склад: <strong class="text-amber-400">48</strong>/80</span>
-</div>
-<!-- Inventory Type Filter Tabs -->
-<div class="grid grid-cols-5 gap-1 my-2 text-[10px] font-semibold text-center">
-<button class="py-1 rounded bg-amber-500 text-black font-bold shadow">Все</button>
-<button class="py-1 rounded bg-tavern-850 hover:bg-tavern-800 text-neutral-400 hover:text-white transition">Оружие</button>
-<button class="py-1 rounded bg-tavern-850 hover:bg-tavern-800 text-neutral-400 hover:text-white transition">Шлемы</button>
-<button class="py-1 rounded bg-tavern-850 hover:bg-tavern-800 text-neutral-400 hover:text-white transition">Кирасы</button>
-<button class="py-1 rounded bg-tavern-850 hover:bg-tavern-800 text-neutral-400 hover:text-white transition">Амулеты</button>
-</div>
-<!-- Rarity Subfilter Pill Bar -->
-<div class="flex items-center justify-between pb-2 text-[10px] text-neutral-400">
-<span class="">Редкость:</span>
-<div class="flex items-center gap-1">
-<span class="px-1.5 py-0.5 rounded bg-tavern-800 text-neutral-300 font-medium cursor-pointer">Все</span>
-<span class="px-1.5 py-0.5 rounded bg-amber-950/70 border border-amber-500/40 text-amber-400 font-bold cursor-pointer">Миф</span>
-<span class="px-1.5 py-0.5 rounded bg-purple-950/70 border border-purple-500/40 text-purple-400 font-bold cursor-pointer">Эпик</span>
-<span class="px-1.5 py-0.5 rounded bg-blue-950/70 border border-blue-500/40 text-blue-400 font-bold cursor-pointer">Редк</span>
-</div>
-</div>
-<!-- 4x4 Inventory Grid with Real Illustrated Game Icons -->
-<div class="grid grid-cols-4 gap-2 overflow-y-auto max-h-[350px] p-1.5 bg-black/50 rounded-lg border border-[#2b211a]">
-<!-- Item 1: Mythic Dagger (Надето) -> /stitch-ref/0268/gear.png -->
-<div class="aspect-square rounded-lg bg-tavern-900 border-2 border-amber-500 relative overflow-hidden group cursor-pointer hover:border-amber-300 transition shadow-glow-gold">
-<img alt="Кинжал Перуна" class="w-full h-full object-cover" src="/stitch-ref/0268/gear.png"/>
-<span class="absolute top-0.5 right-0.5 text-[9px] bg-amber-500 text-black font-black px-1 rounded leading-none">+12</span>
-<div class="absolute bottom-0.5 left-0.5 w-2 h-2 rounded-full bg-emerald-400 border border-black" title="Надето"></div>
-</div>
-<!-- Item 2: Mythic Cleaver -> /stitch-ref/64d5/heroes.png -->
-<div class="aspect-square rounded-lg bg-tavern-900 border-2 border-amber-500 relative overflow-hidden group cursor-pointer hover:border-amber-300 transition">
-<img alt="Тесак Грома" class="w-full h-full object-cover" src="/stitch-ref/64d5/heroes.png"/>
-<span class="absolute top-0.5 right-0.5 text-[9px] bg-amber-500 text-black font-black px-1 rounded leading-none">+10</span>
-</div>
-<!-- Item 3: Epic Ring -> /stitch-ref/0268/gear.png -->
-<div class="aspect-square rounded-lg bg-tavern-900 border-2 border-purple-500 relative overflow-hidden group cursor-pointer hover:border-purple-300 transition">
-<img alt="Перстень" class="w-full h-full object-cover" src="/stitch-ref/0268/gear.png"/>
-<span class="absolute top-0.5 right-0.5 text-[9px] bg-purple-500 text-white font-black px-1 rounded leading-none">+10</span>
-</div>
-<!-- Item 4: Mythic Armor (Надето) -> /stitch-ref/0268/home.png -->
-<div class="aspect-square rounded-lg bg-tavern-900 border-2 border-amber-500 relative overflow-hidden group cursor-pointer hover:border-amber-300 transition shadow-glow-gold">
-<img alt="Кираса Саламандры" class="w-full h-full object-cover" src="/stitch-ref/0268/home.png"/>
-<span class="absolute top-0.5 right-0.5 text-[9px] bg-amber-500 text-black font-black px-1 rounded leading-none">+12</span>
-<div class="absolute bottom-0.5 left-0.5 w-2 h-2 rounded-full bg-emerald-400 border border-black" title="Надето"></div>
-</div>
-<!-- Item 5: Rare Belt -> /stitch-ref/64d5/cat_portrait.png -->
-<div class="aspect-square rounded-lg bg-tavern-900 border border-blue-500 relative overflow-hidden group cursor-pointer hover:border-blue-300 transition">
-<img alt="Пояс" class="w-full h-full object-cover" src="/stitch-ref/64d5/cat_portrait.png"/>
-<span class="absolute top-0.5 right-0.5 text-[9px] bg-blue-500 text-white font-black px-1 rounded leading-none">+7</span>
-</div>
-<!-- Item 6: Epic Shield -> /stitch-ref/0268/gear.png -->
-<div class="aspect-square rounded-lg bg-tavern-900 border border-purple-500 relative overflow-hidden group cursor-pointer hover:border-purple-300 transition">
-<img alt="Щит" class="w-full h-full object-cover" src="/stitch-ref/0268/gear.png"/>
-<span class="absolute top-0.5 right-0.5 text-[9px] bg-purple-500 text-white font-black px-1 rounded leading-none">+9</span>
-</div>
-<!-- Item 7: Rare Amulet -> /stitch-ref/0268/gear.png -->
-<div class="aspect-square rounded-lg bg-tavern-900 border border-blue-500 relative overflow-hidden group cursor-pointer hover:border-blue-300 transition">
-<img alt="Амулет" class="w-full h-full object-cover" src="/stitch-ref/0268/gear.png"/>
-<span class="absolute top-0.5 right-0.5 text-[9px] bg-blue-500 text-white font-black px-1 rounded leading-none">+9</span>
-</div>
-<!-- Item 8: Rare Boots (Надето) -> /stitch-ref/0268/home.png -->
-<div class="aspect-square rounded-lg bg-tavern-900 border border-emerald-500 relative overflow-hidden group cursor-pointer hover:border-emerald-300 transition shadow-glow-green">
-<img alt="Сапожки" class="w-full h-full object-cover" src="/stitch-ref/0268/home.png"/>
-<span class="absolute top-0.5 right-0.5 text-[9px] bg-emerald-500 text-black font-black px-1 rounded leading-none">+8</span>
-<div class="absolute bottom-0.5 left-0.5 w-2 h-2 rounded-full bg-emerald-400 border border-black" title="Надето"></div>
-</div>
-<!-- Item 9: Epic Bell (Надето) -> /stitch-ref/64d5/cat_portrait.png -->
-<div class="aspect-square rounded-lg bg-tavern-900 border border-purple-500 relative overflow-hidden group cursor-pointer hover:border-purple-300 transition shadow-glow-purple">
-<img alt="Бубенец" class="w-full h-full object-cover" src="/stitch-ref/64d5/cat_portrait.png"/>
-<span class="absolute top-0.5 right-0.5 text-[9px] bg-purple-500 text-white font-black px-1 rounded leading-none">+11</span>
-<div class="absolute bottom-0.5 left-0.5 w-2 h-2 rounded-full bg-emerald-400 border border-black" title="Надето"></div>
-</div>
-<!-- Item 10: Mythic Crown (Шлем) -> /stitch-ref/64d5/cat_portrait.png -->
-<div class="aspect-square rounded-lg bg-tavern-900 border border-amber-500 relative overflow-hidden group cursor-pointer hover:border-amber-300 transition">
-<img alt="Корона" class="w-full h-full object-cover" src="/stitch-ref/64d5/cat_portrait.png"/>
-<span class="absolute top-0.5 right-0.5 text-[9px] bg-amber-500 text-black font-black px-1 rounded leading-none">+10</span>
-</div>
-<!-- Item 11: Uncommon Bow -> /stitch-ref/64d5/heroes.png -->
-<div class="aspect-square rounded-lg bg-tavern-900 border border-emerald-500 relative overflow-hidden group cursor-pointer hover:border-emerald-300 transition">
-<img alt="Лук" class="w-full h-full object-cover" src="/stitch-ref/64d5/heroes.png"/>
-<span class="absolute top-0.5 right-0.5 text-[9px] bg-emerald-500 text-black font-black px-1 rounded leading-none">+5</span>
-</div>
-<!-- Item 12: Rare Staff -> /stitch-ref/0268/gear.png -->
-<div class="aspect-square rounded-lg bg-tavern-900 border border-rose-500 relative overflow-hidden group cursor-pointer hover:border-rose-300 transition">
-<img alt="Посох" class="w-full h-full object-cover" src="/stitch-ref/0268/gear.png"/>
-<span class="absolute top-0.5 right-0.5 text-[9px] bg-rose-500 text-white font-black px-1 rounded leading-none">+8</span>
-</div>
-<!-- Item 13: Uncommon Collar -> /stitch-ref/0268/home.png -->
-<div class="aspect-square rounded-lg bg-tavern-900 border border-emerald-500 relative overflow-hidden group cursor-pointer hover:border-emerald-300 transition">
-<img alt="Ошейник" class="w-full h-full object-cover" src="/stitch-ref/0268/home.png"/>
-<span class="absolute top-0.5 right-0.5 text-[9px] bg-emerald-500 text-black font-black px-1 rounded leading-none">+6</span>
-</div>
-<!-- Item 14: Reforge Material -> /stitch-ref/64d5/heroes.png -->
-<div class="aspect-square rounded-lg bg-tavern-900 border border-amber-600/50 relative overflow-hidden group cursor-pointer hover:border-amber-400 transition">
-<img alt="Материал" class="w-full h-full object-cover" src="/stitch-ref/64d5/heroes.png"/>
-<span class="absolute bottom-0.5 right-1 text-[9px] text-amber-300 font-bold bg-black/70 px-1 rounded">x12</span>
-</div>
-<!-- Item 15: Yarn Bundle -> /stitch-ref/0268/gear.png -->
-<div class="aspect-square rounded-lg bg-tavern-900 border border-cyan-700/50 relative overflow-hidden group cursor-pointer hover:border-cyan-400 transition">
-<img alt="Клубок" class="w-full h-full object-cover" src="/stitch-ref/0268/gear.png"/>
-<span class="absolute bottom-0.5 right-1 text-[9px] text-cyan-300 font-bold bg-black/70 px-1 rounded">x920</span>
-</div>
-<!-- Item 16: Empty Slot -->
-<div class="aspect-square rounded-lg bg-tavern-950/80 border border-dashed border-neutral-800 flex items-center justify-center text-neutral-600 hover:text-neutral-400 transition">
-<span class="text-base font-bold">+</span>
-</div>
-</div>
-</div>
-<!-- Quick Comparison Mini-Panel -->
-<div class="mt-2.5 pt-2.5 border-t border-[#30251d] text-xs">
-<div class="flex items-center justify-between text-[11px] font-semibold text-neutral-400 mb-1">
-<span class="">Быстрое сравнение оружия:</span>
-<span class="text-amber-400">Выбрано: Тесак +10</span>
-</div>
-<div class="bg-black/60 p-2 rounded-lg border border-neutral-800 grid grid-cols-2 gap-2 text-[11px]">
-<div>
-<span class="text-neutral-400 block font-medium">Надето: Кинжал (+12)</span>
-<span class="text-emerald-400 font-bold block">680 Атака</span>
-<span class="text-amber-300 font-medium block">+12.4% Крит</span>
-</div>
-<div class="border-l border-neutral-800 pl-2">
-<span class="text-amber-300 block font-medium">В сумке: Тесак (+10)</span>
-<span class="text-rose-400 font-bold block">620 Атака (-60)</span>
-<span class="text-emerald-400 font-medium block">+18.0% Крит (+5.6%)</span>
-</div>
-</div>
-<!-- Action bar -->
-<div class="grid grid-cols-2 gap-2 mt-2">
-<button class="bg-amber-500 hover:bg-amber-400 text-black font-bold py-1.5 rounded-lg text-xs transition shadow">
-              Надеть
-            </button>
-<button class="bg-tavern-850 hover:bg-tavern-700 text-neutral-300 border border-[#3b2d23] font-semibold py-1.5 rounded-lg text-xs transition">
-              Переплавить
-            </button>
-</div>
-</div>
-</div>
-</section>
-<!-- ========================================== -->
-<!-- BOTTOM SECTION: 6 Combat Skill Cards Deck  -->
-<!-- ========================================== -->
-<section class="col-span-12 wood-panel rounded-xl p-3 border border-[#3c2f25]" data-purpose="hero-battle-cards-deck">
-<div class="flex items-center justify-between mb-2.5 pb-1.5 border-b border-[#30251d]">
-<div class="flex items-center gap-2">
-<span class="text-amber-400 font-bold text-sm tracking-wide flex items-center gap-1.5">
-<span class="text-lg leading-none">🎴</span> Боевая Колода Барсика (6 Карт Умений Котика)
-          </span>
-<span class="text-xs text-neutral-400 hidden sm:inline">• Активна во всех боевых рейдах и на Арене</span>
-</div>
-<div class="flex items-center gap-3 text-xs">
-<span class="text-neutral-400">Стоимость колоды: <strong class="text-yellow-400">10 AP / ход</strong></span>
-<button class="text-amber-400 hover:text-amber-300 font-semibold underline text-xs">
-            Редактировать колоду
-          </button>
-</div>
-</div>
-<!-- 6 Combat Skill Cards Grid with Illustrated Ability Art -->
-<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-2.5">
-<!-- Card 1: Громовой Выпад -> /stitch-ref/64d5/heroes.png -->
-<article class="bg-gradient-to-b from-[#1f1915] to-[#120e0c] rounded-lg p-2.5 border border-amber-600/40 relative flex flex-col justify-between group hover:-translate-y-1 hover:border-amber-400 transition shadow-lg">
-<div class="flex items-start justify-between">
-<span class="w-6 h-6 rounded-full bg-amber-500 text-black font-black text-xs flex items-center justify-center shadow">1</span>
-<span class="text-[10px] uppercase font-bold text-amber-400 bg-amber-950/80 px-1.5 py-0.5 rounded">Атака</span>
-</div>
-<div class="my-2 text-center">
-<div class="w-12 h-12 mx-auto rounded-lg bg-black/60 border border-amber-500/40 overflow-hidden mb-1 shadow-inner flex items-center justify-center">
-<img alt="Громовой Выпад" class="w-full h-full object-cover group-hover:scale-110 transition" src="/stitch-ref/64d5/heroes.png"/>
-</div>
-<h4 class="text-xs font-bold text-neutral-100 group-hover:text-amber-300 transition">Громовой Выпад</h4>
-</div>
-<p class="text-[11px] text-neutral-400 leading-snug">
-            Наносит <strong class="text-amber-300">450 урона</strong> и накладывает <span class="text-cyan-300">Шок</span> на 2 хода.
-          </p>
-<div class="mt-2 pt-1 border-t border-neutral-800 text-[9px] text-neutral-500 flex justify-between">
-<span class="">КД: 0 ходов</span>
-<span class="">Шанс: 100%</span>
-</div>
-</article>
-<!-- Card 2: Теневой Бросок -> /stitch-ref/0268/gear.png -->
-<article class="bg-gradient-to-b from-[#1f1915] to-[#120e0c] rounded-lg p-2.5 border border-purple-600/40 relative flex flex-col justify-between group hover:-translate-y-1 hover:border-purple-400 transition shadow-lg">
-<div class="flex items-start justify-between">
-<span class="w-6 h-6 rounded-full bg-amber-500 text-black font-black text-xs flex items-center justify-center shadow">2</span>
-<span class="text-[10px] uppercase font-bold text-purple-400 bg-purple-950/80 px-1.5 py-0.5 rounded">Пробитие</span>
-</div>
-<div class="my-2 text-center">
-<div class="w-12 h-12 mx-auto rounded-lg bg-black/60 border border-purple-500/40 overflow-hidden mb-1 shadow-inner flex items-center justify-center">
-<img alt="Теневой Бросок" class="w-full h-full object-cover group-hover:scale-110 transition" src="/stitch-ref/0268/gear.png"/>
-</div>
-<h4 class="text-xs font-bold text-neutral-100 group-hover:text-purple-300 transition">Теневой Бросок</h4>
-</div>
-<p class="text-[11px] text-neutral-400 leading-snug">
-            Игнорирует <strong class="text-purple-300">50% брони</strong> цели и наносит двойной критический урон.
-          </p>
-<div class="mt-2 pt-1 border-t border-neutral-800 text-[9px] text-neutral-500 flex justify-between">
-<span class="">КД: 1 ход</span>
-<span class="">Шанс: Крит +20%</span>
-</div>
-</article>
-<!-- Card 3: Удар Молнии -> /stitch-ref/0268/gear.png -->
-<article class="bg-gradient-to-b from-[#1f1915] to-[#120e0c] rounded-lg p-2.5 border border-amber-600/40 relative flex flex-col justify-between group hover:-translate-y-1 hover:border-amber-400 transition shadow-lg">
-<div class="flex items-start justify-between">
-<span class="w-6 h-6 rounded-full bg-amber-500 text-black font-black text-xs flex items-center justify-center shadow">2</span>
-<span class="text-[10px] uppercase font-bold text-amber-400 bg-amber-950/80 px-1.5 py-0.5 rounded">Стихия</span>
-</div>
-<div class="my-2 text-center">
-<div class="w-12 h-12 mx-auto rounded-lg bg-black/60 border border-amber-500/40 overflow-hidden mb-1 shadow-inner flex items-center justify-center">
-<img alt="Удар Молнии" class="w-full h-full object-cover group-hover:scale-110 transition" src="/stitch-ref/0268/gear.png"/>
-</div>
-<h4 class="text-xs font-bold text-neutral-100 group-hover:text-amber-300 transition">Удар Молнии</h4>
-</div>
-<p class="text-[11px] text-neutral-400 leading-snug">
-            Наносит <strong class="text-amber-300">720 электро-урона</strong> по двум случайным врагам сразу.
-          </p>
-<div class="mt-2 pt-1 border-t border-neutral-800 text-[9px] text-neutral-500 flex justify-between">
-<span class="">КД: 2 хода</span>
-<span class="">Цели: 2</span>
-</div>
-</article>
-<!-- Card 4: Кошачьи Рефлексы -> /stitch-ref/64d5/heroes.png -->
-<article class="bg-gradient-to-b from-[#1f1915] to-[#120e0c] rounded-lg p-2.5 border border-cyan-600/40 relative flex flex-col justify-between group hover:-translate-y-1 hover:border-cyan-400 transition shadow-lg">
-<div class="flex items-start justify-between">
-<span class="w-6 h-6 rounded-full bg-amber-500 text-black font-black text-xs flex items-center justify-center shadow">1</span>
-<span class="text-[10px] uppercase font-bold text-cyan-400 bg-cyan-950/80 px-1.5 py-0.5 rounded">Бафф</span>
-</div>
-<div class="my-2 text-center">
-<div class="w-12 h-12 mx-auto rounded-lg bg-black/60 border border-cyan-500/40 overflow-hidden mb-1 shadow-inner flex items-center justify-center">
-<img alt="Кошачьи Рефлексы" class="w-full h-full object-cover group-hover:scale-110 transition" src="/stitch-ref/64d5/heroes.png"/>
-</div>
-<h4 class="text-xs font-bold text-neutral-100 group-hover:text-cyan-300 transition">Кошачьи Рефлексы</h4>
-</div>
-<p class="text-[11px] text-neutral-400 leading-snug">
-            Дарует <strong class="text-cyan-300">+35% Уклонения</strong> и <strong class="text-cyan-300">+15 Скорости</strong> котику на 2 хода.
-          </p>
-<div class="mt-2 pt-1 border-t border-neutral-800 text-[9px] text-neutral-500 flex justify-between">
-<span class="">КД: 2 хода</span>
-<span class="">Длительность: 2</span>
-</div>
-</article>
-<!-- Card 5: Шерстяной Щит -> /stitch-ref/64d5/cat_portrait.png -->
-<article class="bg-gradient-to-b from-[#1f1915] to-[#120e0c] rounded-lg p-2.5 border border-emerald-600/40 relative flex flex-col justify-between group hover:-translate-y-1 hover:border-emerald-400 transition shadow-lg">
-<div class="flex items-start justify-between">
-<span class="w-6 h-6 rounded-full bg-amber-500 text-black font-black text-xs flex items-center justify-center shadow">1</span>
-<span class="text-[10px] uppercase font-bold text-emerald-400 bg-emerald-950/80 px-1.5 py-0.5 rounded">Защита</span>
-</div>
-<div class="my-2 text-center">
-<div class="w-12 h-12 mx-auto rounded-lg bg-black/60 border border-emerald-500/40 overflow-hidden mb-1 shadow-inner flex items-center justify-center">
-<img alt="Шерстяной Щит" class="w-full h-full object-cover group-hover:scale-110 transition" src="/stitch-ref/64d5/cat_portrait.png"/>
-</div>
-<h4 class="text-xs font-bold text-neutral-100 group-hover:text-emerald-300 transition">Шерстяной Щит</h4>
-</div>
-<p class="text-[11px] text-neutral-400 leading-snug">
-            Накладывает щит прочностью <strong class="text-emerald-300">800 ед.</strong> и снимает 1 негативный эффект.
-          </p>
-<div class="mt-2 pt-1 border-t border-neutral-800 text-[9px] text-neutral-500 flex justify-between">
-<span class="">КД: 1 ход</span>
-<span class="">Очищение: 1</span>
-</div>
-</article>
-<!-- Card 6: Ульта: Буря Перуна -> /stitch-ref/0268/home.png -->
-<article class="bg-gradient-to-b from-[#2a1b0a] to-[#140c05] rounded-lg p-2.5 border-2 border-amber-500 relative flex flex-col justify-between group hover:-translate-y-1 hover:border-amber-300 transition shadow-glow-gold">
-<div class="flex items-start justify-between">
-<span class="w-6 h-6 rounded-full bg-gradient-to-r from-amber-400 to-yellow-300 text-black font-black text-xs flex items-center justify-center shadow">3</span>
-<span class="text-[10px] uppercase font-black text-black bg-amber-400 px-1.5 py-0.5 rounded shadow">Ультимейт</span>
-</div>
-<div class="my-2 text-center">
-<div class="w-12 h-12 mx-auto rounded-lg bg-black/70 border border-amber-400 overflow-hidden mb-1 shadow-inner flex items-center justify-center">
-<img alt="Буря Перуна" class="w-full h-full object-cover group-hover:scale-110 transition" src="/stitch-ref/0268/home.png"/>
-</div>
-<h4 class="text-xs font-black text-amber-300 group-hover:text-amber-200 transition">Буря Перуна</h4>
-</div>
-<p class="text-[11px] text-amber-100/90 leading-snug">
-            Цепная молния по <strong class="text-amber-300">всем врагам (1,250 урона)</strong> + оглушение 1 ход.
-          </p>
-<div class="mt-2 pt-1 border-t border-amber-900/60 text-[9px] text-amber-400/80 flex justify-between font-semibold">
-<span class="">КД: 4 хода</span>
-<span class="">Оглушение 100%</span>
-</div>
-</article>
-</div>
-</section>
-</main>
-<!-- END: MainContentGrid -->
-<!-- BEGIN: BottomStatusBar -->
-<footer class="mt-2 px-4 py-1.5 bg-[#0f0c0a] border-t border-[#2a2018] text-[11px] text-neutral-400 flex flex-wrap items-center justify-between gap-3">
-<div class="flex items-center gap-4">
-<span class="flex items-center gap-1.5">
-<span class="w-2 h-2 rounded-full bg-amber-400"></span>
-        Гарант заточки: <strong class="text-amber-300 font-semibold">4 / 5 попыток</strong> до 100% успеха
-      </span>
-<span class="hidden sm:inline text-neutral-600">•</span>
-<span class="hidden sm:flex items-center gap-1">
-        📖 Рецепты рун: <span class="text-neutral-200 font-medium">14 изучено</span>
-</span>
-</div>
-<div class="flex items-center gap-3">
-<span class="text-neutral-500">Горячая клавиша: <kbd class="px-1.5 py-0.5 bg-tavern-850 border border-neutral-700 rounded text-neutral-300 font-mono text-[10px]">[ПРОБЕЛ]</kbd> — подтвердить заточку</span>
-<span class="text-amber-500 font-semibold">Версия 1.4.2-Tavern</span>
-</div>
-</footer>
-<!-- END: BottomStatusBar -->
+        <div class="flex items-center gap-1.5 bg-black/40 px-2.5 py-1 rounded border border-neutral-800" title="Пряжа">
+          <span aria-hidden="true">🧶</span><span class="text-cyan-300">920</span>
+        </div>
+        <div class="flex items-center gap-1.5 bg-black/40 px-2.5 py-1 rounded border border-neutral-800" title="Энергия">
+          <span aria-hidden="true">⚡</span><span class="text-emerald-300">85/100</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 flex-1 min-h-0">
+      <!-- LEFT: roster + live stats -->
+      <section class="lg:col-span-3 wood-panel rounded-xl p-3 flex flex-col gap-2 min-h-0" data-purpose="hero-stats-and-roster">
+        <div class="flex items-center justify-between gap-2">
+          <h2 class="text-sm font-bold text-amber-400">Отряд · выбор кота</h2>
+          <span class="text-[10px] uppercase tracking-wider text-neutral-500">live</span>
+        </div>
+        <div id="homeCatPicker" class="flex flex-col gap-1 overflow-auto min-h-0 flex-1"></div>
+        <div class="pt-2 border-t border-[#34271e]">
+          <p class="text-[10px] uppercase tracking-wider text-neutral-500 mb-1">Сводные статы</p>
+          <div id="homeStatBlock" class="mythfel-stat-grid"></div>
+        </div>
+      </section>
+
+      <!-- CENTER: hearth portrait + active loadout -->
+      <section class="lg:col-span-5 wood-panel rounded-xl p-3 flex flex-col gap-2 min-h-0 relative overflow-hidden shadow-2xl" data-purpose="character-mannequin-viewport">
+        <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+          <!-- Atmospheric cat art (not a nested UI screenshot) -->
+          <img alt="" class="w-full h-full object-cover opacity-45" src="/stitch-ref/64d5/breeding_altar.png" />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0d0a08] via-[#0d0a08]/65 to-[#0d0a08]/25"></div>
+          <div class="absolute inset-0 bg-gradient-to-r from-[#0d0a08]/75 via-transparent to-[#0d0a08]/45"></div>
+        </div>
+        <div class="relative z-10 flex flex-col gap-2 h-full min-h-0">
+          <div class="flex items-center justify-between gap-2">
+            <h2 class="text-sm font-bold text-amber-400">Очаг · выбранный кот</h2>
+            <span class="px-2 py-0.5 rounded bg-emerald-950/80 border border-emerald-700 text-emerald-400 text-[11px] font-semibold">Soft Launch</span>
+          </div>
+          <div id="homeHeroCard" class="flex-1 min-h-0 rounded-lg border border-amber-900/40 bg-black/60 backdrop-blur-sm p-3 flex flex-col justify-between gap-3 shadow-inner"></div>
+          <div class="grid grid-cols-4 gap-2 shrink-0">
+            <div class="aspect-square rounded-lg bg-tavern-900 border border-amber-500/50 rune-frame slot-glow-mythic flex items-center justify-center overflow-hidden">
+              <img alt="" class="w-full h-full object-cover opacity-80" src="/stitch-ref/0268/gear.png" />
+            </div>
+            <div class="aspect-square rounded-lg bg-tavern-900 border border-amber-500/40 rune-frame flex items-center justify-center overflow-hidden">
+              <img alt="" class="w-full h-full object-cover opacity-70" src="/stitch-ref/64d5/cat_portrait.png" />
+            </div>
+            <div class="aspect-square rounded-lg bg-tavern-900 border border-purple-500/40 rune-frame flex items-center justify-center overflow-hidden">
+              <img alt="" class="w-full h-full object-cover opacity-70" src="/stitch-ref/0268/gear.png" />
+            </div>
+            <div class="aspect-square rounded-lg bg-tavern-900 border border-emerald-500/40 rune-frame flex items-center justify-center overflow-hidden">
+              <img alt="" class="w-full h-full object-cover opacity-70" src="/stitch-ref/64d5/heroes.png" />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- RIGHT: inventory equip -->
+      <section class="lg:col-span-4 wood-panel rounded-xl p-3 flex flex-col gap-2 min-h-0" data-purpose="inventory-equipping-view">
+        <div class="flex items-center justify-between gap-2">
+          <h2 class="text-sm font-bold text-amber-400">Инвентарь экипа</h2>
+          <span class="text-[10px] text-neutral-500">R1 grey → R8 mythic</span>
+        </div>
+        <p class="text-xs text-neutral-400">Надеть / снять на выбранного кота. ATK/HP меняются сразу (локальный HUD stub).</p>
+        <div id="homeGearBlock" class="grid grid-cols-1 sm:grid-cols-2 gap-2 overflow-auto min-h-0 flex-1 content-start"></div>
+        <div class="shrink-0 pt-2 border-t border-[#34271e] space-y-1.5">
+          <div class="flex items-center justify-between text-[11px] bg-black/40 px-2 py-1.5 rounded border border-amber-900/30">
+            <span class="text-neutral-400">Стартовый пак</span>
+            <span class="text-amber-300 font-semibold">коготь + кираса R1</span>
+          </div>
+          <p class="text-[11px] text-[#9d8f7b]">Серверная авторитетность экипа — Phase 5+. Здесь HUD считает бонусы локально для smoke.</p>
+        </div>
+      </section>
+    </div>
+
+    <footer class="shrink-0 flex flex-wrap items-center justify-between gap-2 px-1 py-1 text-[11px] text-neutral-500 border-t border-[#2a2018]">
+      <span>Гарант заточки · рецепты рун · очаг Мурр-1</span>
+      <span class="text-amber-500/80">Мифиус: Мифические котики · Tavern Hearth Battler</span>
+    </footer>
+  </main>
 </section>
