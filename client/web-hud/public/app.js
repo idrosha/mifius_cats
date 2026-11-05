@@ -1,6 +1,7 @@
 /**
- * Mythfel Web HUD — real Stitch HTML screens + battle/devapi / LiveOps.
- * Visual SSOT = design/stitch-src (built into index). No combat authority on client.
+ * Mythfel Web HUD — battle/devapi + LiveOps wire logic.
+ * Visual screens await new Stitch import; chrome + #wireDock are the shell.
+ * No combat authority on client (§3.6 / §8.2).
  */
 
 const STARTERS = [

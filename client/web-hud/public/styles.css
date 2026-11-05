@@ -1,4 +1,4 @@
-/* Mythfel Web HUD — chrome over Stitch screens (Tailwind lives in index from Stitch). */
+/* Mythfel Web HUD — minimal chrome + wire dock (Stitch UI stripped; awaiting re-import). */
 .hidden { display: none !important; }
 
 :root {
@@ -11,7 +11,6 @@
   --on-surface: #eae1db;
   --muted: #d5c4af;
   --nav-h: auto;
-  --stitch-source: "tavern-hearth-battler";
 }
 
 html, body {
@@ -40,6 +39,7 @@ html, body {
   flex-direction: column;
 }
 
+.hud-view,
 .stitch-view {
   width: 100%;
   flex: 1 1 auto;
@@ -47,6 +47,8 @@ html, body {
   padding-bottom: 0.25rem;
   box-sizing: border-box;
 }
+
+.muted { color: var(--muted); }
 
 /* ——— Primary + subtabs (single chrome; kills double-nav) ——— */
 .mythfel-nav {
@@ -402,26 +404,6 @@ html, body {
   color: var(--on-surface);
   border-radius: 0.5rem;
   padding: 0.4rem 0.7rem;
-}
-
-/*
- * Kill Stitch per-screen header nav (duplicate flat bar under #appNav).
- * Keep brand/resources row of Stitch headers, hide only the link strip.
- */
-.stitch-view > header nav,
-.stitch-view header nav[data-active-classes],
-.stitch-view header .hidden.lg\:flex:has(a[data-path]),
-.stitch-view header nav.flex {
-  display: none !important;
-}
-
-/* Stitch fixed headers sit under our chrome — offset content */
-.stitch-view > header.fixed,
-.stitch-view > header[class*="fixed"] {
-  top: var(--mythfel-nav-offset, 0px) !important;
-}
-.mythfel-shell {
-  --mythfel-nav-offset: 0px; /* Stitch headers stay in-flow relative to their section; our nav is sticky above */
 }
 
 @media (max-width: 900px) {
