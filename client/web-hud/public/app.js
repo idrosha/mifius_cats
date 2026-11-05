@@ -1,7 +1,8 @@
 /**
- * Mythfel Web HUD — battle/devapi + LiveOps wire logic + Stitch packs 0268/64d5/e608/4da7/18c7/ba17.
+ * Mythfel Web HUD — battle/devapi + LiveOps wire logic + Stitch packs 0268/64d5/e608/4da7/18c7/ba17/17eb.
  * Formation is inline (no Бои subtab). Home = cat + equip + inventory (no portals).
- * Pack 18c7: practice fight + guild hall. Pack ba17: pass + chats×3. No combat authority on client (§3.6 / §8.2).
+ * Pack 18c7: practice fight + guild hall. Pack ba17: pass + chats×3.
+ * Pack 17eb: tavern/shop/market/auction + ratings×2. No combat authority on client (§3.6 / §8.2).
  */
 
 const STARTERS = [
@@ -37,6 +38,16 @@ const PATH_TO_TAB = {
   рынок: "market",
   marketplace: "shop",
   аукцион: "auction",
+  "trade-hub": "tavern",
+  "khab-torgovli-glavnaya": "tavern",
+  "tavern-bar": "tavern",
+  "shop-donate": "shop",
+  "market-resources": "market",
+  "player-auctions": "auction",
+  "rejting-igrokov-sezon-4": "rating_players",
+  "rejting-gildiy": "rating_guilds",
+  "rating-guilds": "rating_guilds",
+  "rating-players": "rating_players",
   "pvp-арена": "pvp",
   "pvp-arena": "pvp",
   "arena-bitv": "pvp",
@@ -105,7 +116,8 @@ const PATH_TO_TAB = {
   "kollektsiya-kart": "collection",
   "lavka-traktirschika": "shop",
   "klan-murr": "guild",
-  torgovlya: "shop",
+  torgovlya: "tavern",
+  "torgovlya-hub": "tavern",
   кодекс: "codex",
   "кодекс-мифмира": "codex",
   "kodeks-mifmira": "codex",
@@ -936,6 +948,13 @@ function softNavigateFromLabel(label) {
     ["мифмир", () => navigate("yard")],
     ["двор", () => navigate("yard")],
     ["коллекция", () => navigate("collection")],
+    ["войти в бар", () => navigate("tavern")],
+    ["в магазин", () => navigate("shop")],
+    ["на рынок", () => navigate("market")],
+    ["в зал аукциона", () => navigate("auction")],
+    ["выставить лот", () => navigate("auction")],
+    ["рейтинг гильдий", () => navigate("rating_guilds")],
+    ["рейтинг игроков", () => navigate("rating_players")],
     ["лавка славы", () => navigate("shop")],
     ["лавка", () => navigate("shop")],
     ["маркет", () => navigate("market")],

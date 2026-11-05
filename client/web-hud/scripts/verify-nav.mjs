@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Static smoke for Stitch Web HUD navigation graph (packs 0268/64d5/e608/4da7/18c7/ba17).
+ * Static smoke for Stitch Web HUD navigation graph (packs 0268/64d5/e608/4da7/18c7/ba17/17eb).
  * Usage: node client/web-hud/scripts/verify-nav.mjs [baseUrl]
  * HTTP checks skipped when HUD is not running (assignment default).
  */
@@ -133,6 +133,12 @@ const STITCH_SRC = [
   "chat_global.html",
   "chat_guild.html",
   "chat_friends.html",
+  "tavern.html",
+  "shop.html",
+  "market.html",
+  "auction.html",
+  "rating_players.html",
+  "rating_guilds.html",
 ];
 
 const checks = [];
@@ -176,7 +182,12 @@ ok(
     fs.existsSync(path.join(PUBLIC, "stitch-ref", "18c7", "practice.png")) &&
     fs.existsSync(path.join(PUBLIC, "stitch-ref", "18c7", "guild.png")) &&
     fs.existsSync(path.join(PUBLIC, "stitch-ref", "ba17", "pass.png")) &&
-    fs.existsSync(path.join(PUBLIC, "stitch-ref", "ba17", "chat.png")),
+    fs.existsSync(path.join(PUBLIC, "stitch-ref", "ba17", "chat.png")) &&
+    fs.existsSync(path.join(PUBLIC, "stitch-ref", "17eb", "tavern.png")) &&
+    fs.existsSync(path.join(PUBLIC, "stitch-ref", "17eb", "shop.png")) &&
+    fs.existsSync(path.join(PUBLIC, "stitch-ref", "17eb", "market.png")) &&
+    fs.existsSync(path.join(PUBLIC, "stitch-ref", "17eb", "auction.png")) &&
+    fs.existsSync(path.join(PUBLIC, "stitch-ref", "17eb", "rating.png")),
 );
 ok("appNav primary+subtabs shell", html.includes('id="appNav"') && html.includes('id="appSubTabs"'));
 ok(
@@ -309,6 +320,66 @@ ok(
   html.includes('data-stitch="chat_friends"') &&
     !/<section[^>]*data-stitch="chat_friends"[^>]*data-placeholder/.test(html),
 );
+ok(
+  "tavern is milk bar",
+  /Таверн|Молок|Барная Карта|Хрустящая Мышка/i.test(
+    fs.readFileSync(path.join(DESIGN, "stitch-src", "tavern.html"), "utf8"),
+  ),
+);
+ok(
+  "shop is donate lavka",
+  /Магазин|Ларец|Серая Броня|Боевой Пасс|Семя Стихий/i.test(
+    fs.readFileSync(path.join(DESIGN, "stitch-src", "shop.html"), "utf8"),
+  ),
+);
+ok(
+  "market is tools/seeds",
+  /Рынок|Лопата|Семена|Скупк|Кирка/i.test(
+    fs.readFileSync(path.join(DESIGN, "stitch-src", "market.html"), "utf8"),
+  ),
+);
+ok(
+  "auction is player lots",
+  /Аукцион|Выставить лот|лотов|Торги/i.test(
+    fs.readFileSync(path.join(DESIGN, "stitch-src", "auction.html"), "utf8"),
+  ),
+);
+ok(
+  "rating_players is leaderboard",
+  /Рейтинг Игроков|Таблица Лидеров|Топ-100/i.test(
+    fs.readFileSync(path.join(DESIGN, "stitch-src", "rating_players.html"), "utf8"),
+  ),
+);
+ok(
+  "painted tavern not placeholder",
+  html.includes('data-stitch="tavern"') &&
+    !/<section[^>]*data-stitch="tavern"[^>]*data-placeholder/.test(html),
+);
+ok(
+  "painted shop not placeholder",
+  html.includes('data-stitch="shop"') &&
+    !/<section[^>]*data-stitch="shop"[^>]*data-placeholder/.test(html),
+);
+ok(
+  "painted market not placeholder",
+  html.includes('data-stitch="market"') &&
+    !/<section[^>]*data-stitch="market"[^>]*data-placeholder/.test(html),
+);
+ok(
+  "painted auction not placeholder",
+  html.includes('data-stitch="auction"') &&
+    !/<section[^>]*data-stitch="auction"[^>]*data-placeholder/.test(html),
+);
+ok(
+  "painted rating_players not placeholder",
+  html.includes('data-stitch="rating_players"') &&
+    !/<section[^>]*data-stitch="rating_players"[^>]*data-placeholder/.test(html),
+);
+ok(
+  "painted rating_guilds not placeholder",
+  html.includes('data-stitch="rating_guilds"') &&
+    !/<section[^>]*data-stitch="rating_guilds"[^>]*data-placeholder/.test(html),
+);
 
 const transitions = [
   ["login→hub", 'navigate("hub")'],
@@ -334,8 +405,25 @@ const transitions = [
   ["soft остановить тест", '["остановить тест", () => navigate("hub")]'],
   ["soft tavern-pass→pass", '"tavern-pass": "pass"'],
   ["soft chats→chat_global", 'chats: "chat_global"'],
+  ["soft tavern-bar→tavern", '"tavern-bar": "tavern"'],
+  ["soft shop-donate→shop", '"shop-donate": "shop"'],
+  ["soft market-resources→market", '"market-resources": "market"'],
+  ["soft player-auctions→auction", '"player-auctions": "auction"'],
+  ["soft trade-hub→tavern", '"trade-hub": "tavern"'],
+  ["soft khab-torgovli→tavern", '"khab-torgovli-glavnaya": "tavern"'],
+  ["soft rejting-igrokov→rating_players", '"rejting-igrokov-sezon-4": "rating_players"'],
+  ["soft войти в бар→tavern", '["войти в бар", () => navigate("tavern")]'],
+  ["soft в магазин→shop", '["в магазин", () => navigate("shop")]'],
+  ["soft на рынок→market", '["на рынок", () => navigate("market")]'],
+  ["soft в зал аукциона→auction", '["в зал аукциона", () => navigate("auction")]'],
+  ["soft рейтинг гильдий→rating_guilds", '["рейтинг гильдий", () => navigate("rating_guilds")]'],
   ["pass route", 'navigate("pass")'],
   ["chat_global route", 'navigate("chat_global")'],
+  ["tavern route", 'navigate("tavern")'],
+  ["shop route", 'navigate("shop")'],
+  ["market route", 'navigate("market")'],
+  ["auction route", 'navigate("auction")'],
+  ["rating_players route", 'navigate("rating_players")'],
   ["home route", 'navigate("home")'],
   ["gear route", 'navigate("gear")'],
   ["heroes route", 'navigate("heroes")'],
@@ -356,7 +444,7 @@ for (const [name, needle] of transitions) {
 }
 
 // Placeholders present for still-missing IA forms
-for (const id of ["tavern", "shop", "equip_cards", "result_lose"]) {
+for (const id of ["equip_cards", "result_lose", "soon_clan"]) {
   ok(
     `placeholder host ${id}`,
     html.includes(`data-stitch="${id}"`) &&
