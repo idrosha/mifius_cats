@@ -35,7 +35,11 @@ const SCREENS = [
   { id: "soon_farm", file: "soon_farm.html", view: "viewSoonFarm" },
   { id: "soon_clan", file: "soon_clan.html", view: "viewSoonClan" },
   { id: "gear", file: "gear.html", view: "viewGear" },
-  { id: "home", file: "home.html", view: "viewHome" }, // stub — нет мока в 2a9f/940b
+  { id: "home", file: "home.html", view: "viewHome" }, // pack 8 landscape — Дом Хранителя
+  { id: "heroes", file: "heroes.html", view: "viewHeroes" }, // pack 8/12 — Кодекс Героев
+  { id: "armor_sets", file: "armor_sets.html", view: "viewArmorSets" }, // pack 8/1_8
+  { id: "class_sets", file: "class_sets.html", view: "viewClassSets" }, // pack 9
+  { id: "equip_cards", file: "equip_cards.html", view: "viewEquipCards" }, // pack 10/8
   { id: "craft", file: "craft.html", view: "viewCraft" },
   { id: "breeding", file: "breeding.html", view: "viewBreeding" },
   { id: "auction", file: "auction.html", view: "viewAuction" },

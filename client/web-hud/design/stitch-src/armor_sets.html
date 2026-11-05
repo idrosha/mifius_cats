@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="ru"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@500;600&amp;family=Rubik:wght@600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{"colors":{"surface-variant":"#393430","on-primary-fixed":"#281900","surface-container-highest":"#393430","error-container":"#93000a","on-secondary-fixed":"#002106","inverse-primary":"#7f5700","on-surface-variant":"#d5c4af","primary":"#fdba45","background":"#161310","on-secondary":"#003910","on-primary-container":"#523700","on-tertiary-fixed-variant":"#8d1607","surface-dim":"#161310","surface-tint":"#fdba45","on-error":"#690005","tertiary-fixed":"#ffdad4","secondary-fixed-dim":"#89d98c","surface-container":"#231f1c","inverse-surface":"#eae1db","on-tertiary-container":"#7c0a00","primary-fixed-dim":"#fdba45","outline":"#9d8f7b","on-error-container":"#ffdad6","secondary-container":"#005b1e","tertiary-container":"#ff826c","secondary-fixed":"#a4f6a6","surface":"#161310","on-background":"#eae1db","on-tertiary":"#660700","tertiary-fixed-dim":"#ffb4a6","error":"#ffb4ab","secondary":"#89d98c","on-primary":"#432c00","surface-bright":"#3d3835","outline-variant":"#504535","primary-container":"#d99b26","on-surface":"#eae1db","tertiary":"#ffb4a6","surface-container-lowest":"#110d0b","inverse-on-surface":"#342f2c","on-secondary-container":"#82d186","surface-container-high":"#2e2926","on-tertiary-fixed":"#3f0300","on-secondary-fixed-variant":"#00531b","on-primary-fixed-variant":"#604100","surface-container-low":"#1f1b18","primary-fixed":"#ffdeae"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"space-xl":"1.5rem","margin-tablet":"1.5rem","space-sm":"0.5rem","margin":"1rem","space-lg":"1rem","space-md":"0.75rem","gutter-tablet":"1rem","space-xs":"0.25rem","gutter":"0.75rem"},"fontFamily":{"headline-lg":["Rubik"],"headline-md":["Rubik"],"label-lg":["Rubik"],"headline-xl-mobile":["Rubik"],"headline-xl":["Rubik"],"body-sm":["Nunito Sans"],"body-lg":["Nunito Sans"],"label-md":["Rubik"],"headline-lg-mobile":["Rubik"],"stat-numeral":["Rubik"],"label-sm":["Rubik"],"body-md":["Nunito Sans"]},"fontSize":{"headline-lg":["26px",{"lineHeight":"32px","fontWeight":"700"}],"headline-md":["18px",{"lineHeight":"24px","fontWeight":"600"}],"label-lg":["14px",{"lineHeight":"18px","fontWeight":"700"}],"headline-xl-mobile":["28px",{"lineHeight":"34px","fontWeight":"800"}],"headline-xl":["36px",{"lineHeight":"44px","fontWeight":"800"}],"body-sm":["12px",{"lineHeight":"16px","fontWeight":"500"}],"body-lg":["16px",{"lineHeight":"22px","fontWeight":"600"}],"label-md":["12px",{"lineHeight":"16px","fontWeight":"600"}],"headline-lg-mobile":["22px",{"lineHeight":"28px","fontWeight":"700"}],"stat-numeral":["20px",{"lineHeight":"20px","fontWeight":"800"}],"label-sm":["10px",{"lineHeight":"12px","fontWeight":"700"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"500"}]}}}}</script></head><body class="bg-surface text-on-surface font-body-md text-body-md min-h-screen"><header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-xl shadow-[0_4px_16px_rgba(0,0,0,0.45)]"><div class="h-20 w-full px-space-lg flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg"><a class="flex items-center gap-space-sm group" data-path="taverna" href="#"><div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors shadow-[0_2px_8px_rgba(0,0,0,0.4)]"><span class="material-symbols-outlined text-[24px]">pets</span></div><div class="flex flex-col"><span class="font-headline-md text-headline-md tracking-wide text-primary">МИФИУС: ПОДЗЕМЕЛЬЯ</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest">Мифические коты-воители</span></div></a><nav class="hidden xl:flex items-center gap-space-xs" data-active-classes="bg-primary-container text-on-primary-container font-headline-md font-bold rounded-lg shadow-[0_2px_8px_rgba(217,155,38,0.35)]"><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="kodeks-geroev" href="#">Кодекс Героев</a><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="oruzheynaya" href="#">Оружейная</a><a class="px-space-md py-space-sm rounded-lg font-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="sety-broni" href="#">Сеты Брони</a><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="kuznitsa" href="#">Кузница</a><a class="px-space-md py-space-sm rounded-lg font-label-lg text-label-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" data-path="taverna" href="#">Таверна</a></nav></div><div class="flex items-center gap-space-md"><div class="hidden sm:flex items-center gap-space-xs bg-surface-container-lowest p-space-xs rounded-xl shadow-[inset_0_2px_6px_rgba(0,0,0,0.6)]"><div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-surface-container text-primary" title="Рыбка"><span class="material-symbols-outlined text-[16px]">phishing</span><span class="font-stat-numeral text-label-md text-on-surface">14,850</span></div><div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-surface-container text-tertiary" title="Клубки"><span class="material-symbols-outlined text-[16px]">radio_button_checked</span><span class="font-stat-numeral text-label-md text-on-surface">920</span></div><div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-surface-container text-secondary" title="Энергия"><span class="material-symbols-outlined text-[16px]">bolt</span><span class="font-stat-numeral text-label-md text-on-surface">85/100</span></div><div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-surface-container text-primary-fixed-dim" title="Самоцветы"><span class="material-symbols-outlined text-[16px]">diamond</span><span class="font-stat-numeral text-label-md text-on-surface">385</span></div></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-20 bg-surface min-h-[calc(100vh-80px)]"><div class="flex flex-col w-full">
+<!-- Subtle Ambient Glow Orbs -->
+<div class="relative w-full overflow-hidden">
+<div class="absolute -top-32 left-1/4 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute top-1/2 -right-24 w-80 h-80 bg-tertiary-container/10 rounded-full blur-3xl pointer-events-none"></div>
+<!-- MAIN VIEW CONTAINER -->
+<div class="max-w-7xl mx-auto px-space-md lg:px-space-lg py-space-lg flex flex-col gap-space-xl">
+<!-- Header & Rank Badges Horizon Strip -->
+<section class="flex flex-col gap-space-md">
+<div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="px-space-sm py-0.5 rounded-full bg-primary/20 text-primary font-label-sm text-label-sm uppercase tracking-wider">
+                Гардеробная Очага • 8 Ступеней Мощи
+              </span>
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Каталог Клановых Доспехов</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-primary font-extrabold tracking-tight">
+              Атлас Сетов Брони и Реликвий
+            </h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">
+              Исследуйте полную эволюцию защитного снаряжения кошачьих рыцарей: от холщовых лоскутов до звёздных реликвариев Астрального Лукоморья.
+            </p>
+</div>
+<div class="flex items-center gap-space-sm bg-surface-container-high px-space-md py-space-sm rounded-xl shadow-md">
+<div class="flex flex-col text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Мастерство Кузнеца</span>
+<span class="font-headline-md text-headline-md text-primary font-bold">Уровень VII</span>
+</div>
+<div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary shadow-inner">
+<span class="material-symbols-outlined text-[24px]">hardware</span>
+</div>
+</div>
+</div>
+<!-- 8 RANKS HORIZONTAL TABS SELECTOR -->
+<div class="w-full bg-surface-container-lowest p-space-xs rounded-2xl shadow-[inset_0_2px_8px_rgba(0,0,0,0.6)]">
+<div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-space-xs" id="rankTabList">
+<!-- Rank buttons injected/switched via JS -->
+<button class="rank-tab-btn flex flex-col items-center justify-center py-space-sm px-space-xs rounded-xl transition-all duration-200 group bg-surface-container-high shadow-sm" data-rank="1" onclick="selectRank(1)">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-[#8c8c8c]"></span>
+<span class="font-label-sm text-label-sm text-[#8c8c8c] font-bold">РАНГ I</span>
+</div>
+<span class="font-headline-md text-label-sm text-on-surface text-center line-clamp-1 mt-0.5">Холщовый</span>
+<span class="font-body-sm text-[10px] text-on-surface-variant">Обычный</span>
+</button>
+<button class="rank-tab-btn flex flex-col items-center justify-center py-space-sm px-space-xs rounded-xl transition-all duration-200 group bg-surface-container hover:bg-surface-container-high" data-rank="2" onclick="selectRank(2)">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-[#22c55e]"></span>
+<span class="font-label-sm text-label-sm text-[#22c55e] font-bold">РАНГ II</span>
+</div>
+<span class="font-headline-md text-label-sm text-on-surface text-center line-clamp-1 mt-0.5">Следопыт</span>
+<span class="font-body-sm text-[10px] text-on-surface-variant">Необычный</span>
+</button>
+<button class="rank-tab-btn flex flex-col items-center justify-center py-space-sm px-space-xs rounded-xl transition-all duration-200 group bg-surface-container hover:bg-surface-container-high" data-rank="3" onclick="selectRank(3)">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-[#3b82f6]"></span>
+<span class="font-label-sm text-label-sm text-[#3b82f6] font-bold">РАНГ III</span>
+</div>
+<span class="font-headline-md text-label-sm text-on-surface text-center line-clamp-1 mt-0.5">Страж Глубин</span>
+<span class="font-body-sm text-[10px] text-on-surface-variant">Редкий</span>
+</button>
+<button class="rank-tab-btn flex flex-col items-center justify-center py-space-sm px-space-xs rounded-xl transition-all duration-200 group bg-surface-container hover:bg-surface-container-high" data-rank="4" onclick="selectRank(4)">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-[#eab308]"></span>
+<span class="font-label-sm text-label-sm text-[#eab308] font-bold">РАНГ IV</span>
+</div>
+<span class="font-headline-md text-label-sm text-on-surface text-center line-clamp-1 mt-0.5">Златоочаг</span>
+<span class="font-body-sm text-[10px] text-on-surface-variant">Таверна</span>
+</button>
+<button class="rank-tab-btn flex flex-col items-center justify-center py-space-sm px-space-xs rounded-xl transition-all duration-200 group bg-surface-container hover:bg-surface-container-high" data-rank="5" onclick="selectRank(5)">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-[#a855f7]"></span>
+<span class="font-label-sm text-label-sm text-[#a855f7] font-bold">РАНГ V</span>
+</div>
+<span class="font-headline-md text-label-sm text-on-surface text-center line-clamp-1 mt-0.5">Тенемур</span>
+<span class="font-body-sm text-[10px] text-on-surface-variant">Мистик</span>
+</button>
+<button class="rank-tab-btn flex flex-col items-center justify-center py-space-sm px-space-xs rounded-xl transition-all duration-200 group bg-surface-container hover:bg-surface-container-high" data-rank="6" onclick="selectRank(6)">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-[#f43f5e]"></span>
+<span class="font-label-sm text-label-sm text-[#f43f5e] font-bold">РАНГ VI</span>
+</div>
+<span class="font-headline-md text-label-sm text-on-surface text-center line-clamp-1 mt-0.5">Громовой</span>
+<span class="font-body-sm text-[10px] text-on-surface-variant">Эпический</span>
+</button>
+<button class="rank-tab-btn flex flex-col items-center justify-center py-space-sm px-space-xs rounded-xl transition-all duration-200 group bg-surface-container hover:bg-surface-container-high" data-rank="7" onclick="selectRank(7)">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-[#f97316]"></span>
+<span class="font-label-sm text-label-sm text-[#f97316] font-bold">РАНГ VII</span>
+</div>
+<span class="font-headline-md text-label-sm text-on-surface text-center line-clamp-1 mt-0.5">Владыка Прайда</span>
+<span class="font-body-sm text-[10px] text-on-surface-variant">Легендарный</span>
+</button>
+<button class="rank-tab-btn flex flex-col items-center justify-center py-space-sm px-space-xs rounded-xl transition-all duration-200 group bg-surface-container hover:bg-surface-container-high" data-rank="8" onclick="selectRank(8)">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-[#06b6d4] animate-pulse"></span>
+<span class="font-label-sm text-label-sm text-[#06b6d4] font-bold">РАНГ VIII</span>
+</div>
+<span class="font-headline-md text-label-sm text-on-surface text-center line-clamp-1 mt-0.5">Лукоморье</span>
+<span class="font-body-sm text-[10px] text-[#ec4899] font-semibold">Мифический</span>
+</button>
+</div>
+</div>
+</section>
+<!-- ACTIVE SET HERO SHOWCASE -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg items-stretch">
+<!-- Left 4 cols: Champion Avatar & Visual Lore -->
+<div class="lg:col-span-4 flex flex-col justify-between bg-surface-container p-space-lg rounded-2xl shadow-xl relative overflow-hidden">
+<div class="absolute -top-10 -right-10 w-44 h-44 rounded-full bg-primary/10 blur-2xl"></div>
+<!-- Set Header Badge -->
+<div class="flex flex-col gap-space-xs z-10">
+<div class="flex items-center justify-between">
+<span class="px-space-sm py-1 rounded-lg text-label-sm font-label-sm uppercase font-bold tracking-wider bg-surface-container-highest text-on-surface" id="setRarityBadge">
+                РАНГ 1 • ОБЫЧНЫЙ
+              </span>
+<span class="font-stat-numeral text-headline-md text-primary" id="setTierRoman">TIER I</span>
+</div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface font-extrabold mt-1" id="setName">
+              Холщовый Сет Новобранца
+            </h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant" id="setDescription">
+              Стартовое обмундирование учеников кошачьего ордена. Грубая ткань, надежные стежки из льняной нити и протертая заплаточная кожа защищают от царапин первых тренировок.
+            </p>
+</div>
+<!-- Kitten Mannequin Presentation -->
+<div class="relative my-space-lg flex flex-col items-center justify-center">
+<!-- Aura Backlight -->
+<div class="w-56 h-56 rounded-full bg-surface-variant/40 blur-xl absolute" id="mannequinGlow"></div>
+<!-- Mannequin Image Card -->
+<div class="relative w-64 h-80 rounded-2xl bg-surface-container-lowest overflow-hidden shadow-2xl flex items-center justify-center p-space-sm">
+<img class="w-full h-full object-cover rounded-xl" data-alt="A cute anthropomorphic feline cat warrior in cozy tavern warrior equipment, dressed in burlap rookie cat armor, warm hearth lighting, digital storybook illustration style, detailed fur and brass accessories" id="mannequinImg" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDJh-dZlh72yWmJ99wr2HYkgkmX9NQEdWkWV-ouFKjQteFRo9k4Emr10tIVLEY3aw2699UNvlzOdWYVrdfO1AEtNKA6PVnQs9K4zBM7-ZNDIFn1MncbrlTPZU6RnON-Y6c60hCjr_oxGMNZcBZyrT4CBDqadlAKr8H5cnHqc7w8UUKSh54AVhwm0aw6WilyKp68aLDC7nvYxrwkceEiHACANd-BUnR43gvttGBm2w"/>
+<!-- Overlay floating gear badges on cat silhouette -->
+<div class="absolute top-3 left-3 bg-surface/85 backdrop-blur-md px-2 py-1 rounded-lg flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-primary">shield</span>
+<span class="font-stat-numeral text-label-sm text-on-surface" id="mannequinDefVal">+140 Броня</span>
+</div>
+<div class="absolute bottom-3 right-3 bg-surface/85 backdrop-blur-md px-2 py-1 rounded-lg flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[16px] text-secondary">bolt</span>
+<span class="font-stat-numeral text-label-sm text-on-surface" id="mannequinAtkVal">+85 Атака</span>
+</div>
+</div>
+</div>
+<!-- Total Set Stats Strip -->
+<div class="z-10 bg-surface-container-high p-space-md rounded-xl flex flex-col gap-space-xs">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Суммарная Сила Комплекта (8/8)</span>
+<div class="grid grid-cols-3 gap-space-xs text-center pt-1">
+<div class="bg-surface-container p-space-xs rounded-lg">
+<span class="font-body-sm text-[11px] text-on-surface-variant block">Физ. Защита</span>
+<span class="font-stat-numeral text-label-lg text-primary" id="totalArmor">+140</span>
+</div>
+<div class="bg-surface-container p-space-xs rounded-lg">
+<span class="font-body-sm text-[11px] text-on-surface-variant block">Физ. Урон</span>
+<span class="font-stat-numeral text-label-lg text-secondary" id="totalAttack">+85</span>
+</div>
+<div class="bg-surface-container p-space-xs rounded-lg">
+<span class="font-body-sm text-[11px] text-on-surface-variant block">Здоровье</span>
+<span class="font-stat-numeral text-label-lg text-tertiary" id="totalHp">+320</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Right 8 cols: 8 Item Cards Grid & Set Synergy Panel -->
+<div class="lg:col-span-8 flex flex-col gap-space-lg">
+<!-- 8 Equipment Slots Grid -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-headline-md text-headline-md text-on-surface flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">shield_with_heart</span>
+                Элементы Экипировки Комплекта (8 слотов)
+              </span>
+<span class="font-label-md text-label-md text-on-surface-variant">Все 8 слотов синхронизированы</span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-space-sm" id="slotsGrid">
+<!-- Item 1: Headgear -->
+<div class="bg-surface-container hover:bg-surface-container-high transition-colors p-space-sm rounded-xl flex flex-col justify-between shadow-md">
+<div class="flex items-start justify-between">
+<span class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">sports_martial_arts</span>
+</span>
+<span class="item-slot-tag font-label-sm text-[10px] text-on-surface-variant uppercase">Шлем</span>
+</div>
+<div class="my-space-xs">
+<h4 class="slot-name-0 font-label-lg text-label-md text-on-surface line-clamp-1">Холщовый Колпак</h4>
+<p class="slot-stat-0 font-body-sm text-body-sm text-secondary font-semibold">+22 Броня</p>
+</div>
+<div class="pt-space-xs flex items-center justify-between">
+<span class="slot-socket-0 font-label-sm text-[10px] text-on-surface-variant">1 гнездо рун</span>
+<span class="material-symbols-outlined text-[16px] text-outline">circle</span>
+</div>
+</div>
+<!-- Item 2: Chest -->
+<div class="bg-surface-container hover:bg-surface-container-high transition-colors p-space-sm rounded-xl flex flex-col justify-between shadow-md">
+<div class="flex items-start justify-between">
+<span class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">shield</span>
+</span>
+<span class="item-slot-tag font-label-sm text-[10px] text-on-surface-variant uppercase">Кираса</span>
+</div>
+<div class="my-space-xs">
+<h4 class="slot-name-1 font-label-lg text-label-md text-on-surface line-clamp-1">Стеганый Нагрудник</h4>
+<p class="slot-stat-1 font-body-sm text-body-sm text-secondary font-semibold">+40 Броня, +80 ОЗ</p>
+</div>
+<div class="pt-space-xs flex items-center justify-between">
+<span class="slot-socket-1 font-label-sm text-[10px] text-on-surface-variant">1 гнездо рун</span>
+<span class="material-symbols-outlined text-[16px] text-outline">circle</span>
+</div>
+</div>
+<!-- Item 3: Belt -->
+<div class="bg-surface-container hover:bg-surface-container-high transition-colors p-space-sm rounded-xl flex flex-col justify-between shadow-md">
+<div class="flex items-start justify-between">
+<span class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">strikethrough_s</span>
+</span>
+<span class="item-slot-tag font-label-sm text-[10px] text-on-surface-variant uppercase">Пояс</span>
+</div>
+<div class="my-space-xs">
+<h4 class="slot-name-2 font-label-lg text-label-md text-on-surface line-clamp-1">Шнуровый Кушак</h4>
+<p class="slot-stat-2 font-body-sm text-body-sm text-secondary font-semibold">+18 Броня, +45 ОЗ</p>
+</div>
+<div class="pt-space-xs flex items-center justify-between">
+<span class="slot-socket-2 font-label-sm text-[10px] text-on-surface-variant">1 гнездо рун</span>
+<span class="material-symbols-outlined text-[16px] text-outline">circle</span>
+</div>
+</div>
+<!-- Item 4: Boots -->
+<div class="bg-surface-container hover:bg-surface-container-high transition-colors p-space-sm rounded-xl flex flex-col justify-between shadow-md">
+<div class="flex items-start justify-between">
+<span class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">footprint</span>
+</span>
+<span class="item-slot-tag font-label-sm text-[10px] text-on-surface-variant uppercase">Налапники</span>
+</div>
+<div class="my-space-xs">
+<h4 class="slot-name-3 font-label-lg text-label-md text-on-surface line-clamp-1">Мягкие Обмотки</h4>
+<p class="slot-stat-3 font-body-sm text-body-sm text-secondary font-semibold">+15 Скорость, +14 Броня</p>
+</div>
+<div class="pt-space-xs flex items-center justify-between">
+<span class="slot-socket-3 font-label-sm text-[10px] text-on-surface-variant">1 гнездо рун</span>
+<span class="material-symbols-outlined text-[16px] text-outline">circle</span>
+</div>
+</div>
+<!-- Item 5: Weapon -->
+<div class="bg-surface-container hover:bg-surface-container-high transition-colors p-space-sm rounded-xl flex flex-col justify-between shadow-md">
+<div class="flex items-start justify-between">
+<span class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">colorize</span>
+</span>
+<span class="item-slot-tag font-label-sm text-[10px] text-on-surface-variant uppercase">Оружие</span>
+</div>
+<div class="my-space-xs">
+<h4 class="slot-name-4 font-label-lg text-label-md text-on-surface line-clamp-1">Тренировочный Клинок</h4>
+<p class="slot-stat-4 font-body-sm text-body-sm text-primary font-semibold">+35 Атака</p>
+</div>
+<div class="pt-space-xs flex items-center justify-between">
+<span class="slot-socket-4 font-label-sm text-[10px] text-on-surface-variant">1 гнездо рун</span>
+<span class="material-symbols-outlined text-[16px] text-outline">circle</span>
+</div>
+</div>
+<!-- Item 6: Collar/Amulet -->
+<div class="bg-surface-container hover:bg-surface-container-high transition-colors p-space-sm rounded-xl flex flex-col justify-between shadow-md">
+<div class="flex items-start justify-between">
+<span class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">award_star</span>
+</span>
+<span class="item-slot-tag font-label-sm text-[10px] text-on-surface-variant uppercase">Ошейник</span>
+</div>
+<div class="my-space-xs">
+<h4 class="slot-name-5 font-label-lg text-label-md text-on-surface line-clamp-1">Шерстяной Ворот</h4>
+<p class="slot-stat-5 font-body-sm text-body-sm text-secondary font-semibold">+12 Броня, +50 ОЗ</p>
+</div>
+<div class="pt-space-xs flex items-center justify-between">
+<span class="slot-socket-5 font-label-sm text-[10px] text-on-surface-variant">1 гнездо рун</span>
+<span class="material-symbols-outlined text-[16px] text-outline">circle</span>
+</div>
+</div>
+<!-- Item 7: Ring -->
+<div class="bg-surface-container hover:bg-surface-container-high transition-colors p-space-sm rounded-xl flex flex-col justify-between shadow-md">
+<div class="flex items-start justify-between">
+<span class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">radio_button_checked</span>
+</span>
+<span class="item-slot-tag font-label-sm text-[10px] text-on-surface-variant uppercase">Перстень</span>
+</div>
+<div class="my-space-xs">
+<h4 class="slot-name-6 font-label-lg text-label-md text-on-surface line-clamp-1">Медное Кольцо Удачи</h4>
+<p class="slot-stat-6 font-body-sm text-body-sm text-primary font-semibold">+18 Атака, +3% Крит</p>
+</div>
+<div class="pt-space-xs flex items-center justify-between">
+<span class="slot-socket-6 font-label-sm text-[10px] text-on-surface-variant">1 гнездо рун</span>
+<span class="material-symbols-outlined text-[16px] text-outline">circle</span>
+</div>
+</div>
+<!-- Item 8: Bell / Trinket -->
+<div class="bg-surface-container hover:bg-surface-container-high transition-colors p-space-sm rounded-xl flex flex-col justify-between shadow-md">
+<div class="flex items-start justify-between">
+<span class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined text-[18px]">notifications</span>
+</span>
+<span class="item-slot-tag font-label-sm text-[10px] text-on-surface-variant uppercase">Бубенец</span>
+</div>
+<div class="my-space-xs">
+<h4 class="slot-name-7 font-label-lg text-label-md text-on-surface line-clamp-1">Глиняный Звоночек</h4>
+<p class="slot-stat-7 font-body-sm text-body-sm text-primary font-semibold">+32 Атака, +2 Энергия</p>
+</div>
+<div class="pt-space-xs flex items-center justify-between">
+<span class="slot-socket-7 font-label-sm text-[10px] text-on-surface-variant">1 гнездо рун</span>
+<span class="material-symbols-outlined text-[16px] text-outline">circle</span>
+</div>
+</div>
+</div>
+</div>
+<!-- SET SYNERGY & BONUSES CARDS (2/8, 4/8, 6/8, 8/8) -->
+<div class="bg-surface-container p-space-lg rounded-2xl shadow-xl flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">auto_awesome</span>
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold">
+                  Сетовые Эффекты Синергии
+                </h3>
+</div>
+<span class="font-label-sm text-label-sm px-space-sm py-1 rounded-full bg-primary/10 text-primary">
+                Шаги сбора: 2 / 4 / 6 / 8
+              </span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-space-md">
+<!-- Bonus 2/8 -->
+<div class="bg-surface-container-high p-space-md rounded-xl flex gap-space-sm items-start">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center font-stat-numeral text-label-lg text-primary shrink-0">
+                  2
+                </div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Связка (2/8 Предмета)</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5" id="synergy2">
+                    +10% к общему показателю Защиты. В начале каждого боя кот получает щит на 5% от макс. ОЗ.
+                  </p>
+</div>
+</div>
+<!-- Bonus 4/8 -->
+<div class="bg-surface-container-high p-space-md rounded-xl flex gap-space-sm items-start">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center font-stat-numeral text-label-lg text-secondary shrink-0">
+                  4
+                </div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Квартет (4/8 Предметов)</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5" id="synergy4">
+                    +15% к Силе Атаки и ускоренное восстановление расхода карт приемов на 1 единицу.
+                  </p>
+</div>
+</div>
+<!-- Bonus 6/8 -->
+<div class="bg-surface-container-high p-space-md rounded-xl flex gap-space-sm items-start">
+<div class="w-8 h-8 rounded-lg bg-surface-container flex items-center justify-center font-stat-numeral text-label-lg text-tertiary shrink-0">
+                  6
+                </div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Гармония (6/8 Предметов)</span>
+<p class="font-body-sm text-body-sm text-on-surface-variant mt-0.5" id="synergy6">
+                    Критические атаки кошачьей лапой накладывают на цель эффект 'Ослабление' на 2 хода.
+                  </p>
+</div>
+</div>
+<!-- Bonus 8/8 ULTIMATE -->
+<div class="bg-primary/10 p-space-md rounded-xl flex gap-space-sm items-start relative overflow-hidden">
+<div class="w-8 h-8 rounded-lg bg-primary flex items-center justify-center font-stat-numeral text-label-lg text-on-primary shrink-0 shadow-sm">
+                  8
+                </div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-primary font-bold">Полный Комплект (8/8) • Ультимейт</span>
+<p class="font-body-sm text-body-sm text-on-surface mt-0.5 font-medium" id="synergy8">
+                    «Инстинкт Первопроходца»: В критический момент боя кот уклоняется от фатального удара и контратакует на 200% базового урона!
+                  </p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- COMPARISON TABLE: ALL 8 RANKS AT A GLANCE -->
+<section class="bg-surface-container p-space-lg rounded-2xl shadow-xl flex flex-col gap-space-md">
+<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-space-xs">
+<div>
+<h3 class="font-headline-md text-headline-md text-on-surface font-bold">
+              Сравнительная Иерархия 8 Рангов
+            </h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+              Базовые множители мощности и визуальные метафоры каждого класса доспехов.
+            </p>
+</div>
+<span class="font-label-sm text-label-sm px-space-md py-1 rounded-lg bg-surface-container-highest text-on-surface">
+            Кодекс Редкости • 8 Классов
+          </span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left text-on-surface font-body-sm text-body-sm">
+<thead>
+<tr class="text-on-surface-variant font-label-sm text-label-sm uppercase bg-surface-container-lowest/60 rounded-xl">
+<th class="py-space-sm px-space-md">Ранг &amp; Название</th>
+<th class="py-space-sm px-space-md">Цвет Акустики</th>
+<th class="py-space-sm px-space-md">Физ. Защита</th>
+<th class="py-space-sm px-space-md">Физ. Атака</th>
+<th class="py-space-sm px-space-md">Гнезда Рун</th>
+<th class="py-space-sm px-space-md">Визуальная Особенность</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-surface-container-highest">
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-space-sm px-space-md font-label-md text-on-surface">1. Холщовый Новобранец</td>
+<td class="py-space-sm px-space-md text-[#8c8c8c] font-bold">Серый (#8c8c8c)</td>
+<td class="py-space-sm px-space-md font-stat-numeral text-label-md">+140</td>
+<td class="py-space-sm px-space-md font-stat-numeral text-label-md">+85</td>
+<td class="py-space-sm px-space-md">1 слот на вещь</td>
+<td class="py-space-sm px-space-md text-on-surface-variant">Простые заплатки, холст, грубая тесьма</td>
+</tr>
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-space-sm px-space-md font-label-md text-on-surface">2. Следопыт Зарослей</td>
+<td class="py-space-sm px-space-md text-[#22c55e] font-bold">Зеленый (#22c55e)</td>
+<td class="py-space-sm px-space-md font-stat-numeral text-label-md">+280</td>
+<td class="py-space-sm px-space-md font-stat-numeral text-label-md">+190</td>
+<td class="py-space-sm px-space-md">1-2 слота</td>
+<td class="py-space-sm px-space-md text-on-surface-variant">Дубленая кожа, клыки кабана, лесной мох</td>
+</tr>
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-space-sm px-space-md font-label-md text-on-surface">3. Страж Речных Глубин</td>
+<td class="py-space-sm px-space-md text-[#3b82f6] font-bold">Синий (#3b82f6)</td>
+<td class="py-space-sm px-space-md font-stat-numeral text-label-md">+520</td>
+<td class="py-space-sm px-space-md font-stat-numeral text-label-md">+380</td>
+<td class="py-space-sm px-space-md">2 слота</td>
+<td class="py-space-sm px-space-md text-on-surface-variant">Закаленная бронза, сапфировые чешуйки</td>
+</tr>
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-space-sm px-space-md font-label-md text-on-surface">4. Золотой Очаг Таверны</td>
+<td class="py-space-sm px-space-md text-[#eab308] font-bold">Золотой (#eab308)</td>
+<td class="py-space-sm px-space-md font-stat-numeral text-label-md">+890</td>
+<td class="py-space-sm px-space-md font-stat-numeral text-label-md">+670</td>
+<td class="py-space-sm px-space-md">2-3 слота</td>
+<td class="py-space-sm px-space-md text-on-surface-variant">Кованая латунь, позолота, символика кошачьей лапы</td>
+</tr>
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-space-sm px-space-md font-label-md text-on-surface">5. Теневой Мурлыка</td>
+<td class="py-space-sm px-space-md text-[#a855f7] font-bold">Пурпурный (#a855f7)</td>
+<td class="py-space-sm px-space-md font-stat-numeral text-label-md">+1,420</td>
+<td class="py-space-sm px-space-md font-stat-numeral text-label-md">+1,150</td>
+<td class="py-space-sm px-space-md">3 слота</td>
+<td class="py-space-sm px-space-md text-on-surface-variant">Теневой аметист, зачарованный бархат, дымный шлейф</td>
+</tr>
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-space-sm px-space-md font-label-md text-on-surface">6. Громовой Шторм</td>
+<td class="py-space-sm px-space-md text-[#f43f5e] font-bold">Эпический Розово-Алый (#f43f5e)</td>
+<td class="py-space-sm px-space-md font-stat-numeral text-label-md">+2,300</td>
+<td class="py-space-sm px-space-md font-stat-numeral text-label-md">+1,920</td>
+<td class="py-space-sm px-space-md">3-4 слота</td>
+<td class="py-space-sm px-space-md text-on-surface-variant">Молниевые руны, титановые когти, искры бури</td>
+</tr>
+<tr class="hover:bg-surface-container-high/40 transition-colors">
+<td class="py-space-sm px-space-md font-label-md text-on-surface">7. Владыка Солнечного Прайда</td>
+<td class="py-space-sm px-space-md text-[#f97316] font-bold">Легендарный Янтарный (#f97316)</td>
+<td class="py-space-sm px-space-md font-stat-numeral text-label-md">+3,650</td>
+<td class="py-space-sm px-space-md font-stat-numeral text-label-md">+3,100</td>
+<td class="py-space-sm px-space-md">4 слота</td>
+<td class="py-space-sm px-space-md text-on-surface-variant">Солнечные ауры, драконьи чешуи, корона вожака</td>
+</tr>
+<tr class="hover:bg-surface-container-high/40 transition-colors bg-primary/5">
+<td class="py-space-sm px-space-md font-label-md text-primary">8. Владыка Астрального Лукоморья</td>
+<td class="py-space-sm px-space-md text-[#06b6d4] font-bold">Мифический Бирюзовый (#06b6d4)</td>
+<td class="py-space-sm px-space-md font-stat-numeral text-label-md text-primary">+5,800</td>
+<td class="py-space-sm px-space-md font-stat-numeral text-label-md text-primary">+5,200</td>
+<td class="py-space-sm px-space-md text-primary font-bold">5 слотов Всевластия</td>
+<td class="py-space-sm px-space-md text-[#ec4899] font-medium">Эфирное сияние, божественные звездные реликвии котов</td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<!-- FORGE ASCENSION (КУЗНИЦА ВОЗВЫШЕНИЯ) -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg bg-surface-container p-space-lg rounded-2xl shadow-xl">
+<div class="lg:col-span-5 flex flex-col justify-between gap-space-md">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">local_fire_department</span>
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold tracking-wider">Кузница Возвышения</span>
+</div>
+<h3 class="font-headline-lg text-headline-lg text-on-surface font-extrabold">
+              Перековка Рангов Снаряжения
+            </h3>
+<p class="font-body-md text-body-md text-on-surface-variant">
+              Объединяйте 3 предмета предыдущего ранга у Очага Таверны, чтобы выплавить реликвию следующей ступени с сохранением всех инкрустированных рун.
+            </p>
+</div>
+<div class="bg-surface-container-high p-space-md rounded-xl flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-primary-container text-on-primary-container flex items-center justify-center font-bold text-headline-md shadow-md">
+              3 → 1
+            </div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-semibold">Правило Тройной Закалки</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">100% шанс успеха без риска потери снаряжения</span>
+</div>
+</div>
+</div>
+<!-- Forge visual recipe interactive tray -->
+<div class="lg:col-span-7 bg-surface-container-lowest p-space-lg rounded-xl flex flex-col justify-between gap-space-md">
+<div class="flex flex-wrap items-center justify-between gap-space-sm">
+<span class="font-label-md text-label-md text-on-surface font-bold">Рецепт: Возвышение до Выбранного Ранга</span>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Уголь Очага:</span>
+<span class="font-stat-numeral text-label-md text-primary font-bold">18 / 10 шт.</span>
+</div>
+</div>
+<!-- Recipe slots visual row -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-space-md py-space-sm">
+<div class="flex items-center gap-space-xs">
+<!-- Item A -->
+<div class="w-16 h-16 rounded-xl bg-surface-container-high flex flex-col items-center justify-center p-1 text-center shadow-inner">
+<span class="material-symbols-outlined text-primary text-[20px]">shield</span>
+<span class="font-label-sm text-[9px] text-on-surface">Слот 1</span>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface-variant">+</span>
+<!-- Item B -->
+<div class="w-16 h-16 rounded-xl bg-surface-container-high flex flex-col items-center justify-center p-1 text-center shadow-inner">
+<span class="material-symbols-outlined text-primary text-[20px]">shield</span>
+<span class="font-label-sm text-[9px] text-on-surface">Слот 2</span>
+</div>
+<span class="font-headline-md text-headline-md text-on-surface-variant">+</span>
+<!-- Item C -->
+<div class="w-16 h-16 rounded-xl bg-surface-container-high flex flex-col items-center justify-center p-1 text-center shadow-inner">
+<span class="material-symbols-outlined text-primary text-[20px]">shield</span>
+<span class="font-label-sm text-[9px] text-on-surface">Слот 3</span>
+</div>
+</div>
+<div class="flex items-center justify-center">
+<span class="material-symbols-outlined text-[32px] text-primary">arrow_forward</span>
+</div>
+<!-- Target Result -->
+<div class="w-20 h-20 rounded-2xl bg-surface-container-high flex flex-col items-center justify-center p-2 text-center shadow-lg relative">
+<div class="absolute -top-1.5 -right-1.5 w-4 h-4 rounded-full bg-secondary"></div>
+<span class="material-symbols-outlined text-primary text-[28px]">stars</span>
+<span class="font-label-sm text-[10px] text-primary font-bold">НОВЫЙ РАНГ</span>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-space-md pt-space-xs">
+<div class="flex items-center gap-space-xs text-on-surface-variant font-body-sm text-body-sm">
+<span class="material-symbols-outlined text-[18px]">phishing</span>
+<span>Стоимость работы: <strong class="text-on-surface">2,500 Рыбки</strong></span>
+</div>
+<button class="w-full sm:w-auto px-space-xl py-space-sm rounded-xl bg-primary text-on-primary font-label-lg text-label-lg font-bold shadow-lg hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-space-xs">
+<span class="material-symbols-outlined text-[20px]">carpenter</span>
+<span>Запустить Перековку</span>
+</button>
+</div>
+</div>
+</section>
+</div>
+</div>
+</div>
+<script>
+  // Complete Dataset for 8 Ranks strictly meeting requirements
+  const RANKS_DATA = {
+    1: {
+      id: 1,
+      title: "Холщовый Сет Новобранца",
+      tier: "TIER I",
+      rarityText: "РАНГ 1 • ОБЫЧНЫЙ СТАРТОВЫЙ",
+      badgeColor: "#8c8c8c",
+      desc: "Базовое тренировочное облачение кошачьих оруженосцев. Простые заплатки из мешковины, дубленый шнур и толстый войлок оберегают от когтей сородичей во время первых спаррингов в Таверне.",
+      armor: "+140",
+      attack: "+85",
+      hp: "+320",
+      imagePrompt: "A cute anthropomorphic young rookie kitten warrior in simple beige canvas and cloth padded armor, holding a wooden training blade in a rustic warm hearth fantasy tavern, warm ambient light, storybook digital art",
+      synergies: {
+        s2: "+10% к показателю Защиты. В начале боя кот получает щит на 5% макс. ОЗ.",
+        s4: "+15% к Силе Атаки и ускоренное восполнение энергии на 1 кристалл.",
+        s6: "Критические атаки кошачьей лапой накладывают на цель 'Ослабление' на 2 хода.",
+        s8: "«Инстинкт Первопроходца»: В критический момент боя кот уклоняется от фатального удара и контратакует на 200% базового урона!"
+      },
+      slots: [
+        { name: "Холщовый Колпак", stat: "+22 Броня", sock: "1 гнездо" },
+        { name: "Стеганый Нагрудник", stat: "+40 Броня, +80 ОЗ", sock: "1 гнездо" },
+        { name: "Шнуровый Кушак", stat: "+18 Броня, +45 ОЗ", sock: "1 гнездо" },
+        { name: "Мягкие Обмотки", stat: "+15 Скорость, +14 Броня", sock: "1 гнездо" },
+        { name: "Тренировочный Клинок", stat: "+35 Атака", sock: "1 гнездо" },
+        { name: "Шерстяной Ворот", stat: "+12 Броня, +50 ОЗ", sock: "1 гнездо" },
+        { name: "Медное Колечко", stat: "+18 Атака, +3% Крит", sock: "1 гнездо" },
+        { name: "Глиняный Звоночек", stat: "+32 Атака, +2 Энергия", sock: "1 гнездо" }
+      ]
+    },
+    2: {
+      id: 2,
+      title: "Сет Следопыта Зарослей",
+      tier: "TIER II",
+      rarityText: "РАНГ 2 • НЕОБЫЧНЫЙ ЛЕСНОЙ",
+      badgeColor: "#22c55e",
+      desc: "Охотничьи доспехи из мягкой выдубленной кожи диких вепрей, инкрустированные клыками лесных грызунов и замаскированные густым мхом вековых дубрав.",
+      armor: "+280",
+      attack: "+190",
+      hp: "+610",
+      imagePrompt: "An agile cat scout ranger dressed in green leather camouflage armor with wild boar tusk clasps, crouching quietly in a sunlit mossy enchanted forest, storybook illustration, glowing emerald accents",
+      synergies: {
+        s2: "+15% к Защите в лесных и сырых биомах подземелий.",
+        s4: "+20% к Скорости атаки и шансу первого удара в раунде.",
+        s6: "Атаки когтями вызывают кровотечение (15% периодического урона).",
+        s8: "«Засада в Зарослях»: Первый удар каждого раунда гарантированно наносит критический урон со спины."
+      },
+      slots: [
+        { name: "Капюшон Следопыта", stat: "+45 Броня", sock: "1 гнездо" },
+        { name: "Кожаный Корсет", stat: "+85 Броня, +160 ОЗ", sock: "2 гнезда" },
+        { name: "Ремень с Клыками", stat: "+38 Броня, +90 ОЗ", sock: "1 гнездо" },
+        { name: "Бесшумные Мокасины", stat: "+30 Скорость, +32 Броня", sock: "1 гнездо" },
+        { name: "Охотничий Кинжал", stat: "+75 Атака, +5% Крит", sock: "2 гнезда" },
+        { name: "Берестяной Ошейник", stat: "+25 Броня, +100 ОЗ", sock: "1 гнездо" },
+        { name: "Кольцо Лесного Клыка", stat: "+38 Атака", sock: "1 гнездо" },
+        { name: "Травяной Колокольчик", stat: "+77 Атака, +4 Энергия", sock: "2 гнезда" }
+      ]
+    },
+    3: {
+      id: 3,
+      title: "Сет Стража Речных Глубин",
+      tier: "TIER III",
+      rarityText: "РАНГ 3 • РЕДКИЙ МОРСКОЙ",
+      badgeColor: "#3b82f6",
+      desc: "Броня, выкованная из закаленной речной бронзы и украшенная сапфировыми вкраплениями. Не боится ржавчины и позволяет кошачьим бойцам бесстрашно ступать по мокрым камням.",
+      armor: "+520",
+      attack: "+380",
+      hp: "+1,150",
+      imagePrompt: "A courageous feline guardian in ocean-blue bronze scale armor with polished sapphire crystals, holding a river trident, misty underground river cavern background, magical blue glow, digital game art",
+      synergies: {
+        s2: "+20% Сопротивление магии и стихии Воды.",
+        s4: "+25% к Прочности щитов от союзников в отряде.",
+        s6: "При получении удара 20% шанс создать ледяной барьер на 300 ед.",
+        s8: "«Водоворот Глубин»: Применение ульты призывает приливную волну, смывающую положительные эффекты со всех врагов."
+      },
+      slots: [
+        { name: "Бронзовый Шлем Глубин", stat: "+88 Броня", sock: "2 гнезда" },
+        { name: "Чешуйчатая Кираса", stat: "+160 Броня, +310 ОЗ", sock: "2 гнезда" },
+        { name: "Пояс Морского Конька", stat: "+72 Броня, +180 ОЗ", sock: "2 гнезда" },
+        { name: "Латунные Налапники", stat: "+55 Скорость, +64 Броня", sock: "2 гнезда" },
+        { name: "Речной Костяной Трезубец", stat: "+150 Атака, +8% Крит", sock: "2 гнезда" },
+        { name: "Амулет Жемчужницы", stat: "+50 Броня, +210 ОЗ", sock: "2 гнезда" },
+        { name: "Сапфировое Кольцо", stat: "+76 Атака", sock: "2 гнезда" },
+        { name: "Подводный Бубенец", stat: "+154 Атака, +6 Энергия", sock: "2 гнезда" }
+      ]
+    },
+    4: {
+      id: 4,
+      title: "Сет Золотого Очага Таверны",
+      tier: "TIER IV",
+      rarityText: "РАНГ 4 • ЗОЛОТОЙ ЭКСКЛЮЗИВ",
+      badgeColor: "#eab308",
+      desc: "Гордость хозяев таверны 'Мифиус'. Кованая латунь, сияющая золотая фольга, гравированные гербы кошачьих лап и теплый янтарный отблеск пламени костра.",
+      armor: "+890",
+      attack: "+670",
+      hp: "+2,100",
+      imagePrompt: "A regal cat knight in ornate polished gold brass tavern armor with cat paw crest engravings and a crimson velvet cape, standing near a glowing warm tavern fireplace, detailed lighting, epic fantasy art",
+      synergies: {
+        s2: "+25% к Получаемому золоту и рыбе после каждой битвы.",
+        s4: "+30% к Урону умений при запасе здоровья выше 70%.",
+        s6: "Аура Очага: каждый ход восстанавливает 3% ОЗ всем соратникам.",
+        s8: "«Пламя Золотого Очага»: Активирует сияющую ауру, ослепляющую врагов на 1 ход и усиливающую атаку отряда на 40%."
+      },
+      slots: [
+        { name: "Латунная Корона Очага", stat: "+150 Броня", sock: "2 гнезда" },
+        { name: "Позолоченная Кираса", stat: "+280 Броня, +550 ОЗ", sock: "3 гнезда" },
+        { name: "Кушак Хранителя Пива", stat: "+125 Броня, +320 ОЗ", sock: "2 гнезда" },
+        { name: "Золоченые Сапожки", stat: "+95 Скорость, +110 Броня", sock: "2 гнезда" },
+        { name: "Парадный Меч Трактирщика", stat: "+265 Атака, +12% Крит", sock: "3 гнезда" },
+        { name: "Медальон с Лапкой", stat: "+90 Броня, +370 ОЗ", sock: "2 гнезда" },
+        { name: "Перстень Трактирной Печати", stat: "+130 Атака", sock: "2 гнезда" },
+        { name: "Золотой Бубенец Очага", stat: "+275 Атака, +8 Энергия", sock: "3 гнезда" }
+      ]
+    },
+    5: {
+      id: 5,
+      title: "Сет Теневого Мурлыки",
+      tier: "TIER V",
+      rarityText: "РАНГ 5 • ТЕНЕВОЙ МИСТИК",
+      badgeColor: "#a855f7",
+      desc: "Шедевр подпольных ассасинов. Зачарованный фиолетовый бархат, поглощающий свет, и ограненные теневые аметисты, оставляющие за котиком загадочный шлейф сумерек.",
+      armor: "+1,420",
+      attack: "+1,150",
+      hp: "+3,400",
+      imagePrompt: "A sleek black ninja cat warrior wearing mystical deep purple shadow-silk velvet armor with glowing amethyst runes, walking on tavern roof beams under moonlight, cinematic lighting, stylized fantasy art",
+      synergies: {
+        s2: "+25% к Шансу уклонения от любых физических атак.",
+        s4: "+35% к Критическому урону всех теневых карт.",
+        s6: "Каждое уклонение возвращает 2 единицы затраченной энергии.",
+        s8: "«Танец Сумеречного Мурчания»: Кот становится невидимым на 2 хода, нанося тройной урон первой атакой из тени."
+      },
+      slots: [
+        { name: "Сумеречный Капюшон", stat: "+240 Броня", sock: "3 гнезда" },
+        { name: "Теневой Бархатный Дублет", stat: "+440 Броня, +900 ОЗ", sock: "3 гнезда" },
+        { name: "Пояс Ночных Теней", stat: "+200 Броня, +520 ОЗ", sock: "3 гнезда" },
+        { name: "Бесшумные Тенеходы", stat: "+150 Скорость, +170 Броня", sock: "3 гнезда" },
+        { name: "Аметистовый Стилет", stat: "+460 Атака, +18% Крит", sock: "3 гнезда" },
+        { name: "Ошейник Безмолвия", stat: "+145 Броня, +600 ОЗ", sock: "3 гнезда" },
+        { name: "Кольцо Теневого Сердца", stat: "+225 Атака", sock: "3 гнезда" },
+        { name: "Аметистовый Колокол", stat: "+465 Атака, +10 Энергия", sock: "3 гнезда" }
+      ]
+    },
+    6: {
+      id: 6,
+      title: "Сет Громового Шторма",
+      tier: "TIER VI",
+      rarityText: "РАНГ 6 • ЭПИЧЕСКИЙ ШТОРМОВОЙ",
+      badgeColor: "#f43f5e",
+      desc: "Закаленный в эпицентре бури титановый панцирь. Украшен молниевыми рунами цвета раскаленного рубина и бьет током каждого, кто осмелится прикоснуться к кошачьим усам.",
+      armor: "+2,300",
+      attack: "+1,920",
+      hp: "+5,600",
+      imagePrompt: "A fierce battle cat warrior clad in high-tech crimson-rose metallic storm armor with crackling electrical lightning sparks, titanium cat claws, stormy thunder sky background, intense dynamic composition",
+      synergies: {
+        s2: "+30% к Электрическому урону и невосприимчивость к шоку.",
+        s4: "+40% к Урону по оглушенным целям.",
+        s6: "Каждая атака порождает цепную молнию на двух соседних врагов.",
+        s8: "«Гнев Небесного Грома»: Ультимативный удар вызывает грозовой шквал, парализующий всю вражескую команду на 1 ход!"
+      },
+      slots: [
+        { name: "Шлем Громового Рыка", stat: "+390 Броня", sock: "3 гнезда" },
+        { name: "Титановый Панцирь Бури", stat: "+710 Броня, +1,500 ОЗ", sock: "4 гнезда" },
+        { name: "Пояс Разряда Молнии", stat: "+320 Броня, +850 ОЗ", sock: "3 гнезда" },
+        { name: "Налапники Сверхзвука", stat: "+240 Скорость, +280 Броня", sock: "3 гнезда" },
+        { name: "Рунические Громовые Когти", stat: "+760 Атака, +22% Крит", sock: "4 гнезда" },
+        { name: "Ошейник Штормовой Дуги", stat: "+230 Броня, +980 ОЗ", sock: "3 гнезда" },
+        { name: "Перстень Статического Заряда", stat: "+375 Атака", sock: "3 гнезда" },
+        { name: "Грозовой Бубенец Разрушения", stat: "+775 Атака, +14 Энергия", sock: "4 гнезда" }
+      ]
+    },
+    7: {
+      id: 7,
+      title: "Сет Владыки Солнечного Прайда",
+      tier: "TIER VII",
+      rarityText: "РАНГ 7 • ЛЕГЕНДАРНЫЙ СОЛНЕЧНЫЙ",
+      badgeColor: "#f97316",
+      desc: "Доспехи древних царей кошачьего прайда. Пластины из драконьей огненной чешуи и пульсирующая солнечная аура превращают владельца в сияющее воплощение непобедимости.",
+      armor: "+3,650",
+      attack: "+3,100",
+      hp: "+8,900",
+      imagePrompt: "A majestic golden cat monarch king in glowing solar amber dragon-scale armor, with blazing fiery sun aura wings and crown, triumphant pose on high mountain peak, glorious fantasy masterpiece",
+      synergies: {
+        s2: "+40% к Защите и сопротивлению всем стихийным эффектам.",
+        s4: "+50% к Урону огнем и иммунитет к эффектам контроля.",
+        s6: "При получении смертельного удара возрождается с 50% ОЗ раз за бой.",
+        s8: "«Солнцестояние Прайда»: Превращает поле боя в пылающее святилище: весь отряд наносит чистый урон сквозь 100% брони противника."
+      },
+      slots: [
+        { name: "Венец Солнечного Владыки", stat: "+620 Броня", sock: "4 гнезда" },
+        { name: "Драконья Кираса Прайда", stat: "+1,130 Броня, +2,400 ОЗ", sock: "4 гнезда" },
+        { name: "Пояс Солнечной Вспышки", stat: "+510 Броня, +1,350 ОЗ", sock: "4 гнезда" },
+        { name: "Огненные Солнцеступы", stat: "+380 Скорость, +440 Броня", sock: "4 гнезда" },
+        { name: "Царский Скипетр Пламени", stat: "+1,240 Атака, +28% Крит", sock: "4 гнезда" },
+        { name: "Пектораль Солнценосца", stat: "+370 Броня, +1,560 ОЗ", sock: "4 гнезда" },
+        { name: "Перстень Сердца Звезды", stat: "+610 Атака", sock: "4 гнезда" },
+        { name: "Солнечный Бубенец Триумфа", stat: "+1,250 Атака, +18 Энергия", sock: "4 гнезда" }
+      ]
+    },
+    8: {
+      id: 8,
+      title: "Сет Предтеч: Владыка Астрального Лукоморья",
+      tier: "TIER VIII",
+      rarityText: "РАНГ 8 • МИФИЧЕСКИЙ АСТРАЛЬНЫЙ",
+      badgeColor: "#06b6d4",
+      desc: "Абсолютная вершина творения Кошачьих Богов. Переливающиеся космические материи Лукоморья, звездная бирюзовая и розовая плазма, преломляющая ткань времени и пространства.",
+      armor: "+5,800",
+      attack: "+5,200",
+      hp: "+14,500",
+      imagePrompt: "A divine ethereal celestial mythic cat deity draped in iridescent cosmic starlight cyan and magenta armor, nebulae and galaxies swirling around paws, sacred floating cat artifacts, ultra-detailed epic fantasy art",
+      synergies: {
+        s2: "+60% ко Всем базовым атрибутам героя без ограничений.",
+        s4: "Карты способностей перезаряжаются мгновенно при уничтожении цели.",
+        s6: "Полный иммунитет к дебаффам; 50% шанс отразить любое заклинание назад.",
+        s8: "«Астральный Резонанс Лукоморья»: Завершает бой катастрофическим взрывом сверхновой, наносящим 99,999 урона всем боссам подземелий!"
+      },
+      slots: [
+        { name: "Астральный Венец Предтеч", stat: "+980 Броня", sock: "5 гнезд" },
+        { name: "Эфирный Плащ Созвездий", stat: "+1,790 Броня, +3,900 ОЗ", sock: "5 гнезд" },
+        { name: "Пояс Пульсирующей Квазара", stat: "+810 Броня, +2,200 ОЗ", sock: "5 гнезд" },
+        { name: "Хроно-Налапники Вечности", stat: "+600 Скорость, +700 Броня", sock: "5 гнезд" },
+        { name: "Космический Клинок Лукоморья", stat: "+2,080 Атака, +35% Крит", sock: "5 гнезд" },
+        { name: "Сингулярный Ошейник Богов", stat: "+580 Броня, +2,500 ОЗ", sock: "5 гнезд" },
+        { name: "Перстень Галактической Спирали", stat: "+970 Атака", sock: "5 гнезд" },
+        { name: "Мифический Бубенец Всевластия", stat: "+2,150 Атака, +25 Энергия", sock: "5 гнезд" }
+      ]
+    }
+  };
+
+  function selectRank(rankId) {
+    const data = RANKS_DATA[rankId];
+    if (!data) return;
+
+    // Update active tab styling
+    document.querySelectorAll('.rank-tab-btn').forEach(btn => {
+      const bRank = parseInt(btn.getAttribute('data-rank'));
+      if (bRank === rankId) {
+        btn.classList.remove('bg-surface-container');
+        btn.classList.add('bg-surface-container-high', 'scale-105', 'shadow-md');
+      } else {
+        btn.classList.remove('bg-surface-container-high', 'scale-105', 'shadow-md');
+        btn.classList.add('bg-surface-container');
+      }
+    });
+
+    // Update Hero Banner details
+    const badgeEl = document.getElementById('setRarityBadge');
+    badgeEl.textContent = data.rarityText;
+    badgeEl.style.color = data.badgeColor;
+
+    document.getElementById('setTierRoman').textContent = data.tier;
+    document.getElementById('setName').textContent = data.title;
+    document.getElementById('setName').style.color = rankId === 8 ? '#06b6d4' : (rankId === 7 ? '#f97316' : '#eae1db');
+    document.getElementById('setDescription').textContent = data.desc;
+
+    // Update Total stats
+    document.getElementById('totalArmor').textContent = data.armor;
+    document.getElementById('totalAttack').textContent = data.attack;
+    document.getElementById('totalHp').textContent = data.hp;
+
+    document.getElementById('mannequinDefVal').textContent = data.armor + " Броня";
+    document.getElementById('mannequinAtkVal').textContent = data.attack + " Атака";
+
+    // Update Mannequin Prompt
+    const imgEl = document.getElementById('mannequinImg');
+    imgEl.setAttribute('data-alt', data.imagePrompt);
+
+    // Update Glow Color
+    const glowEl = document.getElementById('mannequinGlow');
+    glowEl.style.backgroundColor = data.badgeColor + '33';
+
+    // Update Synergies
+    document.getElementById('synergy2').textContent = data.synergies.s2;
+    document.getElementById('synergy4').textContent = data.synergies.s4;
+    document.getElementById('synergy6').textContent = data.synergies.s6;
+    document.getElementById('synergy8').textContent = data.synergies.s8;
+
+    // Update all 8 Slots
+    data.slots.forEach((slot, idx) => {
+      const nameEl = document.querySelector(`.slot-name-${idx}`);
+      const statEl = document.querySelector(`.slot-stat-${idx}`);
+      const sockEl = document.querySelector(`.slot-socket-${idx}`);
+
+      if (nameEl) nameEl.textContent = slot.name;
+      if (statEl) statEl.textContent = slot.stat;
+      if (sockEl) sockEl.textContent = slot.sock;
+    });
+  }
+
+  // Initialize on first load with Rank 1
+  document.addEventListener("DOMContentLoaded", () => {
+    selectRank(1);
+  });
+</script></main><footer class="w-full bg-surface-container-lowest py-space-xl shadow-[0_-4px_16px_rgba(0,0,0,0.5)]"><div class="max-w-7xl mx-auto px-space-lg flex flex-col md:flex-row items-center justify-between gap-space-lg text-on-surface-variant"><div class="flex items-center gap-space-sm"><div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[18px]">sports_martial_arts</span></div><div class="flex flex-col"><span class="font-headline-md text-label-lg text-on-surface">Хроники Очага • Мифиус</span><span class="font-body-sm text-body-sm">© 2024 МИФИУС: ПОДЗЕМЕЛЬЯ. Все кошачьи кланы защищены.</span></div></div><div class="flex items-center gap-space-lg font-label-md text-label-md"><a class="hover:text-primary transition-colors" data-path="letopis-podzemeliy" href="#">Летопись Подземелий</a><a class="hover:text-primary transition-colors" data-path="pravila-turnira" href="#">Правила Турнира</a><a class="hover:text-primary transition-colors" data-path="giltskii-kodeks" href="#">Гильдейский Кодекс</a><a class="hover:text-primary transition-colors" data-path="svyaz-s-masterom" href="#">Связь с Мастером Очага</a></div></div></footer></body></html>

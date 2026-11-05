@@ -1,0 +1,754 @@
+<section id="viewClassSets" class="stitch-view hidden" data-stitch="class_sets">
+<header class="fixed top-0 w-full z-50 bg-surface-dim/95 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.55)]"><div class="h-20 w-full px-space-lg lg:px-margin-tablet flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg shrink-0"><a class="flex items-center gap-space-sm group" href="#"><div class="w-10 h-10 rounded-xl bg-surface-container-high flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-on-primary transition-colors"><span class="material-symbols-outlined text-[24px]">shield_with_heart</span></div><div class="flex flex-col"><span class="font-headline-md text-headline-md tracking-wider text-primary uppercase leading-none">МИФИУС</span><span class="font-label-sm text-label-sm text-on-surface-variant tracking-widest uppercase mt-0.5">ПОДЗЕМЕЛЬЯ</span></div></a><nav class="hidden xl:flex items-center gap-space-xs" data-active-classes="bg-primary-container text-on-primary-container font-label-md rounded-lg"><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="heroes-codex" href="#">Кодекс Героев</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="armory" href="#">Оружейная</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="armor-sets" href="#">Сеты Брони</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="weapon-sets" href="#">Оружейные Сеты</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="blacksmith" href="#">Кузница</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="tavern" href="#">Таверна</a></nav></div><div class="flex items-center gap-space-sm lg:gap-space-md shrink-0"><div class="hidden md:flex items-center gap-space-sm bg-surface-container-lowest px-space-md py-1.5 rounded-xl"><div class="flex items-center gap-1.5 px-space-xs"><span class="material-symbols-outlined text-primary text-[18px]">phishing</span><span class="font-stat-numeral text-label-md text-primary-fixed">14,850</span></div><div class="flex items-center gap-1.5 px-space-xs"><span class="material-symbols-outlined text-secondary text-[18px]">fiber_manual_record</span><span class="font-stat-numeral text-label-md text-secondary-fixed">920</span></div><div class="flex items-center gap-1.5 px-space-xs"><span class="material-symbols-outlined text-tertiary text-[18px]">bolt</span><span class="font-stat-numeral text-label-md text-on-surface">85/100</span></div><div class="flex items-center gap-1.5 px-space-xs"><span class="material-symbols-outlined text-primary-fixed text-[18px]">diamond</span><span class="font-stat-numeral text-label-md text-primary">385</span></div></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="w-full pt-20 bg-surface flex-1"><div class="flex flex-col w-full">
+<!-- Top Command Ribbon & Atmospheric Banner -->
+<div class="w-full relative overflow-hidden bg-surface-container-lowest px-space-lg lg:px-margin-tablet py-space-xl">
+<div class="absolute -top-24 -left-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="absolute top-1/2 right-0 w-80 h-80 bg-secondary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div class="relative z-10 flex flex-col xl:flex-row xl:items-end justify-between gap-space-lg">
+<div class="flex flex-col gap-space-xs max-w-3xl">
+<div class="flex items-center gap-space-sm text-primary">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">swords</span>
+<span class="font-label-sm text-label-sm tracking-widest uppercase text-primary">Кодекс Экипировки • Зал Трофеев Таверны</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface tracking-tight">
+          АРСЕНАЛ КЛАССОВЫХ СЕТОВ
+        </h1>
+<p class="font-body-md text-body-md text-on-surface-variant">
+          Освящённые реликвии шести боевых школ и двенадцати архетипов Подземелий Мифиуса. Соберите полный набор для раскрытия скрытого классового резонанса и стихийных ауры котиков.
+        </p>
+</div>
+<!-- Quick Rarity Ranker Slider Switcher -->
+<div class="flex flex-col gap-space-xs bg-surface-container-high p-space-md rounded-xl shadow-xl border-0">
+<div class="flex items-center justify-between gap-space-md">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[16px]">grade</span> Текущий Ранг Комплектов:
+          </span>
+<span class="font-label-md text-label-md text-primary font-bold" id="rankTitleDisplay">Ранг 7: Легендарный</span>
+</div>
+<div class="flex items-center gap-1.5 flex-wrap" id="rankSelectorContainer">
+<button class="rank-btn px-2.5 py-1 rounded font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:text-on-surface transition-all" data-rank="1" data-rank-name="Ранг 1: Обычный">I</button>
+<button class="rank-btn px-2.5 py-1 rounded font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:text-on-surface transition-all" data-rank="2" data-rank-name="Ранг 2: Необычный">II</button>
+<button class="rank-btn px-2.5 py-1 rounded font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:text-on-surface transition-all" data-rank="3" data-rank-name="Ранг 3: Редкий">III</button>
+<button class="rank-btn px-2.5 py-1 rounded font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:text-on-surface transition-all" data-rank="4" data-rank-name="Ранг 4: Золотой">IV</button>
+<button class="rank-btn px-2.5 py-1 rounded font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:text-on-surface transition-all" data-rank="5" data-rank-name="Ранг 5: Мистик">V</button>
+<button class="rank-btn px-2.5 py-1 rounded font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:text-on-surface transition-all" data-rank="6" data-rank-name="Ранг 6: Эпический">VI</button>
+<button class="rank-btn active px-2.5 py-1 rounded font-label-sm text-label-sm bg-primary text-on-primary font-bold shadow-md transition-all" data-rank="7" data-rank-name="Ранг 7: Легендарный">VII</button>
+<button class="rank-btn px-2.5 py-1 rounded font-label-sm text-label-sm bg-surface-container text-on-surface-variant hover:text-on-surface transition-all" data-rank="8" data-rank-name="Ранг 8: Мифический">VIII</button>
+</div>
+</div>
+</div>
+<!-- Class Nav Tabs with Badges -->
+<div class="mt-space-xl flex items-center gap-space-xs overflow-x-auto pb-2 scrollbar-none" id="classFilterNav">
+<button class="class-filter-btn flex items-center gap-2 px-space-md py-2 rounded-lg font-label-md text-label-md bg-primary-container text-on-primary-container shadow-md transition-all shrink-0" data-class="all">
+<span class="material-symbols-outlined text-[18px]">apps</span>
+<span>Все Классы</span>
+<span class="px-1.5 py-0.2 bg-black/20 rounded-full font-label-sm text-label-sm">6</span>
+</button>
+<button class="class-filter-btn flex items-center gap-2 px-space-md py-2 rounded-lg font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all shrink-0" data-class="tank">
+<span class="material-symbols-outlined text-primary text-[18px]">shield</span>
+<span>Танки</span>
+</button>
+<button class="class-filter-btn flex items-center gap-2 px-space-md py-2 rounded-lg font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all shrink-0" data-class="fighter">
+<span class="material-symbols-outlined text-tertiary-container text-[18px]">sports_martial_arts</span>
+<span>Бойцы</span>
+</button>
+<button class="class-filter-btn flex items-center gap-2 px-space-md py-2 rounded-lg font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all shrink-0" data-class="assassin">
+<span class="material-symbols-outlined text-purple-400 text-[18px]">visibility_off</span>
+<span>Ассасины</span>
+</button>
+<button class="class-filter-btn flex items-center gap-2 px-space-md py-2 rounded-lg font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all shrink-0" data-class="ranger">
+<span class="material-symbols-outlined text-secondary text-[18px]">adjust</span>
+<span>Рейнджеры</span>
+</button>
+<button class="class-filter-btn flex items-center gap-2 px-space-md py-2 rounded-lg font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all shrink-0" data-class="mage">
+<span class="material-symbols-outlined text-blue-400 text-[18px]">auto_fix_high</span>
+<span>Маги</span>
+</button>
+<button class="class-filter-btn flex items-center gap-2 px-space-md py-2 rounded-lg font-label-md text-label-md bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-all shrink-0" data-class="support">
+<span class="material-symbols-outlined text-primary-fixed text-[18px]">spa</span>
+<span>Поддержка</span>
+</button>
+</div>
+</div>
+<!-- Main Grid of Class Armor & Weapon Sets -->
+<div class="px-space-lg lg:px-margin-tablet py-space-xl grid grid-cols-1 md:grid-cols-2 2xl:grid-cols-3 gap-space-xl" id="armorSetsContainer">
+<!-- 1. ТАНКИ: Бастион Золотого Льва -->
+<div class="set-card flex flex-col bg-surface-container-low rounded-xl overflow-hidden shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_36px_rgba(253,186,69,0.18)]" data-class="tank">
+<!-- Card Image & Header Inset -->
+<div class="relative w-full h-80 bg-surface-container-lowest overflow-hidden group">
+<img alt="Сет Бастион Золотого Льва" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC4c9LutopCrkdc20YQWhGH0nbPkCKdMsepFeRK9-ALT_wEQxtTUI2CXDyZDXtdmFjE7IccvyEtomGx7XW53ip6ywlUUBN-VnU78XPbFBolGlUcqtqvlVornLDsWTzMPTa6gZOaY8PM-FDLGTS4BMHv8BAMFQpGZVST7ejZ9UzPdcfWTLFdffvzkrMgcf2QxS_udoAjorq9im1lS2k-QNol0PlUKS6P4-miIhRWcg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-black/60 pointer-events-none"></div>
+<!-- Badges -->
+<div class="absolute top-space-md left-space-md flex items-center gap-2">
+<span class="flex items-center gap-1 bg-surface-container-lowest/90 backdrop-blur px-2.5 py-1 rounded font-label-sm text-label-sm text-primary">
+<span class="material-symbols-outlined text-[16px]">shield</span> ТАНКИ
+          </span>
+<span class="bg-primary/90 text-on-primary px-2 py-0.5 rounded font-label-sm text-label-sm uppercase tracking-wider font-bold">
+            Барсик • Громовой Страж
+          </span>
+</div>
+<div class="absolute top-space-md right-space-md bg-surface-container-lowest/90 px-2.5 py-1 rounded font-stat-numeral text-label-md text-primary">
+          Ранг VII
+        </div>
+<!-- Floating Set Title at bottom of art -->
+<div class="absolute bottom-space-md left-space-md right-space-md flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Комплект Несокрушимости</span>
+<h2 class="font-headline-md text-headline-md text-primary-fixed drop-shadow">Бастион Золотого Льва</h2>
+</div>
+</div>
+<!-- Set Content Body -->
+<div class="p-space-lg flex flex-col flex-1 justify-between gap-space-lg">
+<!-- 6 Item Slots Preview Tray -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Снаряжение набора (6/6)</span>
+<span class="font-label-sm text-label-sm text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Все части собраны
+            </span>
+</div>
+<div class="grid grid-cols-6 gap-2 pt-1">
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg group/slot hover:bg-surface-bright transition-colors" title="Крылатый Шлем Льва">
+<span class="material-symbols-outlined text-primary text-[20px]">military_tech</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Шлем</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg group/slot hover:bg-surface-bright transition-colors" title="Бастионный Латный Панцирь">
+<span class="material-symbols-outlined text-primary text-[20px]">shield</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Броня</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg group/slot hover:bg-surface-bright transition-colors" title="Огромный Эгис-Щит и Копье">
+<span class="material-symbols-outlined text-primary text-[20px]">security</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Оружие</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg group/slot hover:bg-surface-bright transition-colors" title="Львиный Латный Пояс">
+<span class="material-symbols-outlined text-primary text-[20px]">view_agenda</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Пояс</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg group/slot hover:bg-surface-bright transition-colors" title="Перстень Каменного Очага">
+<span class="material-symbols-outlined text-primary text-[20px]">radio_button_checked</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Перстень</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg group/slot hover:bg-surface-bright transition-colors" title="Оберег Звонкого Бубенца">
+<span class="material-symbols-outlined text-primary text-[20px]">notifications_active</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Бубенец</span>
+</div>
+</div>
+</div>
+<!-- Set Stat Metrics -->
+<div class="grid grid-cols-3 gap-2 bg-surface-container p-space-md rounded-xl">
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Щит отряда</span>
+<span class="font-stat-numeral text-label-lg text-secondary">+450</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Здоровье (ОЗ)</span>
+<span class="font-stat-numeral text-label-lg text-primary">+1200</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Блок &amp; Таунт</span>
+<span class="font-stat-numeral text-label-lg text-tertiary-container">85% / 100%</span>
+</div>
+</div>
+<!-- Synergy Perk Description Block -->
+<div class="bg-surface-container-high/60 p-space-md rounded-lg flex flex-col gap-1">
+<div class="flex items-center gap-1.5 text-primary">
+<span class="material-symbols-outlined text-[16px]">stars</span>
+<span class="font-label-sm text-label-sm font-bold uppercase tracking-wider">Резонанс 4 предметов: «Грива Льва»</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">
+            При получении урона перенаправляет <strong>40% атаки врага</strong> на себя и восстанавливает <strong>180 ед. прочности щита</strong> передней линии.
+          </p>
+</div>
+<!-- Action CTA Buttons -->
+<div class="flex items-center gap-space-sm pt-2">
+<button class="flex-1 py-2.5 px-space-md rounded-lg bg-primary hover:bg-primary-fixed-dim text-on-primary font-label-md text-label-md flex items-center justify-center gap-2 shadow-lg transition-all active:translate-y-0.5">
+<span class="material-symbols-outlined text-[18px]">checkroom</span>
+<span>Примерить</span>
+</button>
+<button class="py-2.5 px-space-md rounded-lg bg-surface-container hover:bg-surface-bright text-on-surface font-label-md text-label-md flex items-center justify-center gap-1.5 transition-all" title="Кузница: Улучшить до Ранга VIII">
+<span class="material-symbols-outlined text-primary text-[18px]">hardware</span>
+<span>Кузница</span>
+</button>
+</div>
+</div>
+</div>
+<!-- 2. БОЙЦЫ: Ярость Полосатого Вепря -->
+<div class="set-card flex flex-col bg-surface-container-low rounded-xl overflow-hidden shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_36px_rgba(255,130,108,0.18)]" data-class="fighter">
+<div class="relative w-full h-80 bg-surface-container-lowest overflow-hidden group">
+<img alt="Сет Ярость Полосатого Вепря" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChchPwxLZCb8Q5CpdA2baeE-DHx_a49LHAPT8xZCIxB2bywluzgScWpN9j73FKOBEAtoRAqqQQQD_Y6PQ6gY3tl-1UqZ858XNla88StU1mbyIIptKa2yT5KypPzaAvv5CIBWSVqrPbi_s-CCT8YPSjucnDvZqEYEjNpWNaFcHjy3U-_CtePAXjrYd7wfHG6Z5ci6X4tiqqdVYQzXxrqZHgMO3pNLtTdHqFtONvlA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-black/60 pointer-events-none"></div>
+<div class="absolute top-space-md left-space-md flex items-center gap-2">
+<span class="flex items-center gap-1 bg-surface-container-lowest/90 backdrop-blur px-2.5 py-1 rounded font-label-sm text-label-sm text-tertiary-container">
+<span class="material-symbols-outlined text-[16px]">sports_martial_arts</span> БОЙЦЫ
+          </span>
+<span class="bg-tertiary-container text-on-tertiary-container px-2 py-0.5 rounded font-label-sm text-label-sm uppercase tracking-wider font-bold">
+            Рыжик • Коготь Вепря
+          </span>
+</div>
+<div class="absolute top-space-md right-space-md bg-surface-container-lowest/90 px-2.5 py-1 rounded font-stat-numeral text-label-md text-tertiary-container">
+          Ранг VII
+        </div>
+<div class="absolute bottom-space-md left-space-md right-space-md flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Комплект Берсерка</span>
+<h2 class="font-headline-md text-headline-md text-tertiary drop-shadow">Ярость Полосатого Вепря</h2>
+</div>
+</div>
+<div class="p-space-lg flex flex-col flex-1 justify-between gap-space-lg">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Снаряжение набора (6/6)</span>
+<span class="font-label-sm text-label-sm text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Все части собраны
+            </span>
+</div>
+<div class="grid grid-cols-6 gap-2 pt-1">
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Шипастая Маска Вепря">
+<span class="material-symbols-outlined text-tertiary-container text-[20px]">smart_toy</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Шлем</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Шипастая Кожаная Кираса">
+<span class="material-symbols-outlined text-tertiary-container text-[20px]">shield</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Броня</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Парные Секиры и Клинок Вихря">
+<span class="material-symbols-outlined text-tertiary-container text-[20px]">swords</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Оружие</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Шкура-Пояс Вепря">
+<span class="material-symbols-outlined text-tertiary-container text-[20px]">view_agenda</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Пояс</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Руническое Кольцо Клыка">
+<span class="material-symbols-outlined text-tertiary-container text-[20px]">adjust</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Перстень</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Когтистые Налапники">
+<span class="material-symbols-outlined text-tertiary-container text-[20px]">flare</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Когти</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-2 bg-surface-container p-space-md rounded-xl">
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Атака (Урон)</span>
+<span class="font-stat-numeral text-label-lg text-tertiary-container">+135</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Здоровье (ОЗ)</span>
+<span class="font-stat-numeral text-label-lg text-primary">+890</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Крит / Серия</span>
+<span class="font-stat-numeral text-label-lg text-secondary">35% (x2)</span>
+</div>
+</div>
+<div class="bg-surface-container-high/60 p-space-md rounded-lg flex flex-col gap-1">
+<div class="flex items-center gap-1.5 text-tertiary-container">
+<span class="material-symbols-outlined text-[16px]">local_fire_department</span>
+<span class="font-label-sm text-label-sm font-bold uppercase tracking-wider">Резонанс: «Кровавый Раж»</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">
+            Каждая атака при здоровье ниже 50% совершает <strong>Двойной удар</strong> с шансом наложить эффект <strong>«Кровоток»</strong> на 3 раунда.
+          </p>
+</div>
+<div class="flex items-center gap-space-sm pt-2">
+<button class="flex-1 py-2.5 px-space-md rounded-lg bg-tertiary-container hover:bg-tertiary text-on-tertiary-container font-label-md text-label-md flex items-center justify-center gap-2 shadow-lg transition-all active:translate-y-0.5">
+<span class="material-symbols-outlined text-[18px]">checkroom</span>
+<span>Примерить</span>
+</button>
+<button class="py-2.5 px-space-md rounded-lg bg-surface-container hover:bg-surface-bright text-on-surface font-label-md text-label-md flex items-center justify-center gap-1.5 transition-all">
+<span class="material-symbols-outlined text-tertiary-container text-[18px]">hardware</span>
+<span>Кузница</span>
+</button>
+</div>
+</div>
+</div>
+<!-- 3. АССАСИНЫ: Тень Ночного Мурлыки -->
+<div class="set-card flex flex-col bg-surface-container-low rounded-xl overflow-hidden shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_36px_rgba(192,132,252,0.18)]" data-class="assassin">
+<div class="relative w-full h-80 bg-surface-container-lowest overflow-hidden group">
+<img alt="Сет Тень Ночного Мурлыки" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpAxBTSJyFNUlZV1c68CHhqFHJqTuaHC13nv58ipId1X5kCGu5wZtAvew2hIRNdCSRZ3StD-zDO1GVYW2h0PqeIkYTLUKVJdVAVwRrlA-Kza74dpwlfIyltwDETx3klZXWuSgLYqdJj1_gl5k82D6mEwGPWKySymDt3ATzQrNGolGHWl2PNR7KAQAvE_yeJEF6rJccVvYqh88Lghh1964Dv3oJCtY6XfUOzqfQZw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-black/60 pointer-events-none"></div>
+<div class="absolute top-space-md left-space-md flex items-center gap-2">
+<span class="flex items-center gap-1 bg-surface-container-lowest/90 backdrop-blur px-2.5 py-1 rounded font-label-sm text-label-sm text-purple-300">
+<span class="material-symbols-outlined text-[16px]">visibility_off</span> АССАСИНЫ
+          </span>
+<span class="bg-purple-900/90 text-purple-200 px-2 py-0.5 rounded font-label-sm text-label-sm uppercase tracking-wider font-bold">
+            Мяукула • Ночной Мурр
+          </span>
+</div>
+<div class="absolute top-space-md right-space-md bg-surface-container-lowest/90 px-2.5 py-1 rounded font-stat-numeral text-label-md text-purple-300">
+          Ранг VII
+        </div>
+<div class="absolute bottom-space-md left-space-md right-space-md flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Сумеречный Комплект</span>
+<h2 class="font-headline-md text-headline-md text-purple-200 drop-shadow">Тень Ночного Мурлыки</h2>
+</div>
+</div>
+<div class="p-space-lg flex flex-col flex-1 justify-between gap-space-lg">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Снаряжение набора (6/6)</span>
+<span class="font-label-sm text-label-sm text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Все части собраны
+            </span>
+</div>
+<div class="grid grid-cols-6 gap-2 pt-1">
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Сумеречный Капюшон с ушками">
+<span class="material-symbols-outlined text-purple-400 text-[20px]">masks</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Капюшон</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Бесшумный Полулатный Корсет">
+<span class="material-symbols-outlined text-purple-400 text-[20px]">shield</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Корсет</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Парные Эфирные Кинжалы Пустоты">
+<span class="material-symbols-outlined text-purple-400 text-[20px]">colorize</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Кинжалы</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Теневой Пояс скрытности">
+<span class="material-symbols-outlined text-purple-400 text-[20px]">view_agenda</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Пояс</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Перстень Бездны Мурра">
+<span class="material-symbols-outlined text-purple-400 text-[20px]">album</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Перстень</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Глушитель-Бубенец">
+<span class="material-symbols-outlined text-purple-400 text-[20px]">notifications_off</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Бубенец</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-2 bg-surface-container p-space-md rounded-xl">
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Атака (Тень)</span>
+<span class="font-stat-numeral text-label-lg text-purple-300">+126</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Множитель Крита</span>
+<span class="font-stat-numeral text-label-lg text-primary">x3.50</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Фокус Врага</span>
+<span class="font-stat-numeral text-label-lg text-secondary">Бэклайн</span>
+</div>
+</div>
+<div class="bg-surface-container-high/60 p-space-md rounded-lg flex flex-col gap-1">
+<div class="flex items-center gap-1.5 text-purple-300">
+<span class="material-symbols-outlined text-[16px]">dark_mode</span>
+<span class="font-label-sm text-label-sm font-bold uppercase tracking-wider">Пассивка: «Шаг в Пустоту»</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">
+            Убийство врага мгновенно активирует <strong>«Скрытность»</strong> на 1 ход, делая котика неуязвимым для прямых контратак.
+          </p>
+</div>
+<div class="flex items-center gap-space-sm pt-2">
+<button class="flex-1 py-2.5 px-space-md rounded-lg bg-surface-variant hover:bg-surface-bright text-purple-200 font-label-md text-label-md flex items-center justify-center gap-2 shadow-lg transition-all active:translate-y-0.5">
+<span class="material-symbols-outlined text-[18px]">checkroom</span>
+<span>Примерить</span>
+</button>
+<button class="py-2.5 px-space-md rounded-lg bg-surface-container hover:bg-surface-bright text-on-surface font-label-md text-label-md flex items-center justify-center gap-1.5 transition-all">
+<span class="material-symbols-outlined text-purple-300 text-[18px]">hardware</span>
+<span>Кузница</span>
+</button>
+</div>
+</div>
+</div>
+<!-- 4. РЕЙНДЖЕРЫ: Следопыт Лунной Бури -->
+<div class="set-card flex flex-col bg-surface-container-low rounded-xl overflow-hidden shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_36px_rgba(137,217,140,0.18)]" data-class="ranger">
+<div class="relative w-full h-80 bg-surface-container-lowest overflow-hidden group">
+<img alt="Сет Следопыт Лунной Бури" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBM-8UFZAJe7N_g-nX8Leo7YI14i2yjk92hWQ2QnEKfeEBpajWQ6-WjGOQ8zJrLstLQN0nHRf_p4As0tN51PSqbRf7VsnMAv0exkf5H3kY_fogdGtYX-tqHAW6rowbyb88ToD_oBsEiYSJEQOwz5AEKqXkU88Hj-8XDadlPWp799eN-eE0xTfmdCxui8MJ45Grjkhan0sy4nIRsXbxs1OAcaErhKDv0hG51y8rqeg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-black/60 pointer-events-none"></div>
+<div class="absolute top-space-md left-space-md flex items-center gap-2">
+<span class="flex items-center gap-1 bg-surface-container-lowest/90 backdrop-blur px-2.5 py-1 rounded font-label-sm text-label-sm text-secondary">
+<span class="material-symbols-outlined text-[16px]">adjust</span> РЕЙНДЖЕРЫ
+          </span>
+<span class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded font-label-sm text-label-sm uppercase tracking-wider font-bold">
+            Лунная Рысь • Арбалетчик
+          </span>
+</div>
+<div class="absolute top-space-md right-space-md bg-surface-container-lowest/90 px-2.5 py-1 rounded font-stat-numeral text-label-md text-secondary">
+          Ранг VII
+        </div>
+<div class="absolute bottom-space-md left-space-md right-space-md flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Комплект Охотника Бурь</span>
+<h2 class="font-headline-md text-headline-md text-secondary drop-shadow">Следопыт Лунной Бури</h2>
+</div>
+</div>
+<div class="p-space-lg flex flex-col flex-1 justify-between gap-space-lg">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Снаряжение набора (6/6)</span>
+<span class="font-label-sm text-label-sm text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Все части собраны
+            </span>
+</div>
+<div class="grid grid-cols-6 gap-2 pt-1">
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Капюшон Рыси-Следопыта">
+<span class="material-symbols-outlined text-secondary text-[20px]">explore</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Капюшон</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Меховая Куртка Следопыта">
+<span class="material-symbols-outlined text-secondary text-[20px]">shield</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Одеяние</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Громовой Тяжелый Арбалет и Лук">
+<span class="material-symbols-outlined text-secondary text-[20px]">bolt</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Оружие</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Колчан Рунических Стрел">
+<span class="material-symbols-outlined text-secondary text-[20px]">view_week</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Колчан</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Кольцо Попутного Ветра">
+<span class="material-symbols-outlined text-secondary text-[20px]">blur_circular</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Перстень</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Бубенец Лесного Свиста">
+<span class="material-symbols-outlined text-secondary text-[20px]">graphic_eq</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Бубенец</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-2 bg-surface-container p-space-md rounded-xl">
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Меткий Урон</span>
+<span class="font-stat-numeral text-label-lg text-secondary">+105</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Пробив Брони</span>
+<span class="font-stat-numeral text-label-lg text-primary">40%</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Приоритет Цели</span>
+<span class="font-stat-numeral text-label-lg text-on-surface">Lowest_HP</span>
+</div>
+</div>
+<div class="bg-surface-container-high/60 p-space-md rounded-lg flex flex-col gap-1">
+<div class="flex items-center gap-1.5 text-secondary">
+<span class="material-symbols-outlined text-[16px]">flash_on</span>
+<span class="font-label-sm text-label-sm font-bold uppercase tracking-wider">Особый Навык: «Громовой Залп»</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">
+            Каждый 3-й выстрел рикошетит во всех врагов, нанося <strong>65% AoE электро-урона</strong> и сбивая щиты.
+          </p>
+</div>
+<div class="flex items-center gap-space-sm pt-2">
+<button class="flex-1 py-2.5 px-space-md rounded-lg bg-secondary-container hover:bg-secondary text-on-secondary-container font-label-md text-label-md flex items-center justify-center gap-2 shadow-lg transition-all active:translate-y-0.5">
+<span class="material-symbols-outlined text-[18px]">checkroom</span>
+<span>Примерить</span>
+</button>
+<button class="py-2.5 px-space-md rounded-lg bg-surface-container hover:bg-surface-bright text-on-surface font-label-md text-label-md flex items-center justify-center gap-1.5 transition-all">
+<span class="material-symbols-outlined text-secondary text-[18px]">hardware</span>
+<span>Кузница</span>
+</button>
+</div>
+</div>
+</div>
+<!-- 5. МАГИ: Звездная Мантия Архимага Очага -->
+<div class="set-card flex flex-col bg-surface-container-low rounded-xl overflow-hidden shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_36px_rgba(96,165,250,0.18)]" data-class="mage">
+<div class="relative w-full h-80 bg-surface-container-lowest overflow-hidden group">
+<img alt="Сет Звездная Мантия Архимага Очага" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2HzGOT4xBiULOEGpODNV8--oedmlopjVQonV1_EVpmDOiVvTpnp5gvF0Mpm8zWf5Q8zYLrRFXUYuKxrj4dRdUIqkl8Mfp2fa5Olw-xuuK6zBbsFbBy2Gwl-SLUfpZSiUdmWDAsxGnn8gEQwOUw8QlnEToIsJ9cE-iBMYzjo57hwyzSB6F89Wcf2ddyTPEaQ9HNSAICJ7vcFLwlBpFnporUWQvL2gY9k41FryADw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-black/60 pointer-events-none"></div>
+<div class="absolute top-space-md left-space-md flex items-center gap-2">
+<span class="flex items-center gap-1 bg-surface-container-lowest/90 backdrop-blur px-2.5 py-1 rounded font-label-sm text-label-sm text-blue-300">
+<span class="material-symbols-outlined text-[16px]">auto_fix_high</span> МАГИ
+          </span>
+<span class="bg-blue-900/90 text-blue-200 px-2 py-0.5 rounded font-label-sm text-label-sm uppercase tracking-wider font-bold">
+            Искрохвост • Морозный Кот
+          </span>
+</div>
+<div class="absolute top-space-md right-space-md bg-surface-container-lowest/90 px-2.5 py-1 rounded font-stat-numeral text-label-md text-blue-300">
+          Ранг VII
+        </div>
+<div class="absolute bottom-space-md left-space-md right-space-md flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Комплект Высшей Магии</span>
+<h2 class="font-headline-md text-headline-md text-blue-200 drop-shadow">Звездная Мантия Архимага</h2>
+</div>
+</div>
+<div class="p-space-lg flex flex-col flex-1 justify-between gap-space-lg">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Снаряжение набора (6/6)</span>
+<span class="font-label-sm text-label-sm text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Все части собраны
+            </span>
+</div>
+<div class="grid grid-cols-6 gap-2 pt-1">
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Звездный Клобук Созвездий">
+<span class="material-symbols-outlined text-blue-400 text-[20px]">wb_twilight</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Капюшон</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Бархатная Мантия со Звездами">
+<span class="material-symbols-outlined text-blue-400 text-[20px]">dry_cleaning</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Мантия</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Посох Двух Стихий и Гримуар">
+<span class="material-symbols-outlined text-blue-400 text-[20px]">auto_fix_normal</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Посох</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Пояс Лунных Фаз">
+<span class="material-symbols-outlined text-blue-400 text-[20px]">view_agenda</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Пояс</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Кольцо Кошачьей Лапы-Гримуара">
+<span class="material-symbols-outlined text-blue-400 text-[20px]">pets</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Гримуар</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Хрустальный Звенящий Бубенец">
+<span class="material-symbols-outlined text-blue-400 text-[20px]">bubble_chart</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Бубенец</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-2 bg-surface-container p-space-md rounded-xl">
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Сила Магии</span>
+<span class="font-stat-numeral text-label-lg text-blue-300">+140</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Заморозка</span>
+<span class="font-stat-numeral text-label-lg text-primary">Stun = 1ход</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Шквал Огня</span>
+<span class="font-stat-numeral text-label-lg text-tertiary-container">-30% Обороны</span>
+</div>
+</div>
+<div class="bg-surface-container-high/60 p-space-md rounded-lg flex flex-col gap-1">
+<div class="flex items-center gap-1.5 text-blue-300">
+<span class="material-symbols-outlined text-[16px]">ac_unit</span>
+<span class="font-label-sm text-label-sm font-bold uppercase tracking-wider">Элементальный Резонанс: «Термодинамика»</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">
+            Чередование карт Огня и Льда удваивает магический урон и накладывает <strong>Немоту</strong> на атакуемого босса.
+          </p>
+</div>
+<div class="flex items-center gap-space-sm pt-2">
+<button class="flex-1 py-2.5 px-space-md rounded-lg bg-surface-variant hover:bg-surface-bright text-blue-200 font-label-md text-label-md flex items-center justify-center gap-2 shadow-lg transition-all active:translate-y-0.5">
+<span class="material-symbols-outlined text-[18px]">checkroom</span>
+<span>Примерить</span>
+</button>
+<button class="py-2.5 px-space-md rounded-lg bg-surface-container hover:bg-surface-bright text-on-surface font-label-md text-label-md flex items-center justify-center gap-1.5 transition-all">
+<span class="material-symbols-outlined text-blue-300 text-[18px]">hardware</span>
+<span>Кузница</span>
+</button>
+</div>
+</div>
+</div>
+<!-- 6. ПОДДЕРЖКА: Облачение Звездной Целительницы -->
+<div class="set-card flex flex-col bg-surface-container-low rounded-xl overflow-hidden shadow-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_36px_rgba(255,222,174,0.18)]" data-class="support">
+<div class="relative w-full h-80 bg-surface-container-lowest overflow-hidden group">
+<img alt="Сет Облачение Звездной Целительницы" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD_vBypuCeVI2qb1WpbXfQqA3aeWisu791sYW5Q7ymwiahPKTTmJjseeFipgeIT57a1uP1RelbZFrpr8_YhDMnO8aUvUllWkSJTtTbXypbDRiS15M8gTNKO6ax7TQ5CmfK8NhLwL2nxZASb4T9riQ-oobEx-yFAZGL5E_9I3u61TnyWziLBwDjHU7ogxphFMTvs0iC-hFZh_5uIHfau-qJLAMqymDS2BWdV-OG06Q"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-transparent to-black/60 pointer-events-none"></div>
+<div class="absolute top-space-md left-space-md flex items-center gap-2">
+<span class="flex items-center gap-1 bg-surface-container-lowest/90 backdrop-blur px-2.5 py-1 rounded font-label-sm text-label-sm text-primary-fixed">
+<span class="material-symbols-outlined text-[16px]">spa</span> ПОДДЕРЖКА
+          </span>
+<span class="bg-primary-container text-on-primary-container px-2 py-0.5 rounded font-label-sm text-label-sm uppercase tracking-wider font-bold">
+            Росинка • Бодрящий Мурлыка
+          </span>
+</div>
+<div class="absolute top-space-md right-space-md bg-surface-container-lowest/90 px-2.5 py-1 rounded font-stat-numeral text-label-md text-primary-fixed">
+          Ранг VII
+        </div>
+<div class="absolute bottom-space-md left-space-md right-space-md flex flex-col">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Священный Комплект Жрицы</span>
+<h2 class="font-headline-md text-headline-md text-primary-fixed drop-shadow">Облачение Звездной Целительницы</h2>
+</div>
+</div>
+<div class="p-space-lg flex flex-col flex-1 justify-between gap-space-lg">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Снаряжение набора (6/6)</span>
+<span class="font-label-sm text-label-sm text-secondary flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">check_circle</span> Все части собраны
+            </span>
+</div>
+<div class="grid grid-cols-6 gap-2 pt-1">
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Светлый Капюшон с золотым шитьем">
+<span class="material-symbols-outlined text-primary-fixed text-[20px]">filter_vintage</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Капюшон</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Белоснежное Одеяние с мехом">
+<span class="material-symbols-outlined text-primary-fixed text-[20px]">styler</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Одеяние</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Кадуцей Лотоса и Лютня Предков">
+<span class="material-symbols-outlined text-primary-fixed text-[20px]">queue_music</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Лютня</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Золотой Пояс Гармонии">
+<span class="material-symbols-outlined text-primary-fixed text-[20px]">view_agenda</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Пояс</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Кольцо Росы Предков">
+<span class="material-symbols-outlined text-primary-fixed text-[20px]">favorite</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Перстень</span>
+</div>
+<div class="flex flex-col items-center gap-1 bg-surface-container p-2 rounded-lg hover:bg-surface-bright transition-colors" title="Серебряный Бубенец Бодрости">
+<span class="material-symbols-outlined text-primary-fixed text-[20px]">music_note</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant text-center truncate w-full">Бубенец</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-2 bg-surface-container p-space-md rounded-xl">
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Исцеление</span>
+<span class="font-stat-numeral text-label-lg text-secondary">+120%</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Очищение</span>
+<span class="font-stat-numeral text-label-lg text-primary">100% Debuff</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase">Бафф Атаки</span>
+<span class="font-stat-numeral text-label-lg text-primary-fixed">+40% к урону</span>
+</div>
+</div>
+<div class="bg-surface-container-high/60 p-space-md rounded-lg flex flex-col gap-1">
+<div class="flex items-center gap-1.5 text-primary-fixed">
+<span class="material-symbols-outlined text-[16px]">volunteer_activism</span>
+<span class="font-label-sm text-label-sm font-bold uppercase tracking-wider">Мелодия Барда: «Мурчание Жизни»</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface">
+            Каждый ход снимает со всех союзных котиков <strong>1 случайный дебафф</strong> и накладывает регенерацию 150 ОЗ.
+          </p>
+</div>
+<div class="flex items-center gap-space-sm pt-2">
+<button class="flex-1 py-2.5 px-space-md rounded-lg bg-primary hover:bg-primary-fixed-dim text-on-primary font-label-md text-label-md flex items-center justify-center gap-2 shadow-lg transition-all active:translate-y-0.5">
+<span class="material-symbols-outlined text-[18px]">checkroom</span>
+<span>Примерить</span>
+</button>
+<button class="py-2.5 px-space-md rounded-lg bg-surface-container hover:bg-surface-bright text-on-surface font-label-md text-label-md flex items-center justify-center gap-1.5 transition-all">
+<span class="material-symbols-outlined text-primary text-[18px]">hardware</span>
+<span>Кузница</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Synergy & Resonance Dock: 2/4/6/8 Piece Thresholds -->
+<div class="w-full bg-surface-container-high px-space-lg lg:px-margin-tablet py-space-xl">
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-lg">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[22px]">auto_awesome</span>
+<span class="font-headline-md text-headline-md text-on-surface">Шкала Синергии Классовых Комплектов</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">
+          Экипируйте несколько предметов одного сета на героя для активации прогрессивных бонусов боевой мощи в таверне.
+        </p>
+</div>
+<div class="flex items-center gap-space-md">
+<button class="px-space-md py-2.5 rounded-lg bg-surface-container hover:bg-surface-bright text-on-surface font-label-md text-label-md flex items-center gap-2 transition-all">
+<span class="material-symbols-outlined text-primary text-[18px]">menu_book</span>
+<span>Гайд по сетам</span>
+</button>
+<button class="px-space-xl py-2.5 rounded-lg bg-primary-container hover:bg-primary text-on-primary-container font-label-md text-label-md flex items-center gap-2 shadow-lg transition-all">
+<span class="material-symbols-outlined text-[18px]">sync_alt</span>
+<span>Сменить весь сетап</span>
+</button>
+</div>
+</div>
+<!-- Synergy Tier Badges Grid -->
+<div class="mt-space-lg grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-md">
+<!-- 2 Pieces -->
+<div class="p-space-md bg-surface-container rounded-xl flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-secondary font-bold">2 Предмета</span>
+<span class="material-symbols-outlined text-secondary text-[18px]">verified</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface font-bold">Базовый Резонанс</span>
+<p class="font-body-sm text-[12px] text-on-surface-variant">
+          +15% к базовым характеристикам класса (ОЗ / Атака / Щит).
+        </p>
+</div>
+<!-- 4 Pieces -->
+<div class="p-space-md bg-surface-container rounded-xl flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-primary font-bold">4 Предмета</span>
+<span class="material-symbols-outlined text-primary text-[18px]">verified</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface font-bold">Классовая Пассивка</span>
+<p class="font-body-sm text-[12px] text-on-surface-variant">
+          Активирует уникальный классовый перк героя (Таунт / Двойной удар / Скрытность).
+        </p>
+</div>
+<!-- 6 Pieces -->
+<div class="p-space-md bg-surface-container rounded-xl flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-tertiary font-bold">6 Предметов (Полный Сет)</span>
+<span class="material-symbols-outlined text-tertiary text-[18px]">stars</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface font-bold">Аура Вдохновения</span>
+<p class="font-body-sm text-[12px] text-on-surface-variant">
+          +25% ко всем исходящим эффектам урона и исцеления для соседних союзников.
+        </p>
+</div>
+<!-- 8 Pieces / Ascended -->
+<div class="p-space-md bg-surface-container rounded-xl flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<span class="font-label-md text-label-md text-primary-fixed font-bold">Ранг VIII: Мифик</span>
+<span class="material-symbols-outlined text-primary-fixed text-[18px]">workspace_premium</span>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface font-bold">Элементальное Пробуждение</span>
+<p class="font-body-sm text-[12px] text-on-surface-variant">
+          Визуальное свечение ауры в бою, снижение стоимости карт энергии на 1 кристалл.
+        </p>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function() {
+    // Class Filtering System
+    const filterButtons = document.querySelectorAll('.class-filter-btn');
+    const setCards = document.querySelectorAll('.set-card');
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        // Reset button states
+        filterButtons.forEach(b => {
+          b.classList.remove('bg-primary-container', 'text-on-primary-container');
+          b.classList.add('bg-surface-container-high', 'text-on-surface-variant');
+        });
+
+        // Activate clicked button
+        btn.classList.add('bg-primary-container', 'text-on-primary-container');
+        btn.classList.remove('bg-surface-container-high', 'text-on-surface-variant');
+
+        const targetClass = btn.getAttribute('data-class');
+
+        setCards.forEach(card => {
+          if (targetClass === 'all' || card.getAttribute('data-class') === targetClass) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // Rank Selector Feedback
+    const rankButtons = document.querySelectorAll('.rank-btn');
+    const rankTitleDisplay = document.getElementById('rankTitleDisplay');
+
+    rankButtons.forEach(btn => {
+      btn.addEventListener('click', () => {
+        rankButtons.forEach(b => {
+          b.classList.remove('bg-primary', 'text-on-primary', 'font-bold', 'shadow-md');
+          b.classList.add('bg-surface-container', 'text-on-surface-variant');
+        });
+
+        btn.classList.add('bg-primary', 'text-on-primary', 'font-bold', 'shadow-md');
+        btn.classList.remove('bg-surface-container', 'text-on-surface-variant');
+
+        const rankName = btn.getAttribute('data-rank-name');
+        if (rankTitleDisplay) {
+          rankTitleDisplay.textContent = rankName;
+        }
+      });
+    });
+  })();
+</script></main><footer class="w-full bg-surface-container-lowest py-space-xl mt-space-xl"><div class="w-full px-space-lg lg:px-margin-tablet flex flex-col md:flex-row items-center justify-between gap-space-lg"><div class="flex flex-col items-center md:items-start gap-1"><span class="font-headline-md text-label-lg text-primary tracking-wide">Мифиус: Мифические котики</span><p class="font-body-sm text-body-sm text-on-surface-variant">© 2024 Мифиус Геймс. Пошаговый тактический карточный баттлер в таверне. Все права защищены.</p></div><div class="flex items-center gap-space-md"><span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Энциклопедия • Кодекс Подземелий v1.4.2</span></div></div></footer>
+</section>
