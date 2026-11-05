@@ -135,8 +135,48 @@ function findNavForTab(tabId) {
   return null;
 }
 
+/** Tavern milks — restore ready; buff milks gated (PvE/dungeon only, never ranked PvP). */
 const DRINKS = [
-  { id: "fresh_milk", nameKey: "tavern.drink.milk", effectKey: "tavern.drink.milk.fx", price: 20 },
+  {
+    id: "milk_on_ice",
+    nameKey: "tavern.drink.milk_on_ice",
+    effectKey: "tavern.drink.milk_on_ice.fx",
+    price: 20,
+    kind: "restore",
+    gated: false,
+  },
+  {
+    id: "cream_whisk",
+    nameKey: "tavern.drink.cream_whisk",
+    effectKey: "tavern.drink.cream_whisk.fx",
+    price: 35,
+    kind: "buff",
+    gated: true,
+  },
+  {
+    id: "moon_milk",
+    nameKey: "tavern.drink.moon_milk",
+    effectKey: "tavern.drink.moon_milk.fx",
+    price: 40,
+    kind: "buff",
+    gated: true,
+  },
+  {
+    id: "spice_milk",
+    nameKey: "tavern.drink.spice_milk",
+    effectKey: "tavern.drink.spice_milk.fx",
+    price: 40,
+    kind: "buff",
+    gated: true,
+  },
+  {
+    id: "herbal_milk",
+    nameKey: "tavern.drink.herbal_milk",
+    effectKey: "tavern.drink.herbal_milk.fx",
+    price: 45,
+    kind: "buff",
+    gated: true,
+  },
 ];
 
 const POTIONS = [
@@ -146,11 +186,28 @@ const POTIONS = [
   { id: "cleanse", nameKey: "tavern.potion.cleanse", effectKey: "tavern.potion.cleanse.fx", price: 35 },
 ];
 
+const MARKET_STOCK = [
+  { id: "seed_wheat", name: "Семена пшеницы", price: 15, gated: true },
+  { id: "seed_herb", name: "Семена трав", price: 20, gated: true },
+  { id: "tool_shovel", name: "Лопата", price: 50, gated: true },
+  { id: "tool_axe", name: "Топор", price: 55, gated: true },
+  { id: "tool_pick", name: "Кирка", price: 60, gated: true },
+];
+
+const SHOP_STUB_ROWS = [
+  { id: "iap_yarn", label: "IAP · пряжа / донат", gated: false },
+  { id: "pass_buy", label: "Боевой пасс (×2 XP)", gated: false },
+  { id: "fish_pack", label: "Пак рыбок (game coins)", gated: false },
+  { id: "breed_ing", label: "Ингредиенты breeding", gated: true },
+  { id: "armor_grey_r1", label: "Стартовая броня · grey R1", gated: false },
+  { id: "battle_coin_gear", label: "Gear за battle coins", gated: true },
+];
+
 const PASS_REWARDS = [
   { lvl: 1, free: "pass.reward.fish_50", gold: "pass.reward.yarn_10" },
-  { lvl: 2, free: "pass.reward.scrap", gold: "pass.reward.potion_skin" },
-  { lvl: 3, free: "pass.reward.bowl", gold: "pass.reward.chest" },
-  { lvl: 4, free: "pass.reward.ticket", gold: "pass.reward.potion_nine" },
+  { lvl: 2, free: "pass.reward.scrap", gold: "pass.reward.box_r1" },
+  { lvl: 3, free: "pass.reward.bowl", gold: "pass.reward.box_rank" },
+  { lvl: 4, free: "pass.reward.ticket", gold: "pass.reward.armor_piece" },
 ];
 
 const state = {
@@ -172,8 +229,12 @@ const state = {
   profile: null, // GrantStarterKit smoke (§5.1)
   ownedPotions: [],
   marketLots: [
-    { id: "lot_1", name: "starter_support_water", bid: 120, side: "buy" },
-    { id: "lot_2", name: "yarn_ball", bid: 80, side: "buy" },
+    { id: "lot_1", name: "craft_herb_bundle", bid: 40, side: "npc" },
+    { id: "lot_2", name: "scrap_pile", bid: 25, side: "npc" },
+  ],
+  auctionLots: [
+    { id: "auc_1", name: "shop_tank_stone_a", bid: 900, kind: "cat" },
+    { id: "auc_2", name: "armor_grey_plate", bid: 150, kind: "armor" },
   ],
   wireMode: "hub",
   loggedIn: false,
@@ -841,15 +902,43 @@ function renderFormation() {
 function renderShop() {
   $("shopEyebrow").textContent = t("hub.tab.shop");
   $("shopTitle").textContent = t("hub.tab.shop");
-  $("shopLead").textContent = t("shop.lead_common", "6 классов × 2 варианта = 12 ordinary cats · fixed 4-card kits · fish");
+  $("shopLead").textContent = t(
+    "shop.lead_channels",
+    "IAP · пасс · рыбки · 12 common · grey armor · battle coins → gear",
+  );
   const list = $("offerList");
   if (list) {
     list.innerHTML = "";
+    for (const row of SHOP_STUB_ROWS) {
+      const li = document.createElement("li");
+      li.textContent = `${row.label}${row.gated ? " · gated" : ""}`;
+      li.style.cursor = "pointer";
+      li.addEventListener("click", () => {
+        if (row.gated) showGateTip();
+        else toast(state.locale === "ru" ? `${row.label} — stub (сервер)` : `${row.label} — stub`);
+      });
+      list.appendChild(li);
+    }
     const offers = (state.liveOps?.shop?.offers || []).filter((o) => o.kind !== "common_cat");
     for (const o of offers) {
       const li = document.createElement("li");
       li.textContent = `${o.offer_id || o.offerId || "?"} · ${o.kind || "?"}`;
       list.appendChild(li);
+    }
+  }
+  const stubHost = $("shopStubRows");
+  if (stubHost) {
+    stubHost.innerHTML = "";
+    for (const row of SHOP_STUB_ROWS) {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "mission-fight";
+      btn.innerHTML = `<strong>${row.label}</strong><div class="meta">${row.gated ? "gated" : "stub"}</div>`;
+      btn.addEventListener("click", () => {
+        if (row.gated) showGateTip();
+        else toast(state.locale === "ru" ? `${row.label} — stub` : `${row.label} — stub`);
+      });
+      stubHost.appendChild(btn);
     }
   }
   const cats = $("shopCommonCats");
@@ -880,53 +969,109 @@ function renderShop() {
 }
 
 function renderMarket() {
-  $("marketEyebrow").textContent = t("hub.tab.market", "Маркетплейс");
-  $("marketTitle").textContent = t("market.title", "Аукцион Хранителей");
+  $("marketEyebrow").textContent = t("hub.tab.market", "Рынок");
+  $("marketTitle").textContent = t("market.title", "Рынок Усадьбы");
   $("marketLead").textContent = t(
     "market.lead",
-    "Buy/sell stub (без денег/крипты). Лоты локальные для ручного QA.",
+    "Семена · инструменты · продажа крафта · quick sell. Аукцион — отдельно.",
   );
   const list = $("marketList");
-  if (!list) return;
-  list.innerHTML = "";
-  for (const lot of state.marketLots) {
-    const li = document.createElement("li");
-    li.innerHTML = `<span>${lot.name} · ${lot.bid} 💎</span>`;
+  if (list) {
+    list.innerHTML = "";
+    for (const item of MARKET_STOCK) {
+      const li = document.createElement("li");
+      li.innerHTML = `<span>${item.name} · ${item.price} 🐟${item.gated ? " · gated" : ""}</span>`;
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "wire-btn";
+      btn.textContent = t("market.buy", "Купить");
+      btn.addEventListener("click", () => {
+        if (item.gated) showGateTip();
+        else toast(t("market.bought", "Куплено (stub)"));
+      });
+      li.appendChild(btn);
+      list.appendChild(li);
+    }
+    for (const lot of state.marketLots) {
+      const li = document.createElement("li");
+      li.innerHTML = `<span>${lot.name} · sell ${lot.bid} 🐟</span>`;
+      list.appendChild(li);
+    }
+  }
+  const catalog = $("marketCatalog");
+  if (catalog) {
+    catalog.innerHTML = "";
+    for (const item of MARKET_STOCK) {
+      const row = document.createElement("button");
+      row.type = "button";
+      row.className = "mission-fight";
+      row.innerHTML = `<strong>${item.name}</strong><div class="meta">${item.price} 🐟 · ${item.gated ? "gated" : "stub"}</div>`;
+      row.addEventListener("click", () => {
+        if (item.gated) showGateTip();
+        else toast(t("market.bought", "Куплено (stub)"));
+      });
+      catalog.appendChild(row);
+    }
+  }
+  const qs = $("marketQuickSell");
+  if (qs) {
+    qs.innerHTML = "";
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "wire-btn";
-    btn.textContent = t("market.buy", "Купить");
-    btn.addEventListener("click", () => {
-      if (state.wallet.gems < lot.bid) {
-        toast(t("market.no_gems", "Не хватает кристаллов"));
-        return;
-      }
-      state.wallet.gems -= lot.bid;
-      state.marketLots = state.marketLots.filter((x) => x.id !== lot.id);
-      toast(t("market.bought", "Куплено (stub)"));
-      renderAll();
-    });
-    li.appendChild(btn);
-    list.appendChild(li);
+    btn.className = "mission-fight";
+    btn.innerHTML = `<strong>${t("market.quick_sell", "Quick sell лута")}</strong><div class="meta">gated · серверная цена · без аукциона</div>`;
+    btn.addEventListener("click", () => showGateTip(t("market.quick_sell.tip", "Quick sell — подними ранг в боях")));
+    qs.appendChild(btn);
+  }
+}
+
+function fillDrinkHosts(hosts) {
+  for (const el of hosts) {
+    if (!el) continue;
+    el.innerHTML = "";
+    for (const d of DRINKS) {
+      const tile = document.createElement("button");
+      tile.type = "button";
+      tile.className = "tile mission-fight";
+      const label = t(d.nameKey, d.id === "milk_on_ice" ? "Молоко на льду" : d.id);
+      const fx =
+        d.kind === "restore"
+          ? t("tavern.drink.restore", "post-fight HP")
+          : t("tavern.drink.buff", "PvE/dungeon buff · не ranked PvP");
+      tile.innerHTML = `<strong>${label}</strong><div class="meta">${fx}${d.gated ? " · gated" : ""} · ${d.price} 🐟</div>`;
+      tile.addEventListener("click", () => {
+        if (d.gated) {
+          showGateTip();
+          return;
+        }
+        toast(
+          state.locale === "ru"
+            ? "Молоко на льду — HP восстановлены (stub)"
+            : "Milk on ice — HP restored (stub)",
+        );
+      });
+      el.appendChild(tile);
+    }
   }
 }
 
 function renderTavern() {
   $("tavernEyebrow").textContent = t("hub.tab.tavern", "Таверна");
   $("tavernTitle").textContent = t("tavern.title", "Таверна «Усатый Хмель»");
-  $("tavernLead").textContent = t("tavern.lead_milk", "Молочный бар: восстанови HP и энергию после боя. Зелья — на рынке у крафтеров.");
-  const drinks = $("drinkList");
-  const pots = $("potionList");
-  if (drinks) {
-    drinks.innerHTML = "";
-    for (const d of DRINKS) {
-      const tile = document.createElement("div");
-      tile.className = "tile";
-      tile.textContent = t(d.nameKey, d.id);
-      tile.addEventListener("click", () => toast(state.locale === "ru" ? "Молоко выпито — HP/энергия восстановлены (stub)" : "Milk restored HP/energy (stub)"));
-      drinks.appendChild(tile);
-    }
+  $("tavernLead").textContent = t(
+    "tavern.lead_milk",
+    "Молоко на льду = HP после боя. Бафф-молоко — только PvE/данжи. Зелья → рынок/аукцион.",
+  );
+  const banner = $("tavernMilkBanner");
+  if (banner) {
+    banner.innerHTML = `<strong class="text-primary">${t("tavern.milk_bar", "Молочный бар")}</strong>
+      <span class="text-on-surface-variant text-sm"> — ${t(
+        "tavern.milk_bar.lead",
+        "лёд = restore; другие молока = PvE/dungeon buff (не ranked). Зелья у крафтеров.",
+      )}</span>`;
   }
+  fillDrinkHosts([$("drinkList"), $("tavernMilkList")]);
+  const pots = $("potionList");
   if (pots) {
     pots.innerHTML = "";
     const tip = document.createElement("div");
@@ -937,16 +1082,66 @@ function renderTavern() {
   }
 }
 
+function renderAuction() {
+  const eyebrow = $("auctionEyebrow");
+  if (eyebrow) eyebrow.textContent = t("hub.tab.auction", "Аукцион");
+  const title = $("auctionTitle");
+  if (title) title.textContent = t("auction.title", "Аукцион игроков");
+  const lead = $("auctionLead");
+  if (lead) {
+    lead.textContent = t(
+      "auction.lead",
+      "Коты · оружие/броня · ингредиенты по своей цене (без крипты).",
+    );
+  }
+  const list = $("auctionList");
+  const host = $("auctionListingHost");
+  const targets = [list, host].filter(Boolean);
+  for (const el of targets) {
+    el.innerHTML = "";
+    for (const lot of state.auctionLots) {
+      if (el.tagName === "UL") {
+        const row = document.createElement("li");
+        row.innerHTML = `<span>${lot.name} · ${lot.kind} · ${lot.bid} 🐟</span>`;
+        el.appendChild(row);
+      } else {
+        const row = document.createElement("button");
+        row.type = "button";
+        row.className = "mission-fight";
+        row.innerHTML = `<strong>${lot.name}</strong><div class="meta">${lot.kind} · ${lot.bid} 🐟</div>`;
+        el.appendChild(row);
+      }
+    }
+    if (el.tagName === "UL") {
+      const listBtn = document.createElement("li");
+      listBtn.style.cursor = "pointer";
+      listBtn.innerHTML = `<span>${t("auction.list_stub", "Выставить лот")} · gated</span>`;
+      listBtn.addEventListener("click", () => showGateTip());
+      el.appendChild(listBtn);
+    } else {
+      const listBtn = document.createElement("button");
+      listBtn.type = "button";
+      listBtn.className = "mission-fight";
+      listBtn.innerHTML = `<strong>${t("auction.list_stub", "Выставить лот")}</strong><div class="meta">gated · своя цена</div>`;
+      listBtn.addEventListener("click", () => showGateTip());
+      el.appendChild(listBtn);
+    }
+  }
+}
+
 function renderPass() {
   $("passEyebrow").textContent = t("hub.tab.pass", "Пасс");
   $("passTitle").textContent = t("pass.title", "Зов Тёплого Очага");
-  $("passLead").textContent = t("pass.lead", "Треки пасса — stub наград.");
+  $("passLead").textContent = t(
+    "pass.lead",
+    "×2 XP · боксы по текущему рангу · high ranks ~1 год с пассом.",
+  );
   const list = $("passList");
   if (!list) return;
   list.innerHTML = "";
   for (const row of PASS_REWARDS) {
     const li = document.createElement("li");
-    li.textContent = `Lv ${row.lvl}: ${t(row.free)} / ★ ${t(row.gold)}`;
+    li.textContent = `Lv ${row.lvl}: ${t(row.free, row.free)} / ★ ${t(row.gold, row.gold)}`;
     list.appendChild(li);
   }
 }
@@ -1321,6 +1516,9 @@ function renderAll() {
     case "tavern":
       renderTavern();
       break;
+    case "auction":
+      renderAuction();
+      break;
     case "pass":
       renderPass();
       break;
@@ -1483,17 +1681,18 @@ function wireButtons() {
   $("btnGacha10").addEventListener("click", () => toast(t("shop.gacha.stub", "Гача stub")));
   $("btnShopToTavern").addEventListener("click", () => navigate("tavern"));
   $("btnSellStarter").addEventListener("click", () => {
-    state.marketLots.push({
-      id: `lot_${Date.now()}`,
-      name: "starter_tank_stone",
-      bid: 100,
-      side: "buy",
-    });
-    state.marketTab = "buy";
-    toast(t("market.listed", "Лот выставлен (stub)"));
-    renderAll();
+    // Legacy wire id: now quick-sell stub (market channel), not auction listing.
+    showGateTip(t("market.quick_sell.tip", "Quick sell — подними ранг в боях"));
+  });
+  $("btnMarketQuickSell")?.addEventListener("click", () => {
+    showGateTip(t("market.quick_sell.tip", "Quick sell — подними ранг в боях"));
+  });
+  $("btnAuctionList")?.addEventListener("click", () => {
+    showGateTip(t("auction.list.tip", "Выставление лота — подними ранг в боях"));
   });
   $("btnMarketToShop").addEventListener("click", () => navigate("shop"));
+  $("btnMarketToAuction")?.addEventListener("click", () => navigate("auction"));
+  $("btnAuctionToMarket")?.addEventListener("click", () => navigate("market"));
   $("btnTavernFormation").addEventListener("click", () => navigate("formation"));
   $("btnTavernHub").addEventListener("click", () => navigate("hub"));
   $("btnPassShop").addEventListener("click", () => navigate("shop"));

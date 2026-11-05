@@ -101,6 +101,10 @@ const REQUIRED_BUTTONS = [
   "btnPassHub",
   "btnSoonHub",
   "btnSellStarter",
+  "btnMarketQuickSell",
+  "btnMarketToAuction",
+  "btnAuctionList",
+  "btnAuctionToMarket",
   "btnEndTurn",
   "btnBackHub",
   "btnBrandHub",
@@ -232,10 +236,16 @@ for (const f of STITCH_SRC) {
 ok("Мифмир rename in yard source", fs.readFileSync(path.join(DESIGN, "stitch-src", "yard.html"), "utf8").includes("Мифмир"));
 ok("yard has mission list host", fs.readFileSync(path.join(DESIGN, "stitch-src", "yard.html"), "utf8").includes("mythmirMissionList"));
 ok("tavern milk banner", fs.readFileSync(path.join(DESIGN, "stitch-src", "tavern.html"), "utf8").includes("tavernMilkBanner"));
+ok("tavern milk list host", fs.readFileSync(path.join(DESIGN, "stitch-src", "tavern.html"), "utf8").includes("tavernMilkList"));
 ok("shop common cats host", fs.readFileSync(path.join(DESIGN, "stitch-src", "shop.html"), "utf8").includes("shopCommonCats"));
+ok("shop stub rows host", fs.readFileSync(path.join(DESIGN, "stitch-src", "shop.html"), "utf8").includes("shopStubRows"));
+ok("market quick sell host", fs.readFileSync(path.join(DESIGN, "stitch-src", "market.html"), "utf8").includes("marketQuickSell"));
+ok("auction listing host", fs.readFileSync(path.join(DESIGN, "stitch-src", "auction.html"), "utf8").includes("auctionListingHost"));
 ok("boss first host", fs.readFileSync(path.join(DESIGN, "stitch-src", "boss_dungeon.html"), "utf8").includes("bossFirstHost"));
 ok("app pvp unlock helper", js.includes("function pvpUnlocked"));
 ok("app practice start", js.includes("function startPractice"));
+ok("app renderAuction", js.includes("function renderAuction"));
+ok("app milk_on_ice", js.includes("milk_on_ice"));
 
 const transitions = [
   ["hub→yard", 'navigate("yard")'],
@@ -243,7 +253,9 @@ const transitions = [
   ["formation→tavern", 'navigate("tavern")'],
   ["tavern→formation", "btnTavernFormation"],
   ["shop→tavern", 'navigate("tavern")'],
-  ["market sell", "btnSellStarter"],
+  ["market quick sell", "btnMarketQuickSell"],
+  ["market sell legacy", "btnSellStarter"],
+  ["auction list", "btnAuctionList"],
   ["result→hub", 'navigate("hub")'],
   ["boss_raid route", 'navigate("boss_raid")'],
   ["boss_dungeon route", 'navigate("boss_dungeon")'],

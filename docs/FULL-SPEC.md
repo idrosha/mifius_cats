@@ -1,6 +1,6 @@
 # Мифоус / Mythfel — полное ТЗ приложения
 
-**Версия:** 1.3 · **SSOT** (единственный источник правды для сборки)  
+**Версия:** 1.4 · **SSOT** (единственный источник правды для сборки)  
 **Язык дока:** RU (строки игры: RU+EN)  
 **Стек:** Unity C# URP 2D · Nakama · battle-service Go · LiveOps JSON  
 **Крипта/NFT:** нет  
@@ -19,7 +19,7 @@
 | Платформы | Mobile (iOS, Android), PC (**Steam** + desktop), Web — **один** Unity-проект |
 | Кросс-плей | Игроки матчятся **независимо от клиента** (mobile / web / desktop). Общий пул матчмейкинга; сегментации PvP по платформе нет |
 | North Star | Кланы + рейтинг кланов |
-| Soft launch | Мифмир (PvE, бывш. Двор) + PvP (+ магазин/пасс/гача). Ферма, питомник, клан-босс = вкладка «Скоро» |
+| Soft launch | Мифмир (PvE, бывш. Двор) + PvP (+ магазин/пасс/гача + таверна/рынок/аукцион). Ферма, питомник, клан-босс = вкладка «Скоро» |
 | Домены | `mifous.ru`, `mythfel.com` (зарегистрировать) |
 | Bundle | `com.mythfel.game` |
 
@@ -120,11 +120,13 @@
 | `battle_potion` | Расходник в бою ≤1/type |
 | `pendant` | 1 пассив/котик |
 | `bow` | Мод карты части ≤4 |
-| `fish` | Soft currency |
-| `yarn` | Premium |
+| `fish` | Soft currency (game coins; packs в Shop) |
+| `yarn` | Premium (IAP) |
 | `scrap` | Craft |
-| `medal` | Season |
+| `medal` / `battle_coin` | Season / PvE·PvP spend в Shop на gear |
 | `ingredient` | Farm/PvE (post-SL основной) |
+| `armor` | Экип по rarity unlock rank R1–R8 (§5) |
+| `tavern_milk` | Restore / PvE·dungeon pre-buff (не ranked PvP) |
 
 ---
 
@@ -204,14 +206,23 @@ Season 28 days. Rating. Same anti-P2W. Soft-cap pendant/bow rarity optional via 
 |---|---|---|
 | PvE/day | 3 | 6 |
 | PvP/day | 5 | 10 |
+| Rank XP | 1.0× | **2.0×** |
 | Ads | rewarded bonuses | hidden |
 | Gacha pity | soft50 / hard80 | same |
 
-Pass track: cosmetics, bows, fish, jar keys (таблица контента отдельно).  
+Pass track: cosmetics, bows, fish, jar keys, **armor boxes by current rank** (гарантии сезона: R1×6 common; green+blue×3; R4+ ×1 each rarity unlocked).  
 IAP: yarn packs, pass, slot expand, maybe jar bundles.  
 Server validates all purchases.
 
-**Анти-P2W арены:** нельзя купить победу; potions capped; power farmable.
+**Каналы торговли (не смешивать):**
+- **Shop** — IAP/donate, pass, fish packs, breeding ingredients, 12 common cats, common (grey R1) starter armor; `battle_coin`/medals с PvE/PvP → полезный gear при здоровом онлайне.
+- **Tavern** — молоко на льду = post-fight HP restore; **другие молока** = pre-fight баффы **только PvE + данжи** (не ranked PvP/арена). Зелья крафтеров — не здесь.
+- **Market** — семена, расходные tools (shovel/axe/pick), sell crafted resources, **quick sell** лута по серверной цене без аукциона.
+- **Auction** — player-listed cats / weapons·armor / ingredients **по своей цене** (soft currency only; без денег/крипты).
+
+**Броня ↔ unlock rank:** grey R1 → green R2 → blue R3 → gold R4 → purple R5 → epic R6 → legendary R7 → mythic R8. Темп: high ranks ≈ **1 год с пассом**; без пасса ≈ **2× медленнее**. Нельзя купить skip ранга. Детали балансных рычагов — LiveOps (soft-cap rarity в ranked, XP curve, box weights).
+
+**Анти-P2W арены:** нельзя купить победу; potions capped; tavern milk buffs banned in ranked; power farmable; pass = pace not ceiling.
 
 ### §5.1 Starter grant (регистрация)
 
@@ -248,10 +259,12 @@ Server validates all purchases.
 4. `YardMap` (Мифмир) → Formation 3v3 → `Battle`; рейд/легион — отдельный экран  
 5. `PvPMenu` (Дуэли/Арена) → matchmaking → `Battle`  
 6. `Collection` (cats, presets×5, pendants/bows)  
-7. `Shop` (yarn, jars, pass, potions, **common_cat** ×2 варианта ×6 классов = 12 SKU)
-7b. `Tavern` — молочный бар (HP/energy); зелья крафтеров на market/auction
-7c. `Codex` / `Login` / `Practice` — day-1 формы  
-8. `Pass`  
+7. `Shop` (yarn/IAP, jars, pass, fish packs, breeding ingredients, **common_cat** ×2×6 = 12 SKU, grey R1 armor; battle_coin gear)
+7b. `Tavern` — молоко на льду (post-fight HP) + PvE/dungeon milk buffs; зелья крафтеров → market/auction
+7c. `Market` — seeds, tools, craft sell, **quick sell**
+7d. `Auction` — player listings (cats, gear, ingredients) at own price
+7e. `Codex` / `Login` / `Practice` — day-1 формы  
+8. `Pass` (×2 XP + rank boxes)  
 9. `Battle` HUD: board 3+3, hand, energy, milk, keep, end turn, potion tray  
 10. `Result` + rewards  
 11. `ReplayList` (10)  
