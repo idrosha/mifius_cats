@@ -33,6 +33,10 @@ const REQUIRED_VIEWS = [
   "viewSoon",
   "viewGear",
   "viewHome",
+  "viewHeroes",
+  "viewArmorSets",
+  "viewClassSets",
+  "viewEquipCards",
   "viewCraft",
   "viewBreeding",
   "viewAuction",
@@ -62,6 +66,10 @@ const REQUIRED_NAV_IDS = [
   "auction",
   "gear",
   "home",
+  "heroes",
+  "armor_sets",
+  "class_sets",
+  "equip_cards",
   "craft",
   "breeding",
   "guild",
@@ -130,6 +138,11 @@ const STITCH_SRC = [
   "pvp.html",
   "pass.html",
   "gear.html",
+  "home.html",
+  "heroes.html",
+  "armor_sets.html",
+  "class_sets.html",
+  "equip_cards.html",
   "craft.html",
   "breeding.html",
   "auction.html",
@@ -285,6 +298,11 @@ const transitions = [
   ["practice route", 'navigate("practice")'],
   ["codex route", 'navigate("codex")'],
   ["guild_battle route", 'navigate("guild_battle")'],
+  ["heroes route", 'navigate("heroes")'],
+  ["armor_sets route", 'navigate("armor_sets")'],
+  ["class_sets route", 'navigate("class_sets")'],
+  ["equip_cards route", 'navigate("equip_cards")'],
+  ["home route", 'navigate("home")'],
   ["gate tip", "Подними ранг в боях"],
   ["practice stage", "practice_dummy_1"],
 ];
@@ -301,6 +319,11 @@ for (const f of [
   "breeding.html",
   "craft.html",
   "gear.html",
+  "home.html",
+  "heroes.html",
+  "armor_sets.html",
+  "class_sets.html",
+  "equip_cards.html",
   "chat_global.html",
   "rating_players.html",
   "login.html",
@@ -314,8 +337,21 @@ for (const f of [
   );
 }
 ok(
-  "home still stub (TRUE gap)",
-  fs.readFileSync(path.join(DESIGN, "stitch-src", "home.html"), "utf8").includes("Нужен мок Stitch"),
+  "home is pack-8 Дом Хранителя (no stub)",
+  fs.readFileSync(path.join(DESIGN, "stitch-src", "home.html"), "utf8").includes("Дом Хранителя") &&
+    !fs.readFileSync(path.join(DESIGN, "stitch-src", "home.html"), "utf8").includes("Нужен мок Stitch"),
+);
+ok(
+  "heroes is 12-archetype codex",
+  /Кодекс Котиков|12 Архетип|Фолиант/i.test(
+    fs.readFileSync(path.join(DESIGN, "stitch-src", "heroes.html"), "utf8"),
+  ),
+);
+ok(
+  "equip_cards has 8 ranks",
+  /8 Ранг|Ранг I|Холщовый/i.test(
+    fs.readFileSync(path.join(DESIGN, "stitch-src", "equip_cards.html"), "utf8"),
+  ),
 );
 
 let httpOk = false;

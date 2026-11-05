@@ -795,6 +795,22 @@
     "ru": "Кодекс",
     "en": "Кодекс"
   },
+  "nav.sub.heroes": {
+    "ru": "Кодекс героев",
+    "en": "Heroes codex"
+  },
+  "nav.sub.armor_sets": {
+    "ru": "Сеты брони",
+    "en": "Armor sets"
+  },
+  "nav.sub.class_sets": {
+    "ru": "Классовые сеты",
+    "en": "Class sets"
+  },
+  "nav.sub.equip_cards": {
+    "ru": "Карточки экипировки",
+    "en": "Equipment cards"
+  },
   "nav.sub.login": {
     "ru": "Вход",
     "en": "Вход"

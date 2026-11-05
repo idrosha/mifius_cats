@@ -1,6 +1,6 @@
 # Stitch → Web HUD screen map
 
-Sources: vendored `design/stitch-src/*.html` (Project store zips `stitch-ui-new` 2a9f + 940b + prior).
+Sources: vendored `design/stitch-src/*.html` (Project store zips `stitch-ui-new` 2a9f + 940b + 3a8d + packs **8/9/10**).
 Build: `node client/web-hud/scripts/build-stitch.mjs` → embeds **actual Stitch body HTML** + Tailwind config into `public/index.html`.
 
 ## Naming remap (Stitch bugs)
@@ -55,7 +55,11 @@ Build: `node client/web-hud/scripts/build-stitch.mjs` → embeds **actual Stitch
 | soon_farm | viewSoonFarm | soon_farm.html | ферма «Скоро» |
 | soon_clan | viewSoonClan | soon_clan.html | клан-босс «Скоро» |
 | gear | viewGear | gear.html | сумка/инвентарь (2a9f) |
-| home | viewHome | home.html | **stub** — TRUE gap |
+| home | viewHome | home.html | **Дом Хранителя** (pack 8 landscape) |
+| heroes | viewHeroes | heroes.html | Кодекс героев · 12 архетипов (pack 8/`12`) |
+| armor_sets | viewArmorSets | armor_sets.html | Атлас сетов брони (pack 8/`1_8`) |
+| class_sets | viewClassSets | class_sets.html | Арсенал классовых сетов (pack 9) |
+| equip_cards | viewEquipCards | equip_cards.html | Карточки экипировки 8 рангов (pack 10/`8`) |
 | craft | viewCraft | craft.html | алхимия (940b) |
 | breeding | viewBreeding | breeding.html | питомник (940b) |
 | auction | viewAuction | auction.html | аукцион (940b) |
@@ -78,8 +82,20 @@ Backend: `economy.GrantStarterKit` / `NewPlayerWithStarter`.
 
 - Playable: Hub, Мифмир→Formation→Battle, PvP smoke, Collection, Shop, Pass, Tavern, Market, Auction, Boss dungeon→raid, Chats, Ratings, Guild home mock, Craft/Breeding mocks.
 - Farm / Clan boss gameplay = Soon sheets.
-- **Дом (`home`)** — единственный TRUE gap без мока в 2a9f/940b.
+- **Дом (`home`)** — pack 8 landscape (gap closed).
 
+## Pack 8 / 9 / 10 → routes
+
+| Zip | Folder | Form | Route |
+|---|---|---|---|
+| 8 `__5c8a` | `landscape` | Дом Хранителя | `home` |
+| 8 | `12` | Кодекс котиков-воителей (12 архетипов) | `heroes` |
+| 8 | `1_8` | Атлас сетов брони | `armor_sets` |
+| 8 | `8` | Кодекс карточек снаряжения (overview art) | ref only `equip_codex` |
+| 9 `__0aa8` | root | Арсенал классовых сетов | `class_sets` |
+| 9 | sample tank armor PNG | art-only | `stitch-ref/8-9-10/equip_tank.png` |
+| 10 `__1f5f` | `8` | Карточки экипировки · 8 рангов | `equip_cards` |
+| 10 | sample void weapon PNG | art-only | `stitch-ref/8-9-10/weapon_void.png` |
 
 ## Soft-launch content (2026-11-04)
 
