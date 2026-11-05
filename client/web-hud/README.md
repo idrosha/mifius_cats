@@ -1,20 +1,14 @@
 # Mythfel Web HUD (ручной smoke без Unity)
 
-Браузерный клиент на **настоящем Stitch HTML/CSS** (Tavern Hearth Battler): экраны из `design/stitch-src/*.html` собираются в `public/index.html` через `scripts/build-stitch.mjs` (Tailwind + Material Symbols + aida art).
+Тонкий браузерный клиент против `battle/cmd/devapi` + LiveOps CDN stub.
+
+**UI status:** old Stitch design pack removed from `main`. Visual screens await a clean new Stitch import. Kept: `server.mjs` proxy, `public/app.js` battle/nav wire logic, minimal chrome + `#wireDock` shell, `public/content/` JSON.
 
 - LiveOps CDN stub → `:8090`
 - `battle/cmd/devapi` → `:8081`
 - этот HUD → `:8088` (проксирует оба API, без CORS)
 
 Боевые числа и результат — только из `stateDiff` сервера (§3.6 / §8.2). Клиент не считает урон/награды.
-
-Дизайн-токены: `design/DESIGN.md`. Карта экранов: `design/SCREEN-MAP.md`.
-
-Пересборка после правок stitch-src:
-
-```bash
-node client/web-hud/scripts/build-stitch.mjs
-```
 
 ## Запуск
 
@@ -42,22 +36,6 @@ cd client/web-hud && node server.mjs
 
 Регион soft-launch: `?region=RU` (header `X-Client-Region`).
 
-## Граф навигации (Stitch)
-
-| Экран | Переходы |
-|---|---|
-| Boot | LiveOps + battle healthz → Hub |
-| Hub | Stitch header `data-path` + wire dock → Yard / Formation / PvP / Collection / Shop / Market / Tavern / Pass / Soon |
-| Мифмир (PvE map) | → Formation / Battle / Tutorial / AutoPlay |
-| Расстановка 3v3 | → Battle / Мифмир / Tavern |
-| Рейд / легион 12 | boss_raid (мок; не путать с 3v3) |
-| Battle | stateDiff; итог → Result (win/lose Stitch) |
-| Result | Hub / Yard / Retry / Formation |
-| Таверна / Маркет / Лавка / Пасс / PvP | как в SCREEN-MAP |
-| Soon | Farm / Nursery / Clan boss |
-
-Проверка: `node client/web-hud/scripts/verify-nav.mjs` (при поднятом HUD).
-
 ## Stub / вне скоупа
 
 - Nakama auth, инвентарь, лимиты bowls/tickets, IAP, гача RNG
@@ -66,15 +44,6 @@ cd client/web-hud && node server.mjs
 - Ферма / питомник / клан-босс геймплей (только «Скоро»)
 - Production CDN signature
 - Маркетплейс за деньги / крипта (запрещено §1)
+- Painted Stitch screens (awaiting re-import)
 
 См. также: `qa/DEVICE_SMOKE.md`, корневой `ЗАПУСК.md` §3.
-
-
-See design/SCREEN-MAP.md for soft-launch routes.
-
-
-## Soft-launch additions
-
-- login / practice / codex (Stitch 3a8d)
-- Mythmir map + mission list; PvP unlock after 3 wins
-- Shop common cats ×12 (2×6 classes incl. mage/assassin); tavern milk; first boss waves
