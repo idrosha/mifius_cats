@@ -147,8 +147,20 @@
         "kind": "yarn"
       },
       {
+        "offer_id": "yarn_donate_pack",
+        "kind": "yarn"
+      },
+      {
         "offer_id": "jar_common",
         "kind": "gacha_jar"
+      },
+      {
+        "offer_id": "pass_season",
+        "kind": "pass"
+      },
+      {
+        "offer_id": "slot_expand_1",
+        "kind": "slot_expand"
       },
       {
         "offer_id": "shop_cat_tank_common_a",

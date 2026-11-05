@@ -1,6 +1,6 @@
 # Мифоус / Mythfel — полное ТЗ приложения
 
-**Версия:** 1.4 · **SSOT** (единственный источник правды для сборки)  
+**Версия:** 1.5 · **SSOT** (единственный источник правды для сборки)  
 **Язык дока:** RU (строки игры: RU+EN)  
 **Стек:** Unity C# URP 2D · Nakama · battle-service Go · LiveOps JSON  
 **Крипта/NFT:** нет  
@@ -198,6 +198,12 @@ Season 28 days. Rating. Same anti-P2W. Soft-cap pendant/bow rarity optional via 
 - Farm daily visit or crop rot (на SL: вкладка «Скоро»; 1 farm-cat в инвентаре без сбора — §5.1)  
 - Nursery breed with ingredients  
 
+### §4.5 Бой гильдий (GvG)
+Guild vs guild (клан vs клан). Сторона выставляет **3–12** котов. Soft currency only; без крипты.  
+**Soft launch:** HUD-вход + правила; матчмейкинг / полный борд 4–12 = gated tip («Подними ранг в боях») до liveops flag.  
+**Ядро боя:** размер **3** переиспользует текущий 3v3 simulator (`CreatePvE`/`CreatePvP`); 4–12 — расширение battle-core (не в SL MUST).  
+Не путать с **клан-боссом** (§4.4: 1 кот с участника, shared HP).
+
 ---
 
 ## §5. Экономика и монетизация
@@ -264,6 +270,7 @@ Server validates all purchases.
 7c. `Market` — seeds, tools, craft sell, **quick sell**
 7d. `Auction` — player listings (cats, gear, ingredients) at own price
 7e. `Codex` / `Login` / `Practice` — day-1 формы  
+7f. `Guild` + `GuildBattle` (GvG 3–12; SL: entry + tip, §4.5)  
 8. `Pass` (×2 XP + rank boxes)  
 9. `Battle` HUD: board 3+3, hand, energy, milk, keep, end turn, potion tray  
 10. `Result` + rewards  

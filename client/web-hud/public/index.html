@@ -1357,10 +1357,14 @@
 <span class="font-label-lg text-label-lg text-primary uppercase tracking-wider flex items-center gap-space-xs">
 <span class="material-symbols-outlined text-[18px]">menu_book</span> Разделы Кодекса
             </span>
-<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-highest px-space-xs py-0.5 rounded">8 томов</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-highest px-space-xs py-0.5 rounded">SL</span>
 </div>
-<!-- Navigation Items -->
-<nav class="flex flex-col gap-1.5 mt-space-xs">
+<!-- Soft-launch knowledge base (wired by app.js) -->
+<div id="codexKnowledgeHost" class="mb-space-md">
+  <div id="codexNavList" class="grid grid-cols-1 gap-2 text-sm mb-2"></div>
+</div>
+<!-- Navigation Items (Stitch art; SL facts live in #codexNavList) -->
+<nav class="flex flex-col gap-1.5 mt-space-xs opacity-40 pointer-events-none" aria-hidden="true">
 <!-- Active: Основы Боя -->
 <button class="w-full text-left p-space-sm rounded-lg bg-surface-container-high text-primary flex items-center justify-between shadow-sm transition-all group">
 <div class="flex items-center gap-space-sm min-w-0">
@@ -1486,13 +1490,18 @@
 </aside>
 <!-- COLUMN 2: Main Codex Article (Center) -->
 <main class="lg:col-span-6 xl:col-span-6 flex flex-col gap-space-lg">
-<!-- Article Header Card -->
-<article class="bg-surface-container-low rounded-xl p-space-lg shadow-md relative overflow-hidden">
+<!-- Soft-launch plain-language article (app.js) -->
+<article id="codexArticle" class="bg-surface-container-low rounded-xl p-space-lg shadow-md relative overflow-hidden mb-space-md">
+  <h2 class="font-headline-lg text-headline-lg text-primary tracking-tight mb-space-xs">Кодекс Мифмира</h2>
+  <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed">Загрузка…</p>
+</article>
+<!-- Stitch decorative article (muted; SSOT facts above) -->
+<article class="bg-surface-container-low rounded-xl p-space-lg shadow-md relative overflow-hidden opacity-50">
 <!-- Ambient warm glow badge -->
 <div class="flex items-center justify-between flex-wrap gap-space-sm mb-space-sm">
 <div class="flex items-center gap-space-xs">
-<span class="px-space-sm py-0.5 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase">Тактика и Бой</span>
-<span class="px-space-sm py-0.5 rounded bg-surface-container-highest text-secondary font-label-sm text-label-sm uppercase">Сложность: Базовая</span>
+<span class="px-space-sm py-0.5 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase">Арт Stitch</span>
+<span class="px-space-sm py-0.5 rounded bg-surface-container-highest text-secondary font-label-sm text-label-sm uppercase">не SSOT</span>
 </div>
 <div class="flex items-center gap-space-md text-on-surface-variant font-body-sm text-body-sm">
 <span class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-[16px]">schedule</span> 6 мин. чтение</span>
@@ -11303,6 +11312,8 @@
 </div>
 <!-- RIGHT COLUMN: Guild Events, Clan Boss & Tavern Log (3 Cols) -->
 <div class="lg:col-span-3 flex flex-col gap-space-md">
+<!-- Soft-launch GvG entry (app.js) -->
+<div id="guildBattleHost" class="bg-surface-container rounded-xl p-space-md shadow-lg flex flex-col gap-2 text-sm"></div>
 <!-- Clan-Boss Raid Banner Card -->
 <div class="bg-surface-container rounded-xl overflow-hidden shadow-lg flex flex-col">
 <div class="relative w-full h-40 bg-surface-container-lowest overflow-hidden">
@@ -14587,6 +14598,8 @@
       <button type="button" class="wire-btn" data-for="tavern" id="btnTavernHub">В Хаб</button>
       <button type="button" class="wire-btn" data-for="pass" id="btnPassShop">В Лавку</button>
       <button type="button" class="wire-btn" data-for="pass" id="btnPassHub">В Хаб</button>
+      <button type="button" class="wire-btn" data-for="guild" id="btnGuildBattle">Бой гильдий</button>
+      <button type="button" class="wire-btn" data-for="guild" id="btnGuildHub">В Хаб</button>
       <button type="button" class="wire-btn" data-for="pvp" id="btnPvpAuto">Автобой PvP</button>
       <button type="button" class="wire-btn" data-for="pvp" id="btnPvpFormation">Расстановка</button>
       <button type="button" class="wire-btn" data-for="pvp" id="btnRefreshReplays">Реплеи</button>

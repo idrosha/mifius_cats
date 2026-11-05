@@ -187,6 +187,8 @@ ${sections.join("\n")}
       <button type="button" class="wire-btn" data-for="tavern" id="btnTavernHub">В Хаб</button>
       <button type="button" class="wire-btn" data-for="pass" id="btnPassShop">В Лавку</button>
       <button type="button" class="wire-btn" data-for="pass" id="btnPassHub">В Хаб</button>
+      <button type="button" class="wire-btn" data-for="guild" id="btnGuildBattle">Бой гильдий</button>
+      <button type="button" class="wire-btn" data-for="guild" id="btnGuildHub">В Хаб</button>
       <button type="button" class="wire-btn" data-for="pvp" id="btnPvpAuto">Автобой PvP</button>
       <button type="button" class="wire-btn" data-for="pvp" id="btnPvpFormation">Расстановка</button>
       <button type="button" class="wire-btn" data-for="pvp" id="btnRefreshReplays">Реплеи</button>
