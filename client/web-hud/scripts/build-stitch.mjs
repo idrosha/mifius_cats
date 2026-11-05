@@ -177,8 +177,12 @@ ${sections.join("\n")}
       <button type="button" class="wire-btn" data-for="shop" id="btnShopToTavern">В Таверну</button>
       <button type="button" class="wire-btn" data-for="shop" id="btnGacha1">Гача ×1</button>
       <button type="button" class="wire-btn" data-for="shop" id="btnGacha10">Гача ×10</button>
-      <button type="button" class="wire-btn" data-for="market" id="btnSellStarter">Выставить starter</button>
+      <button type="button" class="wire-btn" data-for="market" id="btnSellStarter">Quick sell (gated)</button>
+      <button type="button" class="wire-btn" data-for="market" id="btnMarketQuickSell">Quick sell</button>
       <button type="button" class="wire-btn" data-for="market" id="btnMarketToShop">В Лавку</button>
+      <button type="button" class="wire-btn" data-for="market" id="btnMarketToAuction">В Аукцион</button>
+      <button type="button" class="wire-btn" data-for="auction" id="btnAuctionList">Выставить лот (gated)</button>
+      <button type="button" class="wire-btn" data-for="auction" id="btnAuctionToMarket">В Рынок</button>
       <button type="button" class="wire-btn" data-for="tavern" id="btnTavernFormation">К расстановке</button>
       <button type="button" class="wire-btn" data-for="tavern" id="btnTavernHub">В Хаб</button>
       <button type="button" class="wire-btn" data-for="pass" id="btnPassShop">В Лавку</button>
@@ -215,6 +219,10 @@ ${sections.join("\n")}
       <p class="eyebrow hidden" id="marketEyebrow"></p>
       <h2 class="hidden" id="marketTitle"></h2>
       <p class="hidden" id="marketLead"></p>
+      <p class="eyebrow hidden" id="auctionEyebrow"></p>
+      <h2 class="hidden" id="auctionTitle"></h2>
+      <p class="hidden" id="auctionLead"></p>
+      <ul class="hidden offer-list" id="auctionList"></ul>
       <p class="eyebrow hidden" id="tavernEyebrow"></p>
       <h2 class="hidden" id="tavernTitle"></h2>
       <p class="hidden" id="tavernLead"></p>
