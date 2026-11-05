@@ -4,6 +4,7 @@ Cards/parts/potions JSON. FULL-SPEC §2 §5.1 §10.
 - Roles (6): tank, fighter, assassin, mage, ranger, support. Elements (6): fire/water/grass/bolt/stone/ice.
 - ≥8 card parts per role; starters tank·stone, fighter·fire, support·water.
 - Soft launch shop: **12** common cats = 2 variants × 6 classes; each own 4-card kit (`shop_*`).
+- Nursery mythic (§0, §4.4.1): small chance; mythic deck = **N=4** strongest from parent mix (server SoT Phase 6).
 - Equal decks (§2.1, §5.1): fixed starter templates/parts/cards for all new accounts (fair PvP); no RNG starter variants.
 - Potion catalog SL: 6 ids in §10; grant ×1 each at registration.
 - Farm-cat template `starter_farm_grass` (inventory only on SL).

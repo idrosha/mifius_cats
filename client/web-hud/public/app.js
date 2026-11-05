@@ -330,6 +330,15 @@ const CODEX_ENTRIES = [
     bodyEn:
       "Guild vs guild: 3–12 cats per side. Soft launch has HUD entry + rules; full matchmaking and 4–12 boards tip «rank up» (LiveOps flag). Size 3 can reuse the 3v3 core. Clan boss (1 cat each, shared HP) is separate Soon content.",
   },
+  {
+    id: "mythic_breed",
+    titleRu: "Мифики и скрещивание",
+    titleEn: "Mythics and breeding",
+    bodyRu:
+      "Главная цель: из обычных котов сделать мифических через питомник. Малый шанс мифика. У мифика ровно 4 карты — сильнейшие из смеси обоих родителей (пул до 8). Без безлимитного breeding: мифики редки. На soft launch экран есть, live breed — Phase 6 / tip «Подними ранг».",
+    bodyEn:
+      "Core goal: turn ordinary cats into mythics via the nursery. Small mythic chance. A mythic keeps exactly 4 cards — the strongest from both parents (pool up to 8). No unlimited breeding: mythics stay scarce. Soft launch has the screen; live breed is Phase 6 / «rank up» tip.",
+  },
 ];
 
 const PASS_REWARDS = [
@@ -638,7 +647,14 @@ function navigate(tab, { soon = null, clearBattle = true, primary = null, fromGa
 
   // Day-1: all forms present. Gated tabs still open, but tip on entry for meta gates.
   const navTab = findNavForTab(tab)?.tabs?.find((x) => x.id === tab) || TABS.find((x) => x.id === tab);
-  if (navTab?.gated && tab !== "pvp") {
+  if (tab === "breeding") {
+    showGateTip(
+      t(
+        "gate.tip.breeding",
+        "Питомник: обычные → мифики (малый шанс). Пока — подними ранг в боях",
+      ),
+    );
+  } else if (navTab?.gated && tab !== "pvp") {
     showGateTip();
   }
   if (tab === "pvp" && !pvpUnlocked()) {
@@ -1584,6 +1600,42 @@ function renderPass() {
   }
 }
 
+function renderBreeding() {
+  const host = $("viewBreeding");
+  if (!host) return;
+  let card = host.querySelector("[data-breeding-shell]");
+  if (!card) {
+    card = document.createElement("div");
+    card.className = "boot-card";
+    card.dataset.breedingShell = "1";
+    card.innerHTML = `
+      <p class="eyebrow" data-breeding-eyebrow></p>
+      <h2 data-breeding-title></h2>
+      <p class="meta" data-breeding-lead></p>
+      <p class="meta" data-breeding-tip></p>
+    `;
+    host.prepend(card);
+  }
+  const eyebrow = card.querySelector("[data-breeding-eyebrow]");
+  const title = card.querySelector("[data-breeding-title]");
+  const lead = card.querySelector("[data-breeding-lead]");
+  const tip = card.querySelector("[data-breeding-tip]");
+  if (eyebrow) eyebrow.textContent = t("hub.soon.nursery.title", "Питомник");
+  if (title) title.textContent = t("breeding.title", "Скрещивание");
+  if (lead) {
+    lead.textContent = t(
+      "breeding.lead",
+      "Цель Мифоус: из обычных котов — мифические. Малый шанс мифика; у мифика набор из 4 сильнейших карт обоих родителей.",
+    );
+  }
+  if (tip) {
+    tip.textContent = t(
+      "breeding.tip",
+      "Питомник скоро · мифик = редкий шанс · 4 сильнейшие карты родителей · подними ранг в боях",
+    );
+  }
+}
+
 function renderSoon() {
   const sheet = state.soon || "farm";
   const titleKey =
@@ -1593,7 +1645,13 @@ function renderSoon() {
         ? "hub.soon.nursery.title"
         : "hub.soon.farm.title";
   $("soonTitle").textContent = t(titleKey);
-  $("soonBody").textContent = t("hub.soon.body");
+  $("soonBody").textContent =
+    sheet === "nursery"
+      ? t(
+          "hub.soon.nursery.body",
+          "Скоро: скрещивание обычных котов. Малый шанс мифика — 4 сильнейшие смешанные карты родителей. Без безлимитного breeding.",
+        )
+      : t("hub.soon.body");
   const links = $("soonLinks");
   if (!links) return;
   links.innerHTML = "";
@@ -1922,6 +1980,9 @@ function renderAll() {
       break;
     case "codex":
       renderCodex();
+      break;
+    case "breeding":
+      renderBreeding();
       break;
     case "yard":
       renderYard();

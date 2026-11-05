@@ -143,9 +143,25 @@
     "ru": "Питомник",
     "en": "Nursery"
   },
+  "hub.soon.nursery.body": {
+    "ru": "Скоро: скрещивание обычных котов. Малый шанс мифика — 4 сильнейшие смешанные карты родителей. Без безлимитного breeding.",
+    "en": "Soon: breed ordinary cats. Small chance of a mythic — the 4 strongest mixed parent cards. No unlimited breeding."
+  },
   "hub.soon.body": {
     "ru": "Скоро",
     "en": "Coming soon"
+  },
+  "breeding.title": {
+    "ru": "Скрещивание",
+    "en": "Breeding"
+  },
+  "breeding.lead": {
+    "ru": "Цель Мифоус: из обычных котов — мифические. Малый шанс мифика; у мифика набор из 4 сильнейших карт обоих родителей.",
+    "en": "Mythfel goal: turn ordinary cats into mythics. Small mythic chance; a mythic keeps the 4 strongest cards from both parents."
+  },
+  "breeding.tip": {
+    "ru": "Питомник скоро · мифик = редкий шанс · 4 сильнейшие карты родителей · подними ранг в боях",
+    "en": "Nursery soon · mythic = rare chance · 4 strongest parent cards · rank up in battles"
   },
   "shop.kind.yarn": {
     "ru": "Клубки",
@@ -861,11 +877,15 @@
   },
   "gate.tip.rank": {
     "ru": "Подними ранг в боях",
-    "en": "Подними ранг в боях"
+    "en": "Rank up in battles"
   },
   "gate.tip.pvp": {
     "ru": "PvP откроется после 3 побед в Мифмире или тренировке",
-    "en": "PvP откроется после 3 побед в Мифмире или тренировке"
+    "en": "PvP unlocks after 3 Mythmir or practice wins"
+  },
+  "gate.tip.breeding": {
+    "ru": "Питомник: обычные → мифики (малый шанс). Пока — подними ранг в боях",
+    "en": "Nursery: ordinary → mythics (small chance). For now — rank up in battles"
   },
   "tavern.lead_milk": {
     "ru": "Молочный бар: восстанови HP и энергию после боя. Зелья — на рынке у крафтеров.",
