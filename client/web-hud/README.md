@@ -32,4 +32,4 @@ npm run verify-nav      # static graph; HTTP optional if HUD up
 
 - Nakama auth, IAP, гача RNG, real PvP MM
 - Farm / nursery / clan-boss gameplay (Soon)
-- Painted mocks ещё не в паках: practice start/win/lose, result_lose, tavern milk, shop/market/auction, pass, equip_cards, chats, ratings; per-mode fight/win beyond shared + practice fight
+- Painted mocks ещё не в паках: practice start/win/lose, result_lose, tavern milk, shop/market/auction, equip_cards, ratings; per-mode fight/win beyond shared + practice fight (pass + chats wired in ba17)

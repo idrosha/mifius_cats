@@ -10318,95 +10318,2619 @@
 </div>
 </footer>
 </section>
+<section id="viewPass" class="stitch-view mythfel-form hidden" data-stitch="pass" data-layout="landscape">
+<header class="fixed top-0 w-full z-50 bg-surface-container-lowest/95 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.65)]"><div class="h-28 w-full px-margin-tablet flex flex-col justify-between py-space-xs"><div class="flex items-center justify-between w-full h-14"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-primary text-[26px]">pets</span><span class="font-headline-md text-headline-md text-primary tracking-wide uppercase">Мифиус: РПГ Котики</span></div><div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-surface-container text-secondary text-label-sm font-label-sm"><span class="material-symbols-outlined text-[14px]">wifi</span><span>24ms</span></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container rounded-lg"><span class="material-symbols-outlined text-primary text-[18px]">monetization_on</span><span class="font-stat-numeral text-stat-numeral text-on-surface">148,250</span></div><div class="flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container rounded-lg"><span class="material-symbols-outlined text-tertiary text-[18px]">set_meal</span><span class="font-stat-numeral text-stat-numeral text-on-surface">420</span></div><div class="flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container rounded-lg"><span class="material-symbols-outlined text-secondary text-[18px]">bolt</span><span class="font-stat-numeral text-stat-numeral text-on-surface">85/90</span></div><div class="flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container rounded-lg"><span class="material-symbols-outlined text-primary-fixed text-[18px]">diamond</span><span class="font-stat-numeral text-stat-numeral text-on-surface">1,250</span></div></div><div class="flex items-center gap-space-md"><div class="flex flex-col text-right"><span class="font-label-lg text-label-lg text-on-surface">Хранитель Очага</span><span class="font-label-sm text-label-sm text-primary">Ур. 48</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div><div class="flex items-center justify-between w-full h-11"><nav class="flex items-center gap-space-xs" data-active-classes="bg-primary-container text-on-primary-container font-label-md"><a class="font-label-md text-label-md px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="main-hub" href="#">Главный Хаб</a><a class="font-label-md text-label-md px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="battles" href="#">Бои</a><a class="font-label-md text-label-md px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="market" href="#">Торговля</a><a class="font-label-md text-label-md px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="guilds" href="#">Гильдии</a><a class="font-label-md text-label-md px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="chats" href="#">Чаты</a><a aria-current="page" class="px-space-md py-space-xs rounded transition-colors bg-primary-container text-on-primary-container font-label-md" data-path="tavern-pass" href="#">Пасс</a><a class="font-label-md text-label-md px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="leaderboards" href="#">Рейтинги</a></nav><div class="flex items-center gap-space-sm"><button class="px-space-sm py-space-xs rounded bg-surface-container-high text-on-surface-variant hover:bg-surface-variant hover:text-on-surface text-label-sm font-label-sm">Звук</button><button class="px-space-sm py-space-xs rounded bg-surface-container-high text-on-surface-variant hover:bg-surface-variant hover:text-on-surface text-label-sm font-label-sm">Настройки</button></div></div></div></header><main class="w-full pt-28 pb-10 bg-surface min-h-[calc(100vh-2.5rem)]"><div class="flex flex-col w-full h-[calc(100vh-7rem)] overflow-hidden bg-surface-container-lowest text-on-surface select-none">
+<!-- Internal Season Subnav Ribbon -->
+<div class="flex-none px-margin-tablet py-space-xs bg-surface-container-low/95 flex items-center justify-between shadow-sm z-20">
+<div class="flex items-center gap-space-sm" id="seasonTabs">
+<button class="flex items-center gap-space-xs px-space-md py-1 rounded bg-primary-container text-on-primary-container font-label-md text-label-md shadow-sm transition-all">
+<span class="material-symbols-outlined text-[16px]" style="font-variation-settings: 'FILL' 1;">stars</span>
+<span>Текущий Сезон (Сезон 4: Лапы Судьбы)</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-1 rounded bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-md text-label-md transition-all">
+<span class="material-symbols-outlined text-[16px] text-primary">workspace_premium</span>
+<span>Элитный Пропуск</span>
+<span class="px-1.5 py-0.2 rounded-full bg-secondary-container text-secondary text-label-sm font-label-sm uppercase">Активен</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-1 rounded bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-md text-label-md transition-all">
+<span class="material-symbols-outlined text-[16px]">storefront</span>
+<span>Магазин Звёзд Пасса</span>
+<span class="px-1 py-0.2 rounded bg-surface-container-highest text-primary font-stat-numeral text-label-sm">640 ★</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-1 rounded bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-md text-label-md transition-all">
+<span class="material-symbols-outlined text-[16px]">history_edu</span>
+<span>Архив Сезонов</span>
+</button>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-xs text-on-surface-variant text-label-sm font-label-sm">
+<span class="material-symbols-outlined text-primary text-[16px]">hourglass_top</span>
+<span>До завершения:</span>
+<span class="font-headline-md text-label-md text-primary font-bold">24 дня 18:32:09</span>
+</div>
+<div class="flex items-center gap-1.5 px-space-sm py-0.5 rounded bg-surface-container text-secondary font-label-sm text-label-sm">
+<span class="w-2 h-2 rounded-full bg-secondary animate-ping"></span>
+<span>+25% Сезонный БОНУС XP</span>
+</div>
+</div>
+</div>
+<!-- Panoramic Layout Frame: 3 Vertically Proportioned Zones -->
+<div class="flex-1 flex flex-col justify-between p-space-sm gap-space-xs overflow-hidden">
+<!-- Zone 1: Epic Panoramic Hero Panel -->
+<div class="relative flex-none rounded-xl overflow-hidden bg-surface-container-low shadow-xl">
+<!-- Background Graphic & Atmospheric Scrim -->
+<div class="absolute inset-0 bg-cover bg-center opacity-45 transform scale-105 filter saturate-125" data-alt="Grand gothic tavern vault interior in rich warm golden amber hearth light, piles of ancient glittering gold coins, three magical feline armors levitating on stone plinths glowing with gold, cyan and violet astral energy, an ornamented mythic armored battle cat companion standing proudly, stained glass cat rose window illuminating dust motes." style="background-image: url('/stitch-assets/84c53c459c0a.jpg')"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-surface-container-lowest via-surface-container-lowest/80 to-surface-container-low/60"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
+<!-- Hero Content Flex Grid -->
+<div class="relative z-10 p-space-md flex items-center justify-between gap-space-lg">
+<!-- Left Hero Identity & Level Meter -->
+<div class="flex items-center gap-space-lg min-w-0 max-w-2xl">
+<!-- Level Emblem Stamp -->
+<div class="relative flex-none w-20 h-20 rounded-xl bg-surface-container-highest shadow-2xl flex flex-col items-center justify-center p-1">
+<div class="absolute -top-2 px-2 py-0.5 rounded-full bg-primary text-on-primary font-label-sm text-label-sm tracking-wider uppercase font-bold">
+              УРОВЕНЬ
+            </div>
+<span class="font-headline-xl text-headline-xl text-primary leading-none mt-1">42</span>
+<span class="text-on-surface-variant font-label-sm text-label-sm uppercase">из 80</span>
+<div class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-secondary-container text-secondary flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+</div>
+</div>
+<!-- Titles & Progress Details -->
+<div class="flex flex-col gap-1 min-w-0 flex-1">
+<div class="flex items-center gap-space-sm flex-wrap">
+<span class="px-space-xs py-0.5 rounded bg-surface-container text-primary font-label-sm text-label-sm uppercase tracking-wider">Сезонный Пропуск #4</span>
+<span class="text-on-surface-variant text-label-sm">•</span>
+<span class="font-label-sm text-label-sm text-secondary flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">military_tech</span>
+                Элитный Очаг активирован
+              </span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-on-surface truncate tracking-tight">
+              СЕЗОН 4: ЛАПЫ СУДЬБЫ <span class="text-primary font-headline-lg">&amp; ДОСПЕХИ ДРЕВНИХ</span>
+</h1>
+<!-- Season XP Bar -->
+<div class="w-full mt-1">
+<div class="flex justify-between items-center text-label-sm font-label-sm mb-1">
+<span class="text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[14px]">local_fire_department</span>
+                  Прогресс до 43 уровня: <span class="text-on-surface font-bold">3,850 / 5,000 XP</span>
+</span>
+<span class="font-stat-numeral text-stat-numeral text-primary">77%</span>
+</div>
+<div class="w-full h-3 rounded-full bg-surface-container-highest p-0.5 overflow-hidden shadow-inner">
+<div class="h-full rounded-full bg-gradient-to-r from-primary-container via-primary to-primary-fixed shadow-[0_0_12px_rgba(253,186,69,0.7)] transition-all duration-500" style="width: 77%;"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Quick Action Hub -->
+<div class="flex items-center gap-space-md flex-none">
+<div class="hidden xl:flex flex-col text-right">
+<span class="font-label-sm text-label-sm text-on-surface-variant">Доступные награды:</span>
+<span class="font-headline-md text-headline-md text-secondary">4 готово к сбору</span>
+</div>
+<!-- Claim All Button -->
+<button class="px-space-lg py-2.5 rounded-lg bg-gradient-to-b from-primary via-primary-container to-on-primary-container text-on-primary font-label-lg text-label-lg uppercase tracking-wide shadow-[0_4px_16px_rgba(217,155,38,0.45)] hover:brightness-110 active:translate-y-0.5 transition-all flex items-center gap-space-xs" id="claimAllBtn">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">redeem</span>
+<span>Забрать всё (4)</span>
+</button>
+<!-- Buy Levels Button -->
+<button class="px-space-md py-2.5 rounded-lg bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-md text-label-md transition-all flex items-center gap-space-xs shadow-md">
+<span class="material-symbols-outlined text-primary text-[18px]">upgrade</span>
+<span>+10 Уровней</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container-highest text-primary font-stat-numeral text-label-sm font-bold">500 ЗОЛ</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Zone 2: Dual-Track Battle Pass Scroll Ribbon -->
+<div class="flex-1 flex flex-col justify-center rounded-xl bg-surface-container-low p-space-sm shadow-xl min-h-[290px] max-h-[350px]">
+<!-- Track Category Ribbon Header -->
+<div class="flex items-center justify-between mb-space-xs px-space-xs">
+<div class="flex items-center gap-space-xl">
+<!-- Free Header -->
+<div class="flex items-center gap-space-xs">
+<span class="w-3 h-3 rounded-sm bg-outline"></span>
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider font-bold">Бесплатный Путь Путешественника</span>
+</div>
+<!-- Elite Header -->
+<div class="flex items-center gap-space-xs">
+<span class="w-3 h-3 rounded-sm bg-primary shadow-[0_0_8px_rgba(253,186,69,0.8)]"></span>
+<span class="font-label-md text-label-md text-primary uppercase tracking-wider font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">stars</span>
+              Элитный Очаг Древних
+            </span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="w-7 h-7 rounded bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center transition-all" id="trackScrollLeft">
+<span class="material-symbols-outlined text-[18px]">chevron_left</span>
+</button>
+<span class="font-label-sm text-label-sm text-on-surface-variant px-1">Этапы 38 — 50</span>
+<button class="w-7 h-7 rounded bg-surface-container hover:bg-surface-container-high text-on-surface flex items-center justify-center transition-all" id="trackScrollRight">
+<span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Horizontal Carousel Container -->
+<div class="flex-1 flex gap-space-md overflow-x-auto items-stretch pb-1 pt-0.5 scroll-smooth" id="rewardTrackCarousel">
+<!-- Milestone Card: Level 38 (Claimed) -->
+<div class="flex-none w-56 flex flex-col rounded-lg bg-surface-container-lowest/80 p-2 shadow-sm opacity-75 hover:opacity-100 transition-all">
+<div class="flex items-center justify-between mb-1 pb-1">
+<span class="px-2 py-0.5 rounded bg-surface-container font-stat-numeral text-label-sm text-on-surface-variant">УР. 38</span>
+<span class="flex items-center gap-0.5 text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">done_all</span> Забрано
+            </span>
+</div>
+<!-- Free Tier Reward -->
+<div class="flex-1 flex items-center gap-2 p-1.5 rounded bg-surface-container-low mb-1.5">
+<div class="w-10 h-10 rounded bg-surface-container-highest flex items-center justify-center flex-none">
+<span class="material-symbols-outlined text-primary text-[22px]">monetization_on</span>
+</div>
+<div class="min-w-0 flex-1">
+<span class="text-label-sm text-on-surface-variant font-label-sm block truncate">15,000 Золота</span>
+<span class="text-label-sm text-on-surface-variant/60 font-body-sm block">Обычная валюта</span>
+</div>
+</div>
+<!-- Elite Tier Reward -->
+<div class="flex-1 flex items-center gap-2 p-1.5 rounded bg-surface-container-low/90">
+<div class="w-10 h-10 rounded bg-surface-container-highest flex items-center justify-center flex-none text-tertiary">
+<span class="material-symbols-outlined text-[22px]">science</span>
+</div>
+<div class="min-w-0 flex-1">
+<span class="text-label-sm text-primary font-label-sm block truncate">Эликсир Мощи x3</span>
+<span class="text-label-sm text-on-surface-variant/60 font-body-sm block">+20% к урону кота</span>
+</div>
+</div>
+</div>
+<!-- Milestone Card: Level 40 (Claimed) -->
+<div class="flex-none w-56 flex flex-col rounded-lg bg-surface-container-lowest/80 p-2 shadow-sm opacity-75 hover:opacity-100 transition-all">
+<div class="flex items-center justify-between mb-1 pb-1">
+<span class="px-2 py-0.5 rounded bg-surface-container font-stat-numeral text-label-sm text-on-surface-variant">УР. 40</span>
+<span class="flex items-center gap-0.5 text-secondary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">done_all</span> Забрано
+            </span>
+</div>
+<!-- Free Tier -->
+<div class="flex-1 flex items-center gap-2 p-1.5 rounded bg-surface-container-low mb-1.5">
+<div class="w-10 h-10 rounded bg-surface-container-highest flex items-center justify-center flex-none">
+<span class="material-symbols-outlined text-tertiary text-[22px]">set_meal</span>
+</div>
+<div class="min-w-0 flex-1">
+<span class="text-label-sm text-on-surface-variant font-label-sm block truncate">50 Клановой Рыбки</span>
+<span class="text-label-sm text-on-surface-variant/60 font-body-sm block">Вклад гильдии</span>
+</div>
+</div>
+<!-- Elite Tier -->
+<div class="flex-1 flex items-center gap-2 p-1.5 rounded bg-surface-container-low/90">
+<div class="w-10 h-10 rounded bg-surface-container-highest flex items-center justify-center flex-none text-secondary">
+<span class="material-symbols-outlined text-[22px]">diamond</span>
+</div>
+<div class="min-w-0 flex-1">
+<span class="text-label-sm text-secondary font-label-sm block truncate">Рубин Ярости Р6</span>
+<span class="text-label-sm text-on-surface-variant/60 font-body-sm block">Самоцвет оружия</span>
+</div>
+</div>
+</div>
+<!-- Milestone Card: Level 42 (ACTIVE / READY TO CLAIM) -->
+<div class="flex-none w-64 flex flex-col rounded-xl bg-surface-container-high p-2.5 shadow-[0_0_24px_rgba(253,186,69,0.3)] transform scale-[1.02] z-10">
+<div class="flex items-center justify-between mb-1.5">
+<div class="flex items-center gap-1">
+<span class="px-2 py-0.5 rounded bg-primary text-on-primary font-stat-numeral text-label-sm font-bold shadow-sm">УР. 42</span>
+<span class="text-label-sm font-label-sm text-primary uppercase font-bold">Текущий</span>
+</div>
+<span class="flex items-center gap-1 text-primary animate-pulse font-label-sm text-label-sm font-bold">
+<span class="w-2 h-2 rounded-full bg-primary"></span> Готово!
+            </span>
+</div>
+<!-- Free Tier: Claimable -->
+<div class="flex-1 flex items-center justify-between gap-2 p-2 rounded-lg bg-surface-container mb-2">
+<div class="flex items-center gap-2 min-w-0">
+<div class="w-11 h-11 rounded-lg bg-surface-container-highest flex items-center justify-center flex-none text-primary shadow-sm">
+<span class="material-symbols-outlined text-[26px]">diamond</span>
+</div>
+<div class="min-w-0">
+<span class="text-label-md text-on-surface font-label-md block truncate">250 Алмазов</span>
+<span class="text-label-sm text-secondary font-body-sm block">Премиум валюта</span>
+</div>
+</div>
+<button class="px-2 py-1 rounded bg-secondary-container hover:bg-secondary text-on-secondary font-label-sm text-label-sm uppercase transition-all shadow-sm">
+              Взять
+            </button>
+</div>
+<!-- Elite Tier: Claimable Mythic -->
+<div class="flex-1 flex items-center justify-between gap-2 p-2 rounded-lg bg-gradient-to-r from-surface-container-highest via-surface-container-high to-surface-container shadow-md">
+<div class="flex items-center gap-2 min-w-0">
+<div class="w-11 h-11 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center flex-none shadow-[0_0_12px_rgba(217,155,38,0.5)]">
+<span class="material-symbols-outlined text-[26px]">shield</span>
+</div>
+<div class="min-w-0">
+<span class="text-label-md text-primary font-label-md block truncate font-bold">Шлем Саламандры</span>
+<span class="text-label-sm text-tertiary font-body-sm block truncate">Мифический ранг Р8</span>
+</div>
+</div>
+<button class="px-2 py-1 rounded bg-primary text-on-primary font-label-sm text-label-sm uppercase font-bold hover:brightness-110 shadow-sm animate-bounce">
+              Взять
+            </button>
+</div>
+</div>
+<!-- Milestone Card: Level 45 (Locked) -->
+<div class="flex-none w-56 flex flex-col rounded-lg bg-surface-container-lowest/80 p-2 shadow-sm">
+<div class="flex items-center justify-between mb-1 pb-1">
+<span class="px-2 py-0.5 rounded bg-surface-container font-stat-numeral text-label-sm text-on-surface-variant">УР. 45</span>
+<span class="flex items-center gap-0.5 text-on-surface-variant/60 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">lock</span> Закрыто
+            </span>
+</div>
+<!-- Free Tier -->
+<div class="flex-1 flex items-center gap-2 p-1.5 rounded bg-surface-container-low mb-1.5">
+<div class="w-10 h-10 rounded bg-surface-container-highest flex items-center justify-center flex-none text-on-surface-variant">
+<span class="material-symbols-outlined text-[22px]">auto_stories</span>
+</div>
+<div class="min-w-0 flex-1">
+<span class="text-label-sm text-on-surface font-label-sm block truncate">Свиток Заточки +15</span>
+<span class="text-label-sm text-on-surface-variant/60 font-body-sm block">100% успех ковки</span>
+</div>
+</div>
+<!-- Elite Tier -->
+<div class="flex-1 flex items-center gap-2 p-1.5 rounded bg-surface-container-low/90">
+<div class="w-10 h-10 rounded bg-surface-container-highest flex items-center justify-center flex-none text-primary">
+<span class="material-symbols-outlined text-[22px]">palette</span>
+</div>
+<div class="min-w-0 flex-1">
+<span class="text-label-sm text-primary font-label-sm block truncate">Облик: Громовой Лев</span>
+<span class="text-label-sm text-on-surface-variant/60 font-body-sm block truncate">Кастомизация Барсика</span>
+</div>
+</div>
+</div>
+<!-- Milestone Card: Level 48 (Locked) -->
+<div class="flex-none w-56 flex flex-col rounded-lg bg-surface-container-lowest/80 p-2 shadow-sm">
+<div class="flex items-center justify-between mb-1 pb-1">
+<span class="px-2 py-0.5 rounded bg-surface-container font-stat-numeral text-label-sm text-on-surface-variant">УР. 48</span>
+<span class="flex items-center gap-0.5 text-on-surface-variant/60 font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">lock</span> Закрыто
+            </span>
+</div>
+<!-- Free Tier -->
+<div class="flex-1 flex items-center gap-2 p-1.5 rounded bg-surface-container-low mb-1.5">
+<div class="w-10 h-10 rounded bg-surface-container-highest flex items-center justify-center flex-none text-on-surface-variant">
+<span class="material-symbols-outlined text-[22px]">inventory_2</span>
+</div>
+<div class="min-w-0 flex-1">
+<span class="text-label-sm text-on-surface font-label-sm block truncate">Сундук Стихий х5</span>
+<span class="text-label-sm text-on-surface-variant/60 font-body-sm block">Материалы прокачки</span>
+</div>
+</div>
+<!-- Elite Tier -->
+<div class="flex-1 flex items-center gap-2 p-1.5 rounded bg-surface-container-low/90">
+<div class="w-10 h-10 rounded bg-surface-container-highest flex items-center justify-center flex-none text-secondary">
+<span class="material-symbols-outlined text-[22px]">bolt</span>
+</div>
+<div class="min-w-0 flex-1">
+<span class="text-label-sm text-secondary font-label-sm block truncate">Осколки Громовержца</span>
+<span class="text-label-sm text-on-surface-variant/60 font-body-sm block truncate">40 осколков героя</span>
+</div>
+</div>
+</div>
+<!-- Grand Milestone: Level 50 (SEASON SUPER PRIZE) -->
+<div class="flex-none w-72 flex flex-col rounded-xl bg-gradient-to-br from-surface-container-high via-surface-container-low to-surface-container-lowest p-3 shadow-2xl relative overflow-hidden">
+<div class="absolute -right-6 -bottom-6 w-28 h-28 rounded-full bg-primary/10 blur-xl"></div>
+<div class="flex items-center justify-between mb-1.5">
+<div class="flex items-center gap-1.5">
+<span class="px-2 py-0.5 rounded bg-primary text-on-primary font-stat-numeral text-label-sm font-bold shadow-md">УР. 50</span>
+<span class="text-label-sm font-label-sm text-primary uppercase font-bold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px]">trophy</span> ГЛАВНЫЙ СУПЕРПРИЗ
+              </span>
+</div>
+<span class="material-symbols-outlined text-primary text-[18px]">lock</span>
+</div>
+<!-- Free Prize 50 -->
+<div class="flex items-center gap-2 p-1.5 rounded bg-surface-container-high mb-1.5">
+<div class="w-9 h-9 rounded bg-surface-container flex items-center justify-center flex-none text-primary">
+<span class="material-symbols-outlined text-[20px]">military_tech</span>
+</div>
+<div class="min-w-0">
+<span class="text-label-sm text-on-surface font-label-md block truncate">Титул «Владыка Очага»</span>
+<span class="text-label-sm text-on-surface-variant font-body-sm block">+5% ко всем статам</span>
+</div>
+</div>
+<!-- Elite Grand Prize: Astral Sphinx -->
+<div class="flex-1 flex items-center gap-2.5 p-2 rounded-lg bg-surface-container-highest shadow-inner">
+<div class="w-14 h-14 rounded-lg bg-surface-container-low overflow-hidden flex-none relative shadow-md">
+<div class="w-full h-full bg-cover bg-center" data-alt="Close-up portrait of mythic feline astral sphinx with glowing celestial sapphire eyes, gilded divine runic collar, ornate Egyptian fantasy style, floating mystical stardust particles." style="background-image: url('/stitch-assets/a0a1cde41302.jpg')"></div>
+<span class="absolute bottom-0 right-0 px-1 rounded-tl bg-primary text-on-primary font-stat-numeral text-[9px] font-bold">Р10</span>
+</div>
+<div class="min-w-0 flex-1">
+<span class="text-label-md text-primary font-headline-md block truncate leading-tight">Астральный Сфинкс</span>
+<span class="text-label-sm text-tertiary font-body-sm block truncate font-bold">100 Осколков Призыва</span>
+<span class="text-label-sm text-on-surface-variant font-label-sm block truncate">Мифический маг света</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Zone 3: Bottom Tri-Column Strategic Dashboard -->
+<div class="flex-none grid grid-cols-1 md:grid-cols-3 gap-space-sm h-[200px]">
+<!-- Box 1: Season Daily & Weekly Challenges -->
+<div class="rounded-xl bg-surface-container-low p-space-sm shadow-md flex flex-col justify-between overflow-hidden">
+<div class="flex items-center justify-between pb-1">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">assignment</span>
+<span class="font-headline-md text-label-lg text-on-surface uppercase tracking-wide">Сезонные Испытания</span>
+</div>
+<span class="text-secondary font-label-sm text-label-sm">2/3 Выполнено</span>
+</div>
+<div class="flex flex-col gap-1.5 overflow-hidden flex-1 justify-center">
+<!-- Quest 1 (Completed) -->
+<div class="flex items-center justify-between p-1.5 rounded bg-surface-container-lowest text-label-sm font-label-sm">
+<div class="flex items-center gap-2 min-w-0">
+<span class="material-symbols-outlined text-secondary text-[16px]">check_circle</span>
+<span class="text-on-surface truncate">Победы на Арене 3х3</span>
+</div>
+<div class="flex items-center gap-2 flex-none">
+<span class="text-secondary font-bold">3 / 3</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-primary font-stat-numeral text-label-sm">+450 XP</span>
+</div>
+</div>
+<!-- Quest 2 (In Progress) -->
+<div class="flex items-center justify-between p-1.5 rounded bg-surface-container-lowest text-label-sm font-label-sm">
+<div class="flex items-center gap-2 min-w-0">
+<span class="material-symbols-outlined text-on-surface-variant text-[16px]">hourglass_empty</span>
+<span class="text-on-surface truncate">Зачистить Подземелья Огня</span>
+</div>
+<div class="flex items-center gap-2 flex-none">
+<span class="text-on-surface-variant">1 / 2</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-primary font-stat-numeral text-label-sm">+300 XP</span>
+</div>
+</div>
+<!-- Quest 3 (Completed) -->
+<div class="flex items-center justify-between p-1.5 rounded bg-surface-container-lowest text-label-sm font-label-sm">
+<div class="flex items-center gap-2 min-w-0">
+<span class="material-symbols-outlined text-secondary text-[16px]">check_circle</span>
+<span class="text-on-surface truncate">Собрать травы на Ферме Очага</span>
+</div>
+<div class="flex items-center gap-2 flex-none">
+<span class="text-secondary font-bold">500 / 500</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-primary font-stat-numeral text-label-sm">+250 XP</span>
+</div>
+</div>
+</div>
+<button class="w-full py-1 rounded bg-surface-container-high hover:bg-surface-variant text-on-surface font-label-sm text-label-sm transition-all flex items-center justify-center gap-1">
+<span>Смотреть все еженедельные (14)</span>
+<span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+</button>
+</div>
+<!-- Box 2: Elite Rewards Ahead (Levels 60, 70, 80) -->
+<div class="rounded-xl bg-surface-container-low p-space-sm shadow-md flex flex-col justify-between overflow-hidden">
+<div class="flex items-center justify-between pb-1">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">stars</span>
+<span class="font-headline-md text-label-lg text-on-surface uppercase tracking-wide">Главные Награды Впереди</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold">Элитный Тир</span>
+</div>
+<div class="grid grid-cols-3 gap-2 flex-1 items-center">
+<!-- Lv 60 Preview -->
+<div class="flex flex-col items-center p-2 rounded-lg bg-surface-container-lowest text-center h-full justify-between group hover:bg-surface-container transition-all">
+<span class="font-stat-numeral text-label-sm text-on-surface-variant">УР. 60</span>
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-primary shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[24px]">token</span>
+</div>
+<div class="min-w-0 w-full">
+<span class="font-label-sm text-label-sm text-on-surface truncate block">Руна Света Р9</span>
+<span class="text-label-sm text-secondary font-body-sm block">+420 ХП</span>
+</div>
+</div>
+<!-- Lv 70 Preview -->
+<div class="flex flex-col items-center p-2 rounded-lg bg-surface-container-lowest text-center h-full justify-between group hover:bg-surface-container transition-all">
+<span class="font-stat-numeral text-label-sm text-on-surface-variant">УР. 70</span>
+<div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center text-tertiary shadow-sm group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[24px]">auto_fix_high</span>
+</div>
+<div class="min-w-0 w-full">
+<span class="font-label-sm text-label-sm text-on-surface truncate block">Рамка «Огниво»</span>
+<span class="text-label-sm text-tertiary font-body-sm block">Анимация HUD</span>
+</div>
+</div>
+<!-- Lv 80 Final Cap Preview -->
+<div class="flex flex-col items-center p-2 rounded-lg bg-surface-container-highest text-center h-full justify-between shadow-md group hover:brightness-110 transition-all">
+<span class="font-stat-numeral text-label-sm text-primary font-bold">УР. 80 ФИНАЛ</span>
+<div class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-[24px]">crown</span>
+</div>
+<div class="min-w-0 w-full">
+<span class="font-label-sm text-label-sm text-primary truncate block font-bold">Корона Вечности</span>
+<span class="text-label-sm text-on-surface font-body-sm block">Мифик Артефакт</span>
+</div>
+</div>
+</div>
+<div class="flex justify-between items-center text-label-sm text-on-surface-variant pt-1 px-1">
+<span>Суммарно до конца: 38 этапов</span>
+<span class="text-secondary font-bold">Доступно еще 44 награды</span>
+</div>
+</div>
+<!-- Box 3: Season Star Shop -->
+<div class="rounded-xl bg-surface-container-low p-space-sm shadow-md flex flex-col justify-between overflow-hidden">
+<div class="flex items-center justify-between pb-1">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]">shopping_bag</span>
+<span class="font-headline-md text-label-lg text-on-surface uppercase tracking-wide">Звёздная Лавка Пасса</span>
+</div>
+<div class="flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container-highest text-primary font-stat-numeral text-label-sm">
+<span>640</span>
+<span class="material-symbols-outlined text-[14px]">star</span>
+</div>
+</div>
+<!-- Star Shop Items List -->
+<div class="flex flex-col gap-1.5 flex-1 justify-center">
+<!-- Shop Lot 1 -->
+<div class="flex items-center justify-between p-1.5 rounded bg-surface-container-lowest text-label-sm font-label-sm">
+<div class="flex items-center gap-2 min-w-0">
+<span class="material-symbols-outlined text-primary text-[18px]">inventory</span>
+<div class="min-w-0">
+<span class="text-on-surface truncate block">Ларец Астрала (Ранг 8)</span>
+<span class="text-on-surface-variant/70 font-body-sm block">Шанс мифической экипировки</span>
+</div>
+</div>
+<button class="px-2 py-1 rounded bg-surface-container-high hover:bg-primary hover:text-on-primary text-primary font-stat-numeral text-label-sm transition-all flex items-center gap-1 flex-none">
+<span>300</span>
+<span class="material-symbols-outlined text-[12px]">star</span>
+</button>
+</div>
+<!-- Shop Lot 2 -->
+<div class="flex items-center justify-between p-1.5 rounded bg-surface-container-lowest text-label-sm font-label-sm">
+<div class="flex items-center gap-2 min-w-0">
+<span class="material-symbols-outlined text-secondary text-[18px]">history_edu</span>
+<div class="min-w-0">
+<span class="text-on-surface truncate block">Свиток Возвышения Духа</span>
+<span class="text-on-surface-variant/70 font-body-sm block">Пробуждение пассивных навыков</span>
+</div>
+</div>
+<button class="px-2 py-1 rounded bg-surface-container-high hover:bg-primary hover:text-on-primary text-primary font-stat-numeral text-label-sm transition-all flex items-center gap-1 flex-none">
+<span>180</span>
+<span class="material-symbols-outlined text-[12px]">star</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1">
+<span class="text-label-sm font-body-sm text-on-surface-variant">Обновление лотов: 6 дней</span>
+<button class="text-primary hover:underline font-label-sm text-label-sm flex items-center gap-0.5">
+<span>Открыть всю лавку</span>
+<span class="material-symbols-outlined text-[14px]">open_in_new</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<script>
+  (function initBattlePassInteractions() {
+    const carousel = document.getElementById('rewardTrackCarousel');
+    const scrollLeftBtn = document.getElementById('trackScrollLeft');
+    const scrollRightBtn = document.getElementById('trackScrollRight');
+    const claimAllBtn = document.getElementById('claimAllBtn');
+
+    if (scrollLeftBtn && carousel) {
+      scrollLeftBtn.addEventListener('click', () => {
+        carousel.scrollBy({ left: -260, behavior: 'smooth' });
+      });
+    }
+
+    if (scrollRightBtn && carousel) {
+      scrollRightBtn.addEventListener('click', () => {
+        carousel.scrollBy({ left: 260, behavior: 'smooth' });
+      });
+    }
+
+    if (claimAllBtn) {
+      claimAllBtn.addEventListener('click', () => {
+        claimAllBtn.innerHTML = `
+          <span class="material-symbols-outlined text-[18px] animate-spin">refresh</span>
+          <span>Награды собраны!</span>
+        `;
+        claimAllBtn.classList.remove('from-primary', 'via-primary-container');
+        claimAllBtn.classList.add('bg-secondary-container', 'text-secondary');
+        setTimeout(() => {
+          claimAllBtn.innerHTML = `
+            <span class="material-symbols-outlined text-[18px]">done</span>
+            <span>Всё получено</span>
+          `;
+          claimAllBtn.disabled = true;
+          claimAllBtn.classList.add('opacity-60', 'cursor-not-allowed');
+        }, 1200);
+      });
+    }
+  })();
+</script></main><footer class="fixed bottom-0 left-0 w-full h-10 bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_-2px_10px_rgba(0,0,0,0.5)] z-40"><div class="w-full h-full px-margin-tablet flex items-center justify-between text-on-surface-variant text-label-sm font-label-sm"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs"><span class="px-space-xs py-0.5 rounded bg-surface-container-high font-stat-numeral text-[10px] text-primary">ESC</span><span>Главное меню</span></div><div class="flex items-center gap-space-xs"><span class="px-space-xs py-0.5 rounded bg-surface-container-high font-stat-numeral text-[10px] text-primary">TAB</span><span>Команда котиков</span></div><div class="flex items-center gap-space-xs"><span class="px-space-xs py-0.5 rounded bg-surface-container-high font-stat-numeral text-[10px] text-primary">ENTER</span><span>Чат таверны</span></div></div><div class="flex items-center gap-space-md"><span>Таверна «Тёплая Лапка» • Сезон 4</span><span class="text-primary">v1.4.8-mythic</span></div></div></footer>
+</section>
+<section id="viewChatGlobal" class="stitch-view mythfel-form hidden" data-stitch="chat_global" data-layout="landscape">
+<header class="fixed top-0 w-full z-50 bg-surface-container-lowest/95 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.65)]"><div class="h-28 w-full px-margin-tablet flex flex-col justify-between py-space-xs"><div class="flex items-center justify-between w-full h-14"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-primary text-[26px]">pets</span><span class="font-headline-md text-headline-md text-primary tracking-wide uppercase">Мифиус: РПГ Котики</span></div><div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-surface-container text-secondary text-label-sm font-label-sm"><span class="material-symbols-outlined text-[14px]">wifi</span><span>24ms</span></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container rounded-lg"><span class="material-symbols-outlined text-primary text-[18px]">monetization_on</span><span class="font-stat-numeral text-stat-numeral text-on-surface">148,250</span></div><div class="flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container rounded-lg"><span class="material-symbols-outlined text-tertiary text-[18px]">set_meal</span><span class="font-stat-numeral text-stat-numeral text-on-surface">420</span></div><div class="flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container rounded-lg"><span class="material-symbols-outlined text-secondary text-[18px]">bolt</span><span class="font-stat-numeral text-stat-numeral text-on-surface">85/90</span></div><div class="flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container rounded-lg"><span class="material-symbols-outlined text-primary-fixed text-[18px]">diamond</span><span class="font-stat-numeral text-stat-numeral text-on-surface">1,250</span></div></div><div class="flex items-center gap-space-md"><div class="flex flex-col text-right"><span class="font-label-lg text-label-lg text-on-surface">Хранитель Очага</span><span class="font-label-sm text-label-sm text-primary">Ур. 48</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div><div class="flex items-center justify-between w-full h-11"><nav class="flex items-center gap-space-xs" data-active-classes="bg-primary-container text-on-primary-container font-label-md"><a class="font-label-md text-label-md px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="main-hub" href="#">Главный Хаб</a><a class="font-label-md text-label-md px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="battles" href="#">Бои</a><a class="font-label-md text-label-md px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="market" href="#">Торговля</a><a class="font-label-md text-label-md px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="guilds" href="#">Гильдии</a><a aria-current="page" class="px-space-md py-space-xs rounded transition-colors bg-primary-container text-on-primary-container font-label-md" data-path="chats" href="#">Чаты</a><a class="font-label-md text-label-md px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="tavern-pass" href="#">Пасс</a><a class="font-label-md text-label-md px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="leaderboards" href="#">Рейтинги</a></nav><div class="flex items-center gap-space-sm"><button class="px-space-sm py-space-xs rounded bg-surface-container-high text-on-surface-variant hover:bg-surface-variant hover:text-on-surface text-label-sm font-label-sm">Звук</button><button class="px-space-sm py-space-xs rounded bg-surface-container-high text-on-surface-variant hover:bg-surface-variant hover:text-on-surface text-label-sm font-label-sm">Настройки</button></div></div></div></header><main class="w-full pt-28 pb-10 bg-surface min-h-[calc(100vh-2.5rem)]"><div class="flex flex-col w-full">
+<div class="w-full h-[calc(100vh-7rem-2.5rem)] max-h-[calc(100vh-7rem-2.5rem)] flex flex-col overflow-hidden bg-surface-container-lowest">
+<!-- Top Horizontal Sub-tabs Bar (Tavern Town Hall Channels) -->
+<div class="w-full h-11 bg-surface-container-low px-margin-tablet flex items-center justify-between shrink-0 shadow-md">
+<div class="flex items-center gap-space-xs overflow-x-auto py-1">
+<button class="flex items-center gap-space-xs px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md transition-all shadow-sm">
+<span class="material-symbols-outlined text-[16px]">forum</span>
+<span>Общий Чат Таверны</span>
+<span class="px-1.5 py-0.2 bg-on-primary-container/20 rounded font-stat-numeral text-[11px] text-on-primary-container">142</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-md text-label-md transition-all">
+<span class="material-symbols-outlined text-[16px] text-secondary">shield</span>
+<span>Орден Тенистых Лап</span>
+<span class="px-1.5 py-0.2 bg-secondary/20 text-secondary rounded font-stat-numeral text-[11px]">3</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-md text-label-md transition-all">
+<span class="material-symbols-outlined text-[16px] text-primary">storefront</span>
+<span>Торговая Волна</span>
+<span class="px-1.5 py-0.2 bg-primary/20 text-primary rounded font-stat-numeral text-[11px]">12</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-md text-label-md transition-all">
+<span class="material-symbols-outlined text-[16px] text-tertiary">swords</span>
+<span>Поиск Группы (LFG)</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-md text-label-md transition-all">
+<span class="material-symbols-outlined text-[16px]">mail</span>
+<span>Личные Сообщения (ЛС)</span>
+<span class="w-2 h-2 rounded-full bg-error"></span>
+</button>
+</div>
+<div class="flex items-center gap-space-md text-on-surface-variant font-label-sm text-label-sm shrink-0">
+<div class="flex items-center gap-1.5 bg-surface-container px-space-sm py-1 rounded">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="text-on-surface">Сервер «Мурр-1»</span>
+</div>
+<div class="flex items-center gap-1 text-outline">
+<span class="material-symbols-outlined text-[15px]">campaign</span>
+<span>Задержка вещания: 0.1с</span>
+</div>
+</div>
+</div>
+<!-- 3-Column Core Arena Viewport (100% Height Fill) -->
+<div class="flex-1 w-full grid grid-cols-[280px_1fr_330px] min-h-0 divide-x-0 overflow-hidden">
+<!-- LEFT COLUMN: Channels & Conversations List (280px) -->
+<aside class="h-full bg-surface-container-low flex flex-col min-h-0 shadow-inner">
+<!-- Quick Search & Filter Header -->
+<div class="p-space-md flex flex-col gap-space-sm bg-surface-container/60 shrink-0">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+<input class="w-full pl-8 pr-3 py-1.5 bg-surface-container-highest rounded-lg text-on-surface font-body-sm text-body-sm placeholder:text-outline focus:outline-none focus:bg-surface-bright" placeholder="Поиск каналов и друзей..." type="text"/>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span class="uppercase tracking-wider text-outline font-label-sm text-[10px]">Фильтр чатов</span>
+<div class="flex items-center gap-1">
+<button class="p-1 rounded hover:bg-surface-container-highest text-outline hover:text-on-surface transition-colors" title="Только клан">
+<span class="material-symbols-outlined text-[16px]">filter_list</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container-highest text-outline hover:text-on-surface transition-colors" title="Режим тишины">
+<span class="material-symbols-outlined text-[16px]">volume_off</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Scrollable Channel Directory -->
+<div class="flex-1 overflow-y-auto px-space-sm py-space-sm flex flex-col gap-space-xs min-h-0">
+<!-- Section 1: Main Rooms -->
+<div class="px-space-xs pt-1 pb-0.5 text-outline font-label-sm text-[10px] uppercase tracking-wider">
+            Ратуша &amp; Сферы
+          </div>
+<!-- Active Room -->
+<div class="group flex items-center justify-between p-space-sm rounded-lg bg-surface-container-highest text-on-surface shadow-sm cursor-pointer transition-all">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-primary/20 text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate">Общий Чат (Таверна)</span>
+<span class="font-body-sm text-body-sm text-primary truncate">Канал #1 • 142 лапки</span>
+</div>
+</div>
+<span class="w-2 h-2 rounded-full bg-primary shrink-0"></span>
+</div>
+<!-- Clan Channel -->
+<div class="group flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface cursor-pointer transition-all">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-secondary/15 text-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">shield</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md truncate">Орден Тенистых Лап</span>
+<span class="font-body-sm text-body-sm text-outline truncate">Клан • 19 онлайн</span>
+</div>
+</div>
+<span class="px-1.5 py-0.5 rounded-full bg-secondary-container text-secondary font-stat-numeral text-[10px] shrink-0">3</span>
+</div>
+<!-- Trade Channel -->
+<div class="group flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface cursor-pointer transition-all">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-primary-fixed-dim/15 text-primary-fixed-dim flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">balance</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md truncate">Торговля &amp; Аукцион</span>
+<span class="font-body-sm text-body-sm text-outline truncate">Сделки, обмен свитков</span>
+</div>
+</div>
+<span class="px-1.5 py-0.5 rounded-full bg-primary-container text-on-primary-container font-stat-numeral text-[10px] shrink-0">12</span>
+</div>
+<!-- LFG Channel -->
+<div class="group flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface cursor-pointer transition-all">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-tertiary/15 text-tertiary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">group_add</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md truncate">Сбор в Рейды &amp; Данжи</span>
+<span class="font-body-sm text-body-sm text-outline truncate">LFG • Поиск союзников</span>
+</div>
+</div>
+</div>
+<!-- Section 2: Direct Messages -->
+<div class="px-space-xs pt-space-md pb-0.5 text-outline font-label-sm text-[10px] uppercase tracking-wider flex items-center justify-between">
+<span>Личные диалоги (3)</span>
+<span class="material-symbols-outlined text-[14px]">lock</span>
+</div>
+<!-- Direct User 1 -->
+<div class="flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container cursor-pointer transition-all">
+<div class="flex items-center gap-2 min-w-0">
+<div class="relative shrink-0">
+<div class="w-7 h-7 rounded-full bg-surface-variant flex items-center justify-center font-label-sm text-primary">МП</div>
+<span class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-secondary"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate">Мурзик_Паладин</span>
+<span class="font-body-sm text-body-sm text-outline truncate">«Возьми зелье в рейд»</span>
+</div>
+</div>
+<span class="text-outline font-label-sm text-[10px]">14:22</span>
+</div>
+<!-- Direct User 2 -->
+<div class="flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container cursor-pointer transition-all">
+<div class="flex items-center gap-2 min-w-0">
+<div class="relative shrink-0">
+<div class="w-7 h-7 rounded-full bg-surface-variant flex items-center justify-center font-label-sm text-tertiary">РХ</div>
+<span class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-secondary"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate">Рыжехвост</span>
+<span class="font-body-sm text-body-sm text-outline truncate">«Сколько за заточку?»</span>
+</div>
+</div>
+<span class="text-outline font-label-sm text-[10px]">13:58</span>
+</div>
+<!-- Direct User 3 -->
+<div class="flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container cursor-pointer transition-all">
+<div class="flex items-center gap-2 min-w-0">
+<div class="relative shrink-0">
+<div class="w-7 h-7 rounded-full bg-surface-variant flex items-center justify-center font-label-sm text-primary">БГ</div>
+<span class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-outline"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate">Барсик-Громовержец</span>
+<span class="font-body-sm text-body-sm text-outline truncate">Был 10 минут назад</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Guild Event Micro-Widget (Sticky Bottom Left) -->
+<div class="p-space-sm m-space-sm rounded-xl bg-surface-container-high shadow-lg shrink-0 flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 text-primary">
+<span class="material-symbols-outlined text-[16px]">military_tech</span>
+<span class="font-label-sm text-label-sm font-bold uppercase tracking-wider">Событие Клана</span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-error-container text-on-error-container font-stat-numeral text-[10px]">03:45</span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<span class="text-on-surface font-semibold truncate">Война Башен: Застава</span>
+<span class="text-secondary font-label-sm">Рейд Дога [Открыт]</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-gradient-to-r from-primary to-secondary h-full rounded-full w-3/4"></div>
+</div>
+</div>
+</aside>
+<!-- CENTER COLUMN: Active Chat Feed & Composer (flex-1) -->
+<section class="h-full bg-surface flex flex-col min-h-0 relative shadow-2xl">
+<!-- Room Banner Header -->
+<div class="h-14 px-space-lg bg-surface-container/80 flex items-center justify-between shrink-0 shadow-sm">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0 shadow-inner">
+<span class="material-symbols-outlined text-[22px]">fireplace</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-on-surface truncate">Общий Чат Таверны: Очаг Мурр-1</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-secondary text-label-sm font-label-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                  142 онлайн
+                </span>
+</div>
+<span class="font-body-sm text-body-sm text-outline truncate">
+                Правила очага: без спама, токсичности и спойлеров квестов 7-го Акта.
+              </span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs shrink-0">
+<button class="p-2 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors" title="Поиск в этом чате">
+<span class="material-symbols-outlined text-[18px]">search</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors" title="Закрепленные свитки">
+<span class="material-symbols-outlined text-[18px]">push_pin</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors" title="Настройки ленты">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+</div>
+</div>
+<!-- Dynamic Message History (Scrollable Stream) -->
+<div class="flex-1 overflow-y-auto px-space-xl py-space-lg flex flex-col gap-space-md min-h-0" id="chatStream">
+<!-- Message 1: Clan Leader Callout -->
+<div class="flex items-start gap-space-md group">
+<div class="relative shrink-0 mt-0.5">
+<div class="w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary-fixed shadow-md overflow-hidden">
+<span class="material-symbols-outlined text-[24px]">cruelty_free</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-primary-container text-on-primary-container font-stat-numeral text-[9px] shadow">52</span>
+</div>
+<div class="flex flex-col max-w-[85%]">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-lg text-label-lg text-primary flex items-center gap-1">
+                  Мурр-Оплот
+                  <span class="material-symbols-outlined text-[14px] text-primary" title="Глава Клана">military_tech</span>
+</span>
+<span class="px-1.5 py-0.5 rounded bg-primary/10 text-primary-fixed text-[10px] font-label-sm font-bold">Глава Клана</span>
+<span class="font-body-sm text-body-sm text-outline">19:42</span>
+</div>
+<div class="p-space-md rounded-2xl rounded-tl-sm bg-surface-container text-on-surface shadow-sm">
+<p class="font-body-md text-body-md leading-relaxed">
+                  Братья, сегодня в <span class="text-primary font-bold">20:00 МСК</span> общий сбор на штурм Ворот Когтя! Проверьте банки громового зелья и заточку когтей! 🐾
+                </p>
+</div>
+</div>
+</div>
+<!-- Message 2: Self Player (You) -->
+<div class="flex items-start gap-space-md flex-row-reverse group">
+<div class="relative shrink-0 mt-0.5">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-md">
+<span class="material-symbols-outlined text-[22px]">pets</span>
+</div>
+<span class="absolute -bottom-1 -left-1 px-1 rounded bg-surface-container-highest text-primary font-stat-numeral text-[9px] shadow">48</span>
+</div>
+<div class="flex flex-col items-end max-w-[85%]">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-body-sm text-body-sm text-outline">19:43</span>
+<span class="px-1.5 py-0.5 rounded bg-secondary-container/40 text-secondary text-[10px] font-label-sm font-bold">Вы</span>
+<span class="font-label-lg text-label-lg text-on-surface">Хранитель Очага</span>
+</div>
+<div class="p-space-md rounded-2xl rounded-tr-sm bg-primary-container text-on-primary-container shadow-md">
+<p class="font-body-md text-body-md leading-relaxed font-semibold">
+                  Мой Барсик готов, сет Саламандры заточен на +12. Встречаемся у ворот за 10 минут.
+                </p>
+</div>
+</div>
+</div>
+<!-- Message 3: Trade Offer with Interactive Item Badge -->
+<div class="flex items-start gap-space-md group">
+<div class="relative shrink-0 mt-0.5">
+<div class="w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center text-tertiary shadow-md">
+<span class="material-symbols-outlined text-[22px]">stream_apps</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-surface-container-high text-on-surface-variant font-stat-numeral text-[9px]">45</span>
+</div>
+<div class="flex flex-col max-w-[85%]">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-lg text-label-lg text-on-surface flex items-center gap-1">
+                  Рыжехвост
+                  <span class="text-outline text-label-sm">🏹</span>
+</span>
+<span class="font-body-sm text-body-sm text-outline">19:45</span>
+</div>
+<div class="p-space-md rounded-2xl rounded-tl-sm bg-surface-container text-on-surface shadow-sm flex flex-col gap-2">
+<p class="font-body-md text-body-md leading-relaxed">
+                  Продам редкий свиток или обменяю на эссенцию огня! Срочно нужны ресурсы на крафт:
+                </p>
+<!-- Linked RPG Item Card Component -->
+<div class="flex items-center justify-between p-space-sm rounded-xl bg-surface-container-lowest shadow-md hover:bg-surface-container-high transition-colors cursor-pointer group/item">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary-container/20 flex items-center justify-center text-primary shrink-0 shadow-inner">
+<span class="material-symbols-outlined text-[22px]">auto_stories</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md text-primary font-bold tracking-wide">[Свиток Заточки Оружия Р8]</span>
+<span class="px-1 py-0.2 bg-primary/20 text-primary rounded font-stat-numeral text-[10px]">Мифик</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline">+100% шанс успеха до +14 ранга</span>
+</div>
+</div>
+<div class="flex items-center gap-2 pl-2">
+<div class="flex items-center gap-1 bg-surface-container px-2 py-1 rounded text-primary">
+<span class="material-symbols-outlined text-[15px]">monetization_on</span>
+<span class="font-stat-numeral text-[13px]">1,200</span>
+</div>
+<button class="px-space-sm py-1 rounded bg-primary text-on-primary font-label-sm text-label-sm hover:opacity-90 shadow">Купить</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Message 4: System Mythic Announcement (Global Banner) -->
+<div class="w-full my-1 p-space-sm rounded-xl bg-gradient-to-r from-primary-container/30 via-primary-container/60 to-primary-container/30 shadow-lg flex items-center justify-between">
+<div class="flex items-center gap-space-md">
+<div class="w-8 h-8 rounded-lg bg-primary text-on-primary flex items-center justify-center shadow">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] uppercase font-bold text-primary tracking-widest">Таверна • Слава Кузницы</span>
+<span class="font-body-md text-body-md text-on-surface">
+                  Хранитель <strong class="text-on-surface">Владмур</strong> выковал мифический <span class="text-primary font-bold">[Громовой Клинок Перуна +13]</span> в Кузнице Очага!
+                </span>
+</div>
+</div>
+<button class="px-space-md py-1 rounded-lg bg-surface-container-highest text-primary hover:text-on-surface font-label-sm text-label-sm transition-colors shadow-sm">
+              Поздравить 🎉
+            </button>
+</div>
+<!-- Message 5: Cat Mage High-BM LFG -->
+<div class="flex items-start gap-space-md group">
+<div class="relative shrink-0 mt-0.5">
+<div class="w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary-fixed-dim shadow-md">
+<span class="material-symbols-outlined text-[22px]">auto_awesome</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-secondary-container text-secondary font-stat-numeral text-[9px]">60</span>
+</div>
+<div class="flex flex-col max-w-[85%]">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-lg text-label-lg text-on-surface flex items-center gap-1">
+                  Кото-Маг
+                  <span class="text-secondary text-label-sm">🔮</span>
+</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-outline text-[10px] font-label-sm">БМ: 54.2k</span>
+<span class="font-body-sm text-body-sm text-outline">19:48</span>
+</div>
+<div class="p-space-md rounded-2xl rounded-tl-sm bg-surface-container text-on-surface shadow-sm">
+<p class="font-body-md text-body-md leading-relaxed">
+                  Кто в <strong class="text-secondary">Затопленные Гроты</strong> на 3 волны? Нужен сильный танк от <span class="text-primary font-bold">45к БМ</span>! Хил и контроль уже в пати, ключ активирован. 🛡️
+                </p>
+<div class="mt-2 flex items-center gap-2">
+<span class="px-2 py-0.5 rounded bg-surface-container-lowest text-outline text-[11px] font-label-sm">Слот: [Танк 0/1]</span>
+<button class="px-2.5 py-1 rounded bg-secondary-container text-secondary font-label-sm text-label-sm hover:opacity-90">Вступить в группу</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Message 6: Murka Post-Raid Loot -->
+<div class="flex items-start gap-space-md group">
+<div class="relative shrink-0 mt-0.5">
+<div class="w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center text-secondary shadow-md">
+<span class="material-symbols-outlined text-[22px]">water_drop</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-surface-container-high text-on-surface-variant font-stat-numeral text-[9px]">39</span>
+</div>
+<div class="flex flex-col max-w-[85%]">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-lg text-label-lg text-on-surface flex items-center gap-1">
+                  Мурка-Речная
+                  <span class="text-secondary text-label-sm">💧</span>
+</span>
+<span class="font-body-sm text-body-sm text-outline">19:50</span>
+</div>
+<div class="p-space-md rounded-2xl rounded-tl-sm bg-surface-container text-on-surface shadow-sm">
+<p class="font-body-md text-body-md leading-relaxed">
+                  Спасибо за рейд на Архипса! Лут просто космос, выпала мифическая руна кошачьей ловкости! Когти дрожат от счастья ✨😻
+                </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Chat Composer Bottom Dock (Ergonomic Physical Controls) -->
+<div class="p-space-md bg-surface-container-low shrink-0 shadow-[0_-4px_16px_rgba(0,0,0,0.4)] flex flex-col gap-space-xs">
+<!-- Quick Action Accessory Bar -->
+<div class="flex items-center justify-between text-on-surface-variant">
+<div class="flex items-center gap-1.5">
+<button class="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-primary">pets</span>
+<span>Линк котика / предмета</span>
+</button>
+<button class="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-tertiary">mood</span>
+<span>Кошачьи эмодзи</span>
+</button>
+<button class="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm transition-all shadow-sm" id="rollDiceBtn">
+<span class="material-symbols-outlined text-[15px] text-secondary">casino</span>
+<span>Бросить d100 🎲</span>
+</button>
+<button class="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-outline">bolt</span>
+<span>Быстрые фразы</span>
+</button>
+</div>
+<div class="text-outline font-label-sm text-[11px] hidden sm:block">
+              Нажмите [ENTER] для отправки
+            </div>
+</div>
+<!-- Main Input Field Bar -->
+<form class="flex items-center gap-space-sm mt-1" id="chatForm" onsubmit="event.preventDefault(); window.sendTavernMsg();">
+<div class="relative flex-1">
+<input class="w-full h-11 pl-4 pr-10 rounded-xl bg-surface-container-highest text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" id="chatInput" placeholder="Написать сообщение в Таверну... [ENTER для отправки]" type="text"/>
+<button class="absolute right-2.5 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">mic</span>
+</button>
+</div>
+<!-- Tactile Amber Send Button -->
+<button class="h-11 px-space-xl rounded-xl bg-gradient-to-b from-primary to-primary-container text-on-primary-container font-label-lg text-label-lg shadow-md hover:brightness-110 active:translate-y-0.5 transition-all flex items-center gap-2 shrink-0" type="submit">
+<span>Сказать</span>
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</form>
+</div>
+</section>
+<!-- RIGHT COLUMN: Cat Adventurers in Lounge & Quick Actions (330px) -->
+<aside class="h-full bg-surface-container-low flex flex-col min-h-0 shadow-inner">
+<!-- Pinned Notice Board Widget (Top of Right Panel) -->
+<div class="p-space-md bg-surface-container/70 shadow-sm shrink-0">
+<div class="p-space-md rounded-xl bg-surface-container-high shadow-md relative overflow-hidden group">
+<div class="flex items-center gap-2 mb-1.5">
+<span class="material-symbols-outlined text-primary text-[18px]">campaign</span>
+<span class="font-label-sm text-[11px] uppercase tracking-wider text-primary font-bold">Доска Объявлений</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface leading-tight">
+              «Турнир Золотого Когтя стартует в эту субботу! Призовой фонд: <strong class="text-primary font-bold">500,000</strong> золота!»
+            </p>
+<div class="mt-2 flex items-center justify-between text-outline font-label-sm text-[10px]">
+<span>Запись у Трактирщика</span>
+<span class="text-secondary font-semibold">Осталось 2 дня</span>
+</div>
+</div>
+</div>
+<!-- Section Title: Adventurers Present -->
+<div class="px-space-md py-space-xs flex items-center justify-between text-outline font-label-sm text-label-sm uppercase tracking-wider shrink-0">
+<span>Хранители в Очаге (142)</span>
+<span class="material-symbols-outlined text-[16px]">groups</span>
+</div>
+<!-- Online Cats List -->
+<div class="flex-1 overflow-y-auto px-space-sm py-1 flex flex-col gap-1 min-h-0">
+<!-- Adventurer 1 -->
+<div class="player-card group flex items-center justify-between p-space-sm rounded-xl hover:bg-surface-container cursor-pointer transition-all" onclick="window.selectAdventurer('Мурр-Оплот', 60, 'Магистр', '62.4k', 'В бою на осаде', 'pets')">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="relative shrink-0">
+<div class="w-9 h-9 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary shadow">
+<span class="material-symbols-outlined text-[20px]">cruelty_free</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-primary-container text-on-primary-container font-stat-numeral text-[9px]">60</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-label-md text-label-md text-on-surface truncate">Мурр-Оплот</span>
+<span class="material-symbols-outlined text-[13px] text-primary">verified</span>
+</div>
+<div class="flex items-center gap-1.5 font-body-sm text-body-sm text-outline">
+<span class="text-tertiary text-[11px] truncate">В бою на осаде</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-stat-numeral text-[11px] text-primary">62.4k</span>
+<span class="font-label-sm text-[10px] text-outline">БМ</span>
+</div>
+</div>
+<!-- Adventurer 2 -->
+<div class="player-card group flex items-center justify-between p-space-sm rounded-xl hover:bg-surface-container cursor-pointer transition-all" onclick="window.selectAdventurer('Барсик-Громовержец', 52, 'Офицер', '51.8k', 'В Кузнице', 'bolt')">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="relative shrink-0">
+<div class="w-9 h-9 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary-fixed shadow">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-surface-container text-on-surface-variant font-stat-numeral text-[9px]">52</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-label-md text-label-md text-on-surface truncate">Барсик-Громовержец</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline truncate">В Кузнице Очага</span>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-stat-numeral text-[11px] text-on-surface">51.8k</span>
+<span class="font-label-sm text-[10px] text-outline">БМ</span>
+</div>
+</div>
+<!-- Adventurer 3: Current User Profile Entry -->
+<div class="player-card group flex items-center justify-between p-space-sm rounded-xl bg-surface-container/50 hover:bg-surface-container cursor-pointer transition-all" onclick="window.selectAdventurer('Хранитель Очага (Вы)', 48, 'Хранитель', '48.9k', 'В Таверне', 'pets')">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="relative shrink-0">
+<div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow">
+<span class="material-symbols-outlined text-[20px]">pets</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-surface-container-highest text-primary font-stat-numeral text-[9px]">48</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-label-md text-label-md text-primary font-bold truncate">Хранитель Очага</span>
+<span class="px-1 py-0.2 bg-secondary/20 text-secondary text-[9px] font-label-sm rounded">Вы</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary truncate">В Таверне</span>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-stat-numeral text-[11px] text-primary">48.9k</span>
+<span class="font-label-sm text-[10px] text-outline">БМ</span>
+</div>
+</div>
+<!-- Adventurer 4 -->
+<div class="player-card group flex items-center justify-between p-space-sm rounded-xl hover:bg-surface-container cursor-pointer transition-all" onclick="window.selectAdventurer('Светохвост', 46, 'Ветеран', '49.6k', 'На Ферме', 'shield')">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="relative shrink-0">
+<div class="w-9 h-9 rounded-xl bg-surface-container-highest flex items-center justify-center text-secondary shadow">
+<span class="material-symbols-outlined text-[20px]">shield</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-surface-container text-on-surface-variant font-stat-numeral text-[9px]">46</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate">Светохвост</span>
+<span class="font-body-sm text-body-sm text-outline truncate">На Ферме рыбок</span>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-stat-numeral text-[11px] text-on-surface">49.6k</span>
+<span class="font-label-sm text-[10px] text-outline">БМ</span>
+</div>
+</div>
+<!-- Adventurer 5 -->
+<div class="player-card group flex items-center justify-between p-space-sm rounded-xl hover:bg-surface-container cursor-pointer transition-all" onclick="window.selectAdventurer('Звездочёт', 42, 'Новичок', '42.1k', 'В поиске группы', 'auto_awesome')">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="relative shrink-0">
+<div class="w-9 h-9 rounded-xl bg-surface-container-highest flex items-center justify-center text-tertiary shadow">
+<span class="material-symbols-outlined text-[20px]">auto_awesome</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-surface-container text-on-surface-variant font-stat-numeral text-[9px]">42</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate">Звездочёт</span>
+<span class="font-body-sm text-body-sm text-secondary truncate">В поиске группы (LFG)</span>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-stat-numeral text-[11px] text-on-surface">42.1k</span>
+<span class="font-label-sm text-[10px] text-outline">БМ</span>
+</div>
+</div>
+</div>
+<!-- Interactive Player Profile Inspector Drawer (Bottom Right) -->
+<div class="p-space-md m-space-sm rounded-2xl bg-surface-container-high shadow-xl shrink-0 flex flex-col gap-space-sm" id="inspectorPanel">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Карточка Хранителя</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-secondary text-[10px] font-label-sm" id="inspectorStatus">В бою на осаде</span>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary shadow-inner">
+<span class="material-symbols-outlined text-[28px]" id="inspectorIcon">cruelty_free</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-label-lg text-on-surface font-bold truncate" id="inspectorName">Мурр-Оплот</span>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-primary font-bold" id="inspectorLevel">Ур. 60 • Магистр</span>
+<span class="text-outline text-label-sm">•</span>
+<span class="font-stat-numeral text-[12px] text-on-surface font-bold" id="inspectorBm">62.4k БМ</span>
+</div>
+</div>
+</div>
+<!-- Quick Action Buttons Grid -->
+<div class="grid grid-cols-2 gap-1.5 pt-1">
+<button class="py-1.5 px-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-variant flex items-center justify-center gap-1.5 font-label-sm text-label-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-tertiary">swords</span>
+<span>Дуэль ⚔️</span>
+</button>
+<button class="py-1.5 px-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-variant flex items-center justify-center gap-1.5 font-label-sm text-label-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-secondary">group_add</span>
+<span>В отряд 👥</span>
+</button>
+<button class="py-1.5 px-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-variant flex items-center justify-center gap-1.5 font-label-sm text-label-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-primary">chat</span>
+<span>В ЛС ✉️</span>
+</button>
+<button class="py-1.5 px-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-variant flex items-center justify-center gap-1.5 font-label-sm text-label-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-primary-fixed-dim">search</span>
+<span>Котики 🔍</span>
+</button>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</div>
+<script>
+  // Dynamic Message Submission Micro-interaction
+  window.sendTavernMsg = function() {
+    const input = document.getElementById('chatInput');
+    const stream = document.getElementById('chatStream');
+    if (!input || !stream || !input.value.trim()) return;
+
+    const userText = input.value.trim();
+    const timeNow = new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+
+    const msgNode = document.createElement('div');
+    msgNode.className = 'flex items-start gap-space-md flex-row-reverse group animate-fadeIn';
+    msgNode.innerHTML = `
+      <div class="relative shrink-0 mt-0.5">
+        <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-md">
+          <span class="material-symbols-outlined text-[22px]">pets</span>
+        </div>
+        <span class="absolute -bottom-1 -left-1 px-1 rounded bg-surface-container-highest text-primary font-stat-numeral text-[9px] shadow">48</span>
+      </div>
+      <div class="flex flex-col items-end max-w-[85%]">
+        <div class="flex items-center gap-2 mb-1">
+          <span class="font-body-sm text-body-sm text-outline">${timeNow}</span>
+          <span class="px-1.5 py-0.2 rounded bg-secondary-container/40 text-secondary text-[10px] font-label-sm font-bold">Вы</span>
+          <span class="font-label-lg text-label-lg text-on-surface">Хранитель Очага</span>
+        </div>
+        <div class="p-space-md rounded-2xl rounded-tr-sm bg-primary-container text-on-primary-container shadow-md">
+          <p class="font-body-md text-body-md leading-relaxed font-semibold">
+            ${userText}
+          </p>
+        </div>
+      </div>
+    `;
+
+    stream.appendChild(msgNode);
+    input.value = '';
+    stream.scrollTop = stream.scrollHeight;
+  };
+
+  // Roll d100 Dice Quick Action
+  const rollDiceBtn = document.getElementById('rollDiceBtn');
+  if (rollDiceBtn) {
+    rollDiceBtn.addEventListener('click', function() {
+      const stream = document.getElementById('chatStream');
+      const timeNow = new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+      const roll = Math.floor(Math.random() * 100) + 1;
+
+      const diceNode = document.createElement('div');
+      diceNode.className = 'w-full my-1 p-space-sm rounded-xl bg-surface-container shadow flex items-center justify-between';
+      diceNode.innerHTML = `
+        <div class="flex items-center gap-space-sm">
+          <span class="material-symbols-outlined text-secondary text-[20px]">casino</span>
+          <span class="font-body-sm text-body-sm text-on-surface">
+            Хранитель Очага бросает кость судьбы 🎲 (1-100): 
+            <strong class="text-primary font-stat-numeral text-[15px] ml-1">${roll}</strong>
+          </span>
+        </div>
+        <span class="text-outline font-label-sm text-[11px]">${timeNow}</span>
+      `;
+      stream.appendChild(diceNode);
+      stream.scrollTop = stream.scrollHeight;
+    });
+  }
+
+  // Interactive Adventurer Profile Switcher
+  window.selectAdventurer = function(name, lvl, rank, bm, status, icon) {
+    const nameEl = document.getElementById('inspectorName');
+    const lvlEl = document.getElementById('inspectorLevel');
+    const bmEl = document.getElementById('inspectorBm');
+    const statusEl = document.getElementById('inspectorStatus');
+    const iconEl = document.getElementById('inspectorIcon');
+
+    if (nameEl) nameEl.textContent = name;
+    if (lvlEl) lvlEl.textContent = `Ур. ${lvl} • ${rank}`;
+    if (bmEl) bmEl.textContent = `${bm} БМ`;
+    if (statusEl) statusEl.textContent = status;
+    if (iconEl) iconEl.textContent = icon;
+  };
+</script></main><footer class="fixed bottom-0 left-0 w-full h-10 bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_-2px_10px_rgba(0,0,0,0.5)] z-40"><div class="w-full h-full px-margin-tablet flex items-center justify-between text-on-surface-variant text-label-sm font-label-sm"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs"><span class="px-space-xs py-0.5 rounded bg-surface-container-high font-stat-numeral text-[10px] text-primary">ESC</span><span>Главное меню</span></div><div class="flex items-center gap-space-xs"><span class="px-space-xs py-0.5 rounded bg-surface-container-high font-stat-numeral text-[10px] text-primary">TAB</span><span>Команда котиков</span></div><div class="flex items-center gap-space-xs"><span class="px-space-xs py-0.5 rounded bg-surface-container-high font-stat-numeral text-[10px] text-primary">ENTER</span><span>Чат таверны</span></div></div><div class="flex items-center gap-space-md"><span>Таверна «Тёплая Лапка» • Сезон 4</span><span class="text-primary">v1.4.8-mythic</span></div></div></footer>
+</section>
+<section id="viewChatGuild" class="stitch-view mythfel-form hidden" data-stitch="chat_guild" data-layout="landscape">
+<header class="fixed top-0 w-full z-50 bg-surface-container-lowest/95 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.65)]"><div class="h-28 w-full px-margin-tablet flex flex-col justify-between py-space-xs"><div class="flex items-center justify-between w-full h-14"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-primary text-[26px]">pets</span><span class="font-headline-md text-headline-md text-primary tracking-wide uppercase">Мифиус: РПГ Котики</span></div><div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-surface-container text-secondary text-label-sm font-label-sm"><span class="material-symbols-outlined text-[14px]">wifi</span><span>24ms</span></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container rounded-lg"><span class="material-symbols-outlined text-primary text-[18px]">monetization_on</span><span class="font-stat-numeral text-stat-numeral text-on-surface">148,250</span></div><div class="flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container rounded-lg"><span class="material-symbols-outlined text-tertiary text-[18px]">set_meal</span><span class="font-stat-numeral text-stat-numeral text-on-surface">420</span></div><div class="flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container rounded-lg"><span class="material-symbols-outlined text-secondary text-[18px]">bolt</span><span class="font-stat-numeral text-stat-numeral text-on-surface">85/90</span></div><div class="flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container rounded-lg"><span class="material-symbols-outlined text-primary-fixed text-[18px]">diamond</span><span class="font-stat-numeral text-stat-numeral text-on-surface">1,250</span></div></div><div class="flex items-center gap-space-md"><div class="flex flex-col text-right"><span class="font-label-lg text-label-lg text-on-surface">Хранитель Очага</span><span class="font-label-sm text-label-sm text-primary">Ур. 48</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div><div class="flex items-center justify-between w-full h-11"><nav class="flex items-center gap-space-xs" data-active-classes="bg-primary-container text-on-primary-container font-label-md"><a class="font-label-md text-label-md px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="main-hub" href="#">Главный Хаб</a><a class="font-label-md text-label-md px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="battles" href="#">Бои</a><a class="font-label-md text-label-md px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="market" href="#">Торговля</a><a class="font-label-md text-label-md px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="guilds" href="#">Гильдии</a><a aria-current="page" class="px-space-md py-space-xs rounded transition-colors bg-primary-container text-on-primary-container font-label-md" data-path="chats" href="#">Чаты</a><a class="font-label-md text-label-md px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="tavern-pass" href="#">Пасс</a><a class="font-label-md text-label-md px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="leaderboards" href="#">Рейтинги</a></nav><div class="flex items-center gap-space-sm"><button class="px-space-sm py-space-xs rounded bg-surface-container-high text-on-surface-variant hover:bg-surface-variant hover:text-on-surface text-label-sm font-label-sm">Звук</button><button class="px-space-sm py-space-xs rounded bg-surface-container-high text-on-surface-variant hover:bg-surface-variant hover:text-on-surface text-label-sm font-label-sm">Настройки</button></div></div></div></header><main class="w-full pt-28 pb-10 bg-surface min-h-[calc(100vh-2.5rem)]"><div class="flex flex-col w-full">
+<div class="w-full h-[calc(100vh-7rem-2.5rem)] max-h-[calc(100vh-7rem-2.5rem)] flex flex-col overflow-hidden bg-surface-container-lowest">
+<!-- Top Horizontal Sub-tabs Bar (Tavern Town Hall Channels) -->
+<div class="w-full h-11 bg-surface-container-low px-margin-tablet flex items-center justify-between shrink-0 shadow-md">
+<div class="flex items-center gap-space-xs overflow-x-auto py-1">
+<button class="flex items-center gap-space-xs px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md transition-all shadow-sm">
+<span class="material-symbols-outlined text-[16px]">forum</span>
+<span>Общий Чат Таверны</span>
+<span class="px-1.5 py-0.2 bg-on-primary-container/20 rounded font-stat-numeral text-[11px] text-on-primary-container">142</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-md text-label-md transition-all">
+<span class="material-symbols-outlined text-[16px] text-secondary">shield</span>
+<span>Орден Тенистых Лап</span>
+<span class="px-1.5 py-0.2 bg-secondary/20 text-secondary rounded font-stat-numeral text-[11px]">3</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-md text-label-md transition-all">
+<span class="material-symbols-outlined text-[16px] text-primary">storefront</span>
+<span>Торговая Волна</span>
+<span class="px-1.5 py-0.2 bg-primary/20 text-primary rounded font-stat-numeral text-[11px]">12</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-md text-label-md transition-all">
+<span class="material-symbols-outlined text-[16px] text-tertiary">swords</span>
+<span>Поиск Группы (LFG)</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-md text-label-md transition-all">
+<span class="material-symbols-outlined text-[16px]">mail</span>
+<span>Личные Сообщения (ЛС)</span>
+<span class="w-2 h-2 rounded-full bg-error"></span>
+</button>
+</div>
+<div class="flex items-center gap-space-md text-on-surface-variant font-label-sm text-label-sm shrink-0">
+<div class="flex items-center gap-1.5 bg-surface-container px-space-sm py-1 rounded">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="text-on-surface">Сервер «Мурр-1»</span>
+</div>
+<div class="flex items-center gap-1 text-outline">
+<span class="material-symbols-outlined text-[15px]">campaign</span>
+<span>Задержка вещания: 0.1с</span>
+</div>
+</div>
+</div>
+<!-- 3-Column Core Arena Viewport (100% Height Fill) -->
+<div class="flex-1 w-full grid grid-cols-[280px_1fr_330px] min-h-0 divide-x-0 overflow-hidden">
+<!-- LEFT COLUMN: Channels & Conversations List (280px) -->
+<aside class="h-full bg-surface-container-low flex flex-col min-h-0 shadow-inner">
+<!-- Quick Search & Filter Header -->
+<div class="p-space-md flex flex-col gap-space-sm bg-surface-container/60 shrink-0">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+<input class="w-full pl-8 pr-3 py-1.5 bg-surface-container-highest rounded-lg text-on-surface font-body-sm text-body-sm placeholder:text-outline focus:outline-none focus:bg-surface-bright" placeholder="Поиск каналов и друзей..." type="text"/>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span class="uppercase tracking-wider text-outline font-label-sm text-[10px]">Фильтр чатов</span>
+<div class="flex items-center gap-1">
+<button class="p-1 rounded hover:bg-surface-container-highest text-outline hover:text-on-surface transition-colors" title="Только клан">
+<span class="material-symbols-outlined text-[16px]">filter_list</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container-highest text-outline hover:text-on-surface transition-colors" title="Режим тишины">
+<span class="material-symbols-outlined text-[16px]">volume_off</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Scrollable Channel Directory -->
+<div class="flex-1 overflow-y-auto px-space-sm py-space-sm flex flex-col gap-space-xs min-h-0">
+<!-- Section 1: Main Rooms -->
+<div class="px-space-xs pt-1 pb-0.5 text-outline font-label-sm text-[10px] uppercase tracking-wider">
+            Ратуша &amp; Сферы
+          </div>
+<!-- Active Room -->
+<div class="group flex items-center justify-between p-space-sm rounded-lg bg-surface-container-highest text-on-surface shadow-sm cursor-pointer transition-all">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-primary/20 text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate">Общий Чат (Таверна)</span>
+<span class="font-body-sm text-body-sm text-primary truncate">Канал #1 • 142 лапки</span>
+</div>
+</div>
+<span class="w-2 h-2 rounded-full bg-primary shrink-0"></span>
+</div>
+<!-- Clan Channel -->
+<div class="group flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface cursor-pointer transition-all">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-secondary/15 text-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">shield</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md truncate">Орден Тенистых Лап</span>
+<span class="font-body-sm text-body-sm text-outline truncate">Клан • 19 онлайн</span>
+</div>
+</div>
+<span class="px-1.5 py-0.5 rounded-full bg-secondary-container text-secondary font-stat-numeral text-[10px] shrink-0">3</span>
+</div>
+<!-- Trade Channel -->
+<div class="group flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface cursor-pointer transition-all">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-primary-fixed-dim/15 text-primary-fixed-dim flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">balance</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md truncate">Торговля &amp; Аукцион</span>
+<span class="font-body-sm text-body-sm text-outline truncate">Сделки, обмен свитков</span>
+</div>
+</div>
+<span class="px-1.5 py-0.5 rounded-full bg-primary-container text-on-primary-container font-stat-numeral text-[10px] shrink-0">12</span>
+</div>
+<!-- LFG Channel -->
+<div class="group flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface cursor-pointer transition-all">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-tertiary/15 text-tertiary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">group_add</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md truncate">Сбор в Рейды &amp; Данжи</span>
+<span class="font-body-sm text-body-sm text-outline truncate">LFG • Поиск союзников</span>
+</div>
+</div>
+</div>
+<!-- Section 2: Direct Messages -->
+<div class="px-space-xs pt-space-md pb-0.5 text-outline font-label-sm text-[10px] uppercase tracking-wider flex items-center justify-between">
+<span>Личные диалоги (3)</span>
+<span class="material-symbols-outlined text-[14px]">lock</span>
+</div>
+<!-- Direct User 1 -->
+<div class="flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container cursor-pointer transition-all">
+<div class="flex items-center gap-2 min-w-0">
+<div class="relative shrink-0">
+<div class="w-7 h-7 rounded-full bg-surface-variant flex items-center justify-center font-label-sm text-primary">МП</div>
+<span class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-secondary"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate">Мурзик_Паладин</span>
+<span class="font-body-sm text-body-sm text-outline truncate">«Возьми зелье в рейд»</span>
+</div>
+</div>
+<span class="text-outline font-label-sm text-[10px]">14:22</span>
+</div>
+<!-- Direct User 2 -->
+<div class="flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container cursor-pointer transition-all">
+<div class="flex items-center gap-2 min-w-0">
+<div class="relative shrink-0">
+<div class="w-7 h-7 rounded-full bg-surface-variant flex items-center justify-center font-label-sm text-tertiary">РХ</div>
+<span class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-secondary"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate">Рыжехвост</span>
+<span class="font-body-sm text-body-sm text-outline truncate">«Сколько за заточку?»</span>
+</div>
+</div>
+<span class="text-outline font-label-sm text-[10px]">13:58</span>
+</div>
+<!-- Direct User 3 -->
+<div class="flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container cursor-pointer transition-all">
+<div class="flex items-center gap-2 min-w-0">
+<div class="relative shrink-0">
+<div class="w-7 h-7 rounded-full bg-surface-variant flex items-center justify-center font-label-sm text-primary">БГ</div>
+<span class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-outline"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate">Барсик-Громовержец</span>
+<span class="font-body-sm text-body-sm text-outline truncate">Был 10 минут назад</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Guild Event Micro-Widget (Sticky Bottom Left) -->
+<div class="p-space-sm m-space-sm rounded-xl bg-surface-container-high shadow-lg shrink-0 flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 text-primary">
+<span class="material-symbols-outlined text-[16px]">military_tech</span>
+<span class="font-label-sm text-label-sm font-bold uppercase tracking-wider">Событие Клана</span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-error-container text-on-error-container font-stat-numeral text-[10px]">03:45</span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<span class="text-on-surface font-semibold truncate">Война Башен: Застава</span>
+<span class="text-secondary font-label-sm">Рейд Дога [Открыт]</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-gradient-to-r from-primary to-secondary h-full rounded-full w-3/4"></div>
+</div>
+</div>
+</aside>
+<!-- CENTER COLUMN: Active Chat Feed & Composer (flex-1) -->
+<section class="h-full bg-surface flex flex-col min-h-0 relative shadow-2xl">
+<!-- Room Banner Header -->
+<div class="h-14 px-space-lg bg-surface-container/80 flex items-center justify-between shrink-0 shadow-sm">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0 shadow-inner">
+<span class="material-symbols-outlined text-[22px]">fireplace</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-on-surface truncate">Общий Чат Таверны: Очаг Мурр-1</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-secondary text-label-sm font-label-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                  142 онлайн
+                </span>
+</div>
+<span class="font-body-sm text-body-sm text-outline truncate">
+                Правила очага: без спама, токсичности и спойлеров квестов 7-го Акта.
+              </span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs shrink-0">
+<button class="p-2 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors" title="Поиск в этом чате">
+<span class="material-symbols-outlined text-[18px]">search</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors" title="Закрепленные свитки">
+<span class="material-symbols-outlined text-[18px]">push_pin</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors" title="Настройки ленты">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+</div>
+</div>
+<!-- Dynamic Message History (Scrollable Stream) -->
+<div class="flex-1 overflow-y-auto px-space-xl py-space-lg flex flex-col gap-space-md min-h-0" id="chatStream">
+<!-- Message 1: Clan Leader Callout -->
+<div class="flex items-start gap-space-md group">
+<div class="relative shrink-0 mt-0.5">
+<div class="w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary-fixed shadow-md overflow-hidden">
+<span class="material-symbols-outlined text-[24px]">cruelty_free</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-primary-container text-on-primary-container font-stat-numeral text-[9px] shadow">52</span>
+</div>
+<div class="flex flex-col max-w-[85%]">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-lg text-label-lg text-primary flex items-center gap-1">
+                  Мурр-Оплот
+                  <span class="material-symbols-outlined text-[14px] text-primary" title="Глава Клана">military_tech</span>
+</span>
+<span class="px-1.5 py-0.5 rounded bg-primary/10 text-primary-fixed text-[10px] font-label-sm font-bold">Глава Клана</span>
+<span class="font-body-sm text-body-sm text-outline">19:42</span>
+</div>
+<div class="p-space-md rounded-2xl rounded-tl-sm bg-surface-container text-on-surface shadow-sm">
+<p class="font-body-md text-body-md leading-relaxed">
+                  Братья, сегодня в <span class="text-primary font-bold">20:00 МСК</span> общий сбор на штурм Ворот Когтя! Проверьте банки громового зелья и заточку когтей! 🐾
+                </p>
+</div>
+</div>
+</div>
+<!-- Message 2: Self Player (You) -->
+<div class="flex items-start gap-space-md flex-row-reverse group">
+<div class="relative shrink-0 mt-0.5">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-md">
+<span class="material-symbols-outlined text-[22px]">pets</span>
+</div>
+<span class="absolute -bottom-1 -left-1 px-1 rounded bg-surface-container-highest text-primary font-stat-numeral text-[9px] shadow">48</span>
+</div>
+<div class="flex flex-col items-end max-w-[85%]">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-body-sm text-body-sm text-outline">19:43</span>
+<span class="px-1.5 py-0.5 rounded bg-secondary-container/40 text-secondary text-[10px] font-label-sm font-bold">Вы</span>
+<span class="font-label-lg text-label-lg text-on-surface">Хранитель Очага</span>
+</div>
+<div class="p-space-md rounded-2xl rounded-tr-sm bg-primary-container text-on-primary-container shadow-md">
+<p class="font-body-md text-body-md leading-relaxed font-semibold">
+                  Мой Барсик готов, сет Саламандры заточен на +12. Встречаемся у ворот за 10 минут.
+                </p>
+</div>
+</div>
+</div>
+<!-- Message 3: Trade Offer with Interactive Item Badge -->
+<div class="flex items-start gap-space-md group">
+<div class="relative shrink-0 mt-0.5">
+<div class="w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center text-tertiary shadow-md">
+<span class="material-symbols-outlined text-[22px]">stream_apps</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-surface-container-high text-on-surface-variant font-stat-numeral text-[9px]">45</span>
+</div>
+<div class="flex flex-col max-w-[85%]">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-lg text-label-lg text-on-surface flex items-center gap-1">
+                  Рыжехвост
+                  <span class="text-outline text-label-sm">🏹</span>
+</span>
+<span class="font-body-sm text-body-sm text-outline">19:45</span>
+</div>
+<div class="p-space-md rounded-2xl rounded-tl-sm bg-surface-container text-on-surface shadow-sm flex flex-col gap-2">
+<p class="font-body-md text-body-md leading-relaxed">
+                  Продам редкий свиток или обменяю на эссенцию огня! Срочно нужны ресурсы на крафт:
+                </p>
+<!-- Linked RPG Item Card Component -->
+<div class="flex items-center justify-between p-space-sm rounded-xl bg-surface-container-lowest shadow-md hover:bg-surface-container-high transition-colors cursor-pointer group/item">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary-container/20 flex items-center justify-center text-primary shrink-0 shadow-inner">
+<span class="material-symbols-outlined text-[22px]">auto_stories</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md text-primary font-bold tracking-wide">[Свиток Заточки Оружия Р8]</span>
+<span class="px-1 py-0.2 bg-primary/20 text-primary rounded font-stat-numeral text-[10px]">Мифик</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline">+100% шанс успеха до +14 ранга</span>
+</div>
+</div>
+<div class="flex items-center gap-2 pl-2">
+<div class="flex items-center gap-1 bg-surface-container px-2 py-1 rounded text-primary">
+<span class="material-symbols-outlined text-[15px]">monetization_on</span>
+<span class="font-stat-numeral text-[13px]">1,200</span>
+</div>
+<button class="px-space-sm py-1 rounded bg-primary text-on-primary font-label-sm text-label-sm hover:opacity-90 shadow">Купить</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Message 4: System Mythic Announcement (Global Banner) -->
+<div class="w-full my-1 p-space-sm rounded-xl bg-gradient-to-r from-primary-container/30 via-primary-container/60 to-primary-container/30 shadow-lg flex items-center justify-between">
+<div class="flex items-center gap-space-md">
+<div class="w-8 h-8 rounded-lg bg-primary text-on-primary flex items-center justify-center shadow">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] uppercase font-bold text-primary tracking-widest">Таверна • Слава Кузницы</span>
+<span class="font-body-md text-body-md text-on-surface">
+                  Хранитель <strong class="text-on-surface">Владмур</strong> выковал мифический <span class="text-primary font-bold">[Громовой Клинок Перуна +13]</span> в Кузнице Очага!
+                </span>
+</div>
+</div>
+<button class="px-space-md py-1 rounded-lg bg-surface-container-highest text-primary hover:text-on-surface font-label-sm text-label-sm transition-colors shadow-sm">
+              Поздравить 🎉
+            </button>
+</div>
+<!-- Message 5: Cat Mage High-BM LFG -->
+<div class="flex items-start gap-space-md group">
+<div class="relative shrink-0 mt-0.5">
+<div class="w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary-fixed-dim shadow-md">
+<span class="material-symbols-outlined text-[22px]">auto_awesome</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-secondary-container text-secondary font-stat-numeral text-[9px]">60</span>
+</div>
+<div class="flex flex-col max-w-[85%]">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-lg text-label-lg text-on-surface flex items-center gap-1">
+                  Кото-Маг
+                  <span class="text-secondary text-label-sm">🔮</span>
+</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-outline text-[10px] font-label-sm">БМ: 54.2k</span>
+<span class="font-body-sm text-body-sm text-outline">19:48</span>
+</div>
+<div class="p-space-md rounded-2xl rounded-tl-sm bg-surface-container text-on-surface shadow-sm">
+<p class="font-body-md text-body-md leading-relaxed">
+                  Кто в <strong class="text-secondary">Затопленные Гроты</strong> на 3 волны? Нужен сильный танк от <span class="text-primary font-bold">45к БМ</span>! Хил и контроль уже в пати, ключ активирован. 🛡️
+                </p>
+<div class="mt-2 flex items-center gap-2">
+<span class="px-2 py-0.5 rounded bg-surface-container-lowest text-outline text-[11px] font-label-sm">Слот: [Танк 0/1]</span>
+<button class="px-2.5 py-1 rounded bg-secondary-container text-secondary font-label-sm text-label-sm hover:opacity-90">Вступить в группу</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Message 6: Murka Post-Raid Loot -->
+<div class="flex items-start gap-space-md group">
+<div class="relative shrink-0 mt-0.5">
+<div class="w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center text-secondary shadow-md">
+<span class="material-symbols-outlined text-[22px]">water_drop</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-surface-container-high text-on-surface-variant font-stat-numeral text-[9px]">39</span>
+</div>
+<div class="flex flex-col max-w-[85%]">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-lg text-label-lg text-on-surface flex items-center gap-1">
+                  Мурка-Речная
+                  <span class="text-secondary text-label-sm">💧</span>
+</span>
+<span class="font-body-sm text-body-sm text-outline">19:50</span>
+</div>
+<div class="p-space-md rounded-2xl rounded-tl-sm bg-surface-container text-on-surface shadow-sm">
+<p class="font-body-md text-body-md leading-relaxed">
+                  Спасибо за рейд на Архипса! Лут просто космос, выпала мифическая руна кошачьей ловкости! Когти дрожат от счастья ✨😻
+                </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Chat Composer Bottom Dock (Ergonomic Physical Controls) -->
+<div class="p-space-md bg-surface-container-low shrink-0 shadow-[0_-4px_16px_rgba(0,0,0,0.4)] flex flex-col gap-space-xs">
+<!-- Quick Action Accessory Bar -->
+<div class="flex items-center justify-between text-on-surface-variant">
+<div class="flex items-center gap-1.5">
+<button class="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-primary">pets</span>
+<span>Линк котика / предмета</span>
+</button>
+<button class="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-tertiary">mood</span>
+<span>Кошачьи эмодзи</span>
+</button>
+<button class="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm transition-all shadow-sm" id="rollDiceBtn">
+<span class="material-symbols-outlined text-[15px] text-secondary">casino</span>
+<span>Бросить d100 🎲</span>
+</button>
+<button class="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-outline">bolt</span>
+<span>Быстрые фразы</span>
+</button>
+</div>
+<div class="text-outline font-label-sm text-[11px] hidden sm:block">
+              Нажмите [ENTER] для отправки
+            </div>
+</div>
+<!-- Main Input Field Bar -->
+<form class="flex items-center gap-space-sm mt-1" id="chatForm" onsubmit="event.preventDefault(); window.sendTavernMsg();">
+<div class="relative flex-1">
+<input class="w-full h-11 pl-4 pr-10 rounded-xl bg-surface-container-highest text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" id="chatInput" placeholder="Написать сообщение в Таверну... [ENTER для отправки]" type="text"/>
+<button class="absolute right-2.5 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">mic</span>
+</button>
+</div>
+<!-- Tactile Amber Send Button -->
+<button class="h-11 px-space-xl rounded-xl bg-gradient-to-b from-primary to-primary-container text-on-primary-container font-label-lg text-label-lg shadow-md hover:brightness-110 active:translate-y-0.5 transition-all flex items-center gap-2 shrink-0" type="submit">
+<span>Сказать</span>
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</form>
+</div>
+</section>
+<!-- RIGHT COLUMN: Cat Adventurers in Lounge & Quick Actions (330px) -->
+<aside class="h-full bg-surface-container-low flex flex-col min-h-0 shadow-inner">
+<!-- Pinned Notice Board Widget (Top of Right Panel) -->
+<div class="p-space-md bg-surface-container/70 shadow-sm shrink-0">
+<div class="p-space-md rounded-xl bg-surface-container-high shadow-md relative overflow-hidden group">
+<div class="flex items-center gap-2 mb-1.5">
+<span class="material-symbols-outlined text-primary text-[18px]">campaign</span>
+<span class="font-label-sm text-[11px] uppercase tracking-wider text-primary font-bold">Доска Объявлений</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface leading-tight">
+              «Турнир Золотого Когтя стартует в эту субботу! Призовой фонд: <strong class="text-primary font-bold">500,000</strong> золота!»
+            </p>
+<div class="mt-2 flex items-center justify-between text-outline font-label-sm text-[10px]">
+<span>Запись у Трактирщика</span>
+<span class="text-secondary font-semibold">Осталось 2 дня</span>
+</div>
+</div>
+</div>
+<!-- Section Title: Adventurers Present -->
+<div class="px-space-md py-space-xs flex items-center justify-between text-outline font-label-sm text-label-sm uppercase tracking-wider shrink-0">
+<span>Хранители в Очаге (142)</span>
+<span class="material-symbols-outlined text-[16px]">groups</span>
+</div>
+<!-- Online Cats List -->
+<div class="flex-1 overflow-y-auto px-space-sm py-1 flex flex-col gap-1 min-h-0">
+<!-- Adventurer 1 -->
+<div class="player-card group flex items-center justify-between p-space-sm rounded-xl hover:bg-surface-container cursor-pointer transition-all" onclick="window.selectAdventurer('Мурр-Оплот', 60, 'Магистр', '62.4k', 'В бою на осаде', 'pets')">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="relative shrink-0">
+<div class="w-9 h-9 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary shadow">
+<span class="material-symbols-outlined text-[20px]">cruelty_free</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-primary-container text-on-primary-container font-stat-numeral text-[9px]">60</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-label-md text-label-md text-on-surface truncate">Мурр-Оплот</span>
+<span class="material-symbols-outlined text-[13px] text-primary">verified</span>
+</div>
+<div class="flex items-center gap-1.5 font-body-sm text-body-sm text-outline">
+<span class="text-tertiary text-[11px] truncate">В бою на осаде</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-stat-numeral text-[11px] text-primary">62.4k</span>
+<span class="font-label-sm text-[10px] text-outline">БМ</span>
+</div>
+</div>
+<!-- Adventurer 2 -->
+<div class="player-card group flex items-center justify-between p-space-sm rounded-xl hover:bg-surface-container cursor-pointer transition-all" onclick="window.selectAdventurer('Барсик-Громовержец', 52, 'Офицер', '51.8k', 'В Кузнице', 'bolt')">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="relative shrink-0">
+<div class="w-9 h-9 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary-fixed shadow">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-surface-container text-on-surface-variant font-stat-numeral text-[9px]">52</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-label-md text-label-md text-on-surface truncate">Барсик-Громовержец</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline truncate">В Кузнице Очага</span>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-stat-numeral text-[11px] text-on-surface">51.8k</span>
+<span class="font-label-sm text-[10px] text-outline">БМ</span>
+</div>
+</div>
+<!-- Adventurer 3: Current User Profile Entry -->
+<div class="player-card group flex items-center justify-between p-space-sm rounded-xl bg-surface-container/50 hover:bg-surface-container cursor-pointer transition-all" onclick="window.selectAdventurer('Хранитель Очага (Вы)', 48, 'Хранитель', '48.9k', 'В Таверне', 'pets')">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="relative shrink-0">
+<div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow">
+<span class="material-symbols-outlined text-[20px]">pets</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-surface-container-highest text-primary font-stat-numeral text-[9px]">48</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-label-md text-label-md text-primary font-bold truncate">Хранитель Очага</span>
+<span class="px-1 py-0.2 bg-secondary/20 text-secondary text-[9px] font-label-sm rounded">Вы</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary truncate">В Таверне</span>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-stat-numeral text-[11px] text-primary">48.9k</span>
+<span class="font-label-sm text-[10px] text-outline">БМ</span>
+</div>
+</div>
+<!-- Adventurer 4 -->
+<div class="player-card group flex items-center justify-between p-space-sm rounded-xl hover:bg-surface-container cursor-pointer transition-all" onclick="window.selectAdventurer('Светохвост', 46, 'Ветеран', '49.6k', 'На Ферме', 'shield')">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="relative shrink-0">
+<div class="w-9 h-9 rounded-xl bg-surface-container-highest flex items-center justify-center text-secondary shadow">
+<span class="material-symbols-outlined text-[20px]">shield</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-surface-container text-on-surface-variant font-stat-numeral text-[9px]">46</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate">Светохвост</span>
+<span class="font-body-sm text-body-sm text-outline truncate">На Ферме рыбок</span>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-stat-numeral text-[11px] text-on-surface">49.6k</span>
+<span class="font-label-sm text-[10px] text-outline">БМ</span>
+</div>
+</div>
+<!-- Adventurer 5 -->
+<div class="player-card group flex items-center justify-between p-space-sm rounded-xl hover:bg-surface-container cursor-pointer transition-all" onclick="window.selectAdventurer('Звездочёт', 42, 'Новичок', '42.1k', 'В поиске группы', 'auto_awesome')">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="relative shrink-0">
+<div class="w-9 h-9 rounded-xl bg-surface-container-highest flex items-center justify-center text-tertiary shadow">
+<span class="material-symbols-outlined text-[20px]">auto_awesome</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-surface-container text-on-surface-variant font-stat-numeral text-[9px]">42</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate">Звездочёт</span>
+<span class="font-body-sm text-body-sm text-secondary truncate">В поиске группы (LFG)</span>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-stat-numeral text-[11px] text-on-surface">42.1k</span>
+<span class="font-label-sm text-[10px] text-outline">БМ</span>
+</div>
+</div>
+</div>
+<!-- Interactive Player Profile Inspector Drawer (Bottom Right) -->
+<div class="p-space-md m-space-sm rounded-2xl bg-surface-container-high shadow-xl shrink-0 flex flex-col gap-space-sm" id="inspectorPanel">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Карточка Хранителя</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-secondary text-[10px] font-label-sm" id="inspectorStatus">В бою на осаде</span>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary shadow-inner">
+<span class="material-symbols-outlined text-[28px]" id="inspectorIcon">cruelty_free</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-label-lg text-on-surface font-bold truncate" id="inspectorName">Мурр-Оплот</span>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-primary font-bold" id="inspectorLevel">Ур. 60 • Магистр</span>
+<span class="text-outline text-label-sm">•</span>
+<span class="font-stat-numeral text-[12px] text-on-surface font-bold" id="inspectorBm">62.4k БМ</span>
+</div>
+</div>
+</div>
+<!-- Quick Action Buttons Grid -->
+<div class="grid grid-cols-2 gap-1.5 pt-1">
+<button class="py-1.5 px-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-variant flex items-center justify-center gap-1.5 font-label-sm text-label-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-tertiary">swords</span>
+<span>Дуэль ⚔️</span>
+</button>
+<button class="py-1.5 px-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-variant flex items-center justify-center gap-1.5 font-label-sm text-label-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-secondary">group_add</span>
+<span>В отряд 👥</span>
+</button>
+<button class="py-1.5 px-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-variant flex items-center justify-center gap-1.5 font-label-sm text-label-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-primary">chat</span>
+<span>В ЛС ✉️</span>
+</button>
+<button class="py-1.5 px-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-variant flex items-center justify-center gap-1.5 font-label-sm text-label-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-primary-fixed-dim">search</span>
+<span>Котики 🔍</span>
+</button>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</div>
+<script>
+  // Dynamic Message Submission Micro-interaction
+  window.sendTavernMsg = function() {
+    const input = document.getElementById('chatInput');
+    const stream = document.getElementById('chatStream');
+    if (!input || !stream || !input.value.trim()) return;
+
+    const userText = input.value.trim();
+    const timeNow = new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+
+    const msgNode = document.createElement('div');
+    msgNode.className = 'flex items-start gap-space-md flex-row-reverse group animate-fadeIn';
+    msgNode.innerHTML = `
+      <div class="relative shrink-0 mt-0.5">
+        <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-md">
+          <span class="material-symbols-outlined text-[22px]">pets</span>
+        </div>
+        <span class="absolute -bottom-1 -left-1 px-1 rounded bg-surface-container-highest text-primary font-stat-numeral text-[9px] shadow">48</span>
+      </div>
+      <div class="flex flex-col items-end max-w-[85%]">
+        <div class="flex items-center gap-2 mb-1">
+          <span class="font-body-sm text-body-sm text-outline">${timeNow}</span>
+          <span class="px-1.5 py-0.2 rounded bg-secondary-container/40 text-secondary text-[10px] font-label-sm font-bold">Вы</span>
+          <span class="font-label-lg text-label-lg text-on-surface">Хранитель Очага</span>
+        </div>
+        <div class="p-space-md rounded-2xl rounded-tr-sm bg-primary-container text-on-primary-container shadow-md">
+          <p class="font-body-md text-body-md leading-relaxed font-semibold">
+            ${userText}
+          </p>
+        </div>
+      </div>
+    `;
+
+    stream.appendChild(msgNode);
+    input.value = '';
+    stream.scrollTop = stream.scrollHeight;
+  };
+
+  // Roll d100 Dice Quick Action
+  const rollDiceBtn = document.getElementById('rollDiceBtn');
+  if (rollDiceBtn) {
+    rollDiceBtn.addEventListener('click', function() {
+      const stream = document.getElementById('chatStream');
+      const timeNow = new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+      const roll = Math.floor(Math.random() * 100) + 1;
+
+      const diceNode = document.createElement('div');
+      diceNode.className = 'w-full my-1 p-space-sm rounded-xl bg-surface-container shadow flex items-center justify-between';
+      diceNode.innerHTML = `
+        <div class="flex items-center gap-space-sm">
+          <span class="material-symbols-outlined text-secondary text-[20px]">casino</span>
+          <span class="font-body-sm text-body-sm text-on-surface">
+            Хранитель Очага бросает кость судьбы 🎲 (1-100): 
+            <strong class="text-primary font-stat-numeral text-[15px] ml-1">${roll}</strong>
+          </span>
+        </div>
+        <span class="text-outline font-label-sm text-[11px]">${timeNow}</span>
+      `;
+      stream.appendChild(diceNode);
+      stream.scrollTop = stream.scrollHeight;
+    });
+  }
+
+  // Interactive Adventurer Profile Switcher
+  window.selectAdventurer = function(name, lvl, rank, bm, status, icon) {
+    const nameEl = document.getElementById('inspectorName');
+    const lvlEl = document.getElementById('inspectorLevel');
+    const bmEl = document.getElementById('inspectorBm');
+    const statusEl = document.getElementById('inspectorStatus');
+    const iconEl = document.getElementById('inspectorIcon');
+
+    if (nameEl) nameEl.textContent = name;
+    if (lvlEl) lvlEl.textContent = `Ур. ${lvl} • ${rank}`;
+    if (bmEl) bmEl.textContent = `${bm} БМ`;
+    if (statusEl) statusEl.textContent = status;
+    if (iconEl) iconEl.textContent = icon;
+  };
+</script></main><footer class="fixed bottom-0 left-0 w-full h-10 bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_-2px_10px_rgba(0,0,0,0.5)] z-40"><div class="w-full h-full px-margin-tablet flex items-center justify-between text-on-surface-variant text-label-sm font-label-sm"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs"><span class="px-space-xs py-0.5 rounded bg-surface-container-high font-stat-numeral text-[10px] text-primary">ESC</span><span>Главное меню</span></div><div class="flex items-center gap-space-xs"><span class="px-space-xs py-0.5 rounded bg-surface-container-high font-stat-numeral text-[10px] text-primary">TAB</span><span>Команда котиков</span></div><div class="flex items-center gap-space-xs"><span class="px-space-xs py-0.5 rounded bg-surface-container-high font-stat-numeral text-[10px] text-primary">ENTER</span><span>Чат таверны</span></div></div><div class="flex items-center gap-space-md"><span>Таверна «Тёплая Лапка» • Сезон 4</span><span class="text-primary">v1.4.8-mythic</span></div></div></footer>
+</section>
+<section id="viewChatFriends" class="stitch-view mythfel-form hidden" data-stitch="chat_friends" data-layout="landscape">
+<header class="fixed top-0 w-full z-50 bg-surface-container-lowest/95 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.65)]"><div class="h-28 w-full px-margin-tablet flex flex-col justify-between py-space-xs"><div class="flex items-center justify-between w-full h-14"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-primary text-[26px]">pets</span><span class="font-headline-md text-headline-md text-primary tracking-wide uppercase">Мифиус: РПГ Котики</span></div><div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded bg-surface-container text-secondary text-label-sm font-label-sm"><span class="material-symbols-outlined text-[14px]">wifi</span><span>24ms</span></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container rounded-lg"><span class="material-symbols-outlined text-primary text-[18px]">monetization_on</span><span class="font-stat-numeral text-stat-numeral text-on-surface">148,250</span></div><div class="flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container rounded-lg"><span class="material-symbols-outlined text-tertiary text-[18px]">set_meal</span><span class="font-stat-numeral text-stat-numeral text-on-surface">420</span></div><div class="flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container rounded-lg"><span class="material-symbols-outlined text-secondary text-[18px]">bolt</span><span class="font-stat-numeral text-stat-numeral text-on-surface">85/90</span></div><div class="flex items-center gap-space-xs px-space-md py-space-xs bg-surface-container rounded-lg"><span class="material-symbols-outlined text-primary-fixed text-[18px]">diamond</span><span class="font-stat-numeral text-stat-numeral text-on-surface">1,250</span></div></div><div class="flex items-center gap-space-md"><div class="flex flex-col text-right"><span class="font-label-lg text-label-lg text-on-surface">Хранитель Очага</span><span class="font-label-sm text-label-sm text-primary">Ур. 48</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div><div class="flex items-center justify-between w-full h-11"><nav class="flex items-center gap-space-xs" data-active-classes="bg-primary-container text-on-primary-container font-label-md"><a class="font-label-md text-label-md px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="main-hub" href="#">Главный Хаб</a><a class="font-label-md text-label-md px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="battles" href="#">Бои</a><a class="font-label-md text-label-md px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="market" href="#">Торговля</a><a class="font-label-md text-label-md px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="guilds" href="#">Гильдии</a><a aria-current="page" class="px-space-md py-space-xs rounded transition-colors bg-primary-container text-on-primary-container font-label-md" data-path="chats" href="#">Чаты</a><a class="font-label-md text-label-md px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="tavern-pass" href="#">Пасс</a><a class="font-label-md text-label-md px-space-md py-space-xs rounded text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-colors" data-path="leaderboards" href="#">Рейтинги</a></nav><div class="flex items-center gap-space-sm"><button class="px-space-sm py-space-xs rounded bg-surface-container-high text-on-surface-variant hover:bg-surface-variant hover:text-on-surface text-label-sm font-label-sm">Звук</button><button class="px-space-sm py-space-xs rounded bg-surface-container-high text-on-surface-variant hover:bg-surface-variant hover:text-on-surface text-label-sm font-label-sm">Настройки</button></div></div></div></header><main class="w-full pt-28 pb-10 bg-surface min-h-[calc(100vh-2.5rem)]"><div class="flex flex-col w-full">
+<div class="w-full h-[calc(100vh-7rem-2.5rem)] max-h-[calc(100vh-7rem-2.5rem)] flex flex-col overflow-hidden bg-surface-container-lowest">
+<!-- Top Horizontal Sub-tabs Bar (Tavern Town Hall Channels) -->
+<div class="w-full h-11 bg-surface-container-low px-margin-tablet flex items-center justify-between shrink-0 shadow-md">
+<div class="flex items-center gap-space-xs overflow-x-auto py-1">
+<button class="flex items-center gap-space-xs px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md transition-all shadow-sm">
+<span class="material-symbols-outlined text-[16px]">forum</span>
+<span>Общий Чат Таверны</span>
+<span class="px-1.5 py-0.2 bg-on-primary-container/20 rounded font-stat-numeral text-[11px] text-on-primary-container">142</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-md text-label-md transition-all">
+<span class="material-symbols-outlined text-[16px] text-secondary">shield</span>
+<span>Орден Тенистых Лап</span>
+<span class="px-1.5 py-0.2 bg-secondary/20 text-secondary rounded font-stat-numeral text-[11px]">3</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-md text-label-md transition-all">
+<span class="material-symbols-outlined text-[16px] text-primary">storefront</span>
+<span>Торговая Волна</span>
+<span class="px-1.5 py-0.2 bg-primary/20 text-primary rounded font-stat-numeral text-[11px]">12</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-md text-label-md transition-all">
+<span class="material-symbols-outlined text-[16px] text-tertiary">swords</span>
+<span>Поиск Группы (LFG)</span>
+</button>
+<button class="flex items-center gap-space-xs px-space-md py-1.5 rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface font-label-md text-label-md transition-all">
+<span class="material-symbols-outlined text-[16px]">mail</span>
+<span>Личные Сообщения (ЛС)</span>
+<span class="w-2 h-2 rounded-full bg-error"></span>
+</button>
+</div>
+<div class="flex items-center gap-space-md text-on-surface-variant font-label-sm text-label-sm shrink-0">
+<div class="flex items-center gap-1.5 bg-surface-container px-space-sm py-1 rounded">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="text-on-surface">Сервер «Мурр-1»</span>
+</div>
+<div class="flex items-center gap-1 text-outline">
+<span class="material-symbols-outlined text-[15px]">campaign</span>
+<span>Задержка вещания: 0.1с</span>
+</div>
+</div>
+</div>
+<!-- 3-Column Core Arena Viewport (100% Height Fill) -->
+<div class="flex-1 w-full grid grid-cols-[280px_1fr_330px] min-h-0 divide-x-0 overflow-hidden">
+<!-- LEFT COLUMN: Channels & Conversations List (280px) -->
+<aside class="h-full bg-surface-container-low flex flex-col min-h-0 shadow-inner">
+<!-- Quick Search & Filter Header -->
+<div class="p-space-md flex flex-col gap-space-sm bg-surface-container/60 shrink-0">
+<div class="relative w-full">
+<span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
+<input class="w-full pl-8 pr-3 py-1.5 bg-surface-container-highest rounded-lg text-on-surface font-body-sm text-body-sm placeholder:text-outline focus:outline-none focus:bg-surface-bright" placeholder="Поиск каналов и друзей..." type="text"/>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-sm text-label-sm">
+<span class="uppercase tracking-wider text-outline font-label-sm text-[10px]">Фильтр чатов</span>
+<div class="flex items-center gap-1">
+<button class="p-1 rounded hover:bg-surface-container-highest text-outline hover:text-on-surface transition-colors" title="Только клан">
+<span class="material-symbols-outlined text-[16px]">filter_list</span>
+</button>
+<button class="p-1 rounded hover:bg-surface-container-highest text-outline hover:text-on-surface transition-colors" title="Режим тишины">
+<span class="material-symbols-outlined text-[16px]">volume_off</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Scrollable Channel Directory -->
+<div class="flex-1 overflow-y-auto px-space-sm py-space-sm flex flex-col gap-space-xs min-h-0">
+<!-- Section 1: Main Rooms -->
+<div class="px-space-xs pt-1 pb-0.5 text-outline font-label-sm text-[10px] uppercase tracking-wider">
+            Ратуша &amp; Сферы
+          </div>
+<!-- Active Room -->
+<div class="group flex items-center justify-between p-space-sm rounded-lg bg-surface-container-highest text-on-surface shadow-sm cursor-pointer transition-all">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-primary/20 text-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate">Общий Чат (Таверна)</span>
+<span class="font-body-sm text-body-sm text-primary truncate">Канал #1 • 142 лапки</span>
+</div>
+</div>
+<span class="w-2 h-2 rounded-full bg-primary shrink-0"></span>
+</div>
+<!-- Clan Channel -->
+<div class="group flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface cursor-pointer transition-all">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-secondary/15 text-secondary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">shield</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md truncate">Орден Тенистых Лап</span>
+<span class="font-body-sm text-body-sm text-outline truncate">Клан • 19 онлайн</span>
+</div>
+</div>
+<span class="px-1.5 py-0.5 rounded-full bg-secondary-container text-secondary font-stat-numeral text-[10px] shrink-0">3</span>
+</div>
+<!-- Trade Channel -->
+<div class="group flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface cursor-pointer transition-all">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-primary-fixed-dim/15 text-primary-fixed-dim flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">balance</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md truncate">Торговля &amp; Аукцион</span>
+<span class="font-body-sm text-body-sm text-outline truncate">Сделки, обмен свитков</span>
+</div>
+</div>
+<span class="px-1.5 py-0.5 rounded-full bg-primary-container text-on-primary-container font-stat-numeral text-[10px] shrink-0">12</span>
+</div>
+<!-- LFG Channel -->
+<div class="group flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container text-on-surface-variant hover:text-on-surface cursor-pointer transition-all">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-tertiary/15 text-tertiary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">group_add</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md truncate">Сбор в Рейды &amp; Данжи</span>
+<span class="font-body-sm text-body-sm text-outline truncate">LFG • Поиск союзников</span>
+</div>
+</div>
+</div>
+<!-- Section 2: Direct Messages -->
+<div class="px-space-xs pt-space-md pb-0.5 text-outline font-label-sm text-[10px] uppercase tracking-wider flex items-center justify-between">
+<span>Личные диалоги (3)</span>
+<span class="material-symbols-outlined text-[14px]">lock</span>
+</div>
+<!-- Direct User 1 -->
+<div class="flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container cursor-pointer transition-all">
+<div class="flex items-center gap-2 min-w-0">
+<div class="relative shrink-0">
+<div class="w-7 h-7 rounded-full bg-surface-variant flex items-center justify-center font-label-sm text-primary">МП</div>
+<span class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-secondary"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate">Мурзик_Паладин</span>
+<span class="font-body-sm text-body-sm text-outline truncate">«Возьми зелье в рейд»</span>
+</div>
+</div>
+<span class="text-outline font-label-sm text-[10px]">14:22</span>
+</div>
+<!-- Direct User 2 -->
+<div class="flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container cursor-pointer transition-all">
+<div class="flex items-center gap-2 min-w-0">
+<div class="relative shrink-0">
+<div class="w-7 h-7 rounded-full bg-surface-variant flex items-center justify-center font-label-sm text-tertiary">РХ</div>
+<span class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-secondary"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate">Рыжехвост</span>
+<span class="font-body-sm text-body-sm text-outline truncate">«Сколько за заточку?»</span>
+</div>
+</div>
+<span class="text-outline font-label-sm text-[10px]">13:58</span>
+</div>
+<!-- Direct User 3 -->
+<div class="flex items-center justify-between p-space-sm rounded-lg hover:bg-surface-container cursor-pointer transition-all">
+<div class="flex items-center gap-2 min-w-0">
+<div class="relative shrink-0">
+<div class="w-7 h-7 rounded-full bg-surface-variant flex items-center justify-center font-label-sm text-primary">БГ</div>
+<span class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-outline"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate">Барсик-Громовержец</span>
+<span class="font-body-sm text-body-sm text-outline truncate">Был 10 минут назад</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Guild Event Micro-Widget (Sticky Bottom Left) -->
+<div class="p-space-sm m-space-sm rounded-xl bg-surface-container-high shadow-lg shrink-0 flex flex-col gap-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5 text-primary">
+<span class="material-symbols-outlined text-[16px]">military_tech</span>
+<span class="font-label-sm text-label-sm font-bold uppercase tracking-wider">Событие Клана</span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-error-container text-on-error-container font-stat-numeral text-[10px]">03:45</span>
+</div>
+<div class="flex items-center justify-between font-body-sm text-body-sm">
+<span class="text-on-surface font-semibold truncate">Война Башен: Застава</span>
+<span class="text-secondary font-label-sm">Рейд Дога [Открыт]</span>
+</div>
+<div class="w-full bg-surface-container rounded-full h-1.5 overflow-hidden">
+<div class="bg-gradient-to-r from-primary to-secondary h-full rounded-full w-3/4"></div>
+</div>
+</div>
+</aside>
+<!-- CENTER COLUMN: Active Chat Feed & Composer (flex-1) -->
+<section class="h-full bg-surface flex flex-col min-h-0 relative shadow-2xl">
+<!-- Room Banner Header -->
+<div class="h-14 px-space-lg bg-surface-container/80 flex items-center justify-between shrink-0 shadow-sm">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="w-9 h-9 rounded-xl bg-primary/10 flex items-center justify-center text-primary shrink-0 shadow-inner">
+<span class="material-symbols-outlined text-[22px]">fireplace</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<span class="font-headline-md text-headline-md text-on-surface truncate">Общий Чат Таверны: Очаг Мурр-1</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-highest text-secondary text-label-sm font-label-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
+                  142 онлайн
+                </span>
+</div>
+<span class="font-body-sm text-body-sm text-outline truncate">
+                Правила очага: без спама, токсичности и спойлеров квестов 7-го Акта.
+              </span>
+</div>
+</div>
+<div class="flex items-center gap-space-xs shrink-0">
+<button class="p-2 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors" title="Поиск в этом чате">
+<span class="material-symbols-outlined text-[18px]">search</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors" title="Закрепленные свитки">
+<span class="material-symbols-outlined text-[18px]">push_pin</span>
+</button>
+<button class="p-2 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface hover:bg-surface-variant transition-colors" title="Настройки ленты">
+<span class="material-symbols-outlined text-[18px]">tune</span>
+</button>
+</div>
+</div>
+<!-- Dynamic Message History (Scrollable Stream) -->
+<div class="flex-1 overflow-y-auto px-space-xl py-space-lg flex flex-col gap-space-md min-h-0" id="chatStream">
+<!-- Message 1: Clan Leader Callout -->
+<div class="flex items-start gap-space-md group">
+<div class="relative shrink-0 mt-0.5">
+<div class="w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary-fixed shadow-md overflow-hidden">
+<span class="material-symbols-outlined text-[24px]">cruelty_free</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-primary-container text-on-primary-container font-stat-numeral text-[9px] shadow">52</span>
+</div>
+<div class="flex flex-col max-w-[85%]">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-lg text-label-lg text-primary flex items-center gap-1">
+                  Мурр-Оплот
+                  <span class="material-symbols-outlined text-[14px] text-primary" title="Глава Клана">military_tech</span>
+</span>
+<span class="px-1.5 py-0.5 rounded bg-primary/10 text-primary-fixed text-[10px] font-label-sm font-bold">Глава Клана</span>
+<span class="font-body-sm text-body-sm text-outline">19:42</span>
+</div>
+<div class="p-space-md rounded-2xl rounded-tl-sm bg-surface-container text-on-surface shadow-sm">
+<p class="font-body-md text-body-md leading-relaxed">
+                  Братья, сегодня в <span class="text-primary font-bold">20:00 МСК</span> общий сбор на штурм Ворот Когтя! Проверьте банки громового зелья и заточку когтей! 🐾
+                </p>
+</div>
+</div>
+</div>
+<!-- Message 2: Self Player (You) -->
+<div class="flex items-start gap-space-md flex-row-reverse group">
+<div class="relative shrink-0 mt-0.5">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-md">
+<span class="material-symbols-outlined text-[22px]">pets</span>
+</div>
+<span class="absolute -bottom-1 -left-1 px-1 rounded bg-surface-container-highest text-primary font-stat-numeral text-[9px] shadow">48</span>
+</div>
+<div class="flex flex-col items-end max-w-[85%]">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-body-sm text-body-sm text-outline">19:43</span>
+<span class="px-1.5 py-0.5 rounded bg-secondary-container/40 text-secondary text-[10px] font-label-sm font-bold">Вы</span>
+<span class="font-label-lg text-label-lg text-on-surface">Хранитель Очага</span>
+</div>
+<div class="p-space-md rounded-2xl rounded-tr-sm bg-primary-container text-on-primary-container shadow-md">
+<p class="font-body-md text-body-md leading-relaxed font-semibold">
+                  Мой Барсик готов, сет Саламандры заточен на +12. Встречаемся у ворот за 10 минут.
+                </p>
+</div>
+</div>
+</div>
+<!-- Message 3: Trade Offer with Interactive Item Badge -->
+<div class="flex items-start gap-space-md group">
+<div class="relative shrink-0 mt-0.5">
+<div class="w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center text-tertiary shadow-md">
+<span class="material-symbols-outlined text-[22px]">stream_apps</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-surface-container-high text-on-surface-variant font-stat-numeral text-[9px]">45</span>
+</div>
+<div class="flex flex-col max-w-[85%]">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-lg text-label-lg text-on-surface flex items-center gap-1">
+                  Рыжехвост
+                  <span class="text-outline text-label-sm">🏹</span>
+</span>
+<span class="font-body-sm text-body-sm text-outline">19:45</span>
+</div>
+<div class="p-space-md rounded-2xl rounded-tl-sm bg-surface-container text-on-surface shadow-sm flex flex-col gap-2">
+<p class="font-body-md text-body-md leading-relaxed">
+                  Продам редкий свиток или обменяю на эссенцию огня! Срочно нужны ресурсы на крафт:
+                </p>
+<!-- Linked RPG Item Card Component -->
+<div class="flex items-center justify-between p-space-sm rounded-xl bg-surface-container-lowest shadow-md hover:bg-surface-container-high transition-colors cursor-pointer group/item">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-lg bg-primary-container/20 flex items-center justify-center text-primary shrink-0 shadow-inner">
+<span class="material-symbols-outlined text-[22px]">auto_stories</span>
+</div>
+<div class="flex flex-col">
+<div class="flex items-center gap-1.5">
+<span class="font-label-md text-label-md text-primary font-bold tracking-wide">[Свиток Заточки Оружия Р8]</span>
+<span class="px-1 py-0.2 bg-primary/20 text-primary rounded font-stat-numeral text-[10px]">Мифик</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline">+100% шанс успеха до +14 ранга</span>
+</div>
+</div>
+<div class="flex items-center gap-2 pl-2">
+<div class="flex items-center gap-1 bg-surface-container px-2 py-1 rounded text-primary">
+<span class="material-symbols-outlined text-[15px]">monetization_on</span>
+<span class="font-stat-numeral text-[13px]">1,200</span>
+</div>
+<button class="px-space-sm py-1 rounded bg-primary text-on-primary font-label-sm text-label-sm hover:opacity-90 shadow">Купить</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Message 4: System Mythic Announcement (Global Banner) -->
+<div class="w-full my-1 p-space-sm rounded-xl bg-gradient-to-r from-primary-container/30 via-primary-container/60 to-primary-container/30 shadow-lg flex items-center justify-between">
+<div class="flex items-center gap-space-md">
+<div class="w-8 h-8 rounded-lg bg-primary text-on-primary flex items-center justify-center shadow">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+</div>
+<div class="flex flex-col">
+<span class="font-label-sm text-[10px] uppercase font-bold text-primary tracking-widest">Таверна • Слава Кузницы</span>
+<span class="font-body-md text-body-md text-on-surface">
+                  Хранитель <strong class="text-on-surface">Владмур</strong> выковал мифический <span class="text-primary font-bold">[Громовой Клинок Перуна +13]</span> в Кузнице Очага!
+                </span>
+</div>
+</div>
+<button class="px-space-md py-1 rounded-lg bg-surface-container-highest text-primary hover:text-on-surface font-label-sm text-label-sm transition-colors shadow-sm">
+              Поздравить 🎉
+            </button>
+</div>
+<!-- Message 5: Cat Mage High-BM LFG -->
+<div class="flex items-start gap-space-md group">
+<div class="relative shrink-0 mt-0.5">
+<div class="w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary-fixed-dim shadow-md">
+<span class="material-symbols-outlined text-[22px]">auto_awesome</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-secondary-container text-secondary font-stat-numeral text-[9px]">60</span>
+</div>
+<div class="flex flex-col max-w-[85%]">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-lg text-label-lg text-on-surface flex items-center gap-1">
+                  Кото-Маг
+                  <span class="text-secondary text-label-sm">🔮</span>
+</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-outline text-[10px] font-label-sm">БМ: 54.2k</span>
+<span class="font-body-sm text-body-sm text-outline">19:48</span>
+</div>
+<div class="p-space-md rounded-2xl rounded-tl-sm bg-surface-container text-on-surface shadow-sm">
+<p class="font-body-md text-body-md leading-relaxed">
+                  Кто в <strong class="text-secondary">Затопленные Гроты</strong> на 3 волны? Нужен сильный танк от <span class="text-primary font-bold">45к БМ</span>! Хил и контроль уже в пати, ключ активирован. 🛡️
+                </p>
+<div class="mt-2 flex items-center gap-2">
+<span class="px-2 py-0.5 rounded bg-surface-container-lowest text-outline text-[11px] font-label-sm">Слот: [Танк 0/1]</span>
+<button class="px-2.5 py-1 rounded bg-secondary-container text-secondary font-label-sm text-label-sm hover:opacity-90">Вступить в группу</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Message 6: Murka Post-Raid Loot -->
+<div class="flex items-start gap-space-md group">
+<div class="relative shrink-0 mt-0.5">
+<div class="w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center text-secondary shadow-md">
+<span class="material-symbols-outlined text-[22px]">water_drop</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-surface-container-high text-on-surface-variant font-stat-numeral text-[9px]">39</span>
+</div>
+<div class="flex flex-col max-w-[85%]">
+<div class="flex items-center gap-2 mb-1">
+<span class="font-label-lg text-label-lg text-on-surface flex items-center gap-1">
+                  Мурка-Речная
+                  <span class="text-secondary text-label-sm">💧</span>
+</span>
+<span class="font-body-sm text-body-sm text-outline">19:50</span>
+</div>
+<div class="p-space-md rounded-2xl rounded-tl-sm bg-surface-container text-on-surface shadow-sm">
+<p class="font-body-md text-body-md leading-relaxed">
+                  Спасибо за рейд на Архипса! Лут просто космос, выпала мифическая руна кошачьей ловкости! Когти дрожат от счастья ✨😻
+                </p>
+</div>
+</div>
+</div>
+</div>
+<!-- Chat Composer Bottom Dock (Ergonomic Physical Controls) -->
+<div class="p-space-md bg-surface-container-low shrink-0 shadow-[0_-4px_16px_rgba(0,0,0,0.4)] flex flex-col gap-space-xs">
+<!-- Quick Action Accessory Bar -->
+<div class="flex items-center justify-between text-on-surface-variant">
+<div class="flex items-center gap-1.5">
+<button class="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-primary">pets</span>
+<span>Линк котика / предмета</span>
+</button>
+<button class="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-tertiary">mood</span>
+<span>Кошачьи эмодзи</span>
+</button>
+<button class="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm transition-all shadow-sm" id="rollDiceBtn">
+<span class="material-symbols-outlined text-[15px] text-secondary">casino</span>
+<span>Бросить d100 🎲</span>
+</button>
+<button class="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-surface-container text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-outline">bolt</span>
+<span>Быстрые фразы</span>
+</button>
+</div>
+<div class="text-outline font-label-sm text-[11px] hidden sm:block">
+              Нажмите [ENTER] для отправки
+            </div>
+</div>
+<!-- Main Input Field Bar -->
+<form class="flex items-center gap-space-sm mt-1" id="chatForm" onsubmit="event.preventDefault(); window.sendTavernMsg();">
+<div class="relative flex-1">
+<input class="w-full h-11 pl-4 pr-10 rounded-xl bg-surface-container-highest text-on-surface font-body-md text-body-md placeholder:text-outline focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" id="chatInput" placeholder="Написать сообщение в Таверну... [ENTER для отправки]" type="text"/>
+<button class="absolute right-2.5 top-1/2 -translate-y-1/2 text-outline hover:text-primary transition-colors" type="button">
+<span class="material-symbols-outlined text-[20px]">mic</span>
+</button>
+</div>
+<!-- Tactile Amber Send Button -->
+<button class="h-11 px-space-xl rounded-xl bg-gradient-to-b from-primary to-primary-container text-on-primary-container font-label-lg text-label-lg shadow-md hover:brightness-110 active:translate-y-0.5 transition-all flex items-center gap-2 shrink-0" type="submit">
+<span>Сказать</span>
+<span class="material-symbols-outlined text-[18px]">send</span>
+</button>
+</form>
+</div>
+</section>
+<!-- RIGHT COLUMN: Cat Adventurers in Lounge & Quick Actions (330px) -->
+<aside class="h-full bg-surface-container-low flex flex-col min-h-0 shadow-inner">
+<!-- Pinned Notice Board Widget (Top of Right Panel) -->
+<div class="p-space-md bg-surface-container/70 shadow-sm shrink-0">
+<div class="p-space-md rounded-xl bg-surface-container-high shadow-md relative overflow-hidden group">
+<div class="flex items-center gap-2 mb-1.5">
+<span class="material-symbols-outlined text-primary text-[18px]">campaign</span>
+<span class="font-label-sm text-[11px] uppercase tracking-wider text-primary font-bold">Доска Объявлений</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface leading-tight">
+              «Турнир Золотого Когтя стартует в эту субботу! Призовой фонд: <strong class="text-primary font-bold">500,000</strong> золота!»
+            </p>
+<div class="mt-2 flex items-center justify-between text-outline font-label-sm text-[10px]">
+<span>Запись у Трактирщика</span>
+<span class="text-secondary font-semibold">Осталось 2 дня</span>
+</div>
+</div>
+</div>
+<!-- Section Title: Adventurers Present -->
+<div class="px-space-md py-space-xs flex items-center justify-between text-outline font-label-sm text-label-sm uppercase tracking-wider shrink-0">
+<span>Хранители в Очаге (142)</span>
+<span class="material-symbols-outlined text-[16px]">groups</span>
+</div>
+<!-- Online Cats List -->
+<div class="flex-1 overflow-y-auto px-space-sm py-1 flex flex-col gap-1 min-h-0">
+<!-- Adventurer 1 -->
+<div class="player-card group flex items-center justify-between p-space-sm rounded-xl hover:bg-surface-container cursor-pointer transition-all" onclick="window.selectAdventurer('Мурр-Оплот', 60, 'Магистр', '62.4k', 'В бою на осаде', 'pets')">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="relative shrink-0">
+<div class="w-9 h-9 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary shadow">
+<span class="material-symbols-outlined text-[20px]">cruelty_free</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-primary-container text-on-primary-container font-stat-numeral text-[9px]">60</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-label-md text-label-md text-on-surface truncate">Мурр-Оплот</span>
+<span class="material-symbols-outlined text-[13px] text-primary">verified</span>
+</div>
+<div class="flex items-center gap-1.5 font-body-sm text-body-sm text-outline">
+<span class="text-tertiary text-[11px] truncate">В бою на осаде</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-stat-numeral text-[11px] text-primary">62.4k</span>
+<span class="font-label-sm text-[10px] text-outline">БМ</span>
+</div>
+</div>
+<!-- Adventurer 2 -->
+<div class="player-card group flex items-center justify-between p-space-sm rounded-xl hover:bg-surface-container cursor-pointer transition-all" onclick="window.selectAdventurer('Барсик-Громовержец', 52, 'Офицер', '51.8k', 'В Кузнице', 'bolt')">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="relative shrink-0">
+<div class="w-9 h-9 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary-fixed shadow">
+<span class="material-symbols-outlined text-[20px]">bolt</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-surface-container text-on-surface-variant font-stat-numeral text-[9px]">52</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-label-md text-label-md text-on-surface truncate">Барсик-Громовержец</span>
+</div>
+<span class="font-body-sm text-body-sm text-outline truncate">В Кузнице Очага</span>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-stat-numeral text-[11px] text-on-surface">51.8k</span>
+<span class="font-label-sm text-[10px] text-outline">БМ</span>
+</div>
+</div>
+<!-- Adventurer 3: Current User Profile Entry -->
+<div class="player-card group flex items-center justify-between p-space-sm rounded-xl bg-surface-container/50 hover:bg-surface-container cursor-pointer transition-all" onclick="window.selectAdventurer('Хранитель Очага (Вы)', 48, 'Хранитель', '48.9k', 'В Таверне', 'pets')">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="relative shrink-0">
+<div class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow">
+<span class="material-symbols-outlined text-[20px]">pets</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-surface-container-highest text-primary font-stat-numeral text-[9px]">48</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-label-md text-label-md text-primary font-bold truncate">Хранитель Очага</span>
+<span class="px-1 py-0.2 bg-secondary/20 text-secondary text-[9px] font-label-sm rounded">Вы</span>
+</div>
+<span class="font-body-sm text-body-sm text-secondary truncate">В Таверне</span>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-stat-numeral text-[11px] text-primary">48.9k</span>
+<span class="font-label-sm text-[10px] text-outline">БМ</span>
+</div>
+</div>
+<!-- Adventurer 4 -->
+<div class="player-card group flex items-center justify-between p-space-sm rounded-xl hover:bg-surface-container cursor-pointer transition-all" onclick="window.selectAdventurer('Светохвост', 46, 'Ветеран', '49.6k', 'На Ферме', 'shield')">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="relative shrink-0">
+<div class="w-9 h-9 rounded-xl bg-surface-container-highest flex items-center justify-center text-secondary shadow">
+<span class="material-symbols-outlined text-[20px]">shield</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-surface-container text-on-surface-variant font-stat-numeral text-[9px]">46</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate">Светохвост</span>
+<span class="font-body-sm text-body-sm text-outline truncate">На Ферме рыбок</span>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-stat-numeral text-[11px] text-on-surface">49.6k</span>
+<span class="font-label-sm text-[10px] text-outline">БМ</span>
+</div>
+</div>
+<!-- Adventurer 5 -->
+<div class="player-card group flex items-center justify-between p-space-sm rounded-xl hover:bg-surface-container cursor-pointer transition-all" onclick="window.selectAdventurer('Звездочёт', 42, 'Новичок', '42.1k', 'В поиске группы', 'auto_awesome')">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="relative shrink-0">
+<div class="w-9 h-9 rounded-xl bg-surface-container-highest flex items-center justify-center text-tertiary shadow">
+<span class="material-symbols-outlined text-[20px]">auto_awesome</span>
+</div>
+<span class="absolute -bottom-1 -right-1 px-1 rounded bg-surface-container text-on-surface-variant font-stat-numeral text-[9px]">42</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate">Звездочёт</span>
+<span class="font-body-sm text-body-sm text-secondary truncate">В поиске группы (LFG)</span>
+</div>
+</div>
+<div class="flex flex-col items-end shrink-0">
+<span class="font-stat-numeral text-[11px] text-on-surface">42.1k</span>
+<span class="font-label-sm text-[10px] text-outline">БМ</span>
+</div>
+</div>
+</div>
+<!-- Interactive Player Profile Inspector Drawer (Bottom Right) -->
+<div class="p-space-md m-space-sm rounded-2xl bg-surface-container-high shadow-xl shrink-0 flex flex-col gap-space-sm" id="inspectorPanel">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Карточка Хранителя</span>
+<span class="px-1.5 py-0.5 rounded bg-surface-container text-secondary text-[10px] font-label-sm" id="inspectorStatus">В бою на осаде</span>
+</div>
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary shadow-inner">
+<span class="material-symbols-outlined text-[28px]" id="inspectorIcon">cruelty_free</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-label-lg text-on-surface font-bold truncate" id="inspectorName">Мурр-Оплот</span>
+<div class="flex items-center gap-2">
+<span class="font-label-sm text-label-sm text-primary font-bold" id="inspectorLevel">Ур. 60 • Магистр</span>
+<span class="text-outline text-label-sm">•</span>
+<span class="font-stat-numeral text-[12px] text-on-surface font-bold" id="inspectorBm">62.4k БМ</span>
+</div>
+</div>
+</div>
+<!-- Quick Action Buttons Grid -->
+<div class="grid grid-cols-2 gap-1.5 pt-1">
+<button class="py-1.5 px-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-variant flex items-center justify-center gap-1.5 font-label-sm text-label-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-tertiary">swords</span>
+<span>Дуэль ⚔️</span>
+</button>
+<button class="py-1.5 px-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-variant flex items-center justify-center gap-1.5 font-label-sm text-label-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-secondary">group_add</span>
+<span>В отряд 👥</span>
+</button>
+<button class="py-1.5 px-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-variant flex items-center justify-center gap-1.5 font-label-sm text-label-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-primary">chat</span>
+<span>В ЛС ✉️</span>
+</button>
+<button class="py-1.5 px-2 rounded-lg bg-surface-container text-on-surface hover:bg-surface-variant flex items-center justify-center gap-1.5 font-label-sm text-label-sm transition-all shadow-sm">
+<span class="material-symbols-outlined text-[15px] text-primary-fixed-dim">search</span>
+<span>Котики 🔍</span>
+</button>
+</div>
+</div>
+</aside>
+</div>
+</div>
+</div>
+<script>
+  // Dynamic Message Submission Micro-interaction
+  window.sendTavernMsg = function() {
+    const input = document.getElementById('chatInput');
+    const stream = document.getElementById('chatStream');
+    if (!input || !stream || !input.value.trim()) return;
+
+    const userText = input.value.trim();
+    const timeNow = new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+
+    const msgNode = document.createElement('div');
+    msgNode.className = 'flex items-start gap-space-md flex-row-reverse group animate-fadeIn';
+    msgNode.innerHTML = `
+      <div class="relative shrink-0 mt-0.5">
+        <div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-on-primary shadow-md">
+          <span class="material-symbols-outlined text-[22px]">pets</span>
+        </div>
+        <span class="absolute -bottom-1 -left-1 px-1 rounded bg-surface-container-highest text-primary font-stat-numeral text-[9px] shadow">48</span>
+      </div>
+      <div class="flex flex-col items-end max-w-[85%]">
+        <div class="flex items-center gap-2 mb-1">
+          <span class="font-body-sm text-body-sm text-outline">${timeNow}</span>
+          <span class="px-1.5 py-0.2 rounded bg-secondary-container/40 text-secondary text-[10px] font-label-sm font-bold">Вы</span>
+          <span class="font-label-lg text-label-lg text-on-surface">Хранитель Очага</span>
+        </div>
+        <div class="p-space-md rounded-2xl rounded-tr-sm bg-primary-container text-on-primary-container shadow-md">
+          <p class="font-body-md text-body-md leading-relaxed font-semibold">
+            ${userText}
+          </p>
+        </div>
+      </div>
+    `;
+
+    stream.appendChild(msgNode);
+    input.value = '';
+    stream.scrollTop = stream.scrollHeight;
+  };
+
+  // Roll d100 Dice Quick Action
+  const rollDiceBtn = document.getElementById('rollDiceBtn');
+  if (rollDiceBtn) {
+    rollDiceBtn.addEventListener('click', function() {
+      const stream = document.getElementById('chatStream');
+      const timeNow = new Date().toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
+      const roll = Math.floor(Math.random() * 100) + 1;
+
+      const diceNode = document.createElement('div');
+      diceNode.className = 'w-full my-1 p-space-sm rounded-xl bg-surface-container shadow flex items-center justify-between';
+      diceNode.innerHTML = `
+        <div class="flex items-center gap-space-sm">
+          <span class="material-symbols-outlined text-secondary text-[20px]">casino</span>
+          <span class="font-body-sm text-body-sm text-on-surface">
+            Хранитель Очага бросает кость судьбы 🎲 (1-100): 
+            <strong class="text-primary font-stat-numeral text-[15px] ml-1">${roll}</strong>
+          </span>
+        </div>
+        <span class="text-outline font-label-sm text-[11px]">${timeNow}</span>
+      `;
+      stream.appendChild(diceNode);
+      stream.scrollTop = stream.scrollHeight;
+    });
+  }
+
+  // Interactive Adventurer Profile Switcher
+  window.selectAdventurer = function(name, lvl, rank, bm, status, icon) {
+    const nameEl = document.getElementById('inspectorName');
+    const lvlEl = document.getElementById('inspectorLevel');
+    const bmEl = document.getElementById('inspectorBm');
+    const statusEl = document.getElementById('inspectorStatus');
+    const iconEl = document.getElementById('inspectorIcon');
+
+    if (nameEl) nameEl.textContent = name;
+    if (lvlEl) lvlEl.textContent = `Ур. ${lvl} • ${rank}`;
+    if (bmEl) bmEl.textContent = `${bm} БМ`;
+    if (statusEl) statusEl.textContent = status;
+    if (iconEl) iconEl.textContent = icon;
+  };
+</script></main><footer class="fixed bottom-0 left-0 w-full h-10 bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_-2px_10px_rgba(0,0,0,0.5)] z-40"><div class="w-full h-full px-margin-tablet flex items-center justify-between text-on-surface-variant text-label-sm font-label-sm"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs"><span class="px-space-xs py-0.5 rounded bg-surface-container-high font-stat-numeral text-[10px] text-primary">ESC</span><span>Главное меню</span></div><div class="flex items-center gap-space-xs"><span class="px-space-xs py-0.5 rounded bg-surface-container-high font-stat-numeral text-[10px] text-primary">TAB</span><span>Команда котиков</span></div><div class="flex items-center gap-space-xs"><span class="px-space-xs py-0.5 rounded bg-surface-container-high font-stat-numeral text-[10px] text-primary">ENTER</span><span>Чат таверны</span></div></div><div class="flex items-center gap-space-md"><span>Таверна «Тёплая Лапка» • Сезон 4</span><span class="text-primary">v1.4.8-mythic</span></div></div></footer>
+</section>
 <section id="viewResultLose" class="stitch-view mythfel-form hidden hud-placeholder" data-stitch="result_lose" data-placeholder="1" data-layout="landscape">
   <div class="boot-card">
     <p class="eyebrow">Скоро · Stitch</p>
     <h2>Поражение</h2>
-    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7.</p>
+    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7/ba17.</p>
   </div>
 </section>
 <section id="viewShop" class="stitch-view mythfel-form hidden hud-placeholder" data-stitch="shop" data-placeholder="1" data-layout="landscape">
   <div class="boot-card">
     <p class="eyebrow">Скоро · Stitch</p>
     <h2>Магазин</h2>
-    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7.</p>
+    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7/ba17.</p>
   </div>
 </section>
 <section id="viewMarket" class="stitch-view mythfel-form hidden hud-placeholder" data-stitch="market" data-placeholder="1" data-layout="landscape">
   <div class="boot-card">
     <p class="eyebrow">Скоро · Stitch</p>
     <h2>Рынок</h2>
-    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7.</p>
+    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7/ba17.</p>
   </div>
 </section>
 <section id="viewTavern" class="stitch-view mythfel-form hidden hud-placeholder" data-stitch="tavern" data-placeholder="1" data-layout="landscape">
   <div class="boot-card">
     <p class="eyebrow">Скоро · Stitch</p>
     <h2>Таверна (молоко)</h2>
-    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7.</p>
-  </div>
-</section>
-<section id="viewPass" class="stitch-view mythfel-form hidden hud-placeholder" data-stitch="pass" data-placeholder="1" data-layout="landscape">
-  <div class="boot-card">
-    <p class="eyebrow">Скоро · Stitch</p>
-    <h2>Боевой пасс</h2>
-    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7.</p>
+    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7/ba17.</p>
   </div>
 </section>
 <section id="viewSoonClan" class="stitch-view mythfel-form hidden hud-placeholder" data-stitch="soon_clan" data-placeholder="1" data-layout="landscape">
   <div class="boot-card">
     <p class="eyebrow">Скоро · Stitch</p>
     <h2>Клан-босс</h2>
-    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7.</p>
+    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7/ba17.</p>
   </div>
 </section>
 <section id="viewEquipCards" class="stitch-view mythfel-form hidden hud-placeholder" data-stitch="equip_cards" data-placeholder="1" data-layout="landscape">
   <div class="boot-card">
     <p class="eyebrow">Скоро · Stitch</p>
     <h2>Карточки экипировки</h2>
-    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7.</p>
+    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7/ba17.</p>
   </div>
 </section>
 <section id="viewAuction" class="stitch-view mythfel-form hidden hud-placeholder" data-stitch="auction" data-placeholder="1" data-layout="landscape">
   <div class="boot-card">
     <p class="eyebrow">Скоро · Stitch</p>
     <h2>Аукцион</h2>
-    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7.</p>
-  </div>
-</section>
-<section id="viewChatGlobal" class="stitch-view mythfel-form hidden hud-placeholder" data-stitch="chat_global" data-placeholder="1" data-layout="landscape">
-  <div class="boot-card">
-    <p class="eyebrow">Скоро · Stitch</p>
-    <h2>Чат · общий</h2>
-    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7.</p>
-  </div>
-</section>
-<section id="viewChatGuild" class="stitch-view mythfel-form hidden hud-placeholder" data-stitch="chat_guild" data-placeholder="1" data-layout="landscape">
-  <div class="boot-card">
-    <p class="eyebrow">Скоро · Stitch</p>
-    <h2>Чат · гильдия</h2>
-    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7.</p>
-  </div>
-</section>
-<section id="viewChatFriends" class="stitch-view mythfel-form hidden hud-placeholder" data-stitch="chat_friends" data-placeholder="1" data-layout="landscape">
-  <div class="boot-card">
-    <p class="eyebrow">Скоро · Stitch</p>
-    <h2>Чат · друзья</h2>
-    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7.</p>
+    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7/ba17.</p>
   </div>
 </section>
 <section id="viewRatingPlayers" class="stitch-view mythfel-form hidden hud-placeholder" data-stitch="rating_players" data-placeholder="1" data-layout="landscape">
   <div class="boot-card">
     <p class="eyebrow">Скоро · Stitch</p>
     <h2>Рейтинг · игроки</h2>
-    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7.</p>
+    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7/ba17.</p>
   </div>
 </section>
 <section id="viewRatingGuilds" class="stitch-view mythfel-form hidden hud-placeholder" data-stitch="rating_guilds" data-placeholder="1" data-layout="landscape">
   <div class="boot-card">
     <p class="eyebrow">Скоро · Stitch</p>
     <h2>Рейтинг · гильдии</h2>
-    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7.</p>
+    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7/ba17.</p>
   </div>
 </section>
     <section id="viewResult" class="stitch-view hidden" data-alias="result"></section>

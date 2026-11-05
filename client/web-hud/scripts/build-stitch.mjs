@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Build Mythfel Web HUD from vendored Stitch HTML (design/stitch-src).
- * Packs 0268 + 64d5 + battles e608/4da7/18c7 — partial IA coverage; missing routes get empty hosts.
+ * Packs 0268 + 64d5 + battles e608/4da7/18c7 + ba17 — partial IA coverage; missing routes get empty hosts.
  * Emits public/index.html + public/stitch/*.html partials.
  */
 import fs from "node:fs";
@@ -40,6 +40,11 @@ const SCREENS = [
   // Battles pack 18c7 — practice fight + guild hall
   { id: "practice", file: "practice.html", view: "viewPractice" },
   { id: "guild", file: "guild.html", view: "viewGuild" },
+  // Pack ba17 — battle pass + chats (one layout ×3 channels)
+  { id: "pass", file: "pass.html", view: "viewPass" },
+  { id: "chat_global", file: "chat_global.html", view: "viewChatGlobal" },
+  { id: "chat_guild", file: "chat_guild.html", view: "viewChatGuild" },
+  { id: "chat_friends", file: "chat_friends.html", view: "viewChatFriends" },
 ];
 
 /** IA routes without painted Stitch yet — empty hosts so navigate() still works */
@@ -48,13 +53,9 @@ const PLACEHOLDERS = [
   { id: "shop", view: "viewShop", label: "Магазин" },
   { id: "market", view: "viewMarket", label: "Рынок" },
   { id: "tavern", view: "viewTavern", label: "Таверна (молоко)" },
-  { id: "pass", view: "viewPass", label: "Боевой пасс" },
   { id: "soon_clan", view: "viewSoonClan", label: "Клан-босс" },
   { id: "equip_cards", view: "viewEquipCards", label: "Карточки экипировки" },
   { id: "auction", view: "viewAuction", label: "Аукцион" },
-  { id: "chat_global", view: "viewChatGlobal", label: "Чат · общий" },
-  { id: "chat_guild", view: "viewChatGuild", label: "Чат · гильдия" },
-  { id: "chat_friends", view: "viewChatFriends", label: "Чат · друзья" },
   { id: "rating_players", view: "viewRatingPlayers", label: "Рейтинг · игроки" },
   { id: "rating_guilds", view: "viewRatingGuilds", label: "Рейтинг · гильдии" },
 ];
@@ -100,7 +101,7 @@ for (const ph of PLACEHOLDERS) {
   <div class="boot-card">
     <p class="eyebrow">Скоро · Stitch</p>
     <h2>${ph.label}</h2>
-    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7.</p>
+    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7/ba17.</p>
   </div>
 </section>`;
   fs.writeFileSync(path.join(OUT_STITCH, `${ph.id}.html`), section, "utf8");

@@ -1,7 +1,7 @@
 /**
- * Mythfel Web HUD — battle/devapi + LiveOps wire logic + Stitch packs 0268/64d5/e608/4da7/18c7.
+ * Mythfel Web HUD — battle/devapi + LiveOps wire logic + Stitch packs 0268/64d5/e608/4da7/18c7/ba17.
  * Formation is inline (no Бои subtab). Home = cat + equip + inventory (no portals).
- * Pack 18c7: practice fight + guild hall. No combat authority on client (§3.6 / §8.2).
+ * Pack 18c7: practice fight + guild hall. Pack ba17: pass + chats×3. No combat authority on client (§3.6 / §8.2).
  */
 
 const STARTERS = [
@@ -82,6 +82,13 @@ const PATH_TO_TAB = {
   чат: "chat_global",
   chaty: "chat_global",
   chats: "chat_global",
+  "obshchiy-chat": "chat_global",
+  "guild-chat": "chat_guild",
+  "chat-gildii": "chat_guild",
+  "lichnye-soobshcheniya": "chat_friends",
+  "friends-chat": "chat_friends",
+  "season-pass": "pass",
+  "boevoj-pass": "pass",
   тренировка: "practice",
   "тренировочный-лагерь": "practice",
   "training-dojo": "practice",
@@ -910,8 +917,12 @@ function softNavigateFromLabel(label) {
     ["штурмовать врата", () => navigate("guild_battle")],
     ["штурмовать", () => navigate("formation")],
     ["вступить в рейд", () => navigate("boss_raid")],
+    ["вступить в группу", () => navigate("boss_dungeon")],
     ["в бой", () => navigate("formation")],
     ["остановить тест", () => navigate("hub")],
+    ["дуэль", () => navigate("formation")],
+    ["забрать всё", () => navigate("pass")],
+    ["в лс", () => navigate("chat_friends")],
     ["следующий узел", () => navigate("yard")],
     ["данж", () => navigate("boss_dungeon")],
     ["подземел", () => navigate("boss_dungeon")],
