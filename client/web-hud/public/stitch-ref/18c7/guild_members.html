@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="ru"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_standard" name="shell-type"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,400..800;1,6..12,400..800&amp;family=Rubik:ital,wght@0,500..900;1,500..900&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body { margin:0; padding:0; height:100%; overflow:hidden; }
+      body { overscroll-behavior:none; }
+    }
+    ::-webkit-scrollbar { display:none; }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "secondary-fixed": "#a4f6a6",
+            "background": "#161310",
+            "surface-container-high": "#2e2926",
+            "on-surface-variant": "#d5c4af",
+            "surface-container-highest": "#393430",
+            "primary-fixed": "#ffdeae",
+            "outline": "#9d8f7b",
+            "on-error-container": "#ffdad6",
+            "surface-variant": "#393430",
+            "on-secondary": "#003910",
+            "secondary-container": "#005b1e",
+            "surface-container": "#231f1c",
+            "on-primary-container": "#523700",
+            "on-tertiary-fixed": "#3f0300",
+            "on-tertiary": "#660700",
+            "surface-tint": "#fdba45",
+            "on-surface": "#eae1db",
+            "error-container": "#93000a",
+            "inverse-on-surface": "#342f2c",
+            "surface-bright": "#3d3835",
+            "on-secondary-fixed-variant": "#00531b",
+            "outline-variant": "#504535",
+            "on-primary-fixed-variant": "#604100",
+            "tertiary-fixed-dim": "#ffb4a6",
+            "primary": "#fdba45",
+            "on-primary-fixed": "#281900",
+            "on-background": "#eae1db",
+            "tertiary-fixed": "#ffdad4",
+            "inverse-surface": "#eae1db",
+            "surface-container-low": "#1f1b18",
+            "tertiary": "#ffb4a6",
+            "on-secondary-fixed": "#002106",
+            "on-primary": "#432c00",
+            "inverse-primary": "#7f5700",
+            "on-tertiary-fixed-variant": "#8d1607",
+            "on-tertiary-container": "#7c0a00",
+            "secondary-fixed-dim": "#89d98c",
+            "surface": "#161310",
+            "surface-container-lowest": "#110d0b",
+            "tertiary-container": "#ff826c",
+            "primary-fixed-dim": "#fdba45",
+            "secondary": "#89d98c",
+            "on-secondary-container": "#82d186",
+            "surface-dim": "#161310",
+            "primary-container": "#d99b26",
+            "error": "#ffb4ab",
+            "on-error": "#690005"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "space-lg": "1rem",
+            "margin-tablet": "1.5rem",
+            "space-md": "0.75rem",
+            "gutter-tablet": "1rem",
+            "space-xl": "1.5rem",
+            "space-sm": "0.5rem",
+            "gutter": "0.75rem",
+            "margin": "1rem",
+            "space-xs": "0.25rem"
+          },
+          fontFamily: {
+            "label-md": ["Rubik"],
+            "headline-xl": ["Rubik"],
+            "headline-md": ["Rubik"],
+            "body-sm": ["Nunito Sans"],
+            "body-md": ["Nunito Sans"],
+            "label-sm": ["Rubik"],
+            "body-lg": ["Nunito Sans"],
+            "headline-xl-mobile": ["Rubik"],
+            "label-lg": ["Rubik"],
+            "headline-lg-mobile": ["Rubik"],
+            "headline-lg": ["Rubik"],
+            "stat-numeral": ["Rubik"]
+          },
+          fontSize: {
+            "label-md": ["12px", { "lineHeight": "16px", "fontWeight": "600" }],
+            "headline-xl": ["36px", { "lineHeight": "44px", "fontWeight": "800" }],
+            "headline-md": ["18px", { "lineHeight": "24px", "fontWeight": "600" }],
+            "body-sm": ["12px", { "lineHeight": "16px", "fontWeight": "500" }],
+            "body-md": ["14px", { "lineHeight": "20px", "fontWeight": "500" }],
+            "label-sm": ["10px", { "lineHeight": "12px", "fontWeight": "700" }],
+            "body-lg": ["16px", { "lineHeight": "22px", "fontWeight": "600" }],
+            "headline-xl-mobile": ["28px", { "lineHeight": "34px", "fontWeight": "800" }],
+            "label-lg": ["14px", { "lineHeight": "18px", "fontWeight": "700" }],
+            "headline-lg-mobile": ["22px", { "lineHeight": "28px", "fontWeight": "700" }],
+            "headline-lg": ["26px", { "lineHeight": "32px", "fontWeight": "700" }],
+            "stat-numeral": ["20px", { "lineHeight": "20px", "fontWeight": "800" }]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-surface font-body-md text-body-md text-on-surface select-none h-screen flex flex-col justify-between overflow-hidden">
+<!-- ==================== HEADER NAVIGATION CHROME ==================== -->
+<header class="w-full z-50 bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.65)] flex-shrink-0">
+<div class="w-full flex flex-col justify-between px-margin-tablet">
+<!-- Main Bar -->
+<div class="h-16 flex items-center justify-between gap-space-lg">
+<div class="flex items-center gap-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="text-primary font-headline-md text-headline-md tracking-wide flex items-center gap-1.5">
+<span>🐾</span> МИФИУС: МИФИЧЕСКИЕ КОТИКИ
+            </span>
+<div class="flex items-center gap-space-xs px-space-sm py-0.5 rounded-full bg-surface-container-high text-secondary font-label-sm text-label-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+<span>24ms</span>
+</div>
+</div>
+</div>
+<!-- Global Nav Tabs with 'Гильдии' ACTIVE -->
+<nav class="hidden xl:flex items-center gap-space-xs bg-surface-container-low p-1 rounded-xl">
+<a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="glavnyj-hab" href="#">Главный Хаб</a>
+<a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="boi" href="#">Бои</a>
+<a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="torgovlya" href="#">Торговля</a>
+<a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md bg-primary-container text-on-primary-container font-bold shadow-[0_0_12px_rgba(217,155,38,0.4)]" data-path="gildii" href="#">Гильдии</a>
+<a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="chaty" href="#">Чаты</a>
+<a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="pass" href="#">Пасс</a>
+<a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all" data-path="rejtingi" href="#">Рейтинги</a>
+</nav>
+<!-- Currencies & Profile -->
+<div class="flex items-center gap-space-md">
+<div class="hidden md:flex items-center gap-space-sm bg-surface-container-low px-space-md py-1 rounded-xl">
+<div class="flex items-center gap-1.5 px-space-xs" title="Золото">
+<span class="material-symbols-outlined text-primary text-[18px]">monetization_on</span>
+<span class="font-stat-numeral text-body-md text-primary-fixed">148,250</span>
+</div>
+<div class="w-px h-4 bg-outline-variant"></div>
+<div class="flex items-center gap-1.5 px-space-xs" title="Рыбка">
+<span class="material-symbols-outlined text-tertiary text-[18px]">set_meal</span>
+<span class="font-stat-numeral text-body-md text-tertiary-fixed">420</span>
+</div>
+<div class="w-px h-4 bg-outline-variant"></div>
+<div class="flex items-center gap-1.5 px-space-xs" title="Энергия">
+<span class="material-symbols-outlined text-secondary text-[18px]">bolt</span>
+<span class="font-stat-numeral text-body-md text-secondary-fixed">85/90</span>
+</div>
+<div class="w-px h-4 bg-outline-variant"></div>
+<div class="flex items-center gap-1.5 px-space-xs" title="Самоцветы">
+<span class="material-symbols-outlined text-primary-fixed-dim text-[18px]">diamond</span>
+<span class="font-stat-numeral text-body-md text-primary-fixed-dim">1,250</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm pl-space-xs">
+<div class="flex flex-col text-right">
+<span class="font-label-md text-label-md text-on-surface leading-tight">Хранитель Очага</span>
+<span class="font-label-sm text-label-sm text-primary">Ур. 48</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center ring-2 ring-primary/40 shadow-inner">
+<span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Guild Sub-Navigation Tabs with 'Участники и Состав' ACTIVE -->
+<div class="h-11 flex items-center justify-between bg-surface-container px-space-md rounded-lg mb-1.5 border border-outline-variant/30">
+<nav class="flex items-center gap-space-sm overflow-x-auto">
+<a class="px-space-md py-1 rounded font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors whitespace-nowrap" data-path="zal-gildii" href="#">Зал Гильдии (Главная)</a>
+<a aria-current="page" class="px-space-md py-1 rounded transition-colors whitespace-nowrap bg-primary-container text-on-primary-container font-label-md text-label-md font-bold shadow-sm" data-path="uchastniki-i-sostav" href="#">Участники и Состав</a>
+<a class="px-space-md py-1 rounded font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors whitespace-nowrap" data-path="razvitie-i-tehnologii" href="#">Развитие и Технологии</a>
+<a class="px-space-md py-1 rounded font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors whitespace-nowrap" data-path="kazna-i-zadaniya" href="#">Казна и Задания</a>
+</nav>
+<div class="hidden sm:flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm bg-surface-container-high/60 px-space-sm py-1 rounded-md border border-outline-variant/40">
+<span class="material-symbols-outlined text-[16px] text-primary">shield</span>
+<span class="text-on-surface font-semibold">Обитель Муррлин</span>
+<span class="text-outline">•</span>
+<span class="text-primary font-bold">Топ-12</span>
+<span class="text-outline">•</span>
+<span class="text-secondary font-bold">Ур. 14</span>
+</div>
+</div>
+</div>
+</header>
+<!-- ==================== MAIN 16:9 3-COLUMN CONTENT ==================== -->
+<main class="w-full flex-1 flex flex-col min-h-0 bg-surface px-margin-tablet py-space-sm overflow-hidden box-border">
+<div class="grid grid-cols-12 gap-space-md w-full h-full max-w-[1920px] mx-auto min-h-0">
+<!-- ==================== LEFT COLUMN: СТАТИСТИКА, ФИЛЬТРЫ, ПРАВИЛА И ЗАЯВКИ ==================== -->
+<div class="col-span-3 flex flex-col justify-between h-full bg-surface-container-low rounded-xl p-space-md shadow-xl border border-outline-variant/30 min-h-0 overflow-hidden relative">
+<div class="absolute -top-12 -left-12 w-48 h-48 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Top: Summary & KPIs -->
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[20px]" style="font-variation-settings: 'FILL' 1;">groups</span>
+<span class="font-headline-md text-headline-md text-on-surface">Состав Гильдии</span>
+</div>
+<span class="font-label-sm text-label-sm bg-primary-container/30 text-primary px-2 py-0.5 rounded-full font-bold">Ур. 14 Клан</span>
+</div>
+<!-- 3 KPI Cards -->
+<div class="grid grid-cols-3 gap-space-xs mt-1">
+<div class="bg-surface-container flex flex-col p-1.5 rounded-lg text-center shadow-inner border border-outline-variant/20">
+<span class="font-label-sm text-[10px] text-on-surface-variant truncate">Членов</span>
+<div class="flex items-baseline justify-center gap-0.5 mt-0.5">
+<span class="font-stat-numeral text-[18px] text-primary leading-tight">28</span>
+<span class="font-body-sm text-body-sm text-outline">/30</span>
+</div>
+<span class="font-label-sm text-[9px] text-secondary leading-none mt-0.5">2 слота</span>
+</div>
+<div class="bg-surface-container flex flex-col p-1.5 rounded-lg text-center shadow-inner border border-outline-variant/20">
+<span class="font-label-sm text-[10px] text-on-surface-variant truncate">В сети</span>
+<div class="flex items-center justify-center gap-1 mt-0.5">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-stat-numeral text-[18px] text-secondary-fixed leading-tight">19</span>
+</div>
+<span class="font-label-sm text-[9px] text-secondary leading-none mt-0.5">котиков</span>
+</div>
+<div class="bg-surface-container flex flex-col p-1.5 rounded-lg text-center shadow-inner border border-outline-variant/20">
+<span class="font-label-sm text-[10px] text-on-surface-variant truncate">Средний БМ</span>
+<div class="flex items-center justify-center mt-0.5">
+<span class="font-stat-numeral text-[18px] text-primary-fixed leading-tight">52.8k</span>
+</div>
+<span class="font-label-sm text-[9px] text-tertiary leading-none mt-0.5">▲ Топ-12</span>
+</div>
+</div>
+<!-- Readiness Bar -->
+<div class="bg-surface-container/80 p-2 rounded-lg flex flex-col gap-1 border border-outline-variant/20 mt-0.5">
+<div class="flex justify-between items-center text-[10px] font-label-sm text-on-surface-variant">
+<span>Готовность к осаде</span>
+<span class="text-primary font-bold">93%</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container-highest flex overflow-hidden">
+<div class="h-full bg-primary" style="width: 48%;" title="Офицеры"></div>
+<div class="h-full bg-secondary" style="width: 32%;" title="Ветераны"></div>
+<div class="h-full bg-outline" style="width: 13%;" title="Новички"></div>
+</div>
+</div>
+</div>
+<!-- Middle: Role Filters & Sorters -->
+<div class="flex flex-col gap-2 my-1">
+<!-- Rank Filters -->
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-[11px] text-outline uppercase tracking-wider">Фильтр рангов</span>
+<div class="grid grid-cols-2 gap-1.5" id="rank-filters">
+<button class="bg-primary-container text-on-primary-container font-label-sm text-label-sm py-1.5 px-space-xs rounded-md shadow-sm transition-all flex items-center justify-center gap-1 font-bold">
+<span class="material-symbols-outlined text-[14px]">shield</span> Все ранги (28)
+              </button>
+<button class="bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm py-1.5 px-space-xs rounded-md transition-all flex items-center justify-center gap-1 border border-outline-variant/30">
+<span class="material-symbols-outlined text-[14px] text-primary">military_tech</span> Офицеры (3)
+              </button>
+<button class="bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm py-1.5 px-space-xs rounded-md transition-all flex items-center justify-center gap-1 border border-outline-variant/30">
+<span class="material-symbols-outlined text-[14px] text-secondary">verified</span> Ветераны (11)
+              </button>
+<button class="bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm py-1.5 px-space-xs rounded-md transition-all flex items-center justify-center gap-1 border border-outline-variant/30">
+<span class="material-symbols-outlined text-[14px] text-outline">pets</span> Новички (14)
+              </button>
+</div>
+</div>
+<!-- Sorting -->
+<div class="flex flex-col gap-1">
+<span class="font-label-sm text-[11px] text-outline uppercase tracking-wider">Сортировка участников</span>
+<div class="flex items-center gap-1 bg-surface-container p-1 rounded-lg border border-outline-variant/20">
+<button class="flex-1 py-1 rounded font-label-sm text-label-sm bg-primary/20 text-primary text-center font-bold">По БМ ↓</button>
+<button class="flex-1 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface text-center">По вкладу</button>
+<button class="flex-1 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface text-center">По онлайну</button>
+</div>
+</div>
+<!-- Guild Duties & Rules Card -->
+<div class="bg-surface-container/70 p-2 rounded-lg border border-primary/20 flex flex-col gap-1">
+<div class="flex items-center gap-1.5 text-primary font-label-sm text-label-sm font-bold">
+<span class="material-symbols-outlined text-[15px]">gavel</span>
+<span>Правила и Норматив Гильдии</span>
+</div>
+<p class="font-body-sm text-[11px] text-on-surface-variant leading-tight">
+              Норматив недели: <strong class="text-secondary-fixed">10,000 очков вклада</strong> или не менее <strong class="text-primary-fixed">5 походов на босса</strong>.
+            </p>
+</div>
+</div>
+<!-- Bottom: Join Requests Box -->
+<div class="bg-surface-container p-space-sm rounded-xl flex flex-col gap-1.5 shadow-md border border-outline-variant/30">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[18px]">mark_email_unread</span>
+<span class="font-label-md text-label-md text-on-surface font-bold">Заявки в клан</span>
+</div>
+<span class="px-2 py-0.5 bg-tertiary-container text-on-tertiary-container font-label-sm text-[10px] rounded-full font-bold animate-pulse">3 новые</span>
+</div>
+<div class="flex items-center justify-between bg-surface-container-high px-2 py-1 rounded-lg border border-outline-variant/30">
+<span class="font-label-sm text-[11px] text-outline">Мин. порог силы:</span>
+<span class="font-stat-numeral text-label-md text-primary-fixed">40,000+ БМ</span>
+</div>
+<button class="w-full py-1.5 px-space-sm bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md rounded-lg shadow-[0_4px_12px_rgba(217,155,38,0.35)] transition-all flex items-center justify-center gap-1.5 font-bold">
+<span class="material-symbols-outlined text-[16px]">how_to_reg</span>
+<span>Рассмотреть заявки</span>
+</button>
+</div>
+</div>
+<!-- ==================== MIDDLE COLUMN: РЕЕСТР БОЕВЫХ КОТИКОВ ==================== -->
+<div class="col-span-5 flex flex-col h-full bg-surface-container-low rounded-xl p-space-md shadow-xl border border-outline-variant/30 min-h-0 overflow-hidden">
+<!-- Register Header & Search -->
+<div class="flex items-center justify-between pb-space-xs flex-shrink-0">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[22px]">format_list_bulleted</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Реестр Боевых Котиков</h2>
+</div>
+<div class="flex items-center gap-1 bg-surface-container px-2.5 py-1.5 rounded-lg text-on-surface-variant text-label-sm font-label-sm border border-outline-variant/30">
+<span class="material-symbols-outlined text-[16px] text-outline">search</span>
+<input class="bg-transparent border-none outline-none text-on-surface text-body-sm w-44 placeholder:text-outline/70" placeholder="Поиск по имени котика или роли..." type="text"/>
+</div>
+</div>
+<!-- Table Column Headers -->
+<div class="grid grid-cols-12 px-space-sm py-1.5 bg-surface-container text-outline font-label-sm text-[11px] uppercase tracking-wider rounded-lg mb-1 flex-shrink-0 border border-outline-variant/20">
+<div class="col-span-6 flex items-center gap-1">Игрок / Титул / Класс</div>
+<div class="col-span-3 text-right">Боевая Мощь</div>
+<div class="col-span-2 text-right">Вклад</div>
+<div class="col-span-1 text-center">Опции</div>
+</div>
+<!-- Member Cards List (Exactly 7 dense, visually rich cards filled without empty gaps) -->
+<div class="flex-1 flex flex-col justify-between gap-1.5 min-h-0 overflow-y-auto" id="members-list">
+<!-- Member 1: «Мурр-Оплот» 👑 (Selected) -->
+<div class="member-card cursor-pointer grid grid-cols-12 items-center px-space-sm py-2 rounded-lg bg-surface-container-high/90 border border-primary/50 shadow-[0_0_14px_rgba(217,155,38,0.25)] transition-all group" data-id="1">
+<div class="col-span-6 flex items-center gap-space-xs min-w-0">
+<div class="relative w-9 h-9 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-highest ring-1 ring-primary/60">
+<img class="w-full h-full object-cover" data-alt="Мурр-Оплот" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCQGyXp4sNMzm1xx0U2k7TQIcQLjht5WVLTwz6ZQI1B1Whrl0TN0vTy7NnRZIm3DcJ9S23WjCMixn6Lh-xUEqPuknwlFH9y5ZTRZwiHBkqdG8DmnOZG9c0k-AQdtQlT9VE-LM23pJW6p3OglDvCibm1VnoVYCtRZvonwU4MXXBHTMFdOigvMeUDZ0ECL5VQ6kcQ4EwyL17GWdW780yXHM2HDKXtUBlhRhib7lJcJA"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-error ring-2 ring-surface" title="В бою на Осаде"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-label-md text-label-md text-primary font-bold truncate">Мурр-Оплот</span>
+<span class="material-symbols-outlined text-primary text-[14px]">crown</span>
+</div>
+<div class="flex items-center gap-1.5 text-[10px]">
+<span class="font-label-sm px-1 rounded bg-primary/20 text-primary-fixed">Глава</span>
+<span class="text-error font-medium flex items-center gap-0.5"><span class="w-1 h-1 rounded-full bg-error animate-ping"></span>В бою на Осаде</span>
+<span class="text-outline">• Танк-Страж</span>
+</div>
+</div>
+</div>
+<div class="col-span-3 text-right">
+<span class="font-stat-numeral text-body-lg text-primary-fixed">62,400</span>
+<span class="block font-label-sm text-[10px] text-outline">БМ</span>
+</div>
+<div class="col-span-2 text-right">
+<span class="font-stat-numeral text-body-md text-secondary-fixed">14,500</span>
+<span class="block font-label-sm text-[10px] text-outline">pts</span>
+</div>
+<div class="col-span-1 flex justify-center">
+<button class="w-6 h-6 rounded flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container"><span class="material-symbols-outlined text-[16px]">more_vert</span></button>
+</div>
+</div>
+<!-- Member 2: «Хранитель Очага» (ВЫ) 🎖️ -->
+<div class="member-card cursor-pointer grid grid-cols-12 items-center px-space-sm py-2 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/20 transition-all" data-id="2">
+<div class="col-span-6 flex items-center gap-space-xs min-w-0">
+<div class="relative w-9 h-9 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-highest ring-1 ring-secondary/50">
+<img class="w-full h-full object-cover" data-alt="Хранитель Очага" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVhHTyaMzZNetI6udvSkGt9ZWNndXcqLDRA3PUYKVUkMwPmNXuezEWyGrBhR-h0urdGQ8f5cwsuP-lerF3POxEsKTiKZuh1uONZ_0tBAbkAYNLRHuEiAKUkbLedimLfSxO04WfA9KKtmHRc0RhErmgZJ4sBzX7TVBD0IaAf-SRlbYi5aPctwChMEeQspJ2JPIx_qHC9QSNv1vbn2wRKA8jNR7YK16SYFwiF_JFmA"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-secondary ring-2 ring-surface" title="Онлайн"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1">
+<span class="font-label-md text-label-md text-on-surface truncate font-semibold">Хранитель Очага</span>
+<span class="font-label-sm text-[9px] px-1 rounded bg-secondary-container/60 text-secondary-fixed font-bold">ВЫ</span>
+</div>
+<div class="flex items-center gap-1.5 text-[10px]">
+<span class="font-label-sm px-1 rounded bg-primary-container/20 text-primary-fixed-dim">Офицер</span>
+<span class="text-secondary font-medium">Онлайн</span>
+<span class="text-outline">• Мастер Клинка</span>
+</div>
+</div>
+</div>
+<div class="col-span-3 text-right">
+<span class="font-stat-numeral text-body-lg text-on-surface">54,200</span>
+<span class="block font-label-sm text-[10px] text-outline">БМ</span>
+</div>
+<div class="col-span-2 text-right">
+<span class="font-stat-numeral text-body-md text-secondary">11,200</span>
+<span class="block font-label-sm text-[10px] text-outline">pts</span>
+</div>
+<div class="col-span-1 flex justify-center">
+<button class="w-6 h-6 rounded flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container-high"><span class="material-symbols-outlined text-[16px]">more_vert</span></button>
+</div>
+</div>
+<!-- Member 3: «Барсик-Громовержец» -->
+<div class="member-card cursor-pointer grid grid-cols-12 items-center px-space-sm py-2 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/20 transition-all" data-id="3">
+<div class="col-span-6 flex items-center gap-space-xs min-w-0">
+<div class="relative w-9 h-9 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-highest">
+<img class="w-full h-full object-cover" data-alt="Барсик-Громовержец" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2BLiNgOGNXvOnqPZReBo0rhQCzGXy1wTLsnzwG6ePVXkFCTY6UQfSSFtrtSABTQeTOi0Yq_uNN1HrDpS6R0eKBICTWSn1Jflphv2zm_r2ShRUiM_KIHOk048fkaXuL8U8I7nNYjcieTC-RAjJ0vtyinuLoPpjjjJChoOKjG7wCIGDuH2uhKcXJ0iT4eKTt-8kaVT00QCWPjGcSsBuad0_9r0c2HJYGbJSCBJsUA"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-secondary ring-2 ring-surface" title="Онлайн"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate font-semibold">Барсик-Громовержец</span>
+<div class="flex items-center gap-1.5 text-[10px]">
+<span class="font-label-sm px-1 rounded bg-primary-container/20 text-primary-fixed-dim">Офицер</span>
+<span class="text-secondary font-medium">Онлайн</span>
+<span class="text-outline">• Молниевый Танк</span>
+</div>
+</div>
+</div>
+<div class="col-span-3 text-right">
+<span class="font-stat-numeral text-body-lg text-on-surface">51,800</span>
+<span class="block font-label-sm text-[10px] text-outline">БМ</span>
+</div>
+<div class="col-span-2 text-right">
+<span class="font-stat-numeral text-body-md text-on-surface-variant">9,800</span>
+<span class="block font-label-sm text-[10px] text-outline">pts</span>
+</div>
+<div class="col-span-1 flex justify-center">
+<button class="w-6 h-6 rounded flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container-high"><span class="material-symbols-outlined text-[16px]">more_vert</span></button>
+</div>
+</div>
+<!-- Member 4: «Рыжик-Огнегрив» -->
+<div class="member-card cursor-pointer grid grid-cols-12 items-center px-space-sm py-2 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/20 transition-all" data-id="4">
+<div class="col-span-6 flex items-center gap-space-xs min-w-0">
+<div class="relative w-9 h-9 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-highest">
+<img class="w-full h-full object-cover" data-alt="Рыжик-Огнегрив" src="https://lh3.googleusercontent.com/aida-public/AB6AXuANz7H0ze4laDNFtDCU8rHs4dPC3nrQXv2eT1mY4DWOFMudtJ3qsSCLduqwwfYQ1OP48gigW7mUJnHnqu2f9NbZkrDfc6_1hP8jPcqwkSsL16vFYXSm4nNbeD0KqnqMxuQmqhNWPALZxSUXKlqnYIp6HDCj0BsYbCbAiKNd3b_a-xPe9dGsW3gWXRAVBo-z7xeX2yf3Q-U-kbIbUepRy_1lf2aY0MXa4X3xxD8ouQ"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-outline ring-2 ring-surface" title="15м назад"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate font-semibold">Рыжик-Огнегрив</span>
+<div class="flex items-center gap-1.5 text-[10px]">
+<span class="font-label-sm px-1 rounded bg-surface-container-highest text-secondary-fixed">Ветеран</span>
+<span class="text-outline font-medium">15м назад</span>
+<span class="text-outline">• Огненный Рыцарь</span>
+</div>
+</div>
+</div>
+<div class="col-span-3 text-right">
+<span class="font-stat-numeral text-body-lg text-on-surface">49,600</span>
+<span class="block font-label-sm text-[10px] text-outline">БМ</span>
+</div>
+<div class="col-span-2 text-right">
+<span class="font-stat-numeral text-body-md text-on-surface-variant">8,400</span>
+<span class="block font-label-sm text-[10px] text-outline">pts</span>
+</div>
+<div class="col-span-1 flex justify-center">
+<button class="w-6 h-6 rounded flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container-high"><span class="material-symbols-outlined text-[16px]">more_vert</span></button>
+</div>
+</div>
+<!-- Member 5: «Мурка-Речная» -->
+<div class="member-card cursor-pointer grid grid-cols-12 items-center px-space-sm py-2 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/20 transition-all" data-id="5">
+<div class="col-span-6 flex items-center gap-space-xs min-w-0">
+<div class="relative w-9 h-9 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-highest">
+<img class="w-full h-full object-cover" data-alt="Мурка-Речная" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6VIkebFfN_FMSJSlEvhOf8YrmlhEzQMsPDZoYUJlKzYBB0tMcRT0wT2DlGrWi9g2Fn6s-Ckvt2bmACFJwSa0s-T6tEaka0GsYkEPeYlxSlGUWnieZo775BMPod69CainhRUFB0_riCdc__eZ4Jt5NwozsOJtWiA3ZVOuS3eL4MdAYhtbW_h5WBALxvwCscOpXf_G6iOVjJAAy7yTjCM0_5x58gpHng5tuvxUPOA"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-tertiary-container ring-2 ring-surface" title="В подземелье"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate font-semibold">Мурка-Речная</span>
+<div class="flex items-center gap-1.5 text-[10px]">
+<span class="font-label-sm px-1 rounded bg-surface-container-highest text-secondary-fixed">Ветеран</span>
+<span class="text-tertiary font-medium">В подземелье</span>
+<span class="text-outline">• Водная Жрица</span>
+</div>
+</div>
+</div>
+<div class="col-span-3 text-right">
+<span class="font-stat-numeral text-body-lg text-on-surface">48,900</span>
+<span class="block font-label-sm text-[10px] text-outline">БМ</span>
+</div>
+<div class="col-span-2 text-right">
+<span class="font-stat-numeral text-body-md text-on-surface-variant">7,950</span>
+<span class="block font-label-sm text-[10px] text-outline">pts</span>
+</div>
+<div class="col-span-1 flex justify-center">
+<button class="w-6 h-6 rounded flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container-high"><span class="material-symbols-outlined text-[16px]">more_vert</span></button>
+</div>
+</div>
+<!-- Member 6: «Теневой Коготь» -->
+<div class="member-card cursor-pointer grid grid-cols-12 items-center px-space-sm py-2 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/20 transition-all" data-id="6">
+<div class="col-span-6 flex items-center gap-space-xs min-w-0">
+<div class="relative w-9 h-9 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-highest">
+<img class="w-full h-full object-cover" data-alt="Теневой Коготь" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXUZ8LUPWS0YyOTcYRJBKdSZoPt8KM-C4-5_hvYWAuvS7JTlJQLZeylfybNLImqH2xKWaLwi2GLnpvxzLWyuoMtAQBIEhr0gqi86i1Opp4PiNy0EidPvkQK6v94IHFBT7--E0H1d9TK6F2pk2S29aSMDW-twRVXn4iHA_soLBRwxuI14EDNtkYq6dxK9fb6D27tDnHbIj6ylg29kvv5_cGFqaFEWCz5i2XC4lYTw"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-secondary ring-2 ring-surface" title="Онлайн"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate font-semibold">Теневой Коготь</span>
+<div class="flex items-center gap-1.5 text-[10px]">
+<span class="font-label-sm px-1 rounded bg-surface-container-highest text-outline">Боец</span>
+<span class="text-secondary font-medium">Онлайн</span>
+<span class="text-outline">• Ассасин Тени</span>
+</div>
+</div>
+</div>
+<div class="col-span-3 text-right">
+<span class="font-stat-numeral text-body-lg text-on-surface">45,200</span>
+<span class="block font-label-sm text-[10px] text-outline">БМ</span>
+</div>
+<div class="col-span-2 text-right">
+<span class="font-stat-numeral text-body-md text-on-surface-variant">5,400</span>
+<span class="block font-label-sm text-[10px] text-outline">pts</span>
+</div>
+<div class="col-span-1 flex justify-center">
+<button class="w-6 h-6 rounded flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container-high"><span class="material-symbols-outlined text-[16px]">more_vert</span></button>
+</div>
+</div>
+<!-- Member 7: «Звездочёт» -->
+<div class="member-card cursor-pointer grid grid-cols-12 items-center px-space-sm py-2 rounded-lg bg-surface-container hover:bg-surface-container-high border border-outline-variant/20 transition-all" data-id="7">
+<div class="col-span-6 flex items-center gap-space-xs min-w-0">
+<div class="relative w-9 h-9 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-highest">
+<img class="w-full h-full object-cover" data-alt="Звездочёт" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTtkhzbWD7xkmao3_wrWQ95W1-2nd6n3fo15aOHo7awjJbR4Y9F0KdHA5hav5gfFOCwMfLTpMAdKcLVgyeWgQzS4Gvyqd0V-a10MaPtaPieMS6IPcfhK7nkwNAyFSJ5AumNJ6tNc3X65AJmoJ150Ki24y2KaFZycutM8IfNfrdUwpbxf4Jq_FhCQpp1jlcLNIG3itCYQjxZg628J1YnCompIWi-W6Zq2TX2BFxVQ"/>
+<span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-outline ring-2 ring-surface" title="2ч назад"></span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-md text-label-md text-on-surface truncate font-semibold">Звездочёт</span>
+<div class="flex items-center gap-1.5 text-[10px]">
+<span class="font-label-sm px-1 rounded bg-surface-container-highest text-outline">Новобранец</span>
+<span class="text-outline font-medium">2ч назад</span>
+<span class="text-outline">• Астро-Маг</span>
+</div>
+</div>
+</div>
+<div class="col-span-3 text-right">
+<span class="font-stat-numeral text-body-lg text-on-surface">42,100</span>
+<span class="block font-label-sm text-[10px] text-outline">БМ</span>
+</div>
+<div class="col-span-2 text-right">
+<span class="font-stat-numeral text-body-md text-on-surface-variant">3,100</span>
+<span class="block font-label-sm text-[10px] text-outline">pts</span>
+</div>
+<div class="col-span-1 flex justify-center">
+<button class="w-6 h-6 rounded flex items-center justify-center text-outline hover:text-on-surface hover:bg-surface-container-high"><span class="material-symbols-outlined text-[16px]">more_vert</span></button>
+</div>
+</div>
+</div>
+<!-- Table Footer Strip -->
+<div class="pt-space-xs mt-1 flex items-center justify-between font-label-sm text-label-sm text-outline-variant flex-shrink-0 border-t border-outline-variant/30">
+<span class="text-on-surface-variant">Показано 7 из 28 воинов клана</span>
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[14px]">schedule</span>
+<span class="text-primary font-bold">Осада доступна через 04:12:00</span>
+</div>
+</div>
+</div>
+<!-- ==================== RIGHT COLUMN: ДОСЬЕ ВЫБРАННОГО ВОИНА И ДЕКА ==================== -->
+<div class="col-span-4 flex flex-col justify-between h-full bg-surface-container-low rounded-xl p-space-md shadow-xl border border-outline-variant/30 min-h-0 overflow-hidden relative">
+<div class="absolute -top-10 -right-10 w-48 h-48 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+<!-- Section Header -->
+<div class="flex items-center justify-between flex-shrink-0">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[20px]">badge</span>
+<span class="font-headline-md text-headline-md text-on-surface">Досье Воина</span>
+</div>
+<div class="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-error/20 text-error font-label-sm text-label-sm border border-error/30 font-bold">
+<span class="w-1.5 h-1.5 rounded-full bg-error animate-ping"></span>
+<span>В бою на Осаде</span>
+</div>
+</div>
+<!-- Hero Portrait & Identity Card -->
+<div class="relative bg-surface-container rounded-xl p-space-sm flex gap-space-md items-center shadow-lg border border-outline-variant/30 mt-1 flex-shrink-0">
+<div class="relative w-20 h-20 rounded-xl overflow-hidden shadow-md flex-shrink-0 bg-surface-container-highest ring-2 ring-primary/60">
+<img class="w-full h-full object-cover" data-alt="Мурр-Оплот Портрет" src="https://lh3.googleusercontent.com/aida/AEtjO1Xj3QyMQfzIaHMWcWZP1fcHYOskoGhebcXCIcY7yGUNRaxbms3p8Jrgm8wLKaBDQhHLlHdzf0jweMAbNMliKVznmWVnrn5OPCsqK4UTYWLxs8RwJ-PRkcnYA-Vlso7ubZQGEHrSuXAjSraPNAGZ5bZddWXKwoYzj8xsFZxlf3Thx9saMJKpO5YfWA1KkHxhoMYNv3IhSWNlzbee8actmKb8PkkXaFrltZsfyJC-86o"/>
+<div class="absolute top-1 left-1 bg-surface-container-lowest/90 px-1 py-0.2 rounded text-[9px] font-stat-numeral text-primary">Ур. 60</div>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-1.5">
+<span class="font-headline-md text-headline-md text-primary truncate font-bold">«Мурр-Оплот»</span>
+<span class="material-symbols-outlined text-primary text-[18px]">crown</span>
+</div>
+<div class="flex items-center gap-1.5 mt-0.5 flex-wrap">
+<span class="px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm font-bold">Магистр Клана</span>
+<span class="px-2 py-0.5 rounded bg-surface-container-highest text-secondary-fixed font-label-sm text-label-sm flex items-center gap-0.5 border border-outline-variant/30">
+<span class="material-symbols-outlined text-[13px] text-secondary">shield</span> Земля / Сталь
+              </span>
+</div>
+<div class="flex items-center gap-2 mt-1.5 text-on-surface-variant font-label-sm text-label-sm">
+<span>Суммарный БМ: <strong class="text-primary-fixed font-stat-numeral text-body-lg">62,400</strong></span>
+</div>
+</div>
+</div>
+<!-- Primary 3v3 Combat Trio (Триумвират героя) -->
+<div class="flex flex-col gap-1.5 my-1 flex-shrink-0">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-[11px] text-outline uppercase tracking-wider font-semibold">Основная Боевая Тройка</span>
+<span class="font-label-sm text-[11px] text-primary font-bold">Синергия: «Земляной Вал +3»</span>
+</div>
+<div class="grid grid-cols-3 gap-space-xs">
+<!-- Cat 1: Камнелап -->
+<div class="bg-surface-container p-2 rounded-lg flex flex-col items-center text-center shadow-inner border border-outline-variant/20 relative group">
+<div class="w-12 h-12 rounded-lg overflow-hidden bg-surface-container-highest mb-1 ring-1 ring-outline/40">
+<img class="w-full h-full object-cover" data-alt="Камнелап" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnZS-6mKwZo6bvZRWia5s-Pq3_wproh43-_3knWbfnfBus_VXsNlKk6VSlDbzR4fnIS49gmQfWWSwBMvWVoAUngWd6MCmNdizIH8Cb-87buxrdBzmbzgg6KpWA7t_PnsVPkZ7-KVnOSUff1lZCEb2AvxkDiN_NPbOnc7Ga-aqhAZISzvdAT9VUJigH6aQ4soQ_JG9csBtJzvPW720AqoLr0O5vA-OmARBVFKmjnw"/>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface truncate w-full font-bold">Камнелап</span>
+<div class="flex items-center justify-between w-full px-0.5 text-[10px] text-outline mt-0.5">
+<span class="text-primary font-bold">Ур. 60</span>
+<span class="text-secondary font-semibold">Земля</span>
+</div>
+</div>
+<!-- Cat 2: Светохвост -->
+<div class="bg-surface-container p-2 rounded-lg flex flex-col items-center text-center shadow-inner border border-outline-variant/20 relative group">
+<div class="w-12 h-12 rounded-lg overflow-hidden bg-surface-container-highest mb-1 ring-1 ring-outline/40">
+<img class="w-full h-full object-cover" data-alt="Светохвост" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAf6fbAOmnuPBH-ial2CvYR8PPgWd2DTJVfPwVeISut-C3d0weYlRPRJC9MzqxZlrfX8XSHr83G4SJPg1tjv33S1fYgSwgAO0Zyey1v_EaiLTeaM8-36DBfxiDob2wbhktMgmDW24B_pMa9-2umfL1umJd9fzfxrVW2XDOr64h4fWE8hDd8HqAt727WFJ-SwSrjedFsX3dAyko3Wi9CClMlGDCJNT5SH_uvIYHn2A"/>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface truncate w-full font-bold">Светохвост</span>
+<div class="flex items-center justify-between w-full px-0.5 text-[10px] text-outline mt-0.5">
+<span class="text-primary font-bold">Ур. 58</span>
+<span class="text-primary-fixed font-semibold">Свет</span>
+</div>
+</div>
+<!-- Cat 3: Когтевей -->
+<div class="bg-surface-container p-2 rounded-lg flex flex-col items-center text-center shadow-inner border border-outline-variant/20 relative group">
+<div class="w-12 h-12 rounded-lg overflow-hidden bg-surface-container-highest mb-1 ring-1 ring-outline/40">
+<img class="w-full h-full object-cover" data-alt="Когтевей" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAvofEQQ5DeqxFlJII-55vCSQWO0r9N2rDRRH6YtE39oZicTuI_C_JTs-VkDvYQwGHAbsMak0cVGinvZaVC335Hgr1XK6weqPUBakiPpNqnhrh44nomjQd-d2RGEVQqikUxyLos9ksmQailvRWZuV4W1zU_zmgjxZjR7Sh-64zgiEnTKD9Q5a0CzpP8SsBtNrO0Iy3eNnWhYxrQsoiOOM6f6OfulYCWiFwKzRsvzQ"/>
+</div>
+<span class="font-label-sm text-label-sm text-on-surface truncate w-full font-bold">Когтевей</span>
+<div class="flex items-center justify-between w-full px-0.5 text-[10px] text-outline mt-0.5">
+<span class="text-primary font-bold">Ур. 59</span>
+<span class="text-tertiary font-semibold">Огонь</span>
+</div>
+</div>
+</div>
+<!-- Synergy Note -->
+<div class="text-[10px] text-secondary bg-secondary-container/20 px-2 py-1 rounded border border-secondary/30 flex items-center justify-between">
+<span>🛡️ Бонус трио: +18% защиты всему отряду</span>
+<span class="text-primary font-bold">Ранг III</span>
+</div>
+</div>
+<!-- Weekly Contribution Breakdown -->
+<div class="bg-surface-container p-space-sm rounded-xl flex flex-col gap-1.5 shadow-sm border border-outline-variant/30 flex-shrink-0">
+<div class="flex justify-between items-center">
+<span class="font-label-sm text-[11px] text-outline uppercase tracking-wider font-semibold">Вклад за текущую неделю</span>
+<span class="font-label-sm text-[11px] text-secondary font-bold">Топ-1 вклада</span>
+</div>
+<div class="grid grid-cols-3 gap-space-xs text-center">
+<div class="bg-surface-container-high p-1.5 rounded-lg flex flex-col border border-outline-variant/20">
+<span class="font-label-sm text-[10px] text-outline">Осада Башни</span>
+<span class="font-stat-numeral text-stat-numeral text-primary mt-0.5">4,200</span>
+<span class="text-[9px] text-on-surface-variant font-label-sm">очков славы</span>
+</div>
+<div class="bg-surface-container-high p-1.5 rounded-lg flex flex-col border border-outline-variant/20">
+<span class="font-label-sm text-[10px] text-outline">Казна</span>
+<span class="font-stat-numeral text-stat-numeral text-primary-fixed mt-0.5">25.0k</span>
+<span class="text-[9px] text-on-surface-variant font-label-sm">золота внес</span>
+</div>
+<div class="bg-surface-container-high p-1.5 rounded-lg flex flex-col border border-outline-variant/20">
+<span class="font-label-sm text-[10px] text-outline">Рейды</span>
+<span class="font-stat-numeral text-stat-numeral text-secondary mt-0.5">12</span>
+<span class="text-[9px] text-on-surface-variant font-label-sm">походов</span>
+</div>
+</div>
+</div>
+<!-- Officer Tactical Action Buttons -->
+<div class="flex flex-col gap-1.5 flex-shrink-0 pt-1">
+<div class="grid grid-cols-2 gap-1.5">
+<button class="py-2 px-space-xs bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm rounded-lg transition-all flex items-center justify-center gap-1 shadow-sm border border-outline-variant/30">
+<span class="material-symbols-outlined text-primary text-[16px]">military_tech</span>
+<span>Повысить ранг</span>
+</button>
+<button class="py-2 px-space-xs bg-surface-container hover:bg-surface-container-high text-on-surface font-label-sm text-label-sm rounded-lg transition-all flex items-center justify-center gap-1 shadow-sm border border-outline-variant/30">
+<span class="material-symbols-outlined text-primary-fixed-dim text-[16px]">workspace_premium</span>
+<span>Передать лидерство</span>
+</button>
+</div>
+<div class="grid grid-cols-2 gap-1.5">
+<button class="py-2 px-space-xs bg-surface-container hover:bg-error-container/30 text-error font-label-sm text-label-sm rounded-lg transition-all flex items-center justify-center gap-1 shadow-sm border border-outline-variant/30">
+<span class="material-symbols-outlined text-error text-[16px]">person_remove</span>
+<span>Исключить из клана</span>
+</button>
+<button class="py-2 px-space-xs bg-primary hover:bg-primary-container text-on-primary font-label-md text-label-md rounded-lg shadow-[0_4px_12px_rgba(217,155,38,0.3)] transition-all flex items-center justify-center gap-1 font-bold">
+<span class="material-symbols-outlined text-[16px]">mail</span>
+<span>Написать ЛС</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- ==================== FOOTER CHROME ==================== -->
+<footer class="w-full bg-surface-container-lowest py-2 border-t border-outline-variant/30 flex-shrink-0">
+<div class="w-full px-margin-tablet flex flex-col md:flex-row items-center justify-between gap-space-sm text-on-surface-variant">
+<div class="flex items-center gap-space-lg flex-wrap">
+<div class="flex items-center gap-space-xs">
+<kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm">ESC</kbd>
+<span class="font-body-sm text-body-sm">Меню</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm">TAB</kbd>
+<span class="font-body-sm text-body-sm">Чат</span>
+</div>
+<div class="flex items-center gap-space-xs">
+<kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm">ПРОБЕЛ</kbd>
+<span class="font-body-sm text-body-sm">Действие</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md font-body-sm text-body-sm">
+<span>Святилище: Каминный Зал #03</span>
+<span class="text-outline-variant">•</span>
+<span class="text-primary-fixed">v0.9.4 Early Access</span>
+</div>
+</div>
+</footer>
+<script>
+    // Member selection toggle
+    document.querySelectorAll('.member-card').forEach(row => {
+      row.addEventListener('click', () => {
+        document.querySelectorAll('.member-card').forEach(c => {
+          c.classList.remove('bg-surface-container-high/90', 'border-primary/50', 'shadow-[0_0_14px_rgba(217,155,38,0.25)]');
+          c.classList.add('bg-surface-container', 'border-outline-variant/20');
+        });
+        row.classList.remove('bg-surface-container', 'border-outline-variant/20');
+        row.classList.add('bg-surface-container-high/90', 'border-primary/50', 'shadow-[0_0_14px_rgba(217,155,38,0.25)]');
+      });
+    });
+
+    // Rank filters active toggle
+    document.querySelectorAll('#rank-filters button').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('#rank-filters button').forEach(b => {
+          b.className = 'bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high font-label-sm text-label-sm py-1.5 px-space-xs rounded-md transition-all flex items-center justify-center gap-1 border border-outline-variant/30';
+        });
+        btn.className = 'bg-primary-container text-on-primary-container font-label-sm text-label-sm py-1.5 px-space-xs rounded-md shadow-sm transition-all flex items-center justify-center gap-1 font-bold';
+      });
+    });
+  </script>
+</body></html>

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Static smoke for Stitch Web HUD navigation graph (packs 0268/64d5/e608/4da7).
+ * Static smoke for Stitch Web HUD navigation graph (packs 0268/64d5/e608/4da7/18c7).
  * Usage: node client/web-hud/scripts/verify-nav.mjs [baseUrl]
  * HTTP checks skipped when HUD is not running (assignment default).
  */
@@ -127,6 +127,8 @@ const STITCH_SRC = [
   "boss_raid.html",
   "pvp.html",
   "guild_battle.html",
+  "practice.html",
+  "guild.html",
 ];
 
 const checks = [];
@@ -166,7 +168,9 @@ ok(
   fs.existsSync(path.join(PUBLIC, "stitch-ref", "0268", "home.png")) &&
     fs.existsSync(path.join(PUBLIC, "stitch-ref", "64d5", "heroes.png")) &&
     fs.existsSync(path.join(PUBLIC, "stitch-ref", "e608", "yard.png")) &&
-    fs.existsSync(path.join(PUBLIC, "stitch-ref", "4da7", "pvp.png")),
+    fs.existsSync(path.join(PUBLIC, "stitch-ref", "4da7", "pvp.png")) &&
+    fs.existsSync(path.join(PUBLIC, "stitch-ref", "18c7", "practice.png")) &&
+    fs.existsSync(path.join(PUBLIC, "stitch-ref", "18c7", "guild.png")),
 );
 ok("appNav primary+subtabs shell", html.includes('id="appNav"') && html.includes('id="appSubTabs"'));
 ok(
@@ -245,6 +249,28 @@ ok(
   "result_win is victory",
   /Побед/i.test(fs.readFileSync(path.join(DESIGN, "stitch-src", "result_win.html"), "utf8")),
 );
+ok(
+  "practice is dojo fight",
+  /Тренировка|Додзё|Спарринг-Манекен/i.test(
+    fs.readFileSync(path.join(DESIGN, "stitch-src", "practice.html"), "utf8"),
+  ),
+);
+ok(
+  "guild is guild hall",
+  /Зал Гильдии|Орден|Гильди/i.test(
+    fs.readFileSync(path.join(DESIGN, "stitch-src", "guild.html"), "utf8"),
+  ),
+);
+ok(
+  "painted practice not placeholder",
+  html.includes('data-stitch="practice"') &&
+    !/<section[^>]*data-stitch="practice"[^>]*data-placeholder/.test(html),
+);
+ok(
+  "painted guild not placeholder",
+  html.includes('data-stitch="guild"') &&
+    !/<section[^>]*data-stitch="guild"[^>]*data-placeholder/.test(html),
+);
 
 const transitions = [
   ["login→hub", 'navigate("hub")'],
@@ -260,6 +286,10 @@ const transitions = [
   ["soft pvp-arena path", '"pvp-arena": "pvp"'],
   ["soft guild-war path", '"guild-war": "guild_battle"'],
   ["soft dungeons-and-raids", '"dungeons-and-raids": "boss_dungeon"'],
+  ["soft trenirovka-dodzyo→practice", '"trenirovka-dodzyo": "practice"'],
+  ["soft zal-gildii→guild", '"zal-gildii": "guild"'],
+  ["soft вступить в рейд", '["вступить в рейд", () => navigate("boss_raid")]'],
+  ["soft остановить тест", '["остановить тест", () => navigate("hub")]'],
   ["home route", 'navigate("home")'],
   ["gear route", 'navigate("gear")'],
   ["heroes route", 'navigate("heroes")'],
@@ -280,10 +310,11 @@ for (const [name, needle] of transitions) {
 }
 
 // Placeholders present for still-missing IA forms
-for (const id of ["practice", "tavern", "shop", "equip_cards", "result_lose"]) {
+for (const id of ["tavern", "shop", "equip_cards", "result_lose"]) {
   ok(
     `placeholder host ${id}`,
-    html.includes(`data-stitch="${id}"`) && html.includes(`data-placeholder="1"`),
+    html.includes(`data-stitch="${id}"`) &&
+      new RegExp(`data-stitch="${id}"[^>]*data-placeholder="1"`).test(html),
   );
 }
 

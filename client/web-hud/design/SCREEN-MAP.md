@@ -1,10 +1,11 @@
-# Stitch screen map — packs 0268 + 64d5 + e608 + 4da7
+# Stitch screen map — packs 0268 + 64d5 + e608 + 4da7 + 18c7
 
 Sources:
 - `media/stitch-new-0268/stitch_mythfel_mobile_game_ui_0268.zip`
 - `media/stitch-new-0268/stitch_mythfel_mobile_game_ui__1__64d5.zip`
 - `media/stitch-battles-2/stitch_mythfel_mobile_game_ui__2__e608.zip`
 - `media/stitch-battles-2/stitch_mythfel_mobile_game_ui__3__4da7.zip`
+- `media/stitch-battles-3/stitch_mythfel_mobile_game_ui__5__18c7.zip`
 
 DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 
@@ -32,6 +33,8 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | `boss_raid` | `boss_raid.html` | 4da7 `12` | Рейд / легион 12 start |
 | `pvp` | `pvp.html` | 4da7 `pvp` | PvP Арена start · подбор |
 | `guild_battle` | `guild_battle.html` | 4da7 root | Война гильдий lobby / башни |
+| `practice` | `practice.html` | 18c7 `3v3_hud` | Тренировка **fight** (додзё 3v3 vs манекены); start/win/lose ещё нет |
+| `guild` | `guild.html` | 18c7 `_1` | Зал гильдии (главная) |
 
 ## Art-only (not separate routes)
 
@@ -51,12 +54,14 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | Arena / victory hall / poster BGs | `stitch-ref/e608/arena_*.png`, `victory_hall.png`, `battle_poster.png` |
 | Dungeon / raid / pvp / guild lobby | `stitch-ref/4da7/*.png` |
 | Guild fight HTML+PNG | `stitch-ref/4da7/guild_fight.*` (GvG fight art; live fight uses shared `battle`) |
+| Guild members / tech / treasury | `stitch-ref/18c7/guild_{members,tech,treasury}.{html,png}` (+ art PNGs) |
+| Practice fight screenshot | `stitch-ref/18c7/practice.png` |
 
 ## Placeholders (IA route, no painted mock yet)
 
-`practice` (start/fight/lose), `result_lose`, `shop`, `market`, `tavern` (milk bar ≠ login), `pass`, `soon_clan`, `equip_cards`, `auction`, `guild` (hall), `chat_*`, `rating_*`.
+`result_lose`, `shop`, `market`, `tavern` (milk bar ≠ login), `pass`, `soon_clan`, `equip_cards`, `auction`, `chat_*`, `rating_*`.
 
-Per-mode fight/win variants beyond shared `battle` / `result_win` — still gap (brief wants start+fight+win/lose per mode).
+§7 gaps still open: practice **start / win / lose**; shared `result_lose`; per-mode fight/win for Mythmir / PvP / dungeon / raid / GvG (only practice fight painted in 18c7).
 
 ## Nav prefs (2026-11-05)
 

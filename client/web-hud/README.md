@@ -2,7 +2,7 @@
 
 Тонкий браузерный клиент против `battle/cmd/devapi` + LiveOps CDN stub.
 
-**UI:** Stitch packs **0268 + 64d5 + e608 + 4da7** (Дом Хранителя / персонаж / коллекции / сеты / крафт / питомник / кодекс / ферма + login/hub + **бои**: Мифмир / строй / fight / win / данжи / рейд / PvP / GvG lobby). Остальные IA-маршруты — placeholder hosts. Formation — **inline** (не вкладка Бои). Home без порталов (chrome `#appNav`).
+**UI:** Stitch packs **0268 + 64d5 + e608 + 4da7 + 18c7** (Дом Хранителя / персонаж / коллекции / сеты / крафт / питомник / кодекс / ферма + login/hub + **бои**: Мифмир / строй / fight / win / данжи / рейд / PvP / GvG lobby / **practice fight** / **guild hall**). Остальные IA-маршруты — placeholder hosts. Formation — **inline** (не вкладка Бои). Home без порталов (chrome `#appNav`).
 
 **Layout:** landscape; same form size (16:9 `#app` stage); blocks filled; single flush level (`.mythfel-form`).
 
@@ -32,4 +32,4 @@ npm run verify-nav      # static graph; HTTP optional if HUD up
 
 - Nakama auth, IAP, гача RNG, real PvP MM
 - Farm / nursery / clan-boss gameplay (Soon)
-- Painted mocks ещё не в паках: practice, result_lose, tavern milk, shop/market/auction, pass, equip_cards, guild hall, chats, ratings; per-mode fight/win variants
+- Painted mocks ещё не в паках: practice start/win/lose, result_lose, tavern milk, shop/market/auction, pass, equip_cards, chats, ratings; per-mode fight/win beyond shared + practice fight

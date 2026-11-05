@@ -111,6 +111,8 @@ const SCREEN_FALLBACKS = {
   "boss_raid.html": ["/stitch-ref/4da7/boss_raid.png", "/stitch-ref/e608/battle_poster.png", "/stitch-ref/64d5/cat_portrait.png"],
   "pvp.html": ["/stitch-ref/4da7/pvp.png", "/stitch-ref/e608/arena_dojo.png", "/stitch-ref/64d5/cat_portrait.png"],
   "guild_battle.html": ["/stitch-ref/4da7/guild_battle.png", "/stitch-ref/4da7/guild_fight.png", "/stitch-ref/64d5/cat_portrait.png"],
+  "practice.html": ["/stitch-ref/18c7/practice.png", "/stitch-ref/e608/arena_dojo.png", "/stitch-ref/64d5/cat_portrait.png"],
+  "guild.html": ["/stitch-ref/18c7/guild.png", "/stitch-ref/18c7/guild_interior_art.png", "/stitch-ref/64d5/cat_portrait.png"],
 };
 
 function vendorEphemeral() {
@@ -166,7 +168,7 @@ fs.writeFileSync(
   JSON.stringify(
     {
       generatedAt: new Date().toISOString(),
-      packs: ["0268", "64d5", "e608", "4da7"],
+      packs: ["0268", "64d5", "e608", "4da7", "18c7"],
       mappings: Object.fromEntries(urlMap),
       publicCount: publicUrls.length,
       ephemeralCount: ephemeralUrls.length,
