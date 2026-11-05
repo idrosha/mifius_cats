@@ -1,7 +1,7 @@
 /**
- * Mythfel Web HUD — battle/devapi + LiveOps wire logic + Stitch packs 0268/64d5/e608/4da7.
+ * Mythfel Web HUD — battle/devapi + LiveOps wire logic + Stitch packs 0268/64d5/e608/4da7/18c7.
  * Formation is inline (no Бои subtab). Home = cat + equip + inventory (no portals).
- * No combat authority on client (§3.6 / §8.2).
+ * Pack 18c7: practice fight + guild hall. No combat authority on client (§3.6 / §8.2).
  */
 
 const STARTERS = [
@@ -86,6 +86,18 @@ const PATH_TO_TAB = {
   "тренировочный-лагерь": "practice",
   "training-dojo": "practice",
   trenirovka: "practice",
+  "trenirovka-dodzyo": "practice",
+  "zal-gildii": "guild",
+  "uchastniki-i-sostav": "guild",
+  "razvitie-i-tehnologii": "guild",
+  "kazna-i-zadaniya": "guild",
+  "mifmir-pve": "yard",
+  glavnaya: "hub",
+  "glavnyj-hab": "hub",
+  "kotiki-otryad": "collection",
+  "kollektsiya-kart": "collection",
+  "lavka-traktirschika": "shop",
+  "klan-murr": "guild",
   torgovlya: "shop",
   кодекс: "codex",
   "кодекс-мифмира": "codex",
@@ -895,15 +907,20 @@ function softNavigateFromLabel(label) {
     ["выступить легионом", () => navigate("formation")],
     ["штурмовать данж", () => navigate("formation")],
     ["штурмовать башн", () => startGuildBattle()],
+    ["штурмовать врата", () => navigate("guild_battle")],
     ["штурмовать", () => navigate("formation")],
+    ["вступить в рейд", () => navigate("boss_raid")],
     ["в бой", () => navigate("formation")],
+    ["остановить тест", () => navigate("hub")],
     ["следующий узел", () => navigate("yard")],
     ["данж", () => navigate("boss_dungeon")],
     ["подземел", () => navigate("boss_dungeon")],
     ["к рейду", () => navigate("boss_raid")],
+    ["к осаде", () => navigate("guild_battle")],
     ["рейд", () => navigate("boss_raid")],
     ["легион", () => navigate("boss_raid")],
     ["война гильдий", () => navigate("guild_battle")],
+    ["зал гильдии", () => navigate("guild")],
     ["главный хаб", () => navigate("hub")],
     ["мифмир", () => navigate("yard")],
     ["двор", () => navigate("yard")],

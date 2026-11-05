@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="ru"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="web_standard" name="shell-type"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,opsz,wght@0,6..12,400..800;1,6..12,400..800&amp;family=Rubik:ital,wght@0,400..900;1,400..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        overflow: hidden;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "secondary-fixed": "#a4f6a6",
+            "background": "#161310",
+            "surface-container-high": "#2e2926",
+            "on-surface-variant": "#d5c4af",
+            "surface-container-highest": "#393430",
+            "primary-fixed": "#ffdeae",
+            "outline": "#9d8f7b",
+            "on-error-container": "#ffdad6",
+            "surface-variant": "#393430",
+            "on-secondary": "#003910",
+            "secondary-container": "#005b1e",
+            "surface-container": "#231f1c",
+            "on-primary-container": "#523700",
+            "on-tertiary-fixed": "#3f0300",
+            "on-tertiary": "#660700",
+            "surface-tint": "#fdba45",
+            "on-surface": "#eae1db",
+            "error-container": "#93000a",
+            "inverse-on-surface": "#342f2c",
+            "surface-bright": "#3d3835",
+            "on-secondary-fixed-variant": "#00531b",
+            "outline-variant": "#504535",
+            "on-primary-fixed-variant": "#604100",
+            "tertiary-fixed-dim": "#ffb4a6",
+            "primary": "#fdba45",
+            "on-primary-fixed": "#281900",
+            "on-background": "#eae1db",
+            "tertiary-fixed": "#ffdad4",
+            "inverse-surface": "#eae1db",
+            "surface-container-low": "#1f1b18",
+            "tertiary": "#ffb4a6",
+            "on-secondary-fixed": "#002106",
+            "on-primary": "#432c00",
+            "inverse-primary": "#7f5700",
+            "on-tertiary-fixed-variant": "#8d1607",
+            "on-tertiary-container": "#7c0a00",
+            "secondary-fixed-dim": "#89d98c",
+            "surface": "#161310",
+            "surface-container-lowest": "#110d0b",
+            "tertiary-container": "#ff826c",
+            "primary-fixed-dim": "#fdba45",
+            "secondary": "#89d98c",
+            "on-secondary-container": "#82d186",
+            "surface-dim": "#161310",
+            "primary-container": "#d99b26",
+            "error": "#ffb4ab",
+            "on-error": "#690005"
+          },
+          borderRadius: {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          spacing: {
+            "space-lg": "1rem",
+            "margin-tablet": "1.5rem",
+            "space-md": "0.75rem",
+            "gutter-tablet": "1rem",
+            "space-xl": "1.5rem",
+            "space-sm": "0.5rem",
+            "gutter": "0.75rem",
+            "margin": "1rem",
+            "space-xs": "0.25rem"
+          },
+          fontFamily: {
+            "rubik": ["Rubik", "sans-serif"],
+            "nunito": ["Nunito Sans", "sans-serif"]
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-surface font-rubik text-on-surface select-none h-screen flex flex-col justify-between overflow-hidden">
+<!-- TOP HEADER NAVIGATION CHROME (Fixed / Structured) -->
+<header class="w-full z-50 bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.65)] shrink-0 border-b border-outline-variant/30">
+<div class="w-full flex flex-col justify-between px-4 xl:px-6">
+<!-- Main Row -->
+<div class="h-14 flex items-center justify-between gap-4">
+<!-- Logo & Latency -->
+<div class="flex items-center gap-3 shrink-0">
+<div class="flex items-center gap-2">
+<span class="text-primary font-extrabold text-[17px] tracking-wide flex items-center gap-1.5 drop-shadow-[0_2px_8px_rgba(253,186,69,0.35)]">
+<span>🐾</span> МИФИУС: МИФИЧЕСКИЕ КОТИКИ
+            </span>
+<div class="flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-container-high border border-outline-variant/40 text-secondary text-[11px] font-semibold">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>
+<span>24ms</span>
+</div>
+</div>
+</div>
+<!-- Global Nav Tabs -->
+<nav class="hidden lg:flex items-center gap-1 bg-surface-container-low p-1 rounded-xl border border-outline-variant/30">
+<a class="px-3 py-1 rounded-lg text-xs font-semibold text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">Главный Хаб</a>
+<a class="px-3 py-1 rounded-lg text-xs font-semibold text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">Бои</a>
+<a class="px-3 py-1 rounded-lg text-xs font-semibold text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">Торговля</a>
+<a class="px-3.5 py-1 rounded-lg text-xs font-bold bg-primary-container text-on-primary-container shadow-[0_0_12px_rgba(217,155,38,0.5)] transition-all" href="#">Гильдии</a>
+<a class="px-3 py-1 rounded-lg text-xs font-semibold text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">Чаты</a>
+<a class="px-3 py-1 rounded-lg text-xs font-semibold text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">Пасс</a>
+<a class="px-3 py-1 rounded-lg text-xs font-semibold text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors" href="#">Рейтинги</a>
+</nav>
+<!-- Currencies & Profile -->
+<div class="flex items-center gap-3">
+<div class="hidden sm:flex items-center gap-2 bg-surface-container-low px-3 py-1 rounded-xl border border-outline-variant/30">
+<div class="flex items-center gap-1.5 px-1" title="Золото">
+<span class="material-symbols-outlined text-primary text-[17px]">monetization_on</span>
+<span class="text-xs font-bold text-primary-fixed">148,250</span>
+</div>
+<div class="w-px h-3.5 bg-outline-variant/60"></div>
+<div class="flex items-center gap-1.5 px-1" title="Рыбка">
+<span class="material-symbols-outlined text-tertiary text-[17px]">set_meal</span>
+<span class="text-xs font-bold text-tertiary-fixed">420</span>
+</div>
+<div class="w-px h-3.5 bg-outline-variant/60"></div>
+<div class="flex items-center gap-1.5 px-1" title="Энергия">
+<span class="material-symbols-outlined text-secondary text-[17px]">bolt</span>
+<span class="text-xs font-bold text-secondary-fixed">85/90</span>
+</div>
+<div class="w-px h-3.5 bg-outline-variant/60"></div>
+<div class="flex items-center gap-1.5 px-1" title="Самоцветы">
+<span class="material-symbols-outlined text-primary-fixed-dim text-[17px]">diamond</span>
+<span class="text-xs font-bold text-primary-fixed-dim">1,250</span>
+</div>
+</div>
+<!-- User Profile -->
+<div class="flex items-center gap-2 pl-1">
+<div class="flex flex-col text-right">
+<span class="text-xs font-bold text-on-surface leading-tight">Хранитель Очага</span>
+<span class="text-[11px] font-semibold text-primary">Ур. 48</span>
+</div>
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Guild Sub-Navigation Row -->
+<div class="h-10 flex items-center justify-between bg-surface-container px-3 rounded-lg mb-1.5 border border-outline-variant/20">
+<nav class="flex items-center gap-2 overflow-x-auto">
+<a class="px-3 py-1 rounded text-xs font-semibold text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors whitespace-nowrap" href="#">Зал Гильдии (Главная)</a>
+<a class="px-3 py-1 rounded text-xs font-semibold text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors whitespace-nowrap" href="#">Участники и Состав</a>
+<a aria-current="page" class="px-3 py-1 rounded text-xs font-bold bg-primary-container text-on-primary-container shadow-sm whitespace-nowrap" href="#">Развитие и Технологии</a>
+<a class="px-3 py-1 rounded text-xs font-semibold text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors whitespace-nowrap" href="#">Казна и Задания</a>
+</nav>
+<div class="hidden sm:flex items-center gap-1.5 text-on-surface-variant text-xs font-medium">
+<span class="material-symbols-outlined text-[16px] text-primary">shield</span>
+<span>Обитель Муррлин • Топ-12 • <strong class="text-primary-fixed">Ур. 14</strong></span>
+</div>
+</div>
+</div>
+</header>
+<!-- MAIN 16:9 BALANCED WORKSPACE (3 Columns, Dense & Fill Screen) -->
+<main class="w-full flex-1 px-4 xl:px-6 py-2 min-h-0 overflow-hidden">
+<div class="w-full h-full grid grid-cols-12 gap-3 min-h-0">
+<!-- LEFT COLUMN: Altar of Knowledge & Science Branches (3 cols) -->
+<aside class="col-span-3 flex flex-col gap-2.5 h-full min-h-0">
+<!-- Altar of Knowledge Card -->
+<div class="relative bg-surface-container-low border border-outline-variant/30 rounded-xl p-3 shadow-md flex flex-col gap-2 overflow-hidden shrink-0">
+<div class="absolute -right-6 -bottom-6 w-24 h-24 bg-primary/10 rounded-full blur-xl pointer-events-none"></div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2.5">
+<div class="w-9 h-9 rounded-lg bg-surface-container-high border border-outline-variant/30 flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-[20px]" style="font-variation-settings: 'FILL' 1;">auto_stories</span>
+</div>
+<div>
+<span class="text-sm font-bold text-on-surface block leading-tight">Алтарь Знаний</span>
+<span class="text-[11px] font-semibold text-primary">Очаг Муррлин</span>
+</div>
+</div>
+<div class="px-2.5 py-0.5 rounded-full bg-primary-container text-on-primary-container font-extrabold text-xs shadow-sm">
+              Ур. 8
+            </div>
+</div>
+<!-- Progress and Stats -->
+<div class="bg-surface-container-high/70 rounded-lg p-2 flex flex-col gap-1.5 border border-outline-variant/20">
+<div class="flex justify-between items-center text-xs">
+<span class="text-on-surface-variant flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[14px]">history_edu</span>
+                Очки исследований:
+              </span>
+<span class="font-bold text-primary-fixed">1,450 / 2,000</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container-lowest overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary-container to-primary rounded-full" style="width: 72.5%;"></div>
+</div>
+<div class="flex items-center justify-between text-[11px]">
+<span class="flex items-center gap-1 text-secondary font-semibold">
+<span class="material-symbols-outlined text-[13px]">speed</span>
+                +45 очков / час
+              </span>
+<span class="text-primary-fixed-dim font-medium">72.5% емкости</span>
+</div>
+</div>
+</div>
+<!-- 4 Technology Schools Branches -->
+<div class="flex-1 bg-surface-container-low border border-outline-variant/30 rounded-xl p-3 shadow-md flex flex-col gap-2 min-h-0 overflow-hidden">
+<div class="flex items-center justify-between shrink-0 pb-0.5 border-b border-outline-variant/20">
+<span class="text-xs font-bold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[16px]">account_tree</span>
+              Ветви Мудрости
+            </span>
+<span class="text-[11px] text-on-surface-variant font-medium">4 школы</span>
+</div>
+<div class="flex-1 flex flex-col justify-between gap-1.5 overflow-y-auto pr-0.5">
+<!-- Ветвь 1: Боевой Оскал (ACTIVE/SELECTED) -->
+<button class="w-full text-left p-2 rounded-lg bg-surface-container-highest/90 border border-primary/40 transition-all shadow-sm flex flex-col gap-1 group">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[16px]">swords</span>
+<span class="text-xs font-bold text-primary-fixed">Боевой Оскал</span>
+</div>
+<span class="text-[11px] font-extrabold text-primary px-1.5 py-0.2 bg-primary/10 rounded">6/10</span>
+</div>
+<p class="text-[11px] text-on-surface-variant line-clamp-1 font-nunito">Бонусы к Атаке и Криту всех котиков</p>
+<div class="w-full h-1.5 bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 60%;"></div>
+</div>
+</button>
+<!-- Ветвь 2: Несокрушимый Оплот -->
+<button class="w-full text-left p-2 rounded-lg bg-surface-container-high/80 border border-outline-variant/20 hover:bg-surface-container-highest transition-colors shadow-sm flex flex-col gap-1 group">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[16px]">shield</span>
+<span class="text-xs font-bold text-on-surface group-hover:text-secondary transition-colors">Несокрушимый Оплот</span>
+</div>
+<span class="text-[11px] font-bold text-secondary">8/10</span>
+</div>
+<p class="text-[11px] text-on-surface-variant line-clamp-1 font-nunito">Броня, щиты и стойкость строя</p>
+<div class="w-full h-1.5 bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 80%;"></div>
+</div>
+</button>
+<!-- Ветвь 3: Сытое Поместье -->
+<button class="w-full text-left p-2 rounded-lg bg-surface-container-high/80 border border-outline-variant/20 hover:bg-surface-container-highest transition-colors shadow-sm flex flex-col gap-1 group">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary-fixed-dim text-[16px]">agriculture</span>
+<span class="text-xs font-bold text-on-surface group-hover:text-primary-fixed-dim transition-colors">Сытое Поместье</span>
+</div>
+<span class="text-[11px] font-bold text-primary-fixed-dim">5/10</span>
+</div>
+<p class="text-[11px] text-on-surface-variant line-clamp-1 font-nunito">Сбор ресурсов на ферме и добыча золота</p>
+<div class="w-full h-1.5 bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-primary-fixed-dim rounded-full" style="width: 50%;"></div>
+</div>
+</button>
+<!-- Ветвь 4: Алхимия Очага -->
+<button class="w-full text-left p-2 rounded-lg bg-surface-container-high/80 border border-outline-variant/20 hover:bg-surface-container-highest transition-colors shadow-sm flex flex-col gap-1 group">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-tertiary text-[16px]">science</span>
+<span class="text-xs font-bold text-on-surface group-hover:text-tertiary transition-colors">Алхимия Очага</span>
+</div>
+<span class="text-[11px] font-bold text-tertiary">4/10</span>
+</div>
+<p class="text-[11px] text-on-surface-variant line-clamp-1 font-nunito">Усиление зелий и варка эликсиров</p>
+<div class="w-full h-1.5 bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-tertiary rounded-full" style="width: 40%;"></div>
+</div>
+</button>
+</div>
+<!-- Archivarius Quote Card -->
+<div class="bg-surface-container rounded-lg p-2 border border-outline-variant/30 flex items-center gap-2.5 shrink-0 mt-auto">
+<div class="w-9 h-9 rounded-full bg-surface-container-highest border border-primary/40 flex items-center justify-center shrink-0 shadow-inner overflow-hidden">
+<span class="material-symbols-outlined text-primary text-[20px]">smart_toy</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="text-[11px] font-bold text-primary flex items-center gap-1">
+                Архивариус Пушик
+              </span>
+<p class="text-[11px] font-nunito text-on-surface-variant leading-tight truncate">«Клан крепнет от каждой строки древних рукописей!»</p>
+</div>
+</div>
+</div>
+</aside>
+<!-- MIDDLE COLUMN: Interactive Technology Tree & Visual Astral Grid (6 cols) -->
+<section class="col-span-6 flex flex-col h-full bg-surface-container-low border border-outline-variant/30 rounded-xl p-3 shadow-md relative overflow-hidden min-h-0">
+<!-- Top Toolbar / Era Selector -->
+<div class="relative z-20 flex items-center justify-between pb-2 mb-1 border-b border-outline-variant/30 shrink-0">
+<div class="flex items-center gap-2">
+<span class="text-sm font-bold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[19px]">flare</span>
+              Древо Навыков Очага
+            </span>
+<div class="px-2 py-0.5 rounded bg-primary/20 border border-primary/40 text-primary-fixed text-[11px] font-bold flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+              Эра Пламени (Текущая)
+            </div>
+</div>
+<div class="flex items-center gap-1.5">
+<button class="px-2 py-1 rounded bg-surface-container-high border border-outline-variant/30 text-on-surface text-[11px] font-semibold flex items-center gap-1 hover:border-primary/50 transition-colors">
+<span class="material-symbols-outlined text-[13px] text-primary">filter_alt</span>
+              Все ветви
+            </button>
+<button class="px-2 py-1 rounded bg-surface-container border border-outline-variant/20 text-on-surface-variant text-[11px] font-semibold hover:text-on-surface transition-colors">
+              Только доступные
+            </button>
+</div>
+</div>
+<!-- Tech Tree Astral Canvas with Image 367 Integrated as Dynamic Backdrop -->
+<div class="relative flex-1 w-full min-h-0 bg-surface-container-lowest rounded-xl overflow-hidden border border-outline-variant/30 flex flex-col justify-between p-3.5 shadow-inner">
+<!-- Laboratory Artwork Background Layer https://lh3.googleusercontent.com/aida-public/AB6AXuDoB3AtLe_IGt_YKwVqj8WS_an9KrkuAnT4TiuwL8Oov_ctomPZ01z86WTokhJrW27_sXp6AzU-8-W8RV2ndOz9VHUvAV5JH94QafEXYAKWoQ9kKqqluUfOnYFA_aDekYwca2uSQcBxrvwwk-0YzB7KqmBCiGTVWWCJHP7jz9lUeNydZpBr7VbFz692M4qukLfuF1Xn8mwTzlWFG5mOv2DOHjgyMx0RpSoMSlk0aA -->
+<div class="absolute inset-0 z-0">
+<img alt="Mystic Guild Technology Lab and Altar of Knowledge" class="w-full h-full object-cover opacity-25 filter contrast-125 saturate-110" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFc1jYj1_a_aP3p-Q_d8tL0b03Fj6YV3Z6nK2yC8fP2r0nF3qL7-kR9b1X2Y_z3M5s2Q=s0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/60 to-surface-container-lowest/80"></div>
+</div>
+<!-- SVG Constellation Branches Connectors -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none z-10" preserveaspectratio="none" viewbox="0 0 600 400">
+<!-- Node 1 -> Node 4 -->
+<line stroke="#fdba45" stroke-dasharray="4 3" stroke-width="2.5" x1="100" x2="230" y1="70" y2="190"></line>
+<!-- Node 2 -> Node 4 -->
+<line stroke="#fdba45" stroke-dasharray="4 3" stroke-width="2.5" x1="300" x2="250" y1="70" y2="190"></line>
+<!-- Node 3 -> Node 5 -->
+<line stroke="#89d98c" stroke-dasharray="3 3" stroke-width="2.5" x1="500" x2="470" y1="70" y2="190"></line>
+<!-- Node 4 -> Node 6 (Locked) -->
+<line stroke="#504535" stroke-width="2" x1="240" x2="300" y1="260" y2="330"></line>
+<!-- Node 5 -> Node 6 (Locked) -->
+<line stroke="#504535" stroke-width="2" x1="450" x2="330" y1="260" y2="330"></line>
+</svg>
+<!-- ROW 1: Learned Foundation Nodes (3 Nodes) -->
+<div class="relative z-20 grid grid-cols-3 gap-3">
+<!-- Node 1: Заточка Когтей II -->
+<div class="bg-surface-container-high/90 backdrop-blur-sm border border-secondary-container/80 rounded-xl p-2.5 flex flex-col gap-1 shadow-md hover:border-primary transition-all cursor-pointer">
+<div class="flex items-center justify-between">
+<div class="w-7 h-7 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center font-bold shadow-sm">
+<span class="material-symbols-outlined text-[16px]">sports_martial_arts</span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-secondary-container/90 text-secondary-fixed text-[10px] font-bold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[11px]">check_circle</span> Изучено
+                </span>
+</div>
+<span class="text-xs font-bold text-on-surface truncate">Заточка Когтей II</span>
+<span class="text-[11px] font-nunito text-primary-fixed leading-tight line-clamp-1">+6% к урону всех котиков.</span>
+</div>
+<!-- Node 2: Стальные Латы III -->
+<div class="bg-surface-container-high/90 backdrop-blur-sm border border-secondary-container/80 rounded-xl p-2.5 flex flex-col gap-1 shadow-md hover:border-primary transition-all cursor-pointer">
+<div class="flex items-center justify-between">
+<div class="w-7 h-7 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center font-bold shadow-sm">
+<span class="material-symbols-outlined text-[16px]">shield</span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-secondary-container/90 text-secondary-fixed text-[10px] font-bold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[11px]">check_circle</span> Изучено
+                </span>
+</div>
+<span class="text-xs font-bold text-on-surface truncate">Стальные Латы III</span>
+<span class="text-[11px] font-nunito text-secondary-fixed leading-tight line-clamp-1">+8% к броне авангарда.</span>
+</div>
+<!-- Node 3: Теплый Очаг -->
+<div class="bg-surface-container-high/90 backdrop-blur-sm border border-secondary-container/80 rounded-xl p-2.5 flex flex-col gap-1 shadow-md hover:border-primary transition-all cursor-pointer">
+<div class="flex items-center justify-between">
+<div class="w-7 h-7 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center font-bold shadow-sm">
+<span class="material-symbols-outlined text-[16px]">fireplace</span>
+</div>
+<span class="px-1.5 py-0.5 rounded bg-secondary-container/90 text-secondary-fixed text-[10px] font-bold flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[11px]">check_circle</span> Изучено
+                </span>
+</div>
+<span class="text-xs font-bold text-on-surface truncate">Теплый Очаг</span>
+<span class="text-[11px] font-nunito text-primary-fixed-dim leading-tight line-clamp-1">+10% к генерации энергии.</span>
+</div>
+</div>
+<!-- ROW 2: Active & Available Nodes -->
+<div class="relative z-20 grid grid-cols-12 gap-3 items-center py-2">
+<!-- Node 4: Громовой Резонанс IV (In Progress - Active Selection) -->
+<div class="col-span-7 bg-surface-container-high/95 backdrop-blur-md rounded-xl p-3 border-2 border-primary shadow-[0_0_20px_rgba(253,186,69,0.25)] flex flex-col gap-2 relative overflow-hidden transition-all">
+<div class="absolute -right-3 -top-3 w-16 h-16 bg-primary/20 rounded-full blur-lg pointer-events-none"></div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-2">
+<div class="w-8 h-8 rounded-lg bg-primary text-on-primary flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-[19px]">bolt</span>
+</div>
+<div>
+<span class="text-xs font-extrabold text-primary-fixed block leading-tight">Громовой Резонанс IV</span>
+<span class="text-[10px] font-bold text-primary flex items-center gap-1">
+<span class="material-symbols-outlined text-[11px] animate-spin">sync</span>
+                      В исследовании ⚡ 72%
+                    </span>
+</div>
+</div>
+<div class="px-2 py-0.5 rounded bg-surface-container-lowest/90 border border-outline-variant/40 text-on-surface text-[11px] font-extrabold flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[13px]">timer</span>
+                  02:40:15
+                </div>
+</div>
+<p class="text-[11px] font-nunito text-on-surface leading-tight">
+                +12% к урону электричеством в осадах замков для всех членов гильдии.
+              </p>
+<div class="w-full h-2 rounded-full bg-surface-container-lowest overflow-hidden">
+<div class="h-full bg-gradient-to-r from-primary-container via-primary to-primary-fixed rounded-full transition-all duration-700 animate-pulse" style="width: 72%;"></div>
+</div>
+</div>
+<!-- Node 5: Дар Кошачьей Мяты (Available) -->
+<div class="col-span-5 bg-surface-container-high/90 backdrop-blur-sm border border-secondary/40 rounded-xl p-2.5 flex flex-col gap-1.5 shadow-md hover:border-secondary transition-all cursor-pointer">
+<div class="flex items-center justify-between">
+<div class="w-7 h-7 rounded-lg bg-surface-container-highest text-secondary flex items-center justify-center font-bold">
+<span class="material-symbols-outlined text-[16px]">spa</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-secondary/20 text-secondary text-[10px] font-bold">
+                  Доступно
+                </span>
+</div>
+<span class="text-xs font-bold text-on-surface truncate">Дар Кошачьей Мяты</span>
+<span class="text-[11px] font-nunito text-secondary leading-tight line-clamp-1">+15% к хилу и очищению союзников.</span>
+<div class="flex items-center gap-1 text-[10px] text-on-surface-variant font-medium pt-0.5">
+<span class="material-symbols-outlined text-[12px] text-primary">menu_book</span>
+                Требуется: 800 свитков
+              </div>
+</div>
+</div>
+<!-- ROW 3: Locked Legendary Node (Node 6) -->
+<div class="relative z-20 flex justify-center">
+<div class="w-full bg-surface-container/90 backdrop-blur-md rounded-xl p-2.5 border border-outline-variant/30 flex items-center justify-between gap-3 shadow-md">
+<div class="flex items-center gap-2.5 min-w-0">
+<div class="w-8 h-8 rounded-lg bg-surface-container-highest text-outline flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-[18px]">lock</span>
+</div>
+<div class="flex flex-col min-w-0">
+<div class="flex items-center gap-2">
+<span class="text-xs font-bold text-on-surface-variant truncate">Мифическое Единство</span>
+<span class="px-1.5 py-0.2 rounded bg-error-container/80 text-on-error-container text-[10px] font-bold">Требует Ур. 10 Алтаря</span>
+</div>
+<span class="text-[11px] font-nunito text-outline truncate">Разблокирует 4-й слот командной синергии котов во всех рейдах.</span>
+</div>
+</div>
+<button class="px-3 py-1 rounded-lg bg-surface-container-high border border-outline-variant/20 text-outline text-[11px] font-bold cursor-not-allowed whitespace-nowrap">
+                Закрыто 🔒
+              </button>
+</div>
+</div>
+<!-- Legend Bar -->
+<div class="relative z-20 flex items-center justify-between pt-1 border-t border-outline-variant/30 text-[11px] text-on-surface-variant">
+<div class="flex items-center gap-3">
+<span class="flex items-center gap-1 font-medium">
+<span class="w-2 h-2 rounded-full bg-secondary"></span> Изучено
+              </span>
+<span class="flex items-center gap-1 font-medium">
+<span class="w-2 h-2 rounded-full bg-primary"></span> В исследовании
+              </span>
+<span class="flex items-center gap-1 font-medium">
+<span class="w-2 h-2 rounded-full bg-secondary-fixed"></span> Доступно
+              </span>
+<span class="flex items-center gap-1 font-medium">
+<span class="w-2 h-2 rounded-full bg-outline"></span> Закрыто
+              </span>
+</div>
+<span class="text-primary-fixed-dim text-[10px]">Нажмите на узел для деталей</span>
+</div>
+</div>
+</section>
+<!-- RIGHT COLUMN: Selected Research Details & Clan Buffs Summary (3 cols) -->
+<aside class="col-span-3 flex flex-col gap-2.5 h-full min-h-0">
+<!-- Selected Tech Card: Громовой Резонанс IV -->
+<div class="bg-surface-container-low border border-outline-variant/30 rounded-xl p-3 shadow-md flex flex-col gap-2 overflow-hidden shrink-0">
+<div class="flex items-center justify-between pb-0.5 border-b border-outline-variant/20">
+<span class="text-[10px] font-bold text-primary uppercase tracking-wider">Выбранный навык</span>
+<span class="px-2 py-0.5 rounded bg-primary-container text-on-primary-container text-[10px] font-bold">В процессе</span>
+</div>
+<div class="flex items-center gap-2.5">
+<div class="w-10 h-10 rounded-xl bg-surface-container-high border border-primary/40 flex items-center justify-center text-primary shadow-inner shrink-0">
+<span class="material-symbols-outlined text-[24px]" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="text-xs font-bold text-on-surface truncate">«Громовой Резонанс IV»</span>
+<span class="text-[11px] font-semibold text-primary">Ветка: Боевой Оскал</span>
+</div>
+</div>
+<!-- Description -->
+<div class="bg-surface-container rounded-lg p-2 text-on-surface font-nunito text-[11px] leading-relaxed border border-outline-variant/20">
+            Наделяет когти каждого боевого котика клана электростатическим зарядом. Увеличивает электрический урон на <strong class="text-primary font-bold">+12%</strong> и шанс цепной молнии на <strong class="text-primary font-bold">+4%</strong> во время Осад Замков и Гильдейских Битв.
+          </div>
+<!-- Resources & Progress -->
+<div class="flex flex-col gap-1.5">
+<div class="flex items-center justify-between text-[11px]">
+<span class="text-on-surface-variant font-medium">Прогресс вклада казны:</span>
+<span class="text-secondary font-bold">240 / 300 Рунических Углей</span>
+</div>
+<!-- Resource: Gold -->
+<div class="flex items-center justify-between p-1.5 rounded-lg bg-surface-container-high border border-outline-variant/20 text-xs">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[15px]">monetization_on</span>
+<span class="text-on-surface font-medium text-[11px]">Золото Казны</span>
+</div>
+<span class="text-xs font-bold text-secondary flex items-center gap-1">
+                50,000 / 50,000
+                <span class="material-symbols-outlined text-[13px]">check_circle</span>
+</span>
+</div>
+<!-- Resource: Coals -->
+<div class="flex items-center justify-between p-1.5 rounded-lg bg-surface-container-high border border-outline-variant/20 text-xs">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-tertiary text-[15px]">local_fire_department</span>
+<span class="text-on-surface font-medium text-[11px]">Рунические Угли</span>
+</div>
+<span class="text-xs font-bold text-tertiary">240 / 300</span>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex flex-col gap-1.5 pt-0.5">
+<button class="w-full py-1.5 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-bold text-xs flex items-center justify-center gap-1.5 shadow-md transition-all active:scale-[0.98]">
+<span class="material-symbols-outlined text-[16px]">add_circle</span>
+              ➕ Внести 50 Углей
+            </button>
+<button class="w-full py-1 rounded-lg bg-surface-container-high hover:bg-surface-container-highest border border-primary/30 text-primary-fixed-dim font-bold text-xs flex items-center justify-center gap-1.5 transition-colors">
+<span class="material-symbols-outlined text-[15px]">bolt</span>
+              ⚡ Ускорить (45 Кристаллов)
+            </button>
+</div>
+</div>
+<!-- Active Clan Buffs Card -->
+<div class="flex-1 bg-surface-container-low border border-outline-variant/30 rounded-xl p-3 shadow-md flex flex-col gap-2 min-h-0 overflow-hidden">
+<div class="flex items-center justify-between pb-0.5 border-b border-outline-variant/20 shrink-0">
+<span class="text-xs font-bold text-on-surface flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[16px]">verified</span>
+              Активные Баффы Клана
+            </span>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container text-[10px] font-extrabold">
+              5 активно
+            </span>
+</div>
+<!-- Buff List -->
+<div class="flex-1 flex flex-col justify-between gap-1 overflow-y-auto pr-0.5">
+<!-- Buff 1 -->
+<div class="p-1.5 rounded-lg bg-surface-container border border-outline-variant/20 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[16px]">swords</span>
+<div class="flex flex-col">
+<span class="text-xs font-bold text-on-surface leading-tight">Заточка Когтей II</span>
+<span class="text-[10px] font-nunito text-on-surface-variant">+6% ко всем видам физ. урона</span>
+</div>
+</div>
+<span class="text-[10px] font-bold text-secondary bg-secondary/10 px-1 rounded">Пост.</span>
+</div>
+<!-- Buff 2 -->
+<div class="p-1.5 rounded-lg bg-surface-container border border-outline-variant/20 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-[16px]">shield</span>
+<div class="flex flex-col">
+<span class="text-xs font-bold text-on-surface leading-tight">Стальные Латы III</span>
+<span class="text-[10px] font-nunito text-on-surface-variant">+8% к броне авангарда</span>
+</div>
+</div>
+<span class="text-[10px] font-bold text-secondary bg-secondary/10 px-1 rounded">Пост.</span>
+</div>
+<!-- Buff 3 -->
+<div class="p-1.5 rounded-lg bg-surface-container border border-outline-variant/20 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary-fixed-dim text-[16px]">bolt</span>
+<div class="flex flex-col">
+<span class="text-xs font-bold text-on-surface leading-tight">Теплый Очаг</span>
+<span class="text-[10px] font-nunito text-on-surface-variant">+10% регенерации энергии</span>
+</div>
+</div>
+<span class="text-[10px] font-bold text-secondary bg-secondary/10 px-1 rounded">Пост.</span>
+</div>
+<!-- Buff 4 -->
+<div class="p-1.5 rounded-lg bg-surface-container border border-outline-variant/20 flex items-center justify-between">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-tertiary text-[16px]">set_meal</span>
+<div class="flex flex-col">
+<span class="text-xs font-bold text-on-surface leading-tight">Щедрый Улов</span>
+<span class="text-[10px] font-nunito text-on-surface-variant">+5% рыбных запасов в рейдах</span>
+</div>
+</div>
+<span class="text-[10px] font-bold text-secondary bg-secondary/10 px-1 rounded">Пост.</span>
+</div>
+</div>
+<div class="pt-1 text-center font-nunito text-[10px] text-primary-fixed font-semibold shrink-0 border-t border-outline-variant/20">
+            ✨ Баффы распространяются на всех 30 котиков гильдии!
+          </div>
+</div>
+</aside>
+</div>
+</main>
+<!-- BOTTOM FOOTER SYSTEM STATUS (Compact Bar) -->
+<footer class="w-full bg-surface-container-lowest border-t border-outline-variant/30 py-1.5 shrink-0 px-4 xl:px-6">
+<div class="w-full flex items-center justify-between text-on-surface-variant text-xs">
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-1.5">
+<kbd class="px-1.5 py-0.5 rounded bg-surface-container-high border border-outline-variant/30 text-primary font-bold text-[10px]">ESC</kbd>
+<span class="font-nunito text-[11px]">Меню</span>
+</div>
+<div class="flex items-center gap-1.5">
+<kbd class="px-1.5 py-0.5 rounded bg-surface-container-high border border-outline-variant/30 text-primary font-bold text-[10px]">TAB</kbd>
+<span class="font-nunito text-[11px]">Чат</span>
+</div>
+<div class="flex items-center gap-1.5">
+<kbd class="px-1.5 py-0.5 rounded bg-surface-container-high border border-outline-variant/30 text-primary font-bold text-[10px]">ПРОБЕЛ</kbd>
+<span class="font-nunito text-[11px]">Действие</span>
+</div>
+</div>
+<div class="flex items-center gap-2 font-nunito text-[11px]">
+<span>Святилище: Каминный Зал #03</span>
+<span class="text-outline-variant">•</span>
+<span class="text-primary-fixed font-semibold">v0.9.4 Early Access</span>
+</div>
+</div>
+</footer>
+</body></html>

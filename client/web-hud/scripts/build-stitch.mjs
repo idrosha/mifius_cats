@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * Build Mythfel Web HUD from vendored Stitch HTML (design/stitch-src).
- * Packs 0268 + 64d5 + battles e608/4da7 — partial IA coverage; missing routes get empty hosts.
+ * Packs 0268 + 64d5 + battles e608/4da7/18c7 — partial IA coverage; missing routes get empty hosts.
  * Emits public/index.html + public/stitch/*.html partials.
  */
 import fs from "node:fs";
@@ -37,11 +37,13 @@ const SCREENS = [
   { id: "boss_raid", file: "boss_raid.html", view: "viewBossRaid" },
   { id: "pvp", file: "pvp.html", view: "viewPvp" },
   { id: "guild_battle", file: "guild_battle.html", view: "viewGuildBattle" },
+  // Battles pack 18c7 — practice fight + guild hall
+  { id: "practice", file: "practice.html", view: "viewPractice" },
+  { id: "guild", file: "guild.html", view: "viewGuild" },
 ];
 
 /** IA routes without painted Stitch yet — empty hosts so navigate() still works */
 const PLACEHOLDERS = [
-  { id: "practice", view: "viewPractice", label: "Тренировка" },
   { id: "result_lose", view: "viewResultLose", label: "Поражение" },
   { id: "shop", view: "viewShop", label: "Магазин" },
   { id: "market", view: "viewMarket", label: "Рынок" },
@@ -50,7 +52,6 @@ const PLACEHOLDERS = [
   { id: "soon_clan", view: "viewSoonClan", label: "Клан-босс" },
   { id: "equip_cards", view: "viewEquipCards", label: "Карточки экипировки" },
   { id: "auction", view: "viewAuction", label: "Аукцион" },
-  { id: "guild", view: "viewGuild", label: "Гильдия" },
   { id: "chat_global", view: "viewChatGlobal", label: "Чат · общий" },
   { id: "chat_guild", view: "viewChatGuild", label: "Чат · гильдия" },
   { id: "chat_friends", view: "viewChatFriends", label: "Чат · друзья" },
@@ -99,7 +100,7 @@ for (const ph of PLACEHOLDERS) {
   <div class="boot-card">
     <p class="eyebrow">Скоро · Stitch</p>
     <h2>${ph.label}</h2>
-    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7.</p>
+    <p class="lead muted">Форма IA есть в меню; painted mock ещё не в паках 0268/64d5/e608/4da7/18c7.</p>
   </div>
 </section>`;
   fs.writeFileSync(path.join(OUT_STITCH, `${ph.id}.html`), section, "utf8");
@@ -119,7 +120,7 @@ const index = `<!DOCTYPE html>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="shell-type" content="web_standard" />
-  <meta name="hud-ui" content="stitch-0268-64d5-e608-4da7" />
+  <meta name="hud-ui" content="stitch-0268-64d5-e608-4da7-18c7" />
   <meta name="hud-layout" content="landscape-flush" />
   <title>Мифиус — Web HUD (Stitch)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
