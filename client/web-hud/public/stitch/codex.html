@@ -572,38 +572,7 @@
 </div>
 </div>
 </div>
-<script>
-  (function() {
-    const searchInput = document.getElementById('codex-search');
-    if (searchInput) {
-      searchInput.addEventListener('input', (e) => {
-        const query = e.target.value.toLowerCase();
-        const articles = document.querySelectorAll('#article-list button');
-        articles.forEach(art => {
-          const text = art.innerText.toLowerCase();
-          art.style.display = text.includes(query) ? 'flex' : 'none';
-        });
-      });
-    }
-
-    const nextBtn = document.getElementById('next-article');
-    const prevBtn = document.getElementById('prev-article');
-    
-    if (nextBtn) {
-      nextBtn.addEventListener('click', () => {
-        nextBtn.classList.add('scale-95');
-        setTimeout(() => nextBtn.classList.remove('scale-95'), 150);
-      });
-    }
-
-    if (prevBtn) {
-      prevBtn.addEventListener('click', () => {
-        prevBtn.classList.add('scale-95');
-        setTimeout(() => prevBtn.classList.remove('scale-95'), 150);
-      });
-    }
-  })();
-</script></main>
+</main>
 <footer class="w-full h-10 bg-surface-container-lowest flex items-center justify-between px-space-lg shadow-[0_-2px_10px_rgba(0,0,0,0.5)] border-t border-outline-variant/20">
 <div class="flex items-center gap-space-md">
 <span class="font-label-sm text-label-sm text-on-surface-variant">© 2024 Мифиус: Мифические Котики RPG. Все права защищены.</span>
@@ -619,30 +588,4 @@
 <span class="font-label-sm text-label-sm text-secondary-fixed-dim">24ms</span>
 </div>
 </footer>
-<script>
-  (function() {
-    const collectBtn = document.getElementById('btn-collect-all');
-    if (collectBtn) {
-      collectBtn.addEventListener('click', () => {
-        collectBtn.classList.add('scale-95');
-        setTimeout(() => {
-          collectBtn.classList.remove('scale-95');
-          collectBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">check</span><span>Собрано! (+1,760)</span>';
-          collectBtn.classList.replace('bg-primary', 'bg-secondary');
-          collectBtn.classList.replace('text-on-primary', 'text-on-secondary');
-        }, 300);
-      });
-    }
-
-    const distributeBtn = document.getElementById('btn-distribute');
-    if (distributeBtn) {
-      distributeBtn.addEventListener('click', () => {
-        distributeBtn.classList.add('bg-primary-container', 'text-on-primary-container');
-        setTimeout(() => {
-          distributeBtn.classList.remove('bg-primary-container', 'text-on-primary-container');
-        }, 600);
-      });
-    }
-  })();
-</script>
 </section>

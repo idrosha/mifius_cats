@@ -185,28 +185,6 @@
 </div>
 </div>
 <!-- Inline Loading Simulator & Sound Cue Script -->
-<script>
-    (function() {
-      let pct = 87;
-      const pctEl = document.getElementById('loading-pct');
-      const barEl = document.getElementById('progress-fill');
-      
-      const interval = setInterval(() => {
-        if (pct < 100) {
-          pct += Math.floor(Math.random() * 3) + 1;
-          if (pct > 100) pct = 100;
-          if (pctEl) pctEl.textContent = pct + '%';
-          if (barEl) barEl.style.width = pct + '%';
-        } else {
-          clearInterval(interval);
-          if (pctEl) {
-            pctEl.textContent = 'ГОТОВО К БОЮ!';
-            pctEl.classList.remove('text-primary-fixed');
-            pctEl.classList.add('text-secondary');
-          }
-        }
-      }, 700);
-    })();
-  </script>
+
 </div></main><footer class="fixed bottom-0 left-0 w-full h-14 z-40 bg-surface-container-low/95 backdrop-blur-md shadow-[0_-4px_16px_rgba(0,0,0,0.5)]"><div class="h-full w-full px-space-lg flex items-center justify-between"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs text-on-surface-variant"><span class="material-symbols-outlined text-[16px] text-primary">local_fire_department</span><span class="font-label-sm text-label-sm text-on-surface-variant">Таверна «Теплый хвост»</span></div><div class="h-4 w-px bg-surface-container-highest"></div><div class="flex items-center gap-space-md"><span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-space-xs"><kbd class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm">ESC</kbd> Меню</span><span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-space-xs"><kbd class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm">TAB</kbd> Колода</span><span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-space-xs"><kbd class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm">ПРОБЕЛ</kbd> Ход</span></div></div><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm text-on-surface-variant"><button class="p-space-xs rounded hover:bg-surface-container hover:text-on-surface transition-colors flex items-center justify-center" type="button"><span class="material-symbols-outlined text-[18px]">volume_up</span></button><button class="p-space-xs rounded hover:bg-surface-container hover:text-on-surface transition-colors flex items-center justify-center" type="button"><span class="material-symbols-outlined text-[18px]">settings</span></button><button class="p-space-xs rounded hover:bg-surface-container hover:text-on-surface transition-colors flex items-center justify-center" type="button"><span class="material-symbols-outlined text-[18px]">help</span></button></div><div class="h-4 w-px bg-surface-container-highest"></div><span class="font-label-sm text-label-sm text-outline">v0.9.4-beta (Северный Удел)</span></div></div></footer>
 </section>

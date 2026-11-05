@@ -485,43 +485,5 @@
 </div>
 </div>
 </div>
-<script>
-  (function initBattlePassInteractions() {
-    const carousel = document.getElementById('rewardTrackCarousel');
-    const scrollLeftBtn = document.getElementById('trackScrollLeft');
-    const scrollRightBtn = document.getElementById('trackScrollRight');
-    const claimAllBtn = document.getElementById('claimAllBtn');
-
-    if (scrollLeftBtn && carousel) {
-      scrollLeftBtn.addEventListener('click', () => {
-        carousel.scrollBy({ left: -260, behavior: 'smooth' });
-      });
-    }
-
-    if (scrollRightBtn && carousel) {
-      scrollRightBtn.addEventListener('click', () => {
-        carousel.scrollBy({ left: 260, behavior: 'smooth' });
-      });
-    }
-
-    if (claimAllBtn) {
-      claimAllBtn.addEventListener('click', () => {
-        claimAllBtn.innerHTML = `
-          <span class="material-symbols-outlined text-[18px] animate-spin">refresh</span>
-          <span>Награды собраны!</span>
-        `;
-        claimAllBtn.classList.remove('from-primary', 'via-primary-container');
-        claimAllBtn.classList.add('bg-secondary-container', 'text-secondary');
-        setTimeout(() => {
-          claimAllBtn.innerHTML = `
-            <span class="material-symbols-outlined text-[18px]">done</span>
-            <span>Всё получено</span>
-          `;
-          claimAllBtn.disabled = true;
-          claimAllBtn.classList.add('opacity-60', 'cursor-not-allowed');
-        }, 1200);
-      });
-    }
-  })();
-</script></main><footer class="fixed bottom-0 left-0 w-full h-10 bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_-2px_10px_rgba(0,0,0,0.5)] z-40"><div class="w-full h-full px-margin-tablet flex items-center justify-between text-on-surface-variant text-label-sm font-label-sm"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs"><span class="px-space-xs py-0.5 rounded bg-surface-container-high font-stat-numeral text-[10px] text-primary">ESC</span><span>Главное меню</span></div><div class="flex items-center gap-space-xs"><span class="px-space-xs py-0.5 rounded bg-surface-container-high font-stat-numeral text-[10px] text-primary">TAB</span><span>Команда котиков</span></div><div class="flex items-center gap-space-xs"><span class="px-space-xs py-0.5 rounded bg-surface-container-high font-stat-numeral text-[10px] text-primary">ENTER</span><span>Чат таверны</span></div></div><div class="flex items-center gap-space-md"><span>Таверна «Тёплая Лапка» • Сезон 4</span><span class="text-primary">v1.4.8-mythic</span></div></div></footer>
+</main><footer class="fixed bottom-0 left-0 w-full h-10 bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_-2px_10px_rgba(0,0,0,0.5)] z-40"><div class="w-full h-full px-margin-tablet flex items-center justify-between text-on-surface-variant text-label-sm font-label-sm"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs"><span class="px-space-xs py-0.5 rounded bg-surface-container-high font-stat-numeral text-[10px] text-primary">ESC</span><span>Главное меню</span></div><div class="flex items-center gap-space-xs"><span class="px-space-xs py-0.5 rounded bg-surface-container-high font-stat-numeral text-[10px] text-primary">TAB</span><span>Команда котиков</span></div><div class="flex items-center gap-space-xs"><span class="px-space-xs py-0.5 rounded bg-surface-container-high font-stat-numeral text-[10px] text-primary">ENTER</span><span>Чат таверны</span></div></div><div class="flex items-center gap-space-md"><span>Таверна «Тёплая Лапка» • Сезон 4</span><span class="text-primary">v1.4.8-mythic</span></div></div></footer>
 </section>

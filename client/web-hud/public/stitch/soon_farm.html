@@ -700,30 +700,4 @@
 <span class="font-label-sm text-label-sm text-secondary-fixed-dim">24ms</span>
 </div>
 </footer>
-<script>
-  (function() {
-    const collectBtn = document.getElementById('btn-collect-all');
-    if (collectBtn) {
-      collectBtn.addEventListener('click', () => {
-        collectBtn.classList.add('scale-95');
-        setTimeout(() => {
-          collectBtn.classList.remove('scale-95');
-          collectBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">check</span><span>Собрано! (+1,760)</span>';
-          collectBtn.classList.replace('bg-primary', 'bg-secondary');
-          collectBtn.classList.replace('text-on-primary', 'text-on-secondary');
-        }, 300);
-      });
-    }
-
-    const distributeBtn = document.getElementById('btn-distribute');
-    if (distributeBtn) {
-      distributeBtn.addEventListener('click', () => {
-        distributeBtn.classList.add('bg-primary-container', 'text-on-primary-container');
-        setTimeout(() => {
-          distributeBtn.classList.remove('bg-primary-container', 'text-on-primary-container');
-        }, 600);
-      });
-    }
-  })();
-</script>
 </section>

@@ -497,20 +497,5 @@
 
 </div>
 </div>
-<script>
-  // Simple micro-interaction for weapon archetype preview switching
-  document.addEventListener('DOMContentLoaded', () => {
-    const cards = document.querySelectorAll('.grid.grid-cols-1.sm\\:grid-cols-2 > div');
-    cards.forEach(card => {
-      card.addEventListener('click', () => {
-        cards.forEach(c => {
-          c.classList.remove('ring-2', 'ring-primary/80', 'bg-surface-container-high');
-          c.classList.add('bg-surface-container');
-        });
-        card.classList.remove('bg-surface-container');
-        card.classList.add('ring-2', 'ring-primary/80', 'bg-surface-container-high');
-      });
-    });
-  });
-</script></main><footer class="w-full bg-surface-container-lowest mt-space-xl py-space-lg"><div class="w-full px-gutter-tablet flex flex-col md:flex-row items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm"><span class="font-headline-md text-headline-md text-primary tracking-wide">МИФИУС</span><span class="font-body-sm text-body-sm text-outline-variant">|</span><span class="font-body-sm text-body-sm text-on-surface-variant">Летопись гильдии Хранителей Котиков</span></div><div class="flex items-center gap-space-lg"><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" data-path="kodeks-mifmira" href="#">Правила Мифмира</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" data-path="glavnyy-khab" href="#">Вести Таверны</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Техническая поддержка</a></div><div class="font-label-sm text-label-sm text-outline">© 2024 Mythfel: Mythic Cats. Все лапки защищены.</div></div></footer>
+</main><footer class="w-full bg-surface-container-lowest mt-space-xl py-space-lg"><div class="w-full px-gutter-tablet flex flex-col md:flex-row items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm"><span class="font-headline-md text-headline-md text-primary tracking-wide">МИФИУС</span><span class="font-body-sm text-body-sm text-outline-variant">|</span><span class="font-body-sm text-body-sm text-on-surface-variant">Летопись гильдии Хранителей Котиков</span></div><div class="flex items-center gap-space-lg"><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" data-path="kodeks-mifmira" href="#">Правила Мифмира</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" data-path="glavnyy-khab" href="#">Вести Таверны</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Техническая поддержка</a></div><div class="font-label-sm text-label-sm text-outline">© 2024 Mythfel: Mythic Cats. Все лапки защищены.</div></div></footer>
 </section>

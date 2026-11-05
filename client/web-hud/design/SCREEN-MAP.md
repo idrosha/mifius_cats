@@ -74,11 +74,15 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | Tavern map art | `stitch-ref/17eb/tavern_map.png` |
 | Trade / rating screenshots | `stitch-ref/17eb/{tavern,shop,market,auction,rating}.png` |
 
-## Placeholders (IA route, no painted mock yet)
+## Working transition forms (HUD-owned)
 
-`result_lose`, `soon_clan`, `equip_cards`.
+| Route | File | Notes |
+|---|---|---|
+| `result_lose` | `result_lose.html` | Shared defeat + CTAs |
+| `equip_cards` | `equip_cards.html` | Live equip/unequip + stats (local stub) |
+| `soon_clan` | `soon_clan.html` | Create/add/remove clan members; clan-boss tip Soon |
 
-§7 gaps still open: practice **start / win / lose**; shared `result_lose`; per-mode fight/win for Mythmir / PvP / dungeon / raid / GvG (only practice fight painted in 18c7). Pack 17eb closes trade + ratings; no battle gaps.
+§7 soft gaps: practice **start / win** art; per-mode fight/win skins for Mythmir / PvP / dungeon / raid / GvG (shared fight + win/lose work).
 
 ## Nav prefs (2026-11-05)
 

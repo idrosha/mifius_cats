@@ -590,43 +590,5 @@
 </div>
 </div>
 </div>
-<script>
-  // Simple Tavern Clock countdown micro-interaction
-  function updateSessionTimer() {
-    const clockEl = document.getElementById('session-clock');
-    if (!clockEl) return;
-    let parts = clockEl.innerText.split(':').map(Number);
-    let seconds = parts[0] * 3600 + parts[1] * 60 + parts[2];
-    if (seconds > 0) {
-      seconds--;
-      const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
-      const m = String(Math.floor((seconds % 3600) / 60)).padStart(2, '0');
-      const s = String(seconds % 60).padStart(2, '0');
-      clockEl.innerText = `${h}:${m}:${s}`;
-    }
-  }
-  setInterval(updateSessionTimer, 1000);
-
-  // Modal Toggle Logic
-  const btnCreate = document.getElementById('btn-create-lot');
-  const btnClose = document.getElementById('btn-close-modal');
-  const btnSubmit = document.getElementById('btn-submit-lot');
-  const modalLot = document.getElementById('modal-lot');
-
-  if (btnCreate && modalLot) {
-    btnCreate.addEventListener('click', () => {
-      modalLot.classList.remove('hidden');
-    });
-  }
-  if (btnClose && modalLot) {
-    btnClose.addEventListener('click', () => {
-      modalLot.classList.add('hidden');
-    });
-  }
-  if (btnSubmit && modalLot) {
-    btnSubmit.addEventListener('click', () => {
-      modalLot.classList.add('hidden');
-    });
-  }
-</script></main><footer class="fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest/95 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.5)]"><div class="h-12 w-full px-margin-tablet flex items-center justify-between"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm font-bold">M</kbd><span class="font-body-sm text-body-sm text-on-surface-variant">Карта</span></div><div class="flex items-center gap-space-xs"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm font-bold">C</kbd><span class="font-body-sm text-body-sm text-on-surface-variant">Колода</span></div><div class="flex items-center gap-space-xs"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm font-bold">I</kbd><span class="font-body-sm text-body-sm text-on-surface-variant">Инвентарь</span></div><div class="flex items-center gap-space-xs"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm font-bold">T</kbd><span class="font-body-sm text-body-sm text-on-surface-variant">Торговый Чат</span></div><div class="flex items-center gap-space-xs"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm font-bold">ESC</kbd><span class="font-body-sm text-body-sm text-on-surface-variant">Меню</span></div></div><div class="flex items-center gap-space-md"><span class="font-body-sm text-body-sm text-on-surface-variant">Сервер: «Теплый Очаг #03»</span><span class="w-1 h-1 rounded-full bg-outline-variant"></span><span class="font-label-sm text-label-sm text-outline">Клиент v2.4.12-mythic</span></div></div></footer>
+</main><footer class="fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest/95 backdrop-blur-xl shadow-[0_-2px_12px_rgba(0,0,0,0.5)]"><div class="h-12 w-full px-margin-tablet flex items-center justify-between"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm font-bold">M</kbd><span class="font-body-sm text-body-sm text-on-surface-variant">Карта</span></div><div class="flex items-center gap-space-xs"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm font-bold">C</kbd><span class="font-body-sm text-body-sm text-on-surface-variant">Колода</span></div><div class="flex items-center gap-space-xs"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm font-bold">I</kbd><span class="font-body-sm text-body-sm text-on-surface-variant">Инвентарь</span></div><div class="flex items-center gap-space-xs"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm font-bold">T</kbd><span class="font-body-sm text-body-sm text-on-surface-variant">Торговый Чат</span></div><div class="flex items-center gap-space-xs"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm font-bold">ESC</kbd><span class="font-body-sm text-body-sm text-on-surface-variant">Меню</span></div></div><div class="flex items-center gap-space-md"><span class="font-body-sm text-body-sm text-on-surface-variant">Сервер: «Теплый Очаг #03»</span><span class="w-1 h-1 rounded-full bg-outline-variant"></span><span class="font-label-sm text-label-sm text-outline">Клиент v2.4.12-mythic</span></div></div></footer>
 </section>

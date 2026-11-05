@@ -400,73 +400,7 @@
 </div></aside>
 </div>
 </div>
-<script>
-  (function() {
-    // Интерактив крафта
-    const craftBtn = document.getElementById('btn-craft-main');
-    if (craftBtn) {
-      craftBtn.addEventListener('click', () => {
-        craftBtn.disabled = true;
-        craftBtn.classList.add('opacity-75', 'scale-98');
-        craftBtn.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">refresh</span><span>Варка эликсира...</span>';
-        
-        setTimeout(() => {
-          craftBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">check_circle</span><span>Сварено успешно! (+1 Эликсир)</span>';
-          craftBtn.classList.remove('from-primary', 'to-primary-container', 'text-on-primary');
-          craftBtn.classList.add('bg-secondary', 'text-on-secondary');
-          
-          setTimeout(() => {
-            craftBtn.disabled = false;
-            craftBtn.classList.remove('opacity-75', 'scale-98', 'bg-secondary', 'text-on-secondary');
-            craftBtn.classList.add('from-primary', 'to-primary-container', 'text-on-primary');
-            craftBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">science</span><span>Сварить Эликсир (500 Золота • 2 ⚡)</span>';
-          }, 1500);
-        }, 1000);
-      });
-    }
-
-    // Подсказка на мультикрафт x10
-    const multiBtn = document.getElementById('btn-craft-multi');
-    if (multiBtn) {
-      multiBtn.addEventListener('click', () => {
-        multiBtn.classList.add('bg-primary/20', 'text-primary');
-        setTimeout(() => {
-          multiBtn.classList.remove('bg-primary/20', 'text-primary');
-        }, 800);
-      });
-    }
-
-    // Переключение фильтров категорий
-    const filters = document.querySelectorAll('.category-filter');
-    filters.forEach(filter => {
-      filter.addEventListener('click', () => {
-        filters.forEach(f => {
-          f.classList.remove('bg-surface-container-high', 'text-primary', 'shadow-sm');
-          f.classList.add('text-on-surface-variant');
-        });
-        filter.classList.add('bg-surface-container-high', 'text-primary', 'shadow-sm');
-        filter.classList.remove('text-on-surface-variant');
-      });
-    });
-
-    // Выбор рецепта в левой колонке
-    const recipes = document.querySelectorAll('.recipe-card');
-    recipes.forEach(card => {
-      card.addEventListener('click', () => {
-        recipes.forEach(r => {
-          r.classList.remove('bg-primary/10', 'shadow-inner');
-          r.classList.add('bg-surface-container');
-          const title = r.querySelector('.font-label-md');
-          if (title) title.classList.remove('text-primary', 'font-bold');
-        });
-        card.classList.add('bg-primary/10', 'shadow-inner');
-        card.classList.remove('bg-surface-container');
-        const activeTitle = card.querySelector('.font-label-md');
-        if (activeTitle) activeTitle.classList.add('text-primary', 'font-bold');
-      });
-    });
-  })();
-</script></main>
+</main>
 <footer class="w-full h-10 bg-surface-container-lowest flex items-center justify-between px-space-lg shadow-[0_-2px_10px_rgba(0,0,0,0.5)] border-t border-outline-variant/20">
 <div class="flex items-center gap-space-md">
 <span class="font-label-sm text-label-sm text-on-surface-variant">© 2024 Мифиус: Мифические Котики RPG. Все права защищены.</span>
@@ -482,30 +416,4 @@
 <span class="font-label-sm text-label-sm text-secondary-fixed-dim">24ms</span>
 </div>
 </footer>
-<script>
-  (function() {
-    const collectBtn = document.getElementById('btn-collect-all');
-    if (collectBtn) {
-      collectBtn.addEventListener('click', () => {
-        collectBtn.classList.add('scale-95');
-        setTimeout(() => {
-          collectBtn.classList.remove('scale-95');
-          collectBtn.innerHTML = '<span class="material-symbols-outlined text-[20px]">check</span><span>Собрано! (+1,760)</span>';
-          collectBtn.classList.replace('bg-primary', 'bg-secondary');
-          collectBtn.classList.replace('text-on-primary', 'text-on-secondary');
-        }, 300);
-      });
-    }
-
-    const distributeBtn = document.getElementById('btn-distribute');
-    if (distributeBtn) {
-      distributeBtn.addEventListener('click', () => {
-        distributeBtn.classList.add('bg-primary-container', 'text-on-primary-container');
-        setTimeout(() => {
-          distributeBtn.classList.remove('bg-primary-container', 'text-on-primary-container');
-        }, 600);
-      });
-    }
-  })();
-</script>
 </section>

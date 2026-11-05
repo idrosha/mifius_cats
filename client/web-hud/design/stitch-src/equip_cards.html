@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html class="dark" lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Карточки экипировки — Мифиус</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{}}};</script>
+</head>
+<body class="bg-[#161310] text-[#eae1db] min-h-screen">
+  <main class="w-full h-full min-h-0 flex flex-col p-4 gap-3" data-purpose="equip-cards">
+    <header class="flex flex-wrap items-end justify-between gap-2 border-b border-[#504535] pb-2">
+      <div>
+        <p class="text-[10px] uppercase tracking-widest text-[#fdba45] font-bold">Персонаж · экип</p>
+        <h1 class="text-2xl font-black text-[#fdba45]">Карточки экипировки · R1–R8</h1>
+        <p class="text-sm text-[#d5c4af]">Grey → mythic. Надень / сними на выбранного кота — статы меняются сразу (локальный HUD stub).</p>
+      </div>
+      <button type="button" class="px-3 py-1.5 rounded-lg border border-[#504535] text-sm" data-path="personazh">← Персонаж</button>
+    </header>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 flex-1 min-h-0">
+      <section class="lg:col-span-4 rounded-xl border border-[#504535] bg-[#231f1c] p-3 flex flex-col gap-2" data-purpose="equip-cat-picker">
+        <h2 class="text-sm font-bold text-[#fdba45]">Кот</h2>
+        <div id="equipCardsCatList" class="flex flex-col gap-1 overflow-auto min-h-0 flex-1"></div>
+      </section>
+      <section class="lg:col-span-5 rounded-xl border border-[#504535] bg-[#231f1c] p-3 flex flex-col gap-2" data-purpose="equip-inventory">
+        <h2 class="text-sm font-bold text-[#fdba45]">Инвентарь экипа</h2>
+        <div id="equipCardsItemList" class="grid grid-cols-1 sm:grid-cols-2 gap-2 overflow-auto min-h-0 flex-1"></div>
+      </section>
+      <section class="lg:col-span-3 rounded-xl border border-[#504535] bg-[#1f1b18] p-3 flex flex-col gap-2" data-purpose="equip-stats">
+        <h2 class="text-sm font-bold text-[#fdba45]">Статы с экипом</h2>
+        <div id="equipCardsStats" class="text-sm space-y-1.5 flex-1"></div>
+        <p class="text-[11px] text-[#9d8f7b]">Stub · серверная авторитетность экипа — Phase 5+. Здесь HUD считает ATK/HP/DEF/SPD локально.</p>
+      </section>
+    </div>
+  </main>
+</body>
+</html>

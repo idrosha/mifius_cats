@@ -214,7 +214,7 @@
 </button>
 </div>
 <!-- Auth Form -->
-<form class="flex flex-col space-y-3.5" onsubmit="handleAuthSubmit(event)">
+<form class="flex flex-col space-y-3.5" id="loginForm" onsubmit="return window.mythfelStubLogin?.(event)">
 <!-- Field 1: Имя Хранителя / Email -->
 <div class="flex flex-col space-y-1">
 <label class="text-[11px] font-bold font-title tracking-wider text-amber-200/90 flex justify-between items-center">
@@ -223,7 +223,7 @@
 </label>
 <div class="relative flex items-center">
 <span class="material-symbols-outlined absolute left-3 text-amber-400/60 text-lg pointer-events-none">ink_pen</span>
-<input class="w-full bg-[#14100c]/90 text-amber-100 placeholder-amber-200/30 text-xs font-semibold pl-10 pr-3 py-2.5 rounded-lg border border-amber-500/30 focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 focus:outline-none transition-all shadow-inner" placeholder="kotovoi@mythius.ru" required="" type="text">
+<input id="loginUserInput" class="w-full bg-[#14100c]/90 text-amber-100 placeholder-amber-200/30 text-xs font-semibold pl-10 pr-3 py-2.5 rounded-lg border border-amber-500/30 focus:border-amber-400 focus:ring-1 focus:ring-amber-400/50 focus:outline-none transition-all shadow-inner" placeholder="kotovoi@mythius.ru" required="" type="text" value="local_smoke">
 </div>
 </div>
 <!-- Field 2: Пароль -->

@@ -491,46 +491,6 @@
 </section>
 </div>
 </div>
-<script>
-    (function() {
-      // Логика фильтрации архетипов по ролям
-      const filterButtons = document.querySelectorAll('.filter-btn');
-      const cards = document.querySelectorAll('.archetype-card');
 
-      filterButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          filterButtons.forEach(b => {
-            b.classList.remove('bg-primary-container', 'text-on-primary-container');
-            b.classList.add('bg-surface-container', 'text-on-surface-variant');
-          });
-          btn.classList.add('bg-primary-container', 'text-on-primary-container');
-          btn.classList.remove('bg-surface-container', 'text-on-surface-variant');
-
-          const role = btn.getAttribute('data-filter');
-          cards.forEach(card => {
-            if (role === 'all' || card.getAttribute('data-role') === role) {
-              card.style.display = 'flex';
-            } else {
-              card.style.display = 'none';
-            }
-          });
-        });
-      });
-
-      // Переключение активного фокуса архетипа
-      cards.forEach(card => {
-        card.addEventListener('click', () => {
-          cards.forEach(c => {
-            c.classList.remove('bg-surface-container-highest');
-            c.classList.add('bg-surface-container-low');
-            c.style.boxShadow = 'none';
-          });
-          card.classList.add('bg-surface-container-highest');
-          card.classList.remove('bg-surface-container-low');
-          card.style.boxShadow = '0 0 12px rgba(217, 155, 38, 0.4)';
-        });
-      });
-    })();
-  </script>
 </div></main><footer class="w-full bg-surface-container-lowest/80 backdrop-blur-md py-space-lg"><div class="max-w-7xl mx-auto px-margin flex flex-col md:flex-row items-center justify-between gap-space-md text-on-surface-variant"><div class="flex items-center gap-space-sm"><span class="material-symbols-outlined text-primary text-[18px]">fort</span><span class="font-label-sm text-label-sm tracking-wide text-on-surface-variant">© 2025 Mythfel: Мифические котики RPG • Поместье Хранителя</span></div><div class="flex items-center gap-space-lg text-on-surface-variant"><span class="font-body-sm text-body-sm text-on-surface-variant">Клиент v1.4.2</span><span class="font-body-sm text-body-sm text-on-surface-variant">Пинг: 24мс</span><span class="font-body-sm text-body-sm text-on-surface-variant">Летописи Таверны</span></div></div></footer>
 </section>

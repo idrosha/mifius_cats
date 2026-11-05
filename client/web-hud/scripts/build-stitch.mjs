@@ -52,19 +52,25 @@ const SCREENS = [
   { id: "auction", file: "auction.html", view: "viewAuction" },
   { id: "rating_players", file: "rating_players.html", view: "viewRatingPlayers" },
   { id: "rating_guilds", file: "rating_guilds.html", view: "viewRatingGuilds" },
+  // Working transition forms (HUD-owned; not raw Stitch packs)
+  { id: "result_lose", file: "result_lose.html", view: "viewResultLose" },
+  { id: "equip_cards", file: "equip_cards.html", view: "viewEquipCards" },
+  { id: "soon_clan", file: "soon_clan.html", view: "viewSoonClan" },
 ];
 
-/** IA routes without painted Stitch yet — empty hosts so navigate() still works */
-const PLACEHOLDERS = [
-  { id: "result_lose", view: "viewResultLose", label: "Поражение" },
-  { id: "soon_clan", view: "viewSoonClan", label: "Клан-босс" },
-  { id: "equip_cards", view: "viewEquipCards", label: "Карточки экипировки" },
-];
+/** Reserved — keep empty list so IA never drops a route silently */
+const PLACEHOLDERS = [];
 
 function extractBody(html) {
   const m = html.match(/<body[^>]*>([\s\S]*)<\/body>/i);
   if (!m) throw new Error("no <body>");
-  return m[1].trim();
+  // Strip inline scripts: many Stitch screens redeclare the same const/ids
+  // (e.g. rollDiceBtn ×3 chats) which throws once concatenated into index.html.
+  // Behavior lives in public/app.js.
+  return m[1]
+    .replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, "")
+    .replace(/<script\b[^>]*\/>/gi, "")
+    .trim();
 }
 
 function extractTailwindConfig(html) {
