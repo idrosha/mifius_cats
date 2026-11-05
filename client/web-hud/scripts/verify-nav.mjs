@@ -180,6 +180,8 @@ ok("app navigate()", js.includes("function navigate("));
 ok("app battle/devapi CreatePvE", js.includes("/api/battle/v1/CreatePvE"));
 ok("app no client damage authority note", js.includes("No combat authority"));
 ok("app GrantStarterKit smoke", js.includes("/api/dev/starter") && js.includes("applyStarterGrant"));
+ok("app stub auth free login", js.includes("/api/dev/login") && js.includes("mythfelStubLogin") && js.includes("function stubLogin"));
+ok("app soft-launch test roster flag", js.includes("testRoster: true"));
 ok("boss_raid remap from pve_12", js.includes('boss_raid') && html.includes('data-stitch="boss_raid"'));
 ok(
   "boss_dungeon wired",
@@ -308,20 +310,72 @@ try {
     const starter = await fetch(`${BASE}/api/dev/starter`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ userId: "verify_nav" }),
+      body: JSON.stringify({ userId: "verify_nav", testRoster: true }),
     });
     const kit = await starter.json();
+    const roles = Object.create(null);
+    for (const c of kit.cats || []) roles[c.role] = (roles[c.role] || 0) + 1;
+    const shopIds = [
+      "shop_tank_stone_a",
+      "shop_tank_stone_b",
+      "shop_fighter_fire_a",
+      "shop_fighter_fire_b",
+      "shop_ranger_grass_a",
+      "shop_ranger_grass_b",
+      "shop_support_water_a",
+      "shop_support_water_b",
+    ];
     ok(
-      "http GrantStarterKit §5.1",
+      "http soft-launch test grant 12 cats",
       starter.ok &&
         kit.fish === 200 &&
         kit.bowls === 3 &&
         kit.pvpTickets === 5 &&
         kit.yarn === 0 &&
-        kit.cats?.length === 4 &&
+        kit.cats?.length === 12 &&
         kit.potions?.length === 6 &&
         kit.gear === null &&
-        kit.cats.some((c) => c.templateId === "starter_farm_grass"),
+        kit.softLaunchTestRoster === true &&
+        kit.cats.some((c) => c.templateId === "starter_farm_grass") &&
+        shopIds.every((id) => kit.cats.some((c) => c.templateId === id)) &&
+        (roles.tank || 0) >= 2 &&
+        (roles.fighter || 0) >= 2 &&
+        (roles.ranger || 0) >= 2 &&
+        (roles.support || 0) >= 2,
+    );
+    const pure = await fetch(`${BASE}/api/dev/starter`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ userId: "verify_nav_pure", testRoster: false }),
+    });
+    const pureKit = await pure.json();
+    ok(
+      "http GrantStarterKit §5.1 pure (testRoster:false)",
+      pure.ok && pureKit.cats?.length === 4 && pureKit.softLaunchTestRoster === false,
+    );
+    const loginRes = await fetch(`${BASE}/api/dev/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ login: "any", password: "thing" }),
+    });
+    const loginBody = await loginRes.json();
+    ok(
+      "http stub login free auth",
+      loginRes.ok &&
+        loginBody.ok === true &&
+        loginBody.stubAuth === true &&
+        loginBody.passwordAccepted === true &&
+        loginBody.profile?.cats?.length === 12,
+    );
+    const emptyLogin = await fetch(`${BASE}/api/dev/login`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ login: "", password: "" }),
+    });
+    const emptyBody = await emptyLogin.json();
+    ok(
+      "http stub login empty credentials ok",
+      emptyLogin.ok && emptyBody.ok === true && emptyBody.profile?.cats?.length === 12,
     );
   }
 } catch (err) {
