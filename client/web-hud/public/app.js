@@ -3036,7 +3036,7 @@ function wireButtons() {
   $("btnMarketQuickSell")?.addEventListener("click", () => sellFarmLoot("market"));
   $("btnAuctionList")?.addEventListener("click", () => {
     if (state.farmBag.length) sellFarmLoot("auction");
-    else showGateTip(t("auction.list.tip", "Нет лута — собери на ферме или подними ранг"));
+    else showGateTip(t("auction.list.tip", "Нет лута — собери во дворе или подними ранг"));
   });
   $("btnPvpStart")?.addEventListener("click", () => pvpStart());
   $("btnMarketToShop").addEventListener("click", () => navigate("shop"));
