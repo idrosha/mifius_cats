@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-11-06T07:32:10.170Z",
+  "generatedAt": "2026-11-06T08:30:44.567Z",
   "packs": [
     "0268",
     "64d5",
@@ -10,7 +10,17 @@
     "17eb",
     "1b5c"
   ],
-  "mappings": {},
-  "publicCount": 0,
-  "ephemeralCount": 0
+  "mappings": {
+    "https://lh3.googleusercontent.com/aida-public/AB6AXuDjBXmwU5oIZ3fkG10-IRXynnMnhPsf3KI55mIRuzMbn290o4QGLzcQzF798vf3FqW0Xe0zxDaxm4LopCT7TRYA-fJxcrfK9eV1-QDQWGFsQ068IUMofn-A56SX8cLB31ABflutxLiA3rCTN3ypXQqwEVG_Al1R3aiVUzL2uqQcqLGx22zu6h4LCsAm2jWXmzS6j4domHQVO6YZwvLpVi-0reFvl3o94GVhDzTJDA": "/stitch-assets/a27e59fd6408.jpg",
+    "https://lh3.googleusercontent.com/aida/AEtjO1XxGFSH9xu2FKdWvM6lBI79MMJUNsZCnziPAhUZLwX8lBuaiPyaNoD6Ivsqd6cq5-HP3NKIG4EIOp3n_ajmix-jy5b4hXN0jNdQjkGabohkx0lSRdaAIqSaDClD6OjrjqBhI0vUGX_uGonl6nyUTAD4J0wi1s_byUM3N-Y4FfW0GRQOFf-RdJUoqla1pl5I4xRYLLDQ3vLc6StzfgoId5Q6yNhS4y2zzdn0oUM8cRI": "/stitch-ref/0268/hub-portals-etalon.png",
+    "https://lh3.googleusercontent.com/aida/AEtjO1VOdUjip7yXrt8rCRB-7vvMwXIfHUeJdzne3Irazk6t2ocG_AwDUfX7E4fbcvm5zhpFyTvBflxhjPOAsWA8U6uzNOM8fezd8NEDEFnrpyuxcuhwHEU7Yd51-ngpoIsNdEBq5LWSO-8WQYUFpidPCJtb_bI96qRWYGB7hnBdipGC8aEJsfqizDvu8kgOd2lqSUf79JQl0xdyh1fouQe2XTtGgcKbysl7g0FSAt873Uk": "/stitch-assets/login-hero.png",
+    "https://lh3.googleusercontent.com/aida/AEtjO1VXTbfCi2T6HUXST2rkbEvD1BhtiQkVyNMdrmM2VfC438aG7d0S29A4JehdNPUBulA5SmqyLb7NsFz8qhV8GfhBdy1aisV1DsouUhK0xEOvieV8RYW40UrbQA3jo5olx4Z9Ig-Q4u9MQcnnRFJ2dhbKCFywIRb5zWS-NXA8dhXaG-XdncxMDCfOaZ7mu2bDTkSjoNKqnUHmy_aJ8Q-0MGQlpcOFKqAFR-jKrbX8Fd8": "/stitch-ref/0268/hub.png",
+    "https://lh3.googleusercontent.com/aida/AEtjO1VS-1UJd51LrrOBwZmpVXNVeoyzGPzmd4y-Uj4xJpWDF_QTXl8OHhqWDzfvbzd4n7aRFFLEM-Gnrb7UrUcUrEBRgHYh_jSvMn6eDg7YoAxynmszGDtUE5cbBXvpexpzj1gY-bgYUYbvzPfuFmw54fyxM0FwoJ0KwykLdiLJZYptufRlGA4mwXwvxmCOI5dsyU3wOif6_hfL4sTy7au-ZULCImyuGDb8p-RuPZlNmvA": "/stitch-ref/0268/hub-portals-etalon.png",
+    "https://lh3.googleusercontent.com/aida/AEtjO1UTONOVCyLw5-W2qQYB7ZFyjsPwNAMvaP9-Hze_fhXtqELVRuBrcrZPNTUcRcrw4UB93AC8iI79oPbONvgsH2opuuc1opVfxbcNaxigBiSkzxqqoi_tGCKT9pI33FtildrClgnUOlDjsFK1a-261QTghBOrDrMhb8y5jL0_hrhBiFnwZBa_IqDZm9HyutkvtY4U43RBzVvPa9p8yiMdR_L4BSnzYqea5DLEqZOphwI": "/stitch-assets/login-hero.png",
+    "https://lh3.googleusercontent.com/aida/AEtjO1Ww9C9pGPxcPRqzqAPkN_xCd2BN2Czj52l4YQBj93vR-0HiT_57N8u-jCD7bjaFJ8RSO2c816Ruqsuz98kwho63T70p2VihJABl4t4aOizxWEYeeO4y7UBrVwL9sSuBrdInmTwsfujuWtXMji5i67FJ9f8a_XF0pjg_x-_WJvM_jKqd-3Vp9CWWcs4trCWKkSbxjVOvS71I82QoKHeWuoXJkmgbuVlpys10bGafJnA": "/stitch-ref/0268/hub.png",
+    "https://lh3.googleusercontent.com/aida/AEtjO1W3Z0JnSMMBbPq8kaaIxwT_2pKQGkO1XijvF-tOyTn-p18v5YYalVNvJkgCG8PsuW3Mj3e3urnws2kxdOa15d3mo8RSuonMKwpR5LXR7sDKS4CjRNutlDhkUDs0No5RgpNjVL05yCDSLUQMTq5929HKU76K60oIkgduhXFhwB9vtCPRw_YQtW2IwtLFd80J8otPKLMJhApQavnSTtARcva5kCvAZNd5kngVw3EMZZY": "/stitch-ref/0268/hub-portals-etalon.png",
+    "https://lh3.googleusercontent.com/aida/AEtjO1Xiwam8_itGUEI466dLlMk1MOtg4IXz3tWc_gqtjYO9H_GFNrotOwXHu2Ky898mPuYpymTPCIk0kXrmQmOYrJ4kFU4ZwX39KkSuHEhz0Fvv75aMfXfoGiBttBo2e_kyHdgT9gOhhGAqYyiwfPHJKWeK6Y_A7QlZ9MFqcUql-CrTctVLh1Cq1GPLHX3V8nOu4DVVj29SBjKlV88v6zsDYKfas-Sh59IiXgT3V9jdyw": "/stitch-assets/login-hero.png"
+  },
+  "publicCount": 1,
+  "ephemeralCount": 8
 }
