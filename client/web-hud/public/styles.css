@@ -367,7 +367,7 @@ body.mythfel-login .mythfel-logout {
   opacity: 0.95;
 }
 
-/* Двор (estate): map full-bleed — no side gutters / inset card / floating stub */
+/* Двор (estate): map full-bleed width; art scale-to-fit (no crop) */
 #viewSoonFarm {
   width: 100% !important;
   max-width: none !important;
@@ -390,6 +390,27 @@ body.mythfel-login .mythfel-logout {
 }
 #viewSoonFarm #farmLivePanel {
   display: none !important;
+}
+/* Scale entire map art into the stage — object-fit contain, no clip */
+#viewSoonFarm .farm-map-stage {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  width: 100% !important;
+  overflow: hidden !important;
+  background: #110d0b !important;
+}
+#viewSoonFarm .farm-map-art,
+#viewSoonFarm img[alt="Двор и Угодья"] {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: 100% !important;
+  max-height: 100% !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  /* override any Stitch object-cover utility */
+  object-fit: contain !important;
 }
 .mythfel-subtabs button.stub::after,
 .mythfel-subtabs button.soon::after {
