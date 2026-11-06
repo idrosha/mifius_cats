@@ -576,8 +576,12 @@
     "en": "Farm"
   },
   "nav.sub.collection": {
-    "ru": "Коллекции питомцев",
-    "en": "Pet collection"
+    "ru": "Коллекция котиков",
+    "en": "Cat collection"
+  },
+  "nav.sub.knowledge": {
+    "ru": "База знаний",
+    "en": "Knowledge base"
   },
   "nav.sub.craft": {
     "ru": "Крафт",
