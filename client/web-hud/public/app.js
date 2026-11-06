@@ -773,6 +773,11 @@ function showView(id) {
 
 function updateWireDock() {
   const mode = state.wireMode;
+  // Двор: hide fat HUD wire cluster — thin in-form resource strip only
+  const dock = $("wireDock");
+  const hideDock = state.tab === "farm" || (mode === "soon" && state.tab === "farm");
+  document.body.classList.toggle("mythfel-farm", state.tab === "farm");
+  if (dock) dock.classList.toggle("wire-dock-suppressed", state.tab === "farm");
   for (const el of document.querySelectorAll("#wireDock [data-for]")) {
     const match = el.getAttribute("data-for") === mode;
     el.classList.toggle("wire-hidden", !match);

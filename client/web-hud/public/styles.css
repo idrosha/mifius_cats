@@ -41,15 +41,16 @@ html, body {
   align-items: stretch;
 }
 
-/* One landscape stage for every form — same size, no portrait phone column */
+/* Full-width landscape stage under chrome — no side letterbox gutters.
+ * width+height both set → aspect-ratio is ignored at layout time (IA token kept). */
 #app {
   flex: 1 1 auto;
-  width: var(--mythfel-form-max-w);
+  width: 100%;
   max-width: 100%;
   height: var(--mythfel-form-max-h);
   max-height: var(--mythfel-form-max-h);
   aspect-ratio: var(--mythfel-form-ratio);
-  margin-inline: auto;
+  margin-inline: 0;
   min-height: 0;
   display: flex;
   flex-direction: column;
@@ -366,7 +367,11 @@ body.mythfel-login .mythfel-logout {
   opacity: 0.95;
 }
 
-/* Двор (estate): map full-bleed in #app — no inset card / floating stub */
+/* Двор (estate): map full-bleed — no side gutters / inset card / floating stub */
+#viewSoonFarm {
+  width: 100% !important;
+  max-width: none !important;
+}
 #viewSoonFarm > main {
   padding: 0 !important;
   margin: 0 !important;
@@ -689,23 +694,25 @@ body:not(.mythfel-login) {
 }
 .mythfel-login #appNav,
 .mythfel-login #appSubTabs,
-.mythfel-login #wireDock {
+.mythfel-login #wireDock,
+body.mythfel-farm #wireDock,
+#wireDock.wire-dock-suppressed {
   display: none !important;
 }
+body.mythfel-farm {
+  --mythfel-chrome-stack: 7.25rem;
+}
 .mythfel-login #app {
-  width: min(100vw, calc(100dvh * 16 / 9));
+  width: 100vw;
   max-width: 100vw;
-  height: min(100dvh, calc(100vw * 9 / 16));
+  height: 100dvh;
   max-height: 100dvh;
-  margin: auto;
+  margin: 0;
 }
 
 /*
- * Login gate layout vs etalon:
- * - full-bleed hero (3 cats) as fixed bg
- * - restore Stitch column max-widths / card width (global flush rules break them)
- * - keep Stitch in-screen header + footer (not #appNav)
- * - fill viewport height
+ * Login gate: lore flush left, auth card flush right (edge-to-edge in stage).
+ * Full-bleed hero bg; keep in-screen header/footer (not #appNav).
  */
 #viewLogin {
   position: relative;
@@ -719,20 +726,31 @@ body:not(.mythfel-login) {
   display: flex !important;
   flex-direction: column !important;
   justify-content: space-between !important;
+  width: 100% !important;
+  max-width: none !important;
+  padding-inline: 0 !important;
+}
+/* Lore + card row: full stage width, no centered max-w-7xl gutters */
+#viewLogin .max-w-none,
+#viewLogin .max-w-7xl,
+#viewLogin main > .relative.z-20.flex-1 {
+  max-width: none !important;
+  width: 100% !important;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
 }
 #viewLogin .max-w-xl {
   max-width: 36rem !important;
   width: auto !important;
-}
-#viewLogin .max-w-7xl {
-  max-width: 80rem !important;
-  width: 100% !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
+  margin-left: 0 !important;
 }
 #viewLogin [class*="max-w-[420px]"] {
   max-width: 420px !important;
   width: 100% !important;
+  margin-left: auto !important;
+  margin-right: 0 !important;
 }
 #viewLogin header,
 #viewLogin footer {
