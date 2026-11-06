@@ -2108,7 +2108,7 @@ function harvestZone(zoneId) {
 
 function sellFarmLoot(channel = "market") {
   if (!state.farmBag.length) {
-    toast("Сумка фермы пуста — посади и собери");
+    toast("Сумка двора пуста — посади и собери");
     return;
   }
   const item = state.farmBag.shift();
