@@ -2929,8 +2929,19 @@ function wireLoginForm() {
   }
 }
 
+function stubLogout() {
+  state.loggedIn = false;
+  state.battle = null;
+  state.tab = "login";
+  state.primary = "combat";
+  document.body.classList.add("mythfel-login");
+  navigate("login");
+  toast(t("auth.logout", "Вы вышли (stub)"));
+}
+
 function wireButtons() {
   $("btnBrandHub")?.addEventListener("click", () => navigate("hub"));
+  $("btnLogout")?.addEventListener("click", () => stubLogout());
   $("btnLoginEnter")?.addEventListener("click", () => {
     stubLogin({
       login: $("loginUserInput")?.value || "wire_dock",

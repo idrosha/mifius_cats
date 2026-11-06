@@ -152,6 +152,15 @@ const index = `<!DOCTYPE html>
       </button>
       <nav id="appTabs" class="mythfel-primary" aria-label="Основные разделы"></nav>
       <div id="hudChrome" class="mythfel-chrome" aria-label="status">
+        <div class="mythfel-social" aria-label="Соцсети">
+          <a class="mythfel-social-btn" id="btnSocialTg" href="https://t.me/" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram">
+            <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8-1.55 7.3c-.12.54-.43.67-.87.42l-2.4-1.77-1.16 1.12c-.13.13-.24.24-.49.24l.17-2.43 4.43-4.01c.19-.17-.04-.27-.3-.1l-5.48 3.45-2.36-.74c-.51-.16-.52-.51.11-.76l9.22-3.55c.43-.16.8.1.68.63z"/></svg>
+          </a>
+          <a class="mythfel-social-btn" id="btnSocialVk" href="https://vk.com/" target="_blank" rel="noopener noreferrer" title="VK" aria-label="VK">
+            <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M12.63 16.95h-.97s-1.72-.2-3.23-2.16C6.7 12.6 5.4 9.14 5.4 9.14s-.08-.22.05-.33c.16-.13.58-.13.58-.13l2.05.01s.19.03.33.16c.12.11.18.29.18.29s.34.92.8 1.74c.88 1.58 1.28 1.92 1.58 1.75.43-.24.3-2.21.3-2.21s.01-.71-.22-.99c-.18-.22-.52-.28-.67-.3-.12-.02.08-.28.34-.4.31-.14.86-.15 1.51-.14.5.01.65.04.84.09.44.13.42.45.39 1.28l-.02 1.95c-.03.55.13.66.42.61.27-.05 1.54-1.71 2.46-3.41.38-.7.66-1.26.66-1.26s.08-.17.21-.24c.14-.07.33-.05.33-.05h2.17s.65-.07.76.24c.12.32-.13.97-1.2 2.35-.9 1.16-1.35 1.91-1.33 2.48.01.45.45.69 1.03 1.31.92.97 1.28 1.71 1.38 1.93.27.56-.15.85-.15.85h-1.94s-.34.04-.63-.21c-.25-.21-.61-.74-1.26-1.67-.62-.89-.89-.99-1.16-.96-.38.04-.29.43-.29.43v1.66s-.04.63-.37.76c-.33.13-.78.04-1.8-.01z"/></svg>
+          </a>
+        </div>
+        <button type="button" class="mythfel-logout" id="btnLogout" title="Выйти">Logout</button>
         <div id="liveopsPill" class="status-pill">LiveOps…</div>
         <div id="battlePill" class="status-pill">Battle…</div>
         <div class="locale-switch" id="localeSwitch"></div>
