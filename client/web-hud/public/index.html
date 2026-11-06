@@ -4045,10 +4045,11 @@
 </div>
 </div>
 </div>
-<!-- MAIN INTERACTIVE MAP CONTAINER -->
-<div class="farm-map-stage w-full flex-1 flex flex-col min-h-0 overflow-hidden relative border-0 shadow-none bg-surface-container-lowest justify-between">
+<!-- MAIN STAGE: map left + full-height quick actions right -->
+<div class="farm-stage-row w-full flex-1 flex min-h-0 overflow-hidden">
+<div class="farm-map-stage flex flex-col min-h-0 overflow-hidden relative border-0 shadow-none bg-surface-container-lowest justify-between">
 <!-- Painterly Agrarian Landscape Background -->
-<img alt="Двор и Угодья" class="farm-map-art absolute inset-0 w-full h-full object-contain object-center pointer-events-none brightness-95 contrast-105" src="/stitch-ref/64d5/farm_map.png"/>
+<img alt="Двор и Угодья" class="farm-map-art absolute inset-0 w-full h-full object-contain object-left pointer-events-none brightness-95 contrast-105" src="/stitch-ref/64d5/farm_map.png"/>
 <!-- Ambient Lighting & Vignette Overlay -->
 <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 via-transparent to-surface-container-lowest/50 pointer-events-none"><!-- 1. NORTHWEST CAVE MINE: ЖЕЛЕЗНАЯ ШТОЛЬНЯ (Пещера с кристаллами и рудой) -->
 <div class="absolute top-[6%] left-[19%] -translate-x-1/2 pointer-events-auto flex flex-col items-center group cursor-pointer z-20">
@@ -4483,8 +4484,43 @@
 </div>
 </div>
 </div>
+<aside class="farm-side-actions" id="farmSideActions" aria-label="Быстрые действия двора">
+<button type="button" class="farm-action-btn" data-farm-action="hire" id="farm-action-hire">
+<span class="material-symbols-outlined">person_add</span>
+<span>Найм фермера</span>
+</button>
+<button type="button" class="farm-action-btn" data-farm-action="plant" id="farm-action-plant">
+<span class="material-symbols-outlined">yard</span>
+<span>Посадка</span>
+</button>
+<button type="button" class="farm-action-btn" data-farm-action="repair" id="farm-action-repair">
+<span class="material-symbols-outlined">build</span>
+<span>Починка расходников</span>
+</button>
+<button type="button" class="farm-action-btn farm-action-btn--primary" data-farm-action="collect" id="farm-action-collect">
+<span class="material-symbols-outlined">cyclone</span>
+<span>Сбор (со всех узлов)</span>
+</button>
+<button type="button" class="farm-action-btn" data-farm-action="distribute" id="farm-action-distribute">
+<span class="material-symbols-outlined">tune</span>
+<span>Авто-распределение</span>
+</button>
+<button type="button" class="farm-action-btn" data-farm-action="autofarm" id="farm-action-autofarm">
+<span class="material-symbols-outlined">autorenew</span>
+<span>Автоферма</span>
+</button>
+<button type="button" class="farm-action-btn" data-farm-action="sell" id="farm-action-sell">
+<span class="material-symbols-outlined">storefront</span>
+<span>Продать лут</span>
+</button>
+<button type="button" class="farm-action-btn" data-farm-action="market" id="farm-action-market">
+<span class="material-symbols-outlined">shopping_basket</span>
+<span>Рынок (семена/tools)</span>
+</button>
+</aside>
+</div>
 <!-- BOTTOM CONSOLE: thin resources + quick actions strip -->
-<div class="w-full bg-surface-container-low border-t border-outline-variant/40 px-3 py-1.5 flex flex-wrap items-center gap-2 shrink-0">
+<div class="farm-thin-strip w-full bg-surface-container-low border-t border-outline-variant/40 px-3 py-1.5 flex flex-wrap items-center gap-2 shrink-0">
 <button type="button" id="collect-all-btn" class="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-[11px] font-bold shadow-sm shrink-0">
 <span class="material-symbols-outlined text-[16px]">bolt</span>
 <span>Собрать со всех</span>

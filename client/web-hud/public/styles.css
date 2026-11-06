@@ -367,7 +367,7 @@ body.mythfel-login .mythfel-logout {
   opacity: 0.95;
 }
 
-/* Двор (estate): map full-bleed width; art scale-to-fit (no crop) */
+/* Двор (estate): map left + full-height side actions; flush thin strip */
 #viewSoonFarm {
   width: 100% !important;
   max-width: none !important;
@@ -379,25 +379,46 @@ body.mythfel-login .mythfel-logout {
   width: 100% !important;
   height: 100% !important;
   min-height: 0 !important;
+  gap: 0 !important;
 }
 #viewSoonFarm > main > div {
   padding-left: 0 !important;
   padding-right: 0 !important;
+  padding-bottom: 0 !important;
+  margin: 0 !important;
   max-width: none !important;
   width: 100% !important;
   min-height: 0 !important;
   flex: 1 1 auto !important;
+  gap: 0 !important;
 }
 #viewSoonFarm #farmLivePanel {
   display: none !important;
 }
-/* Scale entire map art into the stage — object-fit contain, no clip */
-#viewSoonFarm .farm-map-stage {
+/* Map + right quick-actions share the stage height (no side gutters) */
+#viewSoonFarm .farm-stage-row {
+  display: flex !important;
+  flex-direction: row !important;
   flex: 1 1 auto !important;
   min-height: 0 !important;
   width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  gap: 0 !important;
+  align-items: stretch !important;
+}
+/* Map column: height-fill; width from art aspect so whole map visible, flush left */
+#viewSoonFarm .farm-map-stage {
+  flex: 0 1 auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  width: auto !important;
+  max-width: calc(100% - 11.5rem) !important;
+  aspect-ratio: 1376 / 768 !important;
   overflow: hidden !important;
   background: #110d0b !important;
+  margin: 0 !important;
 }
 #viewSoonFarm .farm-map-art,
 #viewSoonFarm img[alt="Двор и Угодья"] {
@@ -408,9 +429,73 @@ body.mythfel-login .mythfel-logout {
   max-width: 100% !important;
   max-height: 100% !important;
   object-fit: contain !important;
-  object-position: center center !important;
-  /* override any Stitch object-cover utility */
-  object-fit: contain !important;
+  object-position: left center !important;
+}
+/* Right column fills leftover width; buttons stretch full height */
+#viewSoonFarm .farm-side-actions {
+  flex: 1 1 11.5rem !important;
+  min-width: 11.5rem !important;
+  max-width: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: stretch !important;
+  align-items: stretch !important;
+  gap: 0.35rem !important;
+  padding: 0.4rem 0.45rem !important;
+  margin: 0 !important;
+  min-height: 0 !important;
+  overflow: auto !important;
+  background: #1f1b18 !important;
+  border-left: 1px solid rgba(157, 143, 123, 0.4) !important;
+  box-sizing: border-box !important;
+}
+#viewSoonFarm .farm-side-actions .farm-action-btn {
+  flex: 1 1 0 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 0.45rem !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+  padding: 0.45rem 0.55rem !important;
+  border-radius: 0.5rem !important;
+  border: 1px solid rgba(157, 143, 123, 0.35) !important;
+  background: #2e2926 !important;
+  color: #eae1db !important;
+  font-family: Rubik, sans-serif !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  text-align: left !important;
+  cursor: pointer !important;
+  transition: background 0.15s ease, border-color 0.15s ease !important;
+}
+#viewSoonFarm .farm-side-actions .farm-action-btn .material-symbols-outlined {
+  font-size: 18px !important;
+  color: #fdba45 !important;
+  flex-shrink: 0 !important;
+}
+#viewSoonFarm .farm-side-actions .farm-action-btn:hover {
+  background: #393430 !important;
+  border-color: rgba(253, 186, 69, 0.45) !important;
+}
+#viewSoonFarm .farm-side-actions .farm-action-btn--primary {
+  background: #d99b26 !important;
+  border-color: #fdba45 !important;
+  color: #281900 !important;
+}
+#viewSoonFarm .farm-side-actions .farm-action-btn--primary .material-symbols-outlined {
+  color: #281900 !important;
+}
+#viewSoonFarm .farm-side-actions .farm-action-btn--primary:hover {
+  background: #fdba45 !important;
+}
+/* Thin resource strip flush under map row — no bottom void */
+#viewSoonFarm .farm-thin-strip {
+  margin: 0 !important;
+  flex-shrink: 0 !important;
 }
 .mythfel-subtabs button.stub::after,
 .mythfel-subtabs button.soon::after {
@@ -722,6 +807,13 @@ body.mythfel-farm #wireDock,
 }
 body.mythfel-farm {
   --mythfel-chrome-stack: 7.25rem;
+}
+/* Farm stage fills leftover viewport — no black void under thin strip */
+body.mythfel-farm #app {
+  flex: 1 1 auto !important;
+  height: auto !important;
+  max-height: none !important;
+  min-height: 0 !important;
 }
 .mythfel-login #app {
   width: 100vw;
