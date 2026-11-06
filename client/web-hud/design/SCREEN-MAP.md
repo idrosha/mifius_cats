@@ -98,3 +98,7 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 
 Andrew / preferences: **landscape**; **same form size** (`#app` 16:9 stage); **blocks filled** (no empty holes); **single flush level**.  
 Shell: `data-layout="landscape"` + `.mythfel-form` on every view; CSS `--mythfel-form-ratio`.
+
+## Battles/trade/guild etalons (2026-11-06)
+
+Imported PNGs → `design/stitch-ref/battles-trade-guild-etalons/` + overwrite e608/4da7/17eb/18c7 plate refs. Live BGs: battle/result_win/practice/yard/guild_battle/boss_dungeon + ambient shop/market/auction/pvp/boss_raid/gear. Nav IA + Двор unchanged. Inventory etalon 17 → gear ambient (no new route).
