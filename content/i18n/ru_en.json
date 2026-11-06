@@ -136,7 +136,7 @@
     "en": "Clan Boss"
   },
   "hub.soon.farm.title": {
-    "ru": "Ферма",
+    "ru": "Двор",
     "en": "Farm"
   },
   "hub.soon.nursery.title": {
@@ -272,7 +272,7 @@
     "en": "Clan & boss — soon"
   },
   "hub.portal.farm": {
-    "ru": "Угодья усадьбы — скоро",
+    "ru": "Двор усадьбы — скоро",
     "en": "Estate farm — soon"
   },
   "hub.portal.nursery": {
@@ -572,7 +572,7 @@
     "en": "Character"
   },
   "nav.sub.farm": {
-    "ru": "Ферма",
+    "ru": "Двор",
     "en": "Farm"
   },
   "nav.sub.collection": {
