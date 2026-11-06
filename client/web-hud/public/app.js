@@ -1144,6 +1144,17 @@ function softNavigateFromLabel(label) {
     ["начать тренир", () => startPractice(false)],
     ["тренировка (манекен)", () => startPractice(false)],
     ["карта", () => navigate("yard")],
+    ["мифмир", () => navigate("yard")],
+    ["в поход", () => navigate("yard")],
+    ["бой 3v3", () => navigate("pvp")],
+    ["рейд на дога", () => navigate("boss_raid")],
+    ["двор усадьб", () => navigate("farm", { soon: "farm" })],
+    ["коллекция котик", () => navigate("collection")],
+    ["лавка и маркет", () => navigate("shop")],
+    ["тренировочн", () => navigate("practice")],
+    ["гильдия когтя", () => navigate("guild")],
+    ["открыть боевой пасс", () => navigate("pass")],
+    ["боевой пасс", () => navigate("pass")],
     ["повтор", () => navigate("formation")],
   ];
   const low = label.toLowerCase();

@@ -91,7 +91,11 @@ async function vendorPublic() {
 
 /** Prefer pack screen.png / art refs per consuming file */
 const SCREEN_FALLBACKS = {
-  "hub.html": ["/stitch-ref/0268/hub.png", "/stitch-ref/64d5/cat_portrait.png"],
+  "hub.html": [
+    "/stitch-ref/0268/hub-portals-etalon.png",
+    "/stitch-assets/login-hero.png",
+    "/stitch-ref/0268/hub.png",
+  ],
   "login.html": ["/stitch-assets/login-hero.png", "/stitch-ref/1b5c/login.png"],
   "collection.html": ["/stitch-ref/0268/collection.png", "/stitch-ref/64d5/cat_portrait.png"],
   "armor_sets.html": ["/stitch-ref/0268/gear.png", "/stitch-ref/0268/home.png"],

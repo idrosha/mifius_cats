@@ -560,6 +560,38 @@ html, body {
 }
 
 
+/* Hub: keep painted portals composition; compact IA chrome above it. */
+body:not(.mythfel-login) {
+  --mythfel-chrome-stack: 5.75rem;
+}
+.mythfel-nav {
+  background: rgba(17, 13, 11, 0.92);
+}
+.mythfel-nav-top {
+  padding: 0.3rem 0.75rem;
+  gap: 0.45rem 0.75rem;
+}
+.mythfel-primary button {
+  padding: 0.28rem 0.55rem;
+  font-size: 11px;
+}
+.mythfel-subtabs {
+  padding: 0.2rem 0.55rem 0.35rem;
+  gap: 0.25rem;
+}
+.mythfel-subtabs button {
+  padding: 0.28rem 0.55rem;
+  font-size: 11px;
+}
+/* Hub stage: no leftover Stitch header padding after chrome-kill */
+#viewHub > main {
+  padding-top: 0.5rem !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  overflow: auto !important;
+}
+
 /* Soft-launch overlays + gated nav */
 /* Pre-hub gate: outer HUD chrome off — only Stitch login stage (etalon). */
 .mythfel-login {
