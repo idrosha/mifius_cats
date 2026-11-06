@@ -2187,6 +2187,136 @@ function harvestZone(zoneId) {
   renderFarm();
 }
 
+function harvestAllReadyZones() {
+  const ready = FARM_ZONES.filter((z) => state.farmState[z.id]?.ready);
+  if (!ready.length) {
+    toast("Нет готовых зон — посади урожай");
+    return;
+  }
+  for (const z of ready) {
+    const fs = state.farmState[z.id];
+    const loot = {
+      id: `farm_${z.id}_${Date.now()}`,
+      name: fs.crop || "crop_bundle",
+      kind: z.id === "fishing" ? "fish" : "crop",
+      bid: z.id === "fishing" ? 18 : 12,
+      qty: 1,
+    };
+    state.farmBag.push(loot);
+    fs.planted = false;
+    fs.ready = false;
+  }
+  toast(`Сбор со всех узлов · ${ready.length} зон → сумка двора`);
+  renderFarm();
+}
+
+function distributeYardWorkers() {
+  const empty = FARM_ZONES.filter((z) => !state.farmState[z.id]?.farmer);
+  if (!empty.length) {
+    toast("Авто-распределение · все посты заняты");
+    return;
+  }
+  // Hire first empty post (stub — full auto-assign later)
+  hireFarmer(empty[0].id);
+  toast(`Авто-распределение · слот «${empty[0].label}»${empty.length > 1 ? ` · ещё пусто: ${empty.length - 1}` : ""}`);
+}
+
+function repairYardConsumables() {
+  toast("Починка расходников · stub (лопата/топор/кирка с Рынка)");
+}
+
+function toggleYardAutofarm() {
+  if (!passActive()) {
+    showGateTip(t("farm.autofarm.lead.locked", "Нужен ACTIVE пасс · иначе tip «Активируй боевой пасс»"));
+    return;
+  }
+  const key = "autofarm_crops";
+  state.autofarm[key] = !state.autofarm[key];
+  toast(
+    state.autofarm[key]
+      ? t("farm.autofarm.on", "Автоферма ON · stub (сервер later)")
+      : t("farm.autofarm.off", "Автоферма OFF"),
+  );
+  renderFarm();
+}
+
+function bindFarmSideActions() {
+  const host = $("farmSideActions");
+  if (!host || host.dataset.mythfelBound) return;
+  host.dataset.mythfelBound = "1";
+  host.addEventListener(
+    "click",
+    (ev) => {
+      const btn = ev.target.closest?.("[data-farm-action]");
+      if (!btn) return;
+      ev.preventDefault();
+      ev.stopPropagation();
+      const action = btn.getAttribute("data-farm-action");
+      const first = FARM_ZONES[0];
+      const empty = FARM_ZONES.find((z) => !state.farmState[z.id]?.farmer) || first;
+      const plantable =
+        FARM_ZONES.find((z) => state.farmState[z.id]?.farmer && !state.farmState[z.id]?.ready) || empty;
+      switch (action) {
+        case "hire":
+          hireFarmer(empty.id);
+          break;
+        case "plant":
+          if (!state.farmState[plantable.id]?.farmer) hireFarmer(plantable.id);
+          plantZone(plantable.id);
+          break;
+        case "repair":
+          repairYardConsumables();
+          break;
+        case "collect":
+          harvestAllReadyZones();
+          break;
+        case "distribute":
+          distributeYardWorkers();
+          break;
+        case "autofarm":
+          toggleYardAutofarm();
+          break;
+        case "sell":
+          sellFarmLoot("market");
+          break;
+        case "market":
+          navigate("market");
+          break;
+        default:
+          break;
+      }
+    },
+    true,
+  );
+
+  const topCollect = $("btn-collect-all");
+  if (topCollect && !topCollect.dataset.mythfelBound) {
+    topCollect.dataset.mythfelBound = "1";
+    topCollect.addEventListener(
+      "click",
+      (ev) => {
+        ev.preventDefault();
+        ev.stopImmediatePropagation();
+        harvestAllReadyZones();
+      },
+      true,
+    );
+  }
+  const topDist = $("btn-distribute");
+  if (topDist && !topDist.dataset.mythfelBound) {
+    topDist.dataset.mythfelBound = "1";
+    topDist.addEventListener(
+      "click",
+      (ev) => {
+        ev.preventDefault();
+        ev.stopImmediatePropagation();
+        distributeYardWorkers();
+      },
+      true,
+    );
+  }
+}
+
 function sellFarmLoot(channel = "market") {
   if (!state.farmBag.length) {
     toast("Сумка двора пуста — посади и собери");
@@ -2249,9 +2379,7 @@ function renderFarm() {
       (ev) => {
         ev.preventDefault();
         ev.stopImmediatePropagation();
-        const ready = FARM_ZONES.find((z) => state.farmState[z.id]?.ready);
-        if (ready) harvestZone(ready.id);
-        else toast("Нет готовых зон — посади урожай");
+        harvestAllReadyZones();
       },
       true,
     );
@@ -2264,13 +2392,12 @@ function renderFarm() {
       (ev) => {
         ev.preventDefault();
         ev.stopImmediatePropagation();
-        const ready = FARM_ZONES.find((z) => state.farmState[z.id]?.ready);
-        if (ready) harvestZone(ready.id);
-        else toast("Нет готовых зон");
+        harvestAllReadyZones();
       },
       true,
     );
   }
+  bindFarmSideActions();
 }
 
 function renderPass() {
