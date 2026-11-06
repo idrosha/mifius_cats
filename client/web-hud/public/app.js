@@ -69,6 +69,7 @@ const PATH_TO_TAB = {
   пасс: "pass",
   pass: "pass",
   pvp: "pvp",
+  двор: "farm",
   ферма: "farm",
   ferma: "farm",
   "tavern-farm": "farm",
@@ -1089,7 +1090,7 @@ function softNavigateFromLabel(label) {
     ["зал гильдии", () => navigate("guild")],
     ["главный хаб", () => navigate("hub")],
     ["мифмир", () => navigate("yard")],
-    ["двор", () => navigate("yard")],
+    ["двор", () => navigate("farm", { soon: "farm" })],
     ["коллекция", () => navigate("collection")],
     ["войти в бар", () => navigate("tavern")],
     ["в магазин", () => navigate("shop")],
@@ -2134,7 +2135,7 @@ function renderFarm() {
   const panel = ensureHudPanel(
     "viewSoonFarm",
     "farmLivePanel",
-    `<div class="mythfel-panel-head"><strong>Ферма · live stub</strong><span class="meta">найм · посадка · сбор · продажа</span></div>
+    `<div class="mythfel-panel-head"><strong>Двор · live stub</strong><span class="meta">найм · посадка · сбор · продажа</span></div>
      <div id="farmLiveZones" class="mythfel-panel-grid"></div>
      <div class="mythfel-panel-actions">
        <button type="button" class="wire-btn" id="btnFarmSellMarket">Продать на рынке</button>

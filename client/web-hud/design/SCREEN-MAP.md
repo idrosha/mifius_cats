@@ -27,7 +27,7 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | `craft` | `craft.html` | 64d5 `_2` | Крафт & алхимия |
 | `codex` | `codex.html` | 64d5 `_3` | Кодекс Мифмира |
 | `heroes` | `heroes.html` | 64d5 `_4` | Кодекс боевых архетипов |
-| `soon_farm` / `farm` | `soon_farm.html` | 64d5 `_5` | Ферма / угодья (Soon gameplay) |
+| `soon_farm` / `farm` | `soon_farm.html` | 64d5 `_5` | Двор / угодья (Soon gameplay) |
 | `yard` | `yard.html` | e608 `pve` | Мифмир start: карта + узлы + волны; строй tip inline |
 | `formation` | `formation.html` | e608 `versus_3v3` | Строй 3v3 **inline** (не вкладка Бои) |
 | `battle` | `battle.html` | e608 `pve_3v3` | Shared fight UI (рука / HP / ход) |
