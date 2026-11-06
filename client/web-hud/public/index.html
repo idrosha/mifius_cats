@@ -460,7 +460,7 @@
 <div class="ember w-1 h-1 bottom-24 left-[85%]" style="animation: floating-ember 6.5s infinite ease-in; animation-delay: 0.8s;"></div>
 </div>
 <!-- TOP BAR: Realm Server Picker & Audio/Locale Status -->
-<header class="relative z-20 w-full px-8 py-4 flex items-center justify-between backdrop-blur-md bg-[#130f0c]/60 border-b border-amber-500/20 shadow-xl">
+<header class="relative z-20 w-full px-3 py-3 flex items-center justify-between backdrop-blur-md bg-[#130f0c]/60 border-b border-amber-500/20 shadow-xl">
 <!-- Left side: Game Icon & Quick Server Selector dropdown -->
 <div class="flex items-center gap-6">
 <div class="flex items-center gap-3">
@@ -513,9 +513,9 @@
 </div>
 </header>
 <!-- CENTER BODY: Screen Layout (Hero & Lore Title on Left, Floating Tavern Parchment Card on Right) -->
-<div class="relative z-20 flex-1 w-full max-w-7xl mx-auto px-8 flex justify-between gap-10 items-end pb-6">
-<!-- LEFT BRANDING & LORE HERO (Clean & Atmospheric) -->
-<div class="hidden md:flex flex-col max-w-xl text-left select-none mb-4">
+<div class="relative z-20 flex-1 w-full max-w-none mx-0 px-0 flex justify-between gap-6 items-end pb-4">
+<!-- LEFT BRANDING & LORE HERO — flush left edge of stage -->
+<div class="hidden md:flex flex-col max-w-xl text-left select-none mb-2 pl-0">
 <!-- Golden Rune Accents Line -->
 <div class="flex items-center gap-2 text-amber-400/80 mb-2">
 <span class="tracking-[0.35em] text-xs font-title font-bold text-amber-300 drop-shadow">ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ • СВЯТИЛИЩЕ ЛУКОМОРЬЯ • ᚲ ᚱ ᚨ ᚦ ᚢ ᚠ</span>
@@ -560,8 +560,8 @@
 </div>
 </div>
 </div>
-<!-- RIGHT COLUMN: Cozy Dark Fantasy Tavern Auth Card -->
-<div class="w-full max-w-[420px] mx-auto md:mx-0 ml-auto">
+<!-- RIGHT COLUMN: auth card — flush right edge of stage -->
+<div class="w-full max-w-[420px] mx-auto md:mx-0 ml-auto pr-0 shrink-0">
 <div class="relative bg-gradient-to-b from-[#211a14]/95 via-[#191410]/95 to-[#120e0c]/98 backdrop-blur-xl border-2 border-amber-500/40 rounded-2xl p-6 shadow-[0_12px_45px_rgba(0,0,0,0.85),0_0_30px_rgba(217,155,38,0.15)] flex flex-col">
 <!-- Ornate Brass Corner Brads -->
 <div class="absolute -top-1.5 left-8 right-8 h-1 bg-gradient-to-r from-transparent via-amber-400/80 to-transparent shadow-[0_0_12px_#ffbf3f]"></div>
@@ -4468,7 +4468,7 @@
 </div>
 </div></div>
 <!-- MAP BOTTOM CONTROLS & FILTER BAR -->
-<div class="relative z-20 mx-3 mb-3 lg:mx-4 lg:mb-4 p-2 rounded-xl bg-surface-container-lowest/90 backdrop-blur-md border border-outline-variant/30 flex flex-wrap items-center justify-between gap-2 pointer-events-auto">
+<div class="relative z-20 mx-0 mb-0 p-1.5 rounded-none bg-surface-container-lowest/90 backdrop-blur-md border border-outline-variant/30 flex flex-wrap items-center justify-between gap-2 pointer-events-auto">
 <div class="flex items-center gap-1.5 text-[11px] flex-wrap">
 <button class="px-3 py-1 rounded-lg bg-primary text-on-primary font-bold shadow-sm">Все секторы</button>
 <button class="px-3 py-1 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant transition-colors flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">forest</span>Лес и Шахты</button>
@@ -4483,119 +4483,29 @@
 </div>
 </div>
 </div>
-<!-- BOTTOM CONSOLE: Master Actions, Storage Meter & Fast Jumps -->
-<div class="w-full bg-surface-container-low rounded-xl px-4 py-2.5 shadow-lg border border-outline-variant/30 flex flex-col gap-2 shrink-0">
-<div class="flex flex-col lg:flex-row items-center justify-between gap-2.5">
-<div class="flex flex-wrap items-center gap-space-sm w-full lg:w-auto">
-<button class="flex-1 sm:flex-none flex items-center justify-center gap-2 px-6 py-2.5 rounded-xl bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg font-bold shadow-lg transition-transform active:scale-95">
-<span class="material-symbols-outlined text-[22px]">bolt</span>
-<span class="">⚡ Собрать со всех узлов (+1,760 ресурсов &amp; 🐟)</span>
+<!-- BOTTOM CONSOLE: thin resources + quick actions strip -->
+<div class="w-full bg-surface-container-low border-t border-outline-variant/40 px-3 py-1.5 flex flex-wrap items-center gap-2 shrink-0">
+<button type="button" id="collect-all-btn" class="flex items-center gap-1.5 px-3 py-1 rounded-lg bg-primary hover:bg-primary-container text-on-primary font-label-md text-[11px] font-bold shadow-sm shrink-0">
+<span class="material-symbols-outlined text-[16px]">bolt</span>
+<span>Собрать со всех</span>
 </button>
-<button class="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors shadow-sm border border-outline-variant/20">
-<span class="material-symbols-outlined text-[18px] text-secondary">tune</span>
-<span class="">Авто-распределение котиков</span>
-</button>
-<button class="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md transition-colors shadow-sm border border-outline-variant/20">
-<span class="material-symbols-outlined text-[18px] text-primary">upgrade</span>
-<span class="">Улучшить амбар (Ур. 13)</span>
-</button>
+<div class="flex flex-wrap items-center gap-1.5 flex-1 min-w-0 text-[10px]">
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container border border-secondary/30 text-secondary font-bold"><span class="material-symbols-outlined text-[12px]">spa</span>Травы 63%</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container border border-outline-variant/30 text-on-surface font-bold"><span class="material-symbols-outlined text-[12px]">forest</span>Дерево 71%</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container border border-outline-variant/30 text-on-surface font-bold"><span class="material-symbols-outlined text-[12px]">landslide</span>Камень 64%</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container border border-outline-variant/30 text-tertiary font-bold"><span class="material-symbols-outlined text-[12px]">hardware</span>Руда 42%</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container border border-primary/30 text-primary font-bold"><span class="material-symbols-outlined text-[12px]">set_meal</span>Рыба 86%</span>
+<span class="inline-flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container/60 border border-dashed border-outline-variant/30 text-outline"><span class="material-symbols-outlined text-[12px]">lock</span>Молоко</span>
 </div>
-<div class="flex items-center gap-2 text-label-sm text-on-surface-variant font-bold">
-<span class="material-symbols-outlined text-[20px] text-primary">inventory_2</span>
-<span class="">Склад Усадьбы: 3,700 / 5,000 ед. (74% заполнено)</span>
-</div>
-</div>
-<!-- Resource Status Progress Bars -->
-<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-space-sm">
-<!-- 1. Herbs & Vegetables & Fruits -->
-<div class="p-2.5 rounded-lg bg-surface-container flex flex-col space-y-1 border border-secondary/40">
-<div class="flex items-center justify-between text-label-sm">
-<span class="flex items-center gap-1 text-secondary font-bold"><span class="material-symbols-outlined text-[16px]">spa</span>Травы, Овощи &amp; Фрукты</span>
-<span class="text-[11px] text-secondary font-bold">63%</span>
-</div>
-<span class="font-stat-numeral text-body-lg text-on-surface font-bold">315 <span class="text-[11px] text-on-surface-variant font-normal">/ 500</span></span>
-<div class="w-full bg-surface-container-lowest h-1.5 rounded-full overflow-hidden border border-outline-variant/20">
-<div class="bg-secondary h-full rounded-full" style="width: 63%"></div>
-</div>
-</div>
-<!-- 2. Wood -->
-<div class="p-2.5 rounded-lg bg-surface-container flex flex-col space-y-1 border border-outline-variant/30">
-<div class="flex items-center justify-between text-label-sm">
-<span class="flex items-center gap-1 text-secondary font-bold"><span class="material-symbols-outlined text-[16px]">forest</span>Древесина</span>
-<span class="text-[11px] text-secondary font-bold">71%</span>
-</div>
-<span class="font-stat-numeral text-body-lg text-on-surface font-bold">1,840 <span class="text-[11px] text-on-surface-variant font-normal">/ 2.5k</span></span>
-<div class="w-full bg-surface-container-lowest h-1.5 rounded-full overflow-hidden border border-outline-variant/20">
-<div class="bg-secondary h-full rounded-full" style="width: 71%"></div>
-</div>
-</div>
-<!-- 3. Stone -->
-<div class="p-2.5 rounded-lg bg-surface-container flex flex-col space-y-1 border border-outline-variant/30">
-<div class="flex items-center justify-between text-label-sm">
-<span class="flex items-center gap-1 text-primary font-bold"><span class="material-symbols-outlined text-[16px]">landslide</span>Камень</span>
-<span class="text-[11px] text-primary font-bold">64%</span>
-</div>
-<span class="font-stat-numeral text-body-lg text-on-surface font-bold">960 <span class="text-[11px] text-on-surface-variant font-normal">/ 1.5k</span></span>
-<div class="w-full bg-surface-container-lowest h-1.5 rounded-full overflow-hidden border border-outline-variant/20">
-<div class="bg-primary h-full rounded-full" style="width: 64%"></div>
-</div>
-</div>
-<!-- 4. Steel & Ore -->
-<div class="p-2.5 rounded-lg bg-surface-container flex flex-col space-y-1 border border-outline-variant/30">
-<div class="flex items-center justify-between text-label-sm">
-<span class="flex items-center gap-1 text-tertiary font-bold"><span class="material-symbols-outlined text-[16px]">hardware</span>Сталь &amp; Руда</span>
-<span class="text-[11px] text-tertiary font-bold">42%</span>
-</div>
-<span class="font-stat-numeral text-body-lg text-on-surface font-bold">420 <span class="text-[11px] text-on-surface-variant font-normal">/ 1k</span></span>
-<div class="w-full bg-surface-container-lowest h-1.5 rounded-full overflow-hidden border border-outline-variant/20">
-<div class="bg-tertiary h-full rounded-full" style="width: 42%"></div>
-</div>
-</div>
-<!-- 5. Fish -->
-<div class="p-2.5 rounded-lg bg-surface-container flex flex-col space-y-1 border border-primary/40">
-<div class="flex items-center justify-between text-label-sm">
-<span class="flex items-center gap-1 text-primary font-bold"><span class="material-symbols-outlined text-[16px]">set_meal</span>Рыбка 🐟</span>
-<span class="text-[11px] text-primary font-bold">86%</span>
-</div>
-<span class="font-stat-numeral text-body-lg text-on-surface font-bold">3,420 <span class="text-[11px] text-on-surface-variant font-normal">/ 4k</span></span>
-<div class="w-full bg-surface-container-lowest h-1.5 rounded-full overflow-hidden border border-outline-variant/20">
-<div class="bg-primary h-full rounded-full" style="width: 86%"></div>
-</div>
-</div>
-<!-- 6. Milk (Locked) -->
-<div class="p-2.5 rounded-lg bg-surface-container/60 flex flex-col space-y-1 border border-outline-variant/20 border-dashed">
-<div class="flex items-center justify-between text-label-sm">
-<span class="flex items-center gap-1 text-outline"><span class="material-symbols-outlined text-[16px]">lock</span>Молоко</span>
-<span class="text-[10px] text-primary font-bold">СКОРО</span>
-</div>
-<span class="font-stat-numeral text-body-lg text-outline font-bold">0 <span class="text-[11px] text-outline font-normal">/ 1k</span></span>
-<div class="w-full bg-surface-container-lowest h-1.5 rounded-full overflow-hidden">
-<div class="bg-outline h-full rounded-full" style="width: 0%"></div>
-</div>
-</div>
-</div>
-<!-- Quick Jumps to Workshops & Taverns -->
-<div class="flex flex-wrap items-center justify-between pt-1.5 border-t border-outline-variant/20 gap-space-sm">
-<span class="font-body-sm text-body-sm text-on-surface-variant">Быстрые переходы в мастерские Ордена:</span>
-<div class="flex flex-wrap items-center gap-2">
-<a class="py-1 px-3 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-sm text-label-sm transition-colors flex items-center gap-1.5 border border-outline-variant/20" href="#">
-<span class="material-symbols-outlined text-[16px] text-secondary">science</span>В Алхимию (Варка зелий) →
-          </a>
-<a class="py-1 px-3 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-sm text-label-sm transition-colors flex items-center gap-1.5 border border-outline-variant/20" href="#">
-<span class="material-symbols-outlined text-[16px] text-tertiary">hardware</span>В Кузницу (Переплавка руды) →
-          </a>
-<a class="py-1 px-3 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-sm text-label-sm transition-colors flex items-center gap-1.5 border border-outline-variant/20" href="#">
-<span class="material-symbols-outlined text-[16px] text-primary">outdoor_grill</span>В Таверну (Варка ухи) →
-          </a>
-<a class="py-1 px-3 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-sm text-label-sm transition-colors flex items-center gap-1.5 border border-outline-variant/20" href="#">
-<span class="material-symbols-outlined text-[16px] text-secondary">foundation</span>Зал Строительства →
-          </a>
-</div>
+<div class="flex items-center gap-1.5 shrink-0 text-[10px]">
+<a class="px-2 py-0.5 rounded bg-surface-container-high border border-outline-variant/25 text-on-surface hover:text-primary" href="#" data-hub-go="craft">Алхимия</a>
+<a class="px-2 py-0.5 rounded bg-surface-container-high border border-outline-variant/25 text-on-surface hover:text-primary" href="#" data-hub-go="craft">Кузница</a>
+<a class="px-2 py-0.5 rounded bg-surface-container-high border border-outline-variant/25 text-on-surface hover:text-primary" href="#" data-hub-go="tavern">Таверна</a>
 </div>
 </div>
 </div>
 </main>
-<footer class="w-full h-10 bg-surface-container-lowest flex items-center justify-between px-space-lg shadow-[0_-2px_10px_rgba(0,0,0,0.5)] border-t border-outline-variant/20">
+<footer class="hidden w-full h-10 bg-surface-container-lowest flex items-center justify-between px-space-lg shadow-[0_-2px_10px_rgba(0,0,0,0.5)] border-t border-outline-variant/20" hidden>
 <div class="flex items-center gap-space-md">
 <span class="font-label-sm text-label-sm text-on-surface-variant">© 2024 Мифиус: Мифические Котики RPG. Все права защищены.</span>
 <span class="hidden md:inline font-label-sm text-label-sm text-outline">•</span>
