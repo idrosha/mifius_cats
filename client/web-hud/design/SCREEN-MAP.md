@@ -102,3 +102,7 @@ Shell: `data-layout="landscape"` + `.mythfel-form` on every view; CSS `--mythfel
 ## Battles/trade/guild etalons (2026-11-06)
 
 Imported PNGs → `design/stitch-ref/battles-trade-guild-etalons/` + overwrite e608/4da7/17eb/18c7 plate refs. Live BGs: battle/result_win/practice/yard/guild_battle/boss_dungeon + ambient shop/market/auction/pvp/boss_raid/gear. Nav IA + Двор unchanged. Inventory etalon 17 → gear ambient (no new route).
+
+## Batch3 trade/pass/guild etalons (2026-11-06)
+
+`batch3-etalons/` 01–19 → 17eb/ba17/18c7 plates + ambient on tavern/pass/chats/ratings; shop/market/auction ambient refreshed. Market «Семена для Двора»; chat/pass farm copy → Двор. Design-system 01 inventory-only.
