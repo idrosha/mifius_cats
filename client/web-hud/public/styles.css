@@ -217,13 +217,21 @@ html, body {
   color: var(--muted);
 }
 
+/* Primary tabs: dark capsule + mustard active pill (QA nav-style) */
 .mythfel-primary {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.3rem;
+  justify-self: center;
+  gap: 0.2rem;
   min-width: 0;
-  width: 100%;
+  width: auto;
+  max-width: 100%;
+  padding: 0.22rem;
+  border-radius: 999px;
+  border: 1px solid rgba(80, 69, 53, 0.55);
+  background: rgba(17, 13, 11, 0.92);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .mythfel-primary button {
@@ -231,21 +239,22 @@ html, body {
   font-size: 12px;
   font-weight: 700;
   cursor: pointer;
-  border: 1px solid var(--outline);
-  background: var(--surface-mid);
-  color: var(--muted);
-  border-radius: 0.45rem;
-  padding: 0.4rem 0.75rem;
+  border: none;
+  background: transparent;
+  color: #eae1db;
+  border-radius: 999px;
+  padding: 0.4rem 0.85rem;
   white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 .mythfel-primary button:hover {
-  border-color: var(--primary);
-  color: var(--primary);
+  color: #f6e2b8;
+  background: rgba(255, 255, 255, 0.05);
 }
 .mythfel-primary button.active {
-  background: var(--primary-container);
+  background: #d99b26;
   color: #1a1308;
-  border-color: var(--primary);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 
 .mythfel-chrome {
@@ -256,45 +265,93 @@ html, body {
   justify-content: flex-end;
 }
 
+.mythfel-social {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.mythfel-social-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.7rem;
+  height: 1.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(80, 69, 53, 0.55);
+  background: rgba(17, 13, 11, 0.85);
+  color: #eae1db;
+  text-decoration: none;
+}
+.mythfel-social-btn:hover {
+  border-color: rgba(217, 155, 38, 0.65);
+  color: #f6e2b8;
+}
+.mythfel-logout {
+  font-family: Rubik, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid rgba(80, 69, 53, 0.55);
+  background: rgba(17, 13, 11, 0.9);
+  color: #eae1db;
+  cursor: pointer;
+}
+.mythfel-logout:hover {
+  background: #d99b26;
+  border-color: #d99b26;
+  color: #1a1308;
+}
+body.mythfel-login .mythfel-social,
+body.mythfel-login .mythfel-logout {
+  display: none;
+}
+
 .mythfel-subtabs {
   display: flex;
   flex-wrap: nowrap;
-  justify-content: space-evenly;
-  align-items: stretch;
-  gap: 0.3rem;
-  width: 100%;
-  padding: 0.35rem 0.85rem 0.55rem;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2rem;
+  width: auto;
+  max-width: calc(100% - 1.7rem);
+  margin: 0.35rem auto 0.45rem;
+  padding: 0.22rem;
   box-sizing: border-box;
-  border-top: 1px solid rgba(80, 69, 53, 0.45);
-  background: rgba(22, 19, 16, 0.92);
+  border: 1px solid rgba(80, 69, 53, 0.5);
+  border-radius: 999px;
+  background: rgba(17, 13, 11, 0.88);
   overflow-x: auto;
   scrollbar-width: thin;
 }
 .mythfel-subtabs:empty { display: none; }
 
 .mythfel-subtabs button {
-  flex: 1 1 0;
-  min-width: 5.5rem;
+  flex: 0 0 auto;
+  min-width: 0;
   font-family: Rubik, sans-serif;
   font-size: 11px;
   font-weight: 700;
   cursor: pointer;
-  border: 1px solid transparent;
+  border: none;
   background: transparent;
-  color: var(--muted);
-  border-radius: 0.4rem;
-  padding: 0.4rem 0.55rem;
+  color: #eae1db;
+  border-radius: 999px;
+  padding: 0.38rem 0.75rem;
   text-align: center;
   white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease;
 }
 .mythfel-subtabs button:hover {
-  background: var(--surface-high);
-  color: var(--on-surface);
+  background: rgba(255, 255, 255, 0.05);
+  color: #f6e2b8;
 }
 .mythfel-subtabs button.active {
-  background: var(--surface-high);
-  color: var(--primary);
-  border-color: var(--outline);
+  background: #d99b26;
+  color: #1a1308;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 .mythfel-subtabs button.stub::after,
 .mythfel-subtabs button.soon::after {
