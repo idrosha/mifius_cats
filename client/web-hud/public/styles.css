@@ -561,8 +561,74 @@ html, body {
 
 
 /* Soft-launch overlays + gated nav */
-.mythfel-login #appNav { opacity: 0.35; pointer-events: none; }
-.mythfel-login #wireDock { opacity: 1; }
+/* Pre-hub gate: outer HUD chrome off — only Stitch login stage (etalon). */
+.mythfel-login {
+  --mythfel-chrome-stack: 0px;
+}
+.mythfel-login #appNav,
+.mythfel-login #appSubTabs,
+.mythfel-login #wireDock {
+  display: none !important;
+}
+.mythfel-login #app {
+  width: min(100vw, calc(100dvh * 16 / 9));
+  max-width: 100vw;
+  height: min(100dvh, calc(100vw * 9 / 16));
+  max-height: 100dvh;
+  margin: auto;
+}
+
+/*
+ * Login gate layout vs etalon:
+ * - full-bleed hero (3 cats) as fixed bg
+ * - restore Stitch column max-widths / card width (global flush rules break them)
+ * - keep Stitch in-screen header + footer (not #appNav)
+ * - fill viewport height
+ */
+#viewLogin {
+  position: relative;
+  overflow: hidden;
+}
+#viewLogin > main {
+  flex: 1 1 auto !important;
+  min-height: 100% !important;
+  height: 100% !important;
+  max-height: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+}
+#viewLogin .max-w-xl {
+  max-width: 36rem !important;
+  width: auto !important;
+}
+#viewLogin .max-w-7xl {
+  max-width: 80rem !important;
+  width: 100% !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+#viewLogin [class*="max-w-[420px]"] {
+  max-width: 420px !important;
+  width: 100% !important;
+}
+#viewLogin header,
+#viewLogin footer {
+  display: flex !important;
+  flex-shrink: 0 !important;
+}
+#viewLogin img[alt*="Мифические Котики в Таверне"],
+#viewLogin .fixed.inset-0 > img {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+}
+/* Lore column always visible on landscape gate (etalon). */
+#viewLogin .hidden.md\:flex {
+  display: flex !important;
+}
 .mythfel-subtabs button.gated::after { content: " ·"; opacity: 0.5; }
 .mythfel-subtabs button.locked { opacity: 0.65; }
 .mission-stage { margin-top: 0.5rem; color: #fdba45; }
