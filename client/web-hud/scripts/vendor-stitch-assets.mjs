@@ -92,7 +92,7 @@ async function vendorPublic() {
 /** Prefer pack screen.png / art refs per consuming file */
 const SCREEN_FALLBACKS = {
   "hub.html": ["/stitch-ref/0268/hub.png", "/stitch-ref/64d5/cat_portrait.png"],
-  "login.html": ["/stitch-ref/0268/hub.png", "/stitch-ref/64d5/cat_portrait.png"],
+  "login.html": ["/stitch-assets/login-hero.png", "/stitch-ref/1b5c/login.png"],
   "collection.html": ["/stitch-ref/0268/collection.png", "/stitch-ref/64d5/cat_portrait.png"],
   "armor_sets.html": ["/stitch-ref/0268/gear.png", "/stitch-ref/0268/home.png"],
   "gear.html": ["/stitch-ref/0268/gear.png", "/stitch-ref/0268/home.png", "/stitch-ref/64d5/cat_portrait.png"],
@@ -178,7 +178,7 @@ fs.writeFileSync(
   JSON.stringify(
     {
       generatedAt: new Date().toISOString(),
-      packs: ["0268", "64d5", "e608", "4da7", "18c7", "ba17", "17eb"],
+      packs: ["0268", "64d5", "e608", "4da7", "18c7", "ba17", "17eb", "1b5c"],
       mappings: Object.fromEntries(urlMap),
       publicCount: publicUrls.length,
       ephemeralCount: ephemeralUrls.length,

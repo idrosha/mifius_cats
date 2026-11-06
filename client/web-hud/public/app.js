@@ -2857,6 +2857,46 @@ function wireLoginForm() {
     const password = $("passwordInput")?.value || "";
     stubLogin({ login, password });
   };
+  // Stitch inline scripts are stripped at build — restore tab / password UI helpers.
+  window.switchTab = (mode) => {
+    const loginTab = $("tabLogin");
+    const registerTab = $("tabRegister");
+    const registerFields = $("registerFields");
+    const loginOptions = $("loginOptions");
+    const btnText = $("btnText");
+    const active =
+      "py-2 rounded-lg font-label-lg text-xs font-extrabold transition-all duration-200 bg-gradient-to-b from-amber-500 to-amber-600 text-black shadow-md flex items-center justify-center gap-1.5 uppercase tracking-wide";
+    const idle =
+      "py-2 rounded-lg font-label-lg text-xs font-bold text-amber-200/70 hover:text-amber-100 transition-all duration-200 flex items-center justify-center gap-1.5 uppercase tracking-wide";
+    if (!loginTab || !registerTab) return;
+    if (mode === "register") {
+      registerTab.className = active;
+      loginTab.className = idle;
+      registerFields?.classList.remove("hidden");
+      registerFields?.classList.add("flex");
+      loginOptions?.classList.add("hidden");
+      if (btnText) btnText.textContent = "Начать приключение";
+    } else {
+      loginTab.className = active;
+      registerTab.className = idle;
+      registerFields?.classList.add("hidden");
+      registerFields?.classList.remove("flex");
+      loginOptions?.classList.remove("hidden");
+      if (btnText) btnText.textContent = "Войти в Таверну";
+    }
+  };
+  window.togglePassword = () => {
+    const pass = $("passwordInput");
+    const eyeIcon = $("eyeIcon");
+    if (!pass) return;
+    if (pass.type === "password") {
+      pass.type = "text";
+      if (eyeIcon) eyeIcon.textContent = "visibility_off";
+    } else {
+      pass.type = "password";
+      if (eyeIcon) eyeIcon.textContent = "visibility";
+    }
+  };
   // Social stubs also free-enter
   const root = $("viewLogin");
   if (root && root.dataset.stubSocial !== "1") {

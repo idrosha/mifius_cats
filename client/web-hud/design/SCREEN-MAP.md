@@ -1,4 +1,4 @@
-# Stitch screen map — packs 0268 + 64d5 + e608 + 4da7 + 18c7 + ba17 + 17eb
+# Stitch screen map — packs 0268 + 64d5 + e608 + 4da7 + 18c7 + ba17 + 17eb + 1b5c
 
 Sources:
 - `media/stitch-new-0268/stitch_mythfel_mobile_game_ui_0268.zip`
@@ -8,6 +8,7 @@ Sources:
 - `media/stitch-battles-3/stitch_mythfel_mobile_game_ui__5__18c7.zip`
 - `media/stitch-battles-6/stitch_mythfel_mobile_game_ui__6__ba17.zip`
 - `media/stitch-other-7/stitch_mythfel_mobile_game_ui__7__17eb.zip`
+- `media/stitch-registration-1b5c/stitch_mythfel_mobile_game_ui_1b5c.zip` (login replacement)
 
 DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 
@@ -16,7 +17,7 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | Route | File | Pack folder | Notes |
 |---|---|---|---|
 | `hub` | `hub.html` | 0268 `_1` | Главный Хаб |
-| `login` | `login.html` | 0268 `_2` | Вход / Регистрация / Войти в Таверну |
+| `login` | `login.html` | **1b5c** (flat `code.html`) | Вход / Регистрация / Войти в Таверну · bg=`login-hero.png` (not hub.png) |
 | `collection` | `collection.html` | 0268 `_3` | Коллекция котиков |
 | `armor_sets` | `armor_sets.html` | 0268 `_4` | Атлас сетов брони |
 | `gear` | `gear.html` | 0268 `_5` | Кузница / Оружейная |
