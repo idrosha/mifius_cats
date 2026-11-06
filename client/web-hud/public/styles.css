@@ -367,7 +367,7 @@ body.mythfel-login .mythfel-logout {
   opacity: 0.95;
 }
 
-/* Двор (estate): map left + full-height side actions; flush thin strip */
+/* Двор: full-bleed painted map + hover plaques; thin strip; minimal chrome */
 #viewSoonFarm {
   width: 100% !important;
   max-width: none !important;
@@ -380,6 +380,7 @@ body.mythfel-login .mythfel-logout {
   height: 100% !important;
   min-height: 0 !important;
   gap: 0 !important;
+  background: transparent !important;
 }
 #viewSoonFarm > main > div {
   padding-left: 0 !important;
@@ -395,27 +396,33 @@ body.mythfel-login .mythfel-logout {
 #viewSoonFarm #farmLivePanel {
   display: none !important;
 }
-/* Map + right quick-actions share the stage height (no side gutters) */
+/* Dense #52 side column removed — do not resurrect */
+#viewSoonFarm .farm-side-actions {
+  display: none !important;
+}
+/* Heavy overview title bar — minimize chrome (ambarn/pills live on-map) */
+#viewSoonFarm .farm-overview-bar {
+  display: none !important;
+}
+/* Full-window map stage (no letterbox gutters) */
 #viewSoonFarm .farm-stage-row {
   display: flex !important;
-  flex-direction: row !important;
+  flex-direction: column !important;
   flex: 1 1 auto !important;
   min-height: 0 !important;
   width: 100% !important;
   margin: 0 !important;
   padding: 0 !important;
   gap: 0 !important;
-  align-items: stretch !important;
 }
-/* Map column: height-fill; width from art aspect so whole map visible, flush left */
 #viewSoonFarm .farm-map-stage {
-  flex: 0 1 auto !important;
+  flex: 1 1 auto !important;
   min-width: 0 !important;
   min-height: 0 !important;
+  width: 100% !important;
+  max-width: none !important;
   height: 100% !important;
-  width: auto !important;
-  max-width: calc(100% - 11.5rem) !important;
-  aspect-ratio: 1376 / 768 !important;
+  aspect-ratio: auto !important;
   overflow: hidden !important;
   background: #110d0b !important;
   margin: 0 !important;
@@ -426,76 +433,62 @@ body.mythfel-login .mythfel-logout {
   inset: 0 !important;
   width: 100% !important;
   height: 100% !important;
-  max-width: 100% !important;
-  max-height: 100% !important;
-  object-fit: contain !important;
-  object-position: left center !important;
-}
-/* Right column fills leftover width; buttons stretch full height */
-#viewSoonFarm .farm-side-actions {
-  flex: 1 1 11.5rem !important;
-  min-width: 11.5rem !important;
   max-width: none !important;
+  max-height: none !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+}
+/* Soft vignette — don't crush the painted map */
+#viewSoonFarm .farm-map-vignette {
+  background: linear-gradient(
+    to top,
+    rgba(17, 13, 11, 0.35) 0%,
+    transparent 35%,
+    rgba(17, 13, 11, 0.2) 100%
+  ) !important;
+}
+/* Duplicate node set nested in vignette — hide (interactive set remains) */
+#viewSoonFarm .farm-map-vignette > .group {
+  display: none !important;
+}
+/*
+ * Location plaques: OFF by default; show on hover over that location.
+ * Semi-transparent so the painted map shows through.
+ */
+#viewSoonFarm .farm-plaque {
   display: flex !important;
   flex-direction: column !important;
-  justify-content: stretch !important;
-  align-items: stretch !important;
-  gap: 0.35rem !important;
-  padding: 0.4rem 0.45rem !important;
-  margin: 0 !important;
-  min-height: 0 !important;
-  overflow: auto !important;
-  background: #1f1b18 !important;
-  border-left: 1px solid rgba(157, 143, 123, 0.4) !important;
-  box-sizing: border-box !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  transform: translateY(6px) !important;
+  transition:
+    opacity 0.16s ease,
+    visibility 0.16s ease,
+    transform 0.16s ease !important;
+  background: rgba(17, 13, 11, 0.58) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border-color: rgba(157, 143, 123, 0.45) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35) !important;
 }
-#viewSoonFarm .farm-side-actions .farm-action-btn {
-  flex: 1 1 0 !important;
-  display: flex !important;
-  flex-direction: row !important;
-  align-items: center !important;
-  justify-content: flex-start !important;
-  gap: 0.45rem !important;
-  width: 100% !important;
-  min-height: 0 !important;
-  margin: 0 !important;
-  padding: 0.45rem 0.55rem !important;
-  border-radius: 0.5rem !important;
-  border: 1px solid rgba(157, 143, 123, 0.35) !important;
-  background: #2e2926 !important;
-  color: #eae1db !important;
-  font-family: Rubik, sans-serif !important;
-  font-size: 11px !important;
-  font-weight: 700 !important;
-  line-height: 1.2 !important;
-  text-align: left !important;
-  cursor: pointer !important;
-  transition: background 0.15s ease, border-color 0.15s ease !important;
+#viewSoonFarm .group.cursor-pointer:hover > .farm-plaque,
+#viewSoonFarm .group.cursor-pointer:focus-within > .farm-plaque {
+  opacity: 1 !important;
+  visibility: visible !important;
+  pointer-events: auto !important;
+  transform: none !important;
 }
-#viewSoonFarm .farm-side-actions .farm-action-btn .material-symbols-outlined {
-  font-size: 18px !important;
-  color: #fdba45 !important;
-  flex-shrink: 0 !important;
+/* Bottom sector filter: sit over the map, keep translucent */
+#viewSoonFarm .farm-map-stage > .relative.z-20.mx-0 {
+  background: rgba(17, 13, 11, 0.55) !important;
+  backdrop-filter: blur(8px) !important;
 }
-#viewSoonFarm .farm-side-actions .farm-action-btn:hover {
-  background: #393430 !important;
-  border-color: rgba(253, 186, 69, 0.45) !important;
-}
-#viewSoonFarm .farm-side-actions .farm-action-btn--primary {
-  background: #d99b26 !important;
-  border-color: #fdba45 !important;
-  color: #281900 !important;
-}
-#viewSoonFarm .farm-side-actions .farm-action-btn--primary .material-symbols-outlined {
-  color: #281900 !important;
-}
-#viewSoonFarm .farm-side-actions .farm-action-btn--primary:hover {
-  background: #fdba45 !important;
-}
-/* Thin resource strip flush under map row — no bottom void */
+/* Thin resource strip flush under map — no bottom void */
 #viewSoonFarm .farm-thin-strip {
   margin: 0 !important;
   flex-shrink: 0 !important;
+  background: rgba(31, 27, 24, 0.92) !important;
 }
 .mythfel-subtabs button.stub::after,
 .mythfel-subtabs button.soon::after {
