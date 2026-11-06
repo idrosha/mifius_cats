@@ -159,22 +159,31 @@ const PATH_TO_TAB = {
  * Route ids stay stable (yard = Мифмир PvE map).
  * formation is NOT a combat subtab — open inline via CTA / wire dock.
  */
+/** Knowledge-base children under Дом Хранителя → База знаний */
+const KNOWLEDGE_TABS = [
+  { id: "armor_sets", key: "nav.sub.armor_sets", gated: true },
+  { id: "class_sets", key: "nav.sub.class_sets", gated: true },
+  { id: "equip_cards", key: "nav.sub.equip_cards", gated: true },
+  { id: "heroes", key: "nav.sub.heroes" },
+  { id: "codex", key: "nav.sub.codex" },
+];
+
 const NAV = [
   {
     id: "character",
-    key: "nav.primary.character", // Дом Хранителя
+    key: "nav.primary.character", // Дом Хранителя → default Двор
     tabs: [
-      { id: "home", key: "nav.sub.home" }, // Персонаж: кот + экип + инвентарь
-      { id: "gear", key: "nav.sub.gear" },
-      { id: "armor_sets", key: "nav.sub.armor_sets", gated: true },
-      { id: "class_sets", key: "nav.sub.class_sets", gated: true },
-      { id: "equip_cards", key: "nav.sub.equip_cards", gated: true },
-      { id: "heroes", key: "nav.sub.heroes" },
-      { id: "farm", key: "nav.sub.farm", soon: "farm", gated: true },
-      { id: "collection", key: "nav.sub.collection" },
+      { id: "farm", key: "nav.sub.farm", soon: "farm", gated: true }, // Двор first
       { id: "craft", key: "nav.sub.craft", gated: true },
+      { id: "home", key: "nav.sub.home" }, // Персонаж
+      { id: "gear", key: "nav.sub.gear" },
+      { id: "collection", key: "nav.sub.collection" }, // Коллекция котиков
       { id: "breeding", key: "nav.sub.breeding", gated: true },
-      { id: "codex", key: "nav.sub.codex" },
+      {
+        id: "knowledge",
+        key: "nav.sub.knowledge",
+        tabs: KNOWLEDGE_TABS,
+      },
     ],
   },
   {
@@ -231,17 +240,45 @@ const NAV = [
   },
 ];
 
-/** Flat list kept for verify-nav id: "…" probes */
-const TABS = NAV.flatMap((g) => g.tabs.map((t) => ({ ...t, group: g.id }))).concat([
+/** Flat list kept for verify-nav id: "…" probes (includes База знаний children) */
+const TABS = NAV.flatMap((g) =>
+  g.tabs.flatMap((t) => {
+    const self = { ...t, group: g.id };
+    if (Array.isArray(t.tabs) && t.tabs.length) {
+      return [self, ...t.tabs.map((c) => ({ ...c, group: g.id, parent: t.id }))];
+    }
+    return [self];
+  }),
+).concat([
   { id: "hub", key: "hub.tab.hub", group: "hub" },
   { id: "login", key: "nav.sub.login", group: "auth" },
 ]);
 
 function findNavForTab(tabId) {
   for (const g of NAV) {
-    if (g.tabs.some((t) => t.id === tabId)) return g;
+    for (const t of g.tabs) {
+      if (t.id === tabId) return g;
+      if (Array.isArray(t.tabs) && t.tabs.some((c) => c.id === tabId)) return g;
+    }
   }
   return null;
+}
+
+function findNavTabMeta(tabId) {
+  for (const g of NAV) {
+    for (const t of g.tabs) {
+      if (t.id === tabId) return { group: g, tab: t, parent: null };
+      if (Array.isArray(t.tabs)) {
+        const child = t.tabs.find((c) => c.id === tabId);
+        if (child) return { group: g, tab: child, parent: t };
+      }
+    }
+  }
+  return null;
+}
+
+function isKnowledgeTab(tabId) {
+  return KNOWLEDGE_TABS.some((t) => t.id === tabId) || tabId === "knowledge";
 }
 
 /** Tavern milks — restore ready; buff milks gated (PvE/dungeon only, never ranked PvP). */
@@ -758,11 +795,16 @@ function navigate(tab, { soon = null, clearBattle = true, primary = null, fromGa
     soon = "farm";
   }
   if (tab === "battle") tab = "formation";
+  // База знаний is a menu group, not a route — open first child
+  if (tab === "knowledge") {
+    tab = KNOWLEDGE_TABS[0].id;
+    primary = primary || "character";
+  }
   // Inline formation: keep combat primary highlighted even though it is not a subtab.
   if (tab === "formation" && primary == null) primary = "combat";
 
   // Day-1: all forms present. Gated tabs still open, but tip on entry for meta gates.
-  const navTab = findNavForTab(tab)?.tabs?.find((x) => x.id === tab) || TABS.find((x) => x.id === tab);
+  const navTab = findNavTabMeta(tab)?.tab || TABS.find((x) => x.id === tab);
   let tipShown = false;
   if (tab === "breeding") {
     showGateTip(
@@ -973,8 +1015,10 @@ function renderTabs() {
     b.classList.toggle("active", !battleActive && group.id === state.primary);
     b.addEventListener("click", () => {
       const first = group.tabs[0];
-      navigate(first.id, {
-        soon: first.soon || null,
+      // Nested group (e.g. База знаний): open first child route
+      const target = Array.isArray(first.tabs) && first.tabs[0] ? first.tabs[0] : first;
+      navigate(target.id, {
+        soon: target.soon || first.soon || null,
         primary: group.id,
       });
     });
@@ -982,7 +1026,9 @@ function renderTabs() {
   }
 
   subEl.innerHTML = "";
+  const knowledgeOpen = isKnowledgeTab(state.tab);
   for (const tab of activeGroup.tabs) {
+    const hasChildren = Array.isArray(tab.tabs) && tab.tabs.length > 0;
     const b = document.createElement("button");
     b.type = "button";
     b.textContent = t(tab.key, tab.id);
@@ -991,12 +1037,42 @@ function renderTabs() {
     if (tab.soon) b.classList.add("soon");
     if (tab.gated) b.classList.add("gated");
     if (tab.id === "pvp" && !pvpUnlocked()) b.classList.add("locked");
-    const active = !battleActive && state.tab === tab.id;
+    if (hasChildren) b.classList.add("has-children");
+    const active = !battleActive && (
+      state.tab === tab.id ||
+      (hasChildren && tab.tabs.some((c) => c.id === state.tab))
+    );
     b.classList.toggle("active", active);
     b.addEventListener("click", () => {
+      if (hasChildren) {
+        const first = tab.tabs[0];
+        navigate(first.id, { soon: first.soon || null, primary: activeGroup.id });
+        return;
+      }
       navigate(tab.id, { soon: tab.soon || null, primary: activeGroup.id });
     });
     subEl.appendChild(b);
+  }
+
+  // База знаний children as extra mustard pills while that section is open
+  if (knowledgeOpen && activeGroup.id === "character") {
+    const sep = document.createElement("span");
+    sep.className = "mythfel-subtabs-sep";
+    sep.setAttribute("aria-hidden", "true");
+    subEl.appendChild(sep);
+    for (const child of KNOWLEDGE_TABS) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.textContent = t(child.key, child.id);
+      b.dataset.tab = child.id;
+      b.classList.add("knowledge-child");
+      if (child.gated) b.classList.add("gated");
+      b.classList.toggle("active", !battleActive && state.tab === child.id);
+      b.addEventListener("click", () => {
+        navigate(child.id, { soon: child.soon || null, primary: "character" });
+      });
+      subEl.appendChild(b);
+    }
   }
 }
 
@@ -1128,8 +1204,8 @@ function softNavigateFromLabel(label) {
     ["фолиант", () => navigate("heroes")],
     ["экипиров", () => navigate("gear")],
     ["оружейн", () => navigate("gear")],
-    ["дом хран", () => navigate("home")],
-    ["усадьб", () => navigate("home")],
+    ["дом хран", () => navigate("farm", { soon: "farm" })],
+    ["усадьб", () => navigate("farm", { soon: "farm" })],
     ["персонаж", () => navigate("home")],
     ["войти в таверн", () => navigate("hub")],
     ["войти", () => navigate("hub")],
@@ -2132,60 +2208,8 @@ function sellFarmLoot(channel = "market") {
 }
 
 function renderFarm() {
-  const panel = ensureHudPanel(
-    "viewSoonFarm",
-    "farmLivePanel",
-    `<div class="mythfel-panel-head"><strong>Двор · live stub</strong><span class="meta">найм · посадка · сбор · продажа</span></div>
-     <div id="farmLiveZones" class="mythfel-panel-grid"></div>
-     <div class="mythfel-panel-actions">
-       <button type="button" class="wire-btn" id="btnFarmSellMarket">Продать на рынке</button>
-       <button type="button" class="wire-btn" id="btnFarmSellAuction">Выставить на аукцион</button>
-       <span class="meta" id="farmBagMeta"></span>
-     </div>`,
-  );
-  const host = $("farmLiveZones") || panel?.querySelector("#farmLiveZones");
-  if (host) {
-    host.innerHTML = "";
-    for (const z of FARM_ZONES) {
-      const fs = state.farmState[z.id] || { farmer: null, planted: false, ready: false };
-      const row = document.createElement("div");
-      row.className = "mythfel-panel-card";
-      row.innerHTML = `<strong>${z.label}</strong>
-        <div class="meta">${z.kind} · фермер: ${fs.farmer ? "да" : "нет"} · ${fs.ready ? "готово" : fs.planted ? "растёт" : "пусто"}</div>`;
-      const actions = document.createElement("div");
-      actions.className = "mythfel-panel-actions";
-      const hire = document.createElement("button");
-      hire.type = "button";
-      hire.className = "wire-btn";
-      hire.textContent = "Нанять фермера";
-      hire.addEventListener("click", () => hireFarmer(z.id));
-      const plant = document.createElement("button");
-      plant.type = "button";
-      plant.className = "wire-btn";
-      plant.textContent = "Посадить";
-      plant.addEventListener("click", () => plantZone(z.id));
-      const harvest = document.createElement("button");
-      harvest.type = "button";
-      harvest.className = "wire-btn";
-      harvest.textContent = "Собрать";
-      harvest.addEventListener("click", () => harvestZone(z.id));
-      actions.append(hire, plant, harvest);
-      row.appendChild(actions);
-      host.appendChild(row);
-    }
-  }
-  const bagMeta = $("farmBagMeta");
-  if (bagMeta) bagMeta.textContent = `Сумка: ${state.farmBag.length} шт.`;
-  const sellM = $("btnFarmSellMarket");
-  if (sellM && !sellM.dataset.bound) {
-    sellM.dataset.bound = "1";
-    sellM.addEventListener("click", () => sellFarmLoot("market"));
-  }
-  const sellA = $("btnFarmSellAuction");
-  if (sellA && !sellA.dataset.bound) {
-    sellA.dataset.bound = "1";
-    sellA.addEventListener("click", () => sellFarmLoot("auction"));
-  }
+  // QA: no floating «Двор · live stub» overlay — resource UI is the bottom panel only
+  document.getElementById("farmLivePanel")?.remove();
 
   const zones = $("farmZonesList");
   if (zones) {
