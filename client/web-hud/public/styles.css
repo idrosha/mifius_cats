@@ -1351,116 +1351,57 @@ body.mythfel-farm #app {
   padding-bottom: 0.75rem !important;
 }
 
-/* Hearth sheet: Персонаж and Дом Хранителя. Shared #appNav stays above this view. */
+/* Hearth sheet: reference body under the shared menu, with the header currencies. */
 #viewHome > main.char-sheet {
   flex: 1 1 auto !important;
   min-height: 0 !important;
   height: 100% !important;
   display: flex !important;
   flex-direction: column;
-  gap: 0.3rem;
-  padding: 0.3rem 0.4rem 0.28rem;
+  gap: 0.35rem;
+  padding: 0.35rem 0.55rem 0.3rem;
   background: #100e0c;
   color: #eae1db;
-  font-size: 11px;
 }
-#viewHome .sheet-grid {
+#viewHome .sheet-wallet {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.35rem;
+  flex: 0 0 auto;
+}
+#viewHome .sheet-wallet > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.12rem 0.55rem;
+  border-radius: 999px;
+  background: #1b1714;
+  border: 1px solid rgba(253, 186, 69, 0.35);
+  color: #fdba45;
+  font-family: Rubik, sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+}
+#viewHome .sheet-wallet .material-symbols-outlined { font-size: 16px; }
+#viewHome .sheet-wallet .sheet-keeper { color: #fff3d4; }
+#viewHome .sheet-ref {
   flex: 1 1 auto;
   min-height: 0;
-  display: grid;
-  grid-template-columns: 21.5rem minmax(0, 1fr) 22.5rem;
-  gap: 0.35rem;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-#viewHome .sheet-col,
-#viewHome .sheet-stage,
-#viewHome .sheet-bag,
-#viewHome .sheet-deck {
-  background: rgba(16, 13, 11, 0.94);
-  border: 1px solid rgba(253, 186, 69, 0.28);
-  border-radius: 0.65rem;
-  min-height: 0;
+#viewHome .sheet-ref img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: 0.45rem;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
 }
-#viewHome .sheet-col,
-#viewHome .sheet-bag { padding: 0.28rem 0.45rem 0.22rem; overflow: hidden; }
-#viewHome .sheet-id { display: flex; justify-content: space-between; gap: 0.4rem; }
-#viewHome .sheet-kicker { margin: 0; color: #fdba45; letter-spacing: 0.12em; text-transform: uppercase; font-size: 10px; }
-#viewHome .sheet-kicker span { letter-spacing: 0.08em; }
-#viewHome .sheet-id h2 { margin: 0.05rem 0; font-size: 1.05rem; color: #fff3d4; }
-#viewHome .sheet-role, #viewHome .sheet-level { margin: 0; color: #d5c4af; }
-#viewHome .sheet-level { color: #fdba45; font-weight: 800; font-size: 13px; }
-#viewHome .sheet-power { display: flex; align-items: center; justify-content: space-between; margin: 0.12rem 0; }
-#viewHome .sheet-power span, #viewHome .sheet-block-head span { letter-spacing: 0.08em; text-transform: uppercase; color: #fcd38a; font-size: 10px; }
-#viewHome .sheet-power strong { display: block; font-size: 1.35rem; color: #fdba45; line-height: 1; }
-#viewHome .sheet-power em, #viewHome .sheet-block-head em, #viewHome .sheet-stats em { color: #89d98c; font-style: normal; }
-#viewHome .sheet-block-head { display: flex; justify-content: space-between; margin: 0.25rem 0 0.15rem; }
-#viewHome .sheet-stats, #viewHome .sheet-skills, #viewHome .sheet-sets { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.18rem; }
-#viewHome .sheet-stats li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; column-gap: 0.35rem; }
-#viewHome .sheet-stats small, #viewHome .sheet-skills small, #viewHome .sheet-sets small { display: block; color: #b5a696; font-size: 9px; line-height: 1.1; }
-#viewHome .sheet-stats b { color: #fff3d4; }
-#viewHome .sheet-stats em { text-align: right; font-size: 10px; }
-#viewHome .sheet-skills li, #viewHome .sheet-sets li { display: flex; justify-content: space-between; gap: 0.4rem; align-items: center; padding: 0.08rem 0; border-top: 1px solid rgba(253, 186, 69, 0.12); }
-#viewHome .sheet-skills em, #viewHome .sheet-sets em { flex: 0 0 auto; font-style: normal; font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; color: #89d98c; border: 1px solid rgba(137, 217, 140, 0.45); border-radius: 999px; padding: 0.05rem 0.35rem; }
-#viewHome .sheet-skills em.is-save { color: #9ec5ff; border-color: rgba(158, 197, 255, 0.5); }
-#viewHome .sheet-skills em.is-ult { color: #fdba45; border-color: rgba(253, 186, 69, 0.6); }
-#viewHome .sheet-actions, #viewHome .sheet-banner-btns, #viewHome .sheet-compare-btns, #viewHome .sheet-filters, #viewHome .sheet-rarities { display: flex; gap: 0.25rem; flex-wrap: wrap; }
-#viewHome .sheet-actions { margin-top: 0.15rem; }
-#viewHome .sheet-col button, #viewHome .sheet-bag button, #viewHome .sheet-deck button, #viewHome .sheet-banner button, #viewHome .sheet-squad button {
-  font-family: Rubik, sans-serif; cursor: pointer; border: 1px solid rgba(253, 186, 69, 0.35); background: transparent; color: #fdba45; border-radius: 0.4rem; padding: 0.18rem 0.45rem; font-size: 11px;
-}
-#viewHome .sheet-filters button.is-on, #viewHome .sheet-rarities button.is-on, #viewHome .sheet-compare-btns .is-gold, #viewHome .sheet-squad .is-on {
-  background: #fdba45; color: #2a1c00; font-weight: 800; border-color: #fdba45;
-}
-#viewHome .sheet-stage { display: flex; flex-direction: column; padding: 0.3rem; min-width: 0; }
-#viewHome .sheet-viewmode { margin: 0 0 0.2rem; color: #d5c4af; font-size: 11px; }
-#viewHome .sheet-doll { position: relative; flex: 1 1 auto; min-height: 0; border-radius: 0.55rem; overflow: hidden; }
-#viewHome .sheet-doll img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
-#viewHome .sheet-slots { position: absolute; top: 0.3rem; bottom: 0.55rem; display: flex; flex-direction: column; justify-content: space-between; width: 10.6rem; }
-#viewHome .sheet-slots.left { left: 0.35rem; }
-#viewHome .sheet-slots.right { right: 0.35rem; }
-#viewHome .sheet-slot {
-  flex: 0 0 auto;
-  display: flex; gap: 0.3rem; align-items: center; text-align: left;
-  border: 1px solid rgba(253, 186, 69, 0.55); background: rgba(10, 8, 6, 0.82); color: #fff3d4;
-  border-radius: 0.45rem; padding: 0.2rem 0.35rem; cursor: pointer; font-family: Rubik, sans-serif;
-}
-#viewHome .sheet-slot .material-symbols-outlined { font-size: 16px; color: #fdba45; }
-#viewHome .sheet-slot b, #viewHome .sheet-slot small { display: block; }
-#viewHome .sheet-slot b { font-size: 10px; line-height: 1.15; white-space: normal; }
-#viewHome .sheet-slot small { color: #89d98c; font-size: 10px; }
-#viewHome .sheet-banner { display: grid; grid-template-columns: 1fr auto; gap: 0.15rem 0.4rem; margin-top: 0.28rem; padding: 0.28rem 0.4rem; border-radius: 0.45rem; background: rgba(253, 186, 69, 0.08); }
-#viewHome .sheet-banner p, #viewHome .sheet-banner span { margin: 0; color: #d5c4af; font-size: 10px; }
-#viewHome .sheet-banner strong { font-size: 12px; color: #fff3d4; }
-#viewHome .sheet-banner-btns { grid-row: 1 / span 2; align-self: center; }
-#viewHome .sheet-squad { display: flex; gap: 0.25rem; margin-top: 0.25rem; align-items: center; }
-#viewHome .sheet-squad button { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; }
-#viewHome .sheet-squad small { color: inherit; font-size: 9px; }
-#viewHome .sheet-squad-swap { margin-left: auto; }
-#viewHome .sheet-bag { display: flex; flex-direction: column; gap: 0.25rem; }
-#viewHome .sheet-bag-head, #viewHome .sheet-compare-head, #viewHome .sheet-deck-head { display: flex; justify-content: space-between; align-items: baseline; gap: 0.4rem; }
-#viewHome .sheet-bag-head strong { letter-spacing: 0.12em; text-transform: uppercase; color: #fdba45; }
-#viewHome .sheet-bag-head span, #viewHome .sheet-rarities span { color: #d5c4af; font-size: 10px; }
-#viewHome .sheet-grid-bag { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.28rem; align-content: start; }
-#viewHome .sheet-item { position: relative; aspect-ratio: 1; border-radius: 0.4rem; border: 1px solid rgba(253, 186, 69, 0.25); background: rgba(0,0,0,0.45); display: grid; place-items: center; color: #fdba45; }
-#viewHome .sheet-item i { position: absolute; left: 0.15rem; top: 0.1rem; font-style: normal; font-size: 8px; letter-spacing: 0.04em; text-transform: uppercase; }
-#viewHome .sheet-item.myth { border-color: #fdba45; }
-#viewHome .sheet-item.epic { border-color: #c084fc; color: #c084fc; }
-#viewHome .sheet-item.rare { border-color: #7dd3fc; color: #7dd3fc; }
-#viewHome .sheet-item.empty { color: #6b5e52; border-style: dashed; font-size: 18px; }
-#viewHome .sheet-compare { border-top: 1px solid rgba(253, 186, 69, 0.2); padding-top: 0.25rem; }
-#viewHome .sheet-compare-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; margin: 0.15rem 0; }
-#viewHome .sheet-compare small, #viewHome .sheet-compare em { display: block; color: #d5c4af; font-style: normal; font-size: 10px; }
-#viewHome .sheet-compare strong { color: #fff3d4; }
-#viewHome .sheet-deck { padding: 0.3rem 0.45rem 0.35rem; }
-#viewHome .sheet-deck-head p { margin: 0; color: #fff3d4; font-size: 12px; }
-#viewHome .sheet-deck-head small, #viewHome .sheet-deck-tools span { color: #d5c4af; font-size: 10px; }
-#viewHome .sheet-deck-tools { display: flex; align-items: center; gap: 0.4rem; }
-#viewHome .sheet-deck-row { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.3rem; margin-top: 0.25rem; }
-#viewHome .sheet-deck-row article { border: 1px solid rgba(253, 186, 69, 0.28); border-radius: 0.45rem; padding: 0.22rem 0.3rem; background: rgba(0,0,0,0.35); min-width: 0; }
-#viewHome .sheet-deck-row em { display: block; font-style: normal; font-size: 9px; letter-spacing: 0.04em; text-transform: uppercase; color: #fdba45; }
-#viewHome .sheet-deck-row .material-symbols-outlined { font-size: 16px; color: #fcd38a; }
-#viewHome .sheet-deck-row strong, #viewHome .sheet-deck-row small { display: block; }
-#viewHome .sheet-deck-row strong { font-size: 11px; color: #fff3d4; }
-#viewHome .sheet-deck-row small { color: #d5c4af; font-size: 10px; }
 body:has(#viewHome:not(.hidden)) #wireDock { display: none !important; }
 
 /* Live HUD panels over painted forms — filled flush blocks (farm/guild stubs) */
