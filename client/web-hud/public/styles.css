@@ -1440,3 +1440,433 @@ body.mythfel-farm #app {
   content: "";
   outline: 1px dashed var(--outline);
 }
+
+/* Hub only: match the battle-pass hall. Login, registration, and Двор keep their own chrome. */
+body:has(#viewHub:not(.hidden)) {
+  --mythfel-chrome-stack: 0px;
+}
+body:has(#viewHub:not(.hidden)) #appNav,
+body:has(#viewHub:not(.hidden)) #appSubTabs,
+body:has(#viewHub:not(.hidden)) #wireDock {
+  display: none !important;
+}
+body:has(#viewHub:not(.hidden)) #app {
+  height: 100dvh !important;
+  max-height: 100dvh !important;
+}
+#viewHub > header.mythfel-hub-bar,
+#viewHub > footer.mythfel-hub-foot,
+#viewHub > header nav.mythfel-hub-tabs {
+  display: flex !important;
+}
+.mythfel-hub-sink { display: none !important; }
+#viewHub {
+  background: #100e0c;
+  color: #eae1db;
+}
+#viewHub > main.mythfel-hub-main {
+  position: relative;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.45rem !important;
+  padding: 0.55rem 0.7rem 0.35rem !important;
+  overflow: hidden !important;
+  height: auto !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+}
+.mythfel-hub-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(10, 8, 7, 0.28), rgba(10, 8, 7, 0.48)),
+    url("/stitch-assets/login-hero.png") center 38% / cover no-repeat;
+  pointer-events: none;
+}
+.mythfel-hub-bar,
+.mythfel-hub-foot,
+.mythfel-hub-dock {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.35rem 0.75rem;
+  background: rgba(14, 11, 9, 0.96);
+  border-color: rgba(253, 186, 69, 0.22);
+  border-style: solid;
+}
+.mythfel-hub-bar { height: 3.15rem; border-width: 0 0 1px; justify-content: space-between; }
+.mythfel-hub-brand { display: flex; align-items: center; gap: 0.45rem; min-width: 0; }
+.mythfel-hub-mark {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.55rem;
+  display: grid;
+  place-items: center;
+  color: #2a1c00;
+  background: linear-gradient(160deg, #fdba45, #d99b26);
+  box-shadow: 0 0 12px rgba(253, 186, 69, 0.35);
+}
+.mythfel-hub-mark .material-symbols-outlined { font-size: 20px; }
+.mythfel-hub-brand-text { display: flex; flex-direction: column; line-height: 1.05; }
+.mythfel-hub-brand-text strong {
+  font-family: Rubik, sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  color: #fdba45;
+}
+.mythfel-hub-brand-text span {
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: #d5c4af;
+}
+.mythfel-hub-tabs { display: flex; align-items: center; gap: 0.2rem; min-width: 0; }
+.mythfel-hub-tabs a,
+.mythfel-hub-tabs button {
+  border: 0;
+  background: transparent;
+  color: #d5c4af;
+  font-family: Rubik, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 0.32rem 0.62rem;
+  border-radius: 999px;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+.mythfel-hub-tabs a.is-active {
+  background: linear-gradient(180deg, #fdba45, #d99b26);
+  color: #2a1c00;
+}
+.mythfel-hub-wallet {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: rgba(35, 31, 28, 0.9);
+  border: 1px solid rgba(80, 69, 53, 0.8);
+  font-family: Rubik, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+}
+.mythfel-hub-wallet span { display: inline-flex; align-items: center; gap: 0.2rem; }
+.mythfel-hub-wallet .material-symbols-outlined { font-size: 15px; color: #fdba45; }
+.mythfel-hub-vip { display: flex; align-items: center; gap: 0.35rem; }
+.mythfel-hub-vip div { display: flex; flex-direction: column; line-height: 1.05; text-align: right; }
+.mythfel-hub-vip small { font-size: 9px; letter-spacing: 0.08em; color: #d5c4af; }
+.mythfel-hub-vip strong { font-size: 12px; color: #fdba45; font-family: Rubik, sans-serif; }
+.mythfel-hub-vip button,
+.mythfel-hub-dock button,
+.mythfel-hub-dock a {
+  border: 0;
+  background: transparent;
+  color: #d5c4af;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  text-decoration: none;
+  font-family: Rubik, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+}
+.mythfel-hub-vip .material-symbols-outlined { font-size: 18px; }
+.mythfel-pass,
+.mythfel-portals-wrap {
+  position: relative;
+  z-index: 1;
+  min-height: 0;
+}
+.mythfel-pass {
+  flex: 1 1 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1.65fr) minmax(16rem, 0.9fr);
+  gap: 0.55rem;
+}
+.mythfel-pass-hero,
+.mythfel-pass-perks,
+.mythfel-portal {
+  border: 1px solid rgba(253, 186, 69, 0.38);
+  border-radius: 0.85rem;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
+}
+.mythfel-pass-hero {
+  background:
+    linear-gradient(100deg, rgba(12, 10, 8, 0.9) 0%, rgba(12, 10, 8, 0.72) 46%, rgba(12, 10, 8, 0.38) 100%),
+    url("/stitch-assets/login-hero.png") 70% 42% / cover no-repeat;
+}
+.mythfel-pass-perks { background: rgba(14, 11, 9, 0.78); backdrop-filter: blur(8px); }
+.mythfel-portal { background: rgba(14, 11, 9, 0.88); }
+.mythfel-pass-hero,
+.mythfel-pass-perks {
+  padding: 0.7rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+}
+.mythfel-pass-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.mythfel-pass-chips span,
+.mythfel-portal-badge {
+  font-family: Rubik, sans-serif;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  border-radius: 999px;
+  padding: 0.16rem 0.45rem;
+  border: 1px solid transparent;
+}
+.chip-gold, .mythfel-portal-badge.is-ready {
+  background: rgba(253, 186, 69, 0.18);
+  color: #fdba45;
+  border-color: rgba(253, 186, 69, 0.45);
+}
+.chip-muted {
+  background: rgba(35, 31, 28, 0.8);
+  color: #d5c4af;
+  border-color: rgba(80, 69, 53, 0.8);
+}
+.chip-live, .mythfel-portal-badge.is-live {
+  background: rgba(137, 217, 140, 0.16);
+  color: #89d98c;
+  border-color: rgba(137, 217, 140, 0.45);
+}
+.mythfel-pass-kicker, .mythfel-perk-kicker, .mythfel-portal-body p, .mythfel-portals-head em {
+  margin: 0;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fdba45;
+  font-family: Rubik, sans-serif;
+  font-weight: 700;
+}
+#viewHub .mythfel-pass-hero h2 {
+  margin: 0;
+  font-family: Rubik, sans-serif;
+  font-size: clamp(20px, 2vw, 28px);
+  line-height: 1.05;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+.mythfel-pass-copy {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.35;
+  color: #d5c4af;
+  max-width: 46rem;
+}
+.mythfel-pass-progress { display: flex; gap: 0.6rem; align-items: center; }
+.mythfel-pass-lvl {
+  width: 2.6rem;
+  height: 2.6rem;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  font-family: Rubik, sans-serif;
+  font-weight: 800;
+  color: #2a1c00;
+  background: radial-gradient(circle at 35% 30%, #ffe1a6, #fdba45 45%, #d99b26);
+  box-shadow: 0 0 16px rgba(253, 186, 69, 0.35);
+}
+.mythfel-pass-meter { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 0.2rem; }
+.mythfel-pass-meter-top, .mythfel-pass-next, .mythfel-pass-perks-head, .mythfel-portals-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: baseline;
+  font-size: 11px;
+  color: #d5c4af;
+}
+.mythfel-pass-meter-top strong { color: #eae1db; font-family: Rubik, sans-serif; }
+.mythfel-pass-meter-top em { font-style: normal; color: #d5c4af; font-weight: 600; }
+.mythfel-pass-bar {
+  height: 0.45rem;
+  border-radius: 999px;
+  background: rgba(57, 52, 48, 0.9);
+  overflow: hidden;
+}
+.mythfel-pass-bar span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #d99b26, #fdba45);
+}
+.mythfel-pass-actions { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: auto; }
+.mythfel-hub-cta, .mythfel-hub-ghost {
+  border-radius: 0.7rem;
+  font-family: Rubik, sans-serif;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.03em;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.48rem 0.8rem;
+}
+.mythfel-hub-cta {
+  border: 0;
+  color: #2a1c00;
+  background: linear-gradient(180deg, #fdba45, #d99b26);
+  box-shadow: 0 0 18px rgba(253, 186, 69, 0.35);
+}
+.mythfel-hub-ghost {
+  border: 1px solid rgba(253, 186, 69, 0.45);
+  background: rgba(22, 18, 15, 0.7);
+  color: #eae1db;
+}
+.mythfel-hub-cta .material-symbols-outlined,
+.mythfel-hub-dock .material-symbols-outlined,
+.mythfel-perk-list .material-symbols-outlined { font-size: 16px; }
+.mythfel-pass-perks-head strong, .mythfel-portals-head strong {
+  font-family: Rubik, sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: #eae1db;
+}
+.mythfel-pass-perks-head span {
+  color: #89d98c;
+  font-size: 10px;
+  font-weight: 800;
+}
+.mythfel-perk-list, .mythfel-perk-loot, .mythfel-portal-body ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.22rem;
+}
+.mythfel-perk-list li, .mythfel-perk-loot li {
+  display: flex;
+  gap: 0.35rem;
+  align-items: flex-start;
+  font-size: 12px;
+}
+.mythfel-perk-list .material-symbols-outlined { color: #fdba45; }
+.mythfel-perk-loot li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 2.35rem;
+  column-gap: 0.55rem;
+  align-items: center;
+  padding-top: 0.28rem;
+  border-top: 1px solid rgba(253, 186, 69, 0.16);
+}
+.mythfel-perk-loot li strong,
+.mythfel-perk-loot li span { grid-column: 1; }
+.mythfel-perk-loot li::after {
+  content: "";
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  width: 2.35rem;
+  height: 2.35rem;
+  border-radius: 0.4rem;
+  background: #231f1c center / cover no-repeat;
+  border: 1px solid rgba(253, 186, 69, 0.28);
+}
+.mythfel-perk-loot li:nth-child(1)::after { background-image: url("/stitch-assets/520c5d948660.jpg"); }
+.mythfel-perk-loot li:nth-child(2)::after { background-image: url("/stitch-assets/a0a1cde41302.jpg"); }
+.mythfel-perk-loot li:nth-child(3)::after { background-image: url("/stitch-assets/a79555b727ea.jpg"); }
+.mythfel-perk-loot strong { font-size: 12px; }
+.mythfel-perk-loot span, .mythfel-portal-body li, .mythfel-portal-body small, .mythfel-squad span, .mythfel-portals-head span {
+  color: #d5c4af;
+  font-size: 11px;
+}
+.mythfel-portals-wrap { flex: 1.05 1 0; display: flex; flex-direction: column; gap: 0.35rem; min-height: 0; }
+.mythfel-portals {
+  flex: 1;
+  min-height: 0;
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+.mythfel-portal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+}
+.mythfel-portal-art {
+  flex: 0 0 46%;
+  min-height: 4.4rem;
+  background-size: cover;
+  background-position: center top;
+}
+.mythfel-portal-badge {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.35rem;
+}
+.mythfel-portal-badge.is-ticket { background: rgba(255, 180, 166, 0.16); color: #ffb4a6; border-color: rgba(255, 180, 166, 0.4); }
+.mythfel-portal-badge.is-yield { background: rgba(137, 217, 140, 0.16); color: #89d98c; border-color: rgba(137, 217, 140, 0.4); }
+.mythfel-portal-badge.is-lots { background: rgba(253, 186, 69, 0.16); color: #fdba45; border-color: rgba(253, 186, 69, 0.4); }
+.mythfel-portal-badge.is-recipe { background: rgba(253, 186, 69, 0.16); color: #fdba45; border-color: rgba(253, 186, 69, 0.4); }
+.mythfel-portal-body {
+  padding: 0.35rem 0.45rem 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  min-height: 0;
+  flex: 1;
+}
+#viewHub .mythfel-portal-body h3 {
+  margin: 0;
+  font-family: Rubik, sans-serif;
+  font-size: 13px;
+  line-height: 1.15;
+}
+.mythfel-portal-body small { margin-top: auto; }
+.mythfel-hub-foot {
+  border-width: 1px 0 0;
+  justify-content: space-between;
+  min-height: 3.1rem;
+}
+.mythfel-squad { display: flex; align-items: center; gap: 0.55rem; min-width: 0; }
+.mythfel-squad-faces { display: flex; }
+.mythfel-squad-faces img {
+  width: 1.8rem;
+  height: 1.8rem;
+  min-height: 0 !important;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #100e0c;
+  margin-left: -0.35rem;
+}
+.mythfel-squad-faces img:first-child { margin-left: 0; }
+.mythfel-squad strong, .mythfel-dailies {
+  display: block;
+  font-family: Rubik, sans-serif;
+  font-size: 12px;
+}
+.mythfel-dailies {
+  padding: 0.35rem 0.6rem;
+  border-radius: 0.6rem;
+  border: 1px solid rgba(80, 69, 53, 0.8);
+  background: rgba(22, 18, 15, 0.8);
+}
+.mythfel-dailies b { color: #89d98c; }
+.mythfel-hub-dock {
+  border-width: 1px 0 0;
+  justify-content: flex-start;
+  min-height: 1.9rem;
+  padding-top: 0.2rem;
+  padding-bottom: 0.2rem;
+  color: #d5c4af;
+}
+.mythfel-hub-ver { margin-left: auto; font-size: 10px; letter-spacing: 0.04em; color: #9d8f7b; }
+@media (max-width: 1100px) {
+  .mythfel-pass { grid-template-columns: 1fr; }
+  .mythfel-portals { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .mythfel-hub-wallet { display: none; }
+}
