@@ -172,11 +172,11 @@ const KNOWLEDGE_TABS = [
 const NAV = [
   {
     id: "character",
-    key: "nav.primary.character", // Дом Хранителя → default Двор
+    key: "nav.primary.character", // Дом Хранителя → Персонаж desk
     tabs: [
-      { id: "farm", key: "nav.sub.farm", soon: "farm", gated: true }, // Двор first
+      { id: "home", key: "nav.sub.home" }, // Персонаж — desk opens with Дом Хранителя
+      { id: "farm", key: "nav.sub.farm", soon: "farm", gated: true },
       { id: "craft", key: "nav.sub.craft", gated: true },
-      { id: "home", key: "nav.sub.home" }, // Персонаж
       { id: "gear", key: "nav.sub.gear" },
       { id: "collection", key: "nav.sub.collection" }, // Коллекция котиков
       { id: "breeding", key: "nav.sub.breeding", gated: true },
@@ -1946,88 +1946,206 @@ function renderGuild() {
   host.appendChild(tip);
 }
 
+const CAT_SHEET_NAMES = {
+  starter_tank_stone: "Страж камня",
+  starter_fighter_fire: "Боец огня",
+  starter_support_water: "Поддержка воды",
+};
+const CAT_ROLE_RU = {
+  tank: "Страж",
+  fighter: "Боец",
+  assassin: "Убийца",
+  ranger: "Следопыт",
+  mage: "Чародей",
+  support: "Поддержка",
+  farm: "Двор",
+};
+const CAT_ELEMENT_RU = {
+  stone: "Камень",
+  fire: "Огонь",
+  water: "Вода",
+  bolt: "Молния",
+  grass: "Трава",
+  ice: "Лёд",
+};
+const CAT_ELEMENT_GEN = {
+  stone: "камня",
+  fire: "огня",
+  water: "воды",
+  bolt: "молнии",
+  grass: "травы",
+  ice: "льда",
+};
+const HOME_SLOT_ORDER = ["weapon", "armor", "helm", "boots"];
+const HOME_SLOT_RU = { weapon: "Оружие", armor: "Броня", helm: "Шлем", boots: "Обувь" };
+
+function catSheetName(cat) {
+  if (CAT_SHEET_NAMES[cat.templateId]) return CAT_SHEET_NAMES[cat.templateId];
+  const parts = String(cat.templateId || "").split("_");
+  const role = parts.find((part) => CAT_ROLE_RU[part]);
+  const element = parts.find((part) => CAT_ELEMENT_RU[part]);
+  if (role && element) return `${CAT_ROLE_RU[role]} ${CAT_ELEMENT_GEN[element] || CAT_ELEMENT_RU[element].toLowerCase()}`;
+  return cat.templateId || cat.catId;
+}
+
 function renderHome() {
-  const cats = state.profile?.cats || [];
+  const cats = (state.profile?.cats || []).filter((c) => c.role !== "farm");
   const cat = cats.find((c) => c.catId === state.selectedCatId) || cats[0];
   if (!cat) return;
   state.selectedCatId = cat.catId;
   const stats = statsForCat(cat);
   const eq = state.equippedByCat[cat.catId] || {};
-
-  // Drop legacy floating debug panel if present from older HUD builds.
   $("homeEquipPanel")?.remove();
 
-  const picker = $("homeCatPicker");
-  if (picker) {
-    picker.innerHTML = "";
-    for (const c of cats.filter((x) => x.role !== "farm").slice(0, 12)) {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.className = "wire-btn" + (c.catId === cat.catId ? " active" : "");
-      b.style.width = "100%";
-      b.style.textAlign = "left";
-      b.innerHTML = `<strong>${c.templateId || c.catId}</strong><div class="meta">${c.role} · ${c.element}</div>`;
-      b.addEventListener("click", () => {
-        state.selectedCatId = c.catId;
-        renderHome();
-      });
-      picker.appendChild(b);
-    }
+  const wornItems = HOME_SLOT_ORDER.map((slot) => state.gearCatalog.find((g) => g.id === eq[slot])).filter(Boolean);
+  const filter = state.homeBagFilter || "all";
+  const focusId = state.homeBagFocus;
+  const focus = state.gearCatalog.find((g) => g.id === focusId) || wornItems[0] || state.gearCatalog[0];
+  if (focus) state.homeBagFocus = focus.id;
+
+  const statBlock = $("homeStatBlock");
+  if (statBlock) {
+    const role = CAT_ROLE_RU[cat.role] || cat.role;
+    const element = CAT_ELEMENT_RU[cat.element] || cat.element;
+    const rows = [
+      ["Атака (ATK)", stats.atk, stats.bonus.atk],
+      ["Здоровье (HP)", stats.hp, stats.bonus.hp],
+      ["Защита (DEF)", stats.def, stats.bonus.def],
+      ["Скорость (SPD)", stats.spd, stats.bonus.spd],
+    ];
+    statBlock.innerHTML = `
+      <p class="char-kicker">Мифический</p>
+      <div class="char-name-row">
+        <h2>${catSheetName(cat)}</h2>
+        <span>Ур. ${cat.level || 1}</span>
+      </div>
+      <p class="char-role">${role} · ${element}</p>
+      <p class="char-power"><strong>${stats.atk}</strong><span>ATK</span></p>
+      <p class="char-block-title">Базовые параметры</p>
+      <ul class="char-stats">
+        ${rows.map(([label, value, bonus]) => `<li><span>${label}</span><b>${value}</b><em>${bonus ? `+${bonus}` : ""}</em></li>`).join("")}
+      </ul>
+      <p class="char-block-title">Карты кота</p>
+      <p class="char-note">4 карты колоды. Урон считает сервер.</p>`;
   }
 
   const hero = $("homeHeroCard");
   if (hero) {
-    const worn = Object.entries(eq)
-      .filter(([, id]) => id)
-      .map(([slot, id]) => {
-        const item = state.gearCatalog.find((g) => g.id === id);
-        return item ? `${slot}: ${item.name}` : null;
-      })
-      .filter(Boolean);
+    const slotHtml = (slot) => {
+      const item = state.gearCatalog.find((g) => g.id === eq[slot]);
+      return `<button type="button" class="char-slot${item ? " is-filled" : ""}" data-slot="${slot}">
+        <small>${HOME_SLOT_RU[slot] || slot}</small>
+        <strong>${item ? item.name : "Пусто"}</strong>
+      </button>`;
+    };
     hero.innerHTML = `
-      <div>
-        <p class="text-[10px] uppercase tracking-widest text-[#fdba45] font-bold">Активный кот</p>
-        <h3 class="text-lg font-black text-[#fdba45]">${cat.templateId}</h3>
-        <p class="text-sm text-[#d5c4af]">${cat.role} · ${cat.element}</p>
+      <div class="char-slots">${HOME_SLOT_ORDER.slice(0, 2).map(slotHtml).join("")}</div>
+      <div class="char-portrait">
+        <img alt="" src="/stitch-assets/3fb811d68da3.jpg">
+        <p>${catSheetName(cat)}</p>
       </div>
-      <div class="mythfel-stat-grid">
-        <div><span>ATK</span><strong>${stats.atk}</strong><em>+${stats.bonus.atk}</em></div>
-        <div><span>HP</span><strong>${stats.hp}</strong><em>+${stats.bonus.hp}</em></div>
-        <div><span>DEF</span><strong>${stats.def}</strong><em>+${stats.bonus.def}</em></div>
-        <div><span>SPD</span><strong>${stats.spd}</strong><em>+${stats.bonus.spd}</em></div>
-      </div>
-      <div class="text-xs text-[#d5c4af]">${worn.length ? worn.join(" · ") : "Экип пуст — надень R1 из инвентаря →"}</div>`;
+      <div class="char-slots">${HOME_SLOT_ORDER.slice(2).map(slotHtml).join("")}</div>`;
+    hero.querySelectorAll("[data-slot]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const slot = btn.getAttribute("data-slot");
+        const worn = eq[slot];
+        if (worn) {
+          unequipSlot(cat.catId, slot);
+          return;
+        }
+        const next = state.gearCatalog.find((g) => g.slot === slot);
+        if (next) equipItem(cat.catId, next.id);
+      });
+    });
   }
 
-  const statBlock = $("homeStatBlock");
-  if (statBlock) {
-    statBlock.innerHTML = `
-      <div><span>ATK</span><strong>${stats.atk}</strong><em>+${stats.bonus.atk}</em></div>
-      <div><span>HP</span><strong>${stats.hp}</strong><em>+${stats.bonus.hp}</em></div>
-      <div><span>DEF</span><strong>${stats.def}</strong><em>+${stats.bonus.def}</em></div>
-      <div><span>SPD</span><strong>${stats.spd}</strong><em>+${stats.bonus.spd}</em></div>`;
+  const setLine = $("homeSetLine");
+  if (setLine) {
+    setLine.textContent = wornItems.length
+      ? `Надето ${wornItems.length}/4 · ${wornItems.map((item) => item.name).join(", ")}`
+      : "Слоты пусты. Надень предмет из инвентаря.";
+  }
+
+  const unequip = $("homeUnequip");
+  if (unequip) {
+    unequip.onclick = () => {
+      const slot = HOME_SLOT_ORDER.find((key) => eq[key]);
+      if (slot) unequipSlot(cat.catId, slot);
+    };
+  }
+
+  const tabs = $("homeBagTabs");
+  if (tabs && tabs.dataset.bound !== "1") {
+    tabs.dataset.bound = "1";
+    tabs.addEventListener("click", (event) => {
+      const btn = event.target.closest("[data-bag]");
+      if (!btn) return;
+      state.homeBagFilter = btn.getAttribute("data-bag");
+      renderHome();
+    });
+  }
+  if (tabs) {
+    tabs.querySelectorAll("[data-bag]").forEach((btn) => {
+      btn.classList.toggle("is-on", btn.getAttribute("data-bag") === filter);
+    });
   }
 
   const gearBlock = $("homeGearBlock");
   if (gearBlock) {
     gearBlock.innerHTML = "";
-    for (const item of state.gearCatalog) {
-      const worn = Object.values(eq).includes(item.id);
+    const items = state.gearCatalog.filter((item) => filter === "all" || item.slot === filter);
+    for (const item of items) {
       const onThis = eq[item.slot] === item.id;
-      const card = document.createElement("div");
-      card.className = "mythfel-panel-card";
-      card.innerHTML = `<strong>${item.name}</strong><div class="meta">R${item.rank} · ${item.slot} · +${item.atk}ATK +${item.hp}HP</div>`;
-      const btn = document.createElement("button");
-      btn.type = "button";
-      btn.className = "wire-btn";
-      btn.textContent = onThis ? "Снять" : worn ? "На другом" : "Надеть";
-      btn.addEventListener("click", () => {
-        if (onThis) unequipSlot(cat.catId, item.slot);
-        else equipItem(cat.catId, item.id);
+      const card = document.createElement("button");
+      card.type = "button";
+      card.className = "char-bag-item" + (onThis ? " is-worn" : "") + (focus && focus.id === item.id ? " is-focus" : "");
+      card.innerHTML = `<strong>${item.name}</strong><small>R${item.rank} · +${item.atk} ATK</small>`;
+      card.addEventListener("click", () => {
+        state.homeBagFocus = item.id;
+        renderHome();
       });
-      card.appendChild(btn);
       gearBlock.appendChild(card);
     }
+  }
+
+  const compare = $("homeCompare");
+  if (compare && focus) {
+    const onThis = eq[focus.slot] === focus.id;
+    compare.innerHTML = `
+      <div>
+        <strong>${focus.name}</strong>
+        <p>R${focus.rank} · ${HOME_SLOT_RU[focus.slot] || focus.slot} · +${focus.atk} ATK · +${focus.hp} HP · +${focus.def} DEF</p>
+      </div>`;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "char-btn";
+    btn.textContent = onThis ? "Снять" : "Надеть";
+    btn.addEventListener("click", () => {
+      if (onThis) unequipSlot(cat.catId, focus.slot);
+      else equipItem(cat.catId, focus.id);
+    });
+    compare.appendChild(btn);
+  }
+
+  const picker = $("homeCatPicker");
+  if (picker) {
+    picker.innerHTML = "";
+    cats.forEach((c, index) => {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "char-deck-card" + (c.catId === cat.catId ? " is-active" : "");
+      b.innerHTML = `<small>${index === 0 ? "Активный" : "Отряд"}</small><strong>${catSheetName(c)}</strong><span>${CAT_ROLE_RU[c.role] || c.role}</span>`;
+      b.addEventListener("click", () => {
+        state.selectedCatId = c.catId;
+        renderHome();
+      });
+      picker.appendChild(b);
+    });
+  }
+
+  const deckLabel = $("homeDeckLabel");
+  if (deckLabel) {
+    deckLabel.textContent = `Боевая колода · ${cats.length} котов · ${catSheetName(cat)}`;
   }
 }
 
