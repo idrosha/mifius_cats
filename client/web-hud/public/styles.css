@@ -884,31 +884,48 @@ body.mythfel-farm #app {
 }
 
 /*
- * Login stage: title, lore card, class cards, and the auth panel share one grid.
- * Scoped to #viewLogin so hub/battle chrome stays as it is.
+ * Login / registration stage. Scoped to #viewLogin.
+ * One grid: left stack and the auth panel share a bottom baseline and a 1.25rem gap.
+ * Panels are translucent so the tavern art stays visible.
  */
 #viewLogin main > .mythfel-login-grid.relative.z-20.flex-1 {
   display: grid !important;
   grid-template-columns: minmax(0, 1fr) minmax(22rem, 26rem);
-  gap: 1rem;
+  column-gap: 1.25rem;
   align-items: end;
-  align-content: end;
   justify-items: stretch;
   flex: 0 1 auto !important;
-  align-self: center !important;
-  height: auto !important;
   width: 100% !important;
   max-width: none !important;
-  margin: 0 !important;
-  padding: 0.75rem 1.25rem 1rem !important;
+  height: auto !important;
+  margin: auto 0 0.35rem !important;
+  padding: 0.75rem 1.25rem 0.85rem !important;
   box-sizing: border-box;
 }
-#viewLogin .mythfel-login-side {
+#viewLogin .mythfel-login-side,
+#viewLogin .mythfel-register-side {
+  grid-column: 1;
+  grid-row: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  gap: 1rem;
-  min-width: 0;
+  gap: 0.85rem;
+}
+#viewLogin .mythfel-login-side { justify-content: flex-end; }
+#viewLogin .mythfel-register-side { display: none; }
+#viewLogin[data-auth="register"] .mythfel-login-side { display: none !important; }
+#viewLogin[data-auth="register"] .mythfel-register-side {
+  display: flex;
+  align-self: stretch;
+  height: 100%;
+  justify-content: space-between;
+}
+#viewLogin[data-auth="register"] .mythfel-login-auth {
+  align-self: stretch;
+}
+#viewLogin[data-auth="register"] main > .mythfel-login-grid.relative.z-20.flex-1 {
+  align-items: stretch;
+  margin-top: 0.35rem !important;
 }
 #viewLogin .mythfel-login-brand {
   display: flex !important;
@@ -917,38 +934,44 @@ body.mythfel-farm #app {
   margin: 0 !important;
 }
 #viewLogin .mythfel-login-brand h1,
-#viewLogin .mythfel-login-brand > p {
-  margin: 0 !important;
-}
+#viewLogin .mythfel-login-brand > p { margin: 0 !important; }
 #viewLogin .mythfel-login-copy {
-  margin: 0 !important;
-  padding: 1rem;
-  border-radius: 0.75rem;
-  border: 1px solid rgba(253, 186, 69, 0.32);
-  background: rgba(19, 15, 12, 0.42);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
-  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin: 0;
+  padding: 0.95rem 1rem 0.85rem;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(253, 186, 69, 0.34);
+  background: rgba(14, 11, 9, 0.55);
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
 }
-#viewLogin .mythfel-login-classes {
+#viewLogin .mythfel-login-copy > p { margin: 0; }
+#viewLogin .mythfel-login-classes,
+#viewLogin .mythfel-register-classes,
+#viewLogin .mythfel-guilds {
   display: grid !important;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1rem !important;
+  gap: 0.75rem !important;
   align-items: stretch;
-  margin: 0;
   width: 100%;
+  margin: 0;
 }
 #viewLogin .mythfel-login-classes > div {
   display: flex;
   align-items: center;
-  min-height: 4.5rem;
+  min-height: 3.6rem;
   height: 100%;
   box-sizing: border-box;
-  background: rgba(46, 41, 38, 0.38) !important;
+  background: rgba(36, 30, 26, 0.42) !important;
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
 }
 #viewLogin .mythfel-login-auth {
+  grid-column: 2;
+  grid-row: 1;
   align-self: end;
   display: flex;
   min-width: 0;
@@ -957,17 +980,215 @@ body.mythfel-farm #app {
   margin: 0 !important;
 }
 #viewLogin .mythfel-login-auth > .relative {
-  flex: 1 1 auto;
   width: 100%;
   box-sizing: border-box;
-  background: linear-gradient(
-    180deg,
-    rgba(33, 26, 20, 0.5),
-    rgba(25, 20, 16, 0.54) 48%,
-    rgba(18, 14, 12, 0.6)
-  ) !important;
+  background: linear-gradient(180deg, rgba(28, 22, 16, 0.62), rgba(16, 12, 10, 0.7)) !important;
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35), 0 0 24px rgba(217, 155, 38, 0.12);
+}
+#viewLogin .mythfel-auth-tabs {
+  background: rgba(0, 0, 0, 0.35);
+  border: 1px solid rgba(253, 186, 69, 0.28);
+}
+#viewLogin .mythfel-login-auth input[type="text"],
+#viewLogin .mythfel-login-auth input[type="password"],
+#viewLogin .mythfel-login-auth input[type="email"] {
+  background: rgba(20, 16, 12, 0.45) !important;
+}
+#viewLogin .mythfel-login-auth .grid.grid-cols-4 > button {
+  background: rgba(24, 19, 15, 0.38);
+}
+#viewLogin .mythfel-auth-register { display: none; }
+#viewLogin[data-auth="register"] .mythfel-auth-login { display: none; }
+#viewLogin[data-auth="register"] .mythfel-auth-register {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+#viewLogin .mythfel-register-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  align-self: flex-start;
+  padding: 0.28rem 0.7rem;
+  border-radius: 999px;
+  border: 1px solid rgba(253, 186, 69, 0.35);
+  background: rgba(18, 14, 10, 0.45);
+  color: #f3d7a1;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+#viewLogin .mythfel-register-title {
+  margin: 0;
+  font-family: Rubik, sans-serif;
+  font-weight: 900;
+  font-size: clamp(1.7rem, 2.4vw, 2.35rem);
+  line-height: 1.05;
+  letter-spacing: 0.01em;
+  color: #f7f1e8;
+  text-shadow: 0 4px 16px rgba(0, 0, 0, 0.65);
+}
+#viewLogin .mythfel-register-title span { color: #f0b429; }
+#viewLogin .mythfel-register-lead {
+  margin: 0;
+  max-width: 46rem;
+  color: rgba(255, 236, 210, 0.88);
+  font-size: 0.92rem;
+  line-height: 1.45;
+}
+#viewLogin .mythfel-register-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.75rem;
+  color: rgba(243, 215, 161, 0.8);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+#viewLogin .mythfel-register-hint {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #f0b429;
+  letter-spacing: 0.04em;
+  text-transform: none;
+  font-size: 12px;
+}
+#viewLogin .mythfel-role {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.35rem;
+  min-height: 9.25rem;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 0.85rem 0.9rem;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(253, 186, 69, 0.22);
+  background: rgba(18, 14, 11, 0.5);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+#viewLogin .mythfel-role.is-selected {
+  border-color: rgba(253, 186, 69, 0.9);
+  box-shadow: 0 0 0 1px rgba(253, 186, 69, 0.35), 0 8px 22px rgba(0, 0, 0, 0.25);
+}
+#viewLogin .mythfel-role-icon {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.55rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(253, 186, 69, 0.16);
+}
+#viewLogin .mythfel-role-icon.rose { background: rgba(244, 114, 182, 0.16); color: #f9a8d4; }
+#viewLogin .mythfel-role-icon.green { background: rgba(52, 211, 153, 0.16); color: #6ee7b7; }
+#viewLogin .mythfel-role-icon.amber { color: #f6c453; }
+#viewLogin .mythfel-role-name {
+  font-weight: 800;
+  color: #f8efe4;
+  font-size: 0.95rem;
+}
+#viewLogin .mythfel-role-name em {
+  margin-left: 0.4rem;
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  padding: 0.12rem 0.4rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.35);
+  color: #f6c453;
+}
+#viewLogin .mythfel-role-desc {
+  color: rgba(234, 225, 214, 0.78);
+  font-size: 12px;
+  line-height: 1.35;
+}
+#viewLogin .mythfel-role-stat {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 12px;
+  font-weight: 700;
+}
+#viewLogin .mythfel-role-stat.amber { color: #d6f5a8; }
+#viewLogin .mythfel-role-stat.rose { color: #f9a8d4; }
+#viewLogin .mythfel-role-stat.green { color: #6ee7b7; }
+#viewLogin .mythfel-role-stat .material-symbols-outlined { font-size: 15px; }
+#viewLogin .mythfel-register-reward {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.8rem 0.95rem;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(253, 186, 69, 0.32);
+  background: rgba(14, 11, 9, 0.55);
   -webkit-backdrop-filter: blur(14px);
   backdrop-filter: blur(14px);
+}
+#viewLogin .mythfel-reward-title {
+  color: #f6c453;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  font-size: 13px;
+}
+#viewLogin .mythfel-reward-title em {
+  margin-left: 0.45rem;
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: #052e16;
+  background: #4ade80;
+  border-radius: 999px;
+  padding: 0.12rem 0.45rem;
+}
+#viewLogin .mythfel-register-reward p {
+  margin: 0.2rem 0 0;
+  color: rgba(255, 236, 210, 0.86);
+  font-size: 12px;
+  line-height: 1.4;
+}
+#viewLogin .mythfel-register-form-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  color: #f8efe4;
+  font-family: Rubik, sans-serif;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  line-height: 1.05;
+  font-size: 1.15rem;
+}
+#viewLogin .mythfel-register-form-lead {
+  margin: 0 0 0.35rem;
+  color: rgba(243, 215, 161, 0.78);
+  font-size: 12px;
+}
+#viewLogin .mythfel-guild {
+  min-height: 2.4rem;
+  border-radius: 0.65rem;
+  border: 1px solid rgba(253, 186, 69, 0.25);
+  background: rgba(28, 23, 19, 0.4);
+  color: #f3e6d4;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+#viewLogin .mythfel-guild.is-selected {
+  background: rgba(217, 155, 38, 0.85);
+  color: #1a1208;
+  border-color: rgba(255, 214, 120, 0.9);
 }
 .mythfel-subtabs button.gated::after { content: " ·"; opacity: 0.5; }
 .mythfel-subtabs button.locked { opacity: 0.65; }

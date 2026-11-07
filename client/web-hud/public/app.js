@@ -1255,6 +1255,7 @@ function bindStitchNav(root) {
   root.addEventListener("click", (e) => {
     const a = e.target.closest("a[data-path], a[href='#'], button");
     if (!a || !root.contains(a)) return;
+    if (a.id === "tabLogin" || a.id === "tabRegister") return;
     const path = (a.getAttribute("data-path") || "").toLowerCase();
     const tab = PATH_TO_TAB[path];
     if (tab) {
@@ -3021,17 +3022,20 @@ async function stubLogin({ login = "", password = "" } = {}) {
 function wireLoginForm() {
   window.mythfelStubLogin = (e) => {
     e?.preventDefault?.();
-    const login = $("loginUserInput")?.value || "";
-    const password = $("passwordInput")?.value || "";
+    const register = $("viewLogin")?.dataset.auth === "register";
+    const login = register
+      ? $("registerNameInput")?.value || $("registerEmailInput")?.value || ""
+      : $("loginUserInput")?.value || "";
+    const password = register
+      ? $("registerPasswordInput")?.value || ""
+      : $("passwordInput")?.value || "";
     stubLogin({ login, password });
   };
   // Stitch inline scripts are stripped at build — restore tab / password UI helpers.
   window.switchTab = (mode) => {
     const loginTab = $("tabLogin");
     const registerTab = $("tabRegister");
-    const registerFields = $("registerFields");
-    const loginOptions = $("loginOptions");
-    const btnText = $("btnText");
+    const view = $("viewLogin");
     const active =
       "py-2 rounded-lg font-label-lg text-xs font-extrabold transition-all duration-200 bg-gradient-to-b from-amber-500 to-amber-600 text-black shadow-md flex items-center justify-center gap-1.5 uppercase tracking-wide";
     const idle =
@@ -3040,19 +3044,16 @@ function wireLoginForm() {
     if (mode === "register") {
       registerTab.className = active;
       loginTab.className = idle;
-      registerFields?.classList.remove("hidden");
-      registerFields?.classList.add("flex");
-      loginOptions?.classList.add("hidden");
-      if (btnText) btnText.textContent = "Начать приключение";
+      if (view) view.dataset.auth = "register";
     } else {
       loginTab.className = active;
       registerTab.className = idle;
-      registerFields?.classList.add("hidden");
-      registerFields?.classList.remove("flex");
-      loginOptions?.classList.remove("hidden");
-      if (btnText) btnText.textContent = "Войти в Таверну";
+      if (view) delete view.dataset.auth;
     }
   };
+  if (new URLSearchParams(location.search).get("auth") === "register") {
+    window.switchTab("register");
+  }
   window.togglePassword = () => {
     const pass = $("passwordInput");
     const eyeIcon = $("eyeIcon");
@@ -3070,6 +3071,16 @@ function wireLoginForm() {
   if (root && root.dataset.stubSocial !== "1") {
     root.dataset.stubSocial = "1";
     root.addEventListener("click", (ev) => {
+      const role = ev.target.closest("[data-role]");
+      if (role && root.contains(role)) {
+        root.querySelectorAll("[data-role]").forEach((el) => el.classList.toggle("is-selected", el === role));
+        return;
+      }
+      const guild = ev.target.closest("[data-guild]");
+      if (guild && root.contains(guild)) {
+        root.querySelectorAll("[data-guild]").forEach((el) => el.classList.toggle("is-selected", el === guild));
+        return;
+      }
       const btn = ev.target.closest("button");
       if (!btn || btn.id === "submitBtn" || btn.id === "tabLogin" || btn.id === "tabRegister") return;
       const label = (btn.textContent || "").toLowerCase();
