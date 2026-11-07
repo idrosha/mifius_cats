@@ -146,9 +146,9 @@
 </div>
 </header>
 <!-- CENTER BODY: Screen Layout (Hero & Lore Title on Left, Floating Tavern Parchment Card on Right) -->
-<div class="relative z-20 flex-1 w-full max-w-none mx-0 px-0 flex justify-between gap-6 items-end pb-4">
-<!-- LEFT BRANDING & LORE HERO — flush left edge of stage -->
-<div class="hidden md:flex flex-col max-w-xl text-left select-none mb-2 pl-0">
+<div class="mythfel-login-grid relative z-20 flex-1 w-full">
+<div class="mythfel-login-side">
+<div class="mythfel-login-brand hidden md:flex flex-col text-left select-none">
 <!-- Golden Rune Accents Line -->
 <div class="flex items-center gap-2 text-amber-400/80 mb-2">
 <span class="tracking-[0.35em] text-xs font-title font-bold text-amber-300 drop-shadow">ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ • СВЯТИЛИЩЕ ЛУКОМОРЬЯ • ᚲ ᚱ ᚨ ᚦ ᚢ ᚠ</span>
@@ -162,13 +162,13 @@
           МИФИЧЕСКИЕ КОТИКИ
           <span class="h-px w-8 bg-amber-500/60 inline-block"></span>
 </p>
+</div>
 <!-- Lore Narrative Box -->
-<div class="p-4 rounded-xl bg-black/60 backdrop-blur-md border border-amber-500/25 shadow-2xl space-y-3">
-<p class="text-sm font-medium text-amber-100/90 leading-relaxed drop-shadow">
+<p class="mythfel-login-copy text-sm font-medium text-amber-100/90 leading-relaxed drop-shadow">
             Древний портал таверны «Старый Мурр» вновь пробудился. Собери прайд пушистых рыцарей, мудрых рунных магов и лучников лукоморья, чтобы защитить очаг от надвигающейся тени!
           </p>
 <!-- Class Badges preview -->
-<div class="grid grid-cols-3 gap-2.5 pt-1">
+<div class="mythfel-login-classes grid grid-cols-3">
 <div class="px-2.5 py-1.5 rounded-lg bg-surface-container-high/70 border border-amber-400/20 flex items-center gap-2 shadow-sm">
 <span class="material-symbols-outlined text-primary text-lg">shield</span>
 <div>
@@ -192,9 +192,8 @@
 </div>
 </div>
 </div>
-</div>
 <!-- RIGHT COLUMN: auth card — flush right edge of stage -->
-<div class="w-full max-w-[420px] mx-auto md:mx-0 ml-auto pr-0 shrink-0">
+<div class="mythfel-login-auth">
 <div class="relative bg-gradient-to-b from-[#211a14]/95 via-[#191410]/95 to-[#120e0c]/98 backdrop-blur-xl border-2 border-amber-500/40 rounded-2xl p-6 shadow-[0_12px_45px_rgba(0,0,0,0.85),0_0_30px_rgba(217,155,38,0.15)] flex flex-col">
 <!-- Ornate Brass Corner Brads -->
 <div class="absolute -top-1.5 left-8 right-8 h-1 bg-gradient-to-r from-transparent via-amber-400/80 to-transparent shadow-[0_0_12px_#ffbf3f]"></div>

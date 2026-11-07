@@ -882,6 +882,93 @@ body.mythfel-farm #app {
 #viewLogin .hidden.md\:flex {
   display: flex !important;
 }
+
+/*
+ * Login stage: title, lore card, class cards, and the auth panel share one grid.
+ * Scoped to #viewLogin so hub/battle chrome stays as it is.
+ */
+#viewLogin main > .mythfel-login-grid.relative.z-20.flex-1 {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) minmax(22rem, 26rem);
+  gap: 1rem;
+  align-items: end;
+  align-content: end;
+  justify-items: stretch;
+  flex: 0 1 auto !important;
+  align-self: center !important;
+  height: auto !important;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+  padding: 0.75rem 1.25rem 1rem !important;
+  box-sizing: border-box;
+}
+#viewLogin .mythfel-login-side {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 1rem;
+  min-width: 0;
+}
+#viewLogin .mythfel-login-brand {
+  display: flex !important;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin: 0 !important;
+}
+#viewLogin .mythfel-login-brand h1,
+#viewLogin .mythfel-login-brand > p {
+  margin: 0 !important;
+}
+#viewLogin .mythfel-login-copy {
+  margin: 0 !important;
+  padding: 1rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(253, 186, 69, 0.32);
+  background: rgba(19, 15, 12, 0.42);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.22);
+}
+#viewLogin .mythfel-login-classes {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem !important;
+  align-items: stretch;
+  margin: 0;
+  width: 100%;
+}
+#viewLogin .mythfel-login-classes > div {
+  display: flex;
+  align-items: center;
+  min-height: 4.5rem;
+  height: 100%;
+  box-sizing: border-box;
+  background: rgba(46, 41, 38, 0.38) !important;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+#viewLogin .mythfel-login-auth {
+  align-self: end;
+  display: flex;
+  min-width: 0;
+  width: 100% !important;
+  max-width: none !important;
+  margin: 0 !important;
+}
+#viewLogin .mythfel-login-auth > .relative {
+  flex: 1 1 auto;
+  width: 100%;
+  box-sizing: border-box;
+  background: linear-gradient(
+    180deg,
+    rgba(33, 26, 20, 0.5),
+    rgba(25, 20, 16, 0.54) 48%,
+    rgba(18, 14, 12, 0.6)
+  ) !important;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
+}
 .mythfel-subtabs button.gated::after { content: " ·"; opacity: 0.5; }
 .mythfel-subtabs button.locked { opacity: 0.65; }
 .mission-stage { margin-top: 0.5rem; color: #fdba45; }
