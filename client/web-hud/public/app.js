@@ -1015,13 +1015,14 @@ function renderTabs() {
     NAV.find((g) => g.id === "combat");
   if (state.tab !== "hub") state.primary = activeGroup.id;
 
+  const onHub = state.tab === "hub";
   primaryEl.innerHTML = "";
   for (const group of NAV) {
     const b = document.createElement("button");
     b.type = "button";
     b.textContent = t(group.key, group.id);
     b.dataset.primary = group.id;
-    b.classList.toggle("active", !battleActive && group.id === state.primary);
+    b.classList.toggle("active", !onHub && !battleActive && group.id === state.primary);
     b.addEventListener("click", () => {
       const first = group.tabs[0];
       // Nested group (e.g. База знаний): open first child route
@@ -1035,6 +1036,7 @@ function renderTabs() {
   }
 
   subEl.innerHTML = "";
+  if (onHub) return;
   const knowledgeOpen = isKnowledgeTab(state.tab);
   for (const tab of activeGroup.tabs) {
     const hasChildren = Array.isArray(tab.tabs) && tab.tabs.length > 0;

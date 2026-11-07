@@ -841,9 +841,6 @@ body:not(.mythfel-login) {
 .mythfel-login #appNav,
 .mythfel-login #appSubTabs,
 .mythfel-login #wireDock,
-body.mythfel-trade #appNav,
-body.mythfel-trade #appSubTabs,
-body.mythfel-trade #wireDock,
 body.mythfel-farm #wireDock,
 #wireDock.wire-dock-suppressed {
   display: none !important;
@@ -1438,24 +1435,10 @@ body.mythfel-farm #app {
   background: linear-gradient(135deg, #2e2926, #1f1b18);
   min-height: 2rem;
 }
-/* Trade hub: painted chrome from the reference, not the compact IA bar. */
-body.mythfel-trade {
-  --mythfel-chrome-stack: 0px;
-}
-body.mythfel-trade #app {
-  width: 100vw;
-  max-width: 100vw;
-  height: 100dvh;
-  max-height: 100dvh;
-}
-#viewTradeHub > header,
+/* Trade square keeps its map; the shared #appNav is the menu. */
 #viewTradeHub > footer {
   position: relative !important;
-  display: block !important;
   inset: auto !important;
-}
-#viewTradeHub header nav {
-  display: flex !important;
 }
 #viewTradeHub .mythfel-trade-stage {
   flex: 1 1 auto;
@@ -1471,22 +1454,8 @@ body.mythfel-trade #app {
   outline: 1px dashed var(--outline);
 }
 
-/* Hub only: match the battle-pass hall. Login, registration, and Двор keep their own chrome. */
-body:has(#viewHub:not(.hidden)) {
-  --mythfel-chrome-stack: 0px;
-}
-body:has(#viewHub:not(.hidden)) #appNav,
-body:has(#viewHub:not(.hidden)) #appSubTabs,
-body:has(#viewHub:not(.hidden)) #wireDock {
-  display: none !important;
-}
-body:has(#viewHub:not(.hidden)) #app {
-  height: 100dvh !important;
-  max-height: 100dvh !important;
-}
-#viewHub > header.mythfel-hub-bar,
-#viewHub > footer.mythfel-hub-foot,
-#viewHub > header nav.mythfel-hub-tabs {
+/* Hub hall keeps its portals. The top menu is the shared bar, not the painted tabs. */
+#viewHub > footer.mythfel-hub-foot {
   display: flex !important;
 }
 .mythfel-hub-sink { display: none !important; }
