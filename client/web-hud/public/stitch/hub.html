@@ -1,382 +1,204 @@
 <section id="viewHub" class="stitch-view mythfel-form hidden" data-stitch="hub" data-layout="landscape">
-<!-- TOP NAVIGATION BAR (Full-Bleed Widescreen Header) -->
-<header class="h-16 w-full shrink-0 z-50 bg-surface-container-lowest/95 border-b border-surface-variant/70 backdrop-blur-md px-5 flex items-center justify-between shadow-[0_4px_24px_rgba(0,0,0,0.85)] gap-2">
-<!-- Left: Game Brand & Realm -->
-<div class="flex items-center gap-3 shrink-0">
-<div class="w-11 h-11 rounded-xl bg-gradient-to-br from-primary via-primary-container to-amber-700 flex items-center justify-center text-on-primary shadow-lg ring-1 ring-primary/40">
-<span class="material-symbols-outlined text-[26px]">pets</span>
+<div class="mythfel-hub-sink" hidden>
+<span id="hubEyebrow"></span>
+<span id="hubTitle"></span>
+<span id="hubLead"></span>
+<div id="hubPortals"></div>
 </div>
-<div class="flex flex-col">
-<div class="flex items-center gap-2">
-<span class="font-headline-md text-[17px] tracking-wide text-primary uppercase font-extrabold drop-shadow">МИФИУС: МИФИЧЕСКИЕ КОТИКИ</span>
-<span class="px-2 py-0.5 rounded-full bg-secondary-container/40 text-secondary border border-secondary/30 text-[10px] font-bold uppercase tracking-wider">ONLINE</span>
-</div>
-<div class="flex items-center gap-1.5 text-on-surface-variant text-label-sm">
-<span class="material-symbols-outlined text-[13px] text-primary">fireplace</span>
-<span class="">Очаг Мурр-1</span>
-<span class="text-surface-variant">•</span>
-<span class="text-secondary font-medium">Пинг 24 мс</span>
+<header class="mythfel-hub-bar">
+<div class="mythfel-hub-brand">
+<div class="mythfel-hub-mark" aria-hidden="true"><span class="material-symbols-outlined">pets</span></div>
+<div class="mythfel-hub-brand-text">
+<strong>МИФИУС</strong>
+<span>МИФИЧЕСКИЕ КОТИКИ</span>
 </div>
 </div>
-</div>
-<!-- Center: Currencies & Resources -->
-<div class="flex items-center gap-2.5 bg-surface-container-low/90 px-3.5 py-1 rounded-xl border border-outline-variant/50 shadow-inner backdrop-blur-md">
-<!-- Золотые монеты -->
-<div class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-surface-container-high transition-colors cursor-pointer group" title="Золотые монеты">
-<div class="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-[17px]">monetization_on</span>
-</div>
-<div class="flex flex-col leading-none">
-<span class="font-stat-numeral text-[15px] text-on-surface font-extrabold tracking-tight">14,850</span>
-<span class="text-[9px] text-on-surface-variant uppercase font-semibold tracking-wider">Золото</span>
-</div>
-</div>
-<div class="w-px h-6 bg-surface-variant/80"></div>
-<!-- Клубки пряжи -->
-<div class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-surface-container-high transition-colors cursor-pointer group" title="Клубки пряжи">
-<div class="w-6 h-6 rounded-full bg-secondary/20 flex items-center justify-center text-secondary group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-[17px]">radio_button_checked</span>
-</div>
-<div class="flex flex-col leading-none">
-<span class="font-stat-numeral text-[15px] text-secondary-fixed-dim font-extrabold tracking-tight">920</span>
-<span class="text-[9px] text-on-surface-variant uppercase font-semibold tracking-wider">Пряжа</span>
-</div>
-</div>
-<div class="w-px h-6 bg-surface-variant/80"></div>
-<!-- Энергия -->
-<div class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-surface-container-high transition-colors cursor-pointer group" title="Энергия походов">
-<div class="w-6 h-6 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-[17px]">bolt</span>
-</div>
-<div class="flex flex-col leading-none">
-<div class="flex items-center gap-1 font-stat-numeral text-[15px] text-on-surface font-extrabold tracking-tight">
-<span class="">85/100</span>
-<span class="text-[10px] text-primary font-normal">(04:12 до +1)</span>
-</div>
-<span class="text-[9px] text-on-surface-variant uppercase font-semibold tracking-wider">Энергия</span>
-</div>
-</div>
-<div class="w-px h-6 bg-surface-variant/80"></div>
-<!-- Мифические кристаллы -->
-<div class="flex items-center gap-2 px-2 py-1 rounded-lg hover:bg-surface-container-high transition-colors cursor-pointer group" title="Мифические кристаллы">
-<div class="w-6 h-6 rounded-full bg-tertiary-container/30 flex items-center justify-center text-tertiary group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-[17px]">diamond</span>
-</div>
-<div class="flex flex-col leading-none">
-<span class="font-stat-numeral text-[15px] text-tertiary font-extrabold tracking-tight">385</span>
-<span class="text-[9px] text-on-surface-variant uppercase font-semibold tracking-wider">Кристаллы</span>
-</div>
-</div>
-</div>
-<!-- Navigation Tabs -->
-<nav aria-label="Главные разделы" class="flex items-center gap-1 bg-surface-container-lowest/80 px-2 py-1 rounded-xl border border-outline-variant/40 backdrop-blur-md">
-<a class="bg-primary text-on-primary font-bold px-3 py-1.5 rounded-lg shadow-sm text-xs font-label-md flex items-center gap-1.5" href="#"><span class="material-symbols-outlined text-[16px]">cottage</span><span class="">Главный Хаб</span></a>
-<a class="px-3 py-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg text-xs font-medium transition-colors font-label-md flex items-center gap-1" href="#"><span class="">Бой 3v3</span></a>
-<a class="px-3 py-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg text-xs font-medium transition-colors font-label-md flex items-center gap-1" href="#"><span class="">Рейд на Дога</span></a>
-<a class="px-3 py-1.5 text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high rounded-lg text-xs font-medium transition-colors font-label-md flex items-center gap-1" href="#"><span class="">Двор Усадьбы</span></a>
+<nav class="mythfel-hub-tabs" aria-label="Главные разделы">
+<a class="is-active" data-hub-go="hub" href="#">Главный Хаб</a>
+<a data-hub-go="pvp" href="#">Бои</a>
+<button type="button">Порталы</button>
+<a data-hub-go="guild" href="#">Гильдия</a>
+<a data-hub-go="chat_global" href="#">Чаты</a>
+<a data-hub-go="pass" href="#">Пасс</a>
+<a data-hub-go="rating_players" href="#">Рейтинги</a>
 </nav>
-<!-- Right: Notifications, Help, Settings & Avatar -->
-<div class="flex items-center gap-3 shrink-0">
-<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-gradient-to-r from-primary-container/40 to-amber-700/20 border border-primary/40 cursor-pointer">
-<span class="material-symbols-outlined text-[16px] text-primary">workspace_premium</span>
-<span class="font-label-sm text-primary text-[11px] font-bold whitespace-nowrap uppercase tracking-wider">Хранитель IV</span>
+<div class="mythfel-hub-wallet" aria-label="Ресурсы">
+<span title="Золото"><span class="material-symbols-outlined">monetization_on</span>148,250</span>
+<span title="Пряжа"><span class="material-symbols-outlined">radio_button_checked</span>420</span>
+<span title="Энергия"><span class="material-symbols-outlined">bolt</span>88/90</span>
+<span title="Кристаллы"><span class="material-symbols-outlined">diamond</span>1,250</span>
 </div>
-<button aria-label="Уведомления" class="relative w-9 h-9 rounded-lg bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface border border-outline-variant/40 transition-colors">
-<span class="material-symbols-outlined text-[20px]">notifications</span>
-<span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-tertiary-container animate-pulse"></span>
-</button>
-<button aria-label="Помощь" class="w-9 h-9 rounded-lg bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface border border-outline-variant/40 transition-colors">
-<span class="material-symbols-outlined text-[20px]">help_outline</span>
-</button>
-<button aria-label="Настройки" class="w-9 h-9 rounded-lg bg-surface-container hover:bg-surface-container-high flex items-center justify-center text-on-surface-variant hover:text-on-surface border border-outline-variant/40 transition-colors">
-<span class="material-symbols-outlined text-[20px]">settings</span>
-</button>
-<!-- Player Profile -->
-<div class="flex items-center gap-2.5 pl-2 border-l border-surface-variant">
-<div class="flex flex-col text-right leading-none">
-<div class="flex items-center justify-end gap-1.5">
-<span class="font-label-md text-on-surface font-bold text-[13px]">Хранитель Барсик</span>
-<span class="bg-primary/20 text-primary px-1.5 py-0.5 rounded text-[10px] font-stat-numeral font-bold">Ур. 42</span>
+<div class="mythfel-hub-vip">
+<div>
+<small>УР РАНГ</small>
+<strong>Хранитель Ур. 48</strong>
 </div>
-<span class="text-[10px] text-on-surface-variant mt-0.5">Владыка Очага</span>
-</div>
-<div class="relative w-10 h-10 rounded-xl overflow-hidden border-2 border-primary/60 shadow-md">
-<img alt="Барсик" class="w-full h-full object-cover" src="/stitch-assets/a27e59fd6408.jpg">
-<div class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-secondary border border-surface"></div>
-</div>
-</div>
+<button type="button" aria-label="Уведомления"><span class="material-symbols-outlined">notifications</span></button>
+<button type="button" aria-label="Настройки"><span class="material-symbols-outlined">settings</span></button>
 </div>
 </header>
-<!-- CENTER / BODY: Main Game Portals & Interactive Zones (Strictly 100% viewport fit, full-bleed) -->
-<main class="relative flex-1 w-full overflow-hidden flex flex-col px-3 py-2 items-stretch justify-start gap-3">
-<!-- Atmospheric Tavern Hearth battler background -->
-<div class="absolute inset-0 bg-cover bg-center" style="background-image: url(&quot;/stitch-assets/login-hero.png&quot;); filter: brightness(0.42) saturate(1.1);"></div>
-<div class="absolute inset-0 bg-gradient-to-b from-surface-container-lowest/85 via-surface-container-lowest/70 to-surface-container-lowest/95 pointer-events-none"></div>
-<!-- Top Hub Row: Atmospheric Title & Battle Pass Premium Widget -->
-<div class="relative z-10 flex flex-col gap-2 w-full shrink-0">
-<!-- Header Subtitle Bar -->
-<div class="flex items-center justify-between w-full">
-<div class="flex items-center gap-2.5 bg-surface-container-lowest/85 backdrop-blur-md px-3.5 py-1 rounded-xl border border-outline-variant/40 shadow-lg">
-<div class="w-6 h-6 rounded-lg bg-primary/20 border border-primary/40 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined text-[16px]">local_fire_department</span>
+<main class="mythfel-hub-main">
+<div class="mythfel-hub-bg" aria-hidden="true"></div>
+<section class="mythfel-pass" aria-label="Боевой пасс">
+<div class="mythfel-pass-hero">
+<div class="mythfel-pass-chips">
+<span class="chip-gold">СЕЗОН 4: ЭКСКЛЮЗИВ</span>
+<span class="chip-muted">До конца сезона: 18 дней 04:18</span>
+<span class="chip-live">АКТИВНЫЙ БОНУС ОПЫТА +50%</span>
 </div>
-<div class="flex items-center gap-2">
-<span class="font-headline-md text-[13px] text-on-surface font-extrabold tracking-wide">Главный Зал Таверны</span>
-<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-primary/20 text-primary border border-primary/30 uppercase">Обитель</span>
-<span class="text-[11px] text-on-surface-variant font-medium hidden md:inline">• Тёплый очаг горит спокойно</span>
+<p class="mythfel-pass-kicker">БОЕВОЙ ПАСС ХРАНИТЕЛЕЙ</p>
+<h2>ЛАПЫ СУДЬБЫ &amp; ДРЕВНИЙ ОЧАГ</h2>
+<p class="mythfel-pass-copy">Откройте тайные черты Мурлыкающего Пантеона! Прокачивайте боевой пропуск, добывайте реликвии пламени и призовите легендарного покровителя клана.</p>
+<div class="mythfel-pass-progress">
+<div class="mythfel-pass-lvl" aria-hidden="true">24</div>
+<div class="mythfel-pass-meter">
+<div class="mythfel-pass-meter-top">
+<span>Текущий уровень пропуска</span>
+<strong>Уровень 24 <em>/ До награды: 350 XP</em></strong>
+</div>
+<div class="mythfel-pass-bar" aria-hidden="true"><span style="width:68%"></span></div>
+<div class="mythfel-pass-next">
+<span>Сундук Рутинна Кота получен</span>
+<span>След. награда: 150 Алмазов Духа</span>
 </div>
 </div>
-<div class="flex items-center gap-2 bg-surface-container-lowest/85 backdrop-blur-md px-3 py-1 rounded-xl border border-outline-variant/30 text-[11px]">
-<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
-<span class="text-secondary font-semibold">Событие «Осада Архипса» активно!</span>
-<span class="text-primary font-bold ml-1 font-stat-numeral">Осталось: 12 дн.</span>
+</div>
+<div class="mythfel-pass-actions">
+<button type="button" class="mythfel-hub-cta" data-hub-go="pass"><span class="material-symbols-outlined">workspace_premium</span>АКТИВИРОВАТЬ ПАСС (390)</button>
+<button type="button" class="mythfel-hub-ghost" data-hub-go="pass">Шкала наград и уровни</button>
 </div>
 </div>
-<!-- Centered Battle Pass Hero Banner -->
-<div class="relative w-full rounded-2xl overflow-hidden border backdrop-blur-md shadow-2xl p-4 flex items-center justify-between gap-5 card-hover-fx bg-surface/20 border-primary/20" style="background-color: rgba(22, 19, 16, 0.28);">
-
-<div class="absolute -right-10 -bottom-10 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
-<div class="relative z-20 flex-1 flex flex-col gap-2 max-w-2xl">
-<div class="flex flex-wrap items-center gap-2">
-<span class="px-2.5 py-0.5 rounded-lg bg-gradient-to-r from-primary via-primary-container to-amber-500 text-on-primary font-headline-md text-[11px] font-extrabold uppercase tracking-wider shadow golden-glow flex items-center gap-1">
-<span class="material-symbols-outlined text-[14px]">military_tech</span>
-            БОЕВОЙ ПАСС №1: СЕЗОН I
-          </span>
-<span class="px-2.5 py-0.5 rounded-lg bg-error-container text-error text-[10px] font-bold border border-error/30 uppercase tracking-wide flex items-center gap-1 animate-pulse">
-<span class="material-symbols-outlined text-[13px]">skull</span>
-            Питбосс: Генерал Дог Архипёс
-          </span>
-<span class="px-2.5 py-0.5 rounded-lg bg-surface-container-high text-on-surface-variant border border-outline-variant/40 text-[10px] font-medium">
-            3 Новых Данжа: Склеп Псов, Башни Пепла
-          </span>
+<aside class="mythfel-pass-perks">
+<div class="mythfel-pass-perks-head">
+<strong>ПРИВИЛЕГИИ ПРОПУСКА СЕЗОНА</strong>
+<span>4 активных</span>
+</div>
+<ul class="mythfel-perk-list">
+<li><span class="material-symbols-outlined">trending_up</span><span>+25% Опыта Хранителя во всех боях</span></li>
+<li><span class="material-symbols-outlined">bolt</span><span>+1 Слот похода и +10 Энергии в день</span></li>
+<li><span class="material-symbols-outlined">checkroom</span><span>Облик «Барсик — Повелитель Бури IV»</span></li>
+<li><span class="material-symbols-outlined">diamond</span><span>1,200 Самоцветов + 50 Жетонов Сияния</span></li>
+</ul>
+<p class="mythfel-perk-kicker">ЭКСКЛЮЗИВНЫЕ ДАНЖИ И ПИТ-БОССЫ</p>
+<ul class="mythfel-perk-loot">
+<li><strong>Катакомбы Лунного Пса</strong><span>3 новых золотых сундука в Дворе Рун 07–08</span></li>
+<li><strong>Палаты Гори Мферта</strong><span>Тайный данж с реликвиями очага</span></li>
+<li><strong>Рейд-босс: «Древний Пангар Дог»</strong><span>Клановый босс, открывается на 30 уровне пропуска</span></li>
+</ul>
+</aside>
+</section>
+<section class="mythfel-portals-wrap" aria-label="Порталы Мифмира">
+<div class="mythfel-portals-head">
+<div>
+<strong>ПОРТАЛЫ МИФМИРА</strong>
+<span>Выберите сектор для экспедиции или управления таверной</span>
+</div>
+<em>СЕРВЕР: «КОШАЧИЙ ОЛИМП»</em>
+</div>
+<div class="mythfel-portals">
+<a class="mythfel-portal" data-hub-go="home" href="#">
+<div class="mythfel-portal-art" style="background-image:url('/stitch-assets/3fb811d68da3.jpg')"></div>
+<span class="mythfel-portal-badge is-ready">Готов к бою</span>
+<div class="mythfel-portal-body">
+<h3>Дом Хранителя</h3>
+<p>СНАРЯЖЕНИЕ И КОЛОДА</p>
+<ul>
+<li>Снаряжение, руны и экипировка</li>
+<li>Колоды и отряды хранителей</li>
+</ul>
+<small>Рейтинг: 2,450 MMR</small>
+</div>
+</a>
+<a class="mythfel-portal" data-hub-go="pvp" href="#">
+<div class="mythfel-portal-art" style="background-image:url('/stitch-assets/1d599d6caac3.jpg')"></div>
+<span class="mythfel-portal-badge is-ticket">3 билета</span>
+<div class="mythfel-portal-body">
+<h3>Бои &amp; Мифмир</h3>
+<p>АРЕНА И ЭКСПЕДИЦИИ</p>
+<ul>
+<li>PvP, Мифмир и рейды</li>
+<li>3v3 и рейд на 12 игроков</li>
+</ul>
+<small>Билеты: 3</small>
+</div>
+</a>
+<a class="mythfel-portal" data-hub-go="farm" href="#">
+<div class="mythfel-portal-art" style="background-image:url('/stitch-assets/7d94873e6fcc.jpg')"></div>
+<span class="mythfel-portal-badge is-yield">Доход: 70%</span>
+<div class="mythfel-portal-body">
+<h3>Угодья &amp; Ферма</h3>
+<p>ДОХОД И ОТДЫХ</p>
+<ul>
+<li>Сады, промыслы и питомник</li>
+<li>Сбор и отдых у очага</li>
+</ul>
+<small>Сбор через: 42 мин.</small>
+</div>
+</a>
+<a class="mythfel-portal" data-hub-go="shop" href="#">
+<div class="mythfel-portal-art" style="background-image:url('/stitch-assets/a617164d40a8.jpg')"></div>
+<span class="mythfel-portal-badge is-lots">145 лотов</span>
+<div class="mythfel-portal-body">
+<h3>Торговля &amp; Рынок</h3>
+<p>БИРЖА И СБЫТ</p>
+<ul>
+<li>Лавка, аукцион и рынок</li>
+<li>Сундуки, свитки и артефакты</li>
+</ul>
+<small>Активных лотов: 145</small>
+</div>
+</a>
+<a class="mythfel-portal" data-hub-go="guild" href="#">
+<div class="mythfel-portal-art" style="background-image:url('/stitch-assets/2baad2871364.jpg')"></div>
+<span class="mythfel-portal-badge is-live">Осада LIVE</span>
+<div class="mythfel-portal-body">
+<h3>Гильдия &amp; Цитадель</h3>
+<p>КЛАН И ОСАДА</p>
+<ul>
+<li>Зал совета и общий чат</li>
+<li>Клановые боссы и бонусы</li>
+</ul>
+<small>Класс «Очаг IV»</small>
+</div>
+</a>
+<a class="mythfel-portal" data-hub-go="codex" href="#">
+<div class="mythfel-portal-art" style="background-image:url('/stitch-assets/426516da9251.jpg')"></div>
+<span class="mythfel-portal-badge is-recipe">2 рецепта</span>
+<div class="mythfel-portal-body">
+<h3>Кодекс &amp; Алхимия</h3>
+<p>ЗНАНИЯ И РЕЦЕПТЫ</p>
+<ul>
+<li>Герои, зелья и свитки</li>
+<li>Рецепты очага и рун</li>
+</ul>
+<small>Открыто: 142/250</small>
+</div>
+</a>
+</div>
+</section>
+</main>
+<footer class="mythfel-hub-foot">
+<div class="mythfel-squad">
+<div class="mythfel-squad-faces" aria-hidden="true">
+<img alt="" src="/stitch-assets/5b9608f61c6d.jpg">
+<img alt="" src="/stitch-assets/426516da9251.jpg">
+<img alt="" src="/stitch-assets/378d8b8187c3.jpg">
 </div>
 <div>
-<h2 class="font-headline-lg text-[21px] font-extrabold text-on-surface leading-tight tracking-wide flex items-center gap-2">
-            Осада Архипса &amp; Врата Тьмы
-            <span class="text-primary font-label-md text-[11px] bg-primary/20 px-2 py-0.5 rounded border border-primary/30 uppercase font-bold whitespace-nowrap">EXCLUSIVE</span>
-</h2>
-<p class="text-body-sm text-[12px] text-on-surface-variant mt-0.5">
-            Сразитесь с легендарным Генералом Догом! Получите облик <strong class="text-primary font-bold">«Громовой Страж»</strong>, мифические кристаллы и удвоенный опыт за каждую победу.
-          </p>
-</div>
-<div class="bg-surface-container-low/90 rounded-xl p-2.5 border border-outline-variant/30 flex flex-col gap-1.5">
-<div class="flex items-center justify-between text-[11px]">
-<div class="flex items-center gap-2">
-<span class="font-stat-numeral font-bold text-primary text-[12px]">Уровень 24 / 50</span>
-<span class="text-on-surface-variant">• До легендарного сундука 1,550 XP</span>
-</div>
-<div class="flex items-center gap-2">
-<span class="text-secondary text-[11px] font-bold flex items-center gap-1">
-<span class="material-symbols-outlined text-[13px]">bolt</span>
-                ×2 Опыт (XP) · Автоферма включена
-              </span>
-<span class="font-stat-numeral text-on-surface text-[11px] font-bold">3,450 / 5,000 XP</span>
+<strong>Боевой отряд «Кошачья Омега»</strong>
+<span>84,543 · Барсик (Паладин) · Рыжик (Маг) · Мурка (Следопыт)</span>
 </div>
 </div>
-<div class="w-full bg-surface-container-high h-2.5 rounded-full overflow-hidden border border-outline-variant/30">
-<div class="h-full bg-gradient-to-r from-primary via-amber-400 to-primary-container rounded-full shadow golden-glow" style="width: 69%"></div>
-</div>
-</div>
-<div class="flex items-center gap-3 pt-0.5">
-<button class="px-5 py-2 bg-gradient-to-r from-primary via-primary-container to-amber-500 hover:from-primary-fixed hover:to-primary text-on-primary font-headline-md text-[13px] font-extrabold rounded-xl shadow-lg golden-glow flex items-center gap-2 transition-all cursor-pointer" type="button" data-hub-go="pass">
-<span class="material-symbols-outlined text-[18px]">workspace_premium</span>
-<span class="">ОТКРЫТЬ БОЕВОЙ ПАСС</span>
-<span class="material-symbols-outlined text-[16px]">chevron_right</span>
-</button>
-<button class="px-4 py-2 bg-surface-container hover:bg-surface-container-high text-on-surface hover:text-primary font-label-md text-[12px] font-bold rounded-xl border border-outline-variant/50 transition-colors flex items-center gap-1.5 cursor-pointer" type="button">
-<span class="material-symbols-outlined text-[16px] text-tertiary">swords</span>
-<span class="">ПОДРОБНЕЕ О СЕЗОНЕ / БОССЫ</span>
-</button>
-</div>
-</div>
-<div class="relative z-20 shrink-0 flex items-center gap-3">
-<div class="w-28 h-36 rounded-xl overflow-hidden relative border border-outline-variant/60 shadow-lg group cursor-pointer bg-surface-container">
-<img alt="Данж: Склеп Псов" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/login-hero.png">
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
-<div class="absolute bottom-1.5 left-1.5 right-1.5 text-center">
-<span class="px-1.5 py-0.5 rounded bg-surface-container-lowest/90 text-on-surface text-[9px] font-bold uppercase tracking-wider border border-outline-variant/40 block whitespace-nowrap">Данж: Склеп Псов</span>
-</div>
-</div>
-<div class="w-32 h-40 rounded-xl overflow-hidden relative border-2 border-error/70 shadow-xl group cursor-pointer bg-surface-container">
-<img alt="Генерал Дог Архипёс" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300" src="/stitch-ref/0268/hub.png">
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
-<div class="absolute top-1.5 right-1.5">
-<span class="px-1.5 py-0.5 rounded-full bg-error text-on-error text-[9px] font-extrabold uppercase shadow">БОСС</span>
-</div>
-<div class="absolute bottom-2 left-2 right-2 text-center">
-<span class="text-[11px] font-extrabold text-on-surface block leading-tight drop-shadow truncate">Генерал Дог Архипёс</span>
-<span class="text-[9px] text-error font-semibold block uppercase">Архипёс I</span>
-</div>
-</div>
-<div class="w-28 h-36 rounded-xl overflow-hidden relative border border-primary/60 shadow-lg group cursor-pointer bg-surface-container">
-<img alt="Скин: Громовой Страж" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" src="/stitch-ref/0268/hub.png">
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
-<div class="absolute top-1.5 left-1.5">
-<span class="px-1.5 py-0.5 rounded-full bg-primary/20 border border-primary/40 text-primary text-[8px] font-extrabold uppercase">EXCLUSIVE</span>
-</div>
-<div class="absolute bottom-1.5 left-1.5 right-1.5 text-center">
-<span class="px-1.5 py-0.5 rounded bg-surface-container-lowest/90 text-primary text-[9px] font-bold uppercase tracking-wider border border-primary/40 block whitespace-nowrap">Скин: Громовой Страж</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Exactly 8 Portals Clean Grid (2 rows x 4 columns) -->
-<div class="relative z-10 w-full grid grid-cols-4 gap-3 shrink-0">
-<!-- 1. МИФМИР (PvE Кампания) -->
-<a class="group relative p-3 rounded-xl border border-primary/50 hover:border-primary shadow-lg card-hover-fx flex flex-col justify-between transition-all min-h-[96px] overflow-hidden" data-hub-go="yard" href="#">
-<div class="absolute inset-0 bg-cover bg-no-repeat transition-transform duration-300 group-hover:scale-105" style="background-image: url(&quot;/stitch-assets/login-hero.png&quot;); background-position: center top;"></div>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-surface-container-lowest/40 pointer-events-none"></div>
-<div class="relative z-10 flex items-center justify-between">
-<div class="w-8 h-8 rounded-lg bg-primary/20 text-primary border border-primary/40 flex items-center justify-center backdrop-blur-md group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-[18px]">swords</span>
-</div>
-<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-primary/20 text-primary border border-primary/30 uppercase tracking-wide backdrop-blur-md whitespace-nowrap">ОСНОВНОЙ</span>
-</div>
-<div class="relative z-10 mt-1">
-<h3 class="font-headline-md text-[14px] text-on-surface font-extrabold group-hover:text-primary transition-colors flex items-center gap-1 leading-tight">Мифмир (PvE)<span class="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">arrow_forward</span></h3>
-<p class="font-body-sm text-[11px] text-on-surface-variant truncate">5 узлов, Двор и Окрестности</p>
-</div>
-</a>
-<!-- 2. БОЙ 3v3 (PvP Арена) -->
-<a class="group relative p-3 rounded-xl border border-outline-variant/60 hover:border-primary shadow-lg card-hover-fx flex flex-col justify-between transition-all min-h-[96px] overflow-hidden" data-hub-go="pvp" href="#">
-<div class="absolute inset-0 bg-cover bg-no-repeat transition-transform duration-300 group-hover:scale-105" style="background-image: url(&quot;/stitch-assets/login-hero.png&quot;); background-position: 50% 12%;"></div>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-surface-container-lowest/40 pointer-events-none"></div>
-<div class="relative z-10 flex items-center justify-between">
-<div class="w-8 h-8 rounded-lg bg-primary/20 text-primary border border-primary/40 flex items-center justify-center backdrop-blur-md group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-[18px]">sports_martial_arts</span>
-</div>
-<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-tertiary-container/30 text-tertiary border border-tertiary/30 uppercase tracking-wide backdrop-blur-md whitespace-nowrap">РЕЙТИНГ</span>
-</div>
-<div class="relative z-10 mt-1">
-<h3 class="font-headline-md text-[14px] text-on-surface font-extrabold group-hover:text-primary transition-colors flex items-center gap-1 leading-tight">Бой 3v3 Арена<span class="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">arrow_forward</span></h3>
-<p class="font-body-sm text-[11px] text-on-surface-variant truncate">Рейтинговые матчи и дуэли</p>
-</div>
-</a>
-<!-- 3. РЕЙД НА ДОГА -->
-<a class="group relative p-3 rounded-xl border border-outline-variant/60 hover:border-tertiary shadow-lg card-hover-fx flex flex-col justify-between transition-all min-h-[96px] overflow-hidden" data-hub-go="boss_raid" href="#">
-<div class="absolute inset-0 bg-cover bg-no-repeat transition-transform duration-300 group-hover:scale-105" style="background-image: url(&quot;/stitch-ref/0268/hub.png&quot;); background-position: 50% 15%;"></div>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-surface-container-lowest/40 pointer-events-none"></div>
-<div class="relative z-10 flex items-center justify-between">
-<div class="w-8 h-8 rounded-lg bg-tertiary-container/30 text-tertiary border border-tertiary/40 flex items-center justify-center backdrop-blur-md group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-[18px]">skull</span>
-</div>
-<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-error-container text-error border border-error/30 uppercase tracking-wide backdrop-blur-md animate-pulse whitespace-nowrap">БОСС</span>
-</div>
-<div class="relative z-10 mt-1">
-<h3 class="font-headline-md text-[14px] text-on-surface font-extrabold group-hover:text-tertiary transition-colors flex items-center gap-1 leading-tight">Рейд на Дога<span class="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">arrow_forward</span></h3>
-<p class="font-body-sm text-[11px] text-on-surface-variant truncate">Кооперативный гильд-босс</p>
-</div>
-</a>
-<!-- 4. ДВОР УСАДЬБЫ -->
-<a class="group relative p-3 rounded-xl border border-outline-variant/60 hover:border-secondary shadow-lg card-hover-fx flex flex-col justify-between transition-all min-h-[96px] overflow-hidden" data-hub-go="farm" href="#">
-<div class="absolute inset-0 bg-cover bg-no-repeat transition-transform duration-300 group-hover:scale-105" style="background-image: url(&quot;/stitch-ref/0268/hub.png&quot;); background-position: center top;"></div>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-surface-container-lowest/40 pointer-events-none"></div>
-<div class="relative z-10 flex items-center justify-between">
-<div class="w-8 h-8 rounded-lg bg-secondary/20 text-secondary border border-secondary/40 flex items-center justify-center backdrop-blur-md group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-[18px]">yard</span>
-</div>
-<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-secondary-container/40 text-secondary border border-secondary/30 uppercase tracking-wide backdrop-blur-md whitespace-nowrap">УЮТ</span>
-</div>
-<div class="relative z-10 mt-1">
-<h3 class="font-headline-md text-[14px] text-on-surface font-extrabold group-hover:text-secondary transition-colors flex items-center gap-1 leading-tight">Двор Усадьбы<span class="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">arrow_forward</span></h3>
-<p class="font-body-sm text-[11px] text-on-surface-variant truncate">Сад кошачьей мяты и отдых</p>
-</div>
-</a>
-<!-- 5. КОЛЛЕКЦИЯ КОТИКОВ -->
-<a class="group relative p-3 rounded-xl border border-outline-variant/60 hover:border-primary shadow-lg card-hover-fx flex flex-col justify-between transition-all min-h-[96px] overflow-hidden" data-hub-go="collection" href="#">
-<div class="absolute inset-0 bg-cover bg-no-repeat transition-transform duration-300 group-hover:scale-105" style="background-image: url(&quot;/stitch-ref/0268/hub.png&quot;); background-position: 50% 12%;"></div>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-surface-container-lowest/40 pointer-events-none"></div>
-<div class="relative z-10 flex items-center justify-between">
-<div class="w-8 h-8 rounded-lg bg-primary/20 text-primary border border-primary/40 flex items-center justify-center backdrop-blur-md group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-[18px]">auto_awesome</span>
-</div>
-<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-primary/20 text-primary border border-primary/30 uppercase tracking-wide backdrop-blur-md whitespace-nowrap">ГЕРОИ</span>
-</div>
-<div class="relative z-10 mt-1">
-<h3 class="font-headline-md text-[14px] text-on-surface font-extrabold group-hover:text-primary transition-colors flex items-center gap-1 leading-tight">Коллекция Котиков<span class="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">arrow_forward</span></h3>
-<p class="font-body-sm text-[11px] text-on-surface-variant truncate">Прокачка, таланты, экипировка</p>
-</div>
-</a>
-<!-- 6. ЛАВКА И МАРКЕТ -->
-<a class="group relative p-3 rounded-xl border border-outline-variant/60 hover:border-primary shadow-lg card-hover-fx flex flex-col justify-between transition-all min-h-[96px] overflow-hidden" data-hub-go="shop" href="#">
-<div class="absolute inset-0 bg-cover bg-no-repeat transition-transform duration-300 group-hover:scale-105" style="background-image: url(&quot;/stitch-ref/0268/hub.png&quot;); background-position: 50% 12%;"></div>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-surface-container-lowest/40 pointer-events-none"></div>
-<div class="relative z-10 flex items-center justify-between">
-<div class="w-8 h-8 rounded-lg bg-primary/20 text-primary border border-primary/40 flex items-center justify-center backdrop-blur-md group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-[18px]">storefront</span>
-</div>
-<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-primary/20 text-primary border border-primary/30 uppercase tracking-wide backdrop-blur-md whitespace-nowrap">МАРКЕТ</span>
-</div>
-<div class="relative z-10 mt-1">
-<h3 class="font-headline-md text-[14px] text-on-surface font-extrabold group-hover:text-primary transition-colors flex items-center gap-1 leading-tight">Лавка и Маркет<span class="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">arrow_forward</span></h3>
-<p class="font-body-sm text-[11px] text-on-surface-variant truncate">Сундуки, свитки и артефакты</p>
-</div>
-</a>
-<!-- 7. ТРЕНИРОВОЧНЫЙ ЛАГЕРЬ -->
-<a class="group relative p-3 rounded-xl border border-outline-variant/60 hover:border-secondary shadow-lg card-hover-fx flex flex-col justify-between transition-all min-h-[96px] overflow-hidden" data-hub-go="practice" href="#">
-<div class="absolute inset-0 bg-cover bg-no-repeat transition-transform duration-300 group-hover:scale-105" style="background-image: url(&quot;/stitch-ref/0268/hub.png&quot;); background-position: 50% 15%;"></div>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-surface-container-lowest/40 pointer-events-none"></div>
-<div class="relative z-10 flex items-center justify-between">
-<div class="w-8 h-8 rounded-lg bg-secondary/20 text-secondary border border-secondary/40 flex items-center justify-center backdrop-blur-md group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-[18px]">fitness_center</span>
-</div>
-<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-secondary-container/40 text-secondary border border-secondary/30 uppercase tracking-wide backdrop-blur-md whitespace-nowrap">ДОДЗЁ</span>
-</div>
-<div class="relative z-10 mt-1">
-<h3 class="font-headline-md text-[14px] text-on-surface font-extrabold group-hover:text-secondary transition-colors flex items-center gap-1 leading-tight">Тренировочный лагерь<span class="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">arrow_forward</span></h3>
-<p class="font-body-sm text-[11px] text-on-surface-variant truncate">Манекен урона и тест комбо</p>
-</div>
-</a>
-<!-- 8. ГИЛЬДИЯ КОГТЯ -->
-<a class="group relative p-3 rounded-xl border border-outline-variant/60 hover:border-primary shadow-lg card-hover-fx flex flex-col justify-between transition-all min-h-[96px] overflow-hidden" data-hub-go="guild" href="#">
-<div class="absolute inset-0 bg-cover bg-no-repeat transition-transform duration-300 group-hover:scale-105" style="background-image: url(&quot;/stitch-assets/login-hero.png&quot;); background-position: center top;"></div>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-surface-container-lowest/40 pointer-events-none"></div>
-<div class="relative z-10 flex items-center justify-between">
-<div class="w-8 h-8 rounded-lg bg-primary/20 text-primary border border-primary/40 flex items-center justify-center backdrop-blur-md group-hover:scale-110 transition-transform">
-<span class="material-symbols-outlined text-[18px]">shield</span>
-</div>
-<span class="px-2 py-0.5 rounded text-[9px] font-bold bg-primary/20 text-primary border border-primary/30 uppercase tracking-wide backdrop-blur-md whitespace-nowrap">КЛАН</span>
-</div>
-<div class="relative z-10 mt-1">
-<h3 class="font-headline-md text-[14px] text-on-surface font-extrabold group-hover:text-primary transition-colors flex items-center gap-1 leading-tight">Гильдия Когтя<span class="material-symbols-outlined text-[14px] group-hover:translate-x-1 transition-transform">arrow_forward</span></h3>
-<p class="font-body-sm text-[11px] text-on-surface-variant truncate">Клановые боссы и общие бонусы</p>
-</div>
-</a>
-</div>
-</main>
-<!-- BOTTOM BAR / QUICK ACTIONS (Full-Bleed 100% viewport pinned navigation) -->
-<footer class="h-14 w-full shrink-0 z-40 bg-surface-container-lowest/95 backdrop-blur-md border-t border-surface-variant/70 px-5 flex items-center justify-between shadow-[0_-4px_24px_rgba(0,0,0,0.85)]">
-<nav aria-label="Быстрый доступ" class="flex items-center gap-2">
-<a class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-[12px] font-label-md border border-outline-variant/40 transition-colors" data-hub-go="tavern" href="#">
-<span class="material-symbols-outlined text-primary text-[18px]">local_bar</span>
-<span class="">Таверна &amp; Бар</span>
-</a>
-<a class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-[12px] font-label-md border border-outline-variant/40 transition-colors" data-hub-go="rating_players" href="#">
-<span class="material-symbols-outlined text-amber-400 text-[18px]">leaderboard</span>
-<span class="">Рейтинги</span>
-</a>
-<button class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-[12px] font-label-md border border-outline-variant/40 transition-colors group cursor-pointer" type="button">
-<span class="material-symbols-outlined text-secondary text-[18px]">chat</span>
-<span class="">Чат</span>
-<span class="px-1.5 py-0.2 rounded-full bg-secondary-container/40 text-secondary text-[10px] font-bold font-stat-numeral border border-secondary/30">42</span>
-</button>
-<a class="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-surface-container hover:bg-surface-container-high text-on-surface text-[12px] font-label-md border border-outline-variant/40 transition-colors relative" href="#">
-<span class="material-symbols-outlined text-on-surface-variant text-[18px]">mail</span>
-<span class="">Почта</span>
-<span class="w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
-</a>
-</nav>
-<div class="flex items-center gap-4">
-<div class="flex flex-col text-right leading-none">
-<span class="text-label-sm text-on-surface-variant text-[11px]">Отряд «Теплый Очаг» готов</span>
-<span class="text-primary text-[11px] font-bold mt-0.5">Энергия: -10</span>
-</div>
-<button class="px-6 py-2 bg-gradient-to-r from-primary via-primary-container to-amber-500 hover:from-primary-fixed hover:to-primary text-on-primary font-headline-md text-[14px] font-extrabold rounded-xl shadow-[0_4px_25px_rgba(217,155,38,0.55)] golden-glow flex items-center gap-2 transition-all cursor-pointer" type="button" data-hub-go="yard">
-<span class="material-symbols-outlined text-[20px]">explore</span>
-<span class="tracking-wide uppercase">В ПОХОД (PvE)</span>
-<span class="material-symbols-outlined text-[18px]">chevron_right</span>
-</button>
-</div>
+<div class="mythfel-dailies">Ежедневные поручения <b>4/5</b></div>
+<button type="button" class="mythfel-hub-cta mythfel-hub-march" data-hub-go="yard"><span class="material-symbols-outlined">explore</span>В ПОХОД (МИФМИР: ГЛАВА IV)</button>
 </footer>
+<nav class="mythfel-hub-dock" aria-label="Нижняя панель">
+<a data-hub-go="yard" href="#"><span class="material-symbols-outlined">map</span>Карта</a>
+<a data-hub-go="collection" href="#"><span class="material-symbols-outlined">style</span>Колода</a>
+<a data-hub-go="gear" href="#"><span class="material-symbols-outlined">inventory_2</span>Инвентарь</a>
+<a data-hub-go="shop" href="#"><span class="material-symbols-outlined">storefront</span>Торговля</a>
+<a data-hub-go="chat_global" href="#"><span class="material-symbols-outlined">chat</span>Чат</a>
+<button type="button"><span class="material-symbols-outlined">menu</span>Меню</button>
+<span class="mythfel-hub-ver">Мифиус v1.4.8 Winter</span>
+</nav>
 </section>
