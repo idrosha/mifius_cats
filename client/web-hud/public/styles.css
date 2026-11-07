@@ -407,15 +407,18 @@ body.mythfel-login .mythfel-logout {
   gap: 0 !important;
   align-items: stretch !important;
 }
-/* Map column: height-fill; width from art aspect so whole map visible, flush left */
+/* Map fills the stage. The action list is a hover dock, not a column. */
+#viewSoonFarm .farm-stage-row {
+  position: relative !important;
+}
 #viewSoonFarm .farm-map-stage {
-  flex: 0 1 auto !important;
+  flex: 1 1 auto !important;
   min-width: 0 !important;
   min-height: 0 !important;
   height: 100% !important;
-  width: auto !important;
-  max-width: calc(100% - 11.5rem) !important;
-  aspect-ratio: 1376 / 768 !important;
+  width: 100% !important;
+  max-width: none !important;
+  aspect-ratio: auto !important;
   overflow: hidden !important;
   background: #110d0b !important;
   margin: 0 !important;
@@ -428,36 +431,73 @@ body.mythfel-login .mythfel-logout {
   height: 100% !important;
   max-width: 100% !important;
   max-height: 100% !important;
-  object-fit: contain !important;
-  object-position: left center !important;
+  object-fit: cover !important;
+  object-position: center center !important;
 }
-/* Right column fills leftover width; buttons stretch full height */
+#viewSoonFarm .farm-action-dock {
+  position: absolute !important;
+  top: 0.65rem;
+  right: 0.65rem;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.4rem;
+  pointer-events: auto;
+}
+#viewSoonFarm .farm-action-toggle {
+  width: 2.7rem;
+  height: 2.7rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(253, 186, 69, 0.75);
+  background: rgba(18, 14, 11, 0.62);
+  color: #fdba45;
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+}
+#viewSoonFarm .farm-action-toggle .material-symbols-outlined {
+  font-size: 22px;
+}
 #viewSoonFarm .farm-side-actions {
-  flex: 1 1 11.5rem !important;
-  min-width: 11.5rem !important;
-  max-width: none !important;
-  display: flex !important;
+  display: none !important;
+  flex: none !important;
+  width: 16rem !important;
+  min-width: 16rem !important;
+  max-width: 16rem !important;
+  max-height: min(32rem, calc(100% - 3.5rem)) !important;
   flex-direction: column !important;
-  justify-content: stretch !important;
+  justify-content: flex-start !important;
   align-items: stretch !important;
   gap: 0.35rem !important;
-  padding: 0.4rem 0.45rem !important;
+  padding: 0.45rem !important;
   margin: 0 !important;
-  min-height: 0 !important;
   overflow: auto !important;
-  background: #1f1b18 !important;
-  border-left: 1px solid rgba(157, 143, 123, 0.4) !important;
+  background: rgba(18, 14, 11, 0.78) !important;
+  border: 1px solid rgba(253, 186, 69, 0.38) !important;
+  border-radius: 0.85rem !important;
+  -webkit-backdrop-filter: blur(14px);
+  backdrop-filter: blur(14px);
   box-sizing: border-box !important;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+}
+#viewSoonFarm .farm-action-dock:hover .farm-side-actions,
+#viewSoonFarm .farm-action-dock:focus-within .farm-side-actions {
+  display: flex !important;
 }
 #viewSoonFarm .farm-side-actions .farm-action-btn {
-  flex: 1 1 0 !important;
+  flex: 0 0 auto !important;
   display: flex !important;
   flex-direction: row !important;
   align-items: center !important;
   justify-content: flex-start !important;
   gap: 0.45rem !important;
   width: 100% !important;
-  min-height: 0 !important;
+  min-height: 2.15rem !important;
   margin: 0 !important;
   padding: 0.45rem 0.55rem !important;
   border-radius: 0.5rem !important;
