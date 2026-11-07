@@ -913,6 +913,29 @@ body.mythfel-farm #app {
   display: flex !important;
   flex-shrink: 0 !important;
 }
+/* Login glyphs come from a local subset so the icon names never paint as text. */
+@font-face {
+  font-family: "Mythfel Login Icons";
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url("/fonts/mythfel-login-icons.woff2") format("woff2");
+}
+#viewLogin .material-symbols-outlined {
+  font-family: "Mythfel Login Icons";
+  font-weight: normal;
+  font-style: normal;
+  letter-spacing: normal;
+  text-transform: none;
+  line-height: 1;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  display: inline-block;
+  font-feature-settings: "liga";
+  -webkit-font-feature-settings: "liga";
+  -webkit-font-smoothing: antialiased;
+}
 /* Login header stays one row. A short window was wrapping «TAVERN HEARTH BATTLER»
    and «Очаг Мурр-1» into a tall stack that collided with the hero. */
 #viewLogin:not([data-auth="register"]) header {
