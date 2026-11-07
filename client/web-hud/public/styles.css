@@ -944,6 +944,40 @@ body.mythfel-farm #app {
 }
 #viewLogin .mythfel-login-brand h1,
 #viewLogin .mythfel-login-brand > p { margin: 0 !important; }
+/* Login title only: upright letters, read top to bottom, centered in the left column. */
+#viewLogin:not([data-auth="register"]) .mythfel-login-side {
+  justify-content: center;
+  align-items: center;
+}
+#viewLogin:not([data-auth="register"]) .mythfel-login-brand {
+  writing-mode: vertical-lr;
+  text-orientation: upright;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 1.1rem;
+}
+#viewLogin:not([data-auth="register"]) .mythfel-login-kicker,
+#viewLogin:not([data-auth="register"]) .mythfel-login-sub {
+  margin: 0;
+  font-family: Cinzel, Rubik, serif;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  line-height: 1;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.9);
+}
+#viewLogin:not([data-auth="register"]) .mythfel-login-kicker {
+  font-size: 13px;
+  color: #fcd38a;
+}
+#viewLogin:not([data-auth="register"]) .mythfel-login-sub {
+  font-size: 18px;
+  color: #fde68a;
+}
+#viewLogin:not([data-auth="register"]) .mythfel-login-brand h1 {
+  letter-spacing: 0.16em;
+  line-height: 1;
+}
 #viewLogin .mythfel-login-copy {
   display: flex;
   flex-direction: column;
