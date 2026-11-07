@@ -46,6 +46,7 @@ const SCREENS = [
   { id: "chat_guild", file: "chat_guild.html", view: "viewChatGuild" },
   { id: "chat_friends", file: "chat_friends.html", view: "viewChatFriends" },
   // Pack 17eb — trade menus + ratings (ratings share one layout ×2)
+  { id: "trade_hub", file: "trade_hub.html", view: "viewTradeHub" },
   { id: "tavern", file: "tavern.html", view: "viewTavern" },
   { id: "shop", file: "shop.html", view: "viewShop" },
   { id: "market", file: "market.html", view: "viewMarket" },

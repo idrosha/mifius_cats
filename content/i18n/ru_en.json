@@ -611,6 +611,10 @@
     "ru": "Рейд / легион",
     "en": "Raid / legion"
   },
+  "nav.sub.trade_hub": {
+    "ru": "Хаб Торговли",
+    "en": "Trade hub"
+  },
   "nav.sub.tavern": {
     "ru": "Таверна",
     "en": "Tavern"
