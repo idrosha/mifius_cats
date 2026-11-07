@@ -1509,7 +1509,8 @@ body:has(#viewHub:not(.hidden)) #app {
 }
 #viewHub > header.mythfel-hub-bar,
 #viewHub > footer.mythfel-hub-foot,
-#viewHub > header nav.mythfel-hub-tabs {
+#viewHub > header nav.mythfel-hub-tabs,
+#viewHub > header nav.mythfel-hub-sub {
   display: flex !important;
 }
 .mythfel-hub-sink { display: none !important; }
@@ -1550,7 +1551,32 @@ body:has(#viewHub:not(.hidden)) #app {
   border-color: rgba(253, 186, 69, 0.22);
   border-style: solid;
 }
-.mythfel-hub-bar { height: 3.15rem; border-width: 0 0 1px; justify-content: space-between; }
+.mythfel-hub-bar {
+  height: auto;
+  border-width: 0 0 1px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  padding: 0;
+  justify-content: flex-start;
+}
+.mythfel-hub-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  height: 3.15rem;
+  padding: 0.35rem 0.75rem;
+  justify-content: space-between;
+}
+button.mythfel-hub-brand {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+  text-align: left;
+}
 .mythfel-hub-brand { display: flex; align-items: center; gap: 0.45rem; min-width: 0; }
 .mythfel-hub-mark {
   width: 2rem;
@@ -1575,9 +1601,12 @@ body:has(#viewHub:not(.hidden)) #app {
   letter-spacing: 0.14em;
   color: #d5c4af;
 }
-.mythfel-hub-tabs { display: flex; align-items: center; gap: 0.2rem; min-width: 0; }
+.mythfel-hub-tabs,
+.mythfel-hub-sub { display: flex; align-items: center; gap: 0.2rem; min-width: 0; }
+.mythfel-hub-sub { padding: 0 0.75rem 0.35rem; }
 .mythfel-hub-tabs a,
-.mythfel-hub-tabs button {
+.mythfel-hub-tabs button,
+.mythfel-hub-sub a {
   border: 0;
   background: transparent;
   color: #d5c4af;
