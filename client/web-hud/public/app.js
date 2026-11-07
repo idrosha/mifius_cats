@@ -38,8 +38,9 @@ const PATH_TO_TAB = {
   рынок: "market",
   marketplace: "shop",
   аукцион: "auction",
-  "trade-hub": "tavern",
-  "khab-torgovli-glavnaya": "tavern",
+  "trade-hub": "trade_hub",
+  "khab-torgovli-glavnaya": "trade_hub",
+  "khab-torgovli-karta": "trade_hub",
   "tavern-bar": "tavern",
   "shop-donate": "shop",
   "market-resources": "market",
@@ -201,6 +202,7 @@ const NAV = [
     id: "trade",
     key: "nav.primary.trade",
     tabs: [
+      { id: "trade_hub", key: "nav.sub.trade_hub" },
       { id: "tavern", key: "nav.sub.tavern" },
       { id: "shop", key: "nav.sub.shop" },
       { id: "market", key: "nav.sub.market" },
@@ -710,6 +712,7 @@ function logicalViewId() {
     battle: "viewBattle",
     pvp: "viewPvp",
     collection: "viewCollection",
+    trade_hub: "viewTradeHub",
     shop: "viewShop",
     market: "viewMarket",
     tavern: "viewTavern",
@@ -842,6 +845,7 @@ function navigate(tab, { soon = null, clearBattle = true, primary = null, fromGa
   state.primary = primary || group?.id || state.primary || "combat";
   // Login chrome: hide nav while on login
   document.body.classList.toggle("mythfel-login", tab === "login");
+  document.body.classList.toggle("mythfel-trade", tab === "trade_hub");
   renderAll();
 }
 
@@ -1173,6 +1177,7 @@ function softNavigateFromLabel(label) {
     ["мифмир", () => navigate("yard")],
     ["двор", () => navigate("farm", { soon: "farm" })],
     ["коллекция", () => navigate("collection")],
+    ["хаб торговли", () => navigate("trade_hub")],
     ["войти в бар", () => navigate("tavern")],
     ["в магазин", () => navigate("shop")],
     ["на рынок", () => navigate("market")],
@@ -1619,6 +1624,22 @@ function fillDrinkHosts(hosts) {
       el.appendChild(tile);
     }
   }
+}
+
+function renderTradeHub() {
+  const el = $("tradeFairTimer");
+  if (!el || el.dataset.armed === "1") return;
+  el.dataset.armed = "1";
+  let total = 4 * 3600 + 18 * 60 + 19;
+  const tick = () => {
+    const h = String(Math.floor(total / 3600)).padStart(2, "0");
+    const m = String(Math.floor((total % 3600) / 60)).padStart(2, "0");
+    const s = String(total % 60).padStart(2, "0");
+    el.textContent = `${h}:${m}:${s}`;
+    if (total > 0) total -= 1;
+  };
+  tick();
+  setInterval(tick, 1000);
 }
 
 function renderTavern() {
@@ -2928,6 +2949,9 @@ function renderAll() {
             : `Soft-launch test grant: ${n} cats (3 starters + 12 shop common ×6 classes + farm). 3v3 preset — equal decks.`;
       }
       renderStarters("collectionCards");
+      break;
+    case "trade_hub":
+      renderTradeHub();
       break;
     case "shop":
       renderShop();
