@@ -1,151 +1,260 @@
 <!DOCTYPE html>
-<html class="dark" lang="ru">
-<head>
-<meta charset="utf-8">
+<html class="dark" lang="ru"><head><meta charset="utf-8">
 <script src="https://cdn.tailwindcss.com"></script>
 <title>Дом Хранителя · Персонаж</title>
 <style>
-/* Home character desk: Персонаж and Дом Хранителя share this sheet. Shared #appNav stays. */
-#viewHome > main.char-desk {
+/* Hearth sheet: Персонаж and Дом Хранителя. Shared #appNav stays above this view. */
+#viewHome > main.char-sheet {
   flex: 1 1 auto !important;
   min-height: 0 !important;
   height: 100% !important;
   display: flex !important;
   flex-direction: column;
-  gap: 0.45rem;
-  padding: 0.45rem 0.6rem 0.4rem;
-  background:
-    linear-gradient(180deg, rgba(12, 9, 7, 0.72), rgba(12, 9, 7, 0.88)),
-    url("/stitch-assets/login-hero.png") center 30% / cover no-repeat;
+  gap: 0.3rem;
+  padding: 0.3rem 0.4rem 0.28rem;
+  background: #100e0c;
   color: #eae1db;
+  font-size: 11px;
 }
-.char-desk-grid {
+#viewHome .sheet-grid {
   flex: 1 1 auto;
   min-height: 0;
   display: grid;
-  grid-template-columns: 16.5rem minmax(0, 1fr) 18.5rem;
-  gap: 0.5rem;
+  grid-template-columns: 21.5rem minmax(0, 1fr) 22.5rem;
+  gap: 0.35rem;
 }
-.char-col, .char-stage, .char-bag, .char-deck {
-  background: rgba(18, 14, 12, 0.92);
+#viewHome .sheet-col,
+#viewHome .sheet-stage,
+#viewHome .sheet-bag,
+#viewHome .sheet-deck {
+  background: rgba(16, 13, 11, 0.94);
   border: 1px solid rgba(253, 186, 69, 0.28);
-  border-radius: 0.75rem;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  border-radius: 0.65rem;
+  min-height: 0;
 }
-.char-col, .char-bag { padding: 0.65rem 0.7rem; min-height: 0; overflow: auto; }
-.char-kicker { margin: 0; font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: #fdba45; }
-.char-name-row { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
-.char-name-row h2 { margin: 0.15rem 0 0; font-size: 1.15rem; color: #fff3d4; }
-.char-name-row span, .char-role { color: #d5c4af; font-size: 12px; }
-.char-power { display: flex; align-items: baseline; gap: 0.4rem; margin: 0.35rem 0; }
-.char-power strong { font-size: 1.7rem; color: #fdba45; line-height: 1; }
-.char-power span, .char-block-title { font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: #fcd38a; }
-.char-stats { list-style: none; margin: 0.25rem 0 0.5rem; padding: 0; display: flex; flex-direction: column; gap: 0.28rem; }
-.char-stats li { display: grid; grid-template-columns: 1fr auto auto; gap: 0.45rem; font-size: 12px; }
-.char-stats b { color: #fff3d4; }
-.char-stats em { color: #89d98c; font-style: normal; min-width: 2rem; }
-.char-note { margin: 0.2rem 0 0; font-size: 12px; color: #d5c4af; }
-.char-stage { display: flex; flex-direction: column; min-height: 0; padding: 0.45rem; }
-.char-stage-frame { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: 7.2rem minmax(0, 1fr) 7.2rem; gap: 0.4rem; }
-.char-slots { display: flex; flex-direction: column; justify-content: space-between; gap: 0.4rem; }
-.char-slot {
+#viewHome .sheet-col,
+#viewHome .sheet-bag { padding: 0.28rem 0.45rem 0.22rem; overflow: hidden; }
+#viewHome .sheet-id { display: flex; justify-content: space-between; gap: 0.4rem; }
+#viewHome .sheet-kicker { margin: 0; color: #fdba45; letter-spacing: 0.12em; text-transform: uppercase; font-size: 10px; }
+#viewHome .sheet-kicker span { letter-spacing: 0.08em; }
+#viewHome .sheet-id h2 { margin: 0.05rem 0; font-size: 1.05rem; color: #fff3d4; }
+#viewHome .sheet-role, #viewHome .sheet-level { margin: 0; color: #d5c4af; }
+#viewHome .sheet-level { color: #fdba45; font-weight: 800; font-size: 13px; }
+#viewHome .sheet-power { display: flex; align-items: center; justify-content: space-between; margin: 0.12rem 0; }
+#viewHome .sheet-power span, #viewHome .sheet-block-head span { letter-spacing: 0.08em; text-transform: uppercase; color: #fcd38a; font-size: 10px; }
+#viewHome .sheet-power strong { display: block; font-size: 1.35rem; color: #fdba45; line-height: 1; }
+#viewHome .sheet-power em, #viewHome .sheet-block-head em, #viewHome .sheet-stats em { color: #89d98c; font-style: normal; }
+#viewHome .sheet-block-head { display: flex; justify-content: space-between; margin: 0.25rem 0 0.15rem; }
+#viewHome .sheet-stats, #viewHome .sheet-skills, #viewHome .sheet-sets { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.18rem; }
+#viewHome .sheet-stats li { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; align-items: center; column-gap: 0.35rem; }
+#viewHome .sheet-stats small, #viewHome .sheet-skills small, #viewHome .sheet-sets small { display: block; color: #b5a696; font-size: 9px; line-height: 1.1; }
+#viewHome .sheet-stats b { color: #fff3d4; }
+#viewHome .sheet-stats em { text-align: right; font-size: 10px; }
+#viewHome .sheet-skills li, #viewHome .sheet-sets li { display: flex; justify-content: space-between; gap: 0.4rem; align-items: center; padding: 0.08rem 0; border-top: 1px solid rgba(253, 186, 69, 0.12); }
+#viewHome .sheet-skills em, #viewHome .sheet-sets em { flex: 0 0 auto; font-style: normal; font-size: 9px; letter-spacing: 0.06em; text-transform: uppercase; color: #89d98c; border: 1px solid rgba(137, 217, 140, 0.45); border-radius: 999px; padding: 0.05rem 0.35rem; }
+#viewHome .sheet-skills em.is-save { color: #9ec5ff; border-color: rgba(158, 197, 255, 0.5); }
+#viewHome .sheet-skills em.is-ult { color: #fdba45; border-color: rgba(253, 186, 69, 0.6); }
+#viewHome .sheet-actions, #viewHome .sheet-banner-btns, #viewHome .sheet-compare-btns, #viewHome .sheet-filters, #viewHome .sheet-rarities { display: flex; gap: 0.25rem; flex-wrap: wrap; }
+#viewHome .sheet-actions { margin-top: 0.15rem; }
+#viewHome .sheet-col button, #viewHome .sheet-bag button, #viewHome .sheet-deck button, #viewHome .sheet-banner button, #viewHome .sheet-squad button {
+  font-family: Rubik, sans-serif; cursor: pointer; border: 1px solid rgba(253, 186, 69, 0.35); background: transparent; color: #fdba45; border-radius: 0.4rem; padding: 0.18rem 0.45rem; font-size: 11px;
+}
+#viewHome .sheet-filters button.is-on, #viewHome .sheet-rarities button.is-on, #viewHome .sheet-compare-btns .is-gold, #viewHome .sheet-squad .is-on {
+  background: #fdba45; color: #2a1c00; font-weight: 800; border-color: #fdba45;
+}
+#viewHome .sheet-stage { display: flex; flex-direction: column; padding: 0.3rem; min-width: 0; }
+#viewHome .sheet-viewmode { margin: 0 0 0.2rem; color: #d5c4af; font-size: 11px; }
+#viewHome .sheet-doll { position: relative; flex: 1 1 auto; min-height: 0; border-radius: 0.55rem; overflow: hidden; }
+#viewHome .sheet-doll img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
+#viewHome .sheet-slots { position: absolute; top: 0.3rem; bottom: 0.55rem; display: flex; flex-direction: column; justify-content: space-between; width: 10.6rem; }
+#viewHome .sheet-slots.left { left: 0.35rem; }
+#viewHome .sheet-slots.right { right: 0.35rem; }
+#viewHome .sheet-slot {
   flex: 0 0 auto;
-  min-height: 4.1rem;
-  border-radius: 0.6rem;
-  border: 1px solid rgba(253, 186, 69, 0.45);
-  background: rgba(0, 0, 0, 0.45);
-  color: #eae1db;
-  text-align: left;
-  padding: 0.35rem 0.45rem;
-  cursor: pointer;
+  display: flex; gap: 0.3rem; align-items: center; text-align: left;
+  border: 1px solid rgba(253, 186, 69, 0.55); background: rgba(10, 8, 6, 0.82); color: #fff3d4;
+  border-radius: 0.45rem; padding: 0.2rem 0.35rem; cursor: pointer; font-family: Rubik, sans-serif;
 }
-.char-slot small { display: block; font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; color: #fcd38a; }
-.char-slot strong { display: block; font-size: 12px; font-weight: 700; }
-.char-slot.is-filled { box-shadow: inset 0 0 0 1px rgba(137, 217, 140, 0.45); }
-.char-portrait { position: relative; border-radius: 0.7rem; overflow: hidden; min-height: 0; }
-.char-portrait img { width: 100%; height: 100%; object-fit: cover; object-position: center top; }
-.char-portrait p {
-  position: absolute; left: 0; right: 0; bottom: 0; margin: 0;
-  padding: 0.35rem 0.5rem; background: linear-gradient(transparent, rgba(0,0,0,0.8));
-  font-size: 13px; font-weight: 700;
-}
-.char-stage-foot { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; padding-top: 0.35rem; }
-.char-stage-foot p { margin: 0; font-size: 12px; color: #d5c4af; }
-.char-btn, .char-bag-tabs button, .char-bag-item, .char-deck-card {
-  font-family: Rubik, sans-serif; cursor: pointer;
-}
-.char-btn {
-  border: 0; border-radius: 0.55rem; padding: 0.4rem 0.75rem;
-  background: #fdba45; color: #2a1c00; font-weight: 800; font-size: 12px;
-}
-.char-btn-ghost { background: transparent; color: #fdba45; border: 1px solid rgba(253, 186, 69, 0.5); }
-.char-bag { display: flex; flex-direction: column; gap: 0.4rem; }
-.char-bag-head { display: flex; justify-content: space-between; align-items: baseline; }
-.char-bag-head strong { letter-spacing: 0.12em; text-transform: uppercase; color: #fdba45; font-size: 13px; }
-.char-bag-head span, .char-bag-tabs button { font-size: 11px; color: #d5c4af; }
-.char-bag-tabs { display: flex; flex-wrap: wrap; gap: 0.25rem; }
-.char-bag-tabs button { border: 0; background: rgba(255,255,255,0.04); border-radius: 999px; padding: 0.2rem 0.5rem; }
-.char-bag-tabs button.is-on { background: #fdba45; color: #2a1c00; font-weight: 800; }
-.char-bag-grid { flex: 1 1 auto; min-height: 0; overflow: auto; display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; align-content: start; }
-.char-bag-item {
-  text-align: left; border-radius: 0.5rem; border: 1px solid rgba(253, 186, 69, 0.25);
-  background: rgba(0,0,0,0.35); color: #eae1db; padding: 0.35rem 0.4rem;
-}
-.char-bag-item strong, .char-bag-item small { display: block; }
-.char-bag-item small { color: #d5c4af; font-size: 10px; }
-.char-bag-item.is-worn { border-color: #89d98c; }
-.char-bag-item.is-focus { box-shadow: inset 0 0 0 1px #fdba45; }
-.char-compare { display: flex; align-items: center; justify-content: space-between; gap: 0.4rem; border-top: 1px solid rgba(253, 186, 69, 0.2); padding-top: 0.35rem; }
-.char-compare strong { display: block; font-size: 13px; }
-.char-compare p { margin: 0.1rem 0 0; font-size: 11px; color: #d5c4af; }
-.char-deck { display: flex; align-items: center; gap: 0.75rem; padding: 0.4rem 0.6rem; }
-.char-deck-row { display: flex; gap: 0.4rem; flex: 1 1 auto; min-width: 0; overflow: auto; }
-.char-deck-card {
-  flex: 1 1 4.6rem; min-width: 4.6rem; text-align: left; border-radius: 0.55rem;
-  border: 1px solid rgba(253, 186, 69, 0.3); background: rgba(0,0,0,0.4); color: #eae1db; padding: 0.3rem 0.45rem;
-}
-.char-deck-card small, .char-deck-card span { display: block; font-size: 10px; color: #d5c4af; }
-.char-deck-card strong { font-size: 12px; }
-.char-deck-card.is-active { border-color: #fdba45; box-shadow: 0 0 0 1px rgba(253, 186, 69, 0.35); }
+#viewHome .sheet-slot .material-symbols-outlined { font-size: 16px; color: #fdba45; }
+#viewHome .sheet-slot b, #viewHome .sheet-slot small { display: block; }
+#viewHome .sheet-slot b { font-size: 10px; line-height: 1.15; white-space: normal; }
+#viewHome .sheet-slot small { color: #89d98c; font-size: 10px; }
+#viewHome .sheet-banner { display: grid; grid-template-columns: 1fr auto; gap: 0.15rem 0.4rem; margin-top: 0.28rem; padding: 0.28rem 0.4rem; border-radius: 0.45rem; background: rgba(253, 186, 69, 0.08); }
+#viewHome .sheet-banner p, #viewHome .sheet-banner span { margin: 0; color: #d5c4af; font-size: 10px; }
+#viewHome .sheet-banner strong { font-size: 12px; color: #fff3d4; }
+#viewHome .sheet-banner-btns { grid-row: 1 / span 2; align-self: center; }
+#viewHome .sheet-squad { display: flex; gap: 0.25rem; margin-top: 0.25rem; align-items: center; }
+#viewHome .sheet-squad button { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; }
+#viewHome .sheet-squad small { color: inherit; font-size: 9px; }
+#viewHome .sheet-squad-swap { margin-left: auto; }
+#viewHome .sheet-bag { display: flex; flex-direction: column; gap: 0.25rem; }
+#viewHome .sheet-bag-head, #viewHome .sheet-compare-head, #viewHome .sheet-deck-head { display: flex; justify-content: space-between; align-items: baseline; gap: 0.4rem; }
+#viewHome .sheet-bag-head strong { letter-spacing: 0.12em; text-transform: uppercase; color: #fdba45; }
+#viewHome .sheet-bag-head span, #viewHome .sheet-rarities span { color: #d5c4af; font-size: 10px; }
+#viewHome .sheet-grid-bag { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.28rem; align-content: start; }
+#viewHome .sheet-item { position: relative; aspect-ratio: 1; border-radius: 0.4rem; border: 1px solid rgba(253, 186, 69, 0.25); background: rgba(0,0,0,0.45); display: grid; place-items: center; color: #fdba45; }
+#viewHome .sheet-item i { position: absolute; left: 0.15rem; top: 0.1rem; font-style: normal; font-size: 8px; letter-spacing: 0.04em; text-transform: uppercase; }
+#viewHome .sheet-item.myth { border-color: #fdba45; }
+#viewHome .sheet-item.epic { border-color: #c084fc; color: #c084fc; }
+#viewHome .sheet-item.rare { border-color: #7dd3fc; color: #7dd3fc; }
+#viewHome .sheet-item.empty { color: #6b5e52; border-style: dashed; font-size: 18px; }
+#viewHome .sheet-compare { border-top: 1px solid rgba(253, 186, 69, 0.2); padding-top: 0.25rem; }
+#viewHome .sheet-compare-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 0.35rem; margin: 0.15rem 0; }
+#viewHome .sheet-compare small, #viewHome .sheet-compare em { display: block; color: #d5c4af; font-style: normal; font-size: 10px; }
+#viewHome .sheet-compare strong { color: #fff3d4; }
+#viewHome .sheet-deck { padding: 0.3rem 0.45rem 0.35rem; }
+#viewHome .sheet-deck-head p { margin: 0; color: #fff3d4; font-size: 12px; }
+#viewHome .sheet-deck-head small, #viewHome .sheet-deck-tools span { color: #d5c4af; font-size: 10px; }
+#viewHome .sheet-deck-tools { display: flex; align-items: center; gap: 0.4rem; }
+#viewHome .sheet-deck-row { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.3rem; margin-top: 0.25rem; }
+#viewHome .sheet-deck-row article { border: 1px solid rgba(253, 186, 69, 0.28); border-radius: 0.45rem; padding: 0.22rem 0.3rem; background: rgba(0,0,0,0.35); min-width: 0; }
+#viewHome .sheet-deck-row em { display: block; font-style: normal; font-size: 9px; letter-spacing: 0.04em; text-transform: uppercase; color: #fdba45; }
+#viewHome .sheet-deck-row .material-symbols-outlined { font-size: 16px; color: #fcd38a; }
+#viewHome .sheet-deck-row strong, #viewHome .sheet-deck-row small { display: block; }
+#viewHome .sheet-deck-row strong { font-size: 11px; color: #fff3d4; }
+#viewHome .sheet-deck-row small { color: #d5c4af; font-size: 10px; }
 body:has(#viewHome:not(.hidden)) #wireDock { display: none !important; }
-</style>
-</head>
-<body>
+</style></head><body>
 <section id="viewHome" class="stitch-view mythfel-form hidden" data-stitch="home" data-layout="landscape">
-<main class="char-desk" data-purpose="character-home">
-<div class="char-desk-grid">
-<aside class="char-col" id="homeStatBlock" aria-label="Параметры персонажа"></aside>
-<section class="char-stage" aria-label="Очаг">
-<div class="char-stage-frame" id="homeHeroCard"></div>
-<div class="char-stage-foot">
-<p id="homeSetLine">Слоты пусты.</p>
-<button type="button" class="char-btn char-btn-ghost" id="homeUnequip">Снять</button>
+<main class="char-sheet" data-purpose="character-home" data-sheet="barsik">
+<div class="sheet-grid">
+<aside class="sheet-col" id="homeStatBlock" aria-label="Параметры персонажа">
+<div class="sheet-id">
+<div>
+<p class="sheet-kicker">Мифический <span aria-hidden="true">★★★★★</span></p>
+<h2>Барсик Громовержец</h2>
+<p class="sheet-role">Громовая Стихия + Ассасин</p>
+</div>
+<p class="sheet-level">Ур. 50</p>
+</div>
+<div class="sheet-power">
+<div><span>Боевая мощь</span><strong>18,450 БМ</strong></div>
+<em>+2,140 экип.</em>
+</div>
+<div class="sheet-block-head"><span>Базовые параметры</span><em>+2,038 буст</em></div>
+<ul class="sheet-stats">
+<li><span>Атака (ATK)<small>физ. урон когтями и молнией</small></span><b>5,200</b><em>+1,480 экип. · +320 кодекс</em></li>
+<li><span>Здоровье (HP)<small>запас стойкости в бою</small></span><b>16,800</b><em>+4,200 экип.</em></li>
+<li><span>Защита (DEF)<small>поглощение 42% урона</small></span><b>1,680</b><em>+540 броня</em></li>
+<li><span>Скорость (SPD)<small>очерёдность хода в 3v3</small></span><b>115</b><em>+18 ловкость</em></li>
+<li><span>Крит шанс / урон</span><b>38% / 185%</b><em>+16% стих.</em></li>
+<li><span>Сопротивл. грозе</span><b>40%</b><em>ярость</em></li>
+</ul>
+<p class="sheet-block-head"><span>Мифические силы (3 активно)</span></p>
+<ul class="sheet-skills">
+<li><div><strong>«Громогласный Рёв»</strong><small>+15% электро-урона по площади, 25% шанс цепного шока</small></div><em>пассив</em></li>
+<li><div><strong>«Кошачье Шестое Чувство»</strong><small>уклонение от первого смертельного удара, хил +20% HP</small></div><em class="is-save">спасбросок</em></li>
+<li><div><strong>«Астральный Прыжок»</strong><small>иммунитет к провокации танком и замедлению</small></div><em class="is-ult">ульта</em></li>
+</ul>
+<p class="sheet-block-head"><span>Эффекты наборов</span></p>
+<ul class="sheet-sets">
+<li><div><strong>Громовой Коготь</strong><small>+25% урона молнией</small></div><em>4/4</em></li>
+<li><div><strong>Шерстяной Оберег</strong><small>+12% к щиту персонажа</small></div><em>2/2</em></li>
+</ul>
+<div class="sheet-actions">
+<button type="button">Лучшее</button>
+<button type="button">Снять всё</button>
+</div>
+</aside>
+<section class="sheet-stage" aria-label="Очаг">
+<p class="sheet-viewmode">Вид снаряжения: Надето</p>
+<div class="sheet-doll" id="homeHeroCard">
+<img alt="" src="/stitch-assets/3fb811d68da3.jpg">
+<div class="sheet-slots left">
+<button type="button" class="sheet-slot"><span class="material-symbols-outlined">swords</span><span><b>Кинжал Перуна</b><small>Надето</small></span></button>
+<button type="button" class="sheet-slot"><span class="material-symbols-outlined">local_fire_department</span><span><b>Огненный свиток</b><small>Надето</small></span></button>
+<button type="button" class="sheet-slot"><span class="material-symbols-outlined">diamond</span><span><b>Перстень Солнца</b><small>Надето</small></span></button>
+</div>
+<div class="sheet-slots right">
+<button type="button" class="sheet-slot"><span class="material-symbols-outlined">shield</span><span><b>Кираса Саламандры</b><small>Надето</small></span></button>
+<button type="button" class="sheet-slot"><span class="material-symbols-outlined">apparel</span><span><b>Пояс Исследователя</b><small>Надето</small></span></button>
+<button type="button" class="sheet-slot"><span class="material-symbols-outlined">notifications</span><span><b>Бубенец Удачи</b><small>Надето</small></span></button>
+</div>
+</div>
+<div class="sheet-banner">
+<p>Активен набор экипировки: «Громовой Коготь» (4 из 4 предметов)</p>
+<div>
+<strong>Громовой Кинжал Перуна +12</strong>
+<span>Гнездо: Руна Бури · +85 к урону электро</span>
+</div>
+<div class="sheet-banner-btns">
+<button type="button">Заточить в Кузне</button>
+<button type="button">Инкрустировать</button>
+</div>
+</div>
+<div class="sheet-squad">
+<button type="button" class="is-on">Барсик<small>Огонь</small></button>
+<button type="button">Рыжик<small>Огонь</small></button>
+<button type="button">Мурка<small>Трава</small></button>
+<button type="button">Черныш<small>Тень</small></button>
+<button type="button" class="sheet-squad-swap">Сменить отряд</button>
 </div>
 </section>
-<aside class="char-bag" aria-label="Инвентарь">
-<div class="char-bag-head">
+<aside class="sheet-bag" aria-label="Инвентарь">
+<div class="sheet-bag-head">
 <strong>Инвентарь</strong>
-<span>Экипировка</span>
+<span>Склад 14/96 · свободно 82</span>
 </div>
-<div class="char-bag-tabs" id="homeBagTabs">
-<button type="button" data-bag="all" class="is-on">Всё</button>
-<button type="button" data-bag="weapon">Оружие</button>
-<button type="button" data-bag="armor">Броня</button>
-<button type="button" data-bag="helm">Шлем</button>
-<button type="button" data-bag="boots">Обувь</button>
+<div class="sheet-filters">
+<button type="button" class="is-on">Всё</button>
+<button type="button">Оружие</button>
+<button type="button">Шлемы</button>
+<button type="button">Броня</button>
+<button type="button">Амулеты</button>
 </div>
-<div class="char-bag-grid" id="homeGearBlock"></div>
-<div class="char-compare" id="homeCompare"></div>
+<div class="sheet-rarities"><span>Редкости</span><button type="button" class="is-on">Все</button><button type="button">Миф</button><button type="button">Эпик</button><button type="button">Редк</button></div>
+<div class="sheet-grid-bag" id="homeGearBlock">
+<div class="sheet-item myth"><span class="material-symbols-outlined">bolt</span><i>миф</i></div>
+<div class="sheet-item epic"><span class="material-symbols-outlined">swords</span><i>эпик</i></div>
+<div class="sheet-item rare"><span class="material-symbols-outlined">shield</span><i>редк</i></div>
+<div class="sheet-item myth"><span class="material-symbols-outlined">diamond</span><i>миф</i></div>
+<div class="sheet-item rare"><span class="material-symbols-outlined">pets</span><i>редк</i></div>
+<div class="sheet-item epic"><span class="material-symbols-outlined">local_fire_department</span><i>эпик</i></div>
+<div class="sheet-item rare"><span class="material-symbols-outlined">apparel</span><i>редк</i></div>
+<div class="sheet-item epic"><span class="material-symbols-outlined">bolt</span><i>эпик</i></div>
+<div class="sheet-item rare"><span class="material-symbols-outlined">shield</span><i>редк</i></div>
+<div class="sheet-item epic"><span class="material-symbols-outlined">diamond</span><i>эпик</i></div>
+<div class="sheet-item rare"><span class="material-symbols-outlined">swords</span><i>редк</i></div>
+<div class="sheet-item epic"><span class="material-symbols-outlined">notifications</span><i>эпик</i></div>
+<div class="sheet-item empty"><span>+</span></div>
+<div class="sheet-item empty"><span>+</span></div>
+<div class="sheet-item empty"><span>+</span></div>
+<div class="sheet-item empty"><span>+</span></div>
+</div>
+<div class="sheet-compare">
+<div class="sheet-compare-head"><span>Сравнение снаряжения</span><em>+10 талис</em></div>
+<div class="sheet-compare-cols">
+<div><small>Талис (сумка)</small><strong>ATK 480</strong><em>+32%</em></div>
+<div><small>Кинжал Перуна (надето)</small><strong>Кинжал Перуна</strong><em>−260 ATK при замене</em></div>
+</div>
+<div class="sheet-compare-btns">
+<button type="button" class="is-gold">Надеть</button>
+<button type="button">Переплавить</button>
+</div>
+</div>
 </aside>
 </div>
-<footer class="char-deck">
+<footer class="sheet-deck">
+<div class="sheet-deck-head">
 <div>
-<p class="char-kicker">Дом Хранителя · Персонаж</p>
-<p id="homeDeckLabel">Боевая колода</p>
+<p>Боевая Колода Котика — Карты Атак Кота (6 Приёмов)</p>
+<small>Активна в рейдах, битвах с боссами и на Арене PvP</small>
 </div>
-<div class="char-deck-row" id="homeCatPicker"></div>
+<div class="sheet-deck-tools">
+<span>Расход АР: 11 АР / ход</span>
+<button type="button">Настроить колоду</button>
+</div>
+</div>
+<div class="sheet-deck-row" id="homeCatPicker">
+<article><em>быстрый удар лапой</em><span class="material-symbols-outlined">bolt</span><strong>«Громовой Коготь»</strong><small>520 физ+электр · шанс 25%</small></article>
+<article><em>теневой бросок</em><span class="material-symbols-outlined">swords</span><strong>«Теневой Бросок»</strong><small>680 пробитие · игнор 40% брони</small></article>
+<article><em>силовой укус</em><span class="material-symbols-outlined">pets</span><strong>«Яростный Кусь»</strong><small>840 физ. урон · кровотечение</small></article>
+<article><em>серия комбо</em><span class="material-symbols-outlined">grain</span><strong>«Шквал Когтей x6»</strong><small>6 × 110 комбо · раскол брони</small></article>
+<article><em>круговой удар</em><span class="material-symbols-outlined">cyclone</span><strong>«Хвост-Хлыст»</strong><small>260 AoE электр · стан при увороте</small></article>
+<article><em>ультимейт</em><span class="material-symbols-outlined">thunderstorm</span><strong>«Ярость Перуна»</strong><small>1,580 урона · цепной шок по всем</small></article>
+</div>
 </footer>
 </main>
 </section>
-</body>
-</html>
+
+</body></html>

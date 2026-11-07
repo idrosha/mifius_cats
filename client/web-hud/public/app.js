@@ -1989,6 +1989,8 @@ function catSheetName(cat) {
 }
 
 function renderHome() {
+  // Painted hearth sheet (Барсик). Display copy only — no combat authority.
+  if (document.querySelector("#viewHome [data-sheet='barsik']")) return;
   const cats = (state.profile?.cats || []).filter((c) => c.role !== "farm");
   const cat = cats.find((c) => c.catId === state.selectedCatId) || cats[0];
   if (!cat) return;

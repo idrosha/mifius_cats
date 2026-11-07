@@ -1578,38 +1578,143 @@
 </main><footer class="w-full bg-surface-container-lowest mt-space-xl py-space-lg"><div class="w-full px-gutter-tablet flex flex-col md:flex-row items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm"><span class="font-headline-md text-headline-md text-primary tracking-wide">МИФИУС</span><span class="font-body-sm text-body-sm text-outline-variant">|</span><span class="font-body-sm text-body-sm text-on-surface-variant">Летопись гильдии Хранителей Котиков</span></div><div class="flex items-center gap-space-lg"><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" data-path="kodeks-mifmira" href="#">Правила Мифмира</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" data-path="glavnyy-khab" href="#">Вести Таверны</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Техническая поддержка</a></div><div class="font-label-sm text-label-sm text-outline">© 2024 Mythfel: Mythic Cats. Все лапки защищены.</div></div></footer>
 </section>
 <section id="viewHome" class="stitch-view mythfel-form hidden" data-stitch="home" data-layout="landscape">
-<main class="char-desk" data-purpose="character-home">
-<div class="char-desk-grid">
-<aside class="char-col" id="homeStatBlock" aria-label="Параметры персонажа"></aside>
-<section class="char-stage" aria-label="Очаг">
-<div class="char-stage-frame" id="homeHeroCard"></div>
-<div class="char-stage-foot">
-<p id="homeSetLine">Слоты пусты.</p>
-<button type="button" class="char-btn char-btn-ghost" id="homeUnequip">Снять</button>
+<main class="char-sheet" data-purpose="character-home" data-sheet="barsik">
+<div class="sheet-grid">
+<aside class="sheet-col" id="homeStatBlock" aria-label="Параметры персонажа">
+<div class="sheet-id">
+<div>
+<p class="sheet-kicker">Мифический <span aria-hidden="true">★★★★★</span></p>
+<h2>Барсик Громовержец</h2>
+<p class="sheet-role">Громовая Стихия + Ассасин</p>
+</div>
+<p class="sheet-level">Ур. 50</p>
+</div>
+<div class="sheet-power">
+<div><span>Боевая мощь</span><strong>18,450 БМ</strong></div>
+<em>+2,140 экип.</em>
+</div>
+<div class="sheet-block-head"><span>Базовые параметры</span><em>+2,038 буст</em></div>
+<ul class="sheet-stats">
+<li><span>Атака (ATK)<small>физ. урон когтями и молнией</small></span><b>5,200</b><em>+1,480 экип. · +320 кодекс</em></li>
+<li><span>Здоровье (HP)<small>запас стойкости в бою</small></span><b>16,800</b><em>+4,200 экип.</em></li>
+<li><span>Защита (DEF)<small>поглощение 42% урона</small></span><b>1,680</b><em>+540 броня</em></li>
+<li><span>Скорость (SPD)<small>очерёдность хода в 3v3</small></span><b>115</b><em>+18 ловкость</em></li>
+<li><span>Крит шанс / урон</span><b>38% / 185%</b><em>+16% стих.</em></li>
+<li><span>Сопротивл. грозе</span><b>40%</b><em>ярость</em></li>
+</ul>
+<p class="sheet-block-head"><span>Мифические силы (3 активно)</span></p>
+<ul class="sheet-skills">
+<li><div><strong>«Громогласный Рёв»</strong><small>+15% электро-урона по площади, 25% шанс цепного шока</small></div><em>пассив</em></li>
+<li><div><strong>«Кошачье Шестое Чувство»</strong><small>уклонение от первого смертельного удара, хил +20% HP</small></div><em class="is-save">спасбросок</em></li>
+<li><div><strong>«Астральный Прыжок»</strong><small>иммунитет к провокации танком и замедлению</small></div><em class="is-ult">ульта</em></li>
+</ul>
+<p class="sheet-block-head"><span>Эффекты наборов</span></p>
+<ul class="sheet-sets">
+<li><div><strong>Громовой Коготь</strong><small>+25% урона молнией</small></div><em>4/4</em></li>
+<li><div><strong>Шерстяной Оберег</strong><small>+12% к щиту персонажа</small></div><em>2/2</em></li>
+</ul>
+<div class="sheet-actions">
+<button type="button">Лучшее</button>
+<button type="button">Снять всё</button>
+</div>
+</aside>
+<section class="sheet-stage" aria-label="Очаг">
+<p class="sheet-viewmode">Вид снаряжения: Надето</p>
+<div class="sheet-doll" id="homeHeroCard">
+<img alt="" src="/stitch-assets/3fb811d68da3.jpg">
+<div class="sheet-slots left">
+<button type="button" class="sheet-slot"><span class="material-symbols-outlined">swords</span><span><b>Кинжал Перуна</b><small>Надето</small></span></button>
+<button type="button" class="sheet-slot"><span class="material-symbols-outlined">local_fire_department</span><span><b>Огненный свиток</b><small>Надето</small></span></button>
+<button type="button" class="sheet-slot"><span class="material-symbols-outlined">diamond</span><span><b>Перстень Солнца</b><small>Надето</small></span></button>
+</div>
+<div class="sheet-slots right">
+<button type="button" class="sheet-slot"><span class="material-symbols-outlined">shield</span><span><b>Кираса Саламандры</b><small>Надето</small></span></button>
+<button type="button" class="sheet-slot"><span class="material-symbols-outlined">apparel</span><span><b>Пояс Исследователя</b><small>Надето</small></span></button>
+<button type="button" class="sheet-slot"><span class="material-symbols-outlined">notifications</span><span><b>Бубенец Удачи</b><small>Надето</small></span></button>
+</div>
+</div>
+<div class="sheet-banner">
+<p>Активен набор экипировки: «Громовой Коготь» (4 из 4 предметов)</p>
+<div>
+<strong>Громовой Кинжал Перуна +12</strong>
+<span>Гнездо: Руна Бури · +85 к урону электро</span>
+</div>
+<div class="sheet-banner-btns">
+<button type="button">Заточить в Кузне</button>
+<button type="button">Инкрустировать</button>
+</div>
+</div>
+<div class="sheet-squad">
+<button type="button" class="is-on">Барсик<small>Огонь</small></button>
+<button type="button">Рыжик<small>Огонь</small></button>
+<button type="button">Мурка<small>Трава</small></button>
+<button type="button">Черныш<small>Тень</small></button>
+<button type="button" class="sheet-squad-swap">Сменить отряд</button>
 </div>
 </section>
-<aside class="char-bag" aria-label="Инвентарь">
-<div class="char-bag-head">
+<aside class="sheet-bag" aria-label="Инвентарь">
+<div class="sheet-bag-head">
 <strong>Инвентарь</strong>
-<span>Экипировка</span>
+<span>Склад 14/96 · свободно 82</span>
 </div>
-<div class="char-bag-tabs" id="homeBagTabs">
-<button type="button" data-bag="all" class="is-on">Всё</button>
-<button type="button" data-bag="weapon">Оружие</button>
-<button type="button" data-bag="armor">Броня</button>
-<button type="button" data-bag="helm">Шлем</button>
-<button type="button" data-bag="boots">Обувь</button>
+<div class="sheet-filters">
+<button type="button" class="is-on">Всё</button>
+<button type="button">Оружие</button>
+<button type="button">Шлемы</button>
+<button type="button">Броня</button>
+<button type="button">Амулеты</button>
 </div>
-<div class="char-bag-grid" id="homeGearBlock"></div>
-<div class="char-compare" id="homeCompare"></div>
+<div class="sheet-rarities"><span>Редкости</span><button type="button" class="is-on">Все</button><button type="button">Миф</button><button type="button">Эпик</button><button type="button">Редк</button></div>
+<div class="sheet-grid-bag" id="homeGearBlock">
+<div class="sheet-item myth"><span class="material-symbols-outlined">bolt</span><i>миф</i></div>
+<div class="sheet-item epic"><span class="material-symbols-outlined">swords</span><i>эпик</i></div>
+<div class="sheet-item rare"><span class="material-symbols-outlined">shield</span><i>редк</i></div>
+<div class="sheet-item myth"><span class="material-symbols-outlined">diamond</span><i>миф</i></div>
+<div class="sheet-item rare"><span class="material-symbols-outlined">pets</span><i>редк</i></div>
+<div class="sheet-item epic"><span class="material-symbols-outlined">local_fire_department</span><i>эпик</i></div>
+<div class="sheet-item rare"><span class="material-symbols-outlined">apparel</span><i>редк</i></div>
+<div class="sheet-item epic"><span class="material-symbols-outlined">bolt</span><i>эпик</i></div>
+<div class="sheet-item rare"><span class="material-symbols-outlined">shield</span><i>редк</i></div>
+<div class="sheet-item epic"><span class="material-symbols-outlined">diamond</span><i>эпик</i></div>
+<div class="sheet-item rare"><span class="material-symbols-outlined">swords</span><i>редк</i></div>
+<div class="sheet-item epic"><span class="material-symbols-outlined">notifications</span><i>эпик</i></div>
+<div class="sheet-item empty"><span>+</span></div>
+<div class="sheet-item empty"><span>+</span></div>
+<div class="sheet-item empty"><span>+</span></div>
+<div class="sheet-item empty"><span>+</span></div>
+</div>
+<div class="sheet-compare">
+<div class="sheet-compare-head"><span>Сравнение снаряжения</span><em>+10 талис</em></div>
+<div class="sheet-compare-cols">
+<div><small>Талис (сумка)</small><strong>ATK 480</strong><em>+32%</em></div>
+<div><small>Кинжал Перуна (надето)</small><strong>Кинжал Перуна</strong><em>−260 ATK при замене</em></div>
+</div>
+<div class="sheet-compare-btns">
+<button type="button" class="is-gold">Надеть</button>
+<button type="button">Переплавить</button>
+</div>
+</div>
 </aside>
 </div>
-<footer class="char-deck">
+<footer class="sheet-deck">
+<div class="sheet-deck-head">
 <div>
-<p class="char-kicker">Дом Хранителя · Персонаж</p>
-<p id="homeDeckLabel">Боевая колода</p>
+<p>Боевая Колода Котика — Карты Атак Кота (6 Приёмов)</p>
+<small>Активна в рейдах, битвах с боссами и на Арене PvP</small>
 </div>
-<div class="char-deck-row" id="homeCatPicker"></div>
+<div class="sheet-deck-tools">
+<span>Расход АР: 11 АР / ход</span>
+<button type="button">Настроить колоду</button>
+</div>
+</div>
+<div class="sheet-deck-row" id="homeCatPicker">
+<article><em>быстрый удар лапой</em><span class="material-symbols-outlined">bolt</span><strong>«Громовой Коготь»</strong><small>520 физ+электр · шанс 25%</small></article>
+<article><em>теневой бросок</em><span class="material-symbols-outlined">swords</span><strong>«Теневой Бросок»</strong><small>680 пробитие · игнор 40% брони</small></article>
+<article><em>силовой укус</em><span class="material-symbols-outlined">pets</span><strong>«Яростный Кусь»</strong><small>840 физ. урон · кровотечение</small></article>
+<article><em>серия комбо</em><span class="material-symbols-outlined">grain</span><strong>«Шквал Когтей x6»</strong><small>6 × 110 комбо · раскол брони</small></article>
+<article><em>круговой удар</em><span class="material-symbols-outlined">cyclone</span><strong>«Хвост-Хлыст»</strong><small>260 AoE электр · стан при увороте</small></article>
+<article><em>ультимейт</em><span class="material-symbols-outlined">thunderstorm</span><strong>«Ярость Перуна»</strong><small>1,580 урона · цепной шок по всем</small></article>
+</div>
 </footer>
 </main>
 </section>
