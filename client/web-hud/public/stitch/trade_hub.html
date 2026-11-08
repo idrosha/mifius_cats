@@ -1,229 +1,59 @@
-<section id="viewTradeHub" class="stitch-view mythfel-form hidden" data-stitch="trade_hub" data-layout="landscape">
-<header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest/95 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.65)]">
-<div class="w-full px-4 pt-2 pb-1 flex flex-col gap-1.5">
-<div class="flex items-center justify-between gap-3">
-<div class="flex items-center gap-2 min-w-0">
-<div class="flex items-center gap-2 px-2.5 py-1 rounded-lg bg-surface-container-highest">
-<span class="material-symbols-outlined text-primary text-[22px]">pets</span>
-<span class="font-headline-md text-[15px] tracking-wider text-primary uppercase whitespace-nowrap">МИФИУС: МИФИЧЕСКИЕ КОТИКИ</span>
+<!-- Live trade square. Address: /square. Portals closed; shared fillNav only. -->
+<section id="viewTradeHub" class="stitch-view mythfel-form hidden" data-stitch="trade_hub" data-layout="landscape" data-purpose-route="square">
+<main class="trade-sheet" data-purpose="trade-square">
+<div class="trade-stage">
+<img class="trade-bg" alt="" src="/stitch-assets/trade-square.png"/>
+<div class="trade-veil" aria-hidden="true"></div>
+<div class="trade-center" id="tradeCenter">
+<span class="trade-new">NEW</span>
+<button type="button" class="trade-compass" id="tradeCompass" aria-label="Торговый перекрёсток">✦</button>
+<strong>ТОРГОВЫЙ ПЕРЕКРЁСТОК</strong>
+<small>Палата Гильдейских Сделок · 4 пути</small>
 </div>
-<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high">
-<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
-<span class="font-label-sm text-label-sm text-secondary">24ms</span>
-</div>
-</div>
-<div class="flex items-center gap-3">
-<div class="flex items-center gap-2.5 bg-surface-container-lowest px-3 py-1 rounded-xl shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]">
-<div class="flex items-center gap-1"><span class="material-symbols-outlined text-primary text-[18px]">monetization_on</span><span class="font-stat-numeral text-[16px] text-primary">148,250</span></div>
-<div class="w-px h-4 bg-outline-variant"></div>
-<div class="flex items-center gap-1"><span class="material-symbols-outlined text-tertiary text-[18px]">set_meal</span><span class="font-label-lg text-label-lg text-on-surface">420</span></div>
-<div class="w-px h-4 bg-outline-variant"></div>
-<div class="flex items-center gap-1"><span class="material-symbols-outlined text-secondary text-[18px]">bolt</span><span class="font-label-lg text-label-lg text-secondary">85/90</span></div>
-<div class="w-px h-4 bg-outline-variant"></div>
-<div class="flex items-center gap-1"><span class="material-symbols-outlined text-primary-fixed text-[18px]">diamond</span><span class="font-stat-numeral text-[16px] text-primary-fixed">1,250</span></div>
-</div>
-<div class="flex items-center gap-2">
-<div class="flex flex-col items-end leading-none">
-<span class="font-label-md text-[12px] text-on-surface">Хранитель</span>
-<span class="font-label-sm text-[10px] text-primary mt-0.5">Ур. 48</span>
-</div>
-<div class="relative">
-<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-[0_0_10px_rgba(253,186,69,0.35)]"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div>
-<span class="absolute -bottom-1 -right-1 bg-secondary text-on-secondary font-label-sm text-[9px] px-1 rounded-full">VIP</span>
-</div>
-</div>
-</div>
-</div>
-<div class="flex items-center justify-between border-t border-outline-variant/30 pt-1">
-<nav class="flex items-center gap-1" aria-label="Главные разделы">
-<a class="px-3 py-1 rounded-lg font-label-md text-[12px] text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-path="battle-pass" href="#">Боевой пропуск</a>
-<a class="px-3 py-1 rounded-lg font-label-md text-[12px] text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-path="двор" href="#">Дом Хранителя</a>
-<a aria-current="page" class="px-3 py-1 rounded-lg text-[12px] bg-primary-container text-on-primary font-bold shadow-[0_2px_8px_rgba(217,155,38,0.4)]" data-path="trade-hub" href="#">Торговля</a>
-<a class="px-3 py-1 rounded-lg font-label-md text-[12px] text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-path="battles" href="#">Бои</a>
-<a class="px-3 py-1 rounded-lg font-label-md text-[12px] text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-path="guilds" href="#">Гильдии</a>
-<a class="px-3 py-1 rounded-lg font-label-md text-[12px] text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-path="leaderboards" href="#">Рейтинги</a>
-<a class="px-3 py-1 rounded-lg font-label-md text-[12px] text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-path="friends-chat" href="#">Друзья</a>
-<a class="px-3 py-1 rounded-lg font-label-md text-[12px] text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-path="кодекс" href="#">База знаний</a>
-</nav>
-<div class="flex items-center gap-1">
-<button type="button" class="p-1 rounded-lg bg-surface-container text-on-surface-variant" aria-label="Звук"><span class="material-symbols-outlined text-[18px]">volume_up</span></button>
-<button type="button" class="p-1 rounded-lg bg-surface-container text-on-surface-variant" aria-label="Настройки"><span class="material-symbols-outlined text-[18px]">settings</span></button>
-</div>
-</div>
-</div>
-<div class="w-full bg-surface-container-lowest/90 px-4 py-1 shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]">
-<nav class="flex items-center gap-2" aria-label="Торговля">
-<a aria-current="page" class="px-3 py-1 rounded-lg text-[12px] bg-surface-container-high text-primary font-bold shadow-[inset_0_0_0_1px_rgba(253,186,69,0.35)]" data-path="khab-torgovli-karta" href="#">Хаб торговли Площадь</a>
-<a class="px-3 py-1 rounded-lg font-label-md text-[12px] text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-path="tavern-bar" href="#">Таверна</a>
-<a class="px-3 py-1 rounded-lg font-label-md text-[12px] text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-path="shop-donate" href="#">Магазин</a>
-<a class="px-3 py-1 rounded-lg font-label-md text-[12px] text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-path="market-resources" href="#">Рынок</a>
-<a class="px-3 py-1 rounded-lg font-label-md text-[12px] text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high" data-path="player-auctions" href="#">Аукцион</a>
-</nav>
-</div>
-</header>
-<main class="mythfel-trade-stage w-full h-full flex flex-col min-h-0 pt-[7.35rem] pb-10 px-3 gap-2">
-<div class="relative flex-1 min-h-0 w-full rounded-xl overflow-hidden bg-surface-container-lowest shadow-[0_8px_30px_rgba(0,0,0,0.85)]">
-<img alt="Торговая площадь таверны" class="absolute inset-0 w-full h-full object-cover object-center" src="/stitch-ref/17eb/tavern_map.png"/>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/80 via-transparent to-surface-container-lowest/35 pointer-events-none"></div>
-<div class="absolute left-1/2 top-[48%] -translate-x-1/2 -translate-y-1/2 z-10 pointer-events-none text-center">
-<div class="px-4 py-1.5 rounded-full bg-surface-container-lowest/80 border border-primary/50 backdrop-blur-sm shadow-[0_0_18px_rgba(253,186,69,0.35)]">
-<div class="font-label-md text-[12px] tracking-[0.16em] text-primary font-bold">ТОРГОВЫЙ ПЕРЕКРЁСТОК</div>
-<div class="font-label-sm text-[10px] text-on-surface-variant">Площадь Таверны · 6 путей</div>
-</div>
-</div>
-
-<div class="absolute top-3 left-3 w-[22.5rem] max-w-[40%] z-20 flex flex-col gap-1">
-<div class="flex items-center gap-1.5 pl-1">
-<span class="px-2 py-0.5 rounded bg-surface-container-lowest/90 text-primary font-label-sm text-[10px] tracking-[0.14em] font-bold">ТАВЕРНА</span>
-<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-[10px]">12 / 20 мест</span>
-</div>
-<div class="rounded-xl bg-surface-container-low/95 backdrop-blur-md p-2.5 shadow-[0_4px_20px_rgba(0,0,0,0.7)] border border-primary/25 flex flex-col gap-1.5">
-<div class="flex items-start justify-between gap-2">
-<div class="flex items-center gap-2 min-w-0">
-<div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary text-[20px]" style="font-variation-settings: 'FILL' 1;">sports_bar</span></div>
-<div class="min-w-0">
-<h3 class="font-headline-md text-[15px] leading-tight text-on-surface">Таверна: Бар напитков</h3>
-<span class="font-label-sm text-[10px] text-primary uppercase tracking-wider">Квартал отдыха</span>
-</div>
-</div>
-<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-tertiary font-label-sm text-[10px] shrink-0">12 гостей · Баффы PvE</span>
-</div>
-<p class="font-body-sm text-[11px] text-on-surface-variant">Молоко со льдом, настойки и бафф-напитки</p>
-<div class="flex items-center justify-between">
-<span class="font-label-sm text-[10px] text-secondary flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">check_circle</span>Открыто</span>
-<a class="px-3 py-1 rounded-lg bg-primary text-on-primary font-label-md text-[12px] flex items-center gap-1 shadow-[0_2px_8px_rgba(253,186,69,0.35)]" data-path="tavern-bar" href="#">Войти в бар<span class="material-symbols-outlined text-[14px]">arrow_forward</span></a>
-</div>
-</div>
-</div>
-
-<div class="absolute top-3 right-3 w-[22.5rem] max-w-[40%] z-20 flex flex-col items-end gap-1">
-<div class="flex items-center gap-1.5 pr-1">
-<span class="px-2 py-0.5 rounded bg-surface-container-lowest/90 text-primary font-label-sm text-[10px] tracking-[0.14em] font-bold">ЛАВКА ЧУДЕС</span>
-<span class="px-2 py-0.5 rounded-full bg-primary-container text-on-primary font-label-sm text-[10px]">Скидки +40%</span>
-</div>
-<div class="w-full rounded-xl bg-surface-container-low/95 backdrop-blur-md p-2.5 shadow-[0_4px_20px_rgba(0,0,0,0.7)] border border-primary/30 flex flex-col gap-1.5">
-<div class="flex items-start justify-between gap-2">
-<div class="flex items-center gap-2 min-w-0">
-<div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary-fixed text-[20px]" style="font-variation-settings: 'FILL' 1;">redeem</span></div>
-<div class="min-w-0">
-<div class="flex items-center gap-1.5"><h3 class="font-headline-md text-[15px] leading-tight text-on-surface">Магазин (Лавка Чудес)</h3><span class="px-1.5 rounded bg-tertiary-container text-on-tertiary-container font-label-sm text-[9px]">SALE</span></div>
-<span class="font-label-sm text-[10px] text-primary uppercase tracking-wider">Лот дня · Донат &amp; Пасс</span>
-</div>
-</div>
-</div>
-<p class="font-body-sm text-[11px] text-on-surface-variant">Набор Путешественника, Котёнок, Серая броня</p>
-<div class="flex items-center justify-between">
-<span class="font-label-sm text-[10px] text-primary-fixed">Скидки до −40%</span>
-<a class="px-3 py-1 rounded-lg bg-primary-container text-on-primary font-label-md text-[12px] flex items-center gap-1" data-path="shop-donate" href="#">В магазин<span class="material-symbols-outlined text-[14px]">storefront</span></a>
-</div>
-</div>
-</div>
-
-<div class="absolute bottom-3 left-3 w-[22.5rem] max-w-[40%] z-20 flex flex-col gap-1">
-<div class="flex items-center gap-1.5 pl-1">
-<span class="px-2 py-0.5 rounded bg-surface-container-lowest/90 text-secondary font-label-sm text-[10px] tracking-[0.14em] font-bold">РЫНОК СЫРЬЯ</span>
-<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-[10px]">+15% бонус</span>
-</div>
-<div class="rounded-xl bg-surface-container-low/95 backdrop-blur-md p-2.5 shadow-[0_4px_20px_rgba(0,0,0,0.7)] border border-secondary/30 flex flex-col gap-1.5">
-<div class="flex items-start justify-between gap-2">
-<div class="flex items-center gap-2 min-w-0">
-<div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-secondary text-[20px]" style="font-variation-settings: 'FILL' 1;">agriculture</span></div>
-<div class="min-w-0">
-<h3 class="font-headline-md text-[15px] leading-tight text-on-surface">Рынок сырья</h3>
-<span class="font-label-sm text-[10px] text-secondary uppercase tracking-wider">Фермерский ряд</span>
-</div>
-</div>
-<span class="px-2 py-0.5 rounded-full bg-secondary-container text-on-secondary-container font-label-sm text-[10px] shrink-0">Выкуп трав +15% · 8 торговцев</span>
-</div>
-<p class="font-body-sm text-[11px] text-on-surface-variant">Семена, инструменты, быстрый сбыт урожая</p>
-<div class="flex items-center justify-between">
-<span class="font-label-sm text-[10px] text-secondary flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">inventory_2</span>Лот открыт</span>
-<a class="px-3 py-1 rounded-lg bg-surface-container-high hover:bg-secondary text-on-surface font-label-md text-[12px] flex items-center gap-1" data-path="market-resources" href="#">На рынок<span class="material-symbols-outlined text-[14px]">store</span></a>
-</div>
-</div>
-</div>
-
-<div class="absolute bottom-3 right-3 w-[22.5rem] max-w-[40%] z-20 flex flex-col items-end gap-1">
-<div class="flex items-center gap-1.5 pr-1">
-<span class="px-2 py-0.5 rounded bg-surface-container-lowest/90 text-tertiary font-label-sm text-[10px] tracking-[0.14em] font-bold">ПАЛАТА ТОРГОВ</span>
-<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-[10px]">1,420 лотов</span>
-</div>
-<div class="w-full rounded-xl bg-surface-container-low/95 backdrop-blur-md p-2.5 shadow-[0_4px_20px_rgba(0,0,0,0.7)] border border-tertiary/30 flex flex-col gap-1.5">
-<div class="flex items-start justify-between gap-2">
-<div class="flex items-center gap-2 min-w-0">
-<div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-tertiary text-[20px]" style="font-variation-settings: 'FILL' 1;">gavel</span></div>
-<div class="min-w-0">
-<div class="flex items-center gap-1.5"><h3 class="font-headline-md text-[15px] leading-tight text-on-surface">Аукцион Зала</h3><span class="px-1.5 rounded bg-surface-container text-primary font-label-sm text-[9px]">LIVE</span></div>
-<span class="font-label-sm text-[10px] text-tertiary uppercase tracking-wider">Палата торгов</span>
-</div>
-</div>
-<span class="px-2 py-0.5 rounded-full bg-surface-container-high text-on-surface font-label-sm text-[10px] shrink-0">LIVE 1,420 лотов · Торги</span>
-</div>
-<p class="font-body-sm text-[11px] text-on-surface-variant">Лоты игроков, Котёнок, Оружие, Своя цена</p>
-<div class="flex items-center justify-between">
-<span class="font-label-sm text-[10px] text-tertiary flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">timer</span>Идёт торг</span>
-<a class="px-3 py-1 rounded-lg bg-surface-container-high text-on-surface font-label-md text-[12px] flex items-center gap-1" data-path="player-auctions" href="#">В зал аукциона<span class="material-symbols-outlined text-[14px]">real_estate_agent</span></a>
-</div>
-</div>
-</div>
-</div>
-
-<div class="h-[4.6rem] shrink-0 w-full grid grid-cols-12 gap-2">
-<div class="col-span-4 rounded-xl bg-surface-container-low px-3 py-1.5 flex flex-col justify-center shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
-<div class="flex items-center justify-between mb-1">
-<span class="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-wider flex items-center gap-1"><span class="material-symbols-outlined text-primary text-[14px]">account_balance_wallet</span>Кошелёк Хранителя</span>
-<span class="font-label-sm text-[10px] text-secondary">Синхронизировано</span>
-</div>
-<div class="flex items-center justify-between gap-2 bg-surface-container-lowest px-2 py-1 rounded-lg">
-<div class="flex flex-col min-w-0"><span class="font-label-sm text-[9px] text-on-surface-variant">Золото</span><span class="font-stat-numeral text-[13px] leading-none text-primary">148,250</span></div>
-<div class="w-px h-5 bg-outline-variant/40"></div>
-<div class="flex flex-col min-w-0"><span class="font-label-sm text-[9px] text-on-surface-variant">Рыбки</span><span class="font-stat-numeral text-[13px] leading-none text-on-surface">420</span></div>
-<div class="w-px h-5 bg-outline-variant/40"></div>
-<div class="flex flex-col min-w-0"><span class="font-label-sm text-[9px] text-on-surface-variant">Снаряжение</span><span class="font-stat-numeral text-[13px] leading-none text-secondary">1</span></div>
-<div class="w-px h-5 bg-outline-variant/40"></div>
-<div class="flex flex-col min-w-0"><span class="font-label-sm text-[9px] text-on-surface-variant">Свитки</span><span class="font-stat-numeral text-[13px] leading-none text-primary-fixed">3,450</span></div>
-</div>
-</div>
-<div class="col-span-4 rounded-xl bg-surface-container-low px-3 py-1.5 flex flex-col justify-center shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
-<div class="flex items-center justify-between mb-1">
-<span class="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-wider flex items-center gap-1"><span class="material-symbols-outlined text-tertiary text-[14px]">festival</span>Ежедневная Ярмарка</span>
-<span class="font-mono text-[11px] font-bold text-primary" id="tradeFairTimer">04:18:19</span>
-</div>
-<div class="flex items-center justify-between gap-2 bg-surface-container-lowest px-2 py-1 rounded-lg">
-<div class="min-w-0">
-<span class="font-label-md text-[12px] text-secondary block truncate">Свитковый бонус на травы +10%</span>
-<span class="font-body-sm text-[10px] text-on-surface-variant truncate block">Скупщик Клефавр ставит двойной тариф</span>
-</div>
-<span class="px-2 py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-[10px] font-bold shrink-0">АКТИВЕН</span>
-</div>
-</div>
-<div class="col-span-4 rounded-xl bg-surface-container-low px-3 py-1.5 flex flex-col justify-center shadow-[0_4px_16px_rgba(0,0,0,0.4)]">
-<div class="flex items-center justify-between mb-1">
-<span class="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-wider">Быстрые переходы</span>
-<span class="font-label-sm text-[10px] text-on-surface-variant">4 зоны открыты</span>
-</div>
-<div class="grid grid-cols-4 gap-1.5">
-<a class="rounded-lg bg-surface-container-highest text-on-surface font-label-md text-[11px] h-8 flex items-center justify-center gap-1" data-path="tavern-bar" href="#"><span class="material-symbols-outlined text-[14px]">sports_bar</span>Бар</a>
-<a class="rounded-lg bg-surface-container-highest text-on-surface font-label-md text-[11px] h-8 flex items-center justify-center gap-1" data-path="shop-donate" href="#"><span class="material-symbols-outlined text-[14px]">storefront</span>Лавка</a>
-<a class="rounded-lg bg-surface-container-highest text-on-surface font-label-md text-[11px] h-8 flex items-center justify-center gap-1" data-path="market-resources" href="#"><span class="material-symbols-outlined text-[14px]">agriculture</span>Рынок</a>
-<a class="rounded-lg bg-surface-container-highest text-on-surface font-label-md text-[11px] h-8 flex items-center justify-center gap-1" data-path="player-auctions" href="#"><span class="material-symbols-outlined text-[14px]">gavel</span>Торги</a>
-</div>
-</div>
-</div>
-</main>
-<footer class="fixed bottom-0 left-0 right-0 z-40 h-10 bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_-4px_16px_rgba(0,0,0,0.6)]">
-<div class="w-full h-full px-4 flex items-center justify-between">
-<div class="flex items-center gap-4 text-on-surface-variant font-label-sm text-[11px]">
-<span class="flex items-center gap-1"><span class="px-1.5 py-0.5 rounded bg-surface-container-high font-mono text-primary">[M]</span>Карта Мира</span>
-<span class="flex items-center gap-1"><span class="px-1.5 py-0.5 rounded bg-surface-container-high font-mono text-primary">[C]</span>Колодец</span>
-<span class="flex items-center gap-1"><span class="px-1.5 py-0.5 rounded bg-surface-container-high font-mono text-primary">[I]</span>Инвентарь</span>
-<span class="flex items-center gap-1"><span class="px-1.5 py-0.5 rounded bg-surface-container-high font-mono text-primary">[T]</span>Торговый Чат</span>
-<span class="flex items-center gap-1"><span class="px-1.5 py-0.5 rounded bg-surface-container-high font-mono text-primary">[ESC]</span>Меню</span>
-</div>
-<div class="flex items-center gap-4">
-<span class="font-body-sm text-[12px] text-on-surface-variant">© Таверна «Мифиус» v1.4.2</span>
-<span class="flex items-center gap-1 text-secondary font-label-sm text-[11px]"><span class="material-symbols-outlined text-[16px]">cloud_done</span>Сервер активен</span>
-</div>
-</div>
+<article class="trade-card is-tl" data-zone="tavern">
+<header><span>ТАВЕРНА</span><em>12 / 20 мест</em></header>
+<h3>Таверна: Бар напитков</h3>
+<p class="trade-kicker">Квартал отдыха</p>
+<p class="trade-meta">12 гостей · Баффы PvE</p>
+<p>Молоко со льдом, настойки и бафф-напитки</p>
+<footer>
+<span class="is-open">Открыто</span>
+<button type="button" data-trade-go="tavern">Войти в бар →</button>
 </footer>
-</section>
+</article>
+<article class="trade-card is-tr" data-zone="shop">
+<header><span>ЛАВКА ЧУДЕС</span><em>Скидки −40%</em></header>
+<h3>Магазин (Лавка Чудес) <i>SALE</i></h3>
+<p class="trade-kicker">Лавка чудес</p>
+<p class="trade-meta">Хит дня · Донат &amp; Пасс</p>
+<p>Набор Путешественника, Котята, Серая броня</p>
+<footer>
+<span>Скидки до −40%</span>
+<button type="button" data-trade-go="shop">В магазин →</button>
+</footer>
+</article>
+<article class="trade-card is-bl" data-zone="market">
+<header><span>РЫНОК СЫРЬЯ</span><em>+15% спрос</em></header>
+<h3>Рынок сырья</h3>
+<p class="trade-kicker">Фермерский ряд</p>
+<p class="trade-meta">Выкуп трав +15% · 8 торговцев</p>
+<p>Семена, инструменты, быстрый сбыт урожая</p>
+<footer>
+<span class="is-open">Опт открыт</span>
+<button type="button" data-trade-go="market">На рынок →</button>
+</footer>
+</article>
+<article class="trade-card is-br" data-zone="auction">
+<header><span>ПАЛАТА ТОРГОВ</span><em>1 420 лотов</em></header>
+<h3>Аукцион Зала <i class="is-live">LIVE</i></h3>
+<p class="trade-kicker">Палата торгов</p>
+<p class="trade-meta">LIVE 1 420 лотов · Торги</p>
+<p>Лоты игроков, Котята, Оружие, Своя цена</p>
+<footer>
+<span class="is-open">Идут ставки</span>
+<button type="button" data-trade-go="auction">В зал аукциона →</button>
+</footer>
+</article>
+</div>
+<footer class="trade-dock">
+<section class="trade-wallet" id="tradeWallet"></section>

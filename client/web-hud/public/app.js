@@ -901,6 +901,10 @@ function barnAddressOpen() {
   return normalizedPath() === "/barn";
 }
 
+function squareAddressOpen() {
+  return normalizedPath() === "/square";
+}
+
 function loginAddressOpen() {
   return normalizedPath() === "/home";
 }
@@ -910,6 +914,7 @@ function screenAddressFor(tab) {
   if (tab === "craft") return "/craft";
   if (tab === "home") return "/hero";
   if (tab === "gear") return "/barn";
+  if (tab === "trade_hub") return "/square";
   if (tab === "login") return "/home";
   return "/";
 }
@@ -979,7 +984,6 @@ function navigate(tab, { soon = null, clearBattle = true, primary = null, fromGa
   // Login chrome: hide nav while on login
   document.body.classList.toggle("mythfel-login", tab === "login");
   syncScreenAddress(tab);
-  document.body.classList.toggle("mythfel-trade", tab === "trade_hub");
   renderAll();
 }
 
@@ -1741,20 +1745,105 @@ function fillDrinkHosts(hosts) {
   }
 }
 
+const TRADE_ZONE_TIP = {
+  tavern: "Таверна: портал пока закрыт (SL)",
+  shop: "Лавка Чудес: портал пока закрыт (SL)",
+  market: "Рынок сырья: портал пока закрыт (SL)",
+  auction: "Аукцион: портал пока закрыт (SL)",
+};
+
+function tradeTip(zone) {
+  toast(TRADE_ZONE_TIP[zone] || "Зона площади: скоро");
+}
+
 function renderTradeHub() {
-  const el = $("tradeFairTimer");
-  if (!el || el.dataset.armed === "1") return;
-  el.dataset.armed = "1";
-  let total = 4 * 3600 + 18 * 60 + 19;
-  const tick = () => {
-    const h = String(Math.floor(total / 3600)).padStart(2, "0");
-    const m = String(Math.floor((total % 3600) / 60)).padStart(2, "0");
-    const s = String(total % 60).padStart(2, "0");
-    el.textContent = `${h}:${m}:${s}`;
-    if (total > 0) total -= 1;
-  };
-  tick();
-  setInterval(tick, 1000);
+  const root = $("viewTradeHub");
+  if (!root || root.classList.contains("hidden")) return;
+
+  if (state.tradeFairLeft == null) state.tradeFairLeft = 4 * 3600 + 18 * 60 + 19;
+  if (state.tradeFairActive == null) state.tradeFairActive = true;
+  if (!state.tradeZone) state.tradeZone = "tavern";
+
+  const p = state.profile;
+  const gold = p ? p.fish : state.wallet?.gold || 0;
+  const fish = p ? p.bowls : state.wallet?.milk || 0;
+  const scrolls = p ? p.medals || 3450 : 3450;
+  const wallet = $("tradeWallet");
+  if (wallet) {
+    wallet.innerHTML = `
+      <div class="trade-wallet-head"><span>Кошелёк Хранителя</span><em>Синхронизировано</em></div>
+      <div class="trade-wallet-row">
+        <div><span>Золото</span><b>${formatSheetNum(gold)}</b></div>
+        <div><span>Рыбки</span><b>${formatSheetNum(fish)}</b></div>
+        <div><span>Свитки</span><b>${formatSheetNum(scrolls)}</b></div>
+      </div>`;
+  }
+
+  const fair = $("tradeFair");
+  if (fair) {
+    const left = Math.max(0, state.tradeFairLeft | 0);
+    const h = String(Math.floor(left / 3600)).padStart(2, "0");
+    const m = String(Math.floor((left % 3600) / 60)).padStart(2, "0");
+    const s = String(left % 60).padStart(2, "0");
+    fair.innerHTML = `
+      <div class="trade-fair-head"><span>Ежедневная Ярмарка</span><em class="trade-timer" id="tradeFairTimer">${h}:${m}:${s}</em></div>
+      <div class="trade-fair-row">
+        <div>
+          <strong>Оптовый бонус на травы: +10%</strong>
+          <p>Скупщик Альфред платит двойной тариф</p>
+        </div>
+        <button type="button" id="tradeFairActive" class="${state.tradeFairActive ? "" : "is-off"}">${state.tradeFairActive ? "АКТИВЕН" : "ВЫКЛ"}</button>
+      </div>`;
+    fair.querySelector("#tradeFairActive")?.addEventListener("click", () => {
+      state.tradeFairActive = !state.tradeFairActive;
+      toast(state.tradeFairActive ? "Ярмарка активна" : "Ярмарка выключена");
+      renderTradeHub();
+    });
+  }
+
+  if (!state.tradeFairTimerArmed) {
+    state.tradeFairTimerArmed = true;
+    setInterval(() => {
+      if (state.tradeFairLeft > 0) state.tradeFairLeft -= 1;
+      const el = $("tradeFairTimer");
+      if (!el) return;
+      const left = Math.max(0, state.tradeFairLeft | 0);
+      const h = String(Math.floor(left / 3600)).padStart(2, "0");
+      const m = String(Math.floor((left % 3600) / 60)).padStart(2, "0");
+      const s = String(left % 60).padStart(2, "0");
+      el.textContent = `${h}:${m}:${s}`;
+    }, 1000);
+  }
+
+  for (const card of root.querySelectorAll(".trade-card[data-zone]")) {
+    card.classList.toggle("is-focus", card.getAttribute("data-zone") === state.tradeZone);
+    if (card.dataset.bound === "1") continue;
+    card.dataset.bound = "1";
+    card.addEventListener("click", (e) => {
+      if (e.target.closest("[data-trade-go]")) return;
+      state.tradeZone = card.getAttribute("data-zone");
+      renderTradeHub();
+    });
+  }
+
+  if (root.dataset.tradeGoBound !== "1") {
+    root.dataset.tradeGoBound = "1";
+    root.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-trade-go]");
+      if (!btn || !root.contains(btn)) return;
+      e.preventDefault();
+      const zone = btn.getAttribute("data-trade-go");
+      state.tradeZone = zone;
+      tradeTip(zone);
+      renderTradeHub();
+    });
+  }
+
+  const compass = $("tradeCompass");
+  if (compass && compass.dataset.bound !== "1") {
+    compass.dataset.bound = "1";
+    compass.addEventListener("click", () => toast("Торговый перекрёсток · 4 пути открыты"));
+  }
 }
 
 function renderTavern() {
@@ -4527,6 +4616,7 @@ function bootTabAfterLogin() {
   if (craftAddressOpen()) return "craft";
   if (heroAddressOpen()) return "home";
   if (barnAddressOpen()) return "gear";
+  if (squareAddressOpen()) return "trade_hub";
   return "hub";
 }
 
