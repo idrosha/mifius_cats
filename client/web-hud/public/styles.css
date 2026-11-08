@@ -2130,7 +2130,7 @@ button.mythfel-hub-brand {
   color: inherit;
 }
 .mythfel-portal-art {
-  flex: 0 0 46%;
+  flex: 1 1 auto;
   min-height: 4.4rem;
   background-size: cover;
   background-position: center top;
@@ -2150,7 +2150,7 @@ button.mythfel-hub-brand {
   flex-direction: column;
   gap: 0.12rem;
   min-height: 0;
-  flex: 1;
+  flex: 0 0 auto;
 }
 #viewHub .mythfel-portal-body h3 {
   margin: 0;
@@ -2158,7 +2158,7 @@ button.mythfel-hub-brand {
   font-size: 13px;
   line-height: 1.15;
 }
-.mythfel-portal-body small { margin-top: auto; }
+.mythfel-portal-body small { margin-top: 0.2rem; }
 .mythfel-hub-foot {
   border-width: 1px 0 0;
   justify-content: space-between;
