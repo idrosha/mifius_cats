@@ -2243,6 +2243,166 @@ button.mythfel-hub-brand {
 .front-foot strong { color: #fdba45; margin-left: 0.35rem; }
 .front-foot-actions { margin-left: auto; display: flex; gap: 0.3rem; }
 
+/* Cat collection roster — only viewCollection */
+#viewCollection { background: #100e0c; color: #eae1db; }
+#viewCollection > .roster-hall {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.4rem 0.5rem 0.3rem;
+  background: #100e0c;
+}
+.roster-body { flex: 1 1 auto; min-height: 0; display: flex; gap: 0.45rem; }
+.roster-side, .roster-book {
+  width: 24%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  background: rgba(22, 19, 16, 0.96);
+  border: 1px solid rgba(80, 69, 53, 0.65);
+  border-radius: 0.6rem;
+  padding: 0.45rem;
+  overflow: auto;
+}
+.roster-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.4rem; }
+.roster-head strong { font-family: Rubik, sans-serif; font-size: 14px; line-height: 1.2; }
+.roster-head b { color: #fdba45; font-size: 12px; white-space: nowrap; }
+.roster-head p { margin: 0.12rem 0 0; font-size: 11px; color: #d5c4af; }
+.roster-search-wrap {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  border: 1px solid rgba(80, 69, 53, 0.8);
+  background: #110d0b;
+  border-radius: 0.4rem;
+  padding: 0.2rem 0.4rem;
+}
+.roster-find { color: #9d8f7b; font-size: 14px; line-height: 1; }
+.roster-search {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: transparent;
+  color: #eae1db;
+  font-size: 12px;
+  outline: none;
+}
+.roster-filters { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+.roster-filters button, .roster-ghost, .roster-pack button {
+  border: 1px solid rgba(80, 69, 53, 0.8);
+  background: #1a1613;
+  color: #eae1db;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 0.18rem 0.5rem;
+  cursor: pointer;
+}
+.roster-filters button.is-on { background: #d99b26; color: #1a1308; border-color: #d99b26; }
+.roster-list { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.35rem; align-content: flex-start; }
+.roster-list li {
+  flex: 0 0 calc(50% - 0.2rem);
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  background: #1a1613;
+  border: 1px solid rgba(80, 69, 53, 0.55);
+  border-radius: 0.45rem;
+  overflow: hidden;
+  font-size: 11px;
+}
+.roster-list li.is-off { display: none; }
+#viewCollection .thumb { display: block; overflow: hidden; height: 4.5rem; background: #1a1613; }
+#viewCollection .roster-pack .thumb { height: 3.15rem; }
+#viewCollection .thumb img {
+  width: 100%;
+  height: 240%;
+  max-height: none;
+  min-height: 0;
+  object-fit: cover;
+  object-position: center 58%;
+  transform: translateY(-30%);
+  display: block;
+}
+body:has(#viewCollection:not(.hidden)) #wireDock { display: none !important; }
+.roster-list li div { display: flex; flex-direction: column; gap: 0.05rem; padding: 0 0.35rem 0.3rem; }
+.roster-list small, .roster-book small { color: #d5c4af; font-size: 10px; }
+.roster-list em { font-style: normal; color: #fdba45; font-size: 10px; }
+.roster-sort { margin: auto 0 0; display: flex; justify-content: space-between; align-items: center; font-size: 11px; color: #d5c4af; }
+.roster-sort label { display: flex; align-items: center; gap: 0.25rem; }
+.roster-squads { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 0.35rem; overflow: auto; }
+.roster-pack {
+  background: rgba(22, 19, 16, 0.96);
+  border: 1px solid rgba(80, 69, 53, 0.65);
+  border-radius: 0.55rem;
+  padding: 0.4rem 0.5rem;
+}
+.roster-pack.is-on { border-color: #fdba45; box-shadow: inset 0 0 0 1px rgba(253, 186, 69, 0.35); }
+.roster-pack.is-empty { border-style: dashed; }
+.roster-pack-top { display: flex; align-items: center; gap: 0.4rem; font-size: 12px; min-width: 0; }
+.roster-pack-top b { color: #fdba45; white-space: nowrap; }
+.roster-pack-top span { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.roster-pack-top em { margin-left: auto; font-style: normal; color: #89d98c; font-size: 11px; white-space: nowrap; }
+.roster-pack ul { list-style: none; margin: 0.35rem 0 0; padding: 0; display: flex; gap: 0.35rem; }
+.roster-pack li {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.08rem;
+  background: #1a1613;
+  border-radius: 0.4rem;
+  overflow: hidden;
+  font-size: 11px;
+  padding-bottom: 0.3rem;
+}
+.roster-pack li .thumb { width: 100%; }
+.roster-pack li small, .roster-pack li b, .roster-pack li em { padding: 0 0.35rem; }
+.roster-pack li small { letter-spacing: 0.06em; color: #9d8f7b; padding-top: 0.25rem; }
+.roster-pack li em { font-style: normal; color: #d5c4af; font-size: 10px; }
+.roster-pack.is-empty p { margin: 0.3rem 0 0; font-size: 11px; color: #d5c4af; }
+.roster-book article { border-top: 1px solid rgba(80, 69, 53, 0.45); padding-top: 0.35rem; }
+.roster-book h3 { margin: 0; font-size: 13px; }
+.roster-book h3 small { margin-left: 0.3rem; color: #fdba45; }
+.roster-book p, .roster-note { margin: 0.2rem 0 0; font-size: 11px; color: #d5c4af; line-height: 1.35; }
+.roster-note b { color: #89d98c; }
+.roster-book ul { list-style: none; margin: 0.25rem 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.25rem; }
+.roster-book li { font-size: 10px; color: #89d98c; background: #1a1613; border-radius: 999px; padding: 0.12rem 0.4rem; }
+.roster-apply {
+  margin-top: auto;
+  border: 0;
+  cursor: pointer;
+  border-radius: 0.5rem;
+  background: linear-gradient(180deg, #fdba45, #d99b26);
+  color: #1a1308;
+  font-family: Rubik, sans-serif;
+  font-weight: 800;
+  font-size: 13px;
+  padding: 0.55rem 0.6rem;
+}
+.roster-export {
+  border: 0;
+  background: transparent;
+  color: #9d8f7b;
+  font-size: 11px;
+  cursor: pointer;
+  text-align: center;
+}
+.roster-foot {
+  flex: 0 0 auto;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  font-size: 11px;
+  color: #9d8f7b;
+  padding: 0.1rem 0.15rem 0;
+}
+.roster-keys b { color: #fdba45; font-weight: 700; }
+
 @media (max-width: 1100px) {
   .mythfel-pass { grid-template-columns: 1fr; }
   .mythfel-portals { grid-template-columns: repeat(3, minmax(0, 1fr)); }
