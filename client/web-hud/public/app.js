@@ -2022,12 +2022,67 @@ function catSheetName(cat) {
   return cat.templateId || cat.catId;
 }
 
+function sheetPower(stats) {
+  return stats.atk * 20 + stats.hp + stats.def * 8 + stats.spd * 6;
+}
+
+function formatSheetNum(n) {
+  return String(n ?? "—").replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+}
+
+function equipBest(catId) {
+  if (!catId) return;
+  if (!state.equippedByCat[catId]) {
+    state.equippedByCat[catId] = { weapon: null, armor: null, helm: null, boots: null };
+  }
+  for (const slot of HOME_SLOT_ORDER) {
+    const best = state.gearCatalog
+      .filter((item) => item.slot === slot)
+      .sort((a, b) => b.atk + b.hp + b.def + b.spd - (a.atk + a.hp + a.def + a.spd))[0];
+    if (!best) continue;
+    for (const eq of Object.values(state.equippedByCat)) {
+      for (const key of Object.keys(eq)) {
+        if (eq[key] === best.id) eq[key] = null;
+      }
+    }
+    state.equippedByCat[catId][slot] = best.id;
+  }
+  toast("Лучшее надето");
+  renderAll();
+}
+
+function unequipAll(catId) {
+  const eq = state.equippedByCat[catId];
+  if (!eq) return;
+  for (const slot of HOME_SLOT_ORDER) eq[slot] = null;
+  toast("Слоты сняты");
+  renderAll();
+}
+
 function renderHome() {
-  // Painted hearth sheet (Барсик). Display copy only — no combat authority.
-  if (document.querySelector("#viewHome [data-sheet='barsik']")) return;
+  const wallet = $("homeWallet");
+  if (wallet) {
+    const w = state.wallet || {};
+    wallet.innerHTML = [
+      ["золото", w.gold],
+      ["молоко", w.milk],
+      ["энергия", w.energy],
+      ["пряжа", w.gems],
+    ]
+      .map(([label, value]) => `<li><em>${label}</em><b>${formatSheetNum(value)}</b></li>`)
+      .join("");
+  }
+  const user = $("homeUser");
+  if (user) {
+    const count = (state.profile?.cats || []).length;
+    user.innerHTML = `<b>Хранитель</b><span>${count} котов</span>`;
+  }
   const cats = (state.profile?.cats || []).filter((c) => c.role !== "farm");
   const cat = cats.find((c) => c.catId === state.selectedCatId) || cats[0];
-  if (!cat) return;
+  if (!cat) {
+    if ($("homeStatBlock")) $("homeStatBlock").textContent = "Дом Хранителя · нет боевых котов";
+    return;
+  }
   state.selectedCatId = cat.catId;
   const stats = statsForCat(cat);
   const eq = state.equippedByCat[cat.catId] || {};
@@ -2049,20 +2104,28 @@ function renderHome() {
       ["Защита (DEF)", stats.def, stats.bonus.def],
       ["Скорость (SPD)", stats.spd, stats.bonus.spd],
     ];
+    const stars = "★★★★★".slice(0, Math.min(5, Math.max(1, Math.ceil((cat.level || 1) / 10))));
     statBlock.innerHTML = `
-      <p class="char-kicker">Мифический</p>
-      <div class="char-name-row">
+      <p class="char-kicker">Мифический <em class="char-stars">${stars}</em></p>
+      <div class="char-name">
         <h2>${catSheetName(cat)}</h2>
-        <span>Ур. ${cat.level || 1}</span>
+        <span class="char-lvl">Ур. ${cat.level || 1}</span>
       </div>
       <p class="char-role">${role} · ${element}</p>
-      <p class="char-power"><strong>${stats.atk}</strong><span>ATK</span></p>
-      <p class="char-block-title">Базовые параметры</p>
+      <p class="char-power"><em>Боевая мощь</em><b>${formatSheetNum(sheetPower(stats))}</b><small>БМ</small></p>
+      <h3>Базовые параметры</h3>
       <ul class="char-stats">
-        ${rows.map(([label, value, bonus]) => `<li><span>${label}</span><b>${value}</b><em>${bonus ? `+${bonus}` : ""}</em></li>`).join("")}
+        ${rows.map(([label, value, bonus]) => `<li><span>${label}</span><b>${formatSheetNum(value)}</b><small>${bonus ? `+${bonus}` : ""}</small></li>`).join("")}
       </ul>
-      <p class="char-block-title">Карты кота</p>
-      <p class="char-note">4 карты колоды. Урон считает сервер.</p>`;
+      <h3>Стихия</h3>
+      <ul class="char-skills"><li><span>${element}</span><b>${role}</b></li></ul>
+      <p class="char-role">Урон считает сервер.</p>
+      <div class="char-active">
+        <button type="button" class="char-gold" id="homeBest">Лучшее</button>
+        <button type="button" class="char-ghost" id="homeUnequip">Снять всё</button>
+      </div>`;
+    $("homeBest").onclick = () => equipBest(cat.catId);
+    $("homeUnequip").onclick = () => unequipAll(cat.catId);
   }
 
   const hero = $("homeHeroCard");
@@ -2077,8 +2140,7 @@ function renderHome() {
     hero.innerHTML = `
       <div class="char-slots">${HOME_SLOT_ORDER.slice(0, 2).map(slotHtml).join("")}</div>
       <div class="char-portrait">
-        <img alt="" src="/stitch-assets/3fb811d68da3.jpg">
-        <p>${catSheetName(cat)}</p>
+        <img alt="" src="/stitch-assets/dc459e94ceed.jpg">
       </div>
       <div class="char-slots">${HOME_SLOT_ORDER.slice(2).map(slotHtml).join("")}</div>`;
     hero.querySelectorAll("[data-slot]").forEach((btn) => {
@@ -2097,17 +2159,11 @@ function renderHome() {
 
   const setLine = $("homeSetLine");
   if (setLine) {
-    setLine.textContent = wornItems.length
-      ? `Надето ${wornItems.length}/4 · ${wornItems.map((item) => item.name).join(", ")}`
-      : "Слоты пусты. Надень предмет из инвентаря.";
-  }
-
-  const unequip = $("homeUnequip");
-  if (unequip) {
-    unequip.onclick = () => {
-      const slot = HOME_SLOT_ORDER.find((key) => eq[key]);
-      if (slot) unequipSlot(cat.catId, slot);
-    };
+    setLine.innerHTML = `<p>${
+      wornItems.length
+        ? `Надето ${wornItems.length}/4 · ${wornItems.map((item) => item.name).join(", ")}`
+        : "Слоты пусты. Надень предмет из инвентаря."
+    }</p>`;
   }
 
   const tabs = $("homeBagTabs");
@@ -2130,17 +2186,26 @@ function renderHome() {
   if (gearBlock) {
     gearBlock.innerHTML = "";
     const items = state.gearCatalog.filter((item) => filter === "all" || item.slot === filter);
+    const bagCount = $("homeBagCount");
+    if (bagCount) bagCount.textContent = `${items.length} / ${state.gearCatalog.length}`;
     for (const item of items) {
       const onThis = eq[item.slot] === item.id;
+      const li = document.createElement("li");
+      li.className = (onThis ? "is-worn" : "") + (focus && focus.id === item.id ? " is-focus" : "");
       const card = document.createElement("button");
       card.type = "button";
-      card.className = "char-bag-item" + (onThis ? " is-worn" : "") + (focus && focus.id === item.id ? " is-focus" : "");
-      card.innerHTML = `<strong>${item.name}</strong><small>R${item.rank} · +${item.atk} ATK</small>`;
+      card.innerHTML = `<b>${item.name}</b><small>R${item.rank}</small>`;
       card.addEventListener("click", () => {
         state.homeBagFocus = item.id;
         renderHome();
       });
-      gearBlock.appendChild(card);
+      li.appendChild(card);
+      gearBlock.appendChild(li);
+    }
+    for (let i = items.length; i < 12; i += 1) {
+      const empty = document.createElement("li");
+      empty.className = "is-empty";
+      gearBlock.appendChild(empty);
     }
   }
 
@@ -2154,7 +2219,7 @@ function renderHome() {
       </div>`;
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "char-btn";
+    btn.className = "char-gold";
     btn.textContent = onThis ? "Снять" : "Надеть";
     btn.addEventListener("click", () => {
       if (onThis) unequipSlot(cat.catId, focus.slot);
@@ -2167,15 +2232,17 @@ function renderHome() {
   if (picker) {
     picker.innerHTML = "";
     cats.forEach((c, index) => {
+      const li = document.createElement("li");
+      if (c.catId === cat.catId) li.classList.add("is-active");
       const b = document.createElement("button");
       b.type = "button";
-      b.className = "char-deck-card" + (c.catId === cat.catId ? " is-active" : "");
-      b.innerHTML = `<small>${index === 0 ? "Активный" : "Отряд"}</small><strong>${catSheetName(c)}</strong><span>${CAT_ROLE_RU[c.role] || c.role}</span>`;
+      b.innerHTML = `<small>${index === 0 ? "Активный" : "Отряд"}</small><b>${catSheetName(c)}</b><span>${CAT_ROLE_RU[c.role] || c.role}</span>`;
       b.addEventListener("click", () => {
         state.selectedCatId = c.catId;
         renderHome();
       });
-      picker.appendChild(b);
+      li.appendChild(b);
+      picker.appendChild(li);
     });
   }
 
