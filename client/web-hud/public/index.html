@@ -1146,38 +1146,56 @@
 </div>
 </main><footer class="w-full bg-surface-container-lowest mt-space-xl py-space-lg"><div class="w-full px-gutter-tablet flex flex-col md:flex-row items-center justify-between gap-space-md"><div class="flex items-center gap-space-sm"><span class="font-headline-md text-headline-md text-primary tracking-wide">МИФИУС</span><span class="font-body-sm text-body-sm text-outline-variant">|</span><span class="font-body-sm text-body-sm text-on-surface-variant">Летопись гильдии Хранителей Котиков</span></div><div class="flex items-center gap-space-lg"><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" data-path="kodeks-mifmira" href="#">Правила Мифмира</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" data-path="glavnyy-khab" href="#">Вести Таверны</a><a class="font-label-sm text-label-sm text-on-surface-variant hover:text-primary transition-colors" href="#">Техническая поддержка</a></div><div class="font-label-sm text-label-sm text-outline">© 2024 Mythfel: Mythic Cats. Все лапки защищены.</div></div></footer>
 </section>
-<!-- Live character desk. Address: /hero. Soft stitch exits stay closed; shared fillNav only. -->
+<!-- Live character desk. Address: /hero. Soft exits closed; shared fillNav only. -->
 <section id="viewHome" class="stitch-view mythfel-form hidden" data-stitch="home" data-layout="landscape" data-purpose-route="hero">
 <main class="char-sheet" data-purpose="character-home">
-<header class="char-top">
-<div class="char-brand"><b>МИФИУС</b><span class="char-live">в сети</span></div>
-<ul class="char-wallet" id="homeWallet"></ul>
-<div class="char-user" id="homeUser">Хранитель</div>
-</header>
 <div class="char-body">
-<section class="char-col" id="homeStatBlock">Дом Хранителя</section>
+<section class="char-col char-col-stats" id="homeStatBlock">Дом Хранителя</section>
 <section class="char-stage">
 <div class="char-fit" id="homeHeroCard"></div>
-<div class="char-active" id="homeSetLine"></div>
-<div class="char-compare" id="homeCompare"></div>
+<div class="char-selected" id="homeSelectedItem"></div>
+<div class="char-squad">
+<ul id="homeCatPicker"></ul>
+<button type="button" class="char-ghost" id="homeSquadBtn" tabindex="-1">Сменить отряд</button>
+</div>
 </section>
-<aside class="char-col">
+<aside class="char-col char-col-bag">
 <div class="char-bag-head"><b>Инвентарь</b><span id="homeBagCount"></span></div>
 <div class="char-filters" id="homeBagTabs">
 <button type="button" data-bag="all">Все</button>
 <button type="button" data-bag="weapon">Оружие</button>
 <button type="button" data-bag="helm">Шлемы</button>
 <button type="button" data-bag="armor">Броня</button>
-<button type="button" data-bag="boots">Обувь</button>
+<button type="button" data-bag="amulet">Амулеты</button>
+</div>
+<div class="char-rarity" id="homeRarityTabs">
+<button type="button" data-rarity="all">Все</button>
+<button type="button" data-rarity="mythic">Миф</button>
+<button type="button" data-rarity="epic">Эпик</button>
+<button type="button" data-rarity="rare">Редк</button>
 </div>
 <ul class="char-cells" id="homeGearBlock"></ul>
+<div class="char-compare" id="homeCompare"></div>
 </aside>
 </div>
 <footer class="char-deck">
-<div class="char-deck-head"><b id="homeDeckLabel">Боевая колода</b><span id="homeDeckHint">Карты атак выбранного кота</span></div>
-<ul id="homeCatPicker"></ul>
+<div class="char-deck-head">
+<b id="homeDeckLabel">Боевая Колода Котика — Карты Атак Кота (6 Приёмов)</b>
+<span id="homeDeckAp">Расход AP: 11 AP / ход</span>
+<button type="button" class="char-gold" id="homeDeckSetup" tabindex="-1">Настроить колоду</button>
+</div>
 <ul class="char-deck-cards" id="homeDeckCards"></ul>
 </footer>
+<footer class="char-foot">
+<span>© 2025 Мифиус: Мифические котики · Версия 1.4.2</span>
+<span class="char-server">Сервер: Лукоморье [Ru-1]</span>
+<span class="char-keys">[C] Персонаж · [I] Инвентарь · [M] Карта · [ESC] Меню</span>
+</footer>
+<!-- hosts kept for verify-nav / legacy wire -->
+<div id="homeWallet" hidden></div>
+<div id="homeUser" hidden>Хранитель</div>
+<div id="homeSetLine" hidden></div>
+<div id="homeDeckHint" hidden></div>
 </main>
 </section>
 <section id="viewBreeding" class="stitch-view mythfel-form hidden" data-stitch="breeding" data-layout="landscape">
