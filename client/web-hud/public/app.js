@@ -565,6 +565,34 @@ const state = {
     { id: "amulet_wool", slot: "amulet", name: "Амулет Шерстяного Оберега", atk: 0, hp: 560, def: 55, spd: 0, crit: 0, rank: 4, rarity: "epic", enhance: 7, set: "wool", socket: null, iconSrc: "/stitch-assets/hero-icons/inv_05.png" },
     { id: "offhand_claw", slot: "offhand", name: "Коготь-парир", atk: 110, hp: 0, def: 30, spd: 4, crit: 3, rank: 3, rarity: "rare", enhance: 5, set: null, socket: null, iconSrc: "/stitch-assets/hero-icons/inv_07.png" },
   ],
+  /** Soft-launch barn stock — live sheet on /barn (not a screenshot). */
+  barnCatalog: [
+    { id: "barn_perun", name: "Кинжал Перуна", kind: "weapon", rarity: "mythic", tag: "Мифик · Оружие", enhance: 12, qty: 1, iconSrc: "/stitch-assets/hero-icons/inv_00.png" },
+    { id: "barn_salamander", name: "Кираса Саламандры", kind: "armor", rarity: "mythic", tag: "Мифик · Броня", enhance: 12, qty: 1, iconSrc: "/stitch-assets/hero-icons/inv_04.png" },
+    { id: "barn_storm_helm", name: "Шлем Бури", kind: "armor", rarity: "legendary", tag: "Легенда · Шлем", enhance: 10, qty: 1, iconSrc: "/stitch-assets/hero-icons/inv_02.png" },
+    { id: "barn_hearth_elixir", name: "Эликсиры Очага", kind: "potion", rarity: "epic", tag: "Эпик · Зелье", enhance: 0, qty: 18, iconSrc: "/stitch-assets/barn-icons/potion_hearth.png" },
+    { id: "barn_oak", name: "Дубовые брёвна", kind: "farm", rarity: "common", tag: "Ферма · Лес", enhance: 0, qty: 420, iconSrc: "/stitch-assets/barn-icons/wood.png" },
+    { id: "barn_ore", name: "Железная руда", kind: "farm", rarity: "common", tag: "Ферма · Руда", enhance: 0, qty: 290, iconSrc: "/stitch-assets/barn-icons/ore.png" },
+    { id: "barn_fruit", name: "Свежие плоды", kind: "farm", rarity: "rare", tag: "Ферма · Урожай", enhance: 0, qty: 86, iconSrc: "/stitch-assets/barn-icons/fruit.png" },
+    { id: "barn_seeds", name: "Семена Урожая", kind: "farm", rarity: "rare", tag: "Ферма · Семена", enhance: 0, qty: 180, iconSrc: "/stitch-assets/barn-icons/seeds.png" },
+    { id: "barn_harvest", name: "Корзина урожая", kind: "farm", rarity: "rare", tag: "Ферма · Овощи", enhance: 0, qty: 64, iconSrc: "/stitch-assets/barn-icons/harvest.png" },
+    { id: "barn_fish", name: "Связка рыбы", kind: "farm", rarity: "common", tag: "Ферма · Рыбалка", enhance: 0, qty: 120, iconSrc: "/stitch-assets/barn-icons/fish.png" },
+    { id: "barn_herbs", name: "Пучок трав", kind: "potion", rarity: "rare", tag: "Алхимия · Травы", enhance: 0, qty: 340, iconSrc: "/stitch-assets/barn-icons/herbs.png" },
+    { id: "barn_mana", name: "Зелье Маны", kind: "potion", rarity: "epic", tag: "Эпик · Зелье", enhance: 0, qty: 24, iconSrc: "/stitch-assets/barn-icons/potion_mana.png" },
+    { id: "barn_regen", name: "Зелье Регена", kind: "potion", rarity: "epic", tag: "Эпик · Зелье", enhance: 0, qty: 16, iconSrc: "/stitch-assets/barn-icons/potion_regen.png" },
+    { id: "barn_shadow", name: "Теневой настой", kind: "potion", rarity: "legendary", tag: "Легенда · Зелье", enhance: 0, qty: 8, iconSrc: "/stitch-assets/barn-icons/potion_shadow.png" },
+    { id: "barn_milk", name: "Молоко Очага", kind: "potion", rarity: "rare", tag: "Таверна · Молоко", enhance: 0, qty: 42, iconSrc: "/stitch-assets/barn-icons/milk.png" },
+    { id: "barn_stone", name: "Гранитные глыбы", kind: "farm", rarity: "common", tag: "Ферма · Камень", enhance: 0, qty: 210, iconSrc: "/stitch-assets/barn-icons/stone.png" },
+    { id: "barn_scroll", name: "Свиток рынка", kind: "blueprint", rarity: "epic", tag: "Эпик · Чертёж", enhance: 0, qty: 12, iconSrc: "/stitch-assets/barn-icons/herbs.png" },
+    { id: "barn_cleaver", name: "Тесак Очага", kind: "weapon", rarity: "rare", tag: "Редк · Оружие", enhance: 8, qty: 1, iconSrc: "/stitch-assets/hero-icons/inv_03.png" },
+  ],
+  barnCatFilter: "all",
+  barnRarityFilter: "all",
+  barnSearch: "",
+  barnFocus: "barn_seeds",
+  barnPage: 1,
+  barnCapMax: 2000,
+  barnLocked: true,
   /** catId → slot → item id */
   equippedByCat: {},
   homeBagFilter: "all",
@@ -869,6 +897,10 @@ function heroAddressOpen() {
   return normalizedPath() === "/hero";
 }
 
+function barnAddressOpen() {
+  return normalizedPath() === "/barn";
+}
+
 function loginAddressOpen() {
   return normalizedPath() === "/home";
 }
@@ -877,6 +909,7 @@ function screenAddressFor(tab) {
   if (tab === "pass") return "/pass";
   if (tab === "craft") return "/craft";
   if (tab === "home") return "/hero";
+  if (tab === "gear") return "/barn";
   if (tab === "login") return "/home";
   return "/";
 }
@@ -2144,6 +2177,310 @@ function salvageItem(itemId) {
 function itemPower(item) {
   if (!item) return 0;
   return (item.atk || 0) + (item.hp || 0) + (item.def || 0) * 2 + (item.spd || 0) * 3;
+}
+
+const BARN_CATS = [
+  { id: "all", label: "Все предметы" },
+  { id: "armor", label: "Броня и латы" },
+  { id: "weapon", label: "Оружие" },
+  { id: "farm", label: "Ресурсы фермы" },
+  { id: "potion", label: "Зелья и травы" },
+  { id: "blueprint", label: "Чертежи" },
+];
+const BARN_RARITIES = [
+  { id: "all", label: "Все", cls: "" },
+  { id: "mythic", label: "Мифик", cls: "is-mythic" },
+  { id: "legendary", label: "Легенда", cls: "is-legendary" },
+  { id: "epic", label: "Эпик", cls: "is-epic" },
+  { id: "rare", label: "Редк", cls: "is-rare" },
+  { id: "common", label: "Обычн", cls: "" },
+];
+const BARN_PAGE_SIZE = 24;
+
+function barnStockUsed() {
+  return (state.barnCatalog || []).reduce((sum, item) => sum + (item.qty || 1), 0);
+}
+
+function barnFilteredItems() {
+  const q = (state.barnSearch || "").trim().toLowerCase();
+  return (state.barnCatalog || []).filter((item) => {
+    if (state.barnCatFilter && state.barnCatFilter !== "all" && item.kind !== state.barnCatFilter) return false;
+    if (state.barnRarityFilter && state.barnRarityFilter !== "all" && item.rarity !== state.barnRarityFilter) return false;
+    if (q && !`${item.name} ${item.tag}`.toLowerCase().includes(q)) return false;
+    return true;
+  });
+}
+
+function barnKindCount(kind) {
+  return (state.barnCatalog || [])
+    .filter((item) => kind === "all" || item.kind === kind)
+    .reduce((sum, item) => sum + (item.qty || 1), 0);
+}
+
+function renderBarn() {
+  const root = $("viewGear");
+  if (!root || root.classList.contains("hidden")) return;
+
+  const used = barnStockUsed();
+  const cap = state.barnCapMax || 2000;
+  const free = Math.max(0, cap - used);
+  const pct = Math.min(100, Math.round((used / cap) * 100));
+  const capBlock = $("barnCapBlock");
+  if (capBlock) {
+    capBlock.innerHTML = `
+      <div class="barn-cap-row"><span>Заполненность</span><b>${formatSheetNum(used)} / ${formatSheetNum(cap)}</b></div>
+      <div class="barn-bar" aria-hidden="true"><i style="width:${pct}%"></i></div>
+      <div class="barn-cap-row"><span>Свободно ${formatSheetNum(free)}</span><span>${pct}% занято</span></div>
+      <button type="button" id="barnExpand">+200 слотов · 5 000</button>
+    `;
+    capBlock.querySelector("#barnExpand")?.addEventListener("click", () => {
+      state.barnCapMax = (state.barnCapMax || 2000) + 200;
+      toast("Слоты амбара расширены (+200)");
+      renderBarn();
+    });
+  }
+
+  const summary = $("barnSummary");
+  if (summary) {
+    const rows = [
+      { label: "Снаряжение", count: barnKindCount("armor") + barnKindCount("weapon"), icon: "/stitch-assets/hero-icons/inv_01.png" },
+      { label: "Арсенал оружия", count: barnKindCount("weapon"), icon: "/stitch-assets/hero-icons/inv_00.png" },
+      { label: "Ресурсы фермы", count: barnKindCount("farm"), icon: "/stitch-assets/barn-icons/harvest.png" },
+      { label: "Алхимия и зелья", count: barnKindCount("potion"), icon: "/stitch-assets/barn-icons/potion_mana.png" },
+      { label: "Реликвии и чертежи", count: barnKindCount("blueprint"), icon: "/stitch-assets/barn-icons/herbs.png" },
+    ];
+    summary.innerHTML = rows
+      .map((row) => `<li><img alt="" src="${row.icon}"/><span>${row.label}</span><b>${formatSheetNum(row.count)}</b></li>`)
+      .join("");
+  }
+
+  const logistics = $("barnLogistics");
+  if (logistics) {
+    logistics.innerHTML = `
+      <li><img alt="" src="/stitch-assets/barn-icons/ore.png"/><span>Караван руды · через 14 мин</span><em>+150 руды</em></li>
+      <li><img alt="" src="/stitch-assets/barn-icons/fish.png"/><span>Скупщик рыбы · к усадьбе 28 мин</span><em>+20% спрос</em></li>
+    `;
+  }
+
+  const climate = $("barnClimate");
+  if (climate) {
+    climate.innerHTML = `
+      <span>Температура <b>+18°C</b></span>
+      <span>Влажность <b>42% · оптимум</b></span>
+      <span class="is-bonus">Погреб стабилен · +5% стойкость зелий</span>
+    `;
+  }
+
+  const guard = $("barnGuard");
+  if (guard) {
+    guard.innerHTML = `
+      <img alt="" src="/stitch-assets/barn-icons/guard.png"/>
+      <div>
+        <strong>Усатый Дозорный · Ур. 45</strong>
+        <span>+15% защита склада · на посту</span>
+      </div>
+    `;
+  }
+
+  const tools = $("barnTools");
+  if (tools && tools.dataset.bound !== "1") {
+    tools.dataset.bound = "1";
+    tools.addEventListener("click", (e) => {
+      const btn = e.target.closest("[data-barn-tool]");
+      if (!btn) return;
+      const tool = btn.getAttribute("data-barn-tool");
+      if (tool === "lock") {
+        state.barnLocked = !state.barnLocked;
+        toast(state.barnLocked ? "Амбар закрыт на замок" : "Замок снят");
+        renderBarn();
+        return;
+      }
+      if (tool === "sort") {
+        state.barnCatalog = [...state.barnCatalog].sort((a, b) => a.name.localeCompare(b.name, "ru"));
+        toast("Склад отсортирован");
+        renderBarn();
+        return;
+      }
+      if (tool === "clear") {
+        state.barnSearch = "";
+        state.barnCatFilter = "all";
+        state.barnRarityFilter = "all";
+        const search = $("barnSearch");
+        if (search) search.value = "";
+        toast("Фильтры сброшены");
+        renderBarn();
+        return;
+      }
+      if (tool === "smelt") {
+        const focus = state.barnCatalog.find((x) => x.id === state.barnFocus);
+        if (!focus || (focus.kind !== "weapon" && focus.kind !== "armor")) {
+          toast("Выберите снаряжение для переплавки");
+          return;
+        }
+        state.barnCatalog = state.barnCatalog.filter((x) => x.id !== focus.id);
+        state.barnFocus = state.barnCatalog[0]?.id || null;
+        toast(`${focus.name} → переплавлено`);
+        renderBarn();
+      }
+    });
+  }
+  if (tools) {
+    for (const btn of tools.querySelectorAll("[data-barn-tool]")) {
+      btn.classList.toggle("is-on", btn.getAttribute("data-barn-tool") === "lock" && !!state.barnLocked);
+    }
+  }
+
+  const filtered = barnFilteredItems();
+  const pages = Math.max(1, Math.ceil(filtered.length / BARN_PAGE_SIZE));
+  if (state.barnPage > pages) state.barnPage = pages;
+  if (state.barnPage < 1) state.barnPage = 1;
+  const pageItems = filtered.slice((state.barnPage - 1) * BARN_PAGE_SIZE, state.barnPage * BARN_PAGE_SIZE);
+
+  const catTabs = $("barnCatTabs");
+  if (catTabs) {
+    catTabs.innerHTML = BARN_CATS.map((tab) => {
+      const count = barnKindCount(tab.id);
+      const on = state.barnCatFilter === tab.id ? "is-on" : "";
+      return `<button type="button" class="${on}" data-barn-cat="${tab.id}">${tab.label} (${formatSheetNum(count)})</button>`;
+    }).join("");
+    for (const btn of catTabs.querySelectorAll("[data-barn-cat]")) {
+      btn.addEventListener("click", () => {
+        state.barnCatFilter = btn.getAttribute("data-barn-cat");
+        state.barnPage = 1;
+        renderBarn();
+      });
+    }
+  }
+
+  const rarityTabs = $("barnRarityTabs");
+  if (rarityTabs) {
+    rarityTabs.innerHTML = BARN_RARITIES.map((tab) => {
+      const count =
+        tab.id === "all"
+          ? barnStockUsed()
+          : (state.barnCatalog || [])
+              .filter((item) => item.rarity === tab.id)
+              .reduce((sum, item) => sum + (item.qty || 1), 0);
+      const on = state.barnRarityFilter === tab.id ? "is-on" : "";
+      return `<button type="button" class="${tab.cls} ${on}" data-barn-rarity="${tab.id}">${tab.label} (${formatSheetNum(count)})</button>`;
+    }).join("");
+    for (const btn of rarityTabs.querySelectorAll("[data-barn-rarity]")) {
+      btn.addEventListener("click", () => {
+        state.barnRarityFilter = btn.getAttribute("data-barn-rarity");
+        state.barnPage = 1;
+        renderBarn();
+      });
+    }
+  }
+
+  const search = $("barnSearch");
+  if (search && search.dataset.bound !== "1") {
+    search.dataset.bound = "1";
+    search.value = state.barnSearch || "";
+    search.addEventListener("input", () => {
+      state.barnSearch = search.value;
+      if ((state.barnSearch || "").trim()) state.barnCatFilter = "all";
+      state.barnPage = 1;
+      renderBarn();
+    });
+  }
+
+  const gridMeta = $("barnGridMeta");
+  if (gridMeta) gridMeta.textContent = `Сетка 6 × 4 · показано ${pageItems.length}`;
+  const pageMeta = $("barnPageMeta");
+  if (pageMeta) {
+    pageMeta.innerHTML = `Стр. ${state.barnPage} / ${pages}
+      <button type="button" id="barnPrev" ${state.barnPage <= 1 ? "disabled" : ""}>←</button>
+      <button type="button" id="barnNext" ${state.barnPage >= pages ? "disabled" : ""}>→</button>`;
+    pageMeta.querySelector("#barnPrev")?.addEventListener("click", () => {
+      state.barnPage -= 1;
+      renderBarn();
+    });
+    pageMeta.querySelector("#barnNext")?.addEventListener("click", () => {
+      state.barnPage += 1;
+      renderBarn();
+    });
+  }
+
+  if (!state.barnFocus || !filtered.some((x) => x.id === state.barnFocus)) {
+    state.barnFocus = pageItems[0]?.id || filtered[0]?.id || null;
+  }
+
+  const grid = $("barnGrid");
+  if (grid) {
+    grid.innerHTML = "";
+    for (const item of pageItems) {
+      const li = document.createElement("li");
+      li.className = `rarity-${item.rarity || "common"}${item.id === state.barnFocus ? " is-focus" : ""}`;
+      const badgeL = item.enhance ? `+${item.enhance}` : item.kind === "blueprint" ? "M8" : "·";
+      const badgeR = item.qty > 1 ? `×${formatSheetNum(item.qty)}` : "×1";
+      li.innerHTML = `
+        <span class="barn-badge-l">${badgeL}</span>
+        <span class="barn-badge-r">${badgeR}</span>
+        <button type="button" data-barn-item="${item.id}">
+          <img class="barn-art" alt="" src="${item.iconSrc}"/>
+          <b>${item.name}</b>
+          <small>${item.tag}</small>
+        </button>`;
+      li.querySelector("button")?.addEventListener("click", () => {
+        state.barnFocus = item.id;
+        renderBarn();
+      });
+      grid.appendChild(li);
+    }
+    const emptySlots = Math.max(0, BARN_PAGE_SIZE - pageItems.length);
+    for (let i = 0; i < Math.min(emptySlots, 6); i += 1) {
+      const empty = document.createElement("li");
+      empty.className = "is-empty";
+      empty.innerHTML = `<button type="button" tabindex="-1" disabled><span class="barn-art" style="background:#1a1613"></span><b>Пусто</b><small>Слот свободен</small></button>`;
+      grid.appendChild(empty);
+    }
+  }
+
+  const advisor = $("barnAdvisor");
+  if (advisor) {
+    const focus = state.barnCatalog.find((x) => x.id === state.barnFocus);
+    advisor.innerHTML = `
+      <article><strong>Алхимия</strong><p>Мята (340) + вода → эликсир</p><button type="button" data-barn-adv="craft">Сварить</button></article>
+      <article><strong>Кузница</strong><p>${formatSheetNum(barnKindCount("farm") ? 290 : 0)} руды → кинжал</p><button type="button" data-barn-adv="forge">В кузню</button></article>
+      <article><strong>Стройка</strong><p>420 брёвен: усилить амбар</p><button type="button" data-barn-adv="expand">Улучшить</button></article>
+      <article><strong>Питомец</strong><p>${focus?.kind === "weapon" || focus?.kind === "armor" ? focus.name : "Саламандра · меч"}</p><button type="button" data-barn-adv="equip">Надеть</button></article>
+      <article><strong>Аукцион</strong><p>12 рыночных свитков</p><button type="button" data-barn-adv="market">На рынок</button></article>
+    `;
+    for (const btn of advisor.querySelectorAll("[data-barn-adv]")) {
+      btn.addEventListener("click", () => {
+        const act = btn.getAttribute("data-barn-adv");
+        if (act === "expand") {
+          state.barnCapMax = (state.barnCapMax || 2000) + 200;
+          toast("Амбар усилен (+200 слотов)");
+          renderBarn();
+          return;
+        }
+        if (act === "equip") {
+          const item = state.barnCatalog.find((x) => x.id === state.barnFocus);
+          const gear = item && state.gearCatalog.find((g) => g.name.includes(item.name.split(" ")[0]) || g.id.includes(item.id.replace("barn_", "")));
+          const catId = state.selectedCatId || state.profile?.cats?.[0]?.catId;
+          if (gear && catId) {
+            equipItem(catId, gear.id);
+            return;
+          }
+          toast(item ? `${item.name}: подсказка экипа (SL)` : "Выберите предмет");
+          return;
+        }
+        if (act === "craft") {
+          toast("Алхимия: подсказка soft launch — крафт позже");
+          return;
+        }
+        if (act === "forge") {
+          toast("Кузница: подсказка soft launch");
+          return;
+        }
+        if (act === "market") {
+          toast("Рынок: подсказка soft launch");
+        }
+      });
+    }
+  }
 }
 
 function renderHome() {
@@ -3699,6 +4036,9 @@ function renderAll() {
     case "home":
       renderHome();
       break;
+    case "gear":
+      renderBarn();
+      break;
     case "equip_cards":
       renderEquipCards();
       break;
@@ -4186,6 +4526,7 @@ function bootTabAfterLogin() {
   if (passAddressOpen()) return "pass";
   if (craftAddressOpen()) return "craft";
   if (heroAddressOpen()) return "home";
+  if (barnAddressOpen()) return "gear";
   return "hub";
 }
 

@@ -1,21 +1,46 @@
-<section id="viewGear" class="stitch-view mythfel-form hidden" data-stitch="gear" data-layout="landscape">
+<!-- Live barn / storehouse. Address: /barn. Soft exits closed; shared fillNav only. -->
+<section id="viewGear" class="stitch-view mythfel-form hidden" data-stitch="gear" data-layout="landscape" data-purpose-route="barn">
 <main class="barn-sheet" data-purpose="keeper-warehouse">
-<div class="barn-frame">
-<img class="barn-saved" alt="" src="/stitch-assets/barn-warehouse.png"/>
-<nav class="char-hit-row" style="top:89.6%;height:4.6%" aria-label="Действия склада">
-<a style="left:15.2%;width:14%" data-path="kraft" href="#">Крафт</a>
-<a style="left:32.4%;width:14%" data-path="kraft" href="#">Кузница и заточка</a>
-<a style="left:66.5%;width:16%" data-path="tavern-bar" href="#">Запировка бар</a>
-<a style="left:84.5%;width:9%" data-path="personazh" href="#">Надеть</a>
-<a style="left:93.2%;width:6.2%" data-path="player-auctions" href="#">Аукцион и лавка</a>
-</nav>
-<nav class="char-hit-row" style="top:96.4%;height:3%" aria-label="Склад">
-<a style="left:70%;width:6.5%" data-path="personazh" href="#">Персонаж</a>
-<a style="left:77.2%;width:6.6%" data-path="ekipirovka-sumka" href="#">Инвентарь</a>
-<a style="left:84.6%;width:8.4%" data-path="mythworld-pve" href="#">Карта / Поход</a>
-<a style="left:93.6%;width:5.6%" data-path="glavnyy-khab" href="#">Меню</a>
-</nav>
+<div class="barn-body">
+<aside class="barn-side" id="barnSide">
+<div class="barn-side-head">
+<h2>Амбар Ур. 8</h2>
+<p>Дубовый сруб</p>
 </div>
+<div class="barn-cap" id="barnCapBlock"></div>
+<section class="barn-block">
+<h3>Сводка запасов</h3>
+<ul class="barn-summary" id="barnSummary"></ul>
+</section>
+<section class="barn-block">
+<h3>Логистика и доставка</h3>
+<ul class="barn-logistics" id="barnLogistics"></ul>
+</section>
+<section class="barn-block barn-climate" id="barnClimate"></section>
+<section class="barn-guard" id="barnGuard"></section>
+<div class="barn-tools" id="barnTools">
+<button type="button" data-barn-tool="sort">Сорт</button>
+<button type="button" data-barn-tool="clear">Очист</button>
+<button type="button" data-barn-tool="smelt">Перепл</button>
+<button type="button" class="is-on" data-barn-tool="lock">Замок</button>
+</div>
+</aside>
+<section class="barn-main">
+<div class="barn-tabs" id="barnCatTabs"></div>
+<div class="barn-filter-row">
+<div class="barn-rarities" id="barnRarityTabs"></div>
+<label class="barn-search"><input id="barnSearch" type="search" placeholder="Поиск на складе…" autocomplete="off"/></label>
+</div>
+<div class="barn-grid-meta"><span id="barnGridMeta">Сетка 6 × 4</span><span id="barnPageMeta">Стр. 1 / 1</span></div>
+<ul class="barn-grid" id="barnGrid"></ul>
 <div id="inventory-grid" hidden>Склад · Амбар</div>
+</section>
+</div>
+<footer class="barn-advisor" id="barnAdvisor"></footer>
+<footer class="barn-foot">
+<span>© 2025 Мифиус: Мифические котики · Версия 1.4.2</span>
+<span class="barn-server">Сервер: Лукоморье [RU-1]</span>
+<span class="barn-keys">[C] Персонаж · [I] Инвентарь · [M] Карта · [ESC] Меню</span>
+</footer>
 </main>
 </section>
