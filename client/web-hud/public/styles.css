@@ -1437,12 +1437,37 @@ body:has(#viewHome:not(.hidden)) #app {
   height: 100% !important;
   display: flex !important;
   flex-direction: column;
-  gap: 0.28rem;
-  padding: 0.35rem 0.55rem 0.3rem;
+  gap: 0;
+  padding: 0 !important;
   background: #100e0c;
   color: #eae1db;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
+  position: relative;
+}
+#viewHome > main.char-sheet > img.char-saved {
+  flex: 1 1 auto;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-width: none !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  background: #100e0c;
+}
+#viewHome .char-saved-nav {
+  position: absolute;
+  z-index: 3;
+  top: 8.5%;
+  left: 12%;
+  right: 38%;
+  display: flex;
+  justify-content: space-between;
+  gap: 0.2rem;
+}
+#viewHome .char-saved-nav a {
+  color: transparent;
+  font-size: 12px;
+  text-decoration: none;
+  padding: 0.35rem 0.2rem;
 }
 #viewHome .char-top, #viewHome .char-tabs, #viewHome .char-sub, #viewHome .char-deck-head, #viewHome .char-bag-head, #viewHome .char-fit, #viewHome .char-name, #viewHome .char-active {
   display: flex;
@@ -1512,16 +1537,36 @@ body:has(#viewHome:not(.hidden)) #app {
 }
 #viewHome .char-skills span, #viewHome .char-sets span { color: #9d8f7b; font-size: 10px; }
 #viewHome .char-sets em { color: #89d98c; font-style: normal; }
-#viewHome .char-fit { align-items: center; justify-content: center; flex: 1 1 auto; min-height: 0; }
-#viewHome .char-slots { display: flex; flex-direction: column; gap: 0.28rem; width: 7.4rem; flex: 0 0 auto; }
+#viewHome .char-stars { color: #fdba45; letter-spacing: 0.08em; font-style: normal; }
+#viewHome .char-fit {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  align-self: stretch;
+}
+#viewHome .char-slots {
+  position: absolute;
+  z-index: 2;
+  top: 0.4rem;
+  bottom: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 7.2rem;
+}
+#viewHome .char-fit .char-slots:first-of-type { left: 0.35rem; }
+#viewHome .char-fit .char-slots:last-of-type { right: 0.35rem; }
 #viewHome .char-slots li, #viewHome .char-cells li {
   background: #1f1b18; border: 1px solid rgba(253, 186, 69, 0.4); border-radius: 0.4rem; padding: 0.22rem 0.35rem;
 }
 #viewHome .char-slots b, #viewHome .char-cells b { display: block; font-size: 11px; line-height: 1.15; }
 #viewHome .char-slots span, #viewHome .char-cells small { color: #89d98c; font-size: 10px; }
 #viewHome .char-portrait {
-  flex: 0 1 512px;
-  width: min(100%, 512px);
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
   margin: 0;
   border-radius: 0.5rem;
   overflow: hidden;
@@ -1530,9 +1575,10 @@ body:has(#viewHome:not(.hidden)) #app {
 }
 #viewHome .char-portrait img {
   width: 100%;
-  height: auto;
-  max-width: 512px;
-  object-fit: contain;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: center 42%;
   display: block;
 }
 #viewHome .char-active { justify-content: space-between; gap: 0.5rem; align-items: center; }
@@ -1555,7 +1601,18 @@ body:has(#viewHome:not(.hidden)) #app {
 #viewHome .char-filters span { font-size: 11px; padding: 0.1rem 0.35rem; border-radius: 999px; background: #1f1b18; }
 #viewHome .char-filters .is-on { background: #d99b26; color: #1a1308; }
 #viewHome .char-cells { display: flex; flex-wrap: wrap; gap: 0.28rem; }
-#viewHome .char-cells li { width: calc(25% - 0.22rem); min-height: 2.7rem; box-sizing: border-box; }
+#viewHome .char-cells li {
+  width: calc(25% - 0.22rem);
+  aspect-ratio: 1;
+  min-height: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0.15rem;
+}
 #viewHome .char-cells .is-empty { border-style: dashed; border-color: rgba(80, 69, 53, 0.8); background: transparent; }
 #viewHome .char-compare { margin-top: auto; font-size: 11px; color: #d5c4af; }
 #viewHome .char-compare b { display: block; color: #eae1db; margin-bottom: 0.15rem; }
