@@ -179,6 +179,8 @@ const NAV = [
   {
     id: "character",
     key: "nav.primary.character",
+    // Primary «Дом Хранителя» opens the yard (двор) at once.
+    route: "farm",
     tabs: [
       { id: "farm", key: "nav.sub.farm", soon: "farm", gated: true },
       { id: "craft", key: "nav.sub.craft", gated: true },
@@ -1090,7 +1092,11 @@ function ensureHudPanel(viewId, panelId, html) {
 function openPrimary(group) {
   if (!group) return;
   if (group.route) {
-    navigate(group.route, { primary: group.id });
+    const routed = group.tabs?.find((t) => t.id === group.route);
+    navigate(group.route, {
+      soon: routed?.soon || null,
+      primary: group.id,
+    });
     return;
   }
   const first = group.tabs[0];
@@ -2086,10 +2092,245 @@ function unequipAll(catId) {
 }
 
 function renderHome() {
-  // Frozen /hero desk: the screenshot is the page. Host nodes stay for verify-nav.
+  const wallet = $("homeWallet");
+  if (wallet) {
+    const w = state.wallet || {};
+    wallet.innerHTML = [
+      ["золото", w.gold],
+      ["молоко", w.milk],
+      ["энергия", w.energy],
+      ["пряжа", w.gems],
+    ]
+      .map(([label, value]) => `<li><em>${label}</em><b>${formatSheetNum(value)}</b></li>`)
+      .join("");
+  }
+  const user = $("homeUser");
+  if (user) {
+    const count = (state.profile?.cats || []).length;
+    user.innerHTML = `<b>Хранитель</b><span>${count} котов</span>`;
+  }
   const cats = (state.profile?.cats || []).filter((c) => c.role !== "farm");
   const cat = cats.find((c) => c.catId === state.selectedCatId) || cats[0];
-  if (cat) state.selectedCatId = cat.catId;
+  if (!cat) {
+    if ($("homeStatBlock")) $("homeStatBlock").textContent = "Дом Хранителя · нет боевых котов";
+    return;
+  }
+  state.selectedCatId = cat.catId;
+  const stats = statsForCat(cat);
+  const eq = state.equippedByCat[cat.catId] || {};
+  $("homeEquipPanel")?.remove();
+
+  const wornItems = HOME_SLOT_ORDER.map((slot) => state.gearCatalog.find((g) => g.id === eq[slot])).filter(Boolean);
+  const filter = state.homeBagFilter || "all";
+  const focusId = state.homeBagFocus;
+  const focus = state.gearCatalog.find((g) => g.id === focusId) || wornItems[0] || state.gearCatalog[0];
+  if (focus) state.homeBagFocus = focus.id;
+
+  const statBlock = $("homeStatBlock");
+  if (statBlock) {
+    const role = CAT_ROLE_RU[cat.role] || cat.role;
+    const element = CAT_ELEMENT_RU[cat.element] || cat.element;
+    const rows = [
+      ["Атака (ATK)", stats.atk, stats.bonus.atk],
+      ["Здоровье (HP)", stats.hp, stats.bonus.hp],
+      ["Защита (DEF)", stats.def, stats.bonus.def],
+      ["Скорость (SPD)", stats.spd, stats.bonus.spd],
+    ];
+    const stars = "★★★★★".slice(0, Math.min(5, Math.max(1, Math.ceil((cat.level || 1) / 10))));
+    const powers = [
+      ["Громогласный Рык", "Пассив"],
+      ["Кошачье Шестое Чувство", "Сейв"],
+      ["Астральный Прыжок", "Уклонение"],
+    ];
+    statBlock.innerHTML = `
+      <p class="char-kicker">Мифический <em class="char-stars">${stars}</em></p>
+      <div class="char-name">
+        <h2>${catSheetName(cat)}</h2>
+        <span class="char-lvl">Ур. ${cat.level || 1}</span>
+      </div>
+      <p class="char-role">${element} + ${role}</p>
+      <p class="char-power"><em>Боевая мощь</em><b>${formatSheetNum(sheetPower(stats))}</b><small>БМ</small></p>
+      <h3>Базовые параметры</h3>
+      <ul class="char-stats">
+        ${rows.map(([label, value, bonus]) => `<li><span>${label}</span><b>${formatSheetNum(value)}</b><small>${bonus ? `+${bonus}` : ""}</small></li>`).join("")}
+      </ul>
+      <h3>Мифические силы</h3>
+      <ul class="char-skills">
+        ${powers.map(([name, kind]) => `<li><span>${kind}</span><b>${name}</b></li>`).join("")}
+      </ul>
+      <h3>Эффекты наборов</h3>
+      <ul class="char-sets">
+        <li><span>Громовой Коготь</span><em>${Math.min(4, wornItems.length)}/4</em></li>
+        <li><span>Шерстяной Оберег</span><em>${Math.min(2, wornItems.length)}/2</em></li>
+      </ul>
+      <div class="char-active">
+        <button type="button" class="char-gold" id="homeBest">Лучшее</button>
+        <button type="button" class="char-ghost" id="homeUnequip">Снять всё</button>
+      </div>`;
+    $("homeBest").onclick = () => equipBest(cat.catId);
+    $("homeUnequip").onclick = () => unequipAll(cat.catId);
+  }
+
+  const hero = $("homeHeroCard");
+  if (hero) {
+    const slotHtml = (slot) => {
+      const item = state.gearCatalog.find((g) => g.id === eq[slot]);
+      return `<button type="button" class="char-slot${item ? " is-filled" : ""}" data-slot="${slot}">
+        <small>${HOME_SLOT_RU[slot] || slot}</small>
+        <strong>${item ? item.name : "Пусто"}</strong>
+      </button>`;
+    };
+    hero.innerHTML = `
+      <div class="char-slots">${HOME_SLOT_ORDER.slice(0, 2).map(slotHtml).join("")}</div>
+      <div class="char-portrait">
+        <img alt="" src="/stitch-assets/dc459e94ceed.jpg">
+      </div>
+      <div class="char-slots">${HOME_SLOT_ORDER.slice(2).map(slotHtml).join("")}</div>`;
+    hero.querySelectorAll("[data-slot]").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const slot = btn.getAttribute("data-slot");
+        const worn = eq[slot];
+        if (worn) {
+          unequipSlot(cat.catId, slot);
+          return;
+        }
+        const next = state.gearCatalog.find((g) => g.slot === slot);
+        if (next) equipItem(cat.catId, next.id);
+      });
+    });
+  }
+
+  const setLine = $("homeSetLine");
+  if (setLine) {
+    if (focus) {
+      setLine.innerHTML = `
+        <div>
+          <strong>${focus.name}</strong>
+          <p>R${focus.rank} · ${HOME_SLOT_RU[focus.slot] || focus.slot} · +${focus.atk} ATK · +${focus.hp} HP · +${focus.def} DEF</p>
+          <div class="char-item-actions">
+            <button type="button" class="char-gold" tabindex="-1">Заточить в Кузне</button>
+            <button type="button" class="char-ghost" tabindex="-1">Инкрустировать</button>
+          </div>
+        </div>`;
+    } else {
+      setLine.innerHTML = `<p>${
+        wornItems.length
+          ? `Надето ${wornItems.length}/4 · ${wornItems.map((item) => item.name).join(", ")}`
+          : "Слоты пусты. Надень предмет из инвентаря."
+      }</p>`;
+    }
+  }
+
+  const tabs = $("homeBagTabs");
+  if (tabs && tabs.dataset.bound !== "1") {
+    tabs.dataset.bound = "1";
+    tabs.addEventListener("click", (event) => {
+      const btn = event.target.closest("[data-bag]");
+      if (!btn) return;
+      state.homeBagFilter = btn.getAttribute("data-bag");
+      renderHome();
+    });
+  }
+  if (tabs) {
+    tabs.querySelectorAll("[data-bag]").forEach((btn) => {
+      btn.classList.toggle("is-on", btn.getAttribute("data-bag") === filter);
+    });
+  }
+
+  const gearBlock = $("homeGearBlock");
+  if (gearBlock) {
+    gearBlock.innerHTML = "";
+    const items = state.gearCatalog.filter((item) => filter === "all" || item.slot === filter);
+    const bagCount = $("homeBagCount");
+    if (bagCount) bagCount.textContent = `${items.length} / ${state.gearCatalog.length}`;
+    for (const item of items) {
+      const onThis = eq[item.slot] === item.id;
+      const li = document.createElement("li");
+      li.className = (onThis ? "is-worn" : "") + (focus && focus.id === item.id ? " is-focus" : "");
+      const card = document.createElement("button");
+      card.type = "button";
+      card.innerHTML = `<b>${item.name}</b><small>R${item.rank}</small>`;
+      card.addEventListener("click", () => {
+        state.homeBagFocus = item.id;
+        renderHome();
+      });
+      li.appendChild(card);
+      gearBlock.appendChild(li);
+    }
+    for (let i = items.length; i < 12; i += 1) {
+      const empty = document.createElement("li");
+      empty.className = "is-empty";
+      gearBlock.appendChild(empty);
+    }
+  }
+
+  const compare = $("homeCompare");
+  if (compare && focus) {
+    const onThis = eq[focus.slot] === focus.id;
+    const worn = state.gearCatalog.find((g) => g.id === eq[focus.slot]);
+    const delta = worn ? focus.atk - worn.atk : focus.atk;
+    compare.innerHTML = `
+      <div>
+        <strong>Сравнение</strong>
+        <p>${focus.name}${worn ? ` ↔ ${worn.name}` : ""} · ATK ${delta >= 0 ? "+" : ""}${delta}</p>
+      </div>`;
+    const btn = document.createElement("button");
+    btn.type = "button";
+    btn.className = "char-gold";
+    btn.textContent = onThis ? "Снять" : "Надеть";
+    btn.addEventListener("click", () => {
+      if (onThis) unequipSlot(cat.catId, focus.slot);
+      else equipItem(cat.catId, focus.id);
+    });
+    compare.appendChild(btn);
+    const melt = document.createElement("button");
+    melt.type = "button";
+    melt.className = "char-ghost";
+    melt.textContent = "Переплавить";
+    melt.tabIndex = -1;
+    melt.style.pointerEvents = "none";
+    compare.appendChild(melt);
+  }
+
+  const picker = $("homeCatPicker");
+  if (picker) {
+    picker.innerHTML = "";
+    cats.forEach((c, index) => {
+      const li = document.createElement("li");
+      if (c.catId === cat.catId) li.classList.add("is-active");
+      const b = document.createElement("button");
+      b.type = "button";
+      b.innerHTML = `<small>${index === 0 ? "Активный" : "Отряд"}</small><b>${catSheetName(c)}</b><span>${CAT_ROLE_RU[c.role] || c.role}</span>`;
+      b.addEventListener("click", () => {
+        state.selectedCatId = c.catId;
+        renderHome();
+      });
+      li.appendChild(b);
+      picker.appendChild(li);
+    });
+  }
+
+  const deckLabel = $("homeDeckLabel");
+  if (deckLabel) {
+    deckLabel.textContent = `Боевая колода · ${catSheetName(cat)} · 6 приёмов`;
+  }
+  const deckCards = $("homeDeckCards");
+  if (deckCards) {
+    const cards = [
+      ["Громовой Коготь", "быстрый удар", "520"],
+      ["Теневой Бросок", "пробитие", "680"],
+      ["Яростный Кусь", "кровотечение", "840"],
+      ["Шквал Когтей", "x4 комбо", "210×4"],
+      ["Хвост-Хлыст", "стан", "320"],
+      ["Ярость Перуна", "ультимейт", "1580"],
+    ];
+    deckCards.innerHTML = cards
+      .map(
+        ([name, tag, dmg], i) =>
+          `<li class="${i === cards.length - 1 ? "is-ult" : ""}"><b>${name}</b><span>${tag}</span><em>${dmg}</em></li>`,
+      )
+      .join("");
+  }
 }
 
 function renderEquipCards() {
