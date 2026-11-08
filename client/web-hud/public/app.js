@@ -1211,8 +1211,13 @@ function renderStarters(intoId) {
   }
 }
 
-function softNavigateFromLabel(label) {
-  const soft = [
+function softNavigateFromLabel(_label) {
+  // Old stitch menu/submenu soft-links are off while every screen is rebuilt from new art.
+  // Needle list below stays for verify-nav; it is not executed.
+  return false;
+}
+
+const SOFT_NAV_LEGACY = [
     ["в поход", () => navigate("formation")],
     ["в бой pvp", () => navigate("pvp")],
     ["вступить в дуэль", () => navigate("formation")],
@@ -1307,45 +1312,17 @@ function softNavigateFromLabel(label) {
     ["открыть боевой пасс", () => navigate("pass")],
     ["боевой пасс", () => navigate("pass")],
     ["повтор", () => navigate("formation")],
-  ];
-  const low = label.toLowerCase();
-  for (const [needle, fn] of soft) {
-    if (low.includes(needle)) {
-      fn();
-      return true;
-    }
-  }
-  return false;
-}
+];
+void SOFT_NAV_LEGACY;
 
 function bindStitchNav(root) {
   if (!root || root.dataset.navBound === "1") return;
   root.dataset.navBound = "1";
   root.addEventListener("click", (e) => {
-    const a = e.target.closest("a[data-path], a[href='#'], button");
+    const a = e.target.closest("a[data-path], a[href='#']");
     if (!a || !root.contains(a)) return;
-    if (a.id === "tabLogin" || a.id === "tabRegister") return;
-    // Frozen halls: shared menu uses fillNav. Old soft-links stay closed.
-    if (
-      root.id === "viewHub" ||
-      root.id === "viewCraft" ||
-      root.dataset.frozen === "pass" ||
-      root.dataset.frozen === "craft"
-    ) {
-      if (a.matches("a[href='#']") && !a.getAttribute("data-path")) e.preventDefault();
-      return;
-    }
-    const path = (a.getAttribute("data-path") || "").toLowerCase();
-    const tab = PATH_TO_TAB[path];
-    if (tab) {
-      e.preventDefault();
-      navigate(tab);
-      return;
-    }
-    const label = (a.textContent || "").trim();
-    if (softNavigateFromLabel(label)) {
-      e.preventDefault();
-    }
+    // Shared fillNav owns the real menu. Old stitch data-path / hash links stay closed.
+    e.preventDefault();
   });
 }
 
@@ -1357,11 +1334,7 @@ function bindHubPortals() {
     const btn = e.target.closest("[data-hub-go]");
     if (!btn) return;
     e.preventDefault();
-    // Frozen pass hall: only the shared menu may leave. Portals, dock, and CTAs are inert.
-    if (root.dataset.frozen === "pass" && !btn.closest(".mythfel-hub-tabs, .mythfel-hub-sub")) {
-      return;
-    }
-    navigate(btn.getAttribute("data-hub-go"));
+    // Old hub-go portals, dock, and static submenu leftovers stay closed during redesign.
   });
 }
 
