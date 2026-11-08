@@ -1461,13 +1461,15 @@ body:has(#viewHome:not(.hidden)) #app {
   object-fit: fill !important;
   background: #100e0c;
 }
-#viewHome .char-hit-row {
+#viewHome .char-hit-row,
+#viewGear .char-hit-row {
   position: absolute;
   left: 0;
   right: 0;
   z-index: 3;
 }
-#viewHome .char-hit-row a {
+#viewHome .char-hit-row a,
+#viewGear .char-hit-row a {
   position: absolute;
   top: 0;
   height: 100%;
@@ -1476,6 +1478,35 @@ body:has(#viewHome:not(.hidden)) #app {
   font-size: 12px;
   line-height: 1;
   text-decoration: none;
+}
+body:has(#viewGear:not(.hidden)) #appNav,
+body:has(#viewGear:not(.hidden)) #wireDock { display: none !important; }
+body:has(#viewGear:not(.hidden)) #app { height: 100dvh !important; max-height: 100dvh !important; }
+#viewGear { background: #100e0c; }
+#viewGear > main.barn-sheet {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+  background: #100e0c;
+  container-type: size;
+}
+#viewGear .barn-frame {
+  position: relative;
+  aspect-ratio: 799 / 544;
+  width: min(100cqw, calc(100cqh * 799 / 544));
+  max-height: 100%;
+}
+#viewGear .barn-frame > img.barn-saved {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-width: none !important;
+  object-fit: fill !important;
 }
 #viewHome .char-top, #viewHome .char-tabs, #viewHome .char-sub, #viewHome .char-deck-head, #viewHome .char-bag-head, #viewHome .char-fit, #viewHome .char-name, #viewHome .char-active {
   display: flex;
