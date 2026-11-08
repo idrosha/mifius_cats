@@ -1315,6 +1315,11 @@ function bindStitchNav(root) {
     const a = e.target.closest("a[data-path], a[href='#'], button");
     if (!a || !root.contains(a)) return;
     if (a.id === "tabLogin" || a.id === "tabRegister") return;
+    // Pass hall: shared menu uses fillNav. Old portal/dock/CTA soft-links stay closed.
+    if (root.id === "viewHub" || root.dataset.frozen === "pass") {
+      if (a.matches("a[href='#']") && !a.getAttribute("data-path")) e.preventDefault();
+      return;
+    }
     const path = (a.getAttribute("data-path") || "").toLowerCase();
     const tab = PATH_TO_TAB[path];
     if (tab) {
@@ -1337,6 +1342,10 @@ function bindHubPortals() {
     const btn = e.target.closest("[data-hub-go]");
     if (!btn) return;
     e.preventDefault();
+    // Frozen pass hall: only the shared menu may leave. Portals, dock, and CTAs are inert.
+    if (root.dataset.frozen === "pass" && !btn.closest(".mythfel-hub-tabs, .mythfel-hub-sub")) {
+      return;
+    }
     navigate(btn.getAttribute("data-hub-go"));
   });
 }
@@ -3548,6 +3557,7 @@ function renderAll() {
       break;
     case "pass":
       renderPass();
+      bindHubPortals();
       break;
     case "farm":
       state.soon = "farm";
