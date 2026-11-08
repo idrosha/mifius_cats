@@ -2197,6 +2197,49 @@ button.mythfel-hub-brand {
   color: #d5c4af;
 }
 .mythfel-hub-ver { margin-left: auto; font-size: 10px; letter-spacing: 0.04em; color: #9d8f7b; }
+/* Training fight — only while a practice battle is on screen */
+body:has(#viewPracticeFight:not(.hidden)) #appNav,
+body:has(#viewPracticeFight:not(.hidden)) #wireDock { display: none !important; }
+body:has(#viewPracticeFight:not(.hidden)) #app { height: 100dvh !important; max-height: 100dvh !important; }
+#viewPracticeFight { background: #100e0c; color: #eae1db; }
+#viewPracticeFight > .pf-fight { position: relative; flex: 1 1 auto; min-height: 0; overflow: hidden; }
+.pf-bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 40%; }
+.pf-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,6,4,.72), rgba(8,6,4,.28) 30%, rgba(8,6,4,.78)); }
+.pf-ui { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; padding: 0.45rem 0.7rem 0.4rem; }
+.pf-top { display: flex; justify-content: space-between; align-items: center; }
+.pf-round { margin: 0; font-family: Rubik, sans-serif; font-size: 16px; color: #fdba45; }
+.pf-mode { margin: 0; font-size: 12px; color: #d5c4af; }
+.pf-mode b { color: #89d98c; }
+.pf-field { flex: 1 1 auto; min-height: 0; display: flex; align-items: center; gap: 0.6rem; }
+.pf-side { flex: 1 1 0; min-width: 0; }
+.pf-side h2 { margin: 0 0 0.35rem; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: #fdba45; }
+.pf-foes h2 { text-align: right; }
+.pf-units { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.4rem; }
+.pf-foes .pf-units { justify-content: flex-end; }
+.pf-units li { width: 7.2rem; background: rgba(16,14,12,.82); border: 1px solid rgba(80,69,53,.8); border-radius: 0.45rem; overflow: hidden; }
+.pf-units li.is-turn { border-color: #fdba45; box-shadow: 0 0 0 1px rgba(253,186,69,.45); }
+.pf-units figure { margin: 0; height: 4.2rem; overflow: hidden; background: #1a1613; }
+.pf-units img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; }
+.pf-units div { padding: 0.28rem 0.35rem 0.35rem; }
+.pf-units b { display: block; font-size: 12px; }
+.pf-units small, .pf-units em { display: block; font-style: normal; font-size: 10px; color: #d5c4af; }
+.pf-units i { display: block; height: 4px; margin-top: 0.2rem; border-radius: 99px; background: #2e2926; }
+.pf-units i::before { content: ""; display: block; height: 100%; width: var(--hp, 100%); background: #89d98c; border-radius: inherit; }
+.pf-foes .pf-units i::before { background: #e07a5f; }
+.pf-vs { width: 6.5rem; text-align: center; }
+.pf-vs b { display: flex; width: 3.4rem; height: 3.4rem; margin: 0 auto; align-items: center; justify-content: center; border-radius: 50%; background: radial-gradient(circle at 40% 35%, #ffd36a, #d99b26); color: #1a1308; font-family: Rubik, sans-serif; }
+.pf-vs span { display: block; margin-top: 0.3rem; font-size: 11px; color: #d5c4af; }
+.pf-foot { display: flex; gap: 0.5rem; align-items: flex-end; }
+.pf-act { display: flex; flex-direction: column; gap: 0.3rem; width: 11rem; }
+.pf-act p { margin: 0; font-size: 12px; color: #fdba45; }
+.pf-end, .pf-back, .pf-card { border-radius: 0.45rem; font-weight: 700; cursor: pointer; }
+.pf-end { border: 0; background: #d99b26; color: #1a1308; padding: 0.45rem 0.5rem; }
+.pf-back { border: 1px solid rgba(80,69,53,.8); background: #1a1613; color: #eae1db; padding: 0.28rem 0.5rem; }
+.pf-hand { list-style: none; margin: 0; padding: 0; flex: 1; display: flex; gap: 0.35rem; }
+.pf-card { flex: 1 1 0; min-width: 0; text-align: left; background: #161310; color: #eae1db; border: 1px solid rgba(253,186,69,.35); padding: 0.35rem 0.4rem; }
+.pf-card b { display: block; font-size: 12px; color: #fdba45; }
+.pf-card span { display: block; font-size: 10px; color: #d5c4af; }
+.pf-card:disabled { opacity: 0.45; cursor: default; }
 /* Training hall — only the Тренировка stage */
 #viewPractice { background: #100e0c; color: #eae1db; position: relative; }
 #viewPractice > .dojo-load {

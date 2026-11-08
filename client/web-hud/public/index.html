@@ -4148,6 +4148,45 @@
 
 </div></main><footer class="fixed bottom-0 left-0 w-full h-14 z-40 bg-surface-container-low/95 backdrop-blur-md shadow-[0_-4px_16px_rgba(0,0,0,0.5)]"><div class="h-full w-full px-space-lg flex items-center justify-between"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs text-on-surface-variant"><span class="material-symbols-outlined text-[16px] text-primary">local_fire_department</span><span class="font-label-sm text-label-sm text-on-surface-variant">Таверна «Теплый хвост»</span></div><div class="h-4 w-px bg-surface-container-highest"></div><div class="flex items-center gap-space-md"><span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-space-xs"><kbd class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm">ESC</kbd> Меню</span><span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-space-xs"><kbd class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm">TAB</kbd> Колода</span><span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-space-xs"><kbd class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm">ПРОБЕЛ</kbd> Ход</span></div></div><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm text-on-surface-variant"><button class="p-space-xs rounded hover:bg-surface-container hover:text-on-surface transition-colors flex items-center justify-center" type="button"><span class="material-symbols-outlined text-[18px]">volume_up</span></button><button class="p-space-xs rounded hover:bg-surface-container hover:text-on-surface transition-colors flex items-center justify-center" type="button"><span class="material-symbols-outlined text-[18px]">settings</span></button><button class="p-space-xs rounded hover:bg-surface-container hover:text-on-surface transition-colors flex items-center justify-center" type="button"><span class="material-symbols-outlined text-[18px]">help</span></button></div><div class="h-4 w-px bg-surface-container-highest"></div><span class="font-label-sm text-label-sm text-outline">v0.9.4-beta (Северный Удел)</span></div></div></footer>
 </section>
+<section id="viewPracticeFight" class="stitch-view mythfel-form hidden" data-stitch="practice_fight" data-layout="landscape">
+<div class="pf-fight">
+<img class="pf-bg" alt="" src="/stitch-ref/e608/arena_dojo.png"/>
+<div class="pf-shade"></div>
+<div class="pf-ui">
+<header class="pf-top">
+<p class="pf-round" id="pfRound">Раунд 1 · Ход игрока</p>
+<p class="pf-mode">Тренировочный режим <b id="pfEnergy">Энергия 0</b></p>
+</header>
+<div class="pf-field">
+<section class="pf-side">
+<h2>Отряд Мурр-Оплота</h2>
+<ul class="pf-units" id="pfAllies">
+<li data-slot="ally"><figure><img alt="" src="/stitch-assets/ad3ff067b5c8.jpg"/></figure><div><b>Росинка</b><small>Тыл · Хил</small><em>0 / 0</em><i></i></div></li>
+<li data-slot="ally"><figure><img alt="" src="/stitch-assets/f453fafbcca9.jpg"/></figure><div><b>Искорка</b><small>Центр · ДПС</small><em>0 / 0</em><i></i></div></li>
+<li data-slot="ally" class="is-turn"><figure><img alt="" src="/stitch-assets/dc459e94ceed.jpg"/></figure><div><b>Барсик</b><small>Авангард · Танк</small><em>0 / 0</em><i></i></div></li>
+</ul>
+</section>
+<div class="pf-vs" aria-hidden="true"><b>VS</b><span>Ближний стык</span></div>
+<section class="pf-side pf-foes">
+<h2>Свора манекенов додзё</h2>
+<ul class="pf-units" id="pfEnemies">
+<li data-slot="enemy"><div><b>Дубовый Рыцарь</b><small>Авангард · Т1</small><em>0 / 0</em><i></i></div></li>
+<li data-slot="enemy"><div><b>Берсерк</b><small>Центр · Т1</small><em>0 / 0</em><i></i></div></li>
+<li data-slot="enemy"><div><b>Тотем Зла</b><small>Тыл · Т1</small><em>0 / 0</em><i></i></div></li>
+</ul>
+</section>
+</div>
+<footer class="pf-foot">
+<div class="pf-act">
+<p id="pfOrbs">Орбы энергии 0</p>
+<button type="button" class="pf-end" id="pfEndTurn">Завершить ход [Пробел]</button>
+<button type="button" class="pf-back" id="pfBack">ESC Назад</button>
+</div>
+<ul class="pf-hand" id="pfHand"></ul>
+</footer>
+</div>
+</div>
+</section>
 <section id="viewBattle" class="stitch-view mythfel-form hidden" data-stitch="battle" data-layout="landscape">
 <header class="fixed top-0 left-0 w-full z-50 bg-surface-container-low/95 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.65)]"><div class="h-20 w-full px-space-lg flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-lg shrink-0"><div class="flex items-center gap-space-sm"><span class="font-headline-lg text-headline-lg tracking-wider text-primary select-none">МИФИУС</span><div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-full bg-surface-container-high"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span class="font-label-sm text-label-sm text-secondary">24ms</span></div></div><div class="h-8 w-px bg-surface-container-highest"></div><nav class="flex items-center gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-label-md rounded-lg shadow-[0_0_12px_rgba(217,155,38,0.35)]"><a class="px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all select-none" data-path="glavnyj-khab" href="#">Главный Хаб</a><a class="px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all select-none" data-path="boi" href="#">Бои</a><a class="px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all select-none" data-path="torgovlya" href="#">Торговля</a><a class="px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all select-none" data-path="gildii" href="#">Гильдии</a><a class="px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all select-none" data-path="chaty" href="#">Чаты</a><a class="px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all select-none" data-path="pass" href="#">Пасс</a><a class="px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all select-none" data-path="rejtingi" href="#">Рейтинги</a></nav></div><div class="flex items-center gap-space-lg shrink-0"><div class="flex items-center gap-space-sm bg-surface-container-lowest/80 px-space-md py-space-xs rounded-xl shadow-inner"><div class="flex items-center gap-space-xs px-space-xs"><span class="material-symbols-outlined text-primary text-[20px]">monetization_on</span><span class="font-stat-numeral text-body-lg text-primary-fixed">148,250</span></div><div class="w-px h-5 bg-surface-container-highest"></div><div class="flex items-center gap-space-xs px-space-xs"><span class="material-symbols-outlined text-tertiary text-[20px]">set_meal</span><span class="font-stat-numeral text-body-lg text-tertiary-fixed">920</span></div><div class="w-px h-5 bg-surface-container-highest"></div><div class="flex items-center gap-space-xs px-space-xs"><span class="material-symbols-outlined text-secondary text-[20px]">bolt</span><span class="font-stat-numeral text-body-lg text-secondary-fixed">85<span class="font-body-sm text-body-sm text-on-surface-variant">/100</span></span></div><div class="w-px h-5 bg-surface-container-highest"></div><div class="flex items-center gap-space-xs px-space-xs"><span class="material-symbols-outlined text-primary-fixed-dim text-[20px]">diamond</span><span class="font-stat-numeral text-body-lg text-primary-fixed-dim">420</span></div></div><div class="flex items-center gap-space-md pl-space-xs"><div class="flex flex-col text-right"><span class="font-label-md text-label-md text-on-surface leading-tight">Хранитель очага</span><span class="font-label-sm text-label-sm text-primary">Ур. 48</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-[0_0_10px_rgba(253,186,69,0.3)]"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="w-full pt-20 pb-14 min-h-screen bg-background relative flex-1 overflow-hidden"><div class="flex flex-col w-full select-none text-on-surface">
 <!-- BATTLEFIELD MAIN CONTAINER -->

@@ -720,7 +720,9 @@ function showPassGateTip() {
 }
 
 function logicalViewId() {
-  if (state.battle && !state.battle.result) return "viewBattle";
+  if (state.battle && !state.battle.result) {
+    return state.battleMode === "practice" ? "viewPracticeFight" : "viewBattle";
+  }
   if (state.battle?.result && state.lastResult) {
     return state.lastResult.result === "p1_win" ? "viewResultWin" : "viewResultLose";
   }
@@ -2757,6 +2759,88 @@ function unitCard(u, side) {
   return d;
 }
 
+function renderPracticeFight() {
+  const diff = state.battle;
+  if (!diff) return;
+  const local = diff.p1 || {};
+  const energy = local.energy ?? 0;
+  if ($("pfRound")) $("pfRound").textContent = `Раунд ${diff.turn || 1} · Ход игрока`;
+  if ($("pfEnergy")) $("pfEnergy").textContent = `Энергия ${energy}`;
+  if ($("pfOrbs")) $("pfOrbs").textContent = `Орбы энергии ${energy}`;
+  const paint = (sel, units) => {
+    document.querySelectorAll(sel).forEach((card, i) => {
+      const u = units[i];
+      const em = card.querySelector("em");
+      const bar = card.querySelector("i");
+      card.hidden = !u;
+      if (!u) return;
+      if (em) em.textContent = `${u.hp} / ${u.maxHp}`;
+      const pct = u.maxHp > 0 ? Math.max(0, Math.min(100, (u.hp / u.maxHp) * 100)) : 0;
+      if (bar) bar.style.setProperty("--hp", `${pct}%`);
+    });
+  };
+  const allies = (diff.units || []).filter((u) => u.side === 0).sort((a, b) => a.lane - b.lane);
+  const enemies = (diff.units || []).filter((u) => u.side === 1).sort((a, b) => a.lane - b.lane);
+  paint("#pfAllies [data-slot]", allies);
+  paint("#pfEnemies [data-slot]", enemies);
+  const hand = $("pfHand");
+  if (!hand) return;
+  hand.innerHTML = "";
+  const cards = (diff.hand || []).slice(0, 6);
+  const source = cards.length
+    ? cards
+    : ["Громовой Удар", "Огненный Щит", "Целебный Мур", "Круговой Взмах", "Искра Очага"].map((name) => ({
+        label: name,
+        idle: true,
+      }));
+  for (const c of source) {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "pf-card";
+    if (c.idle) {
+      b.disabled = true;
+      b.innerHTML = `<b>${c.label}</b><span>ждёт раздачу</span>`;
+    } else {
+      b.disabled = !c.playable || !!diff.result || diff.active !== 0;
+      b.innerHTML = `<b>${t(c.name_key, c.cardId)}</b><span>цена ${c.cost ?? "?"}</span>`;
+      b.addEventListener("click", () =>
+        submitAction({ kind: "playCard", unitId: c.unitId, handIndex: c.handIndex, targetId: "" }),
+      );
+    }
+    hand.appendChild(b);
+  }
+  const end = $("pfEndTurn");
+  if (end) end.disabled = !diff.canEndTurn || !!diff.result || diff.active !== 0;
+}
+
+function bindPracticeFight() {
+  const root = $("viewPracticeFight");
+  if (!root || root.dataset.bound === "1") return;
+  root.dataset.bound = "1";
+  root.addEventListener("click", (ev) => {
+    const id = ev.target.closest("button")?.id;
+    if (id === "pfEndTurn") submitAction({ kind: "endTurn" });
+    if (id === "pfBack") {
+      state.battle = null;
+      state.lastResult = null;
+      navigate("practice");
+    }
+  });
+  document.addEventListener("keydown", (ev) => {
+    if (logicalViewId() !== "viewPracticeFight") return;
+    if (ev.target.closest("input, textarea")) return;
+    if (ev.code === "Space") {
+      ev.preventDefault();
+      submitAction({ kind: "endTurn" });
+    } else if (ev.code === "Escape") {
+      ev.preventDefault();
+      state.battle = null;
+      state.lastResult = null;
+      navigate("practice");
+    }
+  });
+}
+
 function renderBattle() {
   const diff = state.battle;
   if (!diff) return;
@@ -3037,6 +3121,12 @@ function renderAll() {
   showView(viewId);
   bindStitchNav($(viewId));
 
+  if (viewId === "viewPracticeFight" && state.battle && !state.battle.result) {
+    renderBattle();
+    renderPracticeFight();
+    bindPracticeFight();
+    return;
+  }
   if (viewId === "viewBattle" && state.battle && !state.battle.result) {
     renderBattle();
     return;
@@ -3257,6 +3347,7 @@ function bindPracticeFightCtas() {
   document.addEventListener("keydown", (ev) => {
     if (state.tab !== "practice") return;
     if (ev.target.closest("input, textarea")) return;
+    if (state.battle && !state.battle.result && state.battleMode === "practice") return;
     const loading = root.dataset.practiceLoad === "1";
     if (ev.code === "Space") {
       ev.preventDefault();
