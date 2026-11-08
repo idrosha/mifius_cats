@@ -2149,6 +2149,100 @@ button.mythfel-hub-brand {
 .dojo-keys { display: flex; gap: 0.45rem; align-items: center; font-size: 10px; color: #9d8f7b; white-space: nowrap; }
 .dojo-keys small { color: #89d98c; }
 
+/* Battle frontiers — only the Бои hub */
+#viewBattleHub { background: #100e0c; color: #eae1db; }
+#viewBattleHub > .front-hall {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.4rem 0.55rem 0.3rem;
+  background: #100e0c;
+}
+.front-top, .front-foot {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-shrink: 0;
+  min-width: 0;
+}
+.front-top strong { font-family: Rubik, sans-serif; font-size: 16px; }
+.front-top p { margin: 0.1rem 0 0; font-size: 11px; color: #d5c4af; }
+.front-top p b { color: #fdba45; }
+.front-season {
+  font-size: 10px; letter-spacing: 0.08em; color: #1a1308; background: #fdba45;
+  border-radius: 999px; padding: 0.15rem 0.45rem; font-weight: 800;
+}
+.front-filters { display: flex; gap: 0.25rem; margin-left: auto; }
+.front-filters button, .front-foot-actions a, .front-foot-actions button {
+  border: 1px solid rgba(80, 69, 53, 0.75);
+  background: #1a1613;
+  color: #eae1db;
+  border-radius: 999px;
+  font-family: Rubik, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 0.28rem 0.6rem;
+  cursor: pointer;
+  text-decoration: none;
+}
+.front-filters button.is-on { background: #d99b26; color: #1a1308; border-color: #d99b26; }
+.front-res { display: flex; gap: 0.45rem; font-size: 11px; color: #fdba45; font-weight: 800; white-space: nowrap; }
+.front-map { position: relative; flex: 1 1 auto; min-height: 0; border-radius: 0.7rem; overflow: hidden; }
+.front-map > img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.front-cards {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-content: center;
+  justify-content: center;
+  padding: 0.55rem;
+  background: linear-gradient(180deg, rgba(10, 8, 7, 0.28), rgba(10, 8, 7, 0.18));
+}
+.front-card {
+  flex: 0 0 calc(33.33% - 0.4rem);
+  width: calc(33.33% - 0.4rem);
+  min-width: 0;
+  max-width: none;
+  background: rgba(16, 14, 12, 0.88);
+  border: 1px solid rgba(80, 69, 53, 0.8);
+  border-radius: 0.7rem;
+  padding: 0.55rem 0.65rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.front-card.is-off { display: none !important; }
+.front-card.is-focus { border-color: rgba(253, 186, 69, 0.85); }
+.front-card.is-boss { border-color: rgba(255, 130, 108, 0.8); }
+.front-card small { font-size: 10px; letter-spacing: 0.06em; color: #89d98c; font-weight: 800; }
+.front-card.is-focus small { color: #fdba45; }
+.front-card.is-boss small { color: #ffb4a6; }
+.front-card h3 { margin: 0; font-family: Rubik, sans-serif; font-size: 15px; line-height: 1.2; }
+.front-card p { margin: 0; font-size: 11px; color: #d5c4af; line-height: 1.3; }
+.front-meta { display: flex; flex-wrap: wrap; gap: 0.3rem; font-size: 10px; color: #fdba45; }
+.front-meta em { font-style: normal; color: #ffb4a6; }
+.front-card a {
+  margin-top: auto;
+  align-self: flex-start;
+  color: #1a1308;
+  background: linear-gradient(180deg, #fdba45, #d99b26);
+  border-radius: 999px;
+  text-decoration: none;
+  font-family: Rubik, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+  padding: 0.32rem 0.7rem;
+}
+.front-foot { border-top: 1px solid rgba(80, 69, 53, 0.45); padding-top: 0.25rem; font-size: 12px; }
+.front-foot b { color: #eae1db; }
+.front-foot strong { color: #fdba45; margin-left: 0.35rem; }
+.front-foot-actions { margin-left: auto; display: flex; gap: 0.3rem; }
+
 @media (max-width: 1100px) {
   .mythfel-pass { grid-template-columns: 1fr; }
   .mythfel-portals { grid-template-columns: repeat(3, minmax(0, 1fr)); }

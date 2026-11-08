@@ -64,7 +64,7 @@ const PATH_TO_TAB = {
   gvg: "guild_battle",
   бой: "yard",
   boi: "yard",
-  battles: "yard",
+  battles: "battle_hub",
   расстановка: "formation",
   таверна: "tavern",
   пасс: "pass",
@@ -203,7 +203,7 @@ const NAV = [
     id: "combat",
     key: "nav.primary.combat",
     tabs: [
-      { id: "yard", key: "nav.sub.mythmir" },
+      { id: "battle_hub", key: "nav.sub.mythmir" },
       { id: "practice", key: "nav.sub.practice" },
       { id: "pve", key: "nav.sub.pve" },
       { id: "pvp", key: "nav.sub.pvp", gated: "pvp" },
@@ -263,6 +263,7 @@ const TABS = NAV.flatMap((g) =>
     { id: "pass", key: "nav.sub.pass", group: "pass" },
     { id: "knowledge", key: "nav.sub.knowledge", group: "knowledge" },
     { id: "soon_clan", key: "nav.sub.soon_clan", group: "guilds", soon: "clan_boss" },
+    { id: "yard", key: "nav.sub.pve", group: "combat" },
   ],
   KNOWLEDGE_TABS.map((t) => ({ ...t, group: "knowledge" })),
 );
@@ -279,6 +280,7 @@ function findNavForTab(tabId) {
     return NAV.find((g) => g.id === "knowledge") || null;
   }
   if (tabId === "soon_clan") return NAV.find((g) => g.id === "guilds") || null;
+  if (tabId === "yard") return NAV.find((g) => g.id === "combat") || null;
   return null;
 }
 
@@ -735,6 +737,7 @@ function logicalViewId() {
     codex: "viewCodex",
     yard: "viewYard",
     pve: "viewYard",
+    battle_hub: "viewBattleHub",
     formation: "viewFormation",
     boss_dungeon: "viewBossDungeon",
     boss_raid: "viewBossRaid",
@@ -1073,7 +1076,8 @@ function fillNav(primaryEl, subEl, activeGroup, battleActive, activeClass) {
     if (tab.soon) b.classList.add("soon");
     if (tab.gated) b.classList.add("gated");
     if (tab.id === "pvp" && !pvpUnlocked()) b.classList.add("locked");
-    b.classList.toggle(activeClass, !battleActive && state.tab === tab.id);
+    const tabOn = state.tab === tab.id || (tab.id === "pve" && state.tab === "yard");
+    b.classList.toggle(activeClass, !battleActive && tabOn);
     b.addEventListener("click", () => {
       navigate(tab.id, { soon: tab.soon || null, primary: activeGroup.id });
     });
@@ -3053,6 +3057,9 @@ function renderAll() {
       renderUnlockProgress();
       bindPracticeFightCtas();
       break;
+    case "battle_hub":
+      bindBattleHub();
+      break;
     case "codex":
       renderCodex();
       break;
@@ -3122,6 +3129,21 @@ function renderAll() {
     default:
       break;
   }
+}
+
+function bindBattleHub() {
+  const root = $("viewBattleHub");
+  if (!root || root.dataset.bound === "1") return;
+  root.dataset.bound = "1";
+  root.addEventListener("click", (ev) => {
+    const filter = ev.target.closest("[data-filter]");
+    if (!filter || !root.contains(filter)) return;
+    const kind = filter.getAttribute("data-filter");
+    root.querySelectorAll("[data-filter]").forEach((btn) => btn.classList.toggle("is-on", btn === filter));
+    root.querySelectorAll("[data-mode]").forEach((card) => {
+      card.classList.toggle("is-off", kind !== "all" && card.getAttribute("data-mode") !== kind);
+    });
+  });
 }
 
 function bindPracticeFightCtas() {
