@@ -724,6 +724,12 @@ function logicalViewId() {
     return state.battleMode === "practice" ? "viewPracticeFight" : "viewBattle";
   }
   if (state.battle?.result && state.lastResult) {
+    if (
+      state.lastResult.result === "p1_win" &&
+      (state.battleMode === "practice" || state.battleMode === "pve" || state.battleMode === "pvp")
+    ) {
+      return "viewVictoryHall";
+    }
     return state.lastResult.result === "p1_win" ? "viewResultWin" : "viewResultLose";
   }
   if (state.soon === "clan_boss" && (state.tab === "guild" || state.tab === "clans")) {
@@ -777,7 +783,12 @@ function logicalViewId() {
 }
 
 function wireModeFor(viewId) {
-  if (viewId === "viewResultWin" || viewId === "viewResultLose" || viewId === "viewResult") {
+  if (
+    viewId === "viewVictoryHall" ||
+    viewId === "viewResultWin" ||
+    viewId === "viewResultLose" ||
+    viewId === "viewResult"
+  ) {
     return "result";
   }
   if (viewId === "viewSoonFarm" || viewId === "viewSoonClan" || viewId === "viewSoon") {
@@ -2716,6 +2727,63 @@ function renderSoon() {
   }
 }
 
+function ruRounds(n) {
+  const k = n % 100;
+  const d = n % 10;
+  const word = k >= 11 && k <= 14 ? "раундов" : d === 1 ? "раунд" : d >= 2 && d <= 4 ? "раунда" : "раундов";
+  return `${n} ${word}`;
+}
+
+function renderVictoryHall() {
+  const mode = state.battleMode;
+  const turn = state.battle?.turn || state.battle?.round || 0;
+  const when = turn ? ` за ${ruRounds(turn)}` : "";
+  const copy = {
+    practice: ["Тренировочное додзё · Арена испытаний", "Славная победа в додзё!", `3 из 3 манекенов повержены${when} · Идеальное исполнение комбо`, "Трофеи додзё"],
+    pve: ["Мифмир · Поход", "Славная победа в походе!", `Узел пройден${when}`, "Трофеи похода"],
+    pvp: ["Арена · ПвП", "Славная победа на арене!", `Соперник повержен${when}`, "Трофеи арены"],
+  }[mode] || ["Бой", "Славная победа!", "Бой завершён", "Трофеи"];
+  if ($("vicKicker")) $("vicKicker").textContent = copy[0];
+  if ($("vicTitle")) $("vicTitle").textContent = copy[1];
+  if ($("vicLead")) $("vicLead").textContent = copy[2];
+  if ($("vicLoot")) $("vicLoot").textContent = copy[3];
+  bindVictoryHall();
+}
+
+function bindVictoryHall() {
+  const root = $("viewVictoryHall");
+  if (!root || root.dataset.bound === "1") return;
+  root.dataset.bound = "1";
+  root.addEventListener("click", (ev) => {
+    const act = ev.target.closest("[data-win]")?.getAttribute("data-win");
+    if (!act) return;
+    ev.preventDefault();
+    const mode = state.battleMode;
+    const battleId = state.battle?.battleId || state.lastResult?.battleId || "";
+    if (act === "log") {
+      toast(battleId ? `Бой ${battleId}` : "Лог боя на сервере");
+      return;
+    }
+    state.battle = null;
+    state.lastResult = null;
+    state.battleMode = "";
+    if (act === "again") {
+      if (mode === "practice") startPractice(false);
+      else if (mode === "pvp") pvpStart();
+      else startYard(false);
+      return;
+    }
+    navigate("battle_hub");
+  });
+  document.addEventListener("keydown", (ev) => {
+    if (root.classList.contains("hidden")) return;
+    if (ev.target.closest("input, textarea")) return;
+    if (ev.code !== "KeyR") return;
+    ev.preventDefault();
+    root.querySelector('[data-win="again"]')?.click();
+  });
+}
+
 function renderResult() {
   const r = state.lastResult;
   const win = r?.result === "p1_win";
@@ -3129,6 +3197,10 @@ function renderAll() {
   }
   if (viewId === "viewBattle" && state.battle && !state.battle.result) {
     renderBattle();
+    return;
+  }
+  if (viewId === "viewVictoryHall") {
+    renderVictoryHall();
     return;
   }
   if (viewId === "viewResultWin" || viewId === "viewResultLose") {
