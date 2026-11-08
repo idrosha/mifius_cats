@@ -3130,14 +3130,35 @@ function bindPracticeFightCtas() {
   root.dataset.practiceBound = "1";
   root.addEventListener("click", (ev) => {
     const label = (ev.target.closest("button, a")?.textContent || "").toLowerCase();
+    if (label.includes("назад")) {
+      ev.preventDefault();
+      navigate("yard");
+      return;
+    }
+    if (label.includes("быстрый тест")) {
+      ev.preventDefault();
+      startPractice(true);
+      return;
+    }
     if (
       label.includes("тренировочный бой") ||
+      label.includes("начать тренировку") ||
       label.includes("начать бой") ||
       label.includes("в бой") ||
       label.includes("старт")
     ) {
       ev.preventDefault();
       startPractice(false);
+    }
+  });
+  document.addEventListener("keydown", (ev) => {
+    if (state.tab !== "practice") return;
+    if (ev.target.closest("input, textarea")) return;
+    if (ev.code === "Space") {
+      ev.preventDefault();
+      startPractice(false);
+    } else if (ev.code === "Escape") {
+      navigate("yard");
     }
   });
 }
