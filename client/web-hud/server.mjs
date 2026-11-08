@@ -290,6 +290,8 @@ const server = http.createServer(async (req, res) => {
     rel === "/barn/" ||
     rel === "/square" ||
     rel === "/square/" ||
+    rel === "/fronts" ||
+    rel === "/fronts/" ||
     rel === "/home" ||
     rel === "/home/"
   ) {

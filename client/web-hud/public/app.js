@@ -905,6 +905,10 @@ function squareAddressOpen() {
   return normalizedPath() === "/square";
 }
 
+function frontsAddressOpen() {
+  return normalizedPath() === "/fronts";
+}
+
 function loginAddressOpen() {
   return normalizedPath() === "/home";
 }
@@ -915,6 +919,7 @@ function screenAddressFor(tab) {
   if (tab === "home") return "/hero";
   if (tab === "gear") return "/barn";
   if (tab === "trade_hub") return "/square";
+  if (tab === "battle_hub") return "/fronts";
   if (tab === "login") return "/home";
   return "/";
 }
@@ -4137,6 +4142,7 @@ function renderAll() {
       break;
     case "battle_hub":
       bindBattleHub();
+      renderBattleHub();
       break;
     case "codex":
       renderCodex();
@@ -4265,18 +4271,87 @@ function bindCollectionRoster() {
   });
 }
 
+function renderBattleHub() {
+  const root = $("viewBattleHub");
+  if (!root || root.classList.contains("hidden")) return;
+
+  if (!state.frontFilter) state.frontFilter = "all";
+  if (!state.frontFocus) state.frontFocus = "yard";
+
+  const tickets = Math.max(0, Number(state.profile?.pvpTickets ?? 5));
+  const ticketCap = 5;
+  const res = $("frontRes");
+  if (res) {
+    res.innerHTML = `
+      <span>⚡ 85/100</span>
+      <span>🔑 3/3</span>
+      <span>🎟 ${tickets}/${ticketCap}</span>
+      <span>☠ 2/2</span>`;
+  }
+
+  const squad = $("frontSquad");
+  if (squad) {
+    // Soft-launch fronts sheet: design trio names (live roster later).
+    squad.innerHTML =
+      `АКТИВНЫЙ ОТРЯД: <b>Тройка №1</b> (Барсик, Рыжик, Мурка) <strong>18,450 БМ</strong>`;
+  }
+
+  root.querySelectorAll("[data-filter]").forEach((btn) => {
+    btn.classList.toggle("is-on", btn.getAttribute("data-filter") === state.frontFilter);
+  });
+  root.querySelectorAll("[data-mode]").forEach((card) => {
+    const mode = card.getAttribute("data-mode");
+    const front = card.getAttribute("data-front");
+    card.classList.toggle("is-off", state.frontFilter !== "all" && mode !== state.frontFilter);
+    card.classList.toggle("is-focus", front === state.frontFocus);
+  });
+}
+
 function bindBattleHub() {
   const root = $("viewBattleHub");
-  if (!root || root.dataset.bound === "1") return;
+  if (!root) return;
+  renderBattleHub();
+  if (root.dataset.bound === "1") return;
   root.dataset.bound = "1";
   root.addEventListener("click", (ev) => {
     const filter = ev.target.closest("[data-filter]");
-    if (!filter || !root.contains(filter)) return;
-    const kind = filter.getAttribute("data-filter");
-    root.querySelectorAll("[data-filter]").forEach((btn) => btn.classList.toggle("is-on", btn === filter));
-    root.querySelectorAll("[data-mode]").forEach((card) => {
-      card.classList.toggle("is-off", kind !== "all" && card.getAttribute("data-mode") !== kind);
-    });
+    if (filter && root.contains(filter)) {
+      state.frontFilter = filter.getAttribute("data-filter") || "all";
+      renderBattleHub();
+      return;
+    }
+    const go = ev.target.closest("[data-front-go]");
+    if (go && root.contains(go)) {
+      const tab = go.getAttribute("data-front-go");
+      state.frontFocus = tab === "journal" ? state.frontFocus : tab;
+      renderBattleHub();
+      if (tab === "journal") {
+        toast("Журнал побед: скоро");
+        return;
+      }
+      if (tab === "formation") {
+        navigate("formation", { primary: "combat" });
+        return;
+      }
+      if (tab === "gear") {
+        navigate("gear");
+        return;
+      }
+      if (tab === "practice" || tab === "yard" || tab === "pvp" || tab === "boss_dungeon") {
+        navigate(tab, { primary: "combat" });
+        return;
+      }
+      if (tab === "boss_raid" || tab === "guild_battle") {
+        navigate(tab, { primary: "combat" });
+        return;
+      }
+      return;
+    }
+    const card = ev.target.closest("[data-front]");
+    if (card && root.contains(card) && !ev.target.closest("[data-front-go]")) {
+      state.frontFocus = card.getAttribute("data-front");
+      renderBattleHub();
+    }
   });
 }
 
@@ -4617,6 +4692,7 @@ function bootTabAfterLogin() {
   if (heroAddressOpen()) return "home";
   if (barnAddressOpen()) return "gear";
   if (squareAddressOpen()) return "trade_hub";
+  if (frontsAddressOpen()) return "battle_hub";
   return "hub";
 }
 
