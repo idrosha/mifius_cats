@@ -1,50 +1,20 @@
-<section id="viewHome" class="stitch-view mythfel-form hidden" data-stitch="home" data-layout="landscape">
-<main class="char-sheet" data-purpose="character-home">
-<header class="char-top">
-<div class="char-brand"><b>МИФИУС</b><span class="char-live">в сети</span></div>
-<ul class="char-wallet" id="homeWallet"></ul>
-<div class="char-user" id="homeUser">Хранитель</div>
-</header>
-<nav class="char-tabs" aria-label="Дом Хранителя">
-<a data-path="glavnyy-khab" href="#">Главный Хаб</a>
-<a class="is-on" data-path="personazh" href="#">Персонаж / Дом</a>
-<a data-path="ekipirovka-sumka" href="#">Инвентарь</a>
-<a data-path="ferma" href="#">Угодья / Ферма</a>
-<a data-path="kraft" href="#">Крафт</a>
-<a data-path="mythworld-pve" href="#">Поход (ПвЕ)</a>
-<a data-path="pvp-arena" href="#">Арена (PvP)</a>
-</nav>
-<nav class="char-sub" aria-label="Рабочий стол">
-<a class="is-on" data-path="personazh" href="#">Рабочий стол</a>
-<a data-path="ekipirovka-sumka" href="#">Экипировка</a>
-<a data-path="ekipirovka-sumka" href="#">Сумка</a>
-<a data-path="sety-broni" href="#">Сеты брони</a>
-<a data-path="klassovye-sety" href="#">Классовые сеты</a>
-<a data-path="kodeks-geroev" href="#">Кодекс героев</a>
-</nav>
-<div class="char-body">
-<section class="char-col" id="homeStatBlock">Дом Хранителя</section>
-<section class="char-stage">
-<div class="char-fit" id="homeHeroCard"></div>
-<div class="char-active" id="homeSetLine"></div>
-<div class="char-compare" id="homeCompare"></div>
-</section>
-<aside class="char-col">
-<div class="char-bag-head"><b>Инвентарь</b><span id="homeBagCount"></span></div>
-<div class="char-filters" id="homeBagTabs">
-<button type="button" data-bag="all">Все</button>
-<button type="button" data-bag="weapon">Оружие</button>
-<button type="button" data-bag="helm">Шлемы</button>
-<button type="button" data-bag="armor">Броня</button>
-<button type="button" data-bag="boots">Обувь</button>
+<!-- Frozen character desk. Address: /home. Do not restyle until asked. Old live sheet removed. -->
+<section id="viewHome" class="stitch-view mythfel-form hidden" data-stitch="home" data-layout="landscape" data-frozen="home">
+<main class="char-sheet" data-purpose="character-home" data-sheet="barsik">
+<div class="char-frame">
+<img class="char-saved" alt="Персонаж — Барсик Громовержец" src="/stitch-assets/character-page.png"/>
 </div>
-<ul class="char-cells" id="homeGearBlock"></ul>
-</aside>
-</div>
-<footer class="char-deck">
-<div class="char-deck-head"><b id="homeDeckLabel">Боевая колода</b><span>Нажми кота, чтобы открыть его стол</span></div>
-<ul id="homeCatPicker"></ul>
-</footer>
+<div id="homeWallet" hidden></div>
+<div id="homeUser" hidden>Хранитель</div>
+<div id="homeStatBlock" hidden>Дом Хранителя · Барсик Громовержец</div>
+<div id="homeHeroCard" hidden>Портрет и экипировка</div>
+<div id="homeSetLine" hidden></div>
+<div id="homeBagTabs" hidden></div>
+<div id="homeBagCount" hidden></div>
+<div id="homeGearBlock" hidden>Инвентарь</div>
+<div id="homeCompare" hidden></div>
+<div id="homeDeckLabel" hidden>Боевая колода</div>
+<div id="homeCatPicker" hidden>Боевая колода</div>
 </main>
 </section>
-<!-- live character desk. Дом Хранителя Инвентарь Экипировка -->
+<!-- Frozen character desk. Дом Хранителя Инвентарь Экипировка -->

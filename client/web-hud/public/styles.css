@@ -1419,11 +1419,7 @@ body.mythfel-farm #app {
   padding-bottom: 0.75rem !important;
 }
 
-/* Character page only: the v2 sheet fills this view. Other screens keep the shared menu. */
-body:has(#viewHome:not(.hidden)) {
-  --mythfel-chrome-stack: 0px;
-}
-body:has(#viewHome:not(.hidden)) #appNav,
+/* Frozen character desk (/home). Shared fillNav stays; old live sheet removed. */
 body:has(#viewHome:not(.hidden)) #wireDock {
   display: none !important;
 }
@@ -1431,19 +1427,39 @@ body:has(#viewHome:not(.hidden)) #app {
   height: 100dvh !important;
   max-height: 100dvh !important;
 }
+#viewHome {
+  background: #100e0c;
+}
 #viewHome > main.char-sheet {
   flex: 1 1 auto !important;
   min-height: 0 !important;
   height: 100% !important;
   width: 100% !important;
   display: flex !important;
-  flex-direction: column;
-  gap: 0.35rem;
-  padding: 0.45rem 0.65rem 0.4rem !important;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  padding: 0 !important;
   background: #100e0c;
   color: #eae1db;
   position: relative;
   overflow: hidden;
+  container-type: size;
+}
+#viewHome .char-frame {
+  position: relative;
+  aspect-ratio: 662 / 487;
+  width: min(100cqw, calc(100cqh * 662 / 487));
+  max-height: 100%;
+}
+#viewHome .char-frame > img.char-saved {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-width: none !important;
+  object-fit: fill !important;
+  background: #100e0c;
 }
 #viewGear .char-hit-row {
   position: absolute;
@@ -1497,209 +1513,6 @@ body:has(#viewCraft:not(.hidden)) #wireDock { display: none !important; }
   object-fit: cover !important;
   object-position: center 40% !important;
 }
-#viewHome .char-top, #viewHome .char-tabs, #viewHome .char-sub, #viewHome .char-deck-head, #viewHome .char-bag-head, #viewHome .char-fit, #viewHome .char-name, #viewHome .char-active {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-}
-#viewHome .char-top { justify-content: space-between; }
-#viewHome .char-brand { display: flex; align-items: center; gap: 0.45rem; }
-#viewHome .char-brand b, #viewHome h2 { font-family: Rubik, sans-serif; }
-#viewHome .char-brand b { font-size: 14px; letter-spacing: 0.04em; color: #fdba45; }
-#viewHome .char-live {
-  font-size: 10px;
-  color: #89d98c;
-  border: 1px solid rgba(137, 217, 140, 0.45);
-  border-radius: 999px;
-  padding: 0.05rem 0.4rem;
-}
-#viewHome .char-role, #viewHome .char-kicker { margin: 0; font-size: 11px; color: #d5c4af; }
-#viewHome .char-wallet {
-  display: flex; gap: 0.7rem; list-style: none; margin: 0; padding: 0.2rem 0.7rem;
-  border-radius: 999px; background: #1a1613; border: 1px solid rgba(80, 69, 53, 0.8);
-}
-#viewHome .char-wallet li { display: flex; align-items: baseline; gap: 0.25rem; font-size: 12px; }
-#viewHome .char-wallet em { font-style: normal; font-size: 10px; color: #9d8f7b; }
-#viewHome .char-wallet b { font-family: Rubik, sans-serif; color: #fdba45; }
-#viewHome .char-user { font-size: 12px; }
-#viewHome .char-user b { color: #fdba45; }
-#viewHome .char-tabs, #viewHome .char-sub { flex-wrap: nowrap; }
-#viewHome .char-tabs a, #viewHome .char-sub a {
-  color: #d5c4af;
-  text-decoration: none;
-  font-size: 12px;
-  font-weight: 700;
-  padding: 0.16rem 0.5rem;
-  border-radius: 999px;
-  white-space: nowrap;
-}
-#viewHome .char-sub { padding-bottom: 0.15rem; }
-#viewHome .char-sub a { font-size: 11px; color: #9d8f7b; }
-#viewHome .char-tabs a.is-on, #viewHome .char-sub a.is-on { background: #d99b26; color: #1a1308; }
-#viewHome .char-body { flex: 1 1 auto; min-height: 0; display: flex; gap: 0.4rem; }
-#viewHome .char-col, #viewHome .char-stage {
-  min-width: 0;
-  min-height: 0;
-  overflow: auto;
-  background: #161310;
-  border: 1px solid rgba(80, 69, 53, 0.7);
-  border-radius: 0.55rem;
-  padding: 0.4rem 0.45rem;
-}
-#viewHome .char-col { width: 23%; display: flex; flex-direction: column; gap: 0.22rem; }
-#viewHome .char-stage { flex: 1 1 auto; display: flex; flex-direction: column; gap: 0.28rem; }
-#viewHome h2 { margin: 0; font-size: 18px; line-height: 1.1; }
-#viewHome h3 { margin: 0.15rem 0 0; font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: #fdba45; }
-#viewHome .char-name { justify-content: space-between; align-items: flex-start; }
-#viewHome .char-lvl { color: #fdba45; font-family: Rubik, sans-serif; font-size: 14px; }
-#viewHome .char-power { margin: 0; display: flex; align-items: baseline; gap: 0.4rem; }
-#viewHome .char-power em { font-style: normal; font-size: 11px; color: #d5c4af; }
-#viewHome .char-power b { font-size: 20px; color: #fdba45; font-family: Rubik, sans-serif; }
-#viewHome .char-power small, #viewHome .char-stats small { color: #89d98c; font-size: 10px; }
-#viewHome .char-stats, #viewHome .char-skills, #viewHome .char-sets, #viewHome .char-slots, #viewHome .char-cells, #viewHome .char-deck ul {
-  list-style: none; margin: 0; padding: 0;
-}
-#viewHome .char-stats li, #viewHome .char-sets li, #viewHome .char-skills li {
-  display: flex; justify-content: space-between; gap: 0.35rem; align-items: baseline;
-  font-size: 12px; padding: 0.08rem 0; border-bottom: 1px solid rgba(80, 69, 53, 0.35);
-}
-#viewHome .char-skills span, #viewHome .char-sets span { color: #9d8f7b; font-size: 10px; }
-#viewHome .char-sets em { color: #89d98c; font-style: normal; }
-#viewHome .char-stars { color: #fdba45; letter-spacing: 0.08em; font-style: normal; }
-#viewHome .char-fit {
-  position: relative;
-  flex: 1 1 auto;
-  min-height: 0;
-  align-self: stretch;
-}
-#viewHome .char-slots {
-  position: absolute;
-  z-index: 2;
-  top: 0.4rem;
-  bottom: 0.4rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  width: 7.2rem;
-}
-#viewHome .char-fit .char-slots:first-of-type { left: 0.35rem; }
-#viewHome .char-fit .char-slots:last-of-type { right: 0.35rem; }
-#viewHome .char-slots li, #viewHome .char-cells li {
-  background: #1f1b18; border: 1px solid rgba(253, 186, 69, 0.4); border-radius: 0.4rem; padding: 0.22rem 0.35rem;
-}
-#viewHome .char-slots b, #viewHome .char-cells b { display: block; font-size: 11px; line-height: 1.15; }
-#viewHome .char-slots span, #viewHome .char-cells small { color: #89d98c; font-size: 10px; }
-#viewHome .char-portrait {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  margin: 0;
-  border-radius: 0.5rem;
-  overflow: hidden;
-  background: #110d0b;
-  border: 1px solid rgba(253, 186, 69, 0.25);
-}
-#viewHome .char-portrait img {
-  width: 100% !important;
-  height: 100% !important;
-  min-height: 0 !important;
-  max-width: none !important;
-  object-fit: cover !important;
-  object-position: center 30% !important;
-  display: block;
-}
-#viewHome .char-slots button,
-#viewHome .char-cells button,
-#viewHome .char-deck button,
-#viewHome .char-filters button {
-  font: inherit;
-  color: inherit;
-  cursor: pointer;
-}
-#viewHome .char-slots button {
-  display: block;
-  width: 100%;
-  text-align: left;
-  background: #1f1b18;
-  border: 1px solid rgba(253, 186, 69, 0.4);
-  border-radius: 0.4rem;
-  padding: 0.28rem 0.4rem;
-}
-#viewHome .char-slots button.is-filled { border-color: #fdba45; }
-#viewHome .char-filters button {
-  border: 0;
-  background: #1f1b18;
-  color: #d5c4af;
-  font-size: 11px;
-  padding: 0.12rem 0.4rem;
-  border-radius: 999px;
-}
-#viewHome .char-filters button.is-on { background: #d99b26; color: #1a1308; }
-#viewHome .char-cells button {
-  width: 100%;
-  height: 100%;
-  border: 0;
-  background: transparent;
-  padding: 0;
-}
-#viewHome .char-cells li.is-worn { box-shadow: inset 0 0 0 1px #89d98c; }
-#viewHome .char-cells li.is-focus { box-shadow: inset 0 0 0 2px #fdba45; }
-#viewHome .char-deck button {
-  width: 100%;
-  border: 0;
-  background: transparent;
-  text-align: left;
-  padding: 0;
-}
-#viewHome .char-deck li.is-active { border-color: #fdba45; }
-#viewHome .char-user span { display: block; font-size: 10px; color: #9d8f7b; }
-#viewHome .char-active { justify-content: space-between; gap: 0.5rem; align-items: center; }
-#viewHome .char-active p { margin: 0; font-size: 11px; color: #d5c4af; }
-#viewHome .char-active div, #viewHome .char-compare div { display: flex; gap: 0.3rem; }
-#viewHome .char-gold, #viewHome .char-ghost {
-  border-radius: 999px;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 0.28rem 0.55rem;
-  cursor: pointer;
-  white-space: nowrap;
-}
-#viewHome .char-gold { border: 0; background: #d99b26; color: #1a1308; }
-#viewHome .char-ghost { border: 1px solid rgba(80, 69, 53, 0.8); background: #1a1613; color: #eae1db; }
-#viewHome .char-bag-head, #viewHome .char-deck-head { justify-content: space-between; }
-#viewHome .char-bag-head b, #viewHome .char-deck-head b { font-size: 13px; }
-#viewHome .char-bag-head span, #viewHome .char-deck-head span { font-size: 11px; color: #d5c4af; }
-#viewHome .char-filters { display: flex; flex-wrap: wrap; gap: 0.25rem; }
-#viewHome .char-filters span { font-size: 11px; padding: 0.1rem 0.35rem; border-radius: 999px; background: #1f1b18; }
-#viewHome .char-filters .is-on { background: #d99b26; color: #1a1308; }
-#viewHome .char-cells { display: flex; flex-wrap: wrap; gap: 0.28rem; }
-#viewHome .char-cells li {
-  width: calc(25% - 0.22rem);
-  aspect-ratio: 1;
-  min-height: 0;
-  box-sizing: border-box;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  padding: 0.15rem;
-}
-#viewHome .char-cells .is-empty { border-style: dashed; border-color: rgba(80, 69, 53, 0.8); background: transparent; }
-#viewHome .char-compare { margin-top: auto; font-size: 11px; color: #d5c4af; }
-#viewHome .char-compare b { display: block; color: #eae1db; margin-bottom: 0.15rem; }
-#viewHome .char-compare p { margin: 0 0 0.3rem; }
-#viewHome .char-deck { flex: 0 0 auto; }
-#viewHome .char-deck ul { display: flex; gap: 0.35rem; margin-top: 0.25rem; overflow-x: auto; }
-#viewHome .char-deck li {
-  flex: 0 0 8.6rem; min-width: 0; background: #161310; border: 1px solid rgba(80, 69, 53, 0.7);
-  border-radius: 0.4rem; padding: 0.28rem 0.35rem;
-}
-#viewHome .char-deck b { display: block; font-size: 12px; color: #fdba45; }
-#viewHome .char-deck span { color: #d5c4af; font-size: 10px; }
-
 /* Live HUD panels over painted forms — filled flush blocks (farm/guild stubs) */
 .mythfel-hud-panel {
   position: absolute;

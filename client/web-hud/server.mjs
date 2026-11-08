@@ -279,7 +279,14 @@ const server = http.createServer(async (req, res) => {
 
   let rel = decodeURIComponent(u.pathname);
   // Frozen halls. Paths stay even when other screens change.
-  if (rel === "/pass" || rel === "/pass/" || rel === "/craft" || rel === "/craft/") {
+  if (
+    rel === "/pass" ||
+    rel === "/pass/" ||
+    rel === "/craft" ||
+    rel === "/craft/" ||
+    rel === "/home" ||
+    rel === "/home/"
+  ) {
     serveFile(res, path.join(PUBLIC, "index.html"));
     return;
   }
