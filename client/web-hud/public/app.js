@@ -847,9 +847,19 @@ function passAddressOpen() {
   return normalizedPath() === "/pass";
 }
 
+function craftAddressOpen() {
+  return normalizedPath() === "/craft";
+}
+
+function screenAddressFor(tab) {
+  if (tab === "pass") return "/pass";
+  if (tab === "craft") return "/craft";
+  return "/";
+}
+
 function syncScreenAddress(tab) {
   if (tab === "login") return;
-  const path = tab === "pass" ? "/pass" : "/";
+  const path = screenAddressFor(tab);
   if (normalizedPath() === path) return;
   history.pushState({ tab }, "", path + location.search + location.hash);
 }
@@ -1271,8 +1281,8 @@ function softNavigateFromLabel(label) {
     ["дом хран", () => navigate("farm", { soon: "farm" })],
     ["усадьб", () => navigate("farm", { soon: "farm" })],
     ["персонаж", () => navigate("home")],
-    ["войти в таверн", () => navigate(passAddressOpen() ? "pass" : "hub")],
-    ["войти", () => navigate(passAddressOpen() ? "pass" : "hub")],
+    ["войти в таверн", () => navigate(bootTabAfterLogin())],
+    ["войти", () => navigate(bootTabAfterLogin())],
     ["чат", () => navigate("chat_global")],
     ["рейтинг", () => navigate("rating_players")],
     ["тренир", () => navigate("practice")],
@@ -1315,8 +1325,13 @@ function bindStitchNav(root) {
     const a = e.target.closest("a[data-path], a[href='#'], button");
     if (!a || !root.contains(a)) return;
     if (a.id === "tabLogin" || a.id === "tabRegister") return;
-    // Pass hall: shared menu uses fillNav. Old portal/dock/CTA soft-links stay closed.
-    if (root.id === "viewHub" || root.dataset.frozen === "pass") {
+    // Frozen halls: shared menu uses fillNav. Old soft-links stay closed.
+    if (
+      root.id === "viewHub" ||
+      root.id === "viewCraft" ||
+      root.dataset.frozen === "pass" ||
+      root.dataset.frozen === "craft"
+    ) {
       if (a.matches("a[href='#']") && !a.getAttribute("data-path")) e.preventDefault();
       return;
     }
@@ -3721,12 +3736,12 @@ async function stubLogin({ login = "", password = "" } = {}) {
         ? "Свободный вход — любой логин/пароль"
         : "Free login — any credentials",
     );
-    navigate(passAddressOpen() ? "pass" : "hub");
+    navigate(bootTabAfterLogin());
   } catch (err) {
     // Still admit on network blip: local grant already loaded at boot.
     console.warn("stub login", err);
     state.loggedIn = true;
-    navigate(passAddressOpen() ? "pass" : "hub");
+    navigate(bootTabAfterLogin());
   } finally {
     if (btn && originalHtml) {
       btn.disabled = false;
@@ -3978,9 +3993,15 @@ async function loadCampaign() {
   }
 }
 
+function bootTabAfterLogin() {
+  if (passAddressOpen()) return "pass";
+  if (craftAddressOpen()) return "craft";
+  return "hub";
+}
+
 window.addEventListener("popstate", () => {
   if (!state.loggedIn) return;
-  const tab = passAddressOpen() ? "pass" : "hub";
+  const tab = bootTabAfterLogin();
   if (state.tab !== tab) navigate(tab);
 });
 

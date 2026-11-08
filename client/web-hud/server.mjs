@@ -278,8 +278,8 @@ const server = http.createServer(async (req, res) => {
   }
 
   let rel = decodeURIComponent(u.pathname);
-  // Frozen battle-pass hall. The path stays even when other screens change.
-  if (rel === "/pass" || rel === "/pass/") {
+  // Frozen halls. Paths stay even when other screens change.
+  if (rel === "/pass" || rel === "/pass/" || rel === "/craft" || rel === "/craft/") {
     serveFile(res, path.join(PUBLIC, "index.html"));
     return;
   }
