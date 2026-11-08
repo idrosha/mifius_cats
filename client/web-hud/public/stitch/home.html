@@ -1,16 +1,16 @@
 <section id="viewHome" class="stitch-view mythfel-form hidden" data-stitch="home" data-layout="landscape">
 <main class="char-sheet" data-purpose="character-home" data-sheet="barsik">
 <header class="char-top">
-<div class="char-brand"><b>Мифиус: Мифические котики</b><span>24мс · ONLINE</span></div>
+<div class="char-brand"><b>МИФИУС: МИФИЧЕСКИЕ КОТИКИ</b><span class="char-live">24мс ONLINE</span></div>
 <ul class="char-wallet">
 <li><em>Золото</em><b>148 250</b></li>
 <li><em>Клубки</em><b>920</b></li>
-<li><em>Энергия</em><b>85 / 100</b></li>
+<li><em>Энергия</em><b>85</b></li>
 <li><em>Самоцветы</em><b>385</b></li>
 </ul>
 <div class="char-user">Хранитель <b>Ур. 48</b></div>
 </header>
-<nav class="char-tabs">
+<nav class="char-tabs" aria-label="Разделы дома">
 <a data-path="glavnyy-khab" href="#">Главный Хаб</a>
 <a class="is-on" data-path="personazh" href="#">Персонаж / Дом Хранителя</a>
 <a data-path="ekipirovka-sumka" href="#">Экипировка</a>
@@ -19,22 +19,33 @@
 <a data-path="kraft" href="#">Крафт</a>
 <a data-path="mythworld-pve" href="#">Поход (ПвЕ)</a>
 <a data-path="pvp-arena" href="#">Арена (PvP)</a>
-<a data-path="kollektsiya-pitomtsev" href="#">Коллекция</a>
-<a data-path="sety-broni" href="#">Сеты брони</a>
+</nav>
+<nav class="char-sub" aria-label="Лист персонажа">
+<a class="is-on" data-path="personazh" href="#">Рабочий стол (Персонаж)</a>
+<a href="#">Вид Снаряжения</a>
+<a data-path="ekipirovka-sumka" href="#">Инвентарь / Сумка</a>
+<a data-path="sety-broni" href="#">Сеты Брони</a>
+<a data-path="klassovye-sety" href="#">Классовые сеты</a>
 <a data-path="kodeks-geroev" href="#">Кодекс героев</a>
 </nav>
 <div class="char-body">
 <aside class="char-col">
-<p class="char-kicker">Мифический · Ур. 80</p>
+<div class="char-name">
+<div>
+<p class="char-kicker">Мифический</p>
 <h2>Барсик Громовержец</h2>
 <p class="char-role">Громовая Стихия · Ассасин</p>
-<p class="char-power"><em>Боевая мощь</em><b>11 450 БМ</b></p>
+</div>
+<b class="char-lvl">Ур. 80</b>
+</div>
+<p class="char-power"><em>Боевая мощь</em><b>18 450 БМ</b><small>+1 180</small></p>
+<h3>Базовые параметры</h3>
 <ul class="char-stats">
-<li><span>Атака</span><b>5 200</b><small>+1 400 экип.</small></li>
+<li><span>Атака</span><b>5 200</b><small>+1 480 экип.</small></li>
 <li><span>Здоровье</span><b>16 800</b><small>+4 200 экип.</small></li>
 <li><span>Защита</span><b>1 580</b><small>+540 экип.</small></li>
 <li><span>Скорость</span><b>115</b><small>+18 экип.</small></li>
-<li><span>Крит</span><b>38% / 185%</b><small>шанс / урон</small></li>
+<li><span>Крит</span><b>38% / 185%</b><small>+12% шанс</small></li>
 <li><span>Сопротивление</span><b>40%</b></li>
 </ul>
 <h3>Мифические силы · 3 активно</h3>
@@ -48,6 +59,7 @@
 <li><b>Громовой Коготь</b><em>4 / 4</em><span>Шторм молний</span></li>
 <li><b>Шерстяной Оберег</b><em>2 / 2</em><span>+13% к криту</span></li>
 </ul>
+<button type="button" class="char-ghost">Снять всё</button>
 </aside>
 <section class="char-stage">
 <p class="char-kicker">Вид снаряжения · 8 / 8 надето</p>
@@ -68,29 +80,39 @@
 <li><b>Бубенец Удачи</b><span>Надето</span></li>
 </ul>
 </div>
-<p class="char-setline">Активен набор «Громовой Коготь» · 4 из 4 предметов</p>
-<p class="char-setline">Громовой Кинжал Перуна · урон +600 · крит +12.4%</p>
+<div class="char-active">
+<p>Активен набор «Громовой Коготь» · 4 из 4 предметов</p>
+<p>Громовой Кинжал Перуна · урон +600 · крит +12.4%</p>
+<div>
+<button type="button" class="char-gold">Заточить в Кузне</button>
+<button type="button" class="char-ghost">Инкрустировать</button>
+</div>
+</div>
 </section>
 <aside class="char-col char-bag">
 <div class="char-bag-head"><b>Инвентарь</b><span>Склад 14 / 96</span></div>
 <div class="char-filters"><span class="is-on">Все</span><span>Оружие</span><span>Шлемы</span><span>Броня</span><span>Амулеты</span></div>
-<ul class="char-items">
+<ul class="char-cells">
 <li><b>Кинжал Перуна</b><small>ATK 480</small></li>
-<li><b>Кираса Саламандры</b><small>DEF 220</small></li>
+<li><b>Кираса</b><small>DEF 220</small></li>
 <li><b>Шлем Бури</b><small>DEF 140</small></li>
-<li><b>Ошейник Сапфира</b><small>HP 900</small></li>
-<li><b>Пояс Исследователя</b><small>SPD 12</small></li>
-<li><b>Перстень Солнца</b><small>CRIT 6%</small></li>
-<li><b>Мягкие Сапожки</b><small>SPD 8</small></li>
-<li><b>Бубенец Удачи</b><small>CRIT 4%</small></li>
+<li><b>Ошейник</b><small>HP 900</small></li>
+<li><b>Пояс</b><small>SPD 12</small></li>
+<li><b>Перстень</b><small>CRIT 6%</small></li>
+<li><b>Сапожки</b><small>SPD 8</small></li>
+<li><b>Бубенец</b><small>CRIT 4%</small></li>
 <li class="is-empty"></li>
 <li class="is-empty"></li>
 <li class="is-empty"></li>
 <li class="is-empty"></li>
 </ul>
 <div class="char-compare">
-<b>Сравнение</b>
+<b>Сравнение снаряжения</b>
 <p>Кинжал Перуна против текущего: ATK 480, без потери скорости.</p>
+<div>
+<button type="button" class="char-gold">Надеть</button>
+<button type="button" class="char-ghost">Переместить</button>
+</div>
 </div>
 </aside>
 </div>
