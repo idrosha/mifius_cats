@@ -547,23 +547,23 @@ const state = {
     autofarm_blacksmith: false,
     autofarm_fish: false,
   },
-  /** Local HUD gear catalog — soft-launch stub (server later). */
+  /** Local HUD gear catalog — soft-launch stub (server later). Icons from design screenshot. */
   gearCatalog: [
-    { id: "weapon_perun", slot: "weapon", name: "Громовой Кинжал Перуна", atk: 680, hp: 0, def: 0, spd: 8, crit: 12.4, rank: 5, rarity: "mythic", enhance: 12, set: "thunder", socket: "Руна Бури I", icon: "⚡" },
-    { id: "weapon_cleaver", slot: "weapon", name: "Тесак Очага", atk: 290, hp: 0, def: 0, spd: 2, crit: 4, rank: 3, rarity: "rare", enhance: 8, set: null, socket: null, icon: "🗡️" },
-    { id: "weapon_wood_claw", slot: "weapon", name: "Деревянный коготь", atk: 120, hp: 0, def: 0, spd: 4, crit: 1, rank: 1, rarity: "common", enhance: 0, set: null, socket: null, icon: "🪵" },
-    { id: "weapon_flint_bow", slot: "weapon", name: "Кремнёвый лук", atk: 160, hp: 0, def: 0, spd: 6, crit: 3, rank: 2, rarity: "rare", enhance: 4, set: null, socket: null, icon: "🏹" },
-    { id: "helm_storm", slot: "helm", name: "Шлем Буревестника", atk: 40, hp: 620, def: 85, spd: 0, crit: 0, rank: 5, rarity: "mythic", enhance: 12, set: "thunder", socket: null, icon: "🪖" },
-    { id: "helm_grey_cap", slot: "helm", name: "Серый шлем", atk: 0, hp: 180, def: 25, spd: 0, crit: 0, rank: 1, rarity: "common", enhance: 0, set: null, socket: null, icon: "🎩" },
-    { id: "armor_thunder", slot: "armor", name: "Кираса Громового Когтя", atk: 60, hp: 2100, def: 180, spd: 0, crit: 0, rank: 5, rarity: "mythic", enhance: 12, set: "thunder", socket: null, icon: "🦺" },
-    { id: "armor_grey_plate", slot: "armor", name: "Серая кираса", atk: 0, hp: 420, def: 40, spd: 0, crit: 0, rank: 1, rarity: "common", enhance: 0, set: null, socket: null, icon: "🛡️" },
-    { id: "armor_green_mail", slot: "armor", name: "Зелёная кольчуга", atk: 0, hp: 620, def: 55, spd: 0, crit: 0, rank: 2, rarity: "rare", enhance: 6, set: "wool", socket: null, icon: "🧥" },
-    { id: "boots_storm", slot: "boots", name: "Сапоги Астрального Прыжка", atk: 20, hp: 240, def: 35, spd: 28, crit: 2, rank: 5, rarity: "mythic", enhance: 10, set: "thunder", socket: null, icon: "👢" },
-    { id: "boots_soft_pads", slot: "boots", name: "Мягкие лапки", atk: 0, hp: 0, def: 10, spd: 12, crit: 0, rank: 1, rarity: "common", enhance: 0, set: null, socket: null, icon: "🐾" },
-    { id: "belt_wool", slot: "belt", name: "Пояс Шерстяного Оберега", atk: 0, hp: 480, def: 40, spd: 4, crit: 0, rank: 4, rarity: "epic", enhance: 8, set: "wool", socket: null, icon: "🪢" },
-    { id: "ring_storm", slot: "ring", name: "Кольцо Грома", atk: 90, hp: 0, def: 0, spd: 6, crit: 6, rank: 5, rarity: "mythic", enhance: 10, set: "thunder", socket: null, icon: "💍" },
-    { id: "amulet_wool", slot: "amulet", name: "Амулет Шерстяного Оберега", atk: 0, hp: 560, def: 55, spd: 0, crit: 0, rank: 4, rarity: "epic", enhance: 7, set: "wool", socket: null, icon: "🔮" },
-    { id: "offhand_claw", slot: "offhand", name: "Коготь-парир", atk: 110, hp: 0, def: 30, spd: 4, crit: 3, rank: 3, rarity: "rare", enhance: 5, set: null, socket: null, icon: "🪶" },
+    { id: "weapon_perun", slot: "weapon", name: "Громовой Кинжал Перуна", atk: 680, hp: 0, def: 0, spd: 8, crit: 12.4, rank: 5, rarity: "mythic", enhance: 12, set: "thunder", socket: "Руна Бури I", iconSrc: "/stitch-assets/hero-icons/inv_00.png" },
+    { id: "weapon_cleaver", slot: "weapon", name: "Тесак Очага", atk: 290, hp: 0, def: 0, spd: 2, crit: 4, rank: 3, rarity: "rare", enhance: 8, set: null, socket: null, iconSrc: "/stitch-assets/hero-icons/inv_03.png" },
+    { id: "weapon_wood_claw", slot: "weapon", name: "Деревянный коготь", atk: 120, hp: 0, def: 0, spd: 4, crit: 1, rank: 1, rarity: "common", enhance: 0, set: null, socket: null, iconSrc: "/stitch-assets/hero-icons/inv_03.png" },
+    { id: "weapon_flint_bow", slot: "weapon", name: "Кремнёвый лук", atk: 160, hp: 0, def: 0, spd: 6, crit: 3, rank: 2, rarity: "rare", enhance: 4, set: null, socket: null, iconSrc: "/stitch-assets/hero-icons/inv_00.png" },
+    { id: "helm_storm", slot: "helm", name: "Шлем Буревестника", atk: 40, hp: 620, def: 85, spd: 0, crit: 0, rank: 5, rarity: "mythic", enhance: 12, set: "thunder", socket: null, iconSrc: "/stitch-assets/hero-icons/inv_02.png" },
+    { id: "helm_grey_cap", slot: "helm", name: "Серый шлем", atk: 0, hp: 180, def: 25, spd: 0, crit: 0, rank: 1, rarity: "common", enhance: 0, set: null, socket: null, iconSrc: "/stitch-assets/hero-icons/inv_03.png" },
+    { id: "armor_thunder", slot: "armor", name: "Кираса Громового Когтя", atk: 60, hp: 2100, def: 180, spd: 0, crit: 0, rank: 5, rarity: "mythic", enhance: 12, set: "thunder", socket: null, iconSrc: "/stitch-assets/hero-icons/inv_04.png" },
+    { id: "armor_grey_plate", slot: "armor", name: "Серая кираса", atk: 0, hp: 420, def: 40, spd: 0, crit: 0, rank: 1, rarity: "common", enhance: 0, set: null, socket: null, iconSrc: "/stitch-assets/hero-icons/inv_01.png" },
+    { id: "armor_green_mail", slot: "armor", name: "Зелёная кольчуга", atk: 0, hp: 620, def: 55, spd: 0, crit: 0, rank: 2, rarity: "rare", enhance: 6, set: "wool", socket: null, iconSrc: "/stitch-assets/hero-icons/inv_10.png" },
+    { id: "boots_storm", slot: "boots", name: "Сапоги Астрального Прыжка", atk: 20, hp: 240, def: 35, spd: 28, crit: 2, rank: 5, rarity: "mythic", enhance: 10, set: "thunder", socket: null, iconSrc: "/stitch-assets/hero-icons/inv_08.png" },
+    { id: "boots_soft_pads", slot: "boots", name: "Мягкие лапки", atk: 0, hp: 0, def: 10, spd: 12, crit: 0, rank: 1, rarity: "common", enhance: 0, set: null, socket: null, iconSrc: "/stitch-assets/hero-icons/inv_08.png" },
+    { id: "belt_wool", slot: "belt", name: "Пояс Шерстяного Оберега", atk: 0, hp: 480, def: 40, spd: 4, crit: 0, rank: 4, rarity: "epic", enhance: 8, set: "wool", socket: null, iconSrc: "/stitch-assets/hero-icons/inv_04.png" },
+    { id: "ring_storm", slot: "ring", name: "Кольцо Грома", atk: 90, hp: 0, def: 0, spd: 6, crit: 6, rank: 5, rarity: "mythic", enhance: 10, set: "thunder", socket: null, iconSrc: "/stitch-assets/hero-icons/inv_06.png" },
+    { id: "amulet_wool", slot: "amulet", name: "Амулет Шерстяного Оберега", atk: 0, hp: 560, def: 55, spd: 0, crit: 0, rank: 4, rarity: "epic", enhance: 7, set: "wool", socket: null, iconSrc: "/stitch-assets/hero-icons/inv_05.png" },
+    { id: "offhand_claw", slot: "offhand", name: "Коготь-парир", atk: 110, hp: 0, def: 30, spd: 4, crit: 3, rank: 3, rarity: "rare", enhance: 5, set: null, socket: null, iconSrc: "/stitch-assets/hero-icons/inv_07.png" },
   ],
   /** catId → slot → item id */
   equippedByCat: {},
@@ -2206,12 +2206,12 @@ function renderHome() {
     const role = CAT_ROLE_RU[cat.role] || cat.role;
     const element = CAT_ELEMENT_RU[cat.element] || cat.element;
     const rows = [
-      ["Атака (ATK)", stats.atk, stats.bonus.atk ? `+${stats.bonus.atk} экип.` : ""],
-      ["Здоровье (HP)", stats.hp, stats.bonus.hp ? `+${stats.bonus.hp} экип.` : ""],
-      ["Защита (DEF)", stats.def, stats.bonus.def ? `+${stats.bonus.def} броня` : ""],
-      ["Скорость (SPD)", stats.spd, stats.bonus.spd ? `+${stats.bonus.spd} ловкость` : ""],
-      ["Крит. шанс / урон", `${critChance}% / ${critDamage}%`, critChance > 18 ? "+спек." : ""],
-      ["Сопротивление", `${resist}%`, ""],
+      ["atk", "Атака (ATK)", stats.atk, stats.bonus.atk ? `+${stats.bonus.atk} экип.` : ""],
+      ["hp", "Здоровье (HP)", stats.hp, stats.bonus.hp ? `+${stats.bonus.hp} экип.` : ""],
+      ["def", "Защита (DEF)", stats.def, stats.bonus.def ? `+${stats.bonus.def} броня` : ""],
+      ["spd", "Скорость (SPD)", stats.spd, stats.bonus.spd ? `+${stats.bonus.spd} ловкость` : ""],
+      ["crit", "Крит. шанс / урон", `${critChance}% / ${critDamage}%`, critChance > 18 ? "+спек." : ""],
+      ["resist", "Сопротивление", `${resist}%`, ""],
     ];
     const powers = [
       ["Громогласный Рык", "Пассив", "Союзники получают +8% урона молнии"],
@@ -2223,25 +2223,34 @@ function renderHome() {
       .map(([id, meta]) => {
         const have = setCounts[id] || 0;
         const on = have >= meta.need;
-        return `<li class="${on ? "is-on" : ""}"><span>${meta.name} (${have}/${meta.need})</span><em>${on ? meta.bonus : "не собран"}</em></li>`;
+        return `<li class="${on ? "is-on" : ""}"><span>${meta.name} (${have}/${meta.need})</span><em>${
+          on
+            ? `<img class="char-ico" alt="" src="/stitch-assets/hero-icons/ui_check.png"/> ${meta.bonus}`
+            : "не собран"
+        }</em></li>`;
       })
       .join("");
+    const icon = (name) => `/stitch-assets/hero-icons/stat_${name}.png`;
     statBlock.innerHTML = `
       <div class="char-name-row">
         <p class="char-kicker">Мифический <em class="char-stars">${stars}</em></p>
         <span class="char-lvl">Ур. ${cat.level || 1}</span>
       </div>
       <div class="char-name"><h2>${catSheetName(cat)}</h2></div>
-      <p class="char-role">${element} + ${role}</p>
-      <p class="char-power"><em>Боевая мощь</em><b>${formatSheetNum(sheetPower(stats))}</b><small>БМ</small>${
+      <p class="char-role"><img class="char-ico" alt="" src="${icon("resist")}"/> ${element} + ${role}</p>
+      <p class="char-power"><img class="char-ico char-ico-lg" alt="" src="${icon("power")}"/><em>Боевая мощь</em><b>${formatSheetNum(
+        sheetPower(stats),
+      )}</b><small>БМ</small>${
         gearBonusPower ? `<small class="is-bonus">+${formatSheetNum(gearBonusPower)} экип.</small>` : ""
       }</p>
       <h3>Базовые параметры</h3>
       <ul class="char-stats">
         ${rows
           .map(
-            ([label, value, bonus]) =>
-              `<li><span>${label}</span><b>${typeof value === "number" ? formatSheetNum(value) : value}</b><small>${bonus || ""}</small></li>`,
+            ([ico, label, value, bonus]) =>
+              `<li><span class="char-stat-label"><img class="char-ico" alt="" src="${icon(ico)}"/> ${label}</span><b>${
+                typeof value === "number" ? formatSheetNum(value) : value
+              }</b><small>${bonus || ""}</small></li>`,
           )
           .join("")}
       </ul>
@@ -2257,8 +2266,8 @@ function renderHome() {
       <h3>Эффекты наборов</h3>
       <ul class="char-sets">${setHtml}</ul>
       <div class="char-active">
-        <button type="button" class="char-gold" id="homeBest">Лучшее</button>
-        <button type="button" class="char-ghost" id="homeUnequip">Снять всё</button>
+        <button type="button" class="char-gold" id="homeBest"><img class="char-ico" alt="" src="/stitch-assets/hero-icons/ui_wand.png"/> Лучшее</button>
+        <button type="button" class="char-ghost" id="homeUnequip"><img class="char-ico" alt="" src="/stitch-assets/hero-icons/ui_refresh.png"/> Снять всё</button>
       </div>`;
     $("homeBest").onclick = () => equipBest(cat.catId);
     $("homeUnequip").onclick = () => unequipAll(cat.catId);
@@ -2269,8 +2278,9 @@ function renderHome() {
     const slotHtml = (slot) => {
       const item = state.gearCatalog.find((g) => g.id === eq[slot]);
       const rarity = item?.rarity || "empty";
+      const src = item?.iconSrc || `/stitch-assets/hero-icons/slot_${slot}.png`;
       return `<button type="button" class="char-slot rarity-${rarity}${item ? " is-filled" : ""}" data-slot="${slot}" title="${HOME_SLOT_RU[slot]}">
-        <i>${item?.icon || "·"}</i>
+        <img class="char-slot-art" alt="" src="${src}"/>
         <small>${HOME_SLOT_RU[slot]}</small>
         <strong>${item ? item.name.split(" ").slice(-2).join(" ") : "Пусто"}</strong>
         <em>${item ? (item.enhance ? `+${item.enhance}` : `R${item.rank}`) : ""}</em>
@@ -2280,7 +2290,7 @@ function renderHome() {
     hero.innerHTML = `
       <div class="char-slots is-left">${HOME_SLOT_LEFT.map(slotHtml).join("")}</div>
       <div class="char-portrait">
-        <img alt="" src="/stitch-assets/dc459e94ceed.jpg">
+        <img alt="" src="/stitch-assets/hero-icons/portrait.png">
       </div>
       <div class="char-slots is-right">${HOME_SLOT_RIGHT.map(slotHtml).join("")}</div>`;
     hero.querySelectorAll("[data-slot]").forEach((btn) => {
@@ -2306,7 +2316,7 @@ function renderHome() {
     if (focus) {
       selected.innerHTML = `
         <div class="char-selected-main">
-          <i class="rarity-${focus.rarity || "common"}">${focus.icon || "◆"}</i>
+          <img class="char-selected-art rarity-${focus.rarity || "common"}" alt="" src="${focus.iconSrc || "/stitch-assets/hero-icons/inv_00.png"}"/>
           <div>
             <strong>${focus.name}${focus.enhance ? ` +${focus.enhance}` : ""}</strong>
             <p>${HOME_RARITY_RU[focus.rarity] || "Обыч"} · ${HOME_SLOT_RU[focus.slot] || focus.slot}</p>
@@ -2372,7 +2382,7 @@ function renderHome() {
       li.className = `rarity-${item.rarity || "common"}${onThis ? " is-worn" : ""}${focus && focus.id === item.id ? " is-focus" : ""}`;
       const card = document.createElement("button");
       card.type = "button";
-      card.innerHTML = `<i>${item.icon || "◆"}</i><b>${item.name}</b><small>${item.enhance ? `+${item.enhance}` : `R${item.rank}`}</small>`;
+      card.innerHTML = `<img class="char-cell-art" alt="" src="${item.iconSrc || "/stitch-assets/hero-icons/inv_00.png"}"/><b>${item.name}</b><small>${item.enhance ? `+${item.enhance}` : `R${item.rank}`}</small>`;
       card.addEventListener("click", () => {
         state.homeBagFocus = item.id;
         renderHome();
@@ -2432,13 +2442,13 @@ function renderHome() {
     picker.innerHTML = "";
     const squad = cats.slice(0, 4);
     if (cat && !squad.some((c) => c.catId === cat.catId)) squad[squad.length - 1] = cat;
-    squad.forEach((c) => {
+    squad.forEach((c, index) => {
       const li = document.createElement("li");
       if (c.catId === cat.catId) li.classList.add("is-active");
       const b = document.createElement("button");
       b.type = "button";
       b.title = catSheetName(c);
-      b.innerHTML = `<b>${catSheetName(c).split(" ")[0]}</b><span>${CAT_ROLE_RU[c.role] || c.role}</span>`;
+      b.innerHTML = `<img class="char-squad-art" alt="" src="/stitch-assets/hero-icons/squad_${Math.min(index, 3)}.png"/><b>${catSheetName(c).split(" ")[0]}</b><span>${CAT_ROLE_RU[c.role] || c.role}</span>`;
       b.addEventListener("click", () => {
         state.selectedCatId = c.catId;
         renderHome();
@@ -2450,7 +2460,11 @@ function renderHome() {
 
   const deckLabel = $("homeDeckLabel");
   if (deckLabel) {
-    deckLabel.textContent = `Боевая Колода Котика — Карты Атак Кота (6 Приёмов) · ${catSheetName(cat)}`;
+    deckLabel.innerHTML = `<img class="char-ico" alt="" src="/stitch-assets/hero-icons/ui_ap.png"/> Боевая Колода Котика — Карты Атак Кота (6 Приёмов) · ${catSheetName(cat)}`;
+  }
+  const deckAp = $("homeDeckAp");
+  if (deckAp) {
+    deckAp.innerHTML = `<img class="char-ico" alt="" src="/stitch-assets/hero-icons/ui_ap.png"/> Расход AP: <b>11 AP</b> / ход`;
   }
   const deckCards = $("homeDeckCards");
   if (deckCards) {
@@ -2465,7 +2479,7 @@ function renderHome() {
     deckCards.innerHTML = cards
       .map(
         ([name, tag, dmg], i) =>
-          `<li class="${i === cards.length - 1 ? "is-ult" : ""}"><b>${name}</b><span>${tag}</span><em>${dmg}</em></li>`,
+          `<li class="${i === cards.length - 1 ? "is-ult" : ""}"><img class="char-deck-art" alt="" src="/stitch-assets/hero-icons/deck_${i}.png"/><b>${name}</b><span>${tag}</span><em>${dmg}</em></li>`,
       )
       .join("");
   }

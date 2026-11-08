@@ -1617,6 +1617,37 @@ body:has(#viewHome:not(.hidden)) #app {
 }
 #viewHome .char-server { color: #89d98c; }
 #viewHome .char-keys { color: #d5c4af; }
+#viewHome .char-ico {
+  width: 1.05rem; height: 1.05rem; object-fit: contain; vertical-align: -0.2rem;
+  display: inline-block; margin-right: 0.2rem;
+}
+#viewHome .char-ico-lg { width: 1.35rem; height: 1.35rem; }
+#viewHome .char-stat-label { display: inline-flex; align-items: center; gap: 0.15rem; }
+#viewHome .char-slot {
+  padding-left: 2.35rem !important;
+}
+#viewHome .char-slot-art {
+  position: absolute; left: 0.2rem; top: 50%; transform: translateY(-50%);
+  width: 1.7rem; height: 1.7rem; object-fit: cover; border-radius: 0.28rem;
+  border: 1px solid rgba(253, 186, 69, 0.35); background: #100e0c;
+}
+#viewHome .char-selected-art {
+  width: 2.6rem; height: 2.6rem; object-fit: cover; border-radius: 0.35rem;
+  border: 1px solid rgba(253, 186, 69, 0.45); background: #100e0c; flex: 0 0 auto;
+}
+#viewHome .char-cell-art {
+  width: 70%; height: 55%; object-fit: cover; border-radius: 0.25rem; display: block;
+}
+#viewHome .char-squad-art {
+  width: 1.7rem; height: 1.7rem; border-radius: 999px; object-fit: cover; display: block; margin: 0 auto 0.1rem;
+  border: 1px solid rgba(253, 186, 69, 0.4);
+}
+#viewHome .char-deck-art {
+  width: 100%; height: 2.4rem; object-fit: cover; border-radius: 0.3rem; display: block; margin-bottom: 0.25rem;
+  border: 1px solid rgba(80, 69, 53, 0.7);
+}
+#viewHome .char-sets em { display: inline-flex; align-items: center; gap: 0.15rem; }
+#viewHome .char-gold .char-ico, #viewHome .char-ghost .char-ico { margin-right: 0.25rem; }
 
 #viewGear .char-hit-row {
   position: absolute;
