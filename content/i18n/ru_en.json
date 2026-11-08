@@ -552,20 +552,24 @@
     "en": "Guilds"
   },
   "nav.primary.chats": {
-    "ru": "Чаты",
-    "en": "Chats"
+    "ru": "Друзья",
+    "en": "Friends"
   },
   "nav.primary.pass": {
-    "ru": "Боевой пасс",
+    "ru": "Боевой пропуск",
     "en": "Battle Pass"
+  },
+  "nav.primary.knowledge": {
+    "ru": "База знаний",
+    "en": "Knowledge base"
   },
   "nav.primary.ratings": {
     "ru": "Рейтинги",
     "en": "Ratings"
   },
   "nav.sub.gear": {
-    "ru": "Экипировка",
-    "en": "Gear"
+    "ru": "Склад",
+    "en": "Storehouse"
   },
   "nav.sub.home": {
     "ru": "Персонаж",
@@ -592,28 +596,32 @@
     "en": "Breeding"
   },
   "nav.sub.mythmir": {
-    "ru": "Мифмир (PvE)",
-    "en": "Mythmir (PvE)"
+    "ru": "Хаб боев Мифмир",
+    "en": "Mythmir battle hub"
+  },
+  "nav.sub.pve": {
+    "ru": "ПВЕ",
+    "en": "PvE"
   },
   "nav.sub.formation": {
     "ru": "Строй 3v3",
     "en": "3v3 formation"
   },
   "nav.sub.pvp": {
-    "ru": "PvP",
+    "ru": "ПВП",
     "en": "PvP"
   },
   "nav.sub.boss_dungeon": {
-    "ru": "Данжи",
-    "en": "Dungeons"
+    "ru": "Данж",
+    "en": "Dungeon"
   },
   "nav.sub.boss_raid": {
-    "ru": "Рейд / легион",
-    "en": "Raid / legion"
+    "ru": "Рейд",
+    "en": "Raid"
   },
   "nav.sub.trade_hub": {
-    "ru": "Хаб Торговли",
-    "en": "Trade hub"
+    "ru": "Хаб торговли Площадь",
+    "en": "Trade square hub"
   },
   "nav.sub.tavern": {
     "ru": "Таверна",
@@ -631,13 +639,17 @@
     "ru": "Аукцион",
     "en": "Auction"
   },
+  "nav.sub.guild_hub": {
+    "ru": "Хаб Гильдии",
+    "en": "Guild hub"
+  },
   "nav.sub.guild": {
     "ru": "Моя гильдия",
     "en": "My guild"
   },
   "nav.sub.guild_battle": {
-    "ru": "Бой гильдий",
-    "en": "Guild battle"
+    "ru": "Война Гильдий",
+    "en": "Guild war"
   },
   "guild.battle.title": {
     "ru": "Бой гильдий (GvG)",
@@ -728,28 +740,36 @@
     "en": "List a lot"
   },
   "nav.sub.chat_global": {
-    "ru": "Общий",
-    "en": "Global"
+    "ru": "Чаты",
+    "en": "Chats"
   },
   "nav.sub.chat_guild": {
-    "ru": "Гильдия",
-    "en": "Guild"
+    "ru": "Чат Гильдии",
+    "en": "Guild chat"
   },
   "nav.sub.chat_friends": {
-    "ru": "Друзья",
-    "en": "Friends"
+    "ru": "Список Друзей",
+    "en": "Friend list"
   },
   "nav.sub.pass": {
     "ru": "Боевой пасс",
     "en": "Battle Pass"
   },
   "nav.sub.rating_players": {
-    "ru": "Игроки",
-    "en": "Players"
+    "ru": "Рейтинг ПВП",
+    "en": "PvP rating"
+  },
+  "nav.sub.rating_dungeon": {
+    "ru": "Рейтинг Данжей",
+    "en": "Dungeon rating"
+  },
+  "nav.sub.rating_raid": {
+    "ru": "Рейтинг Рейдов",
+    "en": "Raid rating"
   },
   "nav.sub.rating_guilds": {
-    "ru": "Гильдии",
-    "en": "Guilds"
+    "ru": "Рейтинг Гильдий",
+    "en": "Guild rating"
   },
   "hub.tab.boss_raid": {
     "ru": "Рейд",

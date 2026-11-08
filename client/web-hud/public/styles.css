@@ -1674,7 +1674,10 @@ button.mythfel-hub-brand {
   text-decoration: none;
   white-space: nowrap;
 }
-.mythfel-hub-tabs a.is-active {
+.mythfel-hub-tabs a.is-active,
+.mythfel-hub-tabs button.is-active,
+.mythfel-hub-sub a.is-active,
+.mythfel-hub-sub button.is-active {
   background: linear-gradient(180deg, #fdba45, #d99b26);
   color: #2a1c00;
 }
