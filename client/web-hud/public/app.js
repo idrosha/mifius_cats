@@ -758,7 +758,7 @@ function logicalViewId() {
     shop: "viewShop",
     market: "viewMarket",
     tavern: "viewTavern",
-    pass: "viewPass",
+    pass: "viewHub",
     gear: "viewGear",
     home: "viewHome",
     heroes: "viewHeroes",
@@ -838,6 +838,22 @@ function updateWireDock() {
   }
 }
 
+function normalizedPath() {
+  const path = location.pathname.replace(/\/+$/, "");
+  return path || "/";
+}
+
+function passAddressOpen() {
+  return normalizedPath() === "/pass";
+}
+
+function syncScreenAddress(tab) {
+  if (tab === "login") return;
+  const path = tab === "pass" ? "/pass" : "/";
+  if (normalizedPath() === path) return;
+  history.pushState({ tab }, "", path + location.search + location.hash);
+}
+
 function navigate(tab, { soon = null, clearBattle = true, primary = null, fromGate = false } = {}) {
   if (clearBattle) {
     state.battle = null;
@@ -896,6 +912,7 @@ function navigate(tab, { soon = null, clearBattle = true, primary = null, fromGa
   state.primary = primary || group?.id || state.primary || "combat";
   // Login chrome: hide nav while on login
   document.body.classList.toggle("mythfel-login", tab === "login");
+  syncScreenAddress(tab);
   document.body.classList.toggle("mythfel-trade", tab === "trade_hub");
   renderAll();
 }
@@ -1254,8 +1271,8 @@ function softNavigateFromLabel(label) {
     ["дом хран", () => navigate("farm", { soon: "farm" })],
     ["усадьб", () => navigate("farm", { soon: "farm" })],
     ["персонаж", () => navigate("home")],
-    ["войти в таверн", () => navigate("hub")],
-    ["войти", () => navigate("hub")],
+    ["войти в таверн", () => navigate(passAddressOpen() ? "pass" : "hub")],
+    ["войти", () => navigate(passAddressOpen() ? "pass" : "hub")],
     ["чат", () => navigate("chat_global")],
     ["рейтинг", () => navigate("rating_players")],
     ["тренир", () => navigate("practice")],
@@ -3694,12 +3711,12 @@ async function stubLogin({ login = "", password = "" } = {}) {
         ? "Свободный вход — любой логин/пароль"
         : "Free login — any credentials",
     );
-    navigate("hub");
+    navigate(passAddressOpen() ? "pass" : "hub");
   } catch (err) {
     // Still admit on network blip: local grant already loaded at boot.
     console.warn("stub login", err);
     state.loggedIn = true;
-    navigate("hub");
+    navigate(passAddressOpen() ? "pass" : "hub");
   } finally {
     if (btn && originalHtml) {
       btn.disabled = false;
@@ -3950,6 +3967,12 @@ async function loadCampaign() {
     state.bossFirst = null;
   }
 }
+
+window.addEventListener("popstate", () => {
+  if (!state.loggedIn) return;
+  const tab = passAddressOpen() ? "pass" : "hub";
+  if (state.tab !== tab) navigate(tab);
+});
 
 async function main() {
   window.mythfelNavigate = navigate;
