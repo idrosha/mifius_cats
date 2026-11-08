@@ -1,4 +1,4 @@
-<!-- Live battle fronts. Address: /fronts. Soft data-path closed; shared fillNav only. -->
+<!-- Live battle fronts. Address: /fronts. Building pins always on; detail cards only on hover/focus. -->
 <section id="viewBattleHub" class="stitch-view mythfel-form hidden" data-stitch="battle_hub" data-layout="landscape" data-purpose-route="fronts">
 <main class="front-hall" data-purpose="battle-fronts">
 <header class="front-top">
@@ -17,15 +17,26 @@
 <div class="front-map">
 <img class="front-bg" alt="" src="/stitch-assets/battle-frontiers.png"/>
 <div class="front-veil" aria-hidden="true"></div>
-<div class="front-cards" id="frontCards">
-<article class="front-card" data-mode="solo" data-front="practice">
+<div class="front-zones" id="frontCards">
+<div class="front-zone is-tl" data-mode="solo" data-front="practice">
+<button type="button" class="front-pin" data-front-pin="practice" aria-expanded="false" aria-controls="frontCardPractice">
+<span class="front-pin-ico material-symbols-outlined" aria-hidden="true">sports_martial_arts</span>
+<span class="front-pin-text"><b>ДОДЗЁ</b><em>Всегда</em></span>
+</button>
+<article class="front-card" id="frontCardPractice" data-front="practice" hidden>
 <small>ТРЕНИРОВКА · ДОДЗЁ</small>
 <h3>Тренировочный лагерь (Додзё)</h3>
 <p>Отработка комбо 3v3, проверка связок на манекенах, без потери энергии.</p>
 <div class="front-meta"><span class="is-ok">● Всегда доступно</span><span>Замер DPS &amp; Синергий</span></div>
 <button type="button" data-front-go="practice">Войти в Додзё →</button>
 </article>
-<article class="front-card is-focus" data-mode="solo" data-front="yard">
+</div>
+<div class="front-zone is-tc" data-mode="solo" data-front="yard">
+<button type="button" class="front-pin is-gold" data-front-pin="yard" aria-expanded="false" aria-controls="frontCardYard">
+<span class="front-pin-ico material-symbols-outlined" aria-hidden="true">menu_book</span>
+<span class="front-pin-text"><b>КАМПАНИЯ</b><em>Этап 4–8</em></span>
+</button>
+<article class="front-card" id="frontCardYard" data-front="yard" hidden>
 <small>PVE РЕЖИМ · КАМПАНИЯ</small>
 <h3>Мифмир: Кампания (Глава 4)</h3>
 <p class="front-sub">Рудники Мяу-Кары</p>
@@ -33,21 +44,40 @@
 <div class="front-meta"><span class="is-warn">● Этап 4–8</span><span>⚡ 6 энергии</span><em>4–8</em></div>
 <button type="button" class="is-gold" data-front-go="yard">К битве за Рудники →</button>
 </article>
-<article class="front-card" data-mode="team" data-front="pvp">
+</div>
+<div class="front-zone is-tr" data-mode="team" data-front="pvp">
+<button type="button" class="front-pin" data-front-pin="pvp" aria-expanded="false" aria-controls="frontCardPvp">
+<span class="front-pin-ico material-symbols-outlined" aria-hidden="true">swords</span>
+<span class="front-pin-text"><b>АРЕНА</b><em>Золотая II</em></span>
+</button>
+<article class="front-card" id="frontCardPvp" data-front="pvp" hidden>
 <small>АРЕНА (PVP 3V3)</small>
 <h3>PvP Колизей: Дуэли Трёх</h3>
 <p>Рейтинговый подбор против отрядов других Хранителей, сезонные ранги.</p>
 <div class="front-meta"><span class="is-warn">● Золотая Лига II</span><span>5/5 билетов</span></div>
 <button type="button" data-front-go="pvp">Вступить в бой →</button>
 </article>
-<article class="front-card" data-mode="solo" data-front="boss_dungeon">
+</div>
+<div class="front-zone is-bl" data-mode="solo" data-front="boss_dungeon">
+<button type="button" class="front-pin is-leaf" data-front-pin="boss_dungeon" aria-expanded="false" aria-controls="frontCardDungeon">
+<span class="front-pin-ico material-symbols-outlined" aria-hidden="true">key</span>
+<span class="front-pin-text"><b>СКЛЕПЫ</b><em>3/3 ключа</em></span>
+</button>
+<article class="front-card" id="frontCardDungeon" data-front="boss_dungeon" hidden>
 <small>ПОДЗЕМЕЛЬЯ · 3 ВОЛНЫ</small>
 <h3>Рунические Склепы &amp; Пещеры</h3>
 <p>Испытания 3 волн чудовищ, добыча чертежей брони, свитков и рун.</p>
 <div class="front-meta"><span class="is-ok">● Доступно 3/3 ключа</span><span>Награда: Ранги 4–6</span></div>
 <button type="button" data-front-go="boss_dungeon">Штурмовать данж →</button>
 </article>
-<article class="front-card is-boss" data-mode="team" data-front="boss_raid">
+</div>
+<div class="front-zone is-bc is-boss" data-mode="team" data-front="boss_raid">
+<button type="button" class="front-pin is-hot" data-front-pin="boss_raid" aria-expanded="false" aria-controls="frontCardRaid">
+<span class="front-pin-ico material-symbols-outlined" aria-hidden="true">skull</span>
+<span class="front-pin-text"><b>РЕЙД</b><em>14ч</em></span>
+<span class="front-pin-hot">ЭПОС</span>
+</button>
+<article class="front-card is-boss" id="frontCardRaid" data-front="boss_raid" hidden>
 <small>РЕЙД ЛЕГИОНА · МИРОВОЙ БОСС</small>
 <h3>Логово Архипса: Генерал Дог</h3>
 <p class="front-sub is-hot">12 котиков в строю</p>
@@ -55,13 +85,20 @@
 <div class="front-meta"><span class="is-hot">● Осталось 14ч</span><span>2 попытки</span><em>ЭПОС</em></div>
 <button type="button" data-front-go="boss_raid">Сбор Легиона →</button>
 </article>
-<article class="front-card" data-mode="team" data-front="guild_battle">
+</div>
+<div class="front-zone is-br" data-mode="team" data-front="guild_battle">
+<button type="button" class="front-pin" data-front-pin="guild_battle" aria-expanded="false" aria-controls="frontCardGuild">
+<span class="front-pin-ico material-symbols-outlined" aria-hidden="true">fort</span>
+<span class="front-pin-text"><b>ОСАДА</b><em>Активна</em></span>
+</button>
+<article class="front-card" id="frontCardGuild" data-front="guild_battle" hidden>
 <small>ВОЙНА ГИЛЬДИЙ · ОСАДА</small>
 <h3>Осада Цитадели Кланов</h3>
 <p>Битва гильдий 3v3 за 4 сторожевые башни и Арсенал, клановые трофеи.</p>
 <div class="front-meta"><span class="is-ok">● Осада активна</span><span>Башня «Север»</span></div>
 <button type="button" data-front-go="guild_battle">На штурм Башни →</button>
 </article>
+</div>
 </div>
 </div>
 <footer class="front-foot">

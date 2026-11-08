@@ -2999,21 +2999,73 @@ body:has(#viewBattleHub:not(.hidden)) #app {
   position: absolute; inset: 0; pointer-events: none;
   background: linear-gradient(180deg, rgba(10,8,7,0.35), rgba(10,8,7,0.12) 40%, rgba(10,8,7,0.4));
 }
-#viewBattleHub .front-cards {
-  position: relative; z-index: 1; height: 100%;
-  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: repeat(2, minmax(0, 1fr));
-  gap: 0.45rem; padding: 0.55rem; align-content: stretch;
+#viewBattleHub .front-zones { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+#viewBattleHub .front-zone {
+  position: absolute; width: min(17rem, 32%);
+  display: flex; flex-direction: column; gap: 0.35rem; pointer-events: none;
+}
+#viewBattleHub .front-zone > * { pointer-events: auto; }
+#viewBattleHub .front-zone.is-off { display: none !important; }
+#viewBattleHub .front-zone.is-tl { top: 9%; left: 6%; align-items: flex-start; }
+#viewBattleHub .front-zone.is-tc { top: 5%; left: 50%; transform: translateX(-50%); align-items: center; }
+#viewBattleHub .front-zone.is-tr { top: 9%; right: 5%; align-items: flex-end; }
+#viewBattleHub .front-zone.is-bl { bottom: 12%; left: 5%; align-items: flex-start; }
+#viewBattleHub .front-zone.is-bc { bottom: 8%; left: 50%; transform: translateX(-50%); align-items: center; }
+#viewBattleHub .front-zone.is-br { bottom: 11%; right: 4%; align-items: flex-end; }
+#viewBattleHub .front-pin {
+  display: inline-flex; align-items: center; gap: 0.4rem; position: relative;
+  border: 1px solid rgba(253,186,69,0.55); border-radius: 999px;
+  background: rgba(20, 17, 14, 0.88); color: #f3e6d2;
+  padding: 0.28rem 0.65rem 0.28rem 0.28rem; cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45); backdrop-filter: blur(4px);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+#viewBattleHub .front-pin:hover,
+#viewBattleHub .front-zone.is-open .front-pin,
+#viewBattleHub .front-zone:focus-within .front-pin {
+  border-color: #fdba45; box-shadow: 0 0 0 1px rgba(253,186,69,0.35), 0 8px 20px rgba(0,0,0,0.5);
+  transform: translateY(-1px);
+}
+#viewBattleHub .front-pin-ico {
+  width: 1.7rem; height: 1.7rem; border-radius: 999px; display: grid; place-items: center;
+  background: linear-gradient(180deg, #fdba45, #d99b26); color: #1a1308; font-size: 1rem;
+  flex: 0 0 auto; box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
+  font-variation-settings: "FILL" 1, "wght" 600, "GRAD" 0, "opsz" 24;
+}
+#viewBattleHub .front-pin.is-leaf .front-pin-ico { background: linear-gradient(180deg, #89d98c, #3d8f4a); }
+#viewBattleHub .front-pin.is-hot .front-pin-ico { background: linear-gradient(180deg, #ff8f7a, #b33a2d); color: #fff4f1; }
+#viewBattleHub .front-pin.is-gold .front-pin-ico { background: linear-gradient(180deg, #ffe08a, #d99b26); }
+#viewBattleHub .front-pin-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; min-width: 0; }
+#viewBattleHub .front-pin-text b { font-size: 10px; letter-spacing: 0.06em; font-weight: 800; color: #f3e6d2; }
+#viewBattleHub .front-pin-text em { font-style: normal; font-size: 10px; color: #fdba45; font-weight: 700; }
+#viewBattleHub .front-pin.is-leaf .front-pin-text em { color: #89d98c; }
+#viewBattleHub .front-pin.is-hot .front-pin-text em { color: #ffb4a6; }
+#viewBattleHub .front-pin-hot {
+  position: absolute; top: -0.45rem; right: -0.2rem; font-size: 8px; font-weight: 800;
+  letter-spacing: 0.04em; padding: 0.08rem 0.28rem; border-radius: 0.2rem;
+  background: #b33a2d; color: #ffe8e4;
 }
 #viewBattleHub .front-card {
-  min-width: 0; background: rgba(16, 14, 12, 0.9); border: 1px solid rgba(80, 69, 53, 0.8);
-  border-radius: 0.7rem; padding: 0.55rem 0.65rem 0.5rem; display: flex; flex-direction: column; gap: 0.25rem;
-  backdrop-filter: blur(4px); box-shadow: 0 8px 22px rgba(0,0,0,0.35);
+  width: min(20rem, 100%); display: none; flex-direction: column; gap: 0.25rem;
+  padding: 0.55rem 0.65rem 0.5rem; border-radius: 0.7rem;
+  border: 1px solid rgba(253,186,69,0.4); background: rgba(16, 14, 12, 0.94);
+  backdrop-filter: blur(6px); box-shadow: 0 8px 22px rgba(0,0,0,0.45);
 }
-#viewBattleHub .front-card.is-off { display: none !important; }
-#viewBattleHub .front-card.is-focus { border-color: rgba(253, 186, 69, 0.9); box-shadow: 0 0 0 1px rgba(253,186,69,0.25), 0 10px 24px rgba(0,0,0,0.45); }
+#viewBattleHub .front-zone:hover .front-card,
+#viewBattleHub .front-zone:focus-within .front-card,
+#viewBattleHub .front-zone.is-open .front-card {
+  display: flex;
+}
+#viewBattleHub .front-card[hidden] { display: none !important; }
+#viewBattleHub .front-zone:hover .front-card[hidden],
+#viewBattleHub .front-zone:focus-within .front-card[hidden],
+#viewBattleHub .front-zone.is-open .front-card[hidden] {
+  display: flex !important;
+}
 #viewBattleHub .front-card.is-boss { border-color: rgba(255, 130, 108, 0.85); }
 #viewBattleHub .front-card small { font-size: 10px; letter-spacing: 0.06em; color: #89d98c; font-weight: 800; }
-#viewBattleHub .front-card.is-focus small { color: #fdba45; }
+#viewBattleHub .front-zone.is-open .front-card small,
+#viewBattleHub .front-zone:hover .front-card small { color: #fdba45; }
 #viewBattleHub .front-card.is-boss small { color: #ffb4a6; }
 #viewBattleHub .front-card h3 { margin: 0; font-family: Rubik, sans-serif; font-size: 15px; line-height: 1.2; color: #f3e6d2; }
 #viewBattleHub .front-sub { margin: 0; font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; color: #fdba45; }
@@ -3029,12 +3081,13 @@ body:has(#viewBattleHub:not(.hidden)) #app {
 }
 #viewBattleHub .front-card.is-boss .front-meta em { background: #4a1d18; color: #ffb4a6; }
 #viewBattleHub .front-card button {
-  margin-top: auto; align-self: flex-start; border: 0; color: #eae1db; background: #2a241e;
+  margin-top: 0.1rem; align-self: flex-start; color: #eae1db; background: #2a241e;
   border: 1px solid rgba(80,69,53,0.8); border-radius: 999px; font-family: Rubik, sans-serif;
   font-size: 12px; font-weight: 800; padding: 0.32rem 0.7rem; cursor: pointer;
 }
 #viewBattleHub .front-card button.is-gold,
-#viewBattleHub .front-card.is-focus button {
+#viewBattleHub .front-zone.is-open .front-card button,
+#viewBattleHub .front-zone:hover .front-card button {
   color: #1a1308; background: linear-gradient(180deg, #fdba45, #d99b26); border-color: #d99b26;
 }
 #viewBattleHub .front-foot {
@@ -3044,7 +3097,7 @@ body:has(#viewBattleHub:not(.hidden)) #app {
 #viewBattleHub .front-squad strong { color: #fdba45; margin-left: 0.35rem; }
 #viewBattleHub .front-foot-actions { margin-left: auto; display: flex; gap: 0.3rem; flex-wrap: wrap; }
 @media (max-width: 1100px) {
-  #viewBattleHub .front-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); grid-template-rows: auto; overflow: auto; }
+  #viewBattleHub .front-zone { width: min(15rem, 44%); }
 }
 
 /* Cat collection roster — only viewCollection */

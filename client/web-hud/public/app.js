@@ -4308,12 +4308,28 @@ function bindCollectionRoster() {
   });
 }
 
+function setFrontZoneOpen(root, front) {
+  state.frontFocus = front || "";
+  for (const wrap of root.querySelectorAll(".front-zone[data-front]")) {
+    const id = wrap.getAttribute("data-front");
+    const open = !!front && id === front;
+    wrap.classList.toggle("is-open", open);
+    const pin = wrap.querySelector("[data-front-pin]");
+    const card = wrap.querySelector(".front-card");
+    if (pin) pin.setAttribute("aria-expanded", open ? "true" : "false");
+    if (card) {
+      if (open) card.removeAttribute("hidden");
+      else card.setAttribute("hidden", "");
+    }
+  }
+}
+
 function renderBattleHub() {
   const root = $("viewBattleHub");
   if (!root || root.classList.contains("hidden")) return;
 
   if (!state.frontFilter) state.frontFilter = "all";
-  if (!state.frontFocus) state.frontFocus = "yard";
+  // No default open card — pins only until hover / tap.
 
   const tickets = Math.max(0, Number(state.profile?.pvpTickets ?? 5));
   const ticketCap = 5;
@@ -4336,12 +4352,15 @@ function renderBattleHub() {
   root.querySelectorAll("[data-filter]").forEach((btn) => {
     btn.classList.toggle("is-on", btn.getAttribute("data-filter") === state.frontFilter);
   });
-  root.querySelectorAll("[data-mode]").forEach((card) => {
-    const mode = card.getAttribute("data-mode");
-    const front = card.getAttribute("data-front");
-    card.classList.toggle("is-off", state.frontFilter !== "all" && mode !== state.frontFilter);
-    card.classList.toggle("is-focus", front === state.frontFocus);
+  root.querySelectorAll(".front-zone[data-mode]").forEach((zone) => {
+    const mode = zone.getAttribute("data-mode");
+    zone.classList.toggle("is-off", state.frontFilter !== "all" && mode !== state.frontFilter);
   });
+
+  const focusOk =
+    state.frontFocus &&
+    !root.querySelector(`.front-zone[data-front="${state.frontFocus}"]`)?.classList.contains("is-off");
+  setFrontZoneOpen(root, focusOk ? state.frontFocus : state.frontPinned || "");
 }
 
 function bindBattleHub() {
@@ -4350,18 +4369,49 @@ function bindBattleHub() {
   renderBattleHub();
   if (root.dataset.bound === "1") return;
   root.dataset.bound = "1";
+
+  root.addEventListener("pointerover", (ev) => {
+    const zone = ev.target.closest(".front-zone[data-front]");
+    if (!zone || !root.contains(zone) || zone.classList.contains("is-off")) return;
+    if (ev.pointerType === "touch") return;
+    setFrontZoneOpen(root, zone.getAttribute("data-front"));
+  });
+  root.addEventListener("pointerout", (ev) => {
+    const zone = ev.target.closest(".front-zone[data-front]");
+    if (!zone || !root.contains(zone)) return;
+    if (ev.pointerType === "touch") return;
+    const to = ev.relatedTarget;
+    if (to && zone.contains(to)) return;
+    if (state.frontPinned === zone.getAttribute("data-front")) return;
+    setFrontZoneOpen(root, state.frontPinned || "");
+  });
+
   root.addEventListener("click", (ev) => {
     const filter = ev.target.closest("[data-filter]");
     if (filter && root.contains(filter)) {
       state.frontFilter = filter.getAttribute("data-filter") || "all";
+      state.frontPinned = "";
+      state.frontFocus = "";
       renderBattleHub();
+      return;
+    }
+    const pin = ev.target.closest("[data-front-pin]");
+    if (pin && root.contains(pin)) {
+      ev.preventDefault();
+      const front = pin.getAttribute("data-front-pin");
+      const next = state.frontPinned === front ? "" : front;
+      state.frontPinned = next;
+      setFrontZoneOpen(root, next);
       return;
     }
     const go = ev.target.closest("[data-front-go]");
     if (go && root.contains(go)) {
       const tab = go.getAttribute("data-front-go");
-      state.frontFocus = tab === "journal" ? state.frontFocus : tab;
-      renderBattleHub();
+      if (tab !== "journal" && tab !== "formation" && tab !== "gear") {
+        state.frontPinned = tab;
+        state.frontFocus = tab;
+        setFrontZoneOpen(root, tab);
+      }
       if (tab === "journal") {
         toast("Журнал побед: скоро");
         return;
@@ -4384,10 +4434,9 @@ function bindBattleHub() {
       }
       return;
     }
-    const card = ev.target.closest("[data-front]");
-    if (card && root.contains(card) && !ev.target.closest("[data-front-go]")) {
-      state.frontFocus = card.getAttribute("data-front");
-      renderBattleHub();
+    if (!ev.target.closest(".front-zone") && !ev.target.closest(".front-filters")) {
+      state.frontPinned = "";
+      setFrontZoneOpen(root, "");
     }
   });
 }
