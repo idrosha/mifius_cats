@@ -721,7 +721,9 @@ function showPassGateTip() {
 
 function logicalViewId() {
   if (state.battle && !state.battle.result) {
-    return state.battleMode === "practice" ? "viewPracticeFight" : "viewBattle";
+    if (state.battleMode === "practice") return "viewPracticeFight";
+    if (state.battleMode === "pvp") return "viewPvpFight";
+    return "viewBattle";
   }
   if (state.battle?.result && state.lastResult) {
     if (
@@ -2976,6 +2978,97 @@ function bindPracticeFight() {
   });
 }
 
+function pvpUnitCard(u, foe) {
+  const li = document.createElement("li");
+  const role = CAT_ROLE_RU[u.role] || u.role || "";
+  const element = CAT_ELEMENT_RU[u.element] || u.element || "";
+  const name = catSheetName({ templateId: u.id, catId: u.id });
+  const pct = u.maxHp > 0 ? Math.max(0, Math.min(100, (u.hp / u.maxHp) * 100)) : 0;
+  const art = {
+    starter_support_water: "/stitch-assets/ad3ff067b5c8.jpg",
+    starter_fighter_fire: "/stitch-assets/f453fafbcca9.jpg",
+    starter_tank_stone: "/stitch-assets/dc459e94ceed.jpg",
+  }[u.id];
+  li.innerHTML = `${art ? `<figure><img alt="" src="${art}"/></figure>` : ""}<div><b>${name}</b><small>${element}${role ? " · " + role : ""}</small><em>${u.hp} / ${u.maxHp}</em><i style="--hp:${pct}%"></i></div>`;
+  if (foe) li.dataset.foe = "1";
+  return li;
+}
+
+function renderPvpFight() {
+  const diff = state.battle;
+  if (!diff) return;
+  const energy = diff.p1?.energy ?? 0;
+  const mine = diff.active === 0 && !diff.result;
+  if ($("pvRound")) $("pvRound").textContent = `Раунд ${diff.turn || 1} · ${mine ? "Ход игрока" : "Ход соперника"}`;
+  if ($("pvEnergy")) $("pvEnergy").textContent = `Энергия ${energy}`;
+  const allies = (diff.units || []).filter((u) => u.side === 0).sort((a, b) => a.lane - b.lane);
+  const enemies = (diff.units || []).filter((u) => u.side === 1).sort((a, b) => a.lane - b.lane);
+  const allyBox = $("pvAllies");
+  const foeBox = $("pvEnemies");
+  if (allyBox) {
+    allyBox.innerHTML = "";
+    allies.forEach((u) => allyBox.appendChild(pvpUnitCard(u, false)));
+  }
+  if (foeBox) {
+    foeBox.innerHTML = "";
+    enemies.forEach((u) => foeBox.appendChild(pvpUnitCard(u, true)));
+  }
+  const hand = $("pvHand");
+  if (hand) {
+    hand.innerHTML = "";
+    const cards = diff.hand || [];
+    if ($("pvOrbs")) $("pvOrbs").textContent = `${cards.length} карт`;
+    if (!cards.length) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.disabled = true;
+      b.innerHTML = `<b>Колода</b><span>ждёт раздачу</span>`;
+      hand.appendChild(b);
+    }
+    for (const c of cards) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.disabled = !c.playable || !!diff.result || diff.active !== 0;
+      b.innerHTML = `<b>${t(c.name_key, c.cardId)}</b><span>цена ${c.cost ?? "?"}</span>`;
+      b.addEventListener("click", () =>
+        submitAction({ kind: "playCard", unitId: c.unitId, handIndex: c.handIndex, targetId: "" }),
+      );
+      hand.appendChild(b);
+    }
+  }
+  const end = $("pvEndTurn");
+  if (end) end.disabled = !diff.canEndTurn || !!diff.result || diff.active !== 0;
+}
+
+function leavePvpFight() {
+  state.battle = null;
+  state.lastResult = null;
+  state.battleMode = "";
+  navigate("pvp");
+}
+
+function bindPvpFight() {
+  const root = $("viewPvpFight");
+  if (!root || root.dataset.bound === "1") return;
+  root.dataset.bound = "1";
+  root.addEventListener("click", (ev) => {
+    const id = ev.target.closest("button")?.id;
+    if (id === "pvEndTurn") submitAction({ kind: "endTurn" });
+    if (id === "pvSurrender") submitAction({ kind: "surrender" });
+  });
+  document.addEventListener("keydown", (ev) => {
+    if (logicalViewId() !== "viewPvpFight") return;
+    if (ev.target.closest("input, textarea")) return;
+    if (ev.code === "Space") {
+      ev.preventDefault();
+      submitAction({ kind: "endTurn" });
+    } else if (ev.code === "Escape") {
+      ev.preventDefault();
+      leavePvpFight();
+    }
+  });
+}
+
 function renderBattle() {
   const diff = state.battle;
   if (!diff) return;
@@ -3260,6 +3353,12 @@ function renderAll() {
     renderBattle();
     renderPracticeFight();
     bindPracticeFight();
+    return;
+  }
+  if (viewId === "viewPvpFight" && state.battle && !state.battle.result) {
+    renderBattle();
+    renderPvpFight();
+    bindPvpFight();
     return;
   }
   if (viewId === "viewBattle" && state.battle && !state.battle.result) {

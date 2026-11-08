@@ -2314,6 +2314,48 @@ body:has(#viewVictoryHall:not(.hidden)) #app { height: 100dvh !important; max-he
 .vic-go { border: 0; background: #e0a322; color: #1a1308; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; border-radius: 999px; padding: 0.7rem 1.3rem; cursor: pointer; }
 .vic-actions div { display: flex; gap: 0.3rem; }
 .vic-actions button:not(.vic-go) { flex: 0 0 auto; white-space: nowrap; border: 1px solid rgba(80,69,53,.8); background: #1a1613; color: #eae1db; border-radius: 999px; padding: 0.28rem 0.7rem; cursor: pointer; font-size: 12px; }
+/* PvP fight — only while an arena battle is on screen */
+body:has(#viewPvpFight:not(.hidden)) #appNav,
+body:has(#viewPvpFight:not(.hidden)) #wireDock { display: none !important; }
+body:has(#viewPvpFight:not(.hidden)) #app { height: 100dvh !important; max-height: 100dvh !important; }
+#viewPvpFight { background: #100e0c; color: #eae1db; }
+#viewPvpFight > .pv-fight { position: relative; flex: 1 1 auto; min-height: 0; overflow: hidden; }
+.pv-bg { position: absolute; left: 0; right: 0; top: -14%; width: 100% !important; height: 128% !important; max-width: none !important; object-fit: cover !important; object-position: center 78% !important; }
+.pv-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,6,4,.78), rgba(8,6,4,.35) 28%, rgba(8,6,4,.82)); }
+.pv-ui { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; padding: 0.45rem 0.7rem 0.4rem; }
+.pv-top { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; }
+#pvRound { margin: 0; font-family: Rubik, sans-serif; font-size: 18px; color: #fdba45; letter-spacing: 0.04em; text-transform: uppercase; }
+#pvEnergy { margin: 0; color: #89d98c; font-size: 13px; }
+#pvSurrender { border: 1px solid rgba(255,180,166,.45); background: #1a1613; color: #ffb4a6; border-radius: 999px; padding: 0.28rem 0.7rem; cursor: pointer; }
+.pv-field { flex: 1 1 auto; min-height: 0; display: flex; align-items: center; gap: 0.7rem; }
+.pv-side { flex: 1 1 0; min-width: 0; }
+.pv-side h2 { margin: 0 0 0.35rem; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: #fdba45; }
+.pv-units { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.4rem; }
+.pv-units li { flex: 1 1 0; min-width: 0; background: rgba(16,14,12,.88); border: 1px solid rgba(80,69,53,.8); border-radius: 0.55rem; overflow: hidden; }
+.pv-foes li { border-color: rgba(255,130,108,.45); }
+.pv-units figure { margin: 0; height: 7.2rem; overflow: hidden; }
+.pv-units img { width: 100% !important; height: 140% !important; max-width: none !important; object-fit: cover !important; object-position: center 20%; }
+.pv-units div { padding: 0.3rem 0.4rem 0.4rem; }
+.pv-units b { display: block; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pv-units small { display: block; color: #d5c4af; font-size: 10px; }
+.pv-units em { display: block; font-style: normal; color: #89d98c; font-size: 12px; }
+.pv-units i { display: block; height: 0.28rem; margin-top: 0.2rem; border-radius: 999px; background: #2a2420; }
+.pv-units i::before { content: ""; display: block; height: 100%; width: var(--hp, 0%); border-radius: inherit; background: #89d98c; }
+.pv-foes i::before { background: #ff826c; }
+.pv-clash { flex: 0 0 7rem; text-align: center; }
+.pv-clash b, .pv-clash span { display: block; }
+.pv-clash b { color: #fdba45; font-size: 13px; }
+.pv-clash span { color: #d5c4af; font-size: 11px; }
+.pv-foot { display: flex; align-items: stretch; gap: 0.5rem; }
+.pv-act { flex: 0 0 11rem; display: flex; flex-direction: column; justify-content: flex-end; gap: 0.3rem; }
+#pvOrbs { margin: 0; font-size: 12px; color: #d5c4af; }
+.pv-end { border: 0; background: #e0a322; color: #1a1308; font-weight: 800; border-radius: 999px; padding: 0.55rem 0.7rem; cursor: pointer; }
+.pv-end:disabled { opacity: 0.45; cursor: default; }
+.pv-hand { list-style: none; margin: 0; padding: 0; flex: 1 1 auto; min-width: 0; display: flex; gap: 0.35rem; overflow-x: auto; }
+.pv-hand button { flex: 0 0 8.4rem; text-align: left; background: #1a1613; color: #eae1db; border: 1px solid rgba(80,69,53,.85); border-radius: 0.5rem; padding: 0.35rem 0.4rem; cursor: pointer; }
+.pv-hand button:disabled { opacity: 0.45; cursor: default; }
+.pv-hand b { display: block; font-size: 12px; color: #fdba45; }
+.pv-hand span { display: block; font-size: 10px; color: #d5c4af; }
 /* Training fight — only while a practice battle is on screen */
 body:has(#viewPracticeFight:not(.hidden)) #appNav,
 body:has(#viewPracticeFight:not(.hidden)) #wireDock { display: none !important; }
