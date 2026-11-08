@@ -855,15 +855,19 @@ function heroAddressOpen() {
   return normalizedPath() === "/hero";
 }
 
+function loginAddressOpen() {
+  return normalizedPath() === "/home";
+}
+
 function screenAddressFor(tab) {
   if (tab === "pass") return "/pass";
   if (tab === "craft") return "/craft";
   if (tab === "home") return "/hero";
+  if (tab === "login") return "/home";
   return "/";
 }
 
 function syncScreenAddress(tab) {
-  if (tab === "login") return;
   const path = screenAddressFor(tab);
   if (normalizedPath() === path) return;
   history.pushState({ tab }, "", path + location.search + location.hash);
@@ -3793,6 +3797,14 @@ function bootTabAfterLogin() {
 }
 
 window.addEventListener("popstate", () => {
+  if (loginAddressOpen()) {
+    state.loggedIn = false;
+    state.tab = "login";
+    state.primary = "combat";
+    document.body.classList.add("mythfel-login");
+    navigate("login");
+    return;
+  }
   if (!state.loggedIn) return;
   const tab = bootTabAfterLogin();
   if (state.tab !== tab) navigate(tab);
@@ -3815,12 +3827,16 @@ async function main() {
     const bp = $("battlePill");
     bp.textContent = battleOk ? "Battle :8081 OK" : "Battle DOWN";
     bp.className = `status-pill ${battleOk ? "ok" : "bad"}`;
-    // Boot → Login → Hub (FULL-SPEC §6)
-    state.loggedIn = false;
-    state.tab = "login";
-    state.primary = "combat";
-    document.body.classList.add("mythfel-login");
-    renderAll();
+    // /home = login/register desk. Everywhere else soft-launch enters the game at once.
+    if (loginAddressOpen()) {
+      state.loggedIn = false;
+      state.tab = "login";
+      state.primary = "combat";
+      document.body.classList.add("mythfel-login");
+      renderAll();
+      return;
+    }
+    await stubLogin({ login: "auto_boot", password: "" });
   } catch (err) {
     $("bootMsg").textContent = `Boot fail: ${err.message}. Подними CDN :8090 и battle :8081 (см. README).`;
     $("liveopsPill").textContent = "LiveOps FAIL";
