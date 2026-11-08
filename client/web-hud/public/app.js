@@ -851,14 +851,14 @@ function craftAddressOpen() {
   return normalizedPath() === "/craft";
 }
 
-function homeAddressOpen() {
-  return normalizedPath() === "/home";
+function heroAddressOpen() {
+  return normalizedPath() === "/hero";
 }
 
 function screenAddressFor(tab) {
   if (tab === "pass") return "/pass";
   if (tab === "craft") return "/craft";
-  if (tab === "home") return "/home";
+  if (tab === "home") return "/hero";
   return "/";
 }
 
@@ -2082,7 +2082,7 @@ function unequipAll(catId) {
 }
 
 function renderHome() {
-  // Frozen /home desk: the screenshot is the page. Host nodes stay for verify-nav.
+  // Frozen /hero desk: the screenshot is the page. Host nodes stay for verify-nav.
   const cats = (state.profile?.cats || []).filter((c) => c.role !== "farm");
   const cat = cats.find((c) => c.catId === state.selectedCatId) || cats[0];
   if (cat) state.selectedCatId = cat.catId;
@@ -3788,7 +3788,7 @@ async function loadCampaign() {
 function bootTabAfterLogin() {
   if (passAddressOpen()) return "pass";
   if (craftAddressOpen()) return "craft";
-  if (homeAddressOpen()) return "home";
+  if (heroAddressOpen()) return "home";
   return "hub";
 }
 

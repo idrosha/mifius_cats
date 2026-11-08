@@ -284,8 +284,8 @@ const server = http.createServer(async (req, res) => {
     rel === "/pass/" ||
     rel === "/craft" ||
     rel === "/craft/" ||
-    rel === "/home" ||
-    rel === "/home/"
+    rel === "/hero" ||
+    rel === "/hero/"
   ) {
     serveFile(res, path.join(PUBLIC, "index.html"));
     return;

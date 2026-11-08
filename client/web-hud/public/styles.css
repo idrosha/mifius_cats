@@ -1419,7 +1419,7 @@ body.mythfel-farm #app {
   padding-bottom: 0.75rem !important;
 }
 
-/* Frozen character desk (/home). Shared fillNav stays; old live sheet removed. */
+/* Frozen character desk (/hero). Shared fillNav stays; old live sheet removed. */
 body:has(#viewHome:not(.hidden)) #wireDock {
   display: none !important;
 }
