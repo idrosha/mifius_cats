@@ -1761,13 +1761,29 @@ function tradeTip(zone) {
   toast(TRADE_ZONE_TIP[zone] || "Зона площади: скоро");
 }
 
+function setTradeZoneOpen(root, zone) {
+  state.tradeZone = zone || "";
+  for (const wrap of root.querySelectorAll(".trade-zone[data-zone]")) {
+    const id = wrap.getAttribute("data-zone");
+    const open = !!zone && id === zone;
+    wrap.classList.toggle("is-open", open);
+    const pin = wrap.querySelector("[data-trade-pin]");
+    const card = wrap.querySelector(".trade-card");
+    if (pin) pin.setAttribute("aria-expanded", open ? "true" : "false");
+    if (card) {
+      if (open) card.removeAttribute("hidden");
+      else card.setAttribute("hidden", "");
+    }
+  }
+}
+
 function renderTradeHub() {
   const root = $("viewTradeHub");
   if (!root || root.classList.contains("hidden")) return;
 
   if (state.tradeFairLeft == null) state.tradeFairLeft = 4 * 3600 + 18 * 60 + 19;
   if (state.tradeFairActive == null) state.tradeFairActive = true;
-  if (!state.tradeZone) state.tradeZone = "tavern";
+  // No default open card — pins only until hover / tap.
 
   const p = state.profile;
   const gold = p ? p.fish : state.wallet?.gold || 0;
@@ -1820,27 +1836,48 @@ function renderTradeHub() {
     }, 1000);
   }
 
-  for (const card of root.querySelectorAll(".trade-card[data-zone]")) {
-    card.classList.toggle("is-focus", card.getAttribute("data-zone") === state.tradeZone);
-    if (card.dataset.bound === "1") continue;
-    card.dataset.bound = "1";
-    card.addEventListener("click", (e) => {
-      if (e.target.closest("[data-trade-go]")) return;
-      state.tradeZone = card.getAttribute("data-zone");
-      renderTradeHub();
-    });
-  }
+  setTradeZoneOpen(root, state.tradeZone || "");
 
-  if (root.dataset.tradeGoBound !== "1") {
-    root.dataset.tradeGoBound = "1";
+  if (root.dataset.tradePinsBound !== "1") {
+    root.dataset.tradePinsBound = "1";
+    root.addEventListener("pointerover", (e) => {
+      const zone = e.target.closest(".trade-zone[data-zone]");
+      if (!zone || !root.contains(zone)) return;
+      if (e.pointerType === "touch") return;
+      setTradeZoneOpen(root, zone.getAttribute("data-zone"));
+    });
+    root.addEventListener("pointerout", (e) => {
+      const zone = e.target.closest(".trade-zone[data-zone]");
+      if (!zone || !root.contains(zone)) return;
+      if (e.pointerType === "touch") return;
+      const to = e.relatedTarget;
+      if (to && zone.contains(to)) return;
+      if (state.tradePinned === zone.getAttribute("data-zone")) return;
+      setTradeZoneOpen(root, state.tradePinned || "");
+    });
     root.addEventListener("click", (e) => {
-      const btn = e.target.closest("[data-trade-go]");
-      if (!btn || !root.contains(btn)) return;
-      e.preventDefault();
-      const zone = btn.getAttribute("data-trade-go");
-      state.tradeZone = zone;
-      tradeTip(zone);
-      renderTradeHub();
+      const pin = e.target.closest("[data-trade-pin]");
+      if (pin && root.contains(pin)) {
+        e.preventDefault();
+        const zone = pin.getAttribute("data-trade-pin");
+        const next = state.tradePinned === zone ? "" : zone;
+        state.tradePinned = next;
+        setTradeZoneOpen(root, next);
+        return;
+      }
+      const go = e.target.closest("[data-trade-go]");
+      if (go && root.contains(go)) {
+        e.preventDefault();
+        const zone = go.getAttribute("data-trade-go");
+        state.tradePinned = zone;
+        setTradeZoneOpen(root, zone);
+        tradeTip(zone);
+        return;
+      }
+      if (!e.target.closest(".trade-zone")) {
+        state.tradePinned = "";
+        setTradeZoneOpen(root, "");
+      }
     });
   }
 

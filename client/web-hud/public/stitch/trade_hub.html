@@ -1,4 +1,4 @@
-<!-- Live trade square. Address: /square. Portals closed; shared fillNav only. -->
+<!-- Live trade square. Address: /square. Building pins always on; detail cards only on hover/focus. -->
 <section id="viewTradeHub" class="stitch-view mythfel-form hidden" data-stitch="trade_hub" data-layout="landscape" data-purpose-route="square">
 <main class="trade-sheet" data-purpose="trade-square">
 <div class="trade-stage">
@@ -10,18 +10,30 @@
 <strong>ТОРГОВЫЙ ПЕРЕКРЁСТОК</strong>
 <small>Палата Гильдейских Сделок · 4 пути</small>
 </div>
-<article class="trade-card is-tl" data-zone="tavern">
+<div class="trade-zone is-tl" data-zone="tavern">
+<button type="button" class="trade-pin" data-trade-pin="tavern" aria-expanded="false" aria-controls="tradeCardTavern">
+<span class="trade-pin-ico material-symbols-outlined" aria-hidden="true">sports_bar</span>
+<span class="trade-pin-text"><b>ТАВЕРНА</b><em>12/20 мест</em></span>
+</button>
+<article class="trade-card" id="tradeCardTavern" data-zone="tavern" hidden>
 <header><span>ТАВЕРНА</span><em>12 / 20 мест</em></header>
 <h3>Таверна: Бар напитков</h3>
 <p class="trade-kicker">Квартал отдыха</p>
 <p class="trade-meta">12 гостей · Баффы PvE</p>
 <p>Молоко со льдом, настойки и бафф-напитки</p>
 <footer>
-<span class="is-open">Открыто</span>
+<span class="is-open">● Открыто</span>
 <button type="button" data-trade-go="tavern">Войти в бар →</button>
 </footer>
 </article>
-<article class="trade-card is-tr" data-zone="shop">
+</div>
+<div class="trade-zone is-tr" data-zone="shop">
+<button type="button" class="trade-pin" data-trade-pin="shop" aria-expanded="false" aria-controls="tradeCardShop">
+<span class="trade-pin-ico material-symbols-outlined" aria-hidden="true">inventory_2</span>
+<span class="trade-pin-text"><b>ЛАВКА ЧУДЕС</b><em>Скидки −40%</em></span>
+<span class="trade-pin-hot">HOT</span>
+</button>
+<article class="trade-card" id="tradeCardShop" data-zone="shop" hidden>
 <header><span>ЛАВКА ЧУДЕС</span><em>Скидки −40%</em></header>
 <h3>Магазин (Лавка Чудес) <i>SALE</i></h3>
 <p class="trade-kicker">Лавка чудес</p>
@@ -32,28 +44,41 @@
 <button type="button" data-trade-go="shop">В магазин →</button>
 </footer>
 </article>
-<article class="trade-card is-bl" data-zone="market">
+</div>
+<div class="trade-zone is-bl" data-zone="market">
+<button type="button" class="trade-pin is-leaf" data-trade-pin="market" aria-expanded="false" aria-controls="tradeCardMarket">
+<span class="trade-pin-ico material-symbols-outlined" aria-hidden="true">eco</span>
+<span class="trade-pin-text"><b>РЫНОК СЫРЬЯ</b><em>+15% Спрос</em></span>
+</button>
+<article class="trade-card" id="tradeCardMarket" data-zone="market" hidden>
 <header><span>РЫНОК СЫРЬЯ</span><em>+15% спрос</em></header>
 <h3>Рынок сырья</h3>
 <p class="trade-kicker">Фермерский ряд</p>
 <p class="trade-meta">Выкуп трав +15% · 8 торговцев</p>
 <p>Семена, инструменты, быстрый сбыт урожая</p>
 <footer>
-<span class="is-open">Опт открыт</span>
+<span class="is-open">● Опт открыт</span>
 <button type="button" data-trade-go="market">На рынок →</button>
 </footer>
 </article>
-<article class="trade-card is-br" data-zone="auction">
+</div>
+<div class="trade-zone is-br" data-zone="auction">
+<button type="button" class="trade-pin is-gavel" data-trade-pin="auction" aria-expanded="false" aria-controls="tradeCardAuction">
+<span class="trade-pin-ico material-symbols-outlined" aria-hidden="true">gavel</span>
+<span class="trade-pin-text"><b>ПАЛАТА ТОРГОВ</b><em>1 420 лотов</em></span>
+</button>
+<article class="trade-card" id="tradeCardAuction" data-zone="auction" hidden>
 <header><span>ПАЛАТА ТОРГОВ</span><em>1 420 лотов</em></header>
 <h3>Аукцион Зала <i class="is-live">LIVE</i></h3>
 <p class="trade-kicker">Палата торгов</p>
 <p class="trade-meta">LIVE 1 420 лотов · Торги</p>
 <p>Лоты игроков, Котята, Оружие, Своя цена</p>
 <footer>
-<span class="is-open">Идут ставки</span>
+<span class="is-open">● Идут ставки</span>
 <button type="button" data-trade-go="auction">В зал аукциона →</button>
 </footer>
 </article>
+</div>
 </div>
 <footer class="trade-dock">
 <section class="trade-wallet" id="tradeWallet"></section>

@@ -1926,18 +1926,68 @@ body:has(#viewTradeHub:not(.hidden)) #app {
   text-shadow: 0 1px 4px rgba(0,0,0,0.85);
 }
 #viewTradeHub .trade-center small { font-size: 10px; color: #d5c4af; text-shadow: 0 1px 3px rgba(0,0,0,0.8); }
+/* Building pins sit on art; detail cards open only on hover / focus / pinned. */
+#viewTradeHub .trade-zone {
+  position: absolute; z-index: 4; width: min(17.5rem, 34%);
+  display: flex; flex-direction: column; gap: 0.35rem; pointer-events: none;
+}
+#viewTradeHub .trade-zone > * { pointer-events: auto; }
+#viewTradeHub .trade-zone.is-tl { top: 10%; left: 7%; align-items: flex-start; }
+#viewTradeHub .trade-zone.is-tr { top: 11%; right: 6%; align-items: flex-end; }
+#viewTradeHub .trade-zone.is-bl { bottom: 14%; left: 6%; align-items: flex-start; }
+#viewTradeHub .trade-zone.is-br { bottom: 13%; right: 5%; align-items: flex-end; }
+#viewTradeHub .trade-pin {
+  display: inline-flex; align-items: center; gap: 0.4rem; position: relative;
+  border: 1px solid rgba(253,186,69,0.55); border-radius: 999px;
+  background: rgba(20, 17, 14, 0.88); color: #f3e6d2;
+  padding: 0.28rem 0.65rem 0.28rem 0.28rem; cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.45); backdrop-filter: blur(4px);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+#viewTradeHub .trade-pin:hover,
+#viewTradeHub .trade-zone.is-open .trade-pin,
+#viewTradeHub .trade-zone:focus-within .trade-pin {
+  border-color: #fdba45; box-shadow: 0 0 0 1px rgba(253,186,69,0.35), 0 8px 20px rgba(0,0,0,0.5);
+  transform: translateY(-1px);
+}
+#viewTradeHub .trade-pin-ico {
+  width: 1.7rem; height: 1.7rem; border-radius: 999px; display: grid; place-items: center;
+  background: linear-gradient(180deg, #fdba45, #d99b26); color: #1a1308; font-size: 1rem;
+  flex: 0 0 auto; box-shadow: inset 0 1px 0 rgba(255,255,255,0.25);
+  font-variation-settings: "FILL" 1, "wght" 600, "GRAD" 0, "opsz" 24;
+}
+#viewTradeHub .trade-pin.is-leaf .trade-pin-ico { background: linear-gradient(180deg, #89d98c, #3d8f4a); }
+#viewTradeHub .trade-pin.is-gavel .trade-pin-ico { background: linear-gradient(180deg, #fdba45, #a56a12); }
+#viewTradeHub .trade-pin-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; min-width: 0; }
+#viewTradeHub .trade-pin-text b {
+  font-size: 10px; letter-spacing: 0.06em; font-weight: 800; color: #f3e6d2;
+}
+#viewTradeHub .trade-pin-text em {
+  font-style: normal; font-size: 10px; color: #fdba45; font-weight: 700;
+}
+#viewTradeHub .trade-pin.is-leaf .trade-pin-text em { color: #89d98c; }
+#viewTradeHub .trade-pin-hot {
+  position: absolute; top: -0.45rem; right: -0.2rem; font-size: 8px; font-weight: 800;
+  letter-spacing: 0.04em; padding: 0.08rem 0.28rem; border-radius: 0.2rem;
+  background: #b33a2d; color: #ffe8e4;
+}
 #viewTradeHub .trade-card {
-  position: absolute; z-index: 4; width: min(22rem, 34%);
-  display: flex; flex-direction: column; gap: 0.22rem; padding: 0.55rem 0.65rem;
-  border-radius: 0.55rem; border: 1px solid rgba(253,186,69,0.28);
-  background: rgba(20, 17, 14, 0.92); backdrop-filter: blur(6px);
+  width: 100%; display: none; flex-direction: column; gap: 0.22rem; padding: 0.55rem 0.65rem;
+  border-radius: 0.55rem; border: 1px solid rgba(253,186,69,0.35);
+  background: rgba(20, 17, 14, 0.94); backdrop-filter: blur(6px);
   box-shadow: 0 8px 24px rgba(0,0,0,0.55); color: #eae1db;
 }
-#viewTradeHub .trade-card.is-tl { top: 0.7rem; left: 0.7rem; }
-#viewTradeHub .trade-card.is-tr { top: 0.7rem; right: 0.7rem; }
-#viewTradeHub .trade-card.is-bl { bottom: 0.7rem; left: 0.7rem; }
-#viewTradeHub .trade-card.is-br { bottom: 0.7rem; right: 0.7rem; }
-#viewTradeHub .trade-card.is-focus { border-color: #fdba45; box-shadow: 0 0 0 1px rgba(253,186,69,0.35), 0 10px 28px rgba(0,0,0,0.55); }
+#viewTradeHub .trade-zone:hover .trade-card,
+#viewTradeHub .trade-zone:focus-within .trade-card,
+#viewTradeHub .trade-zone.is-open .trade-card {
+  display: flex;
+}
+#viewTradeHub .trade-card[hidden] { display: none !important; }
+#viewTradeHub .trade-zone:hover .trade-card[hidden],
+#viewTradeHub .trade-zone:focus-within .trade-card[hidden],
+#viewTradeHub .trade-zone.is-open .trade-card[hidden] {
+  display: flex !important;
+}
 #viewTradeHub .trade-card header {
   display: flex; justify-content: space-between; gap: 0.4rem; align-items: center;
   font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase; color: #fdba45;
@@ -1959,7 +2009,8 @@ body:has(#viewTradeHub:not(.hidden)) #app {
   border: 0; border-radius: 0.35rem; padding: 0.32rem 0.55rem; background: #d99b26; color: #1a1308;
   font-size: 11px; font-weight: 700; cursor: pointer;
 }
-#viewTradeHub .trade-card.is-bl footer button, #viewTradeHub .trade-card.is-br footer button {
+#viewTradeHub .trade-zone.is-bl .trade-card footer button,
+#viewTradeHub .trade-zone.is-br .trade-card footer button {
   background: #2a241e; color: #eae1db; border: 1px solid rgba(80,69,53,0.8);
 }
 #viewTradeHub .trade-dock {
@@ -2000,7 +2051,7 @@ body:has(#viewTradeHub:not(.hidden)) #app {
 #viewTradeHub .trade-server { color: #89d98c; }
 #viewTradeHub .trade-keys { color: #d5c4af; }
 @media (max-width: 1100px) {
-  #viewTradeHub .trade-card { width: min(18rem, 46%); }
+  #viewTradeHub .trade-zone { width: min(15rem, 46%); }
   #viewTradeHub .trade-dock { grid-template-columns: 1fr; }
 }
 
