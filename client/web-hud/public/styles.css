@@ -2314,6 +2314,58 @@ body:has(#viewVictoryHall:not(.hidden)) #app { height: 100dvh !important; max-he
 .vic-go { border: 0; background: #e0a322; color: #1a1308; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; border-radius: 999px; padding: 0.7rem 1.3rem; cursor: pointer; }
 .vic-actions div { display: flex; gap: 0.3rem; }
 .vic-actions button:not(.vic-go) { flex: 0 0 auto; white-space: nowrap; border: 1px solid rgba(80,69,53,.8); background: #1a1613; color: #eae1db; border-radius: 999px; padding: 0.28rem 0.7rem; cursor: pointer; font-size: 12px; }
+/* PvP coliseum win — only a ranked victory, not the dojo or Mythmir hall */
+body:has(#viewPvpVictory:not(.hidden)) #appNav,
+body:has(#viewPvpVictory:not(.hidden)) #wireDock { display: none !important; }
+body:has(#viewPvpVictory:not(.hidden)) #app { height: 100dvh !important; max-height: 100dvh !important; }
+#viewPvpVictory { background: #100e0c; color: #eae1db; }
+#viewPvpVictory > .col-win { position: relative; flex: 1 1 auto; min-height: 0; overflow: hidden; }
+.col-bg { position: absolute; left: 0; right: 0; top: -12%; width: 100% !important; height: 124% !important; max-width: none !important; object-fit: cover !important; object-position: center 64% !important; }
+.col-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,6,4,.84) 0%, rgba(8,6,4,.5) 16%, rgba(8,6,4,.38) 46%, rgba(8,6,4,.86) 100%); }
+.col-ui { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; padding: 0.65rem 1.1rem 0.4rem; min-height: 0; }
+.col-top { text-align: center; flex: 0 0 auto; }
+.col-kicker { margin: 0; display: flex; justify-content: center; align-items: center; gap: 0.8rem; font-size: 12px; letter-spacing: 0.14em; text-transform: uppercase; color: #fdba45; }
+#colStreak { color: #ffb4a6; letter-spacing: 0.08em; }
+.col-top h1 { margin: 0.15rem 0 0.15rem; font-family: Rubik, sans-serif; font-size: 40px; letter-spacing: 0.04em; text-transform: uppercase; color: #ffe7a3; text-shadow: 0 2px 14px rgba(0,0,0,.7); }
+#colLead { margin: 0; color: #d5c4af; font-size: 14px; }
+.col-cats { list-style: none; margin: 0.7rem 0 0.65rem; padding: 0; flex: 1 1 auto; min-height: 0; display: flex; align-items: stretch; gap: 0.75rem; }
+.col-cats li { position: relative; flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; background: rgba(16,14,12,.9); border: 1px solid rgba(80,69,53,.85); border-radius: 0.75rem; overflow: hidden; }
+.col-cats li.is-mvp { flex: 1.18 1 0; border-color: #fdba45; box-shadow: 0 0 0 1px rgba(253,186,69,.35), 0 14px 28px rgba(0,0,0,.35); }
+.col-chip, .col-badge { position: absolute; z-index: 2; top: 0.45rem; font-size: 10px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 999px; padding: 0.12rem 0.5rem; }
+.col-chip { left: 0.45rem; background: rgba(16,14,12,.82); }
+.col-chip.is-fire { color: #ffb089; }
+.col-chip.is-storm { color: #ffe08a; }
+.col-chip.is-water { color: #9fd4ff; }
+.col-badge { left: 50%; transform: translateX(-50%); background: #e0a322; color: #1a1308; }
+.col-cats figure { margin: 0; flex: 1 1 auto; min-height: 0; overflow: hidden; background: #1a1613; }
+#viewPvpVictory .col-cats img { width: 118% !important; height: 190% !important; max-width: none !important; min-height: 0 !important; object-fit: cover !important; object-position: center 78% !important; margin: -22% 0 0 -9%; }
+.col-cats li > div { flex: 0 0 auto; padding: 0.45rem 0.65rem 0.55rem; }
+.col-cats b { display: block; font-size: 16px; }
+.col-cats small { display: block; margin-top: 0.1rem; color: #b7a898; font-size: 12px; }
+.col-stats { display: flex; gap: 0.6rem; margin-top: 0.35rem; }
+.col-stats p { margin: 0; flex: 1 1 0; min-width: 0; }
+.col-stats em { display: block; font-style: normal; font-size: 11px; color: #9d8f7b; }
+.col-stats strong { display: block; color: #89d98c; font-family: Rubik, sans-serif; font-size: 18px; }
+.col-foot { flex: 0 0 auto; display: flex; gap: 0.6rem; }
+.col-panel { flex: 1 1 0; min-width: 0; background: rgba(12,10,8,.92); border: 1px solid rgba(80,69,53,.8); border-radius: 0.75rem; padding: 0.5rem 0.65rem 0.55rem; }
+.col-panel p, .col-panel small { display: block; margin: 0.2rem 0 0; color: #d5c4af; font-size: 12px; }
+.col-panel-head { display: flex; align-items: center; gap: 0.45rem; }
+.col-panel-head span { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #b7a898; }
+.col-panel-head b { margin-left: auto; color: #fdba45; font-family: Rubik, sans-serif; font-size: 18px; }
+.col-panel-head em { font-style: normal; color: #89d98c; font-size: 12px; }
+.col-dps strong { color: #ffe7a3; font-family: Rubik, sans-serif; }
+.col-bar { height: 0.35rem; margin-top: 0.35rem; border-radius: 999px; background: #2a2420; overflow: hidden; }
+.col-bar i { display: block; width: 98%; height: 100%; background: linear-gradient(90deg, #3f8f55, #89d98c); }
+.col-loot { list-style: none; display: flex; gap: 0.35rem; margin: 0.4rem 0 0.25rem; padding: 0; }
+.col-loot li { flex: 1 1 0; text-align: center; background: rgba(26,22,18,.9); border: 1px solid rgba(80,69,53,.8); border-radius: 0.4rem; padding: 0.28rem 0.15rem; }
+.col-loot b { font-size: 11px; color: #fdba45; }
+.col-next { display: flex; flex-direction: column; gap: 0.35rem; }
+.col-next > span { font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #b7a898; }
+.col-go { border: 0; background: #e0a322; color: #1a1308; font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; border-radius: 999px; padding: 0.55rem 0.8rem; cursor: pointer; }
+.col-go small { font-weight: 700; letter-spacing: 0.08em; opacity: 0.75; }
+.col-next div { display: flex; gap: 0.35rem; }
+.col-next div button { flex: 1 1 0; border: 1px solid rgba(80,69,53,.85); background: #1a1613; color: #eae1db; border-radius: 999px; padding: 0.32rem 0.4rem; cursor: pointer; font-size: 12px; }
+.col-keys { flex: 0 0 auto; display: flex; justify-content: flex-end; gap: 0.9rem; margin: 0.35rem 0 0; color: #9d8f7b; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; }
 /* PvP fight — only while an arena battle is on screen */
 body:has(#viewPvpFight:not(.hidden)) #appNav,
 body:has(#viewPvpFight:not(.hidden)) #wireDock { display: none !important; }
