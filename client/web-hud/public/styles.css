@@ -2108,7 +2108,102 @@ button.mythfel-hub-brand {
 }
 .mythfel-hub-ver { margin-left: auto; font-size: 10px; letter-spacing: 0.04em; color: #9d8f7b; }
 /* Training hall — only the Тренировка stage */
-#viewPractice { background: #100e0c; color: #eae1db; }
+#viewPractice { background: #100e0c; color: #eae1db; position: relative; }
+#viewPractice > .dojo-load {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 40;
+  width: 100% !important;
+  height: 100% !important;
+  color: #eae1db;
+}
+#viewPractice > .dojo-load[hidden] { display: none !important; }
+#viewPractice > .dojo-load:not([hidden]) { display: block !important; }
+body:has(#viewPractice > .dojo-load:not([hidden])) #wireDock { display: none; }
+.dojo-load-art {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 40%;
+}
+.dojo-load-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(8, 6, 4, 0.72) 0%, rgba(8, 6, 4, 0.18) 28%, rgba(8, 6, 4, 0.2) 58%, rgba(8, 6, 4, 0.78) 100%);
+}
+.dojo-load-ui {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0.55rem 0.8rem 0.5rem;
+}
+.dojo-load-top { text-align: center; position: relative; }
+.dojo-load-top p { margin: 0; font-size: 11px; letter-spacing: 0.14em; text-transform: uppercase; color: #fdba45; }
+.dojo-load-top h2 { margin: 0.1rem 0 0; font-family: Rubik, sans-serif; font-size: 22px; letter-spacing: 0.04em; text-transform: uppercase; }
+.dojo-load-top button {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 1.8rem;
+  height: 1.8rem;
+  border: 0;
+  border-radius: 0.35rem;
+  background: #1c3a22;
+  color: #89d98c;
+  font-size: 18px;
+  cursor: pointer;
+}
+.dojo-load-ready { margin: 0.25rem 0 0; text-align: center; color: #89d98c; font-size: 12px; }
+.dojo-load-vs {
+  margin: auto auto 0;
+  width: 4.2rem;
+  height: 4.2rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 40% 35%, #ffd36a, #d99b26 55%, #8a5a10);
+  color: #1a1308;
+  font-family: Rubik, sans-serif;
+  font-weight: 800;
+  font-size: 20px;
+  box-shadow: 0 0 24px rgba(253, 186, 69, 0.45);
+}
+.dojo-load-mid { margin-top: 0.8rem; }
+.dojo-load-label { margin: 0 0 0.35rem; font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: #fdba45; }
+.dojo-load-label span { margin-left: 0.6rem; letter-spacing: 0; text-transform: none; color: #d5c4af; }
+.dojo-load-mid ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.6rem; }
+.dojo-load-mid li { flex: 1; min-width: 0; }
+.dojo-load-mid b { display: block; font-size: 13px; color: #fdba45; }
+.dojo-load-mid li:nth-child(2) b { color: #89d98c; }
+.dojo-load-mid li span { display: block; font-size: 12px; color: #eae1db; line-height: 1.3; }
+.dojo-load-sync { margin: 0.35rem 0 0; text-align: right; color: #89d98c; font-size: 12px; }
+.dojo-load-sync b { color: #eae1db; }
+.dojo-load-foot { display: flex; align-items: center; gap: 0.6rem; margin-top: 0.45rem; }
+.dojo-load-foot span { flex: 1; font-size: 12px; color: #d5c4af; }
+.dojo-load-foot button {
+  border: 1px solid rgba(80, 69, 53, 0.8);
+  background: #1a1613;
+  color: #eae1db;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 0.4rem 0.7rem;
+  cursor: pointer;
+}
+.dojo-load-go {
+  border: 0 !important;
+  background: linear-gradient(180deg, #fdba45, #d99b26) !important;
+  color: #1a1308 !important;
+  font-family: Rubik, sans-serif;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
 #viewPractice > .dojo-hall {
   flex: 1 1 auto;
   min-height: 0;
