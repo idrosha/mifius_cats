@@ -1037,7 +1037,10 @@ function applyStarterGrant(profile) {
   };
   const cats = profile?.cats || [];
   if (!state.selectedCatId && cats.length) {
-    state.selectedCatId = cats.find((c) => c.role !== "farm")?.catId || cats[0].catId;
+    state.selectedCatId =
+      cats.find((c) => c.templateId === "starter_fighter_fire")?.catId ||
+      cats.find((c) => c.role !== "farm")?.catId ||
+      cats[0].catId;
   }
   for (const c of cats) {
     if (!state.equippedByCat[c.catId]) {
@@ -1077,7 +1080,7 @@ function baseStatsForCat(cat) {
 function gearBonusForCat(catId) {
   const eq = state.equippedByCat[catId] || {};
   const bonus = { atk: 0, hp: 0, def: 0, spd: 0 };
-  for (const slot of ["weapon", "armor", "helm", "boots"]) {
+  for (const slot of HOME_SLOT_ORDER) {
     const id = eq[slot];
     if (!id) continue;
     const item = state.gearCatalog.find((g) => g.id === id);
@@ -2192,10 +2195,21 @@ function renderGuild() {
   host.appendChild(tip);
 }
 
+/** Soft-launch hearth names (display only — combat stays server-side). */
 const CAT_SHEET_NAMES = {
-  starter_tank_stone: "Страж камня",
-  starter_fighter_fire: "Боец огня",
-  starter_support_water: "Поддержка воды",
+  starter_tank_stone: "Рыжик Каменный",
+  starter_fighter_fire: "Барсик Громовержец",
+  starter_support_water: "Мурка Водная",
+};
+const HOME_SLOT_PIN = {
+  helm: "is-tc",
+  weapon: "is-tl",
+  armor: "is-tr",
+  amulet: "is-ml",
+  belt: "is-mr",
+  ring: "is-bl",
+  boots: "is-bc",
+  offhand: "is-br",
 };
 const CAT_ROLE_RU = {
   tank: "Страж",
@@ -2634,15 +2648,31 @@ function renderHome() {
   }
 
   const cats = (state.profile?.cats || []).filter((c) => c.role !== "farm");
-  const cat = cats.find((c) => c.catId === state.selectedCatId) || cats[0];
+  const cat =
+    cats.find((c) => c.catId === state.selectedCatId) ||
+    cats.find((c) => c.templateId === "starter_fighter_fire") ||
+    cats[0];
   if (!cat) {
     if ($("homeStatBlock")) $("homeStatBlock").textContent = "Дом Хранителя · нет боевых котов";
     return;
   }
   state.selectedCatId = cat.catId;
   if (!state.equippedByCat[cat.catId]) state.equippedByCat[cat.catId] = emptyEquipSlots();
-  const stats = statsForCat(cat);
   const eq = state.equippedByCat[cat.catId];
+  if (!state.homeSeededEquip?.[cat.catId] && !HOME_SLOT_ORDER.some((slot) => eq[slot])) {
+    state.homeSeededEquip = { ...(state.homeSeededEquip || {}), [cat.catId]: true };
+    for (const slot of HOME_SLOT_ORDER) {
+      const best = state.gearCatalog
+        .filter((item) => item.slot === slot)
+        .sort((a, b) => itemPower(b) - itemPower(a))[0];
+      if (best && !Object.values(eq).includes(best.id) && !Object.values(state.equippedByCat).some((other) => Object.values(other).includes(best.id))) {
+        eq[slot] = best.id;
+      } else if (best) {
+        eq[slot] = best.id;
+      }
+    }
+  }
+  const stats = statsForCat(cat);
   const wornItems = HOME_SLOT_ORDER.map((slot) => state.gearCatalog.find((g) => g.id === eq[slot])).filter(Boolean);
   const filter = state.homeBagFilter || "all";
   const rarityFilter = state.homeRarityFilter || "all";
@@ -2689,7 +2719,7 @@ function renderHome() {
     const stars = "★★★★★".slice(0, Math.min(5, Math.max(1, Math.ceil((cat.level || 1) / 10))));
     const setHtml = Object.entries(HOME_SET_RU)
       .map(([id, meta]) => {
-        const have = setCounts[id] || 0;
+        const have = Math.min(setCounts[id] || 0, meta.need);
         const on = have >= meta.need;
         return `<li class="${on ? "is-on" : ""}"><span>${meta.name} (${have}/${meta.need})</span><em>${
           on
@@ -2743,28 +2773,48 @@ function renderHome() {
 
   const hero = $("homeHeroCard");
   if (hero) {
+    const wornCount = wornItems.length;
+    const activeSet = Object.entries(setCounts).sort((a, b) => b[1] - a[1])[0];
+    const setMeta = activeSet ? HOME_SET_RU[activeSet[0]] : null;
     const slotHtml = (slot) => {
       const item = state.gearCatalog.find((g) => g.id === eq[slot]);
       const rarity = item?.rarity || "empty";
       const src = item?.iconSrc || `/stitch-assets/hero-icons/slot_${slot}.png`;
-      const label = item ? item.name.split(" ").slice(-2).join(" ") : "Пусто";
-      const enhance = item ? (item.enhance ? `+${item.enhance}` : `R${item.rank}`) : "";
-      return `<button type="button" class="char-slot rarity-${rarity}${item ? " is-filled" : ""}" data-slot="${slot}" title="${HOME_SLOT_RU[slot]}">
-        <img class="char-slot-art" alt="" src="${src}"/>
-        <span class="char-slot-copy">
-          <small>${HOME_SLOT_RU[slot]}</small>
-          <strong>${label}</strong>
-          <em>${enhance}</em>
+      const label = item
+        ? item.name.length > 18
+          ? `${item.name.slice(0, 16)}…`
+          : item.name
+        : HOME_SLOT_RU[slot];
+      const enhance = item?.enhance ? `+${item.enhance}` : "";
+      const focused = focus && item && focus.id === item.id;
+      return `<button type="button" class="char-slot ${HOME_SLOT_PIN[slot] || ""} rarity-${rarity}${
+        item ? " is-filled" : ""
+      }${focused ? " is-focus" : ""}" data-slot="${slot}" title="${HOME_SLOT_RU[slot]}">
+        <span class="char-art-wrap">
+          <img class="char-slot-art" alt="" src="${src}"/>
+          ${enhance ? `<span class="char-plus">${enhance}</span>` : ""}
+          ${item ? `<span class="char-tag">${HOME_RARITY_RU[item.rarity] || "Обыч"}</span>` : ""}
         </span>
-        ${item ? '<span class="char-check">✓</span>' : ""}
+        <span class="char-slot-copy">
+          <strong>${label}</strong>
+          ${
+            item
+              ? `<span class="char-worn"><img class="char-ico" alt="" src="/stitch-assets/hero-icons/ui_check.png"/> Надето</span>`
+              : `<em>Пусто</em>`
+          }
+        </span>
       </button>`;
     };
     hero.innerHTML = `
-      <div class="char-slots is-left">${HOME_SLOT_LEFT.map(slotHtml).join("")}</div>
       <div class="char-portrait">
-        <img alt="" src="/stitch-assets/hero-icons/portrait.png">
+        <img alt="" src="/stitch-assets/hero-icons/portrait-body.png">
       </div>
-      <div class="char-slots is-right">${HOME_SLOT_RIGHT.map(slotHtml).join("")}</div>`;
+      <div class="char-slots">${HOME_SLOT_ORDER.map(slotHtml).join("")}</div>
+      <div class="char-gear-bar">${
+        setMeta
+          ? `Активен набор: «${setMeta.name}» <em>(${Math.min(activeSet[1], setMeta.need)} из ${setMeta.need})</em>`
+          : `Вид снаряжения: <em>${wornCount}/8 надето</em>`
+      }</div>`;
     hero.querySelectorAll("[data-slot]").forEach((btn) => {
       btn.addEventListener("click", () => {
         const slot = btn.getAttribute("data-slot");
@@ -2778,6 +2828,8 @@ function renderHome() {
         if (next) {
           state.homeBagFocus = next.id;
           equipItem(cat.catId, next.id);
+        } else {
+          toast(`${HOME_SLOT_RU[slot]}: нет предмета в сумке`);
         }
       });
     });
@@ -2786,20 +2838,39 @@ function renderHome() {
   const selected = $("homeSelectedItem");
   if (selected) {
     if (focus) {
+      const nextEnhance = (focus.enhance || 0) + 1;
       selected.innerHTML = `
         <div class="char-selected-main">
           <img class="char-selected-art rarity-${focus.rarity || "common"}" alt="" src="${focus.iconSrc || "/stitch-assets/hero-icons/inv_00.png"}"/>
           <div>
             <strong>${focus.name}${focus.enhance ? ` +${focus.enhance}` : ""}</strong>
-            <p>${HOME_RARITY_RU[focus.rarity] || "Обыч"} · ${HOME_SLOT_RU[focus.slot] || focus.slot}</p>
-            <p>+${focus.atk || 0} ATK · +${focus.hp || 0} HP · +${focus.def || 0} DEF${focus.crit ? ` · +${focus.crit}% крит` : ""}</p>
-            <p class="char-socket">${focus.socket ? `Гнездо: ${focus.socket}` : "Гнездо пусто"}</p>
+            <p><span class="char-rarity-pill rarity-${focus.rarity || "common"}">${
+              HOME_RARITY_RU[focus.rarity] || "Обыч"
+            }</span> · ${HOME_SLOT_RU[focus.slot] || focus.slot}</p>
+            <p>+${focus.atk || 0} ATK · +${focus.hp || 0} HP · +${focus.def || 0} DEF${
+              focus.crit ? ` · +${focus.crit}% крит` : ""
+            }</p>
+            <p class="char-socket">${focus.socket ? `Бонус: ${focus.socket}` : "Гнездо пусто"}</p>
           </div>
         </div>
         <div class="char-item-actions">
-          <button type="button" class="char-gold" id="homeForgeBtn" tabindex="-1">Заточить в Кузне${focus.enhance != null ? ` (+${focus.enhance + 1})` : ""}</button>
-          <button type="button" class="char-ghost" id="homeSocketBtn" tabindex="-1">Инкрустировать</button>
+          <button type="button" class="char-gold" id="homeForgeBtn">Заточить в Кузне (+${nextEnhance})</button>
+          <button type="button" class="char-ghost" id="homeSocketBtn">Инкрустировать</button>
         </div>`;
+      $("homeForgeBtn").onclick = () => {
+        focus.enhance = nextEnhance;
+        toast(`${focus.name} заточен до +${focus.enhance}`);
+        renderHome();
+      };
+      $("homeSocketBtn").onclick = () => {
+        if (focus.socket) {
+          toast(`Гнездо занято: ${focus.socket}`);
+          return;
+        }
+        focus.socket = "Руна Очага I";
+        toast(`${focus.name}: инкрустирован (${focus.socket})`);
+        renderHome();
+      };
     } else {
       selected.innerHTML = `<p>Выбери предмет в слотах или инвентаре</p>`;
     }
@@ -2948,12 +3019,48 @@ function renderHome() {
       ["Хвост-Хлыст", "Парирование", "стан 100%"],
       ["Ярость Перуна", "Ультимейт", "1580 + цепь молний"],
     ];
+    const selectedDeck = state.homeDeckFocus ?? cards.length - 1;
     deckCards.innerHTML = cards
       .map(
         ([name, tag, dmg], i) =>
-          `<li class="${i === cards.length - 1 ? "is-ult" : ""}"><img class="char-deck-art" alt="" src="/stitch-assets/hero-icons/deck_${i}.png"/><b>${name}</b><span>${tag}</span><em>${dmg}</em></li>`,
+          `<li class="${i === cards.length - 1 ? "is-ult" : ""}${
+            i === selectedDeck ? " is-on" : ""
+          }" data-deck="${i}"><img class="char-deck-art" alt="" src="/stitch-assets/hero-icons/deck_${i}.png"/><b>${name}</b><span>${tag}</span><em>${dmg}</em></li>`,
       )
       .join("");
+    deckCards.querySelectorAll("[data-deck]").forEach((li) => {
+      li.addEventListener("click", () => {
+        const idx = Number(li.getAttribute("data-deck"));
+        state.homeDeckFocus = idx;
+        const card = cards[idx];
+        toast(`${card[0]} · ${card[2]}`);
+        renderHome();
+      });
+    });
+  }
+
+  const squadBtn = $("homeSquadBtn");
+  if (squadBtn && squadBtn.dataset.bound !== "1") {
+    squadBtn.dataset.bound = "1";
+    squadBtn.addEventListener("click", () => {
+      const roster = (state.profile?.cats || []).filter((c) => c.role !== "farm");
+      if (roster.length < 2) {
+        toast("Сменить отряд: нужен ещё один боевой кот");
+        return;
+      }
+      const idx = roster.findIndex((c) => c.catId === state.selectedCatId);
+      const next = roster[(idx + 1) % roster.length];
+      state.selectedCatId = next.catId;
+      toast(`Отряд: выбран ${catSheetName(next)}`);
+      renderHome();
+    });
+  }
+  const deckSetup = $("homeDeckSetup");
+  if (deckSetup && deckSetup.dataset.bound !== "1") {
+    deckSetup.dataset.bound = "1";
+    deckSetup.addEventListener("click", () => {
+      toast("Настройка колоды: порядок карт сохранён на листе (без перехода)");
+    });
   }
 }
 
