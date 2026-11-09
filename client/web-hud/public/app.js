@@ -2747,11 +2747,15 @@ function renderHome() {
       const item = state.gearCatalog.find((g) => g.id === eq[slot]);
       const rarity = item?.rarity || "empty";
       const src = item?.iconSrc || `/stitch-assets/hero-icons/slot_${slot}.png`;
+      const label = item ? item.name.split(" ").slice(-2).join(" ") : "Пусто";
+      const enhance = item ? (item.enhance ? `+${item.enhance}` : `R${item.rank}`) : "";
       return `<button type="button" class="char-slot rarity-${rarity}${item ? " is-filled" : ""}" data-slot="${slot}" title="${HOME_SLOT_RU[slot]}">
         <img class="char-slot-art" alt="" src="${src}"/>
-        <small>${HOME_SLOT_RU[slot]}</small>
-        <strong>${item ? item.name.split(" ").slice(-2).join(" ") : "Пусто"}</strong>
-        <em>${item ? (item.enhance ? `+${item.enhance}` : `R${item.rank}`) : ""}</em>
+        <span class="char-slot-copy">
+          <small>${HOME_SLOT_RU[slot]}</small>
+          <strong>${label}</strong>
+          <em>${enhance}</em>
+        </span>
         ${item ? '<span class="char-check">✓</span>' : ""}
       </button>`;
     };

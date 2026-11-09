@@ -1491,40 +1491,55 @@ body:has(#viewHome:not(.hidden)) #app {
 #viewHome .char-gold { border: 0; background: #d99b26; color: #1a1308; }
 #viewHome .char-ghost { border: 1px solid rgba(80, 69, 53, 0.8); background: #1a1613; color: #eae1db; }
 #viewHome .char-fit {
-  position: relative; flex: 1 1 auto; min-height: 12rem; align-self: stretch;
+  position: relative; flex: 1 1 auto; min-height: 0; align-self: stretch;
+  aspect-ratio: 631 / 296; max-height: 100%; width: 100%;
+  border-radius: 0.55rem;
 }
 #viewHome .char-slots {
-  position: absolute; z-index: 2; top: 0.35rem; bottom: 0.35rem;
-  display: flex; flex-direction: column; justify-content: space-between; width: 6.8rem;
+  position: absolute; z-index: 2; top: 0.45rem; bottom: 0.45rem;
+  display: flex; flex-direction: column; justify-content: space-between; width: 9.6rem;
+  pointer-events: none;
 }
-#viewHome .char-slots.is-left { left: 0.3rem; }
-#viewHome .char-slots.is-right { right: 0.3rem; }
+#viewHome .char-slots.is-left { left: 0.45rem; }
+#viewHome .char-slots.is-right { right: 0.45rem; }
 #viewHome .char-slots button {
-  position: relative; display: block; width: 100%; text-align: left; font: inherit; color: inherit; cursor: pointer;
-  background: rgba(31, 27, 24, 0.92); border: 1px solid rgba(253, 186, 69, 0.35);
-  border-radius: 0.45rem; padding: 0.22rem 0.35rem 0.22rem 1.7rem;
+  pointer-events: auto;
+  position: relative; display: flex; align-items: center; gap: 0.4rem; width: 100%;
+  text-align: left; font: inherit; color: inherit; cursor: pointer;
+  background: rgba(20, 17, 14, 0.92); border: 1px solid rgba(180, 140, 70, 0.55);
+  border-radius: 0.5rem; padding: 0.28rem 0.45rem 0.28rem 0.28rem;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.35);
 }
 #viewHome .char-slots button i {
   position: absolute; left: 0.25rem; top: 50%; transform: translateY(-50%);
   width: 1.25rem; text-align: center; font-style: normal; font-size: 12px;
 }
-#viewHome .char-slots button small { display: block; font-size: 9px; color: #9d8f7b; }
-#viewHome .char-slots button strong { display: block; font-size: 10px; line-height: 1.15; }
-#viewHome .char-slots button em { display: block; font-style: normal; font-size: 10px; color: #89d98c; }
-#viewHome .char-slots .char-check {
-  position: absolute; right: 0.25rem; top: 0.2rem; color: #89d98c; font-size: 10px;
+#viewHome .char-slots .char-slot-copy { display: flex; flex-direction: column; gap: 0.05rem; min-width: 0; flex: 1 1 auto; }
+#viewHome .char-slots button small {
+  display: block; font-size: 10px; line-height: 1.1; color: #c4b59a; font-weight: 600;
 }
+#viewHome .char-slots button strong {
+  display: block; font-size: 12px; line-height: 1.15; color: #f5efe6; font-weight: 800;
+}
+#viewHome .char-slots button em {
+  display: block; font-style: normal; font-size: 10px; color: #89d98c; font-weight: 700;
+}
+#viewHome .char-slots button em:empty { display: none; }
+#viewHome .char-slots .char-check {
+  position: absolute; right: 0.3rem; top: 0.25rem; color: #89d98c; font-size: 10px;
+}
+#viewHome .char-slots button.rarity-empty { border-color: rgba(180, 140, 70, 0.45); }
 #viewHome .char-slots button.rarity-mythic { border-color: #fdba45; }
 #viewHome .char-slots button.rarity-epic { border-color: #b48cff; }
 #viewHome .char-slots button.rarity-rare { border-color: #6ea8ff; }
 #viewHome .char-slots button.rarity-common { border-color: rgba(80, 69, 53, 0.8); }
 #viewHome .char-portrait {
-  position: absolute; inset: 0; border-radius: 0.5rem; overflow: hidden;
-  background: #110d0b; border: 1px solid rgba(253, 186, 69, 0.25);
+  position: absolute; inset: 0; border-radius: 0.55rem; overflow: hidden;
+  background: #110d0b; border: 1px solid rgba(180, 140, 70, 0.45);
 }
 #viewHome .char-portrait img {
   width: 100% !important; height: 100% !important; min-height: 0 !important; max-width: none !important;
-  object-fit: cover !important; object-position: center 28% !important; display: block;
+  object-fit: cover !important; object-position: center 22% !important; display: block;
 }
 #viewHome .char-selected {
   flex: 0 0 auto; background: #1a1613; border: 1px solid rgba(80, 69, 53, 0.7);
@@ -1623,13 +1638,12 @@ body:has(#viewHome:not(.hidden)) #app {
 }
 #viewHome .char-ico-lg { width: 1.35rem; height: 1.35rem; }
 #viewHome .char-stat-label { display: inline-flex; align-items: center; gap: 0.15rem; }
-#viewHome .char-slot {
-  padding-left: 2.35rem !important;
-}
 #viewHome .char-slot-art {
-  position: absolute; left: 0.2rem; top: 50%; transform: translateY(-50%);
-  width: 1.7rem; height: 1.7rem; object-fit: cover; border-radius: 0.28rem;
-  border: 1px solid rgba(253, 186, 69, 0.35); background: #100e0c;
+  flex: 0 0 auto; width: 2.05rem; height: 2.05rem; object-fit: cover; object-position: center 40%;
+  border-radius: 0.32rem; border: 1px solid rgba(180, 140, 70, 0.55); background: #100e0c;
+}
+#viewHome .char-slot.rarity-empty .char-slot-art {
+  object-position: center 38%; filter: saturate(0.85) brightness(0.92);
 }
 #viewHome .char-selected-art {
   width: 2.6rem; height: 2.6rem; object-fit: cover; border-radius: 0.35rem;
