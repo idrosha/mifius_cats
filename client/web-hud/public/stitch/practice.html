@@ -1,153 +1,73 @@
+<!-- Live training dojo. Soft-launch sheet; load overlay kept; shared fillNav only. -->
 <section id="viewPractice" class="stitch-view mythfel-form hidden" data-stitch="practice" data-layout="landscape">
-<div class="dojo-hall">
+<main class="dojo-hall" data-purpose="training-dojo">
 <header class="dojo-top">
 <div class="dojo-crumb">
-<strong>Бои</strong>
-<span>›</span>
-<em>Тренировочный Зал (Додзё)</em>
-<span class="dojo-chip">3v3</span>
+<strong>Бои</strong><span>›</span><em>Тренировочный Зал (Додзё)</em><span class="dojo-chip">3v3</span>
 </div>
 <p class="dojo-mode">Тренировочный режим · 0 расхода энергии · Точный DPS-лог</p>
 <div class="dojo-server">
 <span>Сервер спарринга: <b>Dojo-Sim #4</b> (Пинг 18 мс)</span>
-<button type="button" class="dojo-ghost">Сброс статистики</button>
+<button type="button" class="dojo-ghost" data-dojo="reset">Сброс статистики</button>
 </div>
 </header>
 <div class="dojo-body">
 <aside class="dojo-squads" aria-label="Отряды Хранителя">
 <div class="dojo-side-title"><span>Отряды Хранителя</span><small>3 состава 3v3</small></div>
-<article class="dojo-squad is-on">
-<header><b>Отряд №1: Громовой Шквал</b><i>Выбран</i><strong>18,450 БМ</strong></header>
+<article class="dojo-squad is-on" data-squad="1" tabindex="0">
+<header><b>Отряд №1 · Громовой Шквал</b><i>Выбран</i><strong>18 450 БМ</strong></header>
 <ul>
-<li><span class="swatch thunder"></span><div><b>Барсик</b><small>Танк · Гром</small></div><em>HP 100% · крит 15%</em></li>
-<li><span class="swatch fire"></span><div><b>Рыжик</b><small>ДПС · Огонь</small></div><em>HP 95% · крит 42%</em></li>
-<li><span class="swatch water"></span><div><b>Мурка</b><small>Хил · Вода</small></div><em>HP 98% · реген</em></li>
+<li><img class="dojo-cat" alt="" src="/stitch-assets/f453fafbcca9.jpg"/><div><b>Барсик</b><small>Танк · Гром</small></div><em>HP 100%</em></li>
+<li><img class="dojo-cat" alt="" src="/stitch-assets/dc459e94ceed.jpg"/><div><b>Рыжик</b><small>ДПС · Огонь</small></div><em>крит 42%</em></li>
+<li><img class="dojo-cat" alt="" src="/stitch-assets/ad3ff067b5c8.jpg"/><div><b>Мурка</b><small>Хил · Вода</small></div><em>реген</em></li>
 </ul>
 <footer><span>Плазма &amp; Пар (+25% ATK)</span><span>Синергия 3/3 активна</span></footer>
 </article>
-<article class="dojo-squad">
-<header><b>Отряд №2: Ночной Клинок</b><strong>17,890 БМ</strong></header>
+<article class="dojo-squad" data-squad="2" tabindex="0">
+<header><b>Отряд №2 · Ночной Клинок</b><strong>17 890 БМ</strong></header>
 <ul>
-<li><span class="swatch shadow"></span><div><b>Лис</b><small>Ассасин · Тень</small></div><em>HP 92% · крит 55%</em></li>
-<li><span class="swatch wind"></span><div><b>Ветерок</b><small>Ассасин · Ветер</small></div><em>HP 88% · крит 38%</em></li>
-<li><span class="swatch leaf"></span><div><b>Ветра</b><small>Саппорт · Природа</small></div><em>HP 100% · реген</em></li>
+<li><span class="swatch shadow"></span><div><b>Лис</b><small>Ассасин · Тень</small></div><em>крит 55%</em></li>
+<li><span class="swatch wind"></span><div><b>Ветерок</b><small>Ассасин · Ветер</small></div><em>крит 38%</em></li>
+<li><span class="swatch leaf"></span><div><b>Ветра</b><small>Саппорт · Природа</small></div><em>реген</em></li>
 </ul>
-<footer><span>Теневой Прорыв (крит +35%)</span><span>Ур. 40/45</span></footer>
+<footer><span>Теневой Прорыв (+35% крит)</span><span>Ур. 40–45</span></footer>
 </article>
-<article class="dojo-squad">
-<header><b>Отряд №3: Ледяной Вихрь</b><strong>16,920 БМ</strong></header>
+<article class="dojo-squad" data-squad="3" tabindex="0">
+<header><b>Отряд №3 · Ледяной Вихрь</b><strong>16 920 БМ</strong></header>
 <ul>
-<li><span class="swatch ice"></span><div><b>Снежок</b><small>Танк · Лёд</small></div><em>HP 100% · броня 500</em></li>
-<li><span class="swatch ice"></span><div><b>Снежинка</b><small>Маг · Лёд</small></div><em>HP 85% · крит 28%</em></li>
-<li><span class="swatch water"></span><div><b>Морозко</b><small>Саппорт · Вода</small></div><em>HP 90% · реген</em></li>
+<li><span class="swatch ice"></span><div><b>Снежок</b><small>Танк · Лёд</small></div><em>броня 500</em></li>
+<li><span class="swatch ice"></span><div><b>Снежинка</b><small>Маг · Лёд</small></div><em>крит 28%</em></li>
+<li><span class="swatch water"></span><div><b>Морозко</b><small>Саппорт · Вода</small></div><em>реген</em></li>
 </ul>
-<footer><span>Вечная Мерзлота (Заморозка 2х)</span><span>Ур. 45/45</span></footer>
+<footer><span>Вечная Мерзлота</span><span>Ур. 45</span></footer>
 </article>
 <div class="dojo-squad-tools">
-<button type="button">Настроить ростер</button>
-<label><input type="checkbox" checked /> Авто-подбор 3v3</label>
+<button type="button" data-dojo="roster">Настроить ростер</button>
+<button type="button" data-dojo="autopick">Авто-подбор 3v3</button>
 </div>
 </aside>
 <section class="dojo-sim" aria-label="Симулятор спарринга">
 <div class="dojo-sim-head">
-<div><small>СИМУЛЯТОР</small><strong>СПАРРИНГА</strong></div>
-<div class="dojo-odds"><span>Вероятность победы:</span><b>94%</b></div>
+<div><small>Симулятор</small><strong>Спарринга</strong></div>
+<div class="dojo-odds"><span>Вероятность победы</span><b>94%</b></div>
 </div>
 <div class="dojo-arena">
-<img alt="" src="/stitch-ref/e608/arena_dojo.png" />
+<img alt="" src="/stitch-assets/dojo/spar.png"/>
 <div class="dojo-vs">VS</div>
-<p>Превосходство стихий (Гром &gt; Вода, Огонь &gt; Дерево)</p>
+<p>Превосходство стихий · Гром &gt; Вода · Огонь &gt; Дерево</p>
 </div>
 <div class="dojo-toggles">
-<span class="is-on">DPS-метр ВКЛ</span>
-<span class="is-on">AI: Эксперт</span>
-<span>Без лимита времени</span>
+<button type="button" class="is-on" data-toggle="dps">DPS-метр: ВКЛ</button>
+<button type="button" class="is-on" data-toggle="ai">AI: Эксперт</button>
+<button type="button" class="is-on" data-toggle="time">Без лимита времени</button>
 </div>
-<button type="button" class="dojo-start" id="btnDojoStart" data-load="open">НАЧАТЬ ТРЕНИРОВКУ [ПРОБЕЛ]</button>
+<button type="button" class="dojo-start" id="btnDojoStart" data-load="open">Начать тренировку [Пробел]</button>
 <div class="dojo-dummies">
-<div class="dojo-dummy-head"><span>Команда манекенов (Спарринг-Манекены)</span><b>16,200,000</b><small>3 манекена</small></div>
+<div class="dojo-dummy-head"><span>Команда манекенов · спарринг-цели</span><b>16 200 БМ</b><small>3 манекена</small></div>
 <ul>
-<li><b>Дубовый Рыцарь</b><small>Танк · T1</small><em>HP 100k · броня 25% · броня 500</em></li>
-<li><b>Соломенный Боец</b><small>T1 · Контроллер</small><em>HP 50k · пассивное</em></li>
-<li><b>Каменный Тотем</b><small>T1</small><em>HP 80k · аура +800 HP</em></li>
+<li><b>Дубовый Рыцарь</b><small>Танк · T1</small><em>HP 100k · блок 25% · Огонь ×2.0</em></li>
+<li><b>Соломенный Боец</b><small>Боец · T1</small><em>HP 50k · контратака · Гром ×1.5</em></li>
+<li><b>Каменный Тотем</b><small>Реген · T1</small><em>HP 80k · аура +800 · Лёд ×1.8</em></li>
 </ul>
-</div>
-</section>
-<aside class="dojo-notes" aria-label="Тактический Блокнот">
-<div class="dojo-side-title"><span>Тактический Блокнот</span><button type="button" class="dojo-ghost">Дай гайд</button></div>
-<section>
-<header>Синергии и Комбо стихий <b>6 активных</b></header>
-<ul>
-<li><b>Плазма &amp; Пар</b><em>+25% ATK</em><small>Гром + Огонь: атака на 3 хода</small></li>
-<li><b>Теневое Укрытие</b><em>−40% обнаружения</em></li>
-<li><b>Абсолютная Заморозка</b><em>Стан 3с</em><small>Лёд + Вода: стан цели на 3 хода</small></li>
-<li><b>Каменный Тотем</b><em>+800 HP</em><small>аура союзникам</small></li>
-<li><b>Очищающий Прилив</b><em>снять 1 дебафф</em></li>
-</ul>
-</section>
-<section>
-<header>Тактический разбор позиций строя</header>
-<ul class="dojo-lanes">
-<li><b>Авангард</b><span>20% шанс стана</span></li>
-<li><b>Центр</b><span>крит +15%</span></li>
-<li><b>Тыл</b><span>реген +1 и ребаффы</span></li>
-</ul>
-</section>
-<section class="dojo-sensei">
-<header>Совет Сэнсэя Маусона</header>
-<p>«Баф вперёд (Каменный Тотем), чтобы заблокировать ответный удар. Затем молния. Огонь ×2.0.»</p>
-</section>
-<section class="dojo-presets">
-<header>Пресеты тренировки <small>4 конфигурации</small></header>
-<div><button type="button" class="is-on">Пресет T1</button><button type="button">Пресет T2</button><button type="button">Пресет T3</button><button type="button">Все отряды</button></div>
-</section>
-<section class="dojo-records">
-<div><span>Рекорды DPS</span><b>3,420</b></div>
-<div><span>Время</span><b>8,900</b></div>
-<div><span>Волна</span><b>14</b></div>
-<p>Ротация: 1–3–2 <button type="button" class="dojo-ghost">Подробнее</button></p>
-</section>
-</aside>
-</div>
-<footer class="dojo-foot">
-<div class="dojo-compare">
-<b>Сравнение отрядов:</b>
-<span>СОВОКУПНАЯ АТАКА (ATK) <strong>11,400</strong> / 4,200</span>
-<span>ЭФФЕКТИВНОЕ HP (EHP) <strong>38,200</strong> / 230,000</span>
-<span>НАЧАЛ СТИХИЙ <strong>+15%</strong> (Гром &gt; Вода, Огонь &gt; Дерево)</span>
-</div>
-<div class="dojo-foot-actions">
-<button type="button" class="dojo-ghost">Параметры симулятора</button>
-<button type="button" class="dojo-quick">Быстрый тест</button>
-</div>
-<div class="dojo-keys"><span>ESC Назад</span><span>ПРОБЕЛ Старт</span><span>Додзё</span><small>v0.48.2 Tavern Sync · Связь с сервером стабильна</small></div>
-</footer>
-</div>
-<div class="dojo-load" hidden>
-<img class="dojo-load-art" alt="" src="/stitch-ref/e608/arena_dojo.png" />
-<div class="dojo-load-shade"></div>
-<div class="dojo-load-ui">
-<header class="dojo-load-top">
-<p>Дуэльный сектор додзё</p>
-<h2>Тренировочный бой · Загрузка арены</h2>
-<button type="button" data-load="close" aria-label="Закрыть">×</button>
-</header>
-<p class="dojo-load-ready">Стабилизация фазового пространства арены: 100%</p>
-<div class="dojo-load-vs" aria-hidden="true">VS</div>
-<div class="dojo-load-mid">
-<p class="dojo-load-label">Тактические подсказки додзё · Советы тренера <span>Освойте боевую синергию перед стартом тренировки</span></p>
-<ul>
-<li><b>Стихийное комбо</b><span>Шок Барсика и огненный всплеск Рыжика дают статус Плазмы (+25% урона).</span></li>
-<li><b>Пробитие защиты</b><span>Деревянные манекены держат 500 брони. Режущие атаки и огонь бьют сильнее.</span></li>
-<li><b>Расход энергии</b><span>В первом раунде 3 орба. Начните с защитного баффа или провокации.</span></li>
-</ul>
-<p class="dojo-load-sync">Синхронизация 100% <b>1 / 3</b></p>
-</div>
-<footer class="dojo-load-foot">
-<button type="button" data-load="close">ESC Прервать подготовку</button>
-<span>Режим: одиночная тренировка без затраты энергии</span>
-<button type="button" class="dojo-load-go" data-load="go">Пробел В бой!</button>
-</footer>
-</div>
 </div>
 </section>

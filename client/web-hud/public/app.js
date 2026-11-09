@@ -4728,6 +4728,18 @@ function bindPracticeFightCtas() {
   const root = $("viewPractice");
   if (!root || root.dataset.practiceBound === "1") return;
   root.dataset.practiceBound = "1";
+  const selectSquad = (id) => {
+    root.querySelectorAll("[data-squad]").forEach((card) => {
+      const on = card.getAttribute("data-squad") === id;
+      card.classList.toggle("is-on", on);
+      const badge = card.querySelector("header i");
+      if (on && !badge) {
+        const mark = document.createElement("i");
+        mark.textContent = "Выбран";
+        card.querySelector("header")?.appendChild(mark);
+      } else if (!on && badge) badge.remove();
+    });
+  };
   root.addEventListener("click", (ev) => {
     const act = ev.target.closest("[data-load]")?.getAttribute("data-load");
     if (!act) return;
@@ -4739,20 +4751,59 @@ function bindPracticeFightCtas() {
   }, true);
   root.addEventListener("click", (ev) => {
     if (ev.target.closest("[data-load]")) return;
+    const squad = ev.target.closest("[data-squad]");
+    if (squad) {
+      ev.preventDefault();
+      selectSquad(squad.getAttribute("data-squad"));
+      toast(`Отряд №${squad.getAttribute("data-squad")} выбран`);
+      return;
+    }
+    const toggle = ev.target.closest("[data-toggle]");
+    if (toggle) {
+      ev.preventDefault();
+      toggle.classList.toggle("is-on");
+      const key = toggle.getAttribute("data-toggle");
+      const on = toggle.classList.contains("is-on");
+      if (key === "dps") toggle.textContent = on ? "DPS-метр: ВКЛ" : "DPS-метр: ВЫКЛ";
+      else if (key === "ai") toggle.textContent = on ? "AI: Эксперт" : "AI: Новичок";
+      else if (key === "time") toggle.textContent = on ? "Без лимита времени" : "Лимит 90 с";
+      return;
+    }
+    const preset = ev.target.closest("[data-preset]");
+    if (preset) {
+      ev.preventDefault();
+      root.querySelectorAll("[data-preset]").forEach((btn) => {
+        btn.classList.toggle("is-on", btn === preset);
+      });
+      toast(`Пресет: ${preset.textContent.trim()}`);
+      return;
+    }
+    const dojo = ev.target.closest("[data-dojo]")?.getAttribute("data-dojo");
+    if (dojo) {
+      ev.preventDefault();
+      if (dojo === "quick") {
+        startPractice(true);
+        return;
+      }
+      const tips = {
+        reset: "Статистика додзё сброшена (локально)",
+        roster: "Ростер 3v3 — soft launch stub",
+        autopick: "Авто-подбор 3v3 — soft launch stub",
+        guide: "Гайд додзё — soft launch stub",
+        params: "Параметры симулятора — soft launch stub",
+      };
+      toast(tips[dojo] || "Додзё · stub");
+      return;
+    }
     const label = (ev.target.closest("button, a")?.textContent || "").toLowerCase();
     if (label.includes("назад")) {
       ev.preventDefault();
       navigate("yard");
-      return;
-    }
-    if (label.includes("быстрый тест")) {
-      ev.preventDefault();
-      startPractice(true);
     }
   });
   document.addEventListener("keydown", (ev) => {
     if (state.tab !== "practice") return;
-    if (ev.target.closest("input, textarea")) return;
+    if (ev.target.closest?.("input, textarea")) return;
     if (state.battle && !state.battle.result && state.battleMode === "practice") return;
     const loading = root.dataset.practiceLoad === "1";
     if (ev.code === "Space") {
