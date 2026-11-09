@@ -3523,13 +3523,26 @@ function bindNursery() {
   const root = $("viewBreeding");
   if (!root || root.dataset.nurseryBound === "1") return;
   root.dataset.nurseryBound = "1";
-  root.querySelector(".nursery-light")?.addEventListener("click", () => {
-    showGateTip(
-      t(
-        "gate.tip.breeding",
-        "Питомник: обычные → мифики (малый шанс). Пока — подними ранг в боях",
-      ),
-    );
+  root.addEventListener("click", (ev) => {
+    const act = ev.target.closest("[data-nursery]")?.getAttribute("data-nursery");
+    if (!act) return;
+    ev.preventDefault();
+    if (act === "pick-father" || act === "pick-mother") {
+      toast(
+        act === "pick-father"
+          ? "Отец: выбор из коллекции на листе (без перехода)"
+          : "Мать: выбор из коллекции на листе (без перехода)",
+      );
+      return;
+    }
+    if (act === "light") {
+      showGateTip(
+        t(
+          "gate.tip.breeding",
+          "Питомник: обычные → мифики (малый шанс). Пока — подними ранг в боях",
+        ),
+      );
+    }
   });
 }
 

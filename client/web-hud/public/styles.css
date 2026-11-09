@@ -3434,125 +3434,167 @@ body:has(#viewCollection:not(.hidden)) #wireDock { display: none !important; }
 }
 .roster-keys b { color: #fdba45; font-weight: 700; }
 
-/* Breeding nursery — only viewBreeding */
+/* Live manor nursery — only viewBreeding */
+body:has(#viewBreeding:not(.hidden)) #wireDock { display: none !important; }
+body:has(#viewBreeding:not(.hidden)) #app { height: 100dvh !important; max-height: 100dvh !important; }
 #viewBreeding { background: #100e0c; color: #eae1db; }
 #viewBreeding > .nursery-hall {
-  flex: 1 1 auto;
-  min-height: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  padding: 0.4rem 0.5rem 0.3rem;
-  background: #100e0c;
+  flex: 1 1 auto !important; min-height: 0 !important; height: 100% !important; width: 100% !important;
+  display: flex !important; flex-direction: column; gap: 0.35rem;
+  padding: 0.4rem 0.55rem 0.3rem !important; background: #100e0c; overflow: hidden;
 }
-.nursery-top, .nursery-foot {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.6rem;
-  flex: 0 0 auto;
+#viewBreeding .nursery-top, #viewBreeding .nursery-foot {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; flex: 0 0 auto;
 }
-.nursery-top strong { font-family: Rubik, sans-serif; font-size: 15px; }
-.nursery-top p, .nursery-foot, .nursery-order, .nursery-cost { margin: 0.1rem 0 0; font-size: 11px; color: #d5c4af; }
-.nursery-incub { text-align: right; font-size: 11px; }
-.nursery-incub b { display: block; color: #89d98c; }
-.nursery-incub em { display: block; font-style: normal; color: #fdba45; }
-.nursery-body { flex: 1 1 auto; min-height: 0; display: flex; gap: 0.45rem; }
-.nursery-parent, .nursery-altar {
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0.3rem;
-  background: rgba(22, 19, 16, 0.96);
-  border: 1px solid rgba(80, 69, 53, 0.65);
-  border-radius: 0.6rem;
-  padding: 0.45rem;
-  overflow: auto;
+#viewBreeding .nursery-top strong {
+  display: block; font-family: Rubik, sans-serif; font-size: 16px; color: #fdba45; letter-spacing: 0.02em;
 }
-.nursery-parent { width: 24%; }
-.nursery-altar { flex: 1 1 auto; }
-.nursery-kicker {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  font-family: Rubik, sans-serif;
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #fdba45;
+#viewBreeding .nursery-top p, #viewBreeding .nursery-order, #viewBreeding .nursery-cost,
+#viewBreeding .nursery-tip { margin: 0.15rem 0 0; font-size: 11px; color: #d5c4af; }
+#viewBreeding .nursery-status { display: flex; align-items: stretch; gap: 0.4rem; }
+#viewBreeding .nursery-cradles, #viewBreeding .nursery-incub {
+  background: #161310; border: 1px solid rgba(80,69,53,0.7); border-radius: 0.45rem;
+  padding: 0.3rem 0.55rem; font-size: 11px; text-align: right;
 }
-.nursery-kicker .swatch { width: 0.7rem; height: 0.7rem; border-radius: 0.2rem; display: inline-block; }
-.nursery-parent h2 { margin: 0; font-size: 16px; }
-.nursery-genes, .nursery-hybrids { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.22rem; }
-.nursery-hybrids { flex-direction: row; flex-wrap: wrap; }
-.nursery-genes li, .nursery-hybrids li {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.35rem;
-  background: #1a1613;
-  border-radius: 0.35rem;
-  padding: 0.25rem 0.4rem;
-  font-size: 11px;
+#viewBreeding .nursery-cradles span, #viewBreeding .nursery-incub em {
+  display: block; font-style: normal; color: #9d8f7b;
 }
-.nursery-hybrids li { flex: 1 1 calc(50% - 0.2rem); flex-direction: column; }
-.nursery-genes em, .nursery-hybrids em, .nursery-params em { font-style: normal; color: #89d98c; }
-.nursery-hybrids .is-sure em { color: #fdba45; }
-.nursery-pot { display: flex; flex-direction: column; gap: 0.15rem; font-size: 11px; color: #d5c4af; }
-.nursery-pot b { color: #eae1db; }
-.nursery-parent button { margin-top: auto; }
-.nursery-parent button, .nursery-light {
-  border: 1px solid rgba(80, 69, 53, 0.8);
-  background: #1a1613;
-  color: #eae1db;
-  border-radius: 0.45rem;
-  font-family: Rubik, sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  padding: 0.4rem 0.5rem;
-  cursor: pointer;
+#viewBreeding .nursery-cradles b { color: #f3e6d2; }
+#viewBreeding .nursery-incub b { display: block; color: #89d98c; }
+#viewBreeding .nursery-incub em { color: #89d98c; }
+#viewBreeding .nursery-body { flex: 1 1 auto; min-height: 0; display: flex; gap: 0.45rem; }
+#viewBreeding .nursery-parent, #viewBreeding .nursery-altar {
+  min-width: 0; min-height: 0; display: flex; flex-direction: column; gap: 0.28rem;
+  background: #161310; border: 1px solid rgba(80,69,53,0.7); border-radius: 0.55rem;
+  padding: 0.4rem 0.45rem; overflow: auto;
 }
-.nursery-light {
-  margin-top: auto;
-  border: 0;
-  background: linear-gradient(180deg, #fdba45, #d99b26);
-  color: #1a1308;
-  font-size: 14px;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+#viewBreeding .nursery-parent { width: 23.5%; }
+#viewBreeding .nursery-altar { flex: 1 1 auto; }
+#viewBreeding .nursery-kicker {
+  display: flex; align-items: center; gap: 0.3rem; flex-wrap: wrap;
+  font-family: Rubik, sans-serif; font-size: 11px; letter-spacing: 0.04em;
+  text-transform: uppercase; color: #fdba45;
 }
-.nursery-pair { display: flex; align-items: center; gap: 0.45rem; }
-.nursery-pair article { flex: 1; min-width: 0; background: #1a1613; border-radius: 0.45rem; overflow: hidden; }
-.nursery-pair b, .nursery-pair small { display: block; padding: 0 0.35rem; }
-.nursery-pair small { color: #d5c4af; font-size: 10px; padding-bottom: 0.3rem; }
-.nursery-egg {
-  flex: 0 0 4.2rem;
-  height: 5.2rem;
-  border-radius: 50% 50% 46% 46%;
-  background:
-    radial-gradient(circle at 50% 38%, #fff6c8 0, #fdba45 36%, #7ec8ff 68%, transparent 70%),
-    radial-gradient(circle at 50% 78%, rgba(137, 217, 140, 0.45), transparent 62%);
-  box-shadow: 0 0 22px rgba(253, 186, 69, 0.5);
+#viewBreeding .nursery-kicker .swatch {
+  width: 0.7rem; height: 0.7rem; border-radius: 0.2rem; display: inline-block;
 }
-.nursery-rates { display: flex; gap: 0.4rem; margin: 0; font-size: 11px; color: #89d98c; }
-.nursery-params { display: flex; gap: 0.35rem; }
-.nursery-params div { flex: 1; background: #1a1613; border-radius: 0.4rem; padding: 0.3rem 0.4rem; }
-.nursery-params small { display: block; color: #9d8f7b; font-size: 10px; }
-.nursery-params b { display: block; font-size: 13px; }
-.nursery-cost { text-align: center; }
-.nursery-foot { font-size: 11px; color: #9d8f7b; }
-#viewBreeding .thumb { display: block; overflow: hidden; height: 6.2rem; background: #1a1613; }
-#viewBreeding .nursery-pair .thumb { height: 4.2rem; }
-#viewBreeding .thumb img {
-  width: 100%;
-  height: 220%;
-  max-height: none;
-  min-height: 0;
-  object-fit: cover;
-  object-position: center 40%;
-  transform: translateY(-22%);
-  display: block;
+#viewBreeding .swatch.thunder { background: #fdba45; box-shadow: 0 0 8px rgba(253,186,69,0.55); }
+#viewBreeding .swatch.water { background: #6ea8ff; box-shadow: 0 0 8px rgba(110,168,255,0.45); }
+#viewBreeding .nursery-ready {
+  margin-left: auto; font-size: 10px; letter-spacing: 0; text-transform: none;
+  color: #89d98c; background: rgba(137,217,140,0.12); border: 1px solid rgba(137,217,140,0.35);
+  border-radius: 999px; padding: 0.12rem 0.4rem;
 }
-body:has(#viewBreeding:not(.hidden)) #wireDock { display: none !important; }
+#viewBreeding .nursery-portrait {
+  position: relative; margin: 0; border-radius: 0.45rem; overflow: hidden;
+  border: 1px solid rgba(180,140,70,0.45); background: #110d0b; height: 7.4rem;
+}
+#viewBreeding .nursery-portrait img {
+  width: 100% !important; height: 100% !important; object-fit: cover !important;
+  object-position: center 28% !important; display: block;
+}
+#viewBreeding .nursery-portrait em {
+  position: absolute; left: 0.35rem; top: 0.35rem; font-style: normal; font-size: 10px; font-weight: 800;
+  background: rgba(12,10,9,0.88); color: #fdba45; border-radius: 0.25rem; padding: 0.1rem 0.35rem;
+}
+#viewBreeding .is-mother .nursery-portrait em { color: #6ea8ff; }
+#viewBreeding .nursery-id { display: flex; flex-direction: column; gap: 0.12rem; }
+#viewBreeding .nursery-rank { font-size: 11px; color: #fdba45; font-weight: 700; }
+#viewBreeding .nursery-parent h2 { margin: 0; font-size: 15px; color: #f3e6d2; line-height: 1.15; }
+#viewBreeding .nursery-compat {
+  align-self: flex-start; font-size: 10px; font-weight: 800; color: #1a1308; background: #89d98c;
+  border-radius: 0.25rem; padding: 0.08rem 0.35rem;
+}
+#viewBreeding .nursery-genes, #viewBreeding .nursery-hybrids, #viewBreeding .nursery-mats {
+  list-style: none; margin: 0; padding: 0;
+}
+#viewBreeding .nursery-genes { display: flex; flex-direction: column; gap: 0.2rem; }
+#viewBreeding .nursery-genes li {
+  display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto auto; gap: 0.05rem 0.35rem;
+  background: #1a1613; border-radius: 0.35rem; padding: 0.25rem 0.4rem; font-size: 11px;
+}
+#viewBreeding .nursery-genes span { color: #d5c4af; }
+#viewBreeding .nursery-genes b { color: #fdba45; text-align: right; }
+#viewBreeding .nursery-genes em { grid-column: 1 / -1; font-style: normal; color: #89d98c; font-size: 10px; }
+#viewBreeding .nursery-pot {
+  display: flex; flex-direction: column; gap: 0.12rem; font-size: 11px; color: #d5c4af;
+  background: #1a1613; border-radius: 0.4rem; padding: 0.35rem 0.4rem;
+}
+#viewBreeding .nursery-pot strong { color: #f3e6d2; font-size: 11px; }
+#viewBreeding .nursery-pick, #viewBreeding .nursery-light {
+  border-radius: 0.45rem; font-family: Rubik, sans-serif; font-size: 12px; font-weight: 800;
+  padding: 0.4rem 0.55rem; cursor: pointer;
+}
+#viewBreeding .nursery-pick {
+  margin-top: auto; border: 1px solid rgba(80,69,53,0.85); background: #1a1613; color: #eae1db;
+}
+#viewBreeding .nursery-synth {
+  display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; font-size: 12px; color: #fdba45; font-weight: 800;
+}
+#viewBreeding .nursery-synth em {
+  font-style: normal; font-size: 10px; color: #89d98c; background: rgba(137,217,140,0.12);
+  border: 1px solid rgba(137,217,140,0.35); border-radius: 999px; padding: 0.1rem 0.4rem;
+}
+#viewBreeding .nursery-synth em.is-mut { color: #fdba45; background: rgba(253,186,69,0.12); border-color: rgba(253,186,69,0.4); }
+#viewBreeding .nursery-ritual {
+  position: relative; border-radius: 0.5rem; overflow: hidden; border: 1px solid rgba(180,140,70,0.45);
+  min-height: 9.5rem; background: #110d0b;
+}
+#viewBreeding .nursery-altar-art {
+  width: 100% !important; height: 10.5rem !important; max-width: none !important;
+  object-fit: cover !important; object-position: center 45% !important; display: block;
+}
+#viewBreeding .nursery-ritual-meta {
+  position: absolute; left: 0; right: 0; bottom: 0; display: flex; justify-content: space-between; gap: 0.4rem;
+  padding: 0.35rem 0.55rem; background: linear-gradient(180deg, transparent, rgba(8,6,4,0.92));
+  font-size: 11px; color: #f3e6d2;
+}
+#viewBreeding .nursery-ritual-meta em { font-style: normal; color: #89d98c; font-weight: 700; }
+#viewBreeding .nursery-forecast { display: flex; flex-direction: column; gap: 0.28rem; }
+#viewBreeding .nursery-hybrids { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.3rem; }
+#viewBreeding .nursery-hybrids li {
+  background: #1a1613; border: 1px solid rgba(80,69,53,0.7); border-radius: 0.4rem; padding: 0.35rem 0.4rem;
+  display: flex; flex-direction: column; gap: 0.1rem; min-width: 0;
+}
+#viewBreeding .nursery-hybrids li.is-myth { border-color: rgba(253,186,69,0.55); box-shadow: inset 0 0 0 1px rgba(253,186,69,0.2); }
+#viewBreeding .nursery-hybrids b { font-size: 12px; color: #f3e6d2; }
+#viewBreeding .nursery-hybrids small { color: #9d8f7b; font-size: 10px; }
+#viewBreeding .nursery-hybrids em { font-style: normal; color: #89d98c; font-weight: 800; font-size: 13px; }
+#viewBreeding .nursery-rankbar {
+  display: grid; grid-template-columns: 45% 35% 20%; gap: 0.15rem; align-items: center;
+}
+#viewBreeding .nursery-rankbar span { height: 0.4rem; border-radius: 999px; display: block; }
+#viewBreeding .nursery-rankbar .is-r4 { background: #6ea8ff; }
+#viewBreeding .nursery-rankbar .is-r5 { background: #b48cff; }
+#viewBreeding .nursery-rankbar .is-r6 { background: #fdba45; }
+#viewBreeding .nursery-rankbar em {
+  grid-column: 1 / -1; font-style: normal; font-size: 10px; color: #fdba45; margin-top: 0.1rem;
+}
+#viewBreeding .nursery-params { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.3rem; }
+#viewBreeding .nursery-params div {
+  background: #1a1613; border-radius: 0.4rem; padding: 0.3rem 0.4rem; border: 1px solid rgba(80,69,53,0.55);
+}
+#viewBreeding .nursery-params small { display: block; color: #9d8f7b; font-size: 10px; }
+#viewBreeding .nursery-params b { display: block; font-size: 13px; color: #f3e6d2; }
+#viewBreeding .nursery-params em { display: block; font-style: normal; font-size: 10px; color: #89d98c; }
+#viewBreeding .nursery-light {
+  margin-top: 0.15rem; border: 0; background: linear-gradient(180deg, #fdba45, #d99b26);
+  color: #1a1308; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase;
+}
+#viewBreeding .nursery-cost { text-align: center; }
+#viewBreeding .nursery-foot { align-items: flex-end; gap: 0.8rem; }
+#viewBreeding .nursery-mats { display: flex; gap: 0.35rem; flex-wrap: wrap; }
+#viewBreeding .nursery-mats li {
+  background: #161310; border: 1px solid rgba(80,69,53,0.7); border-radius: 0.4rem; padding: 0.28rem 0.45rem;
+  font-size: 11px; display: flex; flex-direction: column; gap: 0.05rem;
+}
+#viewBreeding .nursery-mats li.is-ok { border-color: rgba(137,217,140,0.45); }
+#viewBreeding .nursery-mats b { color: #f3e6d2; font-size: 11px; }
+#viewBreeding .nursery-mats em { font-style: normal; color: #89d98c; font-weight: 700; }
+#viewBreeding .nursery-tip {
+  margin: 0; max-width: 42%; text-align: right; color: #d5c4af;
+  background: #161310; border: 1px solid rgba(80,69,53,0.65); border-radius: 0.4rem; padding: 0.35rem 0.5rem;
+}
 
 @media (max-width: 1100px) {
   .mythfel-pass { grid-template-columns: 1fr; }

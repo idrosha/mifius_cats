@@ -1,78 +1,107 @@
+<!-- Live manor nursery. Soft-launch sheet; soft exits closed; shared fillNav only. -->
 <section id="viewBreeding" class="stitch-view mythfel-form hidden" data-stitch="breeding" data-layout="landscape">
-<div class="nursery-hall">
-<div class="nursery-top">
+<main class="nursery-hall" data-purpose="breeding-nursery">
+<header class="nursery-top">
 <div>
 <strong>Питомник Усадьбы: Скрещивание и Наследование Генов</strong>
-<p>Обычные коты становятся мифическими через малый шанс. У мифика ровно 4 сильнейшие карты обоих родителей.</p>
+<p>Объединяйте родословные котиков для выведения редких стихийных мутаций и высоких рангов</p>
 </div>
-<div class="nursery-incub"><b>Инкубатор разогрет</b><span>2 / 3 свободно</span><em>−20% к времени высиживания</em></div>
+<div class="nursery-status">
+<div class="nursery-cradles"><span>Колыбели</span><b>2 / 3 свободно</b></div>
+<div class="nursery-incub"><b>Инкубатор разогрет</b><em>+20% к времени высиживания</em></div>
 </div>
+</header>
 <div class="nursery-body">
-<aside class="nursery-parent">
-<div class="nursery-kicker"><i class="swatch thunder"></i>Отец-родоначальник</div>
-<span class="thumb"><img alt="" src="/stitch-assets/dc459e94ceed.jpg"/></span>
+<aside class="nursery-parent is-father">
+<div class="nursery-kicker"><i class="swatch thunder"></i>Отец · Родоначальник<span class="nursery-ready">Готов к спариванию</span></div>
+<figure class="nursery-portrait"><img alt="" src="/stitch-assets/nursery/father.png"/><em>Гром</em></figure>
+<div class="nursery-id">
+<span class="nursery-rank">Ранг 4 · Воин</span>
 <h2>Барсик Громовержец</h2>
-<p class="nursery-order">Орден Буревестника · Ранг 4 · Гром</p>
+<p class="nursery-order">Орден Буреносных Лап + Линия Воина</p>
+<span class="nursery-compat">Совместим</span>
+</div>
 <ul class="nursery-genes">
-<li><b>Ген Молнии</b><em>+18% урон</em></li>
-<li><b>Ген Скорости</b><em>+12% крит</em></li>
-<li><b>Ген Здоровья</b><em>+5% HP</em></li>
-<li><b>Ген Защиты</b><em>−8% входящий</em></li>
+<li><span>Ген Атаки</span><b>A+</b><em>+18.4% физ. урон</em></li>
+<li><span>Ген Скорости</span><b>S</b><em>Инициатива</em></li>
+<li><span>Ген Здоровья</span><b>B+</b><em>+9.2% HP</em></li>
+<li><span>Ген Защиты</span><b>A</b><em>−14% крит</em></li>
 </ul>
 <div class="nursery-pot">
-<b>Селекционный потенциал III</b>
-<span>Ранг 4 · 80%</span>
-<span>Навык «Грозовой удар» · 72%</span>
-<span>Редкость родителей · 13%</span>
+<strong>Селекционный потенциал · Gen III</strong>
+<span>Стихия: Гром · 68% Буря</span>
+<span>Навык «Цепная молния» · 72%</span>
+<span>Талант «Ярость Буреносца» · +15% пробитие</span>
+<span>Чистота родословной · без штрафов</span>
 </div>
-<button type="button" data-path="kollektsiya-pitomtsev">Выбрать из коллекции</button>
+<button type="button" class="nursery-pick" data-nursery="pick-father">Выбрать из коллекции</button>
 </aside>
 <section class="nursery-altar">
-<div class="nursery-kicker">Стихийный синтез: Гром + Вода</div>
-<div class="nursery-pair">
-<article><span class="thumb"><img alt="" src="/stitch-assets/dc459e94ceed.jpg"/></span><b>Гром</b><small>Ранг 4 · Барсик</small></article>
-<div class="nursery-egg" aria-hidden="true"></div>
-<article><span class="thumb"><img alt="" src="/stitch-assets/ad3ff067b5c8.jpg"/></span><b>Вода</b><small>Ранг 4 · Мурка</small></article>
+<div class="nursery-synth">
+<span>Стихийный синтез · Гром + Вода</span>
+<em>Синергия 100%</em>
+<em class="is-mut">Мутация 18%</em>
 </div>
-<p class="nursery-rates"><span>Совместимость 100%</span><span>Мутация 15%</span></p>
-<p class="nursery-kicker">Возможные гибриды потомства</p>
+<div class="nursery-ritual">
+<img class="nursery-altar-art" alt="" src="/stitch-assets/nursery/altar.png"/>
+<div class="nursery-ritual-meta">
+<span>Гром 50% + Вода 50%</span>
+<em>Яйцо готово к закладке</em>
+</div>
+</div>
+<div class="nursery-forecast">
+<div class="nursery-kicker">Возможные гибриды потомства · прогноз</div>
 <ul class="nursery-hybrids">
-<li><b>Штормовой Следопыт</b><em>Гром · 32%</em></li>
-<li><b>Речная Буря</b><em>Вода · 28%</em></li>
-<li><b>Астральный Гром</b><em>Гром · 15%</em></li>
-<li class="is-sure"><b>Минимум ранга</b><em>Ранг 4</em></li>
+<li><b>Штормовой Гибрид</b><small>Ранг 4–5 · Гром/Вода</small><em>45%</em></li>
+<li><b>Владыка Приливов</b><small>Ранг 5 · Эпик</small><em>35%</em></li>
+<li class="is-myth"><b>Астральный Гибрид</b><small>Ранг 6 · Мифик</small><em>5%</em></li>
 </ul>
-<div class="nursery-params">
-<div><small>Время высиживания</small><b>2 ч 45 мин</b><em>−20% за ранг</em></div>
-<div><small>Шанс мифика</small><b>малый</b><em>4 карты родителей</em></div>
-<div><small>Слоты инкубатора</small><b>2 / 3</b><em>один свободен</em></div>
+<div class="nursery-rankbar">
+<span class="is-r4"></span><span class="is-r5"></span><span class="is-r6"></span>
+<em>Гарантированный минимум: Ранг 4</em>
 </div>
-<button type="button" class="nursery-light">Зажечь алтарь скрещивания</button>
-<p class="nursery-cost">12 000 клубков + 10 000 золота · живое скрещивание после ранга в боях</p>
+</div>
+<div class="nursery-params">
+<div><small>Чистота</small><b>98.4%</b><em>без инбридинга</em></div>
+<div><small>Время высиживания</small><b>2 ч 45 мин</b><em>+20% инкубатор</em></div>
+<div><small>Скрытые гены</small><b>32%</b><em>редкая мутация</em></div>
+<div><small>Колыбель</small><b>Слот #3</b><em>2 из 3 заняты</em></div>
+</div>
+<button type="button" class="nursery-light" data-nursery="light">Зажечь алтарь скрещивания</button>
+<p class="nursery-cost">1 200 клубков + 10 000 золота · живое скрещивание после ранга в боях</p>
 </section>
-<aside class="nursery-parent">
-<div class="nursery-kicker"><i class="swatch water"></i>Мать-хранительница</div>
-<span class="thumb"><img alt="" src="/stitch-assets/ad3ff067b5c8.jpg"/></span>
+<aside class="nursery-parent is-mother">
+<div class="nursery-kicker"><i class="swatch water"></i>Мать · Хранительница<span class="nursery-ready">Готова к спариванию</span></div>
+<figure class="nursery-portrait"><img alt="" src="/stitch-assets/nursery/mother.png"/><em>Вода</em></figure>
+<div class="nursery-id">
+<span class="nursery-rank">Ранг 4 · Целитель</span>
 <h2>Мурка Речная Фея</h2>
-<p class="nursery-order">Орден Речной Глади · Ранг 4 · Вода</p>
+<p class="nursery-order">Орден Тенистых Заводей + Линия Целителя</p>
+<span class="nursery-compat">Совместима</span>
+</div>
 <ul class="nursery-genes">
-<li><b>Ген Здоровья</b><em>+8% HP</em></li>
-<li><b>Ген Исцеления</b><em>+10% лечение</em></li>
-<li><b>Ген Мудрости</b><em>+1 АР</em></li>
-<li><b>Ген Скорости</b><em>+6% уклонение</em></li>
+<li><span>Ген Здоровья</span><b>S+</b><em>+24.0% max HP</em></li>
+<li><span>Ген Исцеления</span><b>A</b><em>Реген +18%</em></li>
+<li><span>Ген Мудрости</span><b>S</b><em>Реген энергии</em></li>
+<li><span>Ген Сопротивления</span><b>A+</b><em>Яд +20%</em></li>
 </ul>
 <div class="nursery-pot">
-<b>Селекционный потенциал II</b>
-<span>Мифик · 12%</span>
-<span>Ранг 4 · 60%</span>
-<span>Навык «Речной покров» · 44%</span>
+<strong>Селекционный потенциал · Gen III</strong>
+<span>Стихия: Вода · 32% Синтез</span>
+<span>Навык «Омовение лап» · 68%</span>
+<span>Талант «Тенистая Заводь» · +12% аура</span>
+<span>Чистота родословной · стабильные гены</span>
 </div>
-<button type="button" data-path="kollektsiya-pitomtsev">Выбрать из коллекции</button>
+<button type="button" class="nursery-pick" data-nursery="pick-mother">Выбрать из коллекции</button>
 </aside>
 </div>
 <footer class="nursery-foot">
-<span>Пыльца каменной мглы 14 · Кристаллы родства 2</span>
-<span>Совет: два котика 4 ранга держат минимум 4 ранг. Набор мифика — 4 сильнейшие карты родителей.</span>
+<ul class="nursery-mats">
+<li class="is-ok"><b>Пыльца кошачьих нитей</b><em>14 / 10</em></li>
+<li class="is-ok"><b>Кристаллы родства</b><em>2 / 2</em></li>
+<li class="is-ok"><b>Молоко Небесной Коровы</b><em>1 / 1</em></li>
+</ul>
+<p class="nursery-tip">Совет селекционера: скрещивание двух котиков 4 ранга гарантирует минимум 4 ранг котёнка. У мифика — ровно 4 сильнейшие карты обоих родителей.</p>
 </footer>
-</div>
+</main>
 </section>
