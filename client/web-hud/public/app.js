@@ -795,6 +795,7 @@ function logicalViewId() {
     boss_raid: "viewBossRaid",
     battle: "viewBattle",
     pvp: "viewPvp",
+    pvp_load: "viewPvpLoad",
     collection: "viewCollection",
     trade_hub: "viewTradeHub",
     shop: "viewShop",
@@ -909,6 +910,10 @@ function frontsAddressOpen() {
   return normalizedPath() === "/fronts";
 }
 
+function pvpLoadAddressOpen() {
+  return normalizedPath() === "/pvp-load";
+}
+
 function loginAddressOpen() {
   return normalizedPath() === "/home";
 }
@@ -920,6 +925,7 @@ function screenAddressFor(tab) {
   if (tab === "gear") return "/barn";
   if (tab === "trade_hub") return "/square";
   if (tab === "battle_hub") return "/fronts";
+  if (tab === "pvp_load") return "/pvp-load";
   if (tab === "login") return "/home";
   return "/";
 }
@@ -969,7 +975,7 @@ function navigate(tab, { soon = null, clearBattle = true, primary = null, fromGa
     showGateTip();
     tipShown = true;
   }
-  if (tab === "pvp" && !pvpUnlocked()) {
+  if ((tab === "pvp" || tab === "pvp_load") && !pvpUnlocked()) {
     showGateTip(t("gate.tip.pvp", "PvP откроется после 3 побед в Мифмире или тренировке"));
     tipShown = true;
   }
@@ -4186,13 +4192,150 @@ async function pvpAuto() {
   }
 }
 
+/** Open ranked duel load sheet, then CreatePvP from «В бой». */
+function openPvpLoad() {
+  if (!pvpUnlocked()) {
+    showGateTip(t("gate.tip.pvp", "PvP откроется после 3 побед в Мифмире или тренировке"));
+    return;
+  }
+  navigate("pvp_load", { primary: "combat" });
+}
+
+function setPvpLoadProgress(pct) {
+  const n = Math.max(0, Math.min(100, Math.round(pct)));
+  const bar = $("pvpLoadBar");
+  const label = $("pvpLoadBarLabel");
+  const arena = $("pvpLoadArenaPct");
+  if (bar) bar.style.width = `${n}%`;
+  if (label) label.textContent = `Синхронизация колод: ${n}%`;
+  if (arena) arena.textContent = `${n}%`;
+  state.pvpLoadPct = n;
+}
+
+function renderPvpLoad() {
+  const ally = $("pvpLoadAllyList");
+  const enemy = $("pvpLoadEnemyList");
+  const allyRoster = [
+    {
+      name: "Барсик Громовержец",
+      lvl: 50,
+      role: "Гром + Рыцарь Очага",
+      hp: "8 420 HP",
+      img: "/stitch-assets/f453fafbcca9.jpg",
+      tag: "Q3",
+    },
+    {
+      name: "Рыжик Вспышкохвост",
+      lvl: 48,
+      role: "Огонь + Берсерк",
+      hp: "5 190 HP",
+      img: "/stitch-assets/dc459e94ceed.jpg",
+      tag: "Q3",
+    },
+    {
+      name: "Мурка Каплегривка",
+      lvl: 47,
+      role: "Вода + Мистик",
+      hp: "4 840 HP",
+      img: "/stitch-assets/ad3ff067b5c8.jpg",
+      tag: "Q3",
+    },
+  ];
+  const foeRoster = [
+    {
+      name: "Громила",
+      lvl: 48,
+      role: "Чугун + Молотобоец",
+      hp: "8 900 HP",
+      img: "/stitch-assets/51d4dea60ec1.jpg",
+      tag: "Q2",
+    },
+    {
+      name: "Кроволап",
+      lvl: 49,
+      role: "Кровь + Разбойник",
+      hp: "4 950 HP",
+      img: "/stitch-assets/f453fafbcca9.jpg",
+      tag: "Q3",
+    },
+    {
+      name: "Иерофант Сфинкс",
+      lvl: 47,
+      role: "Астрал + Чародей",
+      hp: "4 130 HP",
+      img: "/stitch-assets/ad3ff067b5c8.jpg",
+      tag: "Q2",
+    },
+  ];
+  const card = (c) => `<li>
+    <figure><img alt="" src="${c.img}"/><span>${c.tag}</span></figure>
+    <b>${c.name}</b>
+    <small>Ур. ${c.lvl} · ${c.role}</small>
+    <em class="hp">${c.hp}</em>
+  </li>`;
+  if (ally) ally.innerHTML = allyRoster.map(card).join("");
+  if (enemy) enemy.innerHTML = foeRoster.map(card).join("");
+  bindPvpLoad();
+  if (!state.pvpLoadTimer) startPvpLoadSync();
+}
+
+function startPvpLoadSync() {
+  clearInterval(state.pvpLoadTimer);
+  setPvpLoadProgress(0);
+  let pct = 0;
+  state.pvpLoadTimer = setInterval(() => {
+    if (state.tab !== "pvp_load") {
+      clearInterval(state.pvpLoadTimer);
+      state.pvpLoadTimer = null;
+      return;
+    }
+    pct = Math.min(100, pct + 4 + Math.floor(Math.random() * 6));
+    setPvpLoadProgress(pct);
+    if (pct >= 100) {
+      clearInterval(state.pvpLoadTimer);
+      state.pvpLoadTimer = null;
+      toast("Арена готова · синхронизация колод 100%");
+    }
+  }, 120);
+}
+
+function bindPvpLoad() {
+  const root = $("viewPvpLoad");
+  if (!root || root.dataset.bound === "1") return;
+  root.dataset.bound = "1";
+  $("pvpLoadGo")?.addEventListener("click", () => pvpStart());
+  $("pvpLoadBack")?.addEventListener("click", () => {
+    clearInterval(state.pvpLoadTimer);
+    state.pvpLoadTimer = null;
+    navigate("battle_hub", { primary: "combat" });
+  });
+  document.addEventListener("keydown", (ev) => {
+    if (state.tab !== "pvp_load") return;
+    if (ev.target.closest("input, textarea")) return;
+    if (ev.code === "Space") {
+      ev.preventDefault();
+      pvpStart();
+    } else if (ev.code === "Escape") {
+      ev.preventDefault();
+      $("pvpLoadBack")?.click();
+    }
+  });
+}
+
 /** Interactive PvP (same core; human turns until end / surrender). */
 async function pvpStart() {
   if (!pvpUnlocked()) {
     showGateTip(t("gate.tip.pvp", "PvP откроется после 3 побед в Мифмире или тренировке"));
     return;
   }
+  if (state.tab === "pvp_load" && (state.pvpLoadPct || 0) < 100) {
+    setPvpLoadProgress(100);
+    clearInterval(state.pvpLoadTimer);
+    state.pvpLoadTimer = null;
+  }
   try {
+    clearInterval(state.pvpLoadTimer);
+    state.pvpLoadTimer = null;
     state.battleMode = "pvp";
     const { data } = await api("/api/battle/v1/CreatePvP", {
       method: "POST",
@@ -4240,6 +4383,10 @@ function renderAll() {
   }
   if (viewId === "viewBattle" && state.battle && !state.battle.result) {
     renderBattle();
+    return;
+  }
+  if (viewId === "viewPvpLoad") {
+    renderPvpLoad();
     return;
   }
   if (viewId === "viewPvpVictory") {
@@ -4535,7 +4682,11 @@ function bindBattleHub() {
         navigate("gear");
         return;
       }
-      if (tab === "practice" || tab === "yard" || tab === "pvp" || tab === "boss_dungeon") {
+      if (tab === "pvp") {
+        openPvpLoad();
+        return;
+      }
+      if (tab === "practice" || tab === "yard" || tab === "boss_dungeon") {
         navigate(tab, { primary: "combat" });
         return;
       }
@@ -4837,7 +4988,7 @@ function wireButtons() {
     if (state.farmBag.length) sellFarmLoot("auction");
     else showGateTip(t("auction.list.tip", "Нет лута — собери во дворе или подними ранг"));
   });
-  $("btnPvpStart")?.addEventListener("click", () => pvpStart());
+  $("btnPvpStart")?.addEventListener("click", () => openPvpLoad());
   $("btnMarketToShop").addEventListener("click", () => navigate("shop"));
   $("btnMarketToAuction")?.addEventListener("click", () => navigate("auction"));
   $("btnAuctionToMarket")?.addEventListener("click", () => navigate("market"));
@@ -4890,6 +5041,7 @@ function bootTabAfterLogin() {
   if (barnAddressOpen()) return "gear";
   if (squareAddressOpen()) return "trade_hub";
   if (frontsAddressOpen()) return "battle_hub";
+  if (pvpLoadAddressOpen()) return "pvp_load";
   return "hub";
 }
 

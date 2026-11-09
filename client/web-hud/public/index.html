@@ -6096,6 +6096,71 @@
 </div>
 </footer>
 </section>
+<!-- Live PvP ranked duel load. Address: /pvp-load. Soft exits closed; shared fillNav only. -->
+<section id="viewPvpLoad" class="stitch-view mythfel-form hidden" data-stitch="pvp_load" data-layout="landscape" data-purpose-route="pvp-load">
+<main class="pvp-load" data-purpose="pvp-load">
+<div class="pvp-load-stage">
+<img class="pvp-load-art" alt="" src="/stitch-assets/pvp-load-arena.png"/>
+<div class="pvp-load-shade"></div>
+<header class="pvp-load-head">
+<p class="pvp-load-kicker">⚔ Загрузка PvP боя · Рейтинговая дуэль 3v3 ⚔</p>
+<p class="pvp-load-sync-line"><span class="pvp-load-dot"></span> Синхронизация арены и подбор колод…</p>
+</header>
+<div class="pvp-load-vs">
+<span class="pvp-load-vs-mark">VS</span>
+<div>
+<strong>Раунд 1 · Дуэль 3v3</strong>
+<em>Награда: <b class="is-up">+28</b> / <b class="is-down">−18</b> pts</em>
+</div>
+<span class="pvp-load-arena-pct">Арена: <b id="pvpLoadArenaPct">0%</b></span>
+</div>
+</div>
+<div class="pvp-load-teams">
+<section class="pvp-load-team is-ally" id="pvpLoadAlly">
+<header>
+<span class="pvp-load-badge">Вы</span>
+<div>
+<strong>«Мурр-Оплот»</strong>
+<em>Союзный отряд</em>
+</div>
+<b>Мощь: 18 450</b>
+</header>
+<ul id="pvpLoadAllyList"></ul>
+<footer>
+<span>Синергия: Плазма &amp; Пар (+25% урона)</span>
+<em>Хранитель: Миурицио</em>
+</footer>
+</section>
+<section class="pvp-load-team is-enemy" id="pvpLoadEnemy">
+<header>
+<span class="pvp-load-badge">Враг</span>
+<div>
+<strong>«Свора Гладиаторов»</strong>
+<em>Соперники</em>
+</div>
+<b>Мощь: 17 980</b>
+</header>
+<ul id="pvpLoadEnemyList"></ul>
+<footer>
+<em>Хранитель: Клык</em>
+<span>Синергия: Кровавый Шторм (+15% крита)</span>
+</footer>
+</section>
+</div>
+<footer class="pvp-load-foot">
+<span>Бои › PvP Колизей (Рейтинговая Дуэль 3v3)</span>
+<span class="pvp-load-league">Золотая лига II</span>
+<span class="pvp-load-ping">18 ms</span>
+<div class="pvp-load-bar-wrap">
+<span id="pvpLoadBarLabel">Синхронизация колод: 0%</span>
+<div class="pvp-load-bar"><i id="pvpLoadBar" style="width:0%"></i></div>
+</div>
+<button type="button" class="pvp-load-go" id="pvpLoadGo">В бой</button>
+<button type="button" class="pvp-load-back" id="pvpLoadBack">Назад</button>
+</footer>
+</main>
+</section>
+
 <section id="viewPvpFight" class="stitch-view mythfel-form hidden" data-stitch="pvp_fight" data-layout="landscape">
 <div class="pv-fight">
 <img class="pv-bg" alt="" src="/stitch-ref/e608/arena_interior.png"/>
