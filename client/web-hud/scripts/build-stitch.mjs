@@ -37,8 +37,10 @@ const SCREENS = [
   { id: "boss_raid", file: "boss_raid.html", view: "viewBossRaid" },
   { id: "pvp", file: "pvp.html", view: "viewPvp" },
   { id: "guild_battle", file: "guild_battle.html", view: "viewGuildBattle" },
-  // Battles pack 18c7 — practice fight + guild hall
+  // Battles pack 18c7 — practice lobby + guild hall
   { id: "practice", file: "practice.html", view: "viewPractice" },
+  // Dojo sparring fight form (Stitch battle HUD; no top nav during fight)
+  { id: "practice_fight", file: "practice_fight.html", view: "viewPracticeFight" },
   { id: "guild", file: "guild.html", view: "viewGuild" },
   // Pack ba17 — battle pass + chats (one layout ×3 channels)
   { id: "pass", file: "pass.html", view: "viewPass" },

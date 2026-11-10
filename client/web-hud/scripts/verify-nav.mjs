@@ -30,6 +30,7 @@ const REQUIRED_VIEWS = [
   "viewFormation",
   "viewYard",
   "viewPractice",
+  "viewPracticeFight",
   "viewBossDungeon",
   "viewBossRaid",
   "viewBattle",
@@ -130,6 +131,7 @@ const STITCH_SRC = [
   "pvp.html",
   "guild_battle.html",
   "practice.html",
+  "practice_fight.html",
   "guild.html",
   "pass.html",
   "chat_global.html",
@@ -326,6 +328,24 @@ ok(
   /Тренировка|Додзё|Спарринг-Манекен/i.test(
     fs.readFileSync(path.join(DESIGN, "stitch-src", "practice.html"), "utf8"),
   ),
+);
+ok(
+  "practice_fight is immersive dojo battle (no top nav, has exit)",
+  (() => {
+    const body = fs.readFileSync(path.join(DESIGN, "stitch-src", "practice_fight.html"), "utf8");
+    return (
+      /ЗАВЕРШИТЬ ХОД|ДОДЗЁ СПАРРИНГ/i.test(body) &&
+      body.includes('id="pfBack"') &&
+      !/data-path="glavnaya"|Хранитель Очага/i.test(body)
+    );
+  })(),
+);
+ok(
+  "practice_fight live form has exit + hides chrome",
+  html.includes('id="pfBack"') &&
+    html.includes('data-stitch="practice_fight"') &&
+    css.includes("viewPracticeFight") &&
+    /body:has\(#viewPracticeFight:not\(\.hidden\)\)[\s\S]*#appNav/i.test(css),
 );
 ok(
   "guild is guild hall",
