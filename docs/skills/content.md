@@ -12,5 +12,5 @@ Cards/parts/potions JSON. FULL-SPEC §2 §5.1 §10.
 - eyes/ears = passives only.
 - Formation/targeting (§2.1, §3.4): default attacks use `nearest` (front lane, then role rank).
   Across roles, ship ≥1 attack with `targetRule: "backline"` + tag `backline` (тыл/саппорт).
-  Tags: `crit` (×1.5), `pierce` (ignore shield), freeze→`stun`.
+  Tags: `crit` (×2), `pierce` (ignore shield), freeze→`stun`. Player numbers: `docs/game-wiki.md`.
 Do not invent a 7th role or 7th element; no starter pendant/bow.
