@@ -37,7 +37,7 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | `pvp` | `pvp.html` | 4da7 `pvp` | PvP Арена start · подбор |
 | `guild_battle` | `guild_battle.html` | 4da7 root | Война гильдий lobby / башни |
 | `practice` | `practice.html` | 18c7 `3v3_hud` | Тренировка lobby (додзё 3v3 vs манекены) |
-| `practice_fight` | `practice_fight.html` | Stitch dojo battle HUD | Бой в додзё · без верхнего меню · кнопка Выход (`#pfBack`) |
+| `practice_fight` | `practice_fight.html` | Stitch dojo battle HUD v2 | Бой в додзё · full unit cards + VS + 6-card hand · без меню · только Выход (`#pfBack`) |
 | `guild` | `guild.html` | 18c7 `_1` | Зал гильдии (главная) |
 | `pass` | `pass.html` | ba17 `4` | Боевой пасс · сезон / трек / claim |
 | `chat_global` | `chat_global.html` | ba17 root | Чаты · одна компоновка (общий) |

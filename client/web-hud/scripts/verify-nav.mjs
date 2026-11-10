@@ -334,9 +334,11 @@ ok(
   (() => {
     const body = fs.readFileSync(path.join(DESIGN, "stitch-src", "practice_fight.html"), "utf8");
     return (
-      /ЗАВЕРШИТЬ ХОД|ДОДЗЁ СПАРРИНГ/i.test(body) &&
+      /ЗАВЕРШИТЬ ХОД|ДОДЗЁ СПАРРИНГ|Кувшин Сливок/i.test(body) &&
       body.includes('id="pfBack"') &&
-      !/data-path="glavnaya"|Хранитель Очага/i.test(body)
+      body.includes(">VS<") &&
+      !/data-path="glavnaya"|Хранитель Очага/i.test(body) &&
+      !/>\s*1X\s*</.test(body)
     );
   })(),
 );
