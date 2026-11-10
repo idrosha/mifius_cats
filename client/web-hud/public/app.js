@@ -438,504 +438,8 @@ const SHOP_STUB_ROWS = [
 ];
 
 /** Codex knowledge base — titles/bodies from docs/game-wiki.md where possible. */
-const CODEX_FILTERS = [
-  { id: "all", labelRu: "Все", labelEn: "All" },
-  { id: "mechanics", labelRu: "Механики", labelEn: "Mechanics" },
-  { id: "combat", labelRu: "Бой & PvP", labelEn: "Combat & PvP" },
-  { id: "gear", labelRu: "Экипировка", labelEn: "Gear" },
-];
+// CODEX_FILTERS / CODEX_TOPICS live in /codex-topics.js
 
-const CODEX_ENTRIES = [
-  {
-    id: "class_sets",
-    filter: "gear",
-    icon: "shield_moon",
-    tagRu: "Экипировка",
-    tagEn: "Gear",
-    blurbRu: "Тиры P.1–P.8 и бонусы",
-    blurbEn: "Tiers P.1–P.8 and bonuses",
-    statusRu: "Изучается",
-    statusEn: "Studying",
-    titleRu: "Классовые сеты и ранги брони",
-    titleEn: "Class sets and armor ranks",
-    bodyRu:
-      "6 классов × 2 архетипа = 12 оружейных наборов. Броня открывается по рангу игрока R1→R8 (grey→mythic). Владение ≠ экип: сервер режет unequippable rarity. Полный арсенал даёт бонус к классовым навыкам.",
-    bodyEn:
-      "6 classes × 2 archetypes = 12 weapon kits. Armor unlocks by player rank R1→R8 (grey→mythic). Owned ≠ equippable. Full arsenal buffs class skills.",
-    mode: "arsenal",
-  },
-  {
-    id: "formation",
-    filter: "combat",
-    icon: "groups",
-    tagRu: "Бой",
-    tagEn: "Combat",
-    blurbRu: "Танк → боец → тыл",
-    blurbEn: "Tank → fighter → rear",
-    titleRu: "Правила боевого строя 3v3",
-    titleEn: "3v3 formation rules",
-    bodyRu:
-      "Одно ядро PvP/PvE. Строй: танк → боец/ассасин → стрелок/маг/саппорт. Обычные атаки бьют спереди; часть карт бьёт в тыл/поддержку. Не ставь support/ranger/mage в авангард.",
-    bodyEn:
-      "One PvP/PvE core. Line: tank → fighter/assassin → ranger/mage/support. Basic hits front; some cards hit rear. Do not put support/ranger/mage in vanguard.",
-  },
-  {
-    id: "elements",
-    filter: "mechanics",
-    icon: "local_fire_department",
-    tagRu: "Стихии",
-    tagEn: "Elements",
-    blurbRu: "Огонь+Земля и синергии",
-    blurbEn: "Fire+Earth synergies",
-    titleRu: "Стихийный резонанс и синергии",
-    titleEn: "Elemental resonance and synergies",
-    bodyRu:
-      "У каждого архетипа свой стихийный фокус. Пример танка-стража: Земля+Огонь — меньше периодического урона и выше стойкость к оглушению. Синергии отряда усиливают классовые навыки при полном сете.",
-    bodyEn:
-      "Each archetype has an elemental focus. Tank bastion example: Earth+Fire — less DoT and higher stun resist. Squad synergies buff class skills on a full set.",
-  },
-  {
-    id: "forge",
-    filter: "gear",
-    icon: "hardware",
-    tagRu: "Крафт",
-    tagEn: "Craft",
-    blurbRu: "Заточка и гарантии",
-    blurbEn: "Enhance and pity",
-    titleRu: "Кузница: заточка и шансы",
-    titleEn: "Forge: enhance odds",
-    bodyRu:
-      "Крафт даёт отдельный craft_xp. Заточка и инкрустация — в оружейной усадьбы. Гарантии боксов пасса: R1×6, green+blue×3, выше×1 на unlocked rank. Нельзя купить мгновенный skip до mythic за yarn.",
-    bodyEn:
-      "Craft grants separate craft_xp. Enhance/socket in the manor forge. Pass box pity: R1×6, green+blue×3, higher×1 per unlocked rank. No yarn skip to mythic.",
-  },
-  {
-    id: "mythic_breed",
-    filter: "mechanics",
-    icon: "favorite",
-    tagRu: "Усадьба",
-    tagEn: "Estate",
-    blurbRu: "4 сильнейшие карты",
-    blurbEn: "4 strongest cards",
-    titleRu: "Питомник: наследование генов",
-    titleEn: "Nursery: gene inheritance",
-    bodyRu:
-      "Главная цель: обычные → мифики (малый шанс). У мифика ровно 4 карты — сильнейшие из смеси родителей (пул до 8) плюс хвостовой пассив по роли. Без безлимитного breeding.",
-    bodyEn:
-      "Core goal: ordinary → mythics (small chance). A mythic keeps exactly 4 strongest parental cards (pool up to 8) plus a role tail passive. No unlimited breeding.",
-  },
-  {
-    id: "gather",
-    filter: "mechanics",
-    icon: "agriculture",
-    tagRu: "Двор",
-    tagEn: "Yard",
-    blurbRu: "Дневные минимумы сбора",
-    blurbEn: "Daily gather floors",
-    titleRu: "Двор: добыча ресурсов",
-    titleEn: "Yard: resource gathering",
-    bodyRu:
-      "Дерево 2–3 / железо 2 / овощи·фрукты·травы ~1 ведро / рыба 3 в день. Инструменты изнашиваются ~неделю. Урожай портится ~2 дня. Pass ACTIVE → autofarm toggles (семена/bait/tools с Рынка).",
-    bodyEn:
-      "Wood 2–3 / iron 2 / veggies·fruit·herbs ~1 bucket / fish 3 per day. Tools wear ~1 week. Crops spoil ~2 days. Pass ACTIVE unlocks autofarm toggles.",
-  },
-  {
-    id: "battle",
-    filter: "combat",
-    icon: "swords",
-    tagRu: "Бой",
-    tagEn: "Combat",
-    blurbRu: "Crit ×2, AoE 50%",
-    blurbEn: "Crit ×2, AoE 50%",
-    titleRu: "Атака и боевое ядро",
-    titleEn: "Attack and battle core",
-    bodyRu:
-      "Ориентир hit ~100 HP по незащищённой цели равного ранга. Crit ×2. AoE вторичные = 50% hit. Life drain в бою запрещён. Post-fight HP — только молоко на льду в Таверне. Бафф-молоко не в ranked.",
-    bodyEn:
-      "Baseline hit ~100 HP vs equal unprotected target. Crit ×2. AoE secondaries = 50% hit. No in-fight life drain. Post-fight HP only via iced milk. Buff milk banned in ranked.",
-  },
-  {
-    id: "pvp",
-    filter: "combat",
-    icon: "sports_kabaddi",
-    tagRu: "PvP",
-    tagEn: "PvP",
-    blurbRu: "+10 / −3 рейтинг",
-    blurbEn: "+10 / −3 rating",
-    titleRu: "PvP 3v3 Колизей",
-    titleEn: "PvP 3v3 Coliseum",
-    bodyRu:
-      "Формат 3v3, одно ядро. ММ по рейтингу текущего armor rank + soft MMR; кросс-плей. Победа +10, поражение −3. Отдельный рейтинг на каждый из 8 рангов брони. Билеты после 3 побед в Мифмире/тренировке.",
-    bodyEn:
-      "3v3, one core. MM by current armor-rank rating + soft MMR; cross-play. Win +10 / loss −3. Separate ladder per armor rank R1–R8. Tickets after 3 Mythmir/practice wins.",
-  },
-  {
-    id: "hp_classes",
-    filter: "mechanics",
-    icon: "monitor_heart",
-    tagRu: "Статы",
-    tagEn: "Stats",
-    blurbRu: "Танк 1000 HP база",
-    blurbEn: "Tank 1000 HP base",
-    titleRu: "HP по классам",
-    titleEn: "HP by class",
-    bodyRu:
-      "База ур.1 без брони: танк 1000 · боец 850 · ассасин 750 · стрелок 700 · маг 600 · саппорт 550. Вариант B внутри класса ±5% HP. Рост от ранга брони — +10 ко всем статам и +20 к primary.",
-    bodyEn:
-      "L1 base without armor: tank 1000 · fighter 850 · assassin 750 · ranger 700 · mage 600 · support 550. Variant B ±5% HP. Each armor rank: +10 all stats and +20 primary.",
-  },
-  {
-    id: "levels",
-    filter: "mechanics",
-    icon: "trending_up",
-    tagRu: "Ранги",
-    tagEn: "Ranks",
-    blurbRu: "R1→R8 = сила",
-    blurbEn: "R1→R8 = power",
-    titleRu: "Уровни и статы рангов",
-    titleEn: "Levels and rank stats",
-    bodyRu:
-      "Экип rarity по рангу игрока, не по уровню кота. Primary: танк HP/charm; боец/ассасин/стрелок ATK/SPD; маг skill/ATK; саппорт skill/charm. С пассом high ranks ~1 год; без ≈2× медленнее.",
-    bodyEn:
-      "Equip rarity follows player rank, not cat level. Primaries: tank HP/charm; fighter/assassin/ranger ATK/SPD; mage skill/ATK; support skill/charm. Pass ~1 year to high ranks; without ≈2× slower.",
-  },
-  {
-    id: "alchemy",
-    filter: "mechanics",
-    icon: "science",
-    tagRu: "Алхимия",
-    tagEn: "Alchemy",
-    blurbRu: "Зелья ≤1 / бой",
-    blurbEn: "Potions ≤1 / fight",
-    titleRu: "Алхимия и крафт зелий",
-    titleEn: "Alchemy and potion craft",
-    bodyRu:
-      "Рецепты на Рынке. Алхимия: травы/овощи/фрукты → зелья. Отдельный alchemy_xp. Зелья крафтеров — рынок/аукцион, не таверна. В бою ≤1 зелье на potionId.",
-    bodyEn:
-      "Recipes on Market. Alchemy: herbs/veggies/fruit → potions. Separate alchemy_xp. Craft potions → market/auction, not tavern. In fight ≤1 potion per potionId.",
-  },
-  {
-    id: "trade",
-    filter: "mechanics",
-    icon: "storefront",
-    tagRu: "Торговля",
-    tagEn: "Trade",
-    blurbRu: "Магазин / рынок / аукцион",
-    blurbEn: "Shop / market / auction",
-    titleRu: "Экономика: каналы торговли",
-    titleEn: "Economy: trade channels",
-    bodyRu:
-      "Магазин = IAP/пасс/fish/breeding/12 ordinary/grey R1. Рынок = семена/tools/craft sell/quick sell. Аукцион = лоты игроков по своей цене. Без крипты и cash. «Мифиус»-монета = soft currency.",
-    bodyEn:
-      "Shop = IAP/pass/fish/breeding/12 ordinary/grey R1. Market = seeds/tools/craft sell/quick sell. Auction = player lots at own price. No crypto/cash. «Мифиус» coin = soft currency.",
-  },
-  {
-    id: "armor_ranks",
-    filter: "gear",
-    icon: "shield",
-    tagRu: "Броня",
-    tagEn: "Armor",
-    blurbRu: "Grey → mythic",
-    blurbEn: "Grey → mythic",
-    titleRu: "Броня R1–R8 (unlock)",
-    titleEn: "Armor R1–R8 unlock",
-    bodyRu:
-      "R1 grey · R2 green · R3 blue · R4 gold · R5 purple · R6 epic · R7 legendary · R8 mythic. Магазин SL продаёт только grey R1. Выше — пасс-боксы, PvE/craft, аукцион. Анти-P2W: нельзя купить ранг.",
-    bodyEn:
-      "R1 grey · R2 green · R3 blue · R4 gold · R5 purple · R6 epic · R7 legendary · R8 mythic. SL shop sells grey R1 only. Higher via pass boxes, PvE/craft, auction. Anti-P2W: no rank buy.",
-  },
-  {
-    id: "heroes_skills",
-    filter: "combat",
-    icon: "auto_awesome",
-    tagRu: "Герои",
-    tagEn: "Heroes",
-    blurbRu: "12 котов · глаза/уши",
-    blurbEn: "12 cats · eyes/ears",
-    titleRu: "Скиллы и пассивы 12 героев",
-    titleEn: "Skills and passives of 12 heroes",
-    bodyRu:
-      "Глаза/уши = пассивы; морда/убор/спина/хвост = карты N=4. Танк A «Щит-утёс», танк B «Пробой», бойцы, ассасины, стрелки, маги огонь/лёд, саппорты heal/buff — см. вики §1.",
-    bodyEn:
-      "Eyes/ears = passives; muzzle/groom/back/tail = N=4 cards. Tank A Bastion, Tank B Pierce, fighters, assassins, rangers, fire/ice mages, heal/buff supports — wiki §1.",
-  },
-  {
-    id: "guild_gvg",
-    filter: "combat",
-    icon: "castle",
-    tagRu: "Гильдии",
-    tagEn: "Guilds",
-    blurbRu: "3–12 котов на сторону",
-    blurbEn: "3–12 cats per side",
-    titleRu: "Бой гильдий (GvG)",
-    titleEn: "Guild vs guild (GvG)",
-    bodyRu:
-      "Гильдия vs гильдия: 3–12 котов. Soft launch — вход в HUD и правила; полный ММ 4–12 — tip «Подними ранг». Размер 3 может идти через ядро 3v3. Клан-босс — отдельно «Скоро».",
-    bodyEn:
-      "Guild vs guild: 3–12 cats. Soft launch has HUD entry + rules; full 4–12 MM tips «rank up». Size 3 can reuse 3v3 core. Clan boss is separate Soon content.",
-  },
-  {
-    id: "milk",
-    filter: "mechanics",
-    icon: "water_drop",
-    tagRu: "Таверна",
-    tagEn: "Tavern",
-    blurbRu: "Молоко на льду = HP",
-    blurbEn: "Iced milk = HP",
-    titleRu: "Таверна и молоко",
-    titleEn: "Tavern and milk",
-    bodyRu:
-      "Таверна — только молоко. Лёд = post-fight HP. Бафф-молоко только PvE+данжи, не ranked Колизей. Зелья — у крафтеров на рынке/аукционе.",
-    bodyEn:
-      "Tavern is milk only. Ice = post-fight HP. Buff milk is PvE+dungeons only, not ranked Coliseum. Potions come from crafters on market/auction.",
-  },
-  {
-    id: "forms",
-    filter: "mechanics",
-    icon: "map",
-    tagRu: "Навигация",
-    tagEn: "Nav",
-    blurbRu: "Хаб и вкладки day-1",
-    blurbEn: "Hub and day-1 tabs",
-    titleRu: "Основные экраны и навигация",
-    titleEn: "Main screens and navigation",
-    bodyRu:
-      "Вход → Хаб. Дом Хранителя: Двор/крафт/персонаж/склад/коллекция/скрещивание. Бои: Мифмир, тренировка, строй, PvP, данжи, рейд, GvG. Торговля: площадь → таверна/магазин/рынок/аукцион. База знаний — этот кодекс.",
-    bodyEn:
-      "Login → Hub. Keeper house: yard/craft/hero/barn/collection/breeding. Combat: Mythmir, practice, formation, PvP, dungeons, raid, GvG. Trade plaza → tavern/shop/market/auction. Knowledge base is this codex.",
-  },
-
-  {
-    id: "raid_legion",
-    filter: "combat",
-    icon: "castle",
-    tagRu: "Рейды",
-    tagEn: "Raids",
-    blurbRu: "12 игроков · фазы босса",
-    blurbEn: "12 players · boss phases",
-    titleRu: "Легионные рейды",
-    titleEn: "Legion raids",
-    bodyRu: "Легионные рейды: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
-    bodyEn: "Legion raids: soft-launch codex chapter. Details live in wiki and day-1 forms.",
-  },
-  {
-    id: "dungeons",
-    filter: "combat",
-    icon: "fort",
-    tagRu: "Данжи",
-    tagEn: "Dungeons",
-    blurbRu: "Билеты и лут R1–R6",
-    blurbEn: "Tickets and R1–R6 loot",
-    titleRu: "Подземелья дня",
-    titleEn: "Daily dungeons",
-    bodyRu: "Подземелья дня: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
-    bodyEn: "Daily dungeons: soft-launch codex chapter. Details live in wiki and day-1 forms.",
-  },
-  {
-    id: "pass_boxes",
-    filter: "gear",
-    icon: "inventory_2",
-    tagRu: "Пасс",
-    tagEn: "Pass",
-    blurbRu: "Pity и rarity unlock",
-    blurbEn: "Pity and rarity unlock",
-    titleRu: "Пасс-боксы рангов",
-    titleEn: "Rank pass boxes",
-    bodyRu: "Пасс-боксы рангов: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
-    bodyEn: "Rank pass boxes: soft-launch codex chapter. Details live in wiki and day-1 forms.",
-  },
-  {
-    id: "sockets",
-    filter: "gear",
-    icon: "diamond",
-    tagRu: "Инкрустация",
-    tagEn: "Sockets",
-    blurbRu: "Оружейная усадьбы",
-    blurbEn: "Manor armory",
-    titleRu: "Гнёзда и камни",
-    titleEn: "Sockets and gems",
-    bodyRu: "Гнёзда и камни: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
-    bodyEn: "Sockets and gems: soft-launch codex chapter. Details live in wiki and day-1 forms.",
-  },
-  {
-    id: "charm",
-    filter: "mechanics",
-    icon: "favorite",
-    tagRu: "Харизма",
-    tagEn: "Charm",
-    blurbRu: "Primary саппорта/танка",
-    blurbEn: "Support/tank primary",
-    titleRu: "Харизма и бафы",
-    titleEn: "Charm and buffs",
-    bodyRu: "Харизма и бафы: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
-    bodyEn: "Charm and buffs: soft-launch codex chapter. Details live in wiki and day-1 forms.",
-  },
-  {
-    id: "tickets",
-    filter: "combat",
-    icon: "confirmation_number",
-    tagRu: "Билеты",
-    tagEn: "Tickets",
-    blurbRu: "После 3 побед Мифмира",
-    blurbEn: "After 3 Mythmir wins",
-    titleRu: "Билеты Колизея",
-    titleEn: "Coliseum tickets",
-    bodyRu: "Билеты Колизея: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
-    bodyEn: "Coliseum tickets: soft-launch codex chapter. Details live in wiki and day-1 forms.",
-  },
-  {
-    id: "autofarm",
-    filter: "mechanics",
-    icon: "agriculture",
-    tagRu: "Автодвор",
-    tagEn: "Autofarm",
-    blurbRu: "Pass ACTIVE toggles",
-    blurbEn: "Pass ACTIVE toggles",
-    titleRu: "Автосбор двора",
-    titleEn: "Yard autofarm",
-    bodyRu: "Автосбор двора: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
-    bodyEn: "Yard autofarm: soft-launch codex chapter. Details live in wiki and day-1 forms.",
-  },
-  {
-    id: "quick_sell",
-    filter: "mechanics",
-    icon: "sell",
-    tagRu: "Рынок",
-    tagEn: "Market",
-    blurbRu: "Семена / tools / craft",
-    blurbEn: "Seeds / tools / craft",
-    titleRu: "Быстрая продажа",
-    titleEn: "Quick sell",
-    bodyRu: "Быстрая продажа: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
-    bodyEn: "Quick sell: soft-launch codex chapter. Details live in wiki and day-1 forms.",
-  },
-  {
-    id: "iap_shop",
-    filter: "mechanics",
-    icon: "storefront",
-    tagRu: "Магазин",
-    tagEn: "Shop",
-    blurbRu: "Только grey R1",
-    blurbEn: "Grey R1 only",
-    titleRu: "Магазин soft-launch",
-    titleEn: "Soft-launch shop",
-    bodyRu: "Магазин soft-launch: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
-    bodyEn: "Soft-launch shop: soft-launch codex chapter. Details live in wiki and day-1 forms.",
-  },
-  {
-    id: "energy",
-    filter: "mechanics",
-    icon: "bolt",
-    tagRu: "Энергия",
-    tagEn: "Energy",
-    blurbRu: "Бои и данжи",
-    blurbEn: "Fights and dungeons",
-    titleRu: "Энергия Хранителя",
-    titleEn: "Keeper energy",
-    bodyRu: "Энергия Хранителя: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
-    bodyEn: "Keeper energy: soft-launch codex chapter. Details live in wiki and day-1 forms.",
-  },
-  {
-    id: "chat_rules",
-    filter: "mechanics",
-    icon: "forum",
-    tagRu: "Чат",
-    tagEn: "Chat",
-    blurbRu: "Глобал / гильдия / ЛС",
-    blurbEn: "Global / guild / DM",
-    titleRu: "Правила чатов",
-    titleEn: "Chat rules",
-    bodyRu: "Правила чатов: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
-    bodyEn: "Chat rules: soft-launch codex chapter. Details live in wiki and day-1 forms.",
-  },
-  {
-    id: "ratings",
-    filter: "combat",
-    icon: "leaderboard",
-    tagRu: "Рейтинг",
-    tagEn: "Ratings",
-    blurbRu: "Игроки и гильдии",
-    blurbEn: "Players and guilds",
-    titleRu: "Сезонные рейтинги",
-    titleEn: "Season ratings",
-    bodyRu: "Сезонные рейтинги: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
-    bodyEn: "Season ratings: soft-launch codex chapter. Details live in wiki and day-1 forms.",
-  },
-  {
-    id: "mythmir_map",
-    filter: "combat",
-    icon: "map",
-    tagRu: "Мифмир",
-    tagEn: "Mythmir",
-    blurbRu: "PVE маршруты day-1",
-    blurbEn: "Day-1 PVE routes",
-    titleRu: "Карта Мифмира",
-    titleEn: "Mythmir map",
-    bodyRu: "Карта Мифмира: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
-    bodyEn: "Mythmir map: soft-launch codex chapter. Details live in wiki and day-1 forms.",
-  },
-  {
-    id: "support_kits",
-    filter: "gear",
-    icon: "medical_services",
-    tagRu: "Саппорт",
-    tagEn: "Support",
-    blurbRu: "Heal / buff архетипы",
-    blurbEn: "Heal / buff archetypes",
-    titleRu: "Сеты саппорта",
-    titleEn: "Support kits",
-    bodyRu: "Сеты саппорта: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
-    bodyEn: "Support kits: soft-launch codex chapter. Details live in wiki and day-1 forms.",
-  },
-  {
-    id: "mage_kits",
-    filter: "gear",
-    icon: "local_fire_department",
-    tagRu: "Маг",
-    tagEn: "Mage",
-    blurbRu: "Огонь / лёд",
-    blurbEn: "Fire / ice",
-    titleRu: "Сеты мага",
-    titleEn: "Mage kits",
-    bodyRu: "Сеты мага: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
-    bodyEn: "Mage kits: soft-launch codex chapter. Details live in wiki and day-1 forms.",
-  },
-  {
-    id: "assassin_kits",
-    filter: "gear",
-    icon: "swords",
-    tagRu: "Ассасин",
-    tagEn: "Assassin",
-    blurbRu: "Крит и SPD",
-    blurbEn: "Crit and SPD",
-    titleRu: "Сеты ассасина",
-    titleEn: "Assassin kits",
-    bodyRu: "Сеты ассасина: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
-    bodyEn: "Assassin kits: soft-launch codex chapter. Details live in wiki and day-1 forms.",
-  },
-  {
-    id: "ranger_kits",
-    filter: "gear",
-    icon: "target",
-    tagRu: "Стрелок",
-    tagEn: "Ranger",
-    blurbRu: "Дальний бой",
-    blurbEn: "Ranged DPS",
-    titleRu: "Сеты стрелка",
-    titleEn: "Ranger kits",
-    bodyRu: "Сеты стрелка: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
-    bodyEn: "Ranger kits: soft-launch codex chapter. Details live in wiki and day-1 forms.",
-  }
-];
-
-const KB_ARSENAL_GEAR = [
-  { name: "Шлем Дракона", stat: "+140 Защ · +480 HP", icon: "/stitch-assets/kb-gear-helm.png", set: false },
-  { name: "Панцирь Дракона", stat: "+280 Защ · +1,250 HP", icon: "/stitch-assets/kb-gear-chest.png", set: true },
-  { name: "Пояс Дракона", stat: "+95 Защ · +380 HP · +12% Res", icon: "/stitch-assets/kb-gear-belt.png", set: false },
-  { name: "Перчатки Дракона", stat: "+110 Защ · +65 Атк", icon: "/stitch-assets/kb-gear-gloves.png", set: false },
-  { name: "Сапоги Дракона", stat: "+105 Защ · +25 Скор", icon: "/stitch-assets/kb-gear-boots.png", set: false },
-  { name: "Плащ Дракона", stat: "+85 Защ · +420 HP", icon: "/stitch-assets/kb-gear-cloak.png", set: false },
-];
 
 const PASS_REWARDS = [
   { lvl: 1, free: "pass.reward.fish_50", gold: "pass.reward.yarn_10" },
@@ -982,6 +486,7 @@ const state = {
   codexEntryId: "class_sets",
   codexFilter: "all",
   codexQuery: "",
+  codexRead: {},
   codexRankFocus: 6,
   guildBattleSize: 3,
   passActiveStub: false,
@@ -2473,10 +1978,236 @@ function inspectTier(rankNumber) {
 }
 window.inspectTier = inspectTier;
 
+
+function codexTopics() {
+  return window.CODEX_TOPICS || [];
+}
+
+function codexFilters() {
+  return window.CODEX_FILTERS || [];
+}
+
+function codexEsc(s) {
+  return String(s ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function codexBlockHtml(block) {
+  if (!block) return "";
+  if (block.type === "stats") {
+    const rows = (block.rows || [])
+      .map(
+        ([k, v]) =>
+          `<div class="flex flex-col items-center bg-surface-container-lowest/80 p-space-xs rounded-xl shadow-inner text-center min-w-0">
+            <span class="font-label-sm text-[10px] text-outline uppercase">${codexEsc(k)}</span>
+            <span class="font-stat-numeral text-sm text-primary mt-0.5">${codexEsc(v)}</span>
+          </div>`,
+      )
+      .join("");
+    return `<div class="bg-surface-container-low/95 rounded-xl p-space-md shadow-xl flex flex-col gap-space-xs">
+      <span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">${codexEsc(block.title || "")}</span>
+      <div class="grid grid-cols-2 gap-space-xs">${rows}</div>
+    </div>`;
+  }
+  if (block.type === "rules") {
+    const items = (block.items || [])
+      .map(
+        (t) =>
+          `<li class="flex items-start gap-1.5 text-[12px] text-on-surface-variant leading-snug"><span class="material-symbols-outlined text-primary text-[14px] mt-0.5 shrink-0">check</span><span>${codexEsc(t)}</span></li>`,
+      )
+      .join("");
+    return `<div class="bg-surface-container-low/95 rounded-xl p-space-md shadow-xl flex flex-col gap-space-xs">
+      <span class="font-headline-md text-sm text-on-surface">${codexEsc(block.title || "")}</span>
+      <ul class="flex flex-col gap-1.5 m-0 p-0 list-none">${items}</ul>
+    </div>`;
+  }
+  if (block.type === "table") {
+    const headers = block.headers || [];
+    const head = headers
+      .map((h) => `<th class="text-left font-label-sm text-[10px] text-outline uppercase px-1.5 py-1">${codexEsc(h)}</th>`)
+      .join("");
+    const body = (block.rows || [])
+      .map((row) => {
+        const cells = row
+          .map((c) => `<td class="font-body-sm text-[11px] text-on-surface px-1.5 py-1 border-t border-surface-container-highest/60">${codexEsc(c)}</td>`)
+          .join("");
+        return `<tr>${cells}</tr>`;
+      })
+      .join("");
+    return `<div class="bg-surface-container-low/95 rounded-xl p-space-md shadow-xl flex flex-col gap-space-xs overflow-auto">
+      <span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">${codexEsc(block.title || "")}</span>
+      <table class="w-full border-collapse"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>
+    </div>`;
+  }
+  if (block.type === "note") {
+    return `<div class="bg-surface-container-highest/40 rounded-xl p-space-sm text-[11px] text-on-surface-variant border border-outline-variant/40">
+      <span class="material-symbols-outlined text-primary text-[14px] align-middle mr-1">info</span>${codexEsc(block.text || "")}
+    </div>`;
+  }
+  return "";
+}
+
+function codexRenderArticle(topic) {
+  const blocks = (topic.blocks || []).map(codexBlockHtml).join("");
+  const side = (topic.side || []).map(codexBlockHtml).join("") ||
+    `<div class="bg-surface-container-low/95 rounded-xl p-space-md shadow-xl text-[12px] text-on-surface-variant">Источник: ${codexEsc(topic.source || "wiki")}</div>`;
+  return `
+<section class="col-span-12 lg:col-span-5 flex flex-col gap-space-sm bg-surface-container/90 rounded-2xl p-space-md shadow-2xl relative overflow-hidden min-h-0">
+  <div class="absolute -top-20 -left-20 w-80 h-80 rounded-full bg-primary/10 blur-3xl pointer-events-none"></div>
+  <div class="flex items-center justify-between z-10 bg-surface-container-lowest/80 backdrop-blur-md px-space-md py-space-xs rounded-xl shadow-md gap-space-sm">
+    <div class="flex items-center gap-space-sm min-w-0">
+      <span class="material-symbols-outlined text-primary text-xl">${codexEsc(topic.icon || "menu_book")}</span>
+      <div class="flex flex-col min-w-0">
+        <span class="font-label-lg text-label-lg text-primary uppercase font-bold tracking-wide truncate">${codexEsc(topic.headline || topic.title)}</span>
+        <span class="font-body-sm text-body-sm text-on-surface-variant truncate">${codexEsc(topic.blurb || "")}</span>
+      </div>
+    </div>
+    <span class="px-space-xs py-1 rounded bg-surface-container-highest text-primary font-label-sm text-[10px] whitespace-nowrap">${codexEsc(topic.tag || "")}</span>
+  </div>
+  <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed z-10">${codexEsc(topic.lead || "")}</p>
+  <div class="flex flex-col gap-space-sm z-10 overflow-auto flex-1 min-h-0">${blocks}</div>
+  <div class="text-[10px] text-outline z-10 pt-1">Источник: ${codexEsc(topic.source || "")}</div>
+</section>
+<aside class="col-span-12 lg:col-span-4 flex flex-col justify-between gap-space-sm min-h-0 overflow-auto">
+  ${side}
+  <div class="bg-surface-container-lowest/80 p-space-sm rounded-xl border border-surface-container-highest flex items-center justify-between gap-2">
+    <span class="font-label-sm text-[11px] text-on-surface-variant">Плейсхолдер арта</span>
+    <span class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary"><span class="material-symbols-outlined">${codexEsc(topic.icon || "image")}</span></span>
+  </div>
+</aside>`;
+}
+
+
 function renderCodex() {
   const root = $("viewCodex");
   if (!root || root.classList.contains("hidden")) return;
-  // Exact Stitch markup — do not rebuild columns. Wire CTA only.
+  const topics = codexTopics();
+  if (!topics.length) return;
+
+  if (!state.codexEntryId) state.codexEntryId = "class_sets";
+  if (!state.codexFilter) state.codexFilter = "all";
+  if (state.codexQuery == null) state.codexQuery = "";
+  if (!state.codexRead) state.codexRead = {};
+
+  const host = $("codexDetailHost");
+  if (host && !window.__codexArmorHTML) {
+    window.__codexArmorHTML = host.innerHTML;
+  }
+
+  const filters = $("codexFilters");
+  if (filters) {
+    const total = topics.length;
+    filters.innerHTML = codexFilters()
+      .map((f) => {
+        const count =
+          f.id === "all" ? total : topics.filter((t) => t.filter === f.id).length;
+        const label = f.id === "all" ? `${f.label} (${count})` : f.label;
+        const on = state.codexFilter === f.id;
+        return `<button type="button" data-kb-filter="${f.id}" class="px-2 py-0.5 rounded font-label-sm text-[10px] whitespace-nowrap transition-colors ${
+          on
+            ? "bg-primary text-on-primary shadow-sm"
+            : "bg-surface-container-highest text-on-surface-variant hover:text-on-surface hover:bg-surface-bright"
+        }">${codexEsc(label)}</button>`;
+      })
+      .join("");
+    if (filters.dataset.bound !== "1") {
+      filters.dataset.bound = "1";
+      filters.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-kb-filter]");
+        if (!btn) return;
+        state.codexFilter = btn.getAttribute("data-kb-filter") || "all";
+        renderCodex();
+      });
+    }
+  }
+
+  const search = $("codexSearch");
+  if (search && search.dataset.bound !== "1") {
+    search.dataset.bound = "1";
+    search.value = state.codexQuery || "";
+    search.addEventListener("input", () => {
+      state.codexQuery = search.value || "";
+      renderCodex();
+    });
+  }
+
+  const q = (state.codexQuery || "").trim().toLowerCase();
+  const list = topics.filter((t) => {
+    if (state.codexFilter && state.codexFilter !== "all" && t.filter !== state.codexFilter) return false;
+    if (!q) return true;
+    const hay = [t.title, t.blurb, t.tag, t.headline, t.lead, t.source]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+    return hay.includes(q);
+  });
+  if (!list.some((t) => t.id === state.codexEntryId)) {
+    state.codexEntryId = list[0]?.id || topics[0].id;
+  }
+
+  const nav = $("codexTopicList");
+  if (nav) {
+    nav.innerHTML = list
+      .map((t) => {
+        const on = t.id === state.codexEntryId;
+        const status = t.status
+          ? `<span class="px-1 py-0.2 rounded bg-primary text-on-primary font-label-sm text-[9px]">${codexEsc(t.status)}</span>`
+          : `<span class="px-1 py-0.2 rounded bg-surface-container-highest text-on-surface-variant font-label-sm text-[9px]">${codexEsc(t.tag || "")}</span>`;
+        return `<button type="button" data-kb-topic="${codexEsc(t.id)}" class="w-full text-left p-1.5 rounded-xl transition-all cursor-pointer flex items-center gap-space-xs ${
+          on
+            ? "bg-surface-container-high ring-1 ring-primary shadow-sm"
+            : "bg-surface-container/70 hover:bg-surface-container-high"
+        }">
+          <div class="w-8 h-8 rounded-lg ${on ? "bg-primary-container/30 text-primary ring-1 ring-primary/40" : "bg-surface-container-lowest text-on-surface-variant ring-1 ring-outline-variant"} flex items-center justify-center flex-shrink-0">
+            <span class="material-symbols-outlined text-base">${codexEsc(t.icon || "menu_book")}</span>
+          </div>
+          <div class="flex flex-col min-w-0 flex-1">
+            <div class="flex items-center justify-between gap-1">
+              <span class="font-label-sm text-[11px] ${on ? "text-primary" : "text-on-surface"} font-bold truncate">${codexEsc(t.title)}</span>
+              ${status}
+            </div>
+            <div class="flex items-center gap-1 text-[10px] text-on-surface-variant">
+              <span class="truncate">${codexEsc(t.blurb || t.tag || "")}</span>
+            </div>
+          </div>
+        </button>`;
+      })
+      .join("");
+    if (nav.dataset.bound !== "1") {
+      nav.dataset.bound = "1";
+      nav.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-kb-topic]");
+        if (!btn) return;
+        state.codexEntryId = btn.getAttribute("data-kb-topic") || "class_sets";
+        state.codexRead[state.codexEntryId] = true;
+        renderCodex();
+      });
+    }
+  }
+
+  state.codexRead[state.codexEntryId] = true;
+  const readN = Math.min(topics.length, Math.max(Object.keys(state.codexRead).length, 1));
+  const progress = $("codexProgress");
+  if (progress) {
+    const pct = Math.round((readN / topics.length) * 100);
+    progress.innerHTML = `
+      <div class="flex items-center justify-between text-[11px]"><span class="font-label-sm text-on-surface">Прогресс Кодекса</span><span class="font-stat-numeral text-primary font-bold">${readN}/${topics.length} (${pct}%)</span></div>
+      <div class="w-full h-1.5 rounded-full bg-surface-container-highest overflow-hidden"><div class="h-full rounded-full bg-gradient-to-r from-primary to-primary-container" style="width:${pct}%"></div></div>
+      <div class="flex items-center justify-between pt-0.5"><span class="text-[10px] text-outline">+${Math.max(0, readN - 1)} глав открыто</span><span class="px-2 py-0.5 rounded bg-primary/20 text-primary text-[10px] font-bold">wiki SSOT</span></div>`;
+  }
+
+  const topic = topics.find((t) => t.id === state.codexEntryId) || topics[0];
+  if (host) {
+    if (topic.mode === "arsenal" && window.__codexArmorHTML) {
+      host.innerHTML = window.__codexArmorHTML;
+    } else {
+      host.innerHTML = codexRenderArticle(topic);
+    }
+  }
+
   if (root.dataset.kbWired !== "1") {
     root.dataset.kbWired = "1";
     root.addEventListener("click", (e) => {

@@ -1856,6 +1856,11 @@ body:has(#viewCodex:not(.hidden)) #app {
   color: #eae1db;
   overflow: auto;
 }
+#codexDetailHost.contents,
+#codexDetailHost {
+  display: contents;
+}
+
 /* Soft-launch kills Stitch chrome header/footer; keep main Stitch structure */
 #viewCodex > footer {
   display: none !important;
