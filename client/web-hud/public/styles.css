@@ -1503,28 +1503,67 @@ body:has(#viewHome:not(.hidden)) #app {
 #viewHome #homeGearOverlay .home-gear-col.is-left .home-equip-slot[data-home-slot="helm"]:hover {
   transform: translate(-0.15rem, 0.1rem) scale(1.05);
 }
-/* Battle deck stays full-width below the 3-col workbench */
-#viewHome > main > div.flex.flex-col > .w-full.bg-surface-container {
+/* 3-col workbench dominates; battle deck is a compact full-width strip */
+#viewHome > main > div.flex.flex-col > .grid.grid-cols-12 {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+#viewHome > main > div.flex.flex-col > .w-full.bg-surface-container,
+#viewHome .home-attack-deck-panel {
   width: 100%;
   min-width: 0;
   flex: 0 0 auto;
+  max-height: min(22vh, 10.75rem);
+  padding: 0.28rem 0.4rem !important;
+  gap: 0.22rem !important;
+  overflow: hidden;
 }
-#viewHome > main > div.flex.flex-col > .w-full.bg-surface-container .grid {
+#viewHome > main > div.flex.flex-col > .w-full.bg-surface-container .grid,
+#viewHome .home-attack-deck-panel .grid {
   min-width: 0;
 }
-/* Attack deck: equal-height tiles, shared art box */
+/* Compact deck chrome (title row) */
+#viewHome .home-attack-deck-panel > .flex.items-center.justify-between {
+  min-height: 0;
+  padding-inline: 0.15rem;
+}
+#viewHome .home-attack-deck-panel > .flex.items-center.justify-between .w-7 {
+  width: 1.35rem;
+  height: 1.35rem;
+}
+#viewHome .home-attack-deck-panel > .flex.items-center.justify-between h2 {
+  font-size: 11px !important;
+  line-height: 1.15;
+}
+#viewHome .home-attack-deck-panel > .flex.items-center.justify-between h2 + span {
+  display: none; /* strip: drop subtitle to reclaim height */
+}
+#viewHome .home-attack-deck-panel > .flex.items-center.justify-between button {
+  padding-block: 0.2rem !important;
+  font-size: 10px !important;
+}
+/* Attack deck: even mini cards in one thin strip */
 #viewHome .home-attack-deck {
   align-items: stretch;
   min-width: 0;
+  gap: 0.35rem !important;
 }
 #viewHome .home-attack-card {
   min-height: 0;
-  height: 100%;
+  height: auto;
+  padding: 0.2rem !important;
+  border-radius: 0.45rem !important;
+  box-shadow: none;
+}
+#viewHome .home-attack-card:hover {
+  transform: translateY(-1px);
 }
 #viewHome .home-attack-card__art {
-  aspect-ratio: 3 / 4;
+  aspect-ratio: unset;
   width: 100%;
-  flex: 0 0 auto;
+  height: 4.35rem;
+  flex: 0 0 4.35rem;
+  margin-block: 0.1rem !important;
 }
 #viewHome .home-attack-card__art img {
   display: block;
@@ -1533,9 +1572,36 @@ body:has(#viewHome:not(.hidden)) #app {
   object-fit: cover;
   object-position: top center;
 }
-#viewHome .home-attack-card__meta,
+#viewHome .home-attack-card__meta {
+  min-height: 0;
+  gap: 0.15rem;
+}
+#viewHome .home-attack-card__meta .w-5 {
+  width: 0.95rem;
+  height: 0.95rem;
+  font-size: 8px !important;
+}
+#viewHome .home-attack-card__meta span.px-1 {
+  font-size: 7px !important;
+  padding-inline: 0.2rem;
+}
 #viewHome .home-attack-card__text {
-  min-height: 1.15rem;
+  min-height: 0 !important;
+}
+#viewHome .home-attack-card__text > span {
+  font-size: 10px !important;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#viewHome .home-attack-card__text > p {
+  font-size: 8px !important;
+  margin-top: 0 !important;
+  line-height: 1.1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 #viewHome [data-home-bag-item].is-worn {
   outline: 1px solid #89d98c;
