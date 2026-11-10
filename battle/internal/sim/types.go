@@ -1,6 +1,6 @@
 package sim
 
-import "github.com/idrosha/mir_games/battle/internal/content"
+import "github.com/idrosha/mifius_cats/battle/internal/content"
 
 type Side int
 

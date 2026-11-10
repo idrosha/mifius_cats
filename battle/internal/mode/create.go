@@ -3,8 +3,8 @@ package mode
 import (
 	"fmt"
 
-	"github.com/idrosha/mir_games/battle/internal/content"
-	"github.com/idrosha/mir_games/battle/internal/sim"
+	"github.com/idrosha/mifius_cats/battle/internal/content"
+	"github.com/idrosha/mifius_cats/battle/internal/sim"
 )
 
 // CreatePvE — FULL-SPEC §8.2. Economy (bowl spend) is outside battle-core; here only stage+team+seed.

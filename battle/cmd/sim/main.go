@@ -7,8 +7,8 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/idrosha/mir_games/battle/internal/content"
-	"github.com/idrosha/mir_games/battle/internal/mode"
+	"github.com/idrosha/mifius_cats/battle/internal/content"
+	"github.com/idrosha/mifius_cats/battle/internal/mode"
 )
 
 func main() {

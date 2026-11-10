@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"sync"
 
-	"github.com/idrosha/mir_games/battle/internal/sim"
+	"github.com/idrosha/mifius_cats/battle/internal/sim"
 )
 
 const MaxPerUser = 10 // FULL-SPEC §1 / §3.6 / §6 ReplayList

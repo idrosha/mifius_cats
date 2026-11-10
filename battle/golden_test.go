@@ -6,9 +6,9 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/idrosha/mir_games/battle/internal/content"
-	"github.com/idrosha/mir_games/battle/internal/mode"
-	"github.com/idrosha/mir_games/battle/internal/sim"
+	"github.com/idrosha/mifius_cats/battle/internal/content"
+	"github.com/idrosha/mifius_cats/battle/internal/mode"
+	"github.com/idrosha/mifius_cats/battle/internal/sim"
 )
 
 const goldenSeed int64 = 20261104

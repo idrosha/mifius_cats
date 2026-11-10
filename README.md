@@ -1,4 +1,6 @@
-# Мир Квизов (`mir_games`)
+# Мир Квизов (`mifius_cats`)
+
+Репозиторий: https://github.com/idrosha/mifius_cats
 
 Кроссплатформенные познавательные квизы: одно игровое ядро, платформы только в адаптерах. Клиенты — Telegram-бот + Mini App + Web + Capacitor Android shell + TV web.
 

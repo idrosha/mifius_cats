@@ -1,6 +1,6 @@
-# Agents export — Мифиус / mir_games
+# Agents export — Мифиус / mifius_cats
 
-Portable catalog of agent briefs used by the **Мифиус** Cursor Project (`mir_games`).  
+Portable catalog of agent briefs used by the **Мифиус** Cursor Project (`mifius_cats`).  
 Paste into another Project’s store `docs/` (or kickoff prompts). Pair with repo `docs/AGENTS.md` + `docs/skills/*`.
 
 **Snapshot:** 2026-11-10 · cloud workers inventory ≈ **119** on this env/repo · **2 RUNNING** · **3 ERROR** · rest **IDLE**.

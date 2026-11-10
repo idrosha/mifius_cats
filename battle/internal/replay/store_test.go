@@ -6,10 +6,10 @@ import (
 	"strconv"
 	"testing"
 
-	"github.com/idrosha/mir_games/battle/internal/content"
-	"github.com/idrosha/mir_games/battle/internal/mode"
-	"github.com/idrosha/mir_games/battle/internal/replay"
-	"github.com/idrosha/mir_games/battle/internal/sim"
+	"github.com/idrosha/mifius_cats/battle/internal/content"
+	"github.com/idrosha/mifius_cats/battle/internal/mode"
+	"github.com/idrosha/mifius_cats/battle/internal/replay"
+	"github.com/idrosha/mifius_cats/battle/internal/sim"
 )
 
 func contentRoot(t *testing.T) string {

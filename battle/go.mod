@@ -1,3 +1,3 @@
-module github.com/idrosha/mir_games/battle
+module github.com/idrosha/mifius_cats/battle
 
 go 1.22

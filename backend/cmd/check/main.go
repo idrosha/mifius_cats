@@ -6,7 +6,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/idrosha/mir_games/backend/internal/economy"
+	"github.com/idrosha/mifius_cats/backend/internal/economy"
 )
 
 func main() {

@@ -3,7 +3,7 @@ package sim
 import (
 	"math"
 
-	"github.com/idrosha/mir_games/battle/internal/content"
+	"github.com/idrosha/mifius_cats/battle/internal/content"
 )
 
 func (b *Battle) resolveCard(actor *Unit, card content.CardDef, targets []*Unit) {

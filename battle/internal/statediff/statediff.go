@@ -3,7 +3,7 @@
 package statediff
 
 import (
-	"github.com/idrosha/mir_games/battle/internal/sim"
+	"github.com/idrosha/mifius_cats/battle/internal/sim"
 )
 
 // Diff mirrors mythfel-client StateDiff JSON (§8.2 / §9 Game/Battle).

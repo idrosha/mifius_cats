@@ -1,3 +1,3 @@
-module github.com/idrosha/mir_games/qa/gate
+module github.com/idrosha/mifius_cats/qa/gate
 
 go 1.22

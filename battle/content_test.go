@@ -5,7 +5,7 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/idrosha/mir_games/battle/internal/content"
+	"github.com/idrosha/mifius_cats/battle/internal/content"
 )
 
 func contentRoot(t *testing.T) string {

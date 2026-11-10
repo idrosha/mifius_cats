@@ -1,3 +1,3 @@
-module github.com/idrosha/mir_games/backend
+module github.com/idrosha/mifius_cats/backend
 
 go 1.22

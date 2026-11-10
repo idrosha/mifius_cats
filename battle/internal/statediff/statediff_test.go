@@ -5,9 +5,9 @@ import (
 	"runtime"
 	"testing"
 
-	"github.com/idrosha/mir_games/battle/internal/content"
-	"github.com/idrosha/mir_games/battle/internal/mode"
-	"github.com/idrosha/mir_games/battle/internal/statediff"
+	"github.com/idrosha/mifius_cats/battle/internal/content"
+	"github.com/idrosha/mifius_cats/battle/internal/mode"
+	"github.com/idrosha/mifius_cats/battle/internal/statediff"
 )
 
 func TestFromBattle_CreatePvE_HasBoardAndHand(t *testing.T) {
