@@ -41,7 +41,7 @@
 | 3 | Боец A «Парные когти» | `shop_fighter_fire_a` | [`fighter-a.png`](cat-heroes/fighter-a.png) | ready |
 | 4 | Боец B «Двуручный» | `shop_fighter_fire_b` | [`fighter-b.png`](cat-heroes/fighter-b.png) | ready |
 | 5 | Ассасин A «Тень» | `shop_assassin_bolt_a` | [`assassin-a.png`](cat-heroes/assassin-a.png) | ready |
-| 6 | Ассасин B «Охотник тыла» | `shop_assassin_bolt_b` | — | **скоро** |
+| 6 | Ассасин B «Охотник тыла» | `shop_assassin_bolt_b` | [`assassin-b.png`](cat-heroes/assassin-b.png) | ready — сиам, bolt-кинжалы |
 | 7 | Стрелок A «Охотник» | `shop_ranger_grass_a` | [`ranger-a.png`](cat-heroes/ranger-a.png) | ready — рысь, зелёный лук |
 | 8 | Стрелок B «Град стрел» | `shop_ranger_grass_b` | [`ranger-b.png`](cat-heroes/ranger-b.png) | ready — леопард, AoE-лук |
 | 9 | Маг A «Огонь» | `shop_mage_fire_a` | [`mage-a.png`](cat-heroes/mage-a.png) | ready |
@@ -54,6 +54,7 @@
 ![Парные когти](cat-heroes/fighter-a.png)
 ![Двуручный](cat-heroes/fighter-b.png)
 ![Тень](cat-heroes/assassin-a.png)
+![Охотник тыла](cat-heroes/assassin-b.png)
 ![Охотник](cat-heroes/ranger-a.png)
 ![Град стрел](cat-heroes/ranger-b.png)
 ![Огонь](cat-heroes/mage-a.png)
