@@ -2050,6 +2050,14 @@ function codexBlockHtml(block) {
       <span class="material-symbols-outlined text-primary text-[14px] align-middle mr-1">info</span>${codexEsc(block.text || "")}
     </div>`;
   }
+  if (block.type === "media") {
+    const h = block.height || "7rem";
+    return `<div class="rounded-xl border border-dashed border-outline-variant/70 bg-surface-container-lowest/50 flex flex-col items-center justify-center gap-1 text-center px-space-sm" style="min-height:${codexEsc(h)}">
+      <span class="material-symbols-outlined text-outline text-[28px]">image</span>
+      <span class="font-label-sm text-[10px] text-outline uppercase tracking-wider">${codexEsc(block.label || "Иллюстрация")}</span>
+      <span class="font-body-sm text-[11px] text-on-surface-variant max-w-[20rem]">${codexEsc(block.caption || "Пустой блок под картинку — арт добавим позже")}</span>
+    </div>`;
+  }
   return "";
 }
 
@@ -2143,7 +2151,19 @@ function renderCodex() {
   const list = topics.filter((t) => {
     if (state.codexFilter && state.codexFilter !== "all" && t.filter !== state.codexFilter) return false;
     if (!q) return true;
-    const hay = [t.title, t.blurb, t.tag, t.headline, t.lead, t.source]
+    const blockText = [...(t.blocks || []), ...(t.side || [])]
+      .flatMap((b) => [
+        b.title,
+        b.text,
+        b.label,
+        b.caption,
+        ...(b.items || []),
+        ...(b.headers || []),
+        ...((b.rows || []).flat()),
+      ])
+      .filter(Boolean)
+      .join(" ");
+    const hay = [t.title, t.blurb, t.tag, t.headline, t.lead, t.source, blockText]
       .filter(Boolean)
       .join(" ")
       .toLowerCase();
