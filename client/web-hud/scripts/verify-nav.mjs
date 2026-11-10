@@ -37,6 +37,7 @@ const REQUIRED_VIEWS = [
   "viewResult",
   "viewResultWin",
   "viewResultLose",
+  "viewVictoryHall",
   "viewPvp",
   "viewTradeHub",
   "viewShop",
@@ -134,6 +135,7 @@ const STITCH_SRC = [
   "battle_hub.html",
   "practice.html",
   "practice_fight.html",
+  "victory_hall.html",
   "guild.html",
   "pass.html",
   "chat_global.html",
@@ -361,6 +363,11 @@ ok(
   "battle_hub live fronts map in index",
   html.includes('id="viewBattleHub"') && html.includes('data-stitch="battle_hub"') && html.includes("front-hall"),
   "viewBattleHub missing from index",
+);
+ok(
+  "victory_hall live in index",
+  html.includes('id="viewVictoryHall"') && html.includes('data-stitch="victory_hall"') && html.includes("vic-hall"),
+  "viewVictoryHall missing from index",
 );
 ok(
   "practice lobby has dojo-load start screen",
