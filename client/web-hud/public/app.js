@@ -499,45 +499,45 @@ const state = {
   },
   /** Local HUD gear catalog — soft-launch stub (server later). Icons from design screenshot. */
   gearCatalog: [
-    { id: "weapon_perun", slot: "weapon", name: "Громовой Кинжал Перуна", atk: 680, hp: 0, def: 0, spd: 8, crit: 12.4, rank: 5, rarity: "mythic", enhance: 12, set: "thunder", socket: "Руна Бури I", iconSrc: "/stitch-assets/barn-icons/dagger.png" },
+    { id: "weapon_perun", slot: "weapon", name: "Громовой Кинжал Перуна", atk: 680, hp: 0, def: 0, spd: 8, crit: 12.4, rank: 5, rarity: "mythic", enhance: 12, set: "thunder", socket: "Руна Бури I", iconSrc: "/barn-icons/dagger.png" },
     { id: "weapon_cleaver", slot: "weapon", name: "Тесак Очага", atk: 290, hp: 0, def: 0, spd: 2, crit: 4, rank: 3, rarity: "rare", enhance: 8, set: null, socket: null, iconSrc: "/stitch-assets/hero-icons/inv_03.png" },
     { id: "weapon_wood_claw", slot: "weapon", name: "Деревянный коготь", atk: 120, hp: 0, def: 0, spd: 4, crit: 1, rank: 1, rarity: "common", enhance: 0, set: null, socket: null, iconSrc: "/stitch-assets/hero-icons/inv_03.png" },
     { id: "weapon_flint_bow", slot: "weapon", name: "Кремнёвый лук", atk: 160, hp: 0, def: 0, spd: 6, crit: 3, rank: 2, rarity: "rare", enhance: 4, set: null, socket: null, iconSrc: "/stitch-assets/hero-icons/inv_00.png" },
-    { id: "helm_storm", slot: "helm", name: "Шлем Буревестника", atk: 40, hp: 620, def: 85, spd: 0, crit: 0, rank: 5, rarity: "mythic", enhance: 12, set: "thunder", socket: null, iconSrc: "/stitch-assets/barn-icons/helmet.png" },
+    { id: "helm_storm", slot: "helm", name: "Шлем Буревестника", atk: 40, hp: 620, def: 85, spd: 0, crit: 0, rank: 5, rarity: "mythic", enhance: 12, set: "thunder", socket: null, iconSrc: "/barn-icons/helmet.png" },
     { id: "helm_grey_cap", slot: "helm", name: "Серый шлем", atk: 0, hp: 180, def: 25, spd: 0, crit: 0, rank: 1, rarity: "common", enhance: 0, set: null, socket: null, iconSrc: "/stitch-assets/hero-icons/inv_03.png" },
-    { id: "armor_thunder", slot: "armor", name: "Кираса Громового Когтя", atk: 60, hp: 2100, def: 180, spd: 0, crit: 0, rank: 5, rarity: "mythic", enhance: 12, set: "thunder", socket: null, iconSrc: "/stitch-assets/barn-icons/chest.png" },
+    { id: "armor_thunder", slot: "armor", name: "Кираса Громового Когтя", atk: 60, hp: 2100, def: 180, spd: 0, crit: 0, rank: 5, rarity: "mythic", enhance: 12, set: "thunder", socket: null, iconSrc: "/barn-icons/chest.png" },
     { id: "armor_grey_plate", slot: "armor", name: "Серая кираса", atk: 0, hp: 420, def: 40, spd: 0, crit: 0, rank: 1, rarity: "common", enhance: 0, set: null, socket: null, iconSrc: "/stitch-assets/hero-icons/inv_01.png" },
     { id: "armor_green_mail", slot: "armor", name: "Зелёная кольчуга", atk: 0, hp: 620, def: 55, spd: 0, crit: 0, rank: 2, rarity: "rare", enhance: 6, set: "wool", socket: null, iconSrc: "/stitch-assets/hero-icons/inv_10.png" },
-    { id: "boots_storm", slot: "boots", name: "Сапоги Астрального Прыжка", atk: 20, hp: 240, def: 35, spd: 28, crit: 2, rank: 5, rarity: "mythic", enhance: 10, set: "thunder", socket: null, iconSrc: "/stitch-assets/barn-icons/boots.png" },
-    { id: "boots_soft_pads", slot: "boots", name: "Мягкие лапки", atk: 0, hp: 0, def: 10, spd: 12, crit: 0, rank: 1, rarity: "common", enhance: 0, set: null, socket: null, iconSrc: "/stitch-assets/barn-icons/boots.png" },
-    { id: "belt_wool", slot: "belt", name: "Пояс Шерстяного Оберега", atk: 0, hp: 480, def: 40, spd: 4, crit: 0, rank: 4, rarity: "epic", enhance: 8, set: "wool", socket: null, iconSrc: "/stitch-assets/barn-icons/collar.png" },
-    { id: "ring_storm", slot: "ring", name: "Кольцо Грома", atk: 90, hp: 0, def: 0, spd: 6, crit: 6, rank: 5, rarity: "mythic", enhance: 10, set: "thunder", socket: null, iconSrc: "/stitch-assets/barn-icons/ring.png" },
-    { id: "amulet_wool", slot: "amulet", name: "Амулет Шерстяного Оберега", atk: 0, hp: 560, def: 55, spd: 0, crit: 0, rank: 4, rarity: "epic", enhance: 7, set: "wool", socket: null, iconSrc: "/stitch-assets/barn-icons/collar.png" },
+    { id: "boots_storm", slot: "boots", name: "Сапоги Астрального Прыжка", atk: 20, hp: 240, def: 35, spd: 28, crit: 2, rank: 5, rarity: "mythic", enhance: 10, set: "thunder", socket: null, iconSrc: "/barn-icons/boots.png" },
+    { id: "boots_soft_pads", slot: "boots", name: "Мягкие лапки", atk: 0, hp: 0, def: 10, spd: 12, crit: 0, rank: 1, rarity: "common", enhance: 0, set: null, socket: null, iconSrc: "/barn-icons/boots.png" },
+    { id: "belt_wool", slot: "belt", name: "Пояс Шерстяного Оберега", atk: 0, hp: 480, def: 40, spd: 4, crit: 0, rank: 4, rarity: "epic", enhance: 8, set: "wool", socket: null, iconSrc: "/barn-icons/collar.png" },
+    { id: "ring_storm", slot: "ring", name: "Кольцо Грома", atk: 90, hp: 0, def: 0, spd: 6, crit: 6, rank: 5, rarity: "mythic", enhance: 10, set: "thunder", socket: null, iconSrc: "/barn-icons/ring.png" },
+    { id: "amulet_wool", slot: "amulet", name: "Амулет Шерстяного Оберега", atk: 0, hp: 560, def: 55, spd: 0, crit: 0, rank: 4, rarity: "epic", enhance: 7, set: "wool", socket: null, iconSrc: "/barn-icons/collar.png" },
     { id: "offhand_claw", slot: "offhand", name: "Коготь-парир", atk: 110, hp: 0, def: 30, spd: 4, crit: 3, rank: 3, rarity: "rare", enhance: 5, set: null, socket: null, iconSrc: "/stitch-assets/hero-icons/inv_07.png" },
   ],
   /** Soft-launch barn stock — live sheet on /barn (not a screenshot). Icons: warehouse-icons-v2. */
   barnCatalog: [
-    { id: "barn_perun", name: "Кинжал Перуна", kind: "weapon", rarity: "mythic", tag: "Мифик · Оружие", enhance: 12, qty: 1, iconSrc: "/stitch-assets/barn-icons/dagger.png" },
-    { id: "barn_salamander", name: "Кираса Саламандры", kind: "armor", rarity: "mythic", tag: "Мифик · Броня", enhance: 12, qty: 1, iconSrc: "/stitch-assets/barn-icons/chest.png" },
-    { id: "barn_storm_helm", name: "Шлем Бури", kind: "armor", rarity: "legendary", tag: "Легенда · Шлем", enhance: 10, qty: 1, iconSrc: "/stitch-assets/barn-icons/helmet.png" },
-    { id: "barn_boots", name: "Сапоги Астрального Прыжка", kind: "armor", rarity: "mythic", tag: "Мифик · Сапоги", enhance: 10, qty: 1, iconSrc: "/stitch-assets/barn-icons/boots.png" },
-    { id: "barn_ring", name: "Кольцо Грома", kind: "armor", rarity: "mythic", tag: "Мифик · Кольцо", enhance: 10, qty: 1, iconSrc: "/stitch-assets/barn-icons/ring.png" },
-    { id: "barn_collar", name: "Ошейник с колокольчиком", kind: "armor", rarity: "epic", tag: "Эпик · Ошейник", enhance: 6, qty: 1, iconSrc: "/stitch-assets/barn-icons/collar.png" },
-    { id: "barn_hearth_elixir", name: "Эликсиры Очага", kind: "potion", rarity: "epic", tag: "Эпик · Зелье", enhance: 0, qty: 18, iconSrc: "/stitch-assets/barn-icons/potions.png" },
-    { id: "barn_oak", name: "Дубовые брёвна", kind: "farm", rarity: "common", tag: "Ферма · Лес", enhance: 0, qty: 420, iconSrc: "/stitch-assets/barn-icons/wood.png" },
-    { id: "barn_ore", name: "Железная руда", kind: "farm", rarity: "common", tag: "Ферма · Руда", enhance: 0, qty: 290, iconSrc: "/stitch-assets/barn-icons/iron.png" },
-    { id: "barn_fruit", name: "Свежие плоды", kind: "farm", rarity: "rare", tag: "Ферма · Урожай", enhance: 0, qty: 86, iconSrc: "/stitch-assets/barn-icons/fruit.png" },
-    { id: "barn_seeds", name: "Семена Урожая", kind: "farm", rarity: "rare", tag: "Ферма · Семена", enhance: 0, qty: 180, iconSrc: "/stitch-assets/barn-icons/seeds.png" },
-    { id: "barn_harvest", name: "Корзина урожая", kind: "farm", rarity: "rare", tag: "Ферма · Овощи", enhance: 0, qty: 64, iconSrc: "/stitch-assets/barn-icons/veggies.png" },
-    { id: "barn_fish", name: "Связка рыбы", kind: "farm", rarity: "common", tag: "Ферма · Рыбалка", enhance: 0, qty: 120, iconSrc: "/stitch-assets/barn-icons/fish.png" },
-    { id: "barn_herbs", name: "Пучок трав", kind: "potion", rarity: "rare", tag: "Алхимия · Травы", enhance: 0, qty: 340, iconSrc: "/stitch-assets/barn-icons/herbs.png" },
-    { id: "barn_mana", name: "Зелье Маны", kind: "potion", rarity: "epic", tag: "Эпик · Зелье", enhance: 0, qty: 24, iconSrc: "/stitch-assets/barn-icons/potions.png" },
-    { id: "barn_regen", name: "Зелье Регена", kind: "potion", rarity: "epic", tag: "Эпик · Зелье", enhance: 0, qty: 16, iconSrc: "/stitch-assets/barn-icons/potions.png" },
-    { id: "barn_shadow", name: "Теневой настой", kind: "potion", rarity: "legendary", tag: "Легенда · Зелье", enhance: 0, qty: 8, iconSrc: "/stitch-assets/barn-icons/potions.png" },
-    { id: "barn_milk", name: "Молоко Очага", kind: "potion", rarity: "rare", tag: "Таверна · Молоко", enhance: 0, qty: 42, iconSrc: "/stitch-assets/barn-icons/milk.png" },
-    { id: "barn_stone", name: "Гранитные глыбы", kind: "farm", rarity: "common", tag: "Ферма · Камень", enhance: 0, qty: 210, iconSrc: "/stitch-assets/barn-icons/stone.png" },
-    { id: "barn_scroll", name: "Свиток рынка", kind: "blueprint", rarity: "epic", tag: "Эпик · Чертёж", enhance: 0, qty: 12, iconSrc: "/stitch-assets/barn-icons/herbs.png" },
-    { id: "barn_cleaver", name: "Тесак Очага", kind: "weapon", rarity: "rare", tag: "Редк · Оружие", enhance: 8, qty: 1, iconSrc: "/stitch-assets/barn-icons/dagger.png" },
+    { id: "barn_perun", name: "Кинжал Перуна", kind: "weapon", rarity: "mythic", tag: "Мифик · Оружие", enhance: 12, qty: 1, iconSrc: "/barn-icons/dagger.png" },
+    { id: "barn_salamander", name: "Кираса Саламандры", kind: "armor", rarity: "mythic", tag: "Мифик · Броня", enhance: 12, qty: 1, iconSrc: "/barn-icons/chest.png" },
+    { id: "barn_storm_helm", name: "Шлем Бури", kind: "armor", rarity: "legendary", tag: "Легенда · Шлем", enhance: 10, qty: 1, iconSrc: "/barn-icons/helmet.png" },
+    { id: "barn_boots", name: "Сапоги Астрального Прыжка", kind: "armor", rarity: "mythic", tag: "Мифик · Сапоги", enhance: 10, qty: 1, iconSrc: "/barn-icons/boots.png" },
+    { id: "barn_ring", name: "Кольцо Грома", kind: "armor", rarity: "mythic", tag: "Мифик · Кольцо", enhance: 10, qty: 1, iconSrc: "/barn-icons/ring.png" },
+    { id: "barn_collar", name: "Ошейник с колокольчиком", kind: "armor", rarity: "epic", tag: "Эпик · Ошейник", enhance: 6, qty: 1, iconSrc: "/barn-icons/collar.png" },
+    { id: "barn_hearth_elixir", name: "Эликсиры Очага", kind: "potion", rarity: "epic", tag: "Эпик · Зелье", enhance: 0, qty: 18, iconSrc: "/barn-icons/potions.png" },
+    { id: "barn_oak", name: "Дубовые брёвна", kind: "farm", rarity: "common", tag: "Ферма · Лес", enhance: 0, qty: 420, iconSrc: "/barn-icons/wood.png" },
+    { id: "barn_ore", name: "Железная руда", kind: "farm", rarity: "common", tag: "Ферма · Руда", enhance: 0, qty: 290, iconSrc: "/barn-icons/iron.png" },
+    { id: "barn_fruit", name: "Свежие плоды", kind: "farm", rarity: "rare", tag: "Ферма · Урожай", enhance: 0, qty: 86, iconSrc: "/barn-icons/fruit.png" },
+    { id: "barn_seeds", name: "Семена Урожая", kind: "farm", rarity: "rare", tag: "Ферма · Семена", enhance: 0, qty: 180, iconSrc: "/barn-icons/seeds.png" },
+    { id: "barn_harvest", name: "Корзина урожая", kind: "farm", rarity: "rare", tag: "Ферма · Овощи", enhance: 0, qty: 64, iconSrc: "/barn-icons/veggies.png" },
+    { id: "barn_fish", name: "Связка рыбы", kind: "farm", rarity: "common", tag: "Ферма · Рыбалка", enhance: 0, qty: 120, iconSrc: "/barn-icons/fish.png" },
+    { id: "barn_herbs", name: "Пучок трав", kind: "potion", rarity: "rare", tag: "Алхимия · Травы", enhance: 0, qty: 340, iconSrc: "/barn-icons/herbs.png" },
+    { id: "barn_mana", name: "Зелье Маны", kind: "potion", rarity: "epic", tag: "Эпик · Зелье", enhance: 0, qty: 24, iconSrc: "/barn-icons/potions.png" },
+    { id: "barn_regen", name: "Зелье Регена", kind: "potion", rarity: "epic", tag: "Эпик · Зелье", enhance: 0, qty: 16, iconSrc: "/barn-icons/potions.png" },
+    { id: "barn_shadow", name: "Теневой настой", kind: "potion", rarity: "legendary", tag: "Легенда · Зелье", enhance: 0, qty: 8, iconSrc: "/barn-icons/potions.png" },
+    { id: "barn_milk", name: "Молоко Очага", kind: "potion", rarity: "rare", tag: "Таверна · Молоко", enhance: 0, qty: 42, iconSrc: "/barn-icons/milk.png" },
+    { id: "barn_stone", name: "Гранитные глыбы", kind: "farm", rarity: "common", tag: "Ферма · Камень", enhance: 0, qty: 210, iconSrc: "/barn-icons/stone.png" },
+    { id: "barn_scroll", name: "Свиток рынка", kind: "blueprint", rarity: "epic", tag: "Эпик · Чертёж", enhance: 0, qty: 12, iconSrc: "/barn-icons/herbs.png" },
+    { id: "barn_cleaver", name: "Тесак Очага", kind: "weapon", rarity: "rare", tag: "Редк · Оружие", enhance: 8, qty: 1, iconSrc: "/barn-icons/dagger.png" },
   ],
   barnCatFilter: "all",
   barnRarityFilter: "all",
@@ -2613,11 +2613,11 @@ function renderBarn() {
   const summary = $("barnSummary");
   if (summary) {
     const rows = [
-      { label: "Снаряжение", count: barnKindCount("armor") + barnKindCount("weapon"), icon: "/stitch-assets/barn-icons/chest.png" },
-      { label: "Арсенал оружия", count: barnKindCount("weapon"), icon: "/stitch-assets/barn-icons/dagger.png" },
-      { label: "Ресурсы фермы", count: barnKindCount("farm"), icon: "/stitch-assets/barn-icons/veggies.png" },
-      { label: "Алхимия и зелья", count: barnKindCount("potion"), icon: "/stitch-assets/barn-icons/potions.png" },
-      { label: "Реликвии и чертежи", count: barnKindCount("blueprint"), icon: "/stitch-assets/barn-icons/herbs.png" },
+      { label: "Снаряжение", count: barnKindCount("armor") + barnKindCount("weapon"), icon: "/barn-icons/chest.png" },
+      { label: "Арсенал оружия", count: barnKindCount("weapon"), icon: "/barn-icons/dagger.png" },
+      { label: "Ресурсы фермы", count: barnKindCount("farm"), icon: "/barn-icons/veggies.png" },
+      { label: "Алхимия и зелья", count: barnKindCount("potion"), icon: "/barn-icons/potions.png" },
+      { label: "Реликвии и чертежи", count: barnKindCount("blueprint"), icon: "/barn-icons/herbs.png" },
     ];
     summary.innerHTML = rows
       .map((row) => `<li><img alt="" src="${row.icon}"/><span>${row.label}</span><b>${formatSheetNum(row.count)}</b></li>`)
@@ -2627,8 +2627,8 @@ function renderBarn() {
   const logistics = $("barnLogistics");
   if (logistics) {
     logistics.innerHTML = `
-      <li><img alt="" src="/stitch-assets/barn-icons/iron.png"/><span>Караван руды · через 14 мин</span><em>+150 руды</em></li>
-      <li><img alt="" src="/stitch-assets/barn-icons/fish.png"/><span>Скупщик рыбы · к усадьбе 28 мин</span><em>+20% спрос</em></li>
+      <li><img alt="" src="/barn-icons/iron.png"/><span>Караван руды · через 14 мин</span><em>+150 руды</em></li>
+      <li><img alt="" src="/barn-icons/fish.png"/><span>Скупщик рыбы · к усадьбе 28 мин</span><em>+20% спрос</em></li>
     `;
   }
 
@@ -2644,7 +2644,7 @@ function renderBarn() {
   const guard = $("barnGuard");
   if (guard) {
     guard.innerHTML = `
-      <img alt="" src="/stitch-assets/barn-icons/guard.png"/>
+      <img alt="" src="/barn-icons/guard.png"/>
       <div>
         <strong>Усатый Дозорный · Ур. 45</strong>
         <span>+15% защита склада · на посту</span>
@@ -2947,7 +2947,7 @@ function syncHomeEquipDom(catId) {
     btn.setAttribute("data-item-id", itemId);
     btn.title = "Снять";
     if (img) {
-      img.src = item?.iconSrc || "/stitch-assets/barn-icons/dagger.png";
+      img.src = item?.iconSrc || "/barn-icons/dagger.png";
       img.alt = label;
       img.classList.remove("opacity-30");
     }
