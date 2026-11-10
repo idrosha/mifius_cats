@@ -162,15 +162,15 @@ window.CODEX_TOPICS = [
     blurb: "Танк → боец → тыл",
     mode: "article",
     headline: "Строй и таргет",
-    lead: "Одно ядро PvP/PvE. Строй критичен: танк во фронте; саппорт/стрелок/маг — в тылу. Часть карт бьёт backline.",
-    source: "formation-targeting.md · wiki §4 · FULL-SPEC §2.1",
+    lead: "Одно ядро PvP/PvE. Строй критичен: танк → боец → стрелок → саппорт. Обычные удары бьют фронт; часть карт бьёт тыл — вытянуть и навести на героя.",
+    source: "formation-targeting.md · wiki §4 · FULL-SPEC §2.1 / §3.4",
     blocks: [
       {
         type: "rules",
         title: "Рекомендуемый ряд",
         items: [
           "Lane 0 = фронт, lane 2 = тыл.",
-          "Танк → (боец/ассасин) → (маг/стрелок/саппорт).",
+          "Танк → боец → стрелок → саппорт (середина: также ассасин; тыл: также маг).",
           "Не ставь саппорта/стрелка/мага вперёд.",
         ],
       },
@@ -191,11 +191,12 @@ window.CODEX_TOPICS = [
     side: [
       {
         type: "rules",
-        title: "Актёры",
+        title: "Актёры и UX тыла",
         items: [
           "Фронт melee: только ближайший фронт; второй ряд — только AoE.",
           "Ranger/mage/support: free-target в любом слоте.",
           "backline: сначала саппорт → стрелок → маг → … → танк.",
+          "Карта с ударом в тыл: вытянуть из руки и навести на выбранного героя.",
         ],
       },
     ],
@@ -206,10 +207,10 @@ window.CODEX_TOPICS = [
     icon: "swords",
     tag: "Бой",
     title: "Атака и боевое ядро",
-    blurb: "Crit ×2 · AoE 50%",
+    blurb: "Crit ×2 · тыл = прицел",
     mode: "article",
     headline: "Боевое ядро",
-    lead: "PvP и PvE делят одно ядро (prefs). Mode-layer только CreatePvE/CreatePvP, AI vs human, экономика.",
+    lead: "PvP и PvE делят одно ядро (prefs). Mode-layer только CreatePvE/CreatePvP, AI vs human, экономика. Обычные удары — фронт; тыловые карты — вытянуть и навести.",
     source: "wiki §4 · FULL-SPEC §3",
     blocks: [
       {
@@ -225,6 +226,15 @@ window.CODEX_TOPICS = [
       },
       {
         type: "rules",
+        title: "UX атаки в тыл",
+        items: [
+          "Карта с доступом к дальним/тыловым врагам: вытянуть из руки и навести на выбранного героя.",
+          "Так бьют лучники, маги, ассасины с прыжком/ударом и любые карты с тегом backline/тыл/rear.",
+          "Без вытягивания и прицела карта в тыл не играет.",
+        ],
+      },
+      {
+        type: "rules",
         title: "HP вне боя",
         items: [
           "Post-fight HP — только молоко на льду в Таверне.",
@@ -233,7 +243,7 @@ window.CODEX_TOPICS = [
       },
     ],
     side: [
-      { type: "note", text: "Также в ядре: энергия E1→E3, Milk Burst, Keep, Mouse Hour, Last Meow — FULL-SPEC §3." },
+      { type: "note", text: "Также в ядре: энергия E1→E3, Milk Burst, Keep, Mouse Hour, Last Meow — FULL-SPEC §3. Строй: танк → боец → стрелок → саппорт." },
     ],
   },
   {

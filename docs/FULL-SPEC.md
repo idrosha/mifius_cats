@@ -168,6 +168,7 @@ Unused energy/cards не переносятся (кроме Keep).
   - Прочие: `self`, `ally_lowest_hp`, `ally_all`, `all_enemies`, `lowest_hp`.  
   - Теги урона: `crit` → **×2** dmg (player wiki / MF-59; было ×1.5 SL stub); `pierce` / статус `fragile` → урон игнорит shield. Freeze = `stun` 1 ход. AoE вторичные цели = **50%** hit. Life drain / in-fight HP refresh запрещены (короткий PvP). Свод чисел: `docs/game-wiki.md`.  
   - Overrides: `taunt` принуждает цель; `stealth` скрывает от обычного таргета; `ambush` (тег карты) обходит stealth.
+  - **UX атаки в тыл (LOCKED):** когда дроп/добор даёт карту с доступом к дальним/тыловым врагам (`targetRule: backline`, тег `backline` / тыл / rear / support targeting — лучники, маги, ассасины с прыжком/ударом и т.п.), игрок **обязан вытянуть карту из руки и навести её на выбранного героя**; без вытягивания и прицела карта в тыл не играет. Обычные `nearest` удары бьют фронт; строй prefs: танк → боец → стрелок → саппорт. Player wiki: `docs/game-wiki.md` §4.1.
 - **Potions:** loadout pre-match, ≤1 per potionId.
 
 ### §3.5 Статусы MVP
