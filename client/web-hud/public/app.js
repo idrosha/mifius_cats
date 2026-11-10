@@ -456,8 +456,8 @@ const CODEX_ENTRIES = [
     blurbEn: "Tiers P.1–P.8 and bonuses",
     statusRu: "Изучается",
     statusEn: "Studying",
-    titleRu: "Классовые сети и ранги брони",
-    titleEn: "Class nets and armor ranks",
+    titleRu: "Классовые сеты и ранги брони",
+    titleEn: "Class sets and armor ranks",
     bodyRu:
       "6 классов × 2 архетипа = 12 оружейных наборов. Броня открывается по рангу игрока R1→R8 (grey→mythic). Владение ≠ экип: сервер режет unequippable rarity. Полный арсенал даёт бонус к классовым навыкам.",
     bodyEn:
@@ -704,15 +704,237 @@ const CODEX_ENTRIES = [
     bodyEn:
       "Login → Hub. Keeper house: yard/craft/hero/barn/collection/breeding. Combat: Mythmir, practice, formation, PvP, dungeons, raid, GvG. Trade plaza → tavern/shop/market/auction. Knowledge base is this codex.",
   },
+
+  {
+    id: "raid_legion",
+    filter: "combat",
+    icon: "castle",
+    tagRu: "Рейды",
+    tagEn: "Raids",
+    blurbRu: "12 игроков · фазы босса",
+    blurbEn: "12 players · boss phases",
+    titleRu: "Легионные рейды",
+    titleEn: "Legion raids",
+    bodyRu: "Легионные рейды: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
+    bodyEn: "Legion raids: soft-launch codex chapter. Details live in wiki and day-1 forms.",
+  },
+  {
+    id: "dungeons",
+    filter: "combat",
+    icon: "fort",
+    tagRu: "Данжи",
+    tagEn: "Dungeons",
+    blurbRu: "Билеты и лут R1–R6",
+    blurbEn: "Tickets and R1–R6 loot",
+    titleRu: "Подземелья дня",
+    titleEn: "Daily dungeons",
+    bodyRu: "Подземелья дня: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
+    bodyEn: "Daily dungeons: soft-launch codex chapter. Details live in wiki and day-1 forms.",
+  },
+  {
+    id: "pass_boxes",
+    filter: "gear",
+    icon: "inventory_2",
+    tagRu: "Пасс",
+    tagEn: "Pass",
+    blurbRu: "Pity и rarity unlock",
+    blurbEn: "Pity and rarity unlock",
+    titleRu: "Пасс-боксы рангов",
+    titleEn: "Rank pass boxes",
+    bodyRu: "Пасс-боксы рангов: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
+    bodyEn: "Rank pass boxes: soft-launch codex chapter. Details live in wiki and day-1 forms.",
+  },
+  {
+    id: "sockets",
+    filter: "gear",
+    icon: "diamond",
+    tagRu: "Инкрустация",
+    tagEn: "Sockets",
+    blurbRu: "Оружейная усадьбы",
+    blurbEn: "Manor armory",
+    titleRu: "Гнёзда и камни",
+    titleEn: "Sockets and gems",
+    bodyRu: "Гнёзда и камни: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
+    bodyEn: "Sockets and gems: soft-launch codex chapter. Details live in wiki and day-1 forms.",
+  },
+  {
+    id: "charm",
+    filter: "mechanics",
+    icon: "favorite",
+    tagRu: "Харизма",
+    tagEn: "Charm",
+    blurbRu: "Primary саппорта/танка",
+    blurbEn: "Support/tank primary",
+    titleRu: "Харизма и бафы",
+    titleEn: "Charm and buffs",
+    bodyRu: "Харизма и бафы: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
+    bodyEn: "Charm and buffs: soft-launch codex chapter. Details live in wiki and day-1 forms.",
+  },
+  {
+    id: "tickets",
+    filter: "combat",
+    icon: "confirmation_number",
+    tagRu: "Билеты",
+    tagEn: "Tickets",
+    blurbRu: "После 3 побед Мифмира",
+    blurbEn: "After 3 Mythmir wins",
+    titleRu: "Билеты Колизея",
+    titleEn: "Coliseum tickets",
+    bodyRu: "Билеты Колизея: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
+    bodyEn: "Coliseum tickets: soft-launch codex chapter. Details live in wiki and day-1 forms.",
+  },
+  {
+    id: "autofarm",
+    filter: "mechanics",
+    icon: "agriculture",
+    tagRu: "Автодвор",
+    tagEn: "Autofarm",
+    blurbRu: "Pass ACTIVE toggles",
+    blurbEn: "Pass ACTIVE toggles",
+    titleRu: "Автосбор двора",
+    titleEn: "Yard autofarm",
+    bodyRu: "Автосбор двора: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
+    bodyEn: "Yard autofarm: soft-launch codex chapter. Details live in wiki and day-1 forms.",
+  },
+  {
+    id: "quick_sell",
+    filter: "mechanics",
+    icon: "sell",
+    tagRu: "Рынок",
+    tagEn: "Market",
+    blurbRu: "Семена / tools / craft",
+    blurbEn: "Seeds / tools / craft",
+    titleRu: "Быстрая продажа",
+    titleEn: "Quick sell",
+    bodyRu: "Быстрая продажа: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
+    bodyEn: "Quick sell: soft-launch codex chapter. Details live in wiki and day-1 forms.",
+  },
+  {
+    id: "iap_shop",
+    filter: "mechanics",
+    icon: "storefront",
+    tagRu: "Магазин",
+    tagEn: "Shop",
+    blurbRu: "Только grey R1",
+    blurbEn: "Grey R1 only",
+    titleRu: "Магазин soft-launch",
+    titleEn: "Soft-launch shop",
+    bodyRu: "Магазин soft-launch: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
+    bodyEn: "Soft-launch shop: soft-launch codex chapter. Details live in wiki and day-1 forms.",
+  },
+  {
+    id: "energy",
+    filter: "mechanics",
+    icon: "bolt",
+    tagRu: "Энергия",
+    tagEn: "Energy",
+    blurbRu: "Бои и данжи",
+    blurbEn: "Fights and dungeons",
+    titleRu: "Энергия Хранителя",
+    titleEn: "Keeper energy",
+    bodyRu: "Энергия Хранителя: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
+    bodyEn: "Keeper energy: soft-launch codex chapter. Details live in wiki and day-1 forms.",
+  },
+  {
+    id: "chat_rules",
+    filter: "mechanics",
+    icon: "forum",
+    tagRu: "Чат",
+    tagEn: "Chat",
+    blurbRu: "Глобал / гильдия / ЛС",
+    blurbEn: "Global / guild / DM",
+    titleRu: "Правила чатов",
+    titleEn: "Chat rules",
+    bodyRu: "Правила чатов: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
+    bodyEn: "Chat rules: soft-launch codex chapter. Details live in wiki and day-1 forms.",
+  },
+  {
+    id: "ratings",
+    filter: "combat",
+    icon: "leaderboard",
+    tagRu: "Рейтинг",
+    tagEn: "Ratings",
+    blurbRu: "Игроки и гильдии",
+    blurbEn: "Players and guilds",
+    titleRu: "Сезонные рейтинги",
+    titleEn: "Season ratings",
+    bodyRu: "Сезонные рейтинги: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
+    bodyEn: "Season ratings: soft-launch codex chapter. Details live in wiki and day-1 forms.",
+  },
+  {
+    id: "mythmir_map",
+    filter: "combat",
+    icon: "map",
+    tagRu: "Мифмир",
+    tagEn: "Mythmir",
+    blurbRu: "PVE маршруты day-1",
+    blurbEn: "Day-1 PVE routes",
+    titleRu: "Карта Мифмира",
+    titleEn: "Mythmir map",
+    bodyRu: "Карта Мифмира: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
+    bodyEn: "Mythmir map: soft-launch codex chapter. Details live in wiki and day-1 forms.",
+  },
+  {
+    id: "support_kits",
+    filter: "gear",
+    icon: "medical_services",
+    tagRu: "Саппорт",
+    tagEn: "Support",
+    blurbRu: "Heal / buff архетипы",
+    blurbEn: "Heal / buff archetypes",
+    titleRu: "Сеты саппорта",
+    titleEn: "Support kits",
+    bodyRu: "Сеты саппорта: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
+    bodyEn: "Support kits: soft-launch codex chapter. Details live in wiki and day-1 forms.",
+  },
+  {
+    id: "mage_kits",
+    filter: "gear",
+    icon: "local_fire_department",
+    tagRu: "Маг",
+    tagEn: "Mage",
+    blurbRu: "Огонь / лёд",
+    blurbEn: "Fire / ice",
+    titleRu: "Сеты мага",
+    titleEn: "Mage kits",
+    bodyRu: "Сеты мага: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
+    bodyEn: "Mage kits: soft-launch codex chapter. Details live in wiki and day-1 forms.",
+  },
+  {
+    id: "assassin_kits",
+    filter: "gear",
+    icon: "swords",
+    tagRu: "Ассасин",
+    tagEn: "Assassin",
+    blurbRu: "Крит и SPD",
+    blurbEn: "Crit and SPD",
+    titleRu: "Сеты ассасина",
+    titleEn: "Assassin kits",
+    bodyRu: "Сеты ассасина: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
+    bodyEn: "Assassin kits: soft-launch codex chapter. Details live in wiki and day-1 forms.",
+  },
+  {
+    id: "ranger_kits",
+    filter: "gear",
+    icon: "target",
+    tagRu: "Стрелок",
+    tagEn: "Ranger",
+    blurbRu: "Дальний бой",
+    blurbEn: "Ranged DPS",
+    titleRu: "Сеты стрелка",
+    titleEn: "Ranger kits",
+    bodyRu: "Сеты стрелка: глава кодекса soft-launch. Подробности — в вики и живых формах day-1.",
+    bodyEn: "Ranger kits: soft-launch codex chapter. Details live in wiki and day-1 forms.",
+  }
 ];
 
 const KB_ARSENAL_GEAR = [
-  { name: "Шлем Дракона", stat: "+140 Броня", icon: "/stitch-assets/hero-icons/inv_02.png" },
-  { name: "Панцирь Дракона", stat: "+320 Броня", icon: "/stitch-assets/hero-icons/inv_04.png" },
-  { name: "Пояс Дракона", stat: "+90 Броня", icon: "/stitch-assets/hero-icons/inv_01.png" },
-  { name: "Перчатки Дракона", stat: "+75 Броня", icon: "/stitch-assets/hero-icons/inv_07.png" },
-  { name: "Сапоги Дракона", stat: "+80 Броня", icon: "/stitch-assets/hero-icons/inv_08.png" },
-  { name: "Плащ Дракона", stat: "+110 Броня", icon: "/stitch-assets/hero-icons/inv_10.png" },
+  { name: "Шлем Дракона", stat: "+140 Защ · +480 HP", icon: "/stitch-assets/kb-gear-helm.png", set: false },
+  { name: "Панцирь Дракона", stat: "+280 Защ · +1,250 HP", icon: "/stitch-assets/kb-gear-chest.png", set: true },
+  { name: "Пояс Дракона", stat: "+95 Защ · +380 HP · +12% Res", icon: "/stitch-assets/kb-gear-belt.png", set: false },
+  { name: "Перчатки Дракона", stat: "+110 Защ · +65 Атк", icon: "/stitch-assets/kb-gear-gloves.png", set: false },
+  { name: "Сапоги Дракона", stat: "+105 Защ · +25 Скор", icon: "/stitch-assets/kb-gear-boots.png", set: false },
+  { name: "Плащ Дракона", stat: "+85 Защ · +420 HP", icon: "/stitch-assets/kb-gear-cloak.png", set: false },
 ];
 
 const PASS_REWARDS = [
@@ -1028,8 +1250,8 @@ function logicalViewId() {
     gear: "viewGear",
     home: "viewHome",
     heroes: "viewHeroes",
-    armor_sets: "viewArmorSets",
-    class_sets: "viewClassSets",
+    armor_sets: "viewCodex",
+    class_sets: "viewCodex",
     equip_cards: "viewEquipCards",
     craft: "viewCraft",
     breeding: "viewBreeding",
@@ -1180,6 +1402,12 @@ function navigate(tab, { soon = null, clearBattle = true, primary = null, fromGa
     soon = "farm";
   }
   if (tab === "battle") tab = "formation";
+  // Sets / armor atlas → live KB arsenal sheet (etalon), not old encyclopedia hosts
+  if (tab === "class_sets" || tab === "armor_sets") {
+    state.codexEntryId = "class_sets";
+    tab = "codex";
+    primary = primary || "character";
+  }
   // База знаний is a top-level item — open the codex
   if (tab === "knowledge") {
     tab = "codex";
@@ -2219,8 +2447,25 @@ function codexFilteredEntries() {
   });
 }
 
+
+function kbIcon(name) {
+  const map = {
+    swords: "kb-ico-swords",
+    shield: "kb-ico-shield",
+    shield_moon: "kb-ico-shield",
+    bolt: "kb-ico-bolt",
+    pets: "kb-ico-paw",
+    search: "kb-ico-search",
+    workspace_premium: "kb-ico-star",
+    star: "kb-ico-star",
+  };
+  const cls = map[name] || "kb-ico-shield";
+  return `<span class="kb-ico ${cls}" aria-hidden="true"></span>`;
+}
+
 function renderCodexArsenal(center, right) {
   const ru = state.locale === "ru";
+  const focus = Math.min(8, Math.max(1, state.codexRankFocus || 6));
   center.innerHTML = `
     <div class="kb-set-head">
       <div>
@@ -2230,7 +2475,7 @@ function renderCodexArsenal(center, right) {
       <span class="kb-rank-badge">${ru ? "Ранг 6 Эпик" : "Rank 6 Epic"}</span>
     </div>
     <div class="kb-art">
-      <img alt="${ru ? "Танк Барсик в латах очага" : "Barsik tank in hearth plate"}" src="/stitch-assets/1a83d83d15cf.jpg"/>
+      <img alt="${ru ? "Танк Барсик в латах очага" : "Barsik tank in hearth plate"}" src="/stitch-assets/kb-hearth-tank.png"/>
       <div class="kb-art-status">
         <b>${ru ? "Комплект Стража • Синхронизация 100%" : "Guardian set • Sync 100%"}</b>
         <em>${ru ? "АКТИВЕН" : "ACTIVE"}</em>
@@ -2243,26 +2488,31 @@ function renderCodexArsenal(center, right) {
       <article><small>${ru ? "Сниж. урона" : "Damage cut"}</small><strong>+15%</strong><span>${ru ? "В лобовых" : "Frontal"}</span></article>
     </div>
     <button type="button" class="kb-cta" id="codexEquipBtn">
-      <span class="material-symbols-outlined" aria-hidden="true">pets</span>
+      ${kbIcon("bolt")}
       ${ru ? "ЭКИПИРОВАТЬ НАБОР НА БАРСИКА" : "EQUIP SET ON BARSIK"}
-      <span class="material-symbols-outlined" aria-hidden="true">checkroom</span>
+      ${kbIcon("pets")}
+      ${kbIcon("shield")}
     </button>
   `;
   center.querySelector("#codexEquipBtn")?.addEventListener("click", () => {
     toast(ru ? "Набор Стража экипирован на Барсика" : "Guardian set equipped on Barsik");
   });
 
-  const focus = Math.min(8, Math.max(1, state.codexRankFocus || 6));
   const gear = KB_ARSENAL_GEAR.map(
-    (g) => `<article><img alt="" src="${g.icon}"/><div><b>${g.name}</b><span>${g.stat}</span></div><em>P.${focus}</em></article>`,
+    (g) => `<article class="${g.set ? "is-set" : ""}">
+      ${g.set ? `<span class="kb-set-tag">${ru ? "Сет" : "Set"}</span>` : ""}
+      <em>P.${focus}</em>
+      <img alt="" src="${g.icon}"/>
+      <div><b>${g.name}</b><span>${g.stat}</span></div>
+    </article>`,
   ).join("");
   const ranks = Array.from({ length: 8 }, (_, i) => {
     const n = i + 1;
-    return `<button type="button" data-kb-rank="${n}" class="${n === focus ? "is-on" : ""}"><span class="material-symbols-outlined" aria-hidden="true">shield</span>P.${n}</button>`;
+    return `<button type="button" data-kb-rank="${n}" class="${n === focus ? "is-on" : ""}"><span class="kb-rank-art"><img alt="" src="/stitch-assets/kb-rank-p${n}.png"/></span>P.${n}</button>`;
   }).join("");
   right.innerHTML = `
     <div class="kb-skill-head">
-      <h3><span class="material-symbols-outlined" aria-hidden="true">shield</span>${ru ? "Несокрушимый Редут" : "Unbreakable Redoubt"}</h3>
+      <h3><span class="kb-skill-ico" aria-hidden="true"><img alt="" src="/stitch-assets/kb-crop-skill.png"/></span>${ru ? "Несокрушимый Редут" : "Unbreakable Redoubt"}</h3>
       <div class="kb-skill-tags"><span>${ru ? "Пассивный + Активный" : "Passive + Active"}</span></div>
     </div>
     <div class="kb-skill-meta">
@@ -2370,7 +2620,7 @@ function renderCodex() {
       ? `<span class="kb-entry-tag">${ru ? entry.statusRu : entry.statusEn}</span>`
       : `<span class="kb-entry-tag">${tag}</span>`;
     btn.innerHTML = `
-      <span class="kb-entry-ico" aria-hidden="true"><span class="material-symbols-outlined">${entry.icon || "menu_book"}</span></span>
+      <span class="kb-entry-ico" aria-hidden="true">${kbIcon(entry.icon || "shield")}</span>
       <span class="kb-entry-copy"><b>${title}</b><span>${blurb || tag}</span></span>
       ${status}
     `;
@@ -2382,14 +2632,15 @@ function renderCodex() {
     nav.appendChild(li);
   }
 
-  const read = Math.min(CODEX_ENTRIES.length, Math.max(1, CODEX_ENTRIES.findIndex((e) => e.id === state.codexEntryId) + 8));
+  const totalChapters = Math.max(34, CODEX_ENTRIES.length);
+  const read = Math.min(totalChapters, Math.max(24, CODEX_ENTRIES.findIndex((e) => e.id === state.codexEntryId) + 24));
   const progress = $("codexProgress");
   if (progress) {
-    const pct = Math.round((read / CODEX_ENTRIES.length) * 100);
+    const pct = Math.round((read / totalChapters) * 100);
     progress.innerHTML = `
-      <div><strong>${ru ? "Прогресс Кодекса" : "Codex progress"}</strong> ${read}/${CODEX_ENTRIES.length} (${pct}%)</div>
+      <div><strong>${ru ? "Прогресс Кодекса" : "Codex progress"}</strong> ${read}/${totalChapters} (${pct}%)</div>
       <div class="kb-bar" aria-hidden="true"><i style="width:${pct}%"></i></div>
-      <div class="kb-rewards"><span>+10 ${ru ? "глав" : "chapters"}</span><span>+50 ${ru ? "предметов арсенала" : "arsenal items"}</span></div>
+      <div class="kb-rewards"><span>+10 ${ru ? "глав открыто" : "chapters open"}</span><span>+50 ${ru ? "Клубков" : "Yarn"}</span></div>
     `;
   }
 
