@@ -8,7 +8,7 @@
 
 ## Оглавление
 
-1. [Скиллы и пассивы 12 героев](#1-скиллы-и-пассивы-12-героев) · [§1.4 арты карт batch 1–3](#14-арты-карт-атак-batch-1-3)
+1. [Скиллы и пассивы 12 героев](#1-скиллы-и-пассивы-12-героев) · [§1.4 арты карт batch 1–4](#14-арты-карт-атак-batch-1-4)
 2. [Двор — добыча ресурсов](#2-двор--добыча-ресурсов)
 3. [HP по классам](#3-hp-по-классам)
 4. [Атака и бой](#4-атака-и-бой)
@@ -75,7 +75,7 @@
 | `taunt` / `stealth` | Принуд. цель / скрытие от nearest |
 | `ruffle` → claw | 10 стаков → Claw Mode (FULL-SPEC §3.4) |
 
-### 1.4 Арты карт атак (batch 1–3)
+### 1.4 Арты карт атак (batch 1–4)
 
 Каталог файлов: `docs/attack-cards/` (в Project store зеркало: `media/attack-cards/`).  
 Папка на героя; имя файла = `attack_{templateId}_{part}.png`.
@@ -83,19 +83,23 @@
 | # | Герой | templateId | Папка | Есть арт |
 |---|---|---|---|---|
 | 1 | Танк A «Щит-утёс» | `shop_tank_stone_a` | [`01-tank-a-shit-utes`](attack-cards/01-tank-a-shit-utes/) | muzzle · headwear · back · tail |
-| 4 | Боец B «Двуручный» | `shop_fighter_fire_b` | [`04-fighter-b-dvuruchnyy`](attack-cards/04-fighter-b-dvuruchnyy/) | eyes · ears |
-| 5 | Ассасин A «Тень» | `shop_assassin_bolt_a` | [`05-assassin-a-ten`](attack-cards/05-assassin-a-ten/) | eyes · ears |
-| 6 | Ассасин B «Охотник тыла» | `shop_assassin_bolt_b` | [`06-assassin-b-ohotnik-tyla`](attack-cards/06-assassin-b-ohotnik-tyla/) | eyes · ears |
+| 2 | Танк B «Пробой» | `shop_tank_stone_b` | [`02-tank-b-proboy`](attack-cards/02-tank-b-proboy/) | muzzle · headwear · back · tail |
+| 3 | Боец A «Парные когти» | `shop_fighter_fire_a` | [`03-fighter-a-parnye-kogti`](attack-cards/03-fighter-a-parnye-kogti/) | muzzle · headwear · back · tail |
+| 4 | Боец B «Двуручный» | `shop_fighter_fire_b` | [`04-fighter-b-dvuruchnyy`](attack-cards/04-fighter-b-dvuruchnyy/) | eyes · ears · muzzle · headwear · back · tail |
+| 5 | Ассасин A «Тень» | `shop_assassin_bolt_a` | [`05-assassin-a-ten`](attack-cards/05-assassin-a-ten/) | eyes · ears · muzzle · headwear · back · tail |
+| 6 | Ассасин B «Охотник тыла» | `shop_assassin_bolt_b` | [`06-assassin-b-ohotnik-tyla`](attack-cards/06-assassin-b-ohotnik-tyla/) | eyes · ears · muzzle · headwear · back · tail |
 | 7 | Стрелок A «Охотник» | `shop_ranger_grass_a` | [`07-ranger-a-ohotnik`](attack-cards/07-ranger-a-ohotnik/) | eyes · ears · muzzle · headwear · back · tail |
 | 8 | Стрелок B «Град стрел» | `shop_ranger_grass_b` | [`08-ranger-b-grad-strel`](attack-cards/08-ranger-b-grad-strel/) | eyes · ears · muzzle · headwear · back · tail |
-| 9 | Маг A «Огонь» | `shop_mage_fire_a` | [`09-mage-a-ogon`](attack-cards/09-mage-a-ogon/) | eyes · ears · headwear · back · tail (**нет** muzzle) |
+| 9 | Маг A «Огонь» | `shop_mage_fire_a` | [`09-mage-a-ogon`](attack-cards/09-mage-a-ogon/) | eyes · ears · headwear · back · tail (**нет** muzzle «Огненный круг») |
 | 10 | Маг B «Лёд» | `shop_mage_ice_b` | [`10-mage-b-led`](attack-cards/10-mage-b-led/) | eyes · ears · muzzle · headwear · back · tail |
-| 11 | Саппорт A «Чистый родник» | `shop_support_water_a` | [`11-support-a-chistyy-rodnik`](attack-cards/11-support-a-chistyy-rodnik/) | eyes · ears |
+| 11 | Саппорт A «Чистый родник» | `shop_support_water_a` | [`11-support-a-chistyy-rodnik`](attack-cards/11-support-a-chistyy-rodnik/) | eyes · ears (**нет** N=4 kit) |
 | 12 | Саппорт B «Прилив силы» | `shop_support_water_b` | [`12-support-b-priliv-sily`](attack-cards/12-support-b-priliv-sily/) | eyes · ears · muzzle · headwear · back · tail |
+
+**Аудит после batch 4:** у всех 12 героев есть своя папка. Полный N=4 kit есть у **10/12**. Дыры: Маг A — нет `muzzle`; Саппорт A — нет muzzle/headwear/back/tail. Eyes/ears proposal: нет у Танк A/B и Боец A.
 
 Текст на артах = playable numbers (масштаб HP §3). Eyes/ears — proposal `docs/stitch-prompts-eyes-ears-active.md` (ещё не SSOT N=6).
 
-#### Танк A «Щит-утёс» *(batch 3)*
+#### Танк A «Щит-утёс»
 
 | Part | Карта | cost | Эффект на арте |
 |---|---|---|---|
@@ -112,16 +116,62 @@
 
 ![Хвост-утёс](attack-cards/01-tank-a-shit-utes/attack_shop_tank_stone_a_tail.png)
 
+#### Танк B «Пробой» *(batch 4)*
+
+| Part | Карта | cost | Эффект на арте |
+|---|---|---|---|
+| muzzle | Пробой когтем | 1 | 5 nearest · хрупкость 2 · Пробой |
+| headwear | Щит-осколок | 1 | shield 6 · таунт 2 |
+| back | Бронелом | 1 | 5 nearest · Пробой |
+| tail | Хвост-пробой | 2 | 5 тыл · пробой · хрупкость 1 |
+
+![Пробой когтем](attack-cards/02-tank-b-proboy/attack_shop_tank_stone_b_muzzle.png)
+
+![Щит-осколок](attack-cards/02-tank-b-proboy/attack_shop_tank_stone_b_headwear.png)
+
+![Бронелом](attack-cards/02-tank-b-proboy/attack_shop_tank_stone_b_back.png)
+
+![Хвост-пробой](attack-cards/02-tank-b-proboy/attack_shop_tank_stone_b_tail.png)
+
+#### Боец A «Парные когти» *(batch 4)*
+
+| Part | Карта | cost | Эффект на арте |
+|---|---|---|---|
+| muzzle | Парный укус | 1 | 3 ×2 · крит · взъерошить |
+| headwear | Искры-когти | 1 | 3 ×2 · взъерошить |
+| back | Критовсечь | 1 | 4 nearest · крит · взъерошить |
+| tail | Двойной хлыст | 2 | 3 ×2 тыл · крит |
+
+![Парный укус](attack-cards/03-fighter-a-parnye-kogti/attack_shop_fighter_fire_a_muzzle.png)
+
+![Искры-когти](attack-cards/03-fighter-a-parnye-kogti/attack_shop_fighter_fire_a_headwear.png)
+
+![Критовсечь](attack-cards/03-fighter-a-parnye-kogti/attack_shop_fighter_fire_a_back.png)
+
+![Двойной хлыст](attack-cards/03-fighter-a-parnye-kogti/attack_shop_fighter_fire_a_tail.png)
+
 #### Боец B «Двуручный»
 
 | Part | Карта | cost | Эффект на арте |
 |---|---|---|---|
 | eyes | Яростный взор | 2 | 8 nearest · кровотечение 2 · Порез |
 | ears | Рёв стали | 1 | 5 nearest · хрупкость 1 · кровотечение 1 · Увечье/Порез |
+| muzzle | Двуручный удар | 2 | 9 nearest · взъерошить *(batch 4)* |
+| headwear | Тяжёлый оскал | 1 | 7 nearest · взъерошить ×2 *(batch 4)* |
+| back | Молот жара | 2 | 11 nearest *(batch 4)* |
+| tail | Тяжёлый хлыст | 2 | 8 тыл · взъерошить *(batch 4)* |
 
 ![Яростный взор](attack-cards/04-fighter-b-dvuruchnyy/attack_shop_fighter_fire_b_eyes.png)
 
 ![Рёв стали](attack-cards/04-fighter-b-dvuruchnyy/attack_shop_fighter_fire_b_ears.png)
+
+![Двуручный удар](attack-cards/04-fighter-b-dvuruchnyy/attack_shop_fighter_fire_b_muzzle.png)
+
+![Тяжёлый оскал](attack-cards/04-fighter-b-dvuruchnyy/attack_shop_fighter_fire_b_headwear.png)
+
+![Молот жара](attack-cards/04-fighter-b-dvuruchnyy/attack_shop_fighter_fire_b_back.png)
+
+![Тяжёлый хлыст](attack-cards/04-fighter-b-dvuruchnyy/attack_shop_fighter_fire_b_tail.png)
 
 #### Ассасин A «Тень»
 
@@ -129,10 +179,22 @@
 |---|---|---|---|
 | eyes | Глаза мглы | 1 | 3 nearest · стан 1 |
 | ears | Шёпот ветра | 1 | 4 nearest · яд 2 |
+| muzzle | Теневой укус | 1 | 3 nearest · крит *(batch 4)* |
+| headwear | Ускользнуть | 1 | стелс 1 на себя *(batch 4)* |
+| back | Крит из тени | 1 | 6 nearest · крит *(batch 4)* |
+| tail | Исчезновение | 2 | 5 nearest · крит · стелс 1 *(batch 4)* |
 
 ![Глаза мглы](attack-cards/05-assassin-a-ten/attack_shop_assassin_bolt_a_eyes.png)
 
 ![Шёпот ветра](attack-cards/05-assassin-a-ten/attack_shop_assassin_bolt_a_ears.png)
+
+![Теневой укус](attack-cards/05-assassin-a-ten/attack_shop_assassin_bolt_a_muzzle.png)
+
+![Ускользнуть](attack-cards/05-assassin-a-ten/attack_shop_assassin_bolt_a_headwear.png)
+
+![Крит из тени](attack-cards/05-assassin-a-ten/attack_shop_assassin_bolt_a_back.png)
+
+![Исчезновение](attack-cards/05-assassin-a-ten/attack_shop_assassin_bolt_a_tail.png)
 
 #### Ассасин B «Охотник тыла»
 
@@ -140,10 +202,22 @@
 |---|---|---|---|
 | eyes | Прицел в спину | 1 | 4 тыл · крит · яд 2 |
 | ears | Слух поддержки | 1 | 3 тыл · стан 1 |
+| muzzle | Укол в тыл | 1 | 5 тыл · крит *(batch 4)* |
+| headwear | Тихий разряд | 1 | 4 тыл · крит *(batch 4)* |
+| back | Пронзить тыл | 1 | 6 тыл *(batch 4)* |
+| tail | Казнь сзади | 2 | 7 тыл · крит *(batch 4)* |
 
 ![Прицел в спину](attack-cards/06-assassin-b-ohotnik-tyla/attack_shop_assassin_bolt_b_eyes.png)
 
 ![Слух поддержки](attack-cards/06-assassin-b-ohotnik-tyla/attack_shop_assassin_bolt_b_ears.png)
+
+![Укол в тыл](attack-cards/06-assassin-b-ohotnik-tyla/attack_shop_assassin_bolt_b_muzzle.png)
+
+![Тихий разряд](attack-cards/06-assassin-b-ohotnik-tyla/attack_shop_assassin_bolt_b_headwear.png)
+
+![Пронзить тыл](attack-cards/06-assassin-b-ohotnik-tyla/attack_shop_assassin_bolt_b_back.png)
+
+![Казнь сзади](attack-cards/06-assassin-b-ohotnik-tyla/attack_shop_assassin_bolt_b_tail.png)
 
 #### Стрелок A «Охотник»
 
@@ -578,6 +652,6 @@ Premium **yarn** остаётся IAP; «Мифиус» не покупаетс�
 | Formation | store `docs/formation-targeting.md` |
 | Starter | store `docs/starter-pack.md` |
 | Prefs | store `preferences.md` |
-| Арты карт (batch 1–3) | `docs/attack-cards/` · store `media/attack-cards/` |
+| Арты карт (batch 1–4) | `docs/attack-cards/` · store `media/attack-cards/` |
 
 База знаний (HUD `codex`): статья «Полная вики правил» → этот файл.
