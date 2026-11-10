@@ -5,164 +5,194 @@
   "bowlCost": 0,
   "enemyTeam": [
     {
-      "templateId": "bot_grass_dummy_tank_practice",
+      "templateId": "bot_practice_tank_a",
       "role": "tank",
-      "element": "grass",
+      "element": "stone",
       "level": 1,
       "baseStats": {
-        "hp": 15,
-        "atk": 2,
+        "hp": 28,
+        "atk": 3,
         "spd": 2,
         "skill": 1,
         "charm": 1
       },
       "deck": [
         {
-          "cardId": "card_bot_nibble",
-          "name_key": "card.bot_nibble",
-          "element": "grass",
-          "cost": 1,
-          "atk": 3,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack"
-          ],
-          "effectOps": []
-        },
-        {
-          "cardId": "card_bot_shell",
-          "name_key": "card.bot_shell",
-          "element": "grass",
           "cost": 1,
           "atk": 0,
-          "shield": 3,
+          "shield": 8,
+          "hits": 0,
+          "targetRule": "self",
+          "tags": [
+            "shield",
+            "taunt"
+          ],
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "taunt",
+              "stacks": 1,
+              "duration": 2
+            }
+          ],
+          "cardId": "card_shop_tank_stone_a_muzzle",
+          "name_key": "card.shop_tank_stone_a_muzzle",
+          "roleGate": "tank",
+          "element": "stone"
+        },
+        {
+          "cost": 1,
+          "atk": 0,
+          "shield": 10,
           "hits": 0,
           "targetRule": "self",
           "tags": [
             "shield"
           ],
-          "effectOps": []
+          "effectOps": [],
+          "cardId": "card_shop_tank_stone_a_headwear",
+          "name_key": "card.shop_tank_stone_a_headwear",
+          "roleGate": "tank",
+          "element": "stone"
         },
         {
-          "cardId": "card_bot_nibble2",
-          "name_key": "card.bot_nibble2",
-          "element": "grass",
           "cost": 1,
-          "atk": 3,
+          "atk": 0,
+          "shield": 9,
+          "hits": 0,
+          "targetRule": "self",
+          "tags": [
+            "shield",
+            "taunt"
+          ],
+          "effectOps": [],
+          "cardId": "card_shop_tank_stone_a_back",
+          "name_key": "card.shop_tank_stone_a_back",
+          "roleGate": "tank",
+          "element": "stone"
+        },
+        {
+          "cost": 1,
+          "atk": 4,
           "shield": 0,
           "hits": 1,
           "targetRule": "nearest",
           "tags": [
-            "attack"
+            "attack",
+            "taunt"
           ],
-          "effectOps": []
-        },
-        {
-          "cardId": "card_bot_shell2",
-          "name_key": "card.bot_shell2",
-          "element": "grass",
-          "cost": 1,
-          "atk": 0,
-          "shield": 3,
-          "hits": 0,
-          "targetRule": "self",
-          "tags": [
-            "shield"
-          ],
-          "effectOps": []
+          "effectOps": [],
+          "cardId": "card_shop_tank_stone_a_tail",
+          "name_key": "card.shop_tank_stone_a_tail",
+          "roleGate": "tank",
+          "element": "stone"
         }
       ]
     },
     {
-      "templateId": "bot_grass_dummy_fighter_practice",
+      "templateId": "bot_practice_fighter_a",
       "role": "fighter",
-      "element": "grass",
+      "element": "fire",
       "level": 1,
       "baseStats": {
-        "hp": 11,
-        "atk": 3,
+        "hp": 22,
+        "atk": 5,
         "spd": 4,
         "skill": 1,
         "charm": 1
       },
       "deck": [
         {
-          "cardId": "card_bot_scratch",
-          "name_key": "card.bot_scratch",
-          "element": "grass",
           "cost": 1,
-          "atk": 4,
+          "atk": 3,
           "shield": 0,
-          "hits": 1,
+          "hits": 2,
           "targetRule": "nearest",
           "tags": [
-            "attack"
+            "attack",
+            "ruffle",
+            "crit"
           ],
-          "effectOps": []
+          "effectOps": [],
+          "cardId": "card_shop_fighter_fire_a_muzzle",
+          "name_key": "card.shop_fighter_fire_a_muzzle",
+          "roleGate": "fighter",
+          "element": "fire"
         },
         {
-          "cardId": "card_bot_scratch2",
-          "name_key": "card.bot_scratch2",
-          "element": "grass",
           "cost": 1,
-          "atk": 4,
+          "atk": 3,
           "shield": 0,
-          "hits": 1,
+          "hits": 2,
           "targetRule": "nearest",
           "tags": [
-            "attack"
+            "attack",
+            "ruffle"
           ],
-          "effectOps": []
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "ruffle",
+              "stacks": 1,
+              "duration": 99
+            }
+          ],
+          "cardId": "card_shop_fighter_fire_a_headwear",
+          "name_key": "card.shop_fighter_fire_a_headwear",
+          "roleGate": "fighter",
+          "element": "fire"
         },
         {
-          "cardId": "card_bot_scratch3",
-          "name_key": "card.bot_scratch3",
-          "element": "grass",
           "cost": 1,
           "atk": 4,
           "shield": 0,
           "hits": 1,
           "targetRule": "nearest",
           "tags": [
-            "attack"
+            "attack",
+            "crit",
+            "ruffle"
           ],
-          "effectOps": []
+          "effectOps": [],
+          "cardId": "card_shop_fighter_fire_a_back",
+          "name_key": "card.shop_fighter_fire_a_back",
+          "roleGate": "fighter",
+          "element": "fire"
         },
         {
-          "cardId": "card_bot_scratch4",
-          "name_key": "card.bot_scratch4",
-          "element": "grass",
-          "cost": 1,
-          "atk": 4,
-          "hits": 1,
+          "cost": 2,
+          "atk": 3,
           "shield": 0,
-          "targetRule": "nearest",
+          "hits": 2,
+          "targetRule": "backline",
           "tags": [
-            "attack"
+            "attack",
+            "ruffle",
+            "backline",
+            "crit"
           ],
-          "effectOps": []
+          "effectOps": [],
+          "cardId": "card_shop_fighter_fire_a_tail",
+          "name_key": "card.shop_fighter_fire_a_tail",
+          "roleGate": "fighter",
+          "element": "fire"
         }
       ]
     },
     {
-      "templateId": "bot_grass_dummy_support_practice",
+      "templateId": "bot_practice_support_a",
       "role": "support",
-      "element": "grass",
+      "element": "water",
       "level": 1,
       "baseStats": {
-        "hp": 10,
-        "atk": 1,
+        "hp": 18,
+        "atk": 2,
         "spd": 3,
         "skill": 2,
         "charm": 2
       },
       "deck": [
         {
-          "cardId": "card_bot_sip",
-          "name_key": "card.bot_sip",
-          "element": "grass",
           "cost": 1,
           "atk": 0,
           "shield": 0,
@@ -174,33 +204,44 @@
           "effectOps": [
             {
               "op": "heal",
-              "amount": 3
+              "amount": 5
             }
-          ]
-        },
-        {
-          "cardId": "card_bot_poke",
-          "name_key": "card.bot_poke",
-          "element": "grass",
-          "cost": 1,
-          "atk": 2,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack"
           ],
-          "effectOps": []
+          "cardId": "card_shop_support_water_a_muzzle",
+          "name_key": "card.shop_support_water_a_muzzle",
+          "roleGate": "support",
+          "element": "water"
         },
         {
-          "cardId": "card_bot_sip2",
-          "name_key": "card.bot_sip2",
-          "element": "grass",
           "cost": 1,
           "atk": 0,
           "shield": 0,
           "hits": 0,
           "targetRule": "ally_lowest_hp",
+          "tags": [
+            "heal",
+            "cleanse"
+          ],
+          "effectOps": [
+            {
+              "op": "heal",
+              "amount": 4
+            },
+            {
+              "op": "cleanse"
+            }
+          ],
+          "cardId": "card_shop_support_water_a_headwear",
+          "name_key": "card.shop_support_water_a_headwear",
+          "roleGate": "support",
+          "element": "water"
+        },
+        {
+          "cost": 2,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "ally_all",
           "tags": [
             "heal"
           ],
@@ -209,26 +250,41 @@
               "op": "heal",
               "amount": 3
             }
-          ]
+          ],
+          "cardId": "card_shop_support_water_a_back",
+          "name_key": "card.shop_support_water_a_back",
+          "roleGate": "support",
+          "element": "water"
         },
         {
-          "cardId": "card_bot_poke2",
-          "name_key": "card.bot_poke2",
-          "element": "grass",
           "cost": 1,
-          "atk": 2,
+          "atk": 0,
           "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
+          "hits": 0,
+          "targetRule": "ally_lowest_hp",
           "tags": [
-            "attack"
+            "heal",
+            "cleanse"
           ],
-          "effectOps": []
+          "effectOps": [
+            {
+              "op": "heal",
+              "amount": 4
+            },
+            {
+              "op": "cleanse"
+            }
+          ],
+          "cardId": "card_shop_support_water_a_tail",
+          "name_key": "card.shop_support_water_a_tail",
+          "roleGate": "support",
+          "element": "water"
         }
       ]
     }
   ],
   "meta": {
-    "mode": "practice"
+    "mode": "practice",
+    "decks": "shop_attack_cards_a"
   }
 }

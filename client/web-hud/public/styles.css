@@ -2851,7 +2851,25 @@ body:has(#viewPracticeFight:not(.hidden)) #app {
   border-radius: 0.75rem;
   padding: 0.35rem 0.4rem;
   cursor: pointer;
+  overflow: hidden;
 }
+#viewPracticeFight .pf-card.pf-card-art {
+  flex: 0 0 9.5rem;
+  padding: 0;
+  background: #231f1c;
+}
+#viewPracticeFight .pf-card.pf-card-art img {
+  display: block;
+  width: 100%;
+  height: 7rem;
+  object-fit: cover;
+  object-position: top;
+}
+#viewPracticeFight .pf-card.pf-card-art b,
+#viewPracticeFight .pf-card.pf-card-art span {
+  padding: 0.25rem 0.45rem 0;
+}
+#viewPracticeFight .pf-card.pf-card-art span { padding-bottom: 0.35rem; }
 #viewPracticeFight .pf-card b { display: block; font-size: 12px; color: #fdba45; }
 #viewPracticeFight .pf-card span { display: block; font-size: 10px; color: #d5c4af; }
 #viewPracticeFight .pf-card:disabled { opacity: 0.45; cursor: default; }
