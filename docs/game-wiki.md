@@ -8,7 +8,7 @@
 
 ## Оглавление
 
-1. [Скиллы и пассивы 12 героев](#1-скиллы-и-пассивы-12-героев) · [§1.4 арты карт batch 1–4](#14-арты-карт-атак-batch-1-4)
+1. [Скиллы и пассивы 12 героев](#1-скиллы-и-пассивы-12-героев) · [§1.4 арты карт batch 1–5](#14-арты-карт-атак-batch-1-5)
 2. [Двор — добыча ресурсов](#2-двор--добыча-ресурсов)
 3. [HP по классам](#3-hp-по-классам)
 4. [Атака и бой](#4-атака-и-бой)
@@ -75,7 +75,7 @@
 | `taunt` / `stealth` | Принуд. цель / скрытие от nearest |
 | `ruffle` → claw | 10 стаков → Claw Mode (FULL-SPEC §3.4) |
 
-### 1.4 Арты карт атак (batch 1–4)
+### 1.4 Арты карт атак (batch 1–5)
 
 Каталог файлов: `docs/attack-cards/` (в Project store зеркало: `media/attack-cards/`).  
 Папка на героя; имя файла = `attack_{templateId}_{part}.png`.
@@ -90,12 +90,12 @@
 | 6 | Ассасин B «Охотник тыла» | `shop_assassin_bolt_b` | [`06-assassin-b-ohotnik-tyla`](attack-cards/06-assassin-b-ohotnik-tyla/) | eyes · ears · muzzle · headwear · back · tail |
 | 7 | Стрелок A «Охотник» | `shop_ranger_grass_a` | [`07-ranger-a-ohotnik`](attack-cards/07-ranger-a-ohotnik/) | eyes · ears · muzzle · headwear · back · tail |
 | 8 | Стрелок B «Град стрел» | `shop_ranger_grass_b` | [`08-ranger-b-grad-strel`](attack-cards/08-ranger-b-grad-strel/) | eyes · ears · muzzle · headwear · back · tail |
-| 9 | Маг A «Огонь» | `shop_mage_fire_a` | [`09-mage-a-ogon`](attack-cards/09-mage-a-ogon/) | eyes · ears · headwear · back · tail (**нет** muzzle «Огненный круг») |
+| 9 | Маг A «Огонь» | `shop_mage_fire_a` | [`09-mage-a-ogon`](attack-cards/09-mage-a-ogon/) | eyes · ears · muzzle · headwear · back · tail |
 | 10 | Маг B «Лёд» | `shop_mage_ice_b` | [`10-mage-b-led`](attack-cards/10-mage-b-led/) | eyes · ears · muzzle · headwear · back · tail |
-| 11 | Саппорт A «Чистый родник» | `shop_support_water_a` | [`11-support-a-chistyy-rodnik`](attack-cards/11-support-a-chistyy-rodnik/) | eyes · ears (**нет** N=4 kit) |
+| 11 | Саппорт A «Чистый родник» | `shop_support_water_a` | [`11-support-a-chistyy-rodnik`](attack-cards/11-support-a-chistyy-rodnik/) | eyes · ears · muzzle · headwear · back · tail |
 | 12 | Саппорт B «Прилив силы» | `shop_support_water_b` | [`12-support-b-priliv-sily`](attack-cards/12-support-b-priliv-sily/) | eyes · ears · muzzle · headwear · back · tail |
 
-**Аудит после batch 4:** у всех 12 героев есть своя папка. Полный N=4 kit есть у **10/12**. Дыры: Маг A — нет `muzzle`; Саппорт A — нет muzzle/headwear/back/tail. Eyes/ears proposal: нет у Танк A/B и Боец A.
+**Аудит после batch 5:** у всех 12 героев есть папка и полный **N=4 kit**. Eyes/ears proposal ещё нет у Танк A/B и Боец A.
 
 Текст на артах = playable numbers (масштаб HP §3). Eyes/ears — proposal `docs/stitch-prompts-eyes-ears-active.md` (ещё не SSOT N=6).
 
@@ -269,8 +269,9 @@
 
 | Part | Карта | cost | Эффект на арте |
 |---|---|---|---|
-| eyes | Пламенный зрачок | 1 | 4 nearest · уязвимость 1 *(batch 2)* |
-| ears | Треск искр | 1 | 5 nearest · крит · слабость 1 *(batch 2)* |
+| eyes | Пламенный зрачок | 1 | 4 nearest · уязвимость 1 |
+| ears | Треск искр | 1 | 5 nearest · крит · слабость 1 |
+| muzzle | Огненный круг | 2 | 3 всем · слабость 1 · AoE *(batch 5)* |
 | headwear | Искра-крит | 1 | 4 nearest · крит |
 | back | Волна жара | 2 | 3 всем · крит · AoE |
 | tail | Ожог тыла | 1 | 5 тыл · уязвимость 1 |
@@ -278,6 +279,8 @@
 ![Пламенный зрачок](attack-cards/09-mage-a-ogon/attack_shop_mage_fire_a_eyes.png)
 
 ![Треск искр](attack-cards/09-mage-a-ogon/attack_shop_mage_fire_a_ears.png)
+
+![Огненный круг](attack-cards/09-mage-a-ogon/attack_shop_mage_fire_a_muzzle.png)
 
 ![Искра-крит](attack-cards/09-mage-a-ogon/attack_shop_mage_fire_a_headwear.png)
 
@@ -308,16 +311,28 @@
 
 ![Заморозка тыла](attack-cards/10-mage-b-led/attack_shop_mage_ice_b_tail.png)
 
-#### Саппорт A «Чистый родник» *(batch 3)*
+#### Саппорт A «Чистый родник»
 
 | Part | Карта | cost | Эффект на арте |
 |---|---|---|---|
 | eyes | Целительный взгляд | 1 | heal 6 ally_lowest_hp |
 | ears | Уши очищения | 1 | heal 3 ally_lowest_hp · очищение ×2 |
+| muzzle | Капля жизни | 1 | heal 5 слабейшему союзнику *(batch 5)* |
+| headwear | Чистый родник | 1 | heal 4 · снимает 1 дебафф *(batch 5)* |
+| back | Волна опеки | 2 | heal 3 всем союзникам *(batch 5)* |
+| tail | Очищение | 1 | heal 4 · снимает 1 дебафф *(batch 5)* |
 
 ![Целительный взгляд](attack-cards/11-support-a-chistyy-rodnik/attack_shop_support_water_a_eyes.png)
 
 ![Уши очищения](attack-cards/11-support-a-chistyy-rodnik/attack_shop_support_water_a_ears.png)
+
+![Капля жизни](attack-cards/11-support-a-chistyy-rodnik/attack_shop_support_water_a_muzzle.png)
+
+![Чистый родник](attack-cards/11-support-a-chistyy-rodnik/attack_shop_support_water_a_headwear.png)
+
+![Волна опеки](attack-cards/11-support-a-chistyy-rodnik/attack_shop_support_water_a_back.png)
+
+![Очищение](attack-cards/11-support-a-chistyy-rodnik/attack_shop_support_water_a_tail.png)
 
 #### Саппорт B «Прилив силы»
 
@@ -652,6 +667,6 @@ Premium **yarn** остаётся IAP; «Мифиус» не покупаетс�
 | Formation | store `docs/formation-targeting.md` |
 | Starter | store `docs/starter-pack.md` |
 | Prefs | store `preferences.md` |
-| Арты карт (batch 1–4) | `docs/attack-cards/` · store `media/attack-cards/` |
+| Арты карт (batch 1–5) | `docs/attack-cards/` · store `media/attack-cards/` |
 
 База знаний (HUD `codex`): статья «Полная вики правил» → этот файл.
