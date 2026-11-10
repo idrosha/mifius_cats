@@ -1455,6 +1455,10 @@ body:has(#viewHome:not(.hidden)) #app {
 }
 #viewHome .grid.grid-cols-12 {
   min-height: 0;
+  min-width: 0;
+}
+#viewHome .grid.grid-cols-12 > [class*="col-span"] {
+  min-width: 0;
 }
 #viewHome img {
   max-width: 100%;
@@ -1463,17 +1467,33 @@ body:has(#viewHome:not(.hidden)) #app {
   border-style: dashed !important;
   opacity: 0.65;
 }
-#viewHome .home-equip-ico {
+/* Enlarge ONLY mannequin gear chips — never inventory bag cells or deck cards */
+#viewHome #homeGearOverlay .home-equip-ico {
   width: 7rem;
   height: 7rem;
   min-width: 7rem;
   min-height: 7rem;
+  flex: 0 0 7rem;
+}
+#viewHome #homeBagGrid .home-equip-ico,
+#viewHome #homeBagGrid [data-home-bag-item] {
+  width: auto;
+  min-width: 0;
 }
 #viewHome .home-equip-slot[data-home-slot="helm"] {
   top: 0.35rem !important;
   right: 0.35rem !important;
   left: auto !important;
   z-index: 25;
+}
+/* Battle deck stays full-width below the 3-col workbench */
+#viewHome > main > div.flex.flex-col > .w-full.bg-surface-container {
+  width: 100%;
+  min-width: 0;
+  flex: 0 0 auto;
+}
+#viewHome > main > div.flex.flex-col > .w-full.bg-surface-container .grid {
+  min-width: 0;
 }
 #viewHome [data-home-bag-item].is-worn {
   outline: 1px solid #89d98c;
