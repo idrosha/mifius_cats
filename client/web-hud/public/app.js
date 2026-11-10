@@ -2853,9 +2853,172 @@ function renderBarn() {
   }
 }
 
+const HOME_STITCH_DEFAULTS = {
+  weapon: "weapon_perun",
+  helm: "helm_storm",
+  armor: "armor_thunder",
+  amulet: "amulet_wool",
+  belt: "belt_wool",
+  ring: "ring_storm",
+  boots: "boots_soft_pads",
+  offhand: "offhand_claw",
+};
+
+const HOME_SLOT_LABEL = {
+  weapon_perun: "Кинжал Перуна",
+  helm_storm: "Шлем Бури",
+  armor_thunder: "Кираса Саламандры",
+  amulet_wool: "Ошейник Сапфира",
+  belt_wool: "Пояс Исследователя",
+  ring_storm: "Перстень Солнца",
+  boots_soft_pads: "Мягкие Сапожки",
+  offhand_claw: "Бубенец Удачи",
+  weapon_cleaver: "Огненный Тесак",
+  helm_grey_cap: "Шлем Охотника",
+  armor_green_mail: "Теневой Плащ",
+};
+
+function homeActiveCat() {
+  const cats = (state.profile?.cats || []).filter((c) => c.role !== "farm");
+  const cat =
+    cats.find((c) => c.catId === state.selectedCatId) ||
+    cats.find((c) => c.templateId === "starter_fighter_fire") ||
+    cats[0];
+  if (cat) state.selectedCatId = cat.catId;
+  return cat || null;
+}
+
+function ensureHomeStitchLoadout(catId) {
+  if (!catId) return;
+  if (!state.equippedByCat[catId]) state.equippedByCat[catId] = emptyEquipSlots();
+  if (state.homeSeededEquip?.[catId]) return;
+  const eq = state.equippedByCat[catId];
+  const any = HOME_SLOT_ORDER.some((slot) => eq[slot]);
+  if (!any) {
+    for (const [slot, id] of Object.entries(HOME_STITCH_DEFAULTS)) {
+      if (state.gearCatalog.some((g) => g.id === id)) eq[slot] = id;
+    }
+  }
+  state.homeSeededEquip = { ...(state.homeSeededEquip || {}), [catId]: true };
+}
+
+function homeRarityTone(rarity) {
+  if (rarity === "mythic") return { border: "border-primary/40", glow: "shadow-[0_0_18px_rgba(253,186,69,0.45)]", tag: "text-primary", pill: "bg-primary text-on-primary", label: "Миф" };
+  if (rarity === "epic") return { border: "border-tertiary/40", glow: "shadow-[0_0_14px_rgba(255,180,166,0.35)]", tag: "text-tertiary", pill: "bg-tertiary-container text-on-tertiary-container", label: "Эпик" };
+  if (rarity === "rare") return { border: "border-secondary/40", glow: "shadow-[0_0_14px_rgba(137,217,140,0.35)]", tag: "text-secondary", pill: "bg-secondary-container text-on-secondary-container", label: "Редк" };
+  return { border: "border-outline-variant/40", glow: "", tag: "text-on-surface-variant", pill: "bg-surface-container-highest text-on-surface", label: "Обыч" };
+}
+
+function syncHomeEquipDom(catId) {
+  const root = $("viewHome");
+  if (!root) return;
+  const eq = state.equippedByCat[catId] || emptyEquipSlots();
+  let worn = 0;
+  root.querySelectorAll(".home-equip-slot").forEach((btn) => {
+    const slot = btn.getAttribute("data-home-slot");
+    const itemId = eq[slot] || null;
+    const ico = btn.querySelector(".home-equip-ico");
+    const img = ico?.querySelector("img");
+    const plus = ico?.querySelector('span[class*="-top-2"]');
+    const tag = ico?.querySelector('span[class*="-bottom-2"]');
+    const nameEl = btn.querySelector(".font-label-sm");
+    const wornEl = btn.querySelector(".font-body-sm");
+    if (!itemId) {
+      btn.classList.add("is-empty");
+      btn.removeAttribute("data-item-id");
+      btn.title = "Пусто";
+      if (img) {
+        img.removeAttribute("src");
+        img.alt = HOME_SLOT_RU[slot] || slot;
+        img.classList.add("opacity-30");
+      }
+      if (plus) plus.classList.add("hidden");
+      if (tag) tag.classList.add("hidden");
+      if (nameEl) nameEl.textContent = HOME_SLOT_RU[slot] || slot;
+      if (wornEl) wornEl.textContent = "Пусто";
+      if (ico) ico.classList.add("opacity-60", "border-dashed");
+      return;
+    }
+    worn += 1;
+    const item = state.gearCatalog.find((g) => g.id === itemId);
+    const tone = homeRarityTone(item?.rarity || "common");
+    const label = HOME_SLOT_LABEL[itemId] || item?.name || itemId;
+    btn.classList.remove("is-empty");
+    btn.setAttribute("data-item-id", itemId);
+    btn.title = "Снять";
+    if (img) {
+      img.src = item?.iconSrc || "/stitch-assets/barn-icons/dagger.png";
+      img.alt = label;
+      img.classList.remove("opacity-30");
+    }
+    if (plus) {
+      plus.classList.remove("hidden");
+      plus.textContent = item?.enhance ? `+${item.enhance}` : "";
+      if (!item?.enhance) plus.classList.add("hidden");
+    }
+    if (tag) {
+      tag.classList.remove("hidden");
+      tag.textContent = tone.label;
+    }
+    if (nameEl) nameEl.textContent = label;
+    if (wornEl) wornEl.textContent = "✓ Надето";
+    if (ico) ico.classList.remove("opacity-60", "border-dashed");
+  });
+  const countEl = root.querySelector("[data-purpose=\"equip-overlay\]")?.previousElementSibling
+    ? null
+    : null;
+  const gearBar = Array.from(root.querySelectorAll("span")).find((el) =>
+    /Вид Снаряжения/i.test(el.textContent || ""),
+  );
+  if (gearBar) gearBar.textContent = `Вид Снаряжения: ${worn}/8 Надето`;
+
+  root.querySelectorAll("[data-home-bag-item]").forEach((cell) => {
+    const id = cell.getAttribute("data-home-bag-item");
+    const on = Object.values(eq).includes(id);
+    cell.classList.toggle("is-worn", on);
+    cell.classList.toggle("opacity-50", on);
+    cell.title = on ? "Уже надето" : "Надеть";
+  });
+}
+
+function bindHomeEquipClicks() {
+  const root = $("viewHome");
+  if (!root || root.dataset.equipBound === "1") return;
+  root.dataset.equipBound = "1";
+  root.addEventListener("click", (event) => {
+    const cat = homeActiveCat();
+    if (!cat) return;
+    const slotBtn = event.target.closest(".home-equip-slot");
+    if (slotBtn && root.contains(slotBtn)) {
+      const slot = slotBtn.getAttribute("data-home-slot");
+      const wornId = state.equippedByCat[cat.catId]?.[slot];
+      if (!wornId) {
+        toast(`${HOME_SLOT_RU[slot] || slot}: пусто`);
+        return;
+      }
+      unequipSlot(cat.catId, slot);
+      return;
+    }
+    const bag = event.target.closest("[data-home-bag-item]");
+    if (bag && root.contains(bag)) {
+      const itemId = bag.getAttribute("data-home-bag-item");
+      const item = state.gearCatalog.find((g) => g.id === itemId);
+      if (!item) {
+        toast("Предмет не найден в каталоге");
+        return;
+      }
+      const worn = state.equippedByCat[cat.catId]?.[item.slot];
+      if (worn === itemId) {
+        toast(`${item.name}: уже надето`);
+        return;
+      }
+      equipItem(cat.catId, itemId);
+    }
+  });
+}
+
 function renderHome() {
-  // Exact Stitch character-stitch-v1 sheet is static markup.
-  // Keep hidden verify-nav hosts warm; do not rebuild the crooked desk.
+  // Stitch character sheet stays; sync large slot overlay + bag equip/unequip.
   const wallet = $("homeWallet");
   if (wallet) {
     const w = state.wallet || {};
@@ -2873,12 +3036,11 @@ function renderHome() {
     const count = (state.profile?.cats || []).length;
     user.innerHTML = `<b>Хранитель</b><span>${count} котов</span>`;
   }
-  const cats = (state.profile?.cats || []).filter((c) => c.role !== "farm");
-  const cat =
-    cats.find((c) => c.catId === state.selectedCatId) ||
-    cats.find((c) => c.templateId === "starter_fighter_fire") ||
-    cats[0];
-  if (cat) state.selectedCatId = cat.catId;
+  const cat = homeActiveCat();
+  if (!cat) return;
+  ensureHomeStitchLoadout(cat.catId);
+  bindHomeEquipClicks();
+  syncHomeEquipDom(cat.catId);
 }
 
 
