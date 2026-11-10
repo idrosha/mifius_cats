@@ -175,6 +175,45 @@ ok(
   fs.existsSync(path.join(PUBLIC, "stitch-assets", "manifest.json")) &&
     fs.readdirSync(path.join(PUBLIC, "stitch-assets")).filter((f) => f.endsWith(".jpg")).length >= 10,
 );
+{
+  const requiredBarnIcons = [
+    "boots.png",
+    "chest.png",
+    "collar.png",
+    "dagger.png",
+    "fish.png",
+    "fruit.png",
+    "guard.png",
+    "helmet.png",
+    "herbs.png",
+    "iron.png",
+    "milk.png",
+    "potions.png",
+    "ring.png",
+    "seeds.png",
+    "stone.png",
+    "veggies.png",
+    "wood.png",
+  ];
+  const barnDir = path.join(PUBLIC, "barn-icons");
+  const missing = requiredBarnIcons.filter((name) => {
+    const p = path.join(barnDir, name);
+    return !fs.existsSync(p) || fs.statSync(p).size < 1000;
+  });
+  const catalogSrcs = [...js.matchAll(/iconSrc:\s*"(\/barn-icons\/[^"]+)"/g)].map((m) => m[1]);
+  const brokenCatalog = catalogSrcs.filter((src) => {
+    const p = path.join(PUBLIC, src.replace(/^\//, ""));
+    return !fs.existsSync(p) || fs.statSync(p).size < 1000;
+  });
+  ok(
+    "barn-icons pack present (warehouse-icons-v2)",
+    missing.length === 0 && fs.existsSync(path.join(barnDir, "README.md")),
+  );
+  ok(
+    "barn/hero catalog iconSrc files exist under /barn-icons/",
+    catalogSrcs.length >= 20 && brokenCatalog.length === 0 && !js.includes("/stitch-assets/barn-icons/"),
+  );
+}
 ok(
   "public stitch-ref screenshots present",
   fs.existsSync(path.join(PUBLIC, "stitch-ref", "0268", "home.png")) &&
