@@ -437,71 +437,282 @@ const SHOP_STUB_ROWS = [
   { id: "battle_coin_gear", label: "Gear за battle coins", detail: "medals → shop", gated: true },
 ];
 
-/** Codex knowledge base — plain SL facts, no fluff. */
+/** Codex knowledge base — titles/bodies from docs/game-wiki.md where possible. */
+const CODEX_FILTERS = [
+  { id: "all", labelRu: "Все", labelEn: "All" },
+  { id: "mechanics", labelRu: "Механики", labelEn: "Mechanics" },
+  { id: "combat", labelRu: "Бой & PvP", labelEn: "Combat & PvP" },
+  { id: "gear", labelRu: "Экипировка", labelEn: "Gear" },
+];
+
 const CODEX_ENTRIES = [
   {
-    id: "game_wiki",
-    titleRu: "Полная вики правил",
-    titleEn: "Full rules wiki",
+    id: "class_sets",
+    filter: "gear",
+    icon: "shield_moon",
+    tagRu: "Экипировка",
+    tagEn: "Gear",
+    blurbRu: "Тиры P.1–P.8 и бонусы",
+    blurbEn: "Tiers P.1–P.8 and bonuses",
+    statusRu: "Изучается",
+    statusEn: "Studying",
+    titleRu: "Классовые сети и ранги брони",
+    titleEn: "Class nets and armor ranks",
     bodyRu:
-      "Единый свод: скиллы/пассивы 12 героев, Двор (анти-затоваривание), HP по классам, атака/крит×2/AoE 50%, ранги статов, алхимия/крафт XP, скрещивание + талисман +20%, экономика, Колизей (+10/−3, рейтинг на каждый из 8 рангов брони), мем-коин «Мифиус» (soft, не крипта). Полный текст: docs/game-wiki.md (репо) — этот кодекс держит краткое оглавление для HUD.",
+      "6 классов × 2 архетипа = 12 оружейных наборов. Броня открывается по рангу игрока R1→R8 (grey→mythic). Владение ≠ экип: сервер режет unequippable rarity. Полный арсенал даёт бонус к классовым навыкам.",
     bodyEn:
-      "Single rules pack: 12 hero skills/passives, Yard anti-glut, HP by class, attack/crit×2/AoE 50%, rank stats, alchemy/craft XP, breeding +20% talisman, economy, Coliseum (+10/−3, rating per 8 armor ranks), soft coin «Mifius» (not crypto). Full text: docs/game-wiki.md — this codex entry is the HUD TOC tip.",
+      "6 classes × 2 archetypes = 12 weapon kits. Armor unlocks by player rank R1→R8 (grey→mythic). Owned ≠ equippable. Full arsenal buffs class skills.",
+    mode: "arsenal",
   },
   {
-    id: "forms",
-    titleRu: "Основные экраны",
-    titleEn: "Main screens",
+    id: "formation",
+    filter: "combat",
+    icon: "groups",
+    tagRu: "Бой",
+    tagEn: "Combat",
+    blurbRu: "Танк → боец → тыл",
+    blurbEn: "Tank → fighter → rear",
+    titleRu: "Правила боевого строя 3v3",
+    titleEn: "3v3 formation rules",
     bodyRu:
-      "Вход → Хаб. Персонаж: экипировка, коллекция, кодекс; дом/ферма/крафт/скрещивание — tip «Подними ранг». Бои: Мифмир (карта+миссии), тренировка, строй 3v3, PvP после 3 побед, данжи, рейд. Торговля: таверна / магазин / рынок / аукцион. Гильдии: дом клана + бой гильдий. Пасс и рейтинги — отдельные вкладки.",
+      "Одно ядро PvP/PvE. Строй: танк → боец/ассасин → стрелок/маг/саппорт. Обычные атаки бьют спереди; часть карт бьёт в тыл/поддержку. Не ставь support/ranger/mage в авангард.",
     bodyEn:
-      "Login → Hub. Character: gear, collection, codex; home/farm/craft/breeding tip «rank up». Combat: Mythmir (map+missions), practice, 3v3 formation, PvP after 3 wins, dungeons, raid. Trade: tavern / shop / market / auction. Guilds: hall + guild battle. Pass and ratings are separate tabs.",
+      "One PvP/PvE core. Line: tank → fighter/assassin → ranger/mage/support. Basic hits front; some cards hit rear. Do not put support/ranger/mage in vanguard.",
   },
   {
-    id: "gather",
-    titleRu: "Добыча ресурсов",
-    titleEn: "Resource gathering",
+    id: "elements",
+    filter: "mechanics",
+    icon: "local_fire_department",
+    tagRu: "Стихии",
+    tagEn: "Elements",
+    blurbRu: "Огонь+Земля и синергии",
+    blurbEn: "Fire+Earth synergies",
+    titleRu: "Стихийный резонанс и синергии",
+    titleEn: "Elemental resonance and synergies",
     bodyRu:
-      "На soft launch глубокая ферма выключена (вкладка «Скоро»), но HUD показывает 10 зон усадьбы, включая Рыбную заводь. Семена, наживка, лопата/топор/кирка — на Рынке (stub). Pass ACTIVE даёт тумблеры автофермы (сбор+посев, алхимик, gather→кузнец). Сбор/крафт loop — post-SL / tip.",
+      "У каждого архетипа свой стихийный фокус. Пример танка-стража: Земля+Огонь — меньше периодического урона и выше стойкость к оглушению. Синергии отряда усиливают классовые навыки при полном сете.",
     bodyEn:
-      "Deep farm is off on soft launch (Soon tab), but HUD shows 10 estate zones including the fishing cove. Seeds, bait, shovel/axe/pick are Market stubs. Pass ACTIVE unlocks autofarm toggles (harvest+replant, alchemist, gather→blacksmith). Live crop/craft loop is post-SL / tip.",
+      "Each archetype has an elemental focus. Tank bastion example: Earth+Fire — less DoT and higher stun resist. Squad synergies buff class skills on a full set.",
   },
   {
-    id: "trade",
-    titleRu: "Торговля: магазин / рынок / аукцион / таверна",
-    titleEn: "Trade: shop / market / auction / tavern",
+    id: "forge",
+    filter: "gear",
+    icon: "hardware",
+    tagRu: "Крафт",
+    tagEn: "Craft",
+    blurbRu: "Заточка и гарантии",
+    blurbEn: "Enhance and pity",
+    titleRu: "Кузница: заточка и шансы",
+    titleEn: "Forge: enhance odds",
     bodyRu:
-      "Магазин — студия: IAP/пасс/рыбки, 12 ordinary котов, grey броня, breeding mats. Таверна — только молоко (лёд = HP после боя; бафф-молоко только PvE/данжи, не ranked). Рынок — семена, tools, продажа крафта, quick sell по цене сервера. Аукцион — лоты игроков по своей цене (коты, оружие/броня, ингредиенты); без денег и крипты. Зелья крафтеров — рынок/аукцион, не таверна.",
+      "Крафт даёт отдельный craft_xp. Заточка и инкрустация — в оружейной усадьбы. Гарантии боксов пасса: R1×6, green+blue×3, выше×1 на unlocked rank. Нельзя купить мгновенный skip до mythic за yarn.",
     bodyEn:
-      "Shop — studio: IAP/pass/fish, 12 ordinary cats, grey armor, breeding mats. Tavern — milk only (ice = post-fight HP; buff milk PvE/dungeons only, not ranked). Market — seeds, tools, craft sell, server-price quick sell. Auction — player lots at own price (cats, gear, ingredients); no cash/crypto. Craft potions → market/auction, not tavern.",
-  },
-  {
-    id: "battle",
-    titleRu: "Боевая система",
-    titleEn: "Battle system",
-    bodyRu:
-      "Пошаговый 3v3. Три линии: авангард / центр / тыл — не ставь support/ranger/mage вперёд. У каждого кота 4 карты; энергия растёт по ходам (сервер считает урон и награды). Победа — сбить всех врагов. Мифмир: миски. PvP: билеты после 3 побед. Данж «Архипёс»: 3 волны. Молоко-баффы запрещены в ranked.",
-    bodyEn:
-      "Turn-based 3v3. Three lanes: vanguard / center / rear — do not put support/ranger/mage in front. Four cards per cat; energy scales by turn (server owns damage/rewards). Win by clearing the enemy. Mythmir uses bowls. PvP tickets after 3 wins. Arch-Hound dungeon: 3 waves. Milk buffs banned in ranked.",
-  },
-  {
-    id: "guild_gvg",
-    titleRu: "Бой гильдий (GvG)",
-    titleEn: "Guild vs guild (GvG)",
-    bodyRu:
-      "Гильдия vs гильдия: 3–12 котов на сторону. На soft launch есть вход в HUD и правила; полный матчмейкинг и борд 4–12 — tip «Подними ранг» (флаг LiveOps). Размер 3 может идти через текущее ядро 3v3. Клан-босс (1 кот с игрока, общее HP) — отдельно, «Скоро».",
-    bodyEn:
-      "Guild vs guild: 3–12 cats per side. Soft launch has HUD entry + rules; full matchmaking and 4–12 boards tip «rank up» (LiveOps flag). Size 3 can reuse the 3v3 core. Clan boss (1 cat each, shared HP) is separate Soon content.",
+      "Craft grants separate craft_xp. Enhance/socket in the manor forge. Pass box pity: R1×6, green+blue×3, higher×1 per unlocked rank. No yarn skip to mythic.",
   },
   {
     id: "mythic_breed",
-    titleRu: "Мифики и скрещивание",
-    titleEn: "Mythics and breeding",
+    filter: "mechanics",
+    icon: "favorite",
+    tagRu: "Усадьба",
+    tagEn: "Estate",
+    blurbRu: "4 сильнейшие карты",
+    blurbEn: "4 strongest cards",
+    titleRu: "Питомник: наследование генов",
+    titleEn: "Nursery: gene inheritance",
     bodyRu:
-      "Главная цель: из обычных котов сделать мифических через питомник. Малый шанс мифика. У мифика ровно 4 карты — сильнейшие из смеси обоих родителей (пул до 8). Без безлимитного breeding: мифики редки. На soft launch экран есть, live breed — Phase 6 / tip «Подними ранг».",
+      "Главная цель: обычные → мифики (малый шанс). У мифика ровно 4 карты — сильнейшие из смеси родителей (пул до 8) плюс хвостовой пассив по роли. Без безлимитного breeding.",
     bodyEn:
-      "Core goal: turn ordinary cats into mythics via the nursery. Small mythic chance. A mythic keeps exactly 4 cards — the strongest from both parents (pool up to 8). No unlimited breeding: mythics stay scarce. Soft launch has the screen; live breed is Phase 6 / «rank up» tip.",
+      "Core goal: ordinary → mythics (small chance). A mythic keeps exactly 4 strongest parental cards (pool up to 8) plus a role tail passive. No unlimited breeding.",
   },
+  {
+    id: "gather",
+    filter: "mechanics",
+    icon: "agriculture",
+    tagRu: "Двор",
+    tagEn: "Yard",
+    blurbRu: "Дневные минимумы сбора",
+    blurbEn: "Daily gather floors",
+    titleRu: "Двор: добыча ресурсов",
+    titleEn: "Yard: resource gathering",
+    bodyRu:
+      "Дерево 2–3 / железо 2 / овощи·фрукты·травы ~1 ведро / рыба 3 в день. Инструменты изнашиваются ~неделю. Урожай портится ~2 дня. Pass ACTIVE → autofarm toggles (семена/bait/tools с Рынка).",
+    bodyEn:
+      "Wood 2–3 / iron 2 / veggies·fruit·herbs ~1 bucket / fish 3 per day. Tools wear ~1 week. Crops spoil ~2 days. Pass ACTIVE unlocks autofarm toggles.",
+  },
+  {
+    id: "battle",
+    filter: "combat",
+    icon: "swords",
+    tagRu: "Бой",
+    tagEn: "Combat",
+    blurbRu: "Crit ×2, AoE 50%",
+    blurbEn: "Crit ×2, AoE 50%",
+    titleRu: "Атака и боевое ядро",
+    titleEn: "Attack and battle core",
+    bodyRu:
+      "Ориентир hit ~100 HP по незащищённой цели равного ранга. Crit ×2. AoE вторичные = 50% hit. Life drain в бою запрещён. Post-fight HP — только молоко на льду в Таверне. Бафф-молоко не в ranked.",
+    bodyEn:
+      "Baseline hit ~100 HP vs equal unprotected target. Crit ×2. AoE secondaries = 50% hit. No in-fight life drain. Post-fight HP only via iced milk. Buff milk banned in ranked.",
+  },
+  {
+    id: "pvp",
+    filter: "combat",
+    icon: "sports_kabaddi",
+    tagRu: "PvP",
+    tagEn: "PvP",
+    blurbRu: "+10 / −3 рейтинг",
+    blurbEn: "+10 / −3 rating",
+    titleRu: "PvP 3v3 Колизей",
+    titleEn: "PvP 3v3 Coliseum",
+    bodyRu:
+      "Формат 3v3, одно ядро. ММ по рейтингу текущего armor rank + soft MMR; кросс-плей. Победа +10, поражение −3. Отдельный рейтинг на каждый из 8 рангов брони. Билеты после 3 побед в Мифмире/тренировке.",
+    bodyEn:
+      "3v3, one core. MM by current armor-rank rating + soft MMR; cross-play. Win +10 / loss −3. Separate ladder per armor rank R1–R8. Tickets after 3 Mythmir/practice wins.",
+  },
+  {
+    id: "hp_classes",
+    filter: "mechanics",
+    icon: "monitor_heart",
+    tagRu: "Статы",
+    tagEn: "Stats",
+    blurbRu: "Танк 1000 HP база",
+    blurbEn: "Tank 1000 HP base",
+    titleRu: "HP по классам",
+    titleEn: "HP by class",
+    bodyRu:
+      "База ур.1 без брони: танк 1000 · боец 850 · ассасин 750 · стрелок 700 · маг 600 · саппорт 550. Вариант B внутри класса ±5% HP. Рост от ранга брони — +10 ко всем статам и +20 к primary.",
+    bodyEn:
+      "L1 base without armor: tank 1000 · fighter 850 · assassin 750 · ranger 700 · mage 600 · support 550. Variant B ±5% HP. Each armor rank: +10 all stats and +20 primary.",
+  },
+  {
+    id: "levels",
+    filter: "mechanics",
+    icon: "trending_up",
+    tagRu: "Ранги",
+    tagEn: "Ranks",
+    blurbRu: "R1→R8 = сила",
+    blurbEn: "R1→R8 = power",
+    titleRu: "Уровни и статы рангов",
+    titleEn: "Levels and rank stats",
+    bodyRu:
+      "Экип rarity по рангу игрока, не по уровню кота. Primary: танк HP/charm; боец/ассасин/стрелок ATK/SPD; маг skill/ATK; саппорт skill/charm. С пассом high ranks ~1 год; без ≈2× медленнее.",
+    bodyEn:
+      "Equip rarity follows player rank, not cat level. Primaries: tank HP/charm; fighter/assassin/ranger ATK/SPD; mage skill/ATK; support skill/charm. Pass ~1 year to high ranks; without ≈2× slower.",
+  },
+  {
+    id: "alchemy",
+    filter: "mechanics",
+    icon: "science",
+    tagRu: "Алхимия",
+    tagEn: "Alchemy",
+    blurbRu: "Зелья ≤1 / бой",
+    blurbEn: "Potions ≤1 / fight",
+    titleRu: "Алхимия и крафт зелий",
+    titleEn: "Alchemy and potion craft",
+    bodyRu:
+      "Рецепты на Рынке. Алхимия: травы/овощи/фрукты → зелья. Отдельный alchemy_xp. Зелья крафтеров — рынок/аукцион, не таверна. В бою ≤1 зелье на potionId.",
+    bodyEn:
+      "Recipes on Market. Alchemy: herbs/veggies/fruit → potions. Separate alchemy_xp. Craft potions → market/auction, not tavern. In fight ≤1 potion per potionId.",
+  },
+  {
+    id: "trade",
+    filter: "mechanics",
+    icon: "storefront",
+    tagRu: "Торговля",
+    tagEn: "Trade",
+    blurbRu: "Магазин / рынок / аукцион",
+    blurbEn: "Shop / market / auction",
+    titleRu: "Экономика: каналы торговли",
+    titleEn: "Economy: trade channels",
+    bodyRu:
+      "Магазин = IAP/пасс/fish/breeding/12 ordinary/grey R1. Рынок = семена/tools/craft sell/quick sell. Аукцион = лоты игроков по своей цене. Без крипты и cash. «Мифиус»-монета = soft currency.",
+    bodyEn:
+      "Shop = IAP/pass/fish/breeding/12 ordinary/grey R1. Market = seeds/tools/craft sell/quick sell. Auction = player lots at own price. No crypto/cash. «Мифиус» coin = soft currency.",
+  },
+  {
+    id: "armor_ranks",
+    filter: "gear",
+    icon: "shield",
+    tagRu: "Броня",
+    tagEn: "Armor",
+    blurbRu: "Grey → mythic",
+    blurbEn: "Grey → mythic",
+    titleRu: "Броня R1–R8 (unlock)",
+    titleEn: "Armor R1–R8 unlock",
+    bodyRu:
+      "R1 grey · R2 green · R3 blue · R4 gold · R5 purple · R6 epic · R7 legendary · R8 mythic. Магазин SL продаёт только grey R1. Выше — пасс-боксы, PvE/craft, аукцион. Анти-P2W: нельзя купить ранг.",
+    bodyEn:
+      "R1 grey · R2 green · R3 blue · R4 gold · R5 purple · R6 epic · R7 legendary · R8 mythic. SL shop sells grey R1 only. Higher via pass boxes, PvE/craft, auction. Anti-P2W: no rank buy.",
+  },
+  {
+    id: "heroes_skills",
+    filter: "combat",
+    icon: "auto_awesome",
+    tagRu: "Герои",
+    tagEn: "Heroes",
+    blurbRu: "12 котов · глаза/уши",
+    blurbEn: "12 cats · eyes/ears",
+    titleRu: "Скиллы и пассивы 12 героев",
+    titleEn: "Skills and passives of 12 heroes",
+    bodyRu:
+      "Глаза/уши = пассивы; морда/убор/спина/хвост = карты N=4. Танк A «Щит-утёс», танк B «Пробой», бойцы, ассасины, стрелки, маги огонь/лёд, саппорты heal/buff — см. вики §1.",
+    bodyEn:
+      "Eyes/ears = passives; muzzle/groom/back/tail = N=4 cards. Tank A Bastion, Tank B Pierce, fighters, assassins, rangers, fire/ice mages, heal/buff supports — wiki §1.",
+  },
+  {
+    id: "guild_gvg",
+    filter: "combat",
+    icon: "castle",
+    tagRu: "Гильдии",
+    tagEn: "Guilds",
+    blurbRu: "3–12 котов на сторону",
+    blurbEn: "3–12 cats per side",
+    titleRu: "Бой гильдий (GvG)",
+    titleEn: "Guild vs guild (GvG)",
+    bodyRu:
+      "Гильдия vs гильдия: 3–12 котов. Soft launch — вход в HUD и правила; полный ММ 4–12 — tip «Подними ранг». Размер 3 может идти через ядро 3v3. Клан-босс — отдельно «Скоро».",
+    bodyEn:
+      "Guild vs guild: 3–12 cats. Soft launch has HUD entry + rules; full 4–12 MM tips «rank up». Size 3 can reuse 3v3 core. Clan boss is separate Soon content.",
+  },
+  {
+    id: "milk",
+    filter: "mechanics",
+    icon: "water_drop",
+    tagRu: "Таверна",
+    tagEn: "Tavern",
+    blurbRu: "Молоко на льду = HP",
+    blurbEn: "Iced milk = HP",
+    titleRu: "Таверна и молоко",
+    titleEn: "Tavern and milk",
+    bodyRu:
+      "Таверна — только молоко. Лёд = post-fight HP. Бафф-молоко только PvE+данжи, не ranked Колизей. Зелья — у крафтеров на рынке/аукционе.",
+    bodyEn:
+      "Tavern is milk only. Ice = post-fight HP. Buff milk is PvE+dungeons only, not ranked Coliseum. Potions come from crafters on market/auction.",
+  },
+  {
+    id: "forms",
+    filter: "mechanics",
+    icon: "map",
+    tagRu: "Навигация",
+    tagEn: "Nav",
+    blurbRu: "Хаб и вкладки day-1",
+    blurbEn: "Hub and day-1 tabs",
+    titleRu: "Основные экраны и навигация",
+    titleEn: "Main screens and navigation",
+    bodyRu:
+      "Вход → Хаб. Дом Хранителя: Двор/крафт/персонаж/склад/коллекция/скрещивание. Бои: Мифмир, тренировка, строй, PvP, данжи, рейд, GvG. Торговля: площадь → таверна/магазин/рынок/аукцион. База знаний — этот кодекс.",
+    bodyEn:
+      "Login → Hub. Keeper house: yard/craft/hero/barn/collection/breeding. Combat: Mythmir, practice, formation, PvP, dungeons, raid, GvG. Trade plaza → tavern/shop/market/auction. Knowledge base is this codex.",
+  },
+];
+
+const KB_ARSENAL_GEAR = [
+  { name: "Шлем Дракона", stat: "+140 Броня", icon: "/stitch-assets/hero-icons/inv_02.png" },
+  { name: "Панцирь Дракона", stat: "+320 Броня", icon: "/stitch-assets/hero-icons/inv_04.png" },
+  { name: "Пояс Дракона", stat: "+90 Броня", icon: "/stitch-assets/hero-icons/inv_01.png" },
+  { name: "Перчатки Дракона", stat: "+75 Броня", icon: "/stitch-assets/hero-icons/inv_07.png" },
+  { name: "Сапоги Дракона", stat: "+80 Броня", icon: "/stitch-assets/hero-icons/inv_08.png" },
+  { name: "Плащ Дракона", stat: "+110 Броня", icon: "/stitch-assets/hero-icons/inv_10.png" },
 ];
 
 const PASS_REWARDS = [
@@ -546,7 +757,10 @@ const state = {
     { id: "auc_7", name: "weapon_flint_bow", bid: 260, kind: "weapon" },
     { id: "auc_8", name: "craft_mint_bundle", bid: 70, kind: "ingredient" },
   ],
-  codexEntryId: "forms",
+  codexEntryId: "class_sets",
+  codexFilter: "all",
+  codexQuery: "",
+  codexRankFocus: 6,
   guildBattleSize: 3,
   passActiveStub: false,
   autofarm: {
@@ -923,6 +1137,10 @@ function pvpLoadAddressOpen() {
   return normalizedPath() === "/pvp-load";
 }
 
+function codexAddressOpen() {
+  return normalizedPath() === "/codex";
+}
+
 function loginAddressOpen() {
   return normalizedPath() === "/home";
 }
@@ -935,6 +1153,7 @@ function screenAddressFor(tab) {
   if (tab === "trade_hub") return "/square";
   if (tab === "battle_hub") return "/fronts";
   if (tab === "pvp_load") return "/pvp-load";
+  if (tab === "codex" || tab === "knowledge") return "/codex";
   if (tab === "login") return "/home";
   return "/";
 }
@@ -1987,34 +2206,200 @@ function renderAuction() {
   }
 }
 
+function codexFilteredEntries() {
+  const q = (state.codexQuery || "").trim().toLowerCase();
+  return CODEX_ENTRIES.filter((entry) => {
+    if (state.codexFilter && state.codexFilter !== "all" && entry.filter !== state.codexFilter) return false;
+    if (!q) return true;
+    const hay = [entry.titleRu, entry.titleEn, entry.blurbRu, entry.blurbEn, entry.tagRu, entry.tagEn, entry.bodyRu, entry.bodyEn]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+    return hay.includes(q);
+  });
+}
+
+function renderCodexArsenal(center, right) {
+  const ru = state.locale === "ru";
+  center.innerHTML = `
+    <div class="kb-set-head">
+      <div>
+        <h2>${ru ? "МЕЧ ОЧАГА И БАСТИОН ОТРАЖЕНИЯ" : "HEARTH SWORD & REFLECTION BASTION"}</h2>
+        <p>${ru ? "Классовый Арсенал Танка-Стража • Полная Сборка" : "Tank-Guardian class arsenal • Full set"}</p>
+      </div>
+      <span class="kb-rank-badge">${ru ? "Ранг 6 Эпик" : "Rank 6 Epic"}</span>
+    </div>
+    <div class="kb-art">
+      <img alt="${ru ? "Танк Барсик в латах очага" : "Barsik tank in hearth plate"}" src="/stitch-assets/1a83d83d15cf.jpg"/>
+      <div class="kb-art-status">
+        <b>${ru ? "Комплект Стража • Синхронизация 100%" : "Guardian set • Sync 100%"}</b>
+        <em>${ru ? "АКТИВЕН" : "ACTIVE"}</em>
+      </div>
+    </div>
+    <div class="kb-stats">
+      <article><small>${ru ? "Защита" : "Defense"}</small><strong>+520</strong><span>+18% ${ru ? "от базы" : "base"}</span></article>
+      <article><small>${ru ? "Здоровье" : "Health"}</small><strong>+3,100</strong><span>${ru ? "Макс. запас" : "Max pool"}</span></article>
+      <article><small>${ru ? "Блок щитом" : "Shield block"}</small><strong>+240</strong><span>48.5% ${ru ? "шанс" : "chance"}</span></article>
+      <article><small>${ru ? "Сниж. урона" : "Damage cut"}</small><strong>+15%</strong><span>${ru ? "В лобовых" : "Frontal"}</span></article>
+    </div>
+    <button type="button" class="kb-cta" id="codexEquipBtn">
+      <span class="material-symbols-outlined" aria-hidden="true">pets</span>
+      ${ru ? "ЭКИПИРОВАТЬ НАБОР НА БАРСИКА" : "EQUIP SET ON BARSIK"}
+      <span class="material-symbols-outlined" aria-hidden="true">checkroom</span>
+    </button>
+  `;
+  center.querySelector("#codexEquipBtn")?.addEventListener("click", () => {
+    toast(ru ? "Набор Стража экипирован на Барсика" : "Guardian set equipped on Barsik");
+  });
+
+  const focus = Math.min(8, Math.max(1, state.codexRankFocus || 6));
+  const gear = KB_ARSENAL_GEAR.map(
+    (g) => `<article><img alt="" src="${g.icon}"/><div><b>${g.name}</b><span>${g.stat}</span></div><em>P.${focus}</em></article>`,
+  ).join("");
+  const ranks = Array.from({ length: 8 }, (_, i) => {
+    const n = i + 1;
+    return `<button type="button" data-kb-rank="${n}" class="${n === focus ? "is-on" : ""}"><span class="material-symbols-outlined" aria-hidden="true">shield</span>P.${n}</button>`;
+  }).join("");
+  right.innerHTML = `
+    <div class="kb-skill-head">
+      <h3><span class="material-symbols-outlined" aria-hidden="true">shield</span>${ru ? "Несокрушимый Редут" : "Unbreakable Redoubt"}</h3>
+      <div class="kb-skill-tags"><span>${ru ? "Пассивный + Активный" : "Passive + Active"}</span></div>
+    </div>
+    <div class="kb-skill-meta">
+      <span>${ru ? "Стихия" : "Element"}: <b>${ru ? "Земля + Огонь" : "Earth + Fire"}</b></span>
+      <span>${ru ? "Перезарядка" : "Cooldown"}: <b>3 ${ru ? "хода" : "turns"}</b></span>
+    </div>
+    <p class="kb-skill-body">${
+      ru
+        ? "Когда кот перехватывает атаки <strong>3 и более соперников</strong> с Провокацией, руны бастиона вспыхивают и дают купол прочностью <strong>35% max HP</strong> на 2 хода двум слабейшим союзникам в тылу."
+        : "When the cat intercepts attacks from <strong>3+ foes</strong> with Taunt, bastion runes raise a dome worth <strong>35% max HP</strong> for 2 turns on the two weakest rear allies."
+    }</p>
+    <div class="kb-gear">${gear}</div>
+    <div class="kb-ranks">
+      <h4>${ru ? "Сетовые бонусы рангов брони" : "Armor-rank set bonuses"}</h4>
+      <div class="kb-rank-row" id="codexRankRow">${ranks}</div>
+      <p class="kb-rank-bonus">${ru ? "Эффект 4/4 частей сета" : "4/4 set effect"}: <strong>+25% ${ru ? "к отражению урона при блоке" : "damage reflect on block"}</strong></p>
+    </div>
+  `;
+  right.querySelector("#codexRankRow")?.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-kb-rank]");
+    if (!btn) return;
+    state.codexRankFocus = Number(btn.getAttribute("data-kb-rank")) || 6;
+    renderCodex();
+  });
+}
+
+function renderCodexArticle(center, right, entry) {
+  const ru = state.locale === "ru";
+  const title = ru ? entry.titleRu : entry.titleEn;
+  const body = ru ? entry.bodyRu : entry.bodyEn;
+  const tag = ru ? entry.tagRu : entry.tagEn;
+  center.innerHTML = `
+    <article class="kb-article">
+      <h2>${title}</h2>
+      <span class="kb-article-tag">${tag}</span>
+      <p>${body}</p>
+    </article>
+  `;
+  const related = CODEX_ENTRIES.filter((e) => e.filter === entry.filter && e.id !== entry.id).slice(0, 4);
+  right.innerHTML = `
+    <div class="kb-article-side">
+      <h3>${ru ? "Связанные главы" : "Related chapters"}</h3>
+      <ul>
+        ${related
+          .map((e) => `<li><b>${ru ? e.titleRu : e.titleEn}</b>${ru ? e.blurbRu : e.blurbEn}</li>`)
+          .join("") || `<li><b>${ru ? "Кодекс" : "Codex"}</b>${ru ? "Других глав в фильтре пока нет" : "No other chapters in this filter"}</li>`}
+      </ul>
+    </div>
+  `;
+}
+
 function renderCodex() {
+  const root = $("viewCodex");
   const nav = $("codexNavList");
+  const center = $("codexCenter");
+  const right = $("codexRight");
   const article = $("codexArticle");
-  if (!nav || !article) return;
+  if (!root || root.classList.contains("hidden") || !nav || !center || !right) return;
+
+  const ru = state.locale === "ru";
+  const filters = $("codexFilters");
+  if (filters) {
+    filters.innerHTML = CODEX_FILTERS.map((f) => {
+      const count =
+        f.id === "all" ? CODEX_ENTRIES.length : CODEX_ENTRIES.filter((e) => e.filter === f.id).length;
+      const label = ru ? f.labelRu : f.labelEn;
+      const text = f.id === "all" ? `${label} (${count})` : label;
+      return `<button type="button" data-kb-filter="${f.id}" class="${state.codexFilter === f.id ? "is-on" : ""}">${text}</button>`;
+    }).join("");
+    if (filters.dataset.bound !== "1") {
+      filters.dataset.bound = "1";
+      filters.addEventListener("click", (e) => {
+        const btn = e.target.closest("[data-kb-filter]");
+        if (!btn) return;
+        state.codexFilter = btn.getAttribute("data-kb-filter") || "all";
+        renderCodex();
+      });
+    }
+  }
+
+  const search = $("codexSearch");
+  if (search && search.dataset.bound !== "1") {
+    search.dataset.bound = "1";
+    search.value = state.codexQuery || "";
+    search.addEventListener("input", () => {
+      state.codexQuery = search.value || "";
+      renderCodex();
+    });
+  }
+
+  const list = codexFilteredEntries();
+  if (!list.some((e) => e.id === state.codexEntryId)) {
+    state.codexEntryId = list[0]?.id || CODEX_ENTRIES[0].id;
+  }
   nav.innerHTML = "";
-  for (const entry of CODEX_ENTRIES) {
+  for (const entry of list) {
+    const li = document.createElement("li");
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.className = "mission-fight";
-    if (entry.id === state.codexEntryId) btn.classList.add("active");
-    const title = state.locale === "ru" ? entry.titleRu : entry.titleEn;
-    btn.innerHTML = `<strong>${title}</strong>`;
+    btn.className = entry.id === state.codexEntryId ? "is-on" : "";
+    const title = ru ? entry.titleRu : entry.titleEn;
+    const blurb = ru ? entry.blurbRu : entry.blurbEn;
+    const tag = ru ? entry.tagRu : entry.tagEn;
+    const status = entry.statusRu
+      ? `<span class="kb-entry-tag">${ru ? entry.statusRu : entry.statusEn}</span>`
+      : `<span class="kb-entry-tag">${tag}</span>`;
+    btn.innerHTML = `
+      <span class="kb-entry-ico" aria-hidden="true"><span class="material-symbols-outlined">${entry.icon || "menu_book"}</span></span>
+      <span class="kb-entry-copy"><b>${title}</b><span>${blurb || tag}</span></span>
+      ${status}
+    `;
     btn.addEventListener("click", () => {
       state.codexEntryId = entry.id;
       renderCodex();
     });
-    nav.appendChild(btn);
+    li.appendChild(btn);
+    nav.appendChild(li);
   }
+
+  const read = Math.min(CODEX_ENTRIES.length, Math.max(1, CODEX_ENTRIES.findIndex((e) => e.id === state.codexEntryId) + 8));
+  const progress = $("codexProgress");
+  if (progress) {
+    const pct = Math.round((read / CODEX_ENTRIES.length) * 100);
+    progress.innerHTML = `
+      <div><strong>${ru ? "Прогресс Кодекса" : "Codex progress"}</strong> ${read}/${CODEX_ENTRIES.length} (${pct}%)</div>
+      <div class="kb-bar" aria-hidden="true"><i style="width:${pct}%"></i></div>
+      <div class="kb-rewards"><span>+10 ${ru ? "глав" : "chapters"}</span><span>+50 ${ru ? "предметов арсенала" : "arsenal items"}</span></div>
+    `;
+  }
+
   const cur = CODEX_ENTRIES.find((e) => e.id === state.codexEntryId) || CODEX_ENTRIES[0];
-  const h = document.createElement("h2");
-  h.className = "font-headline text-lg text-primary mb-2";
-  h.textContent = state.locale === "ru" ? cur.titleRu : cur.titleEn;
-  const p = document.createElement("p");
-  p.className = "text-sm text-on-surface-variant leading-relaxed";
-  p.textContent = state.locale === "ru" ? cur.bodyRu : cur.bodyEn;
-  article.innerHTML = "";
-  article.appendChild(h);
-  article.appendChild(p);
+  if (cur.mode === "arsenal") renderCodexArsenal(center, right);
+  else renderCodexArticle(center, right, cur);
+
+  if (article) {
+    article.innerHTML = `<h2>${ru ? cur.titleRu : cur.titleEn}</h2><p>${ru ? cur.bodyRu : cur.bodyEn}</p>`;
+  }
 }
 
 function renderClanPanel() {
@@ -5115,6 +5500,7 @@ function bootTabAfterLogin() {
   if (squareAddressOpen()) return "trade_hub";
   if (frontsAddressOpen()) return "battle_hub";
   if (pvpLoadAddressOpen()) return "pvp_load";
+  if (codexAddressOpen()) return "codex";
   return "hub";
 }
 
