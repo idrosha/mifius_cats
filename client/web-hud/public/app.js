@@ -2434,222 +2434,60 @@ function renderAuction() {
   }
 }
 
-function codexFilteredEntries() {
-  const q = (state.codexQuery || "").trim().toLowerCase();
-  return CODEX_ENTRIES.filter((entry) => {
-    if (state.codexFilter && state.codexFilter !== "all" && entry.filter !== state.codexFilter) return false;
-    if (!q) return true;
-    const hay = [entry.titleRu, entry.titleEn, entry.blurbRu, entry.blurbEn, entry.tagRu, entry.tagEn, entry.bodyRu, entry.bodyEn]
-      .filter(Boolean)
-      .join(" ")
-      .toLowerCase();
-    return hay.includes(q);
+
+window.KB_TIER_ARMOR = {
+  1: "/stitch-assets/kb-v3/armor/r1-steel.png",
+  2: "/stitch-assets/kb-v3/armor/r2-ranger.png",
+  3: "/stitch-assets/kb-v3/armor/r3-blue.png",
+  4: "/stitch-assets/kb-v3/armor/r4-lion.png",
+  5: "/stitch-assets/kb-v3/armor/r5-purple.png",
+  6: "/stitch-assets/kb-v3/armor/r6-dragon.png",
+  7: "/stitch-assets/kb-v3/armor/r7-solar.png",
+  8: "/stitch-assets/kb-v3/armor/r8-or-fullplate.png",
+};
+
+/** Stitch v3 inspectTier — swaps center mannequin armor by rank. */
+function inspectTier(rankNumber) {
+  const n = Number(rankNumber) || 6;
+  const centerImg = document.getElementById("mannequin-armor-img");
+  const src = window.KB_TIER_ARMOR[n];
+  if (centerImg && src) {
+    centerImg.style.transition = "opacity 0.2s ease-in-out";
+    centerImg.style.opacity = "0.6";
+    setTimeout(() => {
+      centerImg.src = src;
+      centerImg.style.opacity = "1";
+    }, 150);
+  }
+  const root = $("viewCodex") || document;
+  root.querySelectorAll('button[onclick^="inspectTier"]').forEach((btn) => {
+    const m = (btn.getAttribute("onclick") || "").match(/inspectTier\((\d+)\)/);
+    const rank = m ? Number(m[1]) : 0;
+    const on = rank === n;
+    btn.classList.toggle("bg-primary-container/20", on);
+    btn.classList.toggle("ring-1", on);
+    btn.classList.toggle("ring-primary", on);
+    if (!on) btn.classList.add("bg-surface-container");
+    else btn.classList.remove("bg-surface-container");
   });
 }
-
-
-function kbIcon(name) {
-  const map = {
-    swords: "kb-ico-swords",
-    shield: "kb-ico-shield",
-    shield_moon: "kb-ico-shield",
-    bolt: "kb-ico-bolt",
-    pets: "kb-ico-paw",
-    search: "kb-ico-search",
-    workspace_premium: "kb-ico-star",
-    star: "kb-ico-star",
-  };
-  const cls = map[name] || "kb-ico-shield";
-  return `<span class="kb-ico ${cls}" aria-hidden="true"></span>`;
-}
-
-function renderCodexArsenal(center, right) {
-  const ru = state.locale === "ru";
-  const focus = Math.min(8, Math.max(1, state.codexRankFocus || 6));
-  center.innerHTML = `
-    <div class="kb-set-head">
-      <div>
-        <h2>${ru ? "МЕЧ ОЧАГА И БАСТИОН ОТРАЖЕНИЯ" : "HEARTH SWORD & REFLECTION BASTION"}</h2>
-        <p>${ru ? "Классовый Арсенал Танка-Стража • Полная Сборка" : "Tank-Guardian class arsenal • Full set"}</p>
-      </div>
-      <span class="kb-rank-badge">${ru ? "Ранг 6 Эпик" : "Rank 6 Epic"}</span>
-    </div>
-    <div class="kb-art">
-      <img alt="${ru ? "Танк Барсик в латах очага" : "Barsik tank in hearth plate"}" src="/stitch-assets/kb-hearth-tank.png"/>
-      <div class="kb-art-status">
-        <b>${ru ? "Комплект Стража • Синхронизация 100%" : "Guardian set • Sync 100%"}</b>
-        <em>${ru ? "АКТИВЕН" : "ACTIVE"}</em>
-      </div>
-    </div>
-    <div class="kb-stats">
-      <article><small>${ru ? "Защита" : "Defense"}</small><strong>+520</strong><span>+18% ${ru ? "от базы" : "base"}</span></article>
-      <article><small>${ru ? "Здоровье" : "Health"}</small><strong>+3,100</strong><span>${ru ? "Макс. запас" : "Max pool"}</span></article>
-      <article><small>${ru ? "Блок щитом" : "Shield block"}</small><strong>+240</strong><span>48.5% ${ru ? "шанс" : "chance"}</span></article>
-      <article><small>${ru ? "Сниж. урона" : "Damage cut"}</small><strong>+15%</strong><span>${ru ? "В лобовых" : "Frontal"}</span></article>
-    </div>
-    <button type="button" class="kb-cta" id="codexEquipBtn">
-      ${kbIcon("bolt")}
-      ${ru ? "ЭКИПИРОВАТЬ НАБОР НА БАРСИКА" : "EQUIP SET ON BARSIK"}
-      ${kbIcon("pets")}
-      ${kbIcon("shield")}
-    </button>
-  `;
-  center.querySelector("#codexEquipBtn")?.addEventListener("click", () => {
-    toast(ru ? "Набор Стража экипирован на Барсика" : "Guardian set equipped on Barsik");
-  });
-
-  const gear = KB_ARSENAL_GEAR.map(
-    (g) => `<article class="${g.set ? "is-set" : ""}">
-      ${g.set ? `<span class="kb-set-tag">${ru ? "Сет" : "Set"}</span>` : ""}
-      <em>P.${focus}</em>
-      <img alt="" src="${g.icon}"/>
-      <div><b>${g.name}</b><span>${g.stat}</span></div>
-    </article>`,
-  ).join("");
-  const ranks = Array.from({ length: 8 }, (_, i) => {
-    const n = i + 1;
-    return `<button type="button" data-kb-rank="${n}" class="${n === focus ? "is-on" : ""}"><span class="kb-rank-art"><img alt="" src="/stitch-assets/kb-rank-p${n}.png"/></span>P.${n}</button>`;
-  }).join("");
-  right.innerHTML = `
-    <div class="kb-skill-head">
-      <h3><span class="kb-skill-ico" aria-hidden="true"><img alt="" src="/stitch-assets/kb-crop-skill.png"/></span>${ru ? "Несокрушимый Редут" : "Unbreakable Redoubt"}</h3>
-      <div class="kb-skill-tags"><span>${ru ? "Пассивный + Активный" : "Passive + Active"}</span></div>
-    </div>
-    <div class="kb-skill-meta">
-      <span>${ru ? "Стихия" : "Element"}: <b>${ru ? "Земля + Огонь" : "Earth + Fire"}</b></span>
-      <span>${ru ? "Перезарядка" : "Cooldown"}: <b>3 ${ru ? "хода" : "turns"}</b></span>
-    </div>
-    <p class="kb-skill-body">${
-      ru
-        ? "Когда кот перехватывает атаки <strong>3 и более соперников</strong> с Провокацией, руны бастиона вспыхивают и дают купол прочностью <strong>35% max HP</strong> на 2 хода двум слабейшим союзникам в тылу."
-        : "When the cat intercepts attacks from <strong>3+ foes</strong> with Taunt, bastion runes raise a dome worth <strong>35% max HP</strong> for 2 turns on the two weakest rear allies."
-    }</p>
-    <div class="kb-gear">${gear}</div>
-    <div class="kb-ranks">
-      <h4>${ru ? "Сетовые бонусы рангов брони" : "Armor-rank set bonuses"}</h4>
-      <div class="kb-rank-row" id="codexRankRow">${ranks}</div>
-      <p class="kb-rank-bonus">${ru ? "Эффект 4/4 частей сета" : "4/4 set effect"}: <strong>+25% ${ru ? "к отражению урона при блоке" : "damage reflect on block"}</strong></p>
-    </div>
-  `;
-  right.querySelector("#codexRankRow")?.addEventListener("click", (e) => {
-    const btn = e.target.closest("[data-kb-rank]");
-    if (!btn) return;
-    state.codexRankFocus = Number(btn.getAttribute("data-kb-rank")) || 6;
-    renderCodex();
-  });
-}
-
-function renderCodexArticle(center, right, entry) {
-  const ru = state.locale === "ru";
-  const title = ru ? entry.titleRu : entry.titleEn;
-  const body = ru ? entry.bodyRu : entry.bodyEn;
-  const tag = ru ? entry.tagRu : entry.tagEn;
-  center.innerHTML = `
-    <article class="kb-article">
-      <h2>${title}</h2>
-      <span class="kb-article-tag">${tag}</span>
-      <p>${body}</p>
-    </article>
-  `;
-  const related = CODEX_ENTRIES.filter((e) => e.filter === entry.filter && e.id !== entry.id).slice(0, 4);
-  right.innerHTML = `
-    <div class="kb-article-side">
-      <h3>${ru ? "Связанные главы" : "Related chapters"}</h3>
-      <ul>
-        ${related
-          .map((e) => `<li><b>${ru ? e.titleRu : e.titleEn}</b>${ru ? e.blurbRu : e.blurbEn}</li>`)
-          .join("") || `<li><b>${ru ? "Кодекс" : "Codex"}</b>${ru ? "Других глав в фильтре пока нет" : "No other chapters in this filter"}</li>`}
-      </ul>
-    </div>
-  `;
-}
+window.inspectTier = inspectTier;
 
 function renderCodex() {
   const root = $("viewCodex");
-  const nav = $("codexNavList");
-  const center = $("codexCenter");
-  const right = $("codexRight");
-  const article = $("codexArticle");
-  if (!root || root.classList.contains("hidden") || !nav || !center || !right) return;
-
-  const ru = state.locale === "ru";
-  const filters = $("codexFilters");
-  if (filters) {
-    filters.innerHTML = CODEX_FILTERS.map((f) => {
-      const count =
-        f.id === "all" ? CODEX_ENTRIES.length : CODEX_ENTRIES.filter((e) => e.filter === f.id).length;
-      const label = ru ? f.labelRu : f.labelEn;
-      const text = f.id === "all" ? `${label} (${count})` : label;
-      return `<button type="button" data-kb-filter="${f.id}" class="${state.codexFilter === f.id ? "is-on" : ""}">${text}</button>`;
-    }).join("");
-    if (filters.dataset.bound !== "1") {
-      filters.dataset.bound = "1";
-      filters.addEventListener("click", (e) => {
-        const btn = e.target.closest("[data-kb-filter]");
-        if (!btn) return;
-        state.codexFilter = btn.getAttribute("data-kb-filter") || "all";
-        renderCodex();
-      });
-    }
-  }
-
-  const search = $("codexSearch");
-  if (search && search.dataset.bound !== "1") {
-    search.dataset.bound = "1";
-    search.value = state.codexQuery || "";
-    search.addEventListener("input", () => {
-      state.codexQuery = search.value || "";
-      renderCodex();
+  if (!root || root.classList.contains("hidden")) return;
+  // Exact Stitch markup — do not rebuild columns. Wire CTA only.
+  if (root.dataset.kbWired !== "1") {
+    root.dataset.kbWired = "1";
+    root.addEventListener("click", (e) => {
+      const btn = e.target.closest("button");
+      if (!btn || !root.contains(btn)) return;
+      const label = (btn.textContent || "").replace(/\s+/g, " ").trim().toLowerCase();
+      if (label.includes("экипировать набор на барсика") || label.includes("equip set on barsik")) {
+        e.preventDefault();
+        toast(state.locale === "ru" ? "Набор экипирован на Барсика" : "Set equipped on Barsik");
+      }
     });
-  }
-
-  const list = codexFilteredEntries();
-  if (!list.some((e) => e.id === state.codexEntryId)) {
-    state.codexEntryId = list[0]?.id || CODEX_ENTRIES[0].id;
-  }
-  nav.innerHTML = "";
-  for (const entry of list) {
-    const li = document.createElement("li");
-    const btn = document.createElement("button");
-    btn.type = "button";
-    btn.className = entry.id === state.codexEntryId ? "is-on" : "";
-    const title = ru ? entry.titleRu : entry.titleEn;
-    const blurb = ru ? entry.blurbRu : entry.blurbEn;
-    const tag = ru ? entry.tagRu : entry.tagEn;
-    const status = entry.statusRu
-      ? `<span class="kb-entry-tag">${ru ? entry.statusRu : entry.statusEn}</span>`
-      : `<span class="kb-entry-tag">${tag}</span>`;
-    btn.innerHTML = `
-      <span class="kb-entry-ico" aria-hidden="true">${kbIcon(entry.icon || "shield")}</span>
-      <span class="kb-entry-copy"><b>${title}</b><span>${blurb || tag}</span></span>
-      ${status}
-    `;
-    btn.addEventListener("click", () => {
-      state.codexEntryId = entry.id;
-      renderCodex();
-    });
-    li.appendChild(btn);
-    nav.appendChild(li);
-  }
-
-  const totalChapters = Math.max(34, CODEX_ENTRIES.length);
-  const read = Math.min(totalChapters, Math.max(24, CODEX_ENTRIES.findIndex((e) => e.id === state.codexEntryId) + 24));
-  const progress = $("codexProgress");
-  if (progress) {
-    const pct = Math.round((read / totalChapters) * 100);
-    progress.innerHTML = `
-      <div><strong>${ru ? "Прогресс Кодекса" : "Codex progress"}</strong> ${read}/${totalChapters} (${pct}%)</div>
-      <div class="kb-bar" aria-hidden="true"><i style="width:${pct}%"></i></div>
-      <div class="kb-rewards"><span>+10 ${ru ? "глав открыто" : "chapters open"}</span><span>+50 ${ru ? "Клубков" : "Yarn"}</span></div>
-    `;
-  }
-
-  const cur = CODEX_ENTRIES.find((e) => e.id === state.codexEntryId) || CODEX_ENTRIES[0];
-  if (cur.mode === "arsenal") renderCodexArsenal(center, right);
-  else renderCodexArticle(center, right, cur);
-
-  if (article) {
-    article.innerHTML = `<h2>${ru ? cur.titleRu : cur.titleEn}</h2><p>${ru ? cur.bodyRu : cur.bodyEn}</p>`;
   }
 }
 
