@@ -3928,20 +3928,75 @@ function unitCard(u, side) {
   return d;
 }
 
+/** Attack-card art for practice/hand HUD (shop A packs + starter aliases). */
+const ATTACK_CARD_ART_FOLDER = {
+  shop_tank_stone_a: "tank-a",
+  shop_fighter_fire_a: "fighter-a",
+  shop_support_water_a: "support-a",
+  shop_assassin_bolt_a: "assassin-a",
+  tank_stone: "tank-a",
+  fighter_fire: "fighter-a",
+  support_water: "support-a",
+};
+const ATTACK_CARD_ART_ALIAS = {
+  card_tank_stone_muzzle: "shop_tank_stone_a_muzzle",
+  card_tank_stone_headwear: "shop_tank_stone_a_headwear",
+  card_tank_stone_back: "shop_tank_stone_a_back",
+  card_tank_stone_tail: "shop_tank_stone_a_tail",
+  card_fighter_fire_muzzle: "shop_fighter_fire_a_muzzle",
+  card_fighter_fire_headwear: "shop_fighter_fire_a_headwear",
+  card_fighter_fire_back: "shop_fighter_fire_a_back",
+  card_fighter_fire_tail: "shop_fighter_fire_a_tail",
+  card_support_water_muzzle: "shop_support_water_a_muzzle",
+  card_support_water_headwear: "shop_support_water_a_headwear",
+  card_support_water_back: "shop_support_water_a_back",
+  card_support_water_tail: "shop_support_water_a_tail",
+};
+
+function attackCardArtUrl(cardId) {
+  if (!cardId) return "";
+  const raw = ATTACK_CARD_ART_ALIAS[cardId] || String(cardId).replace(/^card_/, "");
+  const parts = raw.split("_");
+  // shop_tank_stone_a_muzzle → shop_tank_stone_a | muzzle
+  // tank_stone_muzzle (after alias) already shop_*
+  let folderKey = "";
+  let fileStem = raw;
+  if (raw.startsWith("shop_")) {
+    const m = raw.match(/^(shop_[a-z]+_[a-z]+_[ab])_(.+)$/);
+    if (m) {
+      folderKey = m[1];
+      fileStem = raw;
+    }
+  } else {
+    const m = raw.match(/^([a-z]+_[a-z]+)_(.+)$/);
+    if (m) folderKey = m[1];
+  }
+  const folder = ATTACK_CARD_ART_FOLDER[folderKey];
+  if (!folder) return "";
+  return `/stitch-assets/attack-cards/${folder}/attack_${fileStem}.png`;
+}
+
 function renderPracticeFight() {
   const diff = state.battle;
   if (!diff) return;
   const local = diff.p1 || {};
   const energy = local.energy ?? 0;
-  if ($("pfRound")) $("pfRound").textContent = `РАУНД ${diff.turn || 1} • ХОД ИГРОКА`;
+  const mine = diff.active === 0 && !diff.result;
+  if ($("pfRound")) {
+    $("pfRound").textContent = `РАУНД ${diff.turn || 1} • ${mine ? "ХОД ИГРОКА" : diff.result ? "ИТОГ" : "ХОД БОТА"}`;
+  }
   if ($("pfEnergy")) {
     $("pfEnergy").textContent = `ДОДЗЁ СПАРРИНГ · Энергия хода ${energy}`;
   }
   if ($("pfOrbs")) $("pfOrbs").textContent = `Орбы энергии ${energy}`;
   if ($("pfOrbsNum")) $("pfOrbsNum").textContent = String(energy);
-  const paint = (sel, units) => {
-    document.querySelectorAll(sel).forEach((card, i) => {
-      const u = units[i];
+  const paintSlots = (rootSel, units, reverseVisual) => {
+    const root = document.querySelector(`#viewPracticeFight ${rootSel}`);
+    if (!root) return;
+    const slots = [...root.querySelectorAll("[data-slot]")];
+    slots.forEach((card, i) => {
+      const idx = reverseVisual ? slots.length - 1 - i : i;
+      const u = units[idx];
       const em = card.querySelector("em");
       const bar = card.querySelector("i");
       card.hidden = !u;
@@ -3953,28 +4008,51 @@ function renderPracticeFight() {
   };
   const allies = (diff.units || []).filter((u) => u.side === 0).sort((a, b) => a.lane - b.lane);
   const enemies = (diff.units || []).filter((u) => u.side === 1).sort((a, b) => a.lane - b.lane);
-  paint("#pfAllies [data-slot]", allies);
-  paint("#pfEnemies [data-slot]", enemies);
-  const hand = $("pfHand");
-  const liveCards = (diff.hand || []).slice(0, 6);
-  // Keep painted Stitch hand until server deals real cards.
-  if (hand && liveCards.length) {
+  // Stitch allies are painted back→front (support … tank); sim lanes are front→back.
+  paintSlots("#pfAllies", allies, true);
+  paintSlots("#pfEnemies", enemies, false);
+  const hand = document.querySelector("#viewPracticeFight #pfHand");
+  const liveCards = diff.hand || [];
+  if (hand) {
     hand.removeAttribute("data-pf-hand-static");
     hand.innerHTML = "";
-    for (const c of liveCards) {
+    if (!liveCards.length) {
       const b = document.createElement("button");
       b.type = "button";
       b.className = "pf-card";
+      b.disabled = true;
+      b.innerHTML = `<b>Колода</b><span>ждёт раздачу</span>`;
+      hand.appendChild(b);
+    }
+    for (const c of liveCards.slice(0, 8)) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "pf-card pf-card-art";
       b.disabled = !c.playable || !!diff.result || diff.active !== 0;
-      b.innerHTML = `<b>${t(c.name_key, c.cardId)}</b><span>цена ${c.cost ?? "?"}</span>`;
+      const art = attackCardArtUrl(c.cardId);
+      const title = t(c.name_key, c.cardId);
+      b.innerHTML = art
+        ? `<img alt="${title}" src="${art}"/><b>${title}</b><span>${c.cost ?? "?"} AP</span>`
+        : `<b>${title}</b><span>${c.cost ?? "?"} AP</span>`;
       b.addEventListener("click", () =>
         submitAction({ kind: "playCard", unitId: c.unitId, handIndex: c.handIndex, targetId: "" }),
       );
       hand.appendChild(b);
     }
   }
-  const end = $("pfEndTurn");
-  if (end) end.disabled = !diff.canEndTurn || !!diff.result || diff.active !== 0;
+  const end = document.querySelector("#viewPracticeFight #pfEndTurn");
+  if (end) {
+    end.disabled = !diff.canEndTurn || !!diff.result || diff.active !== 0;
+    const hint = end.querySelector(":scope > span:last-of-type");
+    if (hint) {
+      const playable = liveCards.filter((c) => c.playable).length;
+      hint.textContent = mine
+        ? `В руке: ${liveCards.length} · можно сыграть ${playable} · ${energy} AP`
+        : diff.result
+          ? String(diff.result)
+          : "Ход противника…";
+    }
+  }
 }
 
 function bindPracticeFight() {

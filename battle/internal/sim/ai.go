@@ -2,6 +2,7 @@ package sim
 
 import (
 	"errors"
+	"fmt"
 	"sort"
 )
 
@@ -10,6 +11,10 @@ var errRunaway = errors.New("battle runaway")
 // ChooseAction — deterministic scripted-deck AI for PvE bots (and optional auto-play).
 // Prefers: affordable attack cards by atk desc, then shield/heal, else end turn.
 func (b *Battle) ChooseAction() Action {
+	return b.chooseActionSkipping(nil)
+}
+
+func (b *Battle) chooseActionSkipping(skip map[string]bool) Action {
 	side := b.Active
 	ps := b.player(side)
 	type cand struct {
@@ -23,13 +28,28 @@ func (b *Battle) ChooseAction() Action {
 			continue
 		}
 		for hi, cardIdx := range u.Hand {
+			key := fmt.Sprintf("%s#%d", u.ID, hi)
+			if skip != nil && skip[key] {
+				continue
+			}
 			card := u.Deck[cardIdx]
 			if card.Cost > ps.Energy {
+				continue
+			}
+			if actorClawBlocksRuffle(u, card.Tags) {
+				continue
+			}
+			targets := b.SelectTargets(u, card.TargetRule, "")
+			if needsTarget(card.TargetRule) && len(targets) == 0 {
 				continue
 			}
 			p := 0
 			if card.Atk > 0 {
 				p = 100 + card.Atk
+				// Bias toward spending remaining energy this action.
+				if card.Cost == ps.Energy {
+					p += 5
+				}
 			} else if card.Shield > 0 {
 				p = 50 + card.Shield
 			} else {
@@ -58,6 +78,27 @@ func (b *Battle) ChooseAction() Action {
 	}
 }
 
+// submitAIAction plays the best legal card, retrying other hand slots on reject
+// so leftover energy is not dumped on an empty end-turn.
+func (b *Battle) submitAIAction() error {
+	tried := map[string]bool{}
+	for {
+		a := b.chooseActionSkipping(tried)
+		if a.Kind == ActionEndTurn {
+			return b.SubmitAction(a)
+		}
+		key := fmt.Sprintf("%s#%d", a.UnitID, a.HandIndex)
+		tried[key] = true
+		if err := b.SubmitAction(a); err != nil {
+			if len(tried) > 32 {
+				return b.SubmitAction(Action{Kind: ActionEndTurn})
+			}
+			continue
+		}
+		return nil
+	}
+}
+
 // AutoPlay runs both sides with ChooseAction until finished or maxTurns.
 func (b *Battle) AutoPlay(maxTurns int) error {
 	guards := 0
@@ -67,11 +108,8 @@ func (b *Battle) AutoPlay(maxTurns int) error {
 			b.record("timeout", nil)
 			return nil
 		}
-		a := b.ChooseAction()
-		if err := b.SubmitAction(a); err != nil {
-			if err2 := b.SubmitAction(Action{Kind: ActionEndTurn}); err2 != nil {
-				return err2
-			}
+		if err := b.submitAIAction(); err != nil {
+			return err
 		}
 		guards++
 		if guards > 5000 {
@@ -89,11 +127,8 @@ func (b *Battle) AdvancePvEBots() error {
 	}
 	guards := 0
 	for !b.Finished() && b.Active == SideP2 {
-		a := b.ChooseAction()
-		if err := b.SubmitAction(a); err != nil {
-			if err2 := b.SubmitAction(Action{Kind: ActionEndTurn}); err2 != nil {
-				return err2
-			}
+		if err := b.submitAIAction(); err != nil {
+			return err
 		}
 		guards++
 		if guards > 500 {
