@@ -166,7 +166,7 @@ Unused energy/cards не переносятся (кроме Keep).
   - `backline`: приоритет тыла — `support` → `ranger` → `mage` → `assassin` → `fighter` → `tank`;  
     затем больший lane → nearer к актёру → id.  
   - Прочие: `self`, `ally_lowest_hp`, `ally_all`, `all_enemies`, `lowest_hp`.  
-  - Теги урона: `crit` → ×1.5 dmg; `pierce` / статус `fragile` → урон игнорит shield. Freeze = `stun` 1 ход.  
+  - Теги урона: `crit` → **×2** dmg (player wiki / MF-59; было ×1.5 SL stub); `pierce` / статус `fragile` → урон игнорит shield. Freeze = `stun` 1 ход. AoE вторичные цели = **50%** hit. Life drain / in-fight HP refresh запрещены (короткий PvP). Свод чисел: `docs/game-wiki.md`.  
   - Overrides: `taunt` принуждает цель; `stealth` скрывает от обычного таргета; `ambush` (тег карты) обходит stealth.
 - **Potions:** loadout pre-match, ≤1 per potionId.
 
@@ -478,6 +478,11 @@ CI: schema validate card JSON; battle golden replays; client compile.
 - Soft-cap рарности на арене = off до фазы 5  
 - Mobile-first soft launch (UX); кросс-плей и Steam как PC-цель — locked §0  
 - Матчмейкинг без сегментации по платформе  
+
+---
+
+### Player wiki
+Свод правил для Базы знаний / дизайна чисел (HP по классам, двор, экономика, Колизей ±rating, мем-коин «Мифиус» soft): **`docs/game-wiki.md`**. При конфликте чисел с черновиками content JSON — вики + этот SSOT; content подтянуть отдельной задачей.
 
 ---
 

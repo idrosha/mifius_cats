@@ -11,6 +11,6 @@ Server = truth. Implement sequential 3v3 per FULL-SPEC §3.
   - Mid/back melee: default nearest; farther via `backline` / `ranged`.
   - Ranger/mage/support: free-target (any rule + explicitID).
   - `backline` = rear role priority (support first); wire via `targetRule`, not hardcoded card IDs.
-  - Tags: `crit` ×1.5 dmg; `pierce`/fragile ignore shield; freeze=`stun`.
+  - Tags: `crit` ×2 dmg; AoE secondary 50% hit; `pierce`/fragile ignore shield; freeze=`stun`. No life drain in fight. Numbers: `docs/game-wiki.md`.
   - Lane 0..2 = front→back; taunt/stealth/ambush overrides unchanged.
 Do not implement Unity UI or shop.

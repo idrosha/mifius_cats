@@ -440,6 +440,15 @@ const SHOP_STUB_ROWS = [
 /** Codex knowledge base — plain SL facts, no fluff. */
 const CODEX_ENTRIES = [
   {
+    id: "game_wiki",
+    titleRu: "Полная вики правил",
+    titleEn: "Full rules wiki",
+    bodyRu:
+      "Единый свод: скиллы/пассивы 12 героев, Двор (анти-затоваривание), HP по классам, атака/крит×2/AoE 50%, ранги статов, алхимия/крафт XP, скрещивание + талисман +20%, экономика, Колизей (+10/−3, рейтинг на каждый из 8 рангов брони), мем-коин «Мифиус» (soft, не крипта). Полный текст: docs/game-wiki.md (репо) — этот кодекс держит краткое оглавление для HUD.",
+    bodyEn:
+      "Single rules pack: 12 hero skills/passives, Yard anti-glut, HP by class, attack/crit×2/AoE 50%, rank stats, alchemy/craft XP, breeding +20% talisman, economy, Coliseum (+10/−3, rating per 8 armor ranks), soft coin «Mifius» (not crypto). Full text: docs/game-wiki.md — this codex entry is the HUD TOC tip.",
+  },
+  {
     id: "forms",
     titleRu: "Основные экраны",
     titleEn: "Main screens",
