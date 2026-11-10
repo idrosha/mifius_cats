@@ -1,12 +1,14 @@
-# Мифоус — агенты: роли, скиллы, экономия токенов
+# Мифиус / Mythfel — агенты: роли, скиллы, экономия токенов
 
 **Цель:** собрать приложение по `FULL-SPEC.md` без расползания контекста.  
+**Бренд (player-facing):** Мифиус: Мифические котики · **код/репо:** Mythfel · в FULL-SPEC ещё встречается «Мифоус» — не плодить третье имя без `design`-задачи.  
+**Портативный каталог брифов:** `docs/agents-export.md` (копия для переноса в другой Cursor Project).  
 **Правило №1:** агент читает **только** свой § из FULL-SPEC + этот файл (секцию своей роли).  
 **Правило №2:** не копировать FULL-SPEC в чат/промпт целиком. Ссылка: `docs/FULL-SPEC.md` §N.  
 **Правило №3:** не плодить новые правила/доки без дыры в SSOT. Правки → патч FULL-SPEC.  
 **Запуск:** корневой `ЗАПУСК.md`.
 
-Скиллы: `docs/skills/<role>.md`. **Не** подключать посторонние skill-паки (seo/brand лендинга и т.п.), пока задача не про сайт/маркетинг.
+Скиллы: `docs/skills/<role>.md`. **Не** подключать посторонние skill-паки (seo/brand/ponytail лендинга и т.п.), пока задача не про сайт/маркетинг.
 
 ---
 
@@ -34,7 +36,13 @@
 - **Читает:** §6, §9, §2–§3 (только презентация), §12 UI-часть; §0 платформы/кросс-плей  
 - **Пишет:** `mythfel-client` presenter/UI/net stubs (mobile / web / PC·Steam из одного проекта)  
 - **Скилл:** `docs/skills/client.md`  
-- **Не трогает:** формулу урона на клиенте как source of truth; выдуманные Steamworks/store API без задачи
+- **Не трогает:** формулу урона на клиенте как source of truth; выдуманные Steamworks/store API без задачи; soft-launch **browser** HUD (это роль `web-hud`)
+
+### 2b. `web-hud` — тонкий browser HUD (soft-launch тест)
+- **Читает:** `client/web-hud/`, `docs/nav-ia.md`, prefs UI/Stitch; §6 только как IA  
+- **Пишет:** `client/web-hud/**`; smoke-заметки в Project `internal/`  
+- **Скилл:** `docs/skills/web-hud.md`  
+- **Не трогает:** Unity; не поднимает HUD без явной команды Andrew; не делает полный Stitch-реимпорт (роль `stitch`)
 
 ### 3. `backend` — Nakama + economy RPC
 - **Читает:** §5, §7.5, §8.1, §8.3, §4, §11; §0 кросс-плей  
@@ -53,11 +61,29 @@
 - **Скилл:** `docs/skills/content.md`  
 - **Не балансит** числа без пометки в LiveOps change log
 
-### 6. `qa` — приёмка
+### 6. `qa` — приёмка геймплея
 - **Читает:** §1, §13, §11  
 - **Пишет:** чеклисты, баг-репорты с seed/replay id  
 - **Скилл:** `docs/skills/qa.md`  
-- **Не пилит** фичи
+- **Не пилит** фичи; pixel/Stitch accept → `qa-ui` (тот же скилл + etalon media)
+
+### 7. `design` — SSOT / locked design docs
+- **Читает:** целевые § FULL-SPEC + связанные `docs/*` notes + prefs  
+- **Пишет:** патч FULL-SPEC или locked design note; player wiki только как роль `wiki` (бриф в `agents-export.md`)  
+- **Скилл:** `docs/skills/design.md`  
+- **Не пилит** фичи «заодно»
+
+### 8. `stitch` — промпты Stitch и импорт HTML
+- **Читает:** `docs/stitch-*.md`, inventory; нужен **публичный** share / zip (private Google login агент не откроет)  
+- **Пишет:** prompt docs и/или импорт в `client/web-hud/`  
+- **Скилл:** `docs/skills/stitch.md`  
+- **Не** параллелит второй пак на те же экраны; не рестартит HUD без команды
+
+### 9. `merge-ci` — merge ready PR
+- **Читает:** PR + CI  
+- **Делает:** merge в `main` при зелёном CI (prefs)  
+- **Скилл:** `docs/skills/merge-ci.md`  
+- **Не** переписывает фичу; один merge-агент на PR
 
 ### Опционально (не спавнить на SL без задачи)
 | Роль | Когда | Читает |
@@ -72,16 +98,17 @@
 ## Как ставить задачу агенту (шаблон)
 
 ```
-Роль: <battle|client|backend|liveops|content|qa>
+Роль: <battle|client|web-hud|backend|liveops|content|qa|design|stitch|merge-ci>
 SSOT: docs/FULL-SPEC.md
 Секции: §...
 Скилл: docs/skills/<role>.md
 Сделать: <1 результат>
-Не делать: <границы>
+Не делать: <границы + anti-overlap из docs/agents-export.md>
 DoD: <проверка из §13 или тест>
 ```
 
-Один агент = один результат. Параллель только по непересекающимся репо/папкам.
+Один агент = один результат. Параллель только по непересекающимся репо/папкам.  
+Не спавнить второго HUD/Stitch/wiki worker на ту же тему, пока IDLE-пир ещё владеет задачей.
 
 ---
 
