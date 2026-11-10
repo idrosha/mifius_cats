@@ -13,7 +13,7 @@
 <div class="roster-hall">
 <div class="roster-body">
 <aside class="roster-side">
-<div class="roster-head"><strong>Герои-котики</strong><b>5 / 12 портретов</b></div>
+<div class="roster-head"><strong>Герои-котики</strong><b>11 / 12 портретов</b></div>
 <label class="roster-search-wrap"><span class="roster-find" aria-hidden="true">⌕</span><input class="roster-search" type="search" placeholder="Поиск по имени, роли…" /></label>
 <div class="roster-filters">
 <button type="button" class="is-on" data-el="all">Все</button>
@@ -21,6 +21,8 @@
 <button type="button" data-el="fire">Огонь</button>
 <button type="button" data-el="bolt">Молния</button>
 <button type="button" data-el="grass">Трава</button>
+<button type="button" data-el="ice">Лёд</button>
+<button type="button" data-el="water">Вода</button>
 </div>
 <ul class="roster-list">
 <li data-hero="щит-утёс танк a shop_tank_stone_a" data-el="stone" data-template="shop_tank_stone_a"><span class="thumb"><img alt="Щит-утёс" src="/stitch-assets/cat-heroes/tank-a.png"/></span><div><b>Щит-утёс</b><small>Танк A · Камень</small><em>shop_tank_stone_a</em></div></li>
@@ -29,8 +31,12 @@
 <li data-hero="двуручный боец b shop_fighter_fire_b" data-el="fire" data-template="shop_fighter_fire_b"><span class="thumb"><img alt="Двуручный" src="/stitch-assets/cat-heroes/fighter-b.png"/></span><div><b>Двуручный</b><small>Боец B · Огонь</small><em>shop_fighter_fire_b</em></div></li>
 <li data-hero="тень ассасин a shop_assassin_bolt_a" data-el="bolt" data-template="shop_assassin_bolt_a"><span class="thumb"><img alt="Тень" src="/stitch-assets/cat-heroes/assassin-a.png"/></span><div><b>Тень</b><small>Ассасин A · Молния</small><em>shop_assassin_bolt_a</em></div></li>
 <li data-hero="охотник тыла ассасин b" data-el="bolt" data-template="shop_assassin_bolt_b"><span class="thumb"><img alt="" src="/stitch-assets/dc139f659812.jpg"/></span><div><b>Охотник тыла</b><small>Ассасин B · портрет скоро</small><em>shop_assassin_bolt_b</em></div></li>
-<li data-hero="охотник стрелок a" data-el="grass" data-template="shop_ranger_grass_a"><span class="thumb"><img alt="" src="/stitch-assets/378d8b8187c3.jpg"/></span><div><b>Охотник</b><small>Стрелок A · портрет скоро</small><em>shop_ranger_grass_a</em></div></li>
-<li data-hero="град стрел стрелок b" data-el="grass" data-template="shop_ranger_grass_b"><span class="thumb"><img alt="" src="/stitch-assets/30dcad73a323.jpg"/></span><div><b>Град стрел</b><small>Стрелок B · портрет скоро</small><em>shop_ranger_grass_b</em></div></li>
+<li data-hero="охотник стрелок a shop_ranger_grass_a" data-el="grass" data-template="shop_ranger_grass_a"><span class="thumb"><img alt="Охотник" src="/stitch-assets/cat-heroes/ranger-a.png"/></span><div><b>Охотник</b><small>Стрелок A · Трава</small><em>shop_ranger_grass_a</em></div></li>
+<li data-hero="град стрел стрелок b shop_ranger_grass_b" data-el="grass" data-template="shop_ranger_grass_b"><span class="thumb"><img alt="Град стрел" src="/stitch-assets/cat-heroes/ranger-b.png"/></span><div><b>Град стрел</b><small>Стрелок B · Трава</small><em>shop_ranger_grass_b</em></div></li>
+<li data-hero="огонь маг a shop_mage_fire_a" data-el="fire" data-template="shop_mage_fire_a"><span class="thumb"><img alt="Огонь" src="/stitch-assets/cat-heroes/mage-a.png"/></span><div><b>Огонь</b><small>Маг A · Огонь</small><em>shop_mage_fire_a</em></div></li>
+<li data-hero="лёд маг b shop_mage_ice_b" data-el="ice" data-template="shop_mage_ice_b"><span class="thumb"><img alt="Лёд" src="/stitch-assets/cat-heroes/mage-b.png"/></span><div><b>Лёд</b><small>Маг B · Лёд</small><em>shop_mage_ice_b</em></div></li>
+<li data-hero="чистый родник саппорт a shop_support_water_a" data-el="water" data-template="shop_support_water_a"><span class="thumb"><img alt="Чистый родник" src="/stitch-assets/cat-heroes/support-a.png"/></span><div><b>Чистый родник</b><small>Саппорт A · Вода</small><em>shop_support_water_a</em></div></li>
+<li data-hero="прилив силы саппорт b shop_support_water_b" data-el="water" data-template="shop_support_water_b"><span class="thumb"><img alt="Прилив силы" src="/stitch-assets/cat-heroes/support-b.png"/></span><div><b>Прилив силы</b><small>Саппорт B · Вода</small><em>shop_support_water_b</em></div></li>
 </ul>
 <p class="roster-sort"><span>Сортировка: БМ</span><label><input type="checkbox" checked /> Авто-подбор</label></p>
 </aside>
@@ -52,15 +58,15 @@
 <ul>
 <li><span class="thumb"><img alt="Пробой" src="/stitch-assets/cat-heroes/tank-b.png"/></span><small>АВАНГАРД</small><b>Пробой</b><em>Танк B · Камень</em></li>
 <li><span class="thumb"><img alt="Двуручный" src="/stitch-assets/cat-heroes/fighter-b.png"/></span><small>ЦЕНТР</small><b>Двуручный</b><em>Боец B · Огонь</em></li>
-<li><span class="thumb"><img alt="" src="/stitch-assets/dc139f659812.jpg"/></span><small>ТЫЛ</small><b>Охотник тыла</b><em>Ассасин B · скоро</em></li>
+<li><span class="thumb"><img alt="Огонь" src="/stitch-assets/cat-heroes/mage-a.png"/></span><small>ТЫЛ</small><b>Огонь</b><em>Маг A · Огонь</em></li>
 </ul>
 </article>
 <article class="roster-pack" data-pack="3">
 <div class="roster-pack-top"><b>СВЯЗКА №3</b><span>«Ледяной Бастион и Щит…»</span><em>Заморозка</em><button type="button" data-path="trenirovka">Тест</button></div>
 <ul>
-<li><span class="thumb"><img alt="" src="/stitch-assets/8bc259a73c91.jpg"/></span><small>АВАНГАРД</small><b>Ледяной</b><em>Танк · 13.1k</em></li>
-<li><span class="thumb"><img alt="" src="/stitch-assets/a16b90609adb.jpg"/></span><small>ЦЕНТР</small><b>Ледолап</b><em>Маг · 11.4k</em></li>
-<li><span class="thumb"><img alt="" src="/stitch-assets/378d8b8187c3.jpg"/></span><small>ТЫЛ</small><b>Сильва</b><em>Саппорт · 7.6k</em></li>
+<li><span class="thumb"><img alt="Охотник" src="/stitch-assets/cat-heroes/ranger-a.png"/></span><small>АВАНГАРД</small><b>Охотник</b><em>Стрелок A · Трава</em></li>
+<li><span class="thumb"><img alt="Лёд" src="/stitch-assets/cat-heroes/mage-b.png"/></span><small>ЦЕНТР</small><b>Лёд</b><em>Маг B · Лёд</em></li>
+<li><span class="thumb"><img alt="Чистый родник" src="/stitch-assets/cat-heroes/support-a.png"/></span><small>ТЫЛ</small><b>Чистый родник</b><em>Саппорт A · Вода</em></li>
 </ul>
 </article>
 <article class="roster-pack is-empty">

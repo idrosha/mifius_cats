@@ -2461,15 +2461,22 @@ const CAT_SHEET_NAMES = {
   shop_support_water_b: "Прилив силы",
 };
 
-/** Full-body portraits — wiki §1.1 / media/cat-heroes (batch 1 = 5 ready). */
+/** Full-body portraits — wiki §1.0 / media/cat-heroes (11/12; Assassin B pending). */
 const CAT_HERO_ART = {
   shop_tank_stone_a: "/stitch-assets/cat-heroes/tank-a.png",
   shop_tank_stone_b: "/stitch-assets/cat-heroes/tank-b.png",
   shop_fighter_fire_a: "/stitch-assets/cat-heroes/fighter-a.png",
   shop_fighter_fire_b: "/stitch-assets/cat-heroes/fighter-b.png",
   shop_assassin_bolt_a: "/stitch-assets/cat-heroes/assassin-a.png",
+  shop_ranger_grass_a: "/stitch-assets/cat-heroes/ranger-a.png",
+  shop_ranger_grass_b: "/stitch-assets/cat-heroes/ranger-b.png",
+  shop_mage_fire_a: "/stitch-assets/cat-heroes/mage-a.png",
+  shop_mage_ice_b: "/stitch-assets/cat-heroes/mage-b.png",
+  shop_support_water_a: "/stitch-assets/cat-heroes/support-a.png",
+  shop_support_water_b: "/stitch-assets/cat-heroes/support-b.png",
   starter_tank_stone: "/stitch-assets/cat-heroes/tank-a.png",
   starter_fighter_fire: "/stitch-assets/cat-heroes/fighter-a.png",
+  starter_support_water: "/stitch-assets/cat-heroes/support-a.png",
 };
 
 const CAT_HERO_BLURB = {
@@ -2478,6 +2485,12 @@ const CAT_HERO_BLURB = {
   shop_fighter_fire_a: "Боец A · dual + crit + ruffle. Пассивы «Искрящий взгляд» / «Боевой слух».",
   shop_fighter_fire_b: "Боец B · тяжёлые одиночные удары. Пассивы «Яростный взор» / «Рёв стали».",
   shop_assassin_bolt_a: "Ассасин A · stealth → гарант crit. Пассивы «Глаза мглы» / «Шёпот ветра».",
+  shop_ranger_grass_a: "Стрелок A · lowest_hp / ambush. Пассивы «Глаз добычи» / «Уши засады».",
+  shop_ranger_grass_b: "Стрелок B · AoE all_enemies. Пассивы «Широкий взор» / «Дальний слух».",
+  shop_mage_fire_a: "Маг A · fire AoE + vuln/weak. Пассивы «Пламенный зрачок» / «Треск искр».",
+  shop_mage_ice_b: "Маг B · ice control stun/freeze. Пассивы «Ледяной взор» / «Холодный слух».",
+  shop_support_water_a: "Саппорт A · heal + cleanse. Пассивы «Целительный взгляд» / «Уши очищения».",
+  shop_support_water_b: "Саппорт B · heal + ATK buff. Пассивы «Вдохновляющий взор» / «Шёпот слабости».",
 };
 
 function catHeroArt(templateId) {

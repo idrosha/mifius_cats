@@ -41,13 +41,25 @@
 | 3 | Боец A «Парные когти» | `shop_fighter_fire_a` | [`fighter-a.png`](cat-heroes/fighter-a.png) | ready |
 | 4 | Боец B «Двуручный» | `shop_fighter_fire_b` | [`fighter-b.png`](cat-heroes/fighter-b.png) | ready |
 | 5 | Ассасин A «Тень» | `shop_assassin_bolt_a` | [`assassin-a.png`](cat-heroes/assassin-a.png) | ready |
-| 6–12 | Ассасин B … Саппорт B | `shop_*` | — | **скоро** (следующий drop) |
+| 6 | Ассасин B «Охотник тыла» | `shop_assassin_bolt_b` | — | **скоро** |
+| 7 | Стрелок A «Охотник» | `shop_ranger_grass_a` | [`ranger-a.png`](cat-heroes/ranger-a.png) | ready — рысь, зелёный лук |
+| 8 | Стрелок B «Град стрел» | `shop_ranger_grass_b` | [`ranger-b.png`](cat-heroes/ranger-b.png) | ready — леопард, AoE-лук |
+| 9 | Маг A «Огонь» | `shop_mage_fire_a` | [`mage-a.png`](cat-heroes/mage-a.png) | ready |
+| 10 | Маг B «Лёд» | `shop_mage_ice_b` | [`mage-b.png`](cat-heroes/mage-b.png) | ready |
+| 11 | Саппорт A «Чистый родник» | `shop_support_water_a` | [`support-a.png`](cat-heroes/support-a.png) | ready — вода/heal |
+| 12 | Саппорт B «Прилив силы» | `shop_support_water_b` | [`support-b.png`](cat-heroes/support-b.png) | ready — sun/buff |
 
 ![Щит-утёс](cat-heroes/tank-a.png)
 ![Пробой](cat-heroes/tank-b.png)
 ![Парные когти](cat-heroes/fighter-a.png)
 ![Двуручный](cat-heroes/fighter-b.png)
 ![Тень](cat-heroes/assassin-a.png)
+![Охотник](cat-heroes/ranger-a.png)
+![Град стрел](cat-heroes/ranger-b.png)
+![Огонь](cat-heroes/mage-a.png)
+![Лёд](cat-heroes/mage-b.png)
+![Чистый родник](cat-heroes/support-a.png)
+![Прилив силы](cat-heroes/support-b.png)
 
 ### 1.1 Общая сетка
 
