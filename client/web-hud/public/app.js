@@ -512,8 +512,10 @@ const state = {
     { id: "boots_soft_pads", slot: "boots", name: "Мягкие лапки", atk: 0, hp: 0, def: 10, spd: 12, crit: 0, rank: 1, rarity: "common", enhance: 0, set: null, socket: null, iconSrc: "/barn-icons/boots.png" },
     { id: "belt_wool", slot: "belt", name: "Пояс Шерстяного Оберега", atk: 0, hp: 480, def: 40, spd: 4, crit: 0, rank: 4, rarity: "epic", enhance: 8, set: "wool", socket: null, iconSrc: "/barn-icons/collar.png" },
     { id: "ring_storm", slot: "ring", name: "Кольцо Грома", atk: 90, hp: 0, def: 0, spd: 6, crit: 6, rank: 5, rarity: "mythic", enhance: 10, set: "thunder", socket: null, iconSrc: "/barn-icons/ring.png" },
-    { id: "amulet_wool", slot: "amulet", name: "Амулет Шерстяного Оберега", atk: 0, hp: 560, def: 55, spd: 0, crit: 0, rank: 4, rarity: "epic", enhance: 7, set: "wool", socket: null, iconSrc: "/barn-icons/collar.png" },
-    { id: "offhand_claw", slot: "offhand", name: "Коготь-парир", atk: 110, hp: 0, def: 30, spd: 4, crit: 3, rank: 3, rarity: "rare", enhance: 5, set: null, socket: null, iconSrc: "/stitch-assets/hero-icons/inv_07.png" },
+    { id: "gloves_wool", slot: "gloves", name: "Перчатки Сапфира", atk: 0, hp: 320, def: 45, spd: 6, crit: 2, rank: 4, rarity: "epic", enhance: 9, set: "wool", socket: null, iconSrc: "/stitch-assets/kb-gear-gloves.png" },
+    { id: "amulet_wool", slot: "gloves", name: "Перчатки Сапфира", atk: 0, hp: 320, def: 45, spd: 6, crit: 2, rank: 4, rarity: "epic", enhance: 9, set: "wool", socket: null, iconSrc: "/stitch-assets/kb-gear-gloves.png" },
+    { id: "shield_guard", slot: "shield", name: "Щит Стража", atk: 40, hp: 480, def: 120, spd: 0, crit: 0, rank: 4, rarity: "epic", enhance: 11, set: null, socket: null, iconSrc: "/barn-icons/guard.png" },
+    { id: "offhand_claw", slot: "shield", name: "Щит Стража", atk: 40, hp: 480, def: 120, spd: 0, crit: 0, rank: 4, rarity: "epic", enhance: 11, set: null, socket: null, iconSrc: "/barn-icons/guard.png" },
   ],
   /** Soft-launch barn stock — live sheet on /barn (not a screenshot). Icons: warehouse-icons-v2. */
   barnCatalog: [
@@ -2447,14 +2449,14 @@ const CAT_SHEET_NAMES = {
   starter_support_water: "Мурка Водная",
 };
 const HOME_SLOT_PIN = {
-  helm: "is-tc",
-  weapon: "is-tl",
-  armor: "is-tr",
-  amulet: "is-ml",
-  belt: "is-mr",
-  ring: "is-bl",
+  helm: "is-tl",
+  armor: "is-ml",
+  gloves: "is-bl",
   boots: "is-bc",
-  offhand: "is-br",
+  weapon: "is-tr",
+  shield: "is-mr",
+  belt: "is-br",
+  ring: "is-br2",
 };
 const CAT_ROLE_RU = {
   tank: "Страж",
@@ -2481,18 +2483,18 @@ const CAT_ELEMENT_GEN = {
   grass: "травы",
   ice: "льда",
 };
-const HOME_SLOT_ORDER = ["helm", "weapon", "ring", "amulet", "armor", "belt", "boots", "offhand"];
-const HOME_SLOT_LEFT = ["helm", "weapon", "ring", "amulet"];
-const HOME_SLOT_RIGHT = ["armor", "belt", "boots", "offhand"];
+const HOME_SLOT_ORDER = ["helm", "armor", "gloves", "boots", "weapon", "shield", "belt", "ring"];
+const HOME_SLOT_LEFT = ["helm", "armor", "gloves", "boots"];
+const HOME_SLOT_RIGHT = ["weapon", "shield", "belt", "ring"];
 const HOME_SLOT_RU = {
-  weapon: "Оружие",
-  armor: "Броня",
   helm: "Шлем",
-  boots: "Обувь",
-  ring: "Кольцо",
-  amulet: "Амулет",
+  armor: "Доспех",
+  gloves: "Перчатки",
+  boots: "Сапоги",
+  weapon: "Оружие",
+  shield: "Щит",
   belt: "Пояс",
-  offhand: "Левая лапа",
+  ring: "Кольцо",
 };
 const HOME_RARITY_RU = { mythic: "Миф", epic: "Эпик", rare: "Редк", common: "Обыч" };
 const HOME_SET_RU = {
@@ -2874,25 +2876,27 @@ function renderBarn() {
 }
 
 const HOME_STITCH_DEFAULTS = {
-  weapon: "weapon_perun",
   helm: "helm_storm",
   armor: "armor_thunder",
-  amulet: "amulet_wool",
+  gloves: "gloves_wool",
+  boots: "boots_soft_pads",
+  weapon: "weapon_perun",
+  shield: "shield_guard",
   belt: "belt_wool",
   ring: "ring_storm",
-  boots: "boots_soft_pads",
-  offhand: "offhand_claw",
 };
 
 const HOME_SLOT_LABEL = {
   weapon_perun: "Кинжал Перуна",
   helm_storm: "Шлем Бури",
   armor_thunder: "Кираса Саламандры",
-  amulet_wool: "Ошейник Сапфира",
+  gloves_wool: "Перчатки Сапфира",
+  amulet_wool: "Перчатки Сапфира",
   belt_wool: "Пояс Исследователя",
   ring_storm: "Перстень Солнца",
   boots_soft_pads: "Мягкие Сапожки",
-  offhand_claw: "Бубенец Удачи",
+  shield_guard: "Щит Стража",
+  offhand_claw: "Щит Стража",
   weapon_cleaver: "Огненный Тесак",
   helm_grey_cap: "Шлем Охотника",
   armor_green_mail: "Теневой Плащ",
@@ -2908,11 +2912,24 @@ function homeActiveCat() {
   return cat || null;
 }
 
+function migrateHomeEquipSlots(eq) {
+  if (!eq || typeof eq !== "object") return eq;
+  if (eq.amulet != null && eq.gloves == null) eq.gloves = eq.amulet;
+  if (eq.offhand != null && eq.shield == null) eq.shield = eq.offhand;
+  delete eq.amulet;
+  delete eq.offhand;
+  for (const slot of HOME_SLOT_ORDER) {
+    if (!(slot in eq)) eq[slot] = null;
+  }
+  return eq;
+}
+
 function ensureHomeStitchLoadout(catId) {
   if (!catId) return;
   if (!state.equippedByCat[catId]) state.equippedByCat[catId] = emptyEquipSlots();
+  const eq = migrateHomeEquipSlots(state.equippedByCat[catId]);
+  state.equippedByCat[catId] = eq;
   if (state.homeSeededEquip?.[catId]) return;
-  const eq = state.equippedByCat[catId];
   const any = HOME_SLOT_ORDER.some((slot) => eq[slot]);
   if (!any) {
     for (const [slot, id] of Object.entries(HOME_STITCH_DEFAULTS)) {

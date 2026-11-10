@@ -1480,11 +1480,28 @@ body:has(#viewHome:not(.hidden)) #app {
   width: auto;
   min-width: 0;
 }
-#viewHome .home-equip-slot[data-home-slot="helm"] {
-  top: 0.35rem !important;
-  right: 0.35rem !important;
-  left: auto !important;
+/* 4+4 columns around mannequin; helm stays top-left (clear of cat head) */
+#viewHome #homeGearOverlay {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: stretch;
+}
+#viewHome #homeGearOverlay .home-gear-col {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.35rem;
+  max-width: 42%;
+  z-index: 20;
+}
+#viewHome #homeGearOverlay .home-gear-col.is-left .home-equip-slot[data-home-slot="helm"] {
+  /* slight outward nudge so enlarged helm chip clears the cat head silhouette */
+  transform: translate(-0.15rem, 0.1rem);
   z-index: 25;
+}
+#viewHome #homeGearOverlay .home-gear-col.is-left .home-equip-slot[data-home-slot="helm"]:hover {
+  transform: translate(-0.15rem, 0.1rem) scale(1.05);
 }
 /* Battle deck stays full-width below the 3-col workbench */
 #viewHome > main > div.flex.flex-col > .w-full.bg-surface-container {
