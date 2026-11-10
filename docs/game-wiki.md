@@ -8,7 +8,7 @@
 
 ## Оглавление
 
-1. [Скиллы и пассивы 12 героев](#1-скиллы-и-пассивы-12-героев)
+1. [Скиллы и пассивы 12 героев](#1-скиллы-и-пассивы-12-героев) · [§1.4 арты карт batch 1](#14-арты-карт-атак--batch-1)
 2. [Двор — добыча ресурсов](#2-двор--добыча-ресурсов)
 3. [HP по классам](#3-hp-по-классам)
 4. [Атака и бой](#4-атака-и-бой)
@@ -74,6 +74,85 @@
 | `fragile` | Урон игнорит shield (с `pierce`) |
 | `taunt` / `stealth` | Принуд. цель / скрытие от nearest |
 | `ruffle` → claw | 10 стаков → Claw Mode (FULL-SPEC §3.4) |
+
+### 1.4 Арты карт атак — batch 1
+
+Каталог файлов: `docs/attack-cards/` (в Project store зеркало: `media/attack-cards/`).  
+Папка на героя; имя файла = `attack_{templateId}_{part}.png`.
+
+| # | Герой | templateId | Папка | Карты в batch 1 |
+|---|---|---|---|---|
+| 4 | Боец B «Двуручный» | `shop_fighter_fire_b` | [`04-fighter-b-dvuruchnyy`](attack-cards/04-fighter-b-dvuruchnyy/) | eyes · ears |
+| 5 | Ассасин A «Тень» | `shop_assassin_bolt_a` | [`05-assassin-a-ten`](attack-cards/05-assassin-a-ten/) | eyes · ears |
+| 6 | Ассасин B «Охотник тыла» | `shop_assassin_bolt_b` | [`06-assassin-b-ohotnik-tyla`](attack-cards/06-assassin-b-ohotnik-tyla/) | eyes · ears |
+| 8 | Стрелок B «Град стрел» | `shop_ranger_grass_b` | [`08-ranger-b-grad-strel`](attack-cards/08-ranger-b-grad-strel/) | muzzle · headwear · back · tail |
+| 9 | Маг A «Огонь» | `shop_mage_fire_a` | [`09-mage-a-ogon`](attack-cards/09-mage-a-ogon/) | headwear · back · tail (**нет** muzzle «Огненный круг») |
+
+Текст на артах = playable numbers (тот же масштаб, что HP §3). Eyes/ears у бойца B и ассасинов A/B — из proposal `docs/stitch-prompts-eyes-ears-active.md` (ещё не SSOT N=6).
+
+#### Боец B «Двуручный»
+
+| Part | Карта | cost | Эффект на арте |
+|---|---|---|---|
+| eyes | Яростный взор | 2 | 8 nearest · кровотечение 2 · Порез |
+| ears | Рёв стали | 1 | 5 nearest · хрупкость 1 · кровотечение 1 · Увечье/Порез |
+
+![Яростный взор](attack-cards/04-fighter-b-dvuruchnyy/attack_shop_fighter_fire_b_eyes.png)
+
+![Рёв стали](attack-cards/04-fighter-b-dvuruchnyy/attack_shop_fighter_fire_b_ears.png)
+
+#### Ассасин A «Тень»
+
+| Part | Карта | cost | Эффект на арте |
+|---|---|---|---|
+| eyes | Глаза мглы | 1 | 3 nearest · стан 1 |
+| ears | Шёпот ветра | 1 | 4 nearest · яд 2 |
+
+![Глаза мглы](attack-cards/05-assassin-a-ten/attack_shop_assassin_bolt_a_eyes.png)
+
+![Шёпот ветра](attack-cards/05-assassin-a-ten/attack_shop_assassin_bolt_a_ears.png)
+
+#### Ассасин B «Охотник тыла»
+
+| Part | Карта | cost | Эффект на арте |
+|---|---|---|---|
+| eyes | Прицел в спину | 1 | 4 тыл · крит · яд 2 |
+| ears | Слух поддержки | 1 | 3 тыл · стан 1 |
+
+![Прицел в спину](attack-cards/06-assassin-b-ohotnik-tyla/attack_shop_assassin_bolt_b_eyes.png)
+
+![Слух поддержки](attack-cards/06-assassin-b-ohotnik-tyla/attack_shop_assassin_bolt_b_ears.png)
+
+#### Стрелок B «Град стрел»
+
+| Part | Карта | cost | Эффект на арте |
+|---|---|---|---|
+| muzzle | Град стрел | 2 | 4 всем · засада · AoE |
+| headwear | Тяжёлые стрелы | 2 | 3 всем · AoE |
+| back | Метка слабого | 1 | 5 lowest_hp · засада |
+| tail | Залп по площади | 2 | 4 всем · засада · тыл |
+
+![Град стрел](attack-cards/08-ranger-b-grad-strel/attack_shop_ranger_grass_b_muzzle.png)
+
+![Тяжёлые стрелы](attack-cards/08-ranger-b-grad-strel/attack_shop_ranger_grass_b_headwear.png)
+
+![Метка слабого](attack-cards/08-ranger-b-grad-strel/attack_shop_ranger_grass_b_back.png)
+
+![Залп по площади](attack-cards/08-ranger-b-grad-strel/attack_shop_ranger_grass_b_tail.png)
+
+#### Маг A «Огонь»
+
+| Part | Карта | cost | Эффект на арте |
+|---|---|---|---|
+| headwear | Искра-крит | 1 | 4 nearest · крит |
+| back | Волна жара | 2 | 3 всем · крит · AoE |
+| tail | Ожог тыла | 1 | 5 тыл · уязвимость 1 |
+
+![Искра-крит](attack-cards/09-mage-a-ogon/attack_shop_mage_fire_a_headwear.png)
+
+![Волна жара](attack-cards/09-mage-a-ogon/attack_shop_mage_fire_a_back.png)
+
+![Ожог тыла](attack-cards/09-mage-a-ogon/attack_shop_mage_fire_a_tail.png)
 
 ---
 
@@ -385,5 +464,6 @@ Premium **yarn** остаётся IAP; «Мифиус» не покупаетс�
 | Formation | store `docs/formation-targeting.md` |
 | Starter | store `docs/starter-pack.md` |
 | Prefs | store `preferences.md` |
+| Арты карт (batch 1) | `docs/attack-cards/` · store `media/attack-cards/` |
 
 База знаний (HUD `codex`): статья «Полная вики правил» → этот файл.
