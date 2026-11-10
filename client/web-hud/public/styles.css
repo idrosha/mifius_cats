@@ -1806,7 +1806,10 @@ body:has(#viewGear:not(.hidden)) #app {
   display: flex; flex-direction: column; align-items: stretch; padding: 0.3rem; text-align: left;
 }
 #viewGear .barn-grid .barn-art {
-  width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 0.3rem; background: #1a1613; display: block;
+  width: 100%; aspect-ratio: 1; object-fit: cover; object-position: center;
+  border-radius: 0.3rem; background: #1a1613; display: block;
+  /* Mild zoom crops outer tavern/frame margin into the square thumb. */
+  transform: scale(1.08); transform-origin: center;
 }
 #viewGear .barn-badge-l, #viewGear .barn-badge-r {
   position: absolute; top: 0.35rem; z-index: 1; font-size: 10px; font-weight: 700;
