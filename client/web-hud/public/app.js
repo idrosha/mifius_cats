@@ -3808,9 +3808,12 @@ function renderPracticeFight() {
   if (!diff) return;
   const local = diff.p1 || {};
   const energy = local.energy ?? 0;
-  if ($("pfRound")) $("pfRound").textContent = `Раунд ${diff.turn || 1} · Ход игрока`;
-  if ($("pfEnergy")) $("pfEnergy").textContent = `Энергия ${energy}`;
+  if ($("pfRound")) $("pfRound").textContent = `РАУНД ${diff.turn || 1} • ХОД ИГРОКА`;
+  if ($("pfEnergy")) {
+    $("pfEnergy").textContent = `ДОДЗЁ СПАРРИНГ · Энергия хода ${energy}`;
+  }
   if ($("pfOrbs")) $("pfOrbs").textContent = `Орбы энергии ${energy}`;
+  if ($("pfOrbsNum")) $("pfOrbsNum").textContent = String(energy);
   const paint = (sel, units) => {
     document.querySelectorAll(sel).forEach((card, i) => {
       const u = units[i];
@@ -3828,30 +3831,22 @@ function renderPracticeFight() {
   paint("#pfAllies [data-slot]", allies);
   paint("#pfEnemies [data-slot]", enemies);
   const hand = $("pfHand");
-  if (!hand) return;
-  hand.innerHTML = "";
-  const cards = (diff.hand || []).slice(0, 6);
-  const source = cards.length
-    ? cards
-    : ["Громовой Удар", "Огненный Щит", "Целебный Мур", "Круговой Взмах", "Искра Очага"].map((name) => ({
-        label: name,
-        idle: true,
-      }));
-  for (const c of source) {
-    const b = document.createElement("button");
-    b.type = "button";
-    b.className = "pf-card";
-    if (c.idle) {
-      b.disabled = true;
-      b.innerHTML = `<b>${c.label}</b><span>ждёт раздачу</span>`;
-    } else {
+  const liveCards = (diff.hand || []).slice(0, 6);
+  // Keep painted Stitch hand until server deals real cards.
+  if (hand && liveCards.length) {
+    hand.removeAttribute("data-pf-hand-static");
+    hand.innerHTML = "";
+    for (const c of liveCards) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "pf-card";
       b.disabled = !c.playable || !!diff.result || diff.active !== 0;
       b.innerHTML = `<b>${t(c.name_key, c.cardId)}</b><span>цена ${c.cost ?? "?"}</span>`;
       b.addEventListener("click", () =>
         submitAction({ kind: "playCard", unitId: c.unitId, handIndex: c.handIndex, targetId: "" }),
       );
+      hand.appendChild(b);
     }
-    hand.appendChild(b);
   }
   const end = $("pfEndTurn");
   if (end) end.disabled = !diff.canEndTurn || !!diff.result || diff.active !== 0;

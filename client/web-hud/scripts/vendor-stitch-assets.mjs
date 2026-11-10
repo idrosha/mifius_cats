@@ -116,6 +116,12 @@ const SCREEN_FALLBACKS = {
   "pvp.html": ["/stitch-ref/4da7/pvp.png", "/stitch-ref/e608/arena_dojo.png", "/stitch-ref/64d5/cat_portrait.png"],
   "guild_battle.html": ["/stitch-ref/4da7/guild_battle.png", "/stitch-ref/4da7/guild_fight.png", "/stitch-ref/64d5/cat_portrait.png"],
   "practice.html": ["/stitch-ref/18c7/practice.png", "/stitch-ref/e608/arena_dojo.png", "/stitch-ref/64d5/cat_portrait.png"],
+  "practice_fight.html": [
+    "/stitch-ref/e608/arena_dojo.png",
+    "/stitch-ref/batch3-etalons/12-practice-dojo-fight.png",
+    "/stitch-ref/battles-trade-guild-etalons/05-battle-ui.png",
+    "/stitch-ref/64d5/cat_portrait.png",
+  ],
   "guild.html": ["/stitch-ref/18c7/guild.png", "/stitch-ref/18c7/guild_interior_art.png", "/stitch-ref/64d5/cat_portrait.png"],
   "pass.html": ["/stitch-ref/ba17/pass.png", "/stitch-ref/ba17/pass_sanctum.png", "/stitch-ref/64d5/cat_portrait.png"],
   "chat_global.html": ["/stitch-ref/ba17/chat.png", "/stitch-ref/ba17/pass_sanctum.png", "/stitch-ref/64d5/cat_portrait.png"],
