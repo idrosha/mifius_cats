@@ -8,7 +8,7 @@
 
 ## Оглавление
 
-1. [Скиллы и пассивы 12 героев](#1-скиллы-и-пассивы-12-героев) · [§1.4 арты карт batch 1–5](#14-арты-карт-атак-batch-1-5)
+1. [Скиллы и пассивы 12 героев](#1-скиллы-и-пассивы-12-героев) · [§1.0 портреты](#10-портреты-героев-batch-1) · [§1.4 арты карт batch 1–5](#14-арты-карт-атак-batch-1-5)
 2. [Двор — добыча ресурсов](#2-двор--добыча-ресурсов)
 3. [HP по классам](#3-hp-по-классам)
 4. [Атака и бой](#4-атака-и-бой)
@@ -28,6 +28,26 @@
 Источник вариантов: `docs/class-variants-balance.md` / shop 6×2.  
 Части: **глаза / уши** = пассив (active-style триггер); **морда / убор / спина / хвост** = карты N=4.  
 Статусы MVP: `stun`, `poison`, `bleed`, `sleep`, `weak`, `vuln`, `fragile`, `taunt`, `stealth`, `ruffle`, `mint`, `cleanser` (FULL-SPEC §3.5).
+
+### 1.0 Портреты героев (batch 1)
+
+Полноростовые портреты: `docs/cat-heroes/` (HUD: `/stitch-assets/cat-heroes/`).  
+Экраны: **Кодекс героев** (`heroes`), **Коллекция** (`collection`), **Персонаж** (`/hero` · `home`).
+
+| # | Герой | templateId | Файл | Статус |
+|---|---|---|---|---|
+| 1 | Танк A «Щит-утёс» | `shop_tank_stone_a` | [`tank-a.png`](cat-heroes/tank-a.png) | ready — щит-лев + булава |
+| 2 | Танк B «Пробой» | `shop_tank_stone_b` | [`tank-b.png`](cat-heroes/tank-b.png) | ready — molten hammer+щит |
+| 3 | Боец A «Парные когти» | `shop_fighter_fire_a` | [`fighter-a.png`](cat-heroes/fighter-a.png) | ready |
+| 4 | Боец B «Двуручный» | `shop_fighter_fire_b` | [`fighter-b.png`](cat-heroes/fighter-b.png) | ready |
+| 5 | Ассасин A «Тень» | `shop_assassin_bolt_a` | [`assassin-a.png`](cat-heroes/assassin-a.png) | ready |
+| 6–12 | Ассасин B … Саппорт B | `shop_*` | — | **скоро** (следующий drop) |
+
+![Щит-утёс](cat-heroes/tank-a.png)
+![Пробой](cat-heroes/tank-b.png)
+![Парные когти](cat-heroes/fighter-a.png)
+![Двуручный](cat-heroes/fighter-b.png)
+![Тень](cat-heroes/assassin-a.png)
 
 ### 1.1 Общая сетка
 

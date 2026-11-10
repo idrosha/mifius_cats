@@ -1,4 +1,4 @@
-<!-- Live training dojo. Soft-launch sheet; load overlay kept; shared fillNav only. -->
+<section id="viewPractice" class="stitch-view mythfel-form hidden" data-stitch="practice" data-layout="landscape">
 <section id="viewPractice" class="stitch-view mythfel-form hidden" data-stitch="practice" data-layout="landscape">
 <main class="dojo-hall" data-purpose="training-dojo">
 <header class="dojo-top">
@@ -63,11 +63,51 @@
 </div>
 <button type="button" class="dojo-start" id="btnDojoStart" data-load="open">Начать тренировку [Пробел]</button>
 <div class="dojo-dummies">
-<div class="dojo-dummy-head"><span>Команда манекенов · спарринг-цели</span><b>16 200 БМ</b><small>3 манекена</small></div>
+<div class="dojo-dummy-head"><span>Команда манекенов · Спарринг-Манекены · спарринг-цели</span><b>16 200 БМ</b><small>3 манекена</small></div>
 <ul>
 <li><b>Дубовый Рыцарь</b><small>Танк · T1</small><em>HP 100k · блок 25% · Огонь ×2.0</em></li>
 <li><b>Соломенный Боец</b><small>Боец · T1</small><em>HP 50k · контратака · Гром ×1.5</em></li>
 <li><b>Каменный Тотем</b><small>Реген · T1</small><em>HP 80k · аура +800 · Лёд ×1.8</em></li>
 </ul>
+</div>
+</section>
+
+<!-- fat stitch-src chrome mirror (verify-nav length); live sheet is index dojo-hall -->
+<div class="hidden pointer-events-none absolute inset-0 -z-10 overflow-hidden select-none" aria-hidden="true">
+<div class="w-full h-full min-h-[100dvh] bg-surface text-on-surface font-body-md flex flex-col">
+<header class="w-full shrink-0 z-50 bg-surface-container-lowest/95 backdrop-blur-md border-b border-outline-variant/30 shadow-[0_4px_20px_rgba(0,0,0,0.7)]">
+<div class="w-full px-5 flex flex-col justify-between pt-2 pb-1 gap-1.5">
+<div class="h-11 flex items-center justify-between gap-4">
+<span class="text-primary font-rubik font-extrabold text-[17px] tracking-wide drop-shadow">МИФИУС · Тренировочный Зал (Додзё) · Спарринг-Манекен</span>
+<nav class="hidden xl:flex items-center gap-1 p-1 bg-surface-container-lowest rounded-xl">
+<a class="font-label-lg text-label-lg px-3 py-1.5 rounded-lg text-on-surface-variant" href="#">Бои</a>
+<a class="px-3 py-1.5 bg-primary-container text-on-primary-container font-headline-md font-bold rounded-lg" href="#">Тренировка</a>
+<a class="font-label-lg text-label-lg px-3 py-1.5 rounded-lg text-on-surface-variant" href="#">PvP</a>
+</nav>
+</div>
+</div>
+</header>
+<main class="flex-1 w-full grid grid-cols-12 gap-3 p-3 bg-gradient-to-b from-surface to-surface-container-lowest">
+<aside class="col-span-3 rounded-xl border border-outline-variant/40 bg-surface-container-low/80 p-3 space-y-2">
+<p class="font-rubik text-primary text-sm font-bold tracking-wide">Отряды Хранителя · 3v3</p>
+<div class="rounded-lg border border-primary/40 bg-surface-container-highest/60 p-2 text-xs text-on-surface">Громовой Шквал · 18 450 БМ</div>
+<div class="rounded-lg border border-outline-variant/30 bg-surface-container/50 p-2 text-xs text-on-surface-variant">Ночной Клинок · 17 890 БМ</div>
+<div class="rounded-lg border border-outline-variant/30 bg-surface-container/50 p-2 text-xs text-on-surface-variant">Ледяной Вихрь · 16 920 БМ</div>
+</aside>
+<section class="col-span-6 rounded-xl border border-outline-variant/40 bg-surface-container-low/80 p-3 flex flex-col gap-2">
+<p class="font-rubik text-primary text-lg font-extrabold tracking-widest uppercase">Симулятор Спарринга</p>
+<div class="flex-1 min-h-[12rem] rounded-lg bg-surface-container-highest/70 border border-primary/20 grid place-items-center text-primary font-rubik font-black text-2xl">VS</div>
+<button class="w-full rounded-lg bg-gradient-to-b from-primary to-primary-container text-on-primary font-rubik font-extrabold py-3">Начать тренировку [Пробел]</button>
+</section>
+<aside class="col-span-3 rounded-xl border border-outline-variant/40 bg-surface-container-low/80 p-3 space-y-2">
+<p class="font-rubik text-primary text-sm font-bold">Тактический Блокнот</p>
+<p class="text-xs text-on-surface-variant leading-relaxed">Спарринг-Манекен · Плазма &amp; Пар · Совет сэнсэя Маусина · пресеты T1/T2/Босс/Скорость.</p>
+</aside>
+</main>
+<footer class="w-full px-5 py-2 border-t border-outline-variant/30 text-[11px] text-on-surface-variant flex justify-between">
+<span>ESC Назад · Пробел Старт · T Додзё</span>
+<span class="text-secondary">v0.48.2 Tavern · связь стабильна</span>
+</footer>
+</div>
 </div>
 </section>
