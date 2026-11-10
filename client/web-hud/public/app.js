@@ -2447,7 +2447,57 @@ const CAT_SHEET_NAMES = {
   starter_tank_stone: "Рыжик Каменный",
   starter_fighter_fire: "Барсик Громовержец",
   starter_support_water: "Мурка Водная",
+  shop_tank_stone_a: "Щит-утёс",
+  shop_tank_stone_b: "Пробой",
+  shop_fighter_fire_a: "Парные когти",
+  shop_fighter_fire_b: "Двуручный",
+  shop_assassin_bolt_a: "Тень",
+  shop_assassin_bolt_b: "Охотник тыла",
+  shop_ranger_grass_a: "Охотник",
+  shop_ranger_grass_b: "Град стрел",
+  shop_mage_fire_a: "Огонь",
+  shop_mage_ice_b: "Лёд",
+  shop_support_water_a: "Чистый родник",
+  shop_support_water_b: "Прилив силы",
 };
+
+/** Full-body portraits — wiki §1.0 / media/cat-heroes (12/12). */
+const CAT_HERO_ART = {
+  shop_tank_stone_a: "/stitch-assets/cat-heroes/tank-a.png",
+  shop_tank_stone_b: "/stitch-assets/cat-heroes/tank-b.png",
+  shop_fighter_fire_a: "/stitch-assets/cat-heroes/fighter-a.png",
+  shop_fighter_fire_b: "/stitch-assets/cat-heroes/fighter-b.png",
+  shop_assassin_bolt_a: "/stitch-assets/cat-heroes/assassin-a.png",
+  shop_assassin_bolt_b: "/stitch-assets/cat-heroes/assassin-b.png",
+  shop_ranger_grass_a: "/stitch-assets/cat-heroes/ranger-a.png",
+  shop_ranger_grass_b: "/stitch-assets/cat-heroes/ranger-b.png",
+  shop_mage_fire_a: "/stitch-assets/cat-heroes/mage-a.png",
+  shop_mage_ice_b: "/stitch-assets/cat-heroes/mage-b.png",
+  shop_support_water_a: "/stitch-assets/cat-heroes/support-a.png",
+  shop_support_water_b: "/stitch-assets/cat-heroes/support-b.png",
+  starter_tank_stone: "/stitch-assets/cat-heroes/tank-a.png",
+  starter_fighter_fire: "/stitch-assets/cat-heroes/fighter-a.png",
+  starter_support_water: "/stitch-assets/cat-heroes/support-a.png",
+};
+
+const CAT_HERO_BLURB = {
+  shop_tank_stone_a: "Танк A · hard-def: щит + taunt. Пассивы «Каменный взор» / «Уши валуна».",
+  shop_tank_stone_b: "Танк B · pierce/fragile. Пассивы «Трещина взора» / «Чуткость бреши».",
+  shop_fighter_fire_a: "Боец A · dual + crit + ruffle. Пассивы «Искрящий взгляд» / «Боевой слух».",
+  shop_fighter_fire_b: "Боец B · тяжёлые одиночные удары. Пассивы «Яростный взор» / «Рёв стали».",
+  shop_assassin_bolt_a: "Ассасин A · stealth → гарант crit. Пассивы «Глаза мглы» / «Шёпот ветра».",
+  shop_assassin_bolt_b: "Ассасин B · backline + poison. Пассивы «Прицел в спину» / «Слух поддержки».",
+  shop_ranger_grass_a: "Стрелок A · lowest_hp / ambush. Пассивы «Глаз добычи» / «Уши засады».",
+  shop_ranger_grass_b: "Стрелок B · AoE all_enemies. Пассивы «Широкий взор» / «Дальний слух».",
+  shop_mage_fire_a: "Маг A · fire AoE + vuln/weak. Пассивы «Пламенный зрачок» / «Треск искр».",
+  shop_mage_ice_b: "Маг B · ice control stun/freeze. Пассивы «Ледяной взор» / «Холодный слух».",
+  shop_support_water_a: "Саппорт A · heal + cleanse. Пассивы «Целительный взгляд» / «Уши очищения».",
+  shop_support_water_b: "Саппорт B · heal + ATK buff. Пассивы «Вдохновляющий взор» / «Шёпот слабости».",
+};
+
+function catHeroArt(templateId) {
+  return CAT_HERO_ART[templateId] || null;
+}
 const HOME_SLOT_PIN = {
   helm: "is-tl",
   armor: "is-ml",
@@ -3075,9 +3125,84 @@ function renderHome() {
   }
   const cat = homeActiveCat();
   if (!cat) return;
+  const art = catHeroArt(cat.templateId);
+  const nameEl = $("homeHeroName");
+  const metaEl = $("homeHeroMeta");
+  const artEl = $("homeHeroArt");
+  if (nameEl) nameEl.textContent = catSheetName(cat);
+  if (metaEl) {
+    const m = starterMeta(cat.templateId);
+    const role = CAT_ROLE_RU[cat.role || m.role] || cat.role || m.role;
+    const el = CAT_ELEMENT_RU[cat.element || m.element] || cat.element || m.element;
+    metaEl.innerHTML = `<span class="material-symbols-outlined text-[13px] text-primary">pets</span> ${el} • ${role} · ${cat.templateId}`;
+  }
+  if (artEl && art) {
+    artEl.src = art;
+    artEl.alt = catSheetName(cat);
+  }
   ensureHomeStitchLoadout(cat.catId);
   bindHomeEquipClicks();
   syncHomeEquipDom(cat.catId);
+}
+
+function bindHeroesCodex() {
+  const root = $("viewHeroes");
+  if (!root || root.dataset.heroesBound === "1") return;
+  root.dataset.heroesBound = "1";
+  const cards = root.querySelectorAll(".archetype-card");
+  const filters = root.querySelectorAll(".filter-btn");
+  const focusCard = (card) => {
+    cards.forEach((c) => {
+      c.classList.remove("bg-surface-container-highest");
+      c.classList.add("bg-surface-container-low");
+      c.style.boxShadow = "none";
+    });
+    card.classList.add("bg-surface-container-highest");
+    card.classList.remove("bg-surface-container-low");
+    card.style.boxShadow = "0 0 12px rgba(217, 155, 38, 0.4)";
+    const tpl = card.getAttribute("data-template");
+    const id = card.getAttribute("data-id") || "";
+    const title = card.querySelector("h2")?.textContent?.trim() || id;
+    const art = tpl ? catHeroArt(tpl) : null;
+    const artEl = $("heroInspectorArt");
+    const nameEl = $("heroInspectorName");
+    const blurbEl = $("heroInspectorBlurb");
+    const classEl = $("heroInspectorClass");
+    if (artEl && art) {
+      artEl.src = art;
+      artEl.alt = title;
+    }
+    if (nameEl) nameEl.textContent = title;
+    if (blurbEl) {
+      blurbEl.textContent =
+        (tpl && CAT_HERO_BLURB[tpl]) ||
+        card.querySelector("p")?.textContent?.trim() ||
+        "";
+    }
+    if (classEl) {
+      const role = card.getAttribute("data-role") || "";
+      classEl.textContent = `Архи-Класс: ${title} (${role || "—"}) · ${tpl || "портрет скоро"}`;
+    }
+  };
+  filters.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      filters.forEach((b) => {
+        b.classList.remove("bg-primary-container", "text-on-primary-container");
+        b.classList.add("bg-surface-container", "text-on-surface-variant");
+      });
+      btn.classList.add("bg-primary-container", "text-on-primary-container");
+      btn.classList.remove("bg-surface-container", "text-on-surface-variant");
+      const role = btn.getAttribute("data-filter");
+      cards.forEach((card) => {
+        card.style.display = role === "all" || card.getAttribute("data-role") === role ? "flex" : "none";
+      });
+    });
+  });
+  cards.forEach((card) => {
+    card.addEventListener("click", () => focusCard(card));
+  });
+  const initial = root.querySelector('.archetype-card[data-id="tank-a"]') || cards[0];
+  if (initial) focusCard(initial);
 }
 
 
@@ -3886,11 +4011,11 @@ function pvpUnitCard(u, foe) {
   const element = CAT_ELEMENT_RU[u.element] || u.element || "";
   const name = catSheetName({ templateId: u.id, catId: u.id });
   const pct = u.maxHp > 0 ? Math.max(0, Math.min(100, (u.hp / u.maxHp) * 100)) : 0;
-  const art = {
-    starter_support_water: "/stitch-assets/ad3ff067b5c8.jpg",
-    starter_fighter_fire: "/stitch-assets/f453fafbcca9.jpg",
-    starter_tank_stone: "/stitch-assets/dc459e94ceed.jpg",
-  }[u.id];
+  const art =
+    catHeroArt(u.id) ||
+    {
+      starter_support_water: "/stitch-assets/ad3ff067b5c8.jpg",
+    }[u.id];
   li.innerHTML = `${art ? `<figure><img alt="" src="${art}"/></figure>` : ""}<div><b>${name}</b><small>${element}${role ? " · " + role : ""}</small><em>${u.hp} / ${u.maxHp}</em><i style="--hp:${pct}%"></i></div>`;
   if (foe) li.dataset.foe = "1";
   return li;
@@ -4443,6 +4568,9 @@ function renderAll() {
       break;
     case "home":
       renderHome();
+      break;
+    case "heroes":
+      bindHeroesCodex();
       break;
     case "gear":
       renderBarn();

@@ -8,7 +8,7 @@
 
 ## Оглавление
 
-1. [Скиллы и пассивы 12 героев](#1-скиллы-и-пассивы-12-героев) · [§1.4 арты карт batch 1–5](#14-арты-карт-атак-batch-1-5)
+1. [Скиллы и пассивы 12 героев](#1-скиллы-и-пассивы-12-героев) · [§1.0 портреты](#10-портреты-героев-batch-1) · [§1.4 арты карт batch 1–5](#14-арты-карт-атак-batch-1-5)
 2. [Двор — добыча ресурсов](#2-двор--добыча-ресурсов)
 3. [HP по классам](#3-hp-по-классам)
 4. [Атака и бой](#4-атака-и-бой)
@@ -28,6 +28,39 @@
 Источник вариантов: `docs/class-variants-balance.md` / shop 6×2.  
 Части: **глаза / уши** = пассив (active-style триггер); **морда / убор / спина / хвост** = карты N=4.  
 Статусы MVP: `stun`, `poison`, `bleed`, `sleep`, `weak`, `vuln`, `fragile`, `taunt`, `stealth`, `ruffle`, `mint`, `cleanser` (FULL-SPEC §3.5).
+
+### 1.0 Портреты героев (batch 1)
+
+Полноростовые портреты: `docs/cat-heroes/` (HUD: `/stitch-assets/cat-heroes/`).  
+Экраны: **Кодекс героев** (`heroes`), **Коллекция** (`collection`), **Персонаж** (`/hero` · `home`).
+
+| # | Герой | templateId | Файл | Статус |
+|---|---|---|---|---|
+| 1 | Танк A «Щит-утёс» | `shop_tank_stone_a` | [`tank-a.png`](cat-heroes/tank-a.png) | ready — щит-лев + булава |
+| 2 | Танк B «Пробой» | `shop_tank_stone_b` | [`tank-b.png`](cat-heroes/tank-b.png) | ready — molten hammer+щит |
+| 3 | Боец A «Парные когти» | `shop_fighter_fire_a` | [`fighter-a.png`](cat-heroes/fighter-a.png) | ready |
+| 4 | Боец B «Двуручный» | `shop_fighter_fire_b` | [`fighter-b.png`](cat-heroes/fighter-b.png) | ready |
+| 5 | Ассасин A «Тень» | `shop_assassin_bolt_a` | [`assassin-a.png`](cat-heroes/assassin-a.png) | ready |
+| 6 | Ассасин B «Охотник тыла» | `shop_assassin_bolt_b` | [`assassin-b.png`](cat-heroes/assassin-b.png) | ready — сиам, bolt-кинжалы |
+| 7 | Стрелок A «Охотник» | `shop_ranger_grass_a` | [`ranger-a.png`](cat-heroes/ranger-a.png) | ready — рысь, зелёный лук |
+| 8 | Стрелок B «Град стрел» | `shop_ranger_grass_b` | [`ranger-b.png`](cat-heroes/ranger-b.png) | ready — леопард, AoE-лук |
+| 9 | Маг A «Огонь» | `shop_mage_fire_a` | [`mage-a.png`](cat-heroes/mage-a.png) | ready |
+| 10 | Маг B «Лёд» | `shop_mage_ice_b` | [`mage-b.png`](cat-heroes/mage-b.png) | ready |
+| 11 | Саппорт A «Чистый родник» | `shop_support_water_a` | [`support-a.png`](cat-heroes/support-a.png) | ready — вода/heal |
+| 12 | Саппорт B «Прилив силы» | `shop_support_water_b` | [`support-b.png`](cat-heroes/support-b.png) | ready — sun/buff |
+
+![Щит-утёс](cat-heroes/tank-a.png)
+![Пробой](cat-heroes/tank-b.png)
+![Парные когти](cat-heroes/fighter-a.png)
+![Двуручный](cat-heroes/fighter-b.png)
+![Тень](cat-heroes/assassin-a.png)
+![Охотник тыла](cat-heroes/assassin-b.png)
+![Охотник](cat-heroes/ranger-a.png)
+![Град стрел](cat-heroes/ranger-b.png)
+![Огонь](cat-heroes/mage-a.png)
+![Лёд](cat-heroes/mage-b.png)
+![Чистый родник](cat-heroes/support-a.png)
+![Прилив силы](cat-heroes/support-b.png)
 
 ### 1.1 Общая сетка
 
