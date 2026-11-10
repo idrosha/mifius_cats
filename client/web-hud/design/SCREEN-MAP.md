@@ -25,7 +25,7 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | `home` | `home.html` | 0268 `_7` | Дом Хранителя: кот + экип + инвентарь (no portals — Stitch header nav killed) |
 | `breeding` | `breeding.html` | 64d5 `_1` | Питомник / скрещивание |
 | `craft` | `craft.html` | 64d5 `_2` | Крафт & алхимия |
-| `codex` | `codex.html` | 64d5 `_3` | Кодекс Мифмира |
+| `codex` | `codex.html` | live `/codex` KB sheet (was 64d5 `_3`) | База знаний · оружейные архетипы |
 | `heroes` | `heroes.html` | 64d5 `_4` | Кодекс боевых архетипов |
 | `soon_farm` / `farm` | `soon_farm.html` | 64d5 `_5` | Двор / угодья (Soon gameplay) |
 | `yard` | `yard.html` | e608 `pve` | Мифмир start: карта + узлы + волны; строй tip inline |
