@@ -8,7 +8,7 @@
 
 ## Оглавление
 
-1. [Скиллы и пассивы 12 героев](#1-скиллы-и-пассивы-12-героев) · [§1.4 арты карт batch 1–2](#14-арты-карт-атак-batch-1-2)
+1. [Скиллы и пассивы 12 героев](#1-скиллы-и-пассивы-12-героев) · [§1.4 арты карт batch 1–3](#14-арты-карт-атак-batch-1-3)
 2. [Двор — добыча ресурсов](#2-двор--добыча-ресурсов)
 3. [HP по классам](#3-hp-по-классам)
 4. [Атака и бой](#4-атака-и-бой)
@@ -75,23 +75,42 @@
 | `taunt` / `stealth` | Принуд. цель / скрытие от nearest |
 | `ruffle` → claw | 10 стаков → Claw Mode (FULL-SPEC §3.4) |
 
-### 1.4 Арты карт атак (batch 1–2)
+### 1.4 Арты карт атак (batch 1–3)
 
 Каталог файлов: `docs/attack-cards/` (в Project store зеркало: `media/attack-cards/`).  
 Папка на героя; имя файла = `attack_{templateId}_{part}.png`.
 
 | # | Герой | templateId | Папка | Есть арт |
 |---|---|---|---|---|
+| 1 | Танк A «Щит-утёс» | `shop_tank_stone_a` | [`01-tank-a-shit-utes`](attack-cards/01-tank-a-shit-utes/) | muzzle · headwear · back · tail |
 | 4 | Боец B «Двуручный» | `shop_fighter_fire_b` | [`04-fighter-b-dvuruchnyy`](attack-cards/04-fighter-b-dvuruchnyy/) | eyes · ears |
 | 5 | Ассасин A «Тень» | `shop_assassin_bolt_a` | [`05-assassin-a-ten`](attack-cards/05-assassin-a-ten/) | eyes · ears |
 | 6 | Ассасин B «Охотник тыла» | `shop_assassin_bolt_b` | [`06-assassin-b-ohotnik-tyla`](attack-cards/06-assassin-b-ohotnik-tyla/) | eyes · ears |
-| 7 | Стрелок A «Охотник» | `shop_ranger_grass_a` | [`07-ranger-a-ohotnik`](attack-cards/07-ranger-a-ohotnik/) | eyes · ears |
+| 7 | Стрелок A «Охотник» | `shop_ranger_grass_a` | [`07-ranger-a-ohotnik`](attack-cards/07-ranger-a-ohotnik/) | eyes · ears · muzzle · headwear · back · tail |
 | 8 | Стрелок B «Град стрел» | `shop_ranger_grass_b` | [`08-ranger-b-grad-strel`](attack-cards/08-ranger-b-grad-strel/) | eyes · ears · muzzle · headwear · back · tail |
 | 9 | Маг A «Огонь» | `shop_mage_fire_a` | [`09-mage-a-ogon`](attack-cards/09-mage-a-ogon/) | eyes · ears · headwear · back · tail (**нет** muzzle) |
-| 10 | Маг B «Лёд» | `shop_mage_ice_b` | [`10-mage-b-led`](attack-cards/10-mage-b-led/) | muzzle · headwear · back · tail |
-| 12 | Саппорт B «Прилив силы» | `shop_support_water_b` | [`12-support-b-priliv-sily`](attack-cards/12-support-b-priliv-sily/) | muzzle · headwear · back · tail (**нет** eyes) |
+| 10 | Маг B «Лёд» | `shop_mage_ice_b` | [`10-mage-b-led`](attack-cards/10-mage-b-led/) | eyes · ears · muzzle · headwear · back · tail |
+| 11 | Саппорт A «Чистый родник» | `shop_support_water_a` | [`11-support-a-chistyy-rodnik`](attack-cards/11-support-a-chistyy-rodnik/) | eyes · ears |
+| 12 | Саппорт B «Прилив силы» | `shop_support_water_b` | [`12-support-b-priliv-sily`](attack-cards/12-support-b-priliv-sily/) | eyes · ears · muzzle · headwear · back · tail |
 
 Текст на артах = playable numbers (масштаб HP §3). Eyes/ears — proposal `docs/stitch-prompts-eyes-ears-active.md` (ещё не SSOT N=6).
+
+#### Танк A «Щит-утёс» *(batch 3)*
+
+| Part | Карта | cost | Эффект на арте |
+|---|---|---|---|
+| muzzle | Каменный оскал | 1 | shield 8 · таунт 2 |
+| headwear | Галька-шлем | 1 | shield 10 |
+| back | Щит-валун | 1 | shield 9 · таунт |
+| tail | Хвост-утёс | 1 | 4 nearest · таунт |
+
+![Каменный оскал](attack-cards/01-tank-a-shit-utes/attack_shop_tank_stone_a_muzzle.png)
+
+![Галька-шлем](attack-cards/01-tank-a-shit-utes/attack_shop_tank_stone_a_headwear.png)
+
+![Щит-валун](attack-cards/01-tank-a-shit-utes/attack_shop_tank_stone_a_back.png)
+
+![Хвост-утёс](attack-cards/01-tank-a-shit-utes/attack_shop_tank_stone_a_tail.png)
 
 #### Боец B «Двуручный»
 
@@ -126,16 +145,28 @@
 
 ![Слух поддержки](attack-cards/06-assassin-b-ohotnik-tyla/attack_shop_assassin_bolt_b_ears.png)
 
-#### Стрелок A «Охотник» *(batch 2)*
+#### Стрелок A «Охотник»
 
 | Part | Карта | cost | Эффект на арте |
 |---|---|---|---|
 | eyes | Глаз добычи | 1 | 4 lowest_hp · засада · слабость 1 |
 | ears | Уши засады | 1 | 4 nearest · засада · кровотечение 2 · Порез |
+| muzzle | Метка охотника | 1 | 6 lowest_hp · засада · крит *(batch 3)* |
+| headwear | Прицельный укус | 1 | 5 lowest_hp · засада *(batch 3)* |
+| back | Стрела в тыл | 1 | 5 тыл *(batch 3)* |
+| tail | Крит-засада | 1 | 6 nearest · засада · крит *(batch 3)* |
 
 ![Глаз добычи](attack-cards/07-ranger-a-ohotnik/attack_shop_ranger_grass_a_eyes.png)
 
 ![Уши засады](attack-cards/07-ranger-a-ohotnik/attack_shop_ranger_grass_a_ears.png)
+
+![Метка охотника](attack-cards/07-ranger-a-ohotnik/attack_shop_ranger_grass_a_muzzle.png)
+
+![Прицельный укус](attack-cards/07-ranger-a-ohotnik/attack_shop_ranger_grass_a_headwear.png)
+
+![Стрела в тыл](attack-cards/07-ranger-a-ohotnik/attack_shop_ranger_grass_a_back.png)
+
+![Крит-засада](attack-cards/07-ranger-a-ohotnik/attack_shop_ranger_grass_a_tail.png)
 
 #### Стрелок B «Град стрел»
 
@@ -180,14 +211,20 @@
 
 ![Ожог тыла](attack-cards/09-mage-a-ogon/attack_shop_mage_fire_a_tail.png)
 
-#### Маг B «Лёд» *(batch 2)*
+#### Маг B «Лёд»
 
 | Part | Карта | cost | Эффект на арте |
 |---|---|---|---|
+| eyes | Ледяной взор | 2 | 5 nearest · стан 1 *(batch 3)* |
+| ears | Холодный слух | 1 | 5 nearest · слабость 2 *(batch 3)* |
 | muzzle | Ледяная буря | 2 | 3 всем · AoE |
 | headwear | Морозный укус | 1 | 4 nearest · стан 1 |
 | back | Холодный фронт | 2 | 3 всем · AoE |
 | tail | Заморозка тыла | 2 | 4 тыл · слабость 1 |
+
+![Ледяной взор](attack-cards/10-mage-b-led/attack_shop_mage_ice_b_eyes.png)
+
+![Холодный слух](attack-cards/10-mage-b-led/attack_shop_mage_ice_b_ears.png)
 
 ![Ледяная буря](attack-cards/10-mage-b-led/attack_shop_mage_ice_b_muzzle.png)
 
@@ -197,14 +234,31 @@
 
 ![Заморозка тыла](attack-cards/10-mage-b-led/attack_shop_mage_ice_b_tail.png)
 
-#### Саппорт B «Прилив силы» *(batch 2)*
+#### Саппорт A «Чистый родник» *(batch 3)*
 
 | Part | Карта | cost | Эффект на арте |
 |---|---|---|---|
+| eyes | Целительный взгляд | 1 | heal 6 ally_lowest_hp |
+| ears | Уши очищения | 1 | heal 3 ally_lowest_hp · очищение ×2 |
+
+![Целительный взгляд](attack-cards/11-support-a-chistyy-rodnik/attack_shop_support_water_a_eyes.png)
+
+![Уши очищения](attack-cards/11-support-a-chistyy-rodnik/attack_shop_support_water_a_ears.png)
+
+#### Саппорт B «Прилив силы»
+
+| Part | Карта | cost | Эффект на арте |
+|---|---|---|---|
+| eyes | Вдохновляющий взор | 1 | ATK +2 союзнику на 3 хода *(batch 3)* |
+| ears | Шёпот слабости | 1 | 5 nearest · слабость 2 *(batch 3)* |
 | muzzle | Лёгкий хил | 1 | heal 4 раненому союзнику |
 | headwear | Боевой настрой | 1 | ATK +2 союзнику на 2 хода |
 | back | Прилив силы | 2 | heal 3 всем · щит 2 · бафф ATK +1 |
 | tail | Ослабить врага | 1 | 3 nearest · слабость 1 |
+
+![Вдохновляющий взор](attack-cards/12-support-b-priliv-sily/attack_shop_support_water_b_eyes.png)
+
+![Шёпот слабости](attack-cards/12-support-b-priliv-sily/attack_shop_support_water_b_ears.png)
 
 ![Лёгкий хил](attack-cards/12-support-b-priliv-sily/attack_shop_support_water_b_muzzle.png)
 
@@ -524,6 +578,6 @@ Premium **yarn** остаётся IAP; «Мифиус» не покупаетс�
 | Formation | store `docs/formation-targeting.md` |
 | Starter | store `docs/starter-pack.md` |
 | Prefs | store `preferences.md` |
-| Арты карт (batch 1–2) | `docs/attack-cards/` · store `media/attack-cards/` |
+| Арты карт (batch 1–3) | `docs/attack-cards/` · store `media/attack-cards/` |
 
 База знаний (HUD `codex`): статья «Полная вики правил» → этот файл.
