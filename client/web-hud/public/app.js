@@ -2447,14 +2447,14 @@ const CAT_SHEET_NAMES = {
   starter_support_water: "Мурка Водная",
 };
 const HOME_SLOT_PIN = {
-  helm: "is-tc",
-  weapon: "is-tl",
-  armor: "is-tr",
+  helm: "is-tl",
+  armor: "is-ml",
   amulet: "is-ml",
+  boots: "is-bl",
+  weapon: "is-tr",
+  offhand: "is-mr",
   belt: "is-mr",
-  ring: "is-bl",
-  boots: "is-bc",
-  offhand: "is-br",
+  ring: "is-br",
 };
 const CAT_ROLE_RU = {
   tank: "Страж",
@@ -2481,18 +2481,18 @@ const CAT_ELEMENT_GEN = {
   grass: "травы",
   ice: "льда",
 };
-const HOME_SLOT_ORDER = ["helm", "weapon", "ring", "amulet", "armor", "belt", "boots", "offhand"];
-const HOME_SLOT_LEFT = ["helm", "weapon", "ring", "amulet"];
-const HOME_SLOT_RIGHT = ["armor", "belt", "boots", "offhand"];
+const HOME_SLOT_ORDER = ["helm", "armor", "amulet", "boots", "weapon", "offhand", "belt", "ring"];
+const HOME_SLOT_LEFT = ["helm", "armor", "amulet", "boots"];
+const HOME_SLOT_RIGHT = ["weapon", "offhand", "belt", "ring"];
 const HOME_SLOT_RU = {
-  weapon: "Оружие",
-  armor: "Броня",
   helm: "Шлем",
-  boots: "Обувь",
-  ring: "Кольцо",
-  amulet: "Амулет",
+  armor: "Доспех",
+  amulet: "Плащ",
+  boots: "Сапоги",
+  weapon: "Оружие",
+  offhand: "Щит",
   belt: "Пояс",
-  offhand: "Левая лапа",
+  ring: "Кольцо",
 };
 const HOME_RARITY_RU = { mythic: "Миф", epic: "Эпик", rare: "Редк", common: "Обыч" };
 const HOME_SET_RU = {

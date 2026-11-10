@@ -1264,37 +1264,26 @@
 <img class="absolute inset-0 w-full h-full object-cover object-center rounded-xl filter drop-shadow-2xl" data-alt="Brave red tabby cat warrior in engraved Nordic steel plate armor holding a glowing cyan lightning dagger in a warm rustic fantasy tavern" src="/stitch-assets/character-v1/hero-showcase.jpg">
 <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-surface-container-lowest/70 pointer-events-none"></div>
 <div class="absolute inset-0 bg-radial from-transparent via-surface-container-lowest/30 to-surface-container-lowest/80 pointer-events-none"></div>
-<!-- 8 SYMMETRICAL GEAR SLOTS OVERLAY — large chips; helmet offset right of head -->
-<div id="homeGearOverlay" class="absolute inset-0 p-space-xs flex flex-col justify-between pointer-events-none" data-purpose="equip-overlay">
-<!-- TOP: weapon left · armor right; helm absolute top-right (clear of cat head) -->
-<div class="flex items-start justify-between pointer-events-auto px-space-xs pt-1 gap-2 relative">
-<button type="button" class="home-equip-slot group relative flex items-center gap-2 cursor-pointer transition-transform hover:scale-105" data-home-slot="weapon" data-item-id="weapon_perun" title="Снять">
-<div class="home-equip-ico w-28 h-28 rounded-xl bg-surface-container-high/95 backdrop-blur shadow-lg flex items-center justify-center relative shadow-[0_0_18px_rgba(253,186,69,0.5)] border-2 border-primary/40 overflow-hidden">
-<img alt="Кинжал Перуна" class="w-full h-full object-cover rounded-xl" src="/barn-icons/dagger.png">
-<span class="absolute -top-2 -right-2 px-1.5 py-0.5 rounded bg-primary text-on-primary font-stat-numeral text-[12px] leading-tight">+12</span>
+<!-- 8 GEAR SLOTS — two side columns around mannequin (4+4); helmet clear of cat head -->
+<div id="homeGearOverlay" class="absolute inset-0 p-space-xs flex justify-between pointer-events-none" data-purpose="equip-overlay">
+<!-- LEFT (top→bottom): шлем, доспех, плащ, сапоги -->
+<div class="home-gear-col home-gear-col--left flex flex-col justify-between h-full pointer-events-auto py-1 gap-1 max-w-[42%]">
+<button type="button" class="home-equip-slot group relative flex items-center gap-2 cursor-pointer transition-transform hover:scale-105" data-home-slot="helm" data-item-id="helm_storm" title="Снять">
+<div class="home-equip-ico w-28 h-28 rounded-xl bg-surface-container-high/95 backdrop-blur shadow-lg flex items-center justify-center relative shadow-[0_0_16px_rgba(253,186,69,0.35)] border-2 border-primary/30 overflow-hidden">
+<img alt="Шлем Бури" class="w-full h-full object-cover rounded-xl" src="/barn-icons/helmet.png">
+<span class="absolute -top-2 -right-2 px-1.5 py-0.5 rounded bg-primary text-on-primary font-stat-numeral text-[12px] leading-tight">+10</span>
 <span class="absolute -bottom-2 px-1.5 py-0.5 rounded bg-surface-container-lowest font-label-sm text-[10px] text-primary uppercase">Миф</span>
 </div>
-<div class="flex flex-col text-left max-w-[7rem]"><span class="font-label-sm text-[12px] text-primary font-bold drop-shadow leading-tight">Кинжал Перуна</span><span class="font-body-sm text-[10px] text-secondary flex items-center gap-0.5">✓ Надето</span></div>
+<div class="flex flex-col text-left max-w-[7rem]"><span class="font-label-sm text-[12px] text-primary font-bold drop-shadow leading-tight">Шлем Бури</span><span class="font-body-sm text-[10px] text-secondary flex items-center gap-0.5">✓ Надето</span></div>
 </button>
-<button type="button" class="home-equip-slot group relative flex items-center flex-row-reverse gap-2 cursor-pointer transition-transform hover:scale-105" data-home-slot="armor" data-item-id="armor_thunder" title="Снять">
+<button type="button" class="home-equip-slot group relative flex items-center gap-2 cursor-pointer transition-transform hover:scale-105" data-home-slot="armor" data-item-id="armor_thunder" title="Снять">
 <div class="home-equip-ico w-28 h-28 rounded-xl bg-surface-container-high/95 backdrop-blur shadow-lg flex items-center justify-center relative shadow-[0_0_16px_rgba(253,186,69,0.35)] border-2 border-primary/40 overflow-hidden">
 <img alt="Кираса Саламандры" class="w-full h-full object-cover rounded-xl" src="/barn-icons/chest.png">
 <span class="absolute -top-2 -right-2 px-1.5 py-0.5 rounded bg-primary text-on-primary font-stat-numeral text-[12px] leading-tight">+12</span>
 <span class="absolute -bottom-2 px-1.5 py-0.5 rounded bg-surface-container-lowest font-label-sm text-[10px] text-primary uppercase">Миф</span>
 </div>
-<div class="flex flex-col text-right max-w-[7rem]"><span class="font-label-sm text-[12px] text-primary font-bold drop-shadow leading-tight">Кираса Саламандры</span><span class="font-body-sm text-[10px] text-secondary flex items-center justify-end gap-0.5">✓ Надето</span></div>
+<div class="flex flex-col text-left max-w-[7rem]"><span class="font-label-sm text-[12px] text-primary font-bold drop-shadow leading-tight">Кираса Саламандры</span><span class="font-body-sm text-[10px] text-secondary flex items-center gap-0.5">✓ Надето</span></div>
 </button>
-<button type="button" class="home-equip-slot group absolute top-2 right-2 z-20 flex flex-col items-center cursor-pointer transition-transform hover:scale-105" data-home-slot="helm" data-item-id="helm_storm" title="Снять">
-<div class="home-equip-ico w-28 h-28 rounded-xl bg-surface-container-high/90 backdrop-blur shadow-lg flex items-center justify-center relative shadow-[0_0_16px_rgba(253,186,69,0.35)] border-2 border-primary/30 overflow-hidden">
-<img alt="Шлем Бури" class="w-full h-full object-cover rounded-xl" src="/barn-icons/helmet.png">
-<span class="absolute -top-2 -right-2 px-1.5 py-0.5 rounded bg-primary text-on-primary font-stat-numeral text-[12px] leading-tight">+10</span>
-<span class="absolute -bottom-2 px-1.5 py-0.5 rounded bg-surface-container-lowest font-label-sm text-[10px] text-primary uppercase">Миф</span>
-</div>
-<span class="font-label-sm text-[11px] text-primary mt-1 drop-shadow">Шлем Бури</span>
-</button>
-</div>
-<!-- MID -->
-<div class="flex items-center justify-between w-full px-space-xs pointer-events-auto my-auto">
 <button type="button" class="home-equip-slot group relative flex items-center gap-2 cursor-pointer transition-transform hover:scale-105" data-home-slot="amulet" data-item-id="amulet_wool" title="Снять">
 <div class="home-equip-ico w-28 h-28 rounded-xl bg-surface-container-high/95 backdrop-blur shadow-lg flex items-center justify-center relative shadow-[0_0_14px_rgba(255,180,166,0.35)] border-2 border-tertiary/40 overflow-hidden">
 <img alt="Ошейник Сапфира" class="w-full h-full object-cover rounded-xl" src="/barn-icons/collar.png">
@@ -1302,6 +1291,33 @@
 <span class="absolute -bottom-2 px-1.5 py-0.5 rounded bg-surface-container-lowest font-label-sm text-[10px] text-tertiary uppercase">Эпик</span>
 </div>
 <div class="flex flex-col text-left max-w-[7rem]"><span class="font-label-sm text-[12px] text-tertiary font-bold drop-shadow leading-tight">Ошейник Сапфира</span><span class="font-body-sm text-[10px] text-secondary flex items-center gap-0.5">✓ Надето</span></div>
+</button>
+<button type="button" class="home-equip-slot group relative flex items-center gap-2 cursor-pointer transition-transform hover:scale-105" data-home-slot="boots" data-item-id="boots_soft_pads" title="Снять">
+<div class="home-equip-ico w-28 h-28 rounded-xl bg-surface-container-high/90 backdrop-blur shadow-lg flex items-center justify-center relative shadow-[0_0_14px_rgba(137,217,140,0.35)] border-2 border-secondary/30 overflow-hidden">
+<img alt="Мягкие Сапожки" class="w-full h-full object-cover rounded-xl" src="/barn-icons/boots.png">
+<span class="absolute -top-2 -right-2 px-1.5 py-0.5 rounded bg-secondary-container text-on-secondary-container font-stat-numeral text-[12px] leading-tight">+8</span>
+<span class="absolute -bottom-2 px-1.5 py-0.5 rounded bg-surface-container-lowest font-label-sm text-[10px] text-secondary uppercase">Редк</span>
+</div>
+<div class="flex flex-col text-left max-w-[7rem]"><span class="font-label-sm text-[12px] text-secondary font-bold drop-shadow leading-tight">Мягкие Сапожки</span><span class="font-body-sm text-[10px] text-secondary flex items-center gap-0.5">✓ Надето</span></div>
+</button>
+</div>
+<!-- RIGHT (top→bottom): оружие, щит, пояс, кольцо -->
+<div class="home-gear-col home-gear-col--right flex flex-col justify-between h-full pointer-events-auto py-1 gap-1 items-end max-w-[42%]">
+<button type="button" class="home-equip-slot group relative flex items-center flex-row-reverse gap-2 cursor-pointer transition-transform hover:scale-105" data-home-slot="weapon" data-item-id="weapon_perun" title="Снять">
+<div class="home-equip-ico w-28 h-28 rounded-xl bg-surface-container-high/95 backdrop-blur shadow-lg flex items-center justify-center relative shadow-[0_0_18px_rgba(253,186,69,0.5)] border-2 border-primary/40 overflow-hidden">
+<img alt="Кинжал Перуна" class="w-full h-full object-cover rounded-xl" src="/barn-icons/dagger.png">
+<span class="absolute -top-2 -right-2 px-1.5 py-0.5 rounded bg-primary text-on-primary font-stat-numeral text-[12px] leading-tight">+12</span>
+<span class="absolute -bottom-2 px-1.5 py-0.5 rounded bg-surface-container-lowest font-label-sm text-[10px] text-primary uppercase">Миф</span>
+</div>
+<div class="flex flex-col text-right max-w-[7rem]"><span class="font-label-sm text-[12px] text-primary font-bold drop-shadow leading-tight">Кинжал Перуна</span><span class="font-body-sm text-[10px] text-secondary flex items-center justify-end gap-0.5">✓ Надето</span></div>
+</button>
+<button type="button" class="home-equip-slot group relative flex items-center flex-row-reverse gap-2 cursor-pointer transition-transform hover:scale-105" data-home-slot="offhand" data-item-id="offhand_claw" title="Снять">
+<div class="home-equip-ico w-28 h-28 rounded-xl bg-surface-container-high/95 backdrop-blur shadow-lg flex items-center justify-center relative shadow-[0_0_14px_rgba(255,180,166,0.35)] border-2 border-tertiary/40 overflow-hidden">
+<img alt="Бубенец Удачи" class="w-full h-full object-cover rounded-xl" src="/barn-icons/collar.png">
+<span class="absolute -top-2 -right-2 px-1.5 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-stat-numeral text-[12px] leading-tight">+11</span>
+<span class="absolute -bottom-2 px-1.5 py-0.5 rounded bg-surface-container-lowest font-label-sm text-[10px] text-tertiary uppercase">Эпик</span>
+</div>
+<div class="flex flex-col text-right max-w-[7rem]"><span class="font-label-sm text-[12px] text-tertiary font-bold drop-shadow leading-tight">Бубенец Удачи</span><span class="font-body-sm text-[10px] text-secondary flex items-center justify-end gap-0.5">✓ Надето</span></div>
 </button>
 <button type="button" class="home-equip-slot group relative flex items-center flex-row-reverse gap-2 cursor-pointer transition-transform hover:scale-105" data-home-slot="belt" data-item-id="belt_wool" title="Снять">
 <div class="home-equip-ico w-28 h-28 rounded-xl bg-surface-container-high/95 backdrop-blur shadow-lg flex items-center justify-center relative shadow-[0_0_14px_rgba(137,217,140,0.35)] border-2 border-secondary/40 overflow-hidden">
@@ -1311,32 +1327,13 @@
 </div>
 <div class="flex flex-col text-right max-w-[7rem]"><span class="font-label-sm text-[12px] text-secondary font-bold drop-shadow leading-tight">Пояс Исследователя</span><span class="font-body-sm text-[10px] text-secondary flex items-center justify-end gap-0.5">✓ Надето</span></div>
 </button>
-</div>
-<!-- BOTTOM -->
-<div class="flex items-end justify-between pointer-events-auto px-space-xs pb-1 gap-2">
-<button type="button" class="home-equip-slot group relative flex items-center gap-2 cursor-pointer transition-transform hover:scale-105" data-home-slot="ring" data-item-id="ring_storm" title="Снять">
+<button type="button" class="home-equip-slot group relative flex items-center flex-row-reverse gap-2 cursor-pointer transition-transform hover:scale-105" data-home-slot="ring" data-item-id="ring_storm" title="Снять">
 <div class="home-equip-ico w-28 h-28 rounded-xl bg-surface-container-high/95 backdrop-blur shadow-lg flex items-center justify-center relative shadow-[0_0_16px_rgba(253,186,69,0.35)] border-2 border-primary/40 overflow-hidden">
 <img alt="Перстень Солнца" class="w-full h-full object-cover rounded-xl" src="/barn-icons/ring.png">
 <span class="absolute -top-2 -right-2 px-1.5 py-0.5 rounded bg-primary text-on-primary font-stat-numeral text-[12px] leading-tight">+12</span>
 <span class="absolute -bottom-2 px-1.5 py-0.5 rounded bg-surface-container-lowest font-label-sm text-[10px] text-primary uppercase">Миф</span>
 </div>
-<div class="flex flex-col text-left max-w-[7rem]"><span class="font-label-sm text-[12px] text-primary font-bold drop-shadow leading-tight">Перстень Солнца</span><span class="font-body-sm text-[10px] text-secondary flex items-center gap-0.5">✓ Надето</span></div>
-</button>
-<button type="button" class="home-equip-slot group relative flex flex-col items-center cursor-pointer transition-transform hover:scale-105" data-home-slot="boots" data-item-id="boots_soft_pads" title="Снять">
-<div class="home-equip-ico w-28 h-28 rounded-xl bg-surface-container-high/90 backdrop-blur shadow-lg flex items-center justify-center relative shadow-[0_0_14px_rgba(137,217,140,0.35)] border-2 border-secondary/30 overflow-hidden">
-<img alt="Мягкие Сапожки" class="w-full h-full object-cover rounded-xl" src="/barn-icons/boots.png">
-<span class="absolute -top-2 -right-2 px-1.5 py-0.5 rounded bg-secondary-container text-on-secondary-container font-stat-numeral text-[12px] leading-tight">+8</span>
-<span class="absolute -bottom-2 px-1.5 py-0.5 rounded bg-surface-container-lowest font-label-sm text-[10px] text-secondary uppercase">Редк</span>
-</div>
-<span class="font-label-sm text-[11px] text-secondary mt-1 drop-shadow">Мягкие Сапожки</span>
-</button>
-<button type="button" class="home-equip-slot group relative flex items-center flex-row-reverse gap-2 cursor-pointer transition-transform hover:scale-105" data-home-slot="offhand" data-item-id="offhand_claw" title="Снять">
-<div class="home-equip-ico w-28 h-28 rounded-xl bg-surface-container-high/95 backdrop-blur shadow-lg flex items-center justify-center relative shadow-[0_0_14px_rgba(255,180,166,0.35)] border-2 border-tertiary/40 overflow-hidden">
-<img alt="Бубенец Удачи" class="w-full h-full object-cover rounded-xl" src="/barn-icons/collar.png">
-<span class="absolute -top-2 -right-2 px-1.5 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-stat-numeral text-[12px] leading-tight">+11</span>
-<span class="absolute -bottom-2 px-1.5 py-0.5 rounded bg-surface-container-lowest font-label-sm text-[10px] text-tertiary uppercase">Эпик</span>
-</div>
-<div class="flex flex-col text-right max-w-[7rem]"><span class="font-label-sm text-[12px] text-tertiary font-bold drop-shadow leading-tight">Бубенец Удачи</span><span class="font-body-sm text-[10px] text-secondary flex items-center justify-end gap-0.5">✓ Надето</span></div>
+<div class="flex flex-col text-right max-w-[7rem]"><span class="font-label-sm text-[12px] text-primary font-bold drop-shadow leading-tight">Перстень Солнца</span><span class="font-body-sm text-[10px] text-secondary flex items-center justify-end gap-0.5">✓ Надето</span></div>
 </button>
 </div>
 </div>
