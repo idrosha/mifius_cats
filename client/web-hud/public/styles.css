@@ -1512,6 +1512,31 @@ body:has(#viewHome:not(.hidden)) #app {
 #viewHome > main > div.flex.flex-col > .w-full.bg-surface-container .grid {
   min-width: 0;
 }
+/* Attack deck: equal-height tiles, shared art box */
+#viewHome .home-attack-deck {
+  align-items: stretch;
+  min-width: 0;
+}
+#viewHome .home-attack-card {
+  min-height: 0;
+  height: 100%;
+}
+#viewHome .home-attack-card__art {
+  aspect-ratio: 3 / 4;
+  width: 100%;
+  flex: 0 0 auto;
+}
+#viewHome .home-attack-card__art img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+}
+#viewHome .home-attack-card__meta,
+#viewHome .home-attack-card__text {
+  min-height: 1.15rem;
+}
 #viewHome [data-home-bag-item].is-worn {
   outline: 1px solid #89d98c;
   box-shadow: inset 0 0 0 1px rgba(137, 217, 140, 0.55);
