@@ -92,8 +92,8 @@
 <div class="absolute inset-0 bg-radial from-transparent via-surface-container-lowest/30 to-surface-container-lowest/80 pointer-events-none"></div>
 <!-- 8 SYMMETRICAL GEAR SLOTS OVERLAY — large chips; helmet offset right of head -->
 <div id="homeGearOverlay" class="absolute inset-0 p-space-xs flex flex-col justify-between pointer-events-none" data-purpose="equip-overlay">
-<!-- TOP: weapon left · helmet+armor on RIGHT (helmet clear of cat head) -->
-<div class="flex items-start justify-between pointer-events-auto px-space-xs pt-1 gap-2">
+<!-- TOP: weapon left · armor right; helm absolute top-right (clear of cat head) -->
+<div class="flex items-start justify-between pointer-events-auto px-space-xs pt-1 gap-2 relative">
 <button type="button" class="home-equip-slot group relative flex items-center gap-2 cursor-pointer transition-transform hover:scale-105" data-home-slot="weapon" data-item-id="weapon_perun" title="Снять">
 <div class="home-equip-ico w-28 h-28 rounded-xl bg-surface-container-high/95 backdrop-blur shadow-lg flex items-center justify-center relative shadow-[0_0_18px_rgba(253,186,69,0.5)] border-2 border-primary/40 overflow-hidden">
 <img alt="Кинжал Перуна" class="w-full h-full object-cover rounded-xl" src="/stitch-assets/barn-icons/dagger.png">
@@ -101,15 +101,6 @@
 <span class="absolute -bottom-2 px-1.5 py-0.5 rounded bg-surface-container-lowest font-label-sm text-[10px] text-primary uppercase">Миф</span>
 </div>
 <div class="flex flex-col text-left max-w-[7rem]"><span class="font-label-sm text-[12px] text-primary font-bold drop-shadow leading-tight">Кинжал Перуна</span><span class="font-body-sm text-[10px] text-secondary flex items-center gap-0.5">✓ Надето</span></div>
-</button>
-<div class="flex items-start gap-2 ml-auto">
-<button type="button" class="home-equip-slot group relative flex flex-col items-center cursor-pointer transition-transform hover:scale-105" data-home-slot="helm" data-item-id="helm_storm" title="Снять" style="margin-right:0.25rem">
-<div class="home-equip-ico w-28 h-28 rounded-xl bg-surface-container-high/90 backdrop-blur shadow-lg flex items-center justify-center relative shadow-[0_0_16px_rgba(253,186,69,0.35)] border-2 border-primary/30 overflow-hidden">
-<img alt="Шлем Бури" class="w-full h-full object-cover rounded-xl" src="/stitch-assets/barn-icons/helmet.png">
-<span class="absolute -top-2 -right-2 px-1.5 py-0.5 rounded bg-primary text-on-primary font-stat-numeral text-[12px] leading-tight">+10</span>
-<span class="absolute -bottom-2 px-1.5 py-0.5 rounded bg-surface-container-lowest font-label-sm text-[10px] text-primary uppercase">Миф</span>
-</div>
-<span class="font-label-sm text-[11px] text-primary mt-1 drop-shadow">Шлем Бури</span>
 </button>
 <button type="button" class="home-equip-slot group relative flex items-center flex-row-reverse gap-2 cursor-pointer transition-transform hover:scale-105" data-home-slot="armor" data-item-id="armor_thunder" title="Снять">
 <div class="home-equip-ico w-28 h-28 rounded-xl bg-surface-container-high/95 backdrop-blur shadow-lg flex items-center justify-center relative shadow-[0_0_16px_rgba(253,186,69,0.35)] border-2 border-primary/40 overflow-hidden">
@@ -119,7 +110,14 @@
 </div>
 <div class="flex flex-col text-right max-w-[7rem]"><span class="font-label-sm text-[12px] text-primary font-bold drop-shadow leading-tight">Кираса Саламандры</span><span class="font-body-sm text-[10px] text-secondary flex items-center justify-end gap-0.5">✓ Надето</span></div>
 </button>
+<button type="button" class="home-equip-slot group absolute top-2 right-2 z-20 flex flex-col items-center cursor-pointer transition-transform hover:scale-105" data-home-slot="helm" data-item-id="helm_storm" title="Снять">
+<div class="home-equip-ico w-28 h-28 rounded-xl bg-surface-container-high/90 backdrop-blur shadow-lg flex items-center justify-center relative shadow-[0_0_16px_rgba(253,186,69,0.35)] border-2 border-primary/30 overflow-hidden">
+<img alt="Шлем Бури" class="w-full h-full object-cover rounded-xl" src="/stitch-assets/barn-icons/helmet.png">
+<span class="absolute -top-2 -right-2 px-1.5 py-0.5 rounded bg-primary text-on-primary font-stat-numeral text-[12px] leading-tight">+10</span>
+<span class="absolute -bottom-2 px-1.5 py-0.5 rounded bg-surface-container-lowest font-label-sm text-[10px] text-primary uppercase">Миф</span>
 </div>
+<span class="font-label-sm text-[11px] text-primary mt-1 drop-shadow">Шлем Бури</span>
+</button>
 </div>
 <!-- MID -->
 <div class="flex items-center justify-between w-full px-space-xs pointer-events-auto my-auto">
