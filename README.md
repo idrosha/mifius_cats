@@ -1,112 +1,48 @@
-# Мир Квизов (`mir_games`)
+# Мифиус / Mythfel (`mifius_cats`)
 
-Кроссплатформенные познавательные квизы: одно игровое ядро, платформы только в адаптерах. Клиенты — Telegram-бот + Mini App + Web + Capacitor Android shell + TV web.
+Cat battle game soft launch: Двор + PvP. Brand (player-facing): **Мифиус: Мифические котики**. Code/repo name: Mythfel.
 
-## Структура (monorepo)
+SSOT: [`docs/FULL-SPEC.md`](./docs/FULL-SPEC.md). Launch pack: [`ЗАПУСК.md`](./ЗАПУСК.md). Agents: [`AGENTS.md`](./AGENTS.md) → [`docs/AGENTS.md`](./docs/AGENTS.md).
+
+## Layout
 
 ```
-apps/
-  bot-server/              # Telegram bot + HTTP API (прогресс, auth stub)
-  telegram-miniapp/        # Telegram Mini App (Vite + React)
-  web/                     # Browser web client (Vite + React)
-  mobile-capacitor/        # Capacitor Android thin shell (Phase 8)
-  tv-web/                  # TV / leanback thin client (Phase 8)
-content/
-  question-bank/           # банк вопросов сингл (JSON, блок 1: 10×30)
-packages/
-  platform-contracts/      # порты (TypeScript interfaces)
-  game-core/               # правила квиза без DOM / Telegram / Capacitor
-  question-bank/           # адаптер JSON → LevelDefinition + карта
-  adapters-telegram/       # адаптеры портов для Mini App
-  adapters-web/            # адаптеры портов для браузера
-  adapters-mobile/         # Haptics + Play Billing stubs (Capacitor)
-  adapters-tv/             # InputPort dpad/gamepad + safe-zone profile
+battle/                 # Go battle sim / golden / devapi
+backend/                # Nakama / economy stubs
+liveops/                # CDN stub + soft-launch geo
+client/
+  web-hud/              # Browser HUD (no Unity required)
+  …                     # Presenter / LocalSmoke (.NET)
+content/                # cats, cards, parts, stages, campaign, i18n
+docs/                   # FULL-SPEC, game-wiki, skills
+qa/                     # soft-launch / acceptance / web-hud harness
+.github/workflows/      # mythfel-soft-launch.yml
 ```
 
-Секреты (токен бота, GitHub secrets, Play Billing) хранятся **только в окружении / секретах CI**. Не коммитьте `.env` и не вставляйте реальные токены в код, README или историю git.
+No quiz monorepo. Secrets stay in env / CI only — never commit `.env` with real values.
 
-Ручной чеклист: [`MANUAL_QA.md`](./MANUAL_QA.md).
+## Local smoke
 
-## Локальный запуск
-
-Требования: Node.js 20+.
+Needs Go 1.22+ and Node 20+.
 
 ```bash
-npm install
-cp .env.example .env
-# при желании: TELEGRAM_BOT_TOKEN=... или TELEGRAM_BOT_TOKEN_MQ=...
-# (без токена поднимется только HTTP API; bot-server читает корневой .env)
+./qa/run-web-hud.sh
+# → http://127.0.0.1:8088/
 ```
 
-### 1) HTTP API + опционально бот
+Or by service (see `ЗАПУСК.md` §3):
 
-```bash
-npm run bot:dev
-# API: http://127.0.0.1:8787/health
-```
+| Service | Command |
+|---|---|
+| LiveOps CDN stub | `cd liveops && go run ./cmd/cdn-stub -geo soft-launch/geo_allowlist.example.json` → `:8090` |
+| battle/devapi | `cd battle && go run ./cmd/devapi -content ../content` → `:8081` |
+| Web HUD | `cd client/web-hud && node server.mjs` → `:8088` |
+| Soft-launch gate | `./qa/run-soft-launch.sh` |
+| §13 acceptance | `./qa/run-acceptance.sh` |
 
-Без `TELEGRAM_BOT_TOKEN` / `TELEGRAM_BOT_TOKEN_MQ` процесс работает в режиме API-only (удобно для браузерного демо).
+Optional port overrides: copy [`.env.example`](./.env.example). Web HUD notes: `client/web-hud/README.md`. Device checklist: `qa/DEVICE_SMOKE.md`.
 
-### 2) Web
+## Docs
 
-```bash
-export VITE_API_BASE_URL=http://127.0.0.1:8787
-npm run web:dev
-# открыть http://127.0.0.1:5174
-```
-
-Демо-потоки: чемпионат / онлайн / сингл (10 стран) / магазин / аккаунт — см. `MANUAL_QA.md`.
-
-### 3) Mini App
-
-```bash
-export VITE_API_BASE_URL=http://127.0.0.1:8787
-npm run miniapp:dev
-# открыть http://127.0.0.1:5173
-```
-
-### 4) Capacitor Android shell (Phase 8)
-
-Browser smoke (без Android SDK):
-
-```bash
-export VITE_API_BASE_URL=http://127.0.0.1:8787
-npm run mobile:dev
-# http://127.0.0.1:5175
-```
-
-Native (нужны Android Studio / SDK):
-
-```bash
-export VITE_API_BASE_URL=http://10.0.2.2:8787   # эмулятор → host
-npm run mobile:build
-npm run mobile:cap:add      # один раз — создаёт android/ (gitignored)
-npm run mobile:cap:sync
-npm run mobile:cap:open
-```
-
-Подробности: `apps/mobile-capacitor/README.md`. Billing — только `stub-play`, без Play Console ключей.
-
-### 5) TV / Web (Phase 8)
-
-```bash
-export VITE_API_BASE_URL=http://127.0.0.1:8787
-npm run tv:dev
-# http://127.0.0.1:5176
-```
-
-Крупный UI, safe-zone ~5%, фокус стрелками / gamepad stub. Подробности: `apps/tv-web/README.md`.
-
-### Проверки
-
-```bash
-npm run typecheck
-npm test
-```
-
-## Безопасность
-
-- Переменные: `TELEGRAM_BOT_TOKEN` (или `TELEGRAM_BOT_TOKEN_MQ`), `HTTP_PORT`, `CORS_ORIGIN`, `MINIAPP_URL`, `VITE_API_BASE_URL`, `CHAMPIONSHIP_OPEN_DAYS`
-- Пример без значений: `.env.example`
-- `.env` в `.gitignore` — не коммитить
-- В клиенте секретов нет; Play Billing / Stars keys не кладём в репозиторий
+- Player wiki: [`docs/game-wiki.md`](./docs/game-wiki.md)
+- Doc index: [`docs/README.md`](./docs/README.md)
