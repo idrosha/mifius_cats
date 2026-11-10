@@ -2055,7 +2055,7 @@ function codexRenderArticle(topic) {
   const side = (topic.side || []).map(codexBlockHtml).join("") ||
     `<div class="bg-surface-container-low/95 rounded-xl p-space-md shadow-xl text-[12px] text-on-surface-variant">Источник: ${codexEsc(topic.source || "wiki")}</div>`;
   return `
-<section class="col-span-12 lg:col-span-5 flex flex-col gap-space-sm bg-surface-container/90 rounded-2xl p-space-md shadow-2xl relative overflow-hidden min-h-0">
+<section class="col-span-12 lg:col-span-5 flex flex-col gap-space-sm bg-surface-container/90 rounded-2xl p-space-md shadow-2xl relative overflow-hidden min-h-0 h-full max-h-full">
   <div class="absolute -top-20 -left-20 w-80 h-80 rounded-full bg-primary/10 blur-3xl pointer-events-none"></div>
   <div class="flex items-center justify-between z-10 bg-surface-container-lowest/80 backdrop-blur-md px-space-md py-space-xs rounded-xl shadow-md gap-space-sm">
     <div class="flex items-center gap-space-sm min-w-0">
@@ -2071,7 +2071,7 @@ function codexRenderArticle(topic) {
   <div class="flex flex-col gap-space-sm z-10 overflow-auto flex-1 min-h-0">${blocks}</div>
   <div class="text-[10px] text-outline z-10 pt-1">Источник: ${codexEsc(topic.source || "")}</div>
 </section>
-<aside class="col-span-12 lg:col-span-4 flex flex-col justify-between gap-space-sm min-h-0 overflow-auto">
+<aside class="col-span-12 lg:col-span-4 flex flex-col justify-between gap-space-sm min-h-0 overflow-auto h-full max-h-full">
   ${side}
   <div class="bg-surface-container-lowest/80 p-space-sm rounded-xl border border-surface-container-highest flex items-center justify-between gap-2">
     <span class="font-label-sm text-[11px] text-on-surface-variant">Плейсхолдер арта</span>
@@ -2086,6 +2086,8 @@ function renderCodex() {
   if (!root || root.classList.contains("hidden")) return;
   const topics = codexTopics();
   if (!topics.length) return;
+  const main = root.querySelector("main");
+  if (main && main.scrollTop) main.scrollTop = 0;
 
   if (!state.codexEntryId) state.codexEntryId = "class_sets";
   if (!state.codexFilter) state.codexFilter = "all";

@@ -1860,6 +1860,21 @@ body:has(#viewCodex:not(.hidden)) #app {
 #codexDetailHost {
   display: contents;
 }
+/* Article sheets: keep 3-col Stitch frame in viewport; scroll inside columns */
+#viewCodex > main > div.grid.grid-cols-12 {
+  min-height: 0 !important;
+  height: 100% !important;
+  max-height: calc(100vh - 5.5rem) !important;
+  align-items: stretch !important;
+}
+#viewCodex > main > div.grid.grid-cols-12 > aside.col-span-12,
+#viewCodex #codexDetailHost > section,
+#viewCodex #codexDetailHost > aside {
+  min-height: 0 !important;
+  max-height: 100% !important;
+  overflow: auto !important;
+}
+
 
 /* Soft-launch kills Stitch chrome header/footer; keep main Stitch structure */
 #viewCodex > footer {
