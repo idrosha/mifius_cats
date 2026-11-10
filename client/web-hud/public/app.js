@@ -4931,7 +4931,13 @@ function bindBattleHub() {
 function showPracticeLoad(on) {
   const root = $("viewPractice");
   const load = root?.querySelector(".dojo-load");
-  if (!root || !load) return;
+  if (!root) return;
+  // If the load lobby markup is missing, open still must start the fight.
+  if (!load) {
+    root.dataset.practiceLoad = "0";
+    if (on) startPractice(false);
+    return;
+  }
   load.hidden = !on;
   root.dataset.practiceLoad = on ? "1" : "0";
 }
