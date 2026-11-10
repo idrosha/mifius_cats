@@ -85,6 +85,7 @@ const REQUIRED_NAV_IDS = [
   "chat_friends",
   "rating_players",
   "rating_guilds",
+  "battle_hub",
   "practice",
 ];
 
@@ -130,6 +131,7 @@ const STITCH_SRC = [
   "boss_raid.html",
   "pvp.html",
   "guild_battle.html",
+  "battle_hub.html",
   "practice.html",
   "practice_fight.html",
   "guild.html",
@@ -354,6 +356,21 @@ ok(
   /Зал Гильдии|Орден|Гильди/i.test(
     fs.readFileSync(path.join(DESIGN, "stitch-src", "guild.html"), "utf8"),
   ),
+);
+ok(
+  "battle_hub live fronts map in index",
+  html.includes('id="viewBattleHub"') && html.includes('data-stitch="battle_hub"') && html.includes("front-hall"),
+  "viewBattleHub missing from index",
+);
+ok(
+  "practice lobby has dojo-load start screen",
+  html.includes('data-stitch="practice"') && /id="viewPractice"[\s\S]*?class="dojo-load"/.test(html),
+  "dojo-load missing under viewPractice",
+);
+ok(
+  "warehouse is live barn sheet with icons host",
+  html.includes('data-stitch="gear"') && html.includes("barn-sheet") && html.includes('id="barnGrid"'),
+  "viewGear is not barn-sheet",
 );
 ok(
   "painted practice not placeholder",

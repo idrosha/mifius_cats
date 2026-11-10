@@ -37,6 +37,8 @@ const SCREENS = [
   { id: "boss_raid", file: "boss_raid.html", view: "viewBossRaid" },
   { id: "pvp", file: "pvp.html", view: "viewPvp" },
   { id: "guild_battle", file: "guild_battle.html", view: "viewGuildBattle" },
+  // Live Бои hub (/fronts) — battle frontiers map
+  { id: "battle_hub", file: "battle_hub.html", view: "viewBattleHub" },
   // Battles pack 18c7 — practice lobby + guild hall
   { id: "practice", file: "practice.html", view: "viewPractice" },
   // Dojo sparring fight form (Stitch battle HUD; no top nav during fight)
