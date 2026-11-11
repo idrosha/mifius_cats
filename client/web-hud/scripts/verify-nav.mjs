@@ -366,6 +366,24 @@ ok(
   "viewBattleHub missing from index",
 );
 ok(
+  "soon_farm painted map in index",
+  html.includes('id="viewSoonFarm"') &&
+    html.includes('data-stitch="soon_farm"') &&
+    html.includes("farm_map.png") &&
+    html.includes('id="farmSideActions"') &&
+    !html.includes('data-purpose="wireframe" data-screen="Двор'),
+  "viewSoonFarm regressed to wireframe",
+);
+ok(
+  "craft painted altar in index",
+  html.includes('id="viewCraft"') &&
+    html.includes('data-stitch="craft"') &&
+    html.includes("craft-altar-art.png") &&
+    html.includes('id="btn-craft-main"') &&
+    !html.includes('data-purpose="wireframe" data-screen="Крафт'),
+  "viewCraft regressed to wireframe",
+);
+ok(
   "victory_hall live in index",
   html.includes('id="viewVictoryHall"') && html.includes('data-stitch="victory_hall"') && html.includes("vic-hall"),
   "viewVictoryHall missing from index",
