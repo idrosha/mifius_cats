@@ -1,0 +1,157 @@
+<!DOCTYPE html><html lang="ru"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Загрузка тренировочного боя (Додзё 3v3 — Правильный строй) — Мифиус</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800;900&amp;family=Rubik:ital,wght@0,400;0,500;0,600;0,700;1,400&amp;display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #110d0b;
+      font-family: 'Rubik', sans-serif;
+      overflow: hidden;
+      user-select: none;
+    }
+    .font-cinzel {
+      font-family: 'Cinzel', serif;
+    }
+    .text-glow-gold {
+      text-shadow: 0 0 16px rgba(245, 175, 43, 0.65), 0 0 32px rgba(217, 155, 38, 0.4), 0 2px 4px rgba(0,0,0,0.9);
+    }
+    .text-glow-cyan {
+      text-shadow: 0 0 14px rgba(56, 189, 248, 0.6), 0 2px 4px rgba(0,0,0,0.8);
+    }
+    .text-glow-subtle {
+      text-shadow: 0 1px 3px rgba(0,0,0,0.9), 0 0 8px rgba(0,0,0,0.7);
+    }
+    .vs-text {
+      background: linear-gradient(180deg, #FFF7D6 0%, #F5AF2B 38%, #B87314 72%, #4A2800 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 25px rgba(245, 175, 43, 0.75)) drop-shadow(0 4px 10px rgba(0,0,0,0.9));
+    }
+    .progress-shimmer {
+      background: linear-gradient(90deg, #B87314 0%, #F5AF2B 50%, #FFE89E 85%, #F5AF2B 100%);
+      box-shadow: 0 0 14px rgba(245, 175, 43, 0.8), 0 0 28px rgba(217, 155, 38, 0.4);
+    }
+    .track-shadow {
+      background: rgba(17, 13, 11, 0.75);
+      border: 1px solid rgba(217, 155, 38, 0.35);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.95), 0 0 10px rgba(0,0,0,0.8);
+    }
+  </style>
+</head>
+<body class="fixed inset-0 w-screen h-screen min-h-screen overflow-hidden flex flex-col justify-between bg-[#110d0b]">
+
+  <!-- Background Art Layer: Fully occupying 100% of the screen with object-cover -->
+  <div class="fixed inset-0 w-full h-full -z-10 overflow-hidden">
+    <img src="https://lh3.googleusercontent.com/aida/ALJJyrBm5ZoLxOfpNYi5mtrnt0ERdkTrFLeRtbDMcvbJZaneL5B4A2_DbWMa4D-MNu0h2v-B4gvT-vV9KXtxXq7AR-j57x23wIMnBoTEjJZnVwP0oKAUMqLr8pkChlnrnt4LA_HWtAyMuy9M9w2hcfvUoHV1iv3C8SitL09KMLVLJ25GPvaRfC51RGx_mVJqt_ZAZPVX3Dx3dhMmjS9ndJJ5ZnLaYuoWWHM8J8PrOPaU-F4" alt="Battle Dojo 3v3 Loading" class="w-full h-full object-cover object-center pointer-events-none">
+  </div>
+
+  <!-- TOP HUD: Clean floating text without background boxes -->
+  <header class="relative z-10 w-full pt-8 px-12 flex justify-between items-start pointer-events-none">
+    
+    <!-- Left: Arena mode and Match Details -->
+    <div class="flex flex-col gap-1 text-left">
+      <div class="flex items-center gap-2.5">
+        <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_#34d399]"></span>
+        <span class="text-xs font-semibold tracking-widest text-emerald-400 uppercase text-glow-subtle">
+          Синхронизация Арены Додзё • 16 ms
+        </span>
+      </div>
+      <h1 class="text-4xl lg:text-5xl font-extrabold tracking-wider font-cinzel text-glow-gold text-[#FDBA45] m-0">
+        СПАРРИНГ В ДОДЗЁ 3v3
+      </h1>
+      <p class="text-sm font-medium tracking-wide text-stone-200 text-glow-subtle mt-0.5">
+        Отряд Хранителя <span class="text-[#FDBA45] font-semibold">«Мурр-Оплот»</span> против <span class="text-amber-200 font-semibold">Заколдованных Манекенов Сэнсэя</span>
+      </p>
+    </div>
+
+    <!-- Right: Match tier and energy cost -->
+    <div class="flex flex-col items-end text-right">
+      <div class="text-sm font-bold tracking-widest text-amber-200 uppercase font-cinzel text-glow-subtle">
+        УЧЕБНЫЙ МАТЧ • TIER 1
+      </div>
+      <div class="text-xs font-medium text-stone-300 mt-1 flex items-center gap-1.5 text-glow-subtle">
+        <span>Расход энергии:</span>
+        <span class="text-emerald-400 font-bold">0 ⚡</span>
+        <span class="text-stone-400">(Бесплатный спарринг)</span>
+      </div>
+      <div class="text-[11px] font-medium text-amber-400/90 tracking-wide mt-1 text-glow-subtle">
+        Правило строя: Саппорт/Маг (Тыл) ➔ Боец (Центр) ➔ Танк (Авангард)
+      </div>
+    </div>
+  </header>
+
+  <!-- CENTER: Floating VS and Team Role Alignment Labels -->
+  <div class="relative z-10 w-full flex flex-col items-center justify-center my-auto pointer-events-none">
+    <!-- Huge radiant VS Emblem in center -->
+    <div class="vs-text font-cinzel text-7xl lg:text-8xl font-black tracking-widest select-none">
+      VS
+    </div>
+    
+    <!-- Clear team role indicators floating below the clash -->
+    
+  </div>
+
+  <!-- BOTTOM HUD: Clean floating progress bar, Sensei hint, and hotkey instructions -->
+  <footer class="relative z-10 w-full pb-8 px-12 flex flex-col gap-3 pointer-events-none">
+    
+    <!-- Progress bar & status line -->
+    <div class="w-full max-w-4xl mx-auto flex flex-col gap-1.5">
+      <div class="flex justify-between items-center text-xs font-semibold tracking-wider text-glow-subtle px-1">
+        <span class="text-amber-300 flex items-center gap-2">
+          <span class="inline-block animate-spin text-sm">⏳</span>
+          Подготовка симуляции боя и расчёт стихийных формул Додзё...
+        </span>
+        <span class="text-amber-400 font-mono font-bold tracking-widest">96%</span>
+      </div>
+      
+      <!-- Sleek Glowing Progress Track -->
+      <div class="w-full h-2 rounded-full track-shadow overflow-hidden p-0.5">
+        <div class="h-full rounded-full progress-shimmer w-[96%] transition-all duration-300"></div>
+      </div>
+    </div>
+
+    <!-- Sensei Tip & Hotkeys Bar: Clean text with glow, no box wrappers -->
+    <div class="w-full flex justify-between items-center text-xs mt-2 px-2">
+      <!-- Left: Tactical Sensei Advice -->
+      <div class="flex items-center gap-2.5 text-stone-200 text-glow-subtle">
+        <span class="text-[#FDBA45] text-base leading-none">💡</span>
+        <span>
+          <strong class="text-[#FDBA45] font-semibold">Совет Сэнсэя:</strong> 
+          «Танк держит удар в Авангарде (спереди), Боец наносит пробой по центру, а Саппорт лечит и очищает тыл.»
+        </span>
+      </div>
+
+      <!-- Right: Pure keyboard hotkeys text -->
+      <div class="flex items-center gap-6 text-stone-300 tracking-wider text-glow-subtle">
+        <div>
+          <span class="text-[#FDBA45] font-bold">[ПРОБЕЛ]</span>
+          <span class="ml-1 text-stone-200 font-medium">Быстрый старт</span>
+        </div>
+        <span class="text-stone-500">•</span>
+        <div>
+          <span class="text-[#FDBA45] font-bold">[ESC]</span>
+          <span class="ml-1 text-stone-200 font-medium">Отмена</span>
+        </div>
+        <span class="text-stone-500">•</span>
+        <div>
+          <span class="text-[#FDBA45] font-bold">[TAB]</span>
+          <span class="ml-1 text-stone-200 font-medium">Ростер 12 героев</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+
+
+
+
+
+
+</body></html>
