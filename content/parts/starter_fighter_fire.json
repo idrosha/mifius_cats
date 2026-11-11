@@ -3,8 +3,8 @@
     "partId": "part_fighter_fire_eyes",
     "slot": "eyes",
     "element": "fire",
-    "cardId": null,
-    "passiveOps": [{ "op": "stat_mod", "stat": "atk", "amount": 2 }],
+    "cardId": "card_fighter_fire_eyes",
+    "passiveOps": [],
     "artKey": "part.fighter_fire_eyes",
     "rarity": "common"
   },
@@ -12,8 +12,8 @@
     "partId": "part_fighter_fire_ears",
     "slot": "ears",
     "element": "fire",
-    "cardId": null,
-    "passiveOps": [{ "op": "stat_mod", "stat": "spd", "amount": 1 }],
+    "cardId": "card_fighter_fire_ears",
+    "passiveOps": [],
     "artKey": "part.fighter_fire_ears",
     "rarity": "common"
   },

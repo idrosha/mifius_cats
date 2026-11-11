@@ -26,7 +26,7 @@
 ## 1. Скиллы и пассивы 12 героев
 
 Источник вариантов: `docs/class-variants-balance.md` / shop 6×2.  
-Части: **глаза / уши** = пассив (active-style триггер); **морда / убор / спина / хвост** = карты N=4.  
+Части: **глаза / уши / морда / убор / спина / хвост** = по 1 активной карте → колода **N=6** (12 героев × 6 = **72** shop attack cards).  
 Статусы MVP: `stun`, `poison`, `bleed`, `sleep`, `weak`, `vuln`, `fragile`, `taunt`, `stealth`, `ruffle`, `mint`, `cleanser` (FULL-SPEC §3.5).
 
 ### 1.0 Портреты героев (batch 1)
@@ -64,26 +64,28 @@
 
 ### 1.1 Общая сетка
 
-| # | Герой | Роль / стиль | Глаза (пассив) | Уши (пассив) | Карточный кит (кратко) |
-|---|---|---|---|---|---|
-| 1 | **Танк A** «Щит-утёс» | tank · hard-def | **Каменный взор** — при получении урона 1 раз/ход: щит +8% maxHP | **Уши валуна** — союзник с `taunt` получает −10% входящего | shield + taunt; слабый poke |
-| 2 | **Танк B** «Пробой» | tank · pierce | **Трещина взора** — удар с `pierce` вешает `fragile` 1 ход (1/ход) | **Чуткость бреши** — vs цели с щитом: +15% ATK | pierce/fragile bash; 1 backline pierce cost 2 |
-| 3 | **Боец A** «Парные когти» | fighter · dual+crit | **Искрящий взгляд** — после `hits:2` шанс 25% `ruffle`×1 | **Боевой слух** — крит-карта: +1 энергия раз в 2 хода | dual wield + crit; cost 1–2 |
-| 4 | **Боец B** «Двуручный» | fighter · two-hand | **Яростный взор** — одиночный удар cost≥2: +10% ATK | **Рёв стали** — убийство: `ruffle`×2 себе | heavy single (7–11); 1 backline smash |
-| 5 | **Ассасин A** «Тень» | assassin · stealth+crit | **Глаза мглы** — выход из `stealth`: следующий удар гарантированный crit | **Шёпот ветра** — уворот 15% vs `nearest` | crit + stealth evade |
-| 6 | **Ассасин B** «Охотник тыла» | assassin · backline | **Прицел в спину** — `backline`-удар: +`poison` 2 хода | **Слух поддержки** — приоритет цели с ролью support +5% crit | all backline + crit |
-| 7 | **Стрелок A** «Охотник» | ranger · lowest_hp | **Глаз добычи** — `lowest_hp` / `ambush`: +12% ATK | **Уши засады** — первая карта хода не снимает `stealth` союзника | hunter any-target + crit |
-| 8 | **Стрелок B** «Град стрел» | ranger · AoE | **Широкий взор** — AoE: вторичные цели не ниже 50% hit (см. §4) | **Дальний слух** — cost-2 AoE: −1 cost раз в бой | heavy arrows `all_enemies` cost 2 |
-| 9 | **Маг A** «Огонь» | mage · fire AoE | **Пламенный зрачок** — AoE fire: `vuln` 1 ход на главной цели | **Треск искр** — крит-карта: `weak` 1 ход | fire AoE + crit + debuff |
-| 10 | **Маг B** «Лёд» | mage · ice control | **Ледяной взор** — single ice: `stun` 1 (не mass freeze) | **Холодный слух** — цель со `stun`: +`weak` | ice AoE; freeze=`stun`1 + weak |
-| 11 | **Саппорт A** «Чистый родник» | support · heal/cleanse | **Целительный взгляд** — хил: +10% если цель <40% HP | **Уши очищения** — `cleanse` снимает ещё 1 DoT | pure heal + cleanse (без атаки) |
-| 12 | **Саппорт B** «Прилив силы» | support · heal/buff | **Вдохновляющий взор** — ATK-бафф союзника: длится +1 ход | **Шёпот слабости** — вражеский `weak` усиливается на 1 стак раз в ход | heal + atk buff + enemy `weak` |
+Глаза / уши = **активные карты** (N=6, D-026), не пассивы.
 
-Числа пассивов — LiveOps-леверы; имена/триггеры LOCKED для вики.
+| # | Герой | Роль / стиль | Глаза (карта) | Уши (карта) | Карточный кит (кратко) |
+|---|---|---|---|---|---|
+| 1 | **Танк A** «Щит-утёс» | tank · hard-def | **Каменный взор** — self shield 7 | **Уши валуна** — ally shield 5 (+3 если у цели `taunt`) | shield + taunt; слабый poke |
+| 2 | **Танк B** «Пробой» | tank · pierce | **Трещина взора** — atk 4 pierce · fragile 1 | **Чуткость бреши** — atk 5 pierce | pierce/fragile bash; 1 backline pierce cost 2 |
+| 3 | **Боец A** «Парные когти» | fighter · dual+crit | **Искрящий взгляд** — atk 3 ×2 · bleed 2 | **Боевой слух** — atk 4 crit · bleed 1 · ruffle | dual wield + crit; cost 1–2 |
+| 4 | **Боец B** «Двуручный» | fighter · two-hand | **Яростный взор** — atk 8 · bleed 2 (cost 2) | **Рёв стали** — atk 5 · fragile 1 · bleed 1 | heavy single (7–11); 1 backline smash |
+| 5 | **Ассасин A** «Тень» | assassin · stealth+crit | **Глаза мглы** — atk 3 · stun 1 | **Шёпот ветра** — atk 4 · poison 2 | crit + stealth evade |
+| 6 | **Ассасин B** «Охотник тыла» | assassin · backline | **Прицел в спину** — backline atk 4 crit · poison 2 | **Слух поддержки** — backline atk 3 · stun 1 | all backline + crit |
+| 7 | **Стрелок A** «Охотник» | ranger · lowest_hp | **Глаз добычи** — lowest_hp atk 4 ambush · weak 1 | **Уши засады** — nearest atk 4 ambush · bleed 2 | hunter any-target + crit |
+| 8 | **Стрелок B** «Град стрел» | ranger · AoE | **Широкий взор** — all_enemies atk 2 · weak 1 (cost 2) | **Дальний слух** — lowest_hp atk 4 · bleed 1 | heavy arrows `all_enemies` cost 2 |
+| 9 | **Маг A** «Огонь» | mage · fire AoE | **Пламенный зрачок** — atk 4 · vuln 1 | **Треск искр** — atk 3 crit · weak 1 | fire AoE + crit + debuff |
+| 10 | **Маг B** «Лёд» | mage · ice control | **Ледяной взор** — atk 3 · stun 1 (cost 2) | **Холодный слух** — atk 3 · weak 2 | ice AoE; freeze=`stun`1 + weak |
+| 11 | **Саппорт A** «Чистый родник» | support · heal/cleanse | **Целительный взгляд** — heal 6 ally_lowest_hp | **Уши очищения** — heal 3 · cleanse | pure heal + cleanse (без атаки) |
+| 12 | **Саппорт B** «Прилив силы» | support · heal/buff | **Вдохновляющий взор** — ATK buff +2 / 3 хода | **Шёпот слабости** — atk 2 · weak 2 | heal + atk buff + enemy `weak` |
+
+Числа карт — playable (FULL-SPEC / content); имена LOCKED для вики.
 
 ### 1.2 Хвостовые пассивы мификов (заготовка)
 
-Мифик (`rarity: mythic`, nursery) несёт **N=4** сильнейшие карты родителей **и** отдельный **хвостовой пассив** (слот `tail` passiveOps поверх карты — Phase 6). Предустановки по роли мифика:
+Мифик (`rarity: mythic`, nursery) несёт **N=6** сильнейшие карты родителей (Phase 6). Предустановки по роли мифика:
 
 | Роль мифика | Id пассива хвоста | Эффект |
 |---|---|---|
@@ -128,18 +130,24 @@
 | 11 | Саппорт A «Чистый родник» | `shop_support_water_a` | [`11-support-a-chistyy-rodnik`](attack-cards/11-support-a-chistyy-rodnik/) | eyes · ears · muzzle · headwear · back · tail |
 | 12 | Саппорт B «Прилив силы» | `shop_support_water_b` | [`12-support-b-priliv-sily`](attack-cards/12-support-b-priliv-sily/) | eyes · ears · muzzle · headwear · back · tail |
 
-**Аудит после batch 5:** у всех 12 героев есть папка и полный **N=4 kit**. Eyes/ears proposal ещё нет у Танк A/B и Боец A.
+**Аудит N=6:** у всех 12 героев кит **6 карт** в content/battle. Арт **72/72** (gaps6: Танк A/B + Боец A eyes/ears).
 
-Текст на артах = playable numbers (масштаб HP §3). Eyes/ears — proposal `docs/stitch-prompts-eyes-ears-active.md` (ещё не SSOT N=6).
+Текст на артах = playable numbers (масштаб HP §3). Eyes/ears → active: `docs/stitch-prompts-eyes-ears-active.md` (LOCKED via D-026 / FULL-SPEC §2.3).
 
 #### Танк A «Щит-утёс»
 
 | Part | Карта | cost | Эффект на арте |
 |---|---|---|---|
+| eyes | Каменный взор | 1 | self shield 7 *(gaps6)* |
+| ears | Уши валуна | 1 | ally shield 5 *(gaps6)* |
 | muzzle | Каменный оскал | 1 | shield 8 · таунт 2 |
 | headwear | Галька-шлем | 1 | shield 10 |
 | back | Щит-валун | 1 | shield 9 · таунт |
 | tail | Хвост-утёс | 1 | 4 nearest · таунт |
+
+![Каменный взор](attack-cards/01-tank-a-shit-utes/attack_shop_tank_stone_a_eyes.png)
+
+![Уши валуна](attack-cards/01-tank-a-shit-utes/attack_shop_tank_stone_a_ears.png)
 
 ![Каменный оскал](attack-cards/01-tank-a-shit-utes/attack_shop_tank_stone_a_muzzle.png)
 
@@ -149,14 +157,20 @@
 
 ![Хвост-утёс](attack-cards/01-tank-a-shit-utes/attack_shop_tank_stone_a_tail.png)
 
-#### Танк B «Пробой» *(batch 4)*
+#### Танк B «Пробой»
 
 | Part | Карта | cost | Эффект на арте |
 |---|---|---|---|
+| eyes | Трещина взора | 1 | 4 nearest · пробой · хрупкость 1 *(gaps6)* |
+| ears | Чуткость бреши | 1 | 5 nearest · пробой *(gaps6)* |
 | muzzle | Пробой когтем | 1 | 5 nearest · хрупкость 2 · Пробой |
 | headwear | Щит-осколок | 1 | shield 6 · таунт 2 |
 | back | Бронелом | 1 | 5 nearest · Пробой |
 | tail | Хвост-пробой | 2 | 5 тыл · пробой · хрупкость 1 |
+
+![Трещина взора](attack-cards/02-tank-b-proboy/attack_shop_tank_stone_b_eyes.png)
+
+![Чуткость бреши](attack-cards/02-tank-b-proboy/attack_shop_tank_stone_b_ears.png)
 
 ![Пробой когтем](attack-cards/02-tank-b-proboy/attack_shop_tank_stone_b_muzzle.png)
 
@@ -166,14 +180,20 @@
 
 ![Хвост-пробой](attack-cards/02-tank-b-proboy/attack_shop_tank_stone_b_tail.png)
 
-#### Боец A «Парные когти» *(batch 4)*
+#### Боец A «Парные когти»
 
 | Part | Карта | cost | Эффект на арте |
 |---|---|---|---|
+| eyes | Искрящий взгляд | 1 | 3 ×2 · кровотечение 2 *(gaps6)* |
+| ears | Боевой слух | 1 | 4 nearest · крит · кровотечение 1 · взъерошить *(gaps6)* |
 | muzzle | Парный укус | 1 | 3 ×2 · крит · взъерошить |
 | headwear | Искры-когти | 1 | 3 ×2 · взъерошить |
 | back | Критовсечь | 1 | 4 nearest · крит · взъерошить |
 | tail | Двойной хлыст | 2 | 3 ×2 тыл · крит |
+
+![Искрящий взгляд](attack-cards/03-fighter-a-parnye-kogti/attack_shop_fighter_fire_a_eyes.png)
+
+![Боевой слух](attack-cards/03-fighter-a-parnye-kogti/attack_shop_fighter_fire_a_ears.png)
 
 ![Парный укус](attack-cards/03-fighter-a-parnye-kogti/attack_shop_fighter_fire_a_muzzle.png)
 
@@ -517,7 +537,7 @@ Core fantasy: обычные → **мифические** (`docs/mythic-breeding
 | Шанс мифика | Малый (`nursery_mythic_chance`) |
 | **Талисман удачи** | IAP (yarn) / shop: **+20%** к шансу мифика на **1** попытку |
 | Оплата | **Только IAP / yarn** — не crypto |
-| Мифик · карты | Пул ≤8 → **N=4** сильнейшие |
+| Мифик · карты | Пул ≤12 → **N=6** сильнейшие |
 | Мифик · хвост | Пассив из §1.2 |
 | SL | Форма + tip/codex; live = Phase 6 |
 

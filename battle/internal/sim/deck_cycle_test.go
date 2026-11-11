@@ -94,9 +94,12 @@ func TestDeckCycle_EndTurnDiscardsUnused_ThenReshuffles(t *testing.T) {
 			if len(u.Hand) != 2 {
 				t.Fatalf("expected D2 redraw, hand=%v", u.Hand)
 			}
-			// With N=4 and D2, unused T1 cards stay in discard while T2 draws the leftover pile.
+			// With N=6 and D2, unused T1 cards stay in discard while T2 draws from leftover pile.
 			if len(u.Discard) == 0 {
 				t.Fatalf("expected leftover discard after T2 draw, zones hand=%v draw=%v disc=%v", u.Hand, u.DrawPile, u.Discard)
+			}
+			if len(u.DrawPile)+len(u.Hand) < 2 {
+				t.Fatalf("N=6: expected remaining draw after T2, zones hand=%v draw=%v disc=%v", u.Hand, u.DrawPile, u.Discard)
 			}
 			// All cards accounted for across zones.
 			total := len(u.Hand) + len(u.DrawPile) + len(u.Discard)

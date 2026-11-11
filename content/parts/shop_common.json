@@ -3,14 +3,8 @@
     "partId": "part_shop_tank_stone_a_eyes",
     "slot": "eyes",
     "element": "stone",
-    "cardId": null,
-    "passiveOps": [
-      {
-        "op": "stat_mod",
-        "stat": "hp",
-        "amount": 1
-      }
-    ],
+    "cardId": "card_shop_tank_stone_a_eyes",
+    "passiveOps": [],
     "artKey": "part.shop_tank_stone_a.eyes",
     "rarity": "common"
   },
@@ -18,14 +12,8 @@
     "partId": "part_shop_tank_stone_a_ears",
     "slot": "ears",
     "element": "stone",
-    "cardId": null,
-    "passiveOps": [
-      {
-        "op": "stat_mod",
-        "stat": "spd",
-        "amount": 1
-      }
-    ],
+    "cardId": "card_shop_tank_stone_a_ears",
+    "passiveOps": [],
     "artKey": "part.shop_tank_stone_a.ears",
     "rarity": "common"
   },
@@ -69,14 +57,8 @@
     "partId": "part_shop_tank_stone_b_eyes",
     "slot": "eyes",
     "element": "stone",
-    "cardId": null,
-    "passiveOps": [
-      {
-        "op": "stat_mod",
-        "stat": "hp",
-        "amount": 1
-      }
-    ],
+    "cardId": "card_shop_tank_stone_b_eyes",
+    "passiveOps": [],
     "artKey": "part.shop_tank_stone_b.eyes",
     "rarity": "common"
   },
@@ -84,14 +66,8 @@
     "partId": "part_shop_tank_stone_b_ears",
     "slot": "ears",
     "element": "stone",
-    "cardId": null,
-    "passiveOps": [
-      {
-        "op": "stat_mod",
-        "stat": "spd",
-        "amount": 1
-      }
-    ],
+    "cardId": "card_shop_tank_stone_b_ears",
+    "passiveOps": [],
     "artKey": "part.shop_tank_stone_b.ears",
     "rarity": "common"
   },
@@ -135,14 +111,8 @@
     "partId": "part_shop_fighter_fire_a_eyes",
     "slot": "eyes",
     "element": "fire",
-    "cardId": null,
-    "passiveOps": [
-      {
-        "op": "stat_mod",
-        "stat": "atk",
-        "amount": 1
-      }
-    ],
+    "cardId": "card_shop_fighter_fire_a_eyes",
+    "passiveOps": [],
     "artKey": "part.shop_fighter_fire_a.eyes",
     "rarity": "common"
   },
@@ -150,14 +120,8 @@
     "partId": "part_shop_fighter_fire_a_ears",
     "slot": "ears",
     "element": "fire",
-    "cardId": null,
-    "passiveOps": [
-      {
-        "op": "stat_mod",
-        "stat": "skill",
-        "amount": 1
-      }
-    ],
+    "cardId": "card_shop_fighter_fire_a_ears",
+    "passiveOps": [],
     "artKey": "part.shop_fighter_fire_a.ears",
     "rarity": "common"
   },
@@ -201,14 +165,8 @@
     "partId": "part_shop_fighter_fire_b_eyes",
     "slot": "eyes",
     "element": "fire",
-    "cardId": null,
-    "passiveOps": [
-      {
-        "op": "stat_mod",
-        "stat": "atk",
-        "amount": 1
-      }
-    ],
+    "cardId": "card_shop_fighter_fire_b_eyes",
+    "passiveOps": [],
     "artKey": "part.shop_fighter_fire_b.eyes",
     "rarity": "common"
   },
@@ -216,14 +174,8 @@
     "partId": "part_shop_fighter_fire_b_ears",
     "slot": "ears",
     "element": "fire",
-    "cardId": null,
-    "passiveOps": [
-      {
-        "op": "stat_mod",
-        "stat": "skill",
-        "amount": 1
-      }
-    ],
+    "cardId": "card_shop_fighter_fire_b_ears",
+    "passiveOps": [],
     "artKey": "part.shop_fighter_fire_b.ears",
     "rarity": "common"
   },
@@ -267,14 +219,8 @@
     "partId": "part_shop_assassin_bolt_a_eyes",
     "slot": "eyes",
     "element": "bolt",
-    "cardId": null,
-    "passiveOps": [
-      {
-        "op": "stat_mod",
-        "stat": "atk",
-        "amount": 1
-      }
-    ],
+    "cardId": "card_shop_assassin_bolt_a_eyes",
+    "passiveOps": [],
     "artKey": "part.shop_assassin_bolt_a.eyes",
     "rarity": "common"
   },
@@ -282,14 +228,8 @@
     "partId": "part_shop_assassin_bolt_a_ears",
     "slot": "ears",
     "element": "bolt",
-    "cardId": null,
-    "passiveOps": [
-      {
-        "op": "stat_mod",
-        "stat": "spd",
-        "amount": 1
-      }
-    ],
+    "cardId": "card_shop_assassin_bolt_a_ears",
+    "passiveOps": [],
     "artKey": "part.shop_assassin_bolt_a.ears",
     "rarity": "common"
   },
@@ -333,14 +273,8 @@
     "partId": "part_shop_assassin_bolt_b_eyes",
     "slot": "eyes",
     "element": "bolt",
-    "cardId": null,
-    "passiveOps": [
-      {
-        "op": "stat_mod",
-        "stat": "atk",
-        "amount": 1
-      }
-    ],
+    "cardId": "card_shop_assassin_bolt_b_eyes",
+    "passiveOps": [],
     "artKey": "part.shop_assassin_bolt_b.eyes",
     "rarity": "common"
   },
@@ -348,14 +282,8 @@
     "partId": "part_shop_assassin_bolt_b_ears",
     "slot": "ears",
     "element": "bolt",
-    "cardId": null,
-    "passiveOps": [
-      {
-        "op": "stat_mod",
-        "stat": "spd",
-        "amount": 1
-      }
-    ],
+    "cardId": "card_shop_assassin_bolt_b_ears",
+    "passiveOps": [],
     "artKey": "part.shop_assassin_bolt_b.ears",
     "rarity": "common"
   },
@@ -399,14 +327,8 @@
     "partId": "part_shop_ranger_grass_a_eyes",
     "slot": "eyes",
     "element": "grass",
-    "cardId": null,
-    "passiveOps": [
-      {
-        "op": "stat_mod",
-        "stat": "atk",
-        "amount": 1
-      }
-    ],
+    "cardId": "card_shop_ranger_grass_a_eyes",
+    "passiveOps": [],
     "artKey": "part.shop_ranger_grass_a.eyes",
     "rarity": "common"
   },
@@ -414,14 +336,8 @@
     "partId": "part_shop_ranger_grass_a_ears",
     "slot": "ears",
     "element": "grass",
-    "cardId": null,
-    "passiveOps": [
-      {
-        "op": "stat_mod",
-        "stat": "spd",
-        "amount": 1
-      }
-    ],
+    "cardId": "card_shop_ranger_grass_a_ears",
+    "passiveOps": [],
     "artKey": "part.shop_ranger_grass_a.ears",
     "rarity": "common"
   },
@@ -465,14 +381,8 @@
     "partId": "part_shop_ranger_grass_b_eyes",
     "slot": "eyes",
     "element": "grass",
-    "cardId": null,
-    "passiveOps": [
-      {
-        "op": "stat_mod",
-        "stat": "atk",
-        "amount": 1
-      }
-    ],
+    "cardId": "card_shop_ranger_grass_b_eyes",
+    "passiveOps": [],
     "artKey": "part.shop_ranger_grass_b.eyes",
     "rarity": "common"
   },
@@ -480,14 +390,8 @@
     "partId": "part_shop_ranger_grass_b_ears",
     "slot": "ears",
     "element": "grass",
-    "cardId": null,
-    "passiveOps": [
-      {
-        "op": "stat_mod",
-        "stat": "spd",
-        "amount": 1
-      }
-    ],
+    "cardId": "card_shop_ranger_grass_b_ears",
+    "passiveOps": [],
     "artKey": "part.shop_ranger_grass_b.ears",
     "rarity": "common"
   },
@@ -531,14 +435,8 @@
     "partId": "part_shop_mage_fire_a_eyes",
     "slot": "eyes",
     "element": "fire",
-    "cardId": null,
-    "passiveOps": [
-      {
-        "op": "stat_mod",
-        "stat": "skill",
-        "amount": 1
-      }
-    ],
+    "cardId": "card_shop_mage_fire_a_eyes",
+    "passiveOps": [],
     "artKey": "part.shop_mage_fire_a.eyes",
     "rarity": "common"
   },
@@ -546,14 +444,8 @@
     "partId": "part_shop_mage_fire_a_ears",
     "slot": "ears",
     "element": "fire",
-    "cardId": null,
-    "passiveOps": [
-      {
-        "op": "stat_mod",
-        "stat": "skill",
-        "amount": 1
-      }
-    ],
+    "cardId": "card_shop_mage_fire_a_ears",
+    "passiveOps": [],
     "artKey": "part.shop_mage_fire_a.ears",
     "rarity": "common"
   },
@@ -597,14 +489,8 @@
     "partId": "part_shop_mage_ice_b_eyes",
     "slot": "eyes",
     "element": "ice",
-    "cardId": null,
-    "passiveOps": [
-      {
-        "op": "stat_mod",
-        "stat": "skill",
-        "amount": 1
-      }
-    ],
+    "cardId": "card_shop_mage_ice_b_eyes",
+    "passiveOps": [],
     "artKey": "part.shop_mage_ice_b.eyes",
     "rarity": "common"
   },
@@ -612,14 +498,8 @@
     "partId": "part_shop_mage_ice_b_ears",
     "slot": "ears",
     "element": "ice",
-    "cardId": null,
-    "passiveOps": [
-      {
-        "op": "stat_mod",
-        "stat": "skill",
-        "amount": 1
-      }
-    ],
+    "cardId": "card_shop_mage_ice_b_ears",
+    "passiveOps": [],
     "artKey": "part.shop_mage_ice_b.ears",
     "rarity": "common"
   },
@@ -663,14 +543,8 @@
     "partId": "part_shop_support_water_a_eyes",
     "slot": "eyes",
     "element": "water",
-    "cardId": null,
-    "passiveOps": [
-      {
-        "op": "stat_mod",
-        "stat": "charm",
-        "amount": 1
-      }
-    ],
+    "cardId": "card_shop_support_water_a_eyes",
+    "passiveOps": [],
     "artKey": "part.shop_support_water_a.eyes",
     "rarity": "common"
   },
@@ -678,14 +552,8 @@
     "partId": "part_shop_support_water_a_ears",
     "slot": "ears",
     "element": "water",
-    "cardId": null,
-    "passiveOps": [
-      {
-        "op": "stat_mod",
-        "stat": "skill",
-        "amount": 1
-      }
-    ],
+    "cardId": "card_shop_support_water_a_ears",
+    "passiveOps": [],
     "artKey": "part.shop_support_water_a.ears",
     "rarity": "common"
   },
@@ -729,14 +597,8 @@
     "partId": "part_shop_support_water_b_eyes",
     "slot": "eyes",
     "element": "water",
-    "cardId": null,
-    "passiveOps": [
-      {
-        "op": "stat_mod",
-        "stat": "charm",
-        "amount": 1
-      }
-    ],
+    "cardId": "card_shop_support_water_b_eyes",
+    "passiveOps": [],
     "artKey": "part.shop_support_water_b.eyes",
     "rarity": "common"
   },
@@ -744,14 +606,8 @@
     "partId": "part_shop_support_water_b_ears",
     "slot": "ears",
     "element": "water",
-    "cardId": null,
-    "passiveOps": [
-      {
-        "op": "stat_mod",
-        "stat": "skill",
-        "amount": 1
-      }
-    ],
+    "cardId": "card_shop_support_water_b_ears",
+    "passiveOps": [],
     "artKey": "part.shop_support_water_b.ears",
     "rarity": "common"
   },

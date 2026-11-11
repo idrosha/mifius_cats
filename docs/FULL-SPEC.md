@@ -78,7 +78,7 @@
 | `ranger` | Приоритет целей / AoE | SPD↑ | `ambush`/`lowest_hp`/`aoe` |
 | `support` | Хил/чистота/бафф | — | `heal`/`cleanse`/`buff` |
 
-**Shop common (SL):** 6 классов × 2 варианта = **12** SKU (`common_cat`), у каждого свой 4-card kit (§2.3, §6 Shop).  
+**Shop common (SL):** 6 классов × 2 варианта = **12** SKU (`common_cat`), у каждого свой **6-card kit** (§2.3, §6 Shop) — **72** attack cards total.  
 Варианты (EN id): tank A hard-def+aggro / tank B **armor pierce** (fragile/pierce, не raw ATK); fighter A dual+crit / B two-hand; assassin A evade+crit / B backline+crit; ranger A hunter any-target+crit / B heavy AoE; mage A fire AoE+crit+debuff / B ice AoE+freeze(1)+debuff; support A heal+cleanse / B heal+buff/debuff.
 
 **Пресет 3v3:** tank + (fighter\|assassin\|ranger\|mage) + support.  
@@ -106,10 +106,9 @@
 Родство (element карты = element котика): **+10%** atk/shield карты.
 
 ### §2.3 Части
-`eyes`,`ears` → пассив только.  
-`muzzle`,`headwear`,`back`,`tail` → по 1 карте.  
-Колода котика = **N=4**. Команда = до 12 (+ `meow?` мусор).  
-Мифик из питомника (§4.4) тоже несёт ровно **N=4** карт (сильнейшие из смеси родителей).
+`eyes`,`ears`,`muzzle`,`headwear`,`back`,`tail` → по **1 активной карте** каждый.  
+Колода котика = **N=6**. Команда = до **18** (+ `meow?` мусор).  
+Мифик из питомника (§4.4) тоже несёт ровно **N=6** карт (сильнейшие из смеси родителей).
 
 ### §2.4 Статы
 `hp`, `spd`, `skill` (комбо `floor(atk*skill/500)` при ≥2 картах одним юнитом), `charm` (Последнее мяу).  
@@ -218,7 +217,7 @@ Season 28 days. Rating. Same anti-P2W. Soft-cap pendant/bow rarity optional via 
 | Вход | 2 родителя (обычные или выше) + breeding ingredients (Shop / farm post-SL) |
 | Шанс мифика | **Малый** (`nursery_mythic_chance`, LiveOps; дефолт низкий, не «часто») |
 | Не-мифик исход | Обычный кот (не гарантированный power-creep); детали non-mythic kit — LiveOps Phase 6 |
-| Мифик · карты | Пул = до **8** карт родителей (4+4). Из пула берутся **N=4 сильнейшие** → сет мифика |
+| Мифик · карты | Пул = до **12** карт родителей (6+6). Из пула берутся **N=6 сильнейшие** → сет мифика |
 | Сила карты | LiveOps `card_power` (дефолт: `atk + shield`; tie-break `cardId` asc). Не клиент |
 | Мифик · прочее | `rarity: mythic`, `origin: nursery`; роль/стихия/части — серверный resolve Phase 6 (не выдумывать на SL) |
 | SL UI | Экран `breeding` / Soon «Питомник» показывает tip core fantasy; CTA gated («Подними ранг» / «Скоро») |
@@ -265,7 +264,7 @@ Server validates all purchases.
 | Позиция | Значение |
 |---|---|
 | Боевые коты | `starter_tank_stone` + `starter_fighter_fire` + `starter_support_water` (level 1, rarity common, `origin: starter`) |
-| Колоды | 3×4 карты с частей `muzzle/headwear/back/tail`; **идентичный кит у всех новых игроков** (equal decks / fair PvP, §2.1) |
+| Колоды | 3×6 карт с частей `eyes/ears/muzzle/headwear/back/tail`; **идентичный кит у всех новых игроков** (equal decks / fair PvP, §2.1) |
 | Пресет | lane0 tank → lane1 fighter → lane2 support |
 | Зелья | все 6 id каталога SL (§10) — **×1** каждого |
 | Экипировка | **нет** pendant / bow |
@@ -321,7 +320,7 @@ pendantId?, bowByPart: {muzzle?, headwear?, back?, tail?},
 rarity, origin: starter|farm|jar|workshop|nursery
 ```
 `origin: farm` — инвентарный farm-cat (§5.1); на SL без crop-геймплея.  
-`origin: nursery` + `rarity: mythic` — мифик из скрещивания (§4.4.1); колода = N=4 сильнейших карт смеси родителей.
+`origin: nursery` + `rarity: mythic` — мифик из скрещивания (§4.4.1); колода = N=6 сильнейших карт смеси родителей.
 
 ### §7.2 CardDef (data-driven)
 ```

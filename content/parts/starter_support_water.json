@@ -3,8 +3,8 @@
     "partId": "part_support_water_eyes",
     "slot": "eyes",
     "element": "water",
-    "cardId": null,
-    "passiveOps": [{ "op": "stat_mod", "stat": "skill", "amount": 2 }],
+    "cardId": "card_support_water_eyes",
+    "passiveOps": [],
     "artKey": "part.support_water_eyes",
     "rarity": "common"
   },
@@ -12,8 +12,8 @@
     "partId": "part_support_water_ears",
     "slot": "ears",
     "element": "water",
-    "cardId": null,
-    "passiveOps": [{ "op": "stat_mod", "stat": "charm", "amount": 3 }],
+    "cardId": "card_support_water_ears",
+    "passiveOps": [],
     "artKey": "part.support_water_ears",
     "rarity": "common"
   },

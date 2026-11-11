@@ -91,8 +91,8 @@ func spawnStageEnemies(stage content.StageDef) ([]sim.SpawnUnit, error) {
 	}
 	out := make([]sim.SpawnUnit, 0, 3)
 	for i, t := range stage.EnemyTeam {
-		if len(t.Deck) != 4 {
-			return nil, fmt.Errorf("enemy %s deck must be 4", t.TemplateID)
+		if n := len(t.Deck); n < 4 || n > 6 {
+			return nil, fmt.Errorf("enemy %s deck must be 4–6, got %d", t.TemplateID, n)
 		}
 		out = append(out, sim.SpawnUnit{
 			ID:       fmt.Sprintf("bot_%d_%s", i, t.TemplateID),

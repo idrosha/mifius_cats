@@ -1,18 +1,15 @@
-# Mythfel content (Phase 1 slice)
+# Мифиус / Mythfel — документы
 
-Минимальный набор по `ЗАПУСК.md` Step B / content + `docs/FULL-SPEC.md` §2 §7.2–7.3 §10.
-
-| Путь | Содержимое |
+| Файл | Зачем |
 |---|---|
-| `cards/` | CardDef стартеров (4× tank/fighter/support) + backline-атаки mage/ranger (§3.4) |
-| `parts/` | PartDef стартеров (eyes/ears пассивы; muzzle/headwear/back/tail → карты) |
-| `cats/starters.json` | 3 боевых стартера: tank·stone, fighter·fire, support·water (equal decks / fair PvP — §2.1, §5.1) |
-| `stages/test_yard_1.json` | Тестовый узел Двора для golden replay |
-| `i18n/ru_en.json` | name_key RU+EN |
+| **`FULL-SPEC.md`** | SSOT — полное ТЗ приложения |
+| **`game-wiki.md`** | Player-facing вики правил/механик (MF-59); База знаний → сюда |
+| **`stitch-prompts-attack-cards-12-heroes.md`** | 12 Stitch-промптов карт атак soft-launch героев (MF-60) |
+| **`stitch-prompts-eyes-ears-active.md`** | PROPOSAL: eyes/ears → активные карты (+24) + баланс + Stitch-промпты |
+| **`attack-cards/`** | Арты карт атак batch 1 (папка на героя) · вики §1.4 |
+| **`AGENTS.md`** | Роли агентов, что читать, анти-waste |
+| **`agents-export.md`** | Портативный каталог брифов (перенос в другой Cursor Project) |
+| **`skills/*.md`** | Короткие скиллы ролей |
+| `../ЗАПУСК.md` | Как запускать агентов и (позже) сервисы |
 
-Числа `baseStats` и сила карт — Phase 1 defaults (§16), не отдельный баланс LiveOps.
-
-**Starter grant (SSOT §5.1 / §10) — content notes:**
-- Боевые стартеры: фиксированные `templateId` + части → карты; кит **одинаков у всех новых игроков** (без RNG).
-- Follow-up: `cats` template `starter_farm_grass` (инвентарь, без crop на SL); `potions/*.json` для 6 id (`potion_life` … `potion_mint`).
-- Не выдавать pendant/bow в стартовом контенте.
+Старт: открой **`../ЗАПУСК.md`** → промпт orchestrator / Phase 1.

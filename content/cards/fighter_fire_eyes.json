@@ -1,0 +1,22 @@
+{
+  "cost": 1,
+  "atk": 3,
+  "shield": 0,
+  "hits": 2,
+  "targetRule": "nearest",
+  "tags": [
+    "attack"
+  ],
+  "effectOps": [
+    {
+      "op": "apply_status",
+      "status": "bleed",
+      "stacks": 2,
+      "duration": 2
+    }
+  ],
+  "cardId": "card_fighter_fire_eyes",
+  "name_key": "card.fighter_fire_eyes",
+  "roleGate": "fighter",
+  "element": "fire"
+}

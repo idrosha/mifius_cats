@@ -2615,18 +2615,18 @@ const CAT_HERO_ART = {
 };
 
 const CAT_HERO_BLURB = {
-  shop_tank_stone_a: "Танк A · hard-def: щит + taunt. Пассивы «Каменный взор» / «Уши валуна».",
-  shop_tank_stone_b: "Танк B · pierce/fragile. Пассивы «Трещина взора» / «Чуткость бреши».",
-  shop_fighter_fire_a: "Боец A · dual + crit + ruffle. Пассивы «Искрящий взгляд» / «Боевой слух».",
-  shop_fighter_fire_b: "Боец B · тяжёлые одиночные удары. Пассивы «Яростный взор» / «Рёв стали».",
-  shop_assassin_bolt_a: "Ассасин A · stealth → гарант crit. Пассивы «Глаза мглы» / «Шёпот ветра».",
-  shop_assassin_bolt_b: "Ассасин B · backline + poison. Пассивы «Прицел в спину» / «Слух поддержки».",
-  shop_ranger_grass_a: "Стрелок A · lowest_hp / ambush. Пассивы «Глаз добычи» / «Уши засады».",
-  shop_ranger_grass_b: "Стрелок B · AoE all_enemies. Пассивы «Широкий взор» / «Дальний слух».",
-  shop_mage_fire_a: "Маг A · fire AoE + vuln/weak. Пассивы «Пламенный зрачок» / «Треск искр».",
-  shop_mage_ice_b: "Маг B · ice control stun/freeze. Пассивы «Ледяной взор» / «Холодный слух».",
-  shop_support_water_a: "Саппорт A · heal + cleanse. Пассивы «Целительный взгляд» / «Уши очищения».",
-  shop_support_water_b: "Саппорт B · heal + ATK buff. Пассивы «Вдохновляющий взор» / «Шёпот слабости».",
+  shop_tank_stone_a: "Танк A · hard-def: щит + taunt. Карты «Каменный взор» / «Уши валуна» (N=6).",
+  shop_tank_stone_b: "Танк B · pierce/fragile. Карты «Трещина взора» / «Чуткость бреши» (N=6).",
+  shop_fighter_fire_a: "Боец A · dual + crit + ruffle. Карты «Искрящий взгляд» / «Боевой слух» (N=6).",
+  shop_fighter_fire_b: "Боец B · тяжёлые одиночные удары. Карты «Яростный взор» / «Рёв стали» (N=6).",
+  shop_assassin_bolt_a: "Ассасин A · stealth + crit. Карты «Глаза мглы» / «Шёпот ветра» (N=6).",
+  shop_assassin_bolt_b: "Ассасин B · backline + poison. Карты «Прицел в спину» / «Слух поддержки» (N=6).",
+  shop_ranger_grass_a: "Стрелок A · lowest_hp / ambush. Карты «Глаз добычи» / «Уши засады» (N=6).",
+  shop_ranger_grass_b: "Стрелок B · AoE all_enemies. Карты «Широкий взор» / «Дальний слух» (N=6).",
+  shop_mage_fire_a: "Маг A · fire AoE + vuln/weak. Карты «Пламенный зрачок» / «Треск искр» (N=6).",
+  shop_mage_ice_b: "Маг B · ice control stun/freeze. Карты «Ледяной взор» / «Холодный слух» (N=6).",
+  shop_support_water_a: "Саппорт A · heal + cleanse. Карты «Целительный взгляд» / «Уши очищения» (N=6).",
+  shop_support_water_b: "Саппорт B · heal + ATK buff. Карты «Вдохновляющий взор» / «Шёпот слабости» (N=6).",
 };
 
 function catHeroArt(templateId) {
@@ -4498,14 +4498,20 @@ function practiceHeroKeyByTemplate(templateId) {
   return Object.keys(PRACTICE_HEROES).find((k) => PRACTICE_HEROES[k].templateId === templateId) || null;
 }
 const ATTACK_CARD_ART_ALIAS = {
+  card_tank_stone_eyes: "shop_tank_stone_a_eyes",
+  card_tank_stone_ears: "shop_tank_stone_a_ears",
   card_tank_stone_muzzle: "shop_tank_stone_a_muzzle",
   card_tank_stone_headwear: "shop_tank_stone_a_headwear",
   card_tank_stone_back: "shop_tank_stone_a_back",
   card_tank_stone_tail: "shop_tank_stone_a_tail",
+  card_fighter_fire_eyes: "shop_fighter_fire_a_eyes",
+  card_fighter_fire_ears: "shop_fighter_fire_a_ears",
   card_fighter_fire_muzzle: "shop_fighter_fire_a_muzzle",
   card_fighter_fire_headwear: "shop_fighter_fire_a_headwear",
   card_fighter_fire_back: "shop_fighter_fire_a_back",
   card_fighter_fire_tail: "shop_fighter_fire_a_tail",
+  card_support_water_eyes: "shop_support_water_a_eyes",
+  card_support_water_ears: "shop_support_water_a_ears",
   card_support_water_muzzle: "shop_support_water_a_muzzle",
   card_support_water_headwear: "shop_support_water_a_headwear",
   card_support_water_back: "shop_support_water_a_back",

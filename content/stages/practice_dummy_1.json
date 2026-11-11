@@ -86,6 +86,37 @@
           "name_key": "card.shop_tank_stone_a_tail",
           "roleGate": "tank",
           "element": "stone"
+        },
+        {
+          "cost": 1,
+          "atk": 0,
+          "shield": 7,
+          "hits": 0,
+          "targetRule": "self",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": [],
+          "cardId": "card_shop_tank_stone_a_eyes",
+          "name_key": "card.shop_tank_stone_a_eyes",
+          "roleGate": "tank",
+          "element": "stone"
+        },
+        {
+          "cost": 1,
+          "atk": 0,
+          "shield": 5,
+          "hits": 0,
+          "targetRule": "ally_lowest_hp",
+          "tags": [
+            "shield",
+            "taunt"
+          ],
+          "effectOps": [],
+          "cardId": "card_shop_tank_stone_a_ears",
+          "name_key": "card.shop_tank_stone_a_ears",
+          "roleGate": "tank",
+          "element": "stone"
         }
       ]
     },
@@ -174,6 +205,57 @@
           "effectOps": [],
           "cardId": "card_shop_fighter_fire_a_tail",
           "name_key": "card.shop_fighter_fire_a_tail",
+          "roleGate": "fighter",
+          "element": "fire"
+        },
+        {
+          "cost": 1,
+          "atk": 3,
+          "shield": 0,
+          "hits": 2,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "bleed",
+              "stacks": 2,
+              "duration": 2
+            }
+          ],
+          "cardId": "card_shop_fighter_fire_a_eyes",
+          "name_key": "card.shop_fighter_fire_a_eyes",
+          "roleGate": "fighter",
+          "element": "fire"
+        },
+        {
+          "cost": 1,
+          "atk": 4,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack",
+            "crit"
+          ],
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "bleed",
+              "stacks": 1,
+              "duration": 2
+            },
+            {
+              "op": "apply_status",
+              "status": "ruffle",
+              "stacks": 1,
+              "duration": 99
+            }
+          ],
+          "cardId": "card_shop_fighter_fire_a_ears",
+          "name_key": "card.shop_fighter_fire_a_ears",
           "roleGate": "fighter",
           "element": "fire"
         }
@@ -277,6 +359,53 @@
           ],
           "cardId": "card_shop_support_water_a_tail",
           "name_key": "card.shop_support_water_a_tail",
+          "roleGate": "support",
+          "element": "water"
+        },
+        {
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "ally_lowest_hp",
+          "tags": [
+            "heal"
+          ],
+          "effectOps": [
+            {
+              "op": "heal",
+              "amount": 6
+            }
+          ],
+          "cardId": "card_shop_support_water_a_eyes",
+          "name_key": "card.shop_support_water_a_eyes",
+          "roleGate": "support",
+          "element": "water"
+        },
+        {
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "ally_lowest_hp",
+          "tags": [
+            "heal",
+            "cleanse"
+          ],
+          "effectOps": [
+            {
+              "op": "heal",
+              "amount": 3
+            },
+            {
+              "op": "cleanse"
+            },
+            {
+              "op": "cleanse"
+            }
+          ],
+          "cardId": "card_shop_support_water_a_ears",
+          "name_key": "card.shop_support_water_a_ears",
           "roleGate": "support",
           "element": "water"
         }
