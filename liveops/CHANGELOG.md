@@ -6,3 +6,4 @@
 - Phase4: CDN stub `cmd/cdn-stub` (:8090) + `soft-launch/geo_allowlist.example.json` (ops ISO, no prod keys)
 - 6×2 class variants: roles +assassin; shop common_cat 12 SKU (mage/assassin kits); schema roles min/max 6
 - SL test catalogs: shop offers +pass_season / yarn_donate_pack / slot_expand_1 (priced fish packs + grey armor remain HUD stubs)
+- 2026-11-11: HP grid retune — tank LVL1 **50** (fighter 43 · assassin 38 · ranger 35 · mage 30 · support 28); gear color sets: armor → flat DEF/HP, weapons → ATK +2…+4 (D-024)

@@ -4,10 +4,10 @@ import "testing"
 
 func baseBattleThreeRoles() (*Battle, *Unit) {
 	b := &Battle{ID: "t", Mode: ModePvE, Units: nil}
-	tank := &Unit{ID: "e_tank", Side: SideP2, Lane: 0, Role: "tank", HP: 40, MaxHP: 40, Alive: true}
-	fighter := &Unit{ID: "e_fighter", Side: SideP2, Lane: 1, Role: "fighter", HP: 30, MaxHP: 30, Alive: true}
-	support := &Unit{ID: "e_support", Side: SideP2, Lane: 2, Role: "support", HP: 25, MaxHP: 25, Alive: true}
-	actor := &Unit{ID: "p_fighter", Side: SideP1, Lane: 1, Role: "fighter", HP: 30, MaxHP: 30, Alive: true}
+	tank := &Unit{ID: "e_tank", Side: SideP2, Lane: 0, Role: "tank", HP: 50, MaxHP: 50, Alive: true}
+	fighter := &Unit{ID: "e_fighter", Side: SideP2, Lane: 1, Role: "fighter", HP: 43, MaxHP: 43, Alive: true}
+	support := &Unit{ID: "e_support", Side: SideP2, Lane: 2, Role: "support", HP: 28, MaxHP: 28, Alive: true}
+	actor := &Unit{ID: "p_fighter", Side: SideP1, Lane: 1, Role: "fighter", HP: 43, MaxHP: 43, Alive: true}
 	b.Units = []*Unit{actor, tank, fighter, support}
 	return b, actor
 }
@@ -47,10 +47,10 @@ func TestSelectTargets_BacklinePrefersSupport(t *testing.T) {
 
 func TestSelectTargets_BacklineFallsToRangerThenMage(t *testing.T) {
 	b := &Battle{ID: "t2", Mode: ModePvE}
-	actor := &Unit{ID: "p", Side: SideP1, Lane: 0, Role: "ranger", HP: 20, MaxHP: 20, Alive: true}
-	mage := &Unit{ID: "e_mage", Side: SideP2, Lane: 1, Role: "mage", HP: 20, MaxHP: 20, Alive: true}
-	ranger := &Unit{ID: "e_ranger", Side: SideP2, Lane: 2, Role: "ranger", HP: 20, MaxHP: 20, Alive: true}
-	tank := &Unit{ID: "e_tank", Side: SideP2, Lane: 0, Role: "tank", HP: 40, MaxHP: 40, Alive: true}
+	actor := &Unit{ID: "p", Side: SideP1, Lane: 0, Role: "ranger", HP: 35, MaxHP: 35, Alive: true}
+	mage := &Unit{ID: "e_mage", Side: SideP2, Lane: 1, Role: "mage", HP: 30, MaxHP: 30, Alive: true}
+	ranger := &Unit{ID: "e_ranger", Side: SideP2, Lane: 2, Role: "ranger", HP: 35, MaxHP: 35, Alive: true}
+	tank := &Unit{ID: "e_tank", Side: SideP2, Lane: 0, Role: "tank", HP: 50, MaxHP: 50, Alive: true}
 	b.Units = []*Unit{actor, tank, mage, ranger}
 
 	got := b.SelectTargets(actor, "backline", "")

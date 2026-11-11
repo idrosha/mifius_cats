@@ -4,7 +4,7 @@
     "role": "tank",
     "element": "stone",
     "level": 1,
-    "baseStats": { "hp": 45, "atk": 4, "spd": 3, "skill": 2, "charm": 4 },
+    "baseStats": { "hp": 50, "atk": 4, "spd": 3, "skill": 2, "charm": 4 },
     "parts": {
       "eyes": "part_tank_stone_eyes",
       "ears": "part_tank_stone_ears",
@@ -21,7 +21,7 @@
     "role": "fighter",
     "element": "fire",
     "level": 1,
-    "baseStats": { "hp": 32, "atk": 8, "spd": 6, "skill": 3, "charm": 3 },
+    "baseStats": { "hp": 43, "atk": 8, "spd": 6, "skill": 3, "charm": 3 },
     "parts": {
       "eyes": "part_fighter_fire_eyes",
       "ears": "part_fighter_fire_ears",
