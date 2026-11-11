@@ -4258,12 +4258,20 @@ function unitCard(u, side) {
   return d;
 }
 
-/** Attack-card art for practice/hand HUD (shop packs present under stitch-assets). */
+/** Attack-card art for practice/hand HUD — all 12 shop packs under stitch-assets. */
 const ATTACK_CARD_ART_FOLDER = {
   shop_tank_stone_a: "tank-a",
+  shop_tank_stone_b: "tank-b",
   shop_fighter_fire_a: "fighter-a",
-  shop_support_water_a: "support-a",
+  shop_fighter_fire_b: "fighter-b",
   shop_assassin_bolt_a: "assassin-a",
+  shop_assassin_bolt_b: "assassin-b",
+  shop_ranger_grass_a: "ranger-a",
+  shop_ranger_grass_b: "ranger-b",
+  shop_mage_fire_a: "mage-a",
+  shop_mage_ice_b: "mage-b",
+  shop_support_water_a: "support-a",
+  shop_support_water_b: "support-b",
   tank_stone: "tank-a",
   fighter_fire: "fighter-a",
   support_water: "support-a",
@@ -4511,6 +4519,13 @@ function makeAttackHandButton(c, diff, classNames = "mf-atk-card") {
   if (art) {
     // Cost digit lives in card art (aligned with sim AP after starter back cost fix).
     b.innerHTML = `<img alt="${title}" src="${art}"/><b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
+    const img = b.querySelector("img");
+    img?.addEventListener("error", () => {
+      // Missing/broken plate → text card instead of empty black tile.
+      b.classList.remove("mf-atk-card--art", "pf-card-art");
+      b.classList.add("mf-atk-card--text");
+      img.remove();
+    });
   } else {
     b.innerHTML = `<b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
   }
