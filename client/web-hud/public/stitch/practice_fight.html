@@ -58,7 +58,7 @@
 </div>
 
 <!-- Arena -->
-<div class="relative w-full h-[52vh] min-h-[380px] max-h-[500px] flex items-center justify-between px-space-lg lg:px-8 max-w-[1720px] mx-auto overflow-hidden">
+<div class="relative w-full h-[40vh] min-h-[280px] max-h-[420px] flex items-center justify-between px-space-lg lg:px-8 max-w-[1720px] mx-auto overflow-hidden">
 <div class="absolute inset-0 bg-cover bg-center pointer-events-none" style="background-image: url('/stitch-ref/e608/arena_dojo.png')"></div>
 <div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-surface/80 pointer-events-none"></div>
 <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-surface-container-lowest/40 to-surface pointer-events-none"></div>
@@ -178,9 +178,9 @@
 </div>
 </div>
 
-<!-- Bottom console: left command + 6-card hand -->
+<!-- Bottom console: left command + 6-card hand (cards fill console height, 2:3) -->
 <div class="w-full bg-surface-container-lowest relative z-30 px-space-lg lg:px-8 py-3 shadow-[0_-8px_32px_rgba(0,0,0,0.85)]">
-<div class="max-w-[1720px] mx-auto flex flex-col xl:flex-row items-center justify-between gap-space-lg">
+<div class="pf-console-row max-w-[1720px] mx-auto flex flex-col xl:flex-row items-stretch justify-between gap-space-lg">
 <div class="flex flex-col gap-2.5 shrink-0 bg-surface-container-high/60 backdrop-blur-md rounded-2xl border border-outline-variant/30 shadow-xl p-3 w-64">
 <div class="flex items-center justify-between border-b border-outline-variant/30 pb-2">
 <div class="flex flex-col">
@@ -216,31 +216,31 @@
 </div>
 </div>
 
-<div class="relative z-10 flex items-end gap-space-sm lg:gap-space-md shrink-0 justify-center overflow-x-auto py-2" id="pfHand" data-pf-hand-static="1">
-<div class="w-36 lg:w-40 flex flex-col items-center relative shrink-0 transition duration-300 transform scale-105">
-<div class="w-full rounded-2xl overflow-hidden shadow-[0_0_22px_rgba(253,186,69,0.7)] bg-surface-container-high border-2 border-primary"><img alt="Прилив силы" class="w-full h-40 object-cover block" src="/stitch-assets/2559cfd45d77.jpg"/></div>
+<div class="mf-attack-hand relative z-10 flex-1 min-w-0 self-stretch items-stretch justify-center overflow-x-auto py-1 gap-space-sm lg:gap-space-md" id="pfHand" data-pf-hand-static="1" style="--mf-hand-h:24rem;height:24rem;min-height:24rem">
+<div class="mf-hand-slot relative shrink-0 transition duration-300 transform scale-105">
+<div class="mf-hand-face shadow-[0_0_22px_rgba(253,186,69,0.7)] border-2 border-primary"><img alt="Прилив силы" class="block" src="/stitch-assets/attack-cards/support-a/attack_shop_support_water_a_back.png"/></div>
 <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-on-primary px-2 py-0.5 rounded-full shadow-lg flex items-center gap-1 whitespace-nowrap z-10"><span class="material-symbols-outlined text-[12px]">check_circle</span><span class="font-label-sm text-label-sm font-bold uppercase">В очереди</span></div>
 <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-surface-container-lowest/90 px-2 py-0.5 rounded-full border border-outline-variant/40 shadow whitespace-nowrap z-10"><span class="font-label-sm text-label-sm text-primary font-bold">[1] 2 AP</span></div>
 </div>
-<div class="w-36 lg:w-40 flex flex-col items-center relative shrink-0 group transition duration-300 transform hover:-translate-y-2">
-<div class="w-full rounded-2xl overflow-hidden shadow-2xl bg-surface-container-high border border-outline-variant/30"><img alt="Морозный укус" class="w-full h-40 object-cover block" src="/stitch-assets/25a8094276fd.jpg"/></div>
+<div class="mf-hand-slot relative shrink-0 group transition duration-300 transform hover:-translate-y-1">
+<div class="mf-hand-face shadow-2xl border border-outline-variant/30"><img alt="Каменный оскал" class="block" src="/stitch-assets/attack-cards/tank-a/attack_shop_tank_stone_a_muzzle.png"/></div>
 <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-surface-container-lowest/90 px-2 py-0.5 rounded-full border border-outline-variant/40 shadow whitespace-nowrap z-10"><span class="font-label-sm text-label-sm text-primary font-bold">[2] 1 AP</span></div>
 </div>
-<div class="w-36 lg:w-40 flex flex-col items-center relative shrink-0 transition duration-300 transform scale-105">
-<div class="w-full rounded-2xl overflow-hidden shadow-[0_0_22px_rgba(253,186,69,0.7)] bg-surface-container-high border-2 border-primary"><img alt="Искра-крит" class="w-full h-40 object-cover block" src="/stitch-assets/287c97491284.jpg"/></div>
+<div class="mf-hand-slot relative shrink-0 transition duration-300 transform scale-105">
+<div class="mf-hand-face shadow-[0_0_22px_rgba(253,186,69,0.7)] border-2 border-primary"><img alt="Огненный укус" class="block" src="/stitch-assets/attack-cards/fighter-a/attack_shop_fighter_fire_a_muzzle.png"/></div>
 <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-on-primary px-2 py-0.5 rounded-full shadow-lg flex items-center gap-1 whitespace-nowrap z-10"><span class="material-symbols-outlined text-[12px]">check_circle</span><span class="font-label-sm text-label-sm font-bold uppercase">В очереди</span></div>
 <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-surface-container-lowest/90 px-2 py-0.5 rounded-full border border-outline-variant/40 shadow whitespace-nowrap z-10"><span class="font-label-sm text-label-sm text-primary font-bold">[3] 1 AP</span></div>
 </div>
-<div class="w-36 lg:w-40 flex flex-col items-center relative shrink-0 group transition duration-300 transform hover:-translate-y-2">
-<div class="w-full rounded-2xl overflow-hidden shadow-2xl bg-surface-container-high border border-outline-variant/30"><img alt="Ослабить врага" class="w-full h-40 object-cover block" src="/stitch-assets/2baad2871364.jpg"/></div>
+<div class="mf-hand-slot relative shrink-0 group transition duration-300 transform hover:-translate-y-1">
+<div class="mf-hand-face shadow-2xl border border-outline-variant/30"><img alt="Чистый родник" class="block" src="/stitch-assets/attack-cards/support-a/attack_shop_support_water_a_headwear.png"/></div>
 <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-surface-container-lowest/90 px-2 py-0.5 rounded-full border border-outline-variant/40 shadow whitespace-nowrap z-10"><span class="font-label-sm text-label-sm text-primary font-bold">[4] 1 AP</span></div>
 </div>
-<div class="w-36 lg:w-40 flex flex-col items-center relative shrink-0 group transition duration-300 transform hover:-translate-y-2">
-<div class="w-full rounded-2xl overflow-hidden shadow-2xl bg-surface-container-high border border-outline-variant/30"><img alt="Град стрел" class="w-full h-40 object-cover block" src="/stitch-assets/2bc485f0e8f4.jpg"/></div>
+<div class="mf-hand-slot relative shrink-0 group transition duration-300 transform hover:-translate-y-1">
+<div class="mf-hand-face shadow-2xl border border-outline-variant/30"><img alt="Щит-валун" class="block" src="/stitch-assets/attack-cards/tank-a/attack_shop_tank_stone_a_back.png"/></div>
 <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-surface-container-lowest/90 px-2 py-0.5 rounded-full border border-outline-variant/40 shadow whitespace-nowrap z-10"><span class="font-label-sm text-label-sm text-primary font-bold">[5] 2 AP</span></div>
 </div>
-<div class="w-36 lg:w-40 flex flex-col items-center relative shrink-0 group transition duration-300 transform hover:-translate-y-2">
-<div class="w-full rounded-2xl overflow-hidden shadow-2xl bg-surface-container-high border border-outline-variant/30"><img alt="Боевой настрой" class="w-full h-40 object-cover block" src="/stitch-assets/2fc49a14dc1f.jpg"/></div>
+<div class="mf-hand-slot relative shrink-0 group transition duration-300 transform hover:-translate-y-1">
+<div class="mf-hand-face shadow-2xl border border-outline-variant/30"><img alt="Двойной хлыст" class="block" src="/stitch-assets/attack-cards/fighter-a/attack_shop_fighter_fire_a_tail.png"/></div>
 <div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-surface-container-lowest/90 px-2 py-0.5 rounded-full border border-outline-variant/40 shadow whitespace-nowrap z-10"><span class="font-label-sm text-label-sm text-primary font-bold">[6] 1 AP</span></div>
 </div>
 </div>

@@ -3958,7 +3958,6 @@ const ATTACK_CARD_ART_ALIAS = {
 function attackCardArtUrl(cardId) {
   if (!cardId) return "";
   const raw = ATTACK_CARD_ART_ALIAS[cardId] || String(cardId).replace(/^card_/, "");
-  const parts = raw.split("_");
   // shop_tank_stone_a_muzzle → shop_tank_stone_a | muzzle
   // tank_stone_muzzle (after alias) already shop_*
   let folderKey = "";
@@ -3976,6 +3975,27 @@ function attackCardArtUrl(cardId) {
   const folder = ATTACK_CARD_ART_FOLDER[folderKey];
   if (!folder) return "";
   return `/stitch-assets/attack-cards/${folder}/attack_${fileStem}.png`;
+}
+
+/** Portrait attack-card button for practice / PvP / wire battle hands. */
+function makeAttackHandButton(c, diff, classNames = "mf-atk-card") {
+  const b = document.createElement("button");
+  b.type = "button";
+  const art = attackCardArtUrl(c.cardId);
+  const title = t(c.name_key, c.cardId);
+  const cost = c.cost ?? "?";
+  b.className = art ? `${classNames} mf-atk-card--art pf-card pf-card-art` : `${classNames} mf-atk-card--text pf-card`;
+  b.disabled = !c.playable || !!diff.result || diff.active !== 0 || !!state.oppThrowPlaying;
+  b.title = `${title} · ${cost} AP`;
+  if (art) {
+    b.innerHTML = `<img alt="${title}" src="${art}"/><b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
+  } else {
+    b.innerHTML = `<b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
+  }
+  b.addEventListener("click", () =>
+    submitAction({ kind: "playCard", unitId: c.unitId, handIndex: c.handIndex, targetId: "" }),
+  );
+  return b;
 }
 
 /** Shared attack-card reverse used for opponent discard throw (all modes). */
@@ -4119,37 +4139,26 @@ function renderPracticeFight() {
   const liveCards = diff.hand || [];
   if (hand) {
     hand.removeAttribute("data-pf-hand-static");
+    hand.classList.add("mf-attack-hand");
     hand.innerHTML = "";
     if (!mine && !diff.result) {
       // Opponent turn: never reveal their hand — face-down throw overlay is the cue.
       const b = document.createElement("button");
       b.type = "button";
-      b.className = "pf-card";
+      b.className = "mf-atk-card mf-atk-card--text pf-card";
       b.disabled = true;
-      b.innerHTML = `<b>Обложка</b><span>ход противника</span>`;
+      b.innerHTML = `<b class="mf-atk-card__meta">Обложка</b><span class="mf-atk-card__sub">ход противника</span>`;
       hand.appendChild(b);
     } else if (!liveCards.length) {
       const b = document.createElement("button");
       b.type = "button";
-      b.className = "pf-card";
+      b.className = "mf-atk-card mf-atk-card--text pf-card";
       b.disabled = true;
-      b.innerHTML = `<b>Колода</b><span>ждёт раздачу</span>`;
+      b.innerHTML = `<b class="mf-atk-card__meta">Колода</b><span class="mf-atk-card__sub">ждёт раздачу</span>`;
       hand.appendChild(b);
     } else {
       for (const c of liveCards.slice(0, 8)) {
-        const b = document.createElement("button");
-        b.type = "button";
-        b.className = "pf-card pf-card-art";
-        b.disabled = !c.playable || !!diff.result || diff.active !== 0 || state.oppThrowPlaying;
-        const art = attackCardArtUrl(c.cardId);
-        const title = t(c.name_key, c.cardId);
-        b.innerHTML = art
-          ? `<img alt="${title}" src="${art}"/><b>${title}</b><span>${c.cost ?? "?"} AP</span>`
-          : `<b>${title}</b><span>${c.cost ?? "?"} AP</span>`;
-        b.addEventListener("click", () =>
-          submitAction({ kind: "playCard", unitId: c.unitId, handIndex: c.handIndex, targetId: "" }),
-        );
-        hand.appendChild(b);
+        hand.appendChild(makeAttackHandButton(c, diff, "mf-atk-card"));
       }
     }
   }
@@ -4238,6 +4247,7 @@ function renderPvpFight() {
   syncOppThrowFromBattle(diff);
   const hand = $("pvHand");
   if (hand) {
+    hand.classList.add("mf-attack-hand");
     hand.innerHTML = "";
     const cards = diff.hand || [];
     if ($("pvOrbs")) {
@@ -4246,25 +4256,20 @@ function renderPvpFight() {
     if (!mine && !diff.result) {
       const b = document.createElement("button");
       b.type = "button";
+      b.className = "mf-atk-card mf-atk-card--text";
       b.disabled = true;
-      b.innerHTML = `<b>Обложка</b><span>ход соперника</span>`;
+      b.innerHTML = `<b class="mf-atk-card__meta">Обложка</b><span class="mf-atk-card__sub">ход соперника</span>`;
       hand.appendChild(b);
     } else if (!cards.length) {
       const b = document.createElement("button");
       b.type = "button";
+      b.className = "mf-atk-card mf-atk-card--text";
       b.disabled = true;
-      b.innerHTML = `<b>Колода</b><span>ждёт раздачу</span>`;
+      b.innerHTML = `<b class="mf-atk-card__meta">Колода</b><span class="mf-atk-card__sub">ждёт раздачу</span>`;
       hand.appendChild(b);
     } else {
       for (const c of cards) {
-        const b = document.createElement("button");
-        b.type = "button";
-        b.disabled = !c.playable || !!diff.result || diff.active !== 0 || state.oppThrowPlaying;
-        b.innerHTML = `<b>${t(c.name_key, c.cardId)}</b><span>цена ${c.cost ?? "?"}</span>`;
-        b.addEventListener("click", () =>
-          submitAction({ kind: "playCard", unitId: c.unitId, handIndex: c.handIndex, targetId: "" }),
-        );
-        hand.appendChild(b);
+        hand.appendChild(makeAttackHandButton(c, diff, "mf-atk-card"));
       }
     }
   }
@@ -4327,23 +4332,30 @@ function renderBattle() {
 
   syncOppThrowFromBattle(diff);
   const hand = $("hand");
+  hand.classList.add("mf-attack-hand");
   hand.innerHTML = "";
   if (!mine && !diff.result) {
     const b = document.createElement("button");
     b.type = "button";
-    b.className = "wire-btn";
+    b.className = "mf-atk-card mf-atk-card--text";
     b.disabled = true;
-    b.innerHTML = `<span class="cost">✖</span> Обложка · ход противника
-      <span class="sub">6 карт рубашкой</span>`;
+    b.innerHTML = `<b class="mf-atk-card__meta">Обложка</b><span class="mf-atk-card__sub">ход противника · 6 рубашек</span>`;
     hand.appendChild(b);
   } else {
     for (const c of diff.hand || []) {
+      const art = attackCardArtUrl(c.cardId);
+      const title = t(c.name_key, c.cardId);
+      const cost = c.cost ?? "?";
       const b = document.createElement("button");
       b.type = "button";
-      b.className = "wire-btn";
-      b.disabled = !c.playable || !!diff.result || diff.active !== 0 || state.oppThrowPlaying;
-      b.innerHTML = `<span class="cost">${c.cost}</span> ${t(c.name_key, c.cardId)}
-      <span class="sub">${c.unitId} #${c.handIndex}</span>`;
+      b.className = art
+        ? "mf-atk-card mf-atk-card--art pf-card pf-card-art"
+        : "mf-atk-card mf-atk-card--text pf-card";
+      b.disabled = !c.playable || !!diff.result || diff.active !== 0 || !!state.oppThrowPlaying;
+      b.title = `${title} · ${cost} AP`;
+      b.innerHTML = art
+        ? `<img alt="${title}" src="${art}"/><b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`
+        : `<b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
       b.addEventListener("click", async () => {
         if (state.selectedKeep?.mode) {
           await submitAction({ kind: "keep", unitId: c.unitId, handIndex: c.handIndex });
