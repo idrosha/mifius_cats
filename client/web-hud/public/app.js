@@ -513,7 +513,9 @@ const state = {
     { id: "yellow_cloak", slot: "cloak", name: "Жёлтый плащ Солнца", atk: 15, hp: 640, def: 50, spd: 4, crit: 0, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: null, iconSrc: "/gear-sets/thumbs/yellow-cloak.png" },
     { id: "yellow_belt", slot: "belt", name: "Жёлтый пояс Льва", atk: 0, hp: 360, def: 35, spd: 4, crit: 0, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: null, iconSrc: "/gear-sets/thumbs/yellow-belt.png" },
     { id: "yellow_boots", slot: "boots", name: "Жёлтые когтистые сапоги", atk: 10, hp: 220, def: 28, spd: 14, crit: 1, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: null, iconSrc: "/gear-sets/thumbs/yellow-boots.png" },
-    { id: "yellow_staff", slot: "weapon", name: "Жёлтый посох Солнца", atk: 420, hp: 0, def: 0, spd: 4, crit: 6, rank: 4, rarity: "epic", enhance: 8, set: "yellow", roles: ["mage"], iconSrc: "/gear-sets/thumbs/yellow-staff.png" },
+    { id: "yellow_staff", slot: "weapon", name: "Жёлтый посох Солнца (2H)", atk: 420, hp: 0, def: 0, spd: 4, crit: 6, rank: 4, rarity: "epic", enhance: 8, set: "yellow", roles: ["mage"], iconSrc: "/gear-sets/thumbs/yellow-staff.png" },
+    { id: "yellow_wand", slot: "weapon", name: "Жёлтый жезл Солнца (1H)", atk: 260, hp: 0, def: 0, spd: 5, crit: 4, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: ["mage", "support"], iconSrc: "/gear-sets/thumbs/yellow-wand.png" },
+    { id: "mage_book", slot: "shield", name: "Книга Чародея", atk: 80, hp: 120, def: 10, spd: 2, crit: 3, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: ["mage"], iconSrc: "/gear-sets/thumbs/mage-book.png" },
     // —— turquoise (R3) complete armor ——
     { id: "turquoise_helm", slot: "helm", name: "Бирюзовая шляпа", atk: 8, hp: 240, def: 32, spd: 3, crit: 1, rank: 3, rarity: "rare", enhance: 4, set: "turquoise", roles: null, iconSrc: "/gear-sets/thumbs/turquoise-helm.png" },
     { id: "turquoise_armor", slot: "armor", name: "Бирюзовая мантия", atk: 12, hp: 820, def: 60, spd: 2, crit: 0, rank: 3, rarity: "rare", enhance: 4, set: "turquoise", roles: null, iconSrc: "/gear-sets/thumbs/turquoise-armor.png" },
@@ -543,6 +545,7 @@ const state = {
     { id: "tank_mace", slot: "weapon", name: "Булава Стража", atk: 320, hp: 120, def: 40, spd: 0, crit: 2, rank: 4, rarity: "epic", enhance: 8, set: null, roles: ["tank"], iconSrc: "/gear-sets/thumbs/tank-mace.png" },
     { id: "tank_spear", slot: "weapon", name: "Копьё Стража", atk: 300, hp: 80, def: 30, spd: 4, crit: 3, rank: 4, rarity: "epic", enhance: 8, set: null, roles: ["tank"], iconSrc: "/gear-sets/thumbs/tank-spear.png" },
     { id: "tank_shield_large", slot: "shield", name: "Большой щит Льва", atk: 20, hp: 900, def: 220, spd: 0, crit: 0, rank: 4, rarity: "epic", enhance: 10, set: null, roles: ["tank"], iconSrc: "/gear-sets/thumbs/tank-shield-large.png" },
+    { id: "tank_shield_small", slot: "shield", name: "Малый щит Льва", atk: 10, hp: 480, def: 140, spd: 2, crit: 0, rank: 3, rarity: "rare", enhance: 6, set: null, roles: ["tank"], iconSrc: "/gear-sets/thumbs/tank-shield-small.png" },
     { id: "fighter_greatsword", slot: "weapon", name: "Двуручный меч Тигра", atk: 520, hp: 0, def: 0, spd: 2, crit: 8, rank: 6, rarity: "legendary", enhance: 10, set: "red", roles: ["fighter"], iconSrc: "/gear-sets/thumbs/fighter-greatsword.png" },
     { id: "fighter_axe_a", slot: "weapon", name: "Топор Бойца A", atk: 260, hp: 0, def: 0, spd: 4, crit: 5, rank: 6, rarity: "legendary", enhance: 8, set: "red", roles: ["fighter"], iconSrc: "/gear-sets/thumbs/fighter-axe-a.png" },
     { id: "fighter_axe_b", slot: "shield", name: "Топор Бойца B", atk: 240, hp: 0, def: 0, spd: 4, crit: 5, rank: 6, rarity: "legendary", enhance: 8, set: "red", roles: ["fighter"], iconSrc: "/gear-sets/thumbs/fighter-axe-b.png" },
@@ -563,7 +566,9 @@ const state = {
     { id: "barn_yellow_cloak", name: "Жёлтый плащ Солнца", kind: "armor", rarity: "epic", tag: "Жёлтый · cloak", enhance: 6, qty: 1, gearId: "yellow_cloak", iconSrc: "/gear-sets/thumbs/yellow-cloak.png" },
     { id: "barn_yellow_belt", name: "Жёлтый пояс Льва", kind: "armor", rarity: "epic", tag: "Жёлтый · belt", enhance: 6, qty: 1, gearId: "yellow_belt", iconSrc: "/gear-sets/thumbs/yellow-belt.png" },
     { id: "barn_yellow_boots", name: "Жёлтые когтистые сапоги", kind: "armor", rarity: "epic", tag: "Жёлтый · boots", enhance: 6, qty: 1, gearId: "yellow_boots", iconSrc: "/gear-sets/thumbs/yellow-boots.png" },
-    { id: "barn_yellow_staff", name: "Жёлтый посох Солнца", kind: "weapon", rarity: "epic", tag: "Жёлтый · weapon", enhance: 8, qty: 1, gearId: "yellow_staff", iconSrc: "/gear-sets/thumbs/yellow-staff.png" },
+    { id: "barn_yellow_staff", name: "Жёлтый посох Солнца (2H)", kind: "weapon", rarity: "epic", tag: "Жёлтый · weapon", enhance: 8, qty: 1, gearId: "yellow_staff", iconSrc: "/gear-sets/thumbs/yellow-staff.png" },
+    { id: "barn_yellow_wand", name: "Жёлтый жезл Солнца (1H)", kind: "weapon", rarity: "epic", tag: "Жёлтый · weapon", enhance: 6, qty: 1, gearId: "yellow_wand", iconSrc: "/gear-sets/thumbs/yellow-wand.png" },
+    { id: "barn_mage_book", name: "Книга Чародея", kind: "weapon", rarity: "epic", tag: "Маг · shield", enhance: 6, qty: 1, gearId: "mage_book", iconSrc: "/gear-sets/thumbs/mage-book.png" },
     { id: "barn_turquoise_helm", name: "Бирюзовая шляпа", kind: "armor", rarity: "rare", tag: "Бирюза · helm", enhance: 4, qty: 1, gearId: "turquoise_helm", iconSrc: "/gear-sets/thumbs/turquoise-helm.png" },
     { id: "barn_turquoise_armor", name: "Бирюзовая мантия", kind: "armor", rarity: "rare", tag: "Бирюза · armor", enhance: 4, qty: 1, gearId: "turquoise_armor", iconSrc: "/gear-sets/thumbs/turquoise-armor.png" },
     { id: "barn_turquoise_cloak", name: "Бирюзовый плащ", kind: "armor", rarity: "rare", tag: "Бирюза · cloak", enhance: 4, qty: 1, gearId: "turquoise_cloak", iconSrc: "/gear-sets/thumbs/turquoise-cloak.png" },
@@ -588,6 +593,7 @@ const state = {
     { id: "barn_tank_mace", name: "Булава Стража", kind: "weapon", rarity: "epic", tag: "Класс · weapon", enhance: 8, qty: 1, gearId: "tank_mace", iconSrc: "/gear-sets/thumbs/tank-mace.png" },
     { id: "barn_tank_spear", name: "Копьё Стража", kind: "weapon", rarity: "epic", tag: "Класс · weapon", enhance: 8, qty: 1, gearId: "tank_spear", iconSrc: "/gear-sets/thumbs/tank-spear.png" },
     { id: "barn_tank_shield_large", name: "Большой щит Льва", kind: "weapon", rarity: "epic", tag: "Класс · shield", enhance: 10, qty: 1, gearId: "tank_shield_large", iconSrc: "/gear-sets/thumbs/tank-shield-large.png" },
+    { id: "barn_tank_shield_small", name: "Малый щит Льва", kind: "weapon", rarity: "rare", tag: "Класс · shield", enhance: 6, qty: 1, gearId: "tank_shield_small", iconSrc: "/gear-sets/thumbs/tank-shield-small.png" },
     { id: "barn_fighter_greatsword", name: "Двуручный меч Тигра", kind: "weapon", rarity: "legendary", tag: "Класс · weapon", enhance: 10, qty: 1, gearId: "fighter_greatsword", iconSrc: "/gear-sets/thumbs/fighter-greatsword.png" },
     { id: "barn_fighter_axe_a", name: "Топор Бойца A", kind: "weapon", rarity: "legendary", tag: "Класс · weapon", enhance: 8, qty: 1, gearId: "fighter_axe_a", iconSrc: "/gear-sets/thumbs/fighter-axe-a.png" },
     { id: "barn_fighter_axe_b", name: "Топор Бойца B", kind: "weapon", rarity: "legendary", tag: "Класс · shield", enhance: 8, qty: 1, gearId: "fighter_axe_b", iconSrc: "/gear-sets/thumbs/fighter-axe-b.png" },
@@ -2697,6 +2703,31 @@ function equipBest(catId) {
   }
   toast("Лучшее надето (с учётом класса)");
   renderAll();
+}
+
+/** Dress full color armor set (helm/armor/cloak/belt/boots). Weapons stay class-gated separately. */
+function equipArmorSet(catId, setId) {
+  if (!catId || !setId) return false;
+  if (!state.equippedByCat[catId]) state.equippedByCat[catId] = emptyEquipSlots();
+  const armorSlots = ["helm", "armor", "cloak", "belt", "boots"];
+  let worn = 0;
+  for (const slot of armorSlots) {
+    const piece = state.gearCatalog.find((g) => g.set === setId && g.slot === slot && canEquipItem(catId, g));
+    if (!piece) continue;
+    for (const eq of Object.values(state.equippedByCat)) {
+      for (const key of Object.keys(eq)) {
+        if (eq[key] === piece.id) eq[key] = null;
+      }
+    }
+    state.equippedByCat[catId][slot] = piece.id;
+    worn += 1;
+  }
+  const label = HOME_SET_RU[setId]?.name || setId;
+  toast(worn ? `${label}: надето ${worn}/5` : `${label}: нет частей`);
+  renderHome();
+  renderEquipCards();
+  renderAll();
+  return worn > 0;
 }
 
 function unequipAll(catId) {
