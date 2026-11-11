@@ -562,6 +562,8 @@ const state = {
   loggedIn: false,
   selectedStageId: YARD_STAGE,
   battleMode: "pve", // pve | practice | boss | guild_demo | pvp
+  /** True while opponent 6-card face-down discard throw VFX is playing. */
+  oppThrowPlaying: false,
   bossWaveIndex: 0,
   campaign: null,
   bossFirst: null,
@@ -3976,6 +3978,107 @@ function attackCardArtUrl(cardId) {
   return `/stitch-assets/attack-cards/${folder}/attack_${fileStem}.png`;
 }
 
+/** Shared attack-card reverse used for opponent discard throw (all modes). */
+const OPP_CARD_BACK_URL = "/stitch-assets/attack-cards/card-back.png";
+const OPP_THROW_COUNT = 6;
+let oppThrowToken = 0;
+
+function ensureOppThrowOverlay() {
+  let el = $("mfOppThrow");
+  if (el) return el;
+  el = document.createElement("div");
+  el.id = "mfOppThrow";
+  el.className = "mf-opp-throw";
+  el.hidden = true;
+  el.setAttribute("aria-hidden", "true");
+  el.innerHTML = `<p class="mf-opp-throw__label"></p><div class="mf-opp-throw__fan" role="presentation"></div>`;
+  const fan = el.querySelector(".mf-opp-throw__fan");
+  for (let i = 0; i < OPP_THROW_COUNT; i++) {
+    const img = document.createElement("img");
+    img.className = "mf-opp-throw__card";
+    img.src = OPP_CARD_BACK_URL;
+    img.alt = "";
+    img.decoding = "async";
+    img.style.setProperty("--i", String(i));
+    fan.appendChild(img);
+  }
+  document.body.appendChild(el);
+  return el;
+}
+
+function hideOppThrow() {
+  const el = $("mfOppThrow");
+  if (!el) return;
+  el.classList.remove("is-on", "is-in", "is-hold", "is-out");
+  el.hidden = true;
+  el.setAttribute("aria-hidden", "true");
+}
+
+function showOppThrowHold(label) {
+  const el = ensureOppThrowOverlay();
+  const p = el.querySelector(".mf-opp-throw__label");
+  if (p) {
+    p.textContent =
+      label ||
+      (state.locale === "ru" ? "Ход противника · сброс карт" : "Opponent turn · discard");
+  }
+  el.hidden = false;
+  el.setAttribute("aria-hidden", "false");
+  el.classList.add("is-on", "is-hold");
+  el.classList.remove("is-in", "is-out");
+}
+
+/** Axie-style: 6 face-down backs thrown toward the player, then cleared. */
+function playOpponentDiscardThrow({ holdMs = 720 } = {}) {
+  const el = ensureOppThrowOverlay();
+  const token = ++oppThrowToken;
+  state.oppThrowPlaying = true;
+  const p = el.querySelector(".mf-opp-throw__label");
+  if (p) {
+    p.textContent =
+      state.locale === "ru" ? "Ход противника · сброс карт" : "Opponent turn · discard";
+  }
+  el.hidden = false;
+  el.setAttribute("aria-hidden", "false");
+  el.classList.remove("is-out", "is-hold");
+  el.classList.add("is-on", "is-in");
+  el.querySelectorAll(".mf-opp-throw__card").forEach((card) => {
+    card.style.animation = "none";
+    void card.offsetWidth;
+    card.style.animation = "";
+  });
+  const inMs = 680;
+  const outMs = 480;
+  return new Promise((resolve) => {
+    window.setTimeout(() => {
+      if (token !== oppThrowToken) return resolve();
+      el.classList.add("is-hold");
+      window.setTimeout(() => {
+        if (token !== oppThrowToken) return resolve();
+        el.classList.remove("is-in", "is-hold");
+        el.classList.add("is-out");
+        window.setTimeout(() => {
+          if (token === oppThrowToken) {
+            hideOppThrow();
+            state.oppThrowPlaying = false;
+          }
+          resolve();
+        }, outMs);
+      }, holdMs);
+    }, inMs);
+  });
+}
+
+/** Keep face-down throw visible while server reports opponent active (no hand peek). */
+function syncOppThrowFromBattle(diff) {
+  if (state.oppThrowPlaying) return;
+  if (!diff || diff.result || diff.active === 0) {
+    hideOppThrow();
+    return;
+  }
+  showOppThrowHold();
+}
+
 function renderPracticeFight() {
   const diff = state.battle;
   if (!diff) return;
@@ -4011,38 +4114,48 @@ function renderPracticeFight() {
   // Stitch allies are painted back→front (support … tank); sim lanes are front→back.
   paintSlots("#pfAllies", allies, true);
   paintSlots("#pfEnemies", enemies, false);
+  syncOppThrowFromBattle(diff);
   const hand = document.querySelector("#viewPracticeFight #pfHand");
   const liveCards = diff.hand || [];
   if (hand) {
     hand.removeAttribute("data-pf-hand-static");
     hand.innerHTML = "";
-    if (!liveCards.length) {
+    if (!mine && !diff.result) {
+      // Opponent turn: never reveal their hand — face-down throw overlay is the cue.
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "pf-card";
+      b.disabled = true;
+      b.innerHTML = `<b>Обложка</b><span>ход противника</span>`;
+      hand.appendChild(b);
+    } else if (!liveCards.length) {
       const b = document.createElement("button");
       b.type = "button";
       b.className = "pf-card";
       b.disabled = true;
       b.innerHTML = `<b>Колода</b><span>ждёт раздачу</span>`;
       hand.appendChild(b);
-    }
-    for (const c of liveCards.slice(0, 8)) {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.className = "pf-card pf-card-art";
-      b.disabled = !c.playable || !!diff.result || diff.active !== 0;
-      const art = attackCardArtUrl(c.cardId);
-      const title = t(c.name_key, c.cardId);
-      b.innerHTML = art
-        ? `<img alt="${title}" src="${art}"/><b>${title}</b><span>${c.cost ?? "?"} AP</span>`
-        : `<b>${title}</b><span>${c.cost ?? "?"} AP</span>`;
-      b.addEventListener("click", () =>
-        submitAction({ kind: "playCard", unitId: c.unitId, handIndex: c.handIndex, targetId: "" }),
-      );
-      hand.appendChild(b);
+    } else {
+      for (const c of liveCards.slice(0, 8)) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "pf-card pf-card-art";
+        b.disabled = !c.playable || !!diff.result || diff.active !== 0 || state.oppThrowPlaying;
+        const art = attackCardArtUrl(c.cardId);
+        const title = t(c.name_key, c.cardId);
+        b.innerHTML = art
+          ? `<img alt="${title}" src="${art}"/><b>${title}</b><span>${c.cost ?? "?"} AP</span>`
+          : `<b>${title}</b><span>${c.cost ?? "?"} AP</span>`;
+        b.addEventListener("click", () =>
+          submitAction({ kind: "playCard", unitId: c.unitId, handIndex: c.handIndex, targetId: "" }),
+        );
+        hand.appendChild(b);
+      }
     }
   }
   const end = document.querySelector("#viewPracticeFight #pfEndTurn");
   if (end) {
-    end.disabled = !diff.canEndTurn || !!diff.result || diff.active !== 0;
+    end.disabled = !diff.canEndTurn || !!diff.result || diff.active !== 0 || state.oppThrowPlaying;
     const hint = end.querySelector(":scope > span:last-of-type");
     if (hint) {
       const playable = liveCards.filter((c) => c.playable).length;
@@ -4065,6 +4178,8 @@ function bindPracticeFight() {
     if (id === "pfBack") {
       state.battle = null;
       state.lastResult = null;
+      state.oppThrowPlaying = false;
+      hideOppThrow();
       navigate("practice");
     }
   });
@@ -4078,6 +4193,8 @@ function bindPracticeFight() {
       ev.preventDefault();
       state.battle = null;
       state.lastResult = null;
+      state.oppThrowPlaying = false;
+      hideOppThrow();
       navigate("practice");
     }
   });
@@ -4118,37 +4235,49 @@ function renderPvpFight() {
     foeBox.innerHTML = "";
     enemies.forEach((u) => foeBox.appendChild(pvpUnitCard(u, true)));
   }
+  syncOppThrowFromBattle(diff);
   const hand = $("pvHand");
   if (hand) {
     hand.innerHTML = "";
     const cards = diff.hand || [];
-    if ($("pvOrbs")) $("pvOrbs").textContent = `${cards.length} карт`;
-    if (!cards.length) {
+    if ($("pvOrbs")) {
+      $("pvOrbs").textContent = mine || diff.result ? `${cards.length} карт` : "6 обложек";
+    }
+    if (!mine && !diff.result) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.disabled = true;
+      b.innerHTML = `<b>Обложка</b><span>ход соперника</span>`;
+      hand.appendChild(b);
+    } else if (!cards.length) {
       const b = document.createElement("button");
       b.type = "button";
       b.disabled = true;
       b.innerHTML = `<b>Колода</b><span>ждёт раздачу</span>`;
       hand.appendChild(b);
-    }
-    for (const c of cards) {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.disabled = !c.playable || !!diff.result || diff.active !== 0;
-      b.innerHTML = `<b>${t(c.name_key, c.cardId)}</b><span>цена ${c.cost ?? "?"}</span>`;
-      b.addEventListener("click", () =>
-        submitAction({ kind: "playCard", unitId: c.unitId, handIndex: c.handIndex, targetId: "" }),
-      );
-      hand.appendChild(b);
+    } else {
+      for (const c of cards) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.disabled = !c.playable || !!diff.result || diff.active !== 0 || state.oppThrowPlaying;
+        b.innerHTML = `<b>${t(c.name_key, c.cardId)}</b><span>цена ${c.cost ?? "?"}</span>`;
+        b.addEventListener("click", () =>
+          submitAction({ kind: "playCard", unitId: c.unitId, handIndex: c.handIndex, targetId: "" }),
+        );
+        hand.appendChild(b);
+      }
     }
   }
   const end = $("pvEndTurn");
-  if (end) end.disabled = !diff.canEndTurn || !!diff.result || diff.active !== 0;
+  if (end) end.disabled = !diff.canEndTurn || !!diff.result || diff.active !== 0 || state.oppThrowPlaying;
 }
 
 function leavePvpFight() {
   state.battle = null;
   state.lastResult = null;
   state.battleMode = "";
+  state.oppThrowPlaying = false;
+  hideOppThrow();
   navigate("pvp");
 }
 
@@ -4178,6 +4307,7 @@ function renderBattle() {
   const diff = state.battle;
   if (!diff) return;
   const local = diff.p1 || {};
+  const mine = diff.active === 0 && !diff.result;
   $("battleHeading").textContent = `${diff.battleId || "?"} · T${diff.turn} · seq ${diff.seq}`;
   $("battleStats").innerHTML = `
     <span>⚡ <b>${local.energy ?? 0}</b></span>
@@ -4195,39 +4325,50 @@ function renderBattle() {
   for (const u of allies) ab.appendChild(unitCard(u, "ally"));
   for (const u of enemies) eb.appendChild(unitCard(u, "enemy"));
 
+  syncOppThrowFromBattle(diff);
   const hand = $("hand");
   hand.innerHTML = "";
-  for (const c of diff.hand || []) {
+  if (!mine && !diff.result) {
     const b = document.createElement("button");
     b.type = "button";
     b.className = "wire-btn";
-    b.disabled = !c.playable || !!diff.result || diff.active !== 0;
-    b.innerHTML = `<span class="cost">${c.cost}</span> ${t(c.name_key, c.cardId)}
-      <span class="sub">${c.unitId} #${c.handIndex}</span>`;
-    b.addEventListener("click", async () => {
-      if (state.selectedKeep?.mode) {
-        await submitAction({ kind: "keep", unitId: c.unitId, handIndex: c.handIndex });
-        state.selectedKeep = null;
-        return;
-      }
-      await submitAction({
-        kind: "playCard",
-        unitId: c.unitId,
-        handIndex: c.handIndex,
-        targetId: "",
-      });
-    });
+    b.disabled = true;
+    b.innerHTML = `<span class="cost">✖</span> Обложка · ход противника
+      <span class="sub">6 карт рубашкой</span>`;
     hand.appendChild(b);
+  } else {
+    for (const c of diff.hand || []) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "wire-btn";
+      b.disabled = !c.playable || !!diff.result || diff.active !== 0 || state.oppThrowPlaying;
+      b.innerHTML = `<span class="cost">${c.cost}</span> ${t(c.name_key, c.cardId)}
+      <span class="sub">${c.unitId} #${c.handIndex}</span>`;
+      b.addEventListener("click", async () => {
+        if (state.selectedKeep?.mode) {
+          await submitAction({ kind: "keep", unitId: c.unitId, handIndex: c.handIndex });
+          state.selectedKeep = null;
+          return;
+        }
+        await submitAction({
+          kind: "playCard",
+          unitId: c.unitId,
+          handIndex: c.handIndex,
+          targetId: "",
+        });
+      });
+      hand.appendChild(b);
+    }
   }
 
-  $("btnEndTurn").disabled = !diff.canEndTurn || !!diff.result || diff.active !== 0;
-  $("btnKeep").disabled = !diff.canKeep || !!diff.result;
+  $("btnEndTurn").disabled = !diff.canEndTurn || !!diff.result || diff.active !== 0 || state.oppThrowPlaying;
+  $("btnKeep").disabled = !diff.canKeep || !!diff.result || state.oppThrowPlaying;
   $("btnKeep").textContent = state.selectedKeep?.mode
     ? state.locale === "ru"
       ? "Keep: клик по карте"
       : "Keep: click a card"
     : `Keep (${local.keepCost ?? 1})`;
-  $("btnSurrender").disabled = !!diff.result;
+  $("btnSurrender").disabled = !!diff.result || state.oppThrowPlaying;
 
   const banner = $("resultBanner");
   if (diff.result) {
@@ -4243,6 +4384,9 @@ function renderBattle() {
 async function applyDiff(diff, note = "") {
   state.battle = diff;
   state.lastResult = null;
+  if (diff?.result || diff?.active === 0) {
+    if (!state.oppThrowPlaying) hideOppThrow();
+  }
   if (note) log(note);
   if (state.tutorial && state.tutorial.step !== "victory") {
     state.tutorial.battleId = diff.battleId;
@@ -4297,7 +4441,9 @@ async function createPvE({ autoPlay = false, seed = 0, stageId = null } = {}) {
 
 async function submitAction(action) {
   if (!state.battle?.battleId) return;
+  if (state.oppThrowPlaying) return;
   try {
+    const prevActive = state.battle.active;
     const { data } = await api("/api/battle/v1/SubmitAction", {
       method: "POST",
       body: JSON.stringify({
@@ -4311,8 +4457,19 @@ async function submitAction(action) {
         },
       }),
     });
+    // After P1 endTurn the server resolves P2 (PvE bots + local PvP smoke). Show Axie-style
+    // 6 face-down discard throw before painting the next P1 state — all battle modes.
+    const shouldThrow =
+      action.kind === "endTurn" && prevActive === 0 && state.battle && !state.battle.result;
+    if (shouldThrow) {
+      if ($("pfRound")) $("pfRound").textContent = `РАУНД ${state.battle.turn || 1} • ХОД БОТА`;
+      if ($("pvRound")) $("pvRound").textContent = `Раунд ${state.battle.turn || 1} · Ход соперника`;
+      await playOpponentDiscardThrow();
+    }
     await applyDiff(data, `${action.kind}${action.unitId ? " " + action.unitId : ""}`);
   } catch (err) {
+    state.oppThrowPlaying = false;
+    hideOppThrow();
     log(`reject ${err.status || ""}: ${err.message}`);
     alert(`Server reject: ${err.message}`);
   }

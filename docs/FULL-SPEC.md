@@ -300,7 +300,8 @@ Server validates all purchases.
 7f. `Guild` + `GuildBattle` (GvG 3–12; SL: entry + tip, §4.5)  
 8. `Pass` (×2 XP + rank boxes + autofarm perk copy when ACTIVE)  
 8b. `Farm` Soon sheet — expanded zones incl. fishing + autofarm toggles (gated / stub; §4.4)  
-9. `Battle` HUD: board 3+3, hand, energy, milk, keep, end turn, potion tray  
+9. `Battle` HUD: board 3+3, hand, energy, milk, keep, end turn, potion tray; **ход противника (VFX, все режимы):** 6 карт атаки **рубашкой** к игроку (сброс/бросок), затем карты исчезают — без раскрытия руки соперника  
+
 10. `Result` + rewards  
 11. `ReplayList` (10)  
 12. `Soon` placeholder sheets  
