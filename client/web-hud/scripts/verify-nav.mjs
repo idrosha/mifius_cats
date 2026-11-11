@@ -394,6 +394,18 @@ ok(
   "dojo-load missing under viewPractice",
 );
 ok(
+  "practice view is a single balanced section (no nested <section>)",
+  (() => {
+    const m = html.match(
+      /<section id="viewPractice"[\s\S]*?<\/section>\s*<section id="viewPracticeFight"/,
+    );
+    if (!m) return false;
+    const body = m[0].replace(/^<section id="viewPractice"[^>]*>/, "").replace(/<\/section>\s*<section id="viewPracticeFight"$/, "");
+    return !/<section\b/.test(body) && body.includes("dojo-gold") && body.includes("dojo-load");
+  })(),
+  "viewPractice nested <section> or truncated splice — breaks all later hubs",
+);
+ok(
   "warehouse is live barn sheet with icons host",
   html.includes('data-stitch="gear"') && html.includes("barn-sheet") && html.includes('id="barnGrid"'),
   "viewGear is not barn-sheet",
