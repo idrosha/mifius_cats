@@ -4105,6 +4105,11 @@ function renderPracticeFight() {
   const local = diff.p1 || {};
   const energy = local.energy ?? 0;
   const mine = diff.active === 0 && !diff.result;
+  const allies = (diff.units || []).filter((u) => u.side === 0).sort((a, b) => a.lane - b.lane);
+  const enemies = (diff.units || []).filter((u) => u.side === 1).sort((a, b) => a.lane - b.lane);
+  const drawCount = allies.reduce((n, u) => n + (u.drawCount || 0), 0);
+  const discardCount = allies.reduce((n, u) => n + (u.discardCount || 0), 0);
+  const energyMax = Math.max(3, energy);
   if ($("pfRound")) {
     $("pfRound").textContent = `РАУНД ${diff.turn || 1} • ${mine ? "ХОД ИГРОКА" : diff.result ? "ИТОГ" : "ХОД БОТА"}`;
   }
@@ -4113,6 +4118,21 @@ function renderPracticeFight() {
   }
   if ($("pfOrbs")) $("pfOrbs").textContent = `Орбы энергии ${energy}`;
   if ($("pfOrbsNum")) $("pfOrbsNum").textContent = String(energy);
+  if ($("pfOrbsMax")) $("pfOrbsMax").textContent = String(energyMax);
+  if ($("pfDrawCount")) $("pfDrawCount").textContent = String(drawCount);
+  if ($("pfDiscardCount")) $("pfDiscardCount").textContent = String(discardCount);
+  const pips = $("pfOrbPips");
+  if (pips) {
+    pips.innerHTML = "";
+    for (let i = 0; i < energyMax; i++) {
+      const pip = document.createElement("span");
+      pip.className =
+        i < energy
+          ? "w-2 h-2 rounded-full bg-primary shadow-[0_0_6px_rgba(253,186,69,0.8)]"
+          : "w-2 h-2 rounded-full bg-surface-container-highest border border-outline-variant/40";
+      pips.appendChild(pip);
+    }
+  }
   const paintSlots = (rootSel, units, reverseVisual) => {
     const root = document.querySelector(`#viewPracticeFight ${rootSel}`);
     if (!root) return;
@@ -4129,8 +4149,6 @@ function renderPracticeFight() {
       if (bar) bar.style.setProperty("--hp", `${pct}%`);
     });
   };
-  const allies = (diff.units || []).filter((u) => u.side === 0).sort((a, b) => a.lane - b.lane);
-  const enemies = (diff.units || []).filter((u) => u.side === 1).sort((a, b) => a.lane - b.lane);
   // Stitch allies are painted back→front (support … tank); sim lanes are front→back.
   paintSlots("#pfAllies", allies, true);
   paintSlots("#pfEnemies", enemies, false);
@@ -4140,6 +4158,7 @@ function renderPracticeFight() {
   if (hand) {
     hand.removeAttribute("data-pf-hand-static");
     hand.classList.add("mf-attack-hand");
+    hand.style.setProperty("--mf-hand-h", "15rem");
     hand.innerHTML = "";
     if (!mine && !diff.result) {
       // Opponent turn: never reveal their hand — face-down throw overlay is the cue.
@@ -4157,7 +4176,7 @@ function renderPracticeFight() {
       b.innerHTML = `<b class="mf-atk-card__meta">Колода</b><span class="mf-atk-card__sub">ждёт раздачу</span>`;
       hand.appendChild(b);
     } else {
-      for (const c of liveCards.slice(0, 8)) {
+      for (const c of liveCards) {
         hand.appendChild(makeAttackHandButton(c, diff, "mf-atk-card"));
       }
     }
@@ -4169,10 +4188,10 @@ function renderPracticeFight() {
     if (hint) {
       const playable = liveCards.filter((c) => c.playable).length;
       hint.textContent = mine
-        ? `В руке: ${liveCards.length} · можно сыграть ${playable} · ${energy} AP`
+        ? `${liveCards.length}·${playable}·${energy}AP`
         : diff.result
           ? String(diff.result)
-          : "Ход противника…";
+          : "бот…";
     }
   }
 }
