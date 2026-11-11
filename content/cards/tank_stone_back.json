@@ -3,7 +3,7 @@
   "name_key": "card.tank_stone_back",
   "roleGate": "tank",
   "element": "stone",
-  "cost": 2,
+  "cost": 1,
   "atk": 4,
   "shield": 6,
   "hits": 1,

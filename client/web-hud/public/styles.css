@@ -2902,6 +2902,33 @@ body:has(#viewPvpFight:not(.hidden)) #app { height: 100dvh !important; max-heigh
   clip: rect(0, 0, 0, 0);
   border: 0;
 }
+/* Authoritative AP from sim (covers starter cards painted with shop faces) */
+.mf-atk-card__cost {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.35rem;
+  z-index: 2;
+  min-width: 1.55rem;
+  height: 1.55rem;
+  padding: 0 0.35rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: Rubik, sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  line-height: 1;
+  color: #1a1308;
+  background: linear-gradient(180deg, #fdba45, #d99b26);
+  border: 1px solid rgba(96, 65, 0, 0.55);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.45);
+  pointer-events: none;
+}
+.mf-atk-card:disabled .mf-atk-card__cost {
+  filter: grayscale(0.35);
+  opacity: 0.85;
+}
 .mf-atk-card.mf-atk-card--text {
   display: flex;
   flex-direction: column;
