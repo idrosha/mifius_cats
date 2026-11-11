@@ -3,7 +3,7 @@
   "name_key": "card.fighter_fire_back",
   "roleGate": "fighter",
   "element": "fire",
-  "cost": 2,
+  "cost": 1,
   "atk": 12,
   "shield": 0,
   "hits": 1,

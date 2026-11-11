@@ -3988,7 +3988,8 @@ function makeAttackHandButton(c, diff, classNames = "mf-atk-card") {
   b.disabled = !c.playable || !!diff.result || diff.active !== 0 || !!state.oppThrowPlaying;
   b.title = `${title} · ${cost} AP`;
   if (art) {
-    b.innerHTML = `<img alt="${title}" src="${art}"/><b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
+    // Cost badge is SSOT from sim — shop art may bake a different number than starter cards.
+    b.innerHTML = `<img alt="${title}" src="${art}"/><i class="mf-atk-card__cost" aria-hidden="true">${cost}</i><b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
   } else {
     b.innerHTML = `<b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
   }
@@ -4373,7 +4374,7 @@ function renderBattle() {
       b.disabled = !c.playable || !!diff.result || diff.active !== 0 || !!state.oppThrowPlaying;
       b.title = `${title} · ${cost} AP`;
       b.innerHTML = art
-        ? `<img alt="${title}" src="${art}"/><b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`
+        ? `<img alt="${title}" src="${art}"/><i class="mf-atk-card__cost" aria-hidden="true">${cost}</i><b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`
         : `<b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
       b.addEventListener("click", async () => {
         if (state.selectedKeep?.mode) {
