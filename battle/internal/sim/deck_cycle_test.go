@@ -50,8 +50,17 @@ func TestDeckCycle_EndTurnDiscardsUnused_ThenReshuffles(t *testing.T) {
 			if u == nil {
 				t.Fatal("no p1 unit")
 			}
-			if len(u.Hand) == 0 {
-				t.Fatal("expected opening hand")
+			if len(u.Hand) != 2 {
+				t.Fatalf("§3.3 D2 opening hand per unit, got %v", u.Hand)
+			}
+			teamHand := 0
+			for _, uu := range b.Units {
+				if uu.Side == sim.SideP1 && uu.Alive {
+					teamHand += len(uu.Hand)
+				}
+			}
+			if teamHand != 6 {
+				t.Fatalf("team hand want 6, got %d", teamHand)
 			}
 			handBefore := append([]int(nil), u.Hand...)
 			if err := b.SubmitAction(sim.Action{Kind: sim.ActionEndTurn}); err != nil {
@@ -72,7 +81,7 @@ func TestDeckCycle_EndTurnDiscardsUnused_ThenReshuffles(t *testing.T) {
 				}
 			}
 
-			// Finish P2 turn so P1 begins turn 2 and draws (reshuffle from discard).
+			// Finish P2 turn so P1 begins turn 2 and draws (from remaining draw / reshuffle).
 			if b.Active != sim.SideP2 {
 				t.Fatalf("active=%v want P2", b.Active)
 			}
@@ -82,8 +91,12 @@ func TestDeckCycle_EndTurnDiscardsUnused_ThenReshuffles(t *testing.T) {
 			if b.Active != sim.SideP1 || b.Turn != 2 {
 				t.Fatalf("want P1 turn 2, got active=%v turn=%d", b.Active, b.Turn)
 			}
-			if len(u.Hand) == 0 {
-				t.Fatal("expected redraw after reshuffle cycle")
+			if len(u.Hand) != 2 {
+				t.Fatalf("expected D2 redraw, hand=%v", u.Hand)
+			}
+			// With N=4 and D2, unused T1 cards stay in discard while T2 draws the leftover pile.
+			if len(u.Discard) == 0 {
+				t.Fatalf("expected leftover discard after T2 draw, zones hand=%v draw=%v disc=%v", u.Hand, u.DrawPile, u.Discard)
 			}
 			// All cards accounted for across zones.
 			total := len(u.Hand) + len(u.DrawPile) + len(u.Discard)

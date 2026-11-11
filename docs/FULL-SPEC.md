@@ -144,10 +144,11 @@ Sequential: P1 acts → resolve → P2 acts → resolve → round end (shield dr
 
 | Turn | First | Second |
 |---|---|---|
-| 1 | E1 D3 | E2 D4 |
-| 2–3 | E2 D4 | E3 D4 |
-| 4+ | E3 D5 | E3 D5 |
+| 1 | E1 D2 | E2 D2 |
+| 2–3 | E2 D2 | E3 D2 |
+| 4+ | E3 D2 | E3 D2 |
 
+`D` — добор **на юнита** из его draw pile. Команда 3×D2 = **6 карт** в общей руке HUD (без Keep / `BonusDraw`).  
 Unused energy не переносится. Unused cards не переносятся (кроме Keep).
 
 **Цикл колоды атак (LOCKED, все режимы, одно ядро §3 / D-001):** per-unit draw pile → hand → discard, как Classic draw/discard:
