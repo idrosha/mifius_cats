@@ -3287,8 +3287,40 @@ body:has(#viewPractice > .dojo-load:not([hidden])) #wireDock { display: none; }
 .dojo-toggles button.is-on { color: #89d98c; border-color: rgba(137,217,140,0.45); background: rgba(137,217,140,0.1); }
 .dojo-toggles button[data-toggle="ai"].is-on { color: #f0a0a0; border-color: rgba(220,90,90,0.5); background: rgba(180,50,50,0.18); }
 .dojo-toggles button[data-toggle="time"].is-on { color: #fdba45; border-color: rgba(253,186,69,0.5); background: rgba(253,186,69,0.12); }
-.dojo-start {
-  border: 0; cursor: pointer; border-radius: 0.55rem;
+/* Practice squad picker — empty start, add/remove cats */
+#viewPractice [data-hero].is-picked {
+  border-color: #fdba45 !important;
+  box-shadow: inset 0 0 0 1px rgba(253, 186, 69, 0.45);
+}
+#viewPractice [data-hero].is-picked > div:last-child button {
+  background: #fdba45;
+  color: #432c00;
+}
+.dojo-squad-slot.is-empty {
+  min-height: 8rem;
+  background:
+    repeating-linear-gradient(
+      -45deg,
+      transparent,
+      transparent 6px,
+      rgba(157, 143, 123, 0.06) 6px,
+      rgba(157, 143, 123, 0.06) 12px
+    ),
+    #1a1613;
+}
+.dojo-squad-slot.is-filled[data-accent="primary"] { border-color: rgba(253, 186, 69, 0.5); }
+.dojo-squad-slot.is-filled[data-accent="tertiary"] { border-color: rgba(255, 180, 166, 0.5); }
+.dojo-squad-slot.is-filled[data-accent="secondary"] { border-color: rgba(137, 217, 140, 0.5); }
+.dojo-match-card[data-accent="primary"] { border-color: rgba(253, 186, 69, 0.7); }
+.dojo-match-card[data-accent="tertiary"] { border-color: rgba(255, 180, 166, 0.7); }
+.dojo-match-card[data-accent="secondary"] { border-color: rgba(137, 217, 140, 0.7); }
+.dojo-start.is-disabled,
+.dojo-start[aria-disabled="true"] {
+  opacity: 0.55;
+  filter: grayscale(0.25);
+  cursor: not-allowed;
+}
+.dojo-start {  border: 0; cursor: pointer; border-radius: 0.55rem;
   background: linear-gradient(180deg, #fdba45, #d99b26);
   color: #1a1308; font-family: Rubik, sans-serif; font-weight: 800;
   font-size: 15px; letter-spacing: 0.03em; padding: 0.55rem 0.8rem;

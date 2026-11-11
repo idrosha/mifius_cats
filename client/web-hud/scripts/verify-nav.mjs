@@ -268,8 +268,9 @@ ok(
 );
 ok("app navigate()", js.includes("function navigate("));
 ok(
-  "showView only toggles #app > section (not nested Stitch mains)",
-  js.includes('querySelectorAll("#app > section")') && !js.includes('querySelectorAll("main > section")'),
+  "showView toggles top-level view sections (#app and body siblings; not nested mains)",
+  js.includes('querySelectorAll("#app > section[id^=\'view\'], body > section[id^=\'view\']")') &&
+    !js.includes('querySelectorAll("main > section")'),
 );
 ok("gate tip auto-hides (no orphan banner)", js.includes("function hideGateTip") && js.includes("hideGateTip._t"));
 ok(

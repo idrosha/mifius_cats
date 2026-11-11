@@ -648,6 +648,8 @@ const state = {
   loggedIn: false,
   selectedStageId: YARD_STAGE,
   battleMode: "pve", // pve | practice | boss | guild_demo | pvp
+  /** Practice dojo selected squad — templateIds, max 3; starts empty. */
+  practiceSquad: [],
   /** True while opponent 6-card face-down discard throw VFX is playing. */
   oppThrowPlaying: false,
   bossWaveIndex: 0,
@@ -898,9 +900,12 @@ function wireModeFor(viewId) {
 }
 
 function showView(id) {
-  // ONLY top-level stage hosts under #app — never nested Stitch <main><section>
-  // (old "main > section" hid home/hub/equip body columns → brown void + float panel).
-  for (const el of document.querySelectorAll("#app > section")) {
+  // Top-level stage hosts: prefer #app children. Soft-launch HTML also has many
+  // stitch stages as body>section siblings when nested wireframe </main> closed #app early
+  // (practice/yard/pvp/…). Toggle both so navigate('practice') etc. still work.
+  // Never match nested chrome mirrors inside a stage (not #app/#body direct children).
+  const stages = document.querySelectorAll("#app > section[id^='view'], body > section[id^='view']");
+  for (const el of stages) {
     el.classList.toggle("hidden", el.id !== id);
   }
   // Keep logical aliases present for verify-nav probes
@@ -4241,7 +4246,7 @@ function unitCard(u, side) {
   return d;
 }
 
-/** Attack-card art for practice/hand HUD (shop A packs + starter aliases). */
+/** Attack-card art for practice/hand HUD (shop packs present under stitch-assets). */
 const ATTACK_CARD_ART_FOLDER = {
   shop_tank_stone_a: "tank-a",
   shop_fighter_fire_a: "fighter-a",
@@ -4251,6 +4256,199 @@ const ATTACK_CARD_ART_FOLDER = {
   fighter_fire: "fighter-a",
   support_water: "support-a",
 };
+
+/** Extract cat templateId from battle unit id (`p1_0_shop_tank_stone_a`). */
+function unitTemplateId(unitOrId) {
+  const id = typeof unitOrId === "string" ? unitOrId : unitOrId?.id || "";
+  const m = String(id).match(/^(?:p1|p2|bot)_\d+_(.+)$/);
+  return m ? m[1] : id;
+}
+
+/** Practice lobby roster: data-hero → combat template + display meta. */
+const PRACTICE_HEROES = {
+  barsik: {
+    templateId: "shop_tank_stone_a",
+    name: "Барсик Щит-утёс",
+    short: "Барсик",
+    role: "tank",
+    roleRu: "ТАНК",
+    roleIcon: "shield",
+    accent: "primary",
+    lvl: 50,
+    bm: 4820,
+    hp: 50,
+    shield: 8,
+    dmg: 4,
+  },
+  titan: {
+    templateId: "shop_tank_stone_b",
+    name: "Титан Пробой",
+    short: "Титан",
+    role: "tank",
+    roleRu: "ТАНК",
+    roleIcon: "shield",
+    accent: "primary",
+    lvl: 49,
+    bm: 4680,
+    hp: 48,
+    shield: 6,
+    dmg: 6,
+  },
+  ryzhik: {
+    templateId: "shop_fighter_fire_a",
+    name: "Рыжик Когти",
+    short: "Рыжик",
+    role: "fighter",
+    roleRu: "БОЕЦ",
+    roleIcon: "swords",
+    accent: "tertiary",
+    lvl: 48,
+    bm: 5140,
+    hp: 43,
+    shield: 3,
+    dmg: 8,
+  },
+  grom: {
+    templateId: "shop_fighter_fire_b",
+    name: "Гром Клинок",
+    short: "Гром",
+    role: "fighter",
+    roleRu: "БОЕЦ",
+    roleIcon: "swords",
+    accent: "tertiary",
+    lvl: 48,
+    bm: 5020,
+    hp: 45,
+    shield: 4,
+    dmg: 9,
+  },
+  shadow: {
+    templateId: "shop_assassin_bolt_a",
+    name: "Тень Скрытный",
+    short: "Тень",
+    role: "assassin",
+    roleRu: "АССАСИН",
+    roleIcon: "flash_on",
+    accent: "primary",
+    lvl: 47,
+    bm: 4910,
+    hp: 38,
+    shield: 2,
+    dmg: 9,
+  },
+  bagheera: {
+    templateId: "shop_assassin_bolt_b",
+    name: "Багира Тень",
+    short: "Багира",
+    role: "assassin",
+    roleRu: "АССАСИН",
+    roleIcon: "flash_on",
+    accent: "primary",
+    lvl: 47,
+    bm: 4790,
+    hp: 38,
+    shield: 2,
+    dmg: 8,
+  },
+  lynx: {
+    templateId: "shop_ranger_grass_a",
+    name: "Рыселап Лук",
+    short: "Рыселап",
+    role: "ranger",
+    roleRu: "СТРЕЛОК",
+    roleIcon: "adjust",
+    accent: "secondary",
+    lvl: 46,
+    bm: 4850,
+    hp: 35,
+    shield: 2,
+    dmg: 8,
+  },
+  leo: {
+    templateId: "shop_ranger_grass_b",
+    name: "Лео Лучник",
+    short: "Лео",
+    role: "ranger",
+    roleRu: "СТРЕЛОК",
+    roleIcon: "adjust",
+    accent: "secondary",
+    lvl: 46,
+    bm: 4960,
+    hp: 35,
+    shield: 2,
+    dmg: 9,
+  },
+  ignius: {
+    templateId: "shop_mage_fire_a",
+    name: "Игниус Пламя",
+    short: "Игниус",
+    role: "mage",
+    roleRu: "МАГ",
+    roleIcon: "auto_fix_high",
+    accent: "tertiary",
+    lvl: 47,
+    bm: 5300,
+    hp: 30,
+    shield: 2,
+    dmg: 10,
+  },
+  frostia: {
+    templateId: "shop_mage_ice_b",
+    name: "Фростия Лёд",
+    short: "Фростия",
+    role: "mage",
+    roleRu: "МАГ",
+    roleIcon: "auto_fix_high",
+    accent: "secondary",
+    lvl: 47,
+    bm: 5120,
+    hp: 30,
+    shield: 3,
+    dmg: 8,
+  },
+  murka: {
+    templateId: "shop_support_water_a",
+    name: "Мурка Родник",
+    short: "Мурка",
+    role: "support",
+    roleRu: "САППОРТ",
+    roleIcon: "healing",
+    accent: "secondary",
+    lvl: 47,
+    bm: 4750,
+    hp: 28,
+    shield: 4,
+    dmg: 3,
+  },
+  aurelia: {
+    templateId: "shop_support_water_b",
+    name: "Аурелия Клирик",
+    short: "Аурелия",
+    role: "support",
+    roleRu: "САППОРТ",
+    roleIcon: "healing",
+    accent: "primary",
+    lvl: 47,
+    bm: 4890,
+    hp: 28,
+    shield: 3,
+    dmg: 4,
+  },
+};
+
+const PRACTICE_LANE_LABEL = ["Авангард", "Центр", "Тыл"];
+
+function practiceHeroByKey(key) {
+  return PRACTICE_HEROES[key] || null;
+}
+
+function practiceHeroByTemplate(templateId) {
+  return Object.values(PRACTICE_HEROES).find((h) => h.templateId === templateId) || null;
+}
+
+function practiceHeroKeyByTemplate(templateId) {
+  return Object.keys(PRACTICE_HEROES).find((k) => PRACTICE_HEROES[k].templateId === templateId) || null;
+}
 const ATTACK_CARD_ART_ALIAS = {
   card_tank_stone_muzzle: "shop_tank_stone_a_muzzle",
   card_tank_stone_headwear: "shop_tank_stone_a_headwear",
@@ -4454,8 +4652,18 @@ function renderPracticeFight() {
       const u = units[idx];
       const em = card.querySelector("em");
       const bar = card.querySelector("i");
+      const img = card.querySelector("img");
+      const nameEl = card.querySelector(".font-headline-md, b, h4");
       card.hidden = !u;
       if (!u) return;
+      const tid = unitTemplateId(u);
+      const hero = practiceHeroByTemplate(tid);
+      const art = catHeroArt(tid);
+      if (img && art) {
+        img.src = art;
+        img.alt = hero?.name || tid;
+      }
+      if (nameEl) nameEl.textContent = hero?.short || CAT_SHEET_NAMES[tid] || tid;
       if (em) em.textContent = `${u.hp} / ${u.maxHp}`;
       const pct = u.maxHp > 0 ? Math.max(0, Math.min(100, (u.hp / u.maxHp) * 100)) : 0;
       if (bar) bar.style.setProperty("--hp", `${pct}%`);
@@ -4767,13 +4975,14 @@ async function applyDiff(diff, note = "") {
   renderAll();
 }
 
-async function createPvE({ autoPlay = false, seed = 0, stageId = null } = {}) {
+async function createPvE({ autoPlay = false, seed = 0, stageId = null, team = null } = {}) {
   const sid = stageId || state.selectedStageId || YARD_STAGE;
+  const squad = Array.isArray(team) && team.length === 3 ? team : STARTERS;
   const { data } = await api("/api/battle/v1/CreatePvE", {
     method: "POST",
     body: JSON.stringify({
       stageId: sid,
-      team: STARTERS,
+      team: squad,
       potions: [],
       seed,
       autoPlay,
@@ -4821,7 +5030,15 @@ async function submitAction(action) {
 async function startYard(autoPlay = false) {
   try {
     if (!state.battleMode) state.battleMode = "pve";
-    const diff = await createPvE({ autoPlay, seed: autoPlay ? 20261104 : 0 });
+    const practiceTeam =
+      state.battleMode === "practice" && Array.isArray(state.practiceSquad) && state.practiceSquad.length === 3
+        ? [...state.practiceSquad]
+        : null;
+    const diff = await createPvE({
+      autoPlay,
+      seed: autoPlay ? 20261104 : 0,
+      team: practiceTeam,
+    });
     await applyDiff(diff, autoPlay ? "CreatePvE autoPlay" : `CreatePvE ${state.selectedStageId}`);
   } catch (err) {
     log(`CreatePvE fail: ${err.message}`);
@@ -4830,6 +5047,11 @@ async function startYard(autoPlay = false) {
 }
 
 async function startPractice(autoPlay = false) {
+  if (!Array.isArray(state.practiceSquad) || state.practiceSquad.length !== 3) {
+    showPracticeLoad(false);
+    toast("Выберите 3 котиков в боевой отряд");
+    return;
+  }
   showPracticeLoad(false);
   state.battleMode = "practice";
   state.selectedStageId = PRACTICE_STAGE;
@@ -5438,13 +5660,183 @@ function showPracticeLoad(on) {
     if (on) startPractice(false);
     return;
   }
+  if (on && (!Array.isArray(state.practiceSquad) || state.practiceSquad.length !== 3)) {
+    toast("Выберите 3 котиков в боевой отряд");
+    return;
+  }
   load.hidden = !on;
   root.dataset.practiceLoad = on ? "1" : "0";
 }
 
+function ensurePracticeSquadState() {
+  if (!Array.isArray(state.practiceSquad)) state.practiceSquad = [];
+  state.practiceSquad = state.practiceSquad.filter((id) => !!practiceHeroByTemplate(id)).slice(0, 3);
+}
+
+function addPracticeHero(heroKey) {
+  ensurePracticeSquadState();
+  const hero = practiceHeroByKey(heroKey);
+  if (!hero) return;
+  if (state.practiceSquad.includes(hero.templateId)) {
+    toast(`${hero.short} уже в отряде`);
+    return;
+  }
+  if (state.practiceSquad.length >= 3) {
+    toast("Отряд полон · уберите котика для замены");
+    return;
+  }
+  state.practiceSquad.push(hero.templateId);
+  renderPracticeSquad();
+  toast(`${hero.short} → слот ${state.practiceSquad.length}`);
+}
+
+function removePracticeHero(templateId) {
+  ensurePracticeSquadState();
+  const hero = practiceHeroByTemplate(templateId);
+  const next = state.practiceSquad.filter((id) => id !== templateId);
+  if (next.length === state.practiceSquad.length) return;
+  state.practiceSquad = next;
+  renderPracticeSquad();
+  toast(hero ? `${hero.short} убран из отряда` : "Котик убран из отряда");
+}
+
+function practiceSquadEmptySlot(pos) {
+  const lane = PRACTICE_LANE_LABEL[pos] || "";
+  return `<div class="dojo-squad-slot is-empty group relative rounded-xl bg-[#1a1613] border border-dashed border-outline-variant/50 overflow-hidden flex flex-col justify-center items-center min-h-0 gap-1.5 text-outline" data-slot-empty="${pos + 1}" aria-label="Пустой слот ${pos + 1}">
+<span class="material-symbols-outlined text-[28px] opacity-50">add_circle</span>
+<span class="text-[12px] font-bold">Пустой слот</span>
+<span class="text-[10px] font-bold opacity-80">Поз. ${pos + 1} • ${lane}</span>
+<span class="text-[9px] opacity-70">Нажмите героя слева</span>
+</div>`;
+}
+
+function practiceAccentTextClass(accent) {
+  if (accent === "tertiary") return "text-tertiary";
+  if (accent === "secondary") return "text-secondary";
+  return "text-primary";
+}
+
+function practiceSquadFilledSlot(hero, pos) {
+  const accent = hero.accent || "primary";
+  const accentText = practiceAccentTextClass(accent);
+  const art = catHeroArt(hero.templateId) || "";
+  const lane = PRACTICE_LANE_LABEL[pos] || "";
+  const hpPct = Math.min(100, Math.round((hero.hp / 50) * 100));
+  const shPct = Math.min(100, Math.round((hero.shield / 10) * 100));
+  const dmgPct = Math.min(100, Math.round((hero.dmg / 10) * 100));
+  const midLabel = hero.role === "fighter" || hero.role === "assassin" ? "Атака" : "Щит";
+  const midVal = hero.role === "fighter" || hero.role === "assassin" ? hero.dmg : hero.shield;
+  const midPct = hero.role === "fighter" || hero.role === "assassin" ? dmgPct : shPct;
+  const midBar = accent === "tertiary" ? "bg-tertiary" : accent === "secondary" ? "bg-secondary" : "bg-primary";
+  return `<button type="button" class="dojo-squad-slot is-filled group relative rounded-xl bg-[#1a1613] border shadow-lg overflow-hidden flex flex-col justify-between min-h-0 text-left cursor-pointer hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary" data-accent="${accent}" data-squad-hero="${hero.templateId}" title="Убрать из отряда">
+<div class="absolute inset-0 z-0">
+<img alt="${hero.name}" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300 pointer-events-none" src="${art}"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[#110d0b] via-[#110d0b]/75 to-transparent"></div>
+</div>
+<div class="relative z-10 p-2 flex items-center justify-between">
+<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur border border-outline-variant/40 ${accentText} text-[9px] font-bold flex items-center gap-1"><span class="material-symbols-outlined text-[11px]">${hero.roleIcon}</span> ${hero.roleRu}</span>
+<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur border border-outline-variant/40 ${accentText} text-[10px] font-bold">Ур. ${hero.lvl}</span>
+</div>
+<div class="relative z-10 p-2 flex flex-col gap-1 bg-gradient-to-t from-[#110d0b] via-[#110d0b]/95 to-transparent">
+<div class="flex items-center justify-between gap-1"><h4 class="font-bold text-[13px] text-white truncate">${hero.name}</h4><span class="${accentText} text-[10px] font-bold whitespace-nowrap">Поз. ${pos + 1} • ${lane}</span></div>
+<div class="flex flex-col gap-0.5"><div class="flex justify-between text-[10px]"><span class="text-outline">HP</span><span class="text-secondary font-bold">${hero.hp}</span></div>
+<div class="w-full bg-[#231f1c] h-1.5 rounded-full overflow-hidden"><div class="bg-secondary h-full rounded-full" style="width:${hpPct}%"></div></div></div>
+<div class="flex flex-col gap-0.5"><div class="flex justify-between text-[10px]"><span class="text-outline">${midLabel}</span><span class="${accentText} font-bold">${midVal}</span></div>
+<div class="w-full bg-[#231f1c] h-1.5 rounded-full overflow-hidden"><div class="${midBar} h-full rounded-full" style="width:${midPct}%"></div></div></div>
+<div class="flex flex-col gap-0.5"><div class="flex justify-between text-[10px]"><span class="text-outline">Урон</span><span class="text-on-surface font-bold">${hero.dmg}</span></div>
+<div class="w-full bg-[#231f1c] h-1.5 rounded-full overflow-hidden"><div class="bg-on-surface/60 h-full rounded-full" style="width:${dmgPct}%"></div></div></div>
+<span class="text-[9px] text-outline/80 font-bold mt-0.5">Нажмите, чтобы убрать</span>
+</div>
+</button>`;
+}
+
+function practiceMatchAllyCard(hero, accentFallback) {
+  if (!hero) {
+    return `<div class="flex flex-col items-center opacity-60">
+<div class="dojo-match-card w-16 h-28 rounded-lg bg-[#1a1613] overflow-hidden relative border border-dashed border-outline-variant/50 flex flex-col items-center justify-center gap-1 text-outline">
+<span class="material-symbols-outlined text-[20px]">person_off</span>
+<span class="text-[8px] font-bold">Слот</span>
+</div>
+<span class="text-[10px] text-outline mt-1 font-bold">Пусто</span>
+</div>`;
+  }
+  const accent = hero.accent || accentFallback || "primary";
+  const accentText = practiceAccentTextClass(accent);
+  const art = catHeroArt(hero.templateId) || "";
+  return `<div class="flex flex-col items-center">
+<div class="dojo-match-card w-16 h-28 rounded-lg bg-[#1a1613] overflow-hidden relative shadow-[0_0_12px_rgba(253,186,69,0.35)] border-2" data-accent="${accent}">
+<img alt="${hero.short}" class="w-full h-full object-cover object-top" src="${art}"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent"></div>
+<div class="absolute bottom-1 inset-x-0 text-center"><span class="text-[9px] ${accentText} font-bold truncate block px-1">${hero.short}</span></div>
+</div>
+<span class="text-[10px] ${accentText} mt-1 font-bold">Готов!</span>
+</div>`;
+}
+
+function renderPracticeSquad() {
+  const root = $("viewPractice");
+  if (!root) return;
+  ensurePracticeSquadState();
+  const squad = state.practiceSquad;
+  const heroes = squad.map((id) => practiceHeroByTemplate(id)).filter(Boolean);
+  const n = heroes.length;
+  const power = heroes.reduce((s, h) => s + (h.bm || 0), 0);
+  const ready = Math.round((n / 3) * 100);
+  const countEl = $("dojoSquadCount");
+  const readyEl = $("dojoSquadReady");
+  const powerEl = $("dojoSquadPower");
+  const synEl = $("dojoSquadSynergy");
+  if (countEl) {
+    countEl.textContent = n === 0 ? "0 котиков в строю" : `${n} ${n === 1 ? "котик" : n === 2 ? "котика" : "котиков"} в строю`;
+    countEl.className =
+      n === 3
+        ? "px-2 py-0.5 rounded-full bg-secondary/10 border border-secondary/30 text-secondary text-[10px] font-bold"
+        : "px-2 py-0.5 rounded-full bg-outline-variant/20 border border-outline-variant/40 text-outline text-[10px] font-bold";
+  }
+  if (readyEl) {
+    readyEl.textContent = `${ready}%`;
+    readyEl.className = n === 3 ? "text-secondary" : "text-outline";
+  }
+  if (powerEl) powerEl.textContent = `${power.toLocaleString("ru-RU")} БМ`;
+  if (synEl) synEl.classList.toggle("hidden", n < 2);
+
+  const grid = $("dojoSelectedSquad") || root.querySelector("[data-dojo-selected-squad]");
+  if (grid) {
+    const cells = [];
+    for (let i = 0; i < 3; i++) {
+      cells.push(heroes[i] ? practiceSquadFilledSlot(heroes[i], i) : practiceSquadEmptySlot(i));
+    }
+    grid.innerHTML = cells.join("");
+  }
+
+  const match = $("dojoMatchAllies") || root.querySelector("[data-dojo-match-allies]");
+  if (match) {
+    const accents = ["primary", "tertiary", "secondary"];
+    match.innerHTML = [0, 1, 2].map((i) => practiceMatchAllyCard(heroes[i] || null, accents[i])).join("");
+  }
+
+  root.querySelectorAll("[data-hero]").forEach((card) => {
+    const key = card.getAttribute("data-hero");
+    const hero = practiceHeroByKey(key);
+    const on = !!(hero && squad.includes(hero.templateId));
+    card.classList.toggle("is-picked", on);
+    card.setAttribute("aria-pressed", on ? "true" : "false");
+    const btn = card.querySelector("button");
+    if (btn) btn.textContent = on ? "В отряде" : "+ В отряд";
+  });
+
+  const startBtn = root.querySelector("#btnDojoStart, .dojo-start");
+  if (startBtn) {
+    startBtn.classList.toggle("is-disabled", n !== 3);
+    startBtn.setAttribute("aria-disabled", n !== 3 ? "true" : "false");
+  }
+}
+
 function bindPracticeFightCtas() {
   const root = $("viewPractice");
-  if (!root || root.dataset.practiceBound === "1") return;
+  if (!root) return;
+  renderPracticeSquad();
+  if (root.dataset.practiceBound === "1") return;
   root.dataset.practiceBound = "1";
   const selectSquad = (id) => {
     root.querySelectorAll("[data-squad]").forEach((card) => {
@@ -5469,6 +5861,24 @@ function bindPracticeFightCtas() {
   }, true);
   root.addEventListener("click", (ev) => {
     if (ev.target.closest("[data-load]")) return;
+    const removeBtn = ev.target.closest("[data-squad-hero]");
+    if (removeBtn) {
+      ev.preventDefault();
+      removePracticeHero(removeBtn.getAttribute("data-squad-hero"));
+      return;
+    }
+    const heroCard = ev.target.closest("[data-hero]");
+    if (heroCard && root.contains(heroCard)) {
+      ev.preventDefault();
+      const key = heroCard.getAttribute("data-hero");
+      const hero = practiceHeroByKey(key);
+      if (hero && state.practiceSquad.includes(hero.templateId)) {
+        removePracticeHero(hero.templateId);
+      } else {
+        addPracticeHero(key);
+      }
+      return;
+    }
     const squad = ev.target.closest("[data-squad]");
     if (squad) {
       ev.preventDefault();
@@ -5482,9 +5892,16 @@ function bindPracticeFightCtas() {
       toggle.classList.toggle("is-on");
       const key = toggle.getAttribute("data-toggle");
       const on = toggle.classList.contains("is-on");
-      if (key === "dps") toggle.textContent = on ? "DPS-метр: ВКЛ" : "DPS-метр: ВЫКЛ";
-      else if (key === "ai") toggle.textContent = on ? "AI: Эксперт" : "AI: Новичок";
-      else if (key === "time") toggle.textContent = on ? "Без лимита времени" : "Лимит 90 с";
+      if (key === "dps") {
+        toggle.innerHTML = on
+          ? `<span class="material-symbols-outlined text-secondary text-[14px]">query_stats</span> DPS-метр: ВКЛ`
+          : `<span class="material-symbols-outlined text-outline text-[14px]">query_stats</span> DPS-метр: ВЫКЛ`;
+      } else if (key === "ai") toggle.textContent = on ? "AI: Эксперт" : "AI: Новичок";
+      else if (key === "time") {
+        toggle.innerHTML = on
+          ? `<span class="material-symbols-outlined text-tertiary text-[14px]">all_inclusive</span> Без лимита времени`
+          : `<span class="material-symbols-outlined text-outline text-[14px]">timer</span> Лимит 90 с`;
+      }
       return;
     }
     const preset = ev.target.closest("[data-preset]");
@@ -5503,10 +5920,19 @@ function bindPracticeFightCtas() {
         startPractice(true);
         return;
       }
+      if (dojo === "autopick") {
+        state.practiceSquad = [
+          "shop_tank_stone_a",
+          "shop_fighter_fire_a",
+          "shop_support_water_a",
+        ];
+        renderPracticeSquad();
+        toast("Авто-подбор 3v3 · Барсик · Рыжик · Мурка");
+        return;
+      }
       const tips = {
         reset: "Статистика додзё сброшена (локально)",
-        roster: "Ростер 3v3 — soft launch stub",
-        autopick: "Авто-подбор 3v3 — soft launch stub",
+        roster: "Выберите котиков слева → отряд справа",
         guide: "Гайд додзё — soft launch stub",
         params: "Параметры симулятора — soft launch stub",
       };
