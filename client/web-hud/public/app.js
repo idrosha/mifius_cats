@@ -498,14 +498,17 @@ const state = {
     autofarm_fish: false,
   },
   /**
-   * Local HUD gear catalog — color sets + class weapons (batches 1–3).
+   * Local HUD gear catalog — color sets + class weapons (batches 1–5).
    * Armor (helm/armor/cloak/belt/boots): all roles. Weapons/offhand: `roles` gate.
    * Offhand uses shield slot (2nd axe/dagger, shield, quiver, scroll, book).
+   * Mage: yellow staff / wand + book. Support: turquoise staff + scroll.
    */
   gearCatalog: [
-    // —— grey (R1) incomplete: missing belt+cloak arts ——
+    // —— grey (R1) complete armor ——
     { id: "grey_helm", slot: "helm", name: "Серый шлем Льва", atk: 0, hp: 180, def: 25, spd: 0, crit: 0, rank: 1, rarity: "common", enhance: 0, set: "grey", roles: null, iconSrc: "/gear-sets/thumbs/grey-helm.png" },
     { id: "grey_armor", slot: "armor", name: "Серая кираса Льва", atk: 0, hp: 420, def: 40, spd: 0, crit: 0, rank: 1, rarity: "common", enhance: 0, set: "grey", roles: null, iconSrc: "/gear-sets/thumbs/grey-armor.png" },
+    { id: "grey_cloak", slot: "cloak", name: "Серый плащ Льва", atk: 0, hp: 160, def: 18, spd: 2, crit: 0, rank: 1, rarity: "common", enhance: 0, set: "grey", roles: null, iconSrc: "/gear-sets/thumbs/grey-cloak.png" },
+    { id: "grey_belt", slot: "belt", name: "Серый пояс Льва", atk: 0, hp: 100, def: 15, spd: 2, crit: 0, rank: 1, rarity: "common", enhance: 0, set: "grey", roles: null, iconSrc: "/gear-sets/thumbs/grey-belt.png" },
     { id: "grey_boots", slot: "boots", name: "Серые когтистые сапоги", atk: 0, hp: 80, def: 12, spd: 10, crit: 0, rank: 1, rarity: "common", enhance: 0, set: "grey", roles: null, iconSrc: "/gear-sets/thumbs/grey-boots.png" },
     // —— yellow (R4) complete armor ——
     { id: "yellow_helm", slot: "helm", name: "Жёлтая шляпа Чародея", atk: 15, hp: 280, def: 40, spd: 2, crit: 2, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: null, iconSrc: "/gear-sets/thumbs/yellow-helm.png" },
@@ -514,7 +517,7 @@ const state = {
     { id: "yellow_belt", slot: "belt", name: "Жёлтый пояс Льва", atk: 0, hp: 360, def: 35, spd: 4, crit: 0, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: null, iconSrc: "/gear-sets/thumbs/yellow-belt.png" },
     { id: "yellow_boots", slot: "boots", name: "Жёлтые когтистые сапоги", atk: 10, hp: 220, def: 28, spd: 14, crit: 1, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: null, iconSrc: "/gear-sets/thumbs/yellow-boots.png" },
     { id: "yellow_staff", slot: "weapon", name: "Жёлтый посох Солнца (2H)", atk: 420, hp: 0, def: 0, spd: 4, crit: 6, rank: 4, rarity: "epic", enhance: 8, set: "yellow", roles: ["mage"], iconSrc: "/gear-sets/thumbs/yellow-staff.png" },
-    { id: "yellow_wand", slot: "weapon", name: "Жёлтый жезл Солнца (1H)", atk: 260, hp: 0, def: 0, spd: 5, crit: 4, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: ["mage", "support"], iconSrc: "/gear-sets/thumbs/yellow-wand.png" },
+    { id: "yellow_wand", slot: "weapon", name: "Жёлтый жезл Солнца (1H)", atk: 260, hp: 0, def: 0, spd: 5, crit: 4, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: ["mage"], iconSrc: "/gear-sets/thumbs/yellow-wand.png" },
     { id: "mage_book", slot: "shield", name: "Книга Чародея", atk: 80, hp: 120, def: 10, spd: 2, crit: 3, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: ["mage"], iconSrc: "/gear-sets/thumbs/mage-book.png" },
     // —— turquoise (R3) complete armor ——
     { id: "turquoise_helm", slot: "helm", name: "Бирюзовая шляпа", atk: 8, hp: 240, def: 32, spd: 3, crit: 1, rank: 3, rarity: "rare", enhance: 4, set: "turquoise", roles: null, iconSrc: "/gear-sets/thumbs/turquoise-helm.png" },
@@ -522,7 +525,7 @@ const state = {
     { id: "turquoise_cloak", slot: "cloak", name: "Бирюзовый плащ", atk: 8, hp: 520, def: 42, spd: 3, crit: 0, rank: 3, rarity: "rare", enhance: 4, set: "turquoise", roles: null, iconSrc: "/gear-sets/thumbs/turquoise-cloak.png" },
     { id: "turquoise_belt", slot: "belt", name: "Бирюзовый пояс", atk: 0, hp: 260, def: 28, spd: 3, crit: 0, rank: 3, rarity: "rare", enhance: 4, set: "turquoise", roles: null, iconSrc: "/gear-sets/thumbs/turquoise-belt.png" },
     { id: "turquoise_boots", slot: "boots", name: "Бирюзовые сапоги", atk: 5, hp: 160, def: 20, spd: 12, crit: 1, rank: 3, rarity: "rare", enhance: 4, set: "turquoise", roles: null, iconSrc: "/gear-sets/thumbs/turquoise-boots.png" },
-    { id: "turquoise_staff", slot: "weapon", name: "Бирюзовый посох", atk: 280, hp: 0, def: 0, spd: 3, crit: 4, rank: 3, rarity: "rare", enhance: 4, set: "turquoise", roles: ["mage"], iconSrc: "/gear-sets/thumbs/turquoise-staff.png" },
+    { id: "turquoise_staff", slot: "weapon", name: "Бирюзовый посох", atk: 280, hp: 0, def: 0, spd: 3, crit: 4, rank: 3, rarity: "rare", enhance: 4, set: "turquoise", roles: ["support"], iconSrc: "/gear-sets/thumbs/turquoise-staff.png" },
     // —— red (R6) complete armor ——
     { id: "red_helm", slot: "helm", name: "Красный шлем Дракона", atk: 30, hp: 720, def: 95, spd: 0, crit: 0, rank: 6, rarity: "legendary", enhance: 10, set: "red", roles: null, iconSrc: "/gear-sets/thumbs/red-helm.png" },
     { id: "red_armor", slot: "armor", name: "Красная кираса Дракона", atk: 50, hp: 1800, def: 150, spd: 0, crit: 0, rank: 6, rarity: "legendary", enhance: 10, set: "red", roles: null, iconSrc: "/gear-sets/thumbs/red-armor.png" },
@@ -560,21 +563,23 @@ const state = {
   barnCatalog: [
     { id: "barn_grey_helm", name: "Серый шлем Льва", kind: "armor", rarity: "common", tag: "Серый · helm", enhance: 0, qty: 1, gearId: "grey_helm", iconSrc: "/gear-sets/thumbs/grey-helm.png" },
     { id: "barn_grey_armor", name: "Серая кираса Льва", kind: "armor", rarity: "common", tag: "Серый · armor", enhance: 0, qty: 1, gearId: "grey_armor", iconSrc: "/gear-sets/thumbs/grey-armor.png" },
+    { id: "barn_grey_cloak", name: "Серый плащ Льва", kind: "armor", rarity: "common", tag: "Серый · cloak", enhance: 0, qty: 1, gearId: "grey_cloak", iconSrc: "/gear-sets/thumbs/grey-cloak.png" },
+    { id: "barn_grey_belt", name: "Серый пояс Льва", kind: "armor", rarity: "common", tag: "Серый · belt", enhance: 0, qty: 1, gearId: "grey_belt", iconSrc: "/gear-sets/thumbs/grey-belt.png" },
     { id: "barn_grey_boots", name: "Серые когтистые сапоги", kind: "armor", rarity: "common", tag: "Серый · boots", enhance: 0, qty: 1, gearId: "grey_boots", iconSrc: "/gear-sets/thumbs/grey-boots.png" },
     { id: "barn_yellow_helm", name: "Жёлтая шляпа Чародея", kind: "armor", rarity: "epic", tag: "Жёлтый · helm", enhance: 6, qty: 1, gearId: "yellow_helm", iconSrc: "/gear-sets/thumbs/yellow-helm.png" },
     { id: "barn_yellow_armor", name: "Жёлтая кираса Солнца", kind: "armor", rarity: "epic", tag: "Жёлтый · armor", enhance: 6, qty: 1, gearId: "yellow_armor", iconSrc: "/gear-sets/thumbs/yellow-armor.png" },
     { id: "barn_yellow_cloak", name: "Жёлтый плащ Солнца", kind: "armor", rarity: "epic", tag: "Жёлтый · cloak", enhance: 6, qty: 1, gearId: "yellow_cloak", iconSrc: "/gear-sets/thumbs/yellow-cloak.png" },
     { id: "barn_yellow_belt", name: "Жёлтый пояс Льва", kind: "armor", rarity: "epic", tag: "Жёлтый · belt", enhance: 6, qty: 1, gearId: "yellow_belt", iconSrc: "/gear-sets/thumbs/yellow-belt.png" },
     { id: "barn_yellow_boots", name: "Жёлтые когтистые сапоги", kind: "armor", rarity: "epic", tag: "Жёлтый · boots", enhance: 6, qty: 1, gearId: "yellow_boots", iconSrc: "/gear-sets/thumbs/yellow-boots.png" },
-    { id: "barn_yellow_staff", name: "Жёлтый посох Солнца (2H)", kind: "weapon", rarity: "epic", tag: "Жёлтый · weapon", enhance: 8, qty: 1, gearId: "yellow_staff", iconSrc: "/gear-sets/thumbs/yellow-staff.png" },
-    { id: "barn_yellow_wand", name: "Жёлтый жезл Солнца (1H)", kind: "weapon", rarity: "epic", tag: "Жёлтый · weapon", enhance: 6, qty: 1, gearId: "yellow_wand", iconSrc: "/gear-sets/thumbs/yellow-wand.png" },
+    { id: "barn_yellow_staff", name: "Жёлтый посох Солнца (2H)", kind: "weapon", rarity: "epic", tag: "Маг · weapon", enhance: 8, qty: 1, gearId: "yellow_staff", iconSrc: "/gear-sets/thumbs/yellow-staff.png" },
+    { id: "barn_yellow_wand", name: "Жёлтый жезл Солнца (1H)", kind: "weapon", rarity: "epic", tag: "Маг · weapon", enhance: 6, qty: 1, gearId: "yellow_wand", iconSrc: "/gear-sets/thumbs/yellow-wand.png" },
     { id: "barn_mage_book", name: "Книга Чародея", kind: "weapon", rarity: "epic", tag: "Маг · shield", enhance: 6, qty: 1, gearId: "mage_book", iconSrc: "/gear-sets/thumbs/mage-book.png" },
     { id: "barn_turquoise_helm", name: "Бирюзовая шляпа", kind: "armor", rarity: "rare", tag: "Бирюза · helm", enhance: 4, qty: 1, gearId: "turquoise_helm", iconSrc: "/gear-sets/thumbs/turquoise-helm.png" },
     { id: "barn_turquoise_armor", name: "Бирюзовая мантия", kind: "armor", rarity: "rare", tag: "Бирюза · armor", enhance: 4, qty: 1, gearId: "turquoise_armor", iconSrc: "/gear-sets/thumbs/turquoise-armor.png" },
     { id: "barn_turquoise_cloak", name: "Бирюзовый плащ", kind: "armor", rarity: "rare", tag: "Бирюза · cloak", enhance: 4, qty: 1, gearId: "turquoise_cloak", iconSrc: "/gear-sets/thumbs/turquoise-cloak.png" },
     { id: "barn_turquoise_belt", name: "Бирюзовый пояс", kind: "armor", rarity: "rare", tag: "Бирюза · belt", enhance: 4, qty: 1, gearId: "turquoise_belt", iconSrc: "/gear-sets/thumbs/turquoise-belt.png" },
     { id: "barn_turquoise_boots", name: "Бирюзовые сапоги", kind: "armor", rarity: "rare", tag: "Бирюза · boots", enhance: 4, qty: 1, gearId: "turquoise_boots", iconSrc: "/gear-sets/thumbs/turquoise-boots.png" },
-    { id: "barn_turquoise_staff", name: "Бирюзовый посох", kind: "weapon", rarity: "rare", tag: "Бирюза · weapon", enhance: 4, qty: 1, gearId: "turquoise_staff", iconSrc: "/gear-sets/thumbs/turquoise-staff.png" },
+    { id: "barn_turquoise_staff", name: "Бирюзовый посох", kind: "weapon", rarity: "rare", tag: "Сапп · weapon", enhance: 4, qty: 1, gearId: "turquoise_staff", iconSrc: "/gear-sets/thumbs/turquoise-staff.png" },
     { id: "barn_red_helm", name: "Красный шлем Дракона", kind: "armor", rarity: "legendary", tag: "Красный · helm", enhance: 10, qty: 1, gearId: "red_helm", iconSrc: "/gear-sets/thumbs/red-helm.png" },
     { id: "barn_red_armor", name: "Красная кираса Дракона", kind: "armor", rarity: "legendary", tag: "Красный · armor", enhance: 10, qty: 1, gearId: "red_armor", iconSrc: "/gear-sets/thumbs/red-armor.png" },
     { id: "barn_red_cloak", name: "Красный плащ Тигра", kind: "armor", rarity: "legendary", tag: "Красный · cloak", enhance: 9, qty: 1, gearId: "red_cloak", iconSrc: "/gear-sets/thumbs/red-cloak.png" },
@@ -602,7 +607,7 @@ const state = {
     { id: "barn_green_bow", name: "Зелёный лук Рыси", kind: "weapon", rarity: "rare", tag: "Зелёный · weapon", enhance: 4, qty: 1, gearId: "green_bow", iconSrc: "/gear-sets/thumbs/green-bow.png" },
     { id: "barn_green_crossbow", name: "Зелёный арбалет", kind: "weapon", rarity: "rare", tag: "Зелёный · weapon", enhance: 4, qty: 1, gearId: "green_crossbow", iconSrc: "/gear-sets/thumbs/green-crossbow.png" },
     { id: "barn_green_arrows", name: "Колчан зелёных стрел", kind: "weapon", rarity: "rare", tag: "Зелёный · shield", enhance: 2, qty: 1, gearId: "green_arrows", iconSrc: "/gear-sets/thumbs/green-arrows.png" },
-    { id: "barn_support_scroll", name: "Свиток Поддержки", kind: "weapon", rarity: "rare", tag: "Класс · shield", enhance: 4, qty: 1, gearId: "support_scroll", iconSrc: "/gear-sets/thumbs/support-scroll.png" },
+    { id: "barn_support_scroll", name: "Свиток Поддержки", kind: "weapon", rarity: "rare", tag: "Сапп · shield", enhance: 4, qty: 1, gearId: "support_scroll", iconSrc: "/gear-sets/thumbs/support-scroll.png" },
     { id: "barn_hearth_elixir", name: "Эликсиры Очага", kind: "potion", rarity: "epic", tag: "Эпик · Зелье", enhance: 0, qty: 18, iconSrc: "/barn-icons/potions.png" },
     { id: "barn_oak", name: "Дубовые брёвна", kind: "farm", rarity: "common", tag: "Ферма · Лес", enhance: 0, qty: 420, iconSrc: "/barn-icons/wood.png" },
     { id: "barn_ore", name: "Железная руда", kind: "farm", rarity: "common", tag: "Ферма · Руда", enhance: 0, qty: 290, iconSrc: "/barn-icons/iron.png" },
@@ -3068,15 +3073,15 @@ function renderBarn() {
   }
 }
 
-/** Default home loadout: grey armor only (weapons are class-gated). */
+/** Default home loadout: full grey armor (weapons are class-gated). */
 const HOME_STITCH_DEFAULTS = {
   helm: "grey_helm",
   armor: "grey_armor",
-  cloak: null,
+  cloak: "grey_cloak",
   boots: "grey_boots",
   weapon: null,
   shield: null,
-  belt: null,
+  belt: "grey_belt",
   ring: null,
 };
 
