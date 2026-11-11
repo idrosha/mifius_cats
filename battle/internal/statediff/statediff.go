@@ -30,17 +30,19 @@ type Player struct {
 }
 
 type Unit struct {
-	ID        string   `json:"id"`
-	Side      int      `json:"side"`
-	Lane      int      `json:"lane"`
-	Role      string   `json:"role"`
-	Element   string   `json:"element"`
-	HP        int      `json:"hp"`
-	MaxHP     int      `json:"maxHp"`
-	Shield    int      `json:"shield"`
-	Alive     bool     `json:"alive"`
-	Statuses  []Status `json:"statuses"`
-	HandCount int      `json:"handCount"`
+	ID           string   `json:"id"`
+	Side         int      `json:"side"`
+	Lane         int      `json:"lane"`
+	Role         string   `json:"role"`
+	Element      string   `json:"element"`
+	HP           int      `json:"hp"`
+	MaxHP        int      `json:"maxHp"`
+	Shield       int      `json:"shield"`
+	Alive        bool     `json:"alive"`
+	Statuses     []Status `json:"statuses"`
+	HandCount    int      `json:"handCount"`
+	DrawCount    int      `json:"drawCount"`
+	DiscardCount int      `json:"discardCount"`
 }
 
 type Status struct {
@@ -56,6 +58,7 @@ type HandCard struct {
 	NameKey   string `json:"name_key"`
 	Cost      int    `json:"cost"`
 	Playable  bool   `json:"playable"`
+	Kept      bool   `json:"kept"`
 }
 
 type PotionSlot struct {
@@ -110,23 +113,26 @@ func FromBattle(b *sim.Battle) Diff {
 			statuses = append(statuses, Status{ID: s.ID, Stacks: s.Stacks, Duration: s.Duration})
 		}
 		d.Units = append(d.Units, Unit{
-			ID:        u.ID,
-			Side:      int(u.Side),
-			Lane:      u.Lane,
-			Role:      u.Role,
-			Element:   u.Element,
-			HP:        u.HP,
-			MaxHP:     u.MaxHP,
-			Shield:    u.Shield,
-			Alive:     u.Alive,
-			Statuses:  statuses,
-			HandCount: len(u.Hand),
+			ID:           u.ID,
+			Side:         int(u.Side),
+			Lane:         u.Lane,
+			Role:         u.Role,
+			Element:      u.Element,
+			HP:           u.HP,
+			MaxHP:        u.MaxHP,
+			Shield:       u.Shield,
+			Alive:        u.Alive,
+			Statuses:     statuses,
+			HandCount:    len(u.Hand),
+			DrawCount:    len(u.DrawPile),
+			DiscardCount: len(u.Discard),
 		})
 		if u.Side != b.Active || !u.Alive {
 			continue
 		}
 		for hi, cardIdx := range u.Hand {
 			card := u.Deck[cardIdx]
+			kept := hi < len(u.KeepMask) && u.KeepMask[hi]
 			d.Hand = append(d.Hand, HandCard{
 				UnitID:    u.ID,
 				HandIndex: hi,
@@ -134,6 +140,7 @@ func FromBattle(b *sim.Battle) Diff {
 				NameKey:   card.NameKey,
 				Cost:      card.Cost,
 				Playable:  card.Cost <= energy,
+				Kept:      kept,
 			})
 		}
 	}

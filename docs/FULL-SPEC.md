@@ -148,11 +148,18 @@ Sequential: P1 acts → resolve → P2 acts → resolve → round end (shield dr
 | 2–3 | E2 D4 | E3 D4 |
 | 4+ | E3 D5 | E3 D5 |
 
-Unused energy/cards не переносятся (кроме Keep).
+Unused energy не переносится. Unused cards не переносятся (кроме Keep).
+
+**Цикл колоды атак (LOCKED, все режимы, одно ядро §3 / D-001):** per-unit draw pile → hand → discard, как Classic draw/discard:
+1. **Розыгрыш** — сыгранная карта сразу в discard pile юнита.
+2. **Конец хода** — оставшиеся в руке карты сбрасываются в discard (кроме карт с активным Keep).
+3. **Старт хода** — добор `D` (+ `BonusDraw`) из draw pile; Keep-карты остаются в руке и **не** входят в счётчик добора.
+4. **Ресайкл** — если draw pile пуст при доборе: discard перемешивается в draw pile (`battleSeed` RNG) и добор продолжается; цикл по кругу до конца боя.
+5. Mode-layer (PvE / PvP / practice / босс / гильдия-demo) **не** дублирует и не отключает этот цикл.
 
 ### §3.4 Системы
 - **Milk drops** → Milk Burst (+1 E forever; every 2nd burst +1 draw). Unspent E → drops+1.
-- **Keep:** hold card for milk; cost escalates same turn.
+- **Keep:** hold card into next own turn + milk; cost escalates same turn; kept card stays playable this turn.
 - **Mouse Hour:** from turn 10 maxHP decay (config).
 - **Ruffle→Claw Mode:** 10 stacks → +1E, draw1, +50% dmg; no drops/ruffle that turn.
 - **Last Meow:** lethal → chance(charm) survive at 1 HP for N ticks.
