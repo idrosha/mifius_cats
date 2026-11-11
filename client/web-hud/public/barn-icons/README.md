@@ -5,14 +5,10 @@ or stitch vendor downloads — keep these PNGs in-repo under `public/barn-icons/
 
 Source pack: project media `warehouse-icons-v2/` (PR #93 mapping).
 
+**Armor / weapon color sets** live under `/gear-sets/` (see `public/gear-sets/README.md`) — not in this folder. Old thunder/wool barn gear ids removed from `app.js`.
+
 | File | Catalog / slot |
 |---|---|
-| `dagger.png` | Кинжал Перуна / Тесак Очага (`barn_perun`, `barn_cleaver`) |
-| `chest.png` | Кираса Саламандры (`barn_salamander`) |
-| `helmet.png` | Шлем Бури (`barn_storm_helm`) |
-| `boots.png` | Сапоги Астрального Прыжка (`barn_boots`) |
-| `ring.png` | Кольцо Грома (`barn_ring`) |
-| `collar.png` | Ошейник с колокольчиком (`barn_collar`) |
 | `potions.png` | Эликсиры / мана / реген / теневой настой |
 | `wood.png` | Дубовые брёвна |
 | `iron.png` | Железная руда |
@@ -24,5 +20,6 @@ Source pack: project media `warehouse-icons-v2/` (PR #93 mapping).
 | `milk.png` | Молоко Очага |
 | `stone.png` | Гранитные глыбы |
 | `guard.png` | Усатый Дозорный (sidebar) |
+| `dagger.png` / `chest.png` / `helmet.png` / `boots.png` / `ring.png` / `collar.png` | legacy leftovers (unused by live catalogs) |
 
 Paths in HUD: `/barn-icons/<file>.png` (served from this folder).

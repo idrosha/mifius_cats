@@ -497,34 +497,112 @@ const state = {
     autofarm_blacksmith: false,
     autofarm_fish: false,
   },
-  /** Local HUD gear catalog — soft-launch stub (server later). Icons from design screenshot. */
+  /**
+   * Local HUD gear catalog — color sets + class weapons (batches 1–3).
+   * Armor (helm/armor/cloak/belt/boots): all roles. Weapons/offhand: `roles` gate.
+   * Offhand uses shield slot (2nd axe/dagger, shield, quiver, scroll, book).
+   */
   gearCatalog: [
-    { id: "weapon_perun", slot: "weapon", name: "Громовой Кинжал Перуна", atk: 680, hp: 0, def: 0, spd: 8, crit: 12.4, rank: 5, rarity: "mythic", enhance: 12, set: "thunder", socket: "Руна Бури I", iconSrc: "/barn-icons/dagger.png" },
-    { id: "weapon_cleaver", slot: "weapon", name: "Тесак Очага", atk: 290, hp: 0, def: 0, spd: 2, crit: 4, rank: 3, rarity: "rare", enhance: 8, set: null, socket: null, iconSrc: "/stitch-assets/hero-icons/inv_03.png" },
-    { id: "weapon_wood_claw", slot: "weapon", name: "Деревянный коготь", atk: 120, hp: 0, def: 0, spd: 4, crit: 1, rank: 1, rarity: "common", enhance: 0, set: null, socket: null, iconSrc: "/stitch-assets/hero-icons/inv_03.png" },
-    { id: "weapon_flint_bow", slot: "weapon", name: "Кремнёвый лук", atk: 160, hp: 0, def: 0, spd: 6, crit: 3, rank: 2, rarity: "rare", enhance: 4, set: null, socket: null, iconSrc: "/stitch-assets/hero-icons/inv_00.png" },
-    { id: "helm_storm", slot: "helm", name: "Шлем Буревестника", atk: 40, hp: 620, def: 85, spd: 0, crit: 0, rank: 5, rarity: "mythic", enhance: 12, set: "thunder", socket: null, iconSrc: "/barn-icons/helmet.png" },
-    { id: "helm_grey_cap", slot: "helm", name: "Серый шлем", atk: 0, hp: 180, def: 25, spd: 0, crit: 0, rank: 1, rarity: "common", enhance: 0, set: null, socket: null, iconSrc: "/stitch-assets/hero-icons/inv_03.png" },
-    { id: "armor_thunder", slot: "armor", name: "Кираса Громового Когтя", atk: 60, hp: 2100, def: 180, spd: 0, crit: 0, rank: 5, rarity: "mythic", enhance: 12, set: "thunder", socket: null, iconSrc: "/barn-icons/chest.png" },
-    { id: "armor_grey_plate", slot: "armor", name: "Серая кираса", atk: 0, hp: 420, def: 40, spd: 0, crit: 0, rank: 1, rarity: "common", enhance: 0, set: null, socket: null, iconSrc: "/stitch-assets/hero-icons/inv_01.png" },
-    { id: "armor_green_mail", slot: "armor", name: "Зелёная кольчуга", atk: 0, hp: 620, def: 55, spd: 0, crit: 0, rank: 2, rarity: "rare", enhance: 6, set: "wool", socket: null, iconSrc: "/stitch-assets/hero-icons/inv_10.png" },
-    { id: "boots_storm", slot: "boots", name: "Сапоги Астрального Прыжка", atk: 20, hp: 240, def: 35, spd: 28, crit: 2, rank: 5, rarity: "mythic", enhance: 10, set: "thunder", socket: null, iconSrc: "/barn-icons/boots.png" },
-    { id: "boots_soft_pads", slot: "boots", name: "Мягкие лапки", atk: 0, hp: 0, def: 10, spd: 12, crit: 0, rank: 1, rarity: "common", enhance: 0, set: null, socket: null, iconSrc: "/barn-icons/boots.png" },
-    { id: "belt_wool", slot: "belt", name: "Пояс Шерстяного Оберега", atk: 0, hp: 480, def: 40, spd: 4, crit: 0, rank: 4, rarity: "epic", enhance: 8, set: "wool", socket: null, iconSrc: "/barn-icons/collar.png" },
-    { id: "ring_storm", slot: "ring", name: "Кольцо Грома", atk: 90, hp: 0, def: 0, spd: 6, crit: 6, rank: 5, rarity: "mythic", enhance: 10, set: "thunder", socket: null, iconSrc: "/barn-icons/ring.png" },
-    { id: "gloves_wool", slot: "gloves", name: "Перчатки Сапфира", atk: 0, hp: 320, def: 45, spd: 6, crit: 2, rank: 4, rarity: "epic", enhance: 9, set: "wool", socket: null, iconSrc: "/stitch-assets/kb-gear-gloves.png" },
-    { id: "amulet_wool", slot: "gloves", name: "Перчатки Сапфира", atk: 0, hp: 320, def: 45, spd: 6, crit: 2, rank: 4, rarity: "epic", enhance: 9, set: "wool", socket: null, iconSrc: "/stitch-assets/kb-gear-gloves.png" },
-    { id: "shield_guard", slot: "shield", name: "Щит Стража", atk: 40, hp: 480, def: 120, spd: 0, crit: 0, rank: 4, rarity: "epic", enhance: 11, set: null, socket: null, iconSrc: "/barn-icons/guard.png" },
-    { id: "offhand_claw", slot: "shield", name: "Щит Стража", atk: 40, hp: 480, def: 120, spd: 0, crit: 0, rank: 4, rarity: "epic", enhance: 11, set: null, socket: null, iconSrc: "/barn-icons/guard.png" },
+    // —— grey (R1) incomplete: missing belt+cloak arts ——
+    { id: "grey_helm", slot: "helm", name: "Серый шлем Льва", atk: 0, hp: 180, def: 25, spd: 0, crit: 0, rank: 1, rarity: "common", enhance: 0, set: "grey", roles: null, iconSrc: "/gear-sets/thumbs/grey-helm.png" },
+    { id: "grey_armor", slot: "armor", name: "Серая кираса Льва", atk: 0, hp: 420, def: 40, spd: 0, crit: 0, rank: 1, rarity: "common", enhance: 0, set: "grey", roles: null, iconSrc: "/gear-sets/thumbs/grey-armor.png" },
+    { id: "grey_boots", slot: "boots", name: "Серые когтистые сапоги", atk: 0, hp: 80, def: 12, spd: 10, crit: 0, rank: 1, rarity: "common", enhance: 0, set: "grey", roles: null, iconSrc: "/gear-sets/thumbs/grey-boots.png" },
+    // —— yellow (R4) complete armor ——
+    { id: "yellow_helm", slot: "helm", name: "Жёлтая шляпа Чародея", atk: 15, hp: 280, def: 40, spd: 2, crit: 2, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: null, iconSrc: "/gear-sets/thumbs/yellow-helm.png" },
+    { id: "yellow_armor", slot: "armor", name: "Жёлтая кираса Солнца", atk: 25, hp: 980, def: 75, spd: 2, crit: 0, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: null, iconSrc: "/gear-sets/thumbs/yellow-armor.png" },
+    { id: "yellow_cloak", slot: "cloak", name: "Жёлтый плащ Солнца", atk: 15, hp: 640, def: 50, spd: 4, crit: 0, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: null, iconSrc: "/gear-sets/thumbs/yellow-cloak.png" },
+    { id: "yellow_belt", slot: "belt", name: "Жёлтый пояс Льва", atk: 0, hp: 360, def: 35, spd: 4, crit: 0, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: null, iconSrc: "/gear-sets/thumbs/yellow-belt.png" },
+    { id: "yellow_boots", slot: "boots", name: "Жёлтые когтистые сапоги", atk: 10, hp: 220, def: 28, spd: 14, crit: 1, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: null, iconSrc: "/gear-sets/thumbs/yellow-boots.png" },
+    { id: "yellow_staff", slot: "weapon", name: "Жёлтый посох Солнца (2H)", atk: 420, hp: 0, def: 0, spd: 4, crit: 6, rank: 4, rarity: "epic", enhance: 8, set: "yellow", roles: ["mage"], iconSrc: "/gear-sets/thumbs/yellow-staff.png" },
+    { id: "yellow_wand", slot: "weapon", name: "Жёлтый жезл Солнца (1H)", atk: 260, hp: 0, def: 0, spd: 5, crit: 4, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: ["mage", "support"], iconSrc: "/gear-sets/thumbs/yellow-wand.png" },
+    { id: "mage_book", slot: "shield", name: "Книга Чародея", atk: 80, hp: 120, def: 10, spd: 2, crit: 3, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: ["mage"], iconSrc: "/gear-sets/thumbs/mage-book.png" },
+    // —— turquoise (R3) complete armor ——
+    { id: "turquoise_helm", slot: "helm", name: "Бирюзовая шляпа", atk: 8, hp: 240, def: 32, spd: 3, crit: 1, rank: 3, rarity: "rare", enhance: 4, set: "turquoise", roles: null, iconSrc: "/gear-sets/thumbs/turquoise-helm.png" },
+    { id: "turquoise_armor", slot: "armor", name: "Бирюзовая мантия", atk: 12, hp: 820, def: 60, spd: 2, crit: 0, rank: 3, rarity: "rare", enhance: 4, set: "turquoise", roles: null, iconSrc: "/gear-sets/thumbs/turquoise-armor.png" },
+    { id: "turquoise_cloak", slot: "cloak", name: "Бирюзовый плащ", atk: 8, hp: 520, def: 42, spd: 3, crit: 0, rank: 3, rarity: "rare", enhance: 4, set: "turquoise", roles: null, iconSrc: "/gear-sets/thumbs/turquoise-cloak.png" },
+    { id: "turquoise_belt", slot: "belt", name: "Бирюзовый пояс", atk: 0, hp: 260, def: 28, spd: 3, crit: 0, rank: 3, rarity: "rare", enhance: 4, set: "turquoise", roles: null, iconSrc: "/gear-sets/thumbs/turquoise-belt.png" },
+    { id: "turquoise_boots", slot: "boots", name: "Бирюзовые сапоги", atk: 5, hp: 160, def: 20, spd: 12, crit: 1, rank: 3, rarity: "rare", enhance: 4, set: "turquoise", roles: null, iconSrc: "/gear-sets/thumbs/turquoise-boots.png" },
+    { id: "turquoise_staff", slot: "weapon", name: "Бирюзовый посох", atk: 280, hp: 0, def: 0, spd: 3, crit: 4, rank: 3, rarity: "rare", enhance: 4, set: "turquoise", roles: ["mage"], iconSrc: "/gear-sets/thumbs/turquoise-staff.png" },
+    // —— red (R6) complete armor ——
+    { id: "red_helm", slot: "helm", name: "Красный шлем Дракона", atk: 30, hp: 720, def: 95, spd: 0, crit: 0, rank: 6, rarity: "legendary", enhance: 10, set: "red", roles: null, iconSrc: "/gear-sets/thumbs/red-helm.png" },
+    { id: "red_armor", slot: "armor", name: "Красная кираса Дракона", atk: 50, hp: 1800, def: 150, spd: 0, crit: 0, rank: 6, rarity: "legendary", enhance: 10, set: "red", roles: null, iconSrc: "/gear-sets/thumbs/red-armor.png" },
+    { id: "red_cloak", slot: "cloak", name: "Красный плащ Тигра", atk: 40, hp: 900, def: 90, spd: 2, crit: 0, rank: 6, rarity: "legendary", enhance: 9, set: "red", roles: null, iconSrc: "/gear-sets/thumbs/red-cloak.png" },
+    { id: "red_belt", slot: "belt", name: "Красный пояс Тигра", atk: 20, hp: 520, def: 55, spd: 2, crit: 0, rank: 6, rarity: "legendary", enhance: 9, set: "red", roles: null, iconSrc: "/gear-sets/thumbs/red-belt.png" },
+    { id: "red_boots", slot: "boots", name: "Красные шипованные сапоги", atk: 25, hp: 360, def: 45, spd: 18, crit: 2, rank: 6, rarity: "legendary", enhance: 9, set: "red", roles: null, iconSrc: "/gear-sets/thumbs/red-boots.png" },
+    // —— purple (R5) complete armor ——
+    { id: "purple_helm", slot: "helm", name: "Фиолетовый капюшон", atk: 25, hp: 540, def: 70, spd: 4, crit: 3, rank: 5, rarity: "epic", enhance: 8, set: "purple", roles: null, iconSrc: "/gear-sets/thumbs/purple-helm.png" },
+    { id: "purple_armor", slot: "armor", name: "Фиолетовая кираса Пантеры", atk: 45, hp: 1400, def: 120, spd: 2, crit: 0, rank: 5, rarity: "epic", enhance: 8, set: "purple", roles: null, iconSrc: "/gear-sets/thumbs/purple-armor.png" },
+    { id: "purple_cloak", slot: "cloak", name: "Фиолетовый плащ Пантеры", atk: 35, hp: 760, def: 80, spd: 4, crit: 2, rank: 5, rarity: "epic", enhance: 8, set: "purple", roles: null, iconSrc: "/gear-sets/thumbs/purple-cloak.png" },
+    { id: "purple_belt", slot: "belt", name: "Фиолетовый пояс Пантеры", atk: 15, hp: 420, def: 45, spd: 4, crit: 2, rank: 5, rarity: "epic", enhance: 8, set: "purple", roles: null, iconSrc: "/gear-sets/thumbs/purple-belt.png" },
+    { id: "purple_boots", slot: "boots", name: "Фиолетовые когтистые сапоги", atk: 20, hp: 280, def: 35, spd: 20, crit: 3, rank: 5, rarity: "epic", enhance: 8, set: "purple", roles: null, iconSrc: "/gear-sets/thumbs/purple-boots.png" },
+    // —— green (R2) complete armor ——
+    { id: "green_helm", slot: "helm", name: "Зелёная шляпа Следопыта", atk: 10, hp: 220, def: 30, spd: 4, crit: 2, rank: 2, rarity: "rare", enhance: 4, set: "green", roles: null, iconSrc: "/gear-sets/thumbs/green-helm.png" },
+    { id: "green_armor", slot: "armor", name: "Зелёная чешуя Рыси", atk: 15, hp: 680, def: 55, spd: 2, crit: 0, rank: 2, rarity: "rare", enhance: 4, set: "green", roles: null, iconSrc: "/gear-sets/thumbs/green-armor.png" },
+    { id: "green_cloak", slot: "cloak", name: "Зелёный плащ листвы", atk: 10, hp: 400, def: 35, spd: 4, crit: 0, rank: 2, rarity: "rare", enhance: 4, set: "green", roles: null, iconSrc: "/gear-sets/thumbs/green-cloak.png" },
+    { id: "green_belt", slot: "belt", name: "Зелёный пояс Рыси", atk: 5, hp: 200, def: 20, spd: 4, crit: 1, rank: 2, rarity: "rare", enhance: 4, set: "green", roles: null, iconSrc: "/gear-sets/thumbs/green-belt.png" },
+    { id: "green_boots", slot: "boots", name: "Зелёные сапоги листвы", atk: 5, hp: 140, def: 18, spd: 14, crit: 1, rank: 2, rarity: "rare", enhance: 4, set: "green", roles: null, iconSrc: "/gear-sets/thumbs/green-boots.png" },
+    // —— class weapons / offhands ——
+    { id: "tank_mace", slot: "weapon", name: "Булава Стража", atk: 320, hp: 120, def: 40, spd: 0, crit: 2, rank: 4, rarity: "epic", enhance: 8, set: null, roles: ["tank"], iconSrc: "/gear-sets/thumbs/tank-mace.png" },
+    { id: "tank_spear", slot: "weapon", name: "Копьё Стража", atk: 300, hp: 80, def: 30, spd: 4, crit: 3, rank: 4, rarity: "epic", enhance: 8, set: null, roles: ["tank"], iconSrc: "/gear-sets/thumbs/tank-spear.png" },
+    { id: "tank_shield_large", slot: "shield", name: "Большой щит Льва", atk: 20, hp: 900, def: 220, spd: 0, crit: 0, rank: 4, rarity: "epic", enhance: 10, set: null, roles: ["tank"], iconSrc: "/gear-sets/thumbs/tank-shield-large.png" },
+    { id: "tank_shield_small", slot: "shield", name: "Малый щит Льва", atk: 10, hp: 480, def: 140, spd: 2, crit: 0, rank: 3, rarity: "rare", enhance: 6, set: null, roles: ["tank"], iconSrc: "/gear-sets/thumbs/tank-shield-small.png" },
+    { id: "fighter_greatsword", slot: "weapon", name: "Двуручный меч Тигра", atk: 520, hp: 0, def: 0, spd: 2, crit: 8, rank: 6, rarity: "legendary", enhance: 10, set: "red", roles: ["fighter"], iconSrc: "/gear-sets/thumbs/fighter-greatsword.png" },
+    { id: "fighter_axe_a", slot: "weapon", name: "Топор Бойца A", atk: 260, hp: 0, def: 0, spd: 4, crit: 5, rank: 6, rarity: "legendary", enhance: 8, set: "red", roles: ["fighter"], iconSrc: "/gear-sets/thumbs/fighter-axe-a.png" },
+    { id: "fighter_axe_b", slot: "shield", name: "Топор Бойца B", atk: 240, hp: 0, def: 0, spd: 4, crit: 5, rank: 6, rarity: "legendary", enhance: 8, set: "red", roles: ["fighter"], iconSrc: "/gear-sets/thumbs/fighter-axe-b.png" },
+    { id: "assassin_dagger_a", slot: "weapon", name: "Кинжал Убийцы A", atk: 300, hp: 0, def: 0, spd: 10, crit: 12, rank: 5, rarity: "epic", enhance: 8, set: "purple", roles: ["assassin"], iconSrc: "/gear-sets/thumbs/assassin-dagger-a.png" },
+    { id: "assassin_dagger_b", slot: "shield", name: "Кинжал Убийцы B", atk: 280, hp: 0, def: 0, spd: 10, crit: 12, rank: 5, rarity: "epic", enhance: 8, set: "purple", roles: ["assassin"], iconSrc: "/gear-sets/thumbs/assassin-dagger-b.png" },
+    { id: "green_bow", slot: "weapon", name: "Зелёный лук Рыси", atk: 230, hp: 0, def: 0, spd: 8, crit: 6, rank: 2, rarity: "rare", enhance: 4, set: "green", roles: ["ranger"], iconSrc: "/gear-sets/thumbs/green-bow.png" },
+    { id: "green_crossbow", slot: "weapon", name: "Зелёный арбалет", atk: 210, hp: 0, def: 0, spd: 6, crit: 5, rank: 2, rarity: "rare", enhance: 4, set: "green", roles: ["ranger"], iconSrc: "/gear-sets/thumbs/green-crossbow.png" },
+    { id: "green_arrows", slot: "shield", name: "Колчан зелёных стрел", atk: 40, hp: 0, def: 0, spd: 2, crit: 2, rank: 2, rarity: "rare", enhance: 2, set: "green", roles: ["ranger"], iconSrc: "/gear-sets/thumbs/green-arrows.png" },
+    { id: "support_scroll", slot: "shield", name: "Свиток Поддержки", atk: 0, hp: 200, def: 20, spd: 2, crit: 0, rank: 3, rarity: "rare", enhance: 4, set: "turquoise", roles: ["support"], iconSrc: "/gear-sets/thumbs/support-scroll.png" },
   ],
-  /** Soft-launch barn stock — live sheet on /barn (not a screenshot). Icons: warehouse-icons-v2. */
+  /** Soft-launch barn — gear batches 1–3 + farm/potions. */
   barnCatalog: [
-    { id: "barn_perun", name: "Кинжал Перуна", kind: "weapon", rarity: "mythic", tag: "Мифик · Оружие", enhance: 12, qty: 1, iconSrc: "/barn-icons/dagger.png" },
-    { id: "barn_salamander", name: "Кираса Саламандры", kind: "armor", rarity: "mythic", tag: "Мифик · Броня", enhance: 12, qty: 1, iconSrc: "/barn-icons/chest.png" },
-    { id: "barn_storm_helm", name: "Шлем Бури", kind: "armor", rarity: "legendary", tag: "Легенда · Шлем", enhance: 10, qty: 1, iconSrc: "/barn-icons/helmet.png" },
-    { id: "barn_boots", name: "Сапоги Астрального Прыжка", kind: "armor", rarity: "mythic", tag: "Мифик · Сапоги", enhance: 10, qty: 1, iconSrc: "/barn-icons/boots.png" },
-    { id: "barn_ring", name: "Кольцо Грома", kind: "armor", rarity: "mythic", tag: "Мифик · Кольцо", enhance: 10, qty: 1, iconSrc: "/barn-icons/ring.png" },
-    { id: "barn_collar", name: "Ошейник с колокольчиком", kind: "armor", rarity: "epic", tag: "Эпик · Ошейник", enhance: 6, qty: 1, iconSrc: "/barn-icons/collar.png" },
+    { id: "barn_grey_helm", name: "Серый шлем Льва", kind: "armor", rarity: "common", tag: "Серый · helm", enhance: 0, qty: 1, gearId: "grey_helm", iconSrc: "/gear-sets/thumbs/grey-helm.png" },
+    { id: "barn_grey_armor", name: "Серая кираса Льва", kind: "armor", rarity: "common", tag: "Серый · armor", enhance: 0, qty: 1, gearId: "grey_armor", iconSrc: "/gear-sets/thumbs/grey-armor.png" },
+    { id: "barn_grey_boots", name: "Серые когтистые сапоги", kind: "armor", rarity: "common", tag: "Серый · boots", enhance: 0, qty: 1, gearId: "grey_boots", iconSrc: "/gear-sets/thumbs/grey-boots.png" },
+    { id: "barn_yellow_helm", name: "Жёлтая шляпа Чародея", kind: "armor", rarity: "epic", tag: "Жёлтый · helm", enhance: 6, qty: 1, gearId: "yellow_helm", iconSrc: "/gear-sets/thumbs/yellow-helm.png" },
+    { id: "barn_yellow_armor", name: "Жёлтая кираса Солнца", kind: "armor", rarity: "epic", tag: "Жёлтый · armor", enhance: 6, qty: 1, gearId: "yellow_armor", iconSrc: "/gear-sets/thumbs/yellow-armor.png" },
+    { id: "barn_yellow_cloak", name: "Жёлтый плащ Солнца", kind: "armor", rarity: "epic", tag: "Жёлтый · cloak", enhance: 6, qty: 1, gearId: "yellow_cloak", iconSrc: "/gear-sets/thumbs/yellow-cloak.png" },
+    { id: "barn_yellow_belt", name: "Жёлтый пояс Льва", kind: "armor", rarity: "epic", tag: "Жёлтый · belt", enhance: 6, qty: 1, gearId: "yellow_belt", iconSrc: "/gear-sets/thumbs/yellow-belt.png" },
+    { id: "barn_yellow_boots", name: "Жёлтые когтистые сапоги", kind: "armor", rarity: "epic", tag: "Жёлтый · boots", enhance: 6, qty: 1, gearId: "yellow_boots", iconSrc: "/gear-sets/thumbs/yellow-boots.png" },
+    { id: "barn_yellow_staff", name: "Жёлтый посох Солнца (2H)", kind: "weapon", rarity: "epic", tag: "Жёлтый · weapon", enhance: 8, qty: 1, gearId: "yellow_staff", iconSrc: "/gear-sets/thumbs/yellow-staff.png" },
+    { id: "barn_yellow_wand", name: "Жёлтый жезл Солнца (1H)", kind: "weapon", rarity: "epic", tag: "Жёлтый · weapon", enhance: 6, qty: 1, gearId: "yellow_wand", iconSrc: "/gear-sets/thumbs/yellow-wand.png" },
+    { id: "barn_mage_book", name: "Книга Чародея", kind: "weapon", rarity: "epic", tag: "Маг · shield", enhance: 6, qty: 1, gearId: "mage_book", iconSrc: "/gear-sets/thumbs/mage-book.png" },
+    { id: "barn_turquoise_helm", name: "Бирюзовая шляпа", kind: "armor", rarity: "rare", tag: "Бирюза · helm", enhance: 4, qty: 1, gearId: "turquoise_helm", iconSrc: "/gear-sets/thumbs/turquoise-helm.png" },
+    { id: "barn_turquoise_armor", name: "Бирюзовая мантия", kind: "armor", rarity: "rare", tag: "Бирюза · armor", enhance: 4, qty: 1, gearId: "turquoise_armor", iconSrc: "/gear-sets/thumbs/turquoise-armor.png" },
+    { id: "barn_turquoise_cloak", name: "Бирюзовый плащ", kind: "armor", rarity: "rare", tag: "Бирюза · cloak", enhance: 4, qty: 1, gearId: "turquoise_cloak", iconSrc: "/gear-sets/thumbs/turquoise-cloak.png" },
+    { id: "barn_turquoise_belt", name: "Бирюзовый пояс", kind: "armor", rarity: "rare", tag: "Бирюза · belt", enhance: 4, qty: 1, gearId: "turquoise_belt", iconSrc: "/gear-sets/thumbs/turquoise-belt.png" },
+    { id: "barn_turquoise_boots", name: "Бирюзовые сапоги", kind: "armor", rarity: "rare", tag: "Бирюза · boots", enhance: 4, qty: 1, gearId: "turquoise_boots", iconSrc: "/gear-sets/thumbs/turquoise-boots.png" },
+    { id: "barn_turquoise_staff", name: "Бирюзовый посох", kind: "weapon", rarity: "rare", tag: "Бирюза · weapon", enhance: 4, qty: 1, gearId: "turquoise_staff", iconSrc: "/gear-sets/thumbs/turquoise-staff.png" },
+    { id: "barn_red_helm", name: "Красный шлем Дракона", kind: "armor", rarity: "legendary", tag: "Красный · helm", enhance: 10, qty: 1, gearId: "red_helm", iconSrc: "/gear-sets/thumbs/red-helm.png" },
+    { id: "barn_red_armor", name: "Красная кираса Дракона", kind: "armor", rarity: "legendary", tag: "Красный · armor", enhance: 10, qty: 1, gearId: "red_armor", iconSrc: "/gear-sets/thumbs/red-armor.png" },
+    { id: "barn_red_cloak", name: "Красный плащ Тигра", kind: "armor", rarity: "legendary", tag: "Красный · cloak", enhance: 9, qty: 1, gearId: "red_cloak", iconSrc: "/gear-sets/thumbs/red-cloak.png" },
+    { id: "barn_red_belt", name: "Красный пояс Тигра", kind: "armor", rarity: "legendary", tag: "Красный · belt", enhance: 9, qty: 1, gearId: "red_belt", iconSrc: "/gear-sets/thumbs/red-belt.png" },
+    { id: "barn_red_boots", name: "Красные шипованные сапоги", kind: "armor", rarity: "legendary", tag: "Красный · boots", enhance: 9, qty: 1, gearId: "red_boots", iconSrc: "/gear-sets/thumbs/red-boots.png" },
+    { id: "barn_purple_helm", name: "Фиолетовый капюшон", kind: "armor", rarity: "epic", tag: "Фиолет · helm", enhance: 8, qty: 1, gearId: "purple_helm", iconSrc: "/gear-sets/thumbs/purple-helm.png" },
+    { id: "barn_purple_armor", name: "Фиолетовая кираса Пантеры", kind: "armor", rarity: "epic", tag: "Фиолет · armor", enhance: 8, qty: 1, gearId: "purple_armor", iconSrc: "/gear-sets/thumbs/purple-armor.png" },
+    { id: "barn_purple_cloak", name: "Фиолетовый плащ Пантеры", kind: "armor", rarity: "epic", tag: "Фиолет · cloak", enhance: 8, qty: 1, gearId: "purple_cloak", iconSrc: "/gear-sets/thumbs/purple-cloak.png" },
+    { id: "barn_purple_belt", name: "Фиолетовый пояс Пантеры", kind: "armor", rarity: "epic", tag: "Фиолет · belt", enhance: 8, qty: 1, gearId: "purple_belt", iconSrc: "/gear-sets/thumbs/purple-belt.png" },
+    { id: "barn_purple_boots", name: "Фиолетовые когтистые сапоги", kind: "armor", rarity: "epic", tag: "Фиолет · boots", enhance: 8, qty: 1, gearId: "purple_boots", iconSrc: "/gear-sets/thumbs/purple-boots.png" },
+    { id: "barn_green_helm", name: "Зелёная шляпа Следопыта", kind: "armor", rarity: "rare", tag: "Зелёный · helm", enhance: 4, qty: 1, gearId: "green_helm", iconSrc: "/gear-sets/thumbs/green-helm.png" },
+    { id: "barn_green_armor", name: "Зелёная чешуя Рыси", kind: "armor", rarity: "rare", tag: "Зелёный · armor", enhance: 4, qty: 1, gearId: "green_armor", iconSrc: "/gear-sets/thumbs/green-armor.png" },
+    { id: "barn_green_cloak", name: "Зелёный плащ листвы", kind: "armor", rarity: "rare", tag: "Зелёный · cloak", enhance: 4, qty: 1, gearId: "green_cloak", iconSrc: "/gear-sets/thumbs/green-cloak.png" },
+    { id: "barn_green_belt", name: "Зелёный пояс Рыси", kind: "armor", rarity: "rare", tag: "Зелёный · belt", enhance: 4, qty: 1, gearId: "green_belt", iconSrc: "/gear-sets/thumbs/green-belt.png" },
+    { id: "barn_green_boots", name: "Зелёные сапоги листвы", kind: "armor", rarity: "rare", tag: "Зелёный · boots", enhance: 4, qty: 1, gearId: "green_boots", iconSrc: "/gear-sets/thumbs/green-boots.png" },
+    { id: "barn_tank_mace", name: "Булава Стража", kind: "weapon", rarity: "epic", tag: "Класс · weapon", enhance: 8, qty: 1, gearId: "tank_mace", iconSrc: "/gear-sets/thumbs/tank-mace.png" },
+    { id: "barn_tank_spear", name: "Копьё Стража", kind: "weapon", rarity: "epic", tag: "Класс · weapon", enhance: 8, qty: 1, gearId: "tank_spear", iconSrc: "/gear-sets/thumbs/tank-spear.png" },
+    { id: "barn_tank_shield_large", name: "Большой щит Льва", kind: "weapon", rarity: "epic", tag: "Класс · shield", enhance: 10, qty: 1, gearId: "tank_shield_large", iconSrc: "/gear-sets/thumbs/tank-shield-large.png" },
+    { id: "barn_tank_shield_small", name: "Малый щит Льва", kind: "weapon", rarity: "rare", tag: "Класс · shield", enhance: 6, qty: 1, gearId: "tank_shield_small", iconSrc: "/gear-sets/thumbs/tank-shield-small.png" },
+    { id: "barn_fighter_greatsword", name: "Двуручный меч Тигра", kind: "weapon", rarity: "legendary", tag: "Класс · weapon", enhance: 10, qty: 1, gearId: "fighter_greatsword", iconSrc: "/gear-sets/thumbs/fighter-greatsword.png" },
+    { id: "barn_fighter_axe_a", name: "Топор Бойца A", kind: "weapon", rarity: "legendary", tag: "Класс · weapon", enhance: 8, qty: 1, gearId: "fighter_axe_a", iconSrc: "/gear-sets/thumbs/fighter-axe-a.png" },
+    { id: "barn_fighter_axe_b", name: "Топор Бойца B", kind: "weapon", rarity: "legendary", tag: "Класс · shield", enhance: 8, qty: 1, gearId: "fighter_axe_b", iconSrc: "/gear-sets/thumbs/fighter-axe-b.png" },
+    { id: "barn_assassin_dagger_a", name: "Кинжал Убийцы A", kind: "weapon", rarity: "epic", tag: "Класс · weapon", enhance: 8, qty: 1, gearId: "assassin_dagger_a", iconSrc: "/gear-sets/thumbs/assassin-dagger-a.png" },
+    { id: "barn_assassin_dagger_b", name: "Кинжал Убийцы B", kind: "weapon", rarity: "epic", tag: "Класс · shield", enhance: 8, qty: 1, gearId: "assassin_dagger_b", iconSrc: "/gear-sets/thumbs/assassin-dagger-b.png" },
+    { id: "barn_green_bow", name: "Зелёный лук Рыси", kind: "weapon", rarity: "rare", tag: "Зелёный · weapon", enhance: 4, qty: 1, gearId: "green_bow", iconSrc: "/gear-sets/thumbs/green-bow.png" },
+    { id: "barn_green_crossbow", name: "Зелёный арбалет", kind: "weapon", rarity: "rare", tag: "Зелёный · weapon", enhance: 4, qty: 1, gearId: "green_crossbow", iconSrc: "/gear-sets/thumbs/green-crossbow.png" },
+    { id: "barn_green_arrows", name: "Колчан зелёных стрел", kind: "weapon", rarity: "rare", tag: "Зелёный · shield", enhance: 2, qty: 1, gearId: "green_arrows", iconSrc: "/gear-sets/thumbs/green-arrows.png" },
+    { id: "barn_support_scroll", name: "Свиток Поддержки", kind: "weapon", rarity: "rare", tag: "Класс · shield", enhance: 4, qty: 1, gearId: "support_scroll", iconSrc: "/gear-sets/thumbs/support-scroll.png" },
     { id: "barn_hearth_elixir", name: "Эликсиры Очага", kind: "potion", rarity: "epic", tag: "Эпик · Зелье", enhance: 0, qty: 18, iconSrc: "/barn-icons/potions.png" },
     { id: "barn_oak", name: "Дубовые брёвна", kind: "farm", rarity: "common", tag: "Ферма · Лес", enhance: 0, qty: 420, iconSrc: "/barn-icons/wood.png" },
     { id: "barn_ore", name: "Железная руда", kind: "farm", rarity: "common", tag: "Ферма · Руда", enhance: 0, qty: 290, iconSrc: "/barn-icons/iron.png" },
@@ -539,7 +617,6 @@ const state = {
     { id: "barn_milk", name: "Молоко Очага", kind: "potion", rarity: "rare", tag: "Таверна · Молоко", enhance: 0, qty: 42, iconSrc: "/barn-icons/milk.png" },
     { id: "barn_stone", name: "Гранитные глыбы", kind: "farm", rarity: "common", tag: "Ферма · Камень", enhance: 0, qty: 210, iconSrc: "/barn-icons/stone.png" },
     { id: "barn_scroll", name: "Свиток рынка", kind: "blueprint", rarity: "epic", tag: "Эпик · Чертёж", enhance: 0, qty: 12, iconSrc: "/barn-icons/herbs.png" },
-    { id: "barn_cleaver", name: "Тесак Очага", kind: "weapon", rarity: "rare", tag: "Редк · Оружие", enhance: 8, qty: 1, iconSrc: "/barn-icons/dagger.png" },
   ],
   barnCatFilter: "all",
   barnRarityFilter: "all",
@@ -1080,9 +1157,37 @@ function statsForCat(cat) {
   };
 }
 
+function catRoleOf(catOrId) {
+  const cat =
+    typeof catOrId === "string"
+      ? (state.profile?.cats || []).find((c) => c.catId === catOrId)
+      : catOrId;
+  if (!cat) return null;
+  return cat.role || starterMeta(cat.templateId)?.role || null;
+}
+
+/** Armor (roles null/[]) → all heroes. Weapons/shield → only listed roles. */
+function canEquipItem(catOrId, item) {
+  if (!item) return false;
+  if (!item.roles || item.roles.length === 0) return true;
+  const role = catRoleOf(catOrId);
+  return !!role && item.roles.includes(role);
+}
+
+function equipDenyToast(item, catOrId) {
+  const role = catRoleOf(catOrId);
+  const need = (item.roles || []).map((r) => CAT_ROLE_RU[r] || r).join("/");
+  const have = CAT_ROLE_RU[role] || role || "—";
+  toast(`${item.name}: только для ${need} (сейчас ${have})`);
+}
+
 function equipItem(catId, itemId) {
   const item = state.gearCatalog.find((g) => g.id === itemId);
   if (!item || !catId) return;
+  if (!canEquipItem(catId, item)) {
+    equipDenyToast(item, catId);
+    return;
+  }
   if (!state.equippedByCat[catId]) {
     state.equippedByCat[catId] = emptyEquipSlots();
   }
@@ -2503,7 +2608,7 @@ function catHeroArt(templateId) {
 const HOME_SLOT_PIN = {
   helm: "is-tl",
   armor: "is-ml",
-  gloves: "is-bl",
+  cloak: "is-bl",
   boots: "is-bc",
   weapon: "is-tr",
   shield: "is-mr",
@@ -2535,23 +2640,27 @@ const CAT_ELEMENT_GEN = {
   grass: "травы",
   ice: "льда",
 };
-const HOME_SLOT_ORDER = ["helm", "armor", "gloves", "boots", "weapon", "shield", "belt", "ring"];
-const HOME_SLOT_LEFT = ["helm", "armor", "gloves", "boots"];
+const HOME_SLOT_ORDER = ["helm", "armor", "cloak", "boots", "weapon", "shield", "belt", "ring"];
+const HOME_SLOT_LEFT = ["helm", "armor", "cloak", "boots"];
 const HOME_SLOT_RIGHT = ["weapon", "shield", "belt", "ring"];
 const HOME_SLOT_RU = {
   helm: "Шлем",
   armor: "Доспех",
-  gloves: "Перчатки",
+  cloak: "Плащ",
   boots: "Сапоги",
   weapon: "Оружие",
-  shield: "Щит",
+  shield: "Щит / оффхенд",
   belt: "Пояс",
   ring: "Кольцо",
 };
 const HOME_RARITY_RU = { mythic: "Миф", epic: "Эпик", rare: "Редк", common: "Обыч" };
 const HOME_SET_RU = {
-  thunder: { name: "Громовой Коготь", need: 4, bonus: "+25% урона молнии" },
-  wool: { name: "Шерстяной Оберег", need: 2, bonus: "+12% щит" },
+  grey: { name: "Серый Лев", need: 3, bonus: "+5% DEF" },
+  yellow: { name: "Жёлтый Лев", need: 3, bonus: "+8% ATK (маг. оружие)" },
+  turquoise: { name: "Бирюза", need: 3, bonus: "+6% SPD" },
+  red: { name: "Красный Дракон", need: 3, bonus: "+10% HP" },
+  purple: { name: "Фиолет", need: 3, bonus: "+8% crit" },
+  green: { name: "Зелёный След", need: 3, bonus: "+8% ranged ATK" },
 };
 
 function emptyEquipSlots() {
@@ -2582,7 +2691,7 @@ function equipBest(catId) {
   }
   for (const slot of HOME_SLOT_ORDER) {
     const best = state.gearCatalog
-      .filter((item) => item.slot === slot)
+      .filter((item) => item.slot === slot && canEquipItem(catId, item))
       .sort((a, b) => b.atk + b.hp + b.def + b.spd - (a.atk + a.hp + a.def + a.spd))[0];
     if (!best) continue;
     for (const eq of Object.values(state.equippedByCat)) {
@@ -2592,8 +2701,33 @@ function equipBest(catId) {
     }
     state.equippedByCat[catId][slot] = best.id;
   }
-  toast("Лучшее надето");
+  toast("Лучшее надето (с учётом класса)");
   renderAll();
+}
+
+/** Dress full color armor set (helm/armor/cloak/belt/boots). Weapons stay class-gated separately. */
+function equipArmorSet(catId, setId) {
+  if (!catId || !setId) return false;
+  if (!state.equippedByCat[catId]) state.equippedByCat[catId] = emptyEquipSlots();
+  const armorSlots = ["helm", "armor", "cloak", "belt", "boots"];
+  let worn = 0;
+  for (const slot of armorSlots) {
+    const piece = state.gearCatalog.find((g) => g.set === setId && g.slot === slot && canEquipItem(catId, g));
+    if (!piece) continue;
+    for (const eq of Object.values(state.equippedByCat)) {
+      for (const key of Object.keys(eq)) {
+        if (eq[key] === piece.id) eq[key] = null;
+      }
+    }
+    state.equippedByCat[catId][slot] = piece.id;
+    worn += 1;
+  }
+  const label = HOME_SET_RU[setId]?.name || setId;
+  toast(worn ? `${label}: надето ${worn}/5` : `${label}: нет частей`);
+  renderHome();
+  renderEquipCards();
+  renderAll();
+  return worn > 0;
 }
 
 function unequipAll(catId) {
@@ -2902,13 +3036,20 @@ function renderBarn() {
         }
         if (act === "equip") {
           const item = state.barnCatalog.find((x) => x.id === state.barnFocus);
-          const gear = item && state.gearCatalog.find((g) => g.name.includes(item.name.split(" ")[0]) || g.id.includes(item.id.replace("barn_", "")));
+          const gear =
+            item &&
+            state.gearCatalog.find(
+              (g) =>
+                (item.gearId && g.id === item.gearId) ||
+                g.name === item.name ||
+                g.id === item.id.replace(/^barn_/, ""),
+            );
           const catId = state.selectedCatId || state.profile?.cats?.[0]?.catId;
           if (gear && catId) {
             equipItem(catId, gear.id);
             return;
           }
-          toast(item ? `${item.name}: подсказка экипа (SL)` : "Выберите предмет");
+          toast(item ? `${item.name}: не экип (только броня/оружие сетов)` : "Выберите предмет");
           return;
         }
         if (act === "craft") {
@@ -2927,32 +3068,19 @@ function renderBarn() {
   }
 }
 
+/** Default home loadout: grey armor only (weapons are class-gated). */
 const HOME_STITCH_DEFAULTS = {
-  helm: "helm_storm",
-  armor: "armor_thunder",
-  gloves: "gloves_wool",
-  boots: "boots_soft_pads",
-  weapon: "weapon_perun",
-  shield: "shield_guard",
-  belt: "belt_wool",
-  ring: "ring_storm",
+  helm: "grey_helm",
+  armor: "grey_armor",
+  cloak: null,
+  boots: "grey_boots",
+  weapon: null,
+  shield: null,
+  belt: null,
+  ring: null,
 };
 
-const HOME_SLOT_LABEL = {
-  weapon_perun: "Кинжал Перуна",
-  helm_storm: "Шлем Бури",
-  armor_thunder: "Кираса Саламандры",
-  gloves_wool: "Перчатки Сапфира",
-  amulet_wool: "Перчатки Сапфира",
-  belt_wool: "Пояс Исследователя",
-  ring_storm: "Перстень Солнца",
-  boots_soft_pads: "Мягкие Сапожки",
-  shield_guard: "Щит Стража",
-  offhand_claw: "Щит Стража",
-  weapon_cleaver: "Огненный Тесак",
-  helm_grey_cap: "Шлем Охотника",
-  armor_green_mail: "Теневой Плащ",
-};
+const HOME_SLOT_LABEL = {};
 
 function homeActiveCat() {
   const cats = (state.profile?.cats || []).filter((c) => c.role !== "farm");
@@ -2966,9 +3094,11 @@ function homeActiveCat() {
 
 function migrateHomeEquipSlots(eq) {
   if (!eq || typeof eq !== "object") return eq;
-  if (eq.amulet != null && eq.gloves == null) eq.gloves = eq.amulet;
+  if (eq.amulet != null && eq.cloak == null) eq.cloak = eq.amulet;
+  if (eq.gloves != null && eq.cloak == null) eq.cloak = eq.gloves;
   if (eq.offhand != null && eq.shield == null) eq.shield = eq.offhand;
   delete eq.amulet;
+  delete eq.gloves;
   delete eq.offhand;
   for (const slot of HOME_SLOT_ORDER) {
     if (!(slot in eq)) eq[slot] = null;
@@ -2981,11 +3111,19 @@ function ensureHomeStitchLoadout(catId) {
   if (!state.equippedByCat[catId]) state.equippedByCat[catId] = emptyEquipSlots();
   const eq = migrateHomeEquipSlots(state.equippedByCat[catId]);
   state.equippedByCat[catId] = eq;
-  if (state.homeSeededEquip?.[catId]) return;
+  // Drop legacy thunder/wool ids still stuck in local state
+  for (const slot of HOME_SLOT_ORDER) {
+    const id = eq[slot];
+    if (!id) continue;
+    const item = state.gearCatalog.find((g) => g.id === id);
+    if (!item || !canEquipItem(catId, item)) eq[slot] = null;
+  }
   const any = HOME_SLOT_ORDER.some((slot) => eq[slot]);
   if (!any) {
     for (const [slot, id] of Object.entries(HOME_STITCH_DEFAULTS)) {
-      if (state.gearCatalog.some((g) => g.id === id)) eq[slot] = id;
+      if (!id) continue;
+      const item = state.gearCatalog.find((g) => g.id === id);
+      if (item && canEquipItem(catId, item)) eq[slot] = id;
     }
   }
   state.homeSeededEquip = { ...(state.homeSeededEquip || {}), [catId]: true };
@@ -3077,6 +3215,33 @@ function bindHomeEquipClicks() {
   root.addEventListener("click", (event) => {
     const cat = homeActiveCat();
     if (!cat) return;
+    const bagFilter = event.target.closest("[data-home-bag-filter]");
+    if (bagFilter && root.contains(bagFilter)) {
+      state.homeBagFilter = bagFilter.getAttribute("data-home-bag-filter") || "all";
+      root.querySelectorAll("[data-home-bag-filter]").forEach((btn) => {
+        const on = btn.getAttribute("data-home-bag-filter") === state.homeBagFilter;
+        btn.classList.toggle("bg-primary-container", on);
+        btn.classList.toggle("text-on-primary-container", on);
+        btn.classList.toggle("font-bold", on);
+        btn.classList.toggle("text-on-surface-variant", !on);
+      });
+      renderHomeBag(cat);
+      syncHomeEquipDom(cat.catId);
+      return;
+    }
+    const rarityChip = event.target.closest("[data-home-bag-rarity]");
+    if (rarityChip && root.contains(rarityChip)) {
+      state.homeRarityFilter = rarityChip.getAttribute("data-home-bag-rarity") || "all";
+      root.querySelectorAll("[data-home-bag-rarity]").forEach((chip) => {
+        const on = chip.getAttribute("data-home-bag-rarity") === state.homeRarityFilter;
+        chip.classList.toggle("bg-surface-container-high", on);
+        chip.classList.toggle("font-bold", on);
+        chip.classList.toggle("bg-surface-container-low", !on);
+      });
+      renderHomeBag(cat);
+      syncHomeEquipDom(cat.catId);
+      return;
+    }
     const slotBtn = event.target.closest(".home-equip-slot");
     if (slotBtn && root.contains(slotBtn)) {
       const slot = slotBtn.getAttribute("data-home-slot");
@@ -3104,6 +3269,59 @@ function bindHomeEquipClicks() {
       equipItem(cat.catId, itemId);
     }
   });
+}
+
+function homeBagTone(item) {
+  const rarity = item?.rarity || "common";
+  if (rarity === "legendary" || rarity === "mythic") {
+    return { border: "border-primary/50", glow: "shadow-[0_0_10px_rgba(253,186,69,0.35)]", pill: "bg-primary text-on-primary", tag: "text-primary", label: rarity === "mythic" ? "Миф" : "Лег" };
+  }
+  if (rarity === "epic") {
+    return { border: "border-tertiary/50", glow: "shadow-[0_0_10px_rgba(255,180,166,0.35)]", pill: "bg-tertiary-container text-on-tertiary", tag: "text-tertiary", label: "Эпик" };
+  }
+  if (rarity === "rare") {
+    return { border: "border-secondary/50", glow: "shadow-[0_0_10px_rgba(137,217,140,0.35)]", pill: "bg-secondary-container text-on-secondary-container", tag: "text-secondary", label: "Редк" };
+  }
+  return { border: "border-outline-variant/40", glow: "", pill: "bg-surface-container-highest text-on-surface", tag: "text-on-surface-variant", label: "Обыч" };
+}
+
+function renderHomeBag(cat) {
+  const grid = $("homeBagGrid");
+  if (!grid) return;
+  const eq = state.equippedByCat[cat.catId] || {};
+  const filter = state.homeBagFilter || "all";
+  const rarity = state.homeRarityFilter || "all";
+  const items = state.gearCatalog.filter((item) => {
+    if (filter === "weapon" && item.slot !== "weapon" && item.slot !== "shield") return false;
+    if (filter === "helm" && item.slot !== "helm") return false;
+    if (filter === "armor" && item.slot !== "armor" && item.slot !== "cloak") return false;
+    if (filter === "trinket" && item.slot !== "belt" && item.slot !== "ring") return false;
+    if (rarity === "mythic" && item.rarity !== "mythic" && item.rarity !== "legendary") return false;
+    else if (rarity !== "all" && rarity !== "mythic" && item.rarity !== rarity) return false;
+    return true;
+  });
+  grid.innerHTML = items
+    .map((item) => {
+      const tone = homeBagTone(item);
+      const worn = Object.values(eq).includes(item.id);
+      const locked = !canEquipItem(cat, item);
+      const roleHint = item.roles?.length
+        ? item.roles.map((r) => CAT_ROLE_RU[r] || r).join("/")
+        : "";
+      const enhance = item.enhance
+        ? `<span class="absolute top-0.5 right-0.5 px-0.5 rounded ${tone.pill} font-stat-numeral text-[8px] leading-none font-bold">+${item.enhance}</span>`
+        : "";
+      const lock = locked
+        ? `<span class="absolute inset-0 rounded bg-black/45 flex items-center justify-center text-[9px] font-label-sm text-on-surface uppercase tracking-wide">${roleHint || "класс"}</span>`
+        : "";
+      return `<div data-home-bag-item="${item.id}" role="button" tabindex="0" title="${item.name}${roleHint ? ` · ${roleHint}` : " · все классы"}${worn ? " · надето" : ""}${locked ? " · недоступно" : ""}" class="aspect-square rounded-lg bg-surface-container-high p-0.5 relative cursor-pointer border ${tone.border} ${tone.glow} hover:scale-105 transition-transform flex items-center justify-center group${worn ? " is-worn opacity-50" : ""}${locked ? " is-locked" : ""}"><img alt="${item.name}" class="w-full h-full object-cover rounded" src="${item.iconSrc}"><span class="absolute bottom-0.5 left-0.5 px-0.5 rounded bg-surface-container-lowest font-label-sm text-[7px] ${tone.tag} uppercase">${tone.label}</span>${enhance}${lock}</div>`;
+    })
+    .join("");
+  const cap = grid.closest(".col-span-12")?.querySelector(".font-label-sm strong");
+  if (cap) {
+    const n = state.gearCatalog.length;
+    cap.textContent = `${n}/96`;
+  }
 }
 
 function renderHome() {
@@ -3144,6 +3362,7 @@ function renderHome() {
   }
   ensureHomeStitchLoadout(cat.catId);
   bindHomeEquipClicks();
+  renderHomeBag(cat);
   syncHomeEquipDom(cat.catId);
 }
 
@@ -3236,13 +3455,24 @@ function renderEquipCards() {
     items.innerHTML = "";
     for (const item of state.gearCatalog) {
       const onThis = eq[item.slot] === item.id;
+      const allowed = canEquipItem(cat, item);
+      const roleHint = item.roles?.length
+        ? item.roles.map((r) => CAT_ROLE_RU[r] || r).join("/")
+        : "все классы";
       const card = document.createElement("div");
       card.className = "mythfel-panel-card";
-      card.innerHTML = `<strong>${item.name}</strong><div class="meta">R${item.rank} · ${item.slot}</div>`;
+      card.innerHTML = `<strong>${item.name}</strong><div class="meta">R${item.rank} · ${item.slot} · ${item.set || "—"} · ${roleHint}</div>`;
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "wire-btn";
-      btn.textContent = onThis ? "Снять" : "Надеть";
+      if (onThis) {
+        btn.textContent = "Снять";
+      } else if (!allowed) {
+        btn.textContent = `Только ${roleHint}`;
+        btn.classList.add("gated");
+      } else {
+        btn.textContent = "Надеть";
+      }
       btn.addEventListener("click", () => {
         if (onThis) unequipSlot(cat.catId, item.slot);
         else equipItem(cat.catId, item.id);
