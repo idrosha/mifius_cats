@@ -4158,7 +4158,7 @@ function renderPracticeFight() {
   if (hand) {
     hand.removeAttribute("data-pf-hand-static");
     hand.classList.add("mf-attack-hand");
-    hand.style.setProperty("--mf-hand-h", "15rem");
+    hand.style.setProperty("--mf-hand-h", "clamp(18rem, 38vh, 22rem)");
     hand.innerHTML = "";
     if (!mine && !diff.result) {
       // Opponent turn: never reveal their hand — face-down throw overlay is the cue.
