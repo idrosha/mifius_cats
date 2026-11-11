@@ -3160,6 +3160,24 @@ body:has(#viewPractice > .dojo-load:not([hidden])) #wireDock { display: none; }
   background: #100e0c;
   overflow: hidden;
 }
+/* Gold-standard practice lobby: roster + matchup dummy cards + grand squad */
+#viewPractice > .dojo-hall.dojo-gold {
+  gap: 0.4rem;
+}
+#viewPractice .dojo-gold-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+#viewPractice .dojo-match-card,
+#viewPractice .dojo-dummy-card {
+  width: 4rem; /* 64px */
+  height: 7rem; /* 112px — gold preview ratio ~4:7 */
+  flex: none;
+}
+#viewPracticeFight .pf-dummy-card img {
+  object-fit: cover;
+  object-position: top center;
+}
 .dojo-top, .dojo-foot {
   display: flex;
   align-items: center;
