@@ -4670,17 +4670,17 @@ function renderPracticeFight() {
       pips.appendChild(pip);
     }
   }
-  const paintSlots = (rootSel, units, reverseVisual) => {
+  const paintSlots = (rootSel, units) => {
     const root = document.querySelector(`#viewPracticeFight ${rootSel}`);
     if (!root) return;
     const slots = [...root.querySelectorAll("[data-slot]")];
     slots.forEach((card, i) => {
-      const idx = reverseVisual ? slots.length - 1 - i : i;
-      const u = units[idx];
+      const u = units[i];
       const em = card.querySelector("em");
       const bar = card.querySelector("i");
       const img = card.querySelector("img");
       const nameEl = card.querySelector(".font-headline-md, b, h4");
+      const laneBadge = card.querySelector(".font-label-sm.text-label-sm");
       card.hidden = !u;
       if (!u) return;
       const tid = unitTemplateId(u);
@@ -4694,11 +4694,16 @@ function renderPracticeFight() {
       if (em) em.textContent = `${u.hp} / ${u.maxHp}`;
       const pct = u.maxHp > 0 ? Math.max(0, Math.min(100, (u.hp / u.maxHp) * 100)) : 0;
       if (bar) bar.style.setProperty("--hp", `${pct}%`);
+      // Lobby LTR = team index = sim lane 0..2 (Авангард → Центр → Тыл). Keep battle the same.
+      if (laneBadge) {
+        const lane = PRACTICE_LANE_LABEL[u.lane] || `Л${u.lane}`;
+        const role = hero?.roleRu || CAT_ROLE_RU[u.role] || u.role || "";
+        laneBadge.textContent = role ? `${lane} • ${role}` : lane;
+      }
     });
   };
-  // Stitch allies are painted back→front (support … tank); sim lanes are front→back.
-  paintSlots("#pfAllies", allies, true);
-  paintSlots("#pfEnemies", enemies, false);
+  paintSlots("#pfAllies", allies);
+  paintSlots("#pfEnemies", enemies);
   syncOppThrowFromBattle(diff);
   const hand = document.querySelector("#viewPracticeFight #pfHand");
   const liveCards = diff.hand || [];
