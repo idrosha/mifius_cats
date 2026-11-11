@@ -56,6 +56,9 @@ func (b *Battle) playCard(a Action) error {
 
 	ps.Energy -= card.Cost
 	u.Hand = append(u.Hand[:a.HandIndex], u.Hand[a.HandIndex+1:]...)
+	if a.HandIndex < len(u.KeepMask) {
+		u.KeepMask = append(u.KeepMask[:a.HandIndex], u.KeepMask[a.HandIndex+1:]...)
+	}
 	u.Discard = append(u.Discard, cardIdx)
 	b.cardsPlayedByUnit[u.ID]++
 
@@ -87,13 +90,19 @@ func actorClawBlocksRuffle(u *Unit, tags []string) bool {
 }
 
 func (b *Battle) keepCard(a Action) error {
-	// Keep §3.4: hold card for milk; cost escalates same turn.
+	// Keep §3.4: hold card into next own turn + milk; cost escalates same turn.
 	u := b.unitByID(a.UnitID)
 	if u == nil || !u.Alive || u.Side != b.Active {
 		return fmt.Errorf("illegal unit")
 	}
 	if a.HandIndex < 0 || a.HandIndex >= len(u.Hand) {
 		return fmt.Errorf("illegal handIndex")
+	}
+	for len(u.KeepMask) < len(u.Hand) {
+		u.KeepMask = append(u.KeepMask, false)
+	}
+	if u.KeepMask[a.HandIndex] {
+		return fmt.Errorf("card already kept")
 	}
 	ps := b.player(b.Active)
 	if ps.KeepCost > ps.Energy {
@@ -102,6 +111,7 @@ func (b *Battle) keepCard(a Action) error {
 	ps.Energy -= ps.KeepCost
 	ps.KeepCost++
 	ps.MilkDrops++
+	u.KeepMask[a.HandIndex] = true
 	b.record("keep", &a)
 	b.tryMilkBurst(ps)
 	return nil
@@ -128,6 +138,8 @@ func (b *Battle) endTurn(a *Action) error {
 	}
 	ps.Energy = 0
 
+	// §3.3: leftover attack cards → discard immediately at end of turn (Keep stays).
+	b.discardUnusedHand(b.Active)
 	b.tickStatuses(b.Active)
 	b.record("endTurn", a)
 

@@ -134,17 +134,33 @@ func (b *Battle) beginSideTurn(side Side, isRoundStart bool) {
 	ps.KeepCost = 1
 	drawN := d + ps.BonusDraw
 	for _, u := range b.living(side) {
-		// discard hand leftovers (unused cards do not carry — §3.3) except Keep handled separately
-		for _, hi := range u.Hand {
-			u.Discard = append(u.Discard, hi)
-		}
-		u.Hand = nil
+		// Kept cards already sit in Hand from endTurn; clear Keep marks for the new turn (§3.3–3.4).
+		u.KeepMask = make([]bool, len(u.Hand))
 		b.drawCards(u, drawN)
 		if u.hasStatus("stun") || u.hasStatus("sleep") {
 			continue
 		}
 	}
 	_ = isRoundStart
+}
+
+// discardUnusedHand moves non-Kept hand cards into discard at end of that side's turn (§3.3).
+func (b *Battle) discardUnusedHand(side Side) {
+	for _, u := range b.living(side) {
+		keptHand := make([]int, 0, len(u.Hand))
+		for i, hi := range u.Hand {
+			if i < len(u.KeepMask) && u.KeepMask[i] {
+				keptHand = append(keptHand, hi)
+				continue
+			}
+			u.Discard = append(u.Discard, hi)
+		}
+		u.Hand = keptHand
+		u.KeepMask = make([]bool, len(keptHand))
+		for i := range u.KeepMask {
+			u.KeepMask[i] = true // still marked until beginSideTurn clears for the new turn
+		}
+	}
 }
 
 func (b *Battle) drawCards(u *Unit, n int) {
@@ -165,6 +181,7 @@ func (b *Battle) drawCards(u *Unit, n int) {
 		cardIdx := u.DrawPile[0]
 		u.DrawPile = u.DrawPile[1:]
 		u.Hand = append(u.Hand, cardIdx)
+		u.KeepMask = append(u.KeepMask, false)
 	}
 }
 

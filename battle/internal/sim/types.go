@@ -36,13 +36,14 @@ type Unit struct {
 	Charm     int              `json:"charm"`
 	Shield    int              `json:"shield"`
 	Statuses  []Status         `json:"statuses"`
-	Deck      []content.CardDef `json:"-"`
-	DrawPile  []int            `json:"-"` // indices into Deck
-	Hand      []int            `json:"hand"`
-	Discard   []int            `json:"-"`
-	Alive     bool             `json:"alive"`
-	AtkBuff   int              `json:"atkBuff"`
-	AtkBuffDur int             `json:"atkBuffDur"`
+	Deck       []content.CardDef `json:"-"`
+	DrawPile   []int             `json:"-"` // indices into Deck
+	Hand       []int             `json:"hand"`
+	KeepMask   []bool            `json:"-"` // parallel to Hand; true = Keep into next own turn
+	Discard    []int             `json:"-"`
+	Alive      bool              `json:"alive"`
+	AtkBuff    int               `json:"atkBuff"`
+	AtkBuffDur int               `json:"atkBuffDur"`
 }
 
 type PlayerState struct {
