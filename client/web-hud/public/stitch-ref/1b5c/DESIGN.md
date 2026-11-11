@@ -220,3 +220,19 @@ The interface embraces organic, comfortable silhouettes that feel friendly and c
 - **Frame:** Scrollwork-inspired stone panels flanked by ornate bronze corners.
 - **Title Banner:** Centered `headline-md` encased in a raised amber ribbon.
 - **Close Button:** Prominent circular brass "X" medallion pinned to the upper-right corner for effortless dismissability on compact mobile devices.
+
+### Dummy Cards (Карточки манекенов · Додзё)
+Gold standard for **Тренировка** lobby matchup + **practice_fight** enemy row. Art masters: `design/stitch-ref/practice-dojo-gold/`; HUD JPEGs: `/stitch-assets/dojo/dummy-*.jpg`.
+
+| Манекен | Роль | HP pool | Asset |
+|---|---|---|---|
+| **Дубовый Рыцарь** | Танк Т1 | 100k | `dummy-oak-knight` — wood/iron golem, lion shield, orange+cyan runes |
+| **Соломенный Берсерк** | Боец Т1 | 50k | `dummy-straw-berserk` — straw scarecrow, dual cleavers, ember eyes |
+| **Каменный Тотем** | Саппорт Т1 | 80k | `dummy-stone-totem` — stone cat idol, cyan runes, moss pedestal |
+
+**Sizes (canonical):**
+- **Lobby preview (matchup strip):** vertical card `64×112` (`w-16 h-28`, ≈ **4∶7**). Same height as ally preview cards. Group of three on the right of VS.
+- **Fight HUD (enemy units):** vertical portrait frame **aspect `2∶3`**, width `~8.5–10rem`, art `object-cover object-top`. Taller than wide — never landscape crop of dummy art.
+- **Selected-squad grand cards (lobby bottom):** large full-bleed hero cards (≈⅓ stage each) — *not* dummy size; dummies stay in the top matchup strip only.
+
+**Card chrome:** dark peat body `#1a1613`, thin `outline-variant` border, bottom gradient scrim, mini HP pip + role label under the frame (`Танк Т1` / `Боец Т1` / `Саппорт Т1`). Total pool caption: **230,000 HP**.
