@@ -268,9 +268,29 @@ ok(
 );
 ok("app navigate()", js.includes("function navigate("));
 ok(
-  "showView toggles top-level view sections (#app and body siblings; not nested mains)",
-  js.includes('querySelectorAll("#app > section[id^=\'view\'], body > section[id^=\'view\']")') &&
+  "showView hides all #app > section (incl. empty-id wf-block pads)",
+  /querySelectorAll\(["']#app > section["']\)/.test(js) &&
+    !/querySelectorAll\(["']#app > section\[id\^=/.test(js) &&
     !js.includes('querySelectorAll("main > section")'),
+  "narrow #app > section[id^=view] leaves wf-block pads visible → blank hubs",
+);
+ok(
+  "showView also toggles body > section[id^=view] ejected stages",
+  /querySelectorAll\(["']body > section\[id\^=['"]view['"]\]["']\)/.test(js) ||
+    js.includes("body > section[id^='view']") ||
+    js.includes('body > section[id^="view"]'),
+  "practice/yard outside #app stay unreachable without body-level toggle",
+);
+ok(
+  "showView forces body > section.wf-block orphans hidden",
+  js.includes("body > section.wf-block"),
+  "orphan wireframe pads on body leak under Training",
+);
+ok(
+  "showView collapses #app when active view is body-ejected",
+  js.includes('active.parentElement === document.body') &&
+    /\$\(["']app["']\)\?\.classList\.toggle\(["']hidden["']/.test(js),
+  "empty #app shell leaves blank band above Training",
 );
 ok("gate tip auto-hides (no orphan banner)", js.includes("function hideGateTip") && js.includes("hideGateTip._t"));
 ok(
@@ -405,6 +425,23 @@ ok(
     return !/<section\b/.test(body) && body.includes("dojo-gold") && body.includes("dojo-load");
   })(),
   "viewPractice nested <section> or truncated splice — breaks all later hubs",
+);
+ok(
+  "post-practice hubs still present as top-level section ids",
+  (() => {
+    const fight = html.indexOf('<section id="viewPracticeFight"');
+    if (fight < 0) return false;
+    const tail = html.slice(fight);
+    // Later hubs must appear as their own <section id=…> after practice_fight,
+    // not only as nested chrome text (guards against early </section> swallow).
+    return (
+      /<section id="viewGuild"/.test(tail) &&
+      /<section id="viewPass"/.test(tail) &&
+      /<section id="viewShop"/.test(tail) &&
+      /<section id="viewYard"/.test(html.slice(0, fight))
+    );
+  })(),
+  "truncated practice splice swallowed later hubs — blank pages",
 );
 ok(
   "warehouse is live barn sheet with icons host",

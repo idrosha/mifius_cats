@@ -900,14 +900,26 @@ function wireModeFor(viewId) {
 }
 
 function showView(id) {
-  // Top-level stage hosts: prefer #app children. Soft-launch HTML also has many
-  // stitch stages as body>section siblings when nested wireframe </main> closed #app early
-  // (practice/yard/pvp/…). Toggle both so navigate('practice') etc. still work.
-  // Never match nested chrome mirrors inside a stage (not #app/#body direct children).
-  const stages = document.querySelectorAll("#app > section[id^='view'], body > section[id^='view']");
-  for (const el of stages) {
+  // #app > section: hide EVERY direct child section, including wireframe pads
+  // (section.wf-block with empty id). Filtering to [id^=view] left those pads
+  // visible and blanked Training/hubs after #137 (same symptom class as #135).
+  for (const el of document.querySelectorAll("#app > section")) {
     el.classList.toggle("hidden", el.id !== id);
   }
+  // Soft-launch HTML also ejects stitch stages to body>section when nested
+  // wireframe </main> closes #app early (practice/yard/pvp/…). Toggle those too.
+  for (const el of document.querySelectorAll("body > section[id^='view']")) {
+    el.classList.toggle("hidden", el.id !== id);
+  }
+  // Orphan wireframe pads that landed as body siblings — never stage hosts.
+  for (const el of document.querySelectorAll("body > section.wf-block")) {
+    el.classList.add("hidden");
+  }
+  // When the active stage is a body sibling, collapse #app so an empty shell
+  // does not reserve a blank band above Training/yard/guild (D-025 nav stays).
+  const active = document.getElementById(id);
+  const ejected = !!(active && active.parentElement === document.body);
+  $("app")?.classList.toggle("hidden", ejected);
   // Keep logical aliases present for verify-nav probes
   if (id === "viewResultWin" || id === "viewResultLose") {
     $("viewResult")?.classList.add("hidden");
