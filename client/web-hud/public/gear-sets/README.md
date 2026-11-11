@@ -1,26 +1,27 @@
-# Gear color sets (batch 1–2)
+# Gear color sets (batches 1–3)
 
-Live HUD icons for character (`/hero`) and warehouse (`/barn`).  
-`thumbs/` = 256² for slots/cards. Full 1024² art: Project media `gear-sets-batch1/` + `gear-sets-batch2/`.
+HUD thumbs for `/hero` + `/barn`. Slot model: **helm · armor · cloak · boots · weapon · shield(offhand) · belt · ring**.
 
-## Armor (all heroes)
+## Armor completeness
 
-| File | Set | Slot |
+| Set | head | torso | cloak | belt | legs |
+|---|---|---|---|---|---|
+| grey | ✓ | ✓ | ✗ | ✗ | ✓ |
+| yellow | ✓ | ✓ | ✓ | ✓ | ✓ |
+| turquoise | ✓ | ✓ | ✓ | ✓ | ✓ |
+| red | ✓ | ✓ | ✓ | ✓ | ✓ |
+| purple | ✓ | ✓ | ✓ | ✓ | ✓ |
+| green | ✓ | ✓ | ✓ | ✓ | ✓ |
+
+## Class weapons (roles gate)
+
+| Class | Present | Missing |
 |---|---|---|
-| `grey-helm/armor/boots` | серый | helm / armor / boots |
-| `yellow-helm/cloak/belt` | жёлтый | helm / armor / belt |
-| `red-helm/armor/cloak/belt/boots` | красный | helm / armor×2 / belt / boots |
-| `purple-helm/armor/cloak/belt/boots` | фиолетовый | helm / armor×2 / belt / boots |
-| `green-helm/armor/cloak/belt/boots` | зелёный | helm / armor×2 / belt / boots |
+| tank | mace, spear, large shield | small shield |
+| fighter | greatsword, axe A+B (offhand) | — |
+| assassin | dagger A+B (offhand) | — |
+| ranger | bow, crossbow, arrows quiver | — |
+| mage | 2H yellow + turquoise staff | 1H staff + book |
+| support | scroll (offhand) | small staff |
 
-## Weapons (class-gated)
-
-| File | Set | Class |
-|---|---|---|
-| `yellow-staff.png` | жёлтый | mage |
-| `turquoise-staff.png` | бирюзовый | mage |
-| `green-crossbow.png` | зелёный | ranger |
-
-**Still missing:** turquoise armor pieces; tank mace+shield; fighter/assassin/support weapons; gloves/rings.
-
-HUD paths: `/gear-sets/thumbs/<file>.png`. Catalog: `app.js` → `gearCatalog` / `barnCatalog`.
+Full art: Project `media/gear-sets-batch{1,2,3}/`.
