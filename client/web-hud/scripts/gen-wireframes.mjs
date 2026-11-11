@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 /**
  * Replace unfinished painted Stitch screens with filled block wireframes (no images/footers).
- * Does NOT touch #119/#120 restored screens: trade_hub, battle_hub, gear, practice,
- * practice_fight, victory_hall — nor already hand-fixed login/hub/home/etc.
+ * Does NOT touch restored painted screens: trade_hub, battle_hub, gear, practice,
+ * practice_fight, victory_hall, craft, soon_farm — nor already hand-fixed login/hub/home/etc.
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -636,89 +636,7 @@ const screens = {
       ].join("\n")
     ),
 
-  craft: () =>
-    page(
-      "Крафт & алхимия",
-      "Дом Хранителя · gated",
-      "Рецепты крафта. Tip «подними ранг в боях» на deep actions.",
-      "grid-cols-1 lg:grid-cols-12",
-      [
-        block(
-          "Рецепты",
-          "Список.",
-          `<div id="recipes-list">${rows([
-            ["Пучок трав", "×3 травы"],
-            ["Настой хила", "травы + молоко"],
-            ["Заточка R1", "руда + камень"],
-            ["Рунный осколок", "gated"],
-          ])}</div>`,
-          "lg:col-span-7"
-        ),
-        block(
-          "Станок",
-          "CRAFT CTA.",
-          rows([
-            ["Выбрано", "Пучок трав"],
-            ["Шанс", "100%"],
-            ["Стоимость", "18 fish"],
-          ]) +
-            `<div class="wf-tags"><button type="button" class="wf-cta" id="btn-craft-main">Скрафтить</button><button type="button" class="wf-cta ghost" id="btn-craft-multi">×5</button></div>`,
-          "lg:col-span-5"
-        ),
-      ].join("\n")
-    ),
-
-  soon_farm: () =>
-    page(
-      "Двор / угодья",
-      "Дом Хранителя · Soon gameplay",
-      "Земельные угодья: анбар, узлы добычи, нижняя панель действий. Без изометрии/картинок — только блоки.",
-      "grid-cols-1 lg:grid-cols-12",
-      [
-        block(
-          "Анбар усадьбы",
-          "Ресурсы / час.",
-          rows([
-            ["Травы & урожай", "315 · +50/ч"],
-            ["Древесина", "1 840 · +120/ч"],
-            ["Камень", "960 · 0/ч"],
-            ["Сталь & руда", "420 · −45/ч"],
-            ["Рыба", "3 420 · +240/ч"],
-            ["Молоко", "локация строится"],
-          ]),
-          "lg:col-span-3"
-        ),
-        block(
-          "Узлы двора",
-          "Карточки локаций без карты.",
-          rows([
-            ["Дубовая лесопилка Lv11", "собрать"],
-            ["Каменоломня", "собрать"],
-            ["Рудник", "собрать"],
-            ["Сады Lv9", "собрать урожай"],
-            ["Рыбацкий стан Lv10", "собрать"],
-            ["Дом Хранителя & цех", "войти"],
-          ]) +
-            `<div class="wf-tags"><button type="button" class="wf-cta" id="btn-collect-all">Собрать со всех</button><button type="button" class="wf-cta" id="collect-all-btn">Собрать со всех узлов</button><button type="button" class="wf-cta ghost" id="btn-distribute">Распределить</button></div>`,
-          "lg:col-span-6"
-        ),
-        block(
-          "Действия двора",
-          "Нижняя панель · без подвала сайта.",
-          `<div id="farmSideActions" class="wf-tags" style="flex-direction:column;align-items:stretch">
-<button type="button" class="wf-cta" id="farm-action-collect" data-farm-action="collect">Собрать</button>
-<button type="button" class="wf-cta ghost" id="farm-action-plant" data-farm-action="plant">Посадить</button>
-<button type="button" class="wf-cta ghost" id="farm-action-hire" data-farm-action="hire">Нанять</button>
-<button type="button" class="wf-cta ghost" id="farm-action-repair" data-farm-action="repair">Починить</button>
-<button type="button" class="wf-cta ghost" id="farm-action-sell" data-farm-action="sell">Продать</button>
-<button type="button" class="wf-cta ghost" id="farm-action-market" data-farm-action="market">Рынок</button>
-<button type="button" class="wf-cta muted" id="farm-action-autofarm" data-farm-action="autofarm">Автоферма</button>
-<button type="button" class="wf-cta muted" id="farm-action-distribute" data-farm-action="distribute">Распределить</button>
-</div>`,
-          "lg:col-span-3"
-        ),
-      ].join("\n")
-    ),
+  // craft + soon_farm restored as painted forms — do not regenerate wireframes
 };
 
 function chatPage(title, lead) {
