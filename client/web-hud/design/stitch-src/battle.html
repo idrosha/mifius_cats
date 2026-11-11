@@ -1,519 +1,77 @@
-<!DOCTYPE html><html class="dark" lang="ru" style=""><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@500;600;700&amp;family=Rubik:wght@600;700;800&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"on-secondary-fixed":"#002106","on-primary-container":"#523700","on-surface":"#eae1db","on-tertiary-fixed-variant":"#8d1607","surface-variant":"#393430","primary-fixed-dim":"#fdba45","tertiary-container":"#ff826c","on-primary":"#432c00","on-primary-fixed-variant":"#604100","on-error-container":"#ffdad6","on-error":"#690005","on-secondary-fixed-variant":"#00531b","surface-bright":"#3d3835","error-container":"#93000a","outline":"#9d8f7b","on-secondary":"#003910","on-tertiary-container":"#7c0a00","tertiary-fixed":"#ffdad4","on-surface-variant":"#d5c4af","secondary-fixed-dim":"#89d98c","surface-container-highest":"#393430","surface-tint":"#fdba45","background":"#161310","surface-container-high":"#2e2926","tertiary-fixed-dim":"#ffb4a6","primary-container":"#d99b26","inverse-on-surface":"#342f2c","surface-container-lowest":"#110d0b","on-background":"#eae1db","error":"#ffb4ab","on-secondary-container":"#82d186","on-primary-fixed":"#281900","surface":"#161310","surface-dim":"#161310","on-tertiary-fixed":"#3f0300","inverse-surface":"#eae1db","tertiary":"#ffb4a6","secondary-container":"#005b1e","surface-container-low":"#1f1b18","inverse-primary":"#7f5700","secondary-fixed":"#a4f6a6","secondary":"#89d98c","surface-container":"#231f1c","on-tertiary":"#660700","primary-fixed":"#ffdeae","outline-variant":"#504535","primary":"#fdba45"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"space-xs":"0.25rem","space-lg":"1rem","gutter-tablet":"1rem","space-xl":"1.5rem",margin:"1rem","space-md":"0.75rem",gutter:"0.75rem","space-sm":"0.5rem","margin-tablet":"1.5rem"},fontFamily:{"headline-lg":["Rubik"],"body-sm":["Nunito Sans"],"body-lg":["Nunito Sans"],"headline-md":["Rubik"],"stat-numeral":["Rubik"],"label-lg":["Rubik"],"headline-xl-mobile":["Rubik"],"headline-lg-mobile":["Rubik"],"label-md":["Rubik"],"headline-xl":["Rubik"],"body-md":["Nunito Sans"],"label-sm":["Rubik"]},fontSize:{"headline-lg":["26px",{lineHeight:"32px",fontWeight:"700"}],"body-sm":["12px",{lineHeight:"16px",fontWeight:"500"}],"body-lg":["16px",{lineHeight:"22px",fontWeight:"600"}],"headline-md":["18px",{lineHeight:"24px",fontWeight:"600"}],"stat-numeral":["20px",{lineHeight:"20px",fontWeight:"800"}],"label-lg":["14px",{lineHeight:"18px",fontWeight:"700"}],"headline-xl-mobile":["28px",{lineHeight:"34px",fontWeight:"800"}],"headline-lg-mobile":["22px",{lineHeight:"28px",fontWeight:"700"}],"label-md":["12px",{lineHeight:"16px",fontWeight:"600"}],"headline-xl":["36px",{lineHeight:"44px",fontWeight:"800"}],"body-md":["14px",{lineHeight:"20px",fontWeight:"500"}],"label-sm":["10px",{lineHeight:"12px",fontWeight:"700"}]}}}};</script></head><body class="bg-background font-body-md text-on-surface antialiased min-h-screen flex flex-col justify-between selection:bg-primary selection:text-on-primary h-screen overflow-hidden"><header class="fixed top-0 left-0 w-full z-50 bg-surface-container-low/95 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.65)]"><div class="h-20 w-full px-space-lg flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-lg shrink-0"><div class="flex items-center gap-space-sm"><span class="font-headline-lg text-headline-lg tracking-wider text-primary select-none">МИФИУС</span><div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-full bg-surface-container-high"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span class="font-label-sm text-label-sm text-secondary">24ms</span></div></div><div class="h-8 w-px bg-surface-container-highest"></div><nav class="flex items-center gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-label-md rounded-lg shadow-[0_0_12px_rgba(217,155,38,0.35)]"><a class="px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all select-none" data-path="glavnyj-khab" href="#">Главный Хаб</a><a class="px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all select-none" data-path="boi" href="#">Бои</a><a class="px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all select-none" data-path="torgovlya" href="#">Торговля</a><a class="px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all select-none" data-path="gildii" href="#">Гильдии</a><a class="px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all select-none" data-path="chaty" href="#">Чаты</a><a class="px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all select-none" data-path="pass" href="#">Пасс</a><a class="px-space-md py-space-sm rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all select-none" data-path="rejtingi" href="#">Рейтинги</a></nav></div><div class="flex items-center gap-space-lg shrink-0"><div class="flex items-center gap-space-sm bg-surface-container-lowest/80 px-space-md py-space-xs rounded-xl shadow-inner"><div class="flex items-center gap-space-xs px-space-xs"><span class="material-symbols-outlined text-primary text-[20px]">monetization_on</span><span class="font-stat-numeral text-body-lg text-primary-fixed">148,250</span></div><div class="w-px h-5 bg-surface-container-highest"></div><div class="flex items-center gap-space-xs px-space-xs"><span class="material-symbols-outlined text-tertiary text-[20px]">set_meal</span><span class="font-stat-numeral text-body-lg text-tertiary-fixed">920</span></div><div class="w-px h-5 bg-surface-container-highest"></div><div class="flex items-center gap-space-xs px-space-xs"><span class="material-symbols-outlined text-secondary text-[20px]">bolt</span><span class="font-stat-numeral text-body-lg text-secondary-fixed">85<span class="font-body-sm text-body-sm text-on-surface-variant">/100</span></span></div><div class="w-px h-5 bg-surface-container-highest"></div><div class="flex items-center gap-space-xs px-space-xs"><span class="material-symbols-outlined text-primary-fixed-dim text-[20px]">diamond</span><span class="font-stat-numeral text-body-lg text-primary-fixed-dim">420</span></div></div><div class="flex items-center gap-space-md pl-space-xs"><div class="flex flex-col text-right"><span class="font-label-md text-label-md text-on-surface leading-tight">Хранитель очага</span><span class="font-label-sm text-label-sm text-primary">Ур. 48</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-[0_0_10px_rgba(253,186,69,0.3)]"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div></header><main class="w-full pt-20 pb-14 min-h-screen bg-background relative flex-1 overflow-hidden"><div class="flex flex-col w-full select-none text-on-surface">
-<!-- BATTLEFIELD MAIN CONTAINER -->
-<div class="relative w-full h-[calc(100vh-8.5rem)] flex flex-col justify-between overflow-hidden bg-surface-container-lowest">
-<!-- SUBTLE ARENA RADIAL GLOW & COBBLESTONE AMBIENCE -->
-<div class="absolute inset-0 pointer-events-none overflow-hidden z-0"><img src="/stitch-ref/e608/battle.png" alt="Рудники Мяу-Кары Арена" class="w-full h-full object-cover"></div>
+<!DOCTYPE html>
+<html class="dark" lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Бой — Мифиус · wireframe</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{surface:"#161310","on-surface":"#eae1db","surface-container":"#231f1c","surface-container-high":"#2e2926","surface-container-low":"#1f1b18",primary:"#fdba45","on-primary":"#281900",outline:"#9d8f7b","outline-variant":"#504535","on-surface-variant":"#d5c4af"}}}}}</script>
+<style>
+html,body{margin:0;padding:0;height:100%;background:#161310;color:#eae1db;font-family:system-ui,sans-serif}
+.wf{display:flex;flex-direction:column;height:100%;min-height:100%;gap:0;padding:0;box-sizing:border-box}
+.wf-head{display:flex;align-items:flex-end;justify-content:space-between;gap:.75rem;padding:.75rem 1rem;border-bottom:1px solid #504535;background:#1f1b18;flex:0 0 auto}
+.wf-head h1{margin:0;font-size:1.35rem;font-weight:800;color:#fdba45}
+.wf-head p{margin:.15rem 0 0;font-size:.8rem;color:#d5c4af}
+.wf-eyebrow{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:#fdba45;font-weight:700}
+.wf-body{flex:1 1 auto;min-height:0;display:grid;gap:.6rem;padding:.6rem;box-sizing:border-box}
+.wf-block{border:1px solid #504535;background:#231f1c;border-radius:.5rem;padding:.65rem .75rem;display:flex;flex-direction:column;gap:.4rem;min-height:0}
+.wf-block h2{margin:0;font-size:.8rem;font-weight:700;color:#fdba45;text-transform:uppercase;letter-spacing:.06em}
+.wf-block .hint{font-size:.7rem;color:#9d8f7b}
+.wf-row{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.35rem .45rem;border:1px solid #393430;border-radius:.35rem;background:#1f1b18;font-size:.78rem}
+.wf-grid{display:grid;gap:.4rem;min-height:0;overflow:auto;flex:1}
+.wf-cta{display:inline-flex;align-items:center;justify-content:center;gap:.35rem;padding:.45rem .8rem;border-radius:.4rem;border:1px solid #fdba45;background:#d99b26;color:#1a1308;font-weight:800;font-size:.8rem;cursor:pointer}
+.wf-cta.ghost{background:transparent;color:#fdba45}
+.wf-cta.muted{border-color:#504535;background:#2e2926;color:#eae1db}
+.wf-tags{display:flex;flex-wrap:wrap;gap:.35rem}
+.wf-tag{font-size:.65rem;padding:.15rem .4rem;border:1px solid #504535;border-radius:.25rem;color:#d5c4af}
+.wf-fill{flex:1;min-height:0}
+</style>
+</head>
+<body>
 
-<!-- 1. TOP COMBAT HEADER HUD -->
-<div class="relative z-20 w-full px-space-lg pt-space-xs flex items-center justify-between gap-space-md">
-<!-- TURN INITIATIVE STRIP -->
-<div class="flex items-center gap-space-sm bg-surface-container-low/90 backdrop-blur-md px-space-md py-1.5 rounded-xl shadow-md">
-<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Очередь:</span>
-<div class="flex items-center gap-1.5">
-<!-- Active Unit 1 -->
-<div class="relative w-7 h-7 rounded-full bg-primary/20 flex items-center justify-center ring-2 ring-primary shadow-[0_0_10px_rgba(253,186,69,0.5)]">
-<span class="material-symbols-outlined text-[15px] text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">shield</span>
-<span class="absolute -bottom-1 -right-1 font-label-sm text-[9px] px-1 bg-primary text-on-primary rounded-full leading-none font-bold">1</span>
-</div>
-<!-- Unit 2 -->
-<div class="w-6 h-6 rounded-full bg-surface-container-high flex items-center justify-center opacity-85">
-<span class="material-symbols-outlined text-[13px] text-tertiary">swords</span>
-</div>
-<!-- Unit 3 Enemy -->
-<div class="w-6 h-6 rounded-full bg-surface-container-high flex items-center justify-center opacity-85">
-<span class="material-symbols-outlined text-[13px] text-error">sports_martial_arts</span>
-</div>
-<!-- Unit 4 -->
-<div class="w-6 h-6 rounded-full bg-surface-container-high flex items-center justify-center opacity-65">
-<span class="material-symbols-outlined text-[13px] text-secondary">eco</span>
-</div>
-<!-- Unit 5 Enemy -->
-<div class="w-6 h-6 rounded-full bg-surface-container-high flex items-center justify-center opacity-45">
-<span class="material-symbols-outlined text-[13px] text-error">pets</span>
-</div>
-</div>
-</div>
-<!-- ROUND / PHASE & TURN TIMER -->
-<div class="flex items-center gap-space-md">
-<!-- Chapter / Wave Pill -->
-<div class="flex items-center gap-space-xs px-space-md py-1 rounded-full bg-surface-container-high/80 text-on-surface-variant font-label-sm text-label-sm">
-<span class="text-primary font-bold">ГЛАВА III</span>
-<span class="text-outline">•</span>
-<span class="">Узел 3: Рудники Мяу-Кары</span>
-<span class="text-outline">•</span>
-<span class="text-primary-fixed-dim font-bold">Волна 2/3</span>
-</div>
-<!-- Center Phase Indicator -->
-<div class="flex items-center gap-space-sm px-space-lg py-1.5 rounded-full bg-surface-container-low shadow-md">
-<div class="w-2.5 h-2.5 rounded-full bg-secondary animate-ping"></div>
-<span class="font-headline-md text-headline-md text-on-surface tracking-wide">РАУНД 2 · ХОД ИГРОКА</span>
-</div>
-<!-- Turn Countdown -->
-<div class="flex items-center gap-1.5 px-space-md py-1.5 rounded-xl bg-surface-container-low text-primary shadow-inner">
-<span class="material-symbols-outlined text-[18px] animate-spin text-primary">timelapse</span>
-<span class="font-stat-numeral text-stat-numeral font-bold tracking-tight">0:18</span>
-</div>
-</div>
-<!-- SPEED, AUTO & BATTLE CONTROLS -->
-<div class="flex items-center gap-space-xs">
-<button class="flex items-center justify-center h-8 px-space-sm rounded-lg bg-surface-container-high text-primary hover:bg-surface-container-highest transition-colors font-label-md text-label-md" type="button">
-<span class="font-bold">x2</span>
-</button>
-<button class="flex items-center justify-center w-8 h-8 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors" title="Автобой" type="button">
-<span class="material-symbols-outlined text-[18px]">smart_toy</span>
-</button>
-<button class="flex items-center justify-center w-8 h-8 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-on-surface hover:bg-surface-container-highest transition-colors" title="Пауза" type="button">
-<span class="material-symbols-outlined text-[18px]">pause</span>
-</button>
-<button class="flex items-center justify-center w-8 h-8 rounded-lg bg-surface-container-high text-on-surface-variant hover:text-error hover:bg-surface-container-highest transition-colors" title="Отступить" type="button">
-<span class="material-symbols-outlined text-[18px]">flag</span>
-</button>
-</div>
-</div>
-<!-- 2. BATTLEFIELD COMBAT ARENA (TEAM VS SQUAD) -->
-<div class="relative z-10 w-full flex-1 px-space-lg flex items-center justify-between gap-space-lg py-1">
-<!-- LEFT FLANK: ALLIED TEAM (ОТРЯД «ПЛАМЕННЫЕ КОГТИ») -->
-<div class="flex flex-col gap-2 w-[44%]">
-<!-- Team Label & Synergy Header -->
-<div class="flex items-center justify-between px-space-xs">
-<div class="flex items-center gap-space-xs">
-<span class="w-2.5 h-2.5 rounded-full bg-secondary"></span>
-<span class="font-headline-md text-headline-md text-secondary font-bold tracking-wide uppercase">ОТРЯД ПЛАМЕННЫЕ КОГТИ</span>
-</div>
-<span class="font-label-sm text-label-sm text-primary bg-primary/10 px-space-sm py-0.5 rounded-full">
-            Синергия: Защитная Сталь (+15% брони)
-          </span>
-</div>
-<!-- 3 Allied Fighters Slots -->
-<div class="grid grid-cols-3 gap-3 items-end">
-<!-- SLOT 3: ТЫЛ - Мурка Речная (Лекарь) -->
-<div class="relative flex flex-col rounded-xl bg-surface-container-low p-2 shadow-lg hover:shadow-xl transition-all">
-<div class="flex items-center justify-between mb-1">
-<span class="font-label-sm text-label-sm text-secondary flex items-center gap-0.5">
-<span class="material-symbols-outlined text-[13px]">shield_with_house</span> Тыл
-              </span>
-<span class="font-label-sm text-[11px] text-on-surface-variant truncate">Мурка</span>
-</div>
-<!-- Unit Artwork Frame -->
-<div class="relative w-full aspect-[4/5] rounded-lg overflow-hidden bg-surface-container-high mb-2">
-<img class="w-full h-full object-cover" data-alt="A magical white cat healer sitting in a mossy fantasy cavern, adorned in druidic glowing emerald vines and glowing dew drops, storybook fantasy digital art style, soft amber and teal lighting" src="/stitch-assets/bc6d7601aeba.jpg">
-<div class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-surface-container-lowest/80 text-[10px] text-secondary font-bold flex items-center gap-0.5">
-<span class="material-symbols-outlined text-[11px]">local_pharmacy</span> Саппорт
-              </div>
-</div>
-<!-- Health Bar & Values -->
-<div class="flex flex-col gap-1">
-<div class="flex justify-between items-center font-label-sm text-label-sm">
-<span class="text-on-surface-variant text-[11px]">ЗДОР</span>
-<span class="text-secondary font-stat-numeral text-body-sm font-bold">820 / 820</span>
-</div>
-<div class="w-full h-2 rounded-full bg-surface-container-lowest overflow-hidden">
-<div class="h-full bg-gradient-to-r from-secondary-container to-secondary w-full"></div>
-</div>
-<div class="flex items-center gap-1 mt-0.5">
-<span class="text-[10px] px-1.5 py-0.5 rounded bg-secondary/15 text-secondary font-semibold">Реген +45</span>
-<span class="text-[10px] px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface-variant">Мана 100%</span>
-</div>
-</div>
-</div>
-<!-- SLOT 2: ЦЕНТР - Рыжик Огнегрив (Берсерк) -->
-<div class="relative flex flex-col rounded-xl bg-surface-container-low p-2 shadow-lg hover:shadow-xl transition-all">
-<div class="flex items-center justify-between mb-1">
-<span class="font-label-sm text-label-sm text-primary flex items-center gap-0.5">
-<span class="material-symbols-outlined text-[13px]">bolt</span> Центр
-              </span>
-<span class="font-label-sm text-[11px] text-on-surface-variant truncate">Рыжик</span>
-</div>
-<!-- Unit Artwork Frame -->
-<div class="relative w-full aspect-[4/5] rounded-lg overflow-hidden bg-surface-container-high mb-2">
-<img class="w-full h-full object-cover" data-alt="A fierce ginger warrior cat with blazing fur holding dual electrified daggers, lit by roaring tavern flames, epic feline hero portrait, storybook warm palette" src="/stitch-assets/2559cfd45d77.jpg">
-<div class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-surface-container-lowest/80 text-[10px] text-tertiary-container font-bold flex items-center gap-0.5">
-<span class="material-symbols-outlined text-[11px]">local_fire_department</span> Ярость II
-              </div>
-</div>
-<!-- Health Bar & Values -->
-<div class="flex flex-col gap-1">
-<div class="flex justify-between items-center font-label-sm text-label-sm">
-<span class="text-on-surface-variant text-[11px]">ЗДОР</span>
-<span class="text-on-surface font-stat-numeral text-body-sm font-bold">640 / 750</span>
-</div>
-<div class="w-full h-2 rounded-full bg-surface-container-lowest overflow-hidden">
-<div class="h-full bg-gradient-to-r from-primary-container to-primary w-[85%]"></div>
-</div>
-<div class="flex items-center gap-1 mt-0.5">
-<span class="text-[10px] px-1.5 py-0.5 rounded bg-tertiary-container/20 text-tertiary font-semibold">Крит +34%</span>
-<span class="text-[10px] px-1.5 py-0.5 rounded bg-primary/20 text-primary">Комбо ••</span>
-</div>
-</div>
-</div>
-<!-- SLOT 1: АВАНГАРД - Барсик Громовержец (ФОКУС / АКТИВЕН) -->
-<div class="relative flex flex-col rounded-xl bg-surface-container p-2.5 shadow-2xl scale-[1.03] ring-2 ring-primary ring-offset-2 ring-offset-background transition-all">
-<!-- Active Ribbon -->
-<div class="absolute -top-3 left-1/2 -translate-x-1/2 px-2.5 py-0.5 rounded-full bg-primary text-on-primary font-label-sm text-[10px] uppercase font-bold tracking-wide shadow-md flex items-center gap-1">
-<span class="material-symbols-outlined text-[12px]">security</span> АВАНГАРД (ХОД)
-            </div>
-<div class="flex items-center justify-between mb-1 mt-1">
-<span class="font-label-sm text-label-sm text-primary flex items-center gap-0.5">
-<span class="material-symbols-outlined text-[13px]">shield</span> Барсик
-              </span>
-<span class="px-1.5 py-0.2 rounded bg-primary/20 text-primary text-[10px] font-bold">Провокация</span>
-</div>
-<!-- Unit Artwork Frame -->
-<div class="relative w-full aspect-[4/5] rounded-lg overflow-hidden bg-surface-container-high mb-2">
-<img class="w-full h-full object-cover" data-alt="A heavily armored tabby cat knight holding a massive engraved tower shield and runic thunder warhammer, standing firm in a dark stone mine shaft illuminated by sparks and amber glow" src="/stitch-assets/e50b7b791c99.jpg">
-<div class="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent"></div>
-<div class="absolute bottom-1 left-1 flex items-center gap-1">
-<span class="px-1.5 py-0.5 rounded bg-primary text-on-primary text-[10px] font-bold flex items-center gap-0.5">
-<span class="material-symbols-outlined text-[11px]">bolt</span> Громовой Страж
-                </span>
-</div>
-</div>
-<!-- Shield & Health Meters -->
-<div class="flex flex-col gap-1.5">
-<!-- Shield Bar -->
-<div class="flex flex-col gap-0.5">
-<div class="flex justify-between items-center font-label-sm text-[11px]">
-<span class="text-primary flex items-center gap-0.5">
-<span class="material-symbols-outlined text-[12px]">shield</span> ЩИТ
-                  </span>
-<span class="text-primary font-stat-numeral text-[12px] font-bold">450 / 450</span>
-</div>
-<div class="w-full h-1.5 rounded-full bg-surface-container-lowest overflow-hidden">
-<div class="h-full bg-gradient-to-r from-primary-container to-primary w-full shadow-[0_0_8px_rgba(253,186,69,0.5)]"></div>
-</div>
-</div>
-<!-- Health Bar -->
-<div class="flex flex-col gap-0.5">
-<div class="flex justify-between items-center font-label-sm text-[11px]">
-<span class="text-on-surface-variant">ЗДОР</span>
-<span class="text-secondary font-stat-numeral text-[12px] font-bold">1,180 / 1,350</span>
-</div>
-<div class="w-full h-2 rounded-full bg-surface-container-lowest overflow-hidden">
-<div class="h-full bg-gradient-to-r from-secondary-container to-secondary w-[87%]"></div>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- CENTER ARENA: ENGAGEMENT BADGE & DISTANCE RADAR -->
-<div class="flex flex-col items-center justify-center shrink-0 w-[12%] px-2">
-<div class="relative flex items-center justify-center w-14 h-14 rounded-full bg-surface-container-high border-2 border-primary/40 shadow-xl">
-<div class="absolute inset-0 rounded-full animate-ping opacity-20 bg-primary"></div>
-<span class="material-symbols-outlined text-[26px] text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">swords</span>
-</div>
-<div class="mt-2 text-center flex flex-col items-center">
-<span class="font-label-sm text-[11px] text-outline uppercase tracking-wider">Дистанция боя</span>
-<span class="font-headline-md text-body-lg text-primary font-bold">Ближний Стык</span>
-<span class="mt-1 px-2 py-0.5 rounded-full bg-error-container/40 text-tertiary font-label-sm text-[10px] flex items-center gap-0.5">
-<span class="material-symbols-outlined text-[10px]">adjust</span> Цель: Командир
-          </span>
-</div>
-</div>
-<!-- RIGHT FLANK: ENEMY FACTION (СВОРА БУЛЬДОЗЕРА / РУДНИКИ) -->
-<div class="flex flex-col gap-2 w-[44%]">
-<!-- Enemy Header & Info -->
-<div class="flex items-center justify-between px-space-xs">
-<span class="font-label-sm text-label-sm text-error bg-error-container/20 px-space-sm py-0.5 rounded-full">
-            Угроза: Ур. 44 • Псы Пустоши
-          </span>
-<div class="flex items-center gap-space-xs">
-<span class="font-headline-md text-headline-md text-error font-bold tracking-wide uppercase">СВОРА БУЛЬДОЗЕРА</span>
-<span class="w-2.5 h-2.5 rounded-full bg-error"></span>
-</div>
-</div>
-<!-- 3 Enemy Fighter Slots -->
-<div class="grid grid-cols-3 gap-3 items-end">
-<!-- ENEMY 1: АВАНГАРД - Пёс-Бронелоб (TARGETED) -->
-<div class="relative flex flex-col rounded-xl bg-surface-container p-2.5 shadow-2xl scale-[1.03] ring-2 ring-error ring-offset-2 ring-offset-background transition-all">
-<!-- Target Banner -->
-<div class="absolute -top-3 left-1/2 -translate-x-1/2 px-2 py-0.5 rounded-full bg-error text-on-error font-label-sm text-[10px] uppercase font-bold tracking-wide shadow-md flex items-center gap-1">
-<span class="material-symbols-outlined text-[11px]">question_mark</span> АВАНГАРД • ЦЕЛЬ
-            </div>
-<div class="flex items-center justify-between mb-1 mt-1">
-<span class="font-label-sm text-label-sm text-error font-bold truncate">Пёс-Бронелоб</span>
-<span class="px-1 py-0.2 rounded bg-tertiary-container/30 text-tertiary text-[9px] font-bold">Латник</span>
-</div>
-<!-- Enemy Portrait Frame -->
-<div class="relative w-full aspect-[4/5] rounded-lg overflow-hidden bg-surface-container-high mb-2">
-<img class="w-full h-full object-cover" data-alt="A grim bulldoggish mercenary clad in heavy spiked iron plate armor gripping a two-handed iron flail, dark fantasy stone mine dungeon background with ember sparks" src="/stitch-assets/8332addfd4fd.jpg">
-<div class="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent"></div>
-<div class="absolute bottom-1 left-1">
-<span class="px-1.5 py-0.5 rounded bg-error-container text-tertiary-fixed text-[10px] font-bold">
-                  Уязвимость к грозе
-                </span>
-</div>
-</div>
-<!-- Armor & Health Bars -->
-<div class="flex flex-col gap-1.5">
-<!-- Armor -->
-<div class="flex flex-col gap-0.5">
-<div class="flex justify-between items-center font-label-sm text-[11px]">
-<span class="text-outline">БРОНЯ</span>
-<span class="text-on-surface-variant font-stat-numeral text-[12px] font-bold">320 / 500</span>
-</div>
-<div class="w-full h-1.5 rounded-full bg-surface-container-lowest overflow-hidden">
-<div class="h-full bg-outline-variant w-[64%]"></div>
-</div>
-</div>
-<!-- Health -->
-<div class="flex flex-col gap-0.5">
-<div class="flex justify-between items-center font-label-sm text-[11px]">
-<span class="text-on-surface-variant">ЗДОР</span>
-<span class="text-tertiary font-stat-numeral text-[12px] font-bold">1,350 / 1,700</span>
-</div>
-<div class="w-full h-2 rounded-full bg-surface-container-lowest overflow-hidden">
-<div class="h-full bg-gradient-to-r from-error-container to-error w-[79%]"></div>
-</div>
-</div>
-</div>
-</div>
-<!-- ENEMY 2: ЦЕНТР - Пёс-Гвардеец с секирой -->
-<div class="relative flex flex-col rounded-xl bg-surface-container-low p-2 shadow-lg hover:shadow-xl transition-all">
-<div class="flex items-center justify-between mb-1">
-<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-0.5">
-<span class="material-symbols-outlined text-[13px]">hardware</span> Центр
-              </span>
-<span class="font-label-sm text-[11px] text-on-surface-variant truncate">Гвардеец</span>
-</div>
-<!-- Enemy Portrait Frame -->
-<div class="relative w-full aspect-[4/5] rounded-lg overflow-hidden bg-surface-container-high mb-2">
-<img class="w-full h-full object-cover" data-alt="A snarling wolf-hound warrior with an executioner battleaxe leaning forward in a dimly lit dwarven mine, red warpaint on armor" src="/stitch-assets/33deff9fab1e.jpg">
-</div>
-<!-- Health Bar -->
-<div class="flex flex-col gap-1">
-<div class="flex justify-between items-center font-label-sm text-label-sm">
-<span class="text-on-surface-variant text-[11px]">ЗДОР</span>
-<span class="text-tertiary font-stat-numeral text-body-sm font-bold">620 / 850</span>
-</div>
-<div class="w-full h-2 rounded-full bg-surface-container-lowest overflow-hidden">
-<div class="h-full bg-gradient-to-r from-error-container to-error w-[73%]"></div>
-</div>
-<div class="flex items-center gap-1 mt-0.5">
-<span class="text-[10px] px-1.5 py-0.5 rounded bg-surface-container-high text-tertiary font-semibold">Залп: 180 УРН</span>
-</div>
-</div>
-</div>
-<!-- ENEMY 3: ТЫЛ - Шаман Костяных Псов -->
-<div class="relative flex flex-col rounded-xl bg-surface-container-low p-2 shadow-lg hover:shadow-xl transition-all">
-<div class="flex items-center justify-between mb-1">
-<span class="font-label-sm text-label-sm text-on-surface-variant flex items-center gap-0.5">
-<span class="material-symbols-outlined text-[13px]">cyclone</span> Тыл
-              </span>
-<span class="font-label-sm text-[11px] text-on-surface-variant truncate">Шаман</span>
-</div>
-<!-- Enemy Portrait Frame -->
-<div class="relative w-full aspect-[4/5] rounded-lg overflow-hidden bg-surface-container-high mb-2">
-<img class="w-full h-full object-cover" data-alt="An ancient wrinkled hound shaman draped in bone charms, glowing purple runes and smoking incense braziers in an underground crypt cavern" src="/stitch-assets/4dc276ebf6d1.jpg">
-</div>
-<!-- Health Bar -->
-<div class="flex flex-col gap-1">
-<div class="flex justify-between items-center font-label-sm text-label-sm">
-<span class="text-on-surface-variant text-[11px]">ЗДОР</span>
-<span class="text-tertiary font-stat-numeral text-body-sm font-bold">540 / 650</span>
-</div>
-<div class="w-full h-2 rounded-full bg-surface-container-lowest overflow-hidden">
-<div class="h-full bg-gradient-to-r from-error-container to-error w-[83%]"></div>
-</div>
-<div class="flex items-center gap-1 mt-0.5">
-<span class="text-[10px] px-1.5 py-0.5 rounded bg-surface-container-high text-on-surface-variant font-semibold">Тотем Яда 2/2</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- 3. BOTTOM CONTROL HUD & CARD HAND DECK TRAY -->
-<div class="relative z-30 w-full bg-surface-container-low border-t border-surface-container-highest px-space-lg py-space-sm shadow-[0_-8px_24px_rgba(0,0,0,0.7)]">
-<div class="w-full flex items-center justify-between gap-space-lg">
-<!-- LEFT CONTROL CLUSTER: ORBS, MILK, & COOLDOWNS -->
-<div class="flex flex-col gap-2 shrink-0 w-52 bg-surface-container-lowest/80 p-space-sm rounded-xl">
-<!-- Energy Orbs Counter -->
-<div class="flex items-center justify-between">
-<span class="font-label-sm text-label-sm text-outline flex items-center gap-1 uppercase tracking-wider">
-<span class="material-symbols-outlined text-[15px] text-primary">bolt</span> Орбы Энергии
-            </span>
-<span class="font-stat-numeral text-headline-md text-primary font-bold">3 <span class="text-outline text-body-sm">/ 4</span></span>
-</div>
-<!-- Energy Orbs Indicators -->
-<div class="flex items-center gap-1.5">
-<div class="w-7 h-7 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-[0_0_8px_rgba(253,186,69,0.7)] animate-pulse">
-<span class="material-symbols-outlined text-[17px]">bolt</span>
-</div>
-<div class="w-7 h-7 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-[0_0_8px_rgba(253,186,69,0.7)]">
-<span class="material-symbols-outlined text-[17px]">bolt</span>
-</div>
-<div class="w-7 h-7 rounded-full bg-primary-container text-on-primary flex items-center justify-center shadow-[0_0_8px_rgba(253,186,69,0.7)]">
-<span class="material-symbols-outlined text-[17px]">bolt</span>
-</div>
-<div class="w-7 h-7 rounded-full bg-surface-container-high flex items-center justify-center opacity-40">
-<span class="material-symbols-outlined text-[16px] text-outline">circle</span>
-</div>
-</div>
-<!-- Tavern Supplies: Milk Flasks & Tokens -->
-<div class="pt-1 flex items-center justify-between text-[11px] text-on-surface-variant border-t border-surface-container-high/60">
-<div class="flex items-center gap-1">
-<span class="material-symbols-outlined text-[15px] text-tertiary">water_bottle</span>
-<span class="font-bold text-on-surface">2</span> бут. молока
-            </div>
-<div class="flex items-center gap-2">
-<span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[13px] text-primary">style</span> 14</span>
-<span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[13px] text-outline">history_edu</span> 6</span>
-</div>
-</div>
-</div>
-<!-- CENTER TRAY: 4 ACTION CARDS (РУКА КАРТ ИГРОКА) -->
-<div class="flex-1 flex items-center justify-center gap-space-sm max-w-4xl">
-<!-- CARD 1: «Громовой Выпад» (Барсик) -->
-<div class="group relative flex-1 max-w-[210px] bg-surface-container rounded-xl p-2 cursor-pointer shadow-lg hover:-translate-y-2 hover:shadow-[0_0_20px_rgba(253,186,69,0.4)] transition-all duration-200">
-<!-- Cost & Type Tag Header -->
-<div class="flex items-center justify-between mb-1.5">
-<div class="w-6 h-6 rounded-md bg-primary-container text-on-primary font-stat-numeral text-label-md flex items-center justify-center font-black shadow-sm">
-                2
-              </div>
-<span class="font-label-sm text-[10px] text-primary bg-primary/10 px-1.5 py-0.5 rounded">
-                Урон • Молния
-              </span>
-</div>
-<!-- Artwork Thumbnail -->
-<div class="relative w-full h-24 rounded-lg overflow-hidden bg-surface-container-high mb-1.5">
-<img class="w-full h-full object-cover" data-alt="Crackling lightning bolts striking down on an ancient mine arena floor, electric discharge illuminating stone ruins, warm amber and electric blue tones" src="/stitch-assets/bac97bfe0809.jpg">
-</div>
-<!-- Title & Description Block -->
-<div class="flex flex-col">
-<span class="font-headline-md text-body-md text-on-surface font-bold leading-tight truncate">Громовой Выпад</span>
-<p class="font-body-sm text-[11px] text-on-surface-variant line-clamp-2 mt-0.5 leading-snug">
-                Наносит <span class="text-primary font-bold">240</span> урона цели. Накладывает <span class="text-primary font-bold">Шок</span> (-20% брони).
-              </p>
-<div class="mt-1.5 pt-1 border-t border-surface-container-high/60 flex items-center justify-between text-[10px] text-outline">
-<span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[11px]">shield</span> Барсик</span>
-<span class="text-primary">Готова</span>
-</div>
-</div>
-</div>
-<!-- CARD 2: «Огненный Щит» (Барсик) -->
-<div class="group relative flex-1 max-w-[210px] bg-surface-container rounded-xl p-2 cursor-pointer shadow-lg hover:-translate-y-2 hover:shadow-[0_0_20px_rgba(253,186,69,0.4)] transition-all duration-200">
-<div class="flex items-center justify-between mb-1.5">
-<div class="w-6 h-6 rounded-md bg-primary-container text-on-primary font-stat-numeral text-label-md flex items-center justify-center font-black shadow-sm">
-                1
-              </div>
-<span class="font-label-sm text-[10px] text-primary bg-primary/10 px-1.5 py-0.5 rounded">
-                Щит • Огонь
-              </span>
-</div>
-<div class="relative w-full h-24 rounded-lg overflow-hidden bg-surface-container-high mb-1.5">
-<img class="w-full h-full object-cover" data-alt="A round bronze shield enveloped in warm crackling hearth fire protecting a brave cat warrior from flying arrows in tavern dungeon, fantasy storybook style" src="/stitch-assets/30c236fb088a.jpg">
-</div>
-<div class="flex flex-col">
-<span class="font-headline-md text-body-md text-on-surface font-bold leading-tight truncate">Огненный Щит</span>
-<p class="font-body-sm text-[11px] text-on-surface-variant line-clamp-2 mt-0.5 leading-snug">
-                Дает <span class="text-primary font-bold">+280</span> брони Авангарду. Возвращает <span class="text-tertiary font-bold">50</span> урона при блоке.
-              </p>
-<div class="mt-1.5 pt-1 border-t border-surface-container-high/60 flex items-center justify-between text-[10px] text-outline">
-<span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[11px]">shield</span> Барсик</span>
-<span class="text-primary">Готова</span>
-</div>
-</div>
-</div>
-<!-- CARD 3: «Целебный Мурк» (Мурка Речная) -->
-<div class="group relative flex-1 max-w-[210px] bg-surface-container rounded-xl p-2 cursor-pointer shadow-lg hover:-translate-y-2 hover:shadow-[0_0_20px_rgba(137,217,140,0.4)] transition-all duration-200">
-<div class="flex items-center justify-between mb-1.5">
-<div class="w-6 h-6 rounded-md bg-secondary-container text-secondary font-stat-numeral text-label-md flex items-center justify-center font-black shadow-sm">
-                1
-              </div>
-<span class="font-label-sm text-[10px] text-secondary bg-secondary/10 px-1.5 py-0.5 rounded">
-                Хил • Очищение
-              </span>
-</div>
-<div class="relative w-full h-24 rounded-lg overflow-hidden bg-surface-container-high mb-1.5">
-<img class="w-full h-full object-cover" data-alt="A mystical crystal bottle filled with glowing green herbal nectar resting on lush moss inside a fantasy cavern, gentle radiant sparkles" src="/stitch-assets/c790ee9c25b7.jpg">
-</div>
-<div class="flex flex-col">
-<span class="font-headline-md text-body-md text-on-surface font-bold leading-tight truncate">Целебный Мурк</span>
-<p class="font-body-sm text-[11px] text-on-surface-variant line-clamp-2 mt-0.5 leading-snug">
-                Восстанавливает <span class="text-secondary font-bold">320 HP</span> союзнику с наименьшим здоровьем. Снимает 1 дебафф.
-              </p>
-<div class="mt-1.5 pt-1 border-t border-surface-container-high/60 flex items-center justify-between text-[10px] text-outline">
-<span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[11px]">shield_with_house</span> Мурка</span>
-<span class="text-secondary">Готова</span>
-</div>
-</div>
-</div>
-<!-- CARD 4: «Круговой Взмах» (Рыжик Огнегрив) -->
-<div class="group relative flex-1 max-w-[210px] bg-surface-container rounded-xl p-2 cursor-pointer shadow-lg hover:-translate-y-2 hover:shadow-[0_0_20px_rgba(253,186,69,0.4)] transition-all duration-200">
-<div class="flex items-center justify-between mb-1.5">
-<div class="w-6 h-6 rounded-md bg-primary-container text-on-primary font-stat-numeral text-label-md flex items-center justify-center font-black shadow-sm">
-                2
-              </div>
-<span class="font-label-sm text-[10px] text-tertiary bg-tertiary-container/20 px-1.5 py-0.5 rounded">
-                АоЕ • Физический
-              </span>
-</div>
-<div class="relative w-full h-24 rounded-lg overflow-hidden bg-surface-container-high mb-1.5">
-<img class="w-full h-full object-cover" data-alt="A fiery sweeping slash arc trail from a heavy dwarven hammer slicing through dust and stone debris in an underground fortress cavern" src="/stitch-assets/a505295fd509.jpg">
-</div>
-<div class="flex flex-col">
-<span class="font-headline-md text-body-md text-on-surface font-bold leading-tight truncate">Круговой Взмах</span>
-<p class="font-body-sm text-[11px] text-on-surface-variant line-clamp-2 mt-0.5 leading-snug">
-                Наносит <span class="text-tertiary font-bold">160</span> урона всем противникам в строю. Продлевает Провокацию.
-              </p>
-<div class="mt-1.5 pt-1 border-t border-surface-container-high/60 flex items-center justify-between text-[10px] text-outline">
-<span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[11px]">bolt</span> Рыжик</span>
-<span class="text-primary">Готова</span>
-</div>
-</div>
-</div>
-</div>
-<!-- RIGHT ACTION CLUSTER: TURN FINALIZE & CARD PRESERVE -->
-<div class="flex flex-col items-end gap-2 shrink-0 w-60">
-<button class="flex items-center gap-1.5 text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm px-2 py-1 rounded hover:bg-surface-container transition-colors" type="button">
-<span class="material-symbols-outlined text-[16px] text-primary">bookmark</span>
-<span class="">Оставить карты на ход (K)</span>
-</button>
-<!-- BIG PRIMARY ACTION BUTTON -->
-<button class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-b from-primary to-primary-container text-on-primary font-headline-md text-headline-md font-extrabold uppercase tracking-wider shadow-[0_4px_16px_rgba(217,155,38,0.45)] hover:shadow-[0_6px_22px_rgba(253,186,69,0.65)] hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2" id="endTurnBtn" type="button">
-<span class="">ЗАВЕРШИТЬ ХОД</span>
-<span class="material-symbols-outlined text-[22px]" style="font-variation-settings: &quot;FILL&quot; 1;">check_circle</span>
-</button>
-<div class="flex items-center justify-between w-full px-1 text-[11px] text-outline font-label-sm">
-<span class="flex items-center gap-1 text-secondary">
-<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> Готово к атаке: 3 бойца
-            </span>
-<span class="">Авангард активен</span>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- INTERACTION SCRIPT FOR CARDS AND ACTION TRIGGER -->
-<script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const cards = document.querySelectorAll('.max-w-4xl > div');
-      cards.forEach(card => {
-        card.addEventListener('click', () => {
-          cards.forEach(c => c.classList.remove('ring-2', 'ring-primary', 'scale-105'));
-          card.classList.add('ring-2', 'ring-primary', 'scale-105');
-        });
-      });
+<main class="wf" data-purpose="wireframe" data-screen="Бой" >
+<header class="wf-head">
+<div>
+<p class="wf-eyebrow">Shared fight HUD</p>
+<h1>Бой</h1>
+<p>Поле 3v3, HP/энергия, рука карт, таймер. Клиент без combat authority.</p>
+</div>
+<div class="wf-tags"><span class="wf-tag">landscape 16:9</span><span class="wf-tag">блоки без картинок</span><span class="wf-tag">без подвала</span></div>
+</header>
+<div class="wf-body grid-cols-1 lg:grid-cols-12">
+<section class="wf-block lg:col-span-12"><h2>Шапка раунда</h2><p class="hint">РАУНД / энергия / таймер.</p><div class="wf-grid"><div class="wf-row"><span>РАУНД</span><span>1 / ∞</span></div>
+<div class="wf-row"><span>Энергия</span><span>■■■□□</span></div>
+<div class="wf-row"><span>Таймер хода</span><span>0:45</span></div></div></section>
+<section class="wf-block lg:col-span-4"><h2>Союзники</h2><p class="hint">3 юнита + HP bars.</p><div class="wf-grid"><div class="wf-row"><span>Кот A</span><span>HP</span></div>
+<div class="wf-row"><span>Кот B</span><span>HP</span></div>
+<div class="wf-row"><span>Кот C</span><span>HP</span></div></div></section>
+<section class="wf-block lg:col-span-4"><h2>Поле</h2><p class="hint">Центр арены · таргет по строю.</p><div class="wf-fill wf-row" style="justify-content:center;min-height:8rem">ЗОНА БОЯ</div></section>
+<section class="wf-block lg:col-span-4"><h2>Враги</h2><p class="hint">3 юнита + HP bars.</p><div class="wf-grid"><div class="wf-row"><span>Враг A</span><span>HP</span></div>
+<div class="wf-row"><span>Враг B</span><span>HP</span></div>
+<div class="wf-row"><span>Враг C</span><span>HP</span></div></div></section>
+<section class="wf-block lg:col-span-12"><h2>Рука карт</h2><p class="hint">4 карты · drag на цель для backline.</p><div class="wf-grid"><div class="wf-row"><span>Карта 1</span><span>cost</span></div>
+<div class="wf-row"><span>Карта 2</span><span>cost</span></div>
+<div class="wf-row"><span>Карта 3</span><span>cost</span></div>
+<div class="wf-row"><span>Карта 4</span><span>cost</span></div></div><div class="wf-tags"><button type="button" class="wf-cta" id="endTurnBtn">ЗАВЕРШИТЬ ХОД</button><button type="button" class="wf-cta muted" data-hud-action="surrender">Сдаться</button></div></section>
+</div>
+<section class="wf-block" aria-hidden="true" data-purpose="wireframe-pad"><h2>Плотность сетки</h2><p class="hint">Служебные ряды, чтобы форма была заполнена без подвала и дыр.</p><div class="wf-grid"><div class="wf-row" data-pad="Бой-0"><span>Слот макета 1</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Бой-1"><span>Слот макета 2</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Бой-2"><span>Слот макета 3</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Бой-3"><span>Слот макета 4</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Бой-4"><span>Слот макета 5</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Бой-5"><span>Слот макета 6</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Бой-6"><span>Слот макета 7</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Бой-7"><span>Слот макета 8</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Бой-8"><span>Слот макета 9</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Бой-9"><span>Слот макета 10</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Бой-10"><span>Слот макета 11</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Бой-11"><span>Слот макета 12</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Бой-12"><span>Слот макета 13</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Бой-13"><span>Слот макета 14</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Бой-14"><span>Слот макета 15</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Бой-15"><span>Слот макета 16</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Бой-16"><span>Слот макета 17</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Бой-17"><span>Слот макета 18</span><span class="hint">блок заполнения · без пустот</span></div></div></section></main>
 
-      const btn = document.getElementById('endTurnBtn');
-      if (btn) {
-        btn.addEventListener('click', () => {
-          btn.innerHTML = '<span>ХОД ВРАГА...</span><span class="material-symbols-outlined text-[22px] animate-spin">sync</span>';
-          btn.classList.remove('from-primary', 'to-primary-container');
-          btn.classList.add('from-surface-container-high', 'to-surface-container');
-          setTimeout(() => {
-            btn.innerHTML = '<span>ЗАВЕРШИТЬ ХОД</span><span class="material-symbols-outlined text-[22px]">check_circle</span>';
-            btn.classList.remove('from-surface-container-high', 'to-surface-container');
-            btn.classList.add('from-primary', 'to-primary-container');
-          }, 1800);
-        });
-      }
-    });
-  </script>
-</div></main><footer class="fixed bottom-0 left-0 w-full h-14 z-40 bg-surface-container-low/95 backdrop-blur-md shadow-[0_-4px_16px_rgba(0,0,0,0.5)]"><div class="h-full w-full px-space-lg flex items-center justify-between"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-xs text-on-surface-variant"><span class="material-symbols-outlined text-[16px] text-primary">local_fire_department</span><span class="font-label-sm text-label-sm text-on-surface-variant">Таверна «Теплый хвост»</span></div><div class="h-4 w-px bg-surface-container-highest"></div><div class="flex items-center gap-space-md"><span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-space-xs"><kbd class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm">ESC</kbd> Меню</span><span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-space-xs"><kbd class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm">TAB</kbd> Колода</span><span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-space-xs"><kbd class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-label-sm">ПРОБЕЛ</kbd> Ход</span></div></div><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm text-on-surface-variant"><button class="p-space-xs rounded hover:bg-surface-container hover:text-on-surface transition-colors flex items-center justify-center" type="button"><span class="material-symbols-outlined text-[18px]">volume_up</span></button><button class="p-space-xs rounded hover:bg-surface-container hover:text-on-surface transition-colors flex items-center justify-center" type="button"><span class="material-symbols-outlined text-[18px]">settings</span></button><button class="p-space-xs rounded hover:bg-surface-container hover:text-on-surface transition-colors flex items-center justify-center" type="button"><span class="material-symbols-outlined text-[18px]">help</span></button></div><div class="h-4 w-px bg-surface-container-highest"></div><span class="font-label-sm text-label-sm text-outline">v0.9.4-beta (Северный Удел)</span></div></div></footer>
-
-
-</body></html>
+</body>
+</html>
