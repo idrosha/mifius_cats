@@ -3,8 +3,8 @@
     "partId": "part_tank_stone_eyes",
     "slot": "eyes",
     "element": "stone",
-    "cardId": null,
-    "passiveOps": [{ "op": "stat_mod", "stat": "hp", "amount": 5 }],
+    "cardId": "card_tank_stone_eyes",
+    "passiveOps": [],
     "artKey": "part.tank_stone_eyes",
     "rarity": "common"
   },
@@ -12,8 +12,8 @@
     "partId": "part_tank_stone_ears",
     "slot": "ears",
     "element": "stone",
-    "cardId": null,
-    "passiveOps": [{ "op": "stat_mod", "stat": "charm", "amount": 2 }],
+    "cardId": "card_tank_stone_ears",
+    "passiveOps": [],
     "artKey": "part.tank_stone_ears",
     "rarity": "common"
   },

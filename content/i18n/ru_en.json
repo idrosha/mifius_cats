@@ -924,8 +924,8 @@
     "en": "Обычные коты"
   },
   "shop.lead_common": {
-    "ru": "6 классов × 2 варианта = 12 обычных котов · фиксированные киты из 4 карт · за рыбок",
-    "en": "6 classes × 2 variants = 12 ordinary cats · fixed 4-card kits · fish"
+    "ru": "6 классов × 2 варианта = 12 обычных котов · фиксированные киты из 6 карт · за рыбок",
+    "en": "6 classes × 2 variants = 12 ordinary cats · fixed 6-card kits · fish"
   },
   "mythmir.mission_list": {
     "ru": "Список миссий",
@@ -1198,5 +1198,125 @@
   "nav.sub.soon_clan": {
     "ru": "Клан",
     "en": "Clan"
+  },
+  "card.shop_tank_stone_a_eyes": {
+    "ru": "Каменный взор",
+    "en": "Stone Gaze"
+  },
+  "card.shop_tank_stone_a_ears": {
+    "ru": "Уши валуна",
+    "en": "Boulder Ears"
+  },
+  "card.shop_tank_stone_b_eyes": {
+    "ru": "Трещина взора",
+    "en": "Crack Gaze"
+  },
+  "card.shop_tank_stone_b_ears": {
+    "ru": "Чуткость бреши",
+    "en": "Breach Sense"
+  },
+  "card.shop_fighter_fire_a_eyes": {
+    "ru": "Искрящий взгляд",
+    "en": "Spark Gaze"
+  },
+  "card.shop_fighter_fire_a_ears": {
+    "ru": "Боевой слух",
+    "en": "Battle Ear"
+  },
+  "card.shop_fighter_fire_b_eyes": {
+    "ru": "Яростный взор",
+    "en": "Fury Gaze"
+  },
+  "card.shop_fighter_fire_b_ears": {
+    "ru": "Рёв стали",
+    "en": "Steel Roar"
+  },
+  "card.shop_assassin_bolt_a_eyes": {
+    "ru": "Глаза мглы",
+    "en": "Mist Eyes"
+  },
+  "card.shop_assassin_bolt_a_ears": {
+    "ru": "Шёпот ветра",
+    "en": "Wind Whisper"
+  },
+  "card.shop_assassin_bolt_b_eyes": {
+    "ru": "Прицел в спину",
+    "en": "Back Aim"
+  },
+  "card.shop_assassin_bolt_b_ears": {
+    "ru": "Слух поддержки",
+    "en": "Support Ear"
+  },
+  "card.shop_ranger_grass_a_eyes": {
+    "ru": "Глаз добычи",
+    "en": "Prey Eye"
+  },
+  "card.shop_ranger_grass_a_ears": {
+    "ru": "Уши засады",
+    "en": "Ambush Ears"
+  },
+  "card.shop_ranger_grass_b_eyes": {
+    "ru": "Широкий взор",
+    "en": "Wide Gaze"
+  },
+  "card.shop_ranger_grass_b_ears": {
+    "ru": "Дальний слух",
+    "en": "Far Hearing"
+  },
+  "card.shop_mage_fire_a_eyes": {
+    "ru": "Пламенный зрачок",
+    "en": "Ember Pupil"
+  },
+  "card.shop_mage_fire_a_ears": {
+    "ru": "Треск искр",
+    "en": "Spark Crack"
+  },
+  "card.shop_mage_ice_b_eyes": {
+    "ru": "Ледяной взор",
+    "en": "Ice Gaze"
+  },
+  "card.shop_mage_ice_b_ears": {
+    "ru": "Холодный слух",
+    "en": "Cold Hearing"
+  },
+  "card.shop_support_water_a_eyes": {
+    "ru": "Целительный взгляд",
+    "en": "Healing Gaze"
+  },
+  "card.shop_support_water_a_ears": {
+    "ru": "Уши очищения",
+    "en": "Cleanse Ears"
+  },
+  "card.shop_support_water_b_eyes": {
+    "ru": "Вдохновляющий взор",
+    "en": "Inspire Gaze"
+  },
+  "card.shop_support_water_b_ears": {
+    "ru": "Шёпот слабости",
+    "en": "Weakness Whisper"
+  },
+  "card.tank_stone_eyes": {
+    "ru": "Каменный взор",
+    "en": "Stone Gaze"
+  },
+  "card.tank_stone_ears": {
+    "ru": "Уши валуна",
+    "en": "Boulder Ears"
+  },
+  "card.fighter_fire_eyes": {
+    "ru": "Искрящий взгляд",
+    "en": "Spark Gaze"
+  },
+  "card.fighter_fire_ears": {
+    "ru": "Боевой слух",
+    "en": "Battle Ear"
+  },
+  "card.support_water_eyes": {
+    "ru": "Целительный взгляд",
+    "en": "Healing Gaze"
+  },
+  "card.support_water_ears": {
+    "ru": "Уши очищения",
+    "en": "Cleanse Ears"
   }
 }

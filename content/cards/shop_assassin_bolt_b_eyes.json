@@ -1,0 +1,24 @@
+{
+  "cost": 1,
+  "atk": 4,
+  "shield": 0,
+  "hits": 1,
+  "targetRule": "backline",
+  "tags": [
+    "attack",
+    "crit",
+    "backline"
+  ],
+  "effectOps": [
+    {
+      "op": "apply_status",
+      "status": "poison",
+      "stacks": 2,
+      "duration": 2
+    }
+  ],
+  "cardId": "card_shop_assassin_bolt_b_eyes",
+  "name_key": "card.shop_assassin_bolt_b_eyes",
+  "roleGate": "assassin",
+  "element": "bolt"
+}

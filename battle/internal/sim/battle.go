@@ -77,8 +77,9 @@ func potionSet(ids []string) map[string]bool {
 }
 
 func spawn(s SpawnUnit, side Side, lane int, rng *RNG) (*Unit, error) {
-	if len(s.Deck) != 4 {
-		return nil, fmt.Errorf("unit %s deck must be 4 cards, got %d", s.ID, len(s.Deck))
+	n := len(s.Deck)
+	if n < 4 || n > 6 {
+		return nil, fmt.Errorf("unit %s deck must be 4–6 cards, got %d", s.ID, n)
 	}
 	st := s.Template.BaseStats
 	u := &Unit{
@@ -117,7 +118,10 @@ func spawn(s SpawnUnit, side Side, lane int, rng *RNG) (*Unit, error) {
 			}
 		}
 	}
-	u.DrawPile = []int{0, 1, 2, 3}
+	u.DrawPile = make([]int, n)
+	for i := 0; i < n; i++ {
+		u.DrawPile[i] = i
+	}
 	rng.Shuffle(len(u.DrawPile), func(i, j int) {
 		u.DrawPile[i], u.DrawPile[j] = u.DrawPile[j], u.DrawPile[i]
 	})

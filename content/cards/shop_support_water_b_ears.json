@@ -1,0 +1,22 @@
+{
+  "cost": 1,
+  "atk": 2,
+  "shield": 0,
+  "hits": 1,
+  "targetRule": "nearest",
+  "tags": [
+    "attack"
+  ],
+  "effectOps": [
+    {
+      "op": "apply_status",
+      "status": "weak",
+      "stacks": 2,
+      "duration": 1
+    }
+  ],
+  "cardId": "card_shop_support_water_b_ears",
+  "name_key": "card.shop_support_water_b_ears",
+  "roleGate": "support",
+  "element": "water"
+}

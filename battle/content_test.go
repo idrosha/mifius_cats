@@ -34,8 +34,8 @@ func TestContentCatalog_StartersAndCards(t *testing.T) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		if len(deck) != 4 {
-			t.Fatalf("%s deck=%d", id, len(deck))
+		if len(deck) != 6 {
+			t.Fatalf("%s deck=%d want 6", id, len(deck))
 		}
 	}
 	if _, ok := cat.Stages["test_yard_1"]; !ok {

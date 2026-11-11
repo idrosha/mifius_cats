@@ -105,12 +105,7 @@ func (c *Catalog) validate() error {
 			if p.Slot != slot {
 				return fmt.Errorf("part %s slot mismatch: %s vs %s", partID, p.Slot, slot)
 			}
-			if slot == "eyes" || slot == "ears" {
-				if p.CardID != nil && *p.CardID != "" {
-					return fmt.Errorf("eyes/ears part %s must not grant a card", partID)
-				}
-				continue
-			}
+			// N=6: eyes/ears/muzzle/headwear/back/tail each grant one attack card.
 			if p.CardID == nil || *p.CardID == "" {
 				return fmt.Errorf("part %s needs cardId", partID)
 			}
@@ -122,20 +117,23 @@ func (c *Catalog) validate() error {
 	return nil
 }
 
-// DeckForStarter resolves the 4 card defs from muzzle/headwear/back/tail parts.
+// DeckForStarter resolves the N=6 card defs from eyes/ears/muzzle/headwear/back/tail.
 func (c *Catalog) DeckForStarter(templateID string) ([]CardDef, error) {
 	s, ok := c.Starters[templateID]
 	if !ok {
 		return nil, fmt.Errorf("unknown starter %s", templateID)
 	}
-	order := []string{"muzzle", "headwear", "back", "tail"}
-	out := make([]CardDef, 0, 4)
+	order := []string{"eyes", "ears", "muzzle", "headwear", "back", "tail"}
+	out := make([]CardDef, 0, 6)
 	for _, slot := range order {
 		partID, ok := s.Parts[slot]
 		if !ok {
 			return nil, fmt.Errorf("%s missing %s", templateID, slot)
 		}
 		p := c.Parts[partID]
+		if p.CardID == nil || *p.CardID == "" {
+			return nil, fmt.Errorf("%s part %s missing cardId", templateID, partID)
+		}
 		card, ok := c.Cards[*p.CardID]
 		if !ok {
 			return nil, fmt.Errorf("missing card for %s", partID)

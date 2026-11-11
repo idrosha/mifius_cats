@@ -1,11 +1,11 @@
 # Stitch prompts — eyes/ears → активные карты (12 героев)
 
-**Статус:** PROPOSAL (ждёт апрува Andrew → патч FULL-SPEC §2.3 + wiki §1)  
-**Суть:** у каждого из 12 героев сейчас **4 активные** карты (`muzzle` / `headwear` / `back` / `tail`) + **2 пассива** (`eyes` / `ears`). Пассивы переводим в **активные карты руки** — итого **N=6** уникальных карт на героя.  
+**Статус:** **LOCKED / shipped** (D-026, FULL-SPEC §2.3) — N=6; eyes/ears = active cards.  
+**Суть:** у каждого из 12 героев **6 активных** карт (`eyes` / `ears` / `muzzle` / `headwear` / `back` / `tail`).  
 **Существующий арт 4 карт:** `docs/stitch-prompts-attack-cards-12-heroes.md` (не трогать).  
-**Этот файл:** только **+2 карты** на героя (`eyes` + `ears`) + баланс + промпты Stitch.
+**Этот файл:** **+2 карты** на героя (`eyes` + `ears`) + баланс + промпты Stitch.
 
-SSOT сегодня (LOCKED до апрува): `eyes`/`ears` = пассив · N=4 (`FULL-SPEC` §2.3, `card-count-axie.md`). Этот пакет — **дизайн-предложение**, не silent override.
+SSOT: `eyes`/`ears` → cardId · **N=6** (`FULL-SPEC` §2.3). `card-count-axie.md` SUPERSEDED.
 
 ---
 
