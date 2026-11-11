@@ -4020,30 +4020,39 @@
 </div>
 </main>
 
-<div class="dojo-load" hidden>
-<img class="dojo-load-art" alt="" src="/stitch-ref/e608/arena_dojo.png"/>
+<!-- Stitch 3v3 dojo load — progress 0→100% then auto-start (no confirm). Ref: design/stitch-ref/practice-dojo-load/ -->
+<div class="dojo-load" hidden data-purpose="practice-load">
+<img class="dojo-load-art" alt="" src="/stitch-assets/dojo/practice-load-arena.png"/>
 <div class="dojo-load-shade"></div>
-<div class="dojo-load-ui">
-<header class="dojo-load-top">
-<p>Дуэльный сектор додзё</p>
-<h2>Тренировочный бой · Загрузка арены</h2>
-<button type="button" data-load="close" aria-label="Закрыть">×</button>
-</header>
-<p class="dojo-load-ready">Стабилизация фазового пространства арены: 100%</p>
-<div class="dojo-load-vs" aria-hidden="true">VS</div>
-<div class="dojo-load-mid">
-<p class="dojo-load-label">Тактические подсказки додзё · Советы тренера <span>Освойте боевую синергию перед стартом тренировки</span></p>
-<ul>
-<li><b>Стихийное комбо</b><span>Шок Барсика и огненный всплеск Рыжика дают статус Плазмы (+25% урона).</span></li>
-<li><b>Пробитие защиты</b><span>Деревянные манекены держат 500 брони. Режущие атаки и огонь бьют сильнее.</span></li>
-<li><b>Карточки манекенов</b><span>Дубовый Рыцарь · Соломенный Берсерк · Каменный Тотем — вертикальные портреты 64×112 в превью, крупнее в бою.</span></li>
-</ul>
-<p class="dojo-load-sync">Синхронизация 100% <b>1 / 3</b></p>
+<div class="dojo-load-ui dojo-load-ui--stitch">
+<header class="dojo-load-head">
+<div class="dojo-load-head-l">
+<p class="dojo-load-sync-line"><span class="dojo-load-dot" aria-hidden="true"></span> Синхронизация Арены Додзё • <b id="dojoLoadPing">16 ms</b></p>
+<h2 class="dojo-load-title">Спарринг в додзё 3v3</h2>
+<p class="dojo-load-matchup">Отряд Хранителя <span>«Мурр-Оплот»</span> против <em>Заколдованных Манекенов Сэнсэя</em></p>
 </div>
-<footer class="dojo-load-foot">
-<button type="button" data-load="close">ESC Прервать подготовку</button>
-<span>Режим: одиночная тренировка без затраты энергии</span>
-<button type="button" class="dojo-load-go" data-load="go">Пробел В бой!</button>
+<div class="dojo-load-head-r">
+<p class="dojo-load-tier">Учебный матч • Tier 1</p>
+<p class="dojo-load-energy">Расход энергии: <b>0 ⚡</b> <span>(Бесплатный спарринг)</span></p>
+<p class="dojo-load-rule">Правило строя: Саппорт/Маг (Тыл) ➔ Боец (Центр) ➔ Танк (Авангард)</p>
+</div>
+</header>
+<div class="dojo-load-vs" aria-hidden="true">VS</div>
+<footer class="dojo-load-foot-stitch">
+<div class="dojo-load-bar-wrap">
+<div class="dojo-load-status">
+<span id="dojoLoadStatus">Подготовка симуляции боя и расчёт стихийных формул Додзё…</span>
+<b id="dojoLoadPct">0%</b>
+</div>
+<div class="dojo-load-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-labelledby="dojoLoadStatus">
+<i id="dojoLoadBar" style="width:0%"></i>
+</div>
+</div>
+<div class="dojo-load-meta">
+<p class="dojo-load-tip"><strong>Совет Сэнсэя:</strong> «Танк держит удар в Авангарде (спереди), Боец наносит пробой по центру, а Саппорт лечит и очищает тыл.»</p>
+<p class="dojo-load-keys"><kbd>ESC</kbd> Отмена · <kbd>Пробел</kbd> Быстрый старт</p>
+<button type="button" class="dojo-load-cancel" data-load="close">Отмена</button>
+</div>
 </footer>
 </div>
 </div>

@@ -650,6 +650,9 @@ const state = {
   battleMode: "pve", // pve | practice | boss | guild_demo | pvp
   /** Practice dojo selected squad — templateIds, max 3; starts empty. */
   practiceSquad: [],
+  /** Practice load overlay progress (0–100) + timer handle. */
+  practiceLoadPct: 0,
+  practiceLoadTimer: null,
   /** True while opponent 6-card face-down discard throw VFX is playing. */
   oppThrowPlaying: false,
   bossWaveIndex: 0,
@@ -5710,12 +5713,56 @@ function bindBattleHub() {
   });
 }
 
+function clearPracticeLoadTimer() {
+  clearInterval(state.practiceLoadTimer);
+  state.practiceLoadTimer = null;
+}
+
+function setPracticeLoadProgress(pct) {
+  const n = Math.max(0, Math.min(100, Math.round(pct)));
+  const bar = $("dojoLoadBar");
+  const label = $("dojoLoadPct");
+  const status = $("dojoLoadStatus");
+  const track = bar?.parentElement;
+  if (bar) bar.style.width = `${n}%`;
+  if (label) label.textContent = `${n}%`;
+  if (track?.getAttribute("role") === "progressbar") track.setAttribute("aria-valuenow", String(n));
+  if (status) {
+    status.textContent =
+      n >= 100
+        ? "Арена готова · запуск тренировочного боя…"
+        : "Подготовка симуляции боя и расчёт стихийных формул Додзё…";
+  }
+  state.practiceLoadPct = n;
+}
+
+function startPracticeLoadSync() {
+  clearPracticeLoadTimer();
+  setPracticeLoadProgress(0);
+  let pct = 0;
+  state.practiceLoadTimer = setInterval(() => {
+    const root = $("viewPractice");
+    if (!root || root.dataset.practiceLoad !== "1" || state.tab !== "practice") {
+      clearPracticeLoadTimer();
+      return;
+    }
+    pct = Math.min(100, pct + 5 + Math.floor(Math.random() * 8));
+    setPracticeLoadProgress(pct);
+    if (pct >= 100) {
+      clearPracticeLoadTimer();
+      // No confirm — load to 100% then enter the fight.
+      startPractice(false);
+    }
+  }, 110);
+}
+
 function showPracticeLoad(on) {
   const root = $("viewPractice");
   const load = root?.querySelector(".dojo-load");
   if (!root) return;
   // If the load lobby markup is missing, open still must start the fight.
   if (!load) {
+    clearPracticeLoadTimer();
     root.dataset.practiceLoad = "0";
     if (on) startPractice(false);
     return;
@@ -5724,8 +5771,16 @@ function showPracticeLoad(on) {
     toast("Выберите 3 котиков в боевой отряд");
     return;
   }
-  load.hidden = !on;
-  root.dataset.practiceLoad = on ? "1" : "0";
+  if (on) {
+    load.hidden = false;
+    root.dataset.practiceLoad = "1";
+    startPracticeLoadSync();
+    return;
+  }
+  clearPracticeLoadTimer();
+  load.hidden = true;
+  root.dataset.practiceLoad = "0";
+  setPracticeLoadProgress(0);
 }
 
 function ensurePracticeSquadState() {
@@ -5956,7 +6011,12 @@ function bindPracticeFightCtas() {
     ev.stopPropagation();
     if (act === "open") showPracticeLoad(true);
     else if (act === "close") showPracticeLoad(false);
-    else if (act === "go") startPractice(false);
+    else if (act === "go") {
+      // Fast-start / legacy: skip remaining load and enter fight.
+      clearPracticeLoadTimer();
+      setPracticeLoadProgress(100);
+      startPractice(false);
+    }
   }, true);
   root.addEventListener("click", (ev) => {
     if (ev.target.closest("[data-load]")) return;
@@ -6055,8 +6115,13 @@ function bindPracticeFightCtas() {
     const loading = root.dataset.practiceLoad === "1";
     if (ev.code === "Space") {
       ev.preventDefault();
-      if (loading) startPractice(false);
-      else showPracticeLoad(true);
+      if (loading) {
+        clearPracticeLoadTimer();
+        setPracticeLoadProgress(100);
+        startPractice(false);
+      } else {
+        showPracticeLoad(true);
+      }
     } else if (ev.code === "Escape") {
       if (loading) showPracticeLoad(false);
       else navigate("yard");
