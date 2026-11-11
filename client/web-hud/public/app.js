@@ -758,7 +758,7 @@ function logicalViewId() {
     shop: "viewShop",
     market: "viewMarket",
     tavern: "viewTavern",
-    pass: "viewHub",
+    pass: "viewPass",
     gear: "viewGear",
     home: "viewHome",
     heroes: "viewHeroes",
