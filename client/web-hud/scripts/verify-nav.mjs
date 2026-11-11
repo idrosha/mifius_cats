@@ -274,10 +274,11 @@ ok(
 ok("gate tip auto-hides (no orphan banner)", js.includes("function hideGateTip") && js.includes("hideGateTip._t"));
 ok(
   "home integrated hosts (no float-only panel)",
-  html.includes('id="homeCatPicker"') &&
-    html.includes('id="homeGearBlock"') &&
-    html.includes('id="homeHeroCard"') &&
-    html.includes('data-purpose="character-home"'),
+  html.includes('id="homeHeroName"') &&
+    html.includes('id="homeBagGrid"') &&
+    html.includes('id="homeGearOverlay"') &&
+    html.includes('id="homeAttackDeck"') &&
+    html.includes('data-purpose="attack-deck"'),
 );
 ok("css kills leftover stitch pt-28 void", css.includes("padding-top: 0.75rem !important") && css.includes("pt-28"));
 ok("css subtabs even spacing nowrap", css.includes("space-evenly") && css.includes("flex-wrap: nowrap"));

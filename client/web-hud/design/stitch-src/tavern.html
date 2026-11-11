@@ -1,413 +1,69 @@
 <!DOCTYPE html>
+<html class="dark" lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Таверна — Мифиус · wireframe</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{surface:"#161310","on-surface":"#eae1db","surface-container":"#231f1c","surface-container-high":"#2e2926","surface-container-low":"#1f1b18",primary:"#fdba45","on-primary":"#281900",outline:"#9d8f7b","outline-variant":"#504535","on-surface-variant":"#d5c4af"}}}}}</script>
+<style>
+html,body{margin:0;padding:0;height:100%;background:#161310;color:#eae1db;font-family:system-ui,sans-serif}
+.wf{display:flex;flex-direction:column;height:100%;min-height:100%;gap:0;padding:0;box-sizing:border-box}
+.wf-head{display:flex;align-items:flex-end;justify-content:space-between;gap:.75rem;padding:.75rem 1rem;border-bottom:1px solid #504535;background:#1f1b18;flex:0 0 auto}
+.wf-head h1{margin:0;font-size:1.35rem;font-weight:800;color:#fdba45}
+.wf-head p{margin:.15rem 0 0;font-size:.8rem;color:#d5c4af}
+.wf-eyebrow{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:#fdba45;font-weight:700}
+.wf-body{flex:1 1 auto;min-height:0;display:grid;gap:.6rem;padding:.6rem;box-sizing:border-box}
+.wf-block{border:1px solid #504535;background:#231f1c;border-radius:.5rem;padding:.65rem .75rem;display:flex;flex-direction:column;gap:.4rem;min-height:0}
+.wf-block h2{margin:0;font-size:.8rem;font-weight:700;color:#fdba45;text-transform:uppercase;letter-spacing:.06em}
+.wf-block .hint{font-size:.7rem;color:#9d8f7b}
+.wf-row{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.35rem .45rem;border:1px solid #393430;border-radius:.35rem;background:#1f1b18;font-size:.78rem}
+.wf-grid{display:grid;gap:.4rem;min-height:0;overflow:auto;flex:1}
+.wf-cta{display:inline-flex;align-items:center;justify-content:center;gap:.35rem;padding:.45rem .8rem;border-radius:.4rem;border:1px solid #fdba45;background:#d99b26;color:#1a1308;font-weight:800;font-size:.8rem;cursor:pointer}
+.wf-cta.ghost{background:transparent;color:#fdba45}
+.wf-cta.muted{border-color:#504535;background:#2e2926;color:#eae1db}
+.wf-tags{display:flex;flex-wrap:wrap;gap:.35rem}
+.wf-tag{font-size:.65rem;padding:.15rem .4rem;border:1px solid #504535;border-radius:.25rem;color:#d5c4af}
+.wf-fill{flex:1;min-height:0}
+</style>
+</head>
+<body>
 
-<html class="dark" lang="ru"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_standard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,400;0,600;0,700;1,400&amp;family=Rubik:wght@500;600;700;800&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={"darkMode":"class","theme":{"extend":{"colors":{"secondary":"#89d98c","on-primary-fixed-variant":"#604100","on-primary":"#432c00","secondary-fixed-dim":"#89d98c","outline-variant":"#504535","on-surface":"#eae1db","outline":"#9d8f7b","on-secondary-fixed":"#002106","on-error-container":"#ffdad6","surface-container-lowest":"#110d0b","on-secondary-container":"#82d186","secondary-container":"#005b1e","on-secondary":"#003910","background":"#161310","on-tertiary":"#660700","inverse-on-surface":"#342f2c","surface-variant":"#393430","tertiary-container":"#ff826c","on-primary-container":"#523700","tertiary":"#ffb4a6","on-error":"#690005","tertiary-fixed-dim":"#ffb4a6","surface-container-high":"#2e2926","primary-container":"#d99b26","on-background":"#eae1db","secondary-fixed":"#a4f6a6","error":"#ffb4ab","surface":"#161310","on-tertiary-fixed-variant":"#8d1607","error-container":"#93000a","inverse-primary":"#7f5700","surface-container-low":"#1f1b18","primary-fixed-dim":"#fdba45","surface-dim":"#161310","primary":"#fdba45","on-surface-variant":"#d5c4af","surface-bright":"#3d3835","inverse-surface":"#eae1db","surface-container-highest":"#393430","on-secondary-fixed-variant":"#00531b","on-tertiary-fixed":"#3f0300","surface-container":"#231f1c","on-primary-fixed":"#281900","primary-fixed":"#ffdeae","on-tertiary-container":"#7c0a00","tertiary-fixed":"#ffdad4","surface-tint":"#fdba45"},"borderRadius":{"DEFAULT":"0.25rem","lg":"0.5rem","xl":"0.75rem","full":"9999px"},"spacing":{"margin-tablet":"1.5rem","space-sm":"0.5rem","gutter-tablet":"1rem","space-lg":"1rem","space-xl":"1.5rem","margin":"1rem","gutter":"0.75rem","space-xs":"0.25rem","space-md":"0.75rem"},"fontFamily":{"body-sm":["Nunito Sans"],"label-sm":["Rubik"],"headline-xl":["Rubik"],"label-lg":["Rubik"],"headline-lg":["Rubik"],"label-md":["Rubik"],"headline-xl-mobile":["Rubik"],"body-md":["Nunito Sans"],"headline-lg-mobile":["Rubik"],"headline-md":["Rubik"],"body-lg":["Nunito Sans"],"stat-numeral":["Rubik"]},"fontSize":{"body-sm":["12px",{"lineHeight":"16px","fontWeight":"500"}],"label-sm":["10px",{"lineHeight":"12px","fontWeight":"700"}],"headline-xl":["36px",{"lineHeight":"44px","fontWeight":"800"}],"label-lg":["14px",{"lineHeight":"18px","fontWeight":"700"}],"headline-lg":["26px",{"lineHeight":"32px","fontWeight":"700"}],"label-md":["12px",{"lineHeight":"16px","fontWeight":"600"}],"headline-xl-mobile":["28px",{"lineHeight":"34px","fontWeight":"800"}],"body-md":["14px",{"lineHeight":"20px","fontWeight":"500"}],"headline-lg-mobile":["22px",{"lineHeight":"28px","fontWeight":"700"}],"headline-md":["18px",{"lineHeight":"24px","fontWeight":"600"}],"body-lg":["16px",{"lineHeight":"22px","fontWeight":"600"}],"stat-numeral":["20px",{"lineHeight":"20px","fontWeight":"800"}]}}}};</script></head><body class="relative bg-surface text-on-surface font-body-md text-body-md min-h-screen flex flex-col selection:bg-primary selection:text-on-primary">
-<div data-etalon-bg="tavern" class="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true"><img alt="" class="w-full h-full object-cover" style="opacity:0.30" src="/stitch-ref/batch3-etalons/05-tavern-bar.png"/><div class="absolute inset-0 bg-surface-container-lowest/70"></div></div>
-<header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-low/95 backdrop-blur-xl shadow-[0_4px_20px_rgba(0,0,0,0.65)]"><div class="h-28 w-full px-margin-tablet flex flex-col justify-between pt-space-sm pb-space-xs"><div class="flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-lg bg-surface-container-highest"><span class="material-symbols-outlined text-primary text-[22px]">pets</span><span class="font-headline-md text-headline-md tracking-wider text-primary uppercase">МИФИУС: МИФИЧЕСКИЕ КОТИКИ</span></div><div class="flex items-center gap-space-xs px-space-sm py-space-xs rounded-full bg-surface-container-high"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span class="font-label-sm text-label-sm text-secondary">24ms</span></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-sm bg-surface-container-lowest px-space-md py-space-xs rounded-xl shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-primary text-[18px]">monetization_on</span><span class="font-stat-numeral text-stat-numeral text-primary">148,250</span></div><div class="w-px h-4 bg-outline-variant"></div><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-tertiary text-[18px]">set_meal</span><span class="font-label-lg text-label-lg text-on-surface">420</span></div><div class="w-px h-4 bg-outline-variant"></div><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-secondary text-[18px]">bolt</span><span class="font-label-lg text-label-lg text-secondary">85/90</span></div><div class="w-px h-4 bg-outline-variant"></div><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-primary-fixed text-[18px]">diamond</span><span class="font-stat-numeral text-stat-numeral text-primary-fixed">1,250</span></div></div><div class="flex items-center gap-space-sm pl-space-xs"><div class="flex flex-col items-end"><span class="font-label-md text-label-md text-on-surface">Хранитель</span><span class="font-label-sm text-label-sm text-primary">Ур. 48</span></div><div class="relative"><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-[0_0_10px_rgba(253,186,69,0.35)]"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div><span class="absolute -bottom-1 -right-1 bg-secondary text-on-secondary font-label-sm text-[9px] px-1 rounded-full">VIP</span></div></div></div></div><div class="flex items-center justify-between border-t border-outline-variant/30 pt-space-xs"><nav class="flex items-center gap-space-xs" data-active-classes="bg-primary-container text-on-primary font-bold shadow-[0_2px_8px_rgba(217,155,38,0.4)]"><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="main-hub" href="#">Главный Хаб</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="battles" href="#">Бои</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="trade-hub" href="#">Торговля</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="guilds" href="#">Гильдии</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="chats" href="#">Чаты</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="battle-pass" href="#">Пасс</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="leaderboards" href="#">Рейтинги</a></nav><div class="flex items-center gap-space-xs"><button class="p-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[18px]">volume_up</span></button><button class="p-space-xs rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors"><span class="material-symbols-outlined text-[18px]">settings</span></button></div></div></div><div class="w-full bg-surface-container-lowest/90 px-margin-tablet py-space-xs shadow-[inset_0_1px_0_rgba(255,255,255,0.05)]"><nav class="flex items-center gap-space-sm" data-active-classes="bg-surface-container-high text-primary font-bold shadow-[inset_0_0_0_1px_rgba(253,186,69,0.3)]"><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="trade-hub" href="#">Хаб Торговли (Главная)</a><a aria-current="page" class="px-space-md py-space-xs rounded-lg transition-all bg-surface-container-high text-primary font-bold shadow-[inset_0_0_0_1px_rgba(253,186,69,0.3)]" data-path="tavern-bar" href="#">Таверна (Бар)</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="shop-donate" href="#">Магазин (Донат &amp; Лавка)</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="market-resources" href="#">Рынок (Ресурсы &amp; Инструменты)</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all" data-path="player-auctions" href="#">Аукцион (Торги Игроков)</a></nav></div></header><main class="w-full pt-28 pb-14 bg-surface min-h-[calc(100vh-3.5rem)] flex-1"><div class="flex flex-col w-full px-margin-tablet py-space-sm max-w-[1680px] mx-auto select-none">
-<!-- Top Bar Context / Tavern Sub-header -->
-<div class="flex items-center justify-between pb-space-sm mb-space-sm">
-<div class="flex items-center gap-space-md">
-<div class="flex items-center gap-space-xs bg-surface-container-high px-space-md py-1 rounded-xl shadow-inner">
-<span class="material-symbols-outlined text-primary text-[20px]" style="font-variation-settings: 'FILL' 1;">sports_bar</span>
-<span class="font-headline-md text-headline-md text-on-surface">Тёплый Бар «Хрустящая Мышка»</span>
-</div>
-<div class="flex items-center gap-space-xs bg-surface-container px-space-sm py-1 rounded-lg">
-<span class="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse"></span>
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider">Камин пылает • Атмосфера уюта</span>
-</div>
-</div>
-<div class="flex items-center gap-space-lg">
-<div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-md py-1 rounded-xl shadow-[inset_0_1px_3px_rgba(0,0,0,0.6)]">
-<span class="font-body-sm text-body-sm text-on-surface-variant">Золото гильдии:</span>
-<span class="material-symbols-outlined text-primary text-[18px]">monetization_on</span>
-<span class="font-stat-numeral text-stat-numeral text-primary">148,250</span>
-</div>
-<div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm">
-<span class="material-symbols-outlined text-primary text-[16px]">schedule</span>
-<span>Счастливые часы: -10% до полуночи</span>
-</div>
-</div>
-</div>
-<!-- Main 3-Column Layout (Strict 16:9 widescreen fit without vertical scrolling) -->
-<div class="grid grid-cols-12 gap-space-md items-start">
-<!-- LEFT COLUMN (3 cols): Бармен Мурр, диалоги, быстрый хил, репутация -->
-<div class="col-span-3 flex flex-col gap-space-sm">
-<!-- Бармен Card -->
-<div class="bg-surface-container rounded-xl p-space-md shadow-xl flex flex-col relative overflow-hidden">
-<!-- Ambient lantern glow -->
-<div class="absolute -top-12 -left-12 w-32 h-32 bg-primary/10 rounded-full blur-2xl pointer-events-none"></div>
-<div class="flex items-center gap-space-sm mb-space-sm">
-<div class="relative w-16 h-16 rounded-xl overflow-hidden shadow-md shrink-0 bg-surface-container-highest">
-<img class="w-full h-full object-cover" data-alt="Close-up portrait of an anthropomorphic wise cat bartender with a striped tabby fur, wearing a tiny leather vest, bronze monocle, polished brass apron badge, inside a dimly lit cozy dark fantasy tavern illuminated by amber firelight and glowing wooden tankards in a storybook digital illustration style." src="/stitch-assets/9bcb7de21602.jpg"/>
-<span class="absolute bottom-0 right-0 bg-primary text-on-primary font-label-sm text-[9px] px-1 rounded-tl-md">ШЕФ</span>
-</div>
-<div class="flex flex-col min-w-0">
-<span class="font-headline-md text-headline-md text-primary leading-tight truncate">Мурр-Бармен</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant">Старший медовар таверны</span>
-<div class="flex items-center gap-1 mt-1">
-<span class="material-symbols-outlined text-primary text-[14px]">stars</span>
-<span class="font-label-sm text-label-sm text-secondary">Почтение: Ур. 4 (Завсегдатай)</span>
-</div>
-</div>
-</div>
-<!-- Tavern Reputation Track -->
-<div class="bg-surface-container-lowest p-space-xs rounded-lg mb-space-sm shadow-inner">
-<div class="flex justify-between items-center mb-1">
-<span class="font-label-sm text-label-sm text-on-surface-variant">Шкала дружбы с заведением</span>
-<span class="font-label-sm text-label-sm text-primary">2,450 / 3,000 XP</span>
-</div>
-<div class="w-full h-2 rounded-full bg-surface-container-high overflow-hidden">
-<div class="h-full bg-primary rounded-full transition-all duration-500" style="width: 82%;"></div>
-</div>
-</div>
-<!-- Bartender Dialogue Balloon -->
-<div class="bg-surface-container-high rounded-xl p-space-sm text-on-surface shadow-inner relative mb-space-sm">
-<span class="material-symbols-outlined text-primary/40 text-[18px] absolute top-1.5 right-2">format_quote</span>
-<p class="font-body-sm text-body-sm italic text-on-surface leading-snug">
-            «Добро пожаловать к тёплому очагу, Хранитель! Запахло свежей кошачьей мятой и ледяным удоем. Поднимем же чаши:
-            <span class="text-primary font-bold not-italic">"За победу над псами из Псарни Теней!"</span> Отряд выглядит потрёпанным после данжа... плеснуть холодненького?»
-          </p>
-</div>
-<!-- Daily Toast Banner -->
-<div class="bg-surface-container-lowest/80 rounded-lg p-space-xs flex items-center justify-between mb-space-sm">
-<div class="flex items-center gap-space-xs">
-<span class="material-symbols-outlined text-primary text-[16px]">celebration</span>
-<span class="font-label-sm text-label-sm text-primary">Тост дня: +5% к хмельному духу</span>
-</div>
-<span class="font-label-sm text-label-sm text-secondary bg-secondary/10 px-2 py-0.5 rounded-full">Активен</span>
-</div>
-<!-- Quick One-Click Party Heal -->
-<div class="bg-surface-container-high rounded-xl p-space-sm flex flex-col gap-space-xs shadow-md">
-<div class="flex items-center justify-between">
-<div class="flex items-center gap-space-xs">
-<span class="material-symbols-outlined text-secondary text-[20px]">local_hospital</span>
-<span class="font-label-lg text-label-lg text-on-surface">Быстрое исцеление</span>
-</div>
-<span class="font-label-sm text-label-sm text-secondary-fixed-dim bg-secondary-container/40 px-1.5 py-0.5 rounded">Отряд x3</span>
-</div>
-<p class="font-body-sm text-body-sm text-on-surface-variant">
-            Мгновенный ковш «Парного молока со льдом» для Барсика, Рыжика и Мурки.
-          </p>
-<button class="mt-1 w-full py-2 px-space-md rounded-xl bg-gradient-to-b from-primary to-primary-container text-on-primary font-label-lg text-label-lg flex items-center justify-center gap-space-xs shadow-[0_4px_12px_rgba(217,155,38,0.4)] active:translate-y-0.5 hover:brightness-110 transition-all" id="quickHealBtn">
-<span class="material-symbols-outlined text-[18px]">water_drop</span>
-<span>Исцелить всех (50 <span class="text-on-primary font-mono text-sm">G</span>)</span>
-</button>
-</div>
-</div>
-<!-- Tavern Gossip Mini-Card -->
-<div class="bg-surface-container rounded-xl p-space-sm flex items-center gap-space-sm shadow-md">
-<span class="material-symbols-outlined text-tertiary-container text-[24px]">campaign</span>
-<div class="flex flex-col min-w-0">
-<span class="font-label-md text-label-md text-on-surface">Слухи за стойкой:</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant truncate">В Катакомбах Мышиного Короля боссы уязвимы к молнии!</span>
-</div>
-</div>
-</div>
-<!-- CENTER COLUMN (6 cols): Барная Карта (Напитки и угощения очага) -->
-<div class="col-span-6 flex flex-col gap-space-sm">
-<div class="bg-surface-container rounded-xl p-space-md shadow-xl flex flex-col">
-<!-- Header & Important Notice -->
-<div class="flex items-center justify-between mb-space-xs">
-<div class="flex items-center gap-space-xs">
-<span class="material-symbols-outlined text-primary text-[24px]">menu_book</span>
-<span class="font-headline-lg text-headline-lg text-on-surface tracking-wide">Барная Карта Очага</span>
-</div>
-<span class="font-label-sm text-label-sm text-on-surface-variant bg-surface-container-highest px-2.5 py-1 rounded-full uppercase tracking-wider">
-            Свежий завоз
-          </span>
-</div>
-<!-- Strict PvE Rule Notice Badge -->
-<div class="bg-tertiary-container/15 text-tertiary px-space-sm py-1.5 rounded-lg flex items-center gap-space-xs mb-space-sm">
-<span class="material-symbols-outlined text-[18px] text-tertiary shrink-0">warning</span>
-<span class="font-label-md text-label-md leading-tight">
-            Все напитки бара действуют строго в <span class="font-bold underline">PvE и Подземельях</span>! Зелья алхимиков варятся в Лаборатории Хранителя.
-          </span>
-</div>
-<!-- SECTION 1: Восстановление Здоровья (После боя) -->
-<div class="mb-space-sm">
-<div class="flex items-center justify-between mb-space-xs pb-1">
-<div class="flex items-center gap-space-xs">
-<span class="material-symbols-outlined text-secondary text-[18px]">vital_signs</span>
-<span class="font-label-lg text-label-lg text-secondary uppercase tracking-wider">1. Восстановление здоровья (После боя)</span>
-</div>
-<span class="font-body-sm text-body-sm text-on-surface-variant">Мгновенный эффект в таверне</span>
-</div>
-<div class="grid grid-cols-2 gap-space-sm">
-<!-- Item 1: Парное Молоко со льдом -->
-<div class="bg-surface-container-high hover:bg-surface-container-highest rounded-xl p-space-sm shadow-md transition-all flex flex-col justify-between group">
+<main class="wf" data-purpose="wireframe" data-screen="Таверна" >
+<header class="wf-head">
 <div>
-<div class="flex items-start justify-between gap-space-xs mb-1">
-<div class="flex items-center gap-space-xs">
-<div class="w-9 h-9 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary shadow-inner shrink-0">
-<span class="material-symbols-outlined text-[20px]">icecream</span>
-</div>
-<div class="flex flex-col">
-<span class="font-label-md text-label-md text-on-surface group-hover:text-primary transition-colors">Парное Молоко со льдом</span>
-<span class="font-label-sm text-label-sm text-secondary">100% HP всему отряду</span>
-</div>
-</div>
-</div>
-<p class="font-body-sm text-body-sm text-on-surface-variant mb-2">
-                  Освежающее альпийское молоко с кусочками ледника. Мгновенно затягивает раны после поражения.
-                </p>
-</div>
-<div class="flex items-center justify-between pt-1">
-<div class="flex items-center gap-1">
-<span class="material-symbols-outlined text-primary text-[16px]">monetization_on</span>
-<span class="font-stat-numeral text-stat-numeral text-primary">50</span>
-</div>
-<button class="px-space-md py-1 rounded-lg bg-surface-container-lowest hover:bg-primary hover:text-on-primary text-primary font-label-md text-label-md shadow transition-all active:scale-95" onclick="orderDrink('Парное Молоко со льдом', 50)">
-                  Выпить
-                </button>
-</div>
-</div>
-<!-- Item 2: Сливочный Коктейль 'Мур-Шейк' -->
-<div class="bg-surface-container-high hover:bg-surface-container-highest rounded-xl p-space-sm shadow-md transition-all flex flex-col justify-between group">
-<div>
-<div class="flex items-start justify-between gap-space-xs mb-1">
-<div class="flex items-center gap-space-xs">
-<div class="w-9 h-9 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary-fixed shadow-inner shrink-0">
-<span class="material-symbols-outlined text-[20px]">blender</span>
-</div>
-<div class="flex flex-col">
-<span class="font-label-md text-label-md text-on-surface group-hover:text-primary transition-colors">Коктейль «Мур-Шейк»</span>
-<span class="font-label-sm text-label-sm text-secondary">100% HP + бодрость</span>
-</div>
-</div>
-</div>
-<p class="font-body-sm text-body-sm text-on-surface-variant mb-2">
-                  Взбитые сливки с пыльцой мандрагоры. Снимает дебафф «Усталость лап» на следующие 3 похода.
-                </p>
-</div>
-<div class="flex items-center justify-between pt-1">
-<div class="flex items-center gap-1">
-<span class="material-symbols-outlined text-primary text-[16px]">monetization_on</span>
-<span class="font-stat-numeral text-stat-numeral text-primary">120</span>
-</div>
-<button class="px-space-md py-1 rounded-lg bg-surface-container-lowest hover:bg-primary hover:text-on-primary text-primary font-label-md text-label-md shadow transition-all active:scale-95" onclick="orderDrink('Коктейль Мур-Шейк', 120)">
-                  Выпить
-                </button>
-</div>
-</div>
-</div>
-</div>
-<!-- SECTION 2: Боевые Бафф-Напитки (PvE & Данжи) -->
-<div>
-<div class="flex items-center justify-between mb-space-xs pb-1">
-<div class="flex items-center gap-space-xs">
-<span class="material-symbols-outlined text-primary text-[18px]">swords</span>
-<span class="font-label-lg text-label-lg text-primary uppercase tracking-wider">2. Боевые Бафф-Напитки (PvE / Подземелья)</span>
-</div>
-<span class="font-label-sm text-label-sm text-tertiary bg-tertiary/10 px-2 py-0.5 rounded">Не действует в PvP арене</span>
-</div>
-<div class="grid grid-cols-3 gap-space-sm">
-<!-- Buff 1: Громовой Эль -->
-<div class="bg-surface-container-high hover:bg-surface-container-highest rounded-xl p-space-sm shadow-md flex flex-col justify-between group transition-all">
-<div>
-<div class="w-8 h-8 rounded-lg bg-surface-container-lowest flex items-center justify-center text-primary mb-2 shadow-inner">
-<span class="material-symbols-outlined text-[18px]">bolt</span>
-</div>
-<span class="font-label-md text-label-md text-on-surface block leading-tight group-hover:text-primary transition-colors">
-                  Громовой Эль «Удар Молнии»
-                </span>
-<span class="font-label-sm text-label-sm text-primary block mt-1">+15% Крита в Данжах</span>
-<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 mb-2 text-[11px] leading-tight">
-                  Искристый солод с рубиновой грозовой пылью. Заряд на 1 поход.
-                </p>
-</div>
-<div class="flex items-center justify-between pt-1">
-<span class="font-stat-numeral text-stat-numeral text-primary flex items-center gap-0.5 text-[15px]">
-                  250 <span class="material-symbols-outlined text-[14px]">monetization_on</span>
-</span>
-<button class="px-space-sm py-1 rounded-lg bg-surface-container-lowest hover:bg-primary-container hover:text-on-primary text-on-surface font-label-md text-label-md shadow transition-all active:scale-95" onclick="orderDrink('Громовой Эль', 250)">
-                  Взять
-                </button>
-</div>
-</div>
-<!-- Buff 2: Настойка Кошачьей Мяты -->
-<div class="bg-surface-container-high hover:bg-surface-container-highest rounded-xl p-space-sm shadow-md flex flex-col justify-between group transition-all">
-<div>
-<div class="w-8 h-8 rounded-lg bg-surface-container-lowest flex items-center justify-center text-secondary mb-2 shadow-inner">
-<span class="material-symbols-outlined text-[18px]">eco</span>
-</div>
-<span class="font-label-md text-label-md text-on-surface block leading-tight group-hover:text-primary transition-colors">
-                  Настойка Мяты «Ярость Рыси»
-                </span>
-<span class="font-label-sm text-label-sm text-secondary block mt-1">+20% Урона Боссам</span>
-<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 mb-2 text-[11px] leading-tight">
-                  Дикая горная мята. Обостряет клыки и когти котиков перед логовом.
-                </p>
-</div>
-<div class="flex items-center justify-between pt-1">
-<span class="font-stat-numeral text-stat-numeral text-primary flex items-center gap-0.5 text-[15px]">
-                  300 <span class="material-symbols-outlined text-[14px]">monetization_on</span>
-</span>
-<button class="px-space-sm py-1 rounded-lg bg-surface-container-lowest hover:bg-primary-container hover:text-on-primary text-on-surface font-label-md text-label-md shadow transition-all active:scale-95" onclick="orderDrink('Настойка Мяты', 300)">
-                  Взять
-                </button>
-</div>
-</div>
-<!-- Buff 3: Огненный Медовух -->
-<div class="bg-surface-container-high hover:bg-surface-container-highest rounded-xl p-space-sm shadow-md flex flex-col justify-between group transition-all">
-<div>
-<div class="w-8 h-8 rounded-lg bg-surface-container-lowest flex items-center justify-center text-tertiary mb-2 shadow-inner">
-<span class="material-symbols-outlined text-[18px]">shield</span>
-</div>
-<span class="font-label-md text-label-md text-on-surface block leading-tight group-hover:text-primary transition-colors">
-                  Огненный Медовух «Очаг Тепла»
-                </span>
-<span class="font-label-sm text-label-sm text-tertiary block mt-1">+25% Щита в Рудниках</span>
-<p class="font-body-sm text-body-sm text-on-surface-variant mt-1 mb-2 text-[11px] leading-tight">
-                  Согревает в ледяных склепах и защищает шерсть от каменистых завалов.
-                </p>
-</div>
-<div class="flex items-center justify-between pt-1">
-<span class="font-stat-numeral text-stat-numeral text-primary flex items-center gap-0.5 text-[15px]">
-                  220 <span class="material-symbols-outlined text-[14px]">monetization_on</span>
-</span>
-<button class="px-space-sm py-1 rounded-lg bg-surface-container-lowest hover:bg-primary-container hover:text-on-primary text-on-surface font-label-md text-label-md shadow transition-all active:scale-95" onclick="orderDrink('Огненный Медовух', 220)">
-                  Взять
-                </button>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- RIGHT COLUMN (3 cols): Активные Баффы Отряда, Состояние котиков, Оптовые действия -->
-<div class="col-span-3 flex flex-col gap-space-sm">
-<div class="bg-surface-container rounded-xl p-space-md shadow-xl flex flex-col">
-<div class="flex items-center justify-between mb-space-sm">
-<div class="flex items-center gap-space-xs">
-<span class="material-symbols-outlined text-secondary text-[22px]">groups</span>
-<span class="font-headline-md text-headline-md text-on-surface">Отряд Героев</span>
-</div>
-<span class="font-label-sm text-label-sm text-secondary bg-secondary-container/40 px-2 py-0.5 rounded-full flex items-center gap-1">
-<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span> 100% Боеготов
-          </span>
-</div>
-<!-- Squad Cats Health Trays (3 cats) -->
-<div class="flex flex-col gap-space-xs mb-space-sm">
-<!-- Cat 1: Барсик (Танк) -->
-<div class="bg-surface-container-high p-space-xs rounded-xl flex items-center gap-space-xs shadow">
-<div class="w-10 h-10 rounded-lg bg-surface-container-lowest overflow-hidden shrink-0 relative">
-<img class="w-full h-full object-cover" data-alt="Chubby armored tabby cat warrior with bronze shoulder plates and a friendly fierce gaze inside a tavern, storybook fantasy creature collector art style." src="/stitch-assets/d88b445db732.jpg"/>
-<span class="absolute bottom-0 right-0 bg-primary text-on-primary font-label-sm text-[8px] px-0.5">ЩИТ</span>
-</div>
-<div class="flex-1 min-w-0">
-<div class="flex justify-between items-center mb-0.5">
-<span class="font-label-md text-label-md text-on-surface truncate">Барсик (Рыцарь)</span>
-<span class="font-label-sm text-label-sm text-secondary font-mono">1,820/1,820</span>
-</div>
-<div class="w-full h-2 rounded-full bg-surface-container-lowest overflow-hidden">
-<div class="h-full bg-gradient-to-r from-secondary to-secondary-fixed rounded-full w-full"></div>
-</div>
-</div>
-</div>
-<!-- Cat 2: Рыжик (Маг/Крит) -->
-<div class="bg-surface-container-high p-space-xs rounded-xl flex items-center gap-space-xs shadow">
-<div class="w-10 h-10 rounded-lg bg-surface-container-lowest overflow-hidden shrink-0 relative">
-<img class="w-full h-full object-cover" data-alt="Fluffy bright orange ginger magical cat with a tiny pointed wizard hat and sparkling whiskers in warm hearth light, storybook card battler character art." src="/stitch-assets/02d6c78849dc.jpg"/>
-<span class="absolute bottom-0 right-0 bg-tertiary text-on-tertiary font-label-sm text-[8px] px-0.5">МАГ</span>
-</div>
-<div class="flex-1 min-w-0">
-<div class="flex justify-between items-center mb-0.5">
-<span class="font-label-md text-label-md text-on-surface truncate">Рыжик (Пиромант)</span>
-<span class="font-label-sm text-label-sm text-secondary font-mono">1,240/1,240</span>
-</div>
-<div class="w-full h-2 rounded-full bg-surface-container-lowest overflow-hidden">
-<div class="h-full bg-gradient-to-r from-secondary to-secondary-fixed rounded-full w-full"></div>
-</div>
-</div>
-</div>
-<!-- Cat 3: Мурка (Ловкач/Хил) -->
-<div class="bg-surface-container-high p-space-xs rounded-xl flex items-center gap-space-xs shadow">
-<div class="w-10 h-10 rounded-lg bg-surface-container-lowest overflow-hidden shrink-0 relative">
-<img class="w-full h-full object-cover" data-alt="Graceful calico cat rogue with a green leaf cloak and leather quiver resting by a tavern table, warm storybook art style." src="/stitch-assets/58fabea503d5.jpg"/>
-<span class="absolute bottom-0 right-0 bg-secondary text-on-secondary font-label-sm text-[8px] px-0.5">ЛОВК</span>
-</div>
-<div class="flex-1 min-w-0">
-<div class="flex justify-between items-center mb-0.5">
-<span class="font-label-md text-label-md text-on-surface truncate">Мурка (Следопыт)</span>
-<span class="font-label-sm text-label-sm text-secondary font-mono">1,410/1,410</span>
-</div>
-<div class="w-full h-2 rounded-full bg-surface-container-lowest overflow-hidden">
-<div class="h-full bg-gradient-to-r from-secondary to-secondary-fixed rounded-full w-full"></div>
-</div>
-</div>
-</div>
-</div>
-<!-- Active Timers / Dungeon Buffs Tray -->
-<div class="bg-surface-container-lowest rounded-xl p-space-sm shadow-inner mb-space-sm flex flex-col gap-space-xs">
-<div class="flex items-center justify-between">
-<span class="font-label-md text-label-md text-on-surface-variant flex items-center gap-1">
-<span class="material-symbols-outlined text-[16px] text-primary">hourglass_bottom</span>
-              Действующие напитки:
-            </span>
-<span class="font-label-sm text-label-sm text-primary">PvE Экспедиция</span>
-</div>
-<div class="flex items-center justify-between bg-surface-container-high/70 px-space-xs py-1 rounded-lg">
-<div class="flex items-center gap-space-xs">
-<span class="material-symbols-outlined text-secondary text-[16px]">eco</span>
-<span class="font-body-sm text-body-sm text-on-surface">Настойка «Ярость Рыси»</span>
-</div>
-<span class="font-label-sm text-label-sm text-secondary bg-secondary-container/40 px-2 py-0.5 rounded font-mono">2 похода</span>
-</div>
-<div class="flex items-center justify-between bg-surface-container-high/70 px-space-xs py-1 rounded-lg">
-<div class="flex items-center gap-space-xs">
-<span class="material-symbols-outlined text-primary text-[16px]">icecream</span>
-<span class="font-body-sm text-body-sm text-on-surface">Свежий удой (Сытость)</span>
-</div>
-<span class="font-label-sm text-label-sm text-primary bg-primary/10 px-2 py-0.5 rounded font-mono">1 поход</span>
-</div>
-</div>
-<!-- Squad Group Actions Buttons -->
-<div class="flex flex-col gap-space-xs">
-<button class="w-full py-2.5 px-space-sm rounded-xl bg-gradient-to-b from-primary to-primary-container text-on-primary font-label-lg text-label-lg shadow-[0_4px_14px_rgba(217,155,38,0.4)] hover:brightness-110 active:translate-y-0.5 transition-all flex items-center justify-center gap-space-xs" onclick="orderRound()">
-<span class="material-symbols-outlined text-[18px]">wine_bar</span>
-<span>Заказать раунд на всех (450 G)</span>
-</button>
-<button class="w-full py-2 px-space-sm rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md shadow transition-all active:translate-y-0.5 flex items-center justify-center gap-space-xs" onclick="takeFlasks()">
-<span class="material-symbols-outlined text-primary text-[18px]">sports_bar</span>
-<span>Взять флягу в дорогу (х3 с собой)</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-<!-- Notification Toast Container for Interactive actions -->
-<div class="fixed bottom-16 right-8 bg-surface-container-highest text-primary font-label-lg text-label-lg px-space-md py-space-sm rounded-xl shadow-2xl transition-all duration-300 transform translate-y-12 opacity-0 pointer-events-none flex items-center gap-space-xs z-50" id="toastMessage">
-<span class="material-symbols-outlined text-secondary text-[20px]">check_circle</span>
-<span id="toastText">Заказ доставлен к столу!</span>
-</div>
-</div>
-<script>
-  function showToast(text) {
-    const toast = document.getElementById('toastMessage');
-    const toastText = document.getElementById('toastText');
-    if (!toast || !toastText) return;
-    toastText.innerText = text;
-    toast.classList.remove('translate-y-12', 'opacity-0');
-    toast.classList.add('translate-y-0', 'opacity-100');
-    setTimeout(() => {
-      toast.classList.remove('translate-y-0', 'opacity-100');
-      toast.classList.add('translate-y-12', 'opacity-0');
-    }, 2400);
-  }
+<p class="wf-eyebrow">Торговля · бар</p>
+<h1>Таверна</h1>
+<p>Барная Карта: молоко со льдом (хил после боя) + PvE бафф-напитки. Хрустящая Мышка. Без зелий крафтеров.</p>
+</div>
+<div class="wf-tags"><span class="wf-tag">landscape 16:9</span><span class="wf-tag">блоки без картинок</span><span class="wf-tag">без подвала</span></div>
+</header>
+<div class="wf-body grid-cols-1 lg:grid-cols-12">
+<section class="wf-block lg:col-span-7"><h2>Барная Карта</h2><p class="hint">Напитки.</p><div class="wf-grid"><div class="wf-row"><span>Молоко со льдом</span><span>хил после боя</span></div>
+<div class="wf-row"><span>Хрустящая Мышка</span><span>PvE бафф</span></div>
+<div class="wf-row"><span>Мятный эликсир</span><span>PvE / данж</span></div></div><div class="wf-tags"><button type="button" class="wf-cta" id="quickHealBtn">Быстрый хил</button><button type="button" class="wf-cta ghost" data-hud-action="tavern-formation">К строю</button></div></section>
+<section class="wf-block lg:col-span-5"><h2>Статус</h2><p class="hint">HP / энергия после боя.</p><div class="wf-grid"><div class="wf-row"><span>HP</span><span>62%</span></div>
+<div class="wf-row"><span>Энергия</span><span>3/5</span></div>
+<div class="wf-row"><span>Бафф</span><span>нет</span></div></div><div id="toastMessage" class="wf-row"><span id="toastText">Готов к заказу</span></div></section>
+</div>
+<section class="wf-block" aria-hidden="true" data-purpose="wireframe-pad"><h2>Плотность сетки</h2><p class="hint">Служебные ряды, чтобы форма была заполнена без подвала и дыр.</p><div class="wf-grid"><div class="wf-row" data-pad="Таверна-0"><span>Слот макета 1</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Таверна-1"><span>Слот макета 2</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Таверна-2"><span>Слот макета 3</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Таверна-3"><span>Слот макета 4</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Таверна-4"><span>Слот макета 5</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Таверна-5"><span>Слот макета 6</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Таверна-6"><span>Слот макета 7</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Таверна-7"><span>Слот макета 8</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Таверна-8"><span>Слот макета 9</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Таверна-9"><span>Слот макета 10</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Таверна-10"><span>Слот макета 11</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Таверна-11"><span>Слот макета 12</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Таверна-12"><span>Слот макета 13</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Таверна-13"><span>Слот макета 14</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Таверна-14"><span>Слот макета 15</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Таверна-15"><span>Слот макета 16</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Таверна-16"><span>Слот макета 17</span><span class="hint">блок заполнения · без пустот</span></div>
+<div class="wf-row" data-pad="Таверна-17"><span>Слот макета 18</span><span class="hint">блок заполнения · без пустот</span></div></div></section></main>
 
-  function orderDrink(name, cost) {
-    showToast(`Куплено: ${name} за ${cost} золотых! Отряд восстановил силы.`);
-  }
-
-  function orderRound() {
-    showToast('Раунд напитков подан всему отряду! Баффы активированы на следующий поход.');
-  }
-
-  function takeFlasks() {
-    showToast('3 походные фляги бережно уложены в сумку Хранителя!');
-  }
-
-  document.getElementById('quickHealBtn')?.addEventListener('click', () => {
-    showToast('Парное молоко со льдом выпито: здоровье всех котиков на максимуме (100%)!');
-  });
-</script></main><footer class="fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_-4px_16px_rgba(0,0,0,0.6)] h-14"><div class="w-full px-margin-tablet h-full flex items-center justify-between"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm"><span class="px-1.5 py-0.5 rounded bg-surface-container-high font-mono text-primary shadow-inner">[M]</span><span>Карта Мира</span></div><div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm"><span class="px-1.5 py-0.5 rounded bg-surface-container-high font-mono text-primary shadow-inner">[C]</span><span>Колода Котиков</span></div><div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm"><span class="px-1.5 py-0.5 rounded bg-surface-container-high font-mono text-primary shadow-inner">[I]</span><span>Инвентарь</span></div><div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm"><span class="px-1.5 py-0.5 rounded bg-surface-container-high font-mono text-primary shadow-inner">[T]</span><span>Торговый Чат</span></div><div class="flex items-center gap-space-xs text-on-surface-variant font-label-sm text-label-sm"><span class="px-1.5 py-0.5 rounded bg-surface-container-high font-mono text-primary shadow-inner">[ESC]</span><span>Меню</span></div></div><div class="flex items-center gap-space-md"><span class="font-body-sm text-body-sm text-on-surface-variant">© Таверна «Мифиус» v1.4.2</span><div class="flex items-center gap-space-xs text-secondary font-label-sm text-label-sm"><span class="material-symbols-outlined text-[16px]">cloud_done</span><span>Сервер активен</span></div></div></div></footer></body></html>
+</body>
+</html>
