@@ -119,10 +119,11 @@ func (b *Battle) AutoPlay(maxTurns int) error {
 	return nil
 }
 
-// AdvancePvEBots runs scripted AI while it is the P2 (bot) turn.
+// AdvancePvEBots runs scripted AI while it is the P2 turn.
 // Used after interactive SubmitAction so the player sees P1 again without inventing combat on the client.
+// Soft-launch local/smoke PvP uses the same scripted P2 until live matchmaking (mode-layer only; deck cycle stays §3.3).
 func (b *Battle) AdvancePvEBots() error {
-	if b.Mode != ModePvE {
+	if b.Mode != ModePvE && b.Mode != ModePvP {
 		return nil
 	}
 	guards := 0

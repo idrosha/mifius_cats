@@ -3611,3 +3611,99 @@ body:has(#viewBreeding:not(.hidden)) #app { height: 100dvh !important; max-heigh
   .mythfel-portals { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .mythfel-hub-wallet { display: none; }
 }
+
+/* Opponent turn — 6 face-down attack card backs (Axie-style discard throw), all battle modes */
+.mf-opp-throw {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+  background: radial-gradient(ellipse at 50% 42%, rgba(16, 12, 8, 0.55), rgba(8, 6, 4, 0.15) 55%, transparent 72%);
+  opacity: 0;
+  transition: opacity 0.22s ease;
+}
+.mf-opp-throw[hidden] { display: none !important; }
+.mf-opp-throw.is-on { opacity: 1; }
+.mf-opp-throw__label {
+  margin: 0 0 1.1rem;
+  font-family: Rubik, sans-serif;
+  font-size: 0.95rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #fdba45;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85);
+}
+.mf-opp-throw__fan {
+  position: relative;
+  width: min(36rem, 92vw);
+  height: 11.5rem;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.mf-opp-throw__card {
+  --i: 0;
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  width: 5.4rem;
+  height: 8.05rem;
+  object-fit: cover;
+  border-radius: 0.55rem;
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(253, 186, 69, 0.22);
+  transform-origin: 50% 110%;
+  opacity: 0;
+  transform: translate(-50%, -7.5rem) rotate(0deg) scale(0.72);
+}
+.mf-opp-throw.is-in .mf-opp-throw__card {
+  animation: mf-opp-throw-in 0.62s cubic-bezier(0.2, 0.85, 0.25, 1) forwards;
+  animation-delay: calc(var(--i) * 55ms);
+}
+.mf-opp-throw.is-hold .mf-opp-throw__card {
+  opacity: 1;
+  transform: translate(calc(-50% + (var(--i) - 2.5) * 3.35rem), 0)
+    rotate(calc((var(--i) - 2.5) * 7deg)) scale(1);
+  animation: none;
+}
+.mf-opp-throw.is-out .mf-opp-throw__card {
+  animation: mf-opp-throw-out 0.42s ease-in forwards;
+  animation-delay: calc(var(--i) * 35ms);
+}
+@keyframes mf-opp-throw-in {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -8.5rem) rotate(calc((var(--i) - 2.5) * -4deg)) scale(0.65);
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 1;
+    transform: translate(calc(-50% + (var(--i) - 2.5) * 3.35rem), 0)
+      rotate(calc((var(--i) - 2.5) * 7deg)) scale(1);
+  }
+}
+@keyframes mf-opp-throw-out {
+  0% {
+    opacity: 1;
+    transform: translate(calc(-50% + (var(--i) - 2.5) * 3.35rem), 0)
+      rotate(calc((var(--i) - 2.5) * 7deg)) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + (var(--i) - 2.5) * 4.2rem), 4.5rem)
+      rotate(calc((var(--i) - 2.5) * 14deg)) scale(0.8);
+  }
+}
+@media (max-width: 720px) {
+  .mf-opp-throw__card { width: 4.2rem; height: 6.25rem; }
+  .mf-opp-throw__fan { height: 9rem; }
+  .mf-opp-throw.is-hold .mf-opp-throw__card,
+  .mf-opp-throw.is-in .mf-opp-throw__card {
+    /* narrower fan on small screens — keyframes still use 3.35rem; ok */
+  }
+}

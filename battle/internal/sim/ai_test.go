@@ -46,3 +46,27 @@ func TestAdvancePvEBots_AfterEndTurn_ReturnsToP1(t *testing.T) {
 		t.Fatalf("after bot advance want P1, got %v", b.Active)
 	}
 }
+
+func TestAdvancePvEBots_PvPSmoke_AfterEndTurn_ReturnsToP1(t *testing.T) {
+	cat, err := content.LoadCatalog(contentRoot(t))
+	if err != nil {
+		t.Fatal(err)
+	}
+	team := []string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}
+	b, err := mode.CreatePvP(cat, "pvp_bot_advance", "m_smoke", 20261104, team, team, nil, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if err := b.SubmitAction(sim.Action{Kind: sim.ActionEndTurn}); err != nil {
+		t.Fatal(err)
+	}
+	if err := b.AdvancePvEBots(); err != nil {
+		t.Fatal(err)
+	}
+	if b.Finished() {
+		return
+	}
+	if b.Active != sim.SideP1 {
+		t.Fatalf("after PvP smoke advance want P1, got %v", b.Active)
+	}
+}
