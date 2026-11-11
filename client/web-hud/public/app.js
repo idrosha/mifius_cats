@@ -4101,19 +4101,252 @@ function ruRounds(n) {
   return `${n} ${word}`;
 }
 
+/** Dojo dummy masters for victory showcase (L→R rear · center · tank). */
+const VICTORY_DUMMIES = [
+  {
+    id: "dummy_stone_totem",
+    name: "Каменный Тотем",
+    roleRu: "САППОРТ",
+    roleIcon: "water_drop",
+    accent: "secondary",
+    lvl: 44,
+    art: "/stitch-assets/dojo/dummy-stone-totem.jpg",
+    archetype: "Магический оберег",
+    stats: [
+      { label: "Урон", value: "420", tone: "outline" },
+      { label: "Лечение", value: "1 860", tone: "secondary" },
+      { label: "Получено", value: "640", tone: "tertiary" },
+    ],
+    foot: "Тотем Додзё · Т1",
+  },
+  {
+    id: "dummy_straw_berserk",
+    name: "Соломенный Берсерк",
+    roleRu: "БОЕЦ · MVP",
+    roleIcon: "swords",
+    accent: "primary",
+    lvl: 46,
+    art: "/stitch-assets/dojo/dummy-straw-berserk.jpg",
+    archetype: "Спарринг-чучело · Ярость",
+    stats: [
+      { label: "Урон", value: "3 240", tone: "primary" },
+      { label: "Крит", value: "18%", tone: "tertiary" },
+      { label: "Опыт", value: "+0", tone: "outline" },
+    ],
+    foot: "MVP манекенов ×1.5",
+    mvp: true,
+  },
+  {
+    id: "dummy_oak_knight",
+    name: "Дубовый Рыцарь",
+    roleRu: "ТАНК",
+    roleIcon: "shield",
+    accent: "primary",
+    lvl: 48,
+    art: "/stitch-assets/dojo/dummy-oak-knight.jpg",
+    archetype: "Тяжёлый автоматон",
+    stats: [
+      { label: "Блок", value: "2 100", tone: "outline" },
+      { label: "Урон", value: "780", tone: "outline" },
+      { label: "Принято", value: "4 150", tone: "tertiary" },
+    ],
+    foot: "Рыцарь Додзё · Т1",
+  },
+];
+
+const VICTORY_SLOT_META = [
+  { key: "support", badge: "СЛОТ: ТЫЛ · САППОРТ", icon: "water_drop", accent: "secondary" },
+  { key: "fighter", badge: "СЛОТ: ЦЕНТР · БОЕЦ (MVP)", icon: "crown", accent: "primary", mvp: true },
+  { key: "tank", badge: "СЛОТ: АВАНГАРД · ТАНК", icon: "shield", accent: "primary" },
+];
+
+function victoryStarterFallback(templateId) {
+  const table = {
+    starter_tank_stone: {
+      templateId,
+      name: "Барсик Щит-утёс",
+      role: "tank",
+      roleRu: "ТАНК",
+      roleIcon: "shield",
+      accent: "primary",
+      lvl: 1,
+      dmg: 4,
+      shield: 8,
+      hp: 50,
+    },
+    starter_fighter_fire: {
+      templateId,
+      name: "Рыжик Когти",
+      role: "fighter",
+      roleRu: "БОЕЦ",
+      roleIcon: "swords",
+      accent: "tertiary",
+      lvl: 1,
+      dmg: 8,
+      shield: 3,
+      hp: 43,
+    },
+    starter_support_water: {
+      templateId,
+      name: "Мурка Родник",
+      role: "support",
+      roleRu: "САППОРТ",
+      roleIcon: "healing",
+      accent: "secondary",
+      lvl: 1,
+      dmg: 3,
+      shield: 4,
+      hp: 28,
+    },
+  };
+  return table[templateId] || null;
+}
+
+function victoryCatCards() {
+  const ids =
+    Array.isArray(state.practiceSquad) && state.practiceSquad.length === 3
+      ? state.practiceSquad
+      : STARTERS;
+  return PRACTICE_VISUAL_LANES.map((laneIdx, visualPos) => {
+    const templateId = ids[laneIdx] || STARTERS[laneIdx] || STARTERS[0];
+    const hero =
+      practiceHeroByTemplate(templateId) || victoryStarterFallback(templateId) || {
+        templateId,
+        name: templateId,
+        roleRu: "ГЕРОЙ",
+        roleIcon: "pets",
+        accent: "primary",
+        lvl: 1,
+        dmg: 4,
+        shield: 2,
+        hp: 30,
+        role: "fighter",
+      };
+    const meta = VICTORY_SLOT_META[visualPos];
+    const isMvp = !!meta?.mvp;
+    const art = catHeroArt(hero.templateId) || "/stitch-assets/cat-heroes/fighter-a.png";
+    const dmg = Math.round((hero.dmg || 4) * (isMvp ? 520 : 280));
+    const heal = hero.role === "support" || hero.role === "mage" ? Math.round((hero.shield || 3) * 420) : 0;
+    const taken = Math.round((hero.hp || 30) * (hero.role === "tank" ? 85 : 40));
+    const stats =
+      visualPos === 0
+        ? [
+            { label: "Урон", value: String(dmg), tone: "outline" },
+            { label: "Лечение", value: heal.toLocaleString("ru-RU"), tone: "secondary" },
+            { label: "Получено", value: taken.toLocaleString("ru-RU"), tone: "tertiary" },
+          ]
+        : visualPos === 1
+          ? [
+              { label: "Урон", value: dmg.toLocaleString("ru-RU"), tone: "primary" },
+              { label: "Крит", value: `${12 + (hero.dmg || 4)}%`, tone: "tertiary" },
+              { label: "Опыт", value: "+150", tone: "outline" },
+            ]
+          : [
+              { label: "Блок", value: String(Math.round((hero.shield || 4) * 260)), tone: "outline" },
+              { label: "Урон", value: String(Math.round((hero.dmg || 4) * 180)), tone: "outline" },
+              { label: "Принято", value: taken.toLocaleString("ru-RU"), tone: "tertiary" },
+            ];
+    return {
+      id: hero.templateId,
+      name: hero.name,
+      roleRu: isMvp ? `${hero.roleRu} · MVP` : hero.roleRu,
+      roleIcon: isMvp ? "crown" : hero.roleIcon,
+      accent: hero.accent || meta.accent,
+      lvl: hero.lvl || 1,
+      art,
+      archetype: CAT_HERO_BLURB[hero.templateId]?.split("·")[0]?.trim() || hero.roleRu,
+      stats,
+      foot: isMvp ? "MVP боя ×1.5" : "Победитель спарринга",
+      mvp: isMvp,
+    };
+  });
+}
+
+function victoryToneClass(tone) {
+  if (tone === "secondary") return "text-secondary";
+  if (tone === "tertiary") return "text-tertiary";
+  if (tone === "primary") return "text-primary";
+  return "text-outline";
+}
+
+function victoryHeroCardHtml(card, meta) {
+  const mvp = !!(card.mvp || meta.mvp);
+  const height = mvp ? "h-[500px] lg:h-[555px] -mt-4 z-20" : "h-[460px] lg:h-[510px]";
+  const shadow = mvp ? "shadow-2xl shadow-primary/20 border border-primary/40" : "shadow-xl border border-outline-variant/40";
+  const badgeCls = mvp
+    ? "bg-primary text-on-primary shadow-lg shadow-primary/25"
+    : "bg-surface-container-high text-on-surface shadow";
+  const iconTone = meta.accent === "secondary" ? "text-secondary" : "text-primary";
+  const stats = (card.stats || [])
+    .map(
+      (s, i) =>
+        `<div class="${i === 1 ? "border-x border-outline-variant/30" : ""}"><p class="${victoryToneClass(s.tone)} text-[10px] font-bold uppercase">${s.label}</p><p class="font-extrabold text-[18px] text-on-surface">${s.value}</p></div>`
+    )
+    .join("");
+  const footCls = mvp
+    ? "bg-primary-container/20 text-primary"
+    : "bg-surface-container text-outline";
+  return `<article class="relative flex flex-col justify-between ${height} rounded-xl bg-surface-container-high ${shadow} overflow-hidden transition-all duration-300 hover:-translate-y-1 group" data-vic-card="${card.id}" data-mvp="${mvp ? "1" : "0"}">
+<div class="absolute inset-0 z-0">
+<img alt="${card.name}" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" src="${card.art}"/>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/55 to-surface-container-lowest/20"></div>
+</div>
+<div class="relative z-10 flex items-center justify-between p-3 border-b border-outline-variant/30 bg-surface-container-lowest/55 backdrop-blur-sm">
+<div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full ${badgeCls}"><span class="material-symbols-outlined text-[16px] ${mvp ? "" : iconTone}">${mvp ? "crown" : meta.icon}</span><span class="text-[10px] font-bold uppercase tracking-wider">${meta.badge}</span></div>
+<div class="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high/90 ${mvp ? "text-primary" : "text-outline"} text-[12px] font-extrabold shadow">Ур. ${card.lvl}</div>
+</div>
+<div class="relative z-10 flex-1 flex flex-col items-center justify-end p-3 text-center min-h-0">
+${mvp ? `<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-container/25 text-primary-fixed mb-1"><span class="material-symbols-outlined text-[14px]">workspace_premium</span><span class="text-[10px] font-bold">Золотой MVP</span></div>` : ""}
+<h3 class="text-[18px] md:text-[22px] font-bold ${mvp ? "text-primary" : "text-on-surface"} drop-shadow-[0_2px_8px_rgba(0,0,0,0.85)]">${card.name}</h3>
+<p class="text-[12px] text-on-surface-variant max-w-[220px]">${card.archetype || ""}</p>
+</div>
+<div class="relative z-10 p-3 bg-surface-container-lowest/92 border-t border-outline-variant/30 flex flex-col gap-1">
+<div class="grid grid-cols-3 gap-1 text-center bg-surface-container/80 rounded-lg p-1.5">${stats}</div>
+<div class="flex items-center justify-center py-2 px-2 rounded ${footCls} text-[11px] font-bold"><span class="material-symbols-outlined text-[16px] mr-1">${mvp ? "add_circle" : "emoji_events"}</span><span>${card.foot}</span></div>
+</div>
+</article>`;
+}
+
+function renderVictorySlots(squad) {
+  const root = $("viewVictoryHall");
+  const grid = $("vicSlots") || root?.querySelector("[data-vic-slots]");
+  if (!grid) return;
+  const cards = squad === "dummies" ? VICTORY_DUMMIES : victoryCatCards();
+  grid.innerHTML = cards
+    .map((card, i) => victoryHeroCardHtml(card, VICTORY_SLOT_META[i] || VICTORY_SLOT_META[0]))
+    .join("");
+  const btnCats = $("btnVicCats");
+  const btnDummies = $("btnVicDummies");
+  const onCls =
+    "vic-squad-btn is-on flex items-center gap-2 px-4 py-1.5 rounded-full text-[12px] font-semibold bg-primary text-on-primary shadow-sm transition-all";
+  const offCls =
+    "vic-squad-btn flex items-center gap-2 px-4 py-1.5 rounded-full text-[12px] font-semibold bg-transparent text-on-surface-variant hover:text-on-surface transition-all";
+  if (btnCats) btnCats.className = squad === "cats" ? onCls : offCls;
+  if (btnDummies) btnDummies.className = squad === "dummies" ? onCls : offCls;
+  if (root) root.dataset.vicSquad = squad;
+}
+
 function renderVictoryHall() {
   const mode = state.battleMode;
   const turn = state.battle?.turn || state.battle?.round || 0;
-  const when = turn ? ` за ${ruRounds(turn)}` : "";
   const copy = {
-    practice: ["Тренировочное додзё · Арена испытаний", "Славная победа в додзё!", `3 из 3 манекенов повержены${when} · Идеальное исполнение комбо`, "Трофеи додзё"],
-    pve: ["Мифмир · Поход", "Славная победа в походе!", `Узел пройден${when}`, "Трофеи похода"],
-    pvp: ["Арена · ПвП", "Славная победа на арене!", `Соперник повержен${when}`, "Трофеи арены"],
-  }[mode] || ["Бой", "Славная победа!", "Бой завершён", "Трофеи"];
+    practice: ["Арена Сэнсэя · Триумф", "Славная победа!", "Награды за спарринг:"],
+    pve: ["Мифмир · Триумф", "Славная победа!", "Трофеи похода:"],
+    pvp: ["Арена · Триумф", "Славная победа!", "Трофеи арены:"],
+  }[mode] || ["Бой · Триумф", "Славная победа!", "Награды:"];
   if ($("vicKicker")) $("vicKicker").textContent = copy[0];
   if ($("vicTitle")) $("vicTitle").textContent = copy[1];
-  if ($("vicLead")) $("vicLead").textContent = copy[2];
-  if ($("vicLoot")) $("vicLoot").textContent = copy[3];
+  if ($("vicLoot")) $("vicLoot").textContent = copy[2];
+  if ($("vicRounds")) $("vicRounds").textContent = turn ? `Раундов: ${turn}` : "Раундов: —";
+  if ($("vicTime")) {
+    const sec = Math.max(48, Math.min(240, (turn || 3) * 28));
+    const mm = String(Math.floor(sec / 60)).padStart(2, "0");
+    const ss = String(sec % 60).padStart(2, "0");
+    $("vicTime").textContent = `Время боя: ${mm}:${ss}`;
+  }
+  // Winners stand after p1_win — cats by default; toggle shows dojo dummies.
+  const winners = state.lastResult?.result === "p2_win" ? "dummies" : "cats";
+  renderVictorySlots(winners);
   bindVictoryHall();
 }
 
@@ -4122,6 +4355,12 @@ function bindVictoryHall() {
   if (!root || root.dataset.bound === "1") return;
   root.dataset.bound = "1";
   root.addEventListener("click", (ev) => {
+    const squadBtn = ev.target.closest("[data-vic-squad]");
+    if (squadBtn && root.contains(squadBtn)) {
+      ev.preventDefault();
+      renderVictorySlots(squadBtn.getAttribute("data-vic-squad") || "cats");
+      return;
+    }
     const act = ev.target.closest("[data-win]")?.getAttribute("data-win");
     if (!act) return;
     ev.preventDefault();
@@ -4140,14 +4379,29 @@ function bindVictoryHall() {
       else startYard(false);
       return;
     }
+    if (act === "dojo") {
+      navigate(mode === "practice" ? "practice" : mode === "pve" ? "yard" : "battle_hub");
+      return;
+    }
     navigate("battle_hub");
   });
   document.addEventListener("keydown", (ev) => {
     if (root.classList.contains("hidden")) return;
     if (ev.target.closest("input, textarea")) return;
-    if (ev.code !== "KeyR") return;
-    ev.preventDefault();
-    root.querySelector('[data-win="again"]')?.click();
+    if (ev.code === "KeyR") {
+      ev.preventDefault();
+      root.querySelector('[data-win="again"]')?.click();
+      return;
+    }
+    if (ev.code === "Escape") {
+      ev.preventDefault();
+      root.querySelector('[data-win="dojo"]')?.click();
+      return;
+    }
+    if (ev.code === "Space") {
+      ev.preventDefault();
+      root.querySelector('[data-win="hub"]')?.click();
+    }
   });
 }
 

@@ -32,6 +32,7 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | `formation` | `formation.html` | e608 `versus_3v3` | Строй 3v3 **inline** (не вкладка Бои) |
 | `battle` | `battle.html` | e608 `pve_3v3` | Shared fight UI (рука / HP / ход) |
 | `result_win` | `result_win.html` | e608 root | Shared victory template |
+| `victory_hall` | `victory_hall.html` | victory-practice | Training/Mythmir win · 3 hero cards (cats↔dummies) |
 | `boss_dungeon` | `boss_dungeon.html` | 4da7 `3` | Данжи start · 3 волны |
 | `boss_raid` | `boss_raid.html` | 4da7 `12` | Рейд / легион 12 start |
 | `pvp` | `pvp.html` | 4da7 `pvp` | PvP Арена start · подбор |
@@ -85,7 +86,7 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | `equip_cards` | `equip_cards.html` | Live equip/unequip + stats (local stub) |
 | `soon_clan` | `soon_clan.html` | Create/add/remove clan members; clan-boss tip Soon |
 
-§7 soft gaps: practice **start / win** art; per-mode fight/win skins for Mythmir / PvP / dungeon / raid / GvG (shared fight + win/lose work).
+§7 soft gaps: practice **start** art (win hall wired via victory-practice); per-mode fight/win skins for Mythmir / PvP / dungeon / raid / GvG (shared fight + win/lose work).
 
 ## Nav prefs (2026-11-05)
 

@@ -406,8 +406,13 @@ ok(
 );
 ok(
   "victory_hall live in index",
-  html.includes('id="viewVictoryHall"') && html.includes('data-stitch="victory_hall"') && html.includes("vic-hall"),
-  "viewVictoryHall missing from index",
+  html.includes('id="viewVictoryHall"') &&
+    html.includes('data-stitch="victory_hall"') &&
+    html.includes("vic-hall") &&
+    html.includes('id="vicSlots"') &&
+    html.includes('data-vic-squad="cats"') &&
+    html.includes('data-vic-squad="dummies"'),
+  "viewVictoryHall missing slots/squad toggle from index",
 );
 ok(
   "practice lobby has dojo-load start screen",
