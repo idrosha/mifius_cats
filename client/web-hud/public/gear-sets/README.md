@@ -1,22 +1,26 @@
-# Gear color sets (batch 1)
+# Gear color sets (batch 1–2)
 
 Live HUD icons for character (`/hero`) and warehouse (`/barn`).  
-`thumbs/` = 256² for slots/cards. Full 1024² art lives in Project media `gear-sets-batch1/`.
+`thumbs/` = 256² for slots/cards. Full 1024² art: Project media `gear-sets-batch1/` + `gear-sets-batch2/`.
 
-| File | Set | Slot | Class |
-|---|---|---|---|
-| `grey-helm.png` | серый | helm | all |
-| `grey-armor.png` | серый | armor | all |
-| `grey-boots.png` | серый | boots | all |
-| `yellow-cloak.png` | жёлтый | armor | all |
-| `yellow-belt.png` | жёлтый | belt | all |
-| `yellow-staff.png` | жёлтый | weapon | mage |
-| `turquoise-staff.png` | бирюзовый | weapon | mage |
-| `red-helm.png` | красный | helm | all |
-| `red-armor.png` | красный | armor | all |
-| `green-crossbow.png` | зелёный | weapon | ranger |
+## Armor (all heroes)
 
-**Not in batch 1:** purple set; tank mace/shield; fighter/assassin/support weapons; remaining armor slots (gloves/ring/…) per color.
+| File | Set | Slot |
+|---|---|---|
+| `grey-helm/armor/boots` | серый | helm / armor / boots |
+| `yellow-helm/cloak/belt` | жёлтый | helm / armor / belt |
+| `red-helm/armor/cloak/belt/boots` | красный | helm / armor×2 / belt / boots |
+| `purple-helm/armor/cloak/belt/boots` | фиолетовый | helm / armor×2 / belt / boots |
+| `green-helm/armor/cloak/belt/boots` | зелёный | helm / armor×2 / belt / boots |
 
-HUD paths: `/gear-sets/<file>.png`, `/gear-sets/thumbs/<file>.png`.
-Catalog: `app.js` → `gearCatalog` / `barnCatalog` (`roles` gate on weapons).
+## Weapons (class-gated)
+
+| File | Set | Class |
+|---|---|---|
+| `yellow-staff.png` | жёлтый | mage |
+| `turquoise-staff.png` | бирюзовый | mage |
+| `green-crossbow.png` | зелёный | ranger |
+
+**Still missing:** turquoise armor pieces; tank mace+shield; fighter/assassin/support weapons; gloves/rings.
+
+HUD paths: `/gear-sets/thumbs/<file>.png`. Catalog: `app.js` → `gearCatalog` / `barnCatalog`.
