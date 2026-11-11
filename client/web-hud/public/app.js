@@ -5920,15 +5920,19 @@ function bindPracticeFightCtas() {
       const key = toggle.getAttribute("data-toggle");
       const on = toggle.classList.contains("is-on");
       if (key === "dps") {
+        toggle.textContent = on ? "DPS-метр 100%" : "DPS-метр ВЫКЛ";
+        toggle.classList.toggle("text-secondary", on);
+        toggle.classList.toggle("bg-secondary/10", on);
+        toggle.classList.toggle("text-outline", !on);
+      } else if (key === "rec") {
         toggle.innerHTML = on
-          ? `<span class="material-symbols-outlined text-secondary text-[14px]">query_stats</span> DPS-метр: ВКЛ`
-          : `<span class="material-symbols-outlined text-outline text-[14px]">query_stats</span> DPS-метр: ВЫКЛ`;
+          ? `<span class="material-symbols-outlined text-secondary text-[14px]">query_stats</span> Запись: ВКЛ`
+          : `<span class="material-symbols-outlined text-outline text-[14px]">query_stats</span> Запись: ВЫКЛ`;
+      } else if (key === "rounds" || key === "time") {
+        toggle.innerHTML = on
+          ? `<span class="material-symbols-outlined text-tertiary text-[14px]">all_inclusive</span> Раунды: Без лимита`
+          : `<span class="material-symbols-outlined text-outline text-[14px]">timer</span> Раунды: 90 с`;
       } else if (key === "ai") toggle.textContent = on ? "AI: Эксперт" : "AI: Новичок";
-      else if (key === "time") {
-        toggle.innerHTML = on
-          ? `<span class="material-symbols-outlined text-tertiary text-[14px]">all_inclusive</span> Без лимита времени`
-          : `<span class="material-symbols-outlined text-outline text-[14px]">timer</span> Лимит 90 с`;
-      }
       return;
     }
     const preset = ev.target.closest("[data-preset]");

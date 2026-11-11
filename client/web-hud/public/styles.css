@@ -3292,9 +3292,10 @@ body:has(#viewPractice > .dojo-load:not([hidden])) #wireDock { display: none; }
   border-color: #fdba45 !important;
   box-shadow: inset 0 0 0 1px rgba(253, 186, 69, 0.45);
 }
-#viewPractice [data-hero].is-picked > div:last-child button {
+#viewPractice [data-hero].is-picked button {
   background: #fdba45;
   color: #432c00;
+  border-color: rgba(253, 186, 69, 0.85);
 }
 .dojo-squad-slot.is-empty {
   min-height: 8rem;
