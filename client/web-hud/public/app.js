@@ -4456,7 +4456,35 @@ const PRACTICE_HEROES = {
   },
 };
 
+/** Sim lane 0 = front/vanguard … 2 = rear. Lobby paints L→R as rear→center→vanguard (tank right). */
 const PRACTICE_LANE_LABEL = ["Авангард", "Центр", "Тыл"];
+const PRACTICE_VISUAL_LANES = [2, 1, 0];
+const PRACTICE_EMPTY_SLOT_META = [
+  {
+    accent: "secondary",
+    icon: "auto_awesome",
+    badge: "Защита",
+    tip: "Рекомендуется: Маги, Саппорты, Стрелки",
+    blurb: "Дальний бой, исцеление союзников, баффы и контроль. Тыл защищён от прямых фронтальных атак.",
+    tags: ["Маг", "Саппорт", "Стрелок"],
+  },
+  {
+    accent: "tertiary",
+    icon: "swords",
+    badge: "DPS",
+    tip: "Рекомендуется: Стрелки, Убийцы, Бойцы",
+    blurb: "Основной урон команды (DPS), точечный фокус, пробитие брешей и критические выпады.",
+    tags: ["Стрелок", "Ассасин", "Боец"],
+  },
+  {
+    accent: "primary",
+    icon: "shield",
+    badge: "Танк",
+    tip: "Рекомендуется: Танки или Бойцы",
+    blurb: "Принимает 70%+ фронтального урона на щит, держит агро, провокация и стойкость строя.",
+    tags: ["Танк", "Боец"],
+  },
+];
 
 function practiceHeroByKey(key) {
   return PRACTICE_HEROES[key] || null;
@@ -5719,7 +5747,8 @@ function addPracticeHero(heroKey) {
   }
   state.practiceSquad.push(hero.templateId);
   renderPracticeSquad();
-  toast(`${hero.short} → слот ${state.practiceSquad.length}`);
+  const lane = PRACTICE_LANE_LABEL[state.practiceSquad.length - 1] || "строй";
+  toast(`${hero.short} → ${lane}`);
 }
 
 function removePracticeHero(templateId) {
@@ -5732,13 +5761,40 @@ function removePracticeHero(templateId) {
   toast(hero ? `${hero.short} убран из отряда` : "Котик убран из отряда");
 }
 
-function practiceSquadEmptySlot(pos) {
-  const lane = PRACTICE_LANE_LABEL[pos] || "";
-  return `<div class="dojo-squad-slot is-empty group relative rounded-xl bg-[#1a1613] border border-dashed border-outline-variant/50 overflow-hidden flex flex-col justify-center items-center min-h-0 gap-1.5 text-outline" data-slot-empty="${pos + 1}" aria-label="Пустой слот ${pos + 1}">
-<span class="material-symbols-outlined text-[28px] opacity-50">add_circle</span>
-<span class="text-[12px] font-bold">Пустой слот</span>
-<span class="text-[10px] font-bold opacity-80">Поз. ${pos + 1} • ${lane}</span>
-<span class="text-[9px] opacity-70">Нажмите героя слева</span>
+function practiceSquadEmptySlot(visualPos) {
+  const laneIdx = PRACTICE_VISUAL_LANES[visualPos] ?? visualPos;
+  const lane = PRACTICE_LANE_LABEL[laneIdx] || "";
+  const meta = PRACTICE_EMPTY_SLOT_META[visualPos] || PRACTICE_EMPTY_SLOT_META[0];
+  const accent = meta.accent || "primary";
+  const accentText = practiceAccentTextClass(accent);
+  const border =
+    accent === "secondary"
+      ? "border-secondary/40 hover:border-secondary"
+      : accent === "tertiary"
+        ? "border-tertiary/40 hover:border-tertiary"
+        : "border-primary/40 hover:border-primary";
+  const tipBorder =
+    accent === "secondary"
+      ? "border-secondary/30"
+      : accent === "tertiary"
+        ? "border-tertiary/30"
+        : "border-primary/30";
+  const badgeBg =
+    accent === "secondary"
+      ? "bg-secondary/10 text-secondary border-secondary/30"
+      : accent === "tertiary"
+        ? "bg-tertiary/20 text-tertiary border-tertiary/40"
+        : "bg-primary/20 text-primary border-primary/40";
+  const tags = (meta.tags || [])
+    .map(
+      (tag) =>
+        `<span class="px-1.5 py-0.5 rounded bg-surface-container border border-outline-variant/30 text-[9px] ${accentText} font-bold">${tag}</span>`
+    )
+    .join("");
+  return `<div class="dojo-squad-slot is-empty relative bg-[#1a1613]/80 rounded-xl border-2 border-dashed ${border} transition-all flex flex-col justify-between p-3 group cursor-pointer shadow-lg overflow-hidden min-h-0" data-slot-empty="${visualPos + 1}" data-lane="${laneIdx}" aria-label="Пустой слот · ${lane}">
+<div class="flex items-center justify-between pb-1 border-b border-outline-variant/30"><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] ${accentText}">${meta.icon}</span><span class="font-headline-md text-[12px] font-bold ${accentText} uppercase tracking-wider">Позиция ${visualPos + 1} • ${lane}</span></div><span class="text-[9px] px-1.5 py-0.5 rounded ${badgeBg} border font-bold">${meta.badge}</span></div>
+<div class="flex flex-col items-center justify-center my-auto py-2 text-center"><div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center border ${tipBorder} group-hover:scale-110 transition-transform shadow-inner"><span class="material-symbols-outlined text-[24px] ${accentText}">add</span></div><span class="font-bold text-[12px] text-on-surface mt-2">Пустой слот</span><span class="text-[10px] text-outline mt-0.5">Нажмите героя из ростера</span></div>
+<div class="flex flex-col gap-1.5 bg-[#120f0d]/90 p-2 rounded-lg border border-outline-variant/30"><div class="flex flex-col gap-0.5"><span class="text-[10px] font-bold ${accentText} flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">tips_and_updates</span> ${meta.tip}</span><p class="text-[9px] text-on-surface-variant leading-tight">${meta.blurb}</p></div><div class="flex items-center gap-1 mt-0.5 flex-wrap">${tags}</div></div>
 </div>`;
 }
 
@@ -5748,11 +5804,12 @@ function practiceAccentTextClass(accent) {
   return "text-primary";
 }
 
-function practiceSquadFilledSlot(hero, pos) {
+function practiceSquadFilledSlot(hero, visualPos) {
+  const laneIdx = PRACTICE_VISUAL_LANES[visualPos] ?? visualPos;
   const accent = hero.accent || "primary";
   const accentText = practiceAccentTextClass(accent);
   const art = catHeroArt(hero.templateId) || "";
-  const lane = PRACTICE_LANE_LABEL[pos] || "";
+  const lane = PRACTICE_LANE_LABEL[laneIdx] || "";
   const hpPct = Math.min(100, Math.round((hero.hp / 50) * 100));
   const shPct = Math.min(100, Math.round((hero.shield / 10) * 100));
   const dmgPct = Math.min(100, Math.round((hero.dmg / 10) * 100));
@@ -5760,7 +5817,7 @@ function practiceSquadFilledSlot(hero, pos) {
   const midVal = hero.role === "fighter" || hero.role === "assassin" ? hero.dmg : hero.shield;
   const midPct = hero.role === "fighter" || hero.role === "assassin" ? dmgPct : shPct;
   const midBar = accent === "tertiary" ? "bg-tertiary" : accent === "secondary" ? "bg-secondary" : "bg-primary";
-  return `<button type="button" class="dojo-squad-slot is-filled group relative rounded-xl bg-[#1a1613] border shadow-lg overflow-hidden flex flex-col justify-between min-h-0 text-left cursor-pointer hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary" data-accent="${accent}" data-squad-hero="${hero.templateId}" title="Убрать из отряда">
+  return `<button type="button" class="dojo-squad-slot is-filled group relative rounded-xl bg-[#1a1613] border shadow-lg overflow-hidden flex flex-col justify-between min-h-0 text-left cursor-pointer hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary" data-accent="${accent}" data-squad-hero="${hero.templateId}" data-lane="${laneIdx}" title="Убрать из отряда">
 <div class="absolute inset-0 z-0">
 <img alt="${hero.name}" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300 pointer-events-none" src="${art}"/>
 <div class="absolute inset-0 bg-gradient-to-t from-[#110d0b] via-[#110d0b]/75 to-transparent"></div>
@@ -5770,7 +5827,7 @@ function practiceSquadFilledSlot(hero, pos) {
 <span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur border border-outline-variant/40 ${accentText} text-[10px] font-bold">Ур. ${hero.lvl}</span>
 </div>
 <div class="relative z-10 p-2 flex flex-col gap-1 bg-gradient-to-t from-[#110d0b] via-[#110d0b]/95 to-transparent">
-<div class="flex items-center justify-between gap-1"><h4 class="font-bold text-[13px] text-white truncate">${hero.name}</h4><span class="${accentText} text-[10px] font-bold whitespace-nowrap">Поз. ${pos + 1} • ${lane}</span></div>
+<div class="flex items-center justify-between gap-1"><h4 class="font-bold text-[13px] text-white truncate">${hero.name}</h4><span class="${accentText} text-[10px] font-bold whitespace-nowrap">Поз. ${visualPos + 1} • ${lane}</span></div>
 <div class="flex flex-col gap-0.5"><div class="flex justify-between text-[10px]"><span class="text-outline">HP</span><span class="text-secondary font-bold">${hero.hp}</span></div>
 <div class="w-full bg-[#231f1c] h-1.5 rounded-full overflow-hidden"><div class="bg-secondary h-full rounded-full" style="width:${hpPct}%"></div></div></div>
 <div class="flex flex-col gap-0.5"><div class="flex justify-between text-[10px]"><span class="text-outline">${midLabel}</span><span class="${accentText} font-bold">${midVal}</span></div>
@@ -5819,14 +5876,19 @@ function renderPracticeSquad() {
   const powerEl = $("dojoSquadPower");
   const synEl = $("dojoSquadSynergy");
   if (countEl) {
-    countEl.textContent = n === 0 ? "0 котиков в строю" : `${n} ${n === 1 ? "котик" : n === 2 ? "котика" : "котиков"} в строю`;
+    countEl.textContent =
+      n === 0
+        ? "0 / 3 котиков в строю (Слот свободен)"
+        : n === 3
+          ? "3 котика в строю"
+          : `${n} / 3 ${n === 1 ? "котик" : "котика"} в строю`;
     countEl.className =
       n === 3
         ? "px-2 py-0.5 rounded-full bg-secondary/10 border border-secondary/30 text-secondary text-[10px] font-bold"
-        : "px-2 py-0.5 rounded-full bg-outline-variant/20 border border-outline-variant/40 text-outline text-[10px] font-bold";
+        : "px-2 py-0.5 rounded-full bg-surface-container-high border border-outline-variant/40 text-outline text-[10px] font-bold";
   }
   if (readyEl) {
-    readyEl.textContent = `${ready}%`;
+    readyEl.textContent = n === 0 ? "Ожидание (0%)" : `${ready}%`;
     readyEl.className = n === 3 ? "text-secondary" : "text-outline";
   }
   if (powerEl) powerEl.textContent = `${power.toLocaleString("ru-RU")} БМ`;
@@ -5834,17 +5896,22 @@ function renderPracticeSquad() {
 
   const grid = $("dojoSelectedSquad") || root.querySelector("[data-dojo-selected-squad]");
   if (grid) {
+    // Visual L→R = тыл · центр · танк (sim lanes 2 → 1 → 0). CreatePvE still uses sim order.
     const cells = [];
-    for (let i = 0; i < 3; i++) {
-      cells.push(heroes[i] ? practiceSquadFilledSlot(heroes[i], i) : practiceSquadEmptySlot(i));
+    for (let visualPos = 0; visualPos < 3; visualPos++) {
+      const laneIdx = PRACTICE_VISUAL_LANES[visualPos];
+      const hero = heroes[laneIdx] || null;
+      cells.push(hero ? practiceSquadFilledSlot(hero, visualPos) : practiceSquadEmptySlot(visualPos));
     }
     grid.innerHTML = cells.join("");
   }
 
   const match = $("dojoMatchAllies") || root.querySelector("[data-dojo-match-allies]");
   if (match) {
-    const accents = ["primary", "tertiary", "secondary"];
-    match.innerHTML = [0, 1, 2].map((i) => practiceMatchAllyCard(heroes[i] || null, accents[i])).join("");
+    const accents = ["secondary", "tertiary", "primary"];
+    match.innerHTML = PRACTICE_VISUAL_LANES.map((laneIdx, visualPos) =>
+      practiceMatchAllyCard(heroes[laneIdx] || null, accents[visualPos])
+    ).join("");
   }
 
   root.querySelectorAll("[data-hero]").forEach((card) => {

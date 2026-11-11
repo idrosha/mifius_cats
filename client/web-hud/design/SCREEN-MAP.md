@@ -36,7 +36,7 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | `boss_raid` | `boss_raid.html` | 4da7 `12` | Рейд / легион 12 start |
 | `pvp` | `pvp.html` | 4da7 `pvp` | PvP Арена start · подбор |
 | `guild_battle` | `guild_battle.html` | 4da7 root | Война гильдий lobby / башни |
-| `practice` | `practice.html` | practice-dojo-gold + 18c7 | Тренировка lobby · ростер 12 + matchup с **карточками манекенов** (64×112) + гранд-карты отряда |
+| `practice` | `practice.html` | practice-dojo-gold + practice-empty-squad | Тренировка lobby · ростер 12 + matchup dummies + отряд L→R **тыл · центр · танк** (танк справа); empty slots = stitch tips |
 | `practice_fight` | `practice_fight.html` | Stitch dojo battle HUD v2 + dummy art | Бой в додзё · dummy cards 2∶3 + VS + 6-card hand · без меню · только Выход (`#pfBack`) |
 | `guild` | `guild.html` | 18c7 `_1` | Зал гильдии (главная) |
 | `pass` | `pass.html` | ba17 `4` | Боевой пасс · сезон / трек / claim |

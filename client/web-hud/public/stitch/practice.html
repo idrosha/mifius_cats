@@ -236,17 +236,17 @@
 </div>
 </div>
 <div class="flex flex-col gap-1">
-<div class="flex flex-col gap-0.5 bg-[#1a1613] p-1 rounded-lg border border-primary/30 shadow-sm">
-<div class="flex items-center justify-between"><span class="flex items-center gap-1 text-[12px] font-bold text-primary"><span class="material-symbols-outlined text-[13px]">shield</span> 1. АВАНГАРД (Танк / Страж)</span><span class="text-[10px] font-bold text-outline uppercase">Поз. 1</span></div>
-<p class="text-[11px] text-on-surface-variant leading-tight">100% агро лобовых атак, базовый щит и провокация.<br/><span class="text-primary/90 font-semibold">Рекомендуются:</span> <span class="text-on-surface font-medium">Барсик Щит-утёс, Титан Пробой.</span></p>
+<div class="flex flex-col gap-0.5 bg-[#1a1613] p-1 rounded-lg border border-secondary/30 shadow-sm">
+<div class="flex items-center justify-between"><span class="flex items-center gap-1 text-[12px] font-bold text-secondary"><span class="material-symbols-outlined text-[13px]">spa</span> 1. ТЫЛ (Саппорт / Целитель / Маг)</span><span class="text-[10px] font-bold text-outline uppercase">Слева</span></div>
+<p class="text-[11px] text-on-surface-variant leading-tight">Защищён от атак. Хил команды, снятие дебаффов, контроль.<br/><span class="text-secondary/90 font-semibold">Рекомендуются:</span> <span class="text-on-surface font-medium">Мурка Родник, Аурелия Клирик, Фростия Лёд.</span></p>
 </div>
 <div class="flex flex-col gap-0.5 bg-[#1a1613] p-1 rounded-lg border border-tertiary/30 shadow-sm">
-<div class="flex items-center justify-between"><span class="flex items-center gap-1 text-[12px] font-bold text-tertiary"><span class="material-symbols-outlined text-[13px]">swords</span> 2. ЦЕНТР (Боец / Убийца / Стрелок)</span><span class="text-[10px] font-bold text-outline uppercase">Поз. 2</span></div>
+<div class="flex items-center justify-between"><span class="flex items-center gap-1 text-[12px] font-bold text-tertiary"><span class="material-symbols-outlined text-[13px]">swords</span> 2. ЦЕНТР (Боец / Убийца / Стрелок)</span><span class="text-[10px] font-bold text-outline uppercase">Центр</span></div>
 <p class="text-[11px] text-on-surface-variant leading-tight">Взрывной DPS, пробитие щитов, криты и кровотечение.<br/><span class="text-tertiary/90 font-semibold">Рекомендуются:</span> <span class="text-on-surface font-medium">Рыжик Когти, Гром Клинок, Тень Скрытный.</span></p>
 </div>
-<div class="flex flex-col gap-0.5 bg-[#1a1613] p-1 rounded-lg border border-secondary/30 shadow-sm">
-<div class="flex items-center justify-between"><span class="flex items-center gap-1 text-[12px] font-bold text-secondary"><span class="material-symbols-outlined text-[13px]">spa</span> 3. ТЫЛ (Саппорт / Целитель / Маг)</span><span class="text-[10px] font-bold text-outline uppercase">Поз. 3</span></div>
-<p class="text-[11px] text-on-surface-variant leading-tight">Защищён от атак. Хил команды, снятие дебаффов, контроль.<br/><span class="text-secondary/90 font-semibold">Рекомендуются:</span> <span class="text-on-surface font-medium">Мурка Родник, Аурелия Клирик, Фростия Лёд.</span></p>
+<div class="flex flex-col gap-0.5 bg-[#1a1613] p-1 rounded-lg border border-primary/30 shadow-sm">
+<div class="flex items-center justify-between"><span class="flex items-center gap-1 text-[12px] font-bold text-primary"><span class="material-symbols-outlined text-[13px]">shield</span> 3. АВАНГАРД (Танк / Страж)</span><span class="text-[10px] font-bold text-outline uppercase">Справа</span></div>
+<p class="text-[11px] text-on-surface-variant leading-tight">100% агро лобовых атак, базовый щит и провокация. На экране всегда справа.<br/><span class="text-primary/90 font-semibold">Рекомендуются:</span> <span class="text-on-surface font-medium">Барсик Щит-утёс, Титан Пробой.</span></p>
 </div>
 </div>
 </div>
@@ -269,28 +269,28 @@
 </div>
 </div>
 <div class="relative z-10 grid grid-cols-11 items-center my-auto px-2">
-<div class="col-span-5 flex items-center justify-around gap-2">
-<div class="flex flex-col items-center">
-<div class="dojo-match-card w-16 h-28 rounded-lg bg-[#1a1613] overflow-hidden relative shadow-[0_0_12px_rgba(253,186,69,0.35)] border-2 border-primary/70">
-<img alt="Барсик" class="w-full h-full object-cover object-top" src="/stitch-assets/cat-heroes/tank-a.png"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent"></div>
-<div class="absolute bottom-1 inset-x-0 text-center"><span class="text-[9px] text-primary font-bold truncate block px-1">Барсик</span></div>
+<div class="col-span-5 flex items-center justify-around gap-2" data-dojo-match-allies>
+<!-- L→R: тыл · центр · танк (танк справа) -->
+<div class="flex flex-col items-center opacity-60">
+<div class="dojo-match-card w-16 h-28 rounded-lg bg-[#1a1613] overflow-hidden relative border border-dashed border-secondary/40 flex flex-col items-center justify-center gap-1 text-secondary">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span class="text-[8px] font-bold">Тыл</span>
 </div>
-<span class="text-[10px] text-primary mt-1 font-bold">Готов!</span>
-</div><div class="flex flex-col items-center">
-<div class="dojo-match-card w-16 h-28 rounded-lg bg-[#1a1613] overflow-hidden relative shadow-[0_0_12px_rgba(253,186,69,0.35)] border-2 border-tertiary/70">
-<img alt="Рыжик" class="w-full h-full object-cover object-top" src="/stitch-assets/cat-heroes/fighter-a.png"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent"></div>
-<div class="absolute bottom-1 inset-x-0 text-center"><span class="text-[9px] text-tertiary font-bold truncate block px-1">Рыжик</span></div>
+<span class="text-[10px] text-outline mt-1 font-bold">Пусто</span>
 </div>
-<span class="text-[10px] text-tertiary mt-1 font-bold">Готов!</span>
-</div><div class="flex flex-col items-center">
-<div class="dojo-match-card w-16 h-28 rounded-lg bg-[#1a1613] overflow-hidden relative shadow-[0_0_12px_rgba(253,186,69,0.35)] border-2 border-secondary/70">
-<img alt="Мурка" class="w-full h-full object-cover object-top" src="/stitch-assets/cat-heroes/support-a.png"/>
-<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent"></div>
-<div class="absolute bottom-1 inset-x-0 text-center"><span class="text-[9px] text-secondary font-bold truncate block px-1">Мурка</span></div>
+<div class="flex flex-col items-center opacity-60">
+<div class="dojo-match-card w-16 h-28 rounded-lg bg-[#1a1613] overflow-hidden relative border border-dashed border-tertiary/40 flex flex-col items-center justify-center gap-1 text-tertiary">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span class="text-[8px] font-bold">Центр</span>
 </div>
-<span class="text-[10px] text-secondary mt-1 font-bold">Готов!</span>
+<span class="text-[10px] text-outline mt-1 font-bold">Пусто</span>
+</div>
+<div class="flex flex-col items-center opacity-60">
+<div class="dojo-match-card w-16 h-28 rounded-lg bg-[#1a1613] overflow-hidden relative border border-dashed border-primary/40 flex flex-col items-center justify-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[20px]">add</span>
+<span class="text-[8px] font-bold">Танк</span>
+</div>
+<span class="text-[10px] text-outline mt-1 font-bold">Пусто</span>
 </div>
 </div>
 <div class="col-span-1 flex flex-col items-center justify-center">
@@ -355,65 +355,20 @@
 <span class="material-symbols-outlined text-primary text-[20px]">military_tech</span>
 <div class="flex items-center gap-2">
 <span class="font-bold text-[13px] text-primary">Выбранный боевой отряд</span>
-<span class="px-2 py-0.5 rounded-full bg-secondary/10 border border-secondary/30 text-secondary text-[10px] font-bold">3 котика в строю</span>
+<span class="px-2 py-0.5 rounded-full bg-surface-container-high border border-outline-variant/40 text-outline text-[10px] font-bold">0 / 3 котиков в строю (Слот свободен)</span>
 </div>
 </div>
 <div class="flex items-center gap-2 flex-wrap justify-end">
-<div class="flex items-center gap-1 bg-[#1a1613] px-2 py-0.5 rounded border border-outline-variant/30 text-[11px]"><span class="material-symbols-outlined text-[14px] text-secondary">verified</span><span>Готовность: <b class="text-secondary">100%</b></span></div>
-<div class="flex items-center gap-1 bg-[#1a1613] px-2 py-0.5 rounded border border-outline-variant/30 text-[11px]"><span class="material-symbols-outlined text-[14px] text-primary">bolt</span><span>Мощь: <b class="text-primary">18,450 БМ</b></span></div>
-<div class="flex items-center gap-1 bg-[#1a1613] px-2 py-0.5 rounded border border-tertiary/40 text-[11px]"><span class="material-symbols-outlined text-[14px] text-tertiary">local_fire_department</span><span class="text-tertiary font-bold">Плазма &amp; Пар (+25%)</span></div>
+<div class="flex items-center gap-1 bg-[#1a1613] px-2 py-0.5 rounded border border-outline-variant/30 text-[11px]"><span class="material-symbols-outlined text-[14px] text-outline">hourglass_empty</span><span>Готовность: <b class="text-outline">Ожидание (0%)</b></span></div>
+<div class="flex items-center gap-1 bg-[#1a1613] px-2 py-0.5 rounded border border-outline-variant/30 text-[11px]"><span class="material-symbols-outlined text-[14px] text-primary">bolt</span><span>Мощь: <b class="text-outline">0 БМ</b></span></div>
+<div class="flex items-center gap-1 bg-[#1a1613] px-2 py-0.5 rounded border border-outline-variant/40 text-[11px]"><span class="material-symbols-outlined text-[14px] text-outline">blur_on</span><span class="text-outline font-medium">Стихии не активированы</span></div>
 </div>
 </div>
-<div class="grid grid-cols-3 gap-2.5 flex-1 min-h-0 py-1">
-<div class="group relative rounded-xl bg-[#1a1613] border border-primary/50 shadow-lg overflow-hidden flex flex-col justify-between min-h-0">
-<div class="absolute inset-0 z-0">
-<img alt="Барсик Щит-утёс" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300 pointer-events-none" src="/stitch-assets/cat-heroes/tank-a.png"/>
-<div class="absolute inset-0 bg-gradient-to-t from-[#110d0b] via-[#110d0b]/75 to-transparent"></div>
-</div>
-<div class="relative z-10 p-2 flex items-center justify-between">
-<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur border border-primary/40 text-primary text-[9px] font-bold flex items-center gap-1"><span class="material-symbols-outlined text-[11px]">shield</span> ТАНК</span>
-<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur border border-primary/40 text-primary text-[10px] font-bold">Ур. 50</span>
-</div>
-<div class="relative z-10 p-2 flex flex-col gap-1 bg-gradient-to-t from-[#110d0b] via-[#110d0b]/95 to-transparent">
-<div class="flex items-center justify-between"><h4 class="font-bold text-[13px] text-white truncate">Барсик Щит-утёс</h4><span class="text-primary text-[10px] font-bold">Поз. 1 • Авангард</span></div>
-<div class="flex flex-col gap-0.5"><div class="flex justify-between text-[10px]"><span class="text-outline">HP</span><span class="text-secondary font-bold">14,200</span></div>
-<div class="w-full bg-[#231f1c] h-1.5 rounded-full overflow-hidden"><div class="bg-secondary h-full rounded-full" style="width: 90%"></div></div></div><div class="flex flex-col gap-0.5"><div class="flex justify-between text-[10px]"><span class="text-outline">Щит</span><span class="text-primary font-bold">4,800</span></div>
-<div class="w-full bg-[#231f1c] h-1.5 rounded-full overflow-hidden"><div class="bg-primary h-full rounded-full" style="width: 75%"></div></div></div><div class="flex flex-col gap-0.5"><div class="flex justify-between text-[10px]"><span class="text-outline">Урон</span><span class="text-on-surface font-bold">5,200</span></div>
-<div class="w-full bg-[#231f1c] h-1.5 rounded-full overflow-hidden"><div class="bg-on-surface/60 h-full rounded-full" style="width: 55%"></div></div></div>
-</div>
-</div><div class="group relative rounded-xl bg-[#1a1613] border border-tertiary/50 shadow-lg overflow-hidden flex flex-col justify-between min-h-0">
-<div class="absolute inset-0 z-0">
-<img alt="Рыжик Когти" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300 pointer-events-none" src="/stitch-assets/cat-heroes/fighter-a.png"/>
-<div class="absolute inset-0 bg-gradient-to-t from-[#110d0b] via-[#110d0b]/75 to-transparent"></div>
-</div>
-<div class="relative z-10 p-2 flex items-center justify-between">
-<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur border border-tertiary/40 text-tertiary text-[9px] font-bold flex items-center gap-1"><span class="material-symbols-outlined text-[11px]">swords</span> БОЕЦ</span>
-<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur border border-tertiary/40 text-tertiary text-[10px] font-bold">Ур. 48</span>
-</div>
-<div class="relative z-10 p-2 flex flex-col gap-1 bg-gradient-to-t from-[#110d0b] via-[#110d0b]/95 to-transparent">
-<div class="flex items-center justify-between"><h4 class="font-bold text-[13px] text-white truncate">Рыжик Когти</h4><span class="text-tertiary text-[10px] font-bold">Поз. 2 • Центр</span></div>
-<div class="flex flex-col gap-0.5"><div class="flex justify-between text-[10px]"><span class="text-outline">HP</span><span class="text-secondary font-bold">9,600</span></div>
-<div class="w-full bg-[#231f1c] h-1.5 rounded-full overflow-hidden"><div class="bg-secondary h-full rounded-full" style="width: 65%"></div></div></div><div class="flex flex-col gap-0.5"><div class="flex justify-between text-[10px]"><span class="text-outline">Атака</span><span class="text-tertiary font-bold">8,450</span></div>
-<div class="w-full bg-[#231f1c] h-1.5 rounded-full overflow-hidden"><div class="bg-tertiary h-full rounded-full" style="width: 95%"></div></div></div><div class="flex flex-col gap-0.5"><div class="flex justify-between text-[10px]"><span class="text-outline">Щит</span><span class="text-primary font-bold">3,200</span></div>
-<div class="w-full bg-[#231f1c] h-1.5 rounded-full overflow-hidden"><div class="bg-primary h-full rounded-full" style="width: 60%"></div></div></div>
-</div>
-</div><div class="group relative rounded-xl bg-[#1a1613] border border-secondary/50 shadow-lg overflow-hidden flex flex-col justify-between min-h-0">
-<div class="absolute inset-0 z-0">
-<img alt="Мурка Родник" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300 pointer-events-none" src="/stitch-assets/cat-heroes/support-a.png"/>
-<div class="absolute inset-0 bg-gradient-to-t from-[#110d0b] via-[#110d0b]/75 to-transparent"></div>
-</div>
-<div class="relative z-10 p-2 flex items-center justify-between">
-<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur border border-secondary/40 text-secondary text-[9px] font-bold flex items-center gap-1"><span class="material-symbols-outlined text-[11px]">healing</span> САППОРТ</span>
-<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur border border-secondary/40 text-secondary text-[10px] font-bold">Ур. 47</span>
-</div>
-<div class="relative z-10 p-2 flex flex-col gap-1 bg-gradient-to-t from-[#110d0b] via-[#110d0b]/95 to-transparent">
-<div class="flex items-center justify-between"><h4 class="font-bold text-[13px] text-white truncate">Мурка Родник</h4><span class="text-secondary text-[10px] font-bold">Поз. 3 • Тыл</span></div>
-<div class="flex flex-col gap-0.5"><div class="flex justify-between text-[10px]"><span class="text-outline">HP</span><span class="text-secondary font-bold">11,100</span></div>
-<div class="w-full bg-[#231f1c] h-1.5 rounded-full overflow-hidden"><div class="bg-secondary h-full rounded-full" style="width: 78%"></div></div></div><div class="flex flex-col gap-0.5"><div class="flex justify-between text-[10px]"><span class="text-outline">Щит</span><span class="text-primary font-bold">4,100</span></div>
-<div class="w-full bg-[#231f1c] h-1.5 rounded-full overflow-hidden"><div class="bg-primary h-full rounded-full" style="width: 70%"></div></div></div><div class="flex flex-col gap-0.5"><div class="flex justify-between text-[10px]"><span class="text-outline">Урон</span><span class="text-secondary font-bold">3,850</span></div>
-<div class="w-full bg-[#231f1c] h-1.5 rounded-full overflow-hidden"><div class="bg-secondary h-full rounded-full" style="width: 65%"></div></div></div>
-</div>
-</div>
+<div class="grid grid-cols-3 gap-2.5 flex-1 min-h-0 py-1" data-dojo-selected-squad>
+<!-- L→R: Поз.1 Тыл · Поз.2 Центр · Поз.3 Авангард (танк справа) -->
+<div class="relative bg-[#1a1613]/80 rounded-xl border-2 border-dashed border-secondary/40 hover:border-secondary transition-all flex flex-col justify-between p-3 group cursor-pointer shadow-lg overflow-hidden"><div class="flex items-center justify-between pb-1 border-b border-outline-variant/30"><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] text-secondary">auto_awesome</span><span class="font-headline-md text-[12px] font-bold text-secondary uppercase tracking-wider">Позиция 1 • Тыл</span></div><span class="text-[9px] px-1.5 py-0.5 rounded bg-secondary/10 text-secondary border border-secondary/30 font-bold">Защита</span></div><div class="flex flex-col items-center justify-center my-auto py-2 text-center"><div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center border border-secondary/30 group-hover:scale-110 group-hover:border-secondary transition-transform shadow-inner"><span class="material-symbols-outlined text-[24px] text-secondary">add</span></div><span class="font-bold text-[12px] text-on-surface mt-2">Пустой слот</span><span class="text-[10px] text-outline mt-0.5">Нажмите героя из ростера</span></div><div class="flex flex-col gap-1.5 bg-[#120f0d]/90 p-2 rounded-lg border border-outline-variant/30"><div class="flex flex-col gap-0.5"><span class="text-[10px] font-bold text-secondary flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">tips_and_updates</span> Рекомендуется: Маги, Саппорты, Стрелки</span><p class="text-[9px] text-on-surface-variant leading-tight">Дальний бой, исцеление союзников, баффы и контроль. Тыл защищён от прямых фронтальных атак.</p></div><div class="flex items-center gap-1 mt-0.5"><span class="px-1.5 py-0.5 rounded bg-surface-container border border-outline-variant/30 text-[9px] text-secondary font-bold">Маг</span><span class="px-1.5 py-0.5 rounded bg-surface-container border border-outline-variant/30 text-[9px] text-secondary font-bold">Саппорт</span><span class="px-1.5 py-0.5 rounded bg-surface-container border border-outline-variant/30 text-[9px] text-secondary font-bold">Стрелок</span></div></div></div>
+<div class="relative bg-[#1a1613]/80 rounded-xl border-2 border-dashed border-tertiary/40 hover:border-tertiary transition-all flex flex-col justify-between p-3 group cursor-pointer shadow-lg overflow-hidden"><div class="flex items-center justify-between pb-1 border-b border-outline-variant/30"><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] text-tertiary">swords</span><span class="font-headline-md text-[12px] font-bold text-tertiary uppercase tracking-wider">Позиция 2 • Центр</span></div><span class="text-[9px] px-1.5 py-0.5 rounded bg-tertiary/20 text-tertiary border border-tertiary/40 font-bold">DPS</span></div><div class="flex flex-col items-center justify-center my-auto py-2 text-center"><div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center border border-tertiary/30 group-hover:scale-110 group-hover:border-tertiary transition-transform shadow-inner"><span class="material-symbols-outlined text-[24px] text-tertiary">add</span></div><span class="font-bold text-[12px] text-on-surface mt-2">Пустой слот</span><span class="text-[10px] text-outline mt-0.5">Нажмите героя из ростера</span></div><div class="flex flex-col gap-1.5 bg-[#120f0d]/90 p-2 rounded-lg border border-outline-variant/30"><div class="flex flex-col gap-0.5"><span class="text-[10px] font-bold text-tertiary flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">tips_and_updates</span> Рекомендуется: Стрелки, Убийцы, Бойцы</span><p class="text-[9px] text-on-surface-variant leading-tight">Основной урон команды (DPS), точечный фокус, пробитие брешей и критические выпады.</p></div><div class="flex items-center gap-1 mt-0.5"><span class="px-1.5 py-0.5 rounded bg-surface-container border border-outline-variant/30 text-[9px] text-tertiary font-bold">Стрелок</span><span class="px-1.5 py-0.5 rounded bg-surface-container border border-outline-variant/30 text-[9px] text-tertiary font-bold">Ассасин</span><span class="px-1.5 py-0.5 rounded bg-surface-container border border-outline-variant/30 text-[9px] text-tertiary font-bold">Боец</span></div></div></div>
+<div class="relative bg-[#1a1613]/80 rounded-xl border-2 border-dashed border-primary/40 hover:border-primary transition-all flex flex-col justify-between p-3 group cursor-pointer shadow-lg overflow-hidden"><div class="flex items-center justify-between pb-1 border-b border-outline-variant/30"><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] text-primary">shield</span><span class="font-headline-md text-[12px] font-bold text-primary uppercase tracking-wider">Позиция 3 • Авангард</span></div><span class="text-[9px] px-1.5 py-0.5 rounded bg-primary/20 text-primary border border-primary/40 font-bold">Танк</span></div><div class="flex flex-col items-center justify-center my-auto py-2 text-center"><div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center border border-primary/30 group-hover:scale-110 group-hover:border-primary transition-transform shadow-inner"><span class="material-symbols-outlined text-[24px] text-primary">add</span></div><span class="font-bold text-[12px] text-on-surface mt-2">Пустой слот</span><span class="text-[10px] text-outline mt-0.5">Нажмите героя из ростера</span></div><div class="flex flex-col gap-1.5 bg-[#120f0d]/90 p-2 rounded-lg border border-outline-variant/30"><div class="flex flex-col gap-0.5"><span class="text-[10px] font-bold text-primary flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">tips_and_updates</span> Рекомендуется: Танки или Бойцы</span><p class="text-[9px] text-on-surface-variant leading-tight">Принимает 70%+ фронтального урона на щит, держит агро, провокация и стойкость строя.</p></div><div class="flex items-center gap-1 mt-0.5"><span class="px-1.5 py-0.5 rounded bg-surface-container border border-outline-variant/30 text-[9px] text-primary font-bold">Танк</span><span class="px-1.5 py-0.5 rounded bg-surface-container border border-outline-variant/30 text-[9px] text-primary font-bold">Боец</span></div></div></div>
 </div>
 <div class="flex items-center justify-between bg-surface-container-lowest/90 px-3 py-1 rounded-xl border border-outline-variant/30 flex-shrink-0 gap-2 flex-wrap">
 <div class="flex items-center gap-3">
