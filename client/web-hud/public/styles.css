@@ -423,6 +423,19 @@ body.mythfel-login .mythfel-logout {
   background: #110d0b !important;
   margin: 0 !important;
 }
+/* Detail cards under the round map pins stay closed until the pin is hovered. */
+#viewSoonFarm .group.cursor-pointer > .rounded-xl {
+  display: none !important;
+}
+#viewSoonFarm .group.cursor-pointer:hover,
+#viewSoonFarm .group.cursor-pointer:focus-within {
+  z-index: 45;
+}
+#viewSoonFarm .group.cursor-pointer:hover > .rounded-xl,
+#viewSoonFarm .group.cursor-pointer:focus-within > .rounded-xl {
+  display: flex !important;
+  flex-direction: column;
+}
 #viewSoonFarm .farm-map-art,
 #viewSoonFarm img[alt="Двор и Угодья"] {
   position: absolute !important;
