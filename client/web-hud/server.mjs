@@ -23,9 +23,8 @@ const REPO = resolveRepoRoot();
 
 // Amvera requires 0.0.0.0 (not localhost) or the edge returns 502/503.
 const HUD_ADDR = process.env.HUD_ADDR || "0.0.0.0";
-// HARD: only process.env.PORT, else 5000 (= amvera.yaml containerPort).
-// Do NOT read HUD_PORT — a leftover HUD_PORT=8088 in Amvera Variables caused
-// listen :8088 while health-check hit :5000 → SIGTERM → 503.
+// HARD: process.env.PORT || 5000 on 0.0.0.0 (Amvera Docker: ENV PORT + containerPort 5000).
+// Do NOT read HUD_PORT — leftover HUD_PORT=8088 caused probe miss → SIGTERM → 503.
 const HUD_PORT = Number(process.env.PORT) || 5000;
 if (!Number.isFinite(HUD_PORT) || HUD_PORT <= 0) {
   console.error(`mythfel-web-hud: bad PORT=${process.env.PORT}`);

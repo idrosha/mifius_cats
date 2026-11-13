@@ -1,6 +1,6 @@
-# Optional local/image build of Mythfel web-hud (NOT used by Amvera Node deploy).
-# Kept out of repo root so Amvera does not fall back to Docker when amvera.yaml
-# is missing. Production path: amvera.yaml → scriptName: server.mjs.
+# Amvera Docker deploy — Mythfel web-hud ONLY (no monorepo in /app).
+# Docs: https://docs.amvera.ru/applications/configuration/docker.html
+# Image CMD is plain `node server.mjs` — never `npm start`.
 FROM node:20-bookworm-slim
 
 WORKDIR /app
@@ -10,7 +10,7 @@ COPY client/web-hud/public ./public
 COPY content/i18n ./content/i18n
 COPY liveops/config ./liveops/config
 
-# package.json start matches /app layout (Amvera log showed npm start of nested path).
+# Tiny package.json only so accidental `npm start` still runs the same file.
 RUN printf '%s\n' \
   '{' \
   '  "name": "mythfel-web-hud",' \
@@ -22,10 +22,9 @@ RUN printf '%s\n' \
 
 ENV NODE_ENV=production
 ENV HUD_ADDR=0.0.0.0
-# Prefer PORT from Amvera (containerPort). Default 5000 matches amvera.yaml.
+# Amvera sets PORT from run.containerPort; keep default in sync with amvera.yaml.
 ENV PORT=5000
 
 EXPOSE 5000
 
-# Fallback if someone builds this image; amvera.yaml now uses Node/npm + scriptName.
 CMD ["node", "server.mjs"]
