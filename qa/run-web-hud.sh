@@ -62,17 +62,18 @@ wait_http "http://127.0.0.1:${BATTLE_PORT}/healthz" "battle-devapi"
 
 echo "=== Mythfel Web HUD :${HUD_PORT} ==="
 export HUD_ADDR="${HUD_ADDR:-0.0.0.0}"
-export HUD_PORT
+# server.mjs listens on process.env.PORT only (Amvera-compatible).
+export PORT="${PORT:-$HUD_PORT}"
 export BATTLE_URL="http://127.0.0.1:${BATTLE_PORT}"
 export LIVEOPS_URL="http://127.0.0.1:${CDN_PORT}"
 
 node "$ROOT/client/web-hud/server.mjs" &
 PIDS+=($!)
 
-wait_http "http://127.0.0.1:${HUD_PORT}/healthz" "web-hud"
+wait_http "http://127.0.0.1:${PORT}/healthz" "web-hud"
 
 echo
-echo "READY — открой http://127.0.0.1:${HUD_PORT}/"
+echo "READY — открой http://127.0.0.1:${PORT}/"
 echo "  LiveOps  http://127.0.0.1:${CDN_PORT}/v1/liveops.json"
 echo "  Battle   http://127.0.0.1:${BATTLE_PORT}/healthz"
 echo "Ctrl+C — остановить все."

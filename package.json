@@ -5,7 +5,7 @@
   "description": "Мифиус / Mythfel — cat battle soft launch (no quiz monorepo)",
   "scripts": {
     "start": "node server.mjs",
-    "hud": "node client/web-hud/server.mjs",
+    "hud": "PORT=${PORT:-8088} node client/web-hud/server.mjs",
     "hud:vendor-stitch": "npm run vendor-stitch --prefix client/web-hud",
     "hud:build-stitch": "npm run build-stitch --prefix client/web-hud",
     "hud:verify-nav": "npm run verify-nav --prefix client/web-hud",
