@@ -1,17 +1,22 @@
-# Amvera — Mythfel web-hud only (no quiz, no Unity, no battle process).
+# Amvera — Mythfel web-hud only (no quiz / Unity / battle process).
 # Docs: https://docs.amvera.ru/applications/environments/nodejs-server.html
-# App must listen on 0.0.0.0 and process.env.PORT (see client/web-hud/server.mjs).
+# App listens on 0.0.0.0 + process.env.PORT (client/web-hud/server.mjs).
 meta:
   environment: node
   toolchain:
     name: npm
-    version: "20"
+    version: 20
 
 build:
-  # Root + web-hud have no runtime npm dependencies.
-  skip: yes
+  # Do NOT skip npm build — Amvera FAQ: Node + skip → missing files / failed start.
+  # Ship only the HUD payload (repo is ~1GB; default "*" times out / blows the pack).
+  artifacts:
+    "package.json": /
+    "client/web-hud": /client
+    "content/i18n": /content
+    "liveops/config": /liveops
 
 run:
-  scriptName: client/web-hud/server.mjs
-  # Amvera sets PORT to this value (default 80 if omitted).
+  # Full start command (Amvera run.command). PORT defaults to containerPort.
+  command: node client/web-hud/server.mjs
   containerPort: 80
