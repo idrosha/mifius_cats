@@ -4750,33 +4750,30 @@ const PRACTICE_HEROES = {
   },
 };
 
-/** Selection index 0..2 = lobby L→R slots = CreatePvE team lanes (no reverse). */
-const PRACTICE_LANE_LABEL = ["Тыл", "Центр", "Авангард"];
+/** Selection index 0..2 = lobby L→R = CreatePvE lanes = FULL-SPEC фронт→тыл. */
+const PRACTICE_LANE_LABEL = ["Авангард", "Центр", "Тыл"];
 const PRACTICE_VISUAL_LANES = [0, 1, 2];
 const PRACTICE_EMPTY_SLOT_META = [
   {
-    accent: "secondary",
-    icon: "auto_awesome",
-    badge: "Защита",
-    tip: "Рекомендуется: Маги, Саппорты, Стрелки",
-    blurb: "Дальний бой, исцеление союзников, баффы и контроль. Тыл защищён от прямых фронтальных атак.",
-    tags: ["Маг", "Саппорт", "Стрелок"],
+    accent: "primary",
+    icon: "shield",
+    badge: "Фронт",
+    tip: "Танк / боец",
+    tags: ["Танк", "Боец"],
   },
   {
     accent: "tertiary",
     icon: "swords",
-    badge: "DPS",
-    tip: "Рекомендуется: Стрелки, Убийцы, Бойцы",
-    blurb: "Основной урон команды (DPS), точечный фокус, пробитие брешей и критические выпады.",
-    tags: ["Стрелок", "Ассасин", "Боец"],
+    badge: "Центр",
+    tip: "Боец / ассасин / стрелок",
+    tags: ["Боец", "Ассасин", "Стрелок"],
   },
   {
-    accent: "primary",
-    icon: "shield",
-    badge: "Танк",
-    tip: "Рекомендуется: Танки или Бойцы",
-    blurb: "Принимает 70%+ фронтального урона на щит, держит агро, провокация и стойкость строя.",
-    tags: ["Танк", "Боец"],
+    accent: "secondary",
+    icon: "auto_awesome",
+    badge: "Тыл",
+    tip: "Саппорт / маг / стрелок",
+    tags: ["Саппорт", "Маг", "Стрелок"],
   },
 ];
 
@@ -6182,10 +6179,10 @@ function practiceSquadEmptySlot(visualPos) {
         `<span class="px-1.5 py-0.5 rounded bg-surface-container border border-outline-variant/30 text-[9px] ${accentText} font-bold">${tag}</span>`
     )
     .join("");
-  return `<div class="dojo-squad-slot is-empty relative bg-[#1a1613]/80 rounded-xl border-2 border-dashed ${border} transition-all flex flex-col justify-between p-3 group cursor-pointer shadow-lg overflow-hidden min-h-0" data-slot-empty="${visualPos + 1}" data-lane="${laneIdx}" aria-label="Пустой слот · ${lane}">
-<div class="flex items-center justify-between pb-1 border-b border-outline-variant/30"><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] ${accentText}">${meta.icon}</span><span class="font-headline-md text-[12px] font-bold ${accentText} uppercase tracking-wider">Позиция ${visualPos + 1} • ${lane}</span></div><span class="text-[9px] px-1.5 py-0.5 rounded ${badgeBg} border font-bold">${meta.badge}</span></div>
-<div class="flex flex-col items-center justify-center my-auto py-2 text-center"><div class="w-12 h-12 rounded-full bg-surface-container flex items-center justify-center border ${tipBorder} group-hover:scale-110 transition-transform shadow-inner"><span class="material-symbols-outlined text-[24px] ${accentText}">add</span></div><span class="font-bold text-[12px] text-on-surface mt-2">Пустой слот</span><span class="text-[10px] text-outline mt-0.5">Нажмите героя из ростера</span></div>
-<div class="flex flex-col gap-1.5 bg-[#120f0d]/90 p-2 rounded-lg border border-outline-variant/30"><div class="flex flex-col gap-0.5"><span class="text-[10px] font-bold ${accentText} flex items-center gap-1"><span class="material-symbols-outlined text-[12px]">tips_and_updates</span> ${meta.tip}</span><p class="text-[9px] text-on-surface-variant leading-tight">${meta.blurb}</p></div><div class="flex items-center gap-1 mt-0.5 flex-wrap">${tags}</div></div>
+  return `<div class="dojo-squad-slot is-empty relative bg-[#1a1613]/80 rounded-xl border-2 border-dashed ${border} transition-all flex flex-col justify-center p-3 group cursor-pointer shadow-lg overflow-hidden min-h-0 gap-2" data-slot-empty="${visualPos + 1}" data-lane="${laneIdx}" aria-label="Пустой слот · ${lane}">
+<div class="flex items-center justify-between"><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] ${accentText}">${meta.icon}</span><span class="font-bold text-[12px] ${accentText} uppercase tracking-wider">${lane}</span></div><span class="text-[9px] px-1.5 py-0.5 rounded ${badgeBg} border font-bold">${meta.badge}</span></div>
+<div class="flex flex-col items-center text-center py-3"><div class="w-11 h-11 rounded-full bg-surface-container flex items-center justify-center border ${tipBorder} group-hover:scale-105 transition-transform"><span class="material-symbols-outlined text-[22px] ${accentText}">add</span></div><span class="text-[11px] text-on-surface mt-2 font-bold">${meta.tip}</span></div>
+<div class="flex items-center gap-1 flex-wrap justify-center">${tags}</div>
 </div>`;
 }
 
@@ -6215,10 +6212,10 @@ function practiceSquadFilledSlot(hero, visualPos) {
 </div>
 <div class="relative z-10 p-2 flex items-center justify-between">
 <span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur border border-outline-variant/40 ${accentText} text-[9px] font-bold flex items-center gap-1"><span class="material-symbols-outlined text-[11px]">${hero.roleIcon}</span> ${hero.roleRu}</span>
-<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur border border-outline-variant/40 ${accentText} text-[10px] font-bold">Ур. ${hero.lvl}</span>
+<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur border border-outline-variant/40 ${accentText} text-[10px] font-bold">${lane}</span>
 </div>
 <div class="relative z-10 p-2 flex flex-col gap-1 bg-gradient-to-t from-[#110d0b] via-[#110d0b]/95 to-transparent">
-<div class="flex items-center justify-between gap-1"><h4 class="font-bold text-[13px] text-white truncate">${hero.name}</h4><span class="${accentText} text-[10px] font-bold whitespace-nowrap">Поз. ${visualPos + 1} • ${lane}</span></div>
+<div class="flex items-center justify-between gap-1"><h4 class="font-bold text-[13px] text-white truncate">${hero.name}</h4><span class="${accentText} text-[10px] font-bold whitespace-nowrap">Слот ${visualPos + 1}</span></div>
 <div class="flex flex-col gap-0.5"><div class="flex justify-between text-[10px]"><span class="text-outline">HP</span><span class="text-secondary font-bold">${hero.hp}</span></div>
 <div class="w-full bg-[#231f1c] h-1.5 rounded-full overflow-hidden"><div class="bg-secondary h-full rounded-full" style="width:${hpPct}%"></div></div></div>
 <div class="flex flex-col gap-0.5"><div class="flex justify-between text-[10px]"><span class="text-outline">${midLabel}</span><span class="${accentText} font-bold">${midVal}</span></div>
@@ -6260,34 +6257,39 @@ function renderPracticeSquad() {
   const squad = state.practiceSquad;
   const heroes = squad.map((id) => practiceHeroByTemplate(id)).filter(Boolean);
   const n = heroes.length;
-  const power = heroes.reduce((s, h) => s + (h.bm || 0), 0);
-  const ready = Math.round((n / 3) * 100);
+  const hpPool = heroes.reduce((s, h) => {
+    const base = CONTENT_CAT_BASE[h.templateId];
+    return s + (base?.hp ?? h.hp ?? 0);
+  }, 0);
   const countEl = $("dojoSquadCount");
   const readyEl = $("dojoSquadReady");
   const powerEl = $("dojoSquadPower");
   const synEl = $("dojoSquadSynergy");
   if (countEl) {
-    countEl.textContent =
-      n === 0
-        ? "0 / 3 котиков в строю (Слот свободен)"
-        : n === 3
-          ? "3 котика в строю"
-          : `${n} / 3 ${n === 1 ? "котик" : "котика"} в строю`;
+    countEl.textContent = n === 0 ? "0 / 3" : n === 3 ? "Готов · 3 / 3" : `${n} / 3`;
     countEl.className =
       n === 3
         ? "px-2 py-0.5 rounded-full bg-secondary/10 border border-secondary/30 text-secondary text-[10px] font-bold"
         : "px-2 py-0.5 rounded-full bg-surface-container-high border border-outline-variant/40 text-outline text-[10px] font-bold";
   }
   if (readyEl) {
-    readyEl.textContent = n === 0 ? "Ожидание (0%)" : `${ready}%`;
+    readyEl.textContent = n === 3 ? "Можно начинать" : "Нужно 3 кота";
     readyEl.className = n === 3 ? "text-secondary" : "text-outline";
   }
-  if (powerEl) powerEl.textContent = `${power.toLocaleString("ru-RU")} БМ`;
-  if (synEl) synEl.classList.toggle("hidden", n < 2);
+  if (powerEl) powerEl.textContent = `${hpPool} HP`;
+  if (synEl) synEl.classList.add("hidden");
+
+  // Hide soft-launch debug chrome on dojo.
+  root.querySelectorAll("[data-toggle]").forEach((el) => {
+    el.hidden = true;
+  });
+  root.querySelectorAll("[data-preset]").forEach((btn) => {
+    const id = btn.getAttribute("data-preset");
+    if (id && id !== "t1") btn.hidden = true;
+  });
 
   const grid = $("dojoSelectedSquad") || root.querySelector("[data-dojo-selected-squad]");
   if (grid) {
-    // Visual L→R = selection order (first pick → slot 1). CreatePvE uses the same array.
     const cells = [];
     for (let visualPos = 0; visualPos < 3; visualPos++) {
       const hero = heroes[visualPos] || null;
@@ -6298,7 +6300,7 @@ function renderPracticeSquad() {
 
   const match = $("dojoMatchAllies") || root.querySelector("[data-dojo-match-allies]");
   if (match) {
-    const accents = ["secondary", "tertiary", "primary"];
+    const accents = ["primary", "tertiary", "secondary"];
     match.innerHTML = [0, 1, 2]
       .map((idx) => practiceMatchAllyCard(heroes[idx] || null, accents[idx]))
       .join("");
@@ -6308,16 +6310,35 @@ function renderPracticeSquad() {
     const key = card.getAttribute("data-hero");
     const hero = practiceHeroByKey(key);
     const on = !!(hero && squad.includes(hero.templateId));
+    const slotIdx = on ? squad.indexOf(hero.templateId) : -1;
     card.classList.toggle("is-picked", on);
     card.setAttribute("aria-pressed", on ? "true" : "false");
     const btn = card.querySelector("button");
-    if (btn) btn.textContent = on ? "В отряде" : "+ В отряд";
+    if (btn) {
+      btn.textContent = on ? `Слот ${slotIdx + 1}` : "+ В отряд";
+    }
+    if (hero) {
+      const base = CONTENT_CAT_BASE[hero.templateId];
+      const hpLabel = `${base?.hp ?? hero.hp} HP`;
+      for (const span of card.querySelectorAll("span")) {
+        const t = span.textContent || "";
+        if (/\d[\d\s,]*\s*БМ/.test(t) || span.hasAttribute("data-dojo-bm")) {
+          span.setAttribute("data-dojo-bm", "1");
+          span.textContent = hpLabel;
+          break;
+        }
+      }
+    }
   });
 
   const startBtn = root.querySelector("#btnDojoStart, .dojo-start");
   if (startBtn) {
-    startBtn.classList.toggle("is-disabled", n !== 3);
-    startBtn.setAttribute("aria-disabled", n !== 3 ? "true" : "false");
+    const ready = n === 3;
+    startBtn.classList.toggle("is-disabled", !ready);
+    startBtn.disabled = !ready;
+    startBtn.setAttribute("aria-disabled", ready ? "false" : "true");
+    startBtn.style.opacity = ready ? "" : "0.45";
+    startBtn.style.pointerEvents = ready ? "" : "none";
   }
 }
 
