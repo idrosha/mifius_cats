@@ -650,6 +650,8 @@ const state = {
   battleMode: "pve", // pve | practice | boss | guild_demo | pvp
   /** Practice dojo selected squad — templateIds, max 3; starts empty. */
   practiceSquad: [],
+  practiceFilterRole: "",
+  practiceFilterEl: "",
   /** Practice load overlay progress (0–100) + timer handle. */
   practiceLoadPct: 0,
   practiceLoadTimer: null,
@@ -4777,6 +4779,75 @@ const PRACTICE_EMPTY_SLOT_META = [
   },
 ];
 
+function practiceElementOf(hero) {
+  const m = String(hero?.templateId || "").match(/_(fire|water|grass|bolt|stone|ice)_/);
+  return m ? m[1] : "";
+}
+
+const DOJO_FILTER_ROLES = [
+  { id: "", label: "Все" },
+  { id: "tank", label: "Танк" },
+  { id: "fighter", label: "Боец" },
+  { id: "assassin", label: "Асс." },
+  { id: "ranger", label: "Лук" },
+  { id: "mage", label: "Маг" },
+  { id: "support", label: "Сап." },
+];
+const DOJO_FILTER_ELS = [
+  { id: "", label: "·" },
+  { id: "stone", label: "🪨" },
+  { id: "fire", label: "🔥" },
+  { id: "bolt", label: "⚡" },
+  { id: "grass", label: "🌿" },
+  { id: "ice", label: "❄️" },
+  { id: "water", label: "💧" },
+];
+
+function ensureDojoRosterFilters(root) {
+  const box = root?.querySelector("#dojoRosterFilters");
+  if (!box || box.dataset.ready === "1") return box;
+  box.dataset.ready = "1";
+  const mk = (group, items, active) =>
+    items
+      .map(
+        (it) =>
+          `<button type="button" class="dojo-filter-chip${active === it.id ? " is-on" : ""}" data-dojo-filter="${group}" data-filter-id="${it.id}" title="${it.label}">${it.label}</button>`
+      )
+      .join("");
+  box.innerHTML = `${mk("role", DOJO_FILTER_ROLES, state.practiceFilterRole || "")}${mk("el", DOJO_FILTER_ELS, state.practiceFilterEl || "")}`;
+  return box;
+}
+
+function applyDojoRosterFilter(root) {
+  ensureDojoRosterFilters(root);
+  const role = state.practiceFilterRole || "";
+  const el = state.practiceFilterEl || "";
+  let shown = 0;
+  root.querySelectorAll("[data-hero]").forEach((card) => {
+    const hero = practiceHeroByKey(card.getAttribute("data-hero"));
+    if (!hero) {
+      card.hidden = true;
+      return;
+    }
+    card.dataset.role = hero.role || "";
+    card.dataset.el = practiceElementOf(hero);
+    card.classList.add("dojo-roster-card");
+    const okRole = !role || hero.role === role;
+    const okEl = !el || practiceElementOf(hero) === el;
+    const show = okRole && okEl;
+    card.hidden = !show;
+    if (show) shown += 1;
+  });
+  const count = root.querySelector("#dojoRosterCount");
+  if (count) count.textContent = String(shown);
+  root.querySelectorAll("#dojoRosterFilters [data-dojo-filter]").forEach((btn) => {
+    const group = btn.getAttribute("data-dojo-filter");
+    const id = btn.getAttribute("data-filter-id") || "";
+    const on = group === "role" ? id === (state.practiceFilterRole || "") : id === (state.practiceFilterEl || "");
+    btn.classList.toggle("is-on", on);
+  });
+}
+
 function practiceHeroByKey(key) {
   return PRACTICE_HEROES[key] || null;
 }
@@ -6254,6 +6325,7 @@ function renderPracticeSquad() {
   const root = $("viewPractice");
   if (!root) return;
   ensurePracticeSquadState();
+  applyDojoRosterFilter(root);
   const squad = state.practiceSquad;
   const heroes = squad.map((id) => practiceHeroByTemplate(id)).filter(Boolean);
   const n = heroes.length;
@@ -6401,26 +6473,22 @@ function bindPracticeFightCtas() {
       toast(`Отряд №${squad.getAttribute("data-squad")} выбран`);
       return;
     }
+    const filterBtn = ev.target.closest("[data-dojo-filter]");
+    if (filterBtn) {
+      ev.preventDefault();
+      const group = filterBtn.getAttribute("data-dojo-filter");
+      const id = filterBtn.getAttribute("data-filter-id") || "";
+      if (group === "role") {
+        state.practiceFilterRole = state.practiceFilterRole === id ? "" : id;
+      } else if (group === "el") {
+        state.practiceFilterEl = state.practiceFilterEl === id ? "" : id;
+      }
+      renderPracticeSquad();
+      return;
+    }
     const toggle = ev.target.closest("[data-toggle]");
     if (toggle) {
       ev.preventDefault();
-      toggle.classList.toggle("is-on");
-      const key = toggle.getAttribute("data-toggle");
-      const on = toggle.classList.contains("is-on");
-      if (key === "dps") {
-        toggle.textContent = on ? "DPS-метр 100%" : "DPS-метр ВЫКЛ";
-        toggle.classList.toggle("text-secondary", on);
-        toggle.classList.toggle("bg-secondary/10", on);
-        toggle.classList.toggle("text-outline", !on);
-      } else if (key === "rec") {
-        toggle.innerHTML = on
-          ? `<span class="material-symbols-outlined text-secondary text-[14px]">query_stats</span> Запись: ВКЛ`
-          : `<span class="material-symbols-outlined text-outline text-[14px]">query_stats</span> Запись: ВЫКЛ`;
-      } else if (key === "rounds" || key === "time") {
-        toggle.innerHTML = on
-          ? `<span class="material-symbols-outlined text-tertiary text-[14px]">all_inclusive</span> Раунды: Без лимита`
-          : `<span class="material-symbols-outlined text-outline text-[14px]">timer</span> Раунды: 90 с`;
-      } else if (key === "ai") toggle.textContent = on ? "AI: Эксперт" : "AI: Новичок";
       return;
     }
     const preset = ev.target.closest("[data-preset]");

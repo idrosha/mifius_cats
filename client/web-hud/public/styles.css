@@ -3422,6 +3422,28 @@ body:has(#viewPractice > .dojo-load:not([hidden])) #app {
 .dojo-toggles button[data-toggle="ai"].is-on { color: #f0a0a0; border-color: rgba(220,90,90,0.5); background: rgba(180,50,50,0.18); }
 .dojo-toggles button[data-toggle="time"].is-on { color: #fdba45; border-color: rgba(253,186,69,0.5); background: rgba(253,186,69,0.12); }
 /* Practice squad picker — empty start, add/remove cats */
+#viewPractice .dojo-roster-filters {
+  border-bottom: 1px solid rgba(80, 69, 53, 0.45);
+}
+#viewPractice .dojo-filter-chip {
+  border: 1px solid rgba(80, 69, 53, 0.75);
+  background: #231f1c;
+  color: #d5c4af;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0.28rem 0.45rem;
+  border-radius: 999px;
+  cursor: pointer;
+}
+#viewPractice .dojo-filter-chip.is-on {
+  color: #432c00;
+  background: #fdba45;
+  border-color: rgba(253, 186, 69, 0.9);
+}
+#viewPractice .dojo-roster-card {
+  height: 7.25rem !important;
+}
 #viewPractice [data-hero].is-picked {
   border-color: #fdba45 !important;
   box-shadow: inset 0 0 0 1px rgba(253, 186, 69, 0.45);
@@ -3430,6 +3452,9 @@ body:has(#viewPractice > .dojo-load:not([hidden])) #app {
   background: #fdba45;
   color: #432c00;
   border-color: rgba(253, 186, 69, 0.85);
+}
+#viewPractice [data-hero][hidden] {
+  display: none !important;
 }
 .dojo-squad-slot.is-empty {
   min-height: 8rem;

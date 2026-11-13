@@ -3691,11 +3691,7 @@
 <div class="dojo-crumb">
 <strong>Бои</strong><span>›</span><em>Тренировочный Зал (Додзё)</em><span class="dojo-chip">3v3</span>
 </div>
-<p class="dojo-mode">Тренировочный режим · 0 расхода энергии · Спарринг-Манекены · Точный DPS-лог</p>
-<div class="dojo-server">
-<span>Сервер спарринга: <b>Dojo-Sim #4</b> (Пинг 18 мс)</span>
-<button type="button" class="dojo-ghost" data-dojo="reset">Сброс статистики</button>
-</div>
+<p class="dojo-mode">Спарринг · без энергии · манекены Т1</p>
 </header>
 
 <div class="dojo-gold-grid grid grid-cols-12 gap-2 flex-1 min-h-0 overflow-hidden">
@@ -3704,12 +3700,13 @@
 <div class="flex items-center justify-between pb-1.5 px-1 border-b border-outline-variant/30 flex-shrink-0">
 <div class="flex items-center gap-1.5">
 <span class="text-primary text-[15px]" aria-hidden="true">🐱</span>
-<span class="font-headline-md text-[14px] text-on-surface font-bold">Доступные Герои</span>
-<span class="text-outline text-[11px]">(12 Архетипов)</span>
+<span class="font-headline-md text-[14px] text-on-surface font-bold">Герои</span>
+<span class="text-outline text-[11px]" id="dojoRosterCount">12</span>
 </div>
-<span class="text-primary text-[11px] font-semibold">Нажмите для выбора</span>
+<button type="button" class="text-primary text-[11px] font-semibold" data-dojo="autopick" title="Барсик · Рыжик · Мурка">Авто 3v3</button>
 </div>
-<div class="grid grid-cols-3 gap-2 p-1 overflow-y-auto flex-1 min-h-0 my-1 content-start">
+<div id="dojoRosterFilters" class="dojo-roster-filters flex flex-wrap gap-1 px-1 py-1 flex-shrink-0" role="toolbar" aria-label="Фильтр ростера"></div>
+<div class="grid grid-cols-3 gap-1.5 p-1 overflow-y-auto flex-1 min-h-0 my-1 content-start" id="dojoRosterGrid" data-dojo-roster>
 <div class="relative bg-[#1a1613] rounded-lg border border-outline-variant/40 hover:border-primary transition-all overflow-hidden flex flex-col shadow-md group cursor-pointer h-36" data-hero="barsik" tabindex="0">
 <div class="absolute inset-0 z-0">
 <img alt="Барсик Щит" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/tank-a.png"/>
@@ -3915,25 +3912,10 @@
 </div>
 </div>
 </div>
-<div class="rounded-xl bg-surface-container-lowest/95 border border-primary/40 shadow-lg text-on-surface flex flex-col flex-shrink-0 mt-auto overflow-hidden p-1.5 gap-1">
-<div class="flex items-center justify-between pb-1 border-b border-outline-variant/30 flex-shrink-0">
-<div class="flex items-center gap-1.5">
-<span class="material-symbols-outlined text-[16px] text-primary">menu_book</span>
-<span class="font-headline-md text-[13px] font-bold text-primary tracking-wide">Строй 3v3</span>
-</div>
-</div>
-<div class="flex flex-col gap-1">
-<div class="flex flex-col gap-0.5 bg-[#1a1613] p-1.5 rounded-lg border border-primary/30 shadow-sm">
-<div class="flex items-center gap-1 text-[12px] font-bold text-primary"><span class="material-symbols-outlined text-[13px]">shield</span> 1. Авангард · танк</div>
-</div>
-<div class="flex flex-col gap-0.5 bg-[#1a1613] p-1.5 rounded-lg border border-tertiary/30 shadow-sm">
-<div class="flex items-center gap-1 text-[12px] font-bold text-tertiary"><span class="material-symbols-outlined text-[13px]">swords</span> 2. Центр · боец / ассасин</div>
-</div>
-<div class="flex flex-col gap-0.5 bg-[#1a1613] p-1.5 rounded-lg border border-secondary/30 shadow-sm">
-<div class="flex items-center gap-1 text-[12px] font-bold text-secondary"><span class="material-symbols-outlined text-[13px]">spa</span> 3. Тыл · саппорт / маг</div>
-</div>
-</div>
-</div>
+<details class="rounded-xl bg-surface-container-lowest/95 border border-primary/30 shadow-lg text-on-surface flex-shrink-0 mt-auto overflow-hidden p-1.5">
+<summary class="cursor-pointer font-bold text-[12px] text-primary flex items-center gap-1.5 list-none"><span class="material-symbols-outlined text-[16px]">menu_book</span> Строй: авангард → центр → тыл</summary>
+<p class="text-[11px] text-on-surface-variant mt-1 leading-snug px-0.5">Слот 1 танк · слот 2 боец/ассасин · слот 3 саппорт/маг. Как в бою (lane 0→2).</p>
+</details>
 </div>
 
 <!-- Right: matchup + CTA + selected squad -->
