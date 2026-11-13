@@ -64,7 +64,7 @@ const PATH_TO_TAB = {
   gvg: "guild_battle",
   бой: "yard",
   boi: "yard",
-  battles: "yard",
+  battles: "battle_hub",
   расстановка: "formation",
   таверна: "tavern",
   пасс: "pass",
@@ -203,7 +203,7 @@ const NAV = [
     id: "combat",
     key: "nav.primary.combat",
     tabs: [
-      { id: "yard", key: "nav.sub.mythmir" },
+      { id: "battle_hub", key: "nav.sub.mythmir" },
       { id: "practice", key: "nav.sub.practice" },
       { id: "pve", key: "nav.sub.pve" },
       { id: "pvp", key: "nav.sub.pvp", gated: "pvp" },
@@ -263,6 +263,7 @@ const TABS = NAV.flatMap((g) =>
     { id: "pass", key: "nav.sub.pass", group: "pass" },
     { id: "knowledge", key: "nav.sub.knowledge", group: "knowledge" },
     { id: "soon_clan", key: "nav.sub.soon_clan", group: "guilds", soon: "clan_boss" },
+    { id: "yard", key: "nav.sub.pve", group: "combat" },
   ],
   KNOWLEDGE_TABS.map((t) => ({ ...t, group: "knowledge" })),
 );
@@ -279,6 +280,7 @@ function findNavForTab(tabId) {
     return NAV.find((g) => g.id === "knowledge") || null;
   }
   if (tabId === "soon_clan") return NAV.find((g) => g.id === "guilds") || null;
+  if (tabId === "yard") return NAV.find((g) => g.id === "combat") || null;
   return null;
 }
 
@@ -735,6 +737,7 @@ function logicalViewId() {
     codex: "viewCodex",
     yard: "viewYard",
     pve: "viewYard",
+    battle_hub: "viewBattleHub",
     formation: "viewFormation",
     boss_dungeon: "viewBossDungeon",
     boss_raid: "viewBossRaid",
@@ -1073,7 +1076,8 @@ function fillNav(primaryEl, subEl, activeGroup, battleActive, activeClass) {
     if (tab.soon) b.classList.add("soon");
     if (tab.gated) b.classList.add("gated");
     if (tab.id === "pvp" && !pvpUnlocked()) b.classList.add("locked");
-    b.classList.toggle(activeClass, !battleActive && state.tab === tab.id);
+    const tabOn = state.tab === tab.id || (tab.id === "pve" && state.tab === "yard");
+    b.classList.toggle(activeClass, !battleActive && tabOn);
     b.addEventListener("click", () => {
       navigate(tab.id, { soon: tab.soon || null, primary: activeGroup.id });
     });
@@ -3053,6 +3057,9 @@ function renderAll() {
       renderUnlockProgress();
       bindPracticeFightCtas();
       break;
+    case "battle_hub":
+      bindBattleHub();
+      break;
     case "codex":
       renderCodex();
       break;
@@ -3076,6 +3083,7 @@ function renderAll() {
       renderUnlockProgress();
       break;
     case "collection":
+      bindCollectionRoster();
       $("colEyebrow").textContent = t("hub.tab.collection");
       $("colTitle").textContent = t("hub.tab.collection");
       {
@@ -3122,6 +3130,75 @@ function renderAll() {
     default:
       break;
   }
+}
+
+function bindCollectionRoster() {
+  const root = $("viewCollection");
+  if (!root || root.dataset.rosterBound === "1") return;
+  root.dataset.rosterBound = "1";
+  const list = root.querySelector(".roster-list");
+  const search = root.querySelector(".roster-search");
+  const applyFilter = () => {
+    const q = (search?.value || "").trim().toLowerCase();
+    const el = root.querySelector(".roster-filters button.is-on")?.dataset.el || "all";
+    list?.querySelectorAll("[data-hero]").forEach((row) => {
+      const name = row.getAttribute("data-hero") || "";
+      const kind = row.getAttribute("data-el") || "";
+      const ok = (el === "all" || kind === el) && (!q || name.includes(q));
+      row.classList.toggle("is-off", !ok);
+    });
+  };
+  root.querySelectorAll(".roster-filters button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      root.querySelectorAll(".roster-filters button").forEach((b) => b.classList.toggle("is-on", b === btn));
+      applyFilter();
+    });
+  });
+  search?.addEventListener("input", applyFilter);
+  root.querySelector(".roster-apply")?.addEventListener("click", () => {
+    toast("Связки применены для всех боёв");
+  });
+  root.querySelector("[data-act='all']")?.addEventListener("click", () => {
+    root.querySelectorAll(".roster-pack[data-pack]").forEach((pack) => pack.classList.add("is-on"));
+    toast("Все связки активны");
+  });
+  root.querySelectorAll(".roster-pack[data-pack]").forEach((pack) => {
+    pack.addEventListener("click", (ev) => {
+      if (ev.target.closest("button")) return;
+      root.querySelectorAll(".roster-pack[data-pack]").forEach((p) => p.classList.toggle("is-on", p === pack));
+    });
+  });
+  document.addEventListener("keydown", (ev) => {
+    if (state.tab !== "collection") return;
+    if (ev.target.closest("input, textarea")) return;
+    if (ev.code === "Space") {
+      ev.preventDefault();
+      toast("Расстановка сохранена");
+    } else if (ev.key === "t" || ev.key === "T" || ev.key === "е" || ev.key === "Е") {
+      navigate("practice");
+    } else if (ev.key === "p" || ev.key === "P" || ev.key === "з" || ev.key === "З") {
+      navigate("home");
+    } else if (ev.key === "i" || ev.key === "I" || ev.key === "ш" || ev.key === "Ш") {
+      navigate("gear");
+    } else if (ev.code === "Escape") {
+      navigate("home");
+    }
+  });
+}
+
+function bindBattleHub() {
+  const root = $("viewBattleHub");
+  if (!root || root.dataset.bound === "1") return;
+  root.dataset.bound = "1";
+  root.addEventListener("click", (ev) => {
+    const filter = ev.target.closest("[data-filter]");
+    if (!filter || !root.contains(filter)) return;
+    const kind = filter.getAttribute("data-filter");
+    root.querySelectorAll("[data-filter]").forEach((btn) => btn.classList.toggle("is-on", btn === filter));
+    root.querySelectorAll("[data-mode]").forEach((card) => {
+      card.classList.toggle("is-off", kind !== "all" && card.getAttribute("data-mode") !== kind);
+    });
+  });
 }
 
 function bindPracticeFightCtas() {
