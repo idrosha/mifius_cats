@@ -11,11 +11,23 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC = path.join(__dirname, "public");
-const REPO = path.resolve(__dirname, "../..");
+/** Monorepo: client/web-hud → repo root. Amvera flat artifacts: /app is the web-hud root. */
+function resolveRepoRoot() {
+  const candidates = [__dirname, path.resolve(__dirname, "../..")];
+  for (const root of candidates) {
+    if (fs.existsSync(path.join(root, "content", "i18n", "ru_en.json"))) return root;
+  }
+  return path.resolve(__dirname, "../..");
+}
+const REPO = resolveRepoRoot();
 
 const HUD_ADDR = process.env.HUD_ADDR || "0.0.0.0";
 // Amvera injects PORT (= run.containerPort). Local QA keeps HUD_PORT / 8088.
 const HUD_PORT = Number(process.env.PORT || process.env.HUD_PORT || 8088);
+if (!Number.isFinite(HUD_PORT) || HUD_PORT <= 0) {
+  console.error(`mythfel-web-hud: bad PORT=${process.env.PORT || process.env.HUD_PORT}`);
+  process.exit(1);
+}
 const BATTLE_URL = (process.env.BATTLE_URL || "http://127.0.0.1:8081").replace(/\/$/, "");
 const LIVEOPS_URL = (process.env.LIVEOPS_URL || "http://127.0.0.1:8090").replace(/\/$/, "");
 const LOC_PATH =
@@ -370,9 +382,15 @@ const server = http.createServer(async (req, res) => {
   serveFile(res, filePath);
 });
 
+server.on("error", (err) => {
+  console.error(`mythfel-web-hud listen failed on ${HUD_ADDR}:${HUD_PORT}:`, err);
+  process.exit(1);
+});
 server.listen(HUD_PORT, HUD_ADDR, () => {
   console.log(`mythfel-web-hud http://${HUD_ADDR}:${HUD_PORT}/`);
   console.log(`  proxy battle  → ${BATTLE_URL}`);
   console.log(`  proxy liveops → ${LIVEOPS_URL}`);
   console.log(`  loc           → ${LOC_PATH}`);
+  console.log(`  public        → ${PUBLIC}`);
+  console.log(`  repo          → ${REPO}`);
 });
