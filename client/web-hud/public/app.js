@@ -3083,6 +3083,7 @@ function renderAll() {
       renderUnlockProgress();
       break;
     case "collection":
+      bindCollectionRoster();
       $("colEyebrow").textContent = t("hub.tab.collection");
       $("colTitle").textContent = t("hub.tab.collection");
       {
@@ -3129,6 +3130,60 @@ function renderAll() {
     default:
       break;
   }
+}
+
+function bindCollectionRoster() {
+  const root = $("viewCollection");
+  if (!root || root.dataset.rosterBound === "1") return;
+  root.dataset.rosterBound = "1";
+  const list = root.querySelector(".roster-list");
+  const search = root.querySelector(".roster-search");
+  const applyFilter = () => {
+    const q = (search?.value || "").trim().toLowerCase();
+    const el = root.querySelector(".roster-filters button.is-on")?.dataset.el || "all";
+    list?.querySelectorAll("[data-hero]").forEach((row) => {
+      const name = row.getAttribute("data-hero") || "";
+      const kind = row.getAttribute("data-el") || "";
+      const ok = (el === "all" || kind === el) && (!q || name.includes(q));
+      row.classList.toggle("is-off", !ok);
+    });
+  };
+  root.querySelectorAll(".roster-filters button").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      root.querySelectorAll(".roster-filters button").forEach((b) => b.classList.toggle("is-on", b === btn));
+      applyFilter();
+    });
+  });
+  search?.addEventListener("input", applyFilter);
+  root.querySelector(".roster-apply")?.addEventListener("click", () => {
+    toast("Связки применены для всех боёв");
+  });
+  root.querySelector("[data-act='all']")?.addEventListener("click", () => {
+    root.querySelectorAll(".roster-pack[data-pack]").forEach((pack) => pack.classList.add("is-on"));
+    toast("Все связки активны");
+  });
+  root.querySelectorAll(".roster-pack[data-pack]").forEach((pack) => {
+    pack.addEventListener("click", (ev) => {
+      if (ev.target.closest("button")) return;
+      root.querySelectorAll(".roster-pack[data-pack]").forEach((p) => p.classList.toggle("is-on", p === pack));
+    });
+  });
+  document.addEventListener("keydown", (ev) => {
+    if (state.tab !== "collection") return;
+    if (ev.target.closest("input, textarea")) return;
+    if (ev.code === "Space") {
+      ev.preventDefault();
+      toast("Расстановка сохранена");
+    } else if (ev.key === "t" || ev.key === "T" || ev.key === "е" || ev.key === "Е") {
+      navigate("practice");
+    } else if (ev.key === "p" || ev.key === "P" || ev.key === "з" || ev.key === "З") {
+      navigate("home");
+    } else if (ev.key === "i" || ev.key === "I" || ev.key === "ш" || ev.key === "Ш") {
+      navigate("gear");
+    } else if (ev.code === "Escape") {
+      navigate("home");
+    }
+  });
 }
 
 function bindBattleHub() {
