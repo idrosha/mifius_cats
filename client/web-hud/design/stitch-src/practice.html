@@ -74,7 +74,7 @@
 <span class="is-on">AI: Эксперт</span>
 <span>Без лимита времени</span>
 </div>
-<button type="button" class="dojo-start" id="btnDojoStart">НАЧАТЬ ТРЕНИРОВКУ [ПРОБЕЛ]</button>
+<button type="button" class="dojo-start" id="btnDojoStart" data-load="open">НАЧАТЬ ТРЕНИРОВКУ [ПРОБЕЛ]</button>
 <div class="dojo-dummies">
 <div class="dojo-dummy-head"><span>Команда манекенов (Спарринг-Манекены)</span><b>16,200,000</b><small>3 манекена</small></div>
 <ul>
@@ -134,6 +134,32 @@
 <div class="dojo-keys"><span>ESC Назад</span><span>ПРОБЕЛ Старт</span><span>Додзё</span><small>v0.48.2 Tavern Sync · Связь с сервером стабильна</small></div>
 </footer>
 </div>
+<div class="dojo-load" hidden>
+<img class="dojo-load-art" alt="" src="/stitch-ref/e608/arena_dojo.png" />
+<div class="dojo-load-shade"></div>
+<div class="dojo-load-ui">
+<header class="dojo-load-top">
+<p>Дуэльный сектор додзё</p>
+<h2>Тренировочный бой · Загрузка арены</h2>
+<button type="button" data-load="close" aria-label="Закрыть">×</button>
+</header>
+<p class="dojo-load-ready">Стабилизация фазового пространства арены: 100%</p>
+<div class="dojo-load-vs" aria-hidden="true">VS</div>
+<div class="dojo-load-mid">
+<p class="dojo-load-label">Тактические подсказки додзё · Советы тренера <span>Освойте боевую синергию перед стартом тренировки</span></p>
+<ul>
+<li><b>Стихийное комбо</b><span>Шок Барсика и огненный всплеск Рыжика дают статус Плазмы (+25% урона).</span></li>
+<li><b>Пробитие защиты</b><span>Деревянные манекены держат 500 брони. Режущие атаки и огонь бьют сильнее.</span></li>
+<li><b>Расход энергии</b><span>В первом раунде 3 орба. Начните с защитного баффа или провокации.</span></li>
+</ul>
+<p class="dojo-load-sync">Синхронизация 100% <b>1 / 3</b></p>
+</div>
+<footer class="dojo-load-foot">
+<button type="button" data-load="close">ESC Прервать подготовку</button>
+<span>Режим: одиночная тренировка без затраты энергии</span>
+<button type="button" class="dojo-load-go" data-load="go">Пробел В бой!</button>
+</footer>
+</div>
+</div>
 </section>
-
 </body></html>

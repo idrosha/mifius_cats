@@ -2913,6 +2913,7 @@ async function startYard(autoPlay = false) {
 }
 
 async function startPractice(autoPlay = false) {
+  showPracticeLoad(false);
   state.battleMode = "practice";
   state.selectedStageId = PRACTICE_STAGE;
   await startYard(autoPlay);
@@ -3219,11 +3220,29 @@ function bindBattleHub() {
   });
 }
 
+function showPracticeLoad(on) {
+  const root = $("viewPractice");
+  const load = root?.querySelector(".dojo-load");
+  if (!root || !load) return;
+  load.hidden = !on;
+  root.dataset.practiceLoad = on ? "1" : "0";
+}
+
 function bindPracticeFightCtas() {
   const root = $("viewPractice");
   if (!root || root.dataset.practiceBound === "1") return;
   root.dataset.practiceBound = "1";
   root.addEventListener("click", (ev) => {
+    const act = ev.target.closest("[data-load]")?.getAttribute("data-load");
+    if (!act) return;
+    ev.preventDefault();
+    ev.stopPropagation();
+    if (act === "open") showPracticeLoad(true);
+    else if (act === "close") showPracticeLoad(false);
+    else if (act === "go") startPractice(false);
+  }, true);
+  root.addEventListener("click", (ev) => {
+    if (ev.target.closest("[data-load]")) return;
     const label = (ev.target.closest("button, a")?.textContent || "").toLowerCase();
     if (label.includes("назад")) {
       ev.preventDefault();
@@ -3233,27 +3252,19 @@ function bindPracticeFightCtas() {
     if (label.includes("быстрый тест")) {
       ev.preventDefault();
       startPractice(true);
-      return;
-    }
-    if (
-      label.includes("тренировочный бой") ||
-      label.includes("начать тренировку") ||
-      label.includes("начать бой") ||
-      label.includes("в бой") ||
-      label.includes("старт")
-    ) {
-      ev.preventDefault();
-      startPractice(false);
     }
   });
   document.addEventListener("keydown", (ev) => {
     if (state.tab !== "practice") return;
     if (ev.target.closest("input, textarea")) return;
+    const loading = root.dataset.practiceLoad === "1";
     if (ev.code === "Space") {
       ev.preventDefault();
-      startPractice(false);
+      if (loading) startPractice(false);
+      else showPracticeLoad(true);
     } else if (ev.code === "Escape") {
-      navigate("yard");
+      if (loading) showPracticeLoad(false);
+      else navigate("yard");
     }
   });
 }
