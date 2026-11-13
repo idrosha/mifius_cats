@@ -10,11 +10,11 @@
       "element": "stone",
       "level": 1,
       "baseStats": {
-        "hp": 38,
-        "atk": 3,
-        "spd": 2,
-        "skill": 1,
-        "charm": 1
+        "hp": 50,
+        "atk": 4,
+        "spd": 3,
+        "skill": 2,
+        "charm": 4
       },
       "deck": [
         {
@@ -126,11 +126,11 @@
       "element": "fire",
       "level": 1,
       "baseStats": {
-        "hp": 32,
-        "atk": 5,
-        "spd": 4,
-        "skill": 1,
-        "charm": 1
+        "hp": 43,
+        "atk": 8,
+        "spd": 7,
+        "skill": 3,
+        "charm": 3
       },
       "deck": [
         {
@@ -269,9 +269,9 @@
       "baseStats": {
         "hp": 28,
         "atk": 2,
-        "spd": 3,
-        "skill": 2,
-        "charm": 2
+        "spd": 5,
+        "skill": 7,
+        "charm": 6
       },
       "deck": [
         {

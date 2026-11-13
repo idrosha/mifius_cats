@@ -38,7 +38,7 @@
     "role": "support",
     "element": "water",
     "level": 1,
-    "baseStats": { "hp": 28, "atk": 3, "spd": 5, "skill": 7, "charm": 6 },
+    "baseStats": { "hp": 28, "atk": 2, "spd": 5, "skill": 7, "charm": 6 },
     "parts": {
       "eyes": "part_support_water_eyes",
       "ears": "part_support_water_ears",

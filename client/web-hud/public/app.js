@@ -1143,19 +1143,38 @@ function applyStarterGrant(profile) {
   }
 }
 
+/** LVL1 baseStats from content/cats — sheet ATK is catalog only (hit = card.Atk). DEF only from gear. */
+const CONTENT_CAT_BASE = {
+  starter_tank_stone: { atk: 4, hp: 50, spd: 3, skill: 2, charm: 4 },
+  starter_fighter_fire: { atk: 8, hp: 43, spd: 6, skill: 3, charm: 3 },
+  starter_support_water: { atk: 2, hp: 28, spd: 5, skill: 7, charm: 6 },
+  shop_tank_stone_a: { atk: 4, hp: 50, spd: 3, skill: 2, charm: 4 },
+  shop_tank_stone_b: { atk: 6, hp: 48, spd: 3, skill: 2, charm: 4 },
+  shop_fighter_fire_a: { atk: 8, hp: 43, spd: 7, skill: 3, charm: 3 },
+  shop_fighter_fire_b: { atk: 10, hp: 45, spd: 5, skill: 3, charm: 3 },
+  shop_assassin_bolt_a: { atk: 8, hp: 38, spd: 9, skill: 4, charm: 4 },
+  shop_assassin_bolt_b: { atk: 8, hp: 36, spd: 8, skill: 4, charm: 4 },
+  shop_ranger_grass_a: { atk: 7, hp: 35, spd: 8, skill: 4, charm: 3 },
+  shop_ranger_grass_b: { atk: 7, hp: 37, spd: 7, skill: 5, charm: 3 },
+  shop_mage_fire_a: { atk: 5, hp: 30, spd: 5, skill: 8, charm: 3 },
+  shop_mage_ice_b: { atk: 5, hp: 29, spd: 5, skill: 8, charm: 3 },
+  shop_support_water_a: { atk: 2, hp: 28, spd: 5, skill: 7, charm: 6 },
+  shop_support_water_b: { atk: 3, hp: 29, spd: 5, skill: 7, charm: 6 },
+};
+const ROLE_CAT_BASE = {
+  tank: { atk: 4, hp: 50, spd: 3, skill: 2, charm: 4 },
+  fighter: { atk: 8, hp: 43, spd: 6, skill: 3, charm: 3 },
+  assassin: { atk: 8, hp: 38, spd: 9, skill: 4, charm: 4 },
+  ranger: { atk: 7, hp: 35, spd: 8, skill: 4, charm: 3 },
+  mage: { atk: 5, hp: 30, spd: 5, skill: 8, charm: 3 },
+  support: { atk: 2, hp: 28, spd: 5, skill: 7, charm: 6 },
+  farm: { atk: 1, hp: 20, spd: 3, skill: 1, charm: 1 },
+};
+
 function baseStatsForCat(cat) {
-  const role = cat?.role || "fighter";
-  // Combat scale D-024: tank LVL1 HP=50; ATK aligned with content baseStats.
-  const table = {
-    tank: { atk: 4, hp: 50, def: 8, spd: 3 },
-    fighter: { atk: 8, hp: 43, def: 5, spd: 6 },
-    assassin: { atk: 9, hp: 38, def: 3, spd: 9 },
-    ranger: { atk: 7, hp: 35, def: 4, spd: 8 },
-    mage: { atk: 5, hp: 30, def: 3, spd: 5 },
-    support: { atk: 3, hp: 28, def: 4, spd: 5 },
-    farm: { atk: 1, hp: 20, def: 2, spd: 3 },
-  };
-  return { ...(table[role] || table.fighter) };
+  const tid = cat?.templateId;
+  const raw = (tid && CONTENT_CAT_BASE[tid]) || ROLE_CAT_BASE[cat?.role] || ROLE_CAT_BASE.fighter;
+  return { atk: raw.atk, hp: raw.hp, def: 0, spd: raw.spd, skill: raw.skill, charm: raw.charm };
 }
 
 function gearBonusForCat(catId) {
@@ -4194,7 +4213,7 @@ function victoryStarterFallback(templateId) {
       roleIcon: "healing",
       accent: "secondary",
       lvl: 1,
-      dmg: 3,
+      dmg: 2,
       shield: 4,
       hp: 28,
     },
@@ -4615,7 +4634,7 @@ const PRACTICE_HEROES = {
     bm: 5020,
     hp: 45,
     shield: 4,
-    dmg: 9,
+    dmg: 10,
   },
   shadow: {
     templateId: "shop_assassin_bolt_a",
@@ -4629,7 +4648,7 @@ const PRACTICE_HEROES = {
     bm: 4910,
     hp: 38,
     shield: 2,
-    dmg: 9,
+    dmg: 8,
   },
   bagheera: {
     templateId: "shop_assassin_bolt_b",
@@ -4641,7 +4660,7 @@ const PRACTICE_HEROES = {
     accent: "primary",
     lvl: 47,
     bm: 4790,
-    hp: 38,
+    hp: 36,
     shield: 2,
     dmg: 8,
   },
@@ -4657,7 +4676,7 @@ const PRACTICE_HEROES = {
     bm: 4850,
     hp: 35,
     shield: 2,
-    dmg: 8,
+    dmg: 7,
   },
   leo: {
     templateId: "shop_ranger_grass_b",
@@ -4669,9 +4688,9 @@ const PRACTICE_HEROES = {
     accent: "secondary",
     lvl: 46,
     bm: 4960,
-    hp: 35,
+    hp: 37,
     shield: 2,
-    dmg: 9,
+    dmg: 7,
   },
   ignius: {
     templateId: "shop_mage_fire_a",
@@ -4685,7 +4704,7 @@ const PRACTICE_HEROES = {
     bm: 5300,
     hp: 30,
     shield: 2,
-    dmg: 10,
+    dmg: 5,
   },
   frostia: {
     templateId: "shop_mage_ice_b",
@@ -4697,9 +4716,9 @@ const PRACTICE_HEROES = {
     accent: "secondary",
     lvl: 47,
     bm: 5120,
-    hp: 30,
+    hp: 29,
     shield: 3,
-    dmg: 8,
+    dmg: 5,
   },
   murka: {
     templateId: "shop_support_water_a",
@@ -4713,7 +4732,7 @@ const PRACTICE_HEROES = {
     bm: 4750,
     hp: 28,
     shield: 4,
-    dmg: 3,
+    dmg: 2,
   },
   aurelia: {
     templateId: "shop_support_water_b",
@@ -4725,9 +4744,9 @@ const PRACTICE_HEROES = {
     accent: "primary",
     lvl: 47,
     bm: 4890,
-    hp: 28,
+    hp: 29,
     shield: 3,
-    dmg: 4,
+    dmg: 3,
   },
 };
 
