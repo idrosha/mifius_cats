@@ -14,11 +14,13 @@ const PUBLIC = path.join(__dirname, "public");
 const REPO = path.resolve(__dirname, "../..");
 
 const HUD_ADDR = process.env.HUD_ADDR || "0.0.0.0";
-const HUD_PORT = Number(process.env.HUD_PORT || 8088);
+// Amvera injects PORT (= run.containerPort). Local QA keeps HUD_PORT / 8088.
+const HUD_PORT = Number(process.env.PORT || process.env.HUD_PORT || 8088);
 const BATTLE_URL = (process.env.BATTLE_URL || "http://127.0.0.1:8081").replace(/\/$/, "");
 const LIVEOPS_URL = (process.env.LIVEOPS_URL || "http://127.0.0.1:8090").replace(/\/$/, "");
 const LOC_PATH =
   process.env.LOC_PATH || path.join(REPO, "content", "i18n", "ru_en.json");
+const LIVEOPS_FALLBACK = path.join(REPO, "liveops", "config", "v1", "liveops.json");
 
 const MIME = {
   ".html": "text/html; charset=utf-8",
@@ -265,10 +267,67 @@ const server = http.createServer(async (req, res) => {
   }
 
   if (u.pathname.startsWith("/api/battle")) {
+    // HUD-only hosts (Amvera): healthz must not 502 or boot never reaches the game.
+    if (u.pathname === "/api/battle/healthz" || u.pathname.endsWith("/healthz")) {
+      try {
+        const upstream = await fetch(`${BATTLE_URL}/healthz`, {
+          headers: { Accept: "application/json" },
+        });
+        if (upstream.ok) {
+          const buf = Buffer.from(await upstream.arrayBuffer());
+          res.writeHead(upstream.status, {
+            "Content-Type": upstream.headers.get("content-type") || "application/json",
+          });
+          res.end(buf);
+          return;
+        }
+      } catch {
+        /* fall through to soft stub */
+      }
+      send(res, 200, { ok: false, service: "battle", stub: true }, {
+        "Content-Type": "application/json; charset=utf-8",
+      });
+      return;
+    }
     await proxy(req, res, BATTLE_URL, "/api/battle");
     return;
   }
   if (u.pathname.startsWith("/api/liveops")) {
+    // Prefer LiveOps CDN; if unreachable, ship repo liveops.json so boot still enters the game.
+    const rest = u.pathname.slice("/api/liveops".length) || "/";
+    const wantsBundle = rest.includes("liveops.json");
+    try {
+      const target = `${LIVEOPS_URL}${rest}${u.search}`;
+      const upstream = await fetch(target, {
+        method: req.method,
+        headers: { Accept: "application/json", "X-Client-Region": req.headers["x-client-region"] || "" },
+      });
+      if (upstream.ok) {
+        const outHeaders = {
+          "Content-Type": upstream.headers.get("content-type") || "application/json",
+        };
+        for (const h of [
+          "X-LiveOps-Version",
+          "X-LiveOps-Signature",
+          "X-LiveOps-Signature-Alg",
+          "ETag",
+          "Cache-Control",
+        ]) {
+          const v = upstream.headers.get(h);
+          if (v) outHeaders[h] = v;
+        }
+        const buf = Buffer.from(await upstream.arrayBuffer());
+        res.writeHead(upstream.status, outHeaders);
+        res.end(buf);
+        return;
+      }
+    } catch {
+      /* fall through */
+    }
+    if (wantsBundle && fs.existsSync(LIVEOPS_FALLBACK)) {
+      serveFile(res, LIVEOPS_FALLBACK);
+      return;
+    }
     await proxy(req, res, LIVEOPS_URL, "/api/liveops");
     return;
   }
