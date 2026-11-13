@@ -1,27 +1,28 @@
-# Amvera — Mythfel web-hud (Node.JS Server).
-# Docs: https://docs.amvera.ru/applications/environments/nodejs-server.html
+# Amvera — Mythfel web-hud. Docs: Node.JS Server
+# https://docs.amvera.ru/applications/environments/nodejs-server.html
 #
-# Start WITHOUT npm: run.command is a full shell command (Node schema).
-# Docker-style `command`+`args` is NOT used here — that is the docker toolchain.
-# PORT is set by Amvera from containerPort (default 80). No env-block in yaml;
-# set Variables PORT=5000 in cabinet if needed; delete leftover HUD_PORT.
+# Start = `node ${scriptName}` (scriptName обязателен).
+# `command: npm run start` — только альтернатива; здесь НЕ используем.
+# PORT = run.containerPort (docs; default 80). Слушаем process.env.PORT || 5000.
+# Кабинет: не оставлять override «npm start» / port 80 — брать из этого файла.
 meta:
   environment: node
   toolchain:
     name: npm
-    version: 20
+    version: "20"
 
 build:
-  # No production npm deps — skip `npm install` entirely (avoids npm wrapper noise).
+  # Нет npm-зависимостей у web-hud server.mjs.
   skip: yes
   artifacts:
-    # Real web-hud server → /app/server.mjs (not monorepo root shim)
+    # Реальный HUD → /app/server.mjs (не monorepo shim)
     "client/web-hud/server.mjs": /
     "client/web-hud/public": /
     "content/i18n": /content
     "liveops/config": /liveops
+    # Если кабинет всё же вызовет npm start — start = node server.mjs
+    "package.json": /
 
 run:
-  # Direct node — NOT `npm start` / NOT scriptName wrapped by npm in cabinet.
-  command: node server.mjs
+  scriptName: server.mjs
   containerPort: 5000

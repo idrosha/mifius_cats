@@ -1,6 +1,6 @@
-# Amvera / local — Mythfel web-hud only (no quiz, no battle sidecar).
-# Flat /app: server.mjs + public/. Platforms that still call `npm start` must get
-# "node server.mjs" (see package.json), never "node client/web-hud/server.mjs".
+# Optional local/image build of Mythfel web-hud (NOT used by Amvera Node deploy).
+# Kept out of repo root so Amvera does not fall back to Docker when amvera.yaml
+# is missing. Production path: amvera.yaml → scriptName: server.mjs.
 FROM node:20-bookworm-slim
 
 WORKDIR /app
