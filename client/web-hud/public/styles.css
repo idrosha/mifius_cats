@@ -1437,37 +1437,45 @@ body:has(#viewHome:not(.hidden)) #app {
   height: 100% !important;
   display: flex !important;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 0;
   padding: 0 !important;
   background: #100e0c;
   color: #eae1db;
   position: relative;
+  container-type: size;
 }
-#viewHome > main.char-sheet > img.char-saved {
-  flex: 1 1 auto;
+#viewHome .char-frame {
+  position: relative;
+  aspect-ratio: 664 / 538;
+  width: min(100cqw, calc(100cqh * 664 / 538));
+  max-height: 100%;
+}
+#viewHome .char-frame > img.char-saved {
+  display: block;
   width: 100% !important;
   height: 100% !important;
   min-height: 0 !important;
   max-width: none !important;
-  object-fit: contain !important;
-  object-position: center center !important;
+  object-fit: fill !important;
   background: #100e0c;
 }
-#viewHome .char-saved-nav {
+#viewHome .char-hit-row {
   position: absolute;
+  left: 0;
+  right: 0;
   z-index: 3;
-  top: 8.5%;
-  left: 12%;
-  right: 38%;
-  display: flex;
-  justify-content: space-between;
-  gap: 0.2rem;
 }
-#viewHome .char-saved-nav a {
+#viewHome .char-hit-row a {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  overflow: hidden;
   color: transparent;
   font-size: 12px;
+  line-height: 1;
   text-decoration: none;
-  padding: 0.35rem 0.2rem;
 }
 #viewHome .char-top, #viewHome .char-tabs, #viewHome .char-sub, #viewHome .char-deck-head, #viewHome .char-bag-head, #viewHome .char-fit, #viewHome .char-name, #viewHome .char-active {
   display: flex;
@@ -2130,7 +2138,7 @@ button.mythfel-hub-brand {
   color: inherit;
 }
 .mythfel-portal-art {
-  flex: 0 0 46%;
+  flex: 1 1 auto;
   min-height: 4.4rem;
   background-size: cover;
   background-position: center top;
@@ -2150,7 +2158,7 @@ button.mythfel-hub-brand {
   flex-direction: column;
   gap: 0.12rem;
   min-height: 0;
-  flex: 1;
+  flex: 0 0 auto;
 }
 #viewHub .mythfel-portal-body h3 {
   margin: 0;
@@ -2158,7 +2166,7 @@ button.mythfel-hub-brand {
   font-size: 13px;
   line-height: 1.15;
 }
-.mythfel-portal-body small { margin-top: auto; }
+.mythfel-portal-body small { margin-top: 0.2rem; }
 .mythfel-hub-foot {
   border-width: 1px 0 0;
   justify-content: space-between;
