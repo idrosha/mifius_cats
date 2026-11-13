@@ -932,7 +932,7 @@ body.mythfel-farm #app {
   font-style: normal;
   font-weight: 400;
   font-display: block;
-  src: url("/fonts/mythfel-login-icons.woff2") format("woff2");
+  src: url("/fonts/mythfel-login-icons.woff2?v=2") format("woff2");
 }
 #viewLogin .material-symbols-outlined {
   font-family: "Mythfel Login Icons";
