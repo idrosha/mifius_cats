@@ -23,5 +23,6 @@ build:
 run:
   # Amvera runs: node server.mjs  (not npm start of nested path)
   scriptName: server.mjs
-  # Default edge is :80 → routes to containerPort. Keep 5000 like Amvera Node example.
+  # Must match server listen (process.env.PORT or default 5000 in server.mjs).
+  # Edge :80 → this containerPort. Mismatch (e.g. app on 8088) → SIGTERM / 503.
   containerPort: 5000
