@@ -21,8 +21,9 @@ function resolveRepoRoot() {
 }
 const REPO = resolveRepoRoot();
 
+// Amvera requires 0.0.0.0 (not localhost) or the edge returns 502/503.
 const HUD_ADDR = process.env.HUD_ADDR || "0.0.0.0";
-// Amvera injects PORT (= run.containerPort). Local QA keeps HUD_PORT / 8088.
+// Amvera injects PORT (= run.containerPort, academy default 5000). Local QA: HUD_PORT / 8088.
 const HUD_PORT = Number(process.env.PORT || process.env.HUD_PORT || 8088);
 if (!Number.isFinite(HUD_PORT) || HUD_PORT <= 0) {
   console.error(`mythfel-web-hud: bad PORT=${process.env.PORT || process.env.HUD_PORT}`);

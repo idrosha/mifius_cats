@@ -1,22 +1,15 @@
-# Amvera — Mythfel web-hud only (no quiz / Unity / battle process).
-# Docs: https://docs.amvera.ru/applications/environments/nodejs-server.html
-# Must listen on 0.0.0.0 + process.env.PORT (see client/web-hud/server.mjs).
+# Amvera — Mythfel web-hud via Docker (monorepo-safe).
+# Node npm artifacts + custom globs kept missing /app/server.mjs → process exit → 503.
+# Docker COPY builds the exact /app tree the process needs.
+# Docs: https://docs.amvera.ru/applications/configuration/docker.html
 meta:
-  environment: node
+  environment: docker
   toolchain:
-    name: npm
-    version: 20
+    name: docker
 
 build:
-  # Flatten web-hud into /app so scriptName=server.mjs always exists.
-  # Nested "client/web-hud" paths were missing after artifacts → process exit → 503.
-  artifacts:
-    "client/web-hud/*": /
-    "content/i18n": /content
-    "liveops/config": /liveops
+  dockerfile: Dockerfile
 
 run:
-  scriptName: server.mjs
-  # Use 8080 (not 80): unprivileged listen. Amvera sets PORT=containerPort.
-  # Binding :80 often fails with EACCES → crash → public 503.
-  containerPort: 8080
+  # Amvera sets PORT to this value; server.mjs listens on process.env.PORT.
+  containerPort: 5000
