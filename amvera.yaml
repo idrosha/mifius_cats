@@ -1,9 +1,10 @@
-# Amvera — Docker toolchain (official). NOT Node.JS Server / npm.
-# Docs: https://docs.amvera.ru/applications/configuration/docker.html
-#
-# meta defaults to environment: docker when omitted.
-# Image is built from root Dockerfile (COPY only web-hud) — no 943MB monorepo archive.
-# Do NOT add amvera.yml (UI) with environment: node / npm start — delete it in Code.
-# Variables: PORT=5000 (matches containerPort). Delete leftover HUD_PORT.
+# Amvera Docker deploy (official).
+# https://docs.amvera.ru/applications/configuration/docker.html
+# Explicit meta so cabinet cannot keep toolchain npm from an old Node config.
+meta:
+  environment: docker
+  toolchain:
+    name: docker
+
 run:
   containerPort: 5000
