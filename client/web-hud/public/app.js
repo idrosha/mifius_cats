@@ -4323,7 +4323,8 @@ function renderVictorySlots(squad) {
     "vic-squad-btn flex items-center gap-2 px-4 py-1.5 rounded-full text-[12px] font-semibold bg-transparent text-on-surface-variant hover:text-on-surface transition-all";
   if (btnCats) btnCats.className = squad === "cats" ? onCls : offCls;
   if (btnDummies) btnDummies.className = squad === "dummies" ? onCls : offCls;
-  if (root) root.dataset.vicSquad = squad;
+  // Never set data-vic-squad on the hall root — it steals [data-win] clicks via closest().
+  if (root) root.dataset.vicActive = squad;
 }
 
 function renderVictoryHall() {
@@ -4355,32 +4356,49 @@ function bindVictoryHall() {
   if (!root || root.dataset.bound === "1") return;
   root.dataset.bound = "1";
   root.addEventListener("click", (ev) => {
-    const squadBtn = ev.target.closest("[data-vic-squad]");
+    const squadBtn = ev.target.closest("button[data-vic-squad], .vic-squad-btn[data-vic-squad]");
     if (squadBtn && root.contains(squadBtn)) {
       ev.preventDefault();
+      ev.stopPropagation();
       renderVictorySlots(squadBtn.getAttribute("data-vic-squad") || "cats");
       return;
     }
-    const act = ev.target.closest("[data-win]")?.getAttribute("data-win");
-    if (!act) return;
+    const actBtn = ev.target.closest("[data-win]");
+    const act = actBtn?.getAttribute("data-win");
+    if (!act || !root.contains(actBtn)) return;
     ev.preventDefault();
+    ev.stopPropagation();
     const mode = state.battleMode;
     const battleId = state.battle?.battleId || state.lastResult?.battleId || "";
     if (act === "log") {
       toast(battleId ? `Бой ${battleId}` : "Лог боя на сервере");
       return;
     }
-    state.battle = null;
-    state.lastResult = null;
-    state.battleMode = "";
     if (act === "again") {
-      if (mode === "practice") startPractice(false);
-      else if (mode === "pvp") pvpStart();
+      state.battle = null;
+      state.lastResult = null;
+      if (mode === "practice") {
+        state.battleMode = "practice";
+        Promise.resolve(startPractice(false)).then(() => {
+          if (!state.battle) renderAll();
+        });
+        return;
+      }
+      state.battleMode = "";
+      if (mode === "pvp") pvpStart();
       else startYard(false);
       return;
     }
+    state.battle = null;
+    state.lastResult = null;
+    state.battleMode = "";
+    // Practice: dojo + next-fight both return to the training hall (no T2 bots yet).
+    if (act === "dojo" || (act === "hub" && mode === "practice")) {
+      navigate("practice");
+      return;
+    }
     if (act === "dojo") {
-      navigate(mode === "practice" ? "practice" : mode === "pve" ? "yard" : "battle_hub");
+      navigate(mode === "pve" ? "yard" : "battle_hub");
       return;
     }
     navigate("battle_hub");
