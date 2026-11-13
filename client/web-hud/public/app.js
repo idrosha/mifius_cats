@@ -4945,6 +4945,24 @@ function syncOppThrowFromBattle(diff) {
   showOppThrowHold();
 }
 
+/** Combat status chips on dojo / fight portraits (sim status id → RU). */
+const STATUS_LABEL_RU = {
+  taunt: "Провокация",
+  stealth: "Стелс",
+  bleed: "Кровотечение",
+  poison: "Яд",
+  stun: "Стан",
+  sleep: "Сон",
+  weak: "Слабость",
+  vuln: "Уязвимость",
+  fragile: "Хрупкость",
+  ruffle: "Ёршь",
+  claw_mode: "Когти",
+  mint: "Мята",
+  cleanser: "Чистота",
+  last_meow: "Последний мяу",
+};
+
 function renderPracticeFight() {
   const diff = state.battle;
   if (!diff) return;
@@ -4990,6 +5008,8 @@ function renderPracticeFight() {
       const img = card.querySelector("img");
       const nameEl = card.querySelector(".font-headline-md, b, h4");
       const laneBadge = card.querySelector(".font-label-sm.text-label-sm");
+      const fxWrap = card.querySelector(".absolute.bottom-2");
+      const fx = fxWrap?.querySelector("span");
       card.hidden = !u;
       if (!u) return;
       const tid = unitTemplateId(u);
@@ -5000,7 +5020,11 @@ function renderPracticeFight() {
         img.alt = hero?.name || tid;
       }
       if (nameEl) nameEl.textContent = hero?.short || CAT_SHEET_NAMES[tid] || tid;
-      if (em) em.textContent = `${u.hp} / ${u.maxHp}`;
+      if (em) {
+        em.textContent = u.shield
+          ? `${u.hp} / ${u.maxHp} +${u.shield}`
+          : `${u.hp} / ${u.maxHp}`;
+      }
       const pct = u.maxHp > 0 ? Math.max(0, Math.min(100, (u.hp / u.maxHp) * 100)) : 0;
       if (bar) bar.style.setProperty("--hp", `${pct}%`);
       // Same order as lobby selection: slot 0..2 = first..third pick.
@@ -5008,6 +5032,21 @@ function renderPracticeFight() {
         const lane = PRACTICE_LANE_LABEL[u.lane] || `Л${u.lane}`;
         const role = hero?.roleRu || CAT_ROLE_RU[u.role] || u.role || "";
         laneBadge.textContent = role ? `${lane} • ${role}` : lane;
+      }
+      if (fxWrap && fx) {
+        const bits = [];
+        if (u.shield > 0) bits.push(`Щит ${u.shield}`);
+        for (const s of u.statuses || []) {
+          const label = STATUS_LABEL_RU[s.id] || s.id;
+          bits.push(s.stacks > 1 ? `${label}×${s.stacks}` : label);
+        }
+        if (bits.length) {
+          fxWrap.hidden = false;
+          fx.textContent = bits.slice(0, 3).join(" · ");
+        } else {
+          fxWrap.hidden = true;
+          fx.textContent = "";
+        }
       }
     });
   };

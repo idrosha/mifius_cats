@@ -8,7 +8,8 @@ import "sort"
 // Free-target roles (ranger/mage/support) may pass explicitID for any living enemy.
 // taunt/stealth/ambush override.
 
-func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string) []*Unit {
+// allowAmbush: card tag `ambush` bypasses stealth (§3.4 / FULL-SPEC).
+func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string, allowAmbush bool) []*Unit {
 	if explicitID != "" {
 		if t := b.unitByID(explicitID); t != nil && t.Alive {
 			// Free-target roles may pick any; melee still honors explicit when UI sends it
@@ -39,7 +40,7 @@ func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string) []*U
 	case "all_enemies":
 		return enemies
 	case "lowest_hp":
-		cands := filterStealth(enemies, false)
+		cands := filterStealth(enemies, allowAmbush)
 		cands = applyTaunt(cands, enemies)
 		if len(cands) == 0 {
 			return nil
@@ -52,7 +53,7 @@ func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string) []*U
 		})
 		return []*Unit{cands[0]}
 	case "backline":
-		cands := filterStealth(enemies, false)
+		cands := filterStealth(enemies, allowAmbush)
 		cands = applyTaunt(cands, enemies)
 		if len(cands) == 0 {
 			return nil
@@ -75,7 +76,7 @@ func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string) []*U
 		})
 		return []*Unit{cands[0]}
 	default: // nearest — frontmost lane, then role rank (§3.4)
-		cands := filterStealth(enemies, false)
+		cands := filterStealth(enemies, allowAmbush)
 		cands = applyTaunt(cands, enemies)
 		if len(cands) == 0 {
 			return nil

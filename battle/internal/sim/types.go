@@ -155,7 +155,21 @@ func (u *Unit) statusStacks(id string) int {
 	return 0
 }
 
+func isNegativeStatus(id string) bool {
+	switch id {
+	case "bleed", "poison", "sleep", "stun", "weak", "vuln", "fragile":
+		return true
+	default:
+		return false
+	}
+}
+
 func (u *Unit) addStatus(id string, stacks, duration int) {
+	// cleanser: absorb one incoming negative, then expire.
+	if isNegativeStatus(id) && u.hasStatus("cleanser") {
+		u.clearStatus("cleanser")
+		return
+	}
 	for i := range u.Statuses {
 		if u.Statuses[i].ID == id {
 			u.Statuses[i].Stacks += stacks
@@ -168,11 +182,20 @@ func (u *Unit) addStatus(id string, stacks, duration int) {
 	u.Statuses = append(u.Statuses, Status{ID: id, Stacks: stacks, Duration: duration})
 }
 
+func (u *Unit) clearStatus(id string) {
+	keep := u.Statuses[:0]
+	for _, s := range u.Statuses {
+		if s.ID != id {
+			keep = append(keep, s)
+		}
+	}
+	u.Statuses = keep
+}
+
 func (u *Unit) clearNegative() {
 	keep := u.Statuses[:0]
-	neg := map[string]bool{"bleed": true, "poison": true, "sleep": true, "stun": true, "weak": true, "vuln": true, "fragile": true}
 	for _, s := range u.Statuses {
-		if !neg[s.ID] {
+		if !isNegativeStatus(s.ID) {
 			keep = append(keep, s)
 		}
 	}

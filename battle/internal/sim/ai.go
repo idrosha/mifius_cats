@@ -39,7 +39,7 @@ func (b *Battle) chooseActionSkipping(skip map[string]bool) Action {
 			if actorClawBlocksRuffle(u, card.Tags) {
 				continue
 			}
-			targets := b.SelectTargets(u, card.TargetRule, "")
+			targets := b.SelectTargets(u, card.TargetRule, "", hasTag(card.Tags, "ambush"))
 			if needsTarget(card.TargetRule) && len(targets) == 0 {
 				continue
 			}

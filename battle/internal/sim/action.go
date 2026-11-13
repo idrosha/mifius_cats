@@ -49,7 +49,8 @@ func (b *Battle) playCard(a Action) error {
 		return fmt.Errorf("claw_mode: no ruffle this turn")
 	}
 
-	targets := b.SelectTargets(u, card.TargetRule, a.TargetID)
+	allowAmbush := hasTag(card.Tags, "ambush")
+	targets := b.SelectTargets(u, card.TargetRule, a.TargetID, allowAmbush)
 	if needsTarget(card.TargetRule) && len(targets) == 0 {
 		return fmt.Errorf("no valid target")
 	}

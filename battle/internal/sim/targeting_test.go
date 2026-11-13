@@ -14,7 +14,7 @@ func baseBattleThreeRoles() (*Battle, *Unit) {
 
 func TestSelectTargets_NearestPrefersTank(t *testing.T) {
 	b, actor := baseBattleThreeRoles()
-	got := b.SelectTargets(actor, "nearest", "")
+	got := b.SelectTargets(actor, "nearest", "", false)
 	if len(got) != 1 || got[0].ID != "e_tank" {
 		t.Fatalf("nearest want e_tank, got %#v", ids(got))
 	}
@@ -31,7 +31,7 @@ func TestSelectTargets_NearestPrefersFrontLane(t *testing.T) {
 			u.Lane = 2
 		}
 	}
-	got := b.SelectTargets(actor, "nearest", "")
+	got := b.SelectTargets(actor, "nearest", "", false)
 	if len(got) != 1 || got[0].ID != "e_support" {
 		t.Fatalf("nearest must prefer front lane over rear tank, got %#v", ids(got))
 	}
@@ -39,7 +39,7 @@ func TestSelectTargets_NearestPrefersFrontLane(t *testing.T) {
 
 func TestSelectTargets_BacklinePrefersSupport(t *testing.T) {
 	b, actor := baseBattleThreeRoles()
-	got := b.SelectTargets(actor, "backline", "")
+	got := b.SelectTargets(actor, "backline", "", false)
 	if len(got) != 1 || got[0].ID != "e_support" {
 		t.Fatalf("backline want e_support, got %#v", ids(got))
 	}
@@ -53,12 +53,12 @@ func TestSelectTargets_BacklineFallsToRangerThenMage(t *testing.T) {
 	tank := &Unit{ID: "e_tank", Side: SideP2, Lane: 0, Role: "tank", HP: 50, MaxHP: 50, Alive: true}
 	b.Units = []*Unit{actor, tank, mage, ranger}
 
-	got := b.SelectTargets(actor, "backline", "")
+	got := b.SelectTargets(actor, "backline", "", false)
 	if len(got) != 1 || got[0].ID != "e_ranger" {
 		t.Fatalf("backline without support want ranger, got %#v", ids(got))
 	}
 	ranger.Alive = false
-	got = b.SelectTargets(actor, "backline", "")
+	got = b.SelectTargets(actor, "backline", "", false)
 	if len(got) != 1 || got[0].ID != "e_mage" {
 		t.Fatalf("backline without support/ranger want mage, got %#v", ids(got))
 	}
@@ -71,9 +71,26 @@ func TestSelectTargets_TauntOverridesBackline(t *testing.T) {
 			u.addStatus("taunt", 1, 1)
 		}
 	}
-	got := b.SelectTargets(actor, "backline", "")
+	got := b.SelectTargets(actor, "backline", "", false)
 	if len(got) != 1 || got[0].ID != "e_tank" {
 		t.Fatalf("taunt must override backline, got %#v", ids(got))
+	}
+}
+
+func TestSelectTargets_AmbushBypassesStealth(t *testing.T) {
+	b, actor := baseBattleThreeRoles()
+	for _, u := range b.Units {
+		if u.ID == "e_tank" {
+			u.addStatus("stealth", 1, 1)
+		}
+	}
+	got := b.SelectTargets(actor, "nearest", "", false)
+	if len(got) != 1 || got[0].ID == "e_tank" {
+		t.Fatalf("without ambush stealth tank must be skipped, got %#v", ids(got))
+	}
+	got = b.SelectTargets(actor, "nearest", "", true)
+	if len(got) != 1 || got[0].ID != "e_tank" {
+		t.Fatalf("ambush must hit stealthed front tank, got %#v", ids(got))
 	}
 }
 

@@ -29,7 +29,10 @@ func (b *Battle) resolveCard(actor *Unit, card content.CardDef, targets []*Unit)
 	}
 	pierce := hasTag(card.Tags, "pierce")
 	crit := hasTag(card.Tags, "crit")
+	// FULL-SPEC: AoE primary = full hit; secondary targets = 50%.
+	aoe := hasTag(card.Tags, "aoe") || card.TargetRule == "all_enemies"
 	for h := 0; h < hits; h++ {
+		primary := true
 		for _, t := range targets {
 			if !t.Alive || card.Atk <= 0 {
 				continue
@@ -43,7 +46,7 @@ func (b *Battle) resolveCard(actor *Unit, card content.CardDef, targets []*Unit)
 				mul *= 1.5
 			}
 			if crit {
-				mul *= 1.5
+				mul *= 2.0 // FULL-SPEC / MF-59 (was 1.5 SL stub)
 			}
 			if t.hasStatus("vuln") {
 				mul *= 1.25
@@ -52,6 +55,10 @@ func (b *Battle) resolveCard(actor *Unit, card content.CardDef, targets []*Unit)
 				mul *= 0.75
 			}
 			dealt := int(math.Floor(float64(dmg) * mul))
+			if aoe && !primary {
+				dealt = int(math.Floor(float64(dealt) * 0.5))
+			}
+			primary = false
 			ignoreShield := pierce || t.hasStatus("fragile")
 			b.applyDamage(actor, t, dealt, ignoreShield)
 		}
@@ -83,8 +90,12 @@ func (b *Battle) applyDamage(attacker, target *Unit, amount int, ignoreShield bo
 		target.Shield = 0
 	}
 	target.HP -= amount
+	// wiki §1.3: sleep breaks on damage (stun does not).
+	if target.hasStatus("sleep") {
+		target.clearStatus("sleep")
+	}
 	if target.HP <= 0 {
-		if b.rng.ChancePercent(target.Charm) {
+		if b.rng != nil && b.rng.ChancePercent(target.Charm) {
 			target.HP = 1
 			target.addStatus("last_meow", 1, 1)
 			return
@@ -118,6 +129,10 @@ func (b *Battle) applyOp(actor *Unit, targets []*Unit, op map[string]any) {
 		}
 		for _, t := range dest {
 			t.addStatus(st, stacks, dur)
+			// mint (мята): self-cleanse of negatives on apply.
+			if st == "mint" {
+				t.clearNegative()
+			}
 			if st == "ruffle" && t.statusStacks("ruffle") >= 10 {
 				t.addStatus("claw_mode", 1, 1)
 				ps := b.player(t.Side)
@@ -143,6 +158,8 @@ func (b *Battle) applyOp(actor *Unit, targets []*Unit, op map[string]any) {
 	case "cleanse":
 		for _, t := range targets {
 			t.clearNegative()
+			// cleanser buff: block the next incoming negative once.
+			t.addStatus("cleanser", 1, 2)
 		}
 	case "buff":
 		stat, _ := op["stat"].(string)
