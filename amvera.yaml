@@ -1,7 +1,10 @@
-# Amvera — Mythfel web-hud (Node/npm).
+# Amvera — Mythfel web-hud (Node.JS Server).
 # Docs: https://docs.amvera.ru/applications/environments/nodejs-server.html
-# PORT is provided by Amvera as run.containerPort (also set PORT=5000 in cabinet
-# Variables if needed; DELETE any HUD_PORT=8088 leftover).
+#
+# Start WITHOUT npm: run.command is a full shell command (Node schema).
+# Docker-style `command`+`args` is NOT used here — that is the docker toolchain.
+# PORT is set by Amvera from containerPort (default 80). No env-block in yaml;
+# set Variables PORT=5000 in cabinet if needed; delete leftover HUD_PORT.
 meta:
   environment: node
   toolchain:
@@ -9,14 +12,16 @@ meta:
     version: 20
 
 build:
+  # No production npm deps — skip `npm install` entirely (avoids npm wrapper noise).
+  skip: yes
   artifacts:
     # Real web-hud server → /app/server.mjs (not monorepo root shim)
     "client/web-hud/server.mjs": /
     "client/web-hud/public": /
     "content/i18n": /content
     "liveops/config": /liveops
-    "package.json": /
 
 run:
-  scriptName: server.mjs
+  # Direct node — NOT `npm start` / NOT scriptName wrapped by npm in cabinet.
+  command: node server.mjs
   containerPort: 5000

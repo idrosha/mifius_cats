@@ -385,12 +385,26 @@ const server = http.createServer(async (req, res) => {
   serveFile(res, filePath);
 });
 
+// Sync bind line so Amvera logs show it even if the process is SIGTERM'd quickly
+// (piped stdout can buffer console.log and hide listen until exit).
+fs.writeSync(
+  1,
+  `mythfel-web-hud binding ${HUD_ADDR}:${HUD_PORT} PORT=${process.env.PORT || "(unset)"}\n`,
+);
+
 server.on("error", (err) => {
-  console.error(`mythfel-web-hud listen failed on ${HUD_ADDR}:${HUD_PORT}:`, err);
+  fs.writeSync(2, `mythfel-web-hud listen failed on ${HUD_ADDR}:${HUD_PORT}: ${err}\n`);
   process.exit(1);
 });
+
+process.on("SIGTERM", () => {
+  fs.writeSync(1, "mythfel-web-hud SIGTERM — shutting down\n");
+  server.close(() => process.exit(0));
+  setTimeout(() => process.exit(0), 2000).unref();
+});
+
 server.listen(HUD_PORT, HUD_ADDR, () => {
-  console.log(`mythfel-web-hud http://${HUD_ADDR}:${HUD_PORT}/`);
+  fs.writeSync(1, `mythfel-web-hud http://${HUD_ADDR}:${HUD_PORT}/\n`);
   console.log(`  bind env      → PORT=${process.env.PORT || "(unset)"} → ${HUD_PORT}`);
   console.log(`  proxy battle  → ${BATTLE_URL}`);
   console.log(`  proxy liveops → ${LIVEOPS_URL}`);
