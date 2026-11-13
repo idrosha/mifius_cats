@@ -1666,8 +1666,8 @@ body:has(#viewHub:not(.hidden)) #app {
 }
 #viewHub > header.mythfel-hub-bar,
 #viewHub > footer.mythfel-hub-foot,
-#viewHub > header nav.mythfel-hub-tabs,
-#viewHub > header nav.mythfel-hub-sub {
+#viewHub > header .mythfel-hub-tabs,
+#viewHub > header .mythfel-hub-sub {
   display: flex !important;
 }
 .mythfel-hub-sink { display: none !important; }
@@ -1721,9 +1721,15 @@ body:has(#viewHub:not(.hidden)) #app {
   display: flex;
   align-items: center;
   gap: 0.65rem;
-  height: 3.15rem;
-  padding: 0.35rem 0.75rem;
+  min-height: 3.15rem;
+  padding: 0.35rem 0.75rem 0.15rem;
   justify-content: space-between;
+}
+.mythfel-hub-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 0;
 }
 button.mythfel-hub-brand {
   border: 0;
@@ -1759,11 +1765,12 @@ button.mythfel-hub-brand {
   color: #d5c4af;
 }
 .mythfel-hub-tabs,
-.mythfel-hub-sub { display: flex; align-items: center; gap: 0.2rem; min-width: 0; }
-.mythfel-hub-sub { padding: 0 0.75rem 0.35rem; }
+.mythfel-hub-sub { display: flex; align-items: center; justify-content: center; gap: 0.2rem; min-width: 0; }
+.mythfel-hub-sub { padding: 0 0 0.3rem; }
 .mythfel-hub-tabs a,
 .mythfel-hub-tabs button,
-.mythfel-hub-sub a {
+.mythfel-hub-sub a,
+.mythfel-hub-sub button {
   border: 0;
   background: transparent;
   color: #d5c4af;
