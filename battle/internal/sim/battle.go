@@ -132,12 +132,13 @@ func (b *Battle) beginSideTurn(side Side, isRoundStart bool) {
 	b.Active = side
 	b.cardsPlayedByUnit = map[string]int{}
 	firstActor := side == b.First
-	e, d := energyDrawFor(b.Turn, firstActor)
+	e, _ := energyDrawFor(b.Turn, firstActor)
 	ps := b.player(side)
 	ps.Energy = e + ps.BonusE
 	ps.KeepCost = 1
-	drawN := d + ps.BonusDraw
-	for _, u := range b.living(side) {
+	living := b.living(side)
+	drawN := DrawPerLiving(len(living)) + ps.BonusDraw
+	for _, u := range living {
 		// Kept cards already sit in Hand from endTurn; clear Keep marks for the new turn (§3.3–3.4).
 		u.KeepMask = make([]bool, len(u.Hand))
 		b.drawCards(u, drawN)
