@@ -1,19 +1,17 @@
-# Keep Amvera/Docker build context tiny — only paths COPY'd in Dockerfile matter.
+# Keep Amvera/Docker context lean — battle + content are required for CreatePvE.
 .git
 .cursor
 .github
 backend
-battle
 docs
 qa
 scripts
 liveops/cmd
 liveops/soft-launch
-content/cards
-content/heroes
 **/*.md
 **/node_modules
 **/.DS_Store
 client/unity
 client/web-hud/node_modules
 client/web-hud/stitch-src
+client/web-hud/scripts

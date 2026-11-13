@@ -1,16 +1,20 @@
-# Amvera Docker deploy — Mythfel web-hud ONLY (no monorepo in /app).
+# Amvera: web-hud + battle/devapi in one image (training needs CreatePvE).
 # Docs: https://docs.amvera.ru/applications/configuration/docker.html
-# Image CMD is plain `node server.mjs` — never `npm start`.
-FROM node:20-bookworm-slim
+FROM golang:1.22-bookworm AS battle
+WORKDIR /src
+COPY battle/ ./
+RUN CGO_ENABLED=0 go build -o /mythfel-devapi ./cmd/devapi
 
+FROM node:20-bookworm-slim
 WORKDIR /app
 
+COPY --from=battle /mythfel-devapi /usr/local/bin/mythfel-devapi
 COPY client/web-hud/server.mjs ./server.mjs
 COPY client/web-hud/public ./public
-COPY content/i18n ./content/i18n
+COPY client/web-hud/amvera-start.sh ./amvera-start.sh
+COPY content ./content
 COPY liveops/config ./liveops/config
 
-# Tiny package.json only so accidental `npm start` still runs the same file.
 RUN printf '%s\n' \
   '{' \
   '  "name": "mythfel-web-hud",' \
@@ -18,13 +22,15 @@ RUN printf '%s\n' \
   '  "type": "module",' \
   '  "scripts": { "start": "node server.mjs" },' \
   '  "engines": { "node": ">=20" }' \
-  '}' > package.json
+  '}' > package.json \
+  && chmod +x /app/amvera-start.sh
 
 ENV NODE_ENV=production
 ENV HUD_ADDR=0.0.0.0
-# Amvera sets PORT from run.containerPort; keep default in sync with amvera.yaml.
 ENV PORT=5000
+ENV BATTLE_URL=http://127.0.0.1:8081
+ENV BATTLE_CONTENT=/app/content
 
 EXPOSE 5000
 
-CMD ["node", "server.mjs"]
+CMD ["/app/amvera-start.sh"]
