@@ -1,17 +1,27 @@
-# Amvera — Mythfel web-hud (Docker).
-# Runtime must NOT run `npm start` → node client/web-hud/server.mjs (that path is absent in /app).
-# Force the container entry to the flat /app/server.mjs produced by Dockerfile.
-# Docs: https://docs.amvera.ru/applications/configuration/docker.html
+# Amvera — Mythfel web-hud (Node/npm).
+# Runtime logs showed `npm start` / node — NOT Docker CMD. Use Node Server schema.
+# Docs: https://docs.amvera.ru/applications/environments/nodejs-server.html
+# Flat /app: copy real web-hud server.mjs (not the monorepo shim) so start never
+# needs client/web-hud/server.mjs inside the container.
 meta:
-  environment: docker
+  environment: node
   toolchain:
-    name: docker
+    name: npm
+    version: 20
 
 build:
-  dockerfile: Dockerfile
+  artifacts:
+    # file → /app/server.mjs (basename only)
+    "client/web-hud/server.mjs": /
+    # folder → /app/public
+    "client/web-hud/public": /
+    "content/i18n": /content
+    "liveops/config": /liveops
+    # start script: "node server.mjs" (see package.json)
+    "package.json": /
 
 run:
-  # ENTRYPOINT-style: ignore any npm start from package.json.
-  command: node
-  args: server.mjs
+  # Amvera runs: node server.mjs  (not npm start of nested path)
+  scriptName: server.mjs
+  # Default edge is :80 → routes to containerPort. Keep 5000 like Amvera Node example.
   containerPort: 5000

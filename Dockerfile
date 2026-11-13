@@ -22,9 +22,10 @@ RUN printf '%s\n' \
 
 ENV NODE_ENV=production
 ENV HUD_ADDR=0.0.0.0
+# Prefer PORT from Amvera (containerPort). Default 5000 matches amvera.yaml.
 ENV PORT=5000
 
 EXPOSE 5000
 
-# Same as amvera.yaml run.command / run.args
+# Fallback if someone builds this image; amvera.yaml now uses Node/npm + scriptName.
 CMD ["node", "server.mjs"]
