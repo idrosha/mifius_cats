@@ -2621,9 +2621,27 @@ function renderPass() {
   }
 }
 
+function bindNursery() {
+  const root = $("viewBreeding");
+  if (!root || root.dataset.nurseryBound === "1") return;
+  root.dataset.nurseryBound = "1";
+  root.querySelector(".nursery-light")?.addEventListener("click", () => {
+    showGateTip(
+      t(
+        "gate.tip.breeding",
+        "Питомник: обычные → мифики (малый шанс). Пока — подними ранг в боях",
+      ),
+    );
+  });
+}
+
 function renderBreeding() {
   const host = $("viewBreeding");
   if (!host) return;
+  if (host.querySelector(".nursery-hall")) {
+    bindNursery();
+    return;
+  }
   let card = host.querySelector("[data-breeding-shell]");
   if (!card) {
     card = document.createElement("div");

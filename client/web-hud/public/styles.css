@@ -423,6 +423,19 @@ body.mythfel-login .mythfel-logout {
   background: #110d0b !important;
   margin: 0 !important;
 }
+/* Detail cards under the round map pins stay closed until the pin is hovered. */
+#viewSoonFarm .group.cursor-pointer > .rounded-xl {
+  display: none !important;
+}
+#viewSoonFarm .group.cursor-pointer:hover,
+#viewSoonFarm .group.cursor-pointer:focus-within {
+  z-index: 45;
+}
+#viewSoonFarm .group.cursor-pointer:hover > .rounded-xl,
+#viewSoonFarm .group.cursor-pointer:focus-within > .rounded-xl {
+  display: flex !important;
+  flex-direction: column;
+}
 #viewSoonFarm .farm-map-art,
 #viewSoonFarm img[alt="Двор и Угодья"] {
   position: absolute !important;
@@ -2402,6 +2415,126 @@ body:has(#viewCollection:not(.hidden)) #wireDock { display: none !important; }
   padding: 0.1rem 0.15rem 0;
 }
 .roster-keys b { color: #fdba45; font-weight: 700; }
+
+/* Breeding nursery — only viewBreeding */
+#viewBreeding { background: #100e0c; color: #eae1db; }
+#viewBreeding > .nursery-hall {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.4rem 0.5rem 0.3rem;
+  background: #100e0c;
+}
+.nursery-top, .nursery-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  flex: 0 0 auto;
+}
+.nursery-top strong { font-family: Rubik, sans-serif; font-size: 15px; }
+.nursery-top p, .nursery-foot, .nursery-order, .nursery-cost { margin: 0.1rem 0 0; font-size: 11px; color: #d5c4af; }
+.nursery-incub { text-align: right; font-size: 11px; }
+.nursery-incub b { display: block; color: #89d98c; }
+.nursery-incub em { display: block; font-style: normal; color: #fdba45; }
+.nursery-body { flex: 1 1 auto; min-height: 0; display: flex; gap: 0.45rem; }
+.nursery-parent, .nursery-altar {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  background: rgba(22, 19, 16, 0.96);
+  border: 1px solid rgba(80, 69, 53, 0.65);
+  border-radius: 0.6rem;
+  padding: 0.45rem;
+  overflow: auto;
+}
+.nursery-parent { width: 24%; }
+.nursery-altar { flex: 1 1 auto; }
+.nursery-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-family: Rubik, sans-serif;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fdba45;
+}
+.nursery-kicker .swatch { width: 0.7rem; height: 0.7rem; border-radius: 0.2rem; display: inline-block; }
+.nursery-parent h2 { margin: 0; font-size: 16px; }
+.nursery-genes, .nursery-hybrids { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.22rem; }
+.nursery-hybrids { flex-direction: row; flex-wrap: wrap; }
+.nursery-genes li, .nursery-hybrids li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.35rem;
+  background: #1a1613;
+  border-radius: 0.35rem;
+  padding: 0.25rem 0.4rem;
+  font-size: 11px;
+}
+.nursery-hybrids li { flex: 1 1 calc(50% - 0.2rem); flex-direction: column; }
+.nursery-genes em, .nursery-hybrids em, .nursery-params em { font-style: normal; color: #89d98c; }
+.nursery-hybrids .is-sure em { color: #fdba45; }
+.nursery-pot { display: flex; flex-direction: column; gap: 0.15rem; font-size: 11px; color: #d5c4af; }
+.nursery-pot b { color: #eae1db; }
+.nursery-parent button { margin-top: auto; }
+.nursery-parent button, .nursery-light {
+  border: 1px solid rgba(80, 69, 53, 0.8);
+  background: #1a1613;
+  color: #eae1db;
+  border-radius: 0.45rem;
+  font-family: Rubik, sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 0.4rem 0.5rem;
+  cursor: pointer;
+}
+.nursery-light {
+  margin-top: auto;
+  border: 0;
+  background: linear-gradient(180deg, #fdba45, #d99b26);
+  color: #1a1308;
+  font-size: 14px;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.nursery-pair { display: flex; align-items: center; gap: 0.45rem; }
+.nursery-pair article { flex: 1; min-width: 0; background: #1a1613; border-radius: 0.45rem; overflow: hidden; }
+.nursery-pair b, .nursery-pair small { display: block; padding: 0 0.35rem; }
+.nursery-pair small { color: #d5c4af; font-size: 10px; padding-bottom: 0.3rem; }
+.nursery-egg {
+  flex: 0 0 4.2rem;
+  height: 5.2rem;
+  border-radius: 50% 50% 46% 46%;
+  background:
+    radial-gradient(circle at 50% 38%, #fff6c8 0, #fdba45 36%, #7ec8ff 68%, transparent 70%),
+    radial-gradient(circle at 50% 78%, rgba(137, 217, 140, 0.45), transparent 62%);
+  box-shadow: 0 0 22px rgba(253, 186, 69, 0.5);
+}
+.nursery-rates { display: flex; gap: 0.4rem; margin: 0; font-size: 11px; color: #89d98c; }
+.nursery-params { display: flex; gap: 0.35rem; }
+.nursery-params div { flex: 1; background: #1a1613; border-radius: 0.4rem; padding: 0.3rem 0.4rem; }
+.nursery-params small { display: block; color: #9d8f7b; font-size: 10px; }
+.nursery-params b { display: block; font-size: 13px; }
+.nursery-cost { text-align: center; }
+.nursery-foot { font-size: 11px; color: #9d8f7b; }
+#viewBreeding .thumb { display: block; overflow: hidden; height: 6.2rem; background: #1a1613; }
+#viewBreeding .nursery-pair .thumb { height: 4.2rem; }
+#viewBreeding .thumb img {
+  width: 100%;
+  height: 220%;
+  max-height: none;
+  min-height: 0;
+  object-fit: cover;
+  object-position: center 40%;
+  transform: translateY(-22%);
+  display: block;
+}
+body:has(#viewBreeding:not(.hidden)) #wireDock { display: none !important; }
 
 @media (max-width: 1100px) {
   .mythfel-pass { grid-template-columns: 1fr; }
