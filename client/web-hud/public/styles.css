@@ -1435,39 +1435,23 @@ body:has(#viewHome:not(.hidden)) #app {
   flex: 1 1 auto !important;
   min-height: 0 !important;
   height: 100% !important;
+  width: 100% !important;
   display: flex !important;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-  padding: 0 !important;
+  gap: 0.35rem;
+  padding: 0.45rem 0.65rem 0.4rem !important;
   background: #100e0c;
   color: #eae1db;
   position: relative;
-  container-type: size;
+  overflow: hidden;
 }
-#viewHome .char-frame {
-  position: relative;
-  aspect-ratio: 664 / 538;
-  width: min(100cqw, calc(100cqh * 664 / 538));
-  max-height: 100%;
-}
-#viewHome .char-frame > img.char-saved {
-  display: block;
-  width: 100% !important;
-  height: 100% !important;
-  min-height: 0 !important;
-  max-width: none !important;
-  object-fit: fill !important;
-  background: #100e0c;
-}
-#viewHome .char-hit-row {
+#viewGear .char-hit-row {
   position: absolute;
   left: 0;
   right: 0;
   z-index: 3;
 }
-#viewHome .char-hit-row a {
+#viewGear .char-hit-row a {
   position: absolute;
   top: 0;
   height: 100%;
@@ -1476,6 +1460,35 @@ body:has(#viewHome:not(.hidden)) #app {
   font-size: 12px;
   line-height: 1;
   text-decoration: none;
+}
+body:has(#viewGear:not(.hidden)) #appNav,
+body:has(#viewGear:not(.hidden)) #wireDock { display: none !important; }
+body:has(#viewGear:not(.hidden)) #app { height: 100dvh !important; max-height: 100dvh !important; }
+#viewGear { background: #100e0c; }
+#viewGear > main.barn-sheet {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+  background: #100e0c;
+  container-type: size;
+}
+#viewGear .barn-frame {
+  position: relative;
+  aspect-ratio: 799 / 544;
+  width: min(100cqw, calc(100cqh * 799 / 544));
+  max-height: 100%;
+}
+#viewGear .barn-frame > img.barn-saved {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-width: none !important;
+  object-fit: fill !important;
 }
 #viewHome .char-top, #viewHome .char-tabs, #viewHome .char-sub, #viewHome .char-deck-head, #viewHome .char-bag-head, #viewHome .char-fit, #viewHome .char-name, #viewHome .char-active {
   display: flex;
@@ -1582,13 +1595,59 @@ body:has(#viewHome:not(.hidden)) #app {
   border: 1px solid rgba(253, 186, 69, 0.25);
 }
 #viewHome .char-portrait img {
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  object-fit: cover;
-  object-position: center 42%;
+  width: 100% !important;
+  height: 100% !important;
+  min-height: 0 !important;
+  max-width: none !important;
+  object-fit: cover !important;
+  object-position: center 30% !important;
   display: block;
 }
+#viewHome .char-slots button,
+#viewHome .char-cells button,
+#viewHome .char-deck button,
+#viewHome .char-filters button {
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+#viewHome .char-slots button {
+  display: block;
+  width: 100%;
+  text-align: left;
+  background: #1f1b18;
+  border: 1px solid rgba(253, 186, 69, 0.4);
+  border-radius: 0.4rem;
+  padding: 0.28rem 0.4rem;
+}
+#viewHome .char-slots button.is-filled { border-color: #fdba45; }
+#viewHome .char-filters button {
+  border: 0;
+  background: #1f1b18;
+  color: #d5c4af;
+  font-size: 11px;
+  padding: 0.12rem 0.4rem;
+  border-radius: 999px;
+}
+#viewHome .char-filters button.is-on { background: #d99b26; color: #1a1308; }
+#viewHome .char-cells button {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: transparent;
+  padding: 0;
+}
+#viewHome .char-cells li.is-worn { box-shadow: inset 0 0 0 1px #89d98c; }
+#viewHome .char-cells li.is-focus { box-shadow: inset 0 0 0 2px #fdba45; }
+#viewHome .char-deck button {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  padding: 0;
+}
+#viewHome .char-deck li.is-active { border-color: #fdba45; }
+#viewHome .char-user span { display: block; font-size: 10px; color: #9d8f7b; }
 #viewHome .char-active { justify-content: space-between; gap: 0.5rem; align-items: center; }
 #viewHome .char-active p { margin: 0; font-size: 11px; color: #d5c4af; }
 #viewHome .char-active div, #viewHome .char-compare div { display: flex; gap: 0.3rem; }
@@ -1626,9 +1685,9 @@ body:has(#viewHome:not(.hidden)) #app {
 #viewHome .char-compare b { display: block; color: #eae1db; margin-bottom: 0.15rem; }
 #viewHome .char-compare p { margin: 0 0 0.3rem; }
 #viewHome .char-deck { flex: 0 0 auto; }
-#viewHome .char-deck ul { display: flex; gap: 0.35rem; margin-top: 0.25rem; }
+#viewHome .char-deck ul { display: flex; gap: 0.35rem; margin-top: 0.25rem; overflow-x: auto; }
 #viewHome .char-deck li {
-  flex: 1 1 0; min-width: 0; background: #161310; border: 1px solid rgba(80, 69, 53, 0.7);
+  flex: 0 0 8.6rem; min-width: 0; background: #161310; border: 1px solid rgba(80, 69, 53, 0.7);
   border-radius: 0.4rem; padding: 0.28rem 0.35rem;
 }
 #viewHome .char-deck b { display: block; font-size: 12px; color: #fdba45; }
