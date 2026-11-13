@@ -4713,9 +4713,9 @@ const PRACTICE_HEROES = {
   },
 };
 
-/** Sim lane 0 = front/vanguard … 2 = rear. Lobby paints L→R as rear→center→vanguard (tank right). */
-const PRACTICE_LANE_LABEL = ["Авангард", "Центр", "Тыл"];
-const PRACTICE_VISUAL_LANES = [2, 1, 0];
+/** Selection index 0..2 = lobby L→R slots = CreatePvE team lanes (no reverse). */
+const PRACTICE_LANE_LABEL = ["Тыл", "Центр", "Авангард"];
+const PRACTICE_VISUAL_LANES = [0, 1, 2];
 const PRACTICE_EMPTY_SLOT_META = [
   {
     accent: "secondary",
@@ -4985,7 +4985,7 @@ function renderPracticeFight() {
       if (em) em.textContent = `${u.hp} / ${u.maxHp}`;
       const pct = u.maxHp > 0 ? Math.max(0, Math.min(100, (u.hp / u.maxHp) * 100)) : 0;
       if (bar) bar.style.setProperty("--hp", `${pct}%`);
-      // Lobby LTR = team index = sim lane 0..2 (Авангард → Центр → Тыл). Keep battle the same.
+      // Same order as lobby selection: slot 0..2 = first..third pick.
       if (laneBadge) {
         const lane = PRACTICE_LANE_LABEL[u.lane] || `Л${u.lane}`;
         const role = hero?.roleRu || CAT_ROLE_RU[u.role] || u.role || "";
@@ -6211,11 +6211,10 @@ function renderPracticeSquad() {
 
   const grid = $("dojoSelectedSquad") || root.querySelector("[data-dojo-selected-squad]");
   if (grid) {
-    // Visual L→R = тыл · центр · танк (sim lanes 2 → 1 → 0). CreatePvE still uses sim order.
+    // Visual L→R = selection order (first pick → slot 1). CreatePvE uses the same array.
     const cells = [];
     for (let visualPos = 0; visualPos < 3; visualPos++) {
-      const laneIdx = PRACTICE_VISUAL_LANES[visualPos];
-      const hero = heroes[laneIdx] || null;
+      const hero = heroes[visualPos] || null;
       cells.push(hero ? practiceSquadFilledSlot(hero, visualPos) : practiceSquadEmptySlot(visualPos));
     }
     grid.innerHTML = cells.join("");
@@ -6224,9 +6223,9 @@ function renderPracticeSquad() {
   const match = $("dojoMatchAllies") || root.querySelector("[data-dojo-match-allies]");
   if (match) {
     const accents = ["secondary", "tertiary", "primary"];
-    match.innerHTML = PRACTICE_VISUAL_LANES.map((laneIdx, visualPos) =>
-      practiceMatchAllyCard(heroes[laneIdx] || null, accents[visualPos])
-    ).join("");
+    match.innerHTML = [0, 1, 2]
+      .map((idx) => practiceMatchAllyCard(heroes[idx] || null, accents[idx]))
+      .join("");
   }
 
   root.querySelectorAll("[data-hero]").forEach((card) => {
