@@ -932,7 +932,7 @@ body.mythfel-farm #app {
   font-style: normal;
   font-weight: 400;
   font-display: block;
-  src: url("/fonts/mythfel-login-icons.woff2") format("woff2");
+  src: url("/fonts/mythfel-login-icons.woff2?v=2") format("woff2");
 }
 #viewLogin .material-symbols-outlined {
   font-family: "Mythfel Login Icons";
@@ -1436,23 +1436,112 @@ body:has(#viewHome:not(.hidden)) #app {
   min-height: 0 !important;
   height: 100% !important;
   display: flex !important;
-  padding: 0;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.45rem 0.6rem 0.4rem;
   background: #0e0c0a;
+  color: #eae1db;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
 }
-#viewHome .sheet-ref {
-  flex: 1 1 auto;
-  min-height: 0;
-  margin: 0;
+#viewHome .char-top, #viewHome .char-tabs, #viewHome .char-deck-head, #viewHome .char-bag-head, #viewHome .char-fit {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 0.45rem;
 }
-#viewHome .sheet-ref img {
+#viewHome .char-top { justify-content: space-between; }
+#viewHome .char-brand { display: flex; flex-direction: column; }
+#viewHome .char-brand b, #viewHome h2 { font-family: Rubik, sans-serif; }
+#viewHome .char-brand b { font-size: 16px; color: #fdba45; }
+#viewHome .char-brand span, #viewHome .char-role, #viewHome .char-kicker { font-size: 11px; color: #d5c4af; }
+#viewHome .char-wallet { display: flex; gap: 0.7rem; list-style: none; margin: 0; padding: 0; }
+#viewHome .char-wallet li { display: flex; flex-direction: column; font-size: 12px; }
+#viewHome .char-wallet em { font-style: normal; font-size: 10px; color: #9d8f7b; }
+#viewHome .char-user { font-size: 12px; }
+#viewHome .char-user b { color: #fdba45; }
+#viewHome .char-tabs { flex-wrap: wrap; }
+#viewHome .char-tabs a {
+  color: #d5c4af;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 0.18rem 0.45rem;
+  border-radius: 999px;
+}
+#viewHome .char-tabs a.is-on { background: #d99b26; color: #1a1308; }
+#viewHome .char-body { flex: 1 1 auto; min-height: 0; display: flex; gap: 0.45rem; }
+#viewHome .char-col, #viewHome .char-stage {
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  background: #161310;
+  border: 1px solid rgba(80, 69, 53, 0.7);
+  border-radius: 0.55rem;
+  padding: 0.45rem 0.5rem;
+}
+#viewHome .char-col { width: 24%; display: flex; flex-direction: column; gap: 0.28rem; }
+#viewHome .char-stage { flex: 1 1 auto; display: flex; flex-direction: column; gap: 0.35rem; }
+#viewHome h2 { margin: 0; font-size: 20px; line-height: 1.15; }
+#viewHome h3 { margin: 0.2rem 0 0; font-size: 12px; color: #fdba45; }
+#viewHome .char-role, #viewHome .char-kicker, #viewHome .char-setline { margin: 0; }
+#viewHome .char-power { margin: 0.15rem 0; display: flex; justify-content: space-between; align-items: baseline; }
+#viewHome .char-power b { font-size: 22px; color: #fdba45; font-family: Rubik, sans-serif; }
+#viewHome .char-stats, #viewHome .char-skills, #viewHome .char-sets, #viewHome .char-slots, #viewHome .char-items, #viewHome .char-deck ul {
+  list-style: none; margin: 0; padding: 0;
+}
+#viewHome .char-stats li, #viewHome .char-sets li, #viewHome .char-skills li {
+  display: flex; justify-content: space-between; gap: 0.35rem; align-items: baseline;
+  font-size: 12px; padding: 0.12rem 0; border-bottom: 1px solid rgba(80, 69, 53, 0.35);
+}
+#viewHome .char-stats small, #viewHome .char-skills span, #viewHome .char-sets span { color: #9d8f7b; font-size: 10px; }
+#viewHome .char-sets em { color: #89d98c; font-style: normal; }
+#viewHome .char-fit { align-items: stretch; justify-content: center; flex: 1 1 auto; min-height: 0; }
+#viewHome .char-slots { display: flex; flex-direction: column; gap: 0.3rem; width: 8.5rem; justify-content: center; }
+#viewHome .char-slots li, #viewHome .char-items li {
+  background: #1f1b18; border: 1px solid rgba(253, 186, 69, 0.35); border-radius: 0.4rem; padding: 0.28rem 0.35rem;
+}
+#viewHome .char-slots b, #viewHome .char-items b { display: block; font-size: 12px; }
+#viewHome .char-slots span, #viewHome .char-items small { color: #89d98c; font-size: 10px; }
+#viewHome .char-portrait {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 32rem;
+  margin: 0;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  align-self: center;
+  aspect-ratio: 512 / 279;
+  background: #110d0b;
+}
+#viewHome .char-portrait img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
-  object-position: center;
+  max-width: 512px;
+  object-fit: cover;
+  object-position: center 35%;
+  display: block;
 }
+#viewHome .char-setline { font-size: 12px; color: #d5c4af; }
+#viewHome .char-bag-head, #viewHome .char-deck-head { justify-content: space-between; }
+#viewHome .char-bag-head b, #viewHome .char-deck-head b { font-size: 14px; }
+#viewHome .char-bag-head span, #viewHome .char-deck-head span { font-size: 11px; color: #d5c4af; }
+#viewHome .char-filters { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+#viewHome .char-filters span { font-size: 11px; padding: 0.1rem 0.35rem; border-radius: 999px; background: #1f1b18; }
+#viewHome .char-filters .is-on { background: #d99b26; color: #1a1308; }
+#viewHome .char-items { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+#viewHome .char-items li { width: calc(50% - 0.2rem); min-height: 2.4rem; }
+#viewHome .char-items .is-empty { border-style: dashed; border-color: rgba(80, 69, 53, 0.8); }
+#viewHome .char-compare { margin-top: auto; font-size: 11px; color: #d5c4af; }
+#viewHome .char-compare b { display: block; color: #eae1db; margin-bottom: 0.15rem; }
+#viewHome .char-compare p { margin: 0; }
+#viewHome .char-deck { flex: 0 0 auto; }
+#viewHome .char-deck ul { display: flex; gap: 0.35rem; margin-top: 0.3rem; }
+#viewHome .char-deck li {
+  flex: 1 1 0; min-width: 0; background: #161310; border: 1px solid rgba(80, 69, 53, 0.7);
+  border-radius: 0.4rem; padding: 0.3rem 0.4rem;
+}
+#viewHome .char-deck b { display: block; font-size: 12px; }
+#viewHome .char-deck span { color: #d5c4af; font-size: 10px; }
 
 /* Live HUD panels over painted forms — filled flush blocks (farm/guild stubs) */
 .mythfel-hud-panel {
