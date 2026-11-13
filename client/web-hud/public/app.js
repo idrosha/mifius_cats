@@ -4812,7 +4812,7 @@ function attackCardArtUrl(cardId) {
   }
   const folder = ATTACK_CARD_ART_FOLDER[folderKey];
   if (!folder) return "";
-  return `/stitch-assets/attack-cards/${folder}/attack_${fileStem}.png`;
+  return `/stitch-assets/attack-cards/${folder}/attack_${fileStem}.webp`;
 }
 
 /** Portrait attack-card button for practice / PvP / wire battle hands. */
@@ -4845,7 +4845,7 @@ function makeAttackHandButton(c, diff, classNames = "mf-atk-card") {
 }
 
 /** Shared attack-card reverse used for opponent discard throw (all modes). */
-const OPP_CARD_BACK_URL = "/stitch-assets/attack-cards/card-back.png";
+const OPP_CARD_BACK_URL = "/stitch-assets/attack-cards/card-back.webp";
 const OPP_THROW_COUNT = 6;
 let oppThrowToken = 0;
 
