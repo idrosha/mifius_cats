@@ -1,29 +1,50 @@
 <section id="viewHome" class="stitch-view mythfel-form hidden" data-stitch="home" data-layout="landscape">
-<main class="char-sheet" data-purpose="character-home" data-sheet="barsik">
-<div class="char-frame">
-<img class="char-saved" alt="" src="/stitch-assets/character-office.png"/>
-<nav class="char-hit-row" style="top:4.1%;height:4.6%" aria-label="Дом Хранителя">
-<a style="left:0.6%;width:8%" data-path="glavnyy-khab" href="#">Главный Хаб</a>
-<a style="left:8.4%;width:15%" data-path="personazh" href="#">Персонаж / Дом Хранителя</a>
-<a style="left:28%;width:7.6%" data-path="ekipirovka-sumka" href="#">Инвентарь</a>
-<a style="left:35.6%;width:9.6%" data-path="ferma" href="#">Угодья / Ферма</a>
-<a style="left:45.3%;width:5.4%" data-path="kraft" href="#">Крафт</a>
-<a style="left:50.6%;width:7.8%" data-path="mythworld-pve" href="#">Поход (ПвЕ)</a>
-<a style="left:58.4%;width:8.2%" data-path="pvp-arena" href="#">Арена (PvP)</a>
+<main class="char-sheet" data-purpose="character-home">
+<header class="char-top">
+<div class="char-brand"><b>МИФИУС</b><span class="char-live">в сети</span></div>
+<ul class="char-wallet" id="homeWallet"></ul>
+<div class="char-user" id="homeUser">Хранитель</div>
+</header>
+<nav class="char-tabs" aria-label="Дом Хранителя">
+<a data-path="glavnyy-khab" href="#">Главный Хаб</a>
+<a class="is-on" data-path="personazh" href="#">Персонаж / Дом</a>
+<a data-path="ekipirovka-sumka" href="#">Инвентарь</a>
+<a data-path="ferma" href="#">Угодья / Ферма</a>
+<a data-path="kraft" href="#">Крафт</a>
+<a data-path="mythworld-pve" href="#">Поход (ПвЕ)</a>
+<a data-path="pvp-arena" href="#">Арена (PvP)</a>
 </nav>
-<nav class="char-hit-row" style="top:8%;height:3.4%" aria-label="Рабочий стол">
-<a style="left:0.6%;width:14.5%" data-path="personazh" href="#">Рабочий стол (Персонаж)</a>
-<a style="left:16.2%;width:11%" data-path="ekipirovka-sumka" href="#">Экипировка</a>
-<a style="left:27%;width:10.4%" data-path="ekipirovka-sumka" href="#">Сумка</a>
-<a style="left:37.2%;width:7%" data-path="sety-broni" href="#">Сеты брони</a>
-<a style="left:43.8%;width:9%" data-path="klassovye-sety" href="#">Классовые сеты</a>
-<a style="left:52.4%;width:9.4%" data-path="kodeks-geroev" href="#">Кодекс героев</a>
+<nav class="char-sub" aria-label="Рабочий стол">
+<a class="is-on" data-path="personazh" href="#">Рабочий стол</a>
+<a data-path="ekipirovka-sumka" href="#">Экипировка</a>
+<a data-path="ekipirovka-sumka" href="#">Сумка</a>
+<a data-path="sety-broni" href="#">Сеты брони</a>
+<a data-path="klassovye-sety" href="#">Классовые сеты</a>
+<a data-path="kodeks-geroev" href="#">Кодекс героев</a>
 </nav>
+<div class="char-body">
+<section class="char-col" id="homeStatBlock">Дом Хранителя</section>
+<section class="char-stage">
+<div class="char-fit" id="homeHeroCard"></div>
+<div class="char-active" id="homeSetLine"></div>
+<div class="char-compare" id="homeCompare"></div>
+</section>
+<aside class="char-col">
+<div class="char-bag-head"><b>Инвентарь</b><span id="homeBagCount"></span></div>
+<div class="char-filters" id="homeBagTabs">
+<button type="button" data-bag="all">Все</button>
+<button type="button" data-bag="weapon">Оружие</button>
+<button type="button" data-bag="helm">Шлемы</button>
+<button type="button" data-bag="armor">Броня</button>
+<button type="button" data-bag="boots">Обувь</button>
 </div>
-<div id="homeStatBlock" hidden>Дом Хранителя · Барсик Громовержец</div>
-<div id="homeHeroCard" hidden>Портрет и экипировка</div>
-<div id="homeGearBlock" hidden>Инвентарь</div>
-<div id="homeCatPicker" hidden>Боевая колода</div>
+<ul class="char-cells" id="homeGearBlock"></ul>
+</aside>
+</div>
+<footer class="char-deck">
+<div class="char-deck-head"><b id="homeDeckLabel">Боевая колода</b><span>Нажми кота, чтобы открыть его стол</span></div>
+<ul id="homeCatPicker"></ul>
+</footer>
 </main>
 </section>
-<!-- character office. Дом Хранителя Инвентарь Экипировка -->
+<!-- live character desk. Дом Хранителя Инвентарь Экипировка -->
