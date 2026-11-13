@@ -37,8 +37,10 @@ func (b *Battle) resolveCard(actor *Unit, card content.CardDef, targets []*Unit)
 			if !t.Alive || card.Atk <= 0 {
 				continue
 			}
+			// Hit = card.Atk (+ buff). Unit.Atk is sheet/catalog only (FULL-SPEC cards SoT).
 			dmg := card.Atk + actor.AtkBuff
 			if b.cardsPlayedByUnit[actor.ID] >= 2 {
+				// ponytail: skill/500 under scale-50 ≈ noop; retune divisor when LiveOps sets skill curve
 				dmg += int(math.Floor(float64(dmg) * float64(actor.Skill) / 500.0))
 			}
 			mul := DamageMul(card.Element, actor.Element, t.Element)

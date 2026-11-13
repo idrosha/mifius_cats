@@ -8,3 +8,4 @@
 - SL test catalogs: shop offers +pass_season / yarn_donate_pack / slot_expand_1 (priced fish packs + grey armor remain HUD stubs)
 - 2026-11-11: HP grid retune — tank LVL1 **50** (fighter 43 · assassin 38 · ranger 35 · mage 30 · support 28); gear color sets: armor → flat DEF/HP, weapons → ATK +2…+4 (D-024)
 - 2026-11-13: practice_dummy_1 → wiki HP (50/43/28); starter support ATK 3→2 (= shop A); mage ice B HP 28→29 (±5%); HUD baseStats = content, base DEF 0
+- 2026-11-13: sheet ATK = catalog (sim hit = card.Atk); skill/500 combo flagged for LiveOps retune under HP50 scale

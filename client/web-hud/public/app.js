@@ -2761,8 +2761,8 @@ function catSheetName(cat) {
 }
 
 function sheetPower(stats) {
-  // Combat-scale sheet: HP dominates durability; ATK/DEF modest weights.
-  return stats.hp * 4 + stats.atk * 6 + stats.def * 5 + stats.spd * 3;
+  // HP/DEF/SPD matter on sheet; ATK is catalog (sim hit = card.Atk, not unit.Atk).
+  return stats.hp * 4 + stats.atk * 1 + stats.def * 5 + stats.spd * 3;
 }
 
 function formatSheetNum(n) {
@@ -3463,12 +3463,12 @@ function syncHomeSheetStats(cat) {
   const s = statsForCat(cat);
   const power = sheetPower(s);
   const map = [
-    ["ATK", s.atk, s.bonus.atk, "эквип"],
-    ["HP", s.hp, s.bonus.hp, "эквип"],
-    ["DEF", s.def, s.bonus.def, "броня"],
-    ["SPD", s.spd, s.bonus.spd, "ловкость"],
+    ["ATK", s.atk, s.bonus.atk, "лист", "Сила каталога · урон в бою = карта"],
+    ["HP", s.hp, s.bonus.hp, "эквип", "Здоровье"],
+    ["DEF", s.def, s.bonus.def, "броня", "Только лист/экип · в симе нет DEF"],
+    ["SPD", s.spd, s.bonus.spd, "ловкость", "Тай-брейк хода"],
   ];
-  for (const [label, total, bonus, bonusWord] of map) {
+  for (const [label, total, bonus, bonusWord, title] of map) {
     const row = Array.from(root.querySelectorAll(".font-body-sm")).find((el) =>
       new RegExp(`\\(${label}\\)|${label === "HP" ? "Здоровье" : label === "ATK" ? "Атака" : label === "DEF" ? "Защита" : "Скорость"}`, "i").test(
         el.textContent || "",
@@ -3476,11 +3476,12 @@ function syncHomeSheetStats(cat) {
     );
     if (!row) continue;
     const block = row.closest(".flex.flex-col, .border-b") || row.parentElement?.parentElement;
+    if (block && title) block.title = title;
     const num = block?.querySelector(".font-stat-numeral");
     const hint = block?.querySelector(".font-label-sm.text-secondary, .font-label-sm");
     if (num) num.textContent = formatSheetNum(total);
     if (hint && bonus) hint.textContent = `(+${bonus} ${bonusWord})`;
-    else if (hint && !bonus && /эквип|броня|ловкость|буст/i.test(hint.textContent || "")) hint.textContent = "";
+    else if (hint && !bonus && /эквип|броня|ловкость|буст|лист/i.test(hint.textContent || "")) hint.textContent = "";
   }
   const powerChip = Array.from(root.querySelectorAll("span")).find((el) =>
     /буст|экип/i.test(el.textContent || "") && /[+]?\d/.test(el.textContent || ""),
@@ -4129,23 +4130,23 @@ function ruRounds(n) {
   return `${n} ${word}`;
 }
 
-/** Dojo dummy masters for victory showcase (L→R rear · center · tank). */
+/** Dojo dummy masters for victory showcase (L→R авангард · центр · тыл). */
 const VICTORY_DUMMIES = [
   {
-    id: "dummy_stone_totem",
-    name: "Каменный Тотем",
-    roleRu: "САППОРТ",
-    roleIcon: "water_drop",
-    accent: "secondary",
-    lvl: 44,
-    art: "/stitch-assets/dojo/dummy-stone-totem.jpg",
-    archetype: "Магический оберег",
+    id: "dummy_oak_knight",
+    name: "Дубовый Рыцарь",
+    roleRu: "ТАНК",
+    roleIcon: "shield",
+    accent: "primary",
+    lvl: 1,
+    art: "/stitch-assets/dojo/dummy-oak-knight.jpg",
+    archetype: "Тяжёлый автоматон",
     stats: [
-      { label: "Урон", value: "420", tone: "outline" },
-      { label: "Лечение", value: "1 860", tone: "secondary" },
-      { label: "Получено", value: "640", tone: "tertiary" },
+      { label: "Щит", value: "18", tone: "outline" },
+      { label: "Урон", value: "8", tone: "outline" },
+      { label: "Принято", value: "42", tone: "tertiary" },
     ],
-    foot: "Тотем Додзё · Т1",
+    foot: "Рыцарь Додзё · Т1 · 50 HP",
   },
   {
     id: "dummy_straw_berserk",
@@ -4153,39 +4154,39 @@ const VICTORY_DUMMIES = [
     roleRu: "БОЕЦ · MVP",
     roleIcon: "swords",
     accent: "primary",
-    lvl: 46,
+    lvl: 1,
     art: "/stitch-assets/dojo/dummy-straw-berserk.jpg",
     archetype: "Спарринг-чучело · Ярость",
     stats: [
-      { label: "Урон", value: "3 240", tone: "primary" },
-      { label: "Крит", value: "18%", tone: "tertiary" },
+      { label: "Урон", value: "32", tone: "primary" },
+      { label: "Крит", value: "×2", tone: "tertiary" },
       { label: "Опыт", value: "+0", tone: "outline" },
     ],
-    foot: "MVP манекенов ×1.5",
+    foot: "MVP манекенов · 43 HP",
     mvp: true,
   },
   {
-    id: "dummy_oak_knight",
-    name: "Дубовый Рыцарь",
-    roleRu: "ТАНК",
-    roleIcon: "shield",
-    accent: "primary",
-    lvl: 48,
-    art: "/stitch-assets/dojo/dummy-oak-knight.jpg",
-    archetype: "Тяжёлый автоматон",
+    id: "dummy_stone_totem",
+    name: "Каменный Тотем",
+    roleRu: "САППОРТ",
+    roleIcon: "water_drop",
+    accent: "secondary",
+    lvl: 1,
+    art: "/stitch-assets/dojo/dummy-stone-totem.jpg",
+    archetype: "Магический оберег",
     stats: [
-      { label: "Блок", value: "2 100", tone: "outline" },
-      { label: "Урон", value: "780", tone: "outline" },
-      { label: "Принято", value: "4 150", tone: "tertiary" },
+      { label: "Урон", value: "4", tone: "outline" },
+      { label: "Лечение", value: "18", tone: "secondary" },
+      { label: "Получено", value: "12", tone: "tertiary" },
     ],
-    foot: "Рыцарь Додзё · Т1",
+    foot: "Тотем Додзё · Т1 · 28 HP",
   },
 ];
 
 const VICTORY_SLOT_META = [
-  { key: "support", badge: "СЛОТ: ТЫЛ · САППОРТ", icon: "water_drop", accent: "secondary" },
-  { key: "fighter", badge: "СЛОТ: ЦЕНТР · БОЕЦ (MVP)", icon: "crown", accent: "primary", mvp: true },
   { key: "tank", badge: "СЛОТ: АВАНГАРД · ТАНК", icon: "shield", accent: "primary" },
+  { key: "fighter", badge: "СЛОТ: ЦЕНТР · БОЕЦ (MVP)", icon: "crown", accent: "primary", mvp: true },
+  { key: "support", badge: "СЛОТ: ТЫЛ · САППОРТ", icon: "water_drop", accent: "secondary" },
 ];
 
 function victoryStarterFallback(templateId) {
@@ -5636,7 +5637,7 @@ function renderPvpLoad() {
   const allyRoster = [
     {
       name: "Барсик Громовержец",
-      lvl: 50,
+      lvl: 1,
       role: "Гром + Рыцарь Очага",
       hp: "50 HP",
       img: "/stitch-assets/f453fafbcca9.jpg",
@@ -5644,7 +5645,7 @@ function renderPvpLoad() {
     },
     {
       name: "Рыжик Вспышкохвост",
-      lvl: 48,
+      lvl: 1,
       role: "Огонь + Берсерк",
       hp: "43 HP",
       img: "/stitch-assets/dc459e94ceed.jpg",
@@ -5652,7 +5653,7 @@ function renderPvpLoad() {
     },
     {
       name: "Мурка Каплегривка",
-      lvl: 47,
+      lvl: 1,
       role: "Вода + Мистик",
       hp: "28 HP",
       img: "/stitch-assets/ad3ff067b5c8.jpg",
@@ -5662,7 +5663,7 @@ function renderPvpLoad() {
   const foeRoster = [
     {
       name: "Громила",
-      lvl: 48,
+      lvl: 1,
       role: "Чугун + Молотобоец",
       hp: "50 HP",
       img: "/stitch-assets/51d4dea60ec1.jpg",
@@ -5670,7 +5671,7 @@ function renderPvpLoad() {
     },
     {
       name: "Кроволап",
-      lvl: 49,
+      lvl: 1,
       role: "Кровь + Разбойник",
       hp: "43 HP",
       img: "/stitch-assets/f453fafbcca9.jpg",
@@ -5678,7 +5679,7 @@ function renderPvpLoad() {
     },
     {
       name: "Иерофант Сфинкс",
-      lvl: 47,
+      lvl: 1,
       role: "Астрал + Чародей",
       hp: "30 HP",
       img: "/stitch-assets/ad3ff067b5c8.jpg",
