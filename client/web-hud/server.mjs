@@ -307,7 +307,7 @@ const server = http.createServer(async (req, res) => {
     return;
   }
   if (u.pathname.startsWith("/api/liveops")) {
-    // Prefer LiveOps CDN; if unreachable, ship repo liveops.json so boot still enters the game.
+    // Prefer LiveOps CDN; if unreachable/slow, ship repo liveops.json so boot still enters the game.
     const rest = u.pathname.slice("/api/liveops".length) || "/";
     const wantsBundle = rest.includes("liveops.json");
     try {
@@ -315,6 +315,7 @@ const server = http.createServer(async (req, res) => {
       const upstream = await fetch(target, {
         method: req.method,
         headers: { Accept: "application/json", "X-Client-Region": req.headers["x-client-region"] || "" },
+        signal: AbortSignal.timeout(1500),
       });
       if (upstream.ok) {
         const outHeaders = {
@@ -336,13 +337,13 @@ const server = http.createServer(async (req, res) => {
         return;
       }
     } catch {
-      /* fall through */
+      /* fall through to disk fallback */
     }
     if (wantsBundle && fs.existsSync(LIVEOPS_FALLBACK)) {
       serveFile(res, LIVEOPS_FALLBACK);
       return;
     }
-    await proxy(req, res, LIVEOPS_URL, "/api/liveops");
+    send(res, 503, { error: "liveops unavailable" }, { "Content-Type": "application/json; charset=utf-8" });
     return;
   }
   if (u.pathname === "/loc.json") {

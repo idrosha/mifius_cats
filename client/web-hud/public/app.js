@@ -778,15 +778,22 @@ async function loadLoc() {
 }
 
 async function bootLiveOps() {
-  const { data, headers } = await api(`/api/liveops/v1/liveops.json`, {
-    headers: { "X-Client-Region": CLIENT_REGION },
-  });
-  state.liveOps = data;
-  state.liveOpsMeta = {
-    version: headers.get("X-LiveOps-Version") || data.version || "?",
-    sig: headers.get("X-LiveOps-Signature") || "",
-    alg: headers.get("X-LiveOps-Signature-Alg") || "",
-  };
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), 4000);
+  try {
+    const { data, headers } = await api(`/api/liveops/v1/liveops.json`, {
+      headers: { "X-Client-Region": CLIENT_REGION },
+      signal: ctrl.signal,
+    });
+    state.liveOps = data;
+    state.liveOpsMeta = {
+      version: headers.get("X-LiveOps-Version") || data?.version || "?",
+      sig: headers.get("X-LiveOps-Signature") || "",
+      alg: headers.get("X-LiveOps-Signature-Alg") || "",
+    };
+  } finally {
+    clearTimeout(timer);
+  }
 }
 
 async function checkBattle() {
@@ -4590,7 +4597,7 @@ const PRACTICE_HEROES = {
     roleRu: "ТАНК",
     roleIcon: "shield",
     accent: "primary",
-    lvl: 50,
+    lvl: 1,
     bm: 4820,
     hp: 50,
     shield: 8,
@@ -4604,7 +4611,7 @@ const PRACTICE_HEROES = {
     roleRu: "ТАНК",
     roleIcon: "shield",
     accent: "primary",
-    lvl: 49,
+    lvl: 1,
     bm: 4680,
     hp: 48,
     shield: 6,
@@ -4618,7 +4625,7 @@ const PRACTICE_HEROES = {
     roleRu: "БОЕЦ",
     roleIcon: "swords",
     accent: "tertiary",
-    lvl: 48,
+    lvl: 1,
     bm: 5140,
     hp: 43,
     shield: 3,
@@ -4632,7 +4639,7 @@ const PRACTICE_HEROES = {
     roleRu: "БОЕЦ",
     roleIcon: "swords",
     accent: "tertiary",
-    lvl: 48,
+    lvl: 1,
     bm: 5020,
     hp: 45,
     shield: 4,
@@ -4646,7 +4653,7 @@ const PRACTICE_HEROES = {
     roleRu: "АССАСИН",
     roleIcon: "flash_on",
     accent: "primary",
-    lvl: 47,
+    lvl: 1,
     bm: 4910,
     hp: 38,
     shield: 2,
@@ -4660,7 +4667,7 @@ const PRACTICE_HEROES = {
     roleRu: "АССАСИН",
     roleIcon: "flash_on",
     accent: "primary",
-    lvl: 47,
+    lvl: 1,
     bm: 4790,
     hp: 36,
     shield: 2,
@@ -4674,7 +4681,7 @@ const PRACTICE_HEROES = {
     roleRu: "СТРЕЛОК",
     roleIcon: "adjust",
     accent: "secondary",
-    lvl: 46,
+    lvl: 1,
     bm: 4850,
     hp: 35,
     shield: 2,
@@ -4688,7 +4695,7 @@ const PRACTICE_HEROES = {
     roleRu: "СТРЕЛОК",
     roleIcon: "adjust",
     accent: "secondary",
-    lvl: 46,
+    lvl: 1,
     bm: 4960,
     hp: 37,
     shield: 2,
@@ -4702,7 +4709,7 @@ const PRACTICE_HEROES = {
     roleRu: "МАГ",
     roleIcon: "auto_fix_high",
     accent: "tertiary",
-    lvl: 47,
+    lvl: 1,
     bm: 5300,
     hp: 30,
     shield: 2,
@@ -4716,7 +4723,7 @@ const PRACTICE_HEROES = {
     roleRu: "МАГ",
     roleIcon: "auto_fix_high",
     accent: "secondary",
-    lvl: 47,
+    lvl: 1,
     bm: 5120,
     hp: 29,
     shield: 3,
@@ -4730,7 +4737,7 @@ const PRACTICE_HEROES = {
     roleRu: "САППОРТ",
     roleIcon: "healing",
     accent: "secondary",
-    lvl: 47,
+    lvl: 1,
     bm: 4750,
     hp: 28,
     shield: 4,
@@ -4744,7 +4751,7 @@ const PRACTICE_HEROES = {
     roleRu: "САППОРТ",
     roleIcon: "healing",
     accent: "primary",
-    lvl: 47,
+    lvl: 1,
     bm: 4890,
     hp: 29,
     shield: 3,
