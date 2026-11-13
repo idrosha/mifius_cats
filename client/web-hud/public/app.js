@@ -6173,6 +6173,7 @@ function showPracticeLoad(on) {
   }
   if (on && (!Array.isArray(state.practiceSquad) || state.practiceSquad.length !== 3)) {
     toast("Выберите 3 котиков в боевой отряд");
+    nudgeDojoNeedSquad();
     return;
   }
   if (on) {
@@ -6407,11 +6408,21 @@ function renderPracticeSquad() {
   if (startBtn) {
     const ready = n === 3;
     startBtn.classList.toggle("is-disabled", !ready);
+    startBtn.classList.toggle("dojo-cta-ready", ready);
     startBtn.disabled = !ready;
     startBtn.setAttribute("aria-disabled", ready ? "false" : "true");
     startBtn.style.opacity = ready ? "" : "0.45";
     startBtn.style.pointerEvents = ready ? "" : "none";
   }
+}
+
+function nudgeDojoNeedSquad() {
+  const grid = $("dojoSelectedSquad");
+  if (!grid) return;
+  grid.classList.remove("dojo-need-squad");
+  void grid.offsetWidth;
+  grid.classList.add("dojo-need-squad");
+  window.setTimeout(() => grid.classList.remove("dojo-need-squad"), 450);
 }
 
 function bindPracticeFightCtas() {
@@ -6437,10 +6448,15 @@ function bindPracticeFightCtas() {
     if (!act) return;
     ev.preventDefault();
     ev.stopPropagation();
-    if (act === "open") showPracticeLoad(true);
-    else if (act === "close") showPracticeLoad(false);
+    if (act === "open") {
+      if (!Array.isArray(state.practiceSquad) || state.practiceSquad.length !== 3) {
+        toast("Выберите 3 котиков в боевой отряд");
+        nudgeDojoNeedSquad();
+        return;
+      }
+      showPracticeLoad(true);
+    } else if (act === "close") showPracticeLoad(false);
     else if (act === "go") {
-      // Fast-start / legacy: skip remaining load and enter fight.
       clearPracticeLoadTimer();
       setPracticeLoadProgress(100);
       startPractice(false);
