@@ -160,7 +160,7 @@ const PATH_TO_TAB = {
  * Route ids stay stable (yard = Мифмир PvE map).
  * formation is NOT a combat subtab — open inline via CTA / wire dock.
  */
-/** Knowledge-base children under Дом Хранителя → База знаний */
+/** Knowledge screens stay reachable; База знаний is a top-level item with no submenu. */
 const KNOWLEDGE_TABS = [
   { id: "armor_sets", key: "nav.sub.armor_sets", gated: true },
   { id: "class_sets", key: "nav.sub.class_sets", gated: true },
@@ -171,31 +171,21 @@ const KNOWLEDGE_TABS = [
 
 const NAV = [
   {
-    id: "character",
-    key: "nav.primary.character", // Дом Хранителя → Персонаж desk
-    tabs: [
-      { id: "home", key: "nav.sub.home" }, // Персонаж — desk opens with Дом Хранителя
-      { id: "farm", key: "nav.sub.farm", soon: "farm", gated: true },
-      { id: "craft", key: "nav.sub.craft", gated: true },
-      { id: "gear", key: "nav.sub.gear" },
-      { id: "collection", key: "nav.sub.collection" }, // Коллекция котиков
-      { id: "breeding", key: "nav.sub.breeding", gated: true },
-      {
-        id: "knowledge",
-        key: "nav.sub.knowledge",
-        tabs: KNOWLEDGE_TABS,
-      },
-    ],
+    id: "pass",
+    key: "nav.primary.pass",
+    route: "pass",
+    tabs: [],
   },
   {
-    id: "combat",
-    key: "nav.primary.combat",
+    id: "character",
+    key: "nav.primary.character",
     tabs: [
-      { id: "yard", key: "nav.sub.mythmir" },
-      { id: "practice", key: "nav.sub.practice" },
-      { id: "pvp", key: "nav.sub.pvp", gated: "pvp" },
-      { id: "boss_dungeon", key: "nav.sub.boss_dungeon" },
-      { id: "boss_raid", key: "nav.sub.boss_raid", gated: true },
+      { id: "farm", key: "nav.sub.farm", soon: "farm", gated: true },
+      { id: "craft", key: "nav.sub.craft", gated: true },
+      { id: "home", key: "nav.sub.home" },
+      { id: "gear", key: "nav.sub.gear" },
+      { id: "collection", key: "nav.sub.collection" },
+      { id: "breeding", key: "nav.sub.breeding", gated: true },
     ],
   },
   {
@@ -210,35 +200,50 @@ const NAV = [
     ],
   },
   {
+    id: "combat",
+    key: "nav.primary.combat",
+    tabs: [
+      { id: "yard", key: "nav.sub.mythmir" },
+      { id: "practice", key: "nav.sub.practice" },
+      { id: "pve", key: "nav.sub.pve" },
+      { id: "pvp", key: "nav.sub.pvp", gated: "pvp" },
+      { id: "boss_dungeon", key: "nav.sub.boss_dungeon" },
+      { id: "boss_raid", key: "nav.sub.boss_raid", gated: true },
+      { id: "guild_battle", key: "nav.sub.guild_battle", gated: true },
+    ],
+  },
+  {
     id: "guilds",
     key: "nav.primary.guilds",
     tabs: [
+      { id: "guild_hub", key: "nav.sub.guild_hub" },
       { id: "guild", key: "nav.sub.guild" },
-      { id: "guild_battle", key: "nav.sub.guild_battle", gated: true },
-      { id: "soon_clan", key: "nav.sub.soon_clan", soon: "clan_boss" },
-    ],
-  },
-  {
-    id: "chats",
-    key: "nav.primary.chats",
-    tabs: [
-      { id: "chat_global", key: "nav.sub.chat_global" },
       { id: "chat_guild", key: "nav.sub.chat_guild" },
-      { id: "chat_friends", key: "nav.sub.chat_friends" },
     ],
-  },
-  {
-    id: "pass",
-    key: "nav.primary.pass",
-    tabs: [{ id: "pass", key: "nav.sub.pass" }],
   },
   {
     id: "ratings",
     key: "nav.primary.ratings",
     tabs: [
       { id: "rating_players", key: "nav.sub.rating_players" },
+      { id: "rating_dungeon", key: "nav.sub.rating_dungeon" },
+      { id: "rating_raid", key: "nav.sub.rating_raid" },
       { id: "rating_guilds", key: "nav.sub.rating_guilds" },
     ],
+  },
+  {
+    id: "chats",
+    key: "nav.primary.chats",
+    tabs: [
+      { id: "chat_friends", key: "nav.sub.chat_friends" },
+      { id: "chat_global", key: "nav.sub.chat_global" },
+    ],
+  },
+  {
+    id: "knowledge",
+    key: "nav.primary.knowledge",
+    route: "codex",
+    tabs: [],
   },
 ];
 
@@ -251,23 +256,35 @@ const TABS = NAV.flatMap((g) =>
     }
     return [self];
   }),
-).concat([
-  { id: "hub", key: "hub.tab.hub", group: "hub" },
-  { id: "login", key: "nav.sub.login", group: "auth" },
-]);
+).concat(
+  [
+    { id: "hub", key: "hub.tab.hub", group: "hub" },
+    { id: "login", key: "nav.sub.login", group: "auth" },
+    { id: "pass", key: "nav.sub.pass", group: "pass" },
+    { id: "knowledge", key: "nav.sub.knowledge", group: "knowledge" },
+    { id: "soon_clan", key: "nav.sub.soon_clan", group: "guilds", soon: "clan_boss" },
+  ],
+  KNOWLEDGE_TABS.map((t) => ({ ...t, group: "knowledge" })),
+);
 
 function findNavForTab(tabId) {
   for (const g of NAV) {
+    if (g.route === tabId) return g;
     for (const t of g.tabs) {
       if (t.id === tabId) return g;
       if (Array.isArray(t.tabs) && t.tabs.some((c) => c.id === tabId)) return g;
     }
   }
+  if (tabId === "knowledge" || KNOWLEDGE_TABS.some((t) => t.id === tabId)) {
+    return NAV.find((g) => g.id === "knowledge") || null;
+  }
+  if (tabId === "soon_clan") return NAV.find((g) => g.id === "guilds") || null;
   return null;
 }
 
 function findNavTabMeta(tabId) {
   for (const g of NAV) {
+    if (g.route === tabId) return { group: g, tab: { id: tabId, key: g.key }, parent: null };
     for (const t of g.tabs) {
       if (t.id === tabId) return { group: g, tab: t, parent: null };
       if (Array.isArray(t.tabs)) {
@@ -276,11 +293,22 @@ function findNavTabMeta(tabId) {
       }
     }
   }
+  const knowledge = KNOWLEDGE_TABS.find((t) => t.id === tabId);
+  if (knowledge || tabId === "knowledge") {
+    return {
+      group: NAV.find((g) => g.id === "knowledge") || null,
+      tab: knowledge || { id: "knowledge", key: "nav.sub.knowledge" },
+      parent: null,
+    };
+  }
+  if (tabId === "soon_clan") {
+    return {
+      group: NAV.find((g) => g.id === "guilds") || null,
+      tab: { id: "soon_clan", key: "nav.sub.soon_clan", soon: "clan_boss" },
+      parent: null,
+    };
+  }
   return null;
-}
-
-function isKnowledgeTab(tabId) {
-  return KNOWLEDGE_TABS.some((t) => t.id === tabId) || tabId === "knowledge";
 }
 
 /** Tavern milks — restore ready; buff milks gated (PvE/dungeon only, never ranked PvP). */
@@ -706,6 +734,7 @@ function logicalViewId() {
     practice: "viewPractice",
     codex: "viewCodex",
     yard: "viewYard",
+    pve: "viewYard",
     formation: "viewFormation",
     boss_dungeon: "viewBossDungeon",
     boss_raid: "viewBossRaid",
@@ -729,11 +758,14 @@ function logicalViewId() {
     soon_clan: "viewSoonClan",
     auction: "viewAuction",
     guild: "viewGuild",
+    guild_hub: "viewGuild",
     guild_battle: "viewGuildBattle",
     chat_global: "viewChatGlobal",
     chat_guild: "viewChatGuild",
     chat_friends: "viewChatFriends",
     rating_players: "viewRatingPlayers",
+    rating_dungeon: "viewRatingPlayers",
+    rating_raid: "viewRatingPlayers",
     rating_guilds: "viewRatingGuilds",
   };
   return map[state.tab] || "viewHub";
@@ -803,10 +835,10 @@ function navigate(tab, { soon = null, clearBattle = true, primary = null, fromGa
     soon = "farm";
   }
   if (tab === "battle") tab = "formation";
-  // База знаний is a menu group, not a route — open first child
+  // База знаний is a top-level item — open the codex
   if (tab === "knowledge") {
-    tab = KNOWLEDGE_TABS[0].id;
-    primary = primary || "character";
+    tab = "codex";
+    primary = primary || "knowledge";
   }
   // Inline formation: keep combat primary highlighted even though it is not a subtab.
   if (tab === "formation" && primary == null) primary = "combat";
@@ -1000,44 +1032,39 @@ function ensureHudPanel(viewId, panelId, html) {
   return panel;
 }
 
-function renderTabs() {
-  const primaryEl = $("appTabs");
-  const subEl = $("appSubTabs");
-  const hubTabs = $("hubTabs");
-  if (hubTabs) hubTabs.innerHTML = "";
+function openPrimary(group) {
+  if (!group) return;
+  if (group.route) {
+    navigate(group.route, { primary: group.id });
+    return;
+  }
+  const first = group.tabs[0];
+  if (!first) return;
+  const target = Array.isArray(first.tabs) && first.tabs[0] ? first.tabs[0] : first;
+  navigate(target.id, {
+    soon: target.soon || first.soon || null,
+    primary: group.id,
+  });
+}
 
-  if (!primaryEl || !subEl) return;
-
-  const battleActive = !!state.battle && !state.battle.result;
-  const activeGroup =
-    findNavForTab(state.tab) ||
-    NAV.find((g) => g.id === state.primary) ||
-    NAV.find((g) => g.id === "combat");
-  if (state.tab !== "hub") state.primary = activeGroup.id;
-
+function fillNav(primaryEl, subEl, activeGroup, battleActive, activeClass) {
+  if (!primaryEl || !subEl || !activeGroup) return;
+  const shownPrimary = state.tab === "hub" ? "character" : state.primary;
   primaryEl.innerHTML = "";
+  subEl.innerHTML = "";
+  subEl.setAttribute("aria-label", t(activeGroup.key, activeGroup.id));
+
   for (const group of NAV) {
     const b = document.createElement("button");
     b.type = "button";
     b.textContent = t(group.key, group.id);
     b.dataset.primary = group.id;
-    b.classList.toggle("active", !battleActive && group.id === state.primary);
-    b.addEventListener("click", () => {
-      const first = group.tabs[0];
-      // Nested group (e.g. База знаний): open first child route
-      const target = Array.isArray(first.tabs) && first.tabs[0] ? first.tabs[0] : first;
-      navigate(target.id, {
-        soon: target.soon || first.soon || null,
-        primary: group.id,
-      });
-    });
+    b.classList.toggle(activeClass, !battleActive && group.id === shownPrimary);
+    b.addEventListener("click", () => openPrimary(group));
     primaryEl.appendChild(b);
   }
 
-  subEl.innerHTML = "";
-  const knowledgeOpen = isKnowledgeTab(state.tab);
   for (const tab of activeGroup.tabs) {
-    const hasChildren = Array.isArray(tab.tabs) && tab.tabs.length > 0;
     const b = document.createElement("button");
     b.type = "button";
     b.textContent = t(tab.key, tab.id);
@@ -1046,43 +1073,33 @@ function renderTabs() {
     if (tab.soon) b.classList.add("soon");
     if (tab.gated) b.classList.add("gated");
     if (tab.id === "pvp" && !pvpUnlocked()) b.classList.add("locked");
-    if (hasChildren) b.classList.add("has-children");
-    const active = !battleActive && (
-      state.tab === tab.id ||
-      (hasChildren && tab.tabs.some((c) => c.id === state.tab))
-    );
-    b.classList.toggle("active", active);
+    b.classList.toggle(activeClass, !battleActive && state.tab === tab.id);
     b.addEventListener("click", () => {
-      if (hasChildren) {
-        const first = tab.tabs[0];
-        navigate(first.id, { soon: first.soon || null, primary: activeGroup.id });
-        return;
-      }
       navigate(tab.id, { soon: tab.soon || null, primary: activeGroup.id });
     });
     subEl.appendChild(b);
   }
+}
 
-  // База знаний children as extra mustard pills while that section is open
-  if (knowledgeOpen && activeGroup.id === "character") {
-    const sep = document.createElement("span");
-    sep.className = "mythfel-subtabs-sep";
-    sep.setAttribute("aria-hidden", "true");
-    subEl.appendChild(sep);
-    for (const child of KNOWLEDGE_TABS) {
-      const b = document.createElement("button");
-      b.type = "button";
-      b.textContent = t(child.key, child.id);
-      b.dataset.tab = child.id;
-      b.classList.add("knowledge-child");
-      if (child.gated) b.classList.add("gated");
-      b.classList.toggle("active", !battleActive && state.tab === child.id);
-      b.addEventListener("click", () => {
-        navigate(child.id, { soon: child.soon || null, primary: "character" });
-      });
-      subEl.appendChild(b);
-    }
-  }
+function renderTabs() {
+  const hubTabs = $("hubTabs");
+  if (hubTabs) hubTabs.innerHTML = "";
+
+  const battleActive = !!state.battle && !state.battle.result;
+  const activeGroup =
+    (state.tab === "hub" ? NAV.find((g) => g.id === "character") : findNavForTab(state.tab)) ||
+    NAV.find((g) => g.id === state.primary) ||
+    NAV.find((g) => g.id === "character");
+  if (state.tab !== "hub" && activeGroup) state.primary = activeGroup.id;
+
+  fillNav($("appTabs"), $("appSubTabs"), activeGroup, battleActive, "active");
+  fillNav(
+    document.querySelector("#viewHub .mythfel-hub-tabs"),
+    document.querySelector("#viewHub .mythfel-hub-sub"),
+    activeGroup,
+    battleActive,
+    "is-active",
+  );
 }
 
 function starterMeta(id) {
@@ -3113,14 +3130,35 @@ function bindPracticeFightCtas() {
   root.dataset.practiceBound = "1";
   root.addEventListener("click", (ev) => {
     const label = (ev.target.closest("button, a")?.textContent || "").toLowerCase();
+    if (label.includes("назад")) {
+      ev.preventDefault();
+      navigate("yard");
+      return;
+    }
+    if (label.includes("быстрый тест")) {
+      ev.preventDefault();
+      startPractice(true);
+      return;
+    }
     if (
       label.includes("тренировочный бой") ||
+      label.includes("начать тренировку") ||
       label.includes("начать бой") ||
       label.includes("в бой") ||
       label.includes("старт")
     ) {
       ev.preventDefault();
       startPractice(false);
+    }
+  });
+  document.addEventListener("keydown", (ev) => {
+    if (state.tab !== "practice") return;
+    if (ev.target.closest("input, textarea")) return;
+    if (ev.code === "Space") {
+      ev.preventDefault();
+      startPractice(false);
+    } else if (ev.code === "Escape") {
+      navigate("yard");
     }
   });
 }

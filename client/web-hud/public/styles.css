@@ -1674,7 +1674,10 @@ button.mythfel-hub-brand {
   text-decoration: none;
   white-space: nowrap;
 }
-.mythfel-hub-tabs a.is-active {
+.mythfel-hub-tabs a.is-active,
+.mythfel-hub-tabs button.is-active,
+.mythfel-hub-sub a.is-active,
+.mythfel-hub-sub button.is-active {
   background: linear-gradient(180deg, #fdba45, #d99b26);
   color: #2a1c00;
 }
@@ -2002,6 +2005,150 @@ button.mythfel-hub-brand {
   color: #d5c4af;
 }
 .mythfel-hub-ver { margin-left: auto; font-size: 10px; letter-spacing: 0.04em; color: #9d8f7b; }
+/* Training hall — only the Тренировка stage */
+#viewPractice { background: #100e0c; color: #eae1db; }
+#viewPractice > .dojo-hall {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.4rem 0.55rem 0.35rem;
+  background: #100e0c;
+  overflow: hidden;
+}
+.dojo-top, .dojo-foot {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  flex-shrink: 0;
+  min-width: 0;
+}
+.dojo-crumb { display: flex; align-items: center; gap: 0.35rem; font-family: Rubik, sans-serif; font-size: 13px; white-space: nowrap; }
+.dojo-crumb strong { color: #fdba45; }
+.dojo-crumb em { font-style: normal; color: #eae1db; }
+.dojo-chip { font-size: 10px; padding: 0.05rem 0.35rem; border-radius: 999px; background: #2e2926; color: #fdba45; }
+.dojo-mode { margin: 0; flex: 1; min-width: 0; font-size: 11px; color: #d5c4af; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.dojo-server { display: flex; align-items: center; gap: 0.4rem; font-size: 11px; color: #d5c4af; white-space: nowrap; }
+.dojo-server b { color: #89d98c; }
+.dojo-ghost, .dojo-quick {
+  border: 1px solid rgba(80, 69, 53, 0.8);
+  background: #1f1b18;
+  color: #eae1db;
+  border-radius: 0.4rem;
+  font-family: Rubik, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 0.28rem 0.5rem;
+  cursor: pointer;
+}
+.dojo-quick { background: #d99b26; color: #1a1308; border-color: #d99b26; }
+.dojo-body { flex: 1 1 auto; min-height: 0; display: flex; gap: 0.45rem; }
+.dojo-squads, .dojo-notes {
+  width: 22.5%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  overflow: auto;
+}
+.dojo-side-title, .dojo-squad header, .dojo-notes section header, .dojo-dummy-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+  font-family: Rubik, sans-serif;
+  font-size: 12px;
+  font-weight: 800;
+}
+.dojo-side-title small, .dojo-notes small { font-weight: 600; color: #d5c4af; font-size: 10px; }
+.dojo-squad, .dojo-notes section, .dojo-sim, .dojo-dummies {
+  background: rgba(22, 19, 16, 0.96);
+  border: 1px solid rgba(80, 69, 53, 0.65);
+  border-radius: 0.55rem;
+  padding: 0.4rem 0.45rem;
+}
+.dojo-squad.is-on { border-color: #fdba45; box-shadow: inset 0 0 0 1px rgba(253, 186, 69, 0.35); }
+.dojo-squad header i { font-style: normal; color: #1a1308; background: #fdba45; border-radius: 999px; padding: 0.05rem 0.35rem; font-size: 10px; }
+.dojo-squad header strong, .dojo-odds b, .dojo-records b, .dojo-compare strong { color: #fdba45; }
+.dojo-squad ul, .dojo-notes ul, .dojo-dummies ul { list-style: none; margin: 0.3rem 0 0; padding: 0; display: flex; flex-direction: column; gap: 0.25rem; }
+.dojo-squad li, .dojo-dummies li, .dojo-notes li {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 11px;
+}
+.dojo-squad li div, .dojo-notes li { display: flex; flex-direction: column; min-width: 0; line-height: 1.15; }
+.dojo-squad small, .dojo-dummies small, .dojo-notes small { color: #d5c4af; font-size: 10px; }
+.dojo-squad em, .dojo-dummies em, .dojo-notes em { margin-left: auto; font-style: normal; color: #89d98c; font-size: 10px; white-space: nowrap; }
+.dojo-squad footer { display: flex; justify-content: space-between; gap: 0.35rem; margin-top: 0.3rem; font-size: 10px; color: #89d98c; }
+.swatch { width: 1.35rem; height: 1.35rem; border-radius: 0.3rem; flex: none; }
+.swatch.thunder { background: linear-gradient(160deg, #7ec8ff, #2a4d7a); }
+.swatch.fire { background: linear-gradient(160deg, #ffb15a, #8a3414); }
+.swatch.water { background: linear-gradient(160deg, #8fd0ff, #1d4e78); }
+.swatch.shadow { background: linear-gradient(160deg, #6a5a88, #241c33); }
+.swatch.wind { background: linear-gradient(160deg, #d5e7c4, #4d6a3a); }
+.swatch.leaf { background: linear-gradient(160deg, #89d98c, #1d4a28); }
+.swatch.ice { background: linear-gradient(160deg, #e7f6ff, #6aa4c8); }
+.dojo-squad-tools { display: flex; justify-content: space-between; gap: 0.4rem; font-size: 11px; color: #d5c4af; }
+.dojo-squad-tools button { border: 0; background: transparent; color: #fdba45; font: inherit; cursor: pointer; }
+.dojo-sim { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 0.35rem; }
+.dojo-sim-head { display: flex; justify-content: space-between; align-items: flex-end; }
+.dojo-sim-head small { display: block; letter-spacing: 0.12em; font-size: 10px; color: #fdba45; }
+.dojo-sim-head strong { font-family: Rubik, sans-serif; font-size: 18px; letter-spacing: 0.04em; }
+.dojo-odds { text-align: right; font-size: 11px; color: #d5c4af; }
+.dojo-odds b { display: block; font-size: 22px; line-height: 1; }
+.dojo-arena { position: relative; flex: 1 1 auto; min-height: 7.5rem; border-radius: 0.5rem; overflow: hidden; }
+.dojo-arena img { width: 100%; height: 100%; object-fit: cover; display: block; font-size: 0; color: transparent; }
+.dojo-vs {
+  position: absolute; left: 50%; top: 46%; transform: translate(-50%, -50%);
+  width: 3.1rem; height: 3.1rem; border-radius: 50%;
+  display: grid; place-items: center;
+  background: radial-gradient(circle, #fdba45, #8a5a00);
+  color: #1a1308; font-family: Rubik, sans-serif; font-weight: 800;
+  box-shadow: 0 0 18px rgba(253, 186, 69, 0.55);
+}
+.dojo-arena p {
+  position: absolute; left: 0; right: 0; bottom: 0.35rem; margin: 0;
+  text-align: center; font-size: 11px; color: #f6e2b8;
+  text-shadow: 0 1px 4px #000;
+}
+.dojo-toggles { display: flex; gap: 0.35rem; }
+.dojo-toggles span { font-size: 11px; padding: 0.2rem 0.45rem; border-radius: 999px; background: #231f1c; color: #d5c4af; }
+.dojo-toggles .is-on { color: #89d98c; }
+.dojo-start {
+  border: 0; cursor: pointer; border-radius: 0.55rem;
+  background: linear-gradient(180deg, #fdba45, #d99b26);
+  color: #1a1308; font-family: Rubik, sans-serif; font-weight: 800;
+  font-size: 15px; letter-spacing: 0.03em; padding: 0.55rem 0.8rem;
+}
+.dojo-dummies ul { flex-direction: row; }
+.dojo-dummies li { flex: 1; align-items: flex-start; background: #1a1613; border-radius: 0.4rem; padding: 0.3rem; }
+.dojo-notes section header b { color: #89d98c; font-size: 10px; }
+.dojo-notes li {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  column-gap: 0.4rem;
+}
+.dojo-notes li b { font-size: 11px; }
+.dojo-notes li small { grid-column: 1 / -1; }
+.dojo-notes em { margin-left: 0; }
+.dojo-lanes li { display: flex; flex-direction: row; justify-content: space-between; }
+.dojo-sensei p { margin: 0.25rem 0 0; font-size: 11px; color: #d5c4af; line-height: 1.3; }
+.dojo-presets div, .dojo-records { display: flex; flex-wrap: wrap; gap: 0.25rem; }
+.dojo-presets button { border: 1px solid rgba(80, 69, 53, 0.8); background: #1a1613; color: #eae1db; border-radius: 0.35rem; font-size: 10px; padding: 0.2rem 0.4rem; cursor: pointer; }
+.dojo-presets button.is-on { background: #d99b26; color: #1a1308; border-color: #d99b26; }
+.dojo-records { margin-top: 0.3rem; }
+.dojo-records div { display: flex; flex-direction: column; font-size: 10px; color: #d5c4af; }
+.dojo-records p { margin: 0; font-size: 11px; }
+.dojo-foot { border-top: 1px solid rgba(80, 69, 53, 0.55); padding-top: 0.3rem; }
+.dojo-compare { display: flex; flex-wrap: wrap; gap: 0.35rem 0.8rem; flex: 1; font-size: 10px; color: #d5c4af; }
+.dojo-compare b { display: block; font-size: 11px; }
+.dojo-foot-actions { display: flex; gap: 0.3rem; }
+.dojo-keys { display: flex; gap: 0.45rem; align-items: center; font-size: 10px; color: #9d8f7b; white-space: nowrap; }
+.dojo-keys small { color: #89d98c; }
+
 @media (max-width: 1100px) {
   .mythfel-pass { grid-template-columns: 1fr; }
   .mythfel-portals { grid-template-columns: repeat(3, minmax(0, 1fr)); }
