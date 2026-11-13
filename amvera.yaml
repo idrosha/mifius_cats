@@ -1,6 +1,6 @@
-# Amvera — Mythfel web-hud via Docker (monorepo-safe).
-# Node npm artifacts + custom globs kept missing /app/server.mjs → process exit → 503.
-# Docker COPY builds the exact /app tree the process needs.
+# Amvera — Mythfel web-hud (Docker).
+# Runtime must NOT run `npm start` → node client/web-hud/server.mjs (that path is absent in /app).
+# Force the container entry to the flat /app/server.mjs produced by Dockerfile.
 # Docs: https://docs.amvera.ru/applications/configuration/docker.html
 meta:
   environment: docker
@@ -11,5 +11,7 @@ build:
   dockerfile: Dockerfile
 
 run:
-  # Amvera sets PORT to this value; server.mjs listens on process.env.PORT.
+  # ENTRYPOINT-style: ignore any npm start from package.json.
+  command: node
+  args: server.mjs
   containerPort: 5000
