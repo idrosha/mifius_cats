@@ -7072,14 +7072,18 @@ function renderCollectionTeams(cats) {
     const filled = slotCats.filter(Boolean).length;
     const on = pi === active;
     const names = ["Основной", "Второй эшелон", "Резерв"];
+    const title = preset.name || names[pi];
     return `<div class="bg-surface-container rounded-lg p-space-sm border ${on ? "border-primary/50 shadow-[0_4px_14px_rgba(0,0,0,0.5)]" : "border-surface-container-highest/60"} flex flex-col gap-1.5" data-col-team="${pi}">
-      <button type="button" data-col-preset-select="${pi}" class="flex items-center justify-between gap-2 flex-wrap text-left w-full cursor-pointer">
-        <div>
-          <span class="px-2 py-0.5 rounded ${on ? "bg-primary-container/30 text-primary" : "bg-surface-container-highest text-on-surface-variant"} font-stat-numeral text-[10px] font-bold uppercase">Команда ${pi + 1}${on ? " · правка" : ""}</span>
-          <h3 class="font-label-md text-label-md ${on ? "text-primary" : "text-on-surface"} font-bold mt-0.5">${preset.name || names[pi]}</h3>
-        </div>
+      <div class="flex items-center justify-between gap-2 flex-wrap">
+        <button type="button" data-col-preset-select="${pi}" class="px-2 py-0.5 rounded ${on ? "bg-primary-container/30 text-primary" : "bg-surface-container-highest text-on-surface-variant"} font-stat-numeral text-[10px] font-bold uppercase cursor-pointer">Команда ${pi + 1}${on ? " · правка" : ""}</button>
         <span class="text-[11px] text-on-surface-variant">${filled}/3</span>
-      </button>
+      </div>
+      <label class="flex items-center gap-1.5 min-w-0">
+        <span class="material-symbols-outlined text-[14px] text-on-surface-variant shrink-0">edit</span>
+        <input type="text" data-col-rename="${pi}" maxlength="32" value="${String(title).replace(/"/g, "&quot;")}"
+          class="flex-1 min-w-0 bg-surface-container-lowest rounded-lg px-2 py-1 font-label-md text-[13px] ${on ? "text-primary" : "text-on-surface"} font-bold border border-surface-container-highest/60 focus:outline-none focus:ring-1 focus:ring-primary"
+          placeholder="Название отряда" />
+      </label>
       <div class="grid grid-cols-3 gap-1.5">${slotHtml(pi, 0, slotCats)}${slotHtml(pi, 1, slotCats)}${slotHtml(pi, 2, slotCats)}</div>
     </div>`;
   };
@@ -7238,6 +7242,28 @@ function bindCollectionRoster() {
   search?.addEventListener("input", () => {
     state.colSearch = search.value || "";
     renderCollection();
+  });
+
+  root.addEventListener("change", (ev) => {
+    const input = ev.target.closest("[data-col-rename]");
+    if (!input || !root.contains(input)) return;
+    const pi = Number(input.getAttribute("data-col-rename"));
+    if (pi < 0 || pi >= COL_SQUADS) return;
+    collectionEnsurePresets();
+    const name = String(input.value || "").trim().slice(0, 32) || ["Основной", "Второй эшелон", "Резерв"][pi];
+    state.profile.presets[pi].name = name;
+    input.value = name;
+    state.colPresetIndex = pi;
+    persistCollectionStub();
+    toast(`Отряд «${name}»`);
+  });
+  root.addEventListener("keydown", (ev) => {
+    const input = ev.target.closest?.("[data-col-rename]");
+    if (!input || !root.contains(input)) return;
+    if (ev.key === "Enter") {
+      ev.preventDefault();
+      input.blur();
+    }
   });
 }
 
