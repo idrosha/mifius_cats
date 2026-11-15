@@ -40,6 +40,8 @@ type Unit struct {
 	MaxHP        int      `json:"maxHp"`
 	Shield       int      `json:"shield"`
 	Alive        bool     `json:"alive"`
+	AtkBuff      int      `json:"atkBuff,omitempty"`
+	AtkBuffDur   int      `json:"atkBuffDur,omitempty"`
 	Statuses     []Status `json:"statuses"`
 	HandCount    int      `json:"handCount"`
 	DrawCount    int      `json:"drawCount"`
@@ -127,6 +129,8 @@ func FromBattle(b *sim.Battle) Diff {
 			MaxHP:        u.MaxHP,
 			Shield:       u.Shield,
 			Alive:        u.Alive,
+			AtkBuff:      u.AtkBuff,
+			AtkBuffDur:   u.AtkBuffDur,
 			Statuses:     statuses,
 			HandCount:    len(u.Hand),
 			DrawCount:    len(u.DrawPile),
@@ -135,6 +139,7 @@ func FromBattle(b *sim.Battle) Diff {
 		if u.Side != b.Active || !u.Alive {
 			continue
 		}
+		stunned := unitCC(u)
 		for hi, cardIdx := range u.Hand {
 			card := u.Deck[cardIdx]
 			kept := hi < len(u.KeepMask) && u.KeepMask[hi]
@@ -144,7 +149,7 @@ func FromBattle(b *sim.Battle) Diff {
 				CardID:    card.CardID,
 				NameKey:   card.NameKey,
 				Cost:      card.Cost,
-				Playable:  card.Cost <= energy,
+				Playable:  !stunned && card.Cost <= energy,
 				Kept:      kept,
 			})
 		}
@@ -153,6 +158,16 @@ func FromBattle(b *sim.Battle) Diff {
 		d.Hand = []HandCard{}
 	}
 	return d
+}
+
+// unitCC — stun/sleep: cards in hand stay visible but not playable (FULL-SPEC §3.5).
+func unitCC(u *sim.Unit) bool {
+	for _, s := range u.Statuses {
+		if s.ID == "stun" || s.ID == "sleep" {
+			return true
+		}
+	}
+	return false
 }
 
 func potionTray(b *sim.Battle) []PotionSlot {

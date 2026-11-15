@@ -173,6 +173,7 @@ func (b *Battle) applyOp(actor *Unit, targets []*Unit, op map[string]any) {
 			b.emit(CombatEvent{Kind: "status", TargetID: t.ID, Status: st, StatusOp: "apply", Amount: stacks})
 			// mint (мята): self-cleanse of negatives on apply.
 			if st == "mint" {
+				emitClearedNegatives(b, t)
 				t.clearNegative()
 			}
 			if st == "ruffle" && t.statusStacks("ruffle") >= 10 {
@@ -209,6 +210,7 @@ func (b *Battle) applyOp(actor *Unit, targets []*Unit, op map[string]any) {
 		}
 	case "cleanse":
 		for _, t := range targets {
+			emitClearedNegatives(b, t)
 			t.clearNegative()
 			// cleanser buff: block the next incoming negative once.
 			t.addStatus("cleanser", 1, 2)
@@ -223,6 +225,18 @@ func (b *Battle) applyOp(actor *Unit, targets []*Unit, op map[string]any) {
 				t.AtkBuff += amt
 				t.AtkBuffDur = dur
 			}
+		}
+	}
+}
+
+// emitClearedNegatives — HUD cue before clearNegative (cleanse / mint). Visible to all.
+func emitClearedNegatives(b *Battle, t *Unit) {
+	if t == nil {
+		return
+	}
+	for _, s := range t.Statuses {
+		if isNegativeStatus(s.ID) {
+			b.emit(CombatEvent{Kind: "status", TargetID: t.ID, Status: s.ID, StatusOp: "clear"})
 		}
 	}
 }

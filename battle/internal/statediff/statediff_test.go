@@ -7,6 +7,7 @@ import (
 
 	"github.com/idrosha/mir_games/battle/internal/content"
 	"github.com/idrosha/mir_games/battle/internal/mode"
+	"github.com/idrosha/mir_games/battle/internal/sim"
 	"github.com/idrosha/mir_games/battle/internal/statediff"
 )
 
@@ -32,6 +33,32 @@ func TestFromBattle_CreatePvE_HasBoardAndHand(t *testing.T) {
 	}
 	if !d.CanEndTurn {
 		t.Fatal("fresh P1 turn should CanEndTurn")
+	}
+}
+
+func TestFromBattle_StunCardsNotPlayable(t *testing.T) {
+	cat := loadCatalog(t)
+	b, err := mode.CreatePvE(cat, "b_stun", "test_yard_1", 20261104,
+		[]string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var u *sim.Unit
+	for _, x := range b.Units {
+		if x.Side == sim.SideP1 && x.Alive && len(x.Hand) > 0 {
+			u = x
+			break
+		}
+	}
+	if u == nil {
+		t.Fatal("no P1 unit with hand")
+	}
+	u.Statuses = append(u.Statuses, sim.Status{ID: "stun", Stacks: 1, Duration: 1})
+	d := statediff.FromBattle(b)
+	for _, c := range d.Hand {
+		if c.UnitID == u.ID && c.Playable {
+			t.Fatalf("stunned unit card still playable: %+v", c)
+		}
 	}
 }
 
