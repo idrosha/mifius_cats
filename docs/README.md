@@ -3,6 +3,8 @@
 | Файл | Зачем |
 |---|---|
 | **`FULL-SPEC.md`** | SSOT — полное ТЗ приложения |
+| **`DOCUMENTATION.md`** | Правила: куда писать доки, когда не плодить файлы |
+| **`DECISION-LOG.md`** | Журнал решений (ADR-lite, id `D-0xx`) |
 | **`game-wiki.md`** | Player-facing вики правил/механик (MF-59); База знаний → сюда |
 | **`stitch-prompts-attack-cards-12-heroes.md`** | 12 Stitch-промптов карт атак soft-launch героев (MF-60) |
 | **`stitch-prompts-eyes-ears-active.md`** | LOCKED (D-026): eyes/ears → активные карты N=6 (+24) + баланс + Stitch-промпты |

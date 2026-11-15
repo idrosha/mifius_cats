@@ -1,0 +1,46 @@
+---
+description: Документирование Mythfel и журнал решений D-0xx (в репо)
+alwaysApply: true
+---
+
+# Docs & decision log
+
+Карта файлов: `docs/DOCUMENTATION.md`. Журнал: `docs/DECISION-LOG.md`.
+
+## Куда писать
+
+| Что | Куда |
+|---|---|
+| Механика / скоуп | `docs/FULL-SPEC.md` § |
+| Игроку | `docs/game-wiki.md` |
+| Почему выбрали X | `docs/DECISION-LOG.md` (`D-0xx`) |
+| Числа LiveOps | `liveops/CHANGELOG.md` |
+
+Код ≠ SSOT. Конфликт: FULL-SPEC > wiki > комментарии.
+
+## Когда писать D-0xx
+
+Пиши, если locked, спор ≥2 вариантов, или ломает UX/скоуп надолго.  
+Не пиши: багфикс, локальный рефактор, CSS без продукта.
+
+## Как писать
+
+1. Новая запись **сверху** журнала, id монотонно (`D-028`…).
+2. Статус: `Proposed` → `Accepted` | `Rejected` | `Superseded by D-0yy`.
+3. `Accepted` + механика ⇒ патч FULL-SPEC **в той же задаче** (иначе не Accepted).
+4. Баланс ⇒ ещё строка в `liveops/CHANGELOG.md` со ссылкой `D-0xx`.
+5. В коде/доках — ссылка `D-0xx` / §, не копипаста Context.
+
+```markdown
+## D-0XX · YYYY-MM-DD · Заголовок
+- **Status:** Accepted
+- **Area:** hud | battle | economy | liveops | process | content
+- **SSOT:** docs/FULL-SPEC.md §N | none
+### Context / Decision / Consequences
+```
+
+## Запрещено
+
+- Второй FULL-SPEC / «временные» правила только в коде
+- Новые доки вне таблицы в `DOCUMENTATION.md` без дыры
+- Store API (Steamworks/IAP) в SSOT без отдельной задачи

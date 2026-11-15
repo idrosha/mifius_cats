@@ -14,3 +14,4 @@ alwaysApply: true
 - Кросс-плей: общий матчмейкинг mobile/web/desktop; Steam — целевой PC-канал (§0). Без выдуманных store API.
 - Не предлагать крипту, NFT, Axie-имена, «Битву котиков».
 - Правки правил — патч `docs/FULL-SPEC.md`, не скрытые исключения в коде.
+- Документация: `docs/DOCUMENTATION.md`. Locked/спорное решение → `docs/DECISION-LOG.md` (`D-0xx`); механика Accepted только вместе с патчем FULL-SPEC.
