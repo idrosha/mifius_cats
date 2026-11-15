@@ -23,7 +23,7 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | `gear` | `gear.html` | home-keeper Склад | Склад / амбар |
 | `class_sets` | `class_sets.html` | 0268 `_6` | Классовые сеты |
 | `home` | `home.html` | home-keeper персонаж | Дом Хранителя: персонаж + экип (chrome `#appNav` only) |
-| `breeding` | `breeding.html` | home-keeper скрещивание | Питомник / скрещивание |
+| `breeding` | `breeding.html` | home-keeper скрещивание | Питомник · SL stub `D-030` (form+tip, без live) |
 | `craft` | `craft.html` | home-keeper крафт | Крафт & алхимия |
 | `codex` | `codex.html` | live `/codex` KB sheet (was 64d5 `_3`) | База знаний · оружейные архетипы |
 | `heroes` | `heroes.html` | 64d5 `_4` | Кодекс боевых архетипов |

@@ -529,19 +529,19 @@ Primary по классу:
 
 ## 7. Скрещивание
 
-Core fantasy: обычные → **мифические** (`docs/mythic-breeding.md`).
+Core fantasy: обычные → **мифические** (`docs/FULL-SPEC.md` §4.4.1; SL HUD stub `D-030`).
 
 | Правило | Значение |
 |---|---|
-| Вход | 2 родителя + **ингредиенты** (больше видов, чем SL stub) |
-| Шанс мифика | Малый (`nursery_mythic_chance`) |
-| **Талисман удачи** | IAP (yarn) / shop: **+20%** к шансу мифика на **1** попытку |
+| Вход | 2 родителя + **ингредиенты** (Shop / farm post-SL) |
+| Шанс мифика | Малый (`nursery_mythic_chance`, LiveOps Phase 6) |
+| **Талисман удачи** | IAP (yarn) / shop: **+20%** к шансу мифика на **1** попытку (post-SL) |
 | Оплата | **Только IAP / yarn** — не crypto |
-| Мифик · карты | Пул ≤12 → **N=6** сильнейшие |
+| Мифик · карты | Пул ≤12 → **N=6** сильнейшие (сервер) |
 | Мифик · хвост | Пассив из §1.2 |
-| SL | Форма + tip/codex; live = Phase 6 |
+| SL | Форма + tip; **без** live breed / client % (`D-030`) |
 
-Ингредиенты (draft SKU, Магазин + Двор):
+Ингредиенты (канон draft SKU — shop/HUD stub те же id):
 
 1. `breed_milk_essence` — эссенция молока  
 2. `breed_moon_whisker` — лунный ус  
@@ -721,7 +721,7 @@ Premium **yarn** остаётся IAP; «Мифиус» не покупаетс�
 | Class variants | store `docs/class-variants-balance.md` |
 | Shops | store `docs/shops-channels.md` |
 | Armor / pass | store `docs/armor-ranks-pass.md` |
-| Breeding | store `docs/mythic-breeding.md` |
+| Breeding | FULL-SPEC §4.4.1 · SL stub `D-030` |
 | Formation | store `docs/formation-targeting.md` |
 | Starter | store `docs/starter-pack.md` |
 | Prefs | store `preferences.md` |

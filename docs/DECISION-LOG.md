@@ -46,6 +46,42 @@ Append-only. Новые записи — **сверху** (после шабло
 
 ---
 
+## D-031 · 2026-11-15 · Коллекция на SL = HUD stub + roster из профиля
+
+- **Status:** Accepted
+- **Area:** hud
+- **SSOT:** docs/FULL-SPEC.md §6 (`collection`); §1 cap 15 / presets×5
+- **Owner:** web-hud
+
+### Context
+Экран `collection` был пустой Stitch-оболочкой («Пусто»×12), с фейк БМ/рангом прайда/резонансом % вне FULL-SPEC; bind искал несуществующие `.roster-list`. Риск принять клиентский power за SoT.
+
+### Decision
+На SL коллекция = **HUD stub**: ростер из `profile.cats` (как home — shop×12, D-027; farm вне боевого грида); 1 активный пресет 3v3 local (+ persist); фильтры роль/поиск. Без client SoT урона/наград. БМ / «резонанс %» / «Ранг V прайда» — не показывать как live. Cap 15 и presets[5] — в stub-модели; серверный SavePreset — later. Каталог: `collection-stub.json` + `GET /api/dev/collection`.
+
+### Consequences
++ Можно смоук-тестить отряд/ростер. − Пресеты не SoT боя до backend. Follow-up: SavePreset RPC; 5 пресетов UI.
+
+---
+
+## D-030 · 2026-11-15 · Скрещивание на SL = HUD stub
+
+- **Status:** Accepted
+- **Area:** hud
+- **SSOT:** docs/FULL-SPEC.md §4.4.1, §6 (`breeding`)
+- **Owner:** web-hud
+
+### Context
+Экран `breeding` (Stitch altar) выглядел как live nursery: фейковый шанс %, мифик-родители, инкубатор/claim, мёртвый wiring (`data-action` ≠ bind). Риск принять клиентский roll/награду за SoT вопреки §4.4.1 (Phase 6 server).
+
+### Decision
+На SL скрещивание = **HUD stub**: форма алтаря + tip core fantasy; выбор родителей из локального roster; mats/incubator = Soon; CTA → gate tip («Подними ранг» / «Скоро»). **Нет** client SoT шанса/колоды/котёнка. Live breed / RPC / LiveOps `nursery_mythic_chance` — Phase 6. Каталог stub: `breeding-stub.json` + `GET /api/dev/breeding` (не экономика).
+
+### Consequences
++ Можно доводить UX питомника без backend. − Числа на экране не SoT. Copy везде **N=6** (§4.4.1). Follow-up: `nursery_gameplay` + Breed RPC.
+
+---
+
 ## D-029 · 2026-11-15 · Один chrome `#appNav` + IA = NAV
 
 - **Status:** Accepted

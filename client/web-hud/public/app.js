@@ -432,8 +432,12 @@ const SHOP_STUB_ROWS = [
   { id: "pass_buy", label: "Боевой пасс (×2 XP)", detail: "season pass", gated: false },
   { id: "fish_pack_s", label: "Пак рыбок S · 500", detail: "fish coins", gated: false },
   { id: "fish_pack_m", label: "Пак рыбок M · 2000", detail: "fish coins", gated: false },
-  { id: "breed_mint", label: "Мята для breeding", detail: "nursery mat", gated: true },
-  { id: "breed_milkweed", label: "Молочай для breeding", detail: "nursery mat", gated: true },
+  { id: "breed_milk_essence", label: "Эссенция молока", detail: "nursery mat · Soon", gated: true },
+  { id: "breed_moon_whisker", label: "Лунный ус", detail: "nursery mat · Soon", gated: true },
+  { id: "breed_stone_purr", label: "Каменный мур", detail: "nursery mat · Soon", gated: true },
+  { id: "breed_spark_pollen", label: "Искрящая пыльца", detail: "nursery mat · Soon", gated: true },
+  { id: "breed_tide_scale", label: "Чешуя прилива", detail: "nursery mat · Soon", gated: true },
+  { id: "talisman_mythic_luck", label: "Талисман удачи (+20%)", detail: "IAP yarn · Phase 6", gated: true },
   { id: "armor_grey_plate", label: "Стартовая броня · grey R1 plate", detail: "Rank 1", gated: false },
   { id: "armor_grey_pendant", label: "Стартовый кулон · grey R1", detail: "Rank 1", gated: false },
   { id: "battle_coin_gear", label: "Gear за battle coins", detail: "medals → shop", gated: true },
@@ -574,6 +578,17 @@ const state = {
   barnCapMax: 96,
   /** Local stub persist on; set false to prefer GET /api/dev/gear (Wave B). */
   gearStubLocal: true,
+  /** D-030 breeding HUD stub (GET /api/dev/breeding when loaded). */
+  breedingStub: null,
+  breedFatherId: null,
+  breedMotherId: null,
+  breedPickSlot: null,
+  /** D-031 collection HUD stub. */
+  collectionStub: null,
+  colRoleFilter: "all",
+  colSearch: "",
+  colSelectedId: null,
+  colPresetIndex: 0,
   /** catId → slot → item id */
   equippedByCat: {},
   homeBagFilter: "all",
@@ -728,6 +743,27 @@ async function bootGearCatalog() {
     state.gearCatalog = JSON.parse(JSON.stringify(GEAR_CATALOG_SEED));
   }
   syncBarnFromGear();
+}
+
+/** D-030: load breeding stub JSON (not live breed). */
+async function bootBreedingStub() {
+  try {
+    const { data } = await api("/api/dev/breeding");
+    if (data && typeof data === "object") state.breedingStub = data;
+  } catch (_) {
+    try {
+      const res = await fetch("/breeding-stub.json", { cache: "no-store" });
+      if (res.ok) state.breedingStub = await res.json();
+    } catch (__) {
+      state.breedingStub = {
+        stub: true,
+        mythicChanceLabel: "малый",
+        ctaLabel: "СКОРО · ПОДНИМИ РАНГ",
+        mats: [],
+        incubator: { used: 0, max: 4, slots: [] },
+      };
+    }
+  }
 }
 
 function log(msg, which = "battle") {
@@ -979,6 +1015,10 @@ function barnAddressOpen() {
   return normalizedPath() === "/barn";
 }
 
+function breedingAddressOpen() {
+  return normalizedPath() === "/breeding";
+}
+
 function squareAddressOpen() {
   return normalizedPath() === "/square";
 }
@@ -1004,6 +1044,7 @@ function screenAddressFor(tab) {
   if (tab === "craft") return "/craft";
   if (tab === "home") return "/hero";
   if (tab === "gear") return "/barn";
+  if (tab === "breeding") return "/breeding";
   if (tab === "trade_hub") return "/square";
   if (tab === "battle_hub") return "/fronts";
   if (tab === "pvp_load") return "/pvp-load";
@@ -2719,7 +2760,7 @@ const HOME_SLOT_RU = {
   cloak: "Плащ",
   boots: "Сапоги",
   weapon: "Оружие",
-  shield: "Щит / оффхенд",
+  shield: "Щит",
   belt: "Пояс",
   ring: "Кольцо",
 };
@@ -3480,6 +3521,7 @@ function ensureHomeDom(root) {
           box.innerHTML = `<img class="home-equip-img w-full h-full object-contain rounded opacity-30" alt="${HOME_SLOT_RU[slot] || slot}"/><span class="home-equip-plus absolute top-0.5 right-0.5 px-0.5 rounded bg-primary text-on-primary font-stat-numeral text-[8px] hidden"></span><span class="home-equip-tag absolute bottom-0.5 left-0.5 px-0.5 rounded bg-surface-container-lowest font-label-sm text-[7px] text-primary uppercase hidden"></span><span class="home-equip-empty material-symbols-outlined text-outline-variant text-xl absolute inset-0 flex items-center justify-center">add</span>`;
         }
       }
+      ensureHomeSlotCaption(el, slot);
     });
     const center = stage.querySelector(".relative.flex-1.h-full.flex.items-center.justify-center");
     const artWrap = center?.querySelector(".relative.w-full.h-full.rounded-2xl");
@@ -3533,6 +3575,18 @@ function ensureHomeDom(root) {
   root.dataset.homeDom = "1";
 }
 
+/** Caption under mannequin slot cell (Шлем, Сапоги, …). */
+function ensureHomeSlotCaption(btn, slot) {
+  if (!btn || !slot) return;
+  let cap = btn.querySelector(":scope > .home-equip-slot-name");
+  if (!cap) {
+    cap = document.createElement("span");
+    cap.className = "home-equip-slot-name";
+    btn.appendChild(cap);
+  }
+  cap.textContent = HOME_SLOT_RU[slot] || slot;
+}
+
 function syncHomeEquipDom(catId) {
   const root = $("viewHome");
   if (!root) return;
@@ -3540,6 +3594,7 @@ function syncHomeEquipDom(catId) {
   let worn = 0;
   root.querySelectorAll(".home-equip-slot").forEach((btn) => {
     const slot = btn.getAttribute("data-home-slot");
+    ensureHomeSlotCaption(btn, slot);
     const itemId = eq[slot] || null;
     const ico = btn.querySelector(".home-equip-ico");
     const img = ico?.querySelector("img.home-equip-img") || ico?.querySelector("img");
@@ -3709,10 +3764,10 @@ function homeBagTone(item) {
 function renderHomeBag(cat) {
   const grid = $("homeBagGrid");
   if (!grid) return;
-  const eq = state.equippedByCat[cat.catId] || {};
   const filter = state.homeBagFilter || "all";
   const rarity = state.homeRarityFilter || "all";
   const items = state.gearCatalog.filter((item) => {
+    if (barnItemWorn(item.id)) return false; // on character: worn lives in slots only
     if (filter === "weapon" && item.slot !== "weapon" && item.slot !== "shield") return false;
     if (filter === "helm" && item.slot !== "helm") return false;
     if (filter === "armor" && item.slot !== "armor" && item.slot !== "cloak") return false;
@@ -3725,7 +3780,6 @@ function renderHomeBag(cat) {
   grid.innerHTML = items
     .map((item) => {
       const tone = homeBagTone(item);
-      const worn = Object.values(eq).includes(item.id);
       const locked = !canEquipItem(cat, item);
       const roleHint = item.roles?.length
         ? item.roles.map((r) => CAT_ROLE_RU[r] || r).join("/")
@@ -3737,7 +3791,7 @@ function renderHomeBag(cat) {
         ? `<span class="absolute inset-0 rounded bg-black/45 flex items-center justify-center text-[9px] font-label-sm text-on-surface uppercase tracking-wide">${roleHint || "класс"}</span>`
         : "";
       const bonuses = formatGearBonuses(item);
-      return `<div data-home-bag-item="${item.id}" role="button" tabindex="0" title="${item.name}${bonuses ? ` · ${bonuses}` : ""}${roleHint ? ` · ${roleHint}` : " · все классы"}${worn ? " · надето" : ""}${locked ? " · недоступно" : ""}" class="aspect-square rounded-lg bg-surface-container-high p-0.5 relative cursor-pointer border ${tone.border} ${tone.glow} hover:scale-105 transition-transform flex items-center justify-center group${worn ? " is-worn opacity-50" : ""}${locked ? " is-locked" : ""}"><img alt="${item.name}" class="w-full h-full object-cover rounded" src="${item.iconSrc}"><span class="absolute bottom-0.5 left-0.5 px-0.5 rounded bg-surface-container-lowest font-label-sm text-[7px] ${tone.tag} uppercase">${tone.label}</span>${enhance}${lock}</div>`;
+      return `<div data-home-bag-item="${item.id}" role="button" tabindex="0" title="${item.name}${bonuses ? ` · ${bonuses}` : ""}${roleHint ? ` · ${roleHint}` : " · все классы"}${locked ? " · недоступно" : ""}" class="aspect-square rounded-lg bg-surface-container-high p-0.5 relative cursor-pointer border ${tone.border} ${tone.glow} hover:scale-105 transition-transform flex items-center justify-center group${locked ? " is-locked" : ""}"><img alt="${item.name}" class="w-full h-full object-cover rounded" src="${item.iconSrc}"><span class="absolute bottom-0.5 left-0.5 px-0.5 rounded bg-surface-container-lowest font-label-sm text-[7px] ${tone.tag} uppercase">${tone.label}</span>${enhance}${lock}</div>`;
     })
     .join("");
   const label = [...(grid.closest(".col-span-3")?.querySelectorAll("span") || [])].find((el) =>
@@ -4385,31 +4439,337 @@ function renderPass() {
   }
 }
 
+function breedingGateTip() {
+  showGateTip(
+    t(
+      "gate.tip.breeding",
+      "Питомник: обычные → мифики (малый шанс). Пока — подними ранг в боях",
+    ),
+  );
+}
+
+function breedCatById(catId) {
+  if (!catId) return null;
+  return (state.profile?.cats || []).find((c) => c.catId === catId) || null;
+}
+
+function breedEnsureParents() {
+  const cats = homeRosterCats();
+  if (!cats.length) return;
+  if (!state.breedFatherId || !breedCatById(state.breedFatherId)) {
+    state.breedFatherId = cats[0].catId;
+  }
+  if (!state.breedMotherId || !breedCatById(state.breedMotherId)) {
+    state.breedMotherId = (cats[1] || cats[0]).catId;
+  }
+  if (state.breedFatherId === state.breedMotherId && cats.length > 1) {
+    state.breedMotherId =
+      cats.find((c) => c.catId !== state.breedFatherId)?.catId || state.breedMotherId;
+  }
+}
+
+function breedGeneRow(icon, label, value, tone = "text-primary") {
+  return `<div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between gap-1">
+    <div class="flex items-center gap-1.5 min-w-0">
+      <span class="material-symbols-outlined ${tone} text-[16px] shrink-0">${icon}</span>
+      <span class="font-body-sm text-body-sm text-on-surface truncate">${label}</span>
+    </div>
+    <span class="font-label-sm text-label-sm ${tone} shrink-0">${value}</span>
+  </div>`;
+}
+
+/** Stitch under-cat block: БМ+Gen overlay, «Доминантные гены», Чистота — SL-honest values. */
+function breedFillParentCard(root, slot, cat) {
+  const card = root.querySelector(`#parent-${slot}`);
+  if (!card) return;
+  const name = cat ? catSheetName(cat) : "—";
+  const m = cat ? starterMeta(cat.templateId) : {};
+  const role = cat ? CAT_ROLE_RU[cat.role || m.role] || cat.role || "—" : "—";
+  const el = cat ? CAT_ELEMENT_RU[cat.element || m.element] || cat.element || "—" : "—";
+  const art = cat ? catHeroArt(cat.templateId) : "";
+  const lvl = cat?.level != null ? cat.level : null;
+  const power = cat ? sheetPower(statsForCat(cat)) : null;
+  card.dataset.parentId = cat?.catId || "";
+  card.dataset.purity = "";
+  const set = (field, text) => {
+    const eln = card.querySelector(`[data-field="${field}"]`);
+    if (eln) eln.textContent = text;
+  };
+  set("name", name);
+  set(
+    "meta",
+    cat
+      ? `Обычный · ${role}${lvl != null ? ` · Ур. ${lvl}` : ""}`
+      : "Выбери кота из ростера",
+  );
+  // Stitch: «БМ 18,420» / «Генетика Gen 1» — на SL без фейка
+  set("bm", power != null ? `БМ ${formatSheetNum(power)}` : "БМ · tip");
+  set("gen", "Генетика · Soon");
+  set("purity", "Soon");
+  const elField = card.querySelector('[data-field="element"]');
+  if (elField) {
+    const textSpan = [...elField.querySelectorAll("span")].find(
+      (s) => !s.classList.contains("material-symbols-outlined"),
+    );
+    if (textSpan) textSpan.textContent = el;
+  }
+  const portrait = card.querySelector('[data-field="portrait"]');
+  if (portrait && art) {
+    portrait.src = art;
+    portrait.alt = name;
+  }
+  const bar = card.querySelector('[data-field="purity-bar"]');
+  if (bar) bar.style.width = "0%";
+  const genes = card.querySelector(`#${slot === "father" ? "father" : "mother"}-genes`);
+  if (genes) {
+    // Stitch: 3 «Доминантные гены» rows. Live passives = Phase 6; SL shows known traits.
+    genes.innerHTML = cat
+      ? [
+          breedGeneRow("pets", "Стихия", el, slot === "mother" ? "text-secondary" : "text-primary"),
+          breedGeneRow("swords", "Роль / класс", role, slot === "mother" ? "text-secondary" : "text-primary"),
+          breedGeneRow("style", "Колода (наследие)", "N=6 · Phase 6", "text-on-surface-variant"),
+        ].join("")
+      : breedGeneRow("info", "Нет родителя", "выбери кота", "text-on-surface-variant");
+  }
+}
+
+function breedClosePicker() {
+  state.breedPickSlot = null;
+  $("breedParentPicker")?.remove();
+}
+
+function breedOpenPicker(slot) {
+  const root = $("viewBreeding");
+  if (!root) return;
+  breedClosePicker();
+  state.breedPickSlot = slot;
+  const cats = homeRosterCats();
+  const panel = document.createElement("div");
+  panel.id = "breedParentPicker";
+  panel.className = "breed-parent-picker";
+  panel.innerHTML = `
+    <div class="breed-parent-picker__card">
+      <header>
+        <strong>${slot === "father" ? "Отец" : "Мать"}</strong>
+        <button type="button" data-breed-pick-close aria-label="Закрыть">close</button>
+      </header>
+      <p>Выбор из ростера · без списания · live breed = Phase 6</p>
+      <ul>
+        ${cats
+          .map((c) => {
+            const on =
+              (slot === "father" && c.catId === state.breedFatherId) ||
+              (slot === "mother" && c.catId === state.breedMotherId);
+            const other = slot === "father" ? state.breedMotherId : state.breedFatherId;
+            const disabled = c.catId === other;
+            return `<li><button type="button" data-breed-pick="${c.catId}" ${disabled ? "disabled" : ""} class="${on ? "is-on" : ""}">${catSheetName(c)}</button></li>`;
+          })
+          .join("")}
+      </ul>
+    </div>`;
+  root.appendChild(panel);
+}
+
 function bindNursery() {
   const root = $("viewBreeding");
   if (!root || root.dataset.nurseryBound === "1") return;
   root.dataset.nurseryBound = "1";
   root.addEventListener("click", (ev) => {
-    const act = ev.target.closest("[data-nursery]")?.getAttribute("data-nursery");
-    if (!act) return;
-    ev.preventDefault();
-    if (act === "pick-father" || act === "pick-mother") {
-      toast(
-        act === "pick-father"
-          ? "Отец: выбор из коллекции на листе (без перехода)"
-          : "Мать: выбор из коллекции на листе (без перехода)",
-      );
+    const close = ev.target.closest("[data-breed-pick-close]");
+    if (close) {
+      ev.preventDefault();
+      breedClosePicker();
       return;
     }
-    if (act === "light") {
-      showGateTip(
-        t(
-          "gate.tip.breeding",
-          "Питомник: обычные → мифики (малый шанс). Пока — подними ранг в боях",
-        ),
+    const pick = ev.target.closest("[data-breed-pick]");
+    if (pick) {
+      ev.preventDefault();
+      const id = pick.getAttribute("data-breed-pick");
+      if (state.breedPickSlot === "father") state.breedFatherId = id;
+      if (state.breedPickSlot === "mother") state.breedMotherId = id;
+      breedClosePicker();
+      renderBreeding();
+      return;
+    }
+    const act =
+      ev.target.closest("[data-action]")?.getAttribute("data-action") ||
+      ev.target.closest("[data-nursery]")?.getAttribute("data-nursery");
+    if (!act) return;
+    ev.preventDefault();
+    if (act === "swap-father" || act === "pick-father") {
+      breedOpenPicker("father");
+      return;
+    }
+    if (act === "swap-mother" || act === "pick-mother") {
+      breedOpenPicker("mother");
+      return;
+    }
+    breedingGateTip();
+  });
+}
+
+function renderBreeding() {
+  const host = $("viewBreeding");
+  if (!host) return;
+  host.querySelector("[data-breeding-shell]")?.remove();
+  bindNursery();
+  if (!host.querySelector("main") && !host.querySelector(".nursery-hall")) {
+    let card = host.querySelector("[data-breeding-shell]");
+    if (!card) {
+      card = document.createElement("div");
+      card.className = "boot-card";
+      card.dataset.breedingShell = "1";
+      card.innerHTML = `
+        <p class="eyebrow" data-breeding-eyebrow></p>
+        <h2 data-breeding-title></h2>
+        <p class="meta" data-breeding-lead></p>
+        <p class="meta" data-breeding-tip></p>
+      `;
+      host.prepend(card);
+    }
+    const eyebrow = card.querySelector("[data-breeding-eyebrow]");
+    const title = card.querySelector("[data-breeding-title]");
+    const lead = card.querySelector("[data-breeding-lead]");
+    const tip = card.querySelector("[data-breeding-tip]");
+    if (eyebrow) eyebrow.textContent = t("hub.soon.nursery.title", "Питомник");
+    if (title) title.textContent = t("breeding.title", "Скрещивание");
+    if (lead) {
+      lead.textContent = t(
+        "breeding.lead",
+        "Цель Мифиус: из обычных котов — мифические. Малый шанс мифика; у мифика набор из N=6 сильнейших карт обоих родителей.",
       );
     }
+    if (tip) {
+      tip.textContent = t(
+        "breeding.tip",
+        "Питомник скоро · мифик = редкий шанс · N=6 карт родителей · подними ранг в боях",
+      );
+    }
+    return;
+  }
+
+  const stub = state.breedingStub || {};
+  breedEnsureParents();
+  breedFillParentCard(host, "father", breedCatById(state.breedFatherId));
+  breedFillParentCard(host, "mother", breedCatById(state.breedMotherId));
+
+  const altarBadge = host.querySelector("#altar-level-badge");
+  if (altarBadge) altarBadge.textContent = stub.altarLabel || "Алтарь · Soon";
+  const metricsLead = host.querySelector("#altar-metrics p.font-body-sm");
+  if (metricsLead) {
+    metricsLead.textContent = t(
+      "breeding.lead",
+      "Обычные → мифические · малый шанс · N=6 карт · SL stub",
+    );
+  }
+  const hearth = host.querySelector("#metrics-hearth");
+  if (hearth) {
+    hearth.dataset.value = "0";
+    hearth.innerHTML = `${stub.hearth?.label || "Soon"} <span class="text-on-surface-variant text-body-sm font-body-sm">· Phase 6</span>`;
+  }
+  const incubMetric = host.querySelector("#metrics-incubator");
+  if (incubMetric) {
+    const used = stub.incubator?.used ?? 0;
+    const max = stub.incubator?.max ?? 4;
+    incubMetric.dataset.used = String(used);
+    incubMetric.dataset.max = String(max);
+    incubMetric.innerHTML = `${used} <span class="text-on-surface-variant text-body-sm font-body-sm">/ ${max} · stub</span>`;
+  }
+  const mythic = host.querySelector("#metrics-mythic");
+  if (mythic) {
+    mythic.dataset.chance = "";
+    mythic.textContent = stub.mythicChanceLabel || "малый";
+  }
+
+  const resonance = host.querySelector("#resonance-label");
+  if (resonance) resonance.textContent = "Резонанс · Soon (сервер Phase 6)";
+  const compat = host.querySelector("#compat-badge");
+  if (compat) compat.textContent = "Совместимость · tip";
+  const inheritBox = host.querySelector("#altar .my-space-xs .font-body-sm.text-on-surface");
+  if (inheritBox) {
+    inheritBox.innerHTML =
+      stub.inheritHint ||
+      'Мифик (Phase 6): пул ≤12 карт родителей → <span class="text-primary font-bold">N=6</span> сильнейших. На SL награда не выдаётся.';
+  }
+
+  const reagents = host.querySelector("#reagent-slots");
+  const mats = Array.isArray(stub.mats) ? stub.mats : [];
+  if (reagents && mats.length) {
+    reagents.innerHTML = mats
+      .map((m) => {
+        const qty = m.soon ? `Soon · 0/${m.need || 1}` : `${m.have || 0}/${m.need || 1}`;
+        return `<div class="flex flex-col items-center text-center group" data-item-id="${m.id}" data-ready="false" data-have="0" data-need="${m.need || 1}">
+          <div class="w-full aspect-square rounded-lg overflow-hidden bg-surface-container-high shadow-sm relative border-2 border-dashed border-outline-variant/50 flex items-center justify-center">
+            <span class="material-symbols-outlined text-outline text-[28px]">science</span>
+          </div>
+          <div class="mt-1 flex flex-col items-center w-full min-w-0">
+            <span class="font-label-sm text-label-sm text-on-surface font-semibold truncate w-full" data-field="name">${m.name}</span>
+            <span class="font-body-sm text-[10px] text-on-surface-variant truncate w-full" data-field="qty">${qty}</span>
+          </div>
+        </div>`;
+      })
+      .join("");
+  }
+  const reagentsStatus = host.querySelector("#reagents-status");
+  if (reagentsStatus) {
+    reagentsStatus.dataset.ready = "false";
+    const st = reagentsStatus.querySelector('[data-field="status-text"]');
+    if (st) st.textContent = "Ингредиенты · Soon";
+    reagentsStatus.classList.remove("text-secondary");
+    reagentsStatus.classList.add("text-on-surface-variant");
+  }
+
+  const costs = stub.costs || {};
+  host.querySelectorAll("[data-cost]").forEach((el) => {
+    const key = el.getAttribute("data-cost");
+    if (key && costs[key] != null) el.textContent = String(costs[key]);
   });
+
+  const ctaLabel = stub.ctaLabel || "СКОРО · ПОДНИМИ РАНГ";
+  host.querySelectorAll("#btn-start-breed, #btn-start-breed-desktop").forEach((btn) => {
+    btn.dataset.canStart = "false";
+    const lab = btn.querySelector('[data-field="label"]');
+    if (lab) lab.textContent = ctaLabel;
+  });
+
+  const slotsHost = host.querySelector("#incubator-slots");
+  const cribSlots = stub.incubator?.slots;
+  if (slotsHost && Array.isArray(cribSlots) && cribSlots.length) {
+    slotsHost.innerHTML = cribSlots
+      .map((s) => {
+        const locked = s.status === "locked";
+        return `<article class="min-w-[280px] w-[280px] snap-center shrink-0 lg:min-w-0 lg:w-auto bg-surface-container-high${locked ? "/50 opacity-75" : ""} rounded-lg p-space-sm flex flex-col justify-between shadow-sm relative ${locked ? "" : "border-dashed border-2 border-surface-container-highest"}" data-crib-id="${s.id}" data-status="${s.status}">
+          <div class="flex items-center justify-between gap-1">
+            <span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold">Колыбель #${s.id}</span>
+            <span class="font-label-sm text-label-sm text-on-surface-variant">${locked ? "Phase 6" : "Свободно"}</span>
+          </div>
+          <div class="py-space-sm flex items-center gap-3 min-w-0">
+            <div class="w-12 h-12 rounded-lg bg-surface-container-lowest flex items-center justify-center shrink-0 text-outline">
+              <span class="material-symbols-outlined text-[28px]">${locked ? "lock" : "nest_cam_wired_stand"}</span>
+            </div>
+            <div class="min-w-0">
+              <div class="font-label-md text-label-md text-on-surface-variant font-medium truncate">${s.name || "Пусто"}</div>
+              <div class="font-body-sm text-body-sm text-outline">${s.timer || "Soon"}</div>
+            </div>
+          </div>
+          <button type="button" class="w-full py-1.5 px-2 bg-surface-container hover:bg-surface-bright text-on-surface-variant rounded font-label-sm text-label-sm" data-action="${locked ? "unlock" : "assign"}">${locked ? "Скоро" : "Назначить · tip"}</button>
+        </article>`;
+      })
+      .join("");
+  }
+  const incubSec = host.querySelector("#incubator");
+  if (incubSec) {
+    incubSec.dataset.used = String(stub.incubator?.used ?? 0);
+    incubSec.dataset.max = String(stub.incubator?.max ?? 4);
+    const subEl = [...incubSec.querySelectorAll("span")].find((el) =>
+      /Котята|готовы|stub|Phase 6|Инкубатор ·/i.test(el.textContent || ""),
+    );
+    if (subEl && !/Колыбель|headline/i.test(subEl.className || "")) {
+      if (/Котята|готовы|Инкубатор ·|stub/i.test(subEl.textContent || "")) {
+        subEl.textContent = "Инкубатор · SL stub · live = Phase 6";
+      }
+    }
+  }
 }
 
 /** Craft «Склад Сырья» — Phase 6 Soon tip (not live mats from barn). */
@@ -4426,48 +4786,6 @@ function renderCraftStock() {
   list.innerHTML = `<div class="p-space-sm rounded-lg border border-dashed border-outline-variant/40 text-on-surface-variant text-sm text-center">Сырьё алхимика — не live на SL. Боевой склад = route gear.</div>`;
 }
 
-function renderBreeding() {
-  const host = $("viewBreeding");
-  if (!host) return;
-  // Painted Stitch nursery (home-keeper) — drop legacy soon shell.
-  host.querySelector("[data-breeding-shell]")?.remove();
-  if (host.querySelector(".nursery-hall") || host.querySelector("main")) {
-    bindNursery();
-    return;
-  }
-  let card = host.querySelector("[data-breeding-shell]");
-  if (!card) {
-    card = document.createElement("div");
-    card.className = "boot-card";
-    card.dataset.breedingShell = "1";
-    card.innerHTML = `
-      <p class="eyebrow" data-breeding-eyebrow></p>
-      <h2 data-breeding-title></h2>
-      <p class="meta" data-breeding-lead></p>
-      <p class="meta" data-breeding-tip></p>
-    `;
-    host.prepend(card);
-  }
-  const eyebrow = card.querySelector("[data-breeding-eyebrow]");
-  const title = card.querySelector("[data-breeding-title]");
-  const lead = card.querySelector("[data-breeding-lead]");
-  const tip = card.querySelector("[data-breeding-tip]");
-  if (eyebrow) eyebrow.textContent = t("hub.soon.nursery.title", "Питомник");
-  if (title) title.textContent = t("breeding.title", "Скрещивание");
-  if (lead) {
-    lead.textContent = t(
-      "breeding.lead",
-      "Цель Мифоус: из обычных котов — мифические. Малый шанс мифика; у мифика набор из 4 сильнейших карт обоих родителей.",
-    );
-  }
-  if (tip) {
-    tip.textContent = t(
-      "breeding.tip",
-      "Питомник скоро · мифик = редкий шанс · 4 сильнейшие карты родителей · подними ранг в боях",
-    );
-  }
-}
-
 function renderSoon() {
   const sheet = state.soon || "farm";
   const titleKey =
@@ -4481,7 +4799,7 @@ function renderSoon() {
     sheet === "nursery"
       ? t(
           "hub.soon.nursery.body",
-          "Скоро: скрещивание обычных котов. Малый шанс мифика — 4 сильнейшие смешанные карты родителей. Без безлимитного breeding.",
+          "Скоро: скрещивание обычных котов. Малый шанс мифика — N=6 сильнейших карт из смеси родителей. Без безлимитного breeding.",
         )
       : t("hub.soon.body");
   const links = $("soonLinks");
@@ -6359,16 +6677,19 @@ function renderAll() {
       renderUnlockProgress();
       break;
     case "collection":
-      bindCollectionRoster();
-      $("colEyebrow").textContent = t("hub.tab.collection");
-      $("colTitle").textContent = t("hub.tab.collection");
+      if ($("colEyebrow")) $("colEyebrow").textContent = t("hub.tab.collection");
+      if ($("colTitle")) $("colTitle").textContent = t("hub.tab.collection");
       {
-        const n = state.profile?.cats?.length || 0;
-        $("colLead").textContent =
-          state.locale === "ru"
-            ? `Тестовый грант soft launch: ${n} котов (3 стартера + 12 shop common ×6 классов + farm). Пресет 3v3 — equal decks.`
-            : `Soft-launch test grant: ${n} cats (3 starters + 12 shop common ×6 classes + farm). 3v3 preset — equal decks.`;
+        const n = collectionRosterCats().length;
+        const cap = state.collectionStub?.slotCap || 15;
+        if ($("colLead")) {
+          $("colLead").textContent =
+            state.locale === "ru"
+              ? `Коллекция: ${n} боевых / cap ${cap} (D-031 stub). Пресет local · не SoT боя.`
+              : `Collection: ${n} combat / cap ${cap} (D-031 stub). Local preset · not battle SoT.`;
+        }
       }
+      renderCollection();
       renderStarters("collectionCards");
       break;
     case "trade_hub":
@@ -6409,59 +6730,436 @@ function renderAll() {
   }
 }
 
+/** D-031 collection HUD stub — roster from profile, local preset persist. */
+
+function collectionRosterCats() {
+  return homeRosterCats();
+}
+
+function collectionCatById(catId) {
+  if (!catId) return null;
+  return (state.profile?.cats || []).find((c) => c.catId === catId) || null;
+}
+
+function collectionEnsurePresets() {
+  if (!state.profile) return;
+  if (!Array.isArray(state.profile.presets)) state.profile.presets = [];
+  const roster = collectionRosterCats();
+  const ids = roster.map((c) => c.catId);
+  let p0 = state.profile.presets[0];
+  if (!p0 || typeof p0 !== "object") {
+    p0 = { name: "starter", catIds: [] };
+    state.profile.presets[0] = p0;
+  }
+  if (!Array.isArray(p0.catIds)) p0.catIds = [];
+  // Drop stale ids; fill to 3 from roster if empty/short.
+  p0.catIds = p0.catIds.filter((id) => ids.includes(id) || collectionCatById(id));
+  if (p0.catIds.length < 3 && roster.length) {
+    const need = 3 - p0.catIds.length;
+    const extras = roster.map((c) => c.catId).filter((id) => !p0.catIds.includes(id)).slice(0, need);
+    p0.catIds = p0.catIds.concat(extras).slice(0, 3);
+  }
+  while (state.profile.presets.length < 5) {
+    state.profile.presets.push({ name: `preset_${state.profile.presets.length + 1}`, catIds: [] });
+  }
+}
+
+function persistCollectionStub() {
+  try {
+    const payload = {
+      activePresetIndex: state.colPresetIndex || 0,
+      presets: (state.profile?.presets || []).slice(0, 5),
+    };
+    localStorage.setItem("mythfel_sl_collection", JSON.stringify(payload));
+  } catch {
+    /* ignore */
+  }
+}
+
+function loadCollectionPresetsLocal() {
+  try {
+    const raw = localStorage.getItem("mythfel_sl_collection");
+    if (!raw) return;
+    const data = JSON.parse(raw);
+    if (typeof data.activePresetIndex === "number") state.colPresetIndex = data.activePresetIndex;
+    if (Array.isArray(data.presets) && state.profile) {
+      state.profile.presets = data.presets;
+    }
+  } catch {
+    /* ignore */
+  }
+}
+
+async function bootCollectionStub() {
+  try {
+    const { data } = await api("/api/dev/collection");
+    if (data && typeof data === "object") state.collectionStub = data;
+  } catch {
+    try {
+      const res = await fetch("/collection-stub.json", { cache: "no-store" });
+      if (res.ok) state.collectionStub = await res.json();
+    } catch {
+      state.collectionStub = { stub: true, slotCap: 15, presetSlots: 5 };
+    }
+  }
+  loadCollectionPresetsLocal();
+  collectionEnsurePresets();
+}
+
+function ensureCollectionDom(root) {
+  if (!root || root.dataset.colDom === "1") return;
+  root.dataset.colDom = "1";
+  const roster = root.querySelector(".collection-roster");
+  if (roster) roster.id = "colRoster";
+
+  const search = root.querySelector('input[placeholder*="Поиск"], input[type="text"]');
+  if (search) {
+    search.id = "colSearch";
+    search.classList.add("roster-search");
+  }
+
+  const roleBtns = [...root.querySelectorAll("button")].filter((b) =>
+    /Все котики|Танки|Бойцы|Ассасины|Стрелки|Маги|Саппорты/.test(b.textContent || ""),
+  );
+  const roleMap = [
+    ["all", /Все/],
+    ["tank", /Танк/],
+    ["fighter", /Бойц/],
+    ["assassin", /Ассасин/],
+    ["ranger", /Стрелк/],
+    ["mage", /Маг/],
+    ["support", /Саппорт/],
+  ];
+  for (const btn of roleBtns) {
+    const t = btn.textContent || "";
+    const hit = roleMap.find(([, re]) => re.test(t));
+    if (hit) btn.setAttribute("data-col-role", hit[0]);
+  }
+
+  const right = [...root.querySelectorAll(".collection-stage > section")].find((s) =>
+    /\bcol-span-8\b/.test(s.className),
+  );
+  const teamsHost =
+    right &&
+    [...right.querySelectorAll(":scope > div")].find(
+      (d) => /\bflex-1\b/.test(d.className) && /overflow-y-auto/.test(d.className),
+    );
+  if (teamsHost) teamsHost.id = "colTeams";
+  else if (right) {
+    const box = document.createElement("div");
+    box.id = "colTeams";
+    box.className = "flex flex-col gap-space-sm flex-1 min-h-0 overflow-y-auto";
+    right.appendChild(box);
+  }
+
+  // Honest summary: strip invented pride / BM / resonance copy once.
+  const badge = [...root.querySelectorAll("span")].find((el) => /Открыто\s+\d+\s*\/\s*\d+/i.test(el.textContent || ""));
+  if (badge) badge.id = "colOpenBadge";
+  const metaRow = [...root.querySelectorAll(".flex.items-center.gap-space-md.text-on-surface-variant")].find((el) =>
+    /Ранг|Прайд|БМ|стихи/i.test(el.textContent || ""),
+  );
+  if (metaRow) {
+    metaRow.id = "colMetaRow";
+    metaRow.innerHTML = `<span class="font-label-md text-label-md text-on-surface-variant">SL stub · пресет 3v3 local · не SoT боя</span>`;
+  }
+  const elCounters = [...root.querySelectorAll("div")].find(
+    (el) => el.className.includes("2xl:flex") && el.className.includes("gap-space-xs") && el.querySelector(".material-symbols-outlined"),
+  );
+  if (elCounters) elCounters.id = "colElCounters";
+}
+
+function collectionElementIcon(el) {
+  return (
+    {
+      bolt: "bolt",
+      fire: "local_fire_department",
+      water: "water_drop",
+      grass: "eco",
+      stone: "landscape",
+      ice: "ac_unit",
+    }[el] || "pets"
+  );
+}
+
+function renderCollectionSummary(root, cats, shown) {
+  const badge = $("colOpenBadge") || root.querySelector("#colOpenBadge");
+  const cap = state.collectionStub?.slotCap || 15;
+  if (badge) badge.textContent = `Открыто ${cats.length} / ${cap}`;
+  const titleRoster = [...root.querySelectorAll("span")].find((el) => /Боевой Ростер/i.test(el.textContent || ""));
+  if (titleRoster) titleRoster.textContent = `Боевой Ростер (${shown.length})`;
+  const foot = [...root.querySelectorAll("span")].find((el) => /Собрано\s+\d+\s*\/\s*\d+/i.test(el.textContent || ""));
+  if (foot) foot.textContent = `Собрано ${cats.length} / ${cap}`;
+
+  for (const btn of root.querySelectorAll("[data-col-role]")) {
+    const role = btn.getAttribute("data-col-role");
+    const n = role === "all" ? cats.length : cats.filter((c) => homeCatRole(c) === role).length;
+    const label =
+      {
+        all: `Все котики (${n})`,
+        tank: `Танки (${n})`,
+        fighter: `Бойцы (${n})`,
+        assassin: `Ассасины (${n})`,
+        ranger: `Стрелки (${n})`,
+        mage: `Маги (${n})`,
+        support: `Саппорты (${n})`,
+      }[role] || btn.textContent;
+    const icon = btn.querySelector(".material-symbols-outlined");
+    const iconHtml = icon ? icon.outerHTML : "";
+    btn.innerHTML = `${iconHtml}<span>${label}</span>`;
+    const on = (state.colRoleFilter || "all") === role;
+    btn.classList.toggle("bg-primary", on);
+    btn.classList.toggle("text-on-primary", on);
+    btn.classList.toggle("bg-surface-container-high", !on);
+    btn.classList.toggle("text-on-surface", !on);
+  }
+
+  const counters = $("colElCounters");
+  if (counters) {
+    const counts = {};
+    for (const c of cats) {
+      const el = c.element || starterMeta(c.templateId)?.element || "";
+      if (!el) continue;
+      counts[el] = (counts[el] || 0) + 1;
+    }
+    const order = ["bolt", "fire", "water", "grass", "stone", "ice"];
+    counters.innerHTML = order
+      .map((el) => {
+        const n = counts[el] || 0;
+        return `<div class="flex items-center gap-1 px-1.5 py-0.5 text-on-surface" title="${CAT_ELEMENT_RU[el] || el}">
+          <span class="material-symbols-outlined text-[16px]">${collectionElementIcon(el)}</span>
+          <span class="font-stat-numeral text-label-sm">${n}</span>
+        </div>`;
+      })
+      .join("");
+  }
+
+  const inSquad = (state.profile?.presets?.[state.colPresetIndex || 0]?.catIds || []).filter(Boolean).length;
+  const reserve = Math.max(0, cats.length - inSquad);
+  const row = [...root.querySelectorAll("div")].find(
+    (el) => el.className.includes("lg:flex") && /В строю/i.test(el.textContent || ""),
+  );
+  if (row) {
+    row.innerHTML = `<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary"></span> ${inSquad} В строю</span>
+      <span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-outline"></span> ${reserve} В резерве</span>`;
+  }
+}
+
+function renderCollectionRosterCards(cats) {
+  const list = $("colRoster");
+  if (!list) return;
+  const q = (state.colSearch || "").trim().toLowerCase();
+  const filter = state.colRoleFilter || "all";
+  let shown = homeRosterByRole(cats, filter);
+  if (q) {
+    shown = shown.filter((c) => {
+      const name = catSheetName(c).toLowerCase();
+      const tid = String(c.templateId || "").toLowerCase();
+      return name.includes(q) || tid.includes(q);
+    });
+  }
+  const picked = new Set(state.profile?.presets?.[state.colPresetIndex || 0]?.catIds || []);
+  const sel = state.colSelectedId;
+  if (!shown.length) {
+    list.innerHTML = `<div class="col-span-2 p-3 rounded-lg border border-dashed border-outline-variant/40 text-outline-variant text-center text-xs">Нет котиков — grant / login</div>`;
+    return shown;
+  }
+  list.innerHTML = shown
+    .map((c) => {
+      const name = catSheetName(c);
+      const role = CAT_ROLE_RU[homeCatRole(c)] || homeCatRole(c) || "—";
+      const el = CAT_ELEMENT_RU[c.element || starterMeta(c.templateId)?.element] || "";
+      const art = catHeroArt(c.templateId);
+      const on = c.catId === sel;
+      const inTeam = picked.has(c.catId);
+      return `<button type="button" data-col-cat="${c.catId}" class="col-roster-card relative rounded-lg flex items-center gap-2 h-[88px] px-2 text-left border transition-colors cursor-pointer ${
+        on ? "is-picked bg-surface-container-highest border-primary/60" : "bg-surface-container-lowest/50 border-surface-container-highest/30 hover:border-primary/40"
+      }">
+        ${art ? `<img alt="" src="${art}" class="w-14 h-14 object-contain rounded shrink-0"/>` : `<span class="material-symbols-outlined text-primary text-[28px]">pets</span>`}
+        <span class="flex flex-col min-w-0 gap-0.5">
+          <span class="font-label-sm text-label-sm text-on-surface font-bold truncate">${name}</span>
+          <span class="text-[10px] text-on-surface-variant truncate">${role}${el ? ` · ${el}` : ""}</span>
+          ${inTeam ? `<span class="text-[9px] text-secondary font-bold uppercase">В строю</span>` : ""}
+        </span>
+      </button>`;
+    })
+    .join("");
+  return shown;
+}
+
+function renderCollectionTeams(cats) {
+  const host = $("colTeams");
+  if (!host) return;
+  collectionEnsurePresets();
+  const idx = state.colPresetIndex || 0;
+  const preset = state.profile.presets[idx] || { name: "starter", catIds: [] };
+  const lanes = [
+    { key: "rear", label: "1. Тыл", tip: "Саппорт / стрелок" },
+    { key: "center", label: "2. Центр", tip: "DPS / удар" },
+    { key: "vanguard", label: "3. Авангард", tip: "Танк / блок" },
+  ];
+  // Display order: rear · center · vanguard; storage order stays [0,1,2] = tank,fighter,support from grant — map by lane preference.
+  const slotCats = [0, 1, 2].map((i) => collectionCatById(preset.catIds[i]) || null);
+
+  const slotHtml = (i) => {
+    const c = slotCats[i];
+    const lane = lanes[i];
+    if (!c) {
+      return `<button type="button" data-col-slot="${i}" class="col-slot bg-surface-container-lowest/40 rounded-lg p-2 border border-dashed border-outline-variant/40 flex flex-col items-center justify-center min-h-[140px] cursor-pointer text-outline-variant hover:border-primary/50 transition-colors">
+        <span class="material-symbols-outlined text-3xl">add</span>
+        <span class="font-label-sm text-label-sm mt-1">${lane.label}</span>
+        <span class="text-[10px] opacity-70">${lane.tip}</span>
+      </button>`;
+    }
+    const art = catHeroArt(c.templateId);
+    const name = catSheetName(c);
+    const role = CAT_ROLE_RU[homeCatRole(c)] || "";
+    return `<button type="button" data-col-slot="${i}" data-col-slot-cat="${c.catId}" class="col-slot bg-surface-container-high/60 rounded-lg p-2 border border-primary/30 flex flex-col items-center gap-1 min-h-[140px] cursor-pointer hover:border-primary/60 transition-colors">
+      <span class="text-[10px] font-bold text-primary uppercase self-start">${lane.label}</span>
+      ${art ? `<img alt="" src="${art}" class="h-24 w-auto object-contain"/>` : `<span class="material-symbols-outlined text-4xl text-primary">pets</span>`}
+      <span class="font-label-sm text-label-sm text-on-surface font-bold text-center leading-tight">${name}</span>
+      <span class="text-[10px] text-on-surface-variant">${role}</span>
+    </button>`;
+  };
+
+  host.innerHTML = `
+    <div class="bg-surface-container rounded-lg p-space-sm border border-primary/40 shadow-[0_4px_14px_rgba(0,0,0,0.5)] flex flex-col gap-2">
+      <div class="flex items-center justify-between gap-2 flex-wrap">
+        <div>
+          <span class="px-2 py-0.5 rounded bg-primary-container/30 text-primary font-stat-numeral text-[10px] font-bold uppercase">Команда 1 · активный пресет</span>
+          <h3 class="font-label-md text-label-md text-primary font-bold mt-1">${preset.name || "starter"}</h3>
+        </div>
+        <span class="text-[11px] text-on-surface-variant">stub · ${slotCats.filter(Boolean).length}/3</span>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-2">${slotHtml(0)}${slotHtml(1)}${slotHtml(2)}</div>
+      <div class="flex gap-2 pt-1 border-t border-surface-container-highest/40">
+        <button type="button" data-col-act="apply" class="flex-1 py-1.5 rounded bg-primary text-on-primary font-label-sm text-[11px] font-bold">Применить расстановку</button>
+        <button type="button" data-col-act="autopick" class="flex-1 py-1.5 rounded bg-surface-container-high text-primary border border-primary/40 font-label-sm text-[11px] font-bold">Авто-подбор</button>
+        <button type="button" data-col-act="codex" class="py-1.5 px-3 rounded bg-surface-container-high text-on-surface font-label-sm text-[11px] font-bold">Кодекс</button>
+      </div>
+    </div>
+    <div class="bg-surface-container rounded-lg p-space-sm border border-surface-container-highest/60 text-on-surface-variant text-[11px]">
+      Пресеты 2–5 · Soon (cap ${state.collectionStub?.presetSlots || 5}). Бой читает сервер — local preset не SoT.
+    </div>`;
+}
+
+function renderCollection() {
+  const root = $("viewCollection");
+  if (!root || root.classList.contains("hidden")) return;
+  ensureCollectionDom(root);
+  collectionEnsurePresets();
+  const cats = collectionRosterCats();
+  if (!state.colSelectedId && cats.length) {
+    state.colSelectedId = cats[0].catId;
+  }
+  const shown = renderCollectionRosterCards(cats) || [];
+  renderCollectionSummary(root, cats, shown.length ? shown : cats);
+  renderCollectionTeams(cats);
+  bindCollectionRoster();
+}
+
 function bindCollectionRoster() {
   const root = $("viewCollection");
-  if (!root || root.dataset.rosterBound === "1") return;
+  if (!root) return;
+  if (root.dataset.rosterBound === "1") return;
   root.dataset.rosterBound = "1";
-  const list = root.querySelector(".roster-list");
-  const search = root.querySelector(".roster-search");
-  const applyFilter = () => {
-    const q = (search?.value || "").trim().toLowerCase();
-    const el = root.querySelector(".roster-filters button.is-on")?.dataset.el || "all";
-    list?.querySelectorAll("[data-hero]").forEach((row) => {
-      const name = row.getAttribute("data-hero") || "";
-      const kind = row.getAttribute("data-el") || "";
-      const ok = (el === "all" || kind === el) && (!q || name.includes(q));
-      row.classList.toggle("is-off", !ok);
-    });
-  };
-  root.querySelectorAll(".roster-filters button").forEach((btn) => {
-    btn.addEventListener("click", () => {
-      root.querySelectorAll(".roster-filters button").forEach((b) => b.classList.toggle("is-on", b === btn));
-      applyFilter();
-    });
-  });
-  search?.addEventListener("input", applyFilter);
-  root.querySelector(".roster-apply")?.addEventListener("click", () => {
-    toast("Связки применены для всех боёв");
-  });
-  root.querySelector("[data-act='all']")?.addEventListener("click", () => {
-    root.querySelectorAll(".roster-pack[data-pack]").forEach((pack) => pack.classList.add("is-on"));
-    toast("Все связки активны");
-  });
-  root.querySelectorAll(".roster-pack[data-pack]").forEach((pack) => {
-    pack.addEventListener("click", (ev) => {
-      if (ev.target.closest("button")) return;
-      root.querySelectorAll(".roster-pack[data-pack]").forEach((p) => p.classList.toggle("is-on", p === pack));
-    });
-  });
-  document.addEventListener("keydown", (ev) => {
-    if (state.tab !== "collection") return;
-    if (ev.target.closest("input, textarea")) return;
-    if (ev.code === "Space") {
+
+  root.addEventListener("click", (ev) => {
+    const roleBtn = ev.target.closest("[data-col-role]");
+    if (roleBtn && root.contains(roleBtn)) {
       ev.preventDefault();
-      toast("Расстановка сохранена");
-    } else if (ev.key === "t" || ev.key === "T" || ev.key === "е" || ev.key === "Е") {
-      navigate("practice");
-    } else if (ev.key === "p" || ev.key === "P" || ev.key === "з" || ev.key === "З") {
-      navigate("home");
-    } else if (ev.key === "i" || ev.key === "I" || ev.key === "ш" || ev.key === "Ш") {
-      navigate("gear");
-    } else if (ev.code === "Escape") {
-      navigate("home");
+      state.colRoleFilter = roleBtn.getAttribute("data-col-role") || "all";
+      renderCollection();
+      return;
+    }
+    const card = ev.target.closest("[data-col-cat]");
+    if (card && root.contains(card)) {
+      ev.preventDefault();
+      state.colSelectedId = card.getAttribute("data-col-cat");
+      renderCollection();
+      return;
+    }
+    const slot = ev.target.closest("[data-col-slot]");
+    if (slot && root.contains(slot)) {
+      ev.preventDefault();
+      const i = Number(slot.getAttribute("data-col-slot"));
+      collectionEnsurePresets();
+      const preset = state.profile.presets[state.colPresetIndex || 0];
+      const occupied = slot.getAttribute("data-col-slot-cat");
+      if (occupied && state.colSelectedId === occupied) {
+        preset.catIds[i] = null;
+        preset.catIds = preset.catIds.map((x) => x || null);
+        while (preset.catIds.length < 3) preset.catIds.push(null);
+        persistCollectionStub();
+        renderCollection();
+        toast("Слот очищен");
+        return;
+      }
+      if (!state.colSelectedId) {
+        toast("Сначала выбери котика слева");
+        return;
+      }
+      // Unique in team
+      preset.catIds = (preset.catIds || []).map((id, j) => (j === i ? state.colSelectedId : id === state.colSelectedId ? null : id));
+      while (preset.catIds.length < 3) preset.catIds.push(null);
+      persistCollectionStub();
+      renderCollection();
+      toast("В слот: " + catSheetName(collectionCatById(state.colSelectedId) || {}));
+      return;
+    }
+    const act = ev.target.closest("[data-col-act]")?.getAttribute("data-col-act");
+    if (act) {
+      ev.preventDefault();
+      if (act === "codex") {
+        navigate("heroes");
+        return;
+      }
+      if (act === "autopick") {
+        const roster = collectionRosterCats();
+        const pick = [];
+        for (const role of ["tank", "fighter", "support"]) {
+          const c = roster.find((x) => homeCatRole(x) === role && !pick.includes(x.catId));
+          if (c) pick.push(c.catId);
+        }
+        while (pick.length < 3 && roster[pick.length]) pick.push(roster[pick.length].catId);
+        collectionEnsurePresets();
+        state.profile.presets[state.colPresetIndex || 0].catIds = pick.slice(0, 3);
+        persistCollectionStub();
+        renderCollection();
+        toast("Авто-подбор 3v3 (local stub)");
+        return;
+      }
+      if (act === "apply") {
+        persistCollectionStub();
+        toast("Расстановка сохранена (local · не SoT боя)");
+        return;
+      }
+    }
+    // Header CTAs in Stitch (Авто-подбор / Применить все) without data-col-act
+    const label = (ev.target.closest("button")?.textContent || "").toLowerCase();
+    if (label.includes("авто-подбор") || label.includes("автоподбор")) {
+      ev.preventDefault();
+      root.querySelector("[data-col-act='autopick']")?.click();
+      return;
+    }
+    if (label.includes("применить все") || label.includes("применить расстановку")) {
+      ev.preventDefault();
+      persistCollectionStub();
+      toast("Расстановка сохранена (local · не SoT боя)");
+      return;
+    }
+    if (label.includes("база знаний") || label.includes("кодекс")) {
+      ev.preventDefault();
+      navigate("heroes");
     }
   });
+
+  const search = $("colSearch");
+  search?.addEventListener("input", () => {
+    state.colSearch = search.value || "";
+    renderCollection();
+  });
 }
+
 
 function setFrontZoneOpen(root, front) {
   state.frontFocus = front || "";
@@ -7338,6 +8036,7 @@ function bootTabAfterLogin() {
   if (craftAddressOpen()) return "craft";
   if (heroAddressOpen()) return "home";
   if (barnAddressOpen()) return "gear";
+  if (breedingAddressOpen()) return "breeding";
   if (squareAddressOpen()) return "trade_hub";
   if (frontsAddressOpen()) return "battle_hub";
   if (pvpLoadAddressOpen()) return "pvp_load";
@@ -7374,6 +8073,8 @@ async function main() {
     await loadCampaign();
     await bootStarterGrant();
     await bootGearCatalog();
+    await bootBreedingStub();
+    await bootCollectionStub();
     const battleOk = await checkBattle();
     const bp = $("battlePill");
     if (bp) {

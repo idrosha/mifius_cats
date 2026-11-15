@@ -245,6 +245,33 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  if (u.pathname === "/api/dev/breeding" && req.method === "GET") {
+    const breedPath = path.join(PUBLIC, "breeding-stub.json");
+    try {
+      const raw = fs.readFileSync(breedPath, "utf8");
+      send(res, 200, JSON.parse(raw), { "Content-Type": "application/json; charset=utf-8" });
+    } catch {
+      send(res, 200, { stub: true, note: "D-030; file missing", mythicChanceLabel: "малый", mats: [] }, {
+        "Content-Type": "application/json; charset=utf-8",
+      });
+    }
+    return;
+  }
+
+  /** Collection stub meta (D-031) — cats from grant/profile; presets local. */
+  if (u.pathname === "/api/dev/collection" && req.method === "GET") {
+    const colPath = path.join(PUBLIC, "collection-stub.json");
+    try {
+      const raw = fs.readFileSync(colPath, "utf8");
+      send(res, 200, JSON.parse(raw), { "Content-Type": "application/json; charset=utf-8" });
+    } catch {
+      send(res, 200, { stub: true, note: "D-031; file missing", slotCap: 15, presetSlots: 5, presets: [] }, {
+        "Content-Type": "application/json; charset=utf-8",
+      });
+    }
+    return;
+  }
+
   if (u.pathname === "/api/dev/starter" && (req.method === "POST" || req.method === "GET")) {
     const chunks = [];
     for await (const chunk of req) chunks.push(chunk);
@@ -388,6 +415,8 @@ const server = http.createServer(async (req, res) => {
     rel === "/hero/" ||
     rel === "/barn" ||
     rel === "/barn/" ||
+    rel === "/breeding" ||
+    rel === "/breeding/" ||
     rel === "/square" ||
     rel === "/square/" ||
     rel === "/fronts" ||

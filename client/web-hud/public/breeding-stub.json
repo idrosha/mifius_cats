@@ -1,0 +1,28 @@
+{
+  "stub": true,
+  "note": "D-030 HUD stub; no live breed; server SoT Phase 6",
+  "mythicChanceLabel": "малый",
+  "deckRule": "N=6",
+  "altarLabel": "Алтарь · Soon",
+  "hearth": { "label": "Soon", "used": 0, "max": 0 },
+  "incubator": {
+    "used": 0,
+    "max": 4,
+    "slots": [
+      { "id": "1", "status": "empty", "name": "Пустое гнездо", "timer": "Ждёт ритуал · Soon" },
+      { "id": "2", "status": "empty", "name": "Пустое гнездо", "timer": "Ждёт ритуал · Soon" },
+      { "id": "3", "status": "empty", "name": "Пустое гнездо", "timer": "Ждёт ритуал · Soon" },
+      { "id": "4", "status": "locked", "name": "Гнездо · Phase 6", "timer": "Откроется с live nursery" }
+    ]
+  },
+  "mats": [
+    { "id": "breed_milk_essence", "name": "Эссенция молока", "have": 0, "need": 1, "soon": true },
+    { "id": "breed_moon_whisker", "name": "Лунный ус", "have": 0, "need": 1, "soon": true },
+    { "id": "breed_stone_purr", "name": "Каменный мур", "have": 0, "need": 1, "soon": true },
+    { "id": "breed_spark_pollen", "name": "Искрящая пыльца", "have": 0, "need": 1, "soon": true },
+    { "id": "breed_tide_scale", "name": "Чешуя прилива", "have": 0, "need": 1, "soon": true }
+  ],
+  "costs": { "gold": "—", "fish": "—", "energy": "—", "bonus": "малый" },
+  "inheritHint": "Мифик (Phase 6): пул ≤12 карт родителей → N=6 сильнейших. На SL награда не выдаётся.",
+  "ctaLabel": "СКОРО · ПОДНИМИ РАНГ"
+}

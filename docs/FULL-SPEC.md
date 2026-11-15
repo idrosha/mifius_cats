@@ -228,7 +228,7 @@ Season 28 days. Rating. Same anti-P2W. Soft-cap pendant/bow rarity optional via 
 | Мифик · карты | Пул = до **12** карт родителей (6+6). Из пула берутся **N=6 сильнейшие** → сет мифика |
 | Сила карты | LiveOps `card_power` (дефолт: `atk + shield`; tie-break `cardId` asc). Не клиент |
 | Мифик · прочее | `rarity: mythic`, `origin: nursery`; роль/стихия/части — серверный resolve Phase 6 (не выдумывать на SL) |
-| SL UI | Экран `breeding` / Soon «Питомник» показывает tip core fantasy; CTA gated («Подними ранг» / «Скоро») |
+| SL UI | Экран `breeding` / Soon «Питомник» показывает tip core fantasy; CTA gated («Подними ранг» / «Скоро»). На SL = **HUD stub** (`D-030`): форма + выбор родителей local; без live breed / client roll |
 
 **MUST NOT:** клиент как SoT награды/набора карт мифика; NFT/mint язык; безлимитный free breed.
 
@@ -299,9 +299,10 @@ Server validates all purchases.
 3. `Hub` chrome: **один** shared header (`#appNav` / `#appSubTabs`, web-hud; `D-029`). Primary: **СЕЗОН** · **МИФМИР** · **ДОМ ХРАНИТЕЛЯ** · **БОИ** · **ТОРГОВЛЯ** · **ГИЛЬДИЯ** + subtabs (канон `docs/nav-ia.md`). Дефолт Дома = `home` (персонаж); `farm` = Soon. Чаты / рейтинги / кодекс — subtabs под Гильдия (распил primary — later). PvE map = **Мифмир**  
 4. `YardMap` (Мифмир) → Formation 3v3 → `Battle`; рейд/легион — отдельный экран  
 5. `PvPMenu` (Дуэли/Арена) → matchmaking → `Battle`  
-6. `Collection` (cats, presets×5, pendants/bows)  
-6b. `Склад` (`gear`) — амбар игрока: grid / фильтры / inspect / надеть; на SL = HUD stub (`D-028`); не «склад алхимика» (§4.4). Клиентский экип не SoT боя (§7.1 pendant/bow).  
-7. `Shop` (yarn/IAP, jars, pass, fish packs, breeding ingredients, **common_cat** ×2×6 = 12 SKU, grey R1 armor; battle_coin gear)  
+6. `Collection` (cats, presets×5, pendants/bows) — на SL = HUD stub (`D-031`): ростер из профиля + local preset 3v3; без client SoT урона/БМ/резонанса; серверный SavePreset — later  
+6b. `Склад` (`gear`) — амбар игрока: grid / фильтры / inspect / надеть; на SL = HUD stub (`D-028`); не «склад алхимика» (§4.4). Клиентский экип не SoT боя (§7.1 pendant/bow).
+6c. `Скрещивание` (`breeding`) — питомник / алтарь; на SL = HUD stub (`D-030`, §4.4.1): form + tip, без live breed; Phase 6 = server SoT.
+7. `Shop` (yarn/IAP, jars, pass, fish packs, breeding ingredients, **common_cat** ×2×6 = 12 SKU, grey R1 armor; battle_coin gear)
 7b. `Tavern` — молоко на льду (post-fight HP) + PvE/dungeon milk buffs; зелья крафтеров → market/auction  
 7c. `Market` — seeds, tools, craft sell, **quick sell**  
 7d. `Auction` — player listings (cats, gear, ingredients) at own price  

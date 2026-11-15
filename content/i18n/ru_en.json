@@ -144,8 +144,8 @@
     "en": "Nursery"
   },
   "hub.soon.nursery.body": {
-    "ru": "Скоро: скрещивание обычных котов. Малый шанс мифика — 4 сильнейшие смешанные карты родителей. Без безлимитного breeding.",
-    "en": "Soon: breed ordinary cats. Small chance of a mythic — the 4 strongest mixed parent cards. No unlimited breeding."
+    "ru": "Скоро: скрещивание обычных котов. Малый шанс мифика — N=6 сильнейших карт из смеси родителей. Без безлимитного breeding.",
+    "en": "Soon: breed ordinary cats. Small mythic chance — N=6 strongest cards from the parent mix. No unlimited breeding."
   },
   "hub.soon.body": {
     "ru": "Скоро",
@@ -156,12 +156,12 @@
     "en": "Breeding"
   },
   "breeding.lead": {
-    "ru": "Цель Мифоус: из обычных котов — мифические. Малый шанс мифика; у мифика набор из 4 сильнейших карт обоих родителей.",
-    "en": "Mythfel goal: turn ordinary cats into mythics. Small mythic chance; a mythic keeps the 4 strongest cards from both parents."
+    "ru": "Цель Мифиус: из обычных котов — мифические. Малый шанс мифика; у мифика набор из N=6 сильнейших карт обоих родителей.",
+    "en": "Mythfel goal: turn ordinary cats into mythics. Small mythic chance; a mythic keeps the N=6 strongest cards from both parents."
   },
   "breeding.tip": {
-    "ru": "Питомник скоро · мифик = редкий шанс · 4 сильнейшие карты родителей · подними ранг в боях",
-    "en": "Nursery soon · mythic = rare chance · 4 strongest parent cards · rank up in battles"
+    "ru": "Питомник скоро · мифик = редкий шанс · N=6 карт родителей · подними ранг в боях",
+    "en": "Nursery soon · mythic = rare chance · N=6 parent cards · rank up in battles"
   },
   "shop.kind.yarn": {
     "ru": "Клубки",

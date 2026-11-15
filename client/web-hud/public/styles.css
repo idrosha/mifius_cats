@@ -1500,6 +1500,22 @@ body:has(#viewHome:not(.hidden)) #app {
   border-style: dashed !important;
   opacity: 0.65;
 }
+#viewHome .home-equip-slot > .home-equip-slot-name {
+  display: block;
+  margin-top: 0.2rem;
+  max-width: 7rem;
+  font-size: 9px;
+  line-height: 1.15;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-align: center;
+  text-transform: uppercase;
+  color: #9d8f7b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  pointer-events: none;
+}
 /* Enlarge ONLY mannequin gear chips — never inventory bag cells or deck cards */
 #viewHome #homeGearOverlay .home-equip-ico {
   width: 7rem;
@@ -4181,23 +4197,70 @@ body:has(#viewPass:not(.hidden)) #app {
   flex-shrink: 0;
 }
 
-/* Live manor nursery — only viewBreeding */
+/* Live manor nursery — only viewBreeding (D-030 stub; chrome = #appNav) */
 body:has(#viewBreeding:not(.hidden)) #wireDock { display: none !important; }
 body:has(#viewBreeding:not(.hidden)) #app { height: 100dvh !important; max-height: 100dvh !important; overflow: hidden !important; }
-#viewBreeding { background: #100e0c; color: #eae1db; overflow: hidden !important; }
-#viewBreeding > header { display: none !important; }
+#viewBreeding { background: #100e0c; color: #eae1db; overflow: hidden !important; position: relative; }
+#viewBreeding > header,
+#viewBreeding > footer { display: none !important; }
 #viewBreeding > main {
   flex: 1 1 auto !important;
   min-height: 0 !important;
   height: 100% !important;
   width: 100% !important;
   padding-top: 0 !important;
-  padding-bottom: 0 !important;
+  padding-bottom: 4.5rem !important;
   display: flex !important;
   flex-direction: column;
   overflow: auto !important;
   background: #100e0c;
 }
+#viewBreeding #breeding-arena { min-height: 0; }
+/* Full-body parent art (Stitch square cropped heads — show whole cat). */
+#viewBreeding .breed-parent-art {
+  aspect-ratio: 3 / 4;
+  min-height: 14rem;
+  background: linear-gradient(180deg, #1a1613 0%, #100e0c 100%);
+}
+#viewBreeding .breed-parent-art img[data-field="portrait"] {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+}
+/* CTA always in altar; sticky bar only as mobile thumb backup */
+#viewBreeding #btn-start-breed-desktop {
+  display: flex !important;
+}
+#viewBreeding #breed-cta-bar {
+  z-index: 55;
+}
+#viewBreeding .breed-parent-picker {
+  position: absolute; inset: 0; z-index: 60;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(16, 14, 12, 0.72); padding: 1rem;
+}
+#viewBreeding .breed-parent-picker__card {
+  width: min(22rem, 100%); max-height: 70vh; overflow: auto;
+  background: #1a1613; border: 1px solid rgba(80, 69, 53, 0.75);
+  border-radius: 0.75rem; padding: 0.75rem 0.85rem; color: #eae1db;
+}
+#viewBreeding .breed-parent-picker__card header {
+  display: flex; align-items: center; justify-content: space-between; gap: 0.5rem;
+}
+#viewBreeding .breed-parent-picker__card header strong { color: #fdba45; font-size: 14px; }
+#viewBreeding .breed-parent-picker__card header button {
+  font-family: "Material Symbols Outlined"; font-size: 18px;
+  color: #9d8f7b; background: transparent; border: 0; cursor: pointer;
+}
+#viewBreeding .breed-parent-picker__card p { margin: 0.35rem 0 0.6rem; font-size: 11px; color: #9d8f7b; }
+#viewBreeding .breed-parent-picker__card ul { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.3rem; }
+#viewBreeding .breed-parent-picker__card li button {
+  width: 100%; text-align: left; padding: 0.45rem 0.55rem; border-radius: 0.45rem;
+  border: 1px solid rgba(80, 69, 53, 0.6); background: #14110f; color: #eae1db; cursor: pointer; font-size: 12px;
+}
+#viewBreeding .breed-parent-picker__card li button.is-on { border-color: rgba(253, 186, 69, 0.65); color: #fdba45; }
+#viewBreeding .breed-parent-picker__card li button:disabled { opacity: 0.4; cursor: not-allowed; }
 #viewBreeding > main > .flex.flex-col,
 #viewBreeding > main > .grid {
   flex: 1 1 auto;

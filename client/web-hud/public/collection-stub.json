@@ -1,0 +1,15 @@
+{
+  "stub": true,
+  "note": "D-031 HUD stub; cats come from GrantStarterKit / profile; presets local until SavePreset RPC",
+  "slotCap": 15,
+  "presetSlots": 5,
+  "rosterMode": "shop_x12",
+  "activePresetIndex": 0,
+  "presets": [
+    { "name": "starter", "catIds": [] },
+    { "name": "preset_2", "catIds": [] },
+    { "name": "preset_3", "catIds": [] },
+    { "name": "preset_4", "catIds": [] },
+    { "name": "preset_5", "catIds": [] }
+  ]
+}

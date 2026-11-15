@@ -11,7 +11,7 @@ Chrome: только `#appNav` / `#appSubTabs` (не Stitch-headers экрано
 |---|---|---|---|
 | `pass` | СЕЗОН | `pass` | _(нет — один экран)_ |
 | `mythmir` | МИФМИР | `yard` | `battle_hub`, `practice`, `pve` (= yard), `boss_dungeon` |
-| `character` | ДОМ ХРАНИТЕЛЯ | `home` | `farm` (Soon), `craft` (gated), `home` (персонаж), **`gear` (Склад)**, `collection`, `breeding` (gated) |
+| `character` | ДОМ ХРАНИТЕЛЯ | `home` | `farm` (Soon), `craft` (gated), `home` (персонаж), **`gear` (Склад)**, **`collection` (SL stub `D-031`)**, **`breeding` (gated · SL stub `D-030`)** |
 | `combat` | БОИ | `pvp` | `pvp`, `boss_raid`, `guild_battle` |
 | `trade` | ТОРГОВЛЯ | first tab | `trade_hub`, `tavern`, `shop`, `market`, `auction` |
 | `guilds` | ГИЛЬДИЯ | first tab | `guild_hub`, `guild`, `chat_guild`, `rating_players`, `rating_guilds`, `chat_friends`, `chat_global`, `codex` |
