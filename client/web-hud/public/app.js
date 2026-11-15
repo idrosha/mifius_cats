@@ -911,6 +911,17 @@ function wireModeFor(viewId) {
   return viewId.replace(/^view/, "").toLowerCase();
 }
 
+/** Hydrate deferred stitch imgs only for the active view (keeps boot off ~50MB PNG dump). */
+function hydrateViewImages(root) {
+  if (!root) return;
+  root.querySelectorAll("img[data-mf-src]").forEach((img) => {
+    const src = img.getAttribute("data-mf-src");
+    if (!src || img.getAttribute("src") === src) return;
+    img.setAttribute("src", src);
+    img.removeAttribute("data-mf-src");
+  });
+}
+
 function showView(id) {
   // #app > section: hide EVERY direct child section, including wireframe pads
   // (section.wf-block with empty id). Filtering to [id^=view] left those pads
@@ -932,6 +943,7 @@ function showView(id) {
   const active = document.getElementById(id);
   const ejected = !!(active && active.parentElement === document.body);
   $("app")?.classList.toggle("hidden", ejected);
+  hydrateViewImages(active);
   // Keep logical aliases present for verify-nav probes
   if (id === "viewResultWin" || id === "viewResultLose") {
     $("viewResult")?.classList.add("hidden");

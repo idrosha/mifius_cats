@@ -50,6 +50,15 @@ const MIME = {
   ".woff2": "font/woff2",
 };
 
+function cacheControlFor(ext) {
+  // Static art is the bulk of HUD weight — allow browser reuse across routes.
+  if ([".png", ".jpg", ".jpeg", ".webp", ".gif", ".svg", ".ico", ".woff", ".woff2"].includes(ext)) {
+    return "public, max-age=604800, immutable";
+  }
+  if ([".css", ".js"].includes(ext)) return "public, max-age=120";
+  return "no-store";
+}
+
 function send(res, code, body, headers = {}) {
   const payload = typeof body === "string" || Buffer.isBuffer(body) ? body : JSON.stringify(body);
   res.writeHead(code, {
@@ -66,7 +75,10 @@ function serveFile(res, filePath) {
       return;
     }
     const ext = path.extname(filePath).toLowerCase();
-    send(res, 200, data, { "Content-Type": MIME[ext] || "application/octet-stream" });
+    send(res, 200, data, {
+      "Content-Type": MIME[ext] || "application/octet-stream",
+      "Cache-Control": cacheControlFor(ext),
+    });
   });
 }
 
