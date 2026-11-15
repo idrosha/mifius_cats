@@ -3960,12 +3960,18 @@ function renderFarm() {
 }
 
 function renderPass() {
-  $("passEyebrow").textContent = t("hub.tab.pass", "Пасс");
-  $("passTitle").textContent = t("pass.title", "Зов Тёплого Очага");
-  $("passLead").textContent = t(
-    "pass.lead",
-    "×2 XP · боксы по текущему рангу · автоферма при ACTIVE · high ranks ~1 год с пассом.",
-  );
+  // Painted Stitch form has no wireframe hosts — skip when absent.
+  const eyebrow = $("passEyebrow");
+  if (eyebrow) eyebrow.textContent = t("hub.tab.pass", "Пасс");
+  const title = $("passTitle");
+  if (title) title.textContent = t("pass.title", "Зов Тёплого Очага");
+  const lead = $("passLead");
+  if (lead) {
+    lead.textContent = t(
+      "pass.lead",
+      "×2 XP · боксы по текущему рангу · автоферма при ACTIVE · high ranks ~1 год с пассом.",
+    );
+  }
   const list = $("passList");
   if (list) {
     list.innerHTML = "";
@@ -6867,7 +6873,7 @@ function bootTabAfterLogin() {
   if (frontsAddressOpen()) return "battle_hub";
   if (pvpLoadAddressOpen()) return "pvp_load";
   if (codexAddressOpen()) return "codex";
-  return "hub";
+  return "pass";
 }
 
 window.addEventListener("popstate", () => {
@@ -6913,7 +6919,7 @@ async function main() {
     state.loggedIn = true;
     if (!state.session) state.session = { userId: "local_smoke" };
     document.body.classList.remove("mythfel-login");
-    navigate("hub");
+    navigate(bootTabAfterLogin());
   } catch (err) {
     $("bootMsg").textContent = `Boot fail: ${err.message}. Подними CDN :8090 и battle :8081 (см. README).`;
     $("liveopsPill").textContent = "LiveOps FAIL";

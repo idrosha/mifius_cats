@@ -40,7 +40,7 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | `practice` | `practice.html` | practice-dojo-gold + practice-empty-squad | Тренировка lobby · ростер 12 + matchup dummies + отряд L→R **тыл · центр · танк** (танк справа); empty slots = stitch tips |
 | `practice_fight` | `practice_fight.html` | Stitch dojo battle HUD v2 + dummy art | Бой в додзё · dummy cards 2∶3 + VS + 6-card hand · без меню · только Выход (`#pfBack`) |
 | `guild` | `guild.html` | 18c7 `_1` | Зал гильдии (главная) |
-| `pass` | `pass.html` | ba17 `4` | Боевой пасс · сезон / трек / claim |
+| `pass` | `pass.html` | pass-hearth (Downloads боевой пропуск) | Боевой пасс · сезон / dual-track / claim |
 | `chat_global` | `chat_global.html` | ba17 root | Чаты · одна компоновка (общий) |
 | `chat_guild` | `chat_guild.html` | ba17 root | Чаты · та же компоновка (гильдия) |
 | `chat_friends` | `chat_friends.html` | ba17 root | Чаты · та же компоновка (друзья) |

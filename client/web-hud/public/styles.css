@@ -1404,8 +1404,10 @@ body.mythfel-farm #app {
  * Stitch mains pad for their own fixed headers (pt-20/pt-28). Those headers are
  * killed by chrome-only nav — neutralize leftover top/bottom void.
  */
+.stitch-view > main.pt-16,
 .stitch-view > main.pt-20,
 .stitch-view > main.pt-28,
+.stitch-view > main[class*="pt-16"],
 .stitch-view > main[class*="pt-20"],
 .stitch-view > main[class*="pt-28"] {
   padding-top: 0.75rem !important;

@@ -123,7 +123,7 @@ const SCREEN_FALLBACKS = {
     "/stitch-ref/64d5/cat_portrait.png",
   ],
   "guild.html": ["/stitch-ref/18c7/guild.png", "/stitch-ref/18c7/guild_interior_art.png", "/stitch-ref/64d5/cat_portrait.png"],
-  "pass.html": ["/stitch-ref/ba17/pass.png", "/stitch-ref/ba17/pass_sanctum.png", "/stitch-ref/64d5/cat_portrait.png"],
+  "pass.html": ["/stitch-ref/pass-hearth/screen.png", "/stitch-ref/ba17/pass.png", "/stitch-ref/ba17/pass_sanctum.png"],
   "chat_global.html": ["/stitch-ref/ba17/chat.png", "/stitch-ref/ba17/pass_sanctum.png", "/stitch-ref/64d5/cat_portrait.png"],
   "chat_guild.html": ["/stitch-ref/ba17/chat.png", "/stitch-ref/18c7/guild.png", "/stitch-ref/64d5/cat_portrait.png"],
   "chat_friends.html": ["/stitch-ref/ba17/chat.png", "/stitch-ref/0268/home.png", "/stitch-ref/64d5/cat_portrait.png"],
