@@ -5,7 +5,13 @@ import (
 )
 
 // SubmitAction applies one legal action for the active side. Illegal → error (rejected).
+// Clears combat Events (player-facing). AI uses submitActionKeepEvents via AdvancePvEBots.
 func (b *Battle) SubmitAction(a Action) error {
+	b.clearEvents()
+	return b.applyAction(a)
+}
+
+func (b *Battle) applyAction(a Action) error {
 	if b.Finished() {
 		return fmt.Errorf("battle finished: %s", b.Result)
 	}
@@ -173,7 +179,7 @@ func (b *Battle) tickStatuses(side Side) {
 		for _, s := range u.Statuses {
 			switch s.ID {
 			case "poison", "bleed":
-				b.applyDamage(nil, u, s.Stacks, false)
+				b.applyHit(nil, u, s.Stacks, false, false, false, false)
 			}
 			if s.Duration > 0 {
 				s.Duration--

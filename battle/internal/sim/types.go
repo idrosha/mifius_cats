@@ -80,6 +80,21 @@ type Frame struct {
 	Snapshot map[string]any `json:"snapshot,omitempty"`
 }
 
+// CombatEvent — server-authored VFX/HUD cues for the last action (client must not invent numbers).
+type CombatEvent struct {
+	Kind         string `json:"kind"` // hit | heal | status
+	SourceID     string `json:"sourceId,omitempty"`
+	TargetID     string `json:"targetId"`
+	Amount       int    `json:"amount,omitempty"`       // HP change (hit/heal)
+	ShieldAbsorb int    `json:"shieldAbsorb,omitempty"` // damage eaten by shield
+	Crit         bool   `json:"crit,omitempty"`
+	Pierce       bool   `json:"pierce,omitempty"`
+	AoeSecondary bool   `json:"aoeSecondary,omitempty"`
+	Kill         bool   `json:"kill,omitempty"`
+	Status       string `json:"status,omitempty"`
+	StatusOp     string `json:"statusOp,omitempty"` // apply | clear | block
+}
+
 type Result string
 
 const (
@@ -109,6 +124,18 @@ type Battle struct {
 	PotionsP1 map[string]bool
 	PotionsP2 map[string]bool
 	cardsPlayedByUnit map[string]int // for skill combo §2.4
+	Events            []CombatEvent  // cleared at start of each action; copied into stateDiff
+}
+
+func (b *Battle) clearEvents() {
+	b.Events = b.Events[:0]
+}
+
+func (b *Battle) emit(ev CombatEvent) {
+	if b == nil {
+		return
+	}
+	b.Events = append(b.Events, ev)
 }
 
 func (b *Battle) player(side Side) *PlayerState {

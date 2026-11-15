@@ -80,18 +80,19 @@ func (b *Battle) chooseActionSkipping(skip map[string]bool) Action {
 
 // submitAIAction plays the best legal card, retrying other hand slots on reject
 // so leftover energy is not dumped on an empty end-turn.
+// Uses applyAction (no Events clear) so AdvancePvEBots can accumulate hit cues after endTurn.
 func (b *Battle) submitAIAction() error {
 	tried := map[string]bool{}
 	for {
 		a := b.chooseActionSkipping(tried)
 		if a.Kind == ActionEndTurn {
-			return b.SubmitAction(a)
+			return b.applyAction(a)
 		}
 		key := fmt.Sprintf("%s#%d", a.UnitID, a.HandIndex)
 		tried[key] = true
-		if err := b.SubmitAction(a); err != nil {
+		if err := b.applyAction(a); err != nil {
 			if len(tried) > 32 {
-				return b.SubmitAction(Action{Kind: ActionEndTurn})
+				return b.applyAction(Action{Kind: ActionEndTurn})
 			}
 			continue
 		}

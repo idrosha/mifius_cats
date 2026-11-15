@@ -74,3 +74,22 @@ func TestMintClearsNegatives(t *testing.T) {
 		t.Fatal("mint status should remain")
 	}
 }
+
+func TestHitEventsInBattle(t *testing.T) {
+	b := &Battle{ID: "ev", rng: NewRNG(1), cardsPlayedByUnit: map[string]int{}}
+	actor := &Unit{ID: "a", Side: SideP1, Alive: true}
+	target := &Unit{ID: "t", Side: SideP2, Alive: true, HP: 100, MaxHP: 100, Shield: 5}
+	b.Units = []*Unit{actor, target}
+	card := content.CardDef{Atk: 10, Hits: 1, Tags: []string{"crit"}, TargetRule: "nearest"}
+	b.resolveCard(actor, card, []*Unit{target})
+	if len(b.Events) != 1 {
+		t.Fatalf("want 1 hit event, got %d", len(b.Events))
+	}
+	ev := b.Events[0]
+	if ev.Kind != "hit" || !ev.Crit || ev.TargetID != "t" {
+		t.Fatalf("bad event: %+v", ev)
+	}
+	if ev.ShieldAbsorb != 5 || ev.Amount != 15 {
+		t.Fatalf("want shield 5 + hp 15 (crit 20), got absorb=%d amount=%d", ev.ShieldAbsorb, ev.Amount)
+	}
+}

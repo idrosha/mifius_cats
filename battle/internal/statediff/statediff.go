@@ -8,18 +8,19 @@ import (
 
 // Diff mirrors mythfel-client StateDiff JSON (§8.2 / §9 Game/Battle).
 type Diff struct {
-	BattleID   string           `json:"battleId"`
-	Seq        int              `json:"seq"`
-	Turn       int              `json:"turn"`
-	Active     int              `json:"active"`
-	Result     string           `json:"result"`
-	P1         Player           `json:"p1"`
-	P2         Player           `json:"p2"`
-	Units      []Unit           `json:"units"`
-	Hand       []HandCard       `json:"hand"`
-	PotionTray []PotionSlot     `json:"potionTray"`
-	CanKeep    bool             `json:"canKeep"`
-	CanEndTurn bool             `json:"canEndTurn"`
+	BattleID   string            `json:"battleId"`
+	Seq        int               `json:"seq"`
+	Turn       int               `json:"turn"`
+	Active     int               `json:"active"`
+	Result     string            `json:"result"`
+	P1         Player            `json:"p1"`
+	P2         Player            `json:"p2"`
+	Units      []Unit            `json:"units"`
+	Hand       []HandCard        `json:"hand"`
+	PotionTray []PotionSlot      `json:"potionTray"`
+	CanKeep    bool              `json:"canKeep"`
+	CanEndTurn bool              `json:"canEndTurn"`
+	Events     []sim.CombatEvent `json:"events,omitempty"`
 }
 
 type Player struct {
@@ -98,6 +99,10 @@ func FromBattle(b *sim.Battle) Diff {
 		Units:      make([]Unit, 0, len(b.Units)),
 		Hand:       nil,
 		PotionTray: potionTray(b),
+		Events:     append([]sim.CombatEvent(nil), b.Events...),
+	}
+	if d.Events == nil {
+		d.Events = []sim.CombatEvent{}
 	}
 
 	energy := b.P1.Energy
