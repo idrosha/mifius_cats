@@ -3205,18 +3205,23 @@ function homeRosterCats() {
   return shop.length ? shop : all;
 }
 
-const HOME_ROLE_BUCKET = {
-  tank: "tank",
-  fighter: "dps",
-  assassin: "dps",
-  ranger: "dps",
-  mage: "dps",
-  support: "support",
-};
+const HOME_ROLE_FILTERS = [
+  { id: "all", label: "Все" },
+  { id: "tank", label: "Танк" },
+  { id: "fighter", label: "Бойцы" },
+  { id: "assassin", label: "Убийцы" },
+  { id: "ranger", label: "Стрелки" },
+  { id: "mage", label: "Маги" },
+  { id: "support", label: "Саппорт" },
+];
 
-function homeCatRoleBucket(c) {
-  const role = c.role || starterMeta(c.templateId)?.role;
-  return HOME_ROLE_BUCKET[role] || "dps";
+function homeCatRole(c) {
+  return c.role || starterMeta(c.templateId)?.role || "";
+}
+
+function homeRosterByRole(cats, filter) {
+  if (!filter || filter === "all") return cats;
+  return cats.filter((c) => homeCatRole(c) === filter);
 }
 
 function homeActiveCat() {
@@ -3301,14 +3306,15 @@ function ensureHomeDom(root) {
   if (leftCol) {
     const filterRow = [...leftCol.querySelectorAll(".flex.items-center.gap-1")].find((row) =>
       [...row.querySelectorAll("button")].some((b) =>
-        /^(Все|Танк|ДПС|Саппорт)$/i.test((b.textContent || "").trim()),
+        b.hasAttribute("data-home-role-filter") || /^(Все|Танк)$/i.test((b.textContent || "").trim()),
       ),
     );
     if (filterRow) {
-      ["all", "tank", "dps", "support"].forEach((id, i) => {
-        const btn = filterRow.querySelectorAll("button")[i];
-        if (btn) btn.setAttribute("data-home-role-filter", id);
-      });
+      const active = state.homeRoleFilter || "all";
+      filterRow.innerHTML = HOME_ROLE_FILTERS.map((it) => {
+        const on = it.id === active;
+        return `<button type="button" data-home-role-filter="${it.id}" class="px-2 py-0.5 rounded shrink-0 border border-outline-variant/20 transition-colors ${on ? "bg-primary text-on-primary shadow font-black" : "bg-surface-container-high text-on-surface-variant hover:text-on-surface"}">${it.label}</button>`;
+      }).join("");
     }
   }
   const stage = root.querySelector(".relative.w-full.h-full.flex.items-start.justify-between");
@@ -3603,8 +3609,7 @@ function renderHomeRoster(cat) {
   const list = $("homeRoster");
   if (!list) return;
   const cats = homeRosterCats();
-  const filter = state.homeRoleFilter || "all";
-  const shown = filter === "all" ? cats : cats.filter((c) => homeCatRoleBucket(c) === filter);
+  const shown = homeRosterByRole(cats, state.homeRoleFilter || "all");
   if (!cats.length) {
     list.innerHTML = `<div class="p-2 rounded-xl border border-dashed border-outline-variant/40 text-outline-variant text-center text-xs">Нет героев — войдите / grant starter</div>`;
     return;
