@@ -259,6 +259,10 @@ ok(
   js.includes("const NAV =") &&
     js.includes("nav.primary.character") &&
     js.includes("nav.primary.combat") &&
+    js.includes("nav.primary.ratings") &&
+    js.includes("nav.primary.knowledge") &&
+    js.includes('id: "friends"') &&
+    js.includes("D-033") &&
     REQUIRED_NAV_IDS.every((id) => js.includes(`id: "${id}"`)),
 );
 ok(

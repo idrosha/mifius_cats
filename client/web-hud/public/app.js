@@ -165,7 +165,7 @@ const PATH_TO_TAB = {
  * Route ids stay stable (yard = Мифмир PvE map).
  * formation is NOT a combat subtab — open inline via CTA / wire dock.
  */
-/** Knowledge screens stay reachable; База знаний is a top-level item with no submenu. */
+/** Knowledge atlas screens stay reachable; not primary subtabs (D-033). */
 const KNOWLEDGE_TABS = [
   { id: "armor_sets", key: "nav.sub.armor_sets", gated: true },
   { id: "class_sets", key: "nav.sub.class_sets", gated: true },
@@ -174,31 +174,22 @@ const KNOWLEDGE_TABS = [
   { id: "codex", key: "nav.sub.codex" },
 ];
 
-/** Locked Stitch Hearth primary (old design). Do not expand with Soft-Launch chrome tabs. */
+/**
+ * Locked IA (D-033). Order + subtabs frozen — do not change without Andrew + new D-0xx.
+ * Primary: pass → character → trade → combat → guilds → ratings → friends → knowledge.
+ */
 const NAV = [
   {
     id: "pass",
     key: "nav.primary.pass",
-    label: "СЕЗОН",
+    label: "Боевой пропуск",
     route: "pass",
     tabs: [],
   },
   {
-    id: "mythmir",
-    key: "nav.primary.mythmir",
-    label: "МИФМИР",
-    route: "yard",
-    tabs: [
-      { id: "battle_hub", key: "nav.sub.mythmir" },
-      { id: "practice", key: "nav.sub.practice" },
-      { id: "pve", key: "nav.sub.pve" },
-      { id: "boss_dungeon", key: "nav.sub.boss_dungeon" },
-    ],
-  },
-  {
     id: "character",
     key: "nav.primary.character",
-    label: "ДОМ ХРАНИТЕЛЯ",
+    label: "Дом Хранителя",
     route: "home",
     tabs: [
       { id: "farm", key: "nav.sub.farm", soon: "farm", gated: true },
@@ -210,20 +201,10 @@ const NAV = [
     ],
   },
   {
-    id: "combat",
-    key: "nav.primary.combat",
-    label: "БОИ",
-    route: "pvp",
-    tabs: [
-      { id: "pvp", key: "nav.sub.pvp", gated: "pvp" },
-      { id: "boss_raid", key: "nav.sub.boss_raid", gated: true },
-      { id: "guild_battle", key: "nav.sub.guild_battle", gated: true },
-    ],
-  },
-  {
     id: "trade",
     key: "nav.primary.trade",
-    label: "ТОРГОВЛЯ",
+    label: "Торговля",
+    route: "trade_hub",
     tabs: [
       { id: "trade_hub", key: "nav.sub.trade_hub" },
       { id: "tavern", key: "nav.sub.tavern" },
@@ -233,19 +214,59 @@ const NAV = [
     ],
   },
   {
+    id: "combat",
+    key: "nav.primary.combat",
+    label: "Бои",
+    route: "battle_hub",
+    tabs: [
+      { id: "battle_hub", key: "nav.sub.mythmir" },
+      { id: "practice", key: "nav.sub.practice" },
+      { id: "pve", key: "nav.sub.pve" },
+      { id: "pvp", key: "nav.sub.pvp", gated: "pvp" },
+      { id: "boss_dungeon", key: "nav.sub.boss_dungeon" },
+      { id: "boss_raid", key: "nav.sub.boss_raid", gated: true },
+      { id: "guild_battle", key: "nav.sub.guild_battle", gated: true },
+    ],
+  },
+  {
     id: "guilds",
     key: "nav.primary.guilds",
-    label: "ГИЛЬДИЯ",
+    label: "Гильдии",
+    route: "guild_hub",
     tabs: [
       { id: "guild_hub", key: "nav.sub.guild_hub" },
       { id: "guild", key: "nav.sub.guild" },
       { id: "chat_guild", key: "nav.sub.chat_guild" },
+    ],
+  },
+  {
+    id: "ratings",
+    key: "nav.primary.ratings",
+    label: "Рейтинги",
+    route: "rating_players",
+    tabs: [
       { id: "rating_players", key: "nav.sub.rating_players" },
+      { id: "rating_dungeon", key: "nav.sub.rating_dungeon" },
+      { id: "rating_raid", key: "nav.sub.rating_raid" },
       { id: "rating_guilds", key: "nav.sub.rating_guilds" },
+    ],
+  },
+  {
+    id: "friends",
+    key: "nav.primary.chats",
+    label: "Друзья",
+    route: "chat_friends",
+    tabs: [
       { id: "chat_friends", key: "nav.sub.chat_friends" },
       { id: "chat_global", key: "nav.sub.chat_global" },
-      { id: "codex", key: "nav.sub.codex" },
     ],
+  },
+  {
+    id: "knowledge",
+    key: "nav.primary.knowledge",
+    label: "База знаний",
+    route: "codex",
+    tabs: [],
   },
 ];
 
@@ -265,9 +286,9 @@ const TABS = NAV.flatMap((g) =>
     { id: "pass", key: "nav.sub.pass", group: "pass" },
     { id: "knowledge", key: "nav.sub.knowledge", group: "knowledge" },
     { id: "soon_clan", key: "nav.sub.soon_clan", group: "guilds", soon: "clan_boss" },
-    { id: "yard", key: "nav.sub.pve", group: "mythmir" },
+    { id: "yard", key: "nav.sub.pve", group: "combat" },
   ],
-  KNOWLEDGE_TABS.map((t) => ({ ...t, group: "guilds" })),
+  KNOWLEDGE_TABS.map((t) => ({ ...t, group: "knowledge" })),
 );
 
 function findNavForTab(tabId) {
@@ -279,11 +300,26 @@ function findNavForTab(tabId) {
     }
   }
   if (tabId === "knowledge" || KNOWLEDGE_TABS.some((t) => t.id === tabId)) {
-    return NAV.find((g) => g.id === "guilds") || null;
+    return NAV.find((g) => g.id === "knowledge") || null;
   }
   if (tabId === "soon_clan") return NAV.find((g) => g.id === "guilds") || null;
-  if (tabId === "yard" || tabId === "battle_hub" || tabId === "practice" || tabId === "pve" || tabId === "boss_dungeon") {
-    return NAV.find((g) => g.id === "mythmir") || null;
+  if (
+    tabId === "yard" ||
+    tabId === "battle_hub" ||
+    tabId === "practice" ||
+    tabId === "pve" ||
+    tabId === "pvp" ||
+    tabId === "boss_dungeon" ||
+    tabId === "boss_raid" ||
+    tabId === "guild_battle"
+  ) {
+    return NAV.find((g) => g.id === "combat") || null;
+  }
+  if (tabId === "rating_dungeon" || tabId === "rating_raid" || tabId === "rating_players" || tabId === "rating_guilds") {
+    return NAV.find((g) => g.id === "ratings") || null;
+  }
+  if (tabId === "chat_friends" || tabId === "chat_global") {
+    return NAV.find((g) => g.id === "friends") || null;
   }
   return null;
 }
@@ -302,7 +338,7 @@ function findNavTabMeta(tabId) {
   const knowledge = KNOWLEDGE_TABS.find((t) => t.id === tabId);
   if (knowledge || tabId === "knowledge") {
     return {
-      group: NAV.find((g) => g.id === "guilds") || null,
+      group: NAV.find((g) => g.id === "knowledge") || null,
       tab: knowledge || { id: "codex", key: "nav.sub.codex" },
       parent: null,
     };
@@ -311,6 +347,13 @@ function findNavTabMeta(tabId) {
     return {
       group: NAV.find((g) => g.id === "guilds") || null,
       tab: { id: "soon_clan", key: "nav.sub.soon_clan", soon: "clan_boss" },
+      parent: null,
+    };
+  }
+  if (tabId === "yard") {
+    return {
+      group: NAV.find((g) => g.id === "combat") || null,
+      tab: { id: "pve", key: "nav.sub.pve" },
       parent: null,
     };
   }
@@ -1082,10 +1125,14 @@ function navigate(tab, { soon = null, clearBattle = true, primary = null, fromGa
     tab = "codex";
     primary = primary || "character";
   }
-  // База знаний is a top-level item — open the codex
+  // База знаний primary (D-033) — open the codex
   if (tab === "knowledge") {
     tab = "codex";
     primary = primary || "knowledge";
+  }
+  if (tab === "mythmir") {
+    tab = "battle_hub";
+    primary = primary || "combat";
   }
   // Inline formation: keep combat primary highlighted even though it is not a subtab.
   if (tab === "formation" && primary == null) primary = "combat";
@@ -5251,16 +5298,31 @@ function renderResult() {
   });
 }
 
+function cleansedByUnitFromEvents(events) {
+  const map = {};
+  for (const ev of events || []) {
+    if (ev.kind !== "status" || ev.statusOp !== "clear" || !ev.targetId || !ev.status) continue;
+    (map[ev.targetId] ||= []).push(ev.status);
+  }
+  return map;
+}
+
 function unitCard(u, side) {
   const d = document.createElement("div");
-  d.className = `unit ${side}${u.alive ? "" : " dead"}`;
+  d.className = `unit ${side}${u.alive ? "" : " dead mf-unit-dead"}`;
   const pct = u.maxHp > 0 ? Math.max(0, Math.min(100, (u.hp / u.maxHp) * 100)) : 0;
-  const statuses = (u.statuses || []).map((s) => s.id).join(", ");
+  const seeSh = canSeeUnitShield(u);
+  const sh = seeSh && u.shield > 0 ? ` +${u.shield}` : "";
+  const icons = statusIconsHtml(unitStatusList(u));
   d.innerHTML = `
     <div class="meta">${u.role} · ${u.element} · L${u.lane}</div>
-    <div class="hp">${u.hp}/${u.maxHp}${u.shield ? ` +${u.shield}` : ""}</div>
-    <div class="hp-bar"><i style="width:${pct}%"></i></div>
-    <div class="meta">${u.id}${statuses ? " · " + statuses : ""}</div>
+    <div class="hp">${u.alive ? `${u.hp}/${u.maxHp}${sh}` : "КОТИК ОТДЫХАЕТ"}</div>
+    <div class="mf-bars"><div class="mf-bar mf-bar--hp"><i style="width:${pct}%"></i></div>${
+      seeSh && u.shield > 0
+        ? `<div class="mf-bar mf-bar--shield"><i style="width:${Math.min(100, (u.shield / Math.max(u.maxHp, 1)) * 100)}%"></i></div>`
+        : ""
+    }</div>
+    <div class="mf-status-row mf-status-row--inline">${icons}</div>
   `;
   return d;
 }
@@ -5701,6 +5763,12 @@ function attackCardArtUrl(cardId) {
   return `/stitch-assets/attack-cards/${folder}/attack_${fileStem}.webp`;
 }
 
+function unitCrowdControlled(diff, unitId) {
+  const u = (diff?.units || []).find((x) => x.id === unitId);
+  if (!u?.alive) return true;
+  return (u.statuses || []).some((s) => s.id === "stun" || s.id === "sleep");
+}
+
 /** Portrait attack-card button for practice / PvP / wire battle hands. */
 function makeAttackHandButton(c, diff, classNames = "mf-atk-card") {
   const b = document.createElement("button");
@@ -5708,9 +5776,11 @@ function makeAttackHandButton(c, diff, classNames = "mf-atk-card") {
   const art = attackCardArtUrl(c.cardId);
   const title = t(c.name_key, c.cardId);
   const cost = c.cost ?? "?";
+  const cc = unitCrowdControlled(diff, c.unitId);
   b.className = art ? `${classNames} mf-atk-card--art pf-card pf-card-art` : `${classNames} mf-atk-card--text pf-card`;
-  b.disabled = !c.playable || !!diff.result || diff.active !== 0 || !!state.oppThrowPlaying;
-  b.title = `${title} · ${cost} AP`;
+  if (cc) b.classList.add("mf-atk-card--stunned");
+  b.disabled = !c.playable || cc || !!diff.result || diff.active !== 0 || !!state.oppThrowPlaying;
+  b.title = cc ? `${title} · стан/сон — пропуск хода` : `${title} · ${cost} AP`;
   if (art) {
     // Cost digit lives in card art (aligned with sim AP after starter back cost fix).
     b.innerHTML = `<img alt="${title}" src="${art}"/><b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
@@ -5831,23 +5901,144 @@ function syncOppThrowFromBattle(diff) {
   showOppThrowHold();
 }
 
-/** Combat status chips on dojo / fight portraits (sim status id → RU). */
-const STATUS_LABEL_RU = {
-  taunt: "Провокация",
-  stealth: "Стелс",
-  bleed: "Кровотечение",
-  poison: "Яд",
-  stun: "Стан",
-  sleep: "Сон",
-  weak: "Слабость",
-  vuln: "Уязвимость",
-  fragile: "Хрупкость",
-  ruffle: "Ёршь",
-  claw_mode: "Когти",
-  mint: "Мята",
-  cleanser: "Чистота",
-  last_meow: "Последний мяу",
+/** Combat status chips (FULL-SPEC §3.5). kind: debuff = red; buff = teal. */
+const STATUS_META = {
+  taunt: { label: "Провокация", icon: "campaign", kind: "buff" },
+  stealth: { label: "Стелс", icon: "visibility_off", kind: "buff" },
+  bleed: { label: "Кровотечение", icon: "bloodtype", kind: "debuff" },
+  poison: { label: "Яд", icon: "skull", kind: "debuff" },
+  stun: { label: "Стан", icon: "flash_on", kind: "debuff" },
+  sleep: { label: "Сон", icon: "bedtime", kind: "debuff" },
+  weak: { label: "Слабость", icon: "trending_down", kind: "debuff" },
+  vuln: { label: "Уязвимость", icon: "crisis_alert", kind: "debuff" },
+  fragile: { label: "Хрупкость", icon: "heart_broken", kind: "debuff" },
+  ruffle: { label: "Ёршь", icon: "waves", kind: "buff" },
+  claw_mode: { label: "Когти", icon: "pets", kind: "buff" },
+  mint: { label: "Мята", icon: "spa", kind: "buff" },
+  cleanser: { label: "Чистота", icon: "auto_fix", kind: "buff" },
+  last_meow: { label: "Последний мяу", icon: "favorite", kind: "buff" },
+  atk_up: { label: "Сила", icon: "swords", kind: "buff" },
 };
+const STATUS_LABEL_RU = Object.fromEntries(
+  Object.entries(STATUS_META).map(([id, m]) => [id, m.label]),
+);
+
+/** PvP: shield bar only for allies (D-032). Practice/PvE: both sides visible for training. */
+function canSeeUnitShield(u) {
+  if (!u) return false;
+  if (u.side === 0) return true;
+  return state.battleMode !== "pvp";
+}
+
+function unitStatusList(u) {
+  const out = [];
+  for (const s of u?.statuses || []) {
+    out.push({
+      id: s.id,
+      stacks: s.stacks || 1,
+      duration: s.duration || 0,
+      meta: STATUS_META[s.id] || { label: s.id, icon: "label", kind: "buff" },
+    });
+  }
+  if (u?.atkBuff > 0) {
+    out.push({
+      id: "atk_up",
+      stacks: u.atkBuff,
+      duration: u.atkBuffDur || 0,
+      meta: STATUS_META.atk_up,
+    });
+  }
+  return out;
+}
+
+function statusIconsHtml(list, { cleansed = [] } = {}) {
+  const chips = list
+    .map((s) => {
+      const turns = s.duration > 0 ? `<em>${s.duration}</em>` : "";
+      const stacks = s.stacks > 1 ? `×${s.stacks}` : "";
+      return `<span class="mf-status mf-status--${s.meta.kind}" data-status="${s.id}" title="${s.meta.label}${stacks}"><span class="material-symbols-outlined">${s.meta.icon}</span>${turns}</span>`;
+    })
+    .join("");
+  const gone = (cleansed || [])
+    .map((id) => {
+      const m = STATUS_META[id] || { label: id, icon: "close" };
+      return `<span class="mf-status mf-status--cleared" data-status="${id}" title="Снято: ${m.label}"><span class="material-symbols-outlined">${m.icon}</span><b>−</b></span>`;
+    })
+    .join("");
+  return chips + gone;
+}
+
+/** Ensure portrait mount has HP + shield bars, status row, death overlay. */
+function ensureCombatPortraitMounts(card) {
+  const frame = card.querySelector(".relative.w-full, figure, .mf-unit-frame") || card;
+  if (!frame.classList.contains("mf-unit-frame")) frame.classList.add("mf-unit-frame");
+  if (!frame.querySelector(".mf-status-row")) {
+    const row = document.createElement("div");
+    row.className = "mf-status-row absolute top-2 right-2 flex flex-wrap justify-end gap-0.5 z-[2] max-w-[70%]";
+    frame.appendChild(row);
+  }
+  if (!frame.querySelector(".mf-fatality")) {
+    const fat = document.createElement("div");
+    fat.className = "mf-fatality";
+    fat.hidden = true;
+    fat.innerHTML = `<span>КОТИК ОТДЫХАЕТ</span>`;
+    frame.appendChild(fat);
+  }
+  let bars = card.querySelector(".mf-bars");
+  if (!bars) {
+    const hpWrap = card.querySelector(".w-full.h-2\\.5, .hp-bar, i[style*='--hp']")?.parentElement;
+    bars = document.createElement("div");
+    bars.className = "mf-bars flex flex-col gap-0.5 w-full";
+    bars.innerHTML = `<div class="mf-bar mf-bar--hp" title="HP"><i></i></div><div class="mf-bar mf-bar--shield" title="Щит" hidden><i></i></div>`;
+    if (hpWrap && hpWrap.parentElement) {
+      hpWrap.replaceWith(bars);
+    } else {
+      card.appendChild(bars);
+    }
+  }
+  return {
+    frame,
+    statusRow: frame.querySelector(".mf-status-row"),
+    fatality: frame.querySelector(".mf-fatality"),
+    hpBar: bars.querySelector(".mf-bar--hp i"),
+    shieldBar: bars.querySelector(".mf-bar--shield"),
+    shieldFill: bars.querySelector(".mf-bar--shield i"),
+  };
+}
+
+function paintCombatUnitCard(card, u, { foe = false, cleansedIds = [] } = {}) {
+  if (!card || !u) return;
+  const mounts = ensureCombatPortraitMounts(card);
+  const pct = u.maxHp > 0 ? Math.max(0, Math.min(100, (u.hp / u.maxHp) * 100)) : 0;
+  const showShield = canSeeUnitShield(u) && u.shield > 0 && u.alive;
+  card.classList.toggle("mf-unit-dead", !u.alive);
+  card.classList.toggle("is-stunned", !!(u.alive && (u.statuses || []).some((s) => s.id === "stun" || s.id === "sleep")));
+  if (mounts.hpBar) {
+    mounts.hpBar.style.width = `${pct}%`;
+    mounts.hpBar.style.setProperty("--hp", `${pct}%`);
+  }
+  const legacyBar = card.querySelector("i[style*='--hp'], .hp-bar i");
+  if (legacyBar && legacyBar !== mounts.hpBar) legacyBar.style.setProperty("--hp", `${pct}%`);
+  if (mounts.shieldBar && mounts.shieldFill) {
+    mounts.shieldBar.hidden = !showShield;
+    if (showShield) {
+      const shPct = Math.max(8, Math.min(100, (u.shield / Math.max(u.maxHp, 1)) * 100));
+      mounts.shieldFill.style.width = `${shPct}%`;
+      mounts.shieldBar.title = `Щит ${u.shield}`;
+    }
+  }
+  if (mounts.fatality) {
+    mounts.fatality.hidden = !!u.alive;
+  }
+  if (mounts.statusRow) {
+    const list = u.alive ? unitStatusList(u) : [];
+    // Debuffs always; buffs always (shield bar alone is fogged in PvP).
+    mounts.statusRow.innerHTML = statusIconsHtml(list, { cleansed: cleansedIds });
+    mounts.statusRow.hidden = !list.length && !cleansedIds.length;
+  }
+  const img = card.querySelector("img");
+  if (img) img.classList.toggle("mf-unit-dim", !u.alive);
+}
 
 function renderPracticeFight() {
   const diff = state.battle;
@@ -5883,6 +6074,7 @@ function renderPracticeFight() {
       pips.appendChild(pip);
     }
   }
+  const clearedByUnit = cleansedByUnitFromEvents(diff.events);
   const paintSlots = (rootSel, units) => {
     const root = document.querySelector(`#viewPracticeFight ${rootSel}`);
     if (!root) return;
@@ -5890,12 +6082,10 @@ function renderPracticeFight() {
     slots.forEach((card, i) => {
       const u = units[i];
       const em = card.querySelector("em");
-      const bar = card.querySelector("i");
       const img = card.querySelector("img");
       const nameEl = card.querySelector(".font-headline-md, b, h4");
       const laneBadge = card.querySelector(".font-label-sm.text-label-sm");
       const fxWrap = card.querySelector(".absolute.bottom-2");
-      const fx = fxWrap?.querySelector("span");
       card.hidden = !u;
       if (!u) return;
       const tid = unitTemplateId(u);
@@ -5906,34 +6096,19 @@ function renderPracticeFight() {
         img.alt = hero?.name || tid;
       }
       if (nameEl) nameEl.textContent = hero?.short || CAT_SHEET_NAMES[tid] || tid;
+      const seeSh = canSeeUnitShield(u);
       if (em) {
-        em.textContent = u.shield
-          ? `${u.hp} / ${u.maxHp} +${u.shield}`
-          : `${u.hp} / ${u.maxHp}`;
+        em.textContent =
+          seeSh && u.shield > 0 ? `${u.hp} / ${u.maxHp} +${u.shield}` : `${u.hp} / ${u.maxHp}`;
       }
-      const pct = u.maxHp > 0 ? Math.max(0, Math.min(100, (u.hp / u.maxHp) * 100)) : 0;
-      if (bar) bar.style.setProperty("--hp", `${pct}%`);
-      // Same order as lobby selection: slot 0..2 = first..third pick.
       if (laneBadge) {
         const lane = PRACTICE_LANE_LABEL[u.lane] || `Л${u.lane}`;
         const role = hero?.roleRu || CAT_ROLE_RU[u.role] || u.role || "";
         laneBadge.textContent = role ? `${lane} • ${role}` : lane;
       }
-      if (fxWrap && fx) {
-        const bits = [];
-        if (u.shield > 0) bits.push(`Щит ${u.shield}`);
-        for (const s of u.statuses || []) {
-          const label = STATUS_LABEL_RU[s.id] || s.id;
-          bits.push(s.stacks > 1 ? `${label}×${s.stacks}` : label);
-        }
-        if (bits.length) {
-          fxWrap.hidden = false;
-          fx.textContent = bits.slice(0, 3).join(" · ");
-        } else {
-          fxWrap.hidden = true;
-          fx.textContent = "";
-        }
-      }
+      // Status icons replace legacy text strip on portrait.
+      if (fxWrap) fxWrap.hidden = true;
+      paintCombatUnitCard(card, u, { cleansedIds: clearedByUnit[u.id] || [] });
     });
   };
   paintSlots("#pfAllies", allies);
@@ -6014,18 +6189,21 @@ function bindPracticeFight() {
   });
 }
 
-function pvpUnitCard(u, foe) {
+function pvpUnitCard(u, foe, cleansedIds = []) {
   const li = document.createElement("li");
   const role = CAT_ROLE_RU[u.role] || u.role || "";
   const element = CAT_ELEMENT_RU[u.element] || u.element || "";
-  const name = catSheetName({ templateId: u.id, catId: u.id });
+  const name = catSheetName({ templateId: unitTemplateId(u), catId: u.id });
   const pct = u.maxHp > 0 ? Math.max(0, Math.min(100, (u.hp / u.maxHp) * 100)) : 0;
-  const art =
-    catHeroArt(u.id) ||
-    {
-      starter_support_water: "/stitch-assets/ad3ff067b5c8.jpg",
-    }[u.id];
-  li.innerHTML = `${art ? `<figure><img alt="" src="${art}"/></figure>` : ""}<div><b>${name}</b><small>${element}${role ? " · " + role : ""}</small><em>${u.hp} / ${u.maxHp}</em><i style="--hp:${pct}%"></i></div>`;
+  const art = catHeroArt(unitTemplateId(u)) || catHeroArt(u.id);
+  const seeSh = canSeeUnitShield(u);
+  const hpLine = u.alive
+    ? seeSh && u.shield > 0
+      ? `${u.hp} / ${u.maxHp} +${u.shield}`
+      : `${u.hp} / ${u.maxHp}`
+    : "КОТИК ОТДЫХАЕТ";
+  li.className = u.alive ? "" : "mf-unit-dead";
+  li.innerHTML = `${art ? `<figure class="mf-unit-frame"><img alt="" src="${art}" class="${u.alive ? "" : "mf-unit-dim"}"/><div class="mf-fatality" ${u.alive ? "hidden" : ""}><span>КОТИК ОТДЫХАЕТ</span></div><div class="mf-status-row">${statusIconsHtml(u.alive ? unitStatusList(u) : [], { cleansed: cleansedIds })}</div></figure>` : ""}<div><b>${name}</b><small>${element}${role ? " · " + role : ""}</small><em class="${u.alive ? "" : "mf-fatality-inline"}">${hpLine}</em><div class="mf-bars"><div class="mf-bar mf-bar--hp"><i style="width:${pct}%"></i></div>${seeSh && u.shield > 0 && u.alive ? `<div class="mf-bar mf-bar--shield"><i style="width:${Math.min(100, (u.shield / Math.max(u.maxHp, 1)) * 100)}%"></i></div>` : ""}</div></div>`;
   if (foe) li.dataset.foe = "1";
   return li;
 }
@@ -6041,13 +6219,14 @@ function renderPvpFight() {
   const enemies = (diff.units || []).filter((u) => u.side === 1).sort((a, b) => a.lane - b.lane);
   const allyBox = $("pvAllies");
   const foeBox = $("pvEnemies");
+  const clearedByUnit = cleansedByUnitFromEvents(diff.events);
   if (allyBox) {
     allyBox.innerHTML = "";
-    allies.forEach((u) => allyBox.appendChild(pvpUnitCard(u, false)));
+    allies.forEach((u) => allyBox.appendChild(pvpUnitCard(u, false, clearedByUnit[u.id] || [])));
   }
   if (foeBox) {
     foeBox.innerHTML = "";
-    enemies.forEach((u) => foeBox.appendChild(pvpUnitCard(u, true)));
+    enemies.forEach((u) => foeBox.appendChild(pvpUnitCard(u, true, clearedByUnit[u.id] || [])));
   }
   syncOppThrowFromBattle(diff);
   const hand = $("pvHand");

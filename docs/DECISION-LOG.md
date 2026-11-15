@@ -34,6 +34,42 @@ Append-only. Новые записи — **сверху** (после шабло
 
 ---
 
+## D-033 · 2026-11-15 · Locked IA меню (порядок primary/subtabs)
+
+- **Status:** Accepted
+- **Area:** hud
+- **SSOT:** docs/FULL-SPEC.md §6; docs/nav-ia.md
+- **Owner:** Andrew / web-hud
+
+### Context
+Нужен финальный порядок основного меню soft-launch. Предыдущая IA (`D-029`) держала МИФМИР top-level и сваливала чаты/рейтинги/кодекс в Гильдию.
+
+### Decision
+Locked primary (порядок): Боевой пропуск → Дом Хранителя → Торговля → Бои → Гильдии → Рейтинги → Друзья → База знаний. Subtabs — как в `docs/nav-ia.md` / `NAV` в `app.js`. Мифмир уходит под Бои (`battle_hub` + `pve`/`practice`/…). Chrome один (`D-029`) остаётся. **Дальше меню не менять** без Andrew + новый `D-0xx` + патч nav-ia + §6.
+
+### Consequences
++ Стабильный IA для SL. − Новые primary (Рейтинги/Друзья/База) = существующие views/stubs. Supersedes IA-часть `D-029` (не chrome).
+
+---
+
+## D-032 · 2026-11-15 · Боевой HUD: щит / статусы / fatality
+
+- **Status:** Accepted
+- **Area:** battle | hud
+- **SSOT:** docs/FULL-SPEC.md §3.5, §6 (`Battle`)
+- **Owner:** web-hud + battle
+
+### Context
+В бою на карточках был только HP (+ щит текстом). Нужны: шкала щита при танк-баффе, иконки баффов/дебаффов с ходами, вспышка снятых дебаффов при cleanse, серые карты при stun/sleep, fatality «КОТИК ОТДЫХАЕТ». В PvP враг не должен видеть, кого бафнули щитом.
+
+### Decision
+Клиент рисует серверные `statuses` / `shield` / `events` (не считает бой). Щит = отдельная шкала; **PvP:** шкала щита только у союзников. Дебаффы/баффы/cleanse-clear / смерть — видны всем. `statediff`: `playable=false` при stun/sleep; cleanse/mint эмитят `statusOp:clear`.
+
+### Consequences
++ Читаемый бой без клиентского SoT. − Fog щита пока только HUD (не redaction в payload) — follow-up: redact `shield` врага в statediff по viewer side.
+
+---
+
 ## Индекс известных (до заведения журнала)
 
 | Id | Тема | Где канон |
@@ -84,7 +120,7 @@ Append-only. Новые записи — **сверху** (после шабло
 
 ## D-029 · 2026-11-15 · Один chrome `#appNav` + IA = NAV
 
-- **Status:** Accepted
+- **Status:** Accepted (chrome); IA primary **Superseded by D-033**
 - **Area:** hud
 - **SSOT:** docs/FULL-SPEC.md §6 (Hub chrome); docs/nav-ia.md
 - **Owner:** web-hud
@@ -93,10 +129,10 @@ Append-only. Новые записи — **сверху** (после шабло
 На hub Stitch-header дублировал меню, прятал `#appNav`, показывал фейковый wallet/VIP. FULL-SPEC §6 primary расходился с каноном `NAV` / `nav-ia.md`. Дефолт «Дом Хранителя» вёл в Soon-farm.
 
 ### Decision
-Один chrome: `#appNav` / `#appSubTabs` на всех soft-launch экранах включая hub. IA primary = текущий `NAV` (СЕЗОН / МИФМИР / ДОМ / БОИ / ТОРГОВЛЯ / ГИЛЬДИЯ); §6 патчим под него. Дефолт Дома = `home`; Бои = `pvp`. Wallet в шапке из profile/wallet stub (не SoT). Dev LiveOps/Battle pills — не player chrome. Распил «Гильдия» и server unlocks — later.
+Один chrome: `#appNav` / `#appSubTabs` на всех soft-launch экранах включая hub. (Порядок primary — см. **D-033**.) Дефолт Дома = `home`. Wallet в шапке из profile/wallet stub (не SoT). Dev LiveOps/Battle pills — не player chrome.
 
 ### Consequences
-+ Нет второго меню на hub. − Хаб-бар Stitch не эталон навигации. Follow-up: server feature flags (P3); распил чатов/рейтингов в отдельные primary.
++ Нет второго меню на hub. − Хаб-бар Stitch не эталон навигации. IA-структура → `D-033`.
 
 ---
 

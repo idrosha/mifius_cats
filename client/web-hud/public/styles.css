@@ -730,7 +730,8 @@ body.mythfel-login .mythfel-logout {
 }
 .unit.enemy { border-color: #ff826c; }
 .unit.ally { border-color: #89d98c; }
-.unit.dead { opacity: 0.4; }
+.unit.dead,
+.mf-unit-dead { opacity: 0.55; filter: grayscale(0.55); }
 .hp-bar {
   height: 4px;
   background: #110d0b;
@@ -739,6 +740,91 @@ body.mythfel-login .mythfel-logout {
   margin: 0.2rem 0;
 }
 .hp-bar i { display: block; height: 100%; background: #89d98c; }
+
+/* Combat HUD: HP + shield bars, status icons, fatality (D-032) */
+.mf-bars { display: flex; flex-direction: column; gap: 2px; width: 100%; }
+.mf-bar {
+  height: 0.45rem;
+  border-radius: 999px;
+  background: #1a1613;
+  overflow: hidden;
+  padding: 1px;
+}
+.mf-bar i { display: block; height: 100%; border-radius: inherit; width: 0; transition: width 0.2s ease; }
+.mf-bar--hp i { background: linear-gradient(90deg, #4caf7a, #89d98c); }
+.mf-bar--shield i { background: linear-gradient(90deg, #5b8def, #9ec1ff); }
+.mf-unit-frame { position: relative; }
+.mf-unit-dim { filter: brightness(0.35) grayscale(0.8); }
+.mf-fatality {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(20, 4, 4, 0.55);
+  pointer-events: none;
+}
+.mf-fatality[hidden] { display: none !important; }
+.mf-fatality span,
+.mf-fatality-inline {
+  font-family: "Rubik", "Nunito Sans", system-ui, sans-serif;
+  font-weight: 900;
+  font-size: clamp(11px, 1.6vw, 15px);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #ff2a2a;
+  text-shadow:
+    0 0 2px #000,
+    0 0 8px #8b0000,
+    2px 2px 0 #3a0000,
+    -1px -1px 0 #ff6b6b;
+  transform: skewX(-8deg);
+  text-align: center;
+  line-height: 1.15;
+  padding: 0 0.35rem;
+}
+.mf-status-row { pointer-events: none; }
+.mf-status-row--inline { display: flex; flex-wrap: wrap; gap: 2px; margin-top: 0.2rem; }
+.mf-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  min-width: 1.15rem;
+  height: 1.15rem;
+  padding: 0 3px;
+  border-radius: 0.35rem;
+  background: rgba(16, 14, 12, 0.88);
+  border: 1px solid rgba(80, 69, 53, 0.85);
+  color: #f5e6d3;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+}
+.mf-status .material-symbols-outlined { font-size: 12px; line-height: 1; }
+.mf-status em { font-style: normal; font-size: 8px; opacity: 0.9; }
+.mf-status--debuff { border-color: rgba(255, 100, 90, 0.7); color: #ffb4ab; }
+.mf-status--buff { border-color: rgba(120, 200, 180, 0.65); color: #b8f0d8; }
+.mf-status--cleared {
+  border-color: rgba(140, 220, 160, 0.85);
+  color: #9ef0b0;
+  animation: mf-cleanse-pop 1.2s ease-out;
+}
+.mf-status--cleared b { font-size: 10px; }
+@keyframes mf-cleanse-pop {
+  0% { transform: scale(1.35); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.85; }
+}
+.is-stunned .mf-unit-frame::after,
+[data-slot].is-stunned .mf-unit-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(40, 60, 120, 0.22);
+  pointer-events: none;
+  z-index: 1;
+}
+.mf-atk-card--stunned { filter: grayscale(0.7) brightness(0.65); opacity: 0.55; }
 
 .offer-list,
 .replay-list {

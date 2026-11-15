@@ -189,6 +189,8 @@ Unused energy не переносится. Unused cards не переносят�
 ### §3.5 Статусы MVP
 `ruffle`, `claw_mode`, `mint`, `taunt`, `stealth`, `bleed`, `poison`, `sleep`, `stun`, `weak`, `vuln`, `fragile`, `cleanser`.
 
+**HUD (D-032):** иконки статусов + длительность (ходы) видны всем; `stun`/`sleep` → карты юнита в руке `playable:false` (пропуск хода). Щит (`shield` от танк-баффа) — отдельная шкала рядом с HP; в **PvP** шкалу щита видит только сторона баффера (враг не видит, кого бафнули). Cleanse/mint → `events[]` `statusOp:clear` по снятым дебаффам (видят все). Смерть: затемнение портрета + красный «КОТИК ОТДЫХАЕТ».
+
 ### §3.6 Авторитет
 Только server симулирует. Client = input + VFX.  
 `battleSeed` + inputs → replay. Хранить 10 последних PvP/user.  
@@ -296,7 +298,7 @@ Server validates all purchases.
 
 1. `Boot` → patch/LiveOps fetch  
 2. `Title` / login  
-3. `Hub` chrome: **один** shared header (`#appNav` / `#appSubTabs`, web-hud; `D-029`). Primary: **СЕЗОН** · **МИФМИР** · **ДОМ ХРАНИТЕЛЯ** · **БОИ** · **ТОРГОВЛЯ** · **ГИЛЬДИЯ** + subtabs (канон `docs/nav-ia.md`). Дефолт Дома = `home` (персонаж); `farm` = Soon. Чаты / рейтинги / кодекс — subtabs под Гильдия (распил primary — later). PvE map = **Мифмир**  
+3. `Hub` chrome: **один** shared header (`#appNav` / `#appSubTabs`, web-hud; `D-029`). Primary **LOCKED `D-033`** (порядок): **Боевой пропуск** · **Дом Хранителя** · **Торговля** · **Бои** · **Гильдии** · **Рейтинги** · **Друзья** · **База знаний** + subtabs — канон `docs/nav-ia.md` (не менять без нового D-0xx). Дефолт Дома = `home`; `farm` = Soon. Мифмир = хаб боёв (`battle_hub`) + PvE map (`yard` / `pve`) под **Бои**.  
 4. `YardMap` (Мифмир) → Formation 3v3 → `Battle`; рейд/легион — отдельный экран  
 5. `PvPMenu` (Дуэли/Арена) → matchmaking → `Battle`  
 6. `Collection` (cats, presets×5, pendants/bows) — на SL = HUD stub (`D-031`): ростер из профиля + **3 отряда** 3v3 local (cap presets[5]); без client SoT урона/БМ/резонанса; серверный SavePreset — later  
@@ -310,7 +312,7 @@ Server validates all purchases.
 7f. `Guild` + `GuildBattle` (GvG 3–12; SL: entry + tip, §4.5)  
 8. `Pass` (×2 XP + rank boxes + autofarm perk copy when ACTIVE)  
 8b. `Farm` Soon sheet — expanded zones incl. fishing + autofarm toggles (gated / stub; §4.4)  
-9. `Battle` HUD: board 3+3, hand, energy, milk, keep, end turn, potion tray; **ход противника (VFX, все режимы):** 6 карт атаки **рубашкой** к игроку (сброс/бросок), затем карты исчезают — без раскрытия руки соперника
+9. `Battle` HUD: board 3+3, hand, energy, milk, keep, end turn, potion tray; статусы/щит/смерть — §3.5 + `D-032`; **ход противника (VFX, все режимы):** 6 карт атаки **рубашкой** к игроку (сброс/бросок), затем карты исчезают — без раскрытия руки соперника
 
 10. `Result` + rewards  
 11. `ReplayList` (10)  

@@ -16,7 +16,7 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 
 | Route | File | Pack folder | Notes |
 |---|---|---|---|
-| `hub` | `hub.html` | 0268 `hub_portals_alt` (etalon portals; was `_1` card catalog) | Главный Хаб · порталы; chrome только shared `#appNav` / `#appSubTabs` (`D-029`; Stitch hub-bar/dock hidden) |
+| `hub` | `hub.html` | 0268 `hub_portals_alt` (etalon portals; was `_1` card catalog) | Главный Хаб · порталы; chrome `#appNav` (`D-029`); IA order locked `D-033` |
 | `login` | `login.html` | **1b5c** (flat `code.html`) | Вход / Регистрация / Войти в Таверну · bg=`login-hero.png` (not hub.png) |
 | `collection` | `collection.html` | home-keeper коллекция | Коллекция котиков |
 | `armor_sets` | `armor_sets.html` | 0268 `_4` | Атлас сетов брони |
