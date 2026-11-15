@@ -80,17 +80,25 @@ function levelNode(user, row, passMax) {
   </div>`;
 }
 
+const SEASON_FALLBACK = [
+  { name: 'Багровая Броня Дракона', desc: 'Мифик-сет элитного пасса (ур. 28)', tag: 'МИФИК', icon: 'workspace_premium' },
+  { name: 'Боевая Алхимия', desc: 'Эликсиры и сливки сезона', tag: 'РЕАГЕНТЫ', icon: 'science' },
+  { name: 'Ресурсы для Фермы', desc: 'Семена, руда, древесина', tag: 'РЕСУРСЫ', icon: 'agriculture' },
+];
+
 function renderSeason(preview) {
   const el = document.getElementById('seasonGrid');
-  if (!el || !preview) return;
-  el.innerHTML = preview
+  if (!el) return;
+  const items = Array.isArray(preview) && preview.length ? preview : SEASON_FALLBACK;
+  el.innerHTML = items
     .map(
       (item) => `<article class="bg-panelDeep/90 border border-gold/40 rounded-xl p-3 transition-all duration-200 hover:border-gold min-w-0">
         <div class="flex items-center gap-2 min-w-0">
+          <span class="material-symbols-outlined text-gold ${item.tag === 'МИФИК' ? 'fill-icon' : ''} shrink-0">${item.icon || 'auto_awesome'}</span>
           <div class="font-rubik font-bold text-gold text-sm truncate">${item.name}</div>
           ${item.tag ? `<span class="bg-gold/20 text-gold text-[10px] font-bold px-1 rounded shrink-0">${item.tag}</span>` : ''}
         </div>
-        <p class="text-xs text-muted mt-0.5 line-clamp-2">${item.desc}</p>
+        <p class="text-xs text-muted mt-0.5 line-clamp-2">${item.desc || ''}</p>
       </article>`,
     )
     .join('');
@@ -101,8 +109,8 @@ let didInitialScroll = false;
 function scrollTrackBy(dir) {
   const track = document.getElementById('passTrack');
   if (!track) return;
-  const step = Math.max(260, Math.floor(track.clientWidth * 0.75));
-  track.scrollBy({ left: dir * step, behavior: 'smooth' });
+  const step = Math.max(280, Math.floor(track.clientWidth * 0.8));
+  track.scrollLeft += dir * step;
 }
 
 function scrollToCurrentLevel(userLevel) {
@@ -177,6 +185,18 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   document.getElementById('passScrollPrev').addEventListener('click', () => scrollTrackBy(-1));
   document.getElementById('passScrollNext').addEventListener('click', () => scrollTrackBy(1));
+
+  // Vertical wheel → horizontal scroll inside the track
+  passTrack.addEventListener(
+    'wheel',
+    (e) => {
+      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+      if (passTrack.scrollWidth <= passTrack.clientWidth + 1) return;
+      e.preventDefault();
+      passTrack.scrollLeft += e.deltaY;
+    },
+    { passive: false },
+  );
 
   // Delegation on track (survives grid re-render + horizontal scroll)
   passTrack.addEventListener('click', async (e) => {

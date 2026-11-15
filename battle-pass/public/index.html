@@ -36,10 +36,11 @@
     body { background-color: #161310; }
     .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24; }
     .fill-icon { font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24; }
-    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    .hide-scrollbar::-webkit-scrollbar { display: none; }
+    #passTrack { scrollbar-width: thin; scrollbar-color: #504535 transparent; }
+    #passTrack::-webkit-scrollbar { height: 8px; }
+    #passTrack::-webkit-scrollbar-thumb { background: #504535; border-radius: 999px; }
   </style>
-  <script src="app.js" defer></script>
+  <script src="app.js?v=3" defer></script>
 </head>
 <body class="bg-bg font-nunito text-ink min-h-screen overflow-x-hidden selection:bg-gold/30">
   <header class="fixed top-0 inset-x-0 z-50 bg-panel/95 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
@@ -80,8 +81,8 @@
     </div>
   </header>
 
-  <main id="app" class="pt-16 pb-6 opacity-0 transition-opacity duration-300">
-    <div class="relative min-h-[480px] p-3 sm:p-4 md:p-6 flex flex-col gap-3 sm:gap-4"
+  <main id="app" class="pt-16 pb-6 opacity-0 transition-opacity duration-300 min-w-0 w-full">
+    <div class="relative min-h-[480px] p-3 sm:p-4 md:p-6 flex flex-col gap-3 sm:gap-4 min-w-0 w-full max-w-full"
          style="background-color:#161310; background-image:linear-gradient(to top,#161310,rgba(22,19,16,.85)), radial-gradient(ellipse at top, rgba(253,186,69,.08), transparent 60%);">
 
       <!-- Progress -->
@@ -129,7 +130,7 @@
       </section>
 
       <!-- Reward track -->
-      <section class="relative bg-panel/90 backdrop-blur-md rounded-2xl p-2 sm:p-3 md:p-4 shadow-2xl border border-line/40">
+      <section class="relative bg-panel/90 backdrop-blur-md rounded-2xl p-2 sm:p-3 md:p-4 shadow-2xl border border-line/40 min-w-0 w-full max-w-full overflow-hidden">
         <div class="flex items-center justify-between gap-2 mb-2 px-1">
           <span id="passRangeLabel" class="font-rubik text-[11px] sm:text-xs font-bold text-gold uppercase tracking-wide">Уровни 1–50</span>
           <div class="flex items-center gap-1">
@@ -143,8 +144,8 @@
             </button>
           </div>
         </div>
-        <div id="passTrack" class="overflow-x-auto snap-x snap-mandatory hide-scrollbar overscroll-x-contain touch-pan-x scroll-smooth">
-          <div class="flex gap-2 sm:gap-3 w-max pr-2">
+        <div id="passTrack" class="w-full max-w-full min-w-0 overflow-x-auto overflow-y-hidden snap-x snap-mandatory overscroll-x-contain touch-pan-x scroll-smooth pb-1">
+          <div class="inline-flex gap-2 sm:gap-3 pr-2">
             <aside class="sticky left-0 z-20 w-[88px] sm:w-28 shrink-0 flex flex-col justify-between py-1 gap-2 bg-panel/95 backdrop-blur-md rounded-xl p-1 shadow-[4px_0_16px_rgba(0,0,0,0.35)]">
               <div class="h-24 sm:h-28 rounded-xl border border-line/50 bg-panelDeep flex flex-col items-center justify-center gap-1 p-2">
                 <span class="material-symbols-outlined text-gold text-[28px] sm:text-[32px]">lock_open</span>
@@ -158,18 +159,43 @@
                 <span class="text-[9px] sm:text-[11px] font-rubik font-bold uppercase text-gold text-center">Элитный</span>
               </div>
             </aside>
-            <div id="passGrid" class="flex gap-2 sm:gap-3"></div>
+            <div id="passGrid" class="inline-flex gap-2 sm:gap-3"></div>
           </div>
         </div>
       </section>
 
       <!-- Season -->
-      <section class="bg-panel/95 backdrop-blur-md rounded-xl p-3 sm:p-4 shadow-xl border border-gold/30">
+      <section class="bg-panel/95 backdrop-blur-md rounded-xl p-3 sm:p-4 shadow-xl border border-gold/30 min-w-0 w-full">
         <div class="flex items-center gap-2 mb-3 border-b border-line/40 pb-2">
           <span class="material-symbols-outlined text-gold fill-icon shrink-0">auto_awesome</span>
           <h2 class="font-rubik font-bold text-gold uppercase tracking-wide text-sm sm:text-base md:text-lg truncate">Что вы получите в этом сезоне</h2>
         </div>
-        <div id="seasonGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"></div>
+        <div id="seasonGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          <article class="bg-panelDeep/90 border border-gold/40 rounded-xl p-3 min-w-0">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="material-symbols-outlined text-gold fill-icon">workspace_premium</span>
+              <div class="font-rubik font-bold text-gold text-sm truncate">Багровая Броня Дракона</div>
+              <span class="bg-gold/20 text-gold text-[10px] font-bold px-1 rounded shrink-0">МИФИК</span>
+            </div>
+            <p class="text-xs text-muted mt-0.5 line-clamp-2">Мифик-сет элитного пасса (ур. 28)</p>
+          </article>
+          <article class="bg-panelDeep/90 border border-gold/40 rounded-xl p-3 min-w-0">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="material-symbols-outlined text-gold">science</span>
+              <div class="font-rubik font-bold text-gold text-sm truncate">Боевая Алхимия</div>
+              <span class="bg-gold/20 text-gold text-[10px] font-bold px-1 rounded shrink-0">РЕАГЕНТЫ</span>
+            </div>
+            <p class="text-xs text-muted mt-0.5 line-clamp-2">Эликсиры и сливки сезона</p>
+          </article>
+          <article class="bg-panelDeep/90 border border-gold/40 rounded-xl p-3 min-w-0">
+            <div class="flex items-center gap-2 min-w-0">
+              <span class="material-symbols-outlined text-gold">agriculture</span>
+              <div class="font-rubik font-bold text-gold text-sm truncate">Ресурсы для Фермы</div>
+              <span class="bg-gold/20 text-gold text-[10px] font-bold px-1 rounded shrink-0">РЕСУРСЫ</span>
+            </div>
+            <p class="text-xs text-muted mt-0.5 line-clamp-2">Семена, руда, древесина</p>
+          </article>
+        </div>
       </section>
 
       <!-- Dungeons -->

@@ -13,7 +13,16 @@ const DUNGEON_ENERGY = { claw: 12, mine: 16, boss: 20 };
 const app = express();
 app.use(compression());
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public'), { maxAge: '1d' }));
+const publicDir = path.join(__dirname, 'public');
+// HTML/JS: no long cache (proto iterates fast). Images keep 1d.
+app.use(express.static(publicDir, {
+  maxAge: '1d',
+  setHeaders(res, filePath) {
+    if (/\.(html?|js)$/i.test(filePath)) {
+      res.setHeader('Cache-Control', 'no-store');
+    }
+  },
+}));
 
 function snapshot() {
   return JSON.parse(JSON.stringify(db));
