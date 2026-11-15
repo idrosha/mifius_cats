@@ -6731,6 +6731,8 @@ function renderAll() {
 }
 
 /** D-031 collection HUD stub — roster from profile, local preset persist. */
+/** SL editable squads (of presets[5] cap). */
+const COL_SQUADS = 3;
 
 function collectionRosterCats() {
   return homeRosterCats();
@@ -6745,22 +6747,38 @@ function collectionEnsurePresets() {
   if (!state.profile) return;
   if (!Array.isArray(state.profile.presets)) state.profile.presets = [];
   const roster = collectionRosterCats();
-  const ids = roster.map((c) => c.catId);
+  const ids = new Set(roster.map((c) => c.catId));
+  const twinId = (catId) => {
+    const cat = collectionCatById(catId);
+    if (!cat) return null;
+    if (ids.has(cat.catId)) return cat.catId;
+    const twinTpl = STARTER_DECK_TEMPLATE[cat.templateId];
+    const twin = twinTpl && roster.find((c) => c.templateId === twinTpl);
+    return twin?.catId || null;
+  };
   let p0 = state.profile.presets[0];
   if (!p0 || typeof p0 !== "object") {
     p0 = { name: "starter", catIds: [] };
     state.profile.presets[0] = p0;
   }
   if (!Array.isArray(p0.catIds)) p0.catIds = [];
-  // Drop stale ids; fill to 3 from roster if empty/short.
-  p0.catIds = p0.catIds.filter((id) => ids.includes(id) || collectionCatById(id));
+  // Map starters → shop twins so slots match D-027 roster (shop×12).
+  p0.catIds = p0.catIds.map((id) => twinId(id)).filter(Boolean);
+  const uniq = [];
+  for (const id of p0.catIds) if (!uniq.includes(id)) uniq.push(id);
+  p0.catIds = uniq;
   if (p0.catIds.length < 3 && roster.length) {
-    const need = 3 - p0.catIds.length;
-    const extras = roster.map((c) => c.catId).filter((id) => !p0.catIds.includes(id)).slice(0, need);
+    const extras = roster.map((c) => c.catId).filter((id) => !p0.catIds.includes(id)).slice(0, 3 - p0.catIds.length);
     p0.catIds = p0.catIds.concat(extras).slice(0, 3);
   }
   while (state.profile.presets.length < 5) {
     state.profile.presets.push({ name: `preset_${state.profile.presets.length + 1}`, catIds: [] });
+  }
+  const squadNames = ["Основной", "Второй эшелон", "Резерв"];
+  for (let pi = 0; pi < COL_SQUADS; pi++) {
+    const p = state.profile.presets[pi];
+    if (!p.name || p.name === "starter" || /^preset_/.test(p.name)) p.name = squadNames[pi];
+    if (!Array.isArray(p.catIds)) p.catIds = [];
   }
 }
 
@@ -6933,7 +6951,11 @@ function renderCollectionSummary(root, cats, shown) {
       .join("");
   }
 
-  const inSquad = (state.profile?.presets?.[state.colPresetIndex || 0]?.catIds || []).filter(Boolean).length;
+  const used = new Set();
+  for (let pi = 0; pi < COL_SQUADS; pi++) {
+    for (const id of state.profile?.presets?.[pi]?.catIds || []) if (id) used.add(id);
+  }
+  const inSquad = used.size;
   const reserve = Math.max(0, cats.length - inSquad);
   const row = [...root.querySelectorAll("div")].find(
     (el) => el.className.includes("lg:flex") && /В строю/i.test(el.textContent || ""),
@@ -6957,7 +6979,14 @@ function renderCollectionRosterCards(cats) {
       return name.includes(q) || tid.includes(q);
     });
   }
-  const picked = new Set(state.profile?.presets?.[state.colPresetIndex || 0]?.catIds || []);
+  const squadMarks = {};
+  for (let pi = 0; pi < COL_SQUADS; pi++) {
+    for (const id of state.profile?.presets?.[pi]?.catIds || []) {
+      if (!id) continue;
+      if (!squadMarks[id]) squadMarks[id] = [];
+      squadMarks[id].push(pi + 1);
+    }
+  }
   const sel = state.colSelectedId;
   if (!shown.length) {
     list.innerHTML = `<div class="col-span-2 p-3 rounded-lg border border-dashed border-outline-variant/40 text-outline-variant text-center text-xs">Нет котиков — grant / login</div>`;
@@ -6970,7 +6999,8 @@ function renderCollectionRosterCards(cats) {
       const el = CAT_ELEMENT_RU[c.element || starterMeta(c.templateId)?.element] || "";
       const art = catHeroArt(c.templateId);
       const on = c.catId === sel;
-      const inTeam = picked.has(c.catId);
+      const marks = squadMarks[c.catId];
+      const markLabel = marks ? `К${marks.join("·")}` : "";
       return `<button type="button" data-col-cat="${c.catId}" class="col-roster-card relative rounded-lg flex items-center gap-2 h-[88px] px-2 text-left border transition-colors cursor-pointer ${
         on ? "is-picked bg-surface-container-highest border-primary/60" : "bg-surface-container-lowest/50 border-surface-container-highest/30 hover:border-primary/40"
       }">
@@ -6978,7 +7008,7 @@ function renderCollectionRosterCards(cats) {
         <span class="flex flex-col min-w-0 gap-0.5">
           <span class="font-label-sm text-label-sm text-on-surface font-bold truncate">${name}</span>
           <span class="text-[10px] text-on-surface-variant truncate">${role}${el ? ` · ${el}` : ""}</span>
-          ${inTeam ? `<span class="text-[9px] text-secondary font-bold uppercase">В строю</span>` : ""}
+          ${markLabel ? `<span class="text-[9px] text-secondary font-bold uppercase">${markLabel}</span>` : ""}
         </span>
       </button>`;
     })
@@ -6986,60 +7016,85 @@ function renderCollectionRosterCards(cats) {
   return shown;
 }
 
+function collectionAutopickSquad(roster, usedIds) {
+  const pick = [];
+  const take = (role) => {
+    const c = roster.find((x) => homeCatRole(x) === role && !usedIds.has(x.catId) && !pick.includes(x.catId));
+    if (c) pick.push(c.catId);
+  };
+  take("tank");
+  take("fighter");
+  take("support");
+  for (const c of roster) {
+    if (pick.length >= 3) break;
+    if (!usedIds.has(c.catId) && !pick.includes(c.catId)) pick.push(c.catId);
+  }
+  return pick.slice(0, 3);
+}
+
 function renderCollectionTeams(cats) {
   const host = $("colTeams");
   if (!host) return;
   collectionEnsurePresets();
-  const idx = state.colPresetIndex || 0;
-  const preset = state.profile.presets[idx] || { name: "starter", catIds: [] };
+  if (state.colPresetIndex == null || state.colPresetIndex < 0 || state.colPresetIndex >= COL_SQUADS) {
+    state.colPresetIndex = 0;
+  }
+  const active = state.colPresetIndex || 0;
   const lanes = [
     { key: "rear", label: "1. Тыл", tip: "Саппорт / стрелок" },
     { key: "center", label: "2. Центр", tip: "DPS / удар" },
     { key: "vanguard", label: "3. Авангард", tip: "Танк / блок" },
   ];
-  // Display order: rear · center · vanguard; storage order stays [0,1,2] = tank,fighter,support from grant — map by lane preference.
-  const slotCats = [0, 1, 2].map((i) => collectionCatById(preset.catIds[i]) || null);
 
-  const slotHtml = (i) => {
+  const slotHtml = (pi, i, slotCats) => {
     const c = slotCats[i];
     const lane = lanes[i];
     if (!c) {
-      return `<button type="button" data-col-slot="${i}" class="col-slot bg-surface-container-lowest/40 rounded-lg p-2 border border-dashed border-outline-variant/40 flex flex-col items-center justify-center min-h-[140px] cursor-pointer text-outline-variant hover:border-primary/50 transition-colors">
-        <span class="material-symbols-outlined text-3xl">add</span>
-        <span class="font-label-sm text-label-sm mt-1">${lane.label}</span>
-        <span class="text-[10px] opacity-70">${lane.tip}</span>
+      return `<button type="button" data-col-preset="${pi}" data-col-slot="${i}" class="col-slot bg-surface-container-lowest/40 rounded-lg p-1.5 border border-dashed border-outline-variant/40 flex flex-col items-center justify-center min-h-[100px] cursor-pointer text-outline-variant hover:border-primary/50 transition-colors">
+        <span class="material-symbols-outlined text-2xl">add</span>
+        <span class="font-label-sm text-[10px] mt-0.5">${lane.label}</span>
       </button>`;
     }
     const art = catHeroArt(c.templateId);
     const name = catSheetName(c);
     const role = CAT_ROLE_RU[homeCatRole(c)] || "";
-    return `<button type="button" data-col-slot="${i}" data-col-slot-cat="${c.catId}" class="col-slot bg-surface-container-high/60 rounded-lg p-2 border border-primary/30 flex flex-col items-center gap-1 min-h-[140px] cursor-pointer hover:border-primary/60 transition-colors">
-      <span class="text-[10px] font-bold text-primary uppercase self-start">${lane.label}</span>
-      ${art ? `<img alt="" src="${art}" class="h-24 w-auto object-contain"/>` : `<span class="material-symbols-outlined text-4xl text-primary">pets</span>`}
-      <span class="font-label-sm text-label-sm text-on-surface font-bold text-center leading-tight">${name}</span>
-      <span class="text-[10px] text-on-surface-variant">${role}</span>
+    return `<button type="button" data-col-preset="${pi}" data-col-slot="${i}" data-col-slot-cat="${c.catId}" class="col-slot bg-surface-container-high/60 rounded-lg p-1.5 border border-primary/30 flex flex-col items-center gap-0.5 min-h-[100px] cursor-pointer hover:border-primary/60 transition-colors">
+      <span class="text-[9px] font-bold text-primary uppercase self-start">${lane.label}</span>
+      ${art ? `<img alt="" src="${art}" class="h-16 w-auto object-contain"/>` : `<span class="material-symbols-outlined text-3xl text-primary">pets</span>`}
+      <span class="font-label-sm text-[11px] text-on-surface font-bold text-center leading-tight">${name}</span>
+      <span class="text-[9px] text-on-surface-variant">${role}</span>
     </button>`;
   };
 
-  host.innerHTML = `
-    <div class="bg-surface-container rounded-lg p-space-sm border border-primary/40 shadow-[0_4px_14px_rgba(0,0,0,0.5)] flex flex-col gap-2">
-      <div class="flex items-center justify-between gap-2 flex-wrap">
+  const teamCard = (pi) => {
+    const preset = state.profile.presets[pi] || { name: `squad_${pi + 1}`, catIds: [] };
+    const slotCats = [0, 1, 2].map((i) => collectionCatById(preset.catIds?.[i]) || null);
+    const filled = slotCats.filter(Boolean).length;
+    const on = pi === active;
+    const names = ["Основной", "Второй эшелон", "Резерв"];
+    return `<div class="bg-surface-container rounded-lg p-space-sm border ${on ? "border-primary/50 shadow-[0_4px_14px_rgba(0,0,0,0.5)]" : "border-surface-container-highest/60"} flex flex-col gap-1.5" data-col-team="${pi}">
+      <button type="button" data-col-preset-select="${pi}" class="flex items-center justify-between gap-2 flex-wrap text-left w-full cursor-pointer">
         <div>
-          <span class="px-2 py-0.5 rounded bg-primary-container/30 text-primary font-stat-numeral text-[10px] font-bold uppercase">Команда 1 · активный пресет</span>
-          <h3 class="font-label-md text-label-md text-primary font-bold mt-1">${preset.name || "starter"}</h3>
+          <span class="px-2 py-0.5 rounded ${on ? "bg-primary-container/30 text-primary" : "bg-surface-container-highest text-on-surface-variant"} font-stat-numeral text-[10px] font-bold uppercase">Команда ${pi + 1}${on ? " · правка" : ""}</span>
+          <h3 class="font-label-md text-label-md ${on ? "text-primary" : "text-on-surface"} font-bold mt-0.5">${preset.name || names[pi]}</h3>
         </div>
-        <span class="text-[11px] text-on-surface-variant">stub · ${slotCats.filter(Boolean).length}/3</span>
-      </div>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-2">${slotHtml(0)}${slotHtml(1)}${slotHtml(2)}</div>
-      <div class="flex gap-2 pt-1 border-t border-surface-container-highest/40">
-        <button type="button" data-col-act="apply" class="flex-1 py-1.5 rounded bg-primary text-on-primary font-label-sm text-[11px] font-bold">Применить расстановку</button>
-        <button type="button" data-col-act="autopick" class="flex-1 py-1.5 rounded bg-surface-container-high text-primary border border-primary/40 font-label-sm text-[11px] font-bold">Авто-подбор</button>
-        <button type="button" data-col-act="codex" class="py-1.5 px-3 rounded bg-surface-container-high text-on-surface font-label-sm text-[11px] font-bold">Кодекс</button>
-      </div>
-    </div>
-    <div class="bg-surface-container rounded-lg p-space-sm border border-surface-container-highest/60 text-on-surface-variant text-[11px]">
-      Пресеты 2–5 · Soon (cap ${state.collectionStub?.presetSlots || 5}). Бой читает сервер — local preset не SoT.
+        <span class="text-[11px] text-on-surface-variant">${filled}/3</span>
+      </button>
+      <div class="grid grid-cols-3 gap-1.5">${slotHtml(pi, 0, slotCats)}${slotHtml(pi, 1, slotCats)}${slotHtml(pi, 2, slotCats)}</div>
     </div>`;
+  };
+
+  host.innerHTML = `
+    <div class="flex flex-col gap-space-sm flex-1 min-h-0 overflow-y-auto pr-1">
+      ${[0, 1, 2].map(teamCard).join("")}
+    </div>
+    <div class="flex gap-2 pt-1 border-t border-surface-container-highest/40 flex-shrink-0 flex-wrap">
+      <button type="button" data-col-act="apply" class="flex-1 py-1.5 rounded bg-primary text-on-primary font-label-sm text-[11px] font-bold">Сохранить 3 отряда</button>
+      <button type="button" data-col-act="autopick" class="py-1.5 px-3 rounded bg-surface-container-high text-primary border border-primary/40 font-label-sm text-[11px] font-bold">Авто · активный</button>
+      <button type="button" data-col-act="autopick-all" class="py-1.5 px-3 rounded bg-surface-container-high text-primary border border-primary/40 font-label-sm text-[11px] font-bold">Авто · все 3</button>
+      <button type="button" data-col-act="codex" class="py-1.5 px-3 rounded bg-surface-container-high text-on-surface font-label-sm text-[11px] font-bold">Кодекс</button>
+    </div>
+    <p class="text-[10px] text-on-surface-variant m-0">3 отряда local stub · presets cap ${state.collectionStub?.presetSlots || 5} · не SoT боя</p>`;
 }
 
 function renderCollection() {
@@ -7071,6 +7126,13 @@ function bindCollectionRoster() {
       renderCollection();
       return;
     }
+    const selectTeam = ev.target.closest("[data-col-preset-select]");
+    if (selectTeam && root.contains(selectTeam)) {
+      ev.preventDefault();
+      state.colPresetIndex = Number(selectTeam.getAttribute("data-col-preset-select")) || 0;
+      renderCollection();
+      return;
+    }
     const card = ev.target.closest("[data-col-cat]");
     if (card && root.contains(card)) {
       ev.preventDefault();
@@ -7081,29 +7143,32 @@ function bindCollectionRoster() {
     const slot = ev.target.closest("[data-col-slot]");
     if (slot && root.contains(slot)) {
       ev.preventDefault();
+      const pi = Number(slot.getAttribute("data-col-preset"));
       const i = Number(slot.getAttribute("data-col-slot"));
       collectionEnsurePresets();
-      const preset = state.profile.presets[state.colPresetIndex || 0];
+      if (pi >= 0 && pi < COL_SQUADS) state.colPresetIndex = pi;
+      const preset = state.profile.presets[pi] || state.profile.presets[state.colPresetIndex || 0];
+      if (!Array.isArray(preset.catIds)) preset.catIds = [];
       const occupied = slot.getAttribute("data-col-slot-cat");
       if (occupied && state.colSelectedId === occupied) {
         preset.catIds[i] = null;
-        preset.catIds = preset.catIds.map((x) => x || null);
         while (preset.catIds.length < 3) preset.catIds.push(null);
         persistCollectionStub();
         renderCollection();
-        toast("Слот очищен");
+        toast(`К${pi + 1}: слот очищен`);
         return;
       }
       if (!state.colSelectedId) {
         toast("Сначала выбери котика слева");
         return;
       }
-      // Unique in team
-      preset.catIds = (preset.catIds || []).map((id, j) => (j === i ? state.colSelectedId : id === state.colSelectedId ? null : id));
+      preset.catIds = (preset.catIds || []).map((id, j) =>
+        j === i ? state.colSelectedId : id === state.colSelectedId ? null : id,
+      );
       while (preset.catIds.length < 3) preset.catIds.push(null);
       persistCollectionStub();
       renderCollection();
-      toast("В слот: " + catSheetName(collectionCatById(state.colSelectedId) || {}));
+      toast(`К${pi + 1}: ${catSheetName(collectionCatById(state.colSelectedId) || {})}`);
       return;
     }
     const act = ev.target.closest("[data-col-act]")?.getAttribute("data-col-act");
@@ -7115,36 +7180,52 @@ function bindCollectionRoster() {
       }
       if (act === "autopick") {
         const roster = collectionRosterCats();
-        const pick = [];
-        for (const role of ["tank", "fighter", "support"]) {
-          const c = roster.find((x) => homeCatRole(x) === role && !pick.includes(x.catId));
-          if (c) pick.push(c.catId);
-        }
-        while (pick.length < 3 && roster[pick.length]) pick.push(roster[pick.length].catId);
         collectionEnsurePresets();
-        state.profile.presets[state.colPresetIndex || 0].catIds = pick.slice(0, 3);
+        const idx = state.colPresetIndex || 0;
+        const used = new Set();
+        for (let pi = 0; pi < COL_SQUADS; pi++) {
+          if (pi === idx) continue;
+          for (const id of state.profile.presets[pi]?.catIds || []) if (id) used.add(id);
+        }
+        state.profile.presets[idx].catIds = collectionAutopickSquad(roster, used);
         persistCollectionStub();
         renderCollection();
-        toast("Авто-подбор 3v3 (local stub)");
+        toast(`Авто · команда ${idx + 1}`);
+        return;
+      }
+      if (act === "autopick-all") {
+        const roster = collectionRosterCats();
+        collectionEnsurePresets();
+        const used = new Set();
+        for (let pi = 0; pi < COL_SQUADS; pi++) {
+          const pick = collectionAutopickSquad(roster, used);
+          state.profile.presets[pi].catIds = pick;
+          for (const id of pick) used.add(id);
+          if (!state.profile.presets[pi].name || /^preset_|^squad_/.test(state.profile.presets[pi].name)) {
+            state.profile.presets[pi].name = ["Основной", "Второй эшелон", "Резерв"][pi];
+          }
+        }
+        persistCollectionStub();
+        renderCollection();
+        toast("Авто · 3 отряда (local stub)");
         return;
       }
       if (act === "apply") {
         persistCollectionStub();
-        toast("Расстановка сохранена (local · не SoT боя)");
+        toast("3 отряда сохранены (local · не SoT боя)");
         return;
       }
     }
-    // Header CTAs in Stitch (Авто-подбор / Применить все) without data-col-act
     const label = (ev.target.closest("button")?.textContent || "").toLowerCase();
     if (label.includes("авто-подбор") || label.includes("автоподбор")) {
       ev.preventDefault();
-      root.querySelector("[data-col-act='autopick']")?.click();
+      root.querySelector("[data-col-act='autopick-all']")?.click();
       return;
     }
-    if (label.includes("применить все") || label.includes("применить расстановку")) {
+    if (label.includes("применить все") || label.includes("применить расстановку") || label.includes("сохранить 3")) {
       ev.preventDefault();
       persistCollectionStub();
-      toast("Расстановка сохранена (local · не SoT боя)");
+      toast("3 отряда сохранены (local · не SoT боя)");
       return;
     }
     if (label.includes("база знаний") || label.includes("кодекс")) {

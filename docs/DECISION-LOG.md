@@ -57,10 +57,10 @@ Append-only. Новые записи — **сверху** (после шабло
 Экран `collection` был пустой Stitch-оболочкой («Пусто»×12), с фейк БМ/рангом прайда/резонансом % вне FULL-SPEC; bind искал несуществующие `.roster-list`. Риск принять клиентский power за SoT.
 
 ### Decision
-На SL коллекция = **HUD stub**: ростер из `profile.cats` (как home — shop×12, D-027; farm вне боевого грида); 1 активный пресет 3v3 local (+ persist); фильтры роль/поиск. Без client SoT урона/наград. БМ / «резонанс %» / «Ранг V прайда» — не показывать как live. Cap 15 и presets[5] — в stub-модели; серверный SavePreset — later. Каталог: `collection-stub.json` + `GET /api/dev/collection`.
+На SL коллекция = **HUD stub**: ростер из `profile.cats` (как home — shop×12, D-027; farm вне боевого грида); **3 редактируемых отряда** 3v3 local (+ persist; cap presets[5] в модели); фильтры роль/поиск. Без client SoT урона/наград. БМ / «резонанс %» / «Ранг V прайда» — не показывать как live. Серверный SavePreset — later. Каталог: `collection-stub.json` + `GET /api/dev/collection`.
 
 ### Consequences
-+ Можно смоук-тестить отряд/ростер. − Пресеты не SoT боя до backend. Follow-up: SavePreset RPC; 5 пресетов UI.
++ Можно собрать 3 связки для smoke. − Пресеты не SoT боя до backend. Follow-up: SavePreset RPC; UI пресетов 4–5.
 
 ---
 

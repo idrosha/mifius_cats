@@ -7,7 +7,8 @@ alwaysApply: true
 # Mythfel
 
 - SSOT: `docs/FULL-SPEC.md`. Не выдумывать механику вне него.
-- Перед кодом: роль из `docs/AGENTS.md` + свой файл в `docs/skills/`.
+- Перед кодом: роль из `docs/AGENTS.md` + свой файл в `docs/skills/`; шлюз 0–7 из `antifailure-dev.mdc`.
+- После UI/API/route: **проверки интеграций** (route · bind · CSS · stub · smoke) — см. `antifailure-dev.mdc`.
 - Читать только указанные § FULL-SPEC, не весь документ без нужды.
 - Soft launch: Двор + PvP. Ферма / питомник / клан-босс — не реализовывать, пока нет задачи фазы 5+.
 - Бой: сервер авторитетен. Клиент не считает награды/урон как source of truth.
