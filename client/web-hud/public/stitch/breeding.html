@@ -1,359 +1,613 @@
 <section id="viewBreeding" class="stitch-view mythfel-form hidden" data-stitch="breeding" data-layout="landscape">
-<header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-low/95 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.5)]"><div class="h-28 w-full px-margin-tablet flex flex-col justify-between py-space-xs"><div class="flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-primary text-[24px]">pets</span><span class="font-headline-md text-headline-md tracking-wider uppercase text-primary drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">МИФИУС: МИФИЧЕСКИЕ КОТИКИ</span></div><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-highest/60"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span class="font-label-sm text-label-sm text-secondary tracking-wide uppercase">24ms ONLINE</span></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-sm"><div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1 rounded-lg"><span class="material-symbols-outlined text-primary text-[16px]">monetization_on</span><span class="font-label-md text-label-md text-on-surface">148,250</span></div><div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1 rounded-lg"><span class="material-symbols-outlined text-tertiary text-[16px]">set_meal</span><span class="font-label-md text-label-md text-on-surface">920</span></div><div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1 rounded-lg"><span class="material-symbols-outlined text-secondary text-[16px]">bolt</span><span class="font-label-md text-label-md text-on-surface">85/100</span></div><div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1 rounded-lg"><span class="material-symbols-outlined text-primary-fixed text-[16px]">diamond</span><span class="font-label-md text-label-md text-on-surface">385</span></div></div><div class="flex items-center gap-2 pl-2"><div class="text-right"><div class="font-label-sm text-label-sm text-primary uppercase">Хранитель</div><div class="font-label-md text-label-md text-on-surface">Ур. 48</div></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div><nav class="flex items-center gap-space-xs overflow-x-auto py-0.5" data-active-classes="bg-primary-container text-on-primary-container font-headline-md shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]"><a class="px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="glavnyj-hab" href="#">Главный Хаб</a><a class="px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="personazh-dom" href="#">Персонаж / Дом</a><a class="px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="ekipirovka" href="#">Экипировка</a><a class="px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="inventar" href="#">Инвентарь</a><a class="px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="ugodya-ferma" href="#">Угодья / Ферма</a><a class="px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="kraft" href="#">Крафт</a><a class="px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="pohod-pve" href="#">Поход (PvE)</a><a class="px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="arena-pvp" href="#">Арена (PvP)</a></nav></div><div class="bg-surface-container-lowest/90 px-margin-tablet py-1.5 flex items-center gap-space-xs overflow-x-auto shadow-inner"><nav class="flex items-center gap-1.5" data-active-classes="bg-surface-bright text-primary font-bold shadow-[0_2px_8px_rgba(0,0,0,0.5)]"><a class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap" data-path="rabochij-stol-personazh" href="#">Рабочий стол (Персонаж)</a><a class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap" data-path="kollektsiya-pitomtsev" href="#">Коллекция питомцев</a><a class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap" data-path="ekipirovka-sumka" href="#">Экипировка / Сумка</a><a class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap" data-path="sety-broni" href="#">Сеты брони</a><a class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap" data-path="klassovye-sety" href="#">Классовые сеты</a><a class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap" data-path="kodeks-geroev" href="#">Кодекс героев</a><a class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap" data-path="sklad" href="#">Склад</a><a aria-current="page" class="px-2.5 py-1 rounded transition-colors whitespace-nowrap bg-surface-bright text-primary font-bold shadow-[0_2px_8px_rgba(0,0,0,0.5)]" data-path="skreshchivanie" href="#">Скрещивание</a><a class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap" data-path="kodeks-mifmira" href="#">Кодекс Мифмира</a></nav></div></header><main class="w-full pt-28 bg-background flex-1"><div class="flex flex-col w-full text-on-surface">
-<div class="w-full px-margin-tablet py-space-sm flex flex-col gap-space-sm">
-<!-- Top Sub-Header Bar (Altar Status & Hearth Metrics) -->
-<div class="w-full bg-surface-container rounded-xl p-space-sm shadow-md flex flex-wrap items-center justify-between gap-space-md">
-<div class="flex items-center gap-space-md min-w-0">
-<div class="w-10 h-10 rounded-lg bg-primary-container/20 flex items-center justify-center shrink-0">
-<span class="material-symbols-outlined text-primary text-[26px]">vital_signs</span>
-</div>
-<div class="min-w-0">
-<div class="flex items-center gap-space-xs flex-wrap">
-<span class="font-headline-md text-headline-md text-on-surface tracking-wide uppercase">Скрещивание и Алтарь Родословной</span>
-<span class="px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase">Алтарь Ур. 7</span>
-</div>
-<p class="font-body-sm text-body-sm text-on-surface-variant truncate">
-            Синтез стихийных генов, наследование пассивов и выведение мифических котят
-          </p>
-</div>
-</div>
-<div class="flex items-center gap-space-sm flex-wrap">
-<div class="flex items-center gap-2 bg-surface-container-high px-3 py-1.5 rounded-lg shadow-sm">
-<span class="material-symbols-outlined text-tertiary-container text-[18px]">local_fire_department</span>
-<div>
-<div class="font-label-sm text-label-sm text-on-surface-variant">Энергия Очага</div>
-<div class="font-stat-numeral text-stat-numeral text-on-surface">6 <span class="text-on-surface-variant text-body-sm font-body-sm">/ 10</span></div>
-</div>
-</div>
-<div class="flex items-center gap-2 bg-surface-container-high px-3 py-1.5 rounded-lg shadow-sm">
-<span class="material-symbols-outlined text-secondary text-[18px]">nest_multi_room</span>
-<div>
-<div class="font-label-sm text-label-sm text-on-surface-variant">Инкубатор</div>
-<div class="font-stat-numeral text-stat-numeral text-secondary">2 <span class="text-on-surface-variant text-body-sm font-body-sm">/ 4 занято</span></div>
-</div>
-</div>
-<div class="flex items-center gap-2 bg-surface-container-high px-3 py-1.5 rounded-lg shadow-sm">
-<span class="material-symbols-outlined text-primary text-[18px]">stars</span>
-<div>
-<div class="font-label-sm text-label-sm text-on-surface-variant">Шанс Мифика</div>
-<div class="font-stat-numeral text-stat-numeral text-primary">18.5%</div>
-</div>
-</div>
-</div>
-</div>
-<!-- 3-Column Main Breeding Arena -->
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-sm items-stretch">
-<!-- LEFT COLUMN: Father / First Parent (28% ~ lg:col-span-3) -->
-<div class="lg:col-span-3 bg-surface-container rounded-xl p-space-sm flex flex-col justify-between shadow-lg relative overflow-hidden">
-<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary-container to-transparent"></div>
-<div>
-<!-- Header Card Info -->
-<div class="flex items-center justify-between pb-space-xs">
-<span class="px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase">Отец • Род I</span>
-<span class="flex items-center gap-1 font-label-sm text-label-sm text-primary">
-<span class="material-symbols-outlined text-[15px]">electric_bolt</span> Гром 100%
-            </span>
-</div>
-<div class="pt-space-xs pb-space-xs">
-<h3 class="font-headline-md text-headline-md text-outline-variant font-bold leading-tight">Пустой слот</h3><p class="font-body-sm text-body-sm text-outline-variant">Выберите героя</p>
-</div>
-<!-- Cat Portrait Visual -->
-<div class="relative w-full aspect-square rounded-lg overflow-hidden bg-surface-container-lowest/50 border border-dashed border-outline-variant/30 flex items-center justify-center text-outline-variant"><span class="material-symbols-outlined text-3xl">add</span></div>
-</div>
-<!-- Gene Transmission Parameters -->
-<div class="space-y-1.5 pt-space-xs">
-<div class="font-label-sm text-label-sm uppercase text-on-surface-variant">Доминантные гены:</div>
-<div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between">
-<div class="flex items-center gap-1.5 min-w-0">
-<span class="material-symbols-outlined text-primary text-[16px]">shield</span>
-<span class="font-body-sm text-body-sm text-on-surface truncate">Шерстяной Оплот (Пассив)</span>
-</div>
-<span class="font-label-sm text-label-sm text-primary shrink-0">+30% Броня</span>
-</div>
-<div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between">
-<div class="flex items-center gap-1.5 min-w-0">
-<span class="material-symbols-outlined text-primary text-[16px]">bolt</span>
-<span class="font-body-sm text-body-sm text-on-surface truncate">Громовой Удар (Атака)</span>
-</div>
-<span class="font-label-sm text-label-sm text-tertiary-container shrink-0">Шок III</span>
-</div>
-<div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between">
-<div class="flex items-center gap-1.5 min-w-0">
-<span class="material-symbols-outlined text-secondary text-[16px]">offline_bolt</span>
-<span class="font-body-sm text-body-sm text-on-surface truncate">Устойчивость к шоку</span>
-</div>
-<span class="font-label-sm text-label-sm text-secondary shrink-0">+40% Сопр.</span>
-</div>
-</div>
-<!-- Breeding Purity Tracker -->
-<div class="pt-space-sm">
-<div class="flex justify-between items-center font-label-sm text-label-sm pb-1">
-<span class="text-on-surface-variant">Чистота породы</span>
-<span class="text-primary font-bold">94%</span>
-</div>
-<div class="w-full h-1.5 rounded-full bg-surface-container-lowest overflow-hidden">
-<div class="h-full bg-primary rounded-full" style="width: 94%;"></div>
-</div>
-</div>
-</div>
-<!-- Slot Button -->
-<div class="pt-space-md">
-<button class="w-full bg-surface-container-high hover:bg-surface-bright text-on-surface hover:text-primary py-2 px-3 rounded-lg font-label-md text-label-md transition-colors flex items-center justify-center gap-2 shadow-sm" type="button">
-<span class="material-symbols-outlined text-[18px]">swap_horiz</span>
-<span>Сменить отца</span>
-<kbd class="px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant text-[10px]">T</kbd>
-</button>
-</div>
-</div>
-<!-- CENTER COLUMN: Runic Altar & Synthesis Forge (44% ~ lg:col-span-6) -->
-<div class="lg:col-span-6 bg-surface-container rounded-xl p-space-sm flex flex-col justify-between shadow-xl relative overflow-hidden"><!-- Cosmic Ambient Background behind egg -->
-<div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
-<div>
-  <!-- Center Top Header Indicators -->
-  <div class="flex items-center justify-between px-space-xs pb-space-xs">
-    <div class="flex items-center gap-2">
-      <span class="w-2.5 h-2.5 rounded-full bg-primary animate-ping"></span>
-      <span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold">Ритуал Синтеза Душ</span>
+<!--
+    JS contract (API → DOM):
+    #metrics-hearth / #metrics-incubator / #metrics-mythic — текст метрик шапки
+    #parent-father, #parent-mother — data-parent-id, data-purity; внутри [data-field="name|meta|bm|gen|element"]
+    #father-genes, #mother-genes — clone #tpl-gene
+    #reagent-slots — clone #tpl-ingredient; status: data-ready="true|false"
+    #incubator-slots — clone #tpl-crib; data-status="incubating|ready|empty|locked"
+      [data-field="timer"] ← ISO endsAt / remainingSec с бэка
+      [data-field="progress"] style.width = percent + '%'
+    #btn-start-breed — data-duration-sec, data-can-start; [data-field="label"]
+    #compat-badge, #resonance-label, #reagents-status — статусы алтаря
+  -->
+
+  <header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-low/95 backdrop-blur-md shadow-tray">
+    <div class="w-full px-margin md:px-margin-tablet flex flex-col gap-space-xs py-space-xs">
+      <div class="flex items-center justify-between gap-space-sm min-w-0">
+        <div class="flex items-center gap-space-sm min-w-0">
+          <div class="flex items-center gap-space-xs min-w-0">
+            <span class="material-symbols-outlined text-primary text-[24px] shrink-0">pets</span>
+            <span class="font-headline-md text-headline-md tracking-wider uppercase text-primary drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)] truncate">МИФИУС</span>
+          </div>
+          <div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-highest/60 shrink-0" id="latency-badge" data-latency-ms="24">
+            <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+            <span class="font-label-sm text-label-sm text-secondary tracking-wide uppercase" data-field="latency">24ms ONLINE</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-space-sm min-w-0">
+          <div id="wallet-bar" class="flex items-center gap-space-xs overflow-x-auto hide-scrollbar max-w-[55vw] sm:max-w-none">
+            <div class="flex items-center gap-1.5 bg-surface-container px-2 py-1 rounded-lg shrink-0">
+              <span class="material-symbols-outlined text-primary text-[16px]">monetization_on</span>
+              <span class="font-label-md text-label-md text-on-surface" data-currency="gold">148,250</span>
+            </div>
+            <div class="flex items-center gap-1.5 bg-surface-container px-2 py-1 rounded-lg shrink-0">
+              <span class="material-symbols-outlined text-tertiary text-[16px]">set_meal</span>
+              <span class="font-label-md text-label-md text-on-surface" data-currency="fish">920</span>
+            </div>
+            <div class="flex items-center gap-1.5 bg-surface-container px-2 py-1 rounded-lg shrink-0">
+              <span class="material-symbols-outlined text-secondary text-[16px]">bolt</span>
+              <span class="font-label-md text-label-md text-on-surface" data-currency="energy">85/100</span>
+            </div>
+            <div class="flex items-center gap-1.5 bg-surface-container px-2 py-1 rounded-lg shrink-0">
+              <span class="material-symbols-outlined text-primary-fixed text-[16px]">diamond</span>
+              <span class="font-label-md text-label-md text-on-surface" data-currency="gems">385</span>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 shrink-0">
+            <div class="text-right hidden xs:block sm:block">
+              <div class="font-label-sm text-label-sm text-primary uppercase">Хранитель</div>
+              <div class="font-label-md text-label-md text-on-surface" id="player-level" data-level="48">Ур. 48</div>
+            </div>
+            <div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center">
+              <span class="material-symbols-outlined text-on-primary text-[18px]">person</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="flex items-center gap-space-xs overflow-x-auto whitespace-nowrap hide-scrollbar py-0.5" aria-label="Основное меню" data-active-classes="bg-primary-container text-on-primary-container font-headline-md shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]">
+        <a class="px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="glavnyj-hab" href="#">Главный Хаб</a>
+        <a class="px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="personazh-dom" href="#">Персонаж / Дом</a>
+        <a class="px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="ekipirovka" href="#">Экипировка</a>
+        <a class="px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="inventar" href="#">Инвентарь</a>
+        <a class="px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="ugodya-ferma" href="#">Угодья / Ферма</a>
+        <a class="px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="kraft" href="#">Крафт</a>
+        <a class="px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="pohod-pve" href="#">Поход (PvE)</a>
+        <a class="px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="arena-pvp" href="#">Арена (PvP)</a>
+      </nav>
     </div>
-    <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest">
-      <span class="material-symbols-outlined text-primary text-[14px]">auto_fix_high</span>
-      <span class="font-label-sm text-label-sm text-on-surface">Совместимость: 96% (Идеально)</span>
+
+    <div class="bg-surface-container-lowest/90 px-margin md:px-margin-tablet py-1.5 shadow-inner">
+      <nav class="flex items-center gap-1.5 overflow-x-auto whitespace-nowrap hide-scrollbar" aria-label="Дом хранителя" data-active-classes="bg-surface-bright text-primary font-bold shadow-[0_2px_8px_rgba(0,0,0,0.5)]">
+        <a class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap" data-path="rabochij-stol-personazh" href="#">Рабочий стол</a>
+        <a class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap" data-path="kollektsiya-pitomtsev" href="#">Коллекция</a>
+        <a class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap" data-path="ekipirovka-sumka" href="#">Экипировка</a>
+        <a class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap" data-path="sety-broni" href="#">Сеты брони</a>
+        <a class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap" data-path="klassovye-sety" href="#">Классовые сеты</a>
+        <a class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap" data-path="kodeks-geroev" href="#">Кодекс героев</a>
+        <a class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap" data-path="sklad" href="#">Склад</a>
+        <a aria-current="page" class="px-2.5 py-1 rounded transition-colors whitespace-nowrap bg-surface-bright text-primary font-bold shadow-[0_2px_8px_rgba(0,0,0,0.5)] font-label-sm text-label-sm" data-path="skreshchivanie" href="#">Скрещивание</a>
+        <a class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap" data-path="kodeks-mifmira" href="#">Кодекс Мифмира</a>
+      </nav>
     </div>
+  </header>
+
+  <main class="w-full flex-1 bg-background pt-[7.5rem] pb-24 lg:pb-space-sm">
+    <div class="w-full px-margin md:px-margin-tablet py-space-sm flex flex-col gap-space-sm">
+
+      <!-- Metrics -->
+      <div class="w-full bg-surface-container rounded-xl p-space-sm shadow-tray flex flex-wrap items-center justify-between gap-space-md" id="altar-metrics" data-altar-level="7">
+        <div class="flex items-center gap-space-md min-w-0">
+          <div class="w-10 h-10 rounded-lg bg-primary-container/20 flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-primary text-[26px]">vital_signs</span>
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-space-xs flex-wrap">
+              <span class="font-headline-md text-headline-md text-on-surface tracking-wide uppercase truncate">Скрещивание и Алтарь</span>
+              <span class="px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase" id="altar-level-badge">Алтарь Ур. 7</span>
+            </div>
+            <p class="font-body-sm text-body-sm text-on-surface-variant truncate">Синтез генов, наследование пассивов, мифические котята</p>
+          </div>
+        </div>
+        <div class="flex items-center gap-space-sm overflow-x-auto hide-scrollbar">
+          <div class="flex items-center gap-2 bg-surface-container-high px-3 py-1.5 rounded-lg shadow-sm shrink-0">
+            <span class="material-symbols-outlined text-tertiary-container text-[18px]">local_fire_department</span>
+            <div>
+              <div class="font-label-sm text-label-sm text-on-surface-variant">Энергия Очага</div>
+              <div class="font-stat-numeral text-stat-numeral text-on-surface" id="metrics-hearth" data-value="6" data-max="10">6 <span class="text-on-surface-variant text-body-sm font-body-sm">/ 10</span></div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 bg-surface-container-high px-3 py-1.5 rounded-lg shadow-sm shrink-0">
+            <span class="material-symbols-outlined text-secondary text-[18px]">nest_multi_room</span>
+            <div>
+              <div class="font-label-sm text-label-sm text-on-surface-variant">Инкубатор</div>
+              <div class="font-stat-numeral text-stat-numeral text-secondary" id="metrics-incubator" data-used="2" data-max="4">2 <span class="text-on-surface-variant text-body-sm font-body-sm">/ 4 занято</span></div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2 bg-surface-container-high px-3 py-1.5 rounded-lg shadow-sm shrink-0">
+            <span class="material-symbols-outlined text-primary text-[18px]">stars</span>
+            <div>
+              <div class="font-label-sm text-label-sm text-on-surface-variant">Шанс Мифика</div>
+              <div class="font-stat-numeral text-stat-numeral text-primary" id="metrics-mythic" data-chance="18.5">18.5%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Arena: mobile 2-col parents + altar below; lg 3-6-3 -->
+      <div id="breeding-arena" class="grid grid-cols-2 lg:grid-cols-12 gap-space-sm items-stretch">
+
+        <!-- Father -->
+        <article id="parent-father" class="col-span-1 lg:col-span-3 order-1 bg-surface-container rounded-xl p-space-sm flex flex-col justify-between shadow-card relative overflow-hidden" data-parent-id="barsik-thunder" data-slot="father" data-purity="94" data-element="bolt">
+          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary-container to-transparent"></div>
+          <div class="min-w-0">
+            <div class="flex items-center justify-between gap-1 pb-space-xs">
+              <span class="px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase truncate">Отец • Род I</span>
+              <span class="flex items-center gap-0.5 font-label-sm text-label-sm text-primary shrink-0" data-field="element">
+                <span class="material-symbols-outlined text-[15px]">electric_bolt</span>
+                <span class="hidden sm:inline">Гром 100%</span>
+              </span>
+            </div>
+            <div class="pb-space-xs min-w-0">
+              <h3 class="font-headline-md text-headline-md text-primary font-bold leading-tight truncate" data-field="name">Барсик Громовержец</h3>
+              <p class="font-body-sm text-body-sm text-on-surface-variant truncate" data-field="meta">Мифик 5★ • Танк • Ур. 70</p>
+            </div>
+            <div class="relative w-full aspect-square rounded-lg overflow-hidden bg-surface-container-lowest my-space-xs shadow-inner">
+              <img
+                data-field="portrait"
+                alt="Барсик Громовержец"
+                width="320"
+                height="320"
+                loading="lazy"
+                decoding="async"
+                class="w-full h-full object-cover object-top"
+                src="/stitch-ref/home-keeper/breeding/token-icon.png">
+              <div class="absolute bottom-2 left-2 right-2 flex justify-between items-center gap-1 bg-surface-container-lowest/80 backdrop-blur-md px-2 py-1 rounded">
+                <span class="font-label-sm text-label-sm text-on-surface-variant truncate" data-field="bm">БМ 18,420</span>
+                <span class="font-label-sm text-label-sm text-secondary shrink-0" data-field="gen">Gen 1</span>
+              </div>
+            </div>
+            <div class="space-y-1.5 pt-space-xs hidden sm:block">
+              <div class="font-label-sm text-label-sm uppercase text-on-surface-variant">Доминантные гены:</div>
+              <div id="father-genes" class="space-y-1.5">
+                <div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between gap-1">
+                  <div class="flex items-center gap-1.5 min-w-0">
+                    <span class="material-symbols-outlined text-primary text-[16px] shrink-0">shield</span>
+                    <span class="font-body-sm text-body-sm text-on-surface truncate">Шерстяной Оплот (Пассив)</span>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-primary shrink-0">+30% Броня</span>
+                </div>
+                <div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between gap-1">
+                  <div class="flex items-center gap-1.5 min-w-0">
+                    <span class="material-symbols-outlined text-primary text-[16px] shrink-0">bolt</span>
+                    <span class="font-body-sm text-body-sm text-on-surface truncate">Громовой Удар (Атака)</span>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-tertiary-container shrink-0">Шок III</span>
+                </div>
+                <div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between gap-1">
+                  <div class="flex items-center gap-1.5 min-w-0">
+                    <span class="material-symbols-outlined text-secondary text-[16px] shrink-0">offline_bolt</span>
+                    <span class="font-body-sm text-body-sm text-on-surface truncate">Устойчивость к шоку</span>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-secondary shrink-0">+40% Сопр.</span>
+                </div>
+              </div>
+            </div>
+            <div class="pt-space-sm">
+              <div class="flex justify-between items-center font-label-sm text-label-sm pb-1 gap-1">
+                <span class="text-on-surface-variant truncate">Чистота</span>
+                <span class="text-primary font-bold shrink-0" data-field="purity">94%</span>
+              </div>
+              <div class="w-full h-1.5 rounded-full bg-surface-container-lowest overflow-hidden">
+                <div class="h-full bg-primary rounded-full" data-field="purity-bar" style="width: 94%"></div>
+              </div>
+            </div>
+          </div>
+          <div class="pt-space-md">
+            <button type="button" class="w-full bg-surface-container-high hover:bg-surface-bright text-on-surface hover:text-primary py-2 px-2 rounded-lg font-label-md text-label-md transition-colors flex items-center justify-center gap-1.5 shadow-sm" data-action="swap-father">
+              <span class="material-symbols-outlined text-[18px]">swap_horiz</span>
+              <span class="truncate">Сменить</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- Mother -->
+        <article id="parent-mother" class="col-span-1 lg:col-span-3 order-2 lg:order-3 bg-surface-container rounded-xl p-space-sm flex flex-col justify-between shadow-card relative overflow-hidden" data-parent-id="frostia-ice" data-slot="mother" data-purity="98" data-element="ice">
+          <div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-l from-secondary via-secondary-container to-transparent"></div>
+          <div class="min-w-0">
+            <div class="flex items-center justify-between gap-1 pb-space-xs">
+              <span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase truncate">Мать • Род II</span>
+              <span class="flex items-center gap-0.5 font-label-sm text-label-sm text-secondary shrink-0" data-field="element">
+                <span class="material-symbols-outlined text-[15px]">ac_unit</span>
+                <span class="hidden sm:inline">Лёд 100%</span>
+              </span>
+            </div>
+            <div class="pb-space-xs min-w-0">
+              <h3 class="font-headline-md text-headline-md text-secondary font-bold leading-tight truncate" data-field="name">Фростия Лёд</h3>
+              <p class="font-body-sm text-body-sm text-on-surface-variant truncate" data-field="meta">Мифик 5★ • Маг • Ур. 65</p>
+            </div>
+            <div class="relative w-full aspect-square rounded-lg overflow-hidden bg-surface-container-lowest my-space-xs shadow-inner">
+              <img
+                data-field="portrait"
+                alt="Фростия Лёд"
+                width="320"
+                height="320"
+                loading="lazy"
+                decoding="async"
+                class="w-full h-full object-cover object-top"
+                src="/stitch-ref/home-keeper/breeding/screen.png">
+              <div class="absolute bottom-2 left-2 right-2 flex justify-between items-center gap-1 bg-surface-container-lowest/80 backdrop-blur-md px-2 py-1 rounded">
+                <span class="font-label-sm text-label-sm text-on-surface-variant truncate" data-field="bm">БМ 17,980</span>
+                <span class="font-label-sm text-label-sm text-secondary shrink-0" data-field="gen">Gen 1</span>
+              </div>
+            </div>
+            <div class="space-y-1.5 pt-space-xs hidden sm:block">
+              <div class="font-label-sm text-label-sm uppercase text-on-surface-variant">Доминантные гены:</div>
+              <div id="mother-genes" class="space-y-1.5">
+                <div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between gap-1">
+                  <div class="flex items-center gap-1.5 min-w-0">
+                    <span class="material-symbols-outlined text-secondary text-[16px] shrink-0">visibility</span>
+                    <span class="font-body-sm text-body-sm text-on-surface truncate">Морозный Взор (Стан 1)</span>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-secondary shrink-0">Контроль</span>
+                </div>
+                <div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between gap-1">
+                  <div class="flex items-center gap-1.5 min-w-0">
+                    <span class="material-symbols-outlined text-secondary text-[16px] shrink-0">weather_snowy</span>
+                    <span class="font-body-sm text-body-sm text-on-surface truncate">Аура Мерзлоты</span>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-primary shrink-0">-25% Скор.</span>
+                </div>
+                <div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between gap-1">
+                  <div class="flex items-center gap-1.5 min-w-0">
+                    <span class="material-symbols-outlined text-primary text-[16px] shrink-0">psychology</span>
+                    <span class="font-body-sm text-body-sm text-on-surface truncate">Интеллект чар</span>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-secondary shrink-0">+35% Урон</span>
+                </div>
+              </div>
+            </div>
+            <div class="pt-space-sm">
+              <div class="flex justify-between items-center font-label-sm text-label-sm pb-1 gap-1">
+                <span class="text-on-surface-variant truncate">Чистота</span>
+                <span class="text-secondary font-bold shrink-0" data-field="purity">98%</span>
+              </div>
+              <div class="w-full h-1.5 rounded-full bg-surface-container-lowest overflow-hidden">
+                <div class="h-full bg-secondary rounded-full" data-field="purity-bar" style="width: 98%"></div>
+              </div>
+            </div>
+          </div>
+          <div class="pt-space-md">
+            <button type="button" class="w-full bg-surface-container-high hover:bg-surface-bright text-on-surface hover:text-secondary py-2 px-2 rounded-lg font-label-md text-label-md transition-colors flex items-center justify-center gap-1.5 shadow-sm" data-action="swap-mother">
+              <span class="material-symbols-outlined text-[18px]">swap_horiz</span>
+              <span class="truncate">Сменить</span>
+            </button>
+          </div>
+        </article>
+
+        <!-- Altar -->
+        <section id="altar" class="col-span-2 lg:col-span-6 order-3 lg:order-2 bg-surface-container rounded-xl p-space-sm flex flex-col justify-between shadow-card relative overflow-hidden" data-compat="96" data-ready="true">
+          <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="relative min-w-0">
+            <div class="flex items-center justify-between gap-space-sm px-space-xs pb-space-xs flex-wrap">
+              <div class="flex items-center gap-2 min-w-0">
+                <span class="w-2.5 h-2.5 rounded-full bg-primary animate-ping shrink-0"></span>
+                <span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold truncate">Ритуал Синтеза Душ</span>
+              </div>
+              <div id="compat-badge" class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest shrink-0" data-compat="96">
+                <span class="material-symbols-outlined text-primary text-[14px]">auto_fix_high</span>
+                <span class="font-label-sm text-label-sm text-on-surface" data-field="compat">Совместимость: 96%</span>
+              </div>
+            </div>
+
+            <div class="relative w-full aspect-video sm:h-56 sm:aspect-auto rounded-xl overflow-hidden bg-surface-container-lowest my-space-xs flex items-center justify-center shadow-inner">
+              <img
+                alt="Алтарь Синтеза с мифическим яйцом"
+                width="640"
+                height="360"
+                loading="lazy"
+                decoding="async"
+                class="w-full h-full object-cover object-center"
+                src="/stitch-ref/home-keeper/breeding/token-icon.png">
+              <div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent opacity-90"></div>
+              <div class="absolute bottom-2.5 left-2 right-2 flex justify-center">
+                <div class="flex items-center gap-space-sm bg-surface-container-lowest/85 backdrop-blur-md px-3 py-1.5 rounded-full shadow-tray max-w-full">
+                  <span class="material-symbols-outlined text-primary text-[16px] shrink-0">all_inclusive</span>
+                  <span id="resonance-label" class="font-label-sm text-label-sm text-on-surface font-semibold tracking-wide truncate" data-field="resonance">Резонанс: «Плазменный Вихрь»</span>
+                  <span class="material-symbols-outlined text-secondary text-[16px] shrink-0">ac_unit</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-surface-container-high/60 border-2 border-surface-container-highest rounded-lg p-2.5 my-space-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 shadow-sm">
+              <div class="flex items-start gap-2 min-w-0">
+                <span class="material-symbols-outlined text-primary text-[20px] shrink-0">auto_awesome</span>
+                <p class="font-body-sm text-body-sm text-on-surface leading-tight line-clamp-3 sm:line-clamp-2">
+                  Котёнок наследует сильнейшие пассивы родителей и получает
+                  <span class="text-primary font-bold">1 уникальную карту мутации</span>.
+                </p>
+              </div>
+              <a class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container hover:bg-surface-bright text-primary font-label-sm text-label-sm shrink-0 whitespace-nowrap transition-colors shadow-sm" href="#" data-path="kodeks-mifmira">
+                <span class="material-symbols-outlined text-[14px]">auto_stories</span>
+                <span>База Знаний</span>
+              </a>
+            </div>
+
+            <div class="my-space-xs">
+              <div class="flex items-center justify-between gap-2 pb-1 flex-wrap">
+                <span class="font-label-sm text-label-sm uppercase text-on-surface-variant font-bold tracking-wider">Реагенты ритуала</span>
+                <span id="reagents-status" class="font-label-sm text-label-sm text-secondary font-semibold flex items-center gap-1" data-ready="true">
+                  <span class="material-symbols-outlined text-[14px]">check_circle</span>
+                  <span data-field="status-text">Все ингредиенты готовы</span>
+                </span>
+              </div>
+              <!-- mobile: 3 cols (5th not stretched); md+: 5 cols -->
+              <div id="reagent-slots" class="grid grid-cols-3 md:grid-cols-5 gap-gutter">
+                <div class="flex flex-col items-center text-center group" data-item-id="milk" data-ready="true" data-have="2" data-need="2">
+                  <div class="w-full aspect-square rounded-lg overflow-hidden bg-surface-container-high shadow-sm relative border-2 border-surface-container-highest group-hover:border-primary/40 transition-colors">
+                    <img width="96" height="96" loading="lazy" decoding="async" alt="Молоко" class="w-full h-full object-cover" src="/stitch-ref/home-keeper/breeding/screen.png">
+                    <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/95 via-transparent to-transparent pointer-events-none"></div>
+                    <span class="material-symbols-outlined absolute top-1 right-1 text-secondary text-[14px] bg-surface-container-lowest/85 backdrop-blur-md rounded-full p-0.5 shadow-sm" data-field="check">check_circle</span>
+                  </div>
+                  <div class="mt-1 flex flex-col items-center w-full min-w-0">
+                    <span class="font-label-sm text-label-sm text-on-surface font-semibold truncate w-full" data-field="name">Молоко</span>
+                    <span class="font-body-sm text-[10px] text-secondary truncate w-full" data-field="qty">2/2</span>
+                  </div>
+                </div>
+                <div class="flex flex-col items-center text-center group" data-item-id="fish" data-ready="true" data-have="50" data-need="50">
+                  <div class="w-full aspect-square rounded-lg overflow-hidden bg-surface-container-high shadow-sm relative border-2 border-surface-container-highest group-hover:border-primary/40 transition-colors">
+                    <img width="96" height="96" loading="lazy" decoding="async" alt="Свежая Рыба" class="w-full h-full object-cover" src="/stitch-ref/home-keeper/breeding/token-icon.png">
+                    <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/95 via-transparent to-transparent pointer-events-none"></div>
+                    <span class="material-symbols-outlined absolute top-1 right-1 text-secondary text-[14px] bg-surface-container-lowest/85 backdrop-blur-md rounded-full p-0.5 shadow-sm" data-field="check">check_circle</span>
+                  </div>
+                  <div class="mt-1 flex flex-col items-center w-full min-w-0">
+                    <span class="font-label-sm text-label-sm text-on-surface font-semibold truncate w-full" data-field="name">Свежая Рыба</span>
+                    <span class="font-body-sm text-[10px] text-secondary truncate w-full" data-field="qty">50/50</span>
+                  </div>
+                </div>
+                <div class="flex flex-col items-center text-center group" data-item-id="hearth-runes" data-ready="true" data-have="4" data-need="4">
+                  <div class="w-full aspect-square rounded-lg overflow-hidden bg-surface-container-high shadow-sm relative border-2 border-surface-container-highest group-hover:border-primary/40 transition-colors">
+                    <img width="96" height="96" loading="lazy" decoding="async" alt="Руны Очага" class="w-full h-full object-cover" src="/stitch-ref/home-keeper/breeding/screen.png">
+                    <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/95 via-transparent to-transparent pointer-events-none"></div>
+                    <span class="material-symbols-outlined absolute top-1 right-1 text-secondary text-[14px] bg-surface-container-lowest/85 backdrop-blur-md rounded-full p-0.5 shadow-sm" data-field="check">check_circle</span>
+                  </div>
+                  <div class="mt-1 flex flex-col items-center w-full min-w-0">
+                    <span class="font-label-sm text-label-sm text-on-surface font-semibold truncate w-full" data-field="name">Руны Очага</span>
+                    <span class="font-body-sm text-[10px] text-secondary truncate w-full" data-field="qty">4/4</span>
+                  </div>
+                </div>
+                <div class="flex flex-col items-center text-center group" data-item-id="breed-token" data-ready="true" data-have="1" data-need="1">
+                  <div class="w-full aspect-square rounded-lg overflow-hidden bg-surface-container-high shadow-sm relative border-2 border-surface-container-highest group-hover:border-primary/40 transition-colors">
+                    <img width="96" height="96" loading="lazy" decoding="async" alt="Жетон Скрещивания" class="w-full h-full object-cover" src="/stitch-assets/ef7515e3f8e7.jpg">
+                    <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/95 via-transparent to-transparent pointer-events-none"></div>
+                    <span class="material-symbols-outlined absolute top-1 right-1 text-secondary text-[14px] bg-surface-container-lowest/85 backdrop-blur-md rounded-full p-0.5 shadow-sm" data-field="check">check_circle</span>
+                  </div>
+                  <div class="mt-1 flex flex-col items-center w-full min-w-0">
+                    <span class="font-label-sm text-label-sm text-on-surface font-semibold truncate w-full" data-field="name">Жетон</span>
+                    <span class="font-body-sm text-[10px] text-secondary truncate w-full" data-field="qty">1/1</span>
+                  </div>
+                </div>
+                <div class="flex flex-col items-center text-center group" data-item-id="synth-potion" data-ready="true" data-have="3" data-need="3">
+                  <div class="w-full aspect-square rounded-lg overflow-hidden bg-surface-container-high shadow-sm relative border-2 border-surface-container-highest group-hover:border-primary/40 transition-colors">
+                    <img width="96" height="96" loading="lazy" decoding="async" alt="Зелье Синтеза" class="w-full h-full object-cover" src="/stitch-ref/home-keeper/breeding/token-icon.png">
+                    <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/95 via-transparent to-transparent pointer-events-none"></div>
+                    <span class="material-symbols-outlined absolute top-1 right-1 text-secondary text-[14px] bg-surface-container-lowest/85 backdrop-blur-md rounded-full p-0.5 shadow-sm" data-field="check">check_circle</span>
+                  </div>
+                  <div class="mt-1 flex flex-col items-center w-full min-w-0">
+                    <span class="font-label-sm text-label-sm text-on-surface font-semibold truncate w-full" data-field="name">Зелье</span>
+                    <span class="font-body-sm text-[10px] text-secondary truncate w-full" data-field="qty">3/3</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Costs (CTA button is fixed on mobile — see #breed-cta-bar) -->
+          <div class="pt-space-sm flex flex-col gap-space-sm bg-surface-container-high/60 p-space-sm rounded-xl mt-space-xs">
+            <div id="breed-costs" class="flex items-center gap-2 overflow-x-auto hide-scrollbar">
+              <div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1.5 rounded-lg shrink-0">
+                <span class="material-symbols-outlined text-primary text-[16px]">monetization_on</span>
+                <span class="font-label-md text-label-md text-on-surface" data-cost="gold">2,500</span>
+              </div>
+              <div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1.5 rounded-lg shrink-0">
+                <span class="material-symbols-outlined text-tertiary text-[16px]">set_meal</span>
+                <span class="font-label-md text-label-md text-on-surface" data-cost="fish">50</span>
+              </div>
+              <div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1.5 rounded-lg shrink-0">
+                <span class="material-symbols-outlined text-secondary text-[16px]">bolt</span>
+                <span class="font-label-md text-label-md text-secondary" data-cost="energy">20</span>
+              </div>
+              <div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1.5 rounded-lg border-2 border-primary/40 shadow-sm shrink-0">
+                <span class="material-symbols-outlined text-primary text-[16px]">percent</span>
+                <span class="font-label-md text-label-md text-primary font-bold" data-cost="bonus">25%</span>
+              </div>
+            </div>
+            <!-- Desktop CTA; mobile uses fixed bar -->
+            <button
+              id="btn-start-breed-desktop"
+              type="button"
+              class="hidden lg:flex w-full px-6 py-3 rounded-xl bg-gradient-to-b from-[#E5A835] to-[#C48419] text-[#1A1308] font-label-lg text-label-lg shadow-[0_4px_0_rgba(0,0,0,0.35)] hover:brightness-105 active:translate-y-0.5 active:shadow-none transition-all items-center justify-center gap-2"
+              data-duration-sec="30"
+              data-can-start="true"
+              data-action="start-breed">
+              <span class="material-symbols-outlined text-[20px]">magic_button</span>
+              <span data-field="label">НАЧАТЬ СКРЕЩИВАНИЕ (00:30)</span>
+            </button>
+          </div>
+        </section>
+      </div>
+
+      <!-- Incubator: swipe on mobile, grid on lg -->
+      <section class="w-full bg-surface-container rounded-xl p-space-sm shadow-tray" id="incubator" data-used="2" data-max="4">
+        <div class="flex items-center justify-between gap-space-sm pb-space-xs flex-wrap">
+          <div class="flex items-center gap-2 min-w-0">
+            <span class="material-symbols-outlined text-primary text-[20px] shrink-0">bedroom_baby</span>
+            <span class="font-headline-md text-headline-md text-on-surface truncate">Инкубатор</span>
+          </div>
+          <span class="font-body-sm text-body-sm text-on-surface-variant truncate">Котята готовы к Академии</span>
+        </div>
+        <div id="incubator-slots" class="flex gap-space-sm overflow-x-auto snap-x snap-mandatory hide-scrollbar pt-space-xs lg:grid lg:grid-cols-4 lg:overflow-visible">
+
+          <article class="min-w-[280px] w-[280px] snap-center shrink-0 lg:min-w-0 lg:w-auto bg-surface-container-high rounded-lg p-space-sm flex flex-col justify-between shadow-sm relative overflow-hidden" data-crib-id="1" data-status="incubating" data-ends-at="" data-remaining-sec="165" data-progress="68">
+            <div class="flex items-center justify-between gap-1">
+              <span class="font-label-sm text-label-sm text-primary uppercase font-bold" data-field="title">Колыбель #1</span>
+              <span class="px-2 py-0.5 rounded bg-surface-container text-secondary font-label-sm text-label-sm flex items-center gap-1 shrink-0" data-field="badge">
+                <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span> Созревание
+              </span>
+            </div>
+            <div class="py-space-sm flex items-center gap-3 min-w-0">
+              <div class="w-12 h-12 rounded-lg bg-surface-container-lowest flex items-center justify-center shrink-0 shadow-inner" data-field="icon-wrap">
+                <span class="material-symbols-outlined text-secondary text-[28px]" data-field="icon">egg</span>
+              </div>
+              <div class="min-w-0">
+                <div class="font-label-md text-label-md text-on-surface font-semibold truncate" data-field="name">Яйцо Ледяного Грома</div>
+                <div class="font-body-sm text-body-sm text-on-surface-variant">Осталось: <span class="text-primary font-bold" data-field="timer">02:45</span></div>
+              </div>
+            </div>
+            <div class="space-y-1.5">
+              <div class="w-full h-1.5 bg-surface-container-lowest rounded-full overflow-hidden">
+                <div class="h-full bg-primary rounded-full" data-field="progress" style="width: 68%"></div>
+              </div>
+              <button type="button" class="w-full py-1.5 px-2 bg-surface-container hover:bg-surface-bright text-on-surface rounded font-label-sm text-label-sm flex items-center justify-center gap-1.5 transition-colors" data-action="boost" data-cost-fish="10">
+                <span class="material-symbols-outlined text-tertiary text-[14px]">set_meal</span>
+                <span>Ускорить за 10 Рыбки</span>
+              </button>
+            </div>
+          </article>
+
+          <article class="min-w-[280px] w-[280px] snap-center shrink-0 lg:min-w-0 lg:w-auto bg-surface-container-high rounded-lg p-space-sm flex flex-col justify-between shadow-sm relative overflow-hidden ring-1 ring-primary/40" data-crib-id="2" data-status="ready" data-remaining-sec="0" data-progress="100">
+            <div class="flex items-center justify-between gap-1">
+              <span class="font-label-sm text-label-sm text-primary uppercase font-bold" data-field="title">Колыбель #2</span>
+              <span class="px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm font-bold shrink-0" data-field="badge">ГОТОВО!</span>
+            </div>
+            <div class="py-space-sm flex items-center gap-3 min-w-0">
+              <div class="w-12 h-12 rounded-lg bg-primary-container/20 flex items-center justify-center shrink-0 shadow-inner" data-field="icon-wrap">
+                <span class="material-symbols-outlined text-primary text-[28px] animate-bounce" data-field="icon">auto_awesome</span>
+              </div>
+              <div class="min-w-0">
+                <div class="font-label-md text-label-md text-primary font-bold truncate" data-field="name">Золотое Яйцо Огня</div>
+                <div class="font-body-sm text-body-sm text-secondary" data-field="timer">Скорлупа треснула!</div>
+              </div>
+            </div>
+            <div>
+              <button type="button" class="w-full py-2 px-3 bg-gradient-to-b from-[#E5A835] to-[#C48419] text-[#1A1308] rounded font-label-sm text-label-sm font-bold tracking-wide transition-all shadow-md flex items-center justify-center gap-1.5" data-action="claim">
+                <span class="material-symbols-outlined text-[16px]">celebration</span>
+                <span>ЗАБРАТЬ КОТЁНКА</span>
+              </button>
+            </div>
+          </article>
+
+          <article class="min-w-[280px] w-[280px] snap-center shrink-0 lg:min-w-0 lg:w-auto bg-surface-container-high rounded-lg p-space-sm flex flex-col justify-between shadow-sm relative border-dashed border-2 border-surface-container-highest" data-crib-id="3" data-status="empty" data-remaining-sec="" data-progress="0">
+            <div class="flex items-center justify-between gap-1">
+              <span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold" data-field="title">Колыбель #3</span>
+              <span class="font-label-sm text-label-sm text-on-surface-variant shrink-0" data-field="badge">Свободно</span>
+            </div>
+            <div class="py-space-sm flex items-center gap-3 min-w-0">
+              <div class="w-12 h-12 rounded-lg bg-surface-container-lowest flex items-center justify-center shrink-0 text-outline" data-field="icon-wrap">
+                <span class="material-symbols-outlined text-[28px]" data-field="icon">nest_cam_wired_stand</span>
+              </div>
+              <div class="min-w-0">
+                <div class="font-label-md text-label-md text-on-surface-variant font-medium truncate" data-field="name">Пустое гнездо</div>
+                <div class="font-body-sm text-body-sm text-outline" data-field="timer">Ждёт кристалл</div>
+              </div>
+            </div>
+            <div>
+              <button type="button" class="w-full py-1.5 px-2 bg-surface-container hover:bg-surface-bright text-on-surface-variant hover:text-on-surface rounded font-label-sm text-label-sm flex items-center justify-center gap-1.5 transition-colors" data-action="assign">
+                <span class="material-symbols-outlined text-[14px]">add</span>
+                <span>Назначить синтез</span>
+              </button>
+            </div>
+          </article>
+
+          <article class="min-w-[280px] w-[280px] snap-center shrink-0 lg:min-w-0 lg:w-auto bg-surface-container-high/50 rounded-lg p-space-sm flex flex-col justify-between shadow-sm relative opacity-75" data-crib-id="4" data-status="locked" data-unlock-level="15" data-unlock-gold="500">
+            <div class="flex items-center justify-between gap-1">
+              <span class="font-label-sm text-label-sm text-outline uppercase font-bold" data-field="title">Колыбель #4</span>
+              <span class="material-symbols-outlined text-outline text-[16px]" data-field="badge">lock</span>
+            </div>
+            <div class="py-space-sm flex items-center gap-3 min-w-0">
+              <div class="w-12 h-12 rounded-lg bg-surface-container-lowest flex items-center justify-center shrink-0 text-outline" data-field="icon-wrap">
+                <span class="material-symbols-outlined text-[26px]" data-field="icon">domain_disabled</span>
+              </div>
+              <div class="min-w-0">
+                <div class="font-label-md text-label-md text-on-surface-variant font-medium truncate" data-field="name">Гнездо закрыто</div>
+                <div class="font-body-sm text-body-sm text-outline" data-field="timer">Уровень Усадьбы 15</div>
+              </div>
+            </div>
+            <div>
+              <button type="button" class="w-full py-1.5 px-2 bg-surface-container-highest hover:bg-surface-bright text-primary rounded font-label-sm text-label-sm flex items-center justify-center gap-1.5 transition-colors" data-action="unlock">
+                <span class="material-symbols-outlined text-[14px]">monetization_on</span>
+                <span>Открыть за 500 Золота</span>
+              </button>
+            </div>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Mobile sticky CTA -->
+  <div id="breed-cta-bar" class="fixed bottom-0 inset-x-0 z-40 p-space-sm bg-surface-container-lowest/95 backdrop-blur-md border-t border-outline-variant/30 lg:hidden">
+    <button
+      id="btn-start-breed"
+      type="button"
+      class="w-full min-h-[48px] px-space-lg py-3 rounded-xl bg-gradient-to-b from-[#E5A835] to-[#C48419] text-[#1A1308] font-label-lg text-label-lg shadow-[0_4px_0_rgba(0,0,0,0.35)] active:translate-y-0.5 active:shadow-none transition-all flex items-center justify-center gap-2"
+      data-duration-sec="30"
+      data-can-start="true"
+      data-action="start-breed">
+      <span class="material-symbols-outlined text-[20px]">magic_button</span>
+      <span data-field="label">НАЧАТЬ СКРЕЩИВАНИЕ (00:30)</span>
+    </button>
   </div>
 
-  <!-- Hero Altar Illustration Box -->
-  <div class="relative w-full h-56 rounded-xl overflow-hidden bg-surface-container-lowest my-space-xs flex items-center justify-center shadow-inner group">
-    
-    <div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent opacity-90"></div>
-    <!-- Runes Overlay Badge -->
-    <div class="absolute bottom-2.5 flex items-center gap-space-sm bg-surface-container-lowest/85 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-lg">
-      <span class="material-symbols-outlined text-primary text-[16px]">all_inclusive</span>
-      <span class="font-label-sm text-label-sm text-on-surface font-semibold tracking-wide">
-        Резонанс Слияния: «Плазменный Вихрь»
-      </span>
-      <span class="material-symbols-outlined text-secondary text-[16px]">ac_unit</span>
+  <footer class="hidden lg:block w-full bg-surface-container-lowest/95 backdrop-blur-md py-space-xs px-margin-tablet">
+    <div class="w-full flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant">
+      <div class="flex items-center gap-space-md">
+        <div class="flex items-center gap-1.5">
+          <span class="w-2 h-2 rounded-full bg-secondary"></span>
+          <span class="text-secondary font-bold uppercase tracking-wider">Сервер: Таверна «Огненный Кот»</span>
+        </div>
+      </div>
+      <span class="tracking-wide text-outline">v1.4.8-Web Edition</span>
     </div>
-  </div>
+  </footer>
 
-  <!-- Synthesis Info & Lore Banner -->
-  <div class="bg-surface-container-high/60 border-2 border-surface-container-highest rounded-lg p-2.5 my-space-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 shadow-sm">
-    <div class="flex items-center gap-2 min-w-0">
-      <span class="material-symbols-outlined text-primary text-[20px] shrink-0">auto_awesome</span>
-      <p class="font-body-sm text-body-sm text-on-surface leading-tight">
-        При скрещивании получается мифический котик, который наследует сильнейшие пассивы и способности обоих родителей + получает <span class="text-primary font-bold">1 уникальную случайную карту мутации!</span>
-      </p>
+  <!-- Templates for API-driven render -->
+  <template id="tpl-gene">
+    <div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between gap-1">
+      <div class="flex items-center gap-1.5 min-w-0">
+        <span class="material-symbols-outlined text-[16px] shrink-0" data-gene-icon>bolt</span>
+        <span class="font-body-sm text-body-sm text-on-surface truncate" data-gene-name></span>
+      </div>
+      <span class="font-label-sm text-label-sm shrink-0" data-gene-value></span>
     </div>
-    <a class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container hover:bg-surface-bright text-primary font-label-sm text-label-sm shrink-0 whitespace-nowrap transition-colors shadow-sm" href="#" data-path="kodeks-mifmira">
-      <span class="material-symbols-outlined text-[14px]">auto_stories</span>
-      <span>Подробнее в Базе Знаний</span>
-    </a>
-  </div>
+  </template>
 
-  <!-- Required Synthesis Reagents & Ingredients (5 slots) -->
-  <div class="my-space-xs">
-    <div class="flex items-center justify-between pb-1">
-      <span class="font-label-sm text-label-sm uppercase text-on-surface-variant font-bold tracking-wider">Требуемые Реагенты Ритуала:</span>
-      <span class="font-label-sm text-label-sm text-secondary font-semibold flex items-center gap-1">
-        <span class="material-symbols-outlined text-[14px]">check_circle</span> Все ингредиенты готовы
-      </span>
+  <template id="tpl-ingredient">
+    <div class="flex flex-col items-center text-center group" data-item-id="" data-ready="false" data-have="0" data-need="0">
+      <div class="w-full aspect-square rounded-lg overflow-hidden bg-surface-container-high shadow-sm relative border-2 border-surface-container-highest group-hover:border-primary/40 transition-colors">
+        <img width="96" height="96" loading="lazy" decoding="async" alt="" class="w-full h-full object-cover" data-field="img" src="">
+        <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/95 via-transparent to-transparent pointer-events-none"></div>
+        <span class="material-symbols-outlined absolute top-1 right-1 text-[14px] bg-surface-container-lowest/85 backdrop-blur-md rounded-full p-0.5 shadow-sm hidden" data-field="check">check_circle</span>
+      </div>
+      <div class="mt-1 flex flex-col items-center w-full min-w-0">
+        <span class="font-label-sm text-label-sm text-on-surface font-semibold truncate w-full" data-field="name"></span>
+        <span class="font-body-sm text-[10px] truncate w-full" data-field="qty"></span>
+      </div>
     </div>
-    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1.5"><div class="flex flex-col items-center text-center cursor-pointer"><div class="w-14 h-14 rounded-lg bg-surface-container-lowest/50 border border-dashed border-outline-variant/40 flex items-center justify-center text-outline-variant"><span class="material-symbols-outlined text-xl">add</span></div><span class="font-label-sm text-label-sm text-outline-variant mt-1">Пусто</span></div><div class="flex flex-col items-center text-center cursor-pointer"><div class="w-14 h-14 rounded-lg bg-surface-container-lowest/50 border border-dashed border-outline-variant/40 flex items-center justify-center text-outline-variant"><span class="material-symbols-outlined text-xl">add</span></div><span class="font-label-sm text-label-sm text-outline-variant mt-1">Пусто</span></div><div class="flex flex-col items-center text-center cursor-pointer"><div class="w-14 h-14 rounded-lg bg-surface-container-lowest/50 border border-dashed border-outline-variant/40 flex items-center justify-center text-outline-variant"><span class="material-symbols-outlined text-xl">add</span></div><span class="font-label-sm text-label-sm text-outline-variant mt-1">Пусто</span></div><div class="flex flex-col items-center text-center cursor-pointer"><div class="w-14 h-14 rounded-lg bg-surface-container-lowest/50 border border-dashed border-outline-variant/40 flex items-center justify-center text-outline-variant"><span class="material-symbols-outlined text-xl">add</span></div><span class="font-label-sm text-label-sm text-outline-variant mt-1">Пусто</span></div><div class="flex flex-col items-center text-center cursor-pointer"><div class="w-14 h-14 rounded-lg bg-surface-container-lowest/50 border border-dashed border-outline-variant/40 flex items-center justify-center text-outline-variant"><span class="material-symbols-outlined text-xl">add</span></div><span class="font-label-sm text-label-sm text-outline-variant mt-1">Пусто</span></div></div>
-  </div>
-</div>
+  </template>
 
-<!-- Synthesis Action Strip -->
-<div class="pt-space-sm flex flex-col sm:flex-row items-center justify-between gap-space-sm bg-surface-container-high/60 p-space-sm rounded-xl mt-space-xs">
-  <div class="flex items-center gap-3">
-    <div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1.5 rounded-lg">
-      <span class="material-symbols-outlined text-primary text-[16px]">monetization_on</span>
-      <span class="font-label-md text-label-md text-on-surface">2,500</span>
-    </div>
-    <div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1.5 rounded-lg">
-      <span class="material-symbols-outlined text-tertiary text-[16px]">set_meal</span>
-      <span class="font-label-md text-label-md text-on-surface">50</span>
-    </div>
-    <div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1.5 rounded-lg">
-      <span class="material-symbols-outlined text-secondary text-[16px]">bolt</span>
-      <span class="font-label-md text-label-md text-secondary">20&nbsp;</span>
-    </div>
-  <div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1.5 rounded-lg border-2 border-primary/40 shadow-sm"><span class="material-symbols-outlined text-primary text-[16px]">percent</span><span class="font-label-md text-label-md text-primary font-bold">25%</span></div></div>
-  <button class="w-full sm:w-auto px-6 py-3 rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2" type="button">
-    <span class="material-symbols-outlined text-[20px]">magic_button</span>
-    <span>НАЧАТЬ СКРЕЩИВАНИЕ (00:30)</span>
-  </button>
-</div></div>
-<!-- RIGHT COLUMN: Mother / Second Parent (28% ~ lg:col-span-3) -->
-<div class="lg:col-span-3 bg-surface-container rounded-xl p-space-sm flex flex-col justify-between shadow-lg relative overflow-hidden">
-<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-l from-secondary via-secondary-container to-transparent"></div>
-<div>
-<!-- Header Card Info -->
-<div class="flex items-center justify-between pb-space-xs">
-<span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase">Мать • Род II</span>
-<span class="flex items-center gap-1 font-label-sm text-label-sm text-secondary">
-<span class="material-symbols-outlined text-[15px]">ac_unit</span> Лёд 100%
-            </span>
-</div>
-<div class="pt-space-xs pb-space-xs">
-<h3 class="font-headline-md text-headline-md text-outline-variant font-bold leading-tight">Пустой слот</h3><p class="font-body-sm text-body-sm text-outline-variant">Выберите героя</p>
-</div>
-<!-- Cat Portrait Visual -->
-<div class="relative w-full aspect-square rounded-lg overflow-hidden bg-surface-container-lowest/50 border border-dashed border-outline-variant/30 flex items-center justify-center text-outline-variant"><span class="material-symbols-outlined text-3xl">add</span></div>
-</div>
-<!-- Gene Transmission Parameters -->
-<div class="space-y-1.5 pt-space-xs">
-<div class="font-label-sm text-label-sm uppercase text-on-surface-variant">Доминантные гены:</div>
-<div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between">
-<div class="flex items-center gap-1.5 min-w-0">
-<span class="material-symbols-outlined text-secondary text-[16px]">visibility</span>
-<span class="font-body-sm text-body-sm text-on-surface truncate">Морозный Взор (Стан 1)</span>
-</div>
-<span class="font-label-sm text-label-sm text-secondary shrink-0">Контроль</span>
-</div>
-<div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between">
-<div class="flex items-center gap-1.5 min-w-0">
-<span class="material-symbols-outlined text-secondary text-[16px]">weather_snowy</span>
-<span class="font-body-sm text-body-sm text-on-surface truncate">Аура Мерзлоты</span>
-</div>
-<span class="font-label-sm text-label-sm text-primary shrink-0">-25% Скор. врага</span>
-</div>
-<div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between">
-<div class="flex items-center gap-1.5 min-w-0">
-<span class="material-symbols-outlined text-primary text-[16px]">psychology</span>
-<span class="font-body-sm text-body-sm text-on-surface truncate">Интеллект чар</span>
-</div>
-<span class="font-label-sm text-label-sm text-secondary shrink-0">+35% Урон заклинаний</span>
-</div>
-</div>
-<!-- Breeding Purity Tracker -->
-<div class="pt-space-sm">
-<div class="flex justify-between items-center font-label-sm text-label-sm pb-1">
-<span class="text-on-surface-variant">Чистота породы</span>
-<span class="text-secondary font-bold">98%</span>
-</div>
-<div class="w-full h-1.5 rounded-full bg-surface-container-lowest overflow-hidden">
-<div class="h-full bg-secondary rounded-full" style="width: 98%;"></div>
-</div>
-</div>
-</div>
-<!-- Slot Button -->
-<div class="pt-space-md">
-<button class="w-full bg-surface-container-high hover:bg-surface-bright text-on-surface hover:text-secondary py-2 px-3 rounded-lg font-label-md text-label-md transition-colors flex items-center justify-center gap-2 shadow-sm" type="button">
-<span class="material-symbols-outlined text-[18px]">swap_horiz</span>
-<span>Сменить мать</span>
-<kbd class="px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant text-[10px]">Y</kbd>
-</button>
-</div>
-</div>
-</div>
-<!-- BOTTOM SECTION: Incubator Nursery & Hatching Cribs (4 Slots Full-Width) -->
-<div class="w-full bg-surface-container rounded-xl p-space-sm shadow-md">
-<div class="flex items-center justify-between pb-space-xs">
-<div class="flex items-center gap-2">
-<span class="material-symbols-outlined text-primary text-[20px]">bedroom_baby</span>
-<span class="font-headline-md text-headline-md text-on-surface">Тепличный Инкубатор &amp; Колыбели Питомника</span>
-</div>
-<span class="font-body-sm text-body-sm text-on-surface-variant">
-          Котята получают базовую заботу и готовы к передаче в Академию
-        </span>
-</div>
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-sm pt-space-xs">
-<!-- Crib Slot 1: Active Incubating -->
-<div class="bg-surface-container-high rounded-lg p-space-sm flex flex-col justify-between shadow-sm relative overflow-hidden group">
-<div class="flex items-center justify-between">
-<span class="font-label-sm text-label-sm text-primary uppercase font-bold">Колыбель #1</span>
-<span class="px-2 py-0.5 rounded bg-surface-container text-secondary font-label-sm text-label-sm flex items-center gap-1">
-<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span> Созревание
-            </span>
-</div>
-<div class="py-space-sm flex items-center gap-3">
-<div class="w-12 h-12 rounded-lg bg-surface-container-lowest flex items-center justify-center shrink-0 shadow-inner">
-<span class="material-symbols-outlined text-secondary text-[28px]">egg</span>
-</div>
-<div class="min-w-0">
-<div class="font-label-md text-label-md text-on-surface font-semibold truncate">Яйцо Ледяного Грома</div>
-<div class="font-body-sm text-body-sm text-on-surface-variant">Осталось: <span class="text-primary font-bold">02:45 мин</span></div>
-</div>
-</div>
-<div class="space-y-1.5">
-<div class="w-full h-1.5 bg-surface-container-lowest rounded-full overflow-hidden">
-<div class="h-full bg-primary rounded-full" style="width: 68%;"></div>
-</div>
-<button class="w-full py-1.5 px-2 bg-surface-container hover:bg-surface-bright text-on-surface rounded font-label-sm text-label-sm flex items-center justify-center gap-1.5 transition-colors" type="button">
-<span class="material-symbols-outlined text-tertiary text-[14px]">set_meal</span>
-<span>Ускорить за 10 Рыбки</span>
-</button>
-</div>
-</div>
-<!-- Crib Slot 2: Ready to Hatch -->
-<div class="bg-surface-container-high rounded-lg p-space-sm flex flex-col justify-between shadow-sm relative overflow-hidden ring-1 ring-primary/40">
-<div class="flex items-center justify-between">
-<span class="font-label-sm text-label-sm text-primary uppercase font-bold">Колыбель #2</span>
-<span class="px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm font-bold">
-              ГОТОВО!
-            </span>
-</div>
-<div class="py-space-sm flex items-center gap-3">
-<div class="w-12 h-12 rounded-lg bg-primary-container/20 flex items-center justify-center shrink-0 shadow-inner">
-<span class="material-symbols-outlined text-primary text-[28px] animate-bounce">auto_awesome</span>
-</div>
-<div class="min-w-0">
-<div class="font-label-md text-label-md text-primary font-bold truncate">Золотое Яйцо Огня</div>
-<div class="font-body-sm text-body-sm text-secondary">Скорлупа треснула!</div>
-</div>
-</div>
-<div>
-<button class="w-full py-2 px-3 bg-primary hover:bg-primary-container text-on-primary rounded font-label-sm text-label-sm font-bold tracking-wide transition-all shadow-md flex items-center justify-center gap-1.5" type="button">
-<span class="material-symbols-outlined text-[16px]">celebration</span>
-<span>ЗАБРАТЬ КОТЁНКА</span>
-</button>
-</div>
-</div>
-<!-- Crib Slot 3: Empty Nest -->
-<div class="bg-surface-container-high rounded-lg p-space-sm flex flex-col justify-between shadow-sm relative border-dashed border-2 border-surface-container-highest">
-<div class="flex items-center justify-between">
-<span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold">Колыбель #3</span>
-<span class="font-label-sm text-label-sm text-on-surface-variant">Свободно</span>
-</div>
-<div class="py-space-sm flex items-center gap-3">
-<div class="w-12 h-12 rounded-lg bg-surface-container-lowest flex items-center justify-center shrink-0 text-outline">
-<span class="material-symbols-outlined text-[28px]">nest_cam_wired_stand</span>
-</div>
-<div class="min-w-0">
-<div class="font-label-md text-label-md text-on-surface-variant font-medium truncate">Пустое гнездо</div>
-<div class="font-body-sm text-body-sm text-outline">Ждет алтарный кристалл</div>
-</div>
-</div>
-<div>
-<button class="w-full py-1.5 px-2 bg-surface-container hover:bg-surface-bright text-on-surface-variant hover:text-on-surface rounded font-label-sm text-label-sm flex items-center justify-center gap-1.5 transition-colors" type="button">
-<span class="material-symbols-outlined text-[14px]">add</span>
-<span>Назначить синтез</span>
-</button>
-</div>
-</div>
-<!-- Crib Slot 4: Locked Crib Slot -->
-<div class="bg-surface-container-high/50 rounded-lg p-space-sm flex flex-col justify-between shadow-sm relative opacity-75">
-<div class="flex items-center justify-between">
-<span class="font-label-sm text-label-sm text-outline uppercase font-bold">Колыбель #4</span>
-<span class="material-symbols-outlined text-outline text-[16px]">lock</span>
-</div>
-<div class="py-space-sm flex items-center gap-3">
-<div class="w-12 h-12 rounded-lg bg-surface-container-lowest flex items-center justify-center shrink-0 text-outline">
-<span class="material-symbols-outlined text-[26px]">domain_disabled</span>
-</div>
-<div class="min-w-0">
-<div class="font-label-md text-label-md text-on-surface-variant font-medium truncate">Гнездо закрыто</div>
-<div class="font-body-sm text-body-sm text-outline">Уровень Усадьбы 15</div>
-</div>
-</div>
-<div>
-<button class="w-full py-1.5 px-2 bg-surface-container-highest hover:bg-surface-bright text-primary rounded font-label-sm text-label-sm flex items-center justify-center gap-1.5 transition-colors" type="button">
-<span class="material-symbols-outlined text-[14px]">monetization_on</span>
-<span>Открыть за 500 Золота</span>
-</button>
-</div>
-</div>
-</div>
-</div>
-</div>
-</div></main><footer class="w-full bg-surface-container-lowest/95 backdrop-blur-md py-space-xs px-margin-tablet"><div class="w-full flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant"><div class="flex items-center gap-space-md"><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-secondary"></span><span class="text-secondary font-bold uppercase tracking-wider">Сервер: Таверна «Огненный Кот»</span></div><div class="flex items-center gap-space-sm"><div class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-bold">C</kbd><span>Персонаж</span></div><div class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-bold">I</kbd><span>Инвентарь</span></div><div class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-bold">M</kbd><span>Карта</span></div><div class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-bold">ESC</kbd><span>Назад</span></div></div></div><div class="flex items-center gap-space-sm text-outline"><span class="tracking-wide">v1.4.8-Web Edition</span></div></div></footer>
+  <template id="tpl-crib">
+    <article class="min-w-[280px] w-[280px] snap-center shrink-0 lg:min-w-0 lg:w-auto bg-surface-container-high rounded-lg p-space-sm flex flex-col justify-between shadow-sm relative overflow-hidden" data-crib-id="" data-status="empty" data-remaining-sec="" data-progress="0">
+      <div class="flex items-center justify-between gap-1">
+        <span class="font-label-sm text-label-sm text-primary uppercase font-bold" data-field="title"></span>
+        <span class="px-2 py-0.5 rounded bg-surface-container font-label-sm text-label-sm shrink-0" data-field="badge"></span>
+      </div>
+      <div class="py-space-sm flex items-center gap-3 min-w-0">
+        <div class="w-12 h-12 rounded-lg bg-surface-container-lowest flex items-center justify-center shrink-0 shadow-inner" data-field="icon-wrap">
+          <span class="material-symbols-outlined text-[28px]" data-field="icon">egg</span>
+        </div>
+        <div class="min-w-0">
+          <div class="font-label-md text-label-md text-on-surface font-semibold truncate" data-field="name"></div>
+          <div class="font-body-sm text-body-sm text-on-surface-variant"><span data-field="timer"></span></div>
+        </div>
+      </div>
+      <div class="space-y-1.5" data-field="footer">
+        <div class="w-full h-1.5 bg-surface-container-lowest rounded-full overflow-hidden">
+          <div class="h-full bg-primary rounded-full" data-field="progress" style="width: 0%"></div>
+        </div>
+        <button type="button" class="w-full py-1.5 px-2 bg-surface-container hover:bg-surface-bright text-on-surface rounded font-label-sm text-label-sm flex items-center justify-center gap-1.5 transition-colors" data-action="boost"></button>
+      </div>
+    </article>
+  </template>
 </section>
