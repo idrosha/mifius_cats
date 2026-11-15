@@ -1,0 +1,38 @@
+---
+description: Правила экрана Склад (gear/barn) — амбар игрока, не склад алхимика
+globs: client/web-hud/**/*gear*,client/web-hud/public/app.js,client/web-hud/public/styles.css,client/web-hud/design/**/*gear*
+alwaysApply: false
+---
+
+# Склад (gear / barn)
+
+Любая правка склада — через полный шлюз из `antifailure-dev.mdc` (даже «поменяй подпись»).
+
+## Правила
+
+1. **Имя:** route `gear` / UI «Склад» = амбар игрока. Не путать со «склад алхимика» (FULL-SPEC §4.4, Phase 6).
+2. **SoT:** `gearCatalog` / `barn*` в HUD = stub. Не экономика и не источник урона в бою.
+3. **§5.1:** не auto-grant pendant/bow на старте. Grey R1 — Shop/stub shop.
+4. **Три экрана:**
+   - `home` — кот + слоты на нём
+   - `gear` — склад (grid / фильтры / inspect / надеть)
+   - `armor_sets` / `class_sets` / `equip_cards` — атлас/gated, не второй инвентарь
+5. **Сырьё / зелья / чертежи** на складе = Soon tip до Phase 6. Не пилить farm/alchemy loop.
+6. **Новая вещь** = content/LiveOps или явный stub. Без уникальной логики «на один слот».
+7. UX lock → `D-0xx`; механика экипа → патч FULL-SPEC §5/§6 **в той же задаче** (дубль docs-decisions).
+8. Не плодить второй `equip*` / второй каталог / второй inspect — править общие функции.
+9. Дубли equip/barn/inspect → сначала свести, потом новая кнопка/фильтр.
+10. Правки склада без новой механики → FULL-SPEC не трогать; спорный UX → `D-0xx` Proposed.
+
+## Reuse (не изобретать)
+
+- Меню: `NAV`, `fillNav`, aliases, `#appNav` / `#appSubTabs`
+- Каталог/cap: `gearCatalog`, `barnCatalog`, `barnGearForItem`, `barnStockUsed`, `barnKindCount`
+- Фильтры: `barnFilteredItems`, `BARN_CATS`, `BARN_RARITIES`
+- Inspect: `renderBarnInspector`
+- Экип: `equipItem`, `unequipSlot`, `unequipAll`, `canEquipItem`, `equippedByCat`, `renderHome`
+- Арт: `/gear-sets/thumbs/`, stitch `gear.html`
+
+## SL-скоуп
+
+См. `D-028`: склад на soft launch = HUD stub; серверный inventory — отдельная backend-задача.

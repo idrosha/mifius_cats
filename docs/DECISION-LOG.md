@@ -46,6 +46,24 @@ Append-only. Новые записи — **сверху** (после шабло
 
 ---
 
+## D-028 · 2026-11-15 · Склад на SL = HUD stub
+
+- **Status:** Proposed
+- **Area:** hud
+- **SSOT:** none (пока; при Accepted — строка в FULL-SPEC §6)
+- **Owner:** web-hud
+
+### Context
+Нужен рабочий экран Склад (`gear` / barn) для ручного smoke без Unity. Серверный inventory / Nakama ещё не задача soft launch. Риск: принять local `gearCatalog`/`barn*` за экономику или выдать стартовый экип вопреки §5.1.
+
+### Decision
+На SL склад = **HUD stub**: фильтры, вместимость UI, inspect, надеть/снять на кота через общие `equipItem`/`unequipSlot`. Каталог локальный. Серверный inventory — отдельная backend-задача. Стартовый pendant/bow не выдаём (§5.1). «Склад алхимика» / farm mats loop — не этот экран (Phase 6).
+
+### Consequences
++ Можно доводить UX склада без бэкенда. − Числа cap/статов не SoT. Follow-up: кластеры A–G склада; Accepted ⇒ одна строка в §6. Rules: `.cursor/rules/web-hud-gear.mdc`, `docs/nav-ia.md`.
+
+---
+
 ## D-027 · 2026-11-15 · Home roster = 12 shop + фильтр по 6 ролям
 
 - **Status:** Accepted
