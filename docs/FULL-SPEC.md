@@ -299,7 +299,7 @@ Server validates all purchases.
 3. `Hub` chrome: **один** shared header (`#appNav` / `#appSubTabs`, web-hud; `D-029`). Primary: **СЕЗОН** · **МИФМИР** · **ДОМ ХРАНИТЕЛЯ** · **БОИ** · **ТОРГОВЛЯ** · **ГИЛЬДИЯ** + subtabs (канон `docs/nav-ia.md`). Дефолт Дома = `home` (персонаж); `farm` = Soon. Чаты / рейтинги / кодекс — subtabs под Гильдия (распил primary — later). PvE map = **Мифмир**  
 4. `YardMap` (Мифмир) → Formation 3v3 → `Battle`; рейд/легион — отдельный экран  
 5. `PvPMenu` (Дуэли/Арена) → matchmaking → `Battle`  
-6. `Collection` (cats, presets×5, pendants/bows) — на SL = HUD stub (`D-031`): ростер из профиля + local preset 3v3; без client SoT урона/БМ/резонанса; серверный SavePreset — later  
+6. `Collection` (cats, presets×5, pendants/bows) — на SL = HUD stub (`D-031`): ростер из профиля + **3 отряда** 3v3 local (cap presets[5]); без client SoT урона/БМ/резонанса; серверный SavePreset — later  
 6b. `Склад` (`gear`) — амбар игрока: grid / фильтры / inspect / надеть; на SL = HUD stub (`D-028`); не «склад алхимика» (§4.4). Клиентский экип не SoT боя (§7.1 pendant/bow).
 6c. `Скрещивание` (`breeding`) — питомник / алтарь; на SL = HUD stub (`D-030`, §4.4.1): form + tip, без live breed; Phase 6 = server SoT.
 7. `Shop` (yarn/IAP, jars, pass, fish packs, breeding ingredients, **common_cat** ×2×6 = 12 SKU, grey R1 armor; battle_coin gear)
