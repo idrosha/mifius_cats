@@ -3312,6 +3312,18 @@ function ensureHomeDom(root) {
       });
     }
   }
+  const deckTitle = [...root.querySelectorAll("h3")].find((el) =>
+    /БОЕВАЯ КОЛОДА/i.test(el.textContent || ""),
+  );
+  if (deckTitle) {
+    const nameSpan = deckTitle.querySelector("span");
+    if (nameSpan) nameSpan.id = "homeDeckHeroName";
+    const wrap = deckTitle.closest(".bg-surface-container-low");
+    const grid = wrap?.querySelector(".grid.grid-cols-6");
+    if (grid) grid.id = "homeDeckGrid";
+    const costEl = wrap && [...wrap.querySelectorAll("span")].find((el) => /Стоимость цикла/i.test(el.textContent || ""));
+    if (costEl) costEl.id = "homeDeckCycleCost";
+  }
   root.dataset.homeDom = "1";
 }
 
@@ -3585,6 +3597,7 @@ function renderHome() {
   bindHomeEquipClicks();
   renderHomeRoster(cat);
   renderHomeBag(cat);
+  renderHomeDeck(cat);
   syncHomeEquipDom(cat.catId);
   syncHomeSheetStats(cat);
 }
@@ -4746,6 +4759,94 @@ const ATTACK_CARD_ART_FOLDER = {
   fighter_fire: "fighter-a",
   support_water: "support-a",
 };
+
+/** N=6 part order — FULL-SPEC §2.3 (eyes/ears + 4 actives). */
+const DECK_PARTS = ["eyes", "ears", "muzzle", "headwear", "back", "tail"];
+const STARTER_DECK_TEMPLATE = {
+  starter_tank_stone: "shop_tank_stone_a",
+  starter_fighter_fire: "shop_fighter_fire_a",
+  starter_support_water: "shop_support_water_a",
+};
+/** cost≠1 overrides from content/cards (default 1). */
+const ATTACK_CARD_COST2 = new Set([
+  "card_shop_assassin_bolt_a_tail",
+  "card_shop_assassin_bolt_b_tail",
+  "card_shop_fighter_fire_a_tail",
+  "card_shop_fighter_fire_b_back",
+  "card_shop_fighter_fire_b_eyes",
+  "card_shop_fighter_fire_b_muzzle",
+  "card_shop_fighter_fire_b_tail",
+  "card_shop_mage_fire_a_back",
+  "card_shop_mage_fire_a_muzzle",
+  "card_shop_mage_ice_b_back",
+  "card_shop_mage_ice_b_eyes",
+  "card_shop_mage_ice_b_muzzle",
+  "card_shop_mage_ice_b_tail",
+  "card_shop_ranger_grass_b_eyes",
+  "card_shop_ranger_grass_b_headwear",
+  "card_shop_ranger_grass_b_muzzle",
+  "card_shop_ranger_grass_b_tail",
+  "card_shop_support_water_a_back",
+  "card_shop_support_water_b_back",
+  "card_shop_tank_stone_b_tail",
+]);
+
+function deckShopTemplate(templateId) {
+  return STARTER_DECK_TEMPLATE[templateId] || templateId;
+}
+
+/** Unique N=6 attack cards for a cat template (no alt/dup stems). */
+function heroDeckCards(templateId) {
+  const shop = deckShopTemplate(templateId);
+  if (!ATTACK_CARD_ART_FOLDER[shop]) return [];
+  const seen = new Set();
+  const out = [];
+  for (const part of DECK_PARTS) {
+    const stem = `${shop}_${part}`;
+    const cardId = `card_${stem}`;
+    if (seen.has(cardId)) continue;
+    seen.add(cardId);
+    out.push({
+      cardId,
+      part,
+      stem,
+      name_key: `card.${stem}`,
+      cost: ATTACK_CARD_COST2.has(cardId) ? 2 : 1,
+      art: attackCardArtUrl(cardId),
+    });
+  }
+  return out;
+}
+
+function renderHomeDeck(cat) {
+  const grid = $("homeDeckGrid");
+  if (!grid || !cat) return;
+  const name = catSheetName(cat);
+  const nameEl = $("homeDeckHeroName");
+  if (nameEl) nameEl.textContent = name;
+  const cards = heroDeckCards(cat.templateId);
+  const cycle = cards.reduce((s, c) => s + c.cost, 0);
+  const costEl = $("homeDeckCycleCost");
+  if (costEl) {
+    costEl.innerHTML = `Стоимость цикла: <strong>${cycle || "—"} AP</strong> / ход`;
+  }
+  if (!cards.length) {
+    grid.innerHTML = DECK_PARTS.map(
+      () =>
+        `<div class="group relative rounded-lg bg-surface-container-lowest/40 border border-dashed border-outline-variant/40 aspect-[2/3] flex flex-col items-center justify-center text-outline-variant"><span class="material-symbols-outlined text-2xl">add</span><span class="text-[9px] font-label-sm mt-1">Пусто</span></div>`,
+    ).join("");
+    return;
+  }
+  grid.innerHTML = cards
+    .map((c) => {
+      const title = t(c.name_key, c.stem);
+      if (c.art) {
+        return `<div class="group relative rounded-lg bg-surface-container-lowest border border-outline-variant/40 aspect-[2/3] overflow-hidden shadow" title="${title} · ${c.cost} AP · ${c.part}"><img alt="${title}" class="w-full h-full object-cover" src="${c.art}"/><span class="absolute bottom-0 inset-x-0 px-1 py-0.5 bg-surface-container-lowest/90 text-[9px] font-label-sm text-on-surface truncate text-center">${title}</span></div>`;
+      }
+      return `<div class="group relative rounded-lg bg-surface-container-lowest border border-outline-variant/40 aspect-[2/3] flex flex-col items-center justify-center p-1 text-center" title="${title}"><span class="text-[10px] font-label-sm text-on-surface">${title}</span><span class="text-[9px] text-on-surface-variant mt-1">${c.cost} AP · ${c.part}</span></div>`;
+    })
+    .join("");
+}
 
 /** Extract cat templateId from battle unit id (`p1_0_shop_tank_stone_a`). */
 function unitTemplateId(unitOrId) {
