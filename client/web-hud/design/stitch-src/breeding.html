@@ -1,171 +1,360 @@
-<!DOCTYPE html>
-<html class="dark" lang="ru">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@500;600;700&family=Rubik:wght@600;700;800&display=swap" rel="stylesheet"/>
-<script src="https://cdn.tailwindcss.com"></script>
-<script id="tailwind-config">tailwind.config={darkMode:"class"}</script>
-</head>
-<body class="bg-surface font-body-md text-on-surface">
-<section id="viewBreeding" class="stitch-view mythfel-form hidden" data-stitch="breeding" data-layout="landscape">
-<div class="nursery-hall">
-<div class="nursery-top">
+<!DOCTYPE html><html class="dark" lang="ru"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><title>Мифиус: Мифические котики</title><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@500;600;700&amp;family=Rubik:wght@600;700;800&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"tertiary-container":"#ff826c","on-background":"#eae1db","on-tertiary-fixed":"#3f0300","on-primary-fixed-variant":"#604100","surface-variant":"#393430","on-tertiary":"#660700","inverse-surface":"#eae1db","error":"#ffb4ab","secondary-fixed-dim":"#89d98c","on-primary":"#432c00","outline":"#9d8f7b","on-tertiary-fixed-variant":"#8d1607","secondary-fixed":"#a4f6a6","primary-fixed-dim":"#fdba45","surface":"#161310","surface-container-highest":"#393430","surface-tint":"#fdba45","on-tertiary-container":"#7c0a00","surface-dim":"#161310","on-primary-fixed":"#281900","primary-container":"#d99b26","error-container":"#93000a","secondary":"#89d98c","on-secondary":"#003910","inverse-primary":"#7f5700","inverse-on-surface":"#342f2c","on-error-container":"#ffdad6","surface-container-high":"#2e2926","primary-fixed":"#ffdeae","on-surface-variant":"#d5c4af","tertiary-fixed-dim":"#ffb4a6","background":"#161310","on-secondary-container":"#82d186","on-secondary-fixed-variant":"#00531b","tertiary-fixed":"#ffdad4","tertiary":"#ffb4a6","surface-bright":"#3d3835","primary":"#fdba45","surface-container-lowest":"#110d0b","surface-container-low":"#1f1b18","on-error":"#690005","secondary-container":"#005b1e","outline-variant":"#504535","on-surface":"#eae1db","surface-container":"#231f1c","on-primary-container":"#523700","on-secondary-fixed":"#002106"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"margin-tablet":"1.5rem",gutter:"0.75rem","space-md":"0.75rem","space-xs":"0.25rem","space-sm":"0.5rem","space-xl":"1.5rem","gutter-tablet":"1rem",margin:"1rem","space-lg":"1rem"},fontFamily:{"headline-md":["Rubik"],"body-md":["Nunito Sans"],"body-sm":["Nunito Sans"],"headline-lg-mobile":["Rubik"],"headline-lg":["Rubik"],"headline-xl":["Rubik"],"label-lg":["Rubik"],"body-lg":["Nunito Sans"],"stat-numeral":["Rubik"],"label-md":["Rubik"],"headline-xl-mobile":["Rubik"],"label-sm":["Rubik"]},fontSize:{"headline-md":["18px",{lineHeight:"24px",fontWeight:"600"}],"body-md":["14px",{lineHeight:"20px",fontWeight:"500"}],"body-sm":["12px",{lineHeight:"16px",fontWeight:"500"}],"headline-lg-mobile":["22px",{lineHeight:"28px",fontWeight:"700"}],"headline-lg":["26px",{lineHeight:"32px",fontWeight:"700"}],"headline-xl":["36px",{lineHeight:"44px",fontWeight:"800"}],"label-lg":["14px",{lineHeight:"18px",fontWeight:"700"}],"body-lg":["16px",{lineHeight:"22px",fontWeight:"600"}],"stat-numeral":["20px",{lineHeight:"20px",fontWeight:"800"}],"label-md":["12px",{lineHeight:"16px",fontWeight:"600"}],"headline-xl-mobile":["28px",{lineHeight:"34px",fontWeight:"800"}],"label-sm":["10px",{lineHeight:"12px",fontWeight:"700"}]}}}}</script></head><body class="bg-background font-body-md text-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen flex flex-col justify-between"><header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-low/95 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.5)]"><div class="h-28 w-full px-margin-tablet flex flex-col justify-between py-space-xs"><div class="flex items-center justify-between gap-space-lg"><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-primary text-[24px]">pets</span><span class="font-headline-md text-headline-md tracking-wider uppercase text-primary drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">МИФИУС: МИФИЧЕСКИЕ КОТИКИ</span></div><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-highest/60"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span class="font-label-sm text-label-sm text-secondary tracking-wide uppercase">24ms ONLINE</span></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-sm"><div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1 rounded-lg"><span class="material-symbols-outlined text-primary text-[16px]">monetization_on</span><span class="font-label-md text-label-md text-on-surface">148,250</span></div><div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1 rounded-lg"><span class="material-symbols-outlined text-tertiary text-[16px]">set_meal</span><span class="font-label-md text-label-md text-on-surface">920</span></div><div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1 rounded-lg"><span class="material-symbols-outlined text-secondary text-[16px]">bolt</span><span class="font-label-md text-label-md text-on-surface">85/100</span></div><div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1 rounded-lg"><span class="material-symbols-outlined text-primary-fixed text-[16px]">diamond</span><span class="font-label-md text-label-md text-on-surface">385</span></div></div><div class="flex items-center gap-2 pl-2"><div class="text-right"><div class="font-label-sm text-label-sm text-primary uppercase">Хранитель</div><div class="font-label-md text-label-md text-on-surface">Ур. 48</div></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div><nav class="flex items-center gap-space-xs overflow-x-auto py-0.5" data-active-classes="bg-primary-container text-on-primary-container font-headline-md shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]"><a class="px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="glavnyj-hab" href="#">Главный Хаб</a><a class="px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="personazh-dom" href="#">Персонаж / Дом</a><a class="px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="ekipirovka" href="#">Экипировка</a><a class="px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="inventar" href="#">Инвентарь</a><a class="px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="ugodya-ferma" href="#">Угодья / Ферма</a><a class="px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="kraft" href="#">Крафт</a><a class="px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="pohod-pve" href="#">Поход (PvE)</a><a class="px-3 py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors whitespace-nowrap" data-path="arena-pvp" href="#">Арена (PvP)</a></nav></div><div class="bg-surface-container-lowest/90 px-margin-tablet py-1.5 flex items-center gap-space-xs overflow-x-auto shadow-inner"><nav class="flex items-center gap-1.5" data-active-classes="bg-surface-bright text-primary font-bold shadow-[0_2px_8px_rgba(0,0,0,0.5)]"><a class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap" data-path="rabochij-stol-personazh" href="#">Рабочий стол (Персонаж)</a><a class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap" data-path="kollektsiya-pitomtsev" href="#">Коллекция питомцев</a><a class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap" data-path="ekipirovka-sumka" href="#">Экипировка / Сумка</a><a class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap" data-path="sety-broni" href="#">Сеты брони</a><a class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap" data-path="klassovye-sety" href="#">Классовые сеты</a><a class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap" data-path="kodeks-geroev" href="#">Кодекс героев</a><a class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap" data-path="sklad" href="#">Склад</a><a aria-current="page" class="px-2.5 py-1 rounded transition-colors whitespace-nowrap bg-surface-bright text-primary font-bold shadow-[0_2px_8px_rgba(0,0,0,0.5)]" data-path="skreshchivanie" href="#">Скрещивание</a><a class="px-2.5 py-1 rounded font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors whitespace-nowrap" data-path="kodeks-mifmira" href="#">Кодекс Мифмира</a></nav></div></header><main class="w-full pt-28 bg-background flex-1"><div class="flex flex-col w-full text-on-surface">
+<div class="w-full px-margin-tablet py-space-sm flex flex-col gap-space-sm">
+<!-- Top Sub-Header Bar (Altar Status & Hearth Metrics) -->
+<div class="w-full bg-surface-container rounded-xl p-space-sm shadow-md flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="w-10 h-10 rounded-lg bg-primary-container/20 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[26px]">vital_signs</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<span class="font-headline-md text-headline-md text-on-surface tracking-wide uppercase">Скрещивание и Алтарь Родословной</span>
+<span class="px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase">Алтарь Ур. 7</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant truncate">
+            Синтез стихийных генов, наследование пассивов и выведение мифических котят
+          </p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<div class="flex items-center gap-2 bg-surface-container-high px-3 py-1.5 rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-tertiary-container text-[18px]">local_fire_department</span>
 <div>
-<strong>Питомник Усадьбы: Скрещивание и Наследование Генов</strong>
-<p>Обычные коты становятся мифическими через малый шанс. У мифика ровно 4 сильнейшие карты обоих родителей.</p>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Энергия Очага</div>
+<div class="font-stat-numeral text-stat-numeral text-on-surface">6 <span class="text-on-surface-variant text-body-sm font-body-sm">/ 10</span></div>
 </div>
-<div class="nursery-incub"><b>Инкубатор разогрет</b><span>2 / 3 свободно</span><em>−20% к времени высиживания</em></div>
 </div>
-<div class="nursery-body">
-<aside class="nursery-parent">
-<div class="nursery-kicker"><i class="swatch thunder"></i>Отец-родоначальник</div>
-<span class="thumb"><img alt="" src="/stitch-assets/dc459e94ceed.jpg"/></span>
-<h2>Барсик Громовержец</h2>
-<p class="nursery-order">Орден Буревестника · Ранг 4 · Гром</p>
-<ul class="nursery-genes">
-<li><b>Ген Молнии</b><em>+18% урон</em></li>
-<li><b>Ген Скорости</b><em>+12% крит</em></li>
-<li><b>Ген Здоровья</b><em>+5% HP</em></li>
-<li><b>Ген Защиты</b><em>−8% входящий</em></li>
-</ul>
-<div class="nursery-pot">
-<b>Селекционный потенциал III</b>
-<span>Ранг 4 · 80%</span>
-<span>Навык «Грозовой удар» · 72%</span>
-<span>Редкость родителей · 13%</span>
+<div class="flex items-center gap-2 bg-surface-container-high px-3 py-1.5 rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-secondary text-[18px]">nest_multi_room</span>
+<div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Инкубатор</div>
+<div class="font-stat-numeral text-stat-numeral text-secondary">2 <span class="text-on-surface-variant text-body-sm font-body-sm">/ 4 занято</span></div>
 </div>
-<button type="button" data-path="kollektsiya-pitomtsev">Выбрать из коллекции</button>
-</aside>
-<section class="nursery-altar">
-<div class="nursery-kicker">Стихийный синтез: Гром + Вода</div>
-<div class="nursery-pair">
-<article><span class="thumb"><img alt="" src="/stitch-assets/dc459e94ceed.jpg"/></span><b>Гром</b><small>Ранг 4 · Барсик</small></article>
-<div class="nursery-egg" aria-hidden="true"></div>
-<article><span class="thumb"><img alt="" src="/stitch-assets/ad3ff067b5c8.jpg"/></span><b>Вода</b><small>Ранг 4 · Мурка</small></article>
 </div>
-<p class="nursery-rates"><span>Совместимость 100%</span><span>Мутация 15%</span></p>
-<p class="nursery-kicker">Возможные гибриды потомства</p>
-<ul class="nursery-hybrids">
-<li><b>Штормовой Следопыт</b><em>Гром · 32%</em></li>
-<li><b>Речная Буря</b><em>Вода · 28%</em></li>
-<li><b>Астральный Гром</b><em>Гром · 15%</em></li>
-<li class="is-sure"><b>Минимум ранга</b><em>Ранг 4</em></li>
-</ul>
-<div class="nursery-params">
-<div><small>Время высиживания</small><b>2 ч 45 мин</b><em>−20% за ранг</em></div>
-<div><small>Шанс мифика</small><b>малый</b><em>4 карты родителей</em></div>
-<div><small>Слоты инкубатора</small><b>2 / 3</b><em>один свободен</em></div>
+<div class="flex items-center gap-2 bg-surface-container-high px-3 py-1.5 rounded-lg shadow-sm">
+<span class="material-symbols-outlined text-primary text-[18px]">stars</span>
+<div>
+<div class="font-label-sm text-label-sm text-on-surface-variant">Шанс Мифика</div>
+<div class="font-stat-numeral text-stat-numeral text-primary">18.5%</div>
 </div>
-<button type="button" class="nursery-light">Зажечь алтарь скрещивания</button>
-<p class="nursery-cost">12 000 клубков + 10 000 золота · живое скрещивание после ранга в боях</p>
-</section>
-<aside class="nursery-parent">
-<div class="nursery-kicker"><i class="swatch water"></i>Мать-хранительница</div>
-<span class="thumb"><img alt="" src="/stitch-assets/ad3ff067b5c8.jpg"/></span>
-<h2>Мурка Речная Фея</h2>
-<p class="nursery-order">Орден Речной Глади · Ранг 4 · Вода</p>
-<ul class="nursery-genes">
-<li><b>Ген Здоровья</b><em>+8% HP</em></li>
-<li><b>Ген Исцеления</b><em>+10% лечение</em></li>
-<li><b>Ген Мудрости</b><em>+1 АР</em></li>
-<li><b>Ген Скорости</b><em>+6% уклонение</em></li>
-</ul>
-<div class="nursery-pot">
-<b>Селекционный потенциал II</b>
-<span>Мифик · 12%</span>
-<span>Ранг 4 · 60%</span>
-<span>Навык «Речной покров» · 44%</span>
 </div>
-<button type="button" data-path="kollektsiya-pitomtsev">Выбрать из коллекции</button>
-</aside>
 </div>
-<footer class="nursery-foot">
-<span>Пыльца каменной мглы 14 · Кристаллы родства 2</span>
-<span>Совет: два котика 4 ранга держат минимум 4 ранг. Набор мифика — 4 сильнейшие карты родителей.</span>
-</footer>
 </div>
-</section>
+<!-- 3-Column Main Breeding Arena -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-sm items-stretch">
+<!-- LEFT COLUMN: Father / First Parent (28% ~ lg:col-span-3) -->
+<div class="lg:col-span-3 bg-surface-container rounded-xl p-space-sm flex flex-col justify-between shadow-lg relative overflow-hidden">
+<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary-container to-transparent"></div>
+<div>
+<!-- Header Card Info -->
+<div class="flex items-center justify-between pb-space-xs">
+<span class="px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase">Отец • Род I</span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-primary">
+<span class="material-symbols-outlined text-[15px]">electric_bolt</span> Гром 100%
+            </span>
+</div>
+<div class="pt-space-xs pb-space-xs">
+<h3 class="font-headline-md text-headline-md text-outline-variant font-bold leading-tight">Пустой слот</h3><p class="font-body-sm text-body-sm text-outline-variant">Выберите героя</p>
+</div>
+<!-- Cat Portrait Visual -->
+<div class="relative w-full aspect-square rounded-lg overflow-hidden bg-surface-container-lowest/50 border border-dashed border-outline-variant/30 flex items-center justify-center text-outline-variant"><span class="material-symbols-outlined text-3xl">add</span></div>
+</div>
+<!-- Gene Transmission Parameters -->
+<div class="space-y-1.5 pt-space-xs">
+<div class="font-label-sm text-label-sm uppercase text-on-surface-variant">Доминантные гены:</div>
+<div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="material-symbols-outlined text-primary text-[16px]">shield</span>
+<span class="font-body-sm text-body-sm text-on-surface truncate">Шерстяной Оплот (Пассив)</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary shrink-0">+30% Броня</span>
+</div>
+<div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="material-symbols-outlined text-primary text-[16px]">bolt</span>
+<span class="font-body-sm text-body-sm text-on-surface truncate">Громовой Удар (Атака)</span>
+</div>
+<span class="font-label-sm text-label-sm text-tertiary-container shrink-0">Шок III</span>
+</div>
+<div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="material-symbols-outlined text-secondary text-[16px]">offline_bolt</span>
+<span class="font-body-sm text-body-sm text-on-surface truncate">Устойчивость к шоку</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary shrink-0">+40% Сопр.</span>
+</div>
+</div>
+<!-- Breeding Purity Tracker -->
+<div class="pt-space-sm">
+<div class="flex justify-between items-center font-label-sm text-label-sm pb-1">
+<span class="text-on-surface-variant">Чистота породы</span>
+<span class="text-primary font-bold">94%</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container-lowest overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 94%;"></div>
+</div>
+</div>
+</div>
+<!-- Slot Button -->
+<div class="pt-space-md">
+<button class="w-full bg-surface-container-high hover:bg-surface-bright text-on-surface hover:text-primary py-2 px-3 rounded-lg font-label-md text-label-md transition-colors flex items-center justify-center gap-2 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">swap_horiz</span>
+<span>Сменить отца</span>
+<kbd class="px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant text-[10px]">T</kbd>
+</button>
+</div>
+</div>
+<!-- CENTER COLUMN: Runic Altar & Synthesis Forge (44% ~ lg:col-span-6) -->
+<div class="lg:col-span-6 bg-surface-container rounded-xl p-space-sm flex flex-col justify-between shadow-xl relative overflow-hidden"><!-- Cosmic Ambient Background behind egg -->
+<div class="absolute -top-24 left-1/2 -translate-x-1/2 w-96 h-96 bg-primary/10 rounded-full blur-3xl pointer-events-none"></div>
+<div>
+  <!-- Center Top Header Indicators -->
+  <div class="flex items-center justify-between px-space-xs pb-space-xs">
+    <div class="flex items-center gap-2">
+      <span class="w-2.5 h-2.5 rounded-full bg-primary animate-ping"></span>
+      <span class="font-label-sm text-label-sm uppercase tracking-wider text-primary font-bold">Ритуал Синтеза Душ</span>
+    </div>
+    <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-lowest">
+      <span class="material-symbols-outlined text-primary text-[14px]">auto_fix_high</span>
+      <span class="font-label-sm text-label-sm text-on-surface">Совместимость: 96% (Идеально)</span>
+    </div>
+  </div>
 
-<!-- nursery preview copy only; live breed stays rank-gated -->
+  <!-- Hero Altar Illustration Box -->
+  <div class="relative w-full h-56 rounded-xl overflow-hidden bg-surface-container-lowest my-space-xs flex items-center justify-center shadow-inner group">
+    
+    <div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent opacity-90"></div>
+    <!-- Runes Overlay Badge -->
+    <div class="absolute bottom-2.5 flex items-center gap-space-sm bg-surface-container-lowest/85 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-lg">
+      <span class="material-symbols-outlined text-primary text-[16px]">all_inclusive</span>
+      <span class="font-label-sm text-label-sm text-on-surface font-semibold tracking-wide">
+        Резонанс Слияния: «Плазменный Вихрь»
+      </span>
+      <span class="material-symbols-outlined text-secondary text-[16px]">ac_unit</span>
+    </div>
+  </div>
 
-<!-- nursery preview copy only; live breed stays rank-gated -->
+  <!-- Synthesis Info & Lore Banner -->
+  <div class="bg-surface-container-high/60 border-2 border-surface-container-highest rounded-lg p-2.5 my-space-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 shadow-sm">
+    <div class="flex items-center gap-2 min-w-0">
+      <span class="material-symbols-outlined text-primary text-[20px] shrink-0">auto_awesome</span>
+      <p class="font-body-sm text-body-sm text-on-surface leading-tight">
+        При скрещивании получается мифический котик, который наследует сильнейшие пассивы и способности обоих родителей + получает <span class="text-primary font-bold">1 уникальную случайную карту мутации!</span>
+      </p>
+    </div>
+    <a class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-surface-container hover:bg-surface-bright text-primary font-label-sm text-label-sm shrink-0 whitespace-nowrap transition-colors shadow-sm" href="#" data-path="kodeks-mifmira">
+      <span class="material-symbols-outlined text-[14px]">auto_stories</span>
+      <span>Подробнее в Базе Знаний</span>
+    </a>
+  </div>
 
-<!-- nursery preview copy only; live breed stays rank-gated -->
+  <!-- Required Synthesis Reagents & Ingredients (5 slots) -->
+  <div class="my-space-xs">
+    <div class="flex items-center justify-between pb-1">
+      <span class="font-label-sm text-label-sm uppercase text-on-surface-variant font-bold tracking-wider">Требуемые Реагенты Ритуала:</span>
+      <span class="font-label-sm text-label-sm text-secondary font-semibold flex items-center gap-1">
+        <span class="material-symbols-outlined text-[14px]">check_circle</span> Все ингредиенты готовы
+      </span>
+    </div>
+    <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-1.5"><div class="flex flex-col items-center text-center cursor-pointer"><div class="w-14 h-14 rounded-lg bg-surface-container-lowest/50 border border-dashed border-outline-variant/40 flex items-center justify-center text-outline-variant"><span class="material-symbols-outlined text-xl">add</span></div><span class="font-label-sm text-label-sm text-outline-variant mt-1">Пусто</span></div><div class="flex flex-col items-center text-center cursor-pointer"><div class="w-14 h-14 rounded-lg bg-surface-container-lowest/50 border border-dashed border-outline-variant/40 flex items-center justify-center text-outline-variant"><span class="material-symbols-outlined text-xl">add</span></div><span class="font-label-sm text-label-sm text-outline-variant mt-1">Пусто</span></div><div class="flex flex-col items-center text-center cursor-pointer"><div class="w-14 h-14 rounded-lg bg-surface-container-lowest/50 border border-dashed border-outline-variant/40 flex items-center justify-center text-outline-variant"><span class="material-symbols-outlined text-xl">add</span></div><span class="font-label-sm text-label-sm text-outline-variant mt-1">Пусто</span></div><div class="flex flex-col items-center text-center cursor-pointer"><div class="w-14 h-14 rounded-lg bg-surface-container-lowest/50 border border-dashed border-outline-variant/40 flex items-center justify-center text-outline-variant"><span class="material-symbols-outlined text-xl">add</span></div><span class="font-label-sm text-label-sm text-outline-variant mt-1">Пусто</span></div><div class="flex flex-col items-center text-center cursor-pointer"><div class="w-14 h-14 rounded-lg bg-surface-container-lowest/50 border border-dashed border-outline-variant/40 flex items-center justify-center text-outline-variant"><span class="material-symbols-outlined text-xl">add</span></div><span class="font-label-sm text-label-sm text-outline-variant mt-1">Пусто</span></div></div>
+  </div>
+</div>
 
-<!-- nursery preview copy only; live breed stays rank-gated -->
+<!-- Synthesis Action Strip -->
+<div class="pt-space-sm flex flex-col sm:flex-row items-center justify-between gap-space-sm bg-surface-container-high/60 p-space-sm rounded-xl mt-space-xs">
+  <div class="flex items-center gap-3">
+    <div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1.5 rounded-lg">
+      <span class="material-symbols-outlined text-primary text-[16px]">monetization_on</span>
+      <span class="font-label-md text-label-md text-on-surface">2,500</span>
+    </div>
+    <div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1.5 rounded-lg">
+      <span class="material-symbols-outlined text-tertiary text-[16px]">set_meal</span>
+      <span class="font-label-md text-label-md text-on-surface">50</span>
+    </div>
+    <div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1.5 rounded-lg">
+      <span class="material-symbols-outlined text-secondary text-[16px]">bolt</span>
+      <span class="font-label-md text-label-md text-secondary">20&nbsp;</span>
+    </div>
+  <div class="flex items-center gap-1.5 bg-surface-container px-2.5 py-1.5 rounded-lg border-2 border-primary/40 shadow-sm"><span class="material-symbols-outlined text-primary text-[16px]">percent</span><span class="font-label-md text-label-md text-primary font-bold">25%</span></div></div>
+  <button class="w-full sm:w-auto px-6 py-3 rounded-full bg-primary hover:bg-primary-container text-on-primary font-label-lg text-label-lg shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 active:translate-y-0 flex items-center justify-center gap-2" type="button">
+    <span class="material-symbols-outlined text-[20px]">magic_button</span>
+    <span>НАЧАТЬ СКРЕЩИВАНИЕ (00:30)</span>
+  </button>
+</div></div>
+<!-- RIGHT COLUMN: Mother / Second Parent (28% ~ lg:col-span-3) -->
+<div class="lg:col-span-3 bg-surface-container rounded-xl p-space-sm flex flex-col justify-between shadow-lg relative overflow-hidden">
+<div class="absolute top-0 left-0 right-0 h-1 bg-gradient-to-l from-secondary via-secondary-container to-transparent"></div>
+<div>
+<!-- Header Card Info -->
+<div class="flex items-center justify-between pb-space-xs">
+<span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm uppercase">Мать • Род II</span>
+<span class="flex items-center gap-1 font-label-sm text-label-sm text-secondary">
+<span class="material-symbols-outlined text-[15px]">ac_unit</span> Лёд 100%
+            </span>
+</div>
+<div class="pt-space-xs pb-space-xs">
+<h3 class="font-headline-md text-headline-md text-outline-variant font-bold leading-tight">Пустой слот</h3><p class="font-body-sm text-body-sm text-outline-variant">Выберите героя</p>
+</div>
+<!-- Cat Portrait Visual -->
+<div class="relative w-full aspect-square rounded-lg overflow-hidden bg-surface-container-lowest/50 border border-dashed border-outline-variant/30 flex items-center justify-center text-outline-variant"><span class="material-symbols-outlined text-3xl">add</span></div>
+</div>
+<!-- Gene Transmission Parameters -->
+<div class="space-y-1.5 pt-space-xs">
+<div class="font-label-sm text-label-sm uppercase text-on-surface-variant">Доминантные гены:</div>
+<div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="material-symbols-outlined text-secondary text-[16px]">visibility</span>
+<span class="font-body-sm text-body-sm text-on-surface truncate">Морозный Взор (Стан 1)</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary shrink-0">Контроль</span>
+</div>
+<div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="material-symbols-outlined text-secondary text-[16px]">weather_snowy</span>
+<span class="font-body-sm text-body-sm text-on-surface truncate">Аура Мерзлоты</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary shrink-0">-25% Скор. врага</span>
+</div>
+<div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between">
+<div class="flex items-center gap-1.5 min-w-0">
+<span class="material-symbols-outlined text-primary text-[16px]">psychology</span>
+<span class="font-body-sm text-body-sm text-on-surface truncate">Интеллект чар</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary shrink-0">+35% Урон заклинаний</span>
+</div>
+</div>
+<!-- Breeding Purity Tracker -->
+<div class="pt-space-sm">
+<div class="flex justify-between items-center font-label-sm text-label-sm pb-1">
+<span class="text-on-surface-variant">Чистота породы</span>
+<span class="text-secondary font-bold">98%</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container-lowest overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 98%;"></div>
+</div>
+</div>
+</div>
+<!-- Slot Button -->
+<div class="pt-space-md">
+<button class="w-full bg-surface-container-high hover:bg-surface-bright text-on-surface hover:text-secondary py-2 px-3 rounded-lg font-label-md text-label-md transition-colors flex items-center justify-center gap-2 shadow-sm" type="button">
+<span class="material-symbols-outlined text-[18px]">swap_horiz</span>
+<span>Сменить мать</span>
+<kbd class="px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant text-[10px]">Y</kbd>
+</button>
+</div>
+</div>
+</div>
+<!-- BOTTOM SECTION: Incubator Nursery & Hatching Cribs (4 Slots Full-Width) -->
+<div class="w-full bg-surface-container rounded-xl p-space-sm shadow-md">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[20px]">bedroom_baby</span>
+<span class="font-headline-md text-headline-md text-on-surface">Тепличный Инкубатор &amp; Колыбели Питомника</span>
+</div>
+<span class="font-body-sm text-body-sm text-on-surface-variant">
+          Котята получают базовую заботу и готовы к передаче в Академию
+        </span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-sm pt-space-xs">
+<!-- Crib Slot 1: Active Incubating -->
+<div class="bg-surface-container-high rounded-lg p-space-sm flex flex-col justify-between shadow-sm relative overflow-hidden group">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold">Колыбель #1</span>
+<span class="px-2 py-0.5 rounded bg-surface-container text-secondary font-label-sm text-label-sm flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span> Созревание
+            </span>
+</div>
+<div class="py-space-sm flex items-center gap-3">
+<div class="w-12 h-12 rounded-lg bg-surface-container-lowest flex items-center justify-center shrink-0 shadow-inner">
+<span class="material-symbols-outlined text-secondary text-[28px]">egg</span>
+</div>
+<div class="min-w-0">
+<div class="font-label-md text-label-md text-on-surface font-semibold truncate">Яйцо Ледяного Грома</div>
+<div class="font-body-sm text-body-sm text-on-surface-variant">Осталось: <span class="text-primary font-bold">02:45 мин</span></div>
+</div>
+</div>
+<div class="space-y-1.5">
+<div class="w-full h-1.5 bg-surface-container-lowest rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 68%;"></div>
+</div>
+<button class="w-full py-1.5 px-2 bg-surface-container hover:bg-surface-bright text-on-surface rounded font-label-sm text-label-sm flex items-center justify-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-tertiary text-[14px]">set_meal</span>
+<span>Ускорить за 10 Рыбки</span>
+</button>
+</div>
+</div>
+<!-- Crib Slot 2: Ready to Hatch -->
+<div class="bg-surface-container-high rounded-lg p-space-sm flex flex-col justify-between shadow-sm relative overflow-hidden ring-1 ring-primary/40">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-primary uppercase font-bold">Колыбель #2</span>
+<span class="px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm font-bold">
+              ГОТОВО!
+            </span>
+</div>
+<div class="py-space-sm flex items-center gap-3">
+<div class="w-12 h-12 rounded-lg bg-primary-container/20 flex items-center justify-center shrink-0 shadow-inner">
+<span class="material-symbols-outlined text-primary text-[28px] animate-bounce">auto_awesome</span>
+</div>
+<div class="min-w-0">
+<div class="font-label-md text-label-md text-primary font-bold truncate">Золотое Яйцо Огня</div>
+<div class="font-body-sm text-body-sm text-secondary">Скорлупа треснула!</div>
+</div>
+</div>
+<div>
+<button class="w-full py-2 px-3 bg-primary hover:bg-primary-container text-on-primary rounded font-label-sm text-label-sm font-bold tracking-wide transition-all shadow-md flex items-center justify-center gap-1.5" type="button">
+<span class="material-symbols-outlined text-[16px]">celebration</span>
+<span>ЗАБРАТЬ КОТЁНКА</span>
+</button>
+</div>
+</div>
+<!-- Crib Slot 3: Empty Nest -->
+<div class="bg-surface-container-high rounded-lg p-space-sm flex flex-col justify-between shadow-sm relative border-dashed border-2 border-surface-container-highest">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold">Колыбель #3</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Свободно</span>
+</div>
+<div class="py-space-sm flex items-center gap-3">
+<div class="w-12 h-12 rounded-lg bg-surface-container-lowest flex items-center justify-center shrink-0 text-outline">
+<span class="material-symbols-outlined text-[28px]">nest_cam_wired_stand</span>
+</div>
+<div class="min-w-0">
+<div class="font-label-md text-label-md text-on-surface-variant font-medium truncate">Пустое гнездо</div>
+<div class="font-body-sm text-body-sm text-outline">Ждет алтарный кристалл</div>
+</div>
+</div>
+<div>
+<button class="w-full py-1.5 px-2 bg-surface-container hover:bg-surface-bright text-on-surface-variant hover:text-on-surface rounded font-label-sm text-label-sm flex items-center justify-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[14px]">add</span>
+<span>Назначить синтез</span>
+</button>
+</div>
+</div>
+<!-- Crib Slot 4: Locked Crib Slot -->
+<div class="bg-surface-container-high/50 rounded-lg p-space-sm flex flex-col justify-between shadow-sm relative opacity-75">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-outline uppercase font-bold">Колыбель #4</span>
+<span class="material-symbols-outlined text-outline text-[16px]">lock</span>
+</div>
+<div class="py-space-sm flex items-center gap-3">
+<div class="w-12 h-12 rounded-lg bg-surface-container-lowest flex items-center justify-center shrink-0 text-outline">
+<span class="material-symbols-outlined text-[26px]">domain_disabled</span>
+</div>
+<div class="min-w-0">
+<div class="font-label-md text-label-md text-on-surface-variant font-medium truncate">Гнездо закрыто</div>
+<div class="font-body-sm text-body-sm text-outline">Уровень Усадьбы 15</div>
+</div>
+</div>
+<div>
+<button class="w-full py-1.5 px-2 bg-surface-container-highest hover:bg-surface-bright text-primary rounded font-label-sm text-label-sm flex items-center justify-center gap-1.5 transition-colors" type="button">
+<span class="material-symbols-outlined text-[14px]">monetization_on</span>
+<span>Открыть за 500 Золота</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div></main><footer class="w-full bg-surface-container-lowest/95 backdrop-blur-md py-space-xs px-margin-tablet"><div class="w-full flex items-center justify-between font-label-sm text-label-sm text-on-surface-variant"><div class="flex items-center gap-space-md"><div class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-secondary"></span><span class="text-secondary font-bold uppercase tracking-wider">Сервер: Таверна «Огненный Кот»</span></div><div class="flex items-center gap-space-sm"><div class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-bold">C</kbd><span>Персонаж</span></div><div class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-bold">I</kbd><span>Инвентарь</span></div><div class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-bold">M</kbd><span>Карта</span></div><div class="flex items-center gap-1"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high text-primary font-bold">ESC</kbd><span>Назад</span></div></div></div><div class="flex items-center gap-space-sm text-outline"><span class="tracking-wide">v1.4.8-Web Edition</span></div></div></footer>
 
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-
-<!-- nursery preview copy only; live breed stays rank-gated -->
-</body>
-</html>
+</body></html>

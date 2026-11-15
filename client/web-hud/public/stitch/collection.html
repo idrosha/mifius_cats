@@ -1,95 +1,168 @@
 <section id="viewCollection" class="stitch-view mythfel-form hidden" data-stitch="collection" data-layout="landscape">
-<section id="viewCollection" class="stitch-view mythfel-form hidden" data-stitch="collection" data-layout="landscape">
-<div class="roster-hall">
-<div class="roster-body">
-<aside class="roster-side">
-<div class="roster-head"><strong>Герои-котики</strong><b>12 / 12 портретов</b></div>
-<label class="roster-search-wrap"><span class="roster-find" aria-hidden="true">⌕</span><input class="roster-search" type="search" placeholder="Поиск по имени, роли…" /></label>
-<div class="roster-filters">
-<button type="button" class="is-on" data-el="all">Все</button>
-<button type="button" data-el="stone">Камень</button>
-<button type="button" data-el="fire">Огонь</button>
-<button type="button" data-el="bolt">Молния</button>
-<button type="button" data-el="grass">Трава</button>
-<button type="button" data-el="ice">Лёд</button>
-<button type="button" data-el="water">Вода</button>
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.65)]"><div class="h-16 w-full px-gutter-tablet flex items-center justify-between border-b border-surface-container-highest/60"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm"><div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center text-primary shadow-[inset_0_1px_1px_rgba(255,222,174,0.15)]"><span class="material-symbols-outlined text-[24px]">pets</span></div><div class="flex flex-col"><span class="font-headline-md text-headline-md tracking-wider text-primary uppercase leading-none drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">МИФИУС</span><span class="font-label-sm text-label-sm text-on-surface-variant tracking-widest uppercase">Мифические котики</span></div></div><div class="hidden xl:flex items-center gap-space-xs px-space-sm py-1 bg-surface-container-low rounded-full"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span class="font-label-sm text-label-sm text-secondary-fixed-dim uppercase tracking-wider">24ms ONLINE</span></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-xs bg-surface-container-low px-space-md py-1.5 rounded-lg shadow-[inset_0_1px_2px_rgba(0,0,0,0.5)]"><span class="material-symbols-outlined text-primary text-[18px]">monetization_on</span><span class="font-label-md text-label-md text-on-surface">148,250</span></div><div class="flex items-center gap-space-xs bg-surface-container-low px-space-md py-1.5 rounded-lg shadow-[inset_0_1px_2px_rgba(0,0,0,0.5)]"><span class="material-symbols-outlined text-secondary text-[18px]">set_meal</span><span class="font-label-md text-label-md text-on-surface">920</span></div><div class="flex items-center gap-space-xs bg-surface-container-low px-space-md py-1.5 rounded-lg shadow-[inset_0_1px_2px_rgba(0,0,0,0.5)]"><span class="material-symbols-outlined text-primary-container text-[18px]">bolt</span><span class="font-label-md text-label-md text-on-surface">85/100</span></div><div class="flex items-center gap-space-xs bg-surface-container-low px-space-md py-1.5 rounded-lg shadow-[inset_0_1px_2px_rgba(0,0,0,0.5)]"><span class="material-symbols-outlined text-tertiary-container text-[18px]">diamond</span><span class="font-label-md text-label-md text-on-surface">385</span></div></div><div class="flex items-center gap-space-md"><button class="w-9 h-9 rounded-lg bg-surface-container-low hover:bg-surface-container hover:text-on-surface text-on-surface-variant flex items-center justify-center transition-colors relative" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1.5 right-1.5 w-2 h-2 rounded-full bg-tertiary-container"></span></button><button class="w-9 h-9 rounded-lg bg-surface-container-low hover:bg-surface-container hover:text-on-surface text-on-surface-variant flex items-center justify-center transition-colors" type="button"><span class="material-symbols-outlined text-[20px]">settings</span></button><div class="flex items-center gap-space-sm pl-space-xs"><div class="flex flex-col items-end hidden sm:flex"><span class="font-label-md text-label-md text-on-surface">Хранитель</span><span class="font-label-sm text-label-sm text-primary">Ур. 48</span></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div><div class="h-12 w-full px-gutter-tablet flex items-center bg-surface-container-low/90 overflow-x-auto"><nav class="flex items-center gap-space-xs" data-active-classes="bg-primary-container text-on-primary-container shadow-[0_2px_8px_rgba(217,155,38,0.35)]"><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all whitespace-nowrap" data-path="glavnyj-hab" href="#">Главный Хаб</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all whitespace-nowrap" data-path="kollektsiya-pitomtsev" href="#">Персонаж / Дом</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all whitespace-nowrap" data-path="ekipirovka" href="#">Экипировка</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all whitespace-nowrap" data-path="inventar" href="#">Инвентарь</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all whitespace-nowrap" data-path="ugodya-ferma" href="#">Угодья / Ферма</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all whitespace-nowrap" data-path="kraft" href="#">Крафт</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all whitespace-nowrap" data-path="pohod-pve" href="#">Поход (PvE)</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-all whitespace-nowrap" data-path="arena-pvp" href="#">Арена (PvP)</a></nav></div><div class="h-10 w-full px-gutter-tablet flex items-center bg-surface-container/95 border-t border-surface-container-highest/40 overflow-x-auto"><nav class="flex items-center gap-space-lg h-full" data-active-classes="text-primary border-b-2 border-primary font-bold"><a class="h-full flex items-center px-space-xs font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap border-b-2 border-transparent" data-path="rabochij-stol-personazh" href="#">Рабочий стол (Персонаж)</a><a class="h-full flex items-center px-space-xs font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap border-b-2 border-transparent" data-path="kollektsiya-pitomtsev" href="#">Коллекция питомцев</a><a class="h-full flex items-center px-space-xs font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap border-b-2 border-transparent" data-path="ekipirovka-sumka" href="#">Экипировка / Сумка</a><a class="h-full flex items-center px-space-xs font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap border-b-2 border-transparent" data-path="sety-broni" href="#">Сеты брони</a><a class="h-full flex items-center px-space-xs font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap border-b-2 border-transparent" data-path="klassovye-sety" href="#">Классовые сеты</a><a class="h-full flex items-center px-space-xs font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface transition-colors whitespace-nowrap border-b-2 border-transparent" data-path="kodeks-geroev" href="#">Кодекс героев</a></nav></div></header><main class="w-full pt-[9.5rem] bg-background flex-1"><div class="flex flex-col w-full">
+<!-- Widescreen Combat Roster & Pet Collection Hub (16:9 Aspect Safe Container) -->
+<div class="collection-studio w-full max-w-none px-space-lg flex flex-col gap-space-md py-space-sm select-none flex-1 min-h-0">
+<!-- 1. TOP SUMMARY STRIP: Header, Roster Counters, Elemental Totals & Filter Bar -->
+<section class="w-full bg-surface-container-low rounded-xl p-space-md shadow-[0_6px_20px_rgba(0,0,0,0.55)] flex flex-col xl:flex-row xl:items-center justify-between gap-space-md">
+<!-- Title block & Collection Tier -->
+<div class="flex items-center gap-space-md flex-wrap">
+<div class="w-11 h-11 rounded-lg bg-surface-container-high flex items-center justify-center text-primary shadow-inner">
+<span class="material-symbols-outlined text-[26px]">military_tech</span>
 </div>
-<ul class="roster-list">
-<li data-hero="щит-утёс танк a shop_tank_stone_a" data-el="stone" data-template="shop_tank_stone_a"><span class="thumb"><img alt="Щит-утёс" src="/stitch-assets/cat-heroes/tank-a.png"/></span><div><b>Щит-утёс</b><small>Танк A · Камень</small><em>shop_tank_stone_a</em></div></li>
-<li data-hero="пробой танк b shop_tank_stone_b" data-el="stone" data-template="shop_tank_stone_b"><span class="thumb"><img alt="Пробой" src="/stitch-assets/cat-heroes/tank-b.png"/></span><div><b>Пробой</b><small>Танк B · Камень</small><em>shop_tank_stone_b</em></div></li>
-<li data-hero="парные когти боец a shop_fighter_fire_a" data-el="fire" data-template="shop_fighter_fire_a"><span class="thumb"><img alt="Парные когти" src="/stitch-assets/cat-heroes/fighter-a.png"/></span><div><b>Парные когти</b><small>Боец A · Огонь</small><em>shop_fighter_fire_a</em></div></li>
-<li data-hero="двуручный боец b shop_fighter_fire_b" data-el="fire" data-template="shop_fighter_fire_b"><span class="thumb"><img alt="Двуручный" src="/stitch-assets/cat-heroes/fighter-b.png"/></span><div><b>Двуручный</b><small>Боец B · Огонь</small><em>shop_fighter_fire_b</em></div></li>
-<li data-hero="тень ассасин a shop_assassin_bolt_a" data-el="bolt" data-template="shop_assassin_bolt_a"><span class="thumb"><img alt="Тень" src="/stitch-assets/cat-heroes/assassin-a.png"/></span><div><b>Тень</b><small>Ассасин A · Молния</small><em>shop_assassin_bolt_a</em></div></li>
-<li data-hero="охотник тыла ассасин b shop_assassin_bolt_b" data-el="bolt" data-template="shop_assassin_bolt_b"><span class="thumb"><img alt="Охотник тыла" src="/stitch-assets/cat-heroes/assassin-b.png"/></span><div><b>Охотник тыла</b><small>Ассасин B · Молния</small><em>shop_assassin_bolt_b</em></div></li>
-<li data-hero="охотник стрелок a shop_ranger_grass_a" data-el="grass" data-template="shop_ranger_grass_a"><span class="thumb"><img alt="Охотник" src="/stitch-assets/cat-heroes/ranger-a.png"/></span><div><b>Охотник</b><small>Стрелок A · Трава</small><em>shop_ranger_grass_a</em></div></li>
-<li data-hero="град стрел стрелок b shop_ranger_grass_b" data-el="grass" data-template="shop_ranger_grass_b"><span class="thumb"><img alt="Град стрел" src="/stitch-assets/cat-heroes/ranger-b.png"/></span><div><b>Град стрел</b><small>Стрелок B · Трава</small><em>shop_ranger_grass_b</em></div></li>
-<li data-hero="огонь маг a shop_mage_fire_a" data-el="fire" data-template="shop_mage_fire_a"><span class="thumb"><img alt="Огонь" src="/stitch-assets/cat-heroes/mage-a.png"/></span><div><b>Огонь</b><small>Маг A · Огонь</small><em>shop_mage_fire_a</em></div></li>
-<li data-hero="лёд маг b shop_mage_ice_b" data-el="ice" data-template="shop_mage_ice_b"><span class="thumb"><img alt="Лёд" src="/stitch-assets/cat-heroes/mage-b.png"/></span><div><b>Лёд</b><small>Маг B · Лёд</small><em>shop_mage_ice_b</em></div></li>
-<li data-hero="чистый родник саппорт a shop_support_water_a" data-el="water" data-template="shop_support_water_a"><span class="thumb"><img alt="Чистый родник" src="/stitch-assets/cat-heroes/support-a.png"/></span><div><b>Чистый родник</b><small>Саппорт A · Вода</small><em>shop_support_water_a</em></div></li>
-<li data-hero="прилив силы саппорт b shop_support_water_b" data-el="water" data-template="shop_support_water_b"><span class="thumb"><img alt="Прилив силы" src="/stitch-assets/cat-heroes/support-b.png"/></span><div><b>Прилив силы</b><small>Саппорт B · Вода</small><em>shop_support_water_b</em></div></li>
-</ul>
-<p class="roster-sort"><span>Сортировка: БМ</span><label><input type="checkbox" checked /> Авто-подбор</label></p>
-</aside>
-<section class="roster-squads">
-<div class="roster-head">
-<div><strong>Боевые Тройки (3 Связки Отряда 3v3)</strong><p>3 связки активны параллельно в Экспедициях, Арене и Осадах</p></div>
-<button type="button" class="roster-ghost" data-act="all">Активировать все</button>
+<div class="flex flex-col">
+<div class="flex items-center gap-space-sm flex-wrap">
+<h1 class="font-headline-md text-headline-md text-on-surface tracking-wide uppercase">Коллекция Боевых Котиков</h1>
+<span class="px-space-sm py-0.5 rounded-full bg-primary-container/30 text-primary font-label-sm text-label-sm uppercase tracking-wider">
+              Открыто 12 / 12 Героев
+            </span>
 </div>
-<article class="roster-pack is-on" data-pack="1">
-<div class="roster-pack-top"><b>СВЯЗКА №1</b><span>«Громовой Шквал и Очаг…»</span><em>Плазма &amp; Пар (+25%)</em><button type="button" data-path="trenirovka">Тест</button></div>
-<ul>
-<li><span class="thumb"><img alt="Щит-утёс" src="/stitch-assets/cat-heroes/tank-a.png"/></span><small>АВАНГАРД</small><b>Щит-утёс</b><em>Танк A · Камень</em></li>
-<li><span class="thumb"><img alt="Парные когти" src="/stitch-assets/cat-heroes/fighter-a.png"/></span><small>ЦЕНТР</small><b>Парные когти</b><em>Боец A · Огонь</em></li>
-<li><span class="thumb"><img alt="Тень" src="/stitch-assets/cat-heroes/assassin-a.png"/></span><small>ТЫЛ</small><b>Тень</b><em>Ассасин A · Молния</em></li>
-</ul>
-</article>
-<article class="roster-pack" data-pack="2">
-<div class="roster-pack-top"><b>СВЯЗКА №2</b><span>«Теневой Клинок и Оп…»</span><em>Теневое Горение</em><button type="button" data-path="trenirovka">Тест</button></div>
-<ul>
-<li><span class="thumb"><img alt="Пробой" src="/stitch-assets/cat-heroes/tank-b.png"/></span><small>АВАНГАРД</small><b>Пробой</b><em>Танк B · Камень</em></li>
-<li><span class="thumb"><img alt="Двуручный" src="/stitch-assets/cat-heroes/fighter-b.png"/></span><small>ЦЕНТР</small><b>Двуручный</b><em>Боец B · Огонь</em></li>
-<li><span class="thumb"><img alt="Огонь" src="/stitch-assets/cat-heroes/mage-a.png"/></span><small>ТЫЛ</small><b>Огонь</b><em>Маг A · Огонь</em></li>
-</ul>
-</article>
-<article class="roster-pack" data-pack="3">
-<div class="roster-pack-top"><b>СВЯЗКА №3</b><span>«Ледяной Бастион и Щит…»</span><em>Заморозка</em><button type="button" data-path="trenirovka">Тест</button></div>
-<ul>
-<li><span class="thumb"><img alt="Охотник" src="/stitch-assets/cat-heroes/ranger-a.png"/></span><small>АВАНГАРД</small><b>Охотник</b><em>Стрелок A · Трава</em></li>
-<li><span class="thumb"><img alt="Лёд" src="/stitch-assets/cat-heroes/mage-b.png"/></span><small>ЦЕНТР</small><b>Лёд</b><em>Маг B · Лёд</em></li>
-<li><span class="thumb"><img alt="Чистый родник" src="/stitch-assets/cat-heroes/support-a.png"/></span><small>ТЫЛ</small><b>Чистый родник</b><em>Саппорт A · Вода</em></li>
-</ul>
-</article>
-<article class="roster-pack is-empty">
-<div class="roster-pack-top"><b>+ Создать новую боевую тройку (Связка №4)</b><button type="button" data-path="расстановка">Настроить</button></div>
-<p>Открыто 3 · Лимит 4 / 5 связок</p>
-</article>
-</section>
-<aside class="roster-book">
-<div class="roster-head"><strong>Справочник Синергий и Бонусов</strong><b>3 Активно</b></div>
-<article data-pack="1">
-<h3>«Плазма &amp; Пар» <small>Связка №1</small></h3>
-<p>Стихии Грома и Огня перегружают оружие Барсика. Исцеляющий поток Мурки остужает катализатор, рассеивая плотный туман пара.</p>
-<ul><li>Урон +15%</li><li>Уклонение +10%</li><li>+1 АР ход 2</li></ul>
-</article>
-<article data-pack="2">
-<h3>«Теневое Горение» <small>Связка №2</small></h3>
-<p>Теневой выход Черныша мгновенно вызывает врагов из заклинаний Лютика, пока Баюн провоцирует врагов на себя. Враги теряют здоровье каждый ход.</p>
-<ul><li>Крит x2.2 (+15%)</li><li>Срез брони −30%</li><li>8% HP/ход</li></ul>
-</article>
-<article data-pack="3">
-<h3>«Абсолютная Заморозка» <small>Связка №3</small></h3>
-<p>Стрелы Сильвы раздувают ледяные кристаллы Ледолапа по площади, сковывая всё живое противника за щитом Ледяного.</p>
-<ul><li>Замедление −50%</li><li>Оглушение на 2-й ход</li></ul>
-</article>
-<p class="roster-note"><b>Максимальный резонанс.</b> Все 3 боевые тройки перекрывают сильные стороны друг друга: Авангард держит контроль, центр давит, тыл закрывает баффы.</p>
-<button type="button" class="roster-apply">ПРИМЕНИТЬ ДЛЯ ВСЕХ БОЕВ</button>
-<button type="button" class="roster-export" data-path="chat-gildii">Экспорт расстановки в чат Гильдии</button>
-</aside>
+<div class="flex items-center gap-space-md text-on-surface-variant font-body-sm text-body-sm mt-0.5">
+<span class="flex items-center gap-1 text-primary">
+<span class="material-symbols-outlined text-[15px]">stars</span>
+<strong class="font-label-md text-label-md">Ранг V:</strong> Золотой Прайд
+            </span>
+<span class="text-outline">•</span>
+<span class="text-secondary font-label-md text-label-md">+8% ко всем стихиям отряда</span>
+<span class="text-outline">•</span>
+<span>Суммарная мощь Прайда: <strong class="text-on-surface font-stat-numeral text-[14px]">199,490 БМ</strong></span>
 </div>
-<footer class="roster-foot">
-<span>Сервер: Очаг Мурр-1 (RU-1) · Версия 1.42-Tavern · Пинг: 24мс</span>
-<span class="roster-keys"><b>ПРОБЕЛ</b> Сохранить · <b>T</b> Тест в Додзё · <b>P</b> Персонаж · <b>I</b> Инвентарь · <b>ESC</b> Назад</span>
-</footer>
+</div>
+</div>
+<!-- Elemental distribution counters -->
+<div class="hidden 2xl:flex items-center gap-space-xs bg-surface-container-lowest px-space-md py-1.5 rounded-lg shadow-inner">
+<div class="flex items-center gap-1 px-1.5 py-0.5 text-primary" title="Гром: 2 котика">
+<span class="material-symbols-outlined text-[16px]">bolt</span>
+<span class="font-stat-numeral text-label-sm">2</span>
+</div>
+<div class="flex items-center gap-1 px-1.5 py-0.5 text-tertiary-container" title="Огонь: 2 котика">
+<span class="material-symbols-outlined text-[16px]">local_fire_department</span>
+<span class="font-stat-numeral text-label-sm">2</span>
+</div>
+<div class="flex items-center gap-1 px-1.5 py-0.5 text-on-surface-variant" title="Тень: 2 котика">
+<span class="material-symbols-outlined text-[16px]">visibility_off</span>
+<span class="font-stat-numeral text-label-sm">2</span>
+</div>
+<div class="flex items-center gap-1 px-1.5 py-0.5 text-secondary-fixed-dim" title="Ветер / Листва: 2 котика">
+<span class="material-symbols-outlined text-[16px]">air</span>
+<span class="font-stat-numeral text-label-sm">2</span>
+</div>
+<div class="flex items-center gap-1 px-1.5 py-0.5 text-secondary" title="Лёд: 2 котика">
+<span class="material-symbols-outlined text-[16px]">ac_unit</span>
+<span class="font-stat-numeral text-label-sm">2</span>
+</div>
+<div class="flex items-center gap-1 px-1.5 py-0.5 text-primary-fixed" title="Вода: 2 котика">
+<span class="material-symbols-outlined text-[16px]">water_drop</span>
+<span class="font-stat-numeral text-label-sm">2</span>
+</div>
+</div>
+<!-- Filters, Search & Sorter -->
+<div class="flex items-center gap-space-sm flex-wrap">
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2.5 top-2 text-on-surface-variant text-[18px]">search</span>
+<input class="bg-surface-container-lowest text-on-surface font-body-sm text-body-sm pl-8 pr-3 py-1.5 rounded-lg w-40 focus:w-48 focus:outline-none focus:ring-1 focus:ring-primary transition-all shadow-inner" placeholder="Поиск котика..." type="text">
+</div>
+<div class="flex items-center gap-1 bg-surface-container-lowest px-space-sm py-1.5 rounded-lg shadow-inner">
+<span class="material-symbols-outlined text-primary text-[16px]">sort</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Сортировка:</span>
+<span class="font-label-sm text-label-sm text-primary font-bold">БМ (по убыв.)</span>
+</div>
 </div>
 </section>
+<!-- Role Filter Pills Strip -->
+<div class="w-full flex items-center justify-between gap-space-sm overflow-x-auto pb-1">
+<div class="flex items-center gap-space-xs">
+<button class="px-space-md py-1 rounded-full bg-primary text-on-primary font-label-sm text-label-sm shadow-[0_2px_8px_rgba(253,186,69,0.35)] flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px]">group</span>
+<span>Все котики (12)</span>
+</button>
+<button class="px-space-md py-1 rounded-full bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-sm text-label-sm transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-primary">shield</span>
+<span>Танки (2)</span>
+</button>
+<button class="px-space-md py-1 rounded-full bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-sm text-label-sm transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-tertiary-container">swords</span>
+<span>Бойцы (2)</span>
+</button>
+<button class="px-space-md py-1 rounded-full bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-sm text-label-sm transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-on-surface-variant">sprint</span>
+<span>Ассасины (2)</span>
+</button>
+<button class="px-space-md py-1 rounded-full bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-sm text-label-sm transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-secondary">target</span>
+<span>Стрелки (2)</span>
+</button>
+<button class="px-space-md py-1 rounded-full bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-sm text-label-sm transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-tertiary">auto_fix_high</span>
+<span>Маги (2)</span>
+</button>
+<button class="px-space-md py-1 rounded-full bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-sm text-label-sm transition-colors flex items-center gap-1">
+<span class="material-symbols-outlined text-[15px] text-secondary-fixed-dim">healing</span>
+<span>Саппорты (2)</span>
+</button>
+</div>
+<div class="hidden lg:flex items-center gap-space-sm font-label-sm text-label-sm text-on-surface-variant">
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-secondary"></span> 3 В строю</span>
+<span class="flex items-center gap-1"><span class="w-2 h-2 rounded-full bg-outline"></span> 9 В резерве</span>
+</div>
+</div>
+<!-- 2. MAIN 3-COLUMN WAR ROSTER STAGE -->
+<div class="collection-stage grid grid-cols-1 lg:grid-cols-12 gap-space-md items-stretch flex-1 min-h-0">
+<!-- ================= COLUMN A (LEFT ~31%): 12 HERO TILES GRID ================= -->
+<section class="lg:col-span-4 bg-surface-container-low rounded-xl p-space-md flex flex-col gap-space-sm shadow-[0_6px_20px_rgba(0,0,0,0.6)] h-full min-h-0">
+<div class="flex items-center justify-between pb-space-xs border-b border-surface-container-highest/60 flex-shrink-0">
+<div class="flex items-center gap-space-xs">
+<span class="material-symbols-outlined text-primary text-[18px]">view_comfy</span>
+<span class="font-headline-md text-[15px] uppercase tracking-wider text-on-surface">Боевой Ростер (12)</span>
+</div>
+<span class="font-label-sm text-label-sm text-primary">Связка: Тыл · ДПС · Танк</span>
+</div>
+<!-- Scrollable hero list/grid with prominent cat hero cards and DataStore images -->
+<div class="collection-roster flex-1 overflow-y-auto pr-1 grid grid-cols-2 gap-2 content-start auto-rows-min min-h-0" style="scrollbar-width: thin;"><div class="relative bg-surface-container-lowest/50 rounded-lg flex items-center justify-center h-[88px] cursor-pointer border border-surface-container-highest/30 text-outline-variant hover:text-on-surface-variant transition-colors"><span class="material-symbols-outlined text-[22px]">add</span><span class="font-label-sm text-label-sm ml-1">Пусто</span></div><div class="relative bg-surface-container-lowest/50 rounded-lg flex items-center justify-center h-[88px] cursor-pointer border border-surface-container-highest/30 text-outline-variant hover:text-on-surface-variant transition-colors"><span class="material-symbols-outlined text-[22px]">add</span><span class="font-label-sm text-label-sm ml-1">Пусто</span></div><div class="relative bg-surface-container-lowest/50 rounded-lg flex items-center justify-center h-[88px] cursor-pointer border border-surface-container-highest/30 text-outline-variant hover:text-on-surface-variant transition-colors"><span class="material-symbols-outlined text-[22px]">add</span><span class="font-label-sm text-label-sm ml-1">Пусто</span></div><div class="relative bg-surface-container-lowest/50 rounded-lg flex items-center justify-center h-[88px] cursor-pointer border border-surface-container-highest/30 text-outline-variant hover:text-on-surface-variant transition-colors"><span class="material-symbols-outlined text-[22px]">add</span><span class="font-label-sm text-label-sm ml-1">Пусто</span></div><div class="relative bg-surface-container-lowest/50 rounded-lg flex items-center justify-center h-[88px] cursor-pointer border border-surface-container-highest/30 text-outline-variant hover:text-on-surface-variant transition-colors"><span class="material-symbols-outlined text-[22px]">add</span><span class="font-label-sm text-label-sm ml-1">Пусто</span></div><div class="relative bg-surface-container-lowest/50 rounded-lg flex items-center justify-center h-[88px] cursor-pointer border border-surface-container-highest/30 text-outline-variant hover:text-on-surface-variant transition-colors"><span class="material-symbols-outlined text-[22px]">add</span><span class="font-label-sm text-label-sm ml-1">Пусто</span></div><div class="relative bg-surface-container-lowest/50 rounded-lg flex items-center justify-center h-[88px] cursor-pointer border border-surface-container-highest/30 text-outline-variant hover:text-on-surface-variant transition-colors"><span class="material-symbols-outlined text-[22px]">add</span><span class="font-label-sm text-label-sm ml-1">Пусто</span></div><div class="relative bg-surface-container-lowest/50 rounded-lg flex items-center justify-center h-[88px] cursor-pointer border border-surface-container-highest/30 text-outline-variant hover:text-on-surface-variant transition-colors"><span class="material-symbols-outlined text-[22px]">add</span><span class="font-label-sm text-label-sm ml-1">Пусто</span></div><div class="relative bg-surface-container-lowest/50 rounded-lg flex items-center justify-center h-[88px] cursor-pointer border border-surface-container-highest/30 text-outline-variant hover:text-on-surface-variant transition-colors"><span class="material-symbols-outlined text-[22px]">add</span><span class="font-label-sm text-label-sm ml-1">Пусто</span></div><div class="relative bg-surface-container-lowest/50 rounded-lg flex items-center justify-center h-[88px] cursor-pointer border border-surface-container-highest/30 text-outline-variant hover:text-on-surface-variant transition-colors"><span class="material-symbols-outlined text-[22px]">add</span><span class="font-label-sm text-label-sm ml-1">Пусто</span></div><div class="relative bg-surface-container-lowest/50 rounded-lg flex items-center justify-center h-[88px] cursor-pointer border border-surface-container-highest/30 text-outline-variant hover:text-on-surface-variant transition-colors"><span class="material-symbols-outlined text-[22px]">add</span><span class="font-label-sm text-label-sm ml-1">Пусто</span></div><div class="relative bg-surface-container-lowest/50 rounded-lg flex items-center justify-center h-[88px] cursor-pointer border border-surface-container-highest/30 text-outline-variant hover:text-on-surface-variant transition-colors"><span class="material-symbols-outlined text-[22px]">add</span><span class="font-label-sm text-label-sm ml-1">Пусто</span></div></div>
+<!-- Quick Summary Mini-Footnote -->
+<div class="flex flex-col gap-1.5 flex-shrink-0 mt-auto pt-1 border-t border-surface-container-highest/60"><button class="w-full py-2 px-space-md rounded-lg bg-surface-container-high hover:bg-surface-bright text-primary border border-primary/40 hover:border-primary/60 font-label-md text-[13px] font-bold flex items-center justify-center gap-2 transition-all cursor-pointer shadow-[0_2px_8px_rgba(253,186,69,0.2)]"><span class="material-symbols-outlined text-[18px]">menu_book</span><span>База знаний героев</span><span class="px-1.5 py-0.2 rounded bg-primary-container/30 text-primary text-[10px] font-label-sm font-bold ml-auto">Кодекс</span></button><div class="bg-surface-container-lowest/80 p-space-xs rounded-lg flex items-center justify-between text-on-surface-variant font-body-sm text-[11px]"><span>Собрано 12 / 12 (100%)</span><span class="text-primary font-label-sm text-label-sm uppercase tracking-wider flex items-center gap-1">Связка: Тыл · ДПС · Танк</span></div></div>
+</section>
+<!-- ================= COLUMN B (CENTER ~41%): FULL-BODY SHOWCASE & STATS ================= -->
+<!-- ================= COLUMN C (RIGHT ~28%): SYNERGIES, TIES & PRESETS ================= -->
+<section class="lg:col-span-8 bg-surface-container-low rounded-xl p-space-md flex flex-col min-h-0 gap-space-sm shadow-[0_6px_20px_rgba(0,0,0,0.6)]">
+<!-- Header of Squad Builder -->
+<div class="flex items-center justify-between pb-space-xs border-b border-surface-container-highest/60 flex-shrink-0">
+<div class="flex items-center gap-space-sm">
+<div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center text-primary shadow-inner">
+<span class="material-symbols-outlined text-[20px]">hub</span>
+</div>
+<div>
+<h2 class="font-headline-md text-[16px] uppercase tracking-wider text-on-surface leading-tight">Боевые Связки и Построение Троек (3 Команды)</h2>
+<p class="font-body-sm text-[12px] text-on-surface-variant">Формирование ударных троек с позиционным контролем (Тыл · DPS · Танк)&nbsp;</p>
+</div>
+</div>
+<div class="flex items-center gap-space-xs">
+<button class="px-space-md py-1 rounded-lg bg-surface-container hover:bg-surface-container-high text-primary font-label-sm text-[12px] border border-primary/40 flex items-center gap-1 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-[15px]">auto_awesome</span>
+<span>Авто-подбор&nbsp;</span>
+</button>
+<button class="px-space-md py-1 rounded-lg bg-primary hover:brightness-110 text-on-primary font-label-sm text-[12px] font-bold shadow-[0_2px_8px_rgba(253,186,69,0.35)] flex items-center gap-1 transition-all cursor-pointer">
+<span class="material-symbols-outlined text-[15px]">check_circle</span>
+<span>Применить все</span>
+</button>
+</div>
+</div>
+<!-- 3 Squad Formation Cards List -->
+<div class="flex flex-col gap-space-sm flex-1 justify-between overflow-y-auto pr-1" style="scrollbar-width: thin;">
+<!-- ================= SQUAD 1 (АКТИВНАЯ ОСНОВА) ================= -->
+
+<!-- ================= SQUAD 2 (ВТОРОЙ ЭШЕЛОН) ================= -->
+
+<!-- ================= SQUAD 3 (КОНТРОЛЬ & ЛЁД) ================= -->
+<div class="bg-surface-container rounded-lg p-space-sm border border-surface-container-highest/60 hover:border-primary/40 shadow-[0_4px_14px_rgba(0,0,0,0.5)] flex flex-col gap-2 relative overflow-hidden transition-all"><div class="flex flex-col lg:flex-row gap-space-sm w-full items-stretch"><div class="flex-1 grid grid-cols-1 md:grid-cols-3 gap-2 self-stretch min-h-0 h-full" style="grid-auto-rows: 1fr;"><!-- Slot 1: Тыл / Саппорт (Аурелия) -->
+<div class="bg-surface-container-lowest/40 rounded-lg p-2 border border-dashed border-outline-variant/40 flex flex-col items-center justify-center h-full min-h-[220px] cursor-pointer text-outline-variant hover:border-outline-variant/70 transition-colors"><span class="material-symbols-outlined text-3xl">add</span><span class="font-label-sm text-label-sm mt-1">Пусто</span></div>
+<!-- Slot 2: Центр / Маг (Фростия) -->
+<div class="bg-surface-container-lowest/40 rounded-lg p-2 border border-dashed border-outline-variant/40 flex flex-col items-center justify-center h-full min-h-[220px] cursor-pointer text-outline-variant hover:border-outline-variant/70 transition-colors"><span class="material-symbols-outlined text-3xl">add</span><span class="font-label-sm text-label-sm mt-1">Пусто</span></div>
+<!-- Slot 3: Авангард / Танк Страж (Гром) on far right -->
+<div class="bg-surface-container-lowest/40 rounded-lg p-2 border border-dashed border-outline-variant/40 flex flex-col items-center justify-center h-full min-h-[220px] cursor-pointer text-outline-variant hover:border-outline-variant/70 transition-colors"><span class="material-symbols-outlined text-3xl">add</span><span class="font-label-sm text-label-sm mt-1">Пусто</span></div></div><div class="w-full lg:w-72 bg-surface-container-lowest/90 rounded-lg p-space-sm border border-surface-container-highest/60 flex flex-col justify-between gap-space-xs"><div class="flex flex-col gap-1.5"><div class="flex items-center justify-between flex-wrap gap-1"><span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-stat-numeral text-[10px] font-bold uppercase tracking-wider">Команда 1 · Защита</span><span class="px-1.5 py-0.2 rounded-full bg-outline/20 text-on-surface-variant border border-outline/40 text-[9px] font-bold">РЕЗЕРВ (ОБОРОНА)</span></div><h3 class="font-label-md text-label-md text-primary font-bold leading-tight">«Вечная Мерзлота &amp; Ледяной Оплот»</h3><div class="flex items-center justify-between py-1 px-2 rounded bg-surface-container-high/90 border border-surface-container-highest/60"><span class="text-[11px] text-on-surface-variant font-body-sm">Мощь связки:</span><strong class="text-primary font-stat-numeral text-[14px]">49,500 БМ</strong></div><div class="flex flex-col gap-1.5"><div class="p-1.5 rounded bg-surface-container-high/60 border border-surface-container-highest/40 flex flex-col gap-1"><div class="flex items-center justify-between"><span class="text-[10px] font-bold text-on-surface flex items-center gap-1"><span class="material-symbols-outlined text-[13px] text-primary">token</span>Стихии отряда</span></div><div class="flex items-center gap-1 flex-wrap"><span class="px-1.5 py-0.5 rounded bg-surface-container-lowest text-secondary font-label-sm text-[10px] flex items-center gap-0.5 border border-surface-container-highest/60"><span class="material-symbols-outlined text-[11px]">ac_unit</span>Лёд (1)</span><span class="px-1.5 py-0.5 rounded bg-surface-container-lowest text-primary-fixed font-label-sm text-[10px] flex items-center gap-0.5 border border-surface-container-highest/60"><span class="material-symbols-outlined text-[11px]">water_drop</span>Вода (1)</span><span class="px-1.5 py-0.5 rounded bg-surface-container-lowest text-primary font-label-sm text-[10px] flex items-center gap-0.5 border border-surface-container-highest/60"><span class="material-symbols-outlined text-[11px]">landscape</span>Земля (1)</span></div></div><div class="p-1.5 rounded bg-surface-container-high/60 border border-surface-container-highest/40 flex flex-col gap-1"><div class="flex items-center justify-between text-[10px]"><span class="font-bold text-on-surface flex items-center gap-1"><span class="material-symbols-outlined text-[13px] text-primary">flare</span>Бонус стихийного резонанса</span><span class="font-stat-numeral text-primary font-bold">+0%</span></div><p class="text-[10px] text-on-surface-variant leading-tight">Бонус (+15% урона / +15% брони) активируется при сборе 3 котиков одной стихии (сейчас: 1/3 Лёд, 1/3 Вода, 1/3 Земля).</p></div></div></div><div class="flex flex-col gap-1.5 pt-2 border-t border-surface-container-highest/40"><button class="w-full py-1.5 px-space-sm rounded bg-primary hover:brightness-110 text-on-primary font-label-sm text-[11px] font-bold shadow-[0_2px_8px_rgba(253,186,69,0.35)] flex items-center justify-center gap-1 transition-all cursor-pointer"><span class="material-symbols-outlined text-[14px]">check_circle</span><span>Применить расстановку</span></button></div></div></div></div><div class="bg-surface-container rounded-lg p-space-sm border border-surface-container-highest/60 hover:border-primary/40 shadow-[0_4px_14px_rgba(0,0,0,0.5)] flex flex-col gap-2 relative overflow-hidden transition-all"><div class="flex flex-col lg:flex-row gap-space-sm w-full items-stretch"><div class="flex-1 grid grid-cols-1 md:grid-cols-3 gap-2"><div class="bg-surface-container-high/60 rounded-lg p-2 border-2 border-dashed border-surface-container-highest hover:border-primary/60 transition-all cursor-pointer group flex flex-col justify-between shadow-inner relative overflow-hidden"><div class="flex items-center justify-between pb-1 border-b border-surface-container-highest/40 z-10"><span class="text-[10px] font-label-sm font-bold text-secondary uppercase tracking-wide flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">healing</span> 1. ТЫЛ&nbsp;</span><span class="px-1.5 py-0.2 rounded bg-surface-container-highest text-on-surface-variant font-stat-numeral text-[9px] font-bold">Слот пуст</span></div><div class="h-44 w-full relative my-1 rounded bg-surface-container-lowest/80 flex flex-col items-center justify-center gap-1 p-2 border border-surface-container-highest/30"><div class="w-11 h-11 rounded-full bg-surface-container flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300 shadow-inner"><span class="material-symbols-outlined text-[24px]">add</span></div><span class="text-[12px] font-bold text-on-surface">Назначить в тыл</span><span class="text-[10px] text-on-surface-variant text-center leading-tight">Саппорт, лекарь или стрелок</span></div><div class="flex flex-col gap-0.5 pt-1 border-t border-surface-container-highest/40 z-10"><div class="flex items-center justify-between text-[11px]"><span class="text-on-surface-variant font-body-sm">Рекомендация:</span><span class="font-stat-numeral text-secondary font-bold">Тыл</span></div><div class="text-[10px] text-on-surface-variant leading-tight truncate">Хил, баффы, снятие дебаффов, прикрытие из засады. Защищён от фронтальных атак.</div></div></div><div class="bg-surface-container-high/60 rounded-lg p-2 border-2 border-dashed border-surface-container-highest hover:border-primary/60 transition-all cursor-pointer group flex flex-col justify-between shadow-inner relative overflow-hidden"><div class="flex items-center justify-between pb-1 border-b border-surface-container-highest/40 z-10"><span class="text-[10px] font-label-sm font-bold text-primary-fixed uppercase tracking-wide flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">auto_fix_high</span> 2. ЦЕНТР&nbsp;</span><span class="px-1.5 py-0.2 rounded bg-surface-container-highest text-on-surface-variant font-stat-numeral text-[9px] font-bold">Слот пуст</span></div><div class="h-44 w-full relative my-1 rounded bg-surface-container-lowest/80 flex flex-col items-center justify-center gap-1 p-2 border border-surface-container-highest/30"><div class="w-11 h-11 rounded-full bg-surface-container flex items-center justify-center text-primary-fixed group-hover:scale-110 transition-transform duration-300 shadow-inner"><span class="material-symbols-outlined text-[24px]">add</span></div><span class="text-[12px] font-bold text-on-surface">Назначить в центр</span><span class="text-[10px] text-on-surface-variant text-center leading-tight">Ударный DPS / Разрушение</span></div><div class="flex flex-col gap-0.5 pt-1 border-t border-surface-container-highest/40 z-10"><div class="flex items-center justify-between text-[11px]"><span class="text-on-surface-variant font-body-sm">Рекомендация:</span><span class="font-stat-numeral text-primary-fixed font-bold">DPS</span></div><div class="text-[10px] text-on-surface-variant leading-tight truncate">Крит, взрывной урон, разрушение щитов врага, стихийный резонанс.</div></div></div><div class="bg-surface-container-high/60 rounded-lg p-2 border-2 border-dashed border-surface-container-highest hover:border-primary/60 transition-all cursor-pointer group flex flex-col justify-between shadow-inner relative overflow-hidden"><div class="flex items-center justify-between pb-1 border-b border-surface-container-highest/40 z-10"><span class="text-[10px] font-label-sm font-bold text-primary uppercase tracking-wide flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">shield</span> 3. ТАнк</span><span class="px-1.5 py-0.2 rounded bg-surface-container-highest text-on-surface-variant font-stat-numeral text-[9px] font-bold">Слот пуст</span></div><div class="h-44 w-full relative my-1 rounded bg-surface-container-lowest/80 flex flex-col items-center justify-center gap-1 p-2 border border-surface-container-highest/30"><div class="w-11 h-11 rounded-full bg-surface-container flex items-center justify-center text-primary group-hover:scale-110 transition-transform duration-300 shadow-inner"><span class="material-symbols-outlined text-[24px]">add</span></div><span class="text-[12px] font-bold text-on-surface">Назначить танка</span><span class="text-[10px] text-on-surface-variant text-center leading-tight">Танк с контролем и блоком</span></div><div class="flex flex-col gap-0.5 pt-1 border-t border-surface-container-highest/40 z-10"><div class="flex items-center justify-between text-[11px]"><span class="text-on-surface-variant font-body-sm">Рекомендация:</span><span class="font-stat-numeral text-primary font-bold">Танк</span></div><div class="text-[10px] text-on-surface-variant leading-tight truncate">Держит 70% входящего урона, провокация врага, крепкий щит.</div></div></div></div><div class="w-full lg:w-72 bg-surface-container-lowest/90 rounded-lg p-space-sm border border-surface-container-highest/60 flex flex-col justify-between gap-space-xs"><div class="flex flex-col gap-1.5"><div class="flex items-center justify-between flex-wrap gap-1"><span class="px-2 py-0.5 rounded bg-surface-container-highest text-on-surface font-stat-numeral text-[10px] font-bold uppercase tracking-wider">Команда 2 · Новый строй</span></div><h3 class="font-label-md text-label-md text-primary font-bold leading-tight">«Тактическое построение (Связка 3v3)»</h3><div class="flex items-center justify-between py-1 px-2 rounded bg-surface-container-high/90 border border-surface-container-highest/60"><span class="text-[11px] text-on-surface-variant font-body-sm">Мощь связки:</span><strong class="text-on-surface font-stat-numeral text-[14px]">0 БМ</strong></div><div class="flex flex-col gap-1.5"><div class="p-1.5 rounded bg-surface-container-high/60 border border-surface-container-highest/40 flex flex-col gap-1"><div class="flex items-center justify-between"><span class="text-[10px] font-bold text-on-surface flex items-center gap-1"><span class="material-symbols-outlined text-[13px] text-primary">token</span>Стихии отряда</span></div><div class="flex items-center gap-1 flex-wrap"><span class="px-1.5 py-0.5 rounded bg-surface-container-lowest text-on-surface-variant font-label-sm text-[10px] border border-surface-container-highest/40 border-dashed">Нет котиков в строю</span></div></div><div class="p-1.5 rounded bg-surface-container-high/60 border border-surface-container-highest/40 flex flex-col gap-1"><div class="flex items-center justify-between text-[10px]"><span class="font-bold text-on-surface flex items-center gap-1"><span class="material-symbols-outlined text-[13px] text-primary">flare</span>Бонус стихийного резонанса</span><span class="font-stat-numeral text-on-surface-variant font-bold">Не активен</span></div><p class="text-[10px] text-on-surface-variant leading-tight">Выберите 3 котика для активации стихийной синергии (+25% урона или +15% брони).</p></div></div></div><div class="flex flex-col gap-1.5 pt-2 border-t border-surface-container-highest/40"><button class="w-full py-1.5 px-space-sm rounded bg-primary hover:brightness-110 text-on-primary font-label-sm text-[11px] font-bold shadow-[0_2px_8px_rgba(253,186,69,0.35)] flex items-center justify-center gap-1 transition-all cursor-pointer"><span class="material-symbols-outlined text-[14px]">add</span><span>Собрать отряд</span></button></div></div></div></div>
+</div>
+</section>
+</div>
+<!-- 3. BOTTOM FLUSH BANNER: TIPS & AUTO-FORMATION CTA -->
+</div>
+</div></main>
 </section>

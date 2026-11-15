@@ -2861,7 +2861,21 @@ const BARN_RARITIES = [
   { id: "rare", label: "Редк", cls: "is-rare" },
   { id: "common", label: "Обычн", cls: "" },
 ];
-const BARN_PAGE_SIZE = 24;
+const BARN_PAGE_SIZE = 60;
+const BARN_RARITY_RU = {
+  mythic: "Миф",
+  legendary: "Легенда",
+  epic: "Эпик",
+  rare: "Редк",
+  common: "Обычн",
+};
+const BARN_KIND_RU = {
+  armor: "Броня",
+  weapon: "Оружие",
+  farm: "Добыча / ферма",
+  potion: "Зелье",
+  blueprint: "Чертёж",
+};
 
 function barnStockUsed() {
   return (state.barnCatalog || []).reduce((sum, item) => sum + (item.qty || 1), 0);
@@ -2870,7 +2884,11 @@ function barnStockUsed() {
 function barnFilteredItems() {
   const q = (state.barnSearch || "").trim().toLowerCase();
   return (state.barnCatalog || []).filter((item) => {
-    if (state.barnCatFilter && state.barnCatFilter !== "all" && item.kind !== state.barnCatFilter) return false;
+    if (state.barnCatFilter === "equip") {
+      if (item.kind !== "armor" && item.kind !== "weapon") return false;
+    } else if (state.barnCatFilter && state.barnCatFilter !== "all" && item.kind !== state.barnCatFilter) {
+      return false;
+    }
     if (state.barnRarityFilter && state.barnRarityFilter !== "all" && item.rarity !== state.barnRarityFilter) return false;
     if (q && !`${item.name} ${item.tag}`.toLowerCase().includes(q)) return false;
     return true;
@@ -2879,282 +2897,276 @@ function barnFilteredItems() {
 
 function barnKindCount(kind) {
   return (state.barnCatalog || [])
-    .filter((item) => kind === "all" || item.kind === kind)
+    .filter((item) => {
+      if (kind === "all") return true;
+      if (kind === "equip") return item.kind === "armor" || item.kind === "weapon";
+      return item.kind === kind;
+    })
     .reduce((sum, item) => sum + (item.qty || 1), 0);
 }
 
-function renderBarn() {
-  const root = $("viewGear");
-  if (!root || root.classList.contains("hidden")) return;
+function barnGearForItem(item) {
+  if (!item) return null;
+  return (
+    state.gearCatalog.find(
+      (g) =>
+        (item.gearId && g.id === item.gearId) ||
+        g.name === item.name ||
+        g.id === String(item.id || "").replace(/^barn_/, ""),
+    ) || null
+  );
+}
 
-  const used = barnStockUsed();
-  const cap = state.barnCapMax || 2000;
-  const free = Math.max(0, cap - used);
-  const pct = Math.min(100, Math.round((used / cap) * 100));
-  const capBlock = $("barnCapBlock");
-  if (capBlock) {
-    capBlock.innerHTML = `
-      <div class="barn-cap-row"><span>Заполненность</span><b>${formatSheetNum(used)} / ${formatSheetNum(cap)}</b></div>
-      <div class="barn-bar" aria-hidden="true"><i style="width:${pct}%"></i></div>
-      <div class="barn-cap-row"><span>Свободно ${formatSheetNum(free)}</span><span>${pct}% занято</span></div>
-      <button type="button" id="barnExpand">+200 слотов · 5 000</button>
-    `;
-    capBlock.querySelector("#barnExpand")?.addEventListener("click", () => {
-      state.barnCapMax = (state.barnCapMax || 2000) + 200;
-      toast("Слоты амбара расширены (+200)");
+function barnRarityBorder(rarity) {
+  if (rarity === "mythic" || rarity === "legendary") return "border-primary/60";
+  if (rarity === "epic") return "border-tertiary/50";
+  if (rarity === "rare") return "border-secondary/50";
+  return "border-surface-container-highest/40";
+}
+
+/** Hook Stitch gear DOM once — ids for grid/search/inspector. */
+function ensureBarnDom(root) {
+  if (!root || root.dataset.barnDom === "1") return;
+  const grid = [...root.querySelectorAll(".grid.grid-cols-6")].find((g) =>
+    /overflow-y-auto|content-start/.test(g.className),
+  );
+  if (grid) grid.id = "barnGrid";
+  const search = root.querySelector('input[placeholder*="Поиск"]');
+  if (search) search.id = "barnSearch";
+  const rarityRow = search?.closest(".flex.items-center.justify-between")?.querySelector(".flex.items-center.gap-1");
+  if (rarityRow) rarityRow.id = "barnRarityTabs";
+  const leftCol = root.querySelector(".col-span-3.flex.flex-col");
+  const catBox = leftCol?.querySelector(".flex.flex-col.flex-1.justify-between");
+  if (catBox) catBox.id = "barnCatTabs";
+  const capCard = leftCol?.querySelector(".bg-surface-container-low");
+  if (capCard) capCard.id = "barnCapBlock";
+  const inspector = [...root.querySelectorAll(".col-span-3")].find((el) => el.querySelector("h2"));
+  if (inspector) inspector.id = "barnInspector";
+  const toolRow = leftCol?.querySelector(".flex.gap-1");
+  if (toolRow) {
+    toolRow.id = "barnTools";
+    const btns = toolRow.querySelectorAll("button");
+    if (btns[0]) btns[0].setAttribute("data-barn-tool", "sort");
+    if (btns[1]) btns[1].setAttribute("data-barn-tool", "smelt");
+  }
+  const expandBtn = [...(leftCol?.querySelectorAll("button") || [])].find((b) =>
+    /мест|\+50|\+200/i.test(b.textContent || ""),
+  );
+  if (expandBtn) expandBtn.setAttribute("data-barn-tool", "expand");
+  root.dataset.barnDom = "1";
+}
+
+function bindBarnOnce(root) {
+  if (!root || root.dataset.barnBound === "1") return;
+  root.dataset.barnBound = "1";
+  root.addEventListener("click", (e) => {
+    const catBtn = e.target.closest("[data-barn-cat]");
+    if (catBtn && root.contains(catBtn)) {
+      state.barnCatFilter = catBtn.getAttribute("data-barn-cat") || "all";
+      state.barnPage = 1;
       renderBarn();
-    });
-  }
-
-  const summary = $("barnSummary");
-  if (summary) {
-    const rows = [
-      { label: "Снаряжение", count: barnKindCount("armor") + barnKindCount("weapon"), icon: "/barn-icons/chest.png" },
-      { label: "Арсенал оружия", count: barnKindCount("weapon"), icon: "/barn-icons/dagger.png" },
-      { label: "Ресурсы фермы", count: barnKindCount("farm"), icon: "/barn-icons/veggies.png" },
-      { label: "Алхимия и зелья", count: barnKindCount("potion"), icon: "/barn-icons/potions.png" },
-      { label: "Реликвии и чертежи", count: barnKindCount("blueprint"), icon: "/barn-icons/herbs.png" },
-    ];
-    summary.innerHTML = rows
-      .map((row) => `<li><img alt="" src="${row.icon}"/><span>${row.label}</span><b>${formatSheetNum(row.count)}</b></li>`)
-      .join("");
-  }
-
-  const logistics = $("barnLogistics");
-  if (logistics) {
-    logistics.innerHTML = `
-      <li><img alt="" src="/barn-icons/iron.png"/><span>Караван руды · через 14 мин</span><em>+150 руды</em></li>
-      <li><img alt="" src="/barn-icons/fish.png"/><span>Скупщик рыбы · к усадьбе 28 мин</span><em>+20% спрос</em></li>
-    `;
-  }
-
-  const climate = $("barnClimate");
-  if (climate) {
-    climate.innerHTML = `
-      <span>Температура <b>+18°C</b></span>
-      <span>Влажность <b>42% · оптимум</b></span>
-      <span class="is-bonus">Погреб стабилен · +5% стойкость зелий</span>
-    `;
-  }
-
-  const guard = $("barnGuard");
-  if (guard) {
-    guard.innerHTML = `
-      <img alt="" src="/barn-icons/guard.png"/>
-      <div>
-        <strong>Усатый Дозорный · Ур. 45</strong>
-        <span>+15% защита склада · на посту</span>
-      </div>
-    `;
-  }
-
-  const tools = $("barnTools");
-  if (tools && tools.dataset.bound !== "1") {
-    tools.dataset.bound = "1";
-    tools.addEventListener("click", (e) => {
-      const btn = e.target.closest("[data-barn-tool]");
-      if (!btn) return;
-      const tool = btn.getAttribute("data-barn-tool");
-      if (tool === "lock") {
-        state.barnLocked = !state.barnLocked;
-        toast(state.barnLocked ? "Амбар закрыт на замок" : "Замок снят");
-        renderBarn();
-        return;
-      }
-      if (tool === "sort") {
+      return;
+    }
+    const rarityBtn = e.target.closest("[data-barn-rarity]");
+    if (rarityBtn && root.contains(rarityBtn)) {
+      state.barnRarityFilter = rarityBtn.getAttribute("data-barn-rarity") || "all";
+      state.barnPage = 1;
+      renderBarn();
+      return;
+    }
+    const itemBtn = e.target.closest("[data-barn-item]");
+    if (itemBtn && root.contains(itemBtn)) {
+      state.barnFocus = itemBtn.getAttribute("data-barn-item");
+      renderBarn();
+      return;
+    }
+    const tool = e.target.closest("[data-barn-tool]");
+    if (tool && root.contains(tool)) {
+      const act = tool.getAttribute("data-barn-tool");
+      if (act === "sort") {
         state.barnCatalog = [...state.barnCatalog].sort((a, b) => a.name.localeCompare(b.name, "ru"));
         toast("Склад отсортирован");
         renderBarn();
         return;
       }
-      if (tool === "clear") {
-        state.barnSearch = "";
-        state.barnCatFilter = "all";
-        state.barnRarityFilter = "all";
-        const search = $("barnSearch");
-        if (search) search.value = "";
-        toast("Фильтры сброшены");
-        renderBarn();
-        return;
-      }
-      if (tool === "smelt") {
+      if (act === "smelt") {
         const focus = state.barnCatalog.find((x) => x.id === state.barnFocus);
         if (!focus || (focus.kind !== "weapon" && focus.kind !== "armor")) {
-          toast("Выберите снаряжение для переплавки");
+          toast("Выберите броню/оружие для переплавки");
           return;
         }
         state.barnCatalog = state.barnCatalog.filter((x) => x.id !== focus.id);
         state.barnFocus = state.barnCatalog[0]?.id || null;
         toast(`${focus.name} → переплавлено`);
         renderBarn();
+        return;
       }
+      if (act === "expand") {
+        state.barnCapMax = (state.barnCapMax || 2000) + 200;
+        toast("Слоты склада +200");
+        renderBarn();
+        return;
+      }
+    }
+    const equipBtn = e.target.closest("[data-barn-equip]");
+    if (equipBtn && root.contains(equipBtn)) {
+      const item = state.barnCatalog.find((x) => x.id === state.barnFocus);
+      const gear = barnGearForItem(item);
+      const catId = state.selectedCatId || state.profile?.cats?.find((c) => c.role !== "farm")?.catId;
+      if (gear && catId) {
+        equipItem(catId, gear.id);
+        return;
+      }
+      toast(item ? `${item.name}: нельзя надеть` : "Выберите предмет");
+    }
+  });
+  const search = $("barnSearch");
+  if (search && search.dataset.bound !== "1") {
+    search.dataset.bound = "1";
+    search.addEventListener("input", () => {
+      state.barnSearch = search.value;
+      state.barnPage = 1;
+      renderBarn();
     });
   }
-  if (tools) {
-    for (const btn of tools.querySelectorAll("[data-barn-tool]")) {
-      btn.classList.toggle("is-on", btn.getAttribute("data-barn-tool") === "lock" && !!state.barnLocked);
-    }
-  }
+}
 
-  const filtered = barnFilteredItems();
-  const pages = Math.max(1, Math.ceil(filtered.length / BARN_PAGE_SIZE));
-  if (state.barnPage > pages) state.barnPage = pages;
-  if (state.barnPage < 1) state.barnPage = 1;
-  const pageItems = filtered.slice((state.barnPage - 1) * BARN_PAGE_SIZE, state.barnPage * BARN_PAGE_SIZE);
+function renderBarnInspector(focus) {
+  const panel = $("barnInspector");
+  if (!panel) return;
+  const gear = barnGearForItem(focus);
+  const bonuses = formatGearBonuses(gear) || "—";
+  const rarity = BARN_RARITY_RU[focus?.rarity] || "—";
+  const kind = BARN_KIND_RU[focus?.kind] || focus?.kind || "—";
+  const enhance = focus?.enhance ? `+${focus.enhance}` : "—";
+  const canEquip = !!(gear && (focus?.kind === "armor" || focus?.kind === "weapon"));
+  panel.innerHTML = `
+    <div class="flex flex-col gap-space-xs overflow-y-auto pr-0.5 flex-1 min-h-0">
+      <div class="flex items-start justify-between flex-shrink-0">
+        <div>
+          <div class="flex items-center gap-1.5">
+            <span class="px-2 py-0.5 rounded bg-primary-container/20 text-primary font-label-sm text-label-sm uppercase tracking-wider font-bold">${rarity}</span>
+            <span class="px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-[10px]">${kind}</span>
+          </div>
+          <h2 class="font-headline-md text-headline-md text-primary mt-0.5 leading-tight">${focus?.name || "Пусто"}</h2>
+          <span class="font-body-sm text-[12px] text-on-surface-variant">${focus?.tag || "Выберите ячейку склада"}</span>
+        </div>
+        <div class="flex flex-col items-end gap-0.5 flex-shrink-0">
+          <span class="px-2 py-1 rounded-lg bg-surface-container-high font-stat-numeral text-stat-numeral text-primary border border-surface-container-highest/40">${enhance}</span>
+          <span class="font-label-sm text-[10px] text-secondary">×${formatSheetNum(focus?.qty || 0)}</span>
+        </div>
+      </div>
+      <div class="relative w-full aspect-[4/3] rounded-xl overflow-hidden bg-surface-container-highest shadow-inner flex-shrink-0 flex items-center justify-center">
+        ${focus?.iconSrc ? `<img alt="" class="max-h-full max-w-full object-contain p-3" src="${focus.iconSrc}"/>` : ""}
+      </div>
+      <div class="bg-surface-container p-space-sm rounded-xl flex flex-col gap-1">
+        <div class="flex items-center justify-between font-label-md text-[13px]">
+          <span class="text-on-surface-variant">Бонусы экипа</span>
+          <span class="font-stat-numeral text-primary text-[14px]">${bonuses}</span>
+        </div>
+        <div class="text-[11px] text-on-surface-variant">${gear ? `Слот: ${HOME_SLOT_RU[gear.slot] || gear.slot}${gear.roles?.length ? ` · ${gear.roles.map((r) => CAT_ROLE_RU[r] || r).join("/")}` : " · все классы"}` : "Не экипируется (ресурс/зелье)"}</div>
+      </div>
+    </div>
+    <div class="flex flex-col gap-1.5 pt-space-xs border-t border-surface-container-highest/40 flex-shrink-0">
+      <button type="button" data-barn-equip="1" class="py-1.5 rounded-lg ${canEquip ? "bg-primary text-on-primary" : "bg-surface-container text-on-surface-variant"} font-label-md text-label-md flex items-center justify-center gap-1 font-bold" ${canEquip ? "" : "disabled"}>
+        <span class="material-symbols-outlined text-[16px]">shield_with_heart</span> ${canEquip ? "Надеть на героя" : "Нельзя надеть"}
+      </button>
+    </div>`;
+}
+
+function renderBarn() {
+  const root = $("viewGear");
+  if (!root || root.classList.contains("hidden")) return;
+  ensureBarnDom(root);
+  bindBarnOnce(root);
+
+  const used = barnStockUsed();
+  const cap = state.barnCapMax || 2000;
+  const free = Math.max(0, cap - used);
+  const pct = Math.min(100, Math.round((used / cap) * 100));
+
+  const capBlock = $("barnCapBlock");
+  if (capBlock) {
+    const num = capBlock.querySelector(".font-stat-numeral");
+    if (num) {
+      num.innerHTML = `${formatSheetNum(used)} <span class="text-on-surface-variant text-[12px] font-normal">/ ${formatSheetNum(cap)}</span>`;
+    }
+    const bar = capBlock.querySelector(".h-full.bg-gradient-to-r, div.w-full.h-2 .h-full");
+    if (bar?.style) bar.style.width = `${pct}%`;
+    const metaRow = capBlock.querySelector(".flex.justify-between.items-center");
+    if (metaRow) {
+      const spans = metaRow.querySelectorAll("span");
+      if (spans[0]) spans[0].textContent = `Занято ${pct}%`;
+      if (spans[1]) spans[1].textContent = `Свободно ${formatSheetNum(free)} мест`;
+    }
+    const chips = capBlock.querySelectorAll(".grid .font-stat-numeral");
+    if (chips[0]) chips[0].textContent = formatSheetNum(barnKindCount("weapon"));
+    if (chips[1]) chips[1].textContent = formatSheetNum(barnKindCount("farm"));
+    if (chips[2]) chips[2].textContent = formatSheetNum(barnKindCount("potion"));
+    if (chips[3]) chips[3].textContent = formatSheetNum(barnKindCount("blueprint") + barnKindCount("armor"));
+  }
 
   const catTabs = $("barnCatTabs");
   if (catTabs) {
-    catTabs.innerHTML = BARN_CATS.map((tab) => {
-      const count = barnKindCount(tab.id);
-      const on = state.barnCatFilter === tab.id ? "is-on" : "";
-      return `<button type="button" class="${on}" data-barn-cat="${tab.id}">${tab.label} (${formatSheetNum(count)})</button>`;
-    }).join("");
-    for (const btn of catTabs.querySelectorAll("[data-barn-cat]")) {
-      btn.addEventListener("click", () => {
-        state.barnCatFilter = btn.getAttribute("data-barn-cat");
-        state.barnPage = 1;
-        renderBarn();
-      });
-    }
+    const tabs = [
+      { id: "all", label: "Все предметы", icon: "all_inclusive" },
+      { id: "equip", label: "Экипировка и оружие", icon: "swords" },
+      { id: "weapon", label: "Оружие", icon: "swords" },
+      { id: "armor", label: "Броня и латы", icon: "shield" },
+      { id: "farm", label: "Сырьё и добыча", icon: "forest" },
+      { id: "potion", label: "Алхимия и Зелья", icon: "sanitizer" },
+      { id: "blueprint", label: "Чертежи", icon: "token" },
+    ];
+    catTabs.innerHTML = tabs
+      .map((tab) => {
+        const on = state.barnCatFilter === tab.id;
+        const count = barnKindCount(tab.id);
+        return `<button type="button" data-barn-cat="${tab.id}" class="w-full flex-1 flex items-center justify-between px-2.5 py-1.5 rounded-lg ${on ? "bg-primary-container text-on-primary-container shadow-sm" : "bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface"} font-label-md text-label-md transition-colors"><span class="flex items-center gap-2 truncate"><span class="material-symbols-outlined text-[18px]">${tab.icon}</span><span class="truncate ${on ? "font-bold" : ""}">${tab.label}</span></span><span class="px-2 py-0.5 ${on ? "bg-on-primary-container/20" : "bg-surface-container-highest"} rounded-md font-stat-numeral text-[12px] flex-shrink-0">${formatSheetNum(count)}</span></button>`;
+      })
+      .join("");
   }
 
   const rarityTabs = $("barnRarityTabs");
   if (rarityTabs) {
     rarityTabs.innerHTML = BARN_RARITIES.map((tab) => {
-      const count =
-        tab.id === "all"
-          ? barnStockUsed()
-          : (state.barnCatalog || [])
-              .filter((item) => item.rarity === tab.id)
-              .reduce((sum, item) => sum + (item.qty || 1), 0);
-      const on = state.barnRarityFilter === tab.id ? "is-on" : "";
-      return `<button type="button" class="${tab.cls} ${on}" data-barn-rarity="${tab.id}">${tab.label} (${formatSheetNum(count)})</button>`;
+      const on = state.barnRarityFilter === tab.id;
+      return `<button type="button" data-barn-rarity="${tab.id}" class="px-2.5 py-1 rounded-lg ${on ? "bg-surface-container-highest text-primary" : "bg-surface-container hover:bg-surface-container-high text-on-surface-variant"} font-label-sm text-label-sm">${tab.label}</button>`;
     }).join("");
-    for (const btn of rarityTabs.querySelectorAll("[data-barn-rarity]")) {
-      btn.addEventListener("click", () => {
-        state.barnRarityFilter = btn.getAttribute("data-barn-rarity");
-        state.barnPage = 1;
-        renderBarn();
-      });
-    }
   }
 
   const search = $("barnSearch");
-  if (search && search.dataset.bound !== "1") {
-    search.dataset.bound = "1";
-    search.value = state.barnSearch || "";
-    search.addEventListener("input", () => {
-      state.barnSearch = search.value;
-      if ((state.barnSearch || "").trim()) state.barnCatFilter = "all";
-      state.barnPage = 1;
-      renderBarn();
-    });
-  }
+  if (search && document.activeElement !== search) search.value = state.barnSearch || "";
 
-  const gridMeta = $("barnGridMeta");
-  if (gridMeta) gridMeta.textContent = `Сетка 6 × 4 · показано ${pageItems.length}`;
-  const pageMeta = $("barnPageMeta");
-  if (pageMeta) {
-    pageMeta.innerHTML = `Стр. ${state.barnPage} / ${pages}
-      <button type="button" id="barnPrev" ${state.barnPage <= 1 ? "disabled" : ""}>←</button>
-      <button type="button" id="barnNext" ${state.barnPage >= pages ? "disabled" : ""}>→</button>`;
-    pageMeta.querySelector("#barnPrev")?.addEventListener("click", () => {
-      state.barnPage -= 1;
-      renderBarn();
-    });
-    pageMeta.querySelector("#barnNext")?.addEventListener("click", () => {
-      state.barnPage += 1;
-      renderBarn();
-    });
-  }
-
+  const filtered = barnFilteredItems();
   if (!state.barnFocus || !filtered.some((x) => x.id === state.barnFocus)) {
-    state.barnFocus = pageItems[0]?.id || filtered[0]?.id || null;
+    state.barnFocus = filtered[0]?.id || null;
   }
+  const focus = state.barnCatalog.find((x) => x.id === state.barnFocus) || filtered[0] || null;
 
   const grid = $("barnGrid");
   if (grid) {
-    grid.innerHTML = "";
-    for (const item of pageItems) {
-      const li = document.createElement("li");
-      li.className = `rarity-${item.rarity || "common"}${item.id === state.barnFocus ? " is-focus" : ""}`;
-      const badgeL = item.enhance ? `+${item.enhance}` : item.kind === "blueprint" ? "M8" : "·";
-      const badgeR = item.qty > 1 ? `×${formatSheetNum(item.qty)}` : "×1";
-      li.innerHTML = `
-        <span class="barn-badge-l">${badgeL}</span>
-        <span class="barn-badge-r">${badgeR}</span>
-        <button type="button" data-barn-item="${item.id}">
-          <img class="barn-art" alt="" src="${item.iconSrc}"/>
-          <b>${item.name}</b>
-          <small>${item.tag}</small>
+    const pageItems = filtered.slice(0, BARN_PAGE_SIZE);
+    grid.innerHTML = pageItems
+      .map((item) => {
+        const on = item.id === state.barnFocus;
+        const border = barnRarityBorder(item.rarity);
+        const badge = item.enhance
+          ? `+${item.enhance}`
+          : item.qty > 1
+            ? `×${formatSheetNum(item.qty)}`
+            : (BARN_RARITY_RU[item.rarity] || "·").slice(0, 1);
+        return `<button type="button" data-barn-item="${item.id}" class="aspect-square rounded-xl bg-surface-container-lowest p-1 flex flex-col items-center justify-center cursor-pointer transition-colors border ${border} ${on ? "ring-2 ring-primary" : "hover:border-primary/40"} relative overflow-hidden" title="${item.name}">
+          <img alt="" class="w-full h-full object-contain rounded-lg" src="${item.iconSrc}"/>
+          <span class="absolute top-0.5 left-0.5 px-1 rounded bg-surface-container-lowest/90 font-stat-numeral text-[9px] text-primary">${badge}</span>
+          <span class="absolute bottom-0 left-0 right-0 px-0.5 py-0.5 bg-surface-container-lowest/90 font-label-sm text-[8px] text-on-surface truncate text-center">${item.name}</span>
         </button>`;
-      li.querySelector("button")?.addEventListener("click", () => {
-        state.barnFocus = item.id;
-        renderBarn();
-      });
-      grid.appendChild(li);
-    }
-    const emptySlots = Math.max(0, BARN_PAGE_SIZE - pageItems.length);
-    for (let i = 0; i < Math.min(emptySlots, 6); i += 1) {
-      const empty = document.createElement("li");
-      empty.className = "is-empty";
-      empty.innerHTML = `<button type="button" tabindex="-1" disabled><span class="barn-art" style="background:#1a1613"></span><b>Пусто</b><small>Слот свободен</small></button>`;
-      grid.appendChild(empty);
-    }
+      })
+      .join("");
   }
 
-  const advisor = $("barnAdvisor");
-  if (advisor) {
-    const focus = state.barnCatalog.find((x) => x.id === state.barnFocus);
-    advisor.innerHTML = `
-      <article><strong>Алхимия</strong><p>Мята (340) + вода → эликсир</p><button type="button" data-barn-adv="craft">Сварить</button></article>
-      <article><strong>Кузница</strong><p>${formatSheetNum(barnKindCount("farm") ? 290 : 0)} руды → кинжал</p><button type="button" data-barn-adv="forge">В кузню</button></article>
-      <article><strong>Стройка</strong><p>420 брёвен: усилить амбар</p><button type="button" data-barn-adv="expand">Улучшить</button></article>
-      <article><strong>Питомец</strong><p>${focus?.kind === "weapon" || focus?.kind === "armor" ? focus.name : "Саламандра · меч"}</p><button type="button" data-barn-adv="equip">Надеть</button></article>
-      <article><strong>Аукцион</strong><p>12 рыночных свитков</p><button type="button" data-barn-adv="market">На рынок</button></article>
-    `;
-    for (const btn of advisor.querySelectorAll("[data-barn-adv]")) {
-      btn.addEventListener("click", () => {
-        const act = btn.getAttribute("data-barn-adv");
-        if (act === "expand") {
-          state.barnCapMax = (state.barnCapMax || 2000) + 200;
-          toast("Амбар усилен (+200 слотов)");
-          renderBarn();
-          return;
-        }
-        if (act === "equip") {
-          const item = state.barnCatalog.find((x) => x.id === state.barnFocus);
-          const gear =
-            item &&
-            state.gearCatalog.find(
-              (g) =>
-                (item.gearId && g.id === item.gearId) ||
-                g.name === item.name ||
-                g.id === item.id.replace(/^barn_/, ""),
-            );
-          const catId = state.selectedCatId || state.profile?.cats?.[0]?.catId;
-          if (gear && catId) {
-            equipItem(catId, gear.id);
-            return;
-          }
-          toast(item ? `${item.name}: не экип (только броня/оружие сетов)` : "Выберите предмет");
-          return;
-        }
-        if (act === "craft") {
-          toast("Алхимия: подсказка soft launch — крафт позже");
-          return;
-        }
-        if (act === "forge") {
-          toast("Кузница: подсказка soft launch");
-          return;
-        }
-        if (act === "market") {
-          toast("Рынок: подсказка soft launch");
-        }
-      });
-    }
-  }
+  renderBarnInspector(focus);
 }
+
 
 /** Default home loadout: full grey armor (weapons are class-gated). */
 const HOME_STITCH_DEFAULTS = {
@@ -3167,6 +3179,9 @@ const HOME_STITCH_DEFAULTS = {
   belt: "grey_belt",
   ring: null,
 };
+
+/** Visual order on Stitch mannequin: left 4, then right 4. */
+const HOME_SLOT_VISUAL = ["weapon", "cloak", "belt", "ring", "helm", "armor", "shield", "boots"];
 
 const HOME_SLOT_LABEL = {};
 
@@ -3199,7 +3214,6 @@ function ensureHomeStitchLoadout(catId) {
   if (!state.equippedByCat[catId]) state.equippedByCat[catId] = emptyEquipSlots();
   const eq = migrateHomeEquipSlots(state.equippedByCat[catId]);
   state.equippedByCat[catId] = eq;
-  // Drop legacy thunder/wool ids still stuck in local state
   for (const slot of HOME_SLOT_ORDER) {
     const id = eq[slot];
     if (!id) continue;
@@ -3218,10 +3232,87 @@ function ensureHomeStitchLoadout(catId) {
 }
 
 function homeRarityTone(rarity) {
-  if (rarity === "mythic") return { border: "border-primary/40", glow: "shadow-[0_0_18px_rgba(253,186,69,0.45)]", tag: "text-primary", pill: "bg-primary text-on-primary", label: "Миф" };
+  if (rarity === "mythic" || rarity === "legendary") {
+    return { border: "border-primary/40", glow: "shadow-[0_0_18px_rgba(253,186,69,0.45)]", tag: "text-primary", pill: "bg-primary text-on-primary", label: rarity === "mythic" ? "Миф" : "Лег" };
+  }
   if (rarity === "epic") return { border: "border-tertiary/40", glow: "shadow-[0_0_14px_rgba(255,180,166,0.35)]", tag: "text-tertiary", pill: "bg-tertiary-container text-on-tertiary-container", label: "Эпик" };
   if (rarity === "rare") return { border: "border-secondary/40", glow: "shadow-[0_0_14px_rgba(137,217,140,0.35)]", tag: "text-secondary", pill: "bg-secondary-container text-on-secondary-container", label: "Редк" };
   return { border: "border-outline-variant/40", glow: "", tag: "text-on-surface-variant", pill: "bg-surface-container-highest text-on-surface", label: "Обыч" };
+}
+
+/** Wire Stitch home: bag grid, 8 equip slots, roster, hero art. */
+function ensureHomeDom(root) {
+  if (!root || root.dataset.homeDom === "1") return;
+  const bagGrid = [...root.querySelectorAll(".grid.grid-cols-4")].find((g) =>
+    /overflow-y-auto/.test(g.className),
+  );
+  if (bagGrid) bagGrid.id = "homeBagGrid";
+  const leftCol = root.querySelector(".col-span-3");
+  const rosterEl =
+    leftCol &&
+    [...leftCol.querySelectorAll("div")].find(
+      (el) => /overflow-y-auto/.test(el.className) && el.children.length >= 3,
+    );
+  if (rosterEl) rosterEl.id = "homeRoster";
+  const stage = root.querySelector(".relative.w-full.h-full.flex.items-start.justify-between");
+  if (stage) {
+    const cols = [...stage.children].filter((el) => el.classList?.contains("flex") && el.classList?.contains("flex-col"));
+    const leftSlots = cols[0]?.querySelectorAll(":scope > .group.relative.cursor-pointer") || [];
+    const rightSlots = cols[1]?.querySelectorAll(":scope > .group.relative.cursor-pointer") || [];
+    const slots = [...leftSlots, ...rightSlots];
+    HOME_SLOT_VISUAL.forEach((slot, i) => {
+      const el = slots[i];
+      if (!el) return;
+      el.classList.add("home-equip-slot");
+      el.setAttribute("data-home-slot", slot);
+      el.setAttribute("role", "button");
+      el.tabIndex = 0;
+      const box = el.querySelector(".w-14.h-14") || el.querySelector("div.rounded-lg");
+      if (box) {
+        box.classList.add("home-equip-ico");
+        if (!box.querySelector("img.home-equip-img")) {
+          box.innerHTML = `<img class="home-equip-img w-full h-full object-contain rounded opacity-30" alt="${HOME_SLOT_RU[slot] || slot}"/><span class="home-equip-plus absolute top-0.5 right-0.5 px-0.5 rounded bg-primary text-on-primary font-stat-numeral text-[8px] hidden"></span><span class="home-equip-tag absolute bottom-0.5 left-0.5 px-0.5 rounded bg-surface-container-lowest font-label-sm text-[7px] text-primary uppercase hidden"></span><span class="home-equip-empty material-symbols-outlined text-outline-variant text-xl absolute inset-0 flex items-center justify-center">add</span>`;
+        }
+      }
+    });
+    const center = stage.querySelector(".relative.flex-1.h-full.flex.items-center.justify-center");
+    const artWrap = center?.querySelector(".relative.w-full.h-full.rounded-2xl");
+    if (artWrap && !artWrap.querySelector("#homeHeroArt")) {
+      const img = document.createElement("img");
+      img.id = "homeHeroArt";
+      img.className = "relative z-10 max-h-[92%] max-w-[90%] object-contain drop-shadow-2xl";
+      img.alt = "";
+      artWrap.appendChild(img);
+    }
+  }
+  const title = [...root.querySelectorAll("span")].find((el) =>
+    /ЭКИПИРОВКА ГЕРОЯ/i.test(el.textContent || ""),
+  );
+  if (title) title.id = "homeHeroTitle";
+  const countStrong = [...root.querySelectorAll("strong")].find((el) =>
+    /\/\s*8/.test(el.textContent || ""),
+  );
+  if (countStrong) countStrong.id = "homeEquipCount";
+  // bag filters
+  const bagHeader = $("homeBagGrid")?.previousElementSibling;
+  if (bagHeader) {
+    const typeRow = bagHeader.querySelector(".flex.items-center.gap-1.overflow-x-auto");
+    if (typeRow) {
+      const map = ["all", "weapon", "armor", "helm", "armor", "trinket", "boots", "trinket", "all"];
+      [...typeRow.querySelectorAll("button")].forEach((btn, i) => {
+        btn.setAttribute("data-home-bag-filter", map[i] || "all");
+      });
+    }
+    const rarityLabel = [...bagHeader.querySelectorAll("span")].find((el) => /Редкость/i.test(el.textContent || ""));
+    const rarityRow = rarityLabel?.parentElement;
+    if (rarityRow) {
+      const rmap = ["all", "mythic", "epic", "rare"];
+      [...rarityRow.querySelectorAll("button")].forEach((btn, i) => {
+        if (rmap[i]) btn.setAttribute("data-home-bag-rarity", rmap[i]);
+      });
+    }
+  }
+  root.dataset.homeDom = "1";
 }
 
 function syncHomeEquipDom(catId) {
@@ -3233,25 +3324,21 @@ function syncHomeEquipDom(catId) {
     const slot = btn.getAttribute("data-home-slot");
     const itemId = eq[slot] || null;
     const ico = btn.querySelector(".home-equip-ico");
-    const img = ico?.querySelector("img");
-    const plus = ico?.querySelector('span[class*="-top-2"]');
-    const tag = ico?.querySelector('span[class*="-bottom-2"]');
-    const nameEl = btn.querySelector(".font-label-sm");
-    const wornEl = btn.querySelector(".font-body-sm");
+    const img = ico?.querySelector("img.home-equip-img") || ico?.querySelector("img");
+    const plus = ico?.querySelector(".home-equip-plus");
+    const tag = ico?.querySelector(".home-equip-tag");
+    const empty = ico?.querySelector(".home-equip-empty");
     if (!itemId) {
       btn.classList.add("is-empty");
       btn.removeAttribute("data-item-id");
-      btn.title = "Пусто";
+      btn.title = `${HOME_SLOT_RU[slot] || slot}: пусто`;
       if (img) {
         img.removeAttribute("src");
-        img.alt = HOME_SLOT_RU[slot] || slot;
-        img.classList.add("opacity-30");
+        img.classList.add("opacity-30", "hidden");
       }
       if (plus) plus.classList.add("hidden");
       if (tag) tag.classList.add("hidden");
-      if (nameEl) nameEl.textContent = HOME_SLOT_RU[slot] || slot;
-      if (wornEl) wornEl.textContent = "Пусто";
-      if (ico) ico.classList.add("opacity-60", "border-dashed");
+      if (empty) empty.classList.remove("hidden");
       return;
     }
     worn += 1;
@@ -3260,33 +3347,30 @@ function syncHomeEquipDom(catId) {
     const label = HOME_SLOT_LABEL[itemId] || item?.name || itemId;
     btn.classList.remove("is-empty");
     btn.setAttribute("data-item-id", itemId);
-    btn.title = "Снять";
+    btn.title = `${label} · снять`;
     if (img) {
       img.src = item?.iconSrc || "/barn-icons/dagger.png";
       img.alt = label;
-      img.classList.remove("opacity-30");
+      img.classList.remove("opacity-30", "hidden");
     }
     if (plus) {
-      plus.classList.remove("hidden");
-      plus.textContent = item?.enhance ? `+${item.enhance}` : "";
-      if (!item?.enhance) plus.classList.add("hidden");
+      if (item?.enhance) {
+        plus.classList.remove("hidden");
+        plus.textContent = `+${item.enhance}`;
+      } else plus.classList.add("hidden");
     }
     if (tag) {
       tag.classList.remove("hidden");
       tag.textContent = tone.label;
     }
-    if (nameEl) nameEl.textContent = label;
-    if (wornEl) wornEl.textContent = "✓ Надето";
-    if (ico) ico.classList.remove("opacity-60", "border-dashed");
+    if (empty) empty.classList.add("hidden");
   });
-  const countEl = root.querySelector("[data-purpose=\"equip-overlay\]")?.previousElementSibling
-    ? null
-    : null;
+  const countEl = $("homeEquipCount");
+  if (countEl) countEl.textContent = `${worn} / 8`;
   const gearBar = Array.from(root.querySelectorAll("span")).find((el) =>
     /Вид Снаряжения/i.test(el.textContent || ""),
   );
   if (gearBar) gearBar.textContent = `Вид Снаряжения: ${worn}/8 Надето`;
-
   root.querySelectorAll("[data-home-bag-item]").forEach((cell) => {
     const id = cell.getAttribute("data-home-bag-item");
     const on = Object.values(eq).includes(id);
@@ -3301,6 +3385,12 @@ function bindHomeEquipClicks() {
   if (!root || root.dataset.equipBound === "1") return;
   root.dataset.equipBound = "1";
   root.addEventListener("click", (event) => {
+    const catPick = event.target.closest("[data-home-cat]");
+    if (catPick && root.contains(catPick)) {
+      state.selectedCatId = catPick.getAttribute("data-home-cat");
+      renderHome();
+      return;
+    }
     const cat = homeActiveCat();
     if (!cat) return;
     const bagFilter = event.target.closest("[data-home-bag-filter]");
@@ -3308,9 +3398,10 @@ function bindHomeEquipClicks() {
       state.homeBagFilter = bagFilter.getAttribute("data-home-bag-filter") || "all";
       root.querySelectorAll("[data-home-bag-filter]").forEach((btn) => {
         const on = btn.getAttribute("data-home-bag-filter") === state.homeBagFilter;
-        btn.classList.toggle("bg-primary-container", on);
-        btn.classList.toggle("text-on-primary-container", on);
-        btn.classList.toggle("font-bold", on);
+        btn.classList.toggle("bg-primary", on);
+        btn.classList.toggle("text-on-primary", on);
+        btn.classList.toggle("font-black", on);
+        btn.classList.toggle("bg-surface-container-high", !on);
         btn.classList.toggle("text-on-surface-variant", !on);
       });
       renderHomeBag(cat);
@@ -3322,9 +3413,9 @@ function bindHomeEquipClicks() {
       state.homeRarityFilter = rarityChip.getAttribute("data-home-bag-rarity") || "all";
       root.querySelectorAll("[data-home-bag-rarity]").forEach((chip) => {
         const on = chip.getAttribute("data-home-bag-rarity") === state.homeRarityFilter;
-        chip.classList.toggle("bg-surface-container-high", on);
+        chip.classList.toggle("bg-surface-container-highest", on);
+        chip.classList.toggle("text-primary", on);
         chip.classList.toggle("font-bold", on);
-        chip.classList.toggle("bg-surface-container-low", !on);
       });
       renderHomeBag(cat);
       syncHomeEquipDom(cat.catId);
@@ -3349,12 +3440,21 @@ function bindHomeEquipClicks() {
         toast("Предмет не найден в каталоге");
         return;
       }
+      if (!canEquipItem(cat, item)) {
+        equipDenyToast(item, cat);
+        return;
+      }
       const worn = state.equippedByCat[cat.catId]?.[item.slot];
       if (worn === itemId) {
-        toast(`${item.name}: уже надето`);
+        unequipSlot(cat.catId, item.slot);
         return;
       }
       equipItem(cat.catId, itemId);
+      return;
+    }
+    const auto = event.target.closest("button");
+    if (auto && /Авто-подбор/i.test(auto.textContent || "")) {
+      equipBest(cat.catId);
     }
   });
 }
@@ -3383,6 +3483,7 @@ function renderHomeBag(cat) {
     if (filter === "weapon" && item.slot !== "weapon" && item.slot !== "shield") return false;
     if (filter === "helm" && item.slot !== "helm") return false;
     if (filter === "armor" && item.slot !== "armor" && item.slot !== "cloak") return false;
+    if (filter === "boots" && item.slot !== "boots") return false;
     if (filter === "trinket" && item.slot !== "belt" && item.slot !== "ring") return false;
     if (rarity === "mythic" && item.rarity !== "mythic" && item.rarity !== "legendary") return false;
     else if (rarity !== "all" && rarity !== "mythic" && item.rarity !== rarity) return false;
@@ -3406,15 +3507,43 @@ function renderHomeBag(cat) {
       return `<div data-home-bag-item="${item.id}" role="button" tabindex="0" title="${item.name}${bonuses ? ` · ${bonuses}` : ""}${roleHint ? ` · ${roleHint}` : " · все классы"}${worn ? " · надето" : ""}${locked ? " · недоступно" : ""}" class="aspect-square rounded-lg bg-surface-container-high p-0.5 relative cursor-pointer border ${tone.border} ${tone.glow} hover:scale-105 transition-transform flex items-center justify-center group${worn ? " is-worn opacity-50" : ""}${locked ? " is-locked" : ""}"><img alt="${item.name}" class="w-full h-full object-cover rounded" src="${item.iconSrc}"><span class="absolute bottom-0.5 left-0.5 px-0.5 rounded bg-surface-container-lowest font-label-sm text-[7px] ${tone.tag} uppercase">${tone.label}</span>${enhance}${lock}</div>`;
     })
     .join("");
-  const cap = grid.closest(".col-span-12")?.querySelector(".font-label-sm strong");
-  if (cap) {
-    const n = state.gearCatalog.length;
-    cap.textContent = `${n}/96`;
+  const label = [...(grid.closest(".col-span-3")?.querySelectorAll("span") || [])].find((el) =>
+    /Склад:/i.test(el.textContent || ""),
+  );
+  if (label) {
+    label.innerHTML = `Склад: <span class="text-primary font-stat font-bold">${state.gearCatalog.length}</span>/96`;
   }
 }
 
+function renderHomeRoster(cat) {
+  const list = $("homeRoster");
+  if (!list) return;
+  const cats = (state.profile?.cats || []).filter((c) => c.role !== "farm");
+  if (!cats.length) {
+    list.innerHTML = `<div class="p-2 rounded-xl border border-dashed border-outline-variant/40 text-outline-variant text-center text-xs">Нет героев — войдите / grant starter</div>`;
+    return;
+  }
+  list.innerHTML = cats
+    .map((c) => {
+      const on = c.catId === cat?.catId;
+      const name = catSheetName(c);
+      const m = starterMeta(c.templateId);
+      const role = CAT_ROLE_RU[c.role || m.role] || c.role || "—";
+      const art = catHeroArt(c.templateId);
+      return `<button type="button" data-home-cat="${c.catId}" class="p-2 rounded-xl flex items-center gap-2 shrink-0 h-[64px] text-left border transition-colors ${on ? "bg-surface-container-highest border-primary/50 shadow" : "bg-surface-container-lowest/40 border-outline-variant/40 hover:border-primary/40"}">
+        ${art ? `<img alt="" src="${art}" class="w-10 h-10 object-contain rounded"/>` : `<span class="material-symbols-outlined text-primary">pets</span>`}
+        <span class="flex flex-col min-w-0"><span class="font-label-sm text-label-sm text-on-surface truncate font-bold">${name}</span><span class="text-[10px] text-on-surface-variant truncate">${role}</span></span>
+      </button>`;
+    })
+    .join("");
+  const count = list.closest(".col-span-3")?.querySelector(".font-stat.font-bold");
+  if (count && /Герои/i.test(count.parentElement?.textContent || "")) count.textContent = String(cats.length);
+}
+
 function renderHome() {
-  // Stitch character sheet stays; sync large slot overlay + bag equip/unequip.
+  const root = $("viewHome");
+  if (!root) return;
+  ensureHomeDom(root);
   const wallet = $("homeWallet");
   if (wallet) {
     const w = state.wallet || {};
@@ -3435,10 +3564,13 @@ function renderHome() {
   const cat = homeActiveCat();
   if (!cat) return;
   const art = catHeroArt(cat.templateId);
+  const name = catSheetName(cat);
+  const title = $("homeHeroTitle");
+  if (title) title.textContent = `ЭКИПИРОВКА ГЕРОЯ: ${name.toUpperCase()}`;
   const nameEl = $("homeHeroName");
   const metaEl = $("homeHeroMeta");
   const artEl = $("homeHeroArt");
-  if (nameEl) nameEl.textContent = catSheetName(cat);
+  if (nameEl) nameEl.textContent = name;
   if (metaEl) {
     const m = starterMeta(cat.templateId);
     const role = CAT_ROLE_RU[cat.role || m.role] || cat.role || m.role;
@@ -3447,10 +3579,11 @@ function renderHome() {
   }
   if (artEl && art) {
     artEl.src = art;
-    artEl.alt = catSheetName(cat);
+    artEl.alt = name;
   }
   ensureHomeStitchLoadout(cat.catId);
   bindHomeEquipClicks();
+  renderHomeRoster(cat);
   renderHomeBag(cat);
   syncHomeEquipDom(cat.catId);
   syncHomeSheetStats(cat);
@@ -3463,37 +3596,29 @@ function syncHomeSheetStats(cat) {
   const s = statsForCat(cat);
   const power = sheetPower(s);
   const map = [
-    ["ATK", s.atk, s.bonus.atk, "лист", "Сила каталога · урон в бою = карта"],
-    ["HP", s.hp, s.bonus.hp, "эквип", "Здоровье"],
-    ["DEF", s.def, s.bonus.def, "броня", "Только лист/экип · в симе нет DEF"],
-    ["SPD", s.spd, s.bonus.spd, "ловкость", "Тай-брейк хода"],
+    ["АТАКА", s.atk],
+    ["ЗДОРОВЬЕ", s.hp],
+    ["ЗАЩИТА", s.def],
+    ["СКОРОСТЬ", s.spd],
   ];
-  for (const [label, total, bonus, bonusWord, title] of map) {
-    const row = Array.from(root.querySelectorAll(".font-body-sm")).find((el) =>
-      new RegExp(`\\(${label}\\)|${label === "HP" ? "Здоровье" : label === "ATK" ? "Атака" : label === "DEF" ? "Защита" : "Скорость"}`, "i").test(
-        el.textContent || "",
-      ),
+  for (const [label, total] of map) {
+    const lab = [...root.querySelectorAll("span")].find(
+      (el) => el.textContent?.trim().toUpperCase() === label,
     );
-    if (!row) continue;
-    const block = row.closest(".flex.flex-col, .border-b") || row.parentElement?.parentElement;
-    if (block && title) block.title = title;
-    const num = block?.querySelector(".font-stat-numeral");
-    const hint = block?.querySelector(".font-label-sm.text-secondary, .font-label-sm");
+    const num = lab?.parentElement?.querySelector(".font-stat, .font-stat-numeral, .font-black");
     if (num) num.textContent = formatSheetNum(total);
-    if (hint && bonus) hint.textContent = `(+${bonus} ${bonusWord})`;
-    else if (hint && !bonus && /эквип|броня|ловкость|буст|лист/i.test(hint.textContent || "")) hint.textContent = "";
   }
-  const powerChip = Array.from(root.querySelectorAll("span")).find((el) =>
-    /буст|экип/i.test(el.textContent || "") && /[+]?\d/.test(el.textContent || ""),
-  );
-  if (powerChip && /буст/i.test(powerChip.textContent || "")) {
-    powerChip.textContent = `+${s.bonus.atk + s.bonus.def + s.bonus.hp + s.bonus.spd} буст`;
+  const selected = [...root.querySelectorAll("span")].find((el) => /Выбрано:/i.test(el.textContent || ""));
+  if (selected) {
+    const eq = state.equippedByCat[cat.catId] || {};
+    const focusId = state.homeBagFocus || eq.weapon || eq.armor || Object.values(eq).find(Boolean);
+    const item = state.gearCatalog.find((g) => g.id === focusId);
+    selected.innerHTML = item
+      ? `Выбрано: <b class="text-primary font-headline">${item.name}${item.enhance ? ` +${item.enhance}` : ""}</b> (${formatGearBonuses(item) || "без бонусов"})`
+      : `Выбрано: <b class="text-primary font-headline">—</b> · сила ${formatSheetNum(power)}`;
   }
-  const powerLabel = Array.from(root.querySelectorAll("span")).find((el) =>
-    /^\+\d[\d,\s]*\s*экип/i.test((el.textContent || "").trim()),
-  );
-  if (powerLabel) powerLabel.textContent = `сила ${formatSheetNum(power)}`;
 }
+
 
 function bindHeroesCodex() {
   const root = $("viewHeroes");
@@ -4050,10 +4175,45 @@ function bindNursery() {
   });
 }
 
+/** Fill craft «Склад Сырья» from barn farm/potion stacks. */
+function renderCraftStock() {
+  const root = $("viewCraft");
+  if (!root) return;
+  const head = [...root.querySelectorAll("span")].find((el) => /Склад Сырья/i.test(el.textContent || ""));
+  const card = head?.closest(".p-space-md, .rounded-xl");
+  if (!card) return;
+  const mats = (state.barnCatalog || []).filter((x) => x.kind === "farm" || x.kind === "potion");
+  const used = mats.reduce((s, x) => s + (x.qty || 0), 0);
+  const capLabel = [...card.querySelectorAll("span")].find((el) => /\d+\s*\/\s*\d+/.test(el.textContent || "") && el !== head);
+  if (capLabel) capLabel.textContent = `${formatSheetNum(used)} / 2,500`;
+  const list = card.querySelector(".flex.flex-col.gap-space-xs");
+  if (!list) return;
+  list.innerHTML = mats
+    .map((item) => {
+      const max = Math.max(item.qty || 1, 500);
+      const pct = Math.min(100, Math.round(((item.qty || 0) / max) * 100));
+      return `<div class="p-space-xs rounded-lg bg-surface-container flex flex-col gap-1">
+        <div class="flex items-center justify-between gap-2">
+          <span class="font-label-sm text-label-sm text-on-surface flex items-center gap-1.5 min-w-0">
+            ${item.iconSrc ? `<img alt="" src="${item.iconSrc}" class="w-5 h-5 object-contain"/>` : ""}
+            <span class="truncate">${item.name}</span>
+          </span>
+          <span class="font-stat-numeral text-stat-numeral text-[12px] text-on-surface shrink-0">${formatSheetNum(item.qty || 0)}</span>
+        </div>
+        <div class="w-full h-1.5 rounded-full bg-surface-container-lowest overflow-hidden">
+          <div class="h-full bg-primary rounded-full" style="width:${pct}%"></div>
+        </div>
+      </div>`;
+    })
+    .join("");
+}
+
 function renderBreeding() {
   const host = $("viewBreeding");
   if (!host) return;
-  if (host.querySelector(".nursery-hall")) {
+  // Painted Stitch nursery (home-keeper) — drop legacy soon shell.
+  host.querySelector("[data-breeding-shell]")?.remove();
+  if (host.querySelector(".nursery-hall") || host.querySelector("main")) {
     bindNursery();
     return;
   }
@@ -5855,6 +6015,9 @@ function renderAll() {
       break;
     case "gear":
       renderBarn();
+      break;
+    case "craft":
+      renderCraftStock();
       break;
     case "equip_cards":
       renderEquipCards();

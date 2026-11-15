@@ -1617,6 +1617,38 @@ body:has(#viewGear:not(.hidden)) #app {
   height: 100dvh !important; max-height: 100dvh !important;
 }
 #viewGear { background: #100e0c; }
+#viewGear > header { display: none !important; }
+#viewGear > main:not(.barn-sheet) {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column;
+  overflow: hidden !important;
+  background: #100e0c;
+  padding-top: 0 !important;
+}
+/* Warehouse item inspector: closed by default, opens on slot click */
+#viewGear [data-gear-inspect][data-open="0"],
+#viewGear [data-gear-inspect][hidden] {
+  display: none !important;
+}
+#viewGear [data-gear-inspect][data-open="1"] {
+  display: flex !important;
+  position: relative;
+}
+#viewGear [data-gear-grid] {
+  transition: none;
+}
+#viewGear[data-inspect-open="1"] [data-gear-grid] {
+  grid-column: span 6 / span 6;
+}
+#viewGear [data-gear-slot].is-selected {
+  border-color: rgba(253, 186, 69, 0.85) !important;
+  box-shadow: 0 0 0 1px rgba(253, 186, 69, 0.45), 0 0 12px rgba(253, 186, 69, 0.25);
+  color: #fdba45;
+}
 #viewGear > main.barn-sheet {
   flex: 1 1 auto !important; min-height: 0 !important; height: 100% !important;
   display: flex !important; flex-direction: column; gap: 0.35rem;
@@ -1818,10 +1850,62 @@ body:has(#viewCodex:not(.hidden)) #app {
   object-position: center;
 }
 
-/* Frozen craft workshop — outbound soft-links stay closed; shared menu still leaves */
+/* Craft workshop — 3 equal-height columns, recipe list not stretched */
 body:has(#viewCraft:not(.hidden)) #wireDock { display: none !important; }
-#viewCraft { background: #100e0c; }
-#viewCraft img[src*="craft-altar-art"] {
+body:has(#viewCraft:not(.hidden)) #app {
+  height: 100dvh !important;
+  max-height: 100dvh !important;
+  overflow: hidden !important;
+}
+#viewCraft {
+  background: #100e0c;
+  color: #eae1db;
+  overflow: hidden !important;
+}
+#viewCraft > header { display: none !important; }
+#viewCraft > main {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  width: 100% !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  display: flex !important;
+  flex-direction: column;
+  overflow: hidden !important;
+  background: #100e0c;
+}
+#viewCraft > main > .flex.flex-col {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+#viewCraft .craft-studio {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  align-items: stretch !important;
+  overflow: hidden !important;
+}
+#viewCraft .craft-studio > [class*="col-span"] {
+  min-height: 0;
+  align-self: stretch;
+}
+#viewCraft .craft-recipe-list {
+  justify-content: flex-start !important;
+  gap: 0.5rem !important;
+}
+#viewCraft .craft-recipe-list .recipe-card {
+  flex: 0 0 auto;
+}
+#viewCraft .craft-studio .grid.grid-cols-3,
+#viewCraft .craft-studio [class*="grid-cols-3"] {
+  align-items: stretch;
+}
+#viewCraft img[src*="craft-altar-art"],
+#viewCraft img[src*="57cd1f4e1afe"] {
   object-fit: cover !important;
   object-position: center 40% !important;
 }
@@ -3737,8 +3821,78 @@ body:has(#viewBattleHub:not(.hidden)) #app {
   #viewBattleHub .front-zone { width: min(15rem, 44%); }
 }
 
-/* Cat collection roster — only viewCollection */
-#viewCollection { background: #100e0c; color: #eae1db; }
+/* Cat collection — painted home-keeper form, equal columns */
+body:has(#viewCollection:not(.hidden)) #app {
+  height: 100dvh !important;
+  max-height: 100dvh !important;
+  overflow: hidden !important;
+}
+#viewCollection {
+  background: #100e0c;
+  color: #eae1db;
+  overflow: hidden !important;
+}
+#viewCollection > header { display: none !important; }
+#viewCollection > main {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  width: 100% !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+  background: #100e0c;
+}
+#viewCollection > main > .flex.flex-col {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+#viewCollection .collection-studio {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+}
+#viewCollection .collection-stage {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  align-items: stretch !important;
+  overflow: hidden !important;
+}
+#viewCollection .collection-stage > section {
+  min-height: 0;
+  align-self: stretch;
+  overflow: hidden;
+}
+#viewCollection .collection-roster {
+  justify-content: start !important;
+  align-content: start !important;
+  gap: 0.5rem !important;
+}
+#viewCollection .collection-roster > div {
+  flex: 0 0 auto;
+}
+/* Team formation slots stretch to match squad sidebar height */
+#viewCollection .collection-stage .flex.flex-col.lg\:flex-row.items-stretch {
+  align-items: stretch !important;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+#viewCollection .collection-stage .flex-1.grid.grid-cols-1.md\:grid-cols-3 {
+  align-self: stretch !important;
+  height: auto !important;
+  min-height: 100%;
+  grid-auto-rows: 1fr;
+}
+#viewCollection .collection-stage .flex-1.grid.grid-cols-1.md\:grid-cols-3 > div {
+  height: 100% !important;
+  min-height: 14rem;
+}
 #viewCollection > .roster-hall {
   flex: 1 1 auto;
   min-height: 0;
@@ -3897,10 +4051,77 @@ body:has(#viewCollection:not(.hidden)) #wireDock { display: none !important; }
 }
 .roster-keys b { color: #fdba45; font-weight: 700; }
 
+/* Battle pass — hide wire dock; don't crush dual-track into overlaps */
+body:has(#viewPass:not(.hidden)) #wireDock { display: none !important; }
+body:has(#viewPass:not(.hidden)) #app {
+  height: 100dvh !important;
+  max-height: 100dvh !important;
+  overflow: hidden !important;
+}
+#viewPass {
+  background: #161310;
+  color: #eae1db;
+  overflow: hidden !important;
+}
+#viewPass > header { display: none !important; }
+#viewPass > main {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  width: 100% !important;
+  padding-top: 0.35rem !important;
+  padding-bottom: 0.35rem !important;
+  overflow: auto !important;
+  background: #161310;
+}
+#viewPass > main > .flex.flex-col {
+  min-height: min(100%, 720px);
+}
+#viewPass .min-h-\[620px\] {
+  min-height: 0 !important;
+  flex: 1 1 auto;
+}
+#viewPass .grid.grid-cols-8 {
+  align-items: stretch;
+}
+#viewPass .grid.grid-cols-8 > .flex.flex-col {
+  min-width: 0;
+}
+#viewPass .w-16.h-16,
+#viewPass .w-14.h-14 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#viewCraft .craft-studio {
+  align-content: stretch;
+}
+#viewCraft .w-full.h-28 {
+  flex-shrink: 0;
+}
+
 /* Live manor nursery — only viewBreeding */
 body:has(#viewBreeding:not(.hidden)) #wireDock { display: none !important; }
-body:has(#viewBreeding:not(.hidden)) #app { height: 100dvh !important; max-height: 100dvh !important; }
-#viewBreeding { background: #100e0c; color: #eae1db; }
+body:has(#viewBreeding:not(.hidden)) #app { height: 100dvh !important; max-height: 100dvh !important; overflow: hidden !important; }
+#viewBreeding { background: #100e0c; color: #eae1db; overflow: hidden !important; }
+#viewBreeding > header { display: none !important; }
+#viewBreeding > main {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  width: 100% !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  display: flex !important;
+  flex-direction: column;
+  overflow: auto !important;
+  background: #100e0c;
+}
+#viewBreeding > main > .flex.flex-col,
+#viewBreeding > main > .grid {
+  flex: 1 1 auto;
+  min-height: 0;
+}
 #viewBreeding > .nursery-hall {
   flex: 1 1 auto !important; min-height: 0 !important; height: 100% !important; width: 100% !important;
   display: flex !important; flex-direction: column; gap: 0.35rem;

@@ -74,346 +74,282 @@
 <a class="px-space-sm py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface whitespace-nowrap transition-colors" href="#">Классовые сеты</a>
 <a class="px-space-sm py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface whitespace-nowrap transition-colors" href="#">Карточки экипировки</a>
 <a class="px-space-sm py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface whitespace-nowrap transition-colors" href="#">Кодекс героев</a>
-<a class="px-space-sm py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface whitespace-nowrap transition-colors" href="#">Двор</a>
-<a class="px-space-sm py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface whitespace-nowrap transition-colors" href="#">Крафт</a>
+<a class="px-space-sm py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface whitespace-nowrap transition-colors" href="#">Ферма</a>
+<a class="px-space-sm py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface whitespace-nowrap transition-colors text-primary font-bold" href="#">Крафт</a>
 <a class="px-space-sm py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface whitespace-nowrap transition-colors" href="#">Скрещивание</a>
 <a class="px-space-sm py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface whitespace-nowrap transition-colors" href="#">Кодекс Мифмира</a>
 </nav>
 </div>
 </div>
 </header>
-<main class="w-full pt-28 bg-surface min-h-[calc(100vh-2.5rem)] flex flex-col justify-between"><div class="flex flex-col w-full h-[calc(100vh-7rem-2.5rem)] max-h-[860px] p-space-md gap-space-sm select-none overflow-hidden justify-between">
-<!-- 1. ВЕРХНИЙ ИНФОРМАЦИОННЫЙ БАР -->
-<header class="w-full shrink-0 bg-surface-container-low rounded-xl px-space-md py-space-sm flex items-center justify-between shadow-md">
-<!-- Левая секция: Название и фильтры категорий -->
-<div class="flex items-center gap-space-lg">
-<div class="flex items-center gap-space-sm">
-<div class="w-9 h-9 rounded-lg bg-surface-container-high flex items-center justify-center text-primary shadow-sm">
-<span class="material-symbols-outlined text-[22px]">auto_fix_high</span>
-</div>
-<div class="flex flex-col">
-<div class="flex items-center gap-space-xs">
-<h1 class="font-headline-md text-headline-md text-on-surface leading-tight">Мастерская Очага: Крафт &amp; Алхимия</h1>
-<span class="px-2 py-0.5 rounded bg-primary/15 text-primary font-label-sm text-label-sm uppercase">Ур. Горна 12</span>
-</div>
-<span class="font-body-sm text-body-sm text-on-surface-variant">Общий алтарь варения эликсиров и кузнечной ковки</span>
-</div>
-</div>
-<!-- Табы категорий -->
-<div class="hidden xl:flex items-center gap-1 bg-surface-container-lowest p-1 rounded-lg">
-<button class="category-filter active px-3 py-1.5 rounded font-label-md text-label-md bg-surface-container-high text-primary shadow-sm transition-all flex items-center gap-1.5" type="button">
-<span class="material-symbols-outlined text-[16px]">grid_view</span>
-<span class="">Все рецепты</span>
-</button>
-<button class="category-filter px-3 py-1.5 rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all flex items-center gap-1.5" type="button">
-<span class="material-symbols-outlined text-[16px] text-secondary">science</span>
-<span class="">🧪 Алхимия и Зелья</span>
-</button>
-<button class="category-filter px-3 py-1.5 rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all flex items-center gap-1.5" type="button">
-<span class="material-symbols-outlined text-[16px] text-primary">hardware</span>
-<span class="">🔨 Кузница и Оружие</span>
-</button>
-<button class="category-filter px-3 py-1.5 rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high/60 transition-all flex items-center gap-1.5" type="button">
-<span class="material-symbols-outlined text-[16px] text-tertiary">history_edu</span>
-<span class="">⚡ Боевые Свитки</span>
-</button>
-</div>
-</div>
-<!-- Правая секция: Бусты очага и автокрафт -->
+<main class="w-full pt-28 bg-surface min-h-[calc(100vh-2.5rem)] flex flex-col justify-between min-h-screen"><div class="flex flex-col w-full flex-1">
+<!-- Sub-Header & Status Ribbon Bar -->
+<div class="w-full px-space-lg py-space-sm bg-surface-container-lowest/90 backdrop-blur-sm flex flex-wrap items-center justify-between gap-space-md shadow-md">
 <div class="flex items-center gap-space-md">
-<!-- Статус нагрева горна -->
-<div class="flex items-center gap-space-xs px-3 py-1 rounded-lg bg-surface-container-high/80">
-<span class="material-symbols-outlined text-primary text-[18px] animate-pulse">local_fire_department</span>
-<div class="flex flex-col">
-<span class="font-label-sm text-label-sm text-primary uppercase">Очаг разогрет</span>
-<span class="font-body-sm text-body-sm text-on-surface-variant">+10% к шансу крит-крафта</span>
-</div>
-</div>
-<!-- Переключатель Автокрафт x5 -->
-<div class="flex items-center gap-space-sm bg-surface-container-lowest px-3 py-1.5 rounded-lg opacity-85">
-<div class="flex flex-col leading-tight text-right">
-<span class="font-label-sm text-label-sm text-on-surface">Автокрафт x5</span>
-<span class="font-label-sm text-label-sm text-primary flex items-center justify-end gap-0.5">
-<span class="material-symbols-outlined text-[12px]">lock</span>
-            Боевой Пасс
-          </span>
-</div>
-<div class="w-8 h-4 rounded-full bg-surface-variant relative flex items-center px-0.5 cursor-not-allowed">
-<div class="w-3 h-3 rounded-full bg-outline"></div>
-</div>
-</div>
-</div>
-</header>
-<!-- 2. ОСНОВНАЯ РАБОЧАЯ ОБЛАСТЬ (3 СБАЛАНСИРОВАННЫЕ КОЛОНКИ 16:9 БЕЗ СКРОЛЛА) -->
-<div class="w-full flex-1 grid grid-cols-12 gap-space-sm min-h-0">
-<!-- КОЛОНКА 1: Список рецептов (30% -> col-span-3 xl:col-span-4) -->
-<section class="col-span-4 xl:col-span-4 bg-surface-container-low rounded-xl p-space-sm flex flex-col justify-between shadow-md min-h-0"><div class="flex items-center justify-between px-space-xs pb-1 shrink-0 border-b border-outline-variant/20 mb-1"><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-primary text-[18px]">menu_book</span><span class="font-label-lg text-label-lg text-on-surface">Книга Рецептов Мастера</span></div><div class="flex items-center gap-1"><span class="font-label-sm text-label-sm text-primary bg-primary/10 px-2 py-0.5 rounded-full font-bold">9 рецептов</span><button class="p-1 rounded hover:bg-surface-container text-primary flex items-center" title="Фильтр избранного" type="button"><span class="material-symbols-outlined text-[16px]">star</span></button></div></div><div class="flex flex-col gap-1.5 flex-1 overflow-y-auto pr-0.5" id="recipes-list"><article class="recipe-card p-2 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer flex flex-col gap-1.5 border border-transparent hover:border-outline-variant/30" data-recipe="mint"><div class="flex items-center justify-between"><div class="flex items-center gap-2 min-w-0"><div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary shrink-0 shadow-sm"><span class="material-symbols-outlined text-[18px]">psychology_alt</span></div><div class="flex flex-col min-w-0"><div class="flex items-center gap-1"><span class="font-label-md text-label-md text-on-surface truncate font-semibold">Зелье Кошачьей Мяты</span><span class="text-[10px] text-secondary font-bold bg-secondary/10 px-1 rounded">x2 шт</span></div><span class="font-body-sm text-[11px] text-on-surface-variant">Алхимия • Ранг 2 • 30 сек</span></div></div><span class="px-1.5 py-0.5 rounded bg-secondary-container/60 text-secondary-fixed font-label-sm text-[11px] shrink-0 font-bold">Готово 4/4</span></div><div class="flex items-center justify-between pt-1 border-t border-outline-variant/10 text-[11px]"><div class="flex items-center gap-2 text-on-surface-variant"><span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[12px] text-secondary">spa</span> 15</span><span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[12px] text-primary">water_drop</span> 5</span><span class="text-secondary font-semibold">100% шанс</span></div><div class="flex items-center gap-1"><button class="px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant hover:text-on-surface text-[10px] font-bold" type="button">x5</button><button class="px-2.5 py-0.5 rounded bg-secondary text-on-secondary font-label-sm text-[11px] font-bold hover:brightness-110 active:scale-95 transition-all flex items-center gap-0.5" type="button"><span class="material-symbols-outlined text-[12px]">science</span> Сварить</button></div></div></article><article class="recipe-card p-2 rounded-lg bg-primary/10 border border-primary/30 shadow-inner flex flex-col gap-1.5 cursor-pointer" data-recipe="thunder"><div class="flex items-center justify-between"><div class="flex items-center gap-2 min-w-0"><div class="w-8 h-8 rounded-lg bg-primary-container text-on-primary-container flex items-center justify-center shrink-0 shadow-sm"><span class="material-symbols-outlined text-[18px]">bolt</span></div><div class="flex flex-col min-w-0"><div class="flex items-center gap-1"><span class="font-label-md text-label-md text-primary font-bold truncate">Эликсир Громового Рывка</span><span class="text-[10px] text-primary font-bold bg-primary/20 px-1 rounded">x1 шт</span><span class="text-[10px] text-tertiary font-bold">★ Эпик</span></div><span class="font-body-sm text-[11px] text-on-surface-variant">Алхимия • Ранг 5 Эпик • 2 мин</span></div></div><span class="px-1.5 py-0.5 rounded bg-secondary-container/60 text-secondary-fixed font-label-sm text-[11px] shrink-0 font-bold">Готово 4/4</span></div><div class="flex items-center justify-between pt-1 border-t border-outline-variant/10 text-[11px]"><div class="flex items-center gap-2 text-on-surface-variant"><span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[12px] text-secondary">spa</span> 20</span><span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[12px] text-primary">bolt</span> 5</span><span class="text-primary font-semibold">100% (+10% крит)</span></div><div class="flex items-center gap-1"><button class="px-1.5 py-0.5 rounded bg-surface-container-highest text-primary text-[10px] font-bold" type="button">x1/x5</button><button class="px-2.5 py-0.5 rounded bg-primary text-on-primary font-label-sm text-[11px] font-bold hover:brightness-110 active:scale-95 transition-all flex items-center gap-0.5" type="button"><span class="material-symbols-outlined text-[12px]">local_fire_department</span> Сварить</button></div></div></article><article class="recipe-card p-2 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer flex flex-col gap-1.5 border border-transparent hover:border-outline-variant/30" data-recipe="fish"><div class="flex items-center justify-between"><div class="flex items-center gap-2 min-w-0"><div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-secondary shrink-0 shadow-sm"><span class="material-symbols-outlined text-[18px]">water_drop</span></div><div class="flex flex-col min-w-0"><div class="flex items-center gap-1"><span class="font-label-md text-label-md text-on-surface truncate font-semibold">Масло Серебристой Рыбки</span><span class="text-[10px] text-secondary font-bold bg-secondary/10 px-1 rounded">x3 шт</span></div><span class="font-body-sm text-[11px] text-on-surface-variant">Алхимия • Ранг 3 • 45 сек</span></div></div><span class="px-1.5 py-0.5 rounded bg-secondary-container/60 text-secondary-fixed font-label-sm text-[11px] shrink-0 font-bold">Готово 4/4</span></div><div class="flex items-center justify-between pt-1 border-t border-outline-variant/10 text-[11px]"><div class="flex items-center gap-2 text-on-surface-variant"><span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[12px] text-secondary">set_meal</span> 30</span><span class="text-secondary font-semibold">95% шанс</span></div><div class="flex items-center gap-1"><button class="px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant hover:text-on-surface text-[10px] font-bold" type="button">x5</button><button class="px-2.5 py-0.5 rounded bg-secondary text-on-secondary font-label-sm text-[11px] font-bold hover:brightness-110 active:scale-95 transition-all flex items-center gap-0.5" type="button"><span class="material-symbols-outlined text-[12px]">science</span> Сварить</button></div></div></article><article class="recipe-card p-2 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer flex flex-col gap-1.5 border border-transparent hover:border-outline-variant/30" data-recipe="sword"><div class="flex items-center justify-between"><div class="flex items-center gap-2 min-w-0"><div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary shrink-0 shadow-sm"><span class="material-symbols-outlined text-[18px]">swords</span></div><div class="flex flex-col min-w-0"><div class="flex items-center gap-1"><span class="font-label-md text-label-md text-on-surface truncate font-semibold">Булатный Тесак Воителя</span><span class="text-[10px] text-outline font-bold">x1 шт</span></div><span class="font-body-sm text-[11px] text-on-surface-variant">Кузница • Ранг 4 • 5 мин</span></div></div><span class="px-1.5 py-0.5 rounded bg-surface-container-highest text-tertiary font-label-sm text-[11px] shrink-0 font-bold">Не хватает 2</span></div><div class="flex items-center justify-between pt-1 border-t border-outline-variant/10 text-[11px]"><div class="flex items-center gap-2 text-on-surface-variant"><span class="flex items-center gap-0.5 text-tertiary"><span class="material-symbols-outlined text-[12px]">diamond</span> 45/90</span><span class="text-on-surface-variant">85% шанс</span></div><div class="flex items-center gap-1"><button class="px-2.5 py-0.5 rounded bg-surface-container-highest text-primary font-label-sm text-[11px] font-semibold hover:bg-surface-container-high transition-all flex items-center gap-0.5" type="button"><span class="material-symbols-outlined text-[12px]">shopping_bag</span> Докупить</button></div></div></article><article class="recipe-card p-2 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer flex flex-col gap-1.5 border border-transparent hover:border-outline-variant/30" data-recipe="armor"><div class="flex items-center justify-between"><div class="flex items-center gap-2 min-w-0"><div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary shrink-0 shadow-sm"><span class="material-symbols-outlined text-[18px]">shield</span></div><div class="flex flex-col min-w-0"><div class="flex items-center gap-1"><span class="font-label-md text-label-md text-on-surface truncate font-semibold">Пластинчатый Нагрудник Перуна</span><span class="text-[10px] text-tertiary font-bold">★ Эпик</span></div><span class="font-body-sm text-[11px] text-on-surface-variant">Кузница • Ранг 5 Эпик • 8 мин</span></div></div><span class="px-1.5 py-0.5 rounded bg-surface-container-highest text-tertiary font-label-sm text-[11px] shrink-0 font-bold">Не хватает 1</span></div><div class="flex items-center justify-between pt-1 border-t border-outline-variant/10 text-[11px]"><div class="flex items-center gap-2 text-on-surface-variant"><span class="flex items-center gap-0.5 text-tertiary"><span class="material-symbols-outlined text-[12px]">landscape</span> 120/150</span><span class="text-primary font-semibold">80% шанс</span></div><div class="flex items-center gap-1"><button class="px-2.5 py-0.5 rounded bg-surface-container-highest text-primary font-label-sm text-[11px] font-semibold hover:bg-surface-container-high transition-all flex items-center gap-0.5" type="button"><span class="material-symbols-outlined text-[12px]">explore</span> Где взять?</button></div></div></article><article class="recipe-card p-2 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer flex flex-col gap-1.5 border border-transparent hover:border-outline-variant/30" data-recipe="hammer"><div class="flex items-center justify-between"><div class="flex items-center gap-2 min-w-0"><div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary-fixed-dim shrink-0 shadow-sm"><span class="material-symbols-outlined text-[18px]">hardware</span></div><div class="flex flex-col min-w-0"><div class="flex items-center gap-1"><span class="font-label-md text-label-md text-on-surface truncate font-semibold">Громовой Молот Перуна</span><span class="text-[10px] text-primary-fixed-dim font-bold bg-primary/20 px-1 rounded">Ранг 6</span></div><span class="font-body-sm text-[11px] text-on-surface-variant">Кузница • Ранг 6 Мифик • 12 мин</span></div></div><span class="px-1.5 py-0.5 rounded bg-surface-container-highest text-tertiary font-label-sm text-[11px] shrink-0 font-bold">Нужна руда</span></div><div class="flex items-center justify-between pt-1 border-t border-outline-variant/10 text-[11px]"><div class="flex items-center gap-2 text-on-surface-variant"><span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[12px] text-primary">bolt</span> 12</span><span class="text-tertiary font-semibold">75% шанс</span></div><div class="flex items-center gap-1"><button class="px-2.5 py-0.5 rounded bg-surface-container-highest text-primary font-label-sm text-[11px] font-semibold hover:bg-surface-container-high transition-all flex items-center gap-0.5" type="button"><span class="material-symbols-outlined text-[12px]">hammer</span> В кузницу</button></div></div></article><article class="recipe-card p-2 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer flex flex-col gap-1.5 border border-transparent hover:border-outline-variant/30" data-recipe="lotus"><div class="flex items-center justify-between"><div class="flex items-center gap-2 min-w-0"><div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-tertiary shrink-0 shadow-sm"><span class="material-symbols-outlined text-[18px]">local_florist</span></div><div class="flex flex-col min-w-0"><div class="flex items-center gap-1"><span class="font-label-md text-label-md text-on-surface truncate font-semibold">Настойка Огненного Лотоса</span><span class="text-[10px] text-secondary font-bold bg-secondary/10 px-1 rounded">x1 шт</span></div><span class="font-body-sm text-[11px] text-on-surface-variant">Алхимия • Ранг 4 Редкий • 1.5 мин</span></div></div><span class="px-1.5 py-0.5 rounded bg-secondary-container/60 text-secondary-fixed font-label-sm text-[11px] shrink-0 font-bold">Готово 3/3</span></div><div class="flex items-center justify-between pt-1 border-t border-outline-variant/10 text-[11px]"><div class="flex items-center gap-2 text-on-surface-variant"><span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[12px] text-tertiary">mode_heat</span> 8</span><span class="text-secondary font-semibold">100% шанс</span></div><div class="flex items-center gap-1"><button class="px-1.5 py-0.5 rounded bg-surface-container-highest text-on-surface-variant hover:text-on-surface text-[10px] font-bold" type="button">x1</button><button class="px-2.5 py-0.5 rounded bg-secondary text-on-secondary font-label-sm text-[11px] font-bold hover:brightness-110 active:scale-95 transition-all flex items-center gap-0.5" type="button"><span class="material-symbols-outlined text-[12px]">science</span> Сварить</button></div></div></article><article class="recipe-card p-2 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer flex flex-col gap-1.5 border border-transparent hover:border-outline-variant/30" data-recipe="titan_barrier"><div class="flex items-center justify-between"><div class="flex items-center gap-2 min-w-0"><div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-primary shrink-0 shadow-sm"><span class="material-symbols-outlined text-[18px]">shield_with_heart</span></div><div class="flex flex-col min-w-0"><div class="flex items-center gap-1"><span class="font-label-md text-label-md text-on-surface truncate font-semibold">Свиток Барьера Титана</span><span class="text-[10px] text-primary font-bold bg-primary/20 px-1 rounded">x2 шт</span></div><span class="font-body-sm text-[11px] text-on-surface-variant">Начертание • Ранг 5 • 3 мин</span></div></div><span class="px-1.5 py-0.5 rounded bg-secondary-container/60 text-secondary-fixed font-label-sm text-[11px] shrink-0 font-bold">Готово 3/3</span></div><div class="flex items-center justify-between pt-1 border-t border-outline-variant/10 text-[11px]"><div class="flex items-center gap-2 text-on-surface-variant"><span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[12px] text-primary">auto_fix_high</span> 14</span><span class="text-secondary font-semibold">90% шанс</span></div><div class="flex items-center gap-1"><button class="px-2.5 py-0.5 rounded bg-primary text-on-primary font-label-sm text-[11px] font-bold hover:brightness-110 active:scale-95 transition-all flex items-center gap-0.5" type="button"><span class="material-symbols-outlined text-[12px]">edit_note</span> Начертать</button></div></div></article><article class="recipe-card p-2 rounded-lg bg-surface-container hover:bg-surface-container-high transition-colors cursor-pointer flex flex-col gap-1.5 border border-transparent hover:border-outline-variant/30" data-recipe="scroll"><div class="flex items-center justify-between"><div class="flex items-center gap-2 min-w-0"><div class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-tertiary shrink-0 shadow-sm"><span class="material-symbols-outlined text-[18px]">menu_book</span></div><div class="flex flex-col min-w-0"><div class="flex items-center gap-1"><span class="font-label-md text-label-md text-on-surface truncate font-semibold">Свиток Ветра и Очищения</span><span class="text-[10px] text-secondary font-bold bg-secondary/10 px-1 rounded">x1 шт</span></div><span class="font-body-sm text-[11px] text-on-surface-variant">Начертание • Ранг 3 • 1 мин</span></div></div><span class="px-1.5 py-0.5 rounded bg-secondary-container/60 text-secondary-fixed font-label-sm text-[11px] shrink-0 font-bold">Готово 3/3</span></div><div class="flex items-center justify-between pt-1 border-t border-outline-variant/10 text-[11px]"><div class="flex items-center gap-2 text-on-surface-variant"><span class="flex items-center gap-0.5"><span class="material-symbols-outlined text-[12px] text-secondary">air</span> 10</span><span class="text-secondary font-semibold">100% шанс</span></div><div class="flex items-center gap-1"><button class="px-2.5 py-0.5 rounded bg-secondary text-on-secondary font-label-sm text-[11px] font-bold hover:brightness-110 active:scale-95 transition-all flex items-center gap-0.5" type="button"><span class="material-symbols-outlined text-[12px]">edit_note</span> Начертать</button></div></div></article></div><div class="shrink-0 flex flex-col gap-1.5 pt-1 mt-1 border-t border-outline-variant/20"><div class="bg-surface-container-lowest p-2 rounded-lg flex items-center justify-between"><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-secondary text-[16px]">bolt</span><div class="flex flex-col leading-none"><span class="font-label-sm text-[11px] text-on-surface font-semibold">Быстрый крафт избранного</span><span class="font-body-sm text-[10px] text-on-surface-variant">Очередь: 1/3 свободна</span></div></div><button class="px-2 py-1 rounded bg-secondary-container/60 text-secondary-fixed font-label-sm text-[11px] font-bold hover:bg-secondary-container transition-colors flex items-center gap-1" type="button"><span class="material-symbols-outlined text-[13px]">play_arrow</span> Запустить</button></div><button class="w-full bg-surface-container hover:bg-surface-container-high py-1.5 px-2 rounded-lg font-label-sm text-[11px] text-primary flex items-center justify-center gap-1 transition-colors border border-outline-variant/30" type="button"><span class="material-symbols-outlined text-[14px]">auto_stories</span><span class="">Изучить новые рецепты в Кодексе</span></button></div></section>
-<!-- КОЛОНКА 2: Совместный Алтарь Крафта и Верстак (42% -> col-span-5) -->
-<main class="col-span-5 bg-surface-container-low rounded-xl p-space-sm flex flex-col justify-between shadow-xl min-h-0 relative overflow-hidden"><div class="relative w-full rounded-xl overflow-hidden shadow-md shrink-0 flex-1"><img alt="Cozy fantasy crafting workshop interior" class="w-full h-full object-cover object-center" src="/stitch-assets/craft-altar-art.png"><div class="absolute inset-0 bg-gradient-to-t from-surface-container-low via-surface-container-low/50 to-transparent flex flex-col justify-between p-space-sm"><div class="flex items-center justify-between"><span class="px-2.5 py-1 rounded-full bg-surface-container-lowest/80 backdrop-blur-sm text-primary font-label-sm text-label-sm uppercase flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">flare</span> Алтарь Стихийных Зелий</span><span class="px-2 py-0.5 rounded bg-surface-container-lowest/80 text-secondary font-label-sm text-label-sm font-bold flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">verified</span> Успех: 100% (+10% Крит)</span></div><div class="flex items-end justify-between"><div class="flex flex-col"><div class="flex items-center gap-1.5"><span class="font-headline-md text-headline-md text-on-surface drop-shadow-md">Эликсир Громового Рывка</span><span class="px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase font-bold">Эпик</span></div><span class="font-body-sm text-body-sm text-secondary drop-shadow">+35% Скорости атаки и цепная молния на 3 хода</span></div><div class="w-10 h-10 rounded-xl bg-surface-container-high/90 backdrop-blur flex items-center justify-center text-primary shadow-lg"><span class="material-symbols-outlined text-[24px]">electric_bolt</span></div></div></div></div><div class="grid grid-cols-3 gap-2 bg-surface-container-lowest p-2 rounded-lg shrink-0"><div class="flex flex-col items-center justify-center p-1 rounded bg-surface-container-high/40"><span class="font-label-sm text-label-sm text-on-surface-variant">Время варки</span><span class="font-stat-numeral text-stat-numeral text-on-surface">02:00</span></div><div class="flex flex-col items-center justify-center p-1 rounded bg-surface-container-high/40"><span class="font-label-sm text-label-sm text-on-surface-variant">Расход Горна</span><span class="font-stat-numeral text-stat-numeral text-secondary">2 ⚡</span></div><div class="flex flex-col items-center justify-center p-1 rounded bg-surface-container-high/40"><span class="font-label-sm text-label-sm text-on-surface-variant">Ранг зелья</span><span class="font-stat-numeral text-stat-numeral text-primary">V Ранг</span></div></div><div class="flex items-center gap-1.5 shrink-0 bg-surface-container-lowest/80 p-1.5 rounded-lg border border-outline-variant/20"><button class="flex-1 bg-surface-container hover:bg-surface-container-high text-on-surface py-1 px-2 rounded-md font-label-sm text-[11px] flex items-center justify-center gap-1 transition-colors" type="button"><span class="material-symbols-outlined text-[14px] text-secondary">visibility</span><span class="">Предпросмотр баффа</span></button><button class="flex-1 bg-surface-container hover:bg-surface-container-high text-primary py-1 px-2 rounded-md font-label-sm text-[11px] flex items-center justify-center gap-1 transition-colors" type="button"><span class="material-symbols-outlined text-[14px]">auto_awesome</span><span class="">Катализатор (+15% крит)</span></button><button class="flex-1 bg-surface-container hover:bg-surface-container-high text-tertiary py-1 px-2 rounded-md font-label-sm text-[11px] flex items-center justify-center gap-1 transition-colors" type="button"><span class="material-symbols-outlined text-[14px]">local_fire_department</span><span class="">Освятить в Очаге</span></button></div><div class="flex flex-col gap-1.5 shrink-0"><div class="flex items-center justify-between px-1"><span class="font-label-sm text-label-sm text-on-surface-variant uppercase">Требуемые ингредиенты</span><span class="font-label-sm text-label-sm text-secondary font-bold">Все компоненты в наличии</span></div><div class="grid grid-cols-4 gap-2"><div class="bg-surface-container p-2 rounded-lg flex flex-col items-center text-center justify-between h-24 shadow-sm relative overflow-hidden"><span class="material-symbols-outlined text-secondary text-[20px]">spa</span><span class="font-label-sm text-label-sm text-on-surface truncate w-full">Душистая Мята</span><div class="flex items-baseline gap-0.5"><span class="font-label-md text-label-md text-secondary">20</span><span class="font-label-sm text-label-sm text-on-surface-variant">/45</span></div><div class="w-full bg-surface-container-lowest h-1 rounded-full overflow-hidden mt-0.5"><div class="bg-secondary h-full w-full"></div></div><button class="w-full mt-1 py-0.5 rounded bg-surface-container-high hover:bg-surface-container-highest text-secondary text-[10px] font-bold transition-colors" type="button">+ Склад</button></div><div class="bg-surface-container p-2 rounded-lg flex flex-col items-center text-center justify-between h-24 shadow-sm relative overflow-hidden"><span class="material-symbols-outlined text-primary text-[20px]">bolt</span><span class="font-label-sm text-label-sm text-on-surface truncate w-full">Эссенция Грома</span><div class="flex items-baseline gap-0.5"><span class="font-label-md text-label-md text-primary">5</span><span class="font-label-sm text-label-sm text-on-surface-variant">/8</span></div><div class="w-full bg-surface-container-lowest h-1 rounded-full overflow-hidden mt-0.5"><div class="bg-primary h-full w-full"></div></div><button class="w-full mt-1 py-0.5 rounded bg-surface-container-high hover:bg-surface-container-highest text-primary text-[10px] font-bold transition-colors" type="button">+ Добавить</button></div><div class="bg-surface-container p-2 rounded-lg flex flex-col items-center text-center justify-between h-24 shadow-sm relative overflow-hidden"><span class="material-symbols-outlined text-secondary-fixed text-[20px]">phishing</span><span class="font-label-sm text-label-sm text-on-surface truncate w-full">Чистая Рыбка</span><div class="flex items-baseline gap-0.5"><span class="font-label-md text-label-md text-secondary">50</span><span class="font-label-sm text-label-sm text-on-surface-variant">/120</span></div><div class="w-full bg-surface-container-lowest h-1 rounded-full overflow-hidden mt-0.5"><div class="bg-secondary h-full w-full"></div></div><button class="w-full mt-1 py-0.5 rounded bg-surface-container-high hover:bg-surface-container-highest text-secondary-fixed text-[10px] font-bold transition-colors" type="button">+ Причал</button></div><div class="bg-surface-container p-2 rounded-lg flex flex-col items-center text-center justify-between h-24 shadow-sm relative overflow-hidden"><span class="material-symbols-outlined text-tertiary-container text-[20px]">mode_heat</span><span class="font-label-sm text-label-sm text-on-surface truncate w-full">Угли Очага</span><div class="flex items-baseline gap-0.5"><span class="font-label-md text-label-md text-secondary">10</span><span class="font-label-sm text-label-sm text-on-surface-variant">/14</span></div><div class="w-full bg-surface-container-lowest h-1 rounded-full overflow-hidden mt-0.5"><div class="bg-secondary h-full w-full"></div></div><button class="w-full mt-1 py-0.5 rounded bg-surface-container-high hover:bg-surface-container-highest text-tertiary text-[10px] font-bold transition-colors" type="button">+ Очаг</button></div></div></div><div class="flex flex-col gap-1.5 pt-1 shrink-0"><div class="flex items-center gap-2"><button class="flex-1 bg-gradient-to-r from-primary to-primary-container text-on-primary py-2.5 px-3 rounded-xl font-label-lg text-label-lg shadow-lg hover:brightness-110 active:scale-95 transition-all flex items-center justify-center gap-2" id="btn-craft-main" type="button"><span class="material-symbols-outlined text-[20px]">science</span><span class="">Сварить Эликсир (500 Золота • 2 ⚡)</span></button><button class="px-3 py-2.5 bg-surface-container-high text-on-surface-variant rounded-xl font-label-md text-label-md flex items-center gap-1.5 hover:bg-surface-container-highest transition-colors opacity-80 cursor-pointer" id="btn-craft-multi" title="Требуется Боевой Пасс" type="button"><span class="material-symbols-outlined text-[16px] text-primary">lock</span><span class="">Крафт x10</span></button></div><div class="flex items-center gap-2"><button class="flex-1 bg-surface-container hover:bg-surface-container-high text-on-surface py-1.5 px-3 rounded-lg font-label-sm text-[12px] flex items-center justify-center gap-1.5 transition-colors border border-outline-variant/30" type="button"><span class="material-symbols-outlined text-[16px] text-secondary">queue</span><span class="">Поставить в очередь (1/3)</span></button><button class="flex-1 bg-surface-container hover:bg-surface-container-high text-primary py-1.5 px-3 rounded-lg font-label-sm text-[12px] flex items-center justify-center gap-1.5 transition-colors border border-outline-variant/30" type="button"><span class="material-symbols-outlined text-[16px]">repeat</span><span class="">Авто-повтор крафта</span></button></div></div></main>
-<!-- КОЛОНКА 3: Склад ингредиентов и Бонусы Мастерской (28% -> col-span-3) -->
-<aside class="col-span-3 bg-surface-container-low rounded-xl p-space-sm flex flex-col justify-between shadow-md min-h-0"><!-- 1. Заголовок Склада Сырья с прогресс-баром и кнопкой -->
-<div class="flex flex-col gap-1 shrink-0 pb-1 border-b border-outline-variant/20">
-  <div class="flex items-center justify-between">
-    <div class="flex items-center gap-1.5">
-      <span class="material-symbols-outlined text-primary text-[18px]">inventory_2</span>
-      <span class="font-label-lg text-label-lg text-on-surface">Склад Сырья Усадьбы</span>
-    </div>
-    <button class="px-2 py-0.5 rounded bg-primary/15 hover:bg-primary/25 text-primary font-label-sm text-[10px] font-bold transition-colors flex items-center gap-0.5" type="button">
-      <span class="material-symbols-outlined text-[12px]">sync</span> Пополнить
-    </button>
-  </div>
-  <div class="flex items-center justify-between text-[11px] text-on-surface-variant font-label-sm">
-    <span class="">Вместимость: <strong class="text-on-surface font-stat-numeral text-[11px]">1640</strong>/2100</span>
-    <span class="text-primary font-bold">78%</span>
-  </div>
-  <div class="w-full bg-surface-container-lowest h-1 rounded-full overflow-hidden">
-    <div class="bg-gradient-to-r from-primary to-primary-container h-full w-[78%]"></div>
-  </div>
-</div>
-
-<!-- 2. Список Сырья (7 компактных позиций с микро-барами) -->
-<div class="flex flex-col gap-1 shrink-0">
-  <!-- Травы -->
-  <div class="bg-surface-container px-2 py-1 rounded-lg flex items-center justify-between gap-1">
-    <div class="flex items-center gap-1.5 min-w-0 flex-1">
-      <span class="material-symbols-outlined text-secondary text-[15px] shrink-0">grass</span>
-      <span class="font-label-md text-[11px] text-on-surface truncate">Лечебные Травы</span>
-    </div>
-    <div class="flex items-center gap-1.5 shrink-0">
-      <div class="w-12 bg-surface-container-lowest h-1 rounded-full overflow-hidden">
-        <div class="bg-secondary h-full w-[68%]"></div>
-      </div>
-      <span class="font-label-sm text-[10px] text-on-surface-variant w-14 text-right">340/500</span>
-      <button class="px-1.5 py-0.2 rounded bg-surface-container-high text-secondary hover:bg-surface-container-highest text-[9px] font-bold" type="button">Добыть ↗</button>
-    </div>
-  </div>
-  <!-- Рыба -->
-  <div class="bg-surface-container px-2 py-1 rounded-lg flex items-center justify-between gap-1">
-    <div class="flex items-center gap-1.5 min-w-0 flex-1">
-      <span class="material-symbols-outlined text-secondary-fixed text-[15px] shrink-0">set_meal</span>
-      <span class="font-label-md text-[11px] text-on-surface truncate">Свежая Рыбка</span>
-    </div>
-    <div class="flex items-center gap-1.5 shrink-0">
-      <div class="w-12 bg-surface-container-lowest h-1 rounded-full overflow-hidden">
-        <div class="bg-secondary-fixed h-full w-[84%]"></div>
-      </div>
-      <span class="font-label-sm text-[10px] text-on-surface-variant w-14 text-right">420/500</span>
-      <button class="px-1.5 py-0.2 rounded bg-surface-container-high text-secondary-fixed hover:bg-surface-container-highest text-[9px] font-bold" type="button">Причал ↗</button>
-    </div>
-  </div>
-  <!-- Брёвна -->
-  <div class="bg-surface-container px-2 py-1 rounded-lg flex items-center justify-between gap-1">
-    <div class="flex items-center gap-1.5 min-w-0 flex-1">
-      <span class="material-symbols-outlined text-primary text-[15px] shrink-0">forest</span>
-      <span class="font-label-md text-[11px] text-on-surface truncate">Дубовые Брёвна</span>
-    </div>
-    <div class="flex items-center gap-1.5 shrink-0">
-      <div class="w-12 bg-surface-container-lowest h-1 rounded-full overflow-hidden">
-        <div class="bg-primary h-full w-[42%]"></div>
-      </div>
-      <span class="font-label-sm text-[10px] text-on-surface-variant w-14 text-right">210/500</span>
-      <button class="px-1.5 py-0.2 rounded bg-surface-container-high text-primary hover:bg-surface-container-highest text-[9px] font-bold" type="button">Лесопилка ↗</button>
-    </div>
-  </div>
-  <!-- Руда -->
-  <div class="bg-surface-container px-2 py-1 rounded-lg flex items-center justify-between gap-1">
-    <div class="flex items-center gap-1.5 min-w-0 flex-1">
-      <span class="material-symbols-outlined text-tertiary text-[15px] shrink-0">diamond</span>
-      <span class="font-label-md text-[11px] text-on-surface truncate">Железная Руда</span>
-    </div>
-    <div class="flex items-center gap-1.5 shrink-0">
-      <div class="w-12 bg-surface-container-lowest h-1 rounded-full overflow-hidden">
-        <div class="bg-tertiary h-full w-[38%]"></div>
-      </div>
-      <span class="font-label-sm text-[10px] text-on-surface-variant w-14 text-right">190/500</span>
-      <button class="px-1.5 py-0.2 rounded bg-surface-container-high text-tertiary hover:bg-surface-container-highest text-[9px] font-bold" type="button">Штольня ↗</button>
-    </div>
-  </div>
-  <!-- Гранит -->
-  <div class="bg-surface-container px-2 py-1 rounded-lg flex items-center justify-between gap-1">
-    <div class="flex items-center gap-1.5 min-w-0 flex-1">
-      <span class="material-symbols-outlined text-outline text-[15px] shrink-0">landscape</span>
-      <span class="font-label-md text-[11px] text-on-surface truncate">Серый Гранит</span>
-    </div>
-    <div class="flex items-center gap-1.5 shrink-0">
-      <div class="w-12 bg-surface-container-lowest h-1 rounded-full overflow-hidden">
-        <div class="bg-outline h-full w-[96%]"></div>
-      </div>
-      <span class="font-label-sm text-[10px] text-on-surface-variant w-14 text-right">480/500</span>
-      <button class="px-1.5 py-0.2 rounded bg-surface-container-high text-outline hover:bg-surface-container-highest text-[9px] font-bold" type="button">Карьер ↗</button>
-    </div>
-  </div>
-  <!-- Огненный Уголь -->
-  <div class="bg-surface-container px-2 py-1 rounded-lg flex items-center justify-between gap-1">
-    <div class="flex items-center gap-1.5 min-w-0 flex-1">
-      <span class="material-symbols-outlined text-tertiary-container text-[15px] shrink-0">local_fire_department</span>
-      <span class="font-label-md text-[11px] text-on-surface truncate">Огненный Уголь</span>
-    </div>
-    <div class="flex items-center gap-1.5 shrink-0">
-      <div class="w-12 bg-surface-container-lowest h-1 rounded-full overflow-hidden">
-        <div class="bg-tertiary-container h-full w-[96%]"></div>
-      </div>
-      <span class="font-label-sm text-[10px] text-on-surface-variant w-14 text-right">290/300</span>
-      <button class="px-1.5 py-0.2 rounded bg-surface-container-high text-tertiary hover:bg-surface-container-highest text-[9px] font-bold" type="button">Кузница ↗</button>
-    </div>
-  </div>
-  <!-- Чистая Вода -->
-  <div class="bg-surface-container px-2 py-1 rounded-lg flex items-center justify-between gap-1">
-    <div class="flex items-center gap-1.5 min-w-0 flex-1">
-      <span class="material-symbols-outlined text-primary-fixed-dim text-[15px] shrink-0">water_drop</span>
-      <span class="font-label-md text-[11px] text-on-surface truncate">Чистая Вода</span>
-    </div>
-    <div class="flex items-center gap-1.5 shrink-0">
-      <div class="w-12 bg-surface-container-lowest h-1 rounded-full overflow-hidden">
-        <div class="bg-primary-fixed-dim h-full w-[76%]"></div>
-      </div>
-      <span class="font-label-sm text-[10px] text-on-surface-variant w-14 text-right">380/500</span>
-      <button class="px-1.5 py-0.2 rounded bg-surface-container-high text-primary-fixed-dim hover:bg-surface-container-highest text-[9px] font-bold" type="button">Родник ↗</button>
-    </div>
-  </div>
-</div>
-
-<!-- 3. Катализаторы и Усилители (4 компактных карточки в сетке 2x2) -->
-<div class="bg-surface-container-lowest p-1.5 rounded-xl flex flex-col gap-1 shrink-0 border border-outline-variant/20">
-  <div class="flex items-center justify-between px-0.5">
-    <span class="font-label-sm text-[10px] text-on-surface-variant uppercase font-semibold">Катализаторы &amp; Усилители</span>
-    <span class="font-label-sm text-[10px] text-primary font-bold">4 готово</span>
-  </div>
-  <div class="grid grid-cols-2 gap-1">
-    <!-- 1 -->
-    <button class="bg-surface-container hover:bg-surface-container-high p-1 rounded-lg flex items-center gap-1 text-on-surface text-left transition-colors" type="button">
-      <span class="material-symbols-outlined text-primary text-[15px] shrink-0">grain</span>
-      <div class="flex flex-col leading-tight min-w-0">
-        <div class="flex items-center justify-between gap-0.5">
-          <span class="font-label-sm text-[10px] text-primary font-bold truncate">Пыльца Феи</span>
-          <span class="text-[9px] text-primary font-bold bg-primary/15 px-1 rounded">x4</span>
-        </div>
-        <span class="text-[9px] text-on-surface-variant truncate">+15% крит-крафт</span>
-      </div>
-    </button>
-    <!-- 2 -->
-    <button class="bg-surface-container hover:bg-surface-container-high p-1 rounded-lg flex items-center gap-1 text-on-surface text-left transition-colors" type="button">
-      <span class="material-symbols-outlined text-tertiary text-[15px] shrink-0">whatshot</span>
-      <div class="flex flex-col leading-tight min-w-0">
-        <div class="flex items-center justify-between gap-0.5">
-          <span class="font-label-sm text-[10px] text-tertiary font-bold truncate">Рунный Уголь</span>
-          <span class="text-[9px] text-tertiary font-bold bg-surface-container-highest px-1 rounded">x2</span>
-        </div>
-        <span class="text-[9px] text-on-surface-variant truncate">-30% время</span>
-      </div>
-    </button>
-    <!-- 3 -->
-    <button class="bg-surface-container hover:bg-surface-container-high p-1 rounded-lg flex items-center gap-1 text-on-surface text-left transition-colors" type="button">
-      <span class="material-symbols-outlined text-secondary text-[15px] shrink-0">psychology_alt</span>
-      <div class="flex flex-col leading-tight min-w-0">
-        <div class="flex items-center justify-between gap-0.5">
-          <span class="font-label-sm text-[10px] text-secondary font-bold truncate">Мятный Экстракт</span>
-          <span class="text-[9px] text-secondary font-bold bg-secondary/15 px-1 rounded">x8</span>
-        </div>
-        <span class="text-[9px] text-on-surface-variant truncate">+20% качество</span>
-      </div>
-    </button>
-    <!-- 4 -->
-    <button class="bg-surface-container hover:bg-surface-container-high p-1 rounded-lg flex items-center gap-1 text-on-surface text-left transition-colors" type="button">
-      <span class="material-symbols-outlined text-primary-fixed-dim text-[15px] shrink-0">auto_awesome</span>
-      <div class="flex flex-col leading-tight min-w-0">
-        <div class="flex items-center justify-between gap-0.5">
-          <span class="font-label-sm text-[10px] text-primary-fixed-dim font-bold truncate">Слеза Котика</span>
-          <span class="text-[9px] text-primary-fixed-dim font-bold bg-primary/20 px-1 rounded">x1</span>
-        </div>
-        <span class="text-[9px] text-secondary font-bold truncate">100% мифик</span>
-      </div>
-    </button>
-  </div>
-</div>
-
-<!-- 4. Активный Мастер Наковальни & Алхимии + Подмастерье -->
-<div class="bg-surface-container p-2 rounded-xl flex flex-col gap-1.5 shrink-0 border border-outline-variant/10 shadow-sm">
-  <div class="flex items-center justify-between">
-    <div class="flex items-center gap-1">
-      <span class="material-symbols-outlined text-primary text-[14px]">shield_person</span>
-      <span class="font-label-sm text-[11px] text-on-surface-variant uppercase font-semibold">Мастерская: Команда</span>
-    </div>
-    <div class="flex items-center gap-1.5">
-      <button class="font-label-sm text-[10px] text-secondary hover:underline flex items-center gap-0.5 font-bold" type="button">
-        <span class="material-symbols-outlined text-[12px]">restaurant</span> 94%
-      </button>
-      <button class="font-label-sm text-[10px] text-primary hover:underline font-bold" type="button">Сменить</button>
-    </div>
-  </div>
-  <!-- Основной Мастер -->
-  <div class="flex items-center gap-2 bg-surface-container-high/60 p-1.5 rounded-lg">
-    <div class="w-9 h-9 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary relative shrink-0 shadow-inner">
-      <span class="material-symbols-outlined text-[20px]">pets</span>
-      <span class="absolute -bottom-1 -right-1 w-3.5 h-3.5 rounded-full bg-secondary flex items-center justify-center text-[9px] text-on-secondary font-bold">✓</span>
-    </div>
-    <div class="flex flex-col min-w-0 flex-1 leading-tight">
-      <div class="flex items-center gap-1">
-        <span class="font-label-md text-[12px] text-on-surface font-bold truncate">Мурзик Огнелап</span>
-        <span class="px-1 rounded bg-primary-container text-on-primary-container font-label-sm text-[9px] font-bold">Ур. 42</span>
-      </div>
-      <span class="font-body-sm text-[10px] text-secondary font-semibold truncate">+15% ковка • -5% золото</span>
-    </div>
-  </div>
-  <!-- Подмастерье -->
-  <div class="flex items-center justify-between px-1.5 py-1 rounded bg-surface-container-lowest/80 text-[10px]">
-    <div class="flex items-center gap-1 min-w-0">
-      <span class="material-symbols-outlined text-primary text-[13px]">school</span>
-      <span class="text-on-surface truncate font-semibold">Рыжик Шустрый <span class="text-on-surface-variant">(Ур. 18)</span></span>
-    </div>
-    <span class="text-secondary font-bold shrink-0">+5% двойной крафт</span>
-  </div>
-</div>
-
-<!-- 5. Быстрые утилиты и быстрый переход -->
-<div class="flex flex-col gap-1 shrink-0 pt-0.5 border-t border-outline-variant/20">
-  <div class="grid grid-cols-3 gap-1">
-    <button class="bg-surface-container hover:bg-surface-container-high p-1 rounded-lg flex flex-col items-center justify-center text-center text-on-surface transition-colors" title="Авто-сортировка" type="button">
-      <span class="material-symbols-outlined text-primary text-[15px]">sort</span>
-      <span class="font-label-sm text-[9px] leading-tight">Сортировка</span>
-    </button>
-    <button class="bg-surface-container hover:bg-surface-container-high p-1 rounded-lg flex flex-col items-center justify-center text-center text-on-surface transition-colors" title="Журнал крафта" type="button">
-      <span class="material-symbols-outlined text-secondary text-[15px]">history</span>
-      <span class="font-label-sm text-[9px] leading-tight">Журнал</span>
-    </button>
-    <button class="bg-surface-container hover:bg-surface-container-high p-1 rounded-lg flex flex-col items-center justify-center text-center text-on-surface transition-colors" title="Очистить шлак в угли" type="button">
-      <span class="material-symbols-outlined text-tertiary text-[15px]">cleaning_services</span>
-      <span class="font-label-sm text-[9px] leading-tight">Очистка</span>
-    </button>
-  </div>
-  <div class="flex gap-1">
-    <button class="flex-1 bg-surface-container hover:bg-surface-container-high py-1 px-2 rounded-lg flex items-center justify-between text-on-surface transition-colors text-[10px] font-semibold border border-outline-variant/20" type="button">
-      <div class="flex items-center gap-1">
-        <span class="material-symbols-outlined text-secondary text-[13px]">yard</span>
-        <span class="truncate">Во двор</span>
-      </div>
-      <span class="material-symbols-outlined text-[12px] text-on-surface-variant">arrow_forward</span>
-    </button>
-    <button class="flex-1 bg-surface-container hover:bg-surface-container-high py-1 px-2 rounded-lg flex items-center justify-between text-on-surface transition-colors text-[10px] font-semibold border border-outline-variant/20" type="button">
-      <div class="flex items-center gap-1">
-        <span class="material-symbols-outlined text-primary text-[13px]">hardware</span>
-        <span class="truncate">В Кузницу</span>
-      </div>
-      <span class="material-symbols-outlined text-[12px] text-on-surface-variant">arrow_forward</span>
-    </button>
-  </div>
-</div></aside>
-</div>
-</div>
-</main>
-<footer class="w-full h-10 bg-surface-container-lowest flex items-center justify-between px-space-lg shadow-[0_-2px_10px_rgba(0,0,0,0.5)] border-t border-outline-variant/20">
-<div class="flex items-center gap-space-md">
-<span class="font-label-sm text-label-sm text-on-surface-variant">© 2024 Мифиус: Мифические Котики RPG. Все права защищены.</span>
-<span class="hidden md:inline font-label-sm text-label-sm text-outline">•</span>
-<span class="hidden md:inline font-label-sm text-label-sm text-on-surface-variant">Клиент вер. 1.14.8-ea</span>
-</div>
-<div class="flex items-center gap-space-sm">
 <div class="flex items-center gap-space-xs">
-<span class="w-1.5 h-1.5 rounded-full bg-secondary"></span>
-<span class="font-label-sm text-label-sm text-on-surface-variant">Северный Очаг</span>
+<span class="w-2.5 h-2.5 rounded-full bg-primary animate-ping"></span>
+<span class="font-headline-md text-headline-md text-on-surface tracking-wide">Мастерская Очага: Крафт &amp; Алхимия</span>
 </div>
-<span class="font-label-sm text-label-sm text-outline">•</span>
-<span class="font-label-sm text-label-sm text-secondary-fixed-dim">24ms</span>
+<span class="px-space-sm py-0.5 rounded-full bg-surface-container-high text-primary font-label-sm text-label-sm">
+        Ур. Горна: 12 · «Пламя Ярости»
+      </span>
 </div>
-</footer>
+<!-- Category Tabs -->
+<div class="flex items-center gap-space-xs overflow-x-auto py-1"><button id="tab-all" data-category="all" class="craft-cat-tab px-space-md py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface transition-colors whitespace-nowrap">Все рецепты</button><button id="tab-alchemy" data-category="alchemy" class="craft-cat-tab px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md shadow-sm whitespace-nowrap flex items-center gap-1.5 font-bold"><span class="material-symbols-outlined text-[16px]">science</span>Алхимия и Зелья (Активно)</button><button id="tab-forge" data-category="forge" class="craft-cat-tab px-space-md py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface transition-colors whitespace-nowrap flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px]">hardware</span>Кузница и Оружие</button><button id="tab-scrolls" data-category="scrolls" class="craft-cat-tab px-space-md py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface transition-colors whitespace-nowrap flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px]">auto_stories</span>Боевые Свитки</button><button id="tab-runes" data-category="runes" class="craft-cat-tab px-space-md py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface transition-colors whitespace-nowrap flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px]">diamond</span>Инкрустация Рун</button><button id="tab-farm" data-category="farm" class="craft-cat-tab px-space-md py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface transition-colors whitespace-nowrap flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px]">agriculture</span>Все для фермы</button></div>
+<!-- Hearth Thermal Buff Timer -->
+<div class="flex items-center gap-space-sm px-space-md py-1 rounded-lg bg-surface-container-high shadow-inner justify-between border border-outline-variant/30" style="width: 24%; min-width: 280px;">
+<span class="material-symbols-outlined text-primary-fixed-dim text-[18px]">local_fire_department</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-primary-fixed">Очаг Разогрет: +10% шанс крит-крафта</span>
+<span class="font-stat-numeral text-stat-numeral text-on-surface text-[14px] leading-none">42:15</span>
+</div>
+</div>
+</div>
+<!-- Primary 3-Column Crafting Studio Arena -->
+<div class="craft-studio w-full px-space-lg py-space-md grid grid-cols-1 lg:grid-cols-12 gap-space-md flex-1 items-stretch">
+<!-- LEFT COLUMN: Recipe Codex Tray (28%) -->
+<div class="lg:col-span-3 flex flex-col justify-between gap-space-sm bg-surface-container-low p-space-md rounded-xl shadow-lg border border-outline-variant/30 flex-1 h-full">
+<!-- Top Header Section -->
+<div class="flex flex-col gap-space-xs shrink-0">
+<div class="flex items-center justify-between pb-space-xs border-b border-outline-variant/20">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[20px]">menu_book</span>
+<span class="font-headline-md text-headline-md text-on-surface">Книга Рецептов</span>
+</div>
+<span id="recipe-count-badge" class="font-label-sm text-label-sm text-on-surface-variant">· Доступно: 8</span>
+</div>
+<!-- Category Filter Pills Bar -->
+
+</div>
+<!-- Extended Scrollable Recipe List -->
+<div class="craft-recipe-list flex flex-col gap-2 overflow-y-auto flex-1 pr-1 justify-between"><!-- Alchemy 1 (Selected) --><div data-cat="alchemy" class="recipe-card p-space-sm rounded-lg bg-surface-container-highest shadow-md transition-all cursor-pointer relative overflow-hidden border border-primary/60 flex items-stretch gap-space-sm active-recipe"><div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div><div class="flex flex-col min-w-0 flex-1 justify-between py-0.5 z-10 pl-1.5"><div class="flex items-start justify-between gap-1.5"><span class="font-label-md text-label-md text-primary font-bold leading-tight truncate">Эликсир Громового Рывка</span><span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-[10px] shrink-0 font-bold border border-secondary/40 shadow-sm">4/4</span></div><div class="flex items-center gap-2 mt-1"><span class="px-2 py-0.5 rounded bg-tertiary-container/30 border border-tertiary-container/50 text-tertiary font-label-sm text-[10px] font-bold">Ранг V Эпик</span><span class="font-body-sm text-[11px] text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px] text-outline">schedule</span>2 мин</span></div><div class="mt-1.5 pt-1 border-t border-outline-variant/20 flex items-center justify-between"><span class="font-body-sm text-[11px] text-secondary font-bold flex items-center gap-0.5"><span class="material-symbols-outlined text-[13px] text-secondary">verified</span>Шанс 100%</span><span class="px-2.5 py-0.5 rounded bg-gradient-to-r from-primary to-primary-container text-on-primary font-label-sm text-[10px] font-bold shadow-sm border border-primary-fixed/40">Выбрано</span></div></div><div class="w-16 h-16 self-center rounded-lg bg-surface-container-lowest shrink-0 overflow-hidden border border-primary/60 shadow-[0_0_12px_rgba(253,186,69,0.25)] relative flex flex-col items-center justify-center bg-primary/10"><div class="absolute inset-0 bg-gradient-to-t from-primary/20 via-transparent to-transparent pointer-events-none"></div><span class="material-symbols-outlined text-[32px] text-primary drop-shadow-[0_0_8px_rgba(253,186,69,0.6)] animate-pulse">bolt</span><span class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-surface-container-lowest/95 text-primary text-[10px] font-bold font-stat-numeral border border-primary/50 shadow-sm leading-none">V</span></div></div><!-- Alchemy 2 --><div data-cat="alchemy" class="recipe-card p-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high shadow transition-all cursor-pointer border border-outline-variant/20 hover:border-secondary/50 relative overflow-hidden flex items-stretch gap-space-sm"><div class="flex flex-col min-w-0 flex-1 justify-between py-0.5 z-10 pl-1.5"><div class="flex items-start justify-between gap-1.5"><span class="font-label-md text-label-md text-on-surface font-bold leading-tight truncate">Зелье Кошачьей Мяты</span><span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-[10px] shrink-0 font-bold border border-secondary/40 shadow-sm">4/4</span></div><div class="flex items-center gap-2 mt-1"><span class="px-2 py-0.5 rounded bg-secondary-container/60 border border-secondary/30 text-secondary font-label-sm text-[10px] font-bold">Ранг II Зелёное</span><span class="font-body-sm text-[11px] text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px] text-outline">schedule</span>30 сек</span></div><div class="mt-1.5 pt-1 border-t border-outline-variant/20 flex items-center justify-between"><span class="font-body-sm text-[11px] text-on-surface-variant font-medium flex items-center gap-0.5">Расход: 1 ⚡</span><button class="px-2.5 py-0.5 rounded bg-surface-container-highest hover:bg-primary hover:text-on-primary text-on-surface font-label-sm text-[10px] font-bold transition-colors shadow-sm">Сварить</button></div></div><div class="w-16 h-16 self-center rounded-lg bg-surface-container-lowest shrink-0 overflow-hidden border border-secondary/40 relative flex flex-col items-center justify-center bg-secondary-container/20 shadow-inner"><span class="material-symbols-outlined text-[32px] text-secondary">local_pharmacy</span><span class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-surface-container-lowest/90 text-secondary text-[10px] font-bold font-stat-numeral border border-secondary/40 shadow-sm leading-none">II</span></div></div><!-- Forge 1 --><div data-cat="forge" class="recipe-card p-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high shadow transition-all cursor-pointer border border-outline-variant/20 hover:border-primary/50 relative overflow-hidden flex items-stretch gap-space-sm"><div class="flex flex-col min-w-0 flex-1 justify-between py-0.5 z-10 pl-1.5"><div class="flex items-start justify-between gap-1.5"><span class="font-label-md text-label-md text-on-surface font-bold leading-tight truncate">Булатный Тесак Воителя</span><span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-[10px] shrink-0 font-bold border border-secondary/40 shadow-sm">3/3</span></div><div class="flex items-center gap-2 mt-1"><span class="px-2 py-0.5 rounded bg-primary-container/40 border border-primary/50 text-primary-fixed-dim font-label-sm text-[10px] font-bold">Ранг IV Оружие</span><span class="font-body-sm text-[11px] text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px] text-outline">schedule</span>3 мин</span></div><div class="mt-1.5 pt-1 border-t border-outline-variant/20 flex items-center justify-between"><span class="font-body-sm text-[11px] text-on-surface-variant font-medium flex items-center gap-0.5">Расход: 2 ⚡</span><button class="px-2.5 py-0.5 rounded bg-surface-container-highest hover:bg-primary hover:text-on-primary text-on-surface font-label-sm text-[10px] font-bold transition-colors shadow-sm">Ковать</button></div></div><div class="w-16 h-16 self-center rounded-lg bg-surface-container-lowest shrink-0 overflow-hidden border border-primary/40 relative flex flex-col items-center justify-center bg-primary/10 shadow-inner"><span class="material-symbols-outlined text-[32px] text-primary">colorize</span><span class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-surface-container-lowest/90 text-primary-fixed-dim text-[10px] font-bold font-stat-numeral border border-outline-variant/30 shadow-sm leading-none">IV</span></div></div><!-- Forge 2 --><div data-cat="forge" class="recipe-card p-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high shadow transition-all cursor-pointer border border-outline-variant/20 hover:border-secondary/50 relative overflow-hidden flex items-stretch gap-space-sm"><div class="flex flex-col min-w-0 flex-1 justify-between py-0.5 z-10 pl-1.5"><div class="flex items-start justify-between gap-1.5"><span class="font-label-md text-label-md text-on-surface font-bold leading-tight truncate">Кираса Горного Очага</span><span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-[10px] shrink-0 font-bold border border-secondary/40 shadow-sm">4/4</span></div><div class="flex items-center gap-2 mt-1"><span class="px-2 py-0.5 rounded bg-tertiary-container/30 border border-tertiary-container/50 text-tertiary font-label-sm text-[10px] font-bold">Ранг V Доспех</span><span class="font-body-sm text-[11px] text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px] text-outline">schedule</span>4 мин</span></div><div class="mt-1.5 pt-1 border-t border-outline-variant/20 flex items-center justify-between"><span class="font-body-sm text-[11px] text-on-surface-variant font-medium flex items-center gap-0.5">Расход: 2 ⚡</span><button class="px-2.5 py-0.5 rounded bg-surface-container-highest hover:bg-primary hover:text-on-primary text-on-surface font-label-sm text-[10px] font-bold transition-colors shadow-sm">Ковать</button></div></div><div class="w-16 h-16 self-center rounded-lg bg-surface-container-lowest shrink-0 overflow-hidden border border-secondary/50 relative flex flex-col items-center justify-center bg-secondary-container/20 shadow-inner"><span class="material-symbols-outlined text-[32px] text-secondary">shield</span><span class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-surface-container-lowest/90 text-secondary text-[10px] font-bold font-stat-numeral border border-secondary/40 shadow-sm leading-none">V</span></div></div><!-- Scrolls 1 --><!-- Runes 1 --><!-- Farm 1 --><div data-cat="farm" class="recipe-card p-space-sm rounded-lg bg-surface-container hover:bg-surface-container-high shadow transition-all cursor-pointer border border-outline-variant/20 hover:border-secondary/50 relative overflow-hidden flex items-stretch gap-space-sm"><div class="flex flex-col min-w-0 flex-1 justify-between py-0.5 z-10 pl-1.5"><div class="flex items-start justify-between gap-1.5"><span class="font-label-md text-label-md text-on-surface font-bold leading-tight truncate">Лунная Подкормка Саженцев</span><span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-[10px] shrink-0 font-bold border border-secondary/40 shadow-sm">3/3</span></div><div class="flex items-center gap-2 mt-1"><span class="px-2 py-0.5 rounded bg-secondary-container/60 border border-secondary/30 text-secondary font-label-sm text-[10px] font-bold">Ферма · Удобрение</span><span class="font-body-sm text-[11px] text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px] text-outline">schedule</span>1 мин</span></div><div class="mt-1.5 pt-1 border-t border-outline-variant/20 flex items-center justify-between"><span class="font-body-sm text-[11px] text-on-surface-variant font-medium flex items-center gap-0.5">Расход: 1 ⚡</span><button class="px-2.5 py-0.5 rounded bg-surface-container-highest hover:bg-secondary hover:text-on-secondary text-on-surface font-label-sm text-[10px] font-bold transition-colors shadow-sm">Создать</button></div></div><div class="w-16 h-16 self-center rounded-lg bg-surface-container-lowest shrink-0 overflow-hidden border border-secondary/50 relative flex flex-col items-center justify-center bg-secondary-container/20 shadow-inner"><span class="material-symbols-outlined text-[32px] text-secondary">potted_plant</span><span class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-surface-container-lowest/90 text-secondary text-[10px] font-bold font-stat-numeral border border-secondary/40 shadow-sm leading-none">II</span></div></div><!-- Locked Mythic --><div data-cat="alchemy" class="recipe-card p-space-sm rounded-lg bg-surface-container-lowest/90 border border-tertiary-container/40 relative overflow-hidden group shadow-inner flex items-stretch gap-space-sm"><div class="absolute inset-0 bg-gradient-to-r from-tertiary-container/5 via-transparent to-surface-container-lowest pointer-events-none"></div><div class="flex flex-col min-w-0 flex-1 justify-between py-0.5 z-10 pl-1.5"><div class="flex items-start justify-between gap-1.5"><span class="font-label-md text-label-md text-tertiary-fixed-dim font-bold leading-tight truncate">Эликсир Астрал. Пламени</span><span class="px-2 py-0.5 rounded bg-tertiary-container/30 border border-tertiary-container/40 text-tertiary font-label-sm text-[10px] shrink-0 font-bold flex items-center gap-0.5 shadow-sm"><span class="material-symbols-outlined text-[11px]">lock</span>Не изучено</span></div><div class="flex items-center gap-2 mt-1"><span class="px-2 py-0.5 rounded bg-tertiary-container text-on-tertiary-container font-label-sm text-[10px] font-bold">Ранг VI Мифик</span><span class="font-body-sm text-[11px] text-tertiary flex items-center gap-0.5 truncate"><span class="material-symbols-outlined text-[12px] text-primary">auto_stories</span>Фолиант</span></div><div class="mt-1.5 pt-1 border-t border-outline-variant/20 flex items-center justify-between"><span class="font-body-sm text-[10px] text-on-surface-variant font-medium truncate">Кодекс ур. 15</span><button class="px-2 py-0.5 rounded bg-tertiary-container/20 hover:bg-tertiary-container/40 border border-tertiary-container/50 text-tertiary font-label-sm text-[10px] font-bold transition-colors shadow-sm">Изучить</button></div></div><div class="w-16 h-16 self-center rounded-lg bg-surface-container-lowest shrink-0 overflow-hidden border border-tertiary-container/50 relative flex flex-col items-center justify-center shadow-inner z-10"><div class="absolute inset-0 bg-surface-container-lowest/60 flex items-center justify-center pointer-events-none"></div><span class="material-symbols-outlined text-[32px] text-tertiary drop-shadow-md">lock</span><span class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-surface-container-lowest/95 text-tertiary text-[10px] font-bold font-stat-numeral border border-tertiary-container/40 shadow-sm leading-none">VI</span></div></div></div>
+<!-- Quick Left-Column Actions (Pinned to Bottom) -->
+<div class="mt-auto pt-space-sm flex flex-col gap-space-xs shrink-0 border-t border-outline-variant/20">
+
+<button class="w-full py-1.5 rounded-lg bg-transparent text-primary hover:text-primary-fixed-dim font-label-sm text-label-sm flex items-center justify-center gap-1">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+      Изучить рецепты в Кодексе
+    </button>
+</div>
+</div>
+<!-- CENTER COLUMN: Master Crafting Altar & Workbench (44%) -->
+<div class="lg:col-span-6 flex flex-col gap-space-md flex-1 h-full">
+<!-- Visual Altar / Laboratory Banner -->
+<div class="relative w-full h-60 md:h-64 rounded-xl overflow-hidden bg-surface-container-lowest shadow-2xl flex flex-col justify-end p-space-lg">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Workshop interior: «Алхимия и Зелья» (Alchemy &amp; Potion Brewing Hearth). An ancient mystical stone alchemy table with glowing glass flasks, bubbling emerald, violet and azure elixirs, swirling sparks of magic, runic carvings on dark granite stone, dried herbs hanging above, warm golden hearth fire blazing in the background." style="background-image: url(&quot;/stitch-ref/home-keeper/craft/art-1.png&quot;);"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/50 to-transparent"></div>
+<!-- Ambient Rune Overlay Badge -->
+<div class="relative z-10 flex flex-col sm:flex-row items-center sm:items-end justify-between text-center sm:text-left gap-space-sm w-full"><div class="flex flex-col items-center sm:items-start"><div class="flex items-center gap-2"><span class="px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase font-bold tracking-wider">Алхимический Горн</span><span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">Резонанс 100%</span></div><h1 class="font-headline-lg text-headline-lg text-on-surface mt-1 drop-shadow-md">Эликсир Громового Рывка</h1><p class="font-body-md text-body-md text-on-surface-variant max-w-md">В бою: <span class="text-primary font-bold">+25% к скорости атаки</span> и активация эффекта <span class="text-secondary font-bold">Цепная Молния</span> на первые 3 хода.</p></div><div class="flex flex-col items-center sm:items-end shrink-0 px-space-sm py-1 rounded-lg bg-surface-container-lowest/80 border border-outline-variant/30 backdrop-blur-sm"><span class="font-stat-numeral text-stat-numeral text-primary leading-none">02:00</span><span class="font-label-sm text-label-sm text-on-surface-variant">Время варки</span></div></div>
+</div>
+<!-- Workbench Craft Matrix Panel -->
+<div class="p-space-md md:p-space-lg rounded-xl bg-surface-container-low border border-primary/30 shadow-[0_8px_30px_rgba(0,0,0,0.7)] flex flex-col gap-space-md relative overflow-hidden backdrop-blur-md">
+<div class="absolute -top-12 -right-12 w-40 h-40 bg-primary/10 rounded-full blur-2xl pointer-events-none"></div>
+<div class="absolute -bottom-10 -left-10 w-36 h-36 bg-tertiary-container/10 rounded-full blur-2xl pointer-events-none"></div>
+<!-- Top Runic Resonance & Recipe Specs Strip -->
+<div class="flex flex-col gap-2 relative z-10">
+<div class="flex items-center justify-between px-1">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[18px] animate-pulse">auto_fix_high</span>
+<span class="font-label-md text-label-md text-on-surface uppercase tracking-wider font-bold">Матрица Трансмутации</span>
+</div>
+<span class="px-2 py-0.5 rounded-full bg-secondary-container/90 border border-secondary/40 text-on-secondary-container font-label-sm text-label-sm flex items-center gap-1 shadow-sm">
+<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-ping"></span>
+        Резонанс Горна: АКТИВЕН
+      </span>
+</div>
+<div class="grid grid-cols-3 gap-space-sm p-space-sm rounded-lg bg-surface-container-highest/90 border border-outline-variant/30 shadow-inner text-center relative">
+<div class="flex flex-col items-center justify-center py-1 px-1 rounded-md bg-surface-container-low/80 border border-outline-variant/20 hover:border-secondary/50 transition-colors shadow-sm">
+<div class="flex items-center gap-1 text-on-surface-variant mb-0.5">
+<span class="material-symbols-outlined text-[14px] text-secondary">bolt</span>
+<span class="font-label-sm text-label-sm">Затраты энергии</span>
+</div>
+<span class="font-stat-numeral text-stat-numeral text-secondary flex items-center justify-center gap-1">
+          2 ⚡
+        </span>
+</div>
+<div class="flex flex-col items-center justify-center py-1 px-1 rounded-md bg-surface-container-low/80 border border-outline-variant/20 hover:border-primary/50 transition-colors shadow-sm">
+<div class="flex items-center gap-1 text-on-surface-variant mb-0.5">
+<span class="material-symbols-outlined text-[14px] text-primary">verified</span>
+<span class="font-label-sm text-label-sm">Шанс успеха</span>
+</div>
+<span class="font-stat-numeral text-stat-numeral text-primary drop-shadow-sm">100%</span>
+</div>
+<div class="flex flex-col items-center justify-center py-1 px-1 rounded-md bg-surface-container-low/80 border border-outline-variant/20 hover:border-tertiary/50 transition-colors shadow-sm">
+<div class="flex items-center gap-1 text-on-surface-variant mb-0.5">
+<span class="material-symbols-outlined text-[14px] text-tertiary">local_fire_department</span>
+<span class="font-label-sm text-label-sm">Двойной крафт</span>
+</div>
+<span class="font-stat-numeral text-stat-numeral text-primary-fixed-dim drop-shadow-sm">+15%</span>
+</div>
+</div>
+</div>
+<!-- 4 Required Ingredient Pedestals -->
+<div class="flex flex-col gap-space-xs relative z-10">
+<div class="flex items-center justify-between px-1">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary-fixed-dim text-[16px]">inventory_2</span>
+<span class="font-label-md text-label-md text-on-surface">Необходимые Реагенты:</span>
+</div>
+<span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm flex items-center gap-1 shadow-sm">
+<span class="material-symbols-outlined text-[14px]">check_circle</span>
+        Все компоненты в наличии
+      </span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-space-sm mt-1 w-full"><div class="p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high border border-secondary/40 hover:border-secondary shadow-md flex flex-col items-center text-center transition-all group relative overflow-hidden"><div class="w-full h-28 rounded-lg bg-surface-container-lowest overflow-hidden mb-2 relative border border-dashed border-outline-variant/40 shadow-inner flex items-center justify-center text-outline-variant"><span class="material-symbols-outlined text-3xl">add</span></div><span class="font-label-sm text-label-sm text-on-surface line-clamp-1 font-bold">Душистая Мята</span><span class="font-body-sm text-body-sm text-secondary font-bold mt-0.5">20 / 45 шт.</span><span class="font-label-sm text-label-sm text-on-surface-variant text-[10px] mt-0.5 flex items-center gap-0.5"><span class="material-symbols-outlined text-[10px] text-secondary">potted_plant</span> С фермы</span></div><div class="p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high border border-primary/40 hover:border-primary shadow-md flex flex-col items-center text-center transition-all group relative overflow-hidden"><div class="w-full h-28 rounded-lg bg-surface-container-lowest overflow-hidden mb-2 relative border border-dashed border-outline-variant/40 shadow-inner flex items-center justify-center text-outline-variant"><span class="material-symbols-outlined text-3xl">add</span></div><span class="font-label-sm text-label-sm text-on-surface line-clamp-1 font-bold">Эссенция Грома</span><span class="font-body-sm text-body-sm text-secondary font-bold mt-0.5">5 / 8 шт.</span><span class="font-label-sm text-label-sm text-on-surface-variant text-[10px] mt-0.5 flex items-center gap-0.5"><span class="material-symbols-outlined text-[10px] text-primary">castle</span> Из данжа</span></div><div class="p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high border border-secondary-fixed-dim/40 hover:border-secondary shadow-md flex flex-col items-center text-center transition-all group relative overflow-hidden"><div class="w-full h-28 rounded-lg bg-surface-container-lowest overflow-hidden mb-2 relative border border-dashed border-outline-variant/40 shadow-inner flex items-center justify-center text-outline-variant"><span class="material-symbols-outlined text-3xl">add</span></div><span class="font-label-sm text-label-sm text-on-surface line-clamp-1 font-bold">Чистая Рыбка</span><span class="font-body-sm text-body-sm text-secondary font-bold mt-0.5">5 / 120 шт.</span><span class="font-label-sm text-label-sm text-on-surface-variant text-[10px] mt-0.5 flex items-center gap-0.5"><span class="material-symbols-outlined text-[10px] text-secondary">phishing</span> С причала</span></div><div class="p-space-sm rounded-xl bg-surface-container hover:bg-surface-container-high border border-tertiary-container/40 hover:border-tertiary-container shadow-md flex flex-col items-center text-center transition-all group relative overflow-hidden"><div class="w-full h-28 rounded-lg bg-surface-container-lowest overflow-hidden mb-2 relative border border-dashed border-outline-variant/40 shadow-inner flex items-center justify-center text-outline-variant"><span class="material-symbols-outlined text-3xl">add</span></div><span class="font-label-sm text-label-sm text-on-surface line-clamp-1 font-bold">Угли Очага</span><span class="font-body-sm text-body-sm text-secondary font-bold mt-0.5">10 / 14 шт.</span><span class="font-label-sm text-label-sm text-on-surface-variant text-[10px] mt-0.5 flex items-center gap-0.5"><span class="material-symbols-outlined text-[10px] text-tertiary">local_fire_department</span> Из печи</span></div></div>
+</div>
+<!-- Craft Controls and Main Trigger -->
+<div class="flex items-stretch gap-2.5 w-full mt-3 relative z-10"><button class="flex-1 py-4 px-space-md rounded-xl bg-gradient-to-r from-primary to-primary-container text-on-primary font-headline-md text-[20px] font-bold hover:brightness-110 active:scale-95 shadow-[0_4px_16px_rgba(253,186,69,0.35)] flex items-center justify-center gap-2 transition-all cursor-pointer border border-primary-fixed/40" id="btn-craft-potion"><span class="material-symbols-outlined text-[24px] animate-pulse text-on-primary">local_fire_department</span><span class="tracking-wide">Скрафтить - 50 Золота</span></button><button class="px-5 py-4 rounded-xl bg-secondary-container/60 hover:bg-secondary-container/90 border border-secondary/50 text-secondary-fixed font-headline-md text-[16px] font-bold transition-all whitespace-nowrap shadow-sm flex items-center justify-center gap-2 shrink-0 group active:scale-95 cursor-pointer" title="Требуется Боевой Пасс"><span class="material-symbols-outlined text-[20px] text-secondary group-hover:scale-105 transition-transform">autorenew</span><span class="text-[16px] text-secondary-fixed">Автокрафт</span><span class="px-1.5 py-0.5 rounded bg-primary-container/40 border border-primary/50 text-primary text-[10px] font-bold flex items-center gap-0.5 shadow-sm"><span class="material-symbols-outlined text-[12px] text-primary">lock</span>БП</span></button></div><div class="p-space-sm rounded-xl bg-surface-container-highest/90 border border-secondary/30 flex flex-col gap-2 relative z-10 shadow-sm"><div class="flex items-center justify-between pb-1.5 border-b border-outline-variant/20"><label class="flex items-center gap-2 cursor-pointer select-none group"><div class="w-5 h-5 rounded bg-secondary-container border border-secondary flex items-center justify-center text-on-secondary shadow-sm transition-all group-hover:border-secondary-fixed"><span class="material-symbols-outlined text-[16px] font-bold text-secondary-fixed">check</span></div><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px] text-secondary">autorenew</span><span class="font-label-md text-label-md text-on-surface font-bold group-hover:text-primary transition-colors">Постоянный автокрафт</span><span class="font-body-sm text-[11px] text-on-surface-variant hidden sm:inline">(крафтить без остановки при наличии сырья)</span></div></label><span class="px-2 py-0.5 rounded-full bg-secondary-container/80 border border-secondary/40 text-secondary-fixed font-label-sm text-[10px] font-bold flex items-center gap-1 shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>Бесконечный цикл</span></div><div class="grid grid-cols-1 sm:grid-cols-3 gap-2"><label class="flex items-center gap-2 p-1.5 rounded-lg bg-surface-container-low/60 hover:bg-surface-container-low border border-outline-variant/20 hover:border-secondary/40 cursor-pointer select-none transition-all"><div class="w-4 h-4 rounded bg-secondary-container border border-secondary flex items-center justify-center text-secondary-fixed shrink-0"><span class="material-symbols-outlined text-[14px] font-bold">check</span></div><span class="font-body-sm text-[11px] text-on-surface leading-tight">Крафтить постоянно, пока есть реагенты</span></label><label class="flex items-center gap-2 p-1.5 rounded-lg bg-surface-container-low/60 hover:bg-surface-container-low border border-outline-variant/20 hover:border-secondary/40 cursor-pointer select-none transition-all"><div class="w-4 h-4 rounded bg-secondary-container border border-secondary flex items-center justify-center text-secondary-fixed shrink-0"><span class="material-symbols-outlined text-[14px] font-bold">check</span></div><span class="font-body-sm text-[11px] text-on-surface leading-tight">Уведомлять при окончании сырья</span></label><label class="flex items-center gap-2 p-1.5 rounded-lg bg-surface-container-low/60 hover:bg-surface-container-low border border-outline-variant/20 hover:border-primary/40 cursor-pointer select-none transition-all"><div class="w-4 h-4 rounded bg-surface-container border border-outline-variant/40 flex items-center justify-center shrink-0"></div><span class="font-body-sm text-[11px] text-on-surface-variant leading-tight">Тратить монеты без подтверждения</span></label></div></div>
+</div>
+<!-- MODULE 1: Auto-craft & Production Queue Panel -->
+
+</div>
+<!-- RIGHT COLUMN: Stockpile & Quick Guide (28%) -->
+<div class="lg:col-span-3 flex flex-col gap-2 h-full justify-start">
+<!-- Warehouse Stockpile Tray -->
+<div class="p-space-md rounded-xl bg-surface-container-low shadow-lg flex flex-col gap-space-sm border border-outline-variant/20 shrink-0">
+<div class="flex items-center justify-between pb-space-xs border-b border-outline-variant/20">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[20px]">warehouse</span>
+<span class="font-headline-md text-headline-md text-on-surface">Склад Сырья</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary">1,840 / 2,100</span>
+</div>
+<!-- Resources Meter Progress List -->
+<div class="flex flex-col gap-space-xs">
+<!-- Resource 1 -->
+<div class="p-space-xs rounded-lg bg-surface-container flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">Лечебные Травы</span>
+<span class="font-stat-numeral text-stat-numeral text-[12px] text-on-surface">340 / 500</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container-lowest overflow-hidden">
+<div class="h-full bg-secondary rounded-full" style="width: 68%;"></div>
+</div>
+</div>
+<!-- Resource 2 -->
+<div class="p-space-xs rounded-lg bg-surface-container flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">Свежая Рыбка</span>
+<span class="font-stat-numeral text-stat-numeral text-[12px] text-on-surface">420 / 500</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container-lowest overflow-hidden">
+<div class="h-full bg-primary-fixed-dim rounded-full" style="width: 84%;"></div>
+</div>
+</div>
+<!-- Resource 3 -->
+<div class="p-space-xs rounded-lg bg-surface-container flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">Дубовые Брёвна</span>
+<span class="font-stat-numeral text-stat-numeral text-[12px] text-on-surface">210 / 500</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container-lowest overflow-hidden">
+<div class="h-full bg-primary-container rounded-full" style="width: 42%;"></div>
+</div>
+</div>
+<!-- Resource 4 -->
+<div class="p-space-xs rounded-lg bg-surface-container flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">Железная Руда / Слитки</span>
+<span class="font-stat-numeral text-stat-numeral text-[12px] text-on-surface">190 / 500</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container-lowest overflow-hidden">
+<div class="h-full bg-outline rounded-full" style="width: 38%;"></div>
+</div>
+</div>
+<!-- Resource 5 -->
+<div class="p-space-xs rounded-lg bg-surface-container flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">Серый Гранит</span>
+<span class="font-stat-numeral text-stat-numeral text-[12px] text-on-surface">480 / 500</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container-lowest overflow-hidden">
+<div class="h-full bg-secondary-fixed-dim rounded-full" style="width: 96%;"></div>
+</div>
+</div>
+<!-- Resource 6 -->
+<div class="p-space-xs rounded-lg bg-surface-container flex flex-col gap-1">
+<div class="flex items-center justify-between">
+<span class="font-label-sm text-label-sm text-on-surface">Огненный Уголь</span>
+<span class="font-stat-numeral text-stat-numeral text-[12px] text-on-surface">290 / 300</span>
+</div>
+<div class="w-full h-1.5 rounded-full bg-surface-container-lowest overflow-hidden">
+<div class="h-full bg-tertiary-container rounded-full" style="width: 96%;"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- MODULE 2: Crafting Quick Guide / Справочник ремесленника -->
+<div class="p-space-md rounded-xl bg-surface-container-low shadow-lg flex flex-col gap-space-xs border border-primary/20 flex-1 justify-between">
+<div class="flex flex-col gap-space-xs">
+<div class="flex items-center justify-between pb-space-xs border-b border-outline-variant/20">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[20px]">auto_stories</span>
+<span class="font-headline-md text-[16px] text-on-surface font-semibold">Справка по крафту</span>
+</div>
+<span class="font-label-sm text-[10px] text-on-surface-variant uppercase tracking-wider">4 категории</span>
+</div>
+<p class="font-body-sm text-[11px] text-on-surface-variant leading-tight">
+    Ключевые формулы трансмутации и параметры готовых предметов в Мифмире:
+  </p>
+<div class="flex flex-col gap-1.5 mt-1">
+<!-- Category 1: Elixirs -->
+<div class="rounded-lg bg-surface-container border border-outline-variant/20 hover:border-primary/40 transition-colors flex flex-col gap-1 p-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="text-[14px]">⚡</span>
+<span class="font-label-sm text-[11px] text-primary font-bold">Эликсир Громового Рывка</span>
+</div>
+<span class="px-1.5 py-0.2 rounded bg-primary-container/40 text-primary font-label-sm text-[9px] uppercase font-bold">Зелья</span>
+</div>
+<div class="font-body-sm text-[10px] text-on-surface-variant flex items-center gap-1 flex-wrap">
+<span class="text-on-surface font-semibold">Мята + Рыбка + Угли Очага</span>
+<span class="text-primary font-bold">➔</span>
+<span class="text-secondary font-bold">+25% Скорость боя на 3 хода</span>
+</div>
+</div>
+<!-- Category 2: Farm Items -->
+<div class="rounded-lg bg-surface-container border border-outline-variant/20 hover:border-secondary/40 transition-colors flex flex-col gap-1 p-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="text-[14px]">🌾</span>
+<span class="font-label-sm text-[11px] text-secondary font-bold">Лунная Подкормка</span>
+</div>
+<span class="px-1.5 py-0.2 rounded bg-secondary-container/40 text-on-secondary-container font-label-sm text-[9px] uppercase font-bold">Ферма</span>
+</div>
+<div class="font-body-sm text-[10px] text-on-surface-variant flex items-center gap-1 flex-wrap">
+<span class="text-on-surface font-semibold">Дубовые Брёвна + Травы</span>
+<span class="text-secondary font-bold">➔</span>
+<span class="text-secondary font-bold">Ускорение созревания урожая на +50%</span>
+</div>
+</div>
+<!-- Category 3: Silver Fish Oil -->
+<div class="rounded-lg bg-surface-container border border-outline-variant/20 hover:border-primary/40 transition-colors flex flex-col gap-1 p-1.5">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="text-[14px]">🧪</span>
+<span class="font-label-sm text-[11px] text-primary-fixed-dim font-bold">Масло Серебристой Рыбки</span>
+</div>
+<span class="px-1.5 py-0.2 rounded bg-primary-container/40 text-primary-fixed-dim font-label-sm text-[9px] uppercase font-bold">Зелья / Реген</span>
+</div>
+<div class="font-body-sm text-[10px] text-on-surface-variant flex items-center gap-1 flex-wrap">
+<span class="text-on-surface font-semibold">Рыбка + Травы + Чистая Вода</span>
+<span class="text-primary font-bold">➔</span>
+<span class="text-secondary font-bold">+40 HP/ход (4 раунда)</span>
+</div>
+</div>
+<div class="p-1.5 rounded-lg bg-surface-container border border-outline-variant/20 hover:border-tertiary-container/50 transition-colors flex flex-col gap-0.5"><div class="flex items-center justify-between"><div class="flex items-center gap-1.5"><span class="text-[13px]">🔥</span><span class="font-label-sm text-[11px] text-tertiary font-bold">Настойка Тлеющего Угля</span></div><span class="px-1.5 py-0.2 rounded bg-tertiary-container/30 border border-tertiary-container/40 text-tertiary font-label-sm text-[9px] uppercase font-bold">Зелья / Бафф</span></div><div class="font-body-sm text-[10px] text-on-surface-variant flex items-center gap-1 flex-wrap"><span class="text-on-surface font-semibold">Уголь + Мята + Клубок</span><span class="text-primary font-bold">➔</span><span class="text-tertiary font-bold">+35% Урона Огнём (2 хода)</span></div></div></div>
+</div>
+<!-- Knowledge Base CTA -->
+<div class="mt-2 pt-2 border-t border-outline-variant/20">
+<a href="#" class="w-full py-2 px-3 rounded-lg bg-surface-container-high hover:bg-surface-container-highest border border-primary/40 hover:border-primary text-primary hover:text-primary-fixed-dim font-label-sm text-[11px] font-bold flex items-center justify-center gap-1.5 transition-all shadow-sm">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+<span>Перейти в Кодекс Знаний ➔</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+<!-- Inline Micro-interaction Script -->
+
+</div><div id="craft-filter-controller" class="hidden"></div></main>
 </section>

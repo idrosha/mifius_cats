@@ -18,13 +18,13 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 |---|---|---|---|
 | `hub` | `hub.html` | 0268 `hub_portals_alt` (etalon portals; was `_1` card catalog) | Главный Хаб · 8 порталов + `#appNav` IA |
 | `login` | `login.html` | **1b5c** (flat `code.html`) | Вход / Регистрация / Войти в Таверну · bg=`login-hero.png` (not hub.png) |
-| `collection` | `collection.html` | 0268 `_3` | Коллекция котиков |
+| `collection` | `collection.html` | home-keeper коллекция | Коллекция котиков |
 | `armor_sets` | `armor_sets.html` | 0268 `_4` | Атлас сетов брони |
-| `gear` | `gear.html` | 0268 `_5` | Кузница / Оружейная |
+| `gear` | `gear.html` | home-keeper Склад | Склад / амбар |
 | `class_sets` | `class_sets.html` | 0268 `_6` | Классовые сеты |
-| `home` | `home.html` | 0268 `_7` | Дом Хранителя: кот + экип + инвентарь (no portals — Stitch header nav killed) |
-| `breeding` | `breeding.html` | 64d5 `_1` | Питомник / скрещивание |
-| `craft` | `craft.html` | 64d5 `_2` | Крафт & алхимия |
+| `home` | `home.html` | home-keeper персонаж | Дом Хранителя: персонаж + экип (chrome `#appNav` only) |
+| `breeding` | `breeding.html` | home-keeper скрещивание | Питомник / скрещивание |
+| `craft` | `craft.html` | home-keeper крафт | Крафт & алхимия |
 | `codex` | `codex.html` | live `/codex` KB sheet (was 64d5 `_3`) | База знаний · оружейные архетипы |
 | `heroes` | `heroes.html` | 64d5 `_4` | Кодекс боевых архетипов |
 | `soon_farm` / `farm` | `soon_farm.html` | 64d5 `_5` | Двор / угодья (Soon gameplay) |

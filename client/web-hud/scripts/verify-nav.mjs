@@ -294,12 +294,11 @@ ok(
 );
 ok("gate tip auto-hides (no orphan banner)", js.includes("function hideGateTip") && js.includes("hideGateTip._t"));
 ok(
-  "home integrated hosts (no float-only panel)",
-  html.includes('id="homeHeroName"') &&
-    html.includes('id="homeBagGrid"') &&
-    html.includes('id="homeGearOverlay"') &&
-    html.includes('id="homeAttackDeck"') &&
-    html.includes('data-purpose="attack-deck"'),
+  "home is painted character desk",
+  html.includes('id="viewHome"') &&
+    html.includes('data-stitch="home"') &&
+    /Дом Хранителя/i.test(fs.readFileSync(path.join(DESIGN, "stitch-src", "home.html"), "utf8")) &&
+    !/<section[^>]*data-stitch="home"[^>]*data-placeholder/.test(html),
 );
 ok("css kills leftover stitch pt-28 void", css.includes("padding-top: 0.75rem !important") && css.includes("pt-28"));
 ok("css subtabs even spacing nowrap", css.includes("space-evenly") && css.includes("flex-wrap: nowrap"));
@@ -396,11 +395,11 @@ ok(
   "viewSoonFarm regressed to wireframe",
 );
 ok(
-  "craft painted altar in index",
+  "craft painted workbench in index",
   html.includes('id="viewCraft"') &&
     html.includes('data-stitch="craft"') &&
-    html.includes("craft-altar-art.png") &&
-    html.includes('id="btn-craft-main"') &&
+    html.includes('id="btn-craft-potion"') &&
+    /Эликсир|Алхим|Крафт/i.test(fs.readFileSync(path.join(DESIGN, "stitch-src", "craft.html"), "utf8")) &&
     !html.includes('data-purpose="wireframe" data-screen="Крафт'),
   "viewCraft regressed to wireframe",
 );
@@ -449,9 +448,10 @@ ok(
   "truncated practice splice swallowed later hubs — blank pages",
 );
 ok(
-  "warehouse is live barn sheet with icons host",
-  html.includes('data-stitch="gear"') && html.includes("barn-sheet") && html.includes('id="barnGrid"'),
-  "viewGear is not barn-sheet",
+  "warehouse is painted sklad form",
+  html.includes('data-stitch="gear"') &&
+    /Склад|Амбар|Инвентар/i.test(fs.readFileSync(path.join(DESIGN, "stitch-src", "gear.html"), "utf8")),
+  "viewGear missing sklad paint",
 );
 ok(
   "painted practice not placeholder",
