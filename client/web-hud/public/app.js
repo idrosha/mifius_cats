@@ -589,6 +589,7 @@ const state = {
   colSearch: "",
   colSelectedId: null,
   colPresetIndex: 0,
+  colDrag: null,
   /** catId → slot → item id */
   equippedByCat: {},
   homeBagFilter: "all",
@@ -7001,10 +7002,10 @@ function renderCollectionRosterCards(cats) {
       const on = c.catId === sel;
       const marks = squadMarks[c.catId];
       const markLabel = marks ? `К${marks.join("·")}` : "";
-      return `<button type="button" data-col-cat="${c.catId}" class="col-roster-card relative rounded-lg flex items-center gap-2 h-[88px] px-2 text-left border transition-colors cursor-pointer ${
+      return `<button type="button" draggable="true" data-col-cat="${c.catId}" class="col-roster-card relative rounded-lg flex items-center gap-2 h-[88px] px-2 text-left border transition-colors cursor-grab active:cursor-grabbing ${
         on ? "is-picked bg-surface-container-highest border-primary/60" : "bg-surface-container-lowest/50 border-surface-container-highest/30 hover:border-primary/40"
       }">
-        ${art ? `<img alt="" src="${art}" class="w-14 h-14 object-contain rounded shrink-0"/>` : `<span class="material-symbols-outlined text-primary text-[28px]">pets</span>`}
+        ${art ? `<img alt="" src="${art}" draggable="false" class="w-14 h-14 object-contain rounded shrink-0 pointer-events-none"/>` : `<span class="material-symbols-outlined text-primary text-[28px]">pets</span>`}
         <span class="flex flex-col min-w-0 gap-0.5">
           <span class="font-label-sm text-label-sm text-on-surface font-bold truncate">${name}</span>
           <span class="text-[10px] text-on-surface-variant truncate">${role}${el ? ` · ${el}` : ""}</span>
@@ -7014,6 +7015,59 @@ function renderCollectionRosterCards(cats) {
     })
     .join("");
   return shown;
+}
+
+/** Place cat into squad slot; swap if moving from another slot. */
+function collectionPlaceCat(pi, slot, catId, fromPi, fromSlot) {
+  collectionEnsurePresets();
+  if (pi < 0 || pi >= COL_SQUADS || slot < 0 || slot > 2 || !catId) return false;
+  for (let p = 0; p < COL_SQUADS; p++) {
+    const pr = state.profile.presets[p];
+    if (!Array.isArray(pr.catIds)) pr.catIds = [];
+    while (pr.catIds.length < 3) pr.catIds.push(null);
+  }
+  const dest = state.profile.presets[pi];
+  const same = fromPi === pi && fromSlot === slot;
+  if (same) return false;
+  const displaced = dest.catIds[slot] || null;
+  if (fromPi != null && fromSlot != null && fromPi >= 0 && fromSlot >= 0) {
+    const src = state.profile.presets[fromPi];
+    dest.catIds[slot] = catId;
+    src.catIds[fromSlot] = displaced;
+    for (let j = 0; j < 3; j++) {
+      if (j !== slot && dest.catIds[j] === catId) dest.catIds[j] = null;
+    }
+  } else {
+    for (let j = 0; j < 3; j++) {
+      dest.catIds[j] = j === slot ? catId : dest.catIds[j] === catId ? null : dest.catIds[j];
+    }
+  }
+  state.colPresetIndex = pi;
+  state.colSelectedId = catId;
+  persistCollectionStub();
+  return true;
+}
+
+function collectionClearSlot(pi, slot) {
+  collectionEnsurePresets();
+  if (pi < 0 || pi >= COL_SQUADS || slot < 0 || slot > 2) return;
+  const p = state.profile.presets[pi];
+  if (!Array.isArray(p.catIds)) p.catIds = [];
+  while (p.catIds.length < 3) p.catIds.push(null);
+  p.catIds[slot] = null;
+  persistCollectionStub();
+}
+
+function collectionParseDrag(ev) {
+  try {
+    const raw = ev.dataTransfer?.getData("application/x-mythfel-cat") || ev.dataTransfer?.getData("text/plain");
+    if (!raw) return null;
+    const data = JSON.parse(raw);
+    if (!data?.catId) return null;
+    return data;
+  } catch {
+    return null;
+  }
 }
 
 function collectionAutopickSquad(roster, usedIds) {
@@ -7050,7 +7104,7 @@ function renderCollectionTeams(cats) {
     const c = slotCats[i];
     const lane = lanes[i];
     if (!c) {
-      return `<button type="button" data-col-preset="${pi}" data-col-slot="${i}" class="col-slot bg-surface-container-lowest/40 rounded-lg p-1.5 border border-dashed border-outline-variant/40 flex flex-col items-center justify-center min-h-[100px] cursor-pointer text-outline-variant hover:border-primary/50 transition-colors">
+      return `<button type="button" data-col-preset="${pi}" data-col-slot="${i}" data-col-drop="1" class="col-slot bg-surface-container-lowest/40 rounded-lg p-1.5 border border-dashed border-outline-variant/40 flex flex-col items-center justify-center min-h-[100px] cursor-pointer text-outline-variant hover:border-primary/50 transition-colors">
         <span class="material-symbols-outlined text-2xl">add</span>
         <span class="font-label-sm text-[10px] mt-0.5">${lane.label}</span>
       </button>`;
@@ -7058,9 +7112,9 @@ function renderCollectionTeams(cats) {
     const art = catHeroArt(c.templateId);
     const name = catSheetName(c);
     const role = CAT_ROLE_RU[homeCatRole(c)] || "";
-    return `<button type="button" data-col-preset="${pi}" data-col-slot="${i}" data-col-slot-cat="${c.catId}" class="col-slot bg-surface-container-high/60 rounded-lg p-1.5 border border-primary/30 flex flex-col items-center gap-0.5 min-h-[100px] cursor-pointer hover:border-primary/60 transition-colors">
+    return `<button type="button" draggable="true" data-col-preset="${pi}" data-col-slot="${i}" data-col-slot-cat="${c.catId}" data-col-drop="1" class="col-slot bg-surface-container-high/60 rounded-lg p-1.5 border border-primary/30 flex flex-col items-center gap-0.5 min-h-[100px] cursor-grab active:cursor-grabbing hover:border-primary/60 transition-colors">
       <span class="text-[9px] font-bold text-primary uppercase self-start">${lane.label}</span>
-      ${art ? `<img alt="" src="${art}" class="h-16 w-auto object-contain"/>` : `<span class="material-symbols-outlined text-3xl text-primary">pets</span>`}
+      ${art ? `<img alt="" src="${art}" draggable="false" class="h-16 w-auto object-contain pointer-events-none"/>` : `<span class="material-symbols-outlined text-3xl text-primary">pets</span>`}
       <span class="font-label-sm text-[11px] text-on-surface font-bold text-center leading-tight">${name}</span>
       <span class="text-[9px] text-on-surface-variant">${role}</span>
     </button>`;
@@ -7263,6 +7317,82 @@ function bindCollectionRoster() {
     if (ev.key === "Enter") {
       ev.preventDefault();
       input.blur();
+    }
+  });
+
+  root.addEventListener("dragstart", (ev) => {
+    if (ev.target.closest("[data-col-rename], input, textarea")) return;
+    const slot = ev.target.closest("[data-col-slot-cat]");
+    const card = ev.target.closest("[data-col-cat]");
+    let payload = null;
+    if (slot && root.contains(slot)) {
+      payload = {
+        catId: slot.getAttribute("data-col-slot-cat"),
+        fromPi: Number(slot.getAttribute("data-col-preset")),
+        fromSlot: Number(slot.getAttribute("data-col-slot")),
+      };
+      slot.classList.add("opacity-50");
+    } else if (card && root.contains(card)) {
+      payload = { catId: card.getAttribute("data-col-cat"), fromPi: null, fromSlot: null };
+      card.classList.add("opacity-50");
+      state.colSelectedId = payload.catId;
+    }
+    if (!payload?.catId || !ev.dataTransfer) return;
+    state.colDrag = payload;
+    ev.dataTransfer.effectAllowed = "move";
+    const raw = JSON.stringify(payload);
+    ev.dataTransfer.setData("application/x-mythfel-cat", raw);
+    ev.dataTransfer.setData("text/plain", raw);
+  });
+  root.addEventListener("dragend", () => {
+    state.colDrag = null;
+    root.querySelectorAll(".opacity-50").forEach((el) => el.classList.remove("opacity-50"));
+    root.querySelectorAll(".col-slot.is-drop-target").forEach((el) =>
+      el.classList.remove("is-drop-target", "ring-2", "ring-primary"),
+    );
+  });
+  root.addEventListener("dragover", (ev) => {
+    const drop = ev.target.closest("[data-col-drop]");
+    const roster = ev.target.closest("#colRoster");
+    if (drop && root.contains(drop)) {
+      ev.preventDefault();
+      if (ev.dataTransfer) ev.dataTransfer.dropEffect = "move";
+      drop.classList.add("is-drop-target", "ring-2", "ring-primary");
+    } else if (roster && root.contains(roster) && state.colDrag?.fromPi != null) {
+      ev.preventDefault();
+      if (ev.dataTransfer) ev.dataTransfer.dropEffect = "move";
+    }
+  });
+  root.addEventListener("dragleave", (ev) => {
+    const drop = ev.target.closest("[data-col-drop]");
+    if (drop && !drop.contains(ev.relatedTarget)) {
+      drop.classList.remove("is-drop-target", "ring-2", "ring-primary");
+    }
+  });
+  root.addEventListener("drop", (ev) => {
+    const drop = ev.target.closest("[data-col-drop]");
+    const roster = ev.target.closest("#colRoster");
+    const data = collectionParseDrag(ev) || state.colDrag;
+    state.colDrag = null;
+    root.querySelectorAll(".col-slot.is-drop-target").forEach((el) =>
+      el.classList.remove("is-drop-target", "ring-2", "ring-primary"),
+    );
+    if (!data?.catId) return;
+    if (drop && root.contains(drop)) {
+      ev.preventDefault();
+      const pi = Number(drop.getAttribute("data-col-preset"));
+      const slot = Number(drop.getAttribute("data-col-slot"));
+      if (collectionPlaceCat(pi, slot, data.catId, data.fromPi, data.fromSlot)) {
+        renderCollection();
+        toast(`DnD → К${pi + 1}`);
+      }
+      return;
+    }
+    if (roster && root.contains(roster) && data.fromPi != null && data.fromSlot != null) {
+      ev.preventDefault();
+      collectionClearSlot(data.fromPi, data.fromSlot);
+      renderCollection();
+      toast(`К${data.fromPi + 1}: убран в резерв`);
     }
   });
 }
