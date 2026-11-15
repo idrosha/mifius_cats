@@ -3874,24 +3874,27 @@ body:has(#viewCollection:not(.hidden)) #app {
   align-content: start !important;
   gap: 0.5rem !important;
 }
-#viewCollection .collection-roster > div {
+#viewCollection .collection-roster > .col-roster-card {
   flex: 0 0 auto;
 }
-/* Team formation slots stretch to match squad sidebar height */
-#viewCollection .collection-stage .flex.flex-col.lg\:flex-row.items-stretch {
-  align-items: stretch !important;
-  flex: 1 1 auto;
-  min-height: 0;
+#viewCollection .collection-teams {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: 100%;
+  gap: 0.5rem !important;
 }
-#viewCollection .collection-stage .flex-1.grid.grid-cols-1.md\:grid-cols-3 {
-  align-self: stretch !important;
-  height: auto !important;
-  min-height: 100%;
-  grid-auto-rows: 1fr;
+#viewCollection .collection-teams .col-team {
+  flex: 1 1 0 !important;
+  min-height: 9rem;
 }
-#viewCollection .collection-stage .flex-1.grid.grid-cols-1.md\:grid-cols-3 > div {
-  height: 100% !important;
-  min-height: 14rem;
+#viewCollection .collection-teams .col-slot {
+  height: 100%;
+  min-height: 7.5rem;
+}
+#viewCollection .col-roster-card.is-picked {
+  box-shadow: inset 0 0 0 2px #fdba45;
 }
 #viewCollection > .roster-hall {
   flex: 1 1 auto;
