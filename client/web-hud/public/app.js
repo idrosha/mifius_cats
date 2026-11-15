@@ -638,6 +638,7 @@ const state = {
   equippedByCat: {},
   homeBagFilter: "all",
   homeRarityFilter: "all",
+  homeRoleFilter: "all",
   homeBagFocus: null,
   selectedCatId: null,
   /** Farm zones: farmer hired + crop cycle (local stub). */
@@ -3197,12 +3198,43 @@ const HOME_SLOT_VISUAL = ["weapon", "cloak", "belt", "ring", "helm", "armor", "s
 
 const HOME_SLOT_LABEL = {};
 
+/** Home sheet = knowledge base 12 (shop ×6×2). Starters are combat twins, not extra roster rows. */
+function homeRosterCats() {
+  const all = (state.profile?.cats || []).filter((c) => c.role !== "farm");
+  const shop = all.filter((c) => String(c.templateId || "").startsWith("shop_"));
+  return shop.length ? shop : all;
+}
+
+const HOME_ROLE_BUCKET = {
+  tank: "tank",
+  fighter: "dps",
+  assassin: "dps",
+  ranger: "dps",
+  mage: "dps",
+  support: "support",
+};
+
+function homeCatRoleBucket(c) {
+  const role = c.role || starterMeta(c.templateId)?.role;
+  return HOME_ROLE_BUCKET[role] || "dps";
+}
+
 function homeActiveCat() {
-  const cats = (state.profile?.cats || []).filter((c) => c.role !== "farm");
-  const cat =
-    cats.find((c) => c.catId === state.selectedCatId) ||
-    cats.find((c) => c.templateId === "starter_fighter_fire") ||
-    cats[0];
+  const roster = homeRosterCats();
+  const all = (state.profile?.cats || []).filter((c) => c.role !== "farm");
+  const pool = roster.length ? roster : all;
+  let cat = pool.find((c) => c.catId === state.selectedCatId);
+  if (!cat && state.selectedCatId) {
+    const selected = all.find((c) => c.catId === state.selectedCatId);
+    const twin = selected && STARTER_DECK_TEMPLATE[selected.templateId];
+    if (twin) cat = pool.find((c) => c.templateId === twin);
+  }
+  if (!cat) {
+    cat =
+      pool.find((c) => c.templateId === "shop_fighter_fire_a") ||
+      pool.find((c) => c.templateId === "starter_fighter_fire") ||
+      pool[0];
+  }
   if (cat) state.selectedCatId = cat.catId;
   return cat || null;
 }
@@ -3266,6 +3298,19 @@ function ensureHomeDom(root) {
       (el) => /overflow-y-auto/.test(el.className) && el.children.length >= 3,
     );
   if (rosterEl) rosterEl.id = "homeRoster";
+  if (leftCol) {
+    const filterRow = [...leftCol.querySelectorAll(".flex.items-center.gap-1")].find((row) =>
+      [...row.querySelectorAll("button")].some((b) =>
+        /^(Все|Танк|ДПС|Саппорт)$/i.test((b.textContent || "").trim()),
+      ),
+    );
+    if (filterRow) {
+      ["all", "tank", "dps", "support"].forEach((id, i) => {
+        const btn = filterRow.querySelectorAll("button")[i];
+        if (btn) btn.setAttribute("data-home-role-filter", id);
+      });
+    }
+  }
   const stage = root.querySelector(".relative.w-full.h-full.flex.items-start.justify-between");
   if (stage) {
     const cols = [...stage.children].filter((el) => el.classList?.contains("flex") && el.classList?.contains("flex-col"));
@@ -3415,6 +3460,21 @@ function bindHomeEquipClicks() {
       renderHome();
       return;
     }
+    const roleFilter = event.target.closest("[data-home-role-filter]");
+    if (roleFilter && root.contains(roleFilter)) {
+      state.homeRoleFilter = roleFilter.getAttribute("data-home-role-filter") || "all";
+      root.querySelectorAll("[data-home-role-filter]").forEach((btn) => {
+        const on = btn.getAttribute("data-home-role-filter") === state.homeRoleFilter;
+        btn.classList.toggle("bg-primary", on);
+        btn.classList.toggle("text-on-primary", on);
+        btn.classList.toggle("font-black", on);
+        btn.classList.toggle("shadow", on);
+        btn.classList.toggle("bg-surface-container-high", !on);
+        btn.classList.toggle("text-on-surface-variant", !on);
+      });
+      renderHomeRoster(homeActiveCat());
+      return;
+    }
     const cat = homeActiveCat();
     if (!cat) return;
     const bagFilter = event.target.closest("[data-home-bag-filter]");
@@ -3542,12 +3602,14 @@ function renderHomeBag(cat) {
 function renderHomeRoster(cat) {
   const list = $("homeRoster");
   if (!list) return;
-  const cats = (state.profile?.cats || []).filter((c) => c.role !== "farm");
+  const cats = homeRosterCats();
+  const filter = state.homeRoleFilter || "all";
+  const shown = filter === "all" ? cats : cats.filter((c) => homeCatRoleBucket(c) === filter);
   if (!cats.length) {
     list.innerHTML = `<div class="p-2 rounded-xl border border-dashed border-outline-variant/40 text-outline-variant text-center text-xs">Нет героев — войдите / grant starter</div>`;
     return;
   }
-  list.innerHTML = cats
+  list.innerHTML = shown
     .map((c) => {
       const on = c.catId === cat?.catId;
       const name = catSheetName(c);
