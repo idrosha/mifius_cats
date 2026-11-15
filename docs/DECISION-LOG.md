@@ -46,11 +46,29 @@ Append-only. Новые записи — **сверху** (после шабло
 
 ---
 
+## D-029 · 2026-11-15 · Один chrome `#appNav` + IA = NAV
+
+- **Status:** Accepted
+- **Area:** hud
+- **SSOT:** docs/FULL-SPEC.md §6 (Hub chrome); docs/nav-ia.md
+- **Owner:** web-hud
+
+### Context
+На hub Stitch-header дублировал меню, прятал `#appNav`, показывал фейковый wallet/VIP. FULL-SPEC §6 primary расходился с каноном `NAV` / `nav-ia.md`. Дефолт «Дом Хранителя» вёл в Soon-farm.
+
+### Decision
+Один chrome: `#appNav` / `#appSubTabs` на всех soft-launch экранах включая hub. IA primary = текущий `NAV` (СЕЗОН / МИФМИР / ДОМ / БОИ / ТОРГОВЛЯ / ГИЛЬДИЯ); §6 патчим под него. Дефолт Дома = `home`; Бои = `pvp`. Wallet в шапке из profile/wallet stub (не SoT). Dev LiveOps/Battle pills — не player chrome. Распил «Гильдия» и server unlocks — later.
+
+### Consequences
++ Нет второго меню на hub. − Хаб-бар Stitch не эталон навигации. Follow-up: server feature flags (P3); распил чатов/рейтингов в отдельные primary.
+
+---
+
 ## D-028 · 2026-11-15 · Склад на SL = HUD stub
 
-- **Status:** Proposed
+- **Status:** Accepted
 - **Area:** hud
-- **SSOT:** none (пока; при Accepted — строка в FULL-SPEC §6)
+- **SSOT:** docs/FULL-SPEC.md §6 (экран Склад `gear`); note §7.1 HUD slots ≠ pendant/bow
 - **Owner:** web-hud
 
 ### Context
@@ -59,8 +77,10 @@ Append-only. Новые записи — **сверху** (после шабло
 ### Decision
 На SL склад = **HUD stub**: фильтры, вместимость UI, inspect, надеть/снять на кота через общие `equipItem`/`unequipSlot`. Каталог локальный. Серверный inventory — отдельная backend-задача. Стартовый pendant/bow не выдаём (§5.1). «Склад алхимика» / farm mats loop — не этот экран (Phase 6).
 
+**Model note:** HUD stub slots (`helm`/`armor`/`cloak`/…) — презентация smoke; SSOT экипа боя = `pendantId` + `bowByPart` (§7.1). Клиентский экип **не** SoT урона/наград.
+
 ### Consequences
-+ Можно доводить UX склада без бэкенда. − Числа cap/статов не SoT. Follow-up: кластеры A–G склада; Accepted ⇒ одна строка в §6. Rules: `.cursor/rules/web-hud-gear.mdc`, `docs/nav-ia.md`.
++ Можно доводить UX склада без бэкенда. − Числа cap/статов не SoT. Rules: `.cursor/rules/web-hud-gear.mdc`, `docs/nav-ia.md`. Backend inventory = follow-up (не SL).
 
 ---
 

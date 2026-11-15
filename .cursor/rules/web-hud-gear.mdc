@@ -27,12 +27,13 @@ alwaysApply: false
 ## Reuse (не изобретать)
 
 - Меню: `NAV`, `fillNav`, aliases, `#appNav` / `#appSubTabs`
-- Каталог/cap: `gearCatalog`, `barnCatalog`, `barnGearForItem`, `barnStockUsed`, `barnKindCount`
-- Фильтры: `barnFilteredItems`, `BARN_CATS`, `BARN_RARITIES`
-- Inspect: `renderBarnInspector`
+- Каталог/cap: `gearCatalog` (SoT), `syncBarnFromGear`, `barnGearForItem`, `barnStockUsed`, `barnKindCount`, `barnCapMax`
+- Фильтры: `barnFilteredItems`, `BARN_RARITIES`, `BARN_SOON_KINDS`
+- Inspect: `setBarnInspectOpen`, `renderBarnInspector`
 - Экип: `equipItem`, `unequipSlot`, `unequipAll`, `canEquipItem`, `equippedByCat`, `renderHome`
+- Persist: `persistGearStub` / `loadGearStub` (`mythfel_sl_gear`); API `GET /api/dev/gear` when `gearStubLocal=false`
 - Арт: `/gear-sets/thumbs/`, stitch `gear.html`
 
 ## SL-скоуп
 
-См. `D-028`: склад на soft launch = HUD stub; серверный inventory — отдельная backend-задача.
+См. `D-028` Accepted: склад на soft launch = HUD stub; серверный inventory — Wave B / backend-задача.

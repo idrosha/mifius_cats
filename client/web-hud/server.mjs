@@ -231,6 +231,20 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  /** Warehouse stub catalog (D-028 / Wave B) — not Nakama SoT; battle does not consume. */
+  if (u.pathname === "/api/dev/gear" && req.method === "GET") {
+    const gearPath = path.join(PUBLIC, "gear-stub.json");
+    try {
+      const raw = fs.readFileSync(gearPath, "utf8");
+      send(res, 200, JSON.parse(raw), { "Content-Type": "application/json; charset=utf-8" });
+    } catch {
+      send(res, 200, { stub: true, cap: 96, items: [], note: "HUD local seed; file missing" }, {
+        "Content-Type": "application/json; charset=utf-8",
+      });
+    }
+    return;
+  }
+
   if (u.pathname === "/api/dev/starter" && (req.method === "POST" || req.method === "GET")) {
     const chunks = [];
     for await (const chunk of req) chunks.push(chunk);

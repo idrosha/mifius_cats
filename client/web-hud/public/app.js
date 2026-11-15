@@ -55,6 +55,10 @@ const PATH_TO_TAB = {
   "battle-arena": "pvp",
   "battle-pass": "pass",
   "tavern-pass": "pass",
+  sezon: "pass",
+  mifmir: "yard",
+  "dom-khranitelya": "farm",
+  gildiya: "guild",
   гильдия: "guild",
   guilds: "guild",
   gildii: "guild",
@@ -139,6 +143,7 @@ const PATH_TO_TAB = {
   "ekipirovka-sumka": "gear",
   "equipment-bag": "gear",
   inventory: "gear",
+  sklad: "gear",
   "sety-broni": "armor_sets",
   "sets-broni": "armor_sets",
   "armor-sets": "armor_sets",
@@ -169,18 +174,32 @@ const KNOWLEDGE_TABS = [
   { id: "codex", key: "nav.sub.codex" },
 ];
 
+/** Locked Stitch Hearth primary (old design). Do not expand with Soft-Launch chrome tabs. */
 const NAV = [
   {
     id: "pass",
     key: "nav.primary.pass",
+    label: "СЕЗОН",
     route: "pass",
     tabs: [],
   },
   {
+    id: "mythmir",
+    key: "nav.primary.mythmir",
+    label: "МИФМИР",
+    route: "yard",
+    tabs: [
+      { id: "battle_hub", key: "nav.sub.mythmir" },
+      { id: "practice", key: "nav.sub.practice" },
+      { id: "pve", key: "nav.sub.pve" },
+      { id: "boss_dungeon", key: "nav.sub.boss_dungeon" },
+    ],
+  },
+  {
     id: "character",
     key: "nav.primary.character",
-    // Primary «Дом Хранителя» opens the yard (двор) at once.
-    route: "farm",
+    label: "ДОМ ХРАНИТЕЛЯ",
+    route: "home",
     tabs: [
       { id: "farm", key: "nav.sub.farm", soon: "farm", gated: true },
       { id: "craft", key: "nav.sub.craft", gated: true },
@@ -191,8 +210,20 @@ const NAV = [
     ],
   },
   {
+    id: "combat",
+    key: "nav.primary.combat",
+    label: "БОИ",
+    route: "pvp",
+    tabs: [
+      { id: "pvp", key: "nav.sub.pvp", gated: "pvp" },
+      { id: "boss_raid", key: "nav.sub.boss_raid", gated: true },
+      { id: "guild_battle", key: "nav.sub.guild_battle", gated: true },
+    ],
+  },
+  {
     id: "trade",
     key: "nav.primary.trade",
+    label: "ТОРГОВЛЯ",
     tabs: [
       { id: "trade_hub", key: "nav.sub.trade_hub" },
       { id: "tavern", key: "nav.sub.tavern" },
@@ -202,50 +233,19 @@ const NAV = [
     ],
   },
   {
-    id: "combat",
-    key: "nav.primary.combat",
-    tabs: [
-      { id: "battle_hub", key: "nav.sub.mythmir" },
-      { id: "practice", key: "nav.sub.practice" },
-      { id: "pve", key: "nav.sub.pve" },
-      { id: "pvp", key: "nav.sub.pvp", gated: "pvp" },
-      { id: "boss_dungeon", key: "nav.sub.boss_dungeon" },
-      { id: "boss_raid", key: "nav.sub.boss_raid", gated: true },
-      { id: "guild_battle", key: "nav.sub.guild_battle", gated: true },
-    ],
-  },
-  {
     id: "guilds",
     key: "nav.primary.guilds",
+    label: "ГИЛЬДИЯ",
     tabs: [
       { id: "guild_hub", key: "nav.sub.guild_hub" },
       { id: "guild", key: "nav.sub.guild" },
       { id: "chat_guild", key: "nav.sub.chat_guild" },
-    ],
-  },
-  {
-    id: "ratings",
-    key: "nav.primary.ratings",
-    tabs: [
       { id: "rating_players", key: "nav.sub.rating_players" },
-      { id: "rating_dungeon", key: "nav.sub.rating_dungeon" },
-      { id: "rating_raid", key: "nav.sub.rating_raid" },
       { id: "rating_guilds", key: "nav.sub.rating_guilds" },
-    ],
-  },
-  {
-    id: "chats",
-    key: "nav.primary.chats",
-    tabs: [
       { id: "chat_friends", key: "nav.sub.chat_friends" },
       { id: "chat_global", key: "nav.sub.chat_global" },
+      { id: "codex", key: "nav.sub.codex" },
     ],
-  },
-  {
-    id: "knowledge",
-    key: "nav.primary.knowledge",
-    route: "codex",
-    tabs: [],
   },
 ];
 
@@ -265,9 +265,9 @@ const TABS = NAV.flatMap((g) =>
     { id: "pass", key: "nav.sub.pass", group: "pass" },
     { id: "knowledge", key: "nav.sub.knowledge", group: "knowledge" },
     { id: "soon_clan", key: "nav.sub.soon_clan", group: "guilds", soon: "clan_boss" },
-    { id: "yard", key: "nav.sub.pve", group: "combat" },
+    { id: "yard", key: "nav.sub.pve", group: "mythmir" },
   ],
-  KNOWLEDGE_TABS.map((t) => ({ ...t, group: "knowledge" })),
+  KNOWLEDGE_TABS.map((t) => ({ ...t, group: "guilds" })),
 );
 
 function findNavForTab(tabId) {
@@ -279,10 +279,12 @@ function findNavForTab(tabId) {
     }
   }
   if (tabId === "knowledge" || KNOWLEDGE_TABS.some((t) => t.id === tabId)) {
-    return NAV.find((g) => g.id === "knowledge") || null;
+    return NAV.find((g) => g.id === "guilds") || null;
   }
   if (tabId === "soon_clan") return NAV.find((g) => g.id === "guilds") || null;
-  if (tabId === "yard") return NAV.find((g) => g.id === "combat") || null;
+  if (tabId === "yard" || tabId === "battle_hub" || tabId === "practice" || tabId === "pve" || tabId === "boss_dungeon") {
+    return NAV.find((g) => g.id === "mythmir") || null;
+  }
   return null;
 }
 
@@ -300,8 +302,8 @@ function findNavTabMeta(tabId) {
   const knowledge = KNOWLEDGE_TABS.find((t) => t.id === tabId);
   if (knowledge || tabId === "knowledge") {
     return {
-      group: NAV.find((g) => g.id === "knowledge") || null,
-      tab: knowledge || { id: "knowledge", key: "nav.sub.knowledge" },
+      group: NAV.find((g) => g.id === "guilds") || null,
+      tab: knowledge || { id: "codex", key: "nav.sub.codex" },
       parent: null,
     };
   }
@@ -563,77 +565,15 @@ const state = {
     { id: "green_arrows", slot: "shield", name: "Колчан зелёных стрел", atk: 1, hp: 0, def: 0, spd: 0, crit: 0, rank: 2, rarity: "rare", enhance: 2, set: "green", roles: ["ranger"], iconSrc: "/gear-sets/thumbs/green-arrows.png" },
     { id: "support_scroll", slot: "shield", name: "Свиток Поддержки", atk: 0, hp: 2, def: 1, spd: 0, crit: 0, rank: 3, rarity: "rare", enhance: 4, set: "turquoise", roles: ["support"], iconSrc: "/gear-sets/thumbs/support-scroll.png" },
   ],
-  /** Soft-launch barn — gear batches 1–3 + farm/potions. */
-  barnCatalog: [
-    { id: "barn_grey_helm", name: "Серый шлем Льва", kind: "armor", rarity: "common", tag: "Серый · helm", enhance: 0, qty: 1, gearId: "grey_helm", iconSrc: "/gear-sets/thumbs/grey-helm.png" },
-    { id: "barn_grey_armor", name: "Серая кираса Льва", kind: "armor", rarity: "common", tag: "Серый · armor", enhance: 0, qty: 1, gearId: "grey_armor", iconSrc: "/gear-sets/thumbs/grey-armor.png" },
-    { id: "barn_grey_cloak", name: "Серый плащ Льва", kind: "armor", rarity: "common", tag: "Серый · cloak", enhance: 0, qty: 1, gearId: "grey_cloak", iconSrc: "/gear-sets/thumbs/grey-cloak.png" },
-    { id: "barn_grey_belt", name: "Серый пояс Льва", kind: "armor", rarity: "common", tag: "Серый · belt", enhance: 0, qty: 1, gearId: "grey_belt", iconSrc: "/gear-sets/thumbs/grey-belt.png" },
-    { id: "barn_grey_boots", name: "Серые когтистые сапоги", kind: "armor", rarity: "common", tag: "Серый · boots", enhance: 0, qty: 1, gearId: "grey_boots", iconSrc: "/gear-sets/thumbs/grey-boots.png" },
-    { id: "barn_yellow_helm", name: "Жёлтая шляпа Чародея", kind: "armor", rarity: "epic", tag: "Жёлтый · helm", enhance: 6, qty: 1, gearId: "yellow_helm", iconSrc: "/gear-sets/thumbs/yellow-helm.png" },
-    { id: "barn_yellow_armor", name: "Жёлтая кираса Солнца", kind: "armor", rarity: "epic", tag: "Жёлтый · armor", enhance: 6, qty: 1, gearId: "yellow_armor", iconSrc: "/gear-sets/thumbs/yellow-armor.png" },
-    { id: "barn_yellow_cloak", name: "Жёлтый плащ Солнца", kind: "armor", rarity: "epic", tag: "Жёлтый · cloak", enhance: 6, qty: 1, gearId: "yellow_cloak", iconSrc: "/gear-sets/thumbs/yellow-cloak.png" },
-    { id: "barn_yellow_belt", name: "Жёлтый пояс Льва", kind: "armor", rarity: "epic", tag: "Жёлтый · belt", enhance: 6, qty: 1, gearId: "yellow_belt", iconSrc: "/gear-sets/thumbs/yellow-belt.png" },
-    { id: "barn_yellow_boots", name: "Жёлтые когтистые сапоги", kind: "armor", rarity: "epic", tag: "Жёлтый · boots", enhance: 6, qty: 1, gearId: "yellow_boots", iconSrc: "/gear-sets/thumbs/yellow-boots.png" },
-    { id: "barn_yellow_staff", name: "Жёлтый посох Солнца (2H)", kind: "weapon", rarity: "epic", tag: "Маг · weapon", enhance: 8, qty: 1, gearId: "yellow_staff", iconSrc: "/gear-sets/thumbs/yellow-staff.png" },
-    { id: "barn_yellow_wand", name: "Жёлтый жезл Солнца (1H)", kind: "weapon", rarity: "epic", tag: "Маг · weapon", enhance: 6, qty: 1, gearId: "yellow_wand", iconSrc: "/gear-sets/thumbs/yellow-wand.png" },
-    { id: "barn_mage_book", name: "Книга Чародея", kind: "weapon", rarity: "epic", tag: "Маг · shield", enhance: 6, qty: 1, gearId: "mage_book", iconSrc: "/gear-sets/thumbs/mage-book.png" },
-    { id: "barn_turquoise_helm", name: "Бирюзовая шляпа", kind: "armor", rarity: "rare", tag: "Бирюза · helm", enhance: 4, qty: 1, gearId: "turquoise_helm", iconSrc: "/gear-sets/thumbs/turquoise-helm.png" },
-    { id: "barn_turquoise_armor", name: "Бирюзовая мантия", kind: "armor", rarity: "rare", tag: "Бирюза · armor", enhance: 4, qty: 1, gearId: "turquoise_armor", iconSrc: "/gear-sets/thumbs/turquoise-armor.png" },
-    { id: "barn_turquoise_cloak", name: "Бирюзовый плащ", kind: "armor", rarity: "rare", tag: "Бирюза · cloak", enhance: 4, qty: 1, gearId: "turquoise_cloak", iconSrc: "/gear-sets/thumbs/turquoise-cloak.png" },
-    { id: "barn_turquoise_belt", name: "Бирюзовый пояс", kind: "armor", rarity: "rare", tag: "Бирюза · belt", enhance: 4, qty: 1, gearId: "turquoise_belt", iconSrc: "/gear-sets/thumbs/turquoise-belt.png" },
-    { id: "barn_turquoise_boots", name: "Бирюзовые сапоги", kind: "armor", rarity: "rare", tag: "Бирюза · boots", enhance: 4, qty: 1, gearId: "turquoise_boots", iconSrc: "/gear-sets/thumbs/turquoise-boots.png" },
-    { id: "barn_turquoise_staff", name: "Бирюзовый посох", kind: "weapon", rarity: "rare", tag: "Сапп · weapon", enhance: 4, qty: 1, gearId: "turquoise_staff", iconSrc: "/gear-sets/thumbs/turquoise-staff.png" },
-    { id: "barn_red_helm", name: "Красный шлем Дракона", kind: "armor", rarity: "legendary", tag: "Красный · helm", enhance: 10, qty: 1, gearId: "red_helm", iconSrc: "/gear-sets/thumbs/red-helm.png" },
-    { id: "barn_red_armor", name: "Красная кираса Дракона", kind: "armor", rarity: "legendary", tag: "Красный · armor", enhance: 10, qty: 1, gearId: "red_armor", iconSrc: "/gear-sets/thumbs/red-armor.png" },
-    { id: "barn_red_cloak", name: "Красный плащ Тигра", kind: "armor", rarity: "legendary", tag: "Красный · cloak", enhance: 9, qty: 1, gearId: "red_cloak", iconSrc: "/gear-sets/thumbs/red-cloak.png" },
-    { id: "barn_red_belt", name: "Красный пояс Тигра", kind: "armor", rarity: "legendary", tag: "Красный · belt", enhance: 9, qty: 1, gearId: "red_belt", iconSrc: "/gear-sets/thumbs/red-belt.png" },
-    { id: "barn_red_boots", name: "Красные шипованные сапоги", kind: "armor", rarity: "legendary", tag: "Красный · boots", enhance: 9, qty: 1, gearId: "red_boots", iconSrc: "/gear-sets/thumbs/red-boots.png" },
-    { id: "barn_purple_helm", name: "Фиолетовый капюшон", kind: "armor", rarity: "epic", tag: "Фиолет · helm", enhance: 8, qty: 1, gearId: "purple_helm", iconSrc: "/gear-sets/thumbs/purple-helm.png" },
-    { id: "barn_purple_armor", name: "Фиолетовая кираса Пантеры", kind: "armor", rarity: "epic", tag: "Фиолет · armor", enhance: 8, qty: 1, gearId: "purple_armor", iconSrc: "/gear-sets/thumbs/purple-armor.png" },
-    { id: "barn_purple_cloak", name: "Фиолетовый плащ Пантеры", kind: "armor", rarity: "epic", tag: "Фиолет · cloak", enhance: 8, qty: 1, gearId: "purple_cloak", iconSrc: "/gear-sets/thumbs/purple-cloak.png" },
-    { id: "barn_purple_belt", name: "Фиолетовый пояс Пантеры", kind: "armor", rarity: "epic", tag: "Фиолет · belt", enhance: 8, qty: 1, gearId: "purple_belt", iconSrc: "/gear-sets/thumbs/purple-belt.png" },
-    { id: "barn_purple_boots", name: "Фиолетовые когтистые сапоги", kind: "armor", rarity: "epic", tag: "Фиолет · boots", enhance: 8, qty: 1, gearId: "purple_boots", iconSrc: "/gear-sets/thumbs/purple-boots.png" },
-    { id: "barn_green_helm", name: "Зелёная шляпа Следопыта", kind: "armor", rarity: "rare", tag: "Зелёный · helm", enhance: 4, qty: 1, gearId: "green_helm", iconSrc: "/gear-sets/thumbs/green-helm.png" },
-    { id: "barn_green_armor", name: "Зелёная чешуя Рыси", kind: "armor", rarity: "rare", tag: "Зелёный · armor", enhance: 4, qty: 1, gearId: "green_armor", iconSrc: "/gear-sets/thumbs/green-armor.png" },
-    { id: "barn_green_cloak", name: "Зелёный плащ листвы", kind: "armor", rarity: "rare", tag: "Зелёный · cloak", enhance: 4, qty: 1, gearId: "green_cloak", iconSrc: "/gear-sets/thumbs/green-cloak.png" },
-    { id: "barn_green_belt", name: "Зелёный пояс Рыси", kind: "armor", rarity: "rare", tag: "Зелёный · belt", enhance: 4, qty: 1, gearId: "green_belt", iconSrc: "/gear-sets/thumbs/green-belt.png" },
-    { id: "barn_green_boots", name: "Зелёные сапоги листвы", kind: "armor", rarity: "rare", tag: "Зелёный · boots", enhance: 4, qty: 1, gearId: "green_boots", iconSrc: "/gear-sets/thumbs/green-boots.png" },
-    { id: "barn_tank_mace", name: "Булава Стража", kind: "weapon", rarity: "epic", tag: "Класс · weapon", enhance: 8, qty: 1, gearId: "tank_mace", iconSrc: "/gear-sets/thumbs/tank-mace.png" },
-    { id: "barn_tank_spear", name: "Копьё Стража", kind: "weapon", rarity: "epic", tag: "Класс · weapon", enhance: 8, qty: 1, gearId: "tank_spear", iconSrc: "/gear-sets/thumbs/tank-spear.png" },
-    { id: "barn_tank_shield_large", name: "Большой щит Льва", kind: "weapon", rarity: "epic", tag: "Класс · shield", enhance: 10, qty: 1, gearId: "tank_shield_large", iconSrc: "/gear-sets/thumbs/tank-shield-large.png" },
-    { id: "barn_tank_shield_small", name: "Малый щит Льва", kind: "weapon", rarity: "rare", tag: "Класс · shield", enhance: 6, qty: 1, gearId: "tank_shield_small", iconSrc: "/gear-sets/thumbs/tank-shield-small.png" },
-    { id: "barn_fighter_greatsword", name: "Двуручный меч Тигра", kind: "weapon", rarity: "legendary", tag: "Класс · weapon", enhance: 10, qty: 1, gearId: "fighter_greatsword", iconSrc: "/gear-sets/thumbs/fighter-greatsword.png" },
-    { id: "barn_fighter_axe_a", name: "Топор Бойца A", kind: "weapon", rarity: "legendary", tag: "Класс · weapon", enhance: 8, qty: 1, gearId: "fighter_axe_a", iconSrc: "/gear-sets/thumbs/fighter-axe-a.png" },
-    { id: "barn_fighter_axe_b", name: "Топор Бойца B", kind: "weapon", rarity: "legendary", tag: "Класс · shield", enhance: 8, qty: 1, gearId: "fighter_axe_b", iconSrc: "/gear-sets/thumbs/fighter-axe-b.png" },
-    { id: "barn_assassin_dagger_a", name: "Кинжал Убийцы A", kind: "weapon", rarity: "epic", tag: "Класс · weapon", enhance: 8, qty: 1, gearId: "assassin_dagger_a", iconSrc: "/gear-sets/thumbs/assassin-dagger-a.png" },
-    { id: "barn_assassin_dagger_b", name: "Кинжал Убийцы B", kind: "weapon", rarity: "epic", tag: "Класс · shield", enhance: 8, qty: 1, gearId: "assassin_dagger_b", iconSrc: "/gear-sets/thumbs/assassin-dagger-b.png" },
-    { id: "barn_green_bow", name: "Зелёный лук Рыси", kind: "weapon", rarity: "rare", tag: "Зелёный · weapon", enhance: 4, qty: 1, gearId: "green_bow", iconSrc: "/gear-sets/thumbs/green-bow.png" },
-    { id: "barn_green_crossbow", name: "Зелёный арбалет", kind: "weapon", rarity: "rare", tag: "Зелёный · weapon", enhance: 4, qty: 1, gearId: "green_crossbow", iconSrc: "/gear-sets/thumbs/green-crossbow.png" },
-    { id: "barn_green_arrows", name: "Колчан зелёных стрел", kind: "weapon", rarity: "rare", tag: "Зелёный · shield", enhance: 2, qty: 1, gearId: "green_arrows", iconSrc: "/gear-sets/thumbs/green-arrows.png" },
-    { id: "barn_support_scroll", name: "Свиток Поддержки", kind: "weapon", rarity: "rare", tag: "Сапп · shield", enhance: 4, qty: 1, gearId: "support_scroll", iconSrc: "/gear-sets/thumbs/support-scroll.png" },
-    { id: "barn_hearth_elixir", name: "Эликсиры Очага", kind: "potion", rarity: "epic", tag: "Эпик · Зелье", enhance: 0, qty: 18, iconSrc: "/barn-icons/potions.png" },
-    { id: "barn_oak", name: "Дубовые брёвна", kind: "farm", rarity: "common", tag: "Ферма · Лес", enhance: 0, qty: 420, iconSrc: "/barn-icons/wood.png" },
-    { id: "barn_ore", name: "Железная руда", kind: "farm", rarity: "common", tag: "Ферма · Руда", enhance: 0, qty: 290, iconSrc: "/barn-icons/iron.png" },
-    { id: "barn_fruit", name: "Свежие плоды", kind: "farm", rarity: "rare", tag: "Ферма · Урожай", enhance: 0, qty: 86, iconSrc: "/barn-icons/fruit.png" },
-    { id: "barn_seeds", name: "Семена Урожая", kind: "farm", rarity: "rare", tag: "Ферма · Семена", enhance: 0, qty: 180, iconSrc: "/barn-icons/seeds.png" },
-    { id: "barn_harvest", name: "Корзина урожая", kind: "farm", rarity: "rare", tag: "Ферма · Овощи", enhance: 0, qty: 64, iconSrc: "/barn-icons/veggies.png" },
-    { id: "barn_fish", name: "Связка рыбы", kind: "farm", rarity: "common", tag: "Ферма · Рыбалка", enhance: 0, qty: 120, iconSrc: "/barn-icons/fish.png" },
-    { id: "barn_herbs", name: "Пучок трав", kind: "potion", rarity: "rare", tag: "Алхимия · Травы", enhance: 0, qty: 340, iconSrc: "/barn-icons/herbs.png" },
-    { id: "barn_mana", name: "Зелье Маны", kind: "potion", rarity: "epic", tag: "Эпик · Зелье", enhance: 0, qty: 24, iconSrc: "/barn-icons/potions.png" },
-    { id: "barn_regen", name: "Зелье Регена", kind: "potion", rarity: "epic", tag: "Эпик · Зелье", enhance: 0, qty: 16, iconSrc: "/barn-icons/potions.png" },
-    { id: "barn_shadow", name: "Теневой настой", kind: "potion", rarity: "legendary", tag: "Легенда · Зелье", enhance: 0, qty: 8, iconSrc: "/barn-icons/potions.png" },
-    { id: "barn_milk", name: "Молоко Очага", kind: "potion", rarity: "rare", tag: "Таверна · Молоко", enhance: 0, qty: 42, iconSrc: "/barn-icons/milk.png" },
-    { id: "barn_stone", name: "Гранитные глыбы", kind: "farm", rarity: "common", tag: "Ферма · Камень", enhance: 0, qty: 210, iconSrc: "/barn-icons/stone.png" },
-    { id: "barn_scroll", name: "Свиток рынка", kind: "blueprint", rarity: "epic", tag: "Эпик · Чертёж", enhance: 0, qty: 12, iconSrc: "/barn-icons/herbs.png" },
-  ],
+  /** Derived from gearCatalog (D-028); farm/potion/blueprint = Soon, not live stock. */
+  barnCatalog: [],
   barnCatFilter: "all",
   barnRarityFilter: "all",
   barnSearch: "",
-  barnFocus: "barn_seeds",
-  barnPage: 1,
-  barnCapMax: 2000,
-  barnLocked: true,
+  barnFocus: null,
+  barnCapMax: 96,
+  /** Local stub persist on; set false to prefer GET /api/dev/gear (Wave B). */
+  gearStubLocal: true,
   /** catId → slot → item id */
   equippedByCat: {},
   homeBagFilter: "all",
@@ -668,6 +608,9 @@ const state = {
     clearedFights: {}, // stageId -> true
   },
 };
+
+/** Seed for warehouse stub reset / API mirror (D-028). */
+const GEAR_CATALOG_SEED = JSON.parse(JSON.stringify(state.gearCatalog));
 
 const $ = (id) => document.getElementById(id);
 
@@ -723,6 +666,19 @@ function persistProgress() {
   } catch (_) {}
 }
 
+function persistGearStub() {
+  try {
+    localStorage.setItem(
+      "mythfel_sl_gear",
+      JSON.stringify({
+        gearCatalog: state.gearCatalog,
+        equippedByCat: state.equippedByCat,
+        barnCapMax: state.barnCapMax,
+      }),
+    );
+  } catch (_) {}
+}
+
 function loadProgress() {
   try {
     const raw = localStorage.getItem("mythfel_sl_progress");
@@ -736,6 +692,42 @@ function loadProgress() {
       };
     }
   } catch (_) {}
+}
+
+function loadGearStub() {
+  try {
+    const raw = localStorage.getItem("mythfel_sl_gear");
+    if (!raw) return;
+    const parsed = JSON.parse(raw);
+    if (Array.isArray(parsed.gearCatalog) && parsed.gearCatalog.length) {
+      state.gearCatalog = parsed.gearCatalog;
+    }
+    if (parsed.equippedByCat && typeof parsed.equippedByCat === "object") {
+      state.equippedByCat = parsed.equippedByCat;
+    }
+    if (typeof parsed.barnCapMax === "number" && parsed.barnCapMax > 0) {
+      state.barnCapMax = parsed.barnCapMax;
+    }
+  } catch (_) {}
+}
+
+/** Wave B: optional GET /api/dev/gear when gearStubLocal=false; else keep local seed/persist. */
+async function bootGearCatalog() {
+  if (state.gearStubLocal !== false) {
+    syncBarnFromGear();
+    return;
+  }
+  try {
+    const { data } = await api("/api/dev/gear");
+    if (Array.isArray(data?.items) && data.items.length) {
+      state.gearCatalog = data.items;
+      if (typeof data.cap === "number") state.barnCapMax = data.cap;
+      persistGearStub();
+    }
+  } catch (_) {
+    state.gearCatalog = JSON.parse(JSON.stringify(GEAR_CATALOG_SEED));
+  }
+  syncBarnFromGear();
 }
 
 function log(msg, which = "battle") {
@@ -1116,15 +1108,22 @@ function renderCurrency() {
     if (el) el.textContent = String(v);
   };
   const p = state.profile;
-  // Prefer §5.1 grant currencies when profile loaded
-  set("curGold", p ? p.fish : state.wallet.gold);
-  set("curMilk", p ? p.bowls : state.wallet.milk);
-  set("curEnergy", p ? `${p.pvpTickets}/5` : state.wallet.energy);
-  set("curGems", p ? p.yarn : state.wallet.gems);
-  set(
-    "brandSub",
-    state.locale === "ru" ? "Ур. 1 · Soft Launch" : "Lv. 1 · Soft Launch",
-  );
+  // Prefer §5.1 grant currencies when profile loaded (stub chrome — not economy SoT)
+  const gold = p ? p.fish : state.wallet.gold;
+  const milk = p ? p.bowls : state.wallet.milk;
+  const energy = p ? `${p.pvpTickets}/5` : state.wallet.energy;
+  const gems = p ? p.yarn : state.wallet.gems;
+  set("curGold", gold);
+  set("curMilk", milk);
+  set("curEnergy", energy);
+  set("curGems", gems);
+  set("navGold", gold);
+  set("navMilk", milk);
+  set("navEnergy", energy);
+  set("navGems", gems);
+  const rank = state.locale === "ru" ? "Ур. 1 · Soft Launch" : "Lv. 1 · Soft Launch";
+  set("brandSub", rank);
+  set("navRank", rank);
 }
 
 /** Apply GrantStarterKit payload (§5.1) — client never invents rewards. */
@@ -1270,6 +1269,7 @@ function equipItem(catId, itemId) {
   }
   state.equippedByCat[catId][item.slot] = itemId;
   toast(`${item.name} → надето`);
+  persistGearStub();
   renderHome();
   renderEquipCards();
   renderAll();
@@ -1281,6 +1281,7 @@ function unequipSlot(catId, slot) {
   state.equippedByCat[catId][slot] = null;
   const item = state.gearCatalog.find((g) => g.id === id);
   toast(item ? `${item.name} → снято` : "Слот пуст");
+  persistGearStub();
   renderHome();
   renderEquipCards();
   renderAll();
@@ -1329,7 +1330,7 @@ function fillNav(primaryEl, subEl, activeGroup, battleActive, activeClass) {
   for (const group of NAV) {
     const b = document.createElement("button");
     b.type = "button";
-    b.textContent = t(group.key, group.id);
+    b.textContent = t(group.key, group.label || group.id);
     b.dataset.primary = group.id;
     b.classList.toggle(activeClass, !battleActive && group.id === shownPrimary);
     b.addEventListener("click", () => openPrimary(group));
@@ -1366,13 +1367,6 @@ function renderTabs() {
   if (state.tab !== "hub" && activeGroup) state.primary = activeGroup.id;
 
   fillNav($("appTabs"), $("appSubTabs"), activeGroup, battleActive, "active");
-  fillNav(
-    document.querySelector("#viewHub .mythfel-hub-tabs"),
-    document.querySelector("#viewHub .mythfel-hub-sub"),
-    activeGroup,
-    battleActive,
-    "is-active",
-  );
 }
 
 function starterMeta(id) {
@@ -1560,7 +1554,12 @@ function bindHubPortals() {
     const btn = e.target.closest("[data-hub-go]");
     if (!btn) return;
     e.preventDefault();
-    // Old hub-go portals, dock, and static submenu leftovers stay closed during redesign.
+    const tab = btn.getAttribute("data-hub-go");
+    if (!tab || tab === "hub") {
+      navigate("hub");
+      return;
+    }
+    navigate(tab);
   });
 }
 
@@ -2836,6 +2835,7 @@ function unequipAll(catId) {
   if (!eq) return;
   for (const slot of HOME_SLOT_ORDER) eq[slot] = null;
   toast("Слоты сняты");
+  persistGearStub();
   renderAll();
 }
 
@@ -2849,7 +2849,9 @@ function salvageItem(itemId) {
   }
   state.gearCatalog = state.gearCatalog.filter((g) => g.id !== itemId);
   if (state.homeBagFocus === itemId) state.homeBagFocus = null;
+  if (state.barnFocus === itemId) state.barnFocus = null;
   toast(`${item.name} переплавлен`);
+  persistGearStub();
   renderAll();
 }
 
@@ -2858,23 +2860,15 @@ function itemPower(item) {
   return (item.atk || 0) + (item.hp || 0) + (item.def || 0) * 2 + (item.spd || 0) * 3;
 }
 
-const BARN_CATS = [
-  { id: "all", label: "Все предметы" },
-  { id: "armor", label: "Броня и латы" },
-  { id: "weapon", label: "Оружие" },
-  { id: "farm", label: "Ресурсы фермы" },
-  { id: "potion", label: "Зелья и травы" },
-  { id: "blueprint", label: "Чертежи" },
-];
+const BARN_SOON_KINDS = new Set(["farm", "potion", "blueprint"]);
 const BARN_RARITIES = [
-  { id: "all", label: "Все", cls: "" },
-  { id: "mythic", label: "Мифик", cls: "is-mythic" },
-  { id: "legendary", label: "Легенда", cls: "is-legendary" },
-  { id: "epic", label: "Эпик", cls: "is-epic" },
-  { id: "rare", label: "Редк", cls: "is-rare" },
-  { id: "common", label: "Обычн", cls: "" },
+  { id: "all", label: "Все" },
+  { id: "mythic", label: "Мифик" },
+  { id: "legendary", label: "Легенда" },
+  { id: "epic", label: "Эпик" },
+  { id: "rare", label: "Редк" },
+  { id: "common", label: "Обычн" },
 ];
-const BARN_PAGE_SIZE = 60;
 const BARN_RARITY_RU = {
   mythic: "Миф",
   legendary: "Легенда",
@@ -2890,43 +2884,68 @@ const BARN_KIND_RU = {
   blueprint: "Чертёж",
 };
 
+function gearBarnKind(g) {
+  return g.slot === "weapon" || g.slot === "shield" ? "weapon" : "armor";
+}
+
+/** Rebuild barn rows from gearCatalog SoT (D-028). */
+function syncBarnFromGear() {
+  state.barnCatalog = (state.gearCatalog || []).map((g) => ({
+    id: g.id,
+    name: g.name,
+    kind: gearBarnKind(g),
+    rarity: g.rarity,
+    tag: `${g.set || "class"} · ${g.slot}`,
+    enhance: g.enhance || 0,
+    qty: 1,
+    gearId: g.id,
+    iconSrc: g.iconSrc,
+  }));
+}
+
 function barnStockUsed() {
-  return (state.barnCatalog || []).reduce((sum, item) => sum + (item.qty || 1), 0);
+  return (state.gearCatalog || []).length;
 }
 
 function barnFilteredItems() {
+  syncBarnFromGear();
   const q = (state.barnSearch || "").trim().toLowerCase();
+  const cat = state.barnCatFilter || "all";
+  if (BARN_SOON_KINDS.has(cat)) return [];
   return (state.barnCatalog || []).filter((item) => {
-    if (state.barnCatFilter === "equip") {
+    if (cat === "equip") {
       if (item.kind !== "armor" && item.kind !== "weapon") return false;
-    } else if (state.barnCatFilter && state.barnCatFilter !== "all" && item.kind !== state.barnCatFilter) {
+    } else if (cat !== "all" && item.kind !== cat) {
       return false;
     }
-    if (state.barnRarityFilter && state.barnRarityFilter !== "all" && item.rarity !== state.barnRarityFilter) return false;
+    if (state.barnRarityFilter && state.barnRarityFilter !== "all" && item.rarity !== state.barnRarityFilter) {
+      return false;
+    }
     if (q && !`${item.name} ${item.tag}`.toLowerCase().includes(q)) return false;
     return true;
   });
 }
 
 function barnKindCount(kind) {
-  return (state.barnCatalog || [])
-    .filter((item) => {
-      if (kind === "all") return true;
-      if (kind === "equip") return item.kind === "armor" || item.kind === "weapon";
-      return item.kind === kind;
-    })
-    .reduce((sum, item) => sum + (item.qty || 1), 0);
+  syncBarnFromGear();
+  if (BARN_SOON_KINDS.has(kind)) return 0;
+  return (state.barnCatalog || []).filter((item) => {
+    if (kind === "all") return true;
+    if (kind === "equip") return item.kind === "armor" || item.kind === "weapon";
+    return item.kind === kind;
+  }).length;
 }
 
 function barnGearForItem(item) {
   if (!item) return null;
-  return (
-    state.gearCatalog.find(
-      (g) =>
-        (item.gearId && g.id === item.gearId) ||
-        g.name === item.name ||
-        g.id === String(item.id || "").replace(/^barn_/, ""),
-    ) || null
+  const id = item.gearId || item.id;
+  return state.gearCatalog.find((g) => g.id === id) || null;
+}
+
+function barnItemWorn(gearId) {
+  if (!gearId) return false;
+  return Object.values(state.equippedByCat || {}).some((eq) =>
+    Object.values(eq || {}).includes(gearId),
   );
 }
 
@@ -2937,35 +2956,117 @@ function barnRarityBorder(rarity) {
   return "border-surface-container-highest/40";
 }
 
+function setBarnInspectOpen(open) {
+  const root = $("viewGear");
+  const panel = $("barnInspector") || root?.querySelector("[data-gear-inspect]");
+  if (!root || !panel) return;
+  if (open) {
+    panel.dataset.open = "1";
+    panel.removeAttribute("hidden");
+    root.dataset.inspectOpen = "1";
+  } else {
+    panel.dataset.open = "0";
+    panel.setAttribute("hidden", "");
+    root.dataset.inspectOpen = "0";
+  }
+}
+
+/** One cell chrome for every category filter. */
+function barnItemCellHtml(item) {
+  const on = item.id === state.barnFocus;
+  const worn = barnItemWorn(item.gearId || item.id);
+  const border = barnRarityBorder(item.rarity);
+  const badge = item.enhance > 0 ? `+${item.enhance}` : "";
+  return `<button type="button" data-barn-item="${item.id}" class="rounded-xl bg-surface-container-lowest p-1 border ${border} ${on ? "ring-2 ring-primary" : "hover:border-primary/40"}${worn ? " opacity-50" : ""}" title="${item.name}${worn ? " · надето" : ""}">
+    <img alt="" src="${item.iconSrc}"/>
+    ${badge ? `<span class="barn-cell-badge px-1 rounded bg-surface-container-lowest/90 font-stat-numeral text-[9px] text-primary">${badge}</span>` : ""}
+    ${worn ? `<span class="barn-cell-worn px-1 rounded bg-primary/90 text-on-primary font-label-sm text-[8px]">on</span>` : ""}
+    <span class="barn-cell-name px-0.5 py-0.5 bg-surface-container-lowest/90 font-label-sm text-[8px] text-on-surface truncate text-center">${item.name}</span>
+  </button>`;
+}
+
+/** Square rows from column width; run after layout (inspect open changes width). */
+function layoutBarnGrid(grid) {
+  if (!grid || grid.id !== "barnGrid") return;
+  const run = () => {
+    if (!grid.isConnected) return;
+    const styles = getComputedStyle(grid);
+    const gap = parseFloat(styles.columnGap || styles.gap) || 4;
+    const colW = Math.max(48, Math.floor((grid.clientWidth - gap * 5) / 6));
+    grid.style.gridAutoRows = `${colW}px`;
+  };
+  run();
+  requestAnimationFrame(run);
+}
+
+function ensureBarnGridShell(grid) {
+  if (!grid || grid.dataset.barnShell === "1") return grid;
+  grid.id = "barnGrid";
+  grid.classList.remove("flex-1", "overflow-y-auto", "content-start");
+  grid.style.height = "auto";
+  let shell = grid.parentElement;
+  if (!shell || shell.id !== "barnGridScroll") {
+    shell = document.createElement("div");
+    shell.id = "barnGridScroll";
+    grid.replaceWith(shell);
+    shell.appendChild(grid);
+  }
+  grid.dataset.barnShell = "1";
+  if (shell.dataset.barnRo !== "1") {
+    shell.dataset.barnRo = "1";
+    const ro = new ResizeObserver(() => layoutBarnGrid(grid));
+    ro.observe(shell);
+  }
+  return grid;
+}
+
 /** Hook Stitch gear DOM once — ids for grid/search/inspector. */
 function ensureBarnDom(root) {
   if (!root || root.dataset.barnDom === "1") return;
   const grid = [...root.querySelectorAll(".grid.grid-cols-6")].find((g) =>
     /overflow-y-auto|content-start/.test(g.className),
   );
-  if (grid) grid.id = "barnGrid";
+  if (grid) ensureBarnGridShell(grid);
   const search = root.querySelector('input[placeholder*="Поиск"]');
   if (search) search.id = "barnSearch";
   const rarityRow = search?.closest(".flex.items-center.justify-between")?.querySelector(".flex.items-center.gap-1");
   if (rarityRow) rarityRow.id = "barnRarityTabs";
   const leftCol = root.querySelector(".col-span-3.flex.flex-col");
-  const catBox = leftCol?.querySelector(".flex.flex-col.flex-1.justify-between");
+  const lowCards = [...(leftCol?.querySelectorAll(":scope > .bg-surface-container-low") || [])];
+  if (lowCards[0]) lowCards[0].id = "barnCapBlock";
+  const catBox =
+    lowCards[1]?.querySelector(".flex.flex-col.flex-1.justify-between") || lowCards[1];
   if (catBox) catBox.id = "barnCatTabs";
-  const capCard = leftCol?.querySelector(".bg-surface-container-low");
-  if (capCard) capCard.id = "barnCapBlock";
-  const inspector = [...root.querySelectorAll(".col-span-3")].find((el) => el.querySelector("h2"));
+  const inspector = root.querySelector("[data-gear-inspect]") || [...root.querySelectorAll(".col-span-3")].find((el) => el.querySelector("h2"));
   if (inspector) inspector.id = "barnInspector";
-  const toolRow = leftCol?.querySelector(".flex.gap-1");
+  const toolCard = lowCards[2];
+  const toolRow = toolCard?.querySelector(".flex.gap-1") || toolCard;
   if (toolRow) {
     toolRow.id = "barnTools";
     const btns = toolRow.querySelectorAll("button");
     if (btns[0]) btns[0].setAttribute("data-barn-tool", "sort");
     if (btns[1]) btns[1].setAttribute("data-barn-tool", "smelt");
   }
-  const expandBtn = [...(leftCol?.querySelectorAll("button") || [])].find((b) =>
+  const expandBtn = [...(toolCard?.querySelectorAll("button") || leftCol?.querySelectorAll("button") || [])].find((b) =>
     /мест|\+50|\+200/i.test(b.textContent || ""),
   );
-  if (expandBtn) expandBtn.setAttribute("data-barn-tool", "expand");
+  if (expandBtn) {
+    expandBtn.setAttribute("data-barn-tool", "expand");
+    expandBtn.id = "barnExpandBtn";
+  }
+  const tune = [...root.querySelectorAll("button")].find((b) =>
+    /tune/i.test(b.querySelector(".material-symbols-outlined")?.textContent || ""),
+  );
+  if (tune) tune.setAttribute("data-barn-tool", "tune");
+  const routes = root.querySelector(".bg-surface-container-low.px-space-md");
+  if (routes && /Маршруты со склада/i.test(routes.textContent || "")) {
+    routes.id = "barnRoutes";
+    const routeBtns = routes.querySelectorAll("button");
+    const routeIds = ["craft", "craft", "market", "farm"];
+    routeBtns.forEach((btn, i) => {
+      btn.setAttribute("data-barn-route", routeIds[i] || "farm");
+    });
+  }
   root.dataset.barnDom = "1";
 }
 
@@ -2973,49 +3074,73 @@ function bindBarnOnce(root) {
   if (!root || root.dataset.barnBound === "1") return;
   root.dataset.barnBound = "1";
   root.addEventListener("click", (e) => {
+    const closeBtn = e.target.closest("[data-gear-inspect-close]");
+    if (closeBtn && root.contains(closeBtn)) {
+      setBarnInspectOpen(false);
+      return;
+    }
     const catBtn = e.target.closest("[data-barn-cat]");
     if (catBtn && root.contains(catBtn)) {
-      state.barnCatFilter = catBtn.getAttribute("data-barn-cat") || "all";
-      state.barnPage = 1;
+      const next = catBtn.getAttribute("data-barn-cat") || "all";
+      state.barnCatFilter = next;
+      if (BARN_SOON_KINDS.has(next)) {
+        showGateTip("Сырьё / зелья / чертежи — Phase 6 (Soon). Сейчас только экип.");
+      }
+      setBarnInspectOpen(false);
       renderBarn();
       return;
     }
     const rarityBtn = e.target.closest("[data-barn-rarity]");
     if (rarityBtn && root.contains(rarityBtn)) {
       state.barnRarityFilter = rarityBtn.getAttribute("data-barn-rarity") || "all";
-      state.barnPage = 1;
       renderBarn();
       return;
     }
     const itemBtn = e.target.closest("[data-barn-item]");
     if (itemBtn && root.contains(itemBtn)) {
       state.barnFocus = itemBtn.getAttribute("data-barn-item");
+      setBarnInspectOpen(true);
       renderBarn();
+      return;
+    }
+    const routeBtn = e.target.closest("[data-barn-route]");
+    if (routeBtn && root.contains(routeBtn)) {
+      const dest = routeBtn.getAttribute("data-barn-route");
+      if (dest === "craft" || dest === "market" || dest === "farm") {
+        showGateTip(dest === "farm" ? "Ферма — Soon (Phase 6)" : "Маршрут скоро; склад = stub экипа");
+        if (dest === "market") navigate("market");
+        else if (dest === "craft") navigate("craft", { soon: "craft" });
+        else navigate("farm", { soon: "farm" });
+      }
       return;
     }
     const tool = e.target.closest("[data-barn-tool]");
     if (tool && root.contains(tool)) {
       const act = tool.getAttribute("data-barn-tool");
+      if (act === "tune") {
+        showGateTip("Расширенные фильтры — скоро");
+        return;
+      }
       if (act === "sort") {
-        state.barnCatalog = [...state.barnCatalog].sort((a, b) => a.name.localeCompare(b.name, "ru"));
+        state.gearCatalog = [...state.gearCatalog].sort((a, b) => a.name.localeCompare(b.name, "ru"));
+        persistGearStub();
         toast("Склад отсортирован");
         renderBarn();
         return;
       }
       if (act === "smelt") {
-        const focus = state.barnCatalog.find((x) => x.id === state.barnFocus);
-        if (!focus || (focus.kind !== "weapon" && focus.kind !== "armor")) {
+        const focus = (state.barnCatalog || []).find((x) => x.id === state.barnFocus);
+        const gear = barnGearForItem(focus);
+        if (!gear) {
           toast("Выберите броню/оружие для переплавки");
           return;
         }
-        state.barnCatalog = state.barnCatalog.filter((x) => x.id !== focus.id);
-        state.barnFocus = state.barnCatalog[0]?.id || null;
-        toast(`${focus.name} → переплавлено`);
-        renderBarn();
+        salvageItem(gear.id);
         return;
       }
       if (act === "expand") {
-        state.barnCapMax = (state.barnCapMax || 2000) + 200;
+        state.barnCapMax = (state.barnCapMax || 96) + 200;
+        persistGearStub();
         toast("Слоты склада +200");
         renderBarn();
         return;
@@ -3023,11 +3148,18 @@ function bindBarnOnce(root) {
     }
     const equipBtn = e.target.closest("[data-barn-equip]");
     if (equipBtn && root.contains(equipBtn)) {
-      const item = state.barnCatalog.find((x) => x.id === state.barnFocus);
+      const item = (state.barnCatalog || []).find((x) => x.id === state.barnFocus);
       const gear = barnGearForItem(item);
-      const catId = state.selectedCatId || state.profile?.cats?.find((c) => c.role !== "farm")?.catId;
-      if (gear && catId) {
+      const cat = homeActiveCat();
+      const catId = cat?.catId;
+      if (!catId) {
+        toast("Выберите героя на экране Персонаж");
+        return;
+      }
+      if (gear) {
         equipItem(catId, gear.id);
+        persistGearStub();
+        renderBarn();
         return;
       }
       toast(item ? `${item.name}: нельзя надеть` : "Выберите предмет");
@@ -3038,7 +3170,6 @@ function bindBarnOnce(root) {
     search.dataset.bound = "1";
     search.addEventListener("input", () => {
       state.barnSearch = search.value;
-      state.barnPage = 1;
       renderBarn();
     });
   }
@@ -3047,22 +3178,31 @@ function bindBarnOnce(root) {
 function renderBarnInspector(focus) {
   const panel = $("barnInspector");
   if (!panel) return;
+  const closeHtml = `<button type="button" data-gear-inspect-close class="absolute top-2 right-2 z-10 w-7 h-7 rounded-lg bg-surface-container-highest/90 text-on-surface-variant hover:text-primary border border-outline-variant/30 flex items-center justify-center" title="Закрыть" aria-label="Закрыть"><span class="material-symbols-outlined text-[18px]">close</span></button>`;
+  if (!focus) {
+    panel.innerHTML = `${closeHtml}<div class="flex-1 flex items-center justify-center text-on-surface-variant text-sm">Выберите ячейку склада</div>`;
+    return;
+  }
   const gear = barnGearForItem(focus);
   const bonuses = formatGearBonuses(gear) || "—";
   const rarity = BARN_RARITY_RU[focus?.rarity] || "—";
   const kind = BARN_KIND_RU[focus?.kind] || focus?.kind || "—";
   const enhance = focus?.enhance ? `+${focus.enhance}` : "—";
   const canEquip = !!(gear && (focus?.kind === "armor" || focus?.kind === "weapon"));
+  const cat = homeActiveCat();
+  const catName = cat ? catSheetName(cat) : "—";
+  const worn = barnItemWorn(gear?.id);
   panel.innerHTML = `
+    ${closeHtml}
     <div class="flex flex-col gap-space-xs overflow-y-auto pr-0.5 flex-1 min-h-0">
-      <div class="flex items-start justify-between flex-shrink-0">
+      <div class="flex items-start justify-between flex-shrink-0 pr-8">
         <div>
           <div class="flex items-center gap-1.5">
             <span class="px-2 py-0.5 rounded bg-primary-container/20 text-primary font-label-sm text-label-sm uppercase tracking-wider font-bold">${rarity}</span>
             <span class="px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-[10px]">${kind}</span>
           </div>
           <h2 class="font-headline-md text-headline-md text-primary mt-0.5 leading-tight">${focus?.name || "Пусто"}</h2>
-          <span class="font-body-sm text-[12px] text-on-surface-variant">${focus?.tag || "Выберите ячейку склада"}</span>
+          <span class="font-body-sm text-[12px] text-on-surface-variant">${focus?.tag || ""}${worn ? " · надето" : ""}</span>
         </div>
         <div class="flex flex-col items-end gap-0.5 flex-shrink-0">
           <span class="px-2 py-1 rounded-lg bg-surface-container-high font-stat-numeral text-stat-numeral text-primary border border-surface-container-highest/40">${enhance}</span>
@@ -3077,12 +3217,13 @@ function renderBarnInspector(focus) {
           <span class="text-on-surface-variant">Бонусы экипа</span>
           <span class="font-stat-numeral text-primary text-[14px]">${bonuses}</span>
         </div>
-        <div class="text-[11px] text-on-surface-variant">${gear ? `Слот: ${HOME_SLOT_RU[gear.slot] || gear.slot}${gear.roles?.length ? ` · ${gear.roles.map((r) => CAT_ROLE_RU[r] || r).join("/")}` : " · все классы"}` : "Не экипируется (ресурс/зелье)"}</div>
+        <div class="text-[11px] text-on-surface-variant">${gear ? `Слот: ${HOME_SLOT_RU[gear.slot] || gear.slot}${gear.roles?.length ? ` · ${gear.roles.map((r) => CAT_ROLE_RU[r] || r).join("/")}` : " · все классы"}` : "Не экипируется"}</div>
+        <div class="text-[11px] text-on-surface-variant">Герой: <span class="text-primary font-bold">${catName}</span></div>
       </div>
     </div>
     <div class="flex flex-col gap-1.5 pt-space-xs border-t border-surface-container-highest/40 flex-shrink-0">
       <button type="button" data-barn-equip="1" class="py-1.5 rounded-lg ${canEquip ? "bg-primary text-on-primary" : "bg-surface-container text-on-surface-variant"} font-label-md text-label-md flex items-center justify-center gap-1 font-bold" ${canEquip ? "" : "disabled"}>
-        <span class="material-symbols-outlined text-[16px]">shield_with_heart</span> ${canEquip ? "Надеть на героя" : "Нельзя надеть"}
+        <span class="material-symbols-outlined text-[16px]">shield_with_heart</span> ${canEquip ? `Надеть на ${catName}` : "Нельзя надеть"}
       </button>
     </div>`;
 }
@@ -3092,31 +3233,55 @@ function renderBarn() {
   if (!root || root.classList.contains("hidden")) return;
   ensureBarnDom(root);
   bindBarnOnce(root);
+  syncBarnFromGear();
 
   const used = barnStockUsed();
-  const cap = state.barnCapMax || 2000;
+  const cap = state.barnCapMax || 96;
   const free = Math.max(0, cap - used);
-  const pct = Math.min(100, Math.round((used / cap) * 100));
+  const pct = Math.min(100, Math.round((used / Math.max(1, cap)) * 100));
 
   const capBlock = $("barnCapBlock");
   if (capBlock) {
-    const num = capBlock.querySelector(".font-stat-numeral");
-    if (num) {
-      num.innerHTML = `${formatSheetNum(used)} <span class="text-on-surface-variant text-[12px] font-normal">/ ${formatSheetNum(cap)}</span>`;
-    }
-    const bar = capBlock.querySelector(".h-full.bg-gradient-to-r, div.w-full.h-2 .h-full");
-    if (bar?.style) bar.style.width = `${pct}%`;
-    const metaRow = capBlock.querySelector(".flex.justify-between.items-center");
-    if (metaRow) {
-      const spans = metaRow.querySelectorAll("span");
-      if (spans[0]) spans[0].textContent = `Занято ${pct}%`;
-      if (spans[1]) spans[1].textContent = `Свободно ${formatSheetNum(free)} мест`;
-    }
-    const chips = capBlock.querySelectorAll(".grid .font-stat-numeral");
-    if (chips[0]) chips[0].textContent = formatSheetNum(barnKindCount("weapon"));
-    if (chips[1]) chips[1].textContent = formatSheetNum(barnKindCount("farm"));
-    if (chips[2]) chips[2].textContent = formatSheetNum(barnKindCount("potion"));
-    if (chips[3]) chips[3].textContent = formatSheetNum(barnKindCount("blueprint") + barnKindCount("armor"));
+    // Full rewrite — Stitch placeholder numbers (1420/2500/1080/102) must not leak.
+    const w = barnKindCount("weapon");
+    const a = barnKindCount("armor");
+    capBlock.innerHTML = `
+      <div class="flex items-center justify-between">
+        <span class="font-label-md text-label-md text-on-surface flex items-center gap-1">
+          <span class="material-symbols-outlined text-primary text-[16px]">inventory</span> Вместимость
+        </span>
+        <span class="font-stat-numeral text-[16px] text-primary">${formatSheetNum(used)} <span class="text-on-surface-variant text-[12px] font-normal">/ ${formatSheetNum(cap)}</span></span>
+      </div>
+      <div class="w-full h-2 bg-surface-container-lowest rounded-full overflow-hidden p-0.5 shadow-inner">
+        <div class="h-full bg-gradient-to-r from-primary to-primary-container rounded-full transition-all" style="width:${pct}%"></div>
+      </div>
+      <div class="flex justify-between items-center text-on-surface-variant font-label-sm text-[10px]">
+        <span>Занято ${pct}%</span>
+        <span class="text-secondary">Свободно ${formatSheetNum(free)} мест</span>
+      </div>
+      <div class="grid grid-cols-2 gap-1 mt-0.5">
+        <div class="bg-surface-container px-2 py-0.5 rounded flex items-center justify-between">
+          <span class="font-body-sm text-[11px] text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-tertiary text-[12px]">swords</span> Оружие</span>
+          <span class="font-stat-numeral text-on-surface text-[11px]">${formatSheetNum(w)}</span>
+        </div>
+        <div class="bg-surface-container px-2 py-0.5 rounded flex items-center justify-between">
+          <span class="font-body-sm text-[11px] text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-primary text-[12px]">shield</span> Броня</span>
+          <span class="font-stat-numeral text-on-surface text-[11px]">${formatSheetNum(a)}</span>
+        </div>
+        <div class="bg-surface-container px-2 py-0.5 rounded flex items-center justify-between">
+          <span class="font-body-sm text-[11px] text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-secondary text-[12px]">spa</span> Сырьё</span>
+          <span class="font-stat-numeral text-on-surface text-[11px]">Soon</span>
+        </div>
+        <div class="bg-surface-container px-2 py-0.5 rounded flex items-center justify-between">
+          <span class="font-body-sm text-[11px] text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-tertiary-container text-[12px]">science</span> Зелья</span>
+          <span class="font-stat-numeral text-on-surface text-[11px]">Soon</span>
+        </div>
+      </div>`;
+  }
+
+  const expandBtn = $("barnExpandBtn");
+  if (expandBtn) {
+    expandBtn.innerHTML = `<span class="material-symbols-outlined text-[16px]">add_box</span> +200 мест (сейчас ${formatSheetNum(cap)})`;
   }
 
   const catTabs = $("barnCatTabs");
@@ -3126,15 +3291,16 @@ function renderBarn() {
       { id: "equip", label: "Экипировка и оружие", icon: "swords" },
       { id: "weapon", label: "Оружие", icon: "swords" },
       { id: "armor", label: "Броня и латы", icon: "shield" },
-      { id: "farm", label: "Сырьё и добыча", icon: "forest" },
-      { id: "potion", label: "Алхимия и Зелья", icon: "sanitizer" },
-      { id: "blueprint", label: "Чертежи", icon: "token" },
+      { id: "farm", label: "Сырьё · Soon", icon: "forest" },
+      { id: "potion", label: "Зелья · Soon", icon: "sanitizer" },
+      { id: "blueprint", label: "Чертежи · Soon", icon: "token" },
     ];
     catTabs.innerHTML = tabs
       .map((tab) => {
         const on = state.barnCatFilter === tab.id;
         const count = barnKindCount(tab.id);
-        return `<button type="button" data-barn-cat="${tab.id}" class="w-full flex-1 flex items-center justify-between px-2.5 py-1.5 rounded-lg ${on ? "bg-primary-container text-on-primary-container shadow-sm" : "bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface"} font-label-md text-label-md transition-colors"><span class="flex items-center gap-2 truncate"><span class="material-symbols-outlined text-[18px]">${tab.icon}</span><span class="truncate ${on ? "font-bold" : ""}">${tab.label}</span></span><span class="px-2 py-0.5 ${on ? "bg-on-primary-container/20" : "bg-surface-container-highest"} rounded-md font-stat-numeral text-[12px] flex-shrink-0">${formatSheetNum(count)}</span></button>`;
+        const countLabel = BARN_SOON_KINDS.has(tab.id) ? "Soon" : formatSheetNum(count);
+        return `<button type="button" data-barn-cat="${tab.id}" class="w-full flex-1 flex items-center justify-between px-2.5 py-1.5 rounded-lg ${on ? "bg-primary-container text-on-primary-container shadow-sm" : "bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface"} font-label-md text-label-md transition-colors"><span class="flex items-center gap-2 truncate"><span class="material-symbols-outlined text-[18px]">${tab.icon}</span><span class="truncate ${on ? "font-bold" : ""}">${tab.label}</span></span><span class="px-2 py-0.5 ${on ? "bg-on-primary-container/20" : "bg-surface-container-highest"} rounded-md font-stat-numeral text-[12px] flex-shrink-0">${countLabel}</span></button>`;
       })
       .join("");
   }
@@ -3151,47 +3317,33 @@ function renderBarn() {
   if (search && document.activeElement !== search) search.value = state.barnSearch || "";
 
   const filtered = barnFilteredItems();
-  if (!state.barnFocus || !filtered.some((x) => x.id === state.barnFocus)) {
+  const soonEmpty = BARN_SOON_KINDS.has(state.barnCatFilter);
+  if (!soonEmpty && (!state.barnFocus || !filtered.some((x) => x.id === state.barnFocus))) {
     state.barnFocus = filtered[0]?.id || null;
   }
-  const focus = state.barnCatalog.find((x) => x.id === state.barnFocus) || filtered[0] || null;
+  const focus = soonEmpty
+    ? null
+    : (state.barnCatalog.find((x) => x.id === state.barnFocus) || filtered[0] || null);
 
-  const grid = $("barnGrid");
+  let grid = $("barnGrid");
   if (grid) {
-    const pageItems = filtered.slice(0, BARN_PAGE_SIZE);
-    grid.innerHTML = pageItems
-      .map((item) => {
-        const on = item.id === state.barnFocus;
-        const border = barnRarityBorder(item.rarity);
-        const badge = item.enhance
-          ? `+${item.enhance}`
-          : item.qty > 1
-            ? `×${formatSheetNum(item.qty)}`
-            : (BARN_RARITY_RU[item.rarity] || "·").slice(0, 1);
-        return `<button type="button" data-barn-item="${item.id}" class="aspect-square rounded-xl bg-surface-container-lowest p-1 flex flex-col items-center justify-center cursor-pointer transition-colors border ${border} ${on ? "ring-2 ring-primary" : "hover:border-primary/40"} relative overflow-hidden" title="${item.name}">
-          <img alt="" class="w-full h-full object-contain rounded-lg" src="${item.iconSrc}"/>
-          <span class="absolute top-0.5 left-0.5 px-1 rounded bg-surface-container-lowest/90 font-stat-numeral text-[9px] text-primary">${badge}</span>
-          <span class="absolute bottom-0 left-0 right-0 px-0.5 py-0.5 bg-surface-container-lowest/90 font-label-sm text-[8px] text-on-surface truncate text-center">${item.name}</span>
-        </button>`;
-      })
-      .join("");
+    grid = ensureBarnGridShell(grid);
+    if (soonEmpty) {
+      grid.style.gridAutoRows = "";
+      grid.innerHTML = `<div class="col-span-6 p-4 rounded-xl border border-dashed border-outline-variant/40 text-center text-on-surface-variant text-sm">Phase 6 · Soon — не live loop на SL</div>`;
+    } else {
+      grid.innerHTML = filtered.map(barnItemCellHtml).join("");
+      layoutBarnGrid(grid);
+    }
   }
 
-  renderBarnInspector(focus);
+  if (root.dataset.inspectOpen === "1" && focus) {
+    renderBarnInspector(focus);
+  } else if (root.dataset.inspectOpen === "1") {
+    renderBarnInspector(null);
+  }
 }
 
-
-/** Default home loadout: full grey armor (weapons are class-gated). */
-const HOME_STITCH_DEFAULTS = {
-  helm: "grey_helm",
-  armor: "grey_armor",
-  cloak: "grey_cloak",
-  boots: "grey_boots",
-  weapon: null,
-  shield: null,
-  belt: "grey_belt",
-  ring: null,
-};
 
 /** Visual order on Stitch mannequin: left 4, then right 4. */
 const HOME_SLOT_VISUAL = ["weapon", "cloak", "belt", "ring", "helm", "armor", "shield", "boots"];
@@ -3269,15 +3421,6 @@ function ensureHomeStitchLoadout(catId) {
     const item = state.gearCatalog.find((g) => g.id === id);
     if (!item || !canEquipItem(catId, item)) eq[slot] = null;
   }
-  const any = HOME_SLOT_ORDER.some((slot) => eq[slot]);
-  if (!any) {
-    for (const [slot, id] of Object.entries(HOME_STITCH_DEFAULTS)) {
-      if (!id) continue;
-      const item = state.gearCatalog.find((g) => g.id === id);
-      if (item && canEquipItem(catId, item)) eq[slot] = id;
-    }
-  }
-  state.homeSeededEquip = { ...(state.homeSeededEquip || {}), [catId]: true };
 }
 
 function homeRarityTone(rarity) {
@@ -3601,7 +3744,9 @@ function renderHomeBag(cat) {
     /Склад:/i.test(el.textContent || ""),
   );
   if (label) {
-    label.innerHTML = `Склад: <span class="text-primary font-stat font-bold">${state.gearCatalog.length}</span>/96`;
+    const used = barnStockUsed();
+    const cap = state.barnCapMax || 96;
+    label.innerHTML = `Склад: <span class="text-primary font-stat font-bold">${used}</span>/${formatSheetNum(cap)}`;
   }
 }
 
@@ -4267,37 +4412,18 @@ function bindNursery() {
   });
 }
 
-/** Fill craft «Склад Сырья» from barn farm/potion stacks. */
+/** Craft «Склад Сырья» — Phase 6 Soon tip (not live mats from barn). */
 function renderCraftStock() {
   const root = $("viewCraft");
   if (!root) return;
   const head = [...root.querySelectorAll("span")].find((el) => /Склад Сырья/i.test(el.textContent || ""));
   const card = head?.closest(".p-space-md, .rounded-xl");
   if (!card) return;
-  const mats = (state.barnCatalog || []).filter((x) => x.kind === "farm" || x.kind === "potion");
-  const used = mats.reduce((s, x) => s + (x.qty || 0), 0);
-  const capLabel = [...card.querySelectorAll("span")].find((el) => /\d+\s*\/\s*\d+/.test(el.textContent || "") && el !== head);
-  if (capLabel) capLabel.textContent = `${formatSheetNum(used)} / 2,500`;
+  const capLabel = [...card.querySelectorAll("span")].find((el) => /\d+\s*\/\s*\d+|Soon/i.test(el.textContent || "") && el !== head);
+  if (capLabel) capLabel.textContent = "Soon · Phase 6";
   const list = card.querySelector(".flex.flex-col.gap-space-xs");
   if (!list) return;
-  list.innerHTML = mats
-    .map((item) => {
-      const max = Math.max(item.qty || 1, 500);
-      const pct = Math.min(100, Math.round(((item.qty || 0) / max) * 100));
-      return `<div class="p-space-xs rounded-lg bg-surface-container flex flex-col gap-1">
-        <div class="flex items-center justify-between gap-2">
-          <span class="font-label-sm text-label-sm text-on-surface flex items-center gap-1.5 min-w-0">
-            ${item.iconSrc ? `<img alt="" src="${item.iconSrc}" class="w-5 h-5 object-contain"/>` : ""}
-            <span class="truncate">${item.name}</span>
-          </span>
-          <span class="font-stat-numeral text-stat-numeral text-[12px] text-on-surface shrink-0">${formatSheetNum(item.qty || 0)}</span>
-        </div>
-        <div class="w-full h-1.5 rounded-full bg-surface-container-lowest overflow-hidden">
-          <div class="h-full bg-primary rounded-full" style="width:${pct}%"></div>
-        </div>
-      </div>`;
-    })
-    .join("");
+  list.innerHTML = `<div class="p-space-sm rounded-lg border border-dashed border-outline-variant/40 text-on-surface-variant text-sm text-center">Сырьё алхимика — не live на SL. Боевой склад = route gear.</div>`;
 }
 
 function renderBreeding() {
@@ -6125,9 +6251,9 @@ function renderAll() {
   renderTabs();
 
   const lo = $("liveopsPill");
-  if (state.liveOps) {
+  if (lo && state.liveOps) {
     lo.textContent = `LiveOps v${state.liveOpsMeta.version} · ${state.liveOpsMeta.alg || "?"} · ${CLIENT_REGION}`;
-    lo.className = "status-pill ok";
+    lo.className = "status-pill mythfel-debug-pill ok";
   }
 
   const viewId = logicalViewId();
@@ -7242,14 +7368,18 @@ async function main() {
   $("bootMsg").textContent = "Boot → LiveOps fetch…";
   try {
     loadProgress();
+    loadGearStub();
     await loadLoc();
     await bootLiveOps();
     await loadCampaign();
     await bootStarterGrant();
+    await bootGearCatalog();
     const battleOk = await checkBattle();
     const bp = $("battlePill");
-    bp.textContent = battleOk ? "Battle :8081 OK" : "Battle DOWN";
-    bp.className = `status-pill ${battleOk ? "ok" : "bad"}`;
+    if (bp) {
+      bp.textContent = battleOk ? "Battle :8081 OK" : "Battle DOWN";
+      bp.className = `status-pill mythfel-debug-pill ${battleOk ? "ok" : "bad"}`;
+    }
     // /home = login/register desk. Root (and Amvera) open the main hub with portals — no login hop.
     if (loginAddressOpen()) {
       state.loggedIn = false;
@@ -7265,8 +7395,11 @@ async function main() {
     navigate(bootTabAfterLogin());
   } catch (err) {
     $("bootMsg").textContent = `Boot fail: ${err.message}. Подними CDN :8090 и battle :8081 (см. README).`;
-    $("liveopsPill").textContent = "LiveOps FAIL";
-    $("liveopsPill").className = "status-pill bad";
+    const loFail = $("liveopsPill");
+    if (loFail) {
+      loFail.textContent = "LiveOps FAIL";
+      loFail.className = "status-pill mythfel-debug-pill bad";
+    }
     console.error(err);
   }
 }

@@ -127,10 +127,14 @@ function renderUI(state) {
   const scrollLeft = track ? track.scrollLeft : 0;
   const max = passMax || (passLevels[passLevels.length - 1]?.level ?? 50);
 
-  document.getElementById('goldStat').textContent = fmt(user.gold);
+  const goldEl = document.getElementById('goldStat');
+  if (goldEl) goldEl.textContent = fmt(user.gold);
   const fishEl = document.getElementById('fishStat');
   if (fishEl) fishEl.textContent = fmt(user.fish);
-  document.getElementById('energyStat').textContent = `${user.energy}/${user.maxEnergy}`;
+  const energyEl = document.getElementById('energyStat');
+  if (energyEl) energyEl.textContent = `${user.energy}/${user.maxEnergy}`;
+  const crystalEl = document.getElementById('crystalStat');
+  if (crystalEl && user.crystals != null) crystalEl.textContent = fmt(user.crystals);
   document.getElementById('levelBadge').textContent = `УР. ${user.level}`;
   document.getElementById('xpLabel').textContent = `${fmt(user.xp)} / ${fmt(user.maxXp)} XP`;
   const pct = Math.min(100, (user.xp / user.maxXp) * 100);

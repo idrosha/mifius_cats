@@ -296,19 +296,20 @@ Server validates all purchases.
 
 1. `Boot` → patch/LiveOps fetch  
 2. `Title` / login  
-3. `Hub` chrome: primary (Персонаж · Бои · Торговля · Гильдии · Чаты · Боевой пасс · Рейтинги) + subtabs; PvE map = **Мифмир**  
+3. `Hub` chrome: **один** shared header (`#appNav` / `#appSubTabs`, web-hud; `D-029`). Primary: **СЕЗОН** · **МИФМИР** · **ДОМ ХРАНИТЕЛЯ** · **БОИ** · **ТОРГОВЛЯ** · **ГИЛЬДИЯ** + subtabs (канон `docs/nav-ia.md`). Дефолт Дома = `home` (персонаж); `farm` = Soon. Чаты / рейтинги / кодекс — subtabs под Гильдия (распил primary — later). PvE map = **Мифмир**  
 4. `YardMap` (Мифмир) → Formation 3v3 → `Battle`; рейд/легион — отдельный экран  
 5. `PvPMenu` (Дуэли/Арена) → matchmaking → `Battle`  
 6. `Collection` (cats, presets×5, pendants/bows)  
-7. `Shop` (yarn/IAP, jars, pass, fish packs, breeding ingredients, **common_cat** ×2×6 = 12 SKU, grey R1 armor; battle_coin gear)
-7b. `Tavern` — молоко на льду (post-fight HP) + PvE/dungeon milk buffs; зелья крафтеров → market/auction
-7c. `Market` — seeds, tools, craft sell, **quick sell**
-7d. `Auction` — player listings (cats, gear, ingredients) at own price
+6b. `Склад` (`gear`) — амбар игрока: grid / фильтры / inspect / надеть; на SL = HUD stub (`D-028`); не «склад алхимика» (§4.4). Клиентский экип не SoT боя (§7.1 pendant/bow).  
+7. `Shop` (yarn/IAP, jars, pass, fish packs, breeding ingredients, **common_cat** ×2×6 = 12 SKU, grey R1 armor; battle_coin gear)  
+7b. `Tavern` — молоко на льду (post-fight HP) + PvE/dungeon milk buffs; зелья крафтеров → market/auction  
+7c. `Market` — seeds, tools, craft sell, **quick sell**  
+7d. `Auction` — player listings (cats, gear, ingredients) at own price  
 7e. `Codex` / `Login` / `Practice` — day-1 формы  
 7f. `Guild` + `GuildBattle` (GvG 3–12; SL: entry + tip, §4.5)  
 8. `Pass` (×2 XP + rank boxes + autofarm perk copy when ACTIVE)  
 8b. `Farm` Soon sheet — expanded zones incl. fishing + autofarm toggles (gated / stub; §4.4)  
-9. `Battle` HUD: board 3+3, hand, energy, milk, keep, end turn, potion tray; **ход противника (VFX, все режимы):** 6 карт атаки **рубашкой** к игроку (сброс/бросок), затем карты исчезают — без раскрытия руки соперника  
+9. `Battle` HUD: board 3+3, hand, energy, milk, keep, end turn, potion tray; **ход противника (VFX, все режимы):** 6 карт атаки **рубашкой** к игроку (сброс/бросок), затем карты исчезают — без раскрытия руки соперника
 
 10. `Result` + rewards  
 11. `ReplayList` (10)  
@@ -328,7 +329,8 @@ pendantId?, bowByPart: {muzzle?, headwear?, back?, tail?},
 rarity, origin: starter|farm|jar|workshop|nursery
 ```
 `origin: farm` — инвентарный farm-cat (§5.1); на SL без crop-геймплея.  
-`origin: nursery` + `rarity: mythic` — мифик из скрещивания (§4.4.1); колода = N=6 сильнейших карт смеси родителей.
+`origin: nursery` + `rarity: mythic` — мифик из скрещивания (§4.4.1); колода = N=6 сильнейших карт смеси родителей.  
+**HUD Склад (`D-028`):** слоты `helm`/`armor`/… на soft launch — stub UI; SoT экипа = `pendantId` + `bowByPart`. Бой не читает клиентский warehouse.
 
 ### §7.2 CardDef (data-driven)
 ```
@@ -346,7 +348,8 @@ targetRule, tags[], effectOps[]  // DSL ops, не хардкод C#
 `class_mods, energy_table, milk_thresholds, mouse_hour, limits, pity, shop, season, feature_flags`
 
 ### §7.5 Player
-`userId, fish, yarn, scrap, medals, bowls, pvpTickets, passActiveUntil, cats[], presets[5], potions[], pendingAdsCap`
+`userId, fish, yarn, scrap, medals, bowls, pvpTickets, passActiveUntil, cats[], presets[5], potions[], pendingAdsCap`  
+**Warehouse (post-SL / D-028 follow-up):** `gear[]` (owned item instances) + equip map — отдельная backend-задача. На SL HUD stub; бой читает только `pendantId`/`bowByPart` (§7.1), не клиентский warehouse.
 
 ---
 

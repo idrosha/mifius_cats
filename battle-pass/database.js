@@ -111,7 +111,7 @@ const USER_LEVEL = 28;
 
 const db = {
   passMax: PASS_MAX,
-  user: { id: 1, gold: 8950, energy: 84, maxEnergy: 100, fish: 1420, level: USER_LEVEL, xp: 2450, maxXp: 3000 },
+  user: { id: 1, gold: 8950, energy: 84, maxEnergy: 100, fish: 1420, crystals: 350, level: USER_LEVEL, xp: 2450, maxXp: 3000 },
   seasonPreview: [
     { name: 'Багровая Броня Дракона', desc: 'Мифик-сет элитного пасса (ур. 28)', tag: 'МИФИК', icon: 'workspace_premium' },
     { name: 'Боевая Алхимия', desc: 'Эликсиры и сливки сезона', tag: 'РЕАГЕНТЫ', icon: 'science' },

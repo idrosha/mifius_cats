@@ -27,11 +27,18 @@
         <span class="mythfel-brand-mark" aria-hidden="true">🐾</span>
         <span class="mythfel-brand-text">
           <strong>МИФИУС</strong>
-          <span id="brandSub">Ур. 1 · Soft Launch</span>
+          <span id="brandSub">Mythfel Hearth</span>
         </span>
       </button>
       <nav id="appTabs" class="mythfel-primary" aria-label="Основные разделы"></nav>
       <div id="hudChrome" class="mythfel-chrome" aria-label="status">
+        <div id="navWallet" class="mythfel-nav-wallet" aria-label="Ресурсы">
+          <span title="Fish"><span class="material-symbols-outlined" aria-hidden="true">monetization_on</span><span id="navGold">0</span></span>
+          <span title="Bowls"><span class="material-symbols-outlined" aria-hidden="true">water_drop</span><span id="navMilk">0</span></span>
+          <span title="Tickets"><span class="material-symbols-outlined" aria-hidden="true">bolt</span><span id="navEnergy">0/0</span></span>
+          <span title="Yarn"><span class="material-symbols-outlined" aria-hidden="true">diamond</span><span id="navGems">0</span></span>
+        </div>
+        <span id="navRank" class="mythfel-nav-rank">Ур. 1 · Soft Launch</span>
         <div class="mythfel-social" aria-label="Соцсети">
           <a class="mythfel-social-btn" id="btnSocialTg" href="https://t.me/" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram">
             <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8-1.55 7.3c-.12.54-.43.67-.87.42l-2.4-1.77-1.16 1.12c-.13.13-.24.24-.49.24l.17-2.43 4.43-4.01c.19-.17-.04-.27-.3-.1l-5.48 3.45-2.36-.74c-.51-.16-.52-.51.11-.76l9.22-3.55c.43-.16.8.1.68.63z"/></svg>
@@ -41,8 +48,8 @@
           </a>
         </div>
         <button type="button" class="mythfel-logout" id="btnLogout" title="Выйти">Logout</button>
-        <div id="liveopsPill" class="status-pill">LiveOps…</div>
-        <div id="battlePill" class="status-pill">Battle…</div>
+        <div id="liveopsPill" class="status-pill mythfel-debug-pill" hidden>LiveOps…</div>
+        <div id="battlePill" class="status-pill mythfel-debug-pill" hidden>Battle…</div>
         <div class="locale-switch" id="localeSwitch"></div>
       </div>
     </div>
