@@ -36,16 +36,15 @@
     body { background-color: #161310; }
     .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 500, 'GRAD' 0, 'opsz' 24; }
     .fill-icon { font-variation-settings: 'FILL' 1, 'wght' 500, 'GRAD' 0, 'opsz' 24; }
-    ::-webkit-scrollbar { height: 6px; width: 6px; }
-    ::-webkit-scrollbar-thumb { background: #504535; border-radius: 999px; }
+    .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    .hide-scrollbar::-webkit-scrollbar { display: none; }
   </style>
   <script src="app.js" defer></script>
 </head>
-<body class="bg-bg font-nunito text-ink min-h-screen selection:bg-gold/30">
-  <!-- Header (LCP / first screen — no lazy) -->
+<body class="bg-bg font-nunito text-ink min-h-screen overflow-x-hidden selection:bg-gold/30">
   <header class="fixed top-0 inset-x-0 z-50 bg-panel/95 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.6)]">
     <div class="h-16 px-4 flex items-center justify-between gap-3">
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-2 shrink-0">
         <div class="w-9 h-9 rounded-lg bg-[#393430] flex items-center justify-center">
           <span class="material-symbols-outlined text-gold text-[22px]">pets</span>
         </div>
@@ -54,8 +53,18 @@
           <span class="text-[10px] uppercase tracking-widest text-muted">Mythfel Hearth</span>
         </div>
       </div>
-      <div class="flex items-center gap-2 text-sm">
-        <div class="hidden sm:flex items-center gap-1 bg-panelDeep px-2 py-1 rounded-lg">
+
+      <nav class="hidden xl:flex items-center gap-1 bg-panelDeep p-1 rounded-xl">
+        <a href="#" class="px-3 py-1 rounded-lg bg-[#d99b26] text-[#432c00] font-rubik font-bold text-xs tracking-wide shadow-[0_2px_8px_rgba(217,155,38,0.35)]">СЕЗОН</a>
+        <a href="#" class="px-3 py-1 rounded-lg text-muted hover:text-ink hover:bg-[#2e2926] font-rubik font-semibold text-xs tracking-wide transition-colors">МИФМИР</a>
+        <a href="#" class="px-3 py-1 rounded-lg text-muted hover:text-ink hover:bg-[#2e2926] font-rubik font-semibold text-xs tracking-wide transition-colors">ДОМ ХРАНИТЕЛЯ</a>
+        <a href="#" class="px-3 py-1 rounded-lg text-muted hover:text-ink hover:bg-[#2e2926] font-rubik font-semibold text-xs tracking-wide transition-colors">БОИ</a>
+        <a href="#" class="px-3 py-1 rounded-lg text-muted hover:text-ink hover:bg-[#2e2926] font-rubik font-semibold text-xs tracking-wide transition-colors">ТОРГОВЛЯ</a>
+        <a href="#" class="px-3 py-1 rounded-lg text-muted hover:text-ink hover:bg-[#2e2926] font-rubik font-semibold text-xs tracking-wide transition-colors">ГИЛЬДИЯ</a>
+      </nav>
+
+      <div class="flex items-center gap-2 text-sm shrink-0">
+        <div class="flex items-center gap-1 bg-panelDeep px-2 py-1 rounded-lg">
           <span class="material-symbols-outlined text-green text-[18px]">set_meal</span>
           <span id="fishStat" class="font-rubik font-bold">1,420</span>
         </div>
@@ -71,129 +80,140 @@
     </div>
   </header>
 
-  <main id="app" class="pt-16 opacity-0 transition-opacity duration-300">
-    <div class="relative min-h-[560px] p-4 flex flex-col gap-4"
+  <main id="app" class="pt-16 pb-6 opacity-0 transition-opacity duration-300">
+    <div class="relative min-h-[480px] p-3 sm:p-4 md:p-6 flex flex-col gap-3 sm:gap-4"
          style="background-color:#161310; background-image:linear-gradient(to top,#161310,rgba(22,19,16,.85)), radial-gradient(ellipse at top, rgba(253,186,69,.08), transparent 60%);">
 
-      <!-- Progress block -->
-      <section class="bg-panel/95 backdrop-blur-md rounded-xl p-4 shadow-xl flex flex-wrap items-center justify-between gap-4">
-        <div class="flex items-center gap-3">
-          <div class="relative w-14 h-14 rounded-xl bg-gradient-to-b from-[#d99b26] to-panelDeep flex items-center justify-center">
-            <span class="material-symbols-outlined text-gold text-[32px] fill-icon">shield_with_heart</span>
+      <!-- Progress -->
+      <section class="bg-panel/95 backdrop-blur-md rounded-xl p-3 sm:p-4 shadow-xl flex flex-col md:flex-row md:items-center md:justify-between gap-3 md:gap-4">
+        <div class="flex items-center gap-3 shrink-0">
+          <div class="relative w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-b from-[#d99b26] to-panelDeep flex items-center justify-center shrink-0">
+            <span class="material-symbols-outlined text-gold text-[28px] sm:text-[32px] fill-icon">shield_with_heart</span>
             <span id="levelBadge" class="absolute -bottom-1.5 bg-[#393430] px-1.5 py-0.5 rounded-full text-[10px] font-rubik font-extrabold text-gold">УР. 28</span>
           </div>
-          <div>
-            <div class="flex items-center gap-2">
-              <h1 class="font-rubik font-bold text-gold text-lg tracking-wide">ЛАПЫ СУДЬБЫ</h1>
+          <div class="min-w-0">
+            <div class="flex items-center gap-2 flex-wrap">
+              <h1 class="font-rubik font-bold text-gold text-base sm:text-lg md:text-xl tracking-wide">ЛАПЫ СУДЬБЫ</h1>
               <span class="bg-gold/20 text-gold text-[10px] font-bold px-1.5 py-0.5 rounded">СЕЗОН III</span>
             </div>
-            <p class="text-xs text-muted">Оружейная Чертогов Парящего Когтя</p>
+            <p class="text-[11px] sm:text-xs text-muted truncate">Оружейная Чертогов Парящего Когтя</p>
           </div>
         </div>
-        <div class="flex-1 min-w-[200px] max-w-md">
-          <div class="flex justify-between text-xs mb-1">
-            <span class="font-rubik font-semibold">Боевой Опыт Пропуска</span>
-            <span id="xpLabel" class="font-rubik font-bold text-gold">2,450 / 3,000 XP</span>
+
+        <div class="w-full md:flex-1 md:min-w-[200px] md:max-w-md">
+          <div class="flex justify-between text-[11px] sm:text-xs mb-1 gap-2">
+            <span class="font-rubik font-semibold truncate">Боевой Опыт Пропуска</span>
+            <span id="xpLabel" class="font-rubik font-bold text-gold shrink-0">2,450 / 3,000 XP</span>
           </div>
           <div class="h-3 bg-panelDeep rounded-full overflow-hidden p-0.5">
             <div id="xpBar" class="h-full rounded-full bg-gradient-to-r from-[#d99b26] via-gold to-[#ffdeae] shadow-[0_0_10px_rgba(253,186,69,0.7)] transition-all duration-200" style="width:81.6%"></div>
           </div>
         </div>
-        <button id="buyLevelsBtn" type="button"
-          class="flex items-center gap-1 bg-[#2e2926] hover:bg-[#3d3835] px-3 py-2 rounded-lg transition-all duration-200 active:scale-95 shadow">
-          <span class="material-symbols-outlined text-gold text-[18px]">add_circle</span>
-          <span class="font-rubik font-bold text-sm tracking-wide">+5 УРОВНЕЙ</span>
-        </button>
-      </section>
 
-      <!-- Battle Pass grid -->
-      <section class="bg-panel/90 backdrop-blur-md rounded-2xl p-4 shadow-2xl border border-line/40 overflow-x-auto">
-        <div class="flex gap-3 min-w-[720px]">
-          <div class="w-28 shrink-0 flex flex-col justify-between py-1 gap-2">
-            <div class="h-28 rounded-xl bg-panelDeep/90 border border-line/50 flex items-end p-2">
-              <div class="text-[11px] font-rubik font-bold uppercase text-muted flex items-center gap-1">
-                <span class="material-symbols-outlined text-gold text-[16px]">lock_open</span> Обычный
-              </div>
-            </div>
-            <div class="bg-panelDeep/90 px-2 py-1.5 rounded-xl border border-gold/40 text-center">
-              <span class="font-rubik text-[11px] font-bold text-gold uppercase">Уровни 25–32</span>
-            </div>
-            <div class="min-h-[144px] rounded-xl border-2 border-gold ring-2 ring-gold/40 bg-gradient-to-t from-[#d99b26]/40 to-panelDeep flex items-end p-2">
-              <div class="text-[11px] font-rubik font-bold uppercase text-gold flex items-center gap-1">
-                <span class="material-symbols-outlined text-gold text-[16px] fill-icon">workspace_premium</span> Элитный
-              </div>
-            </div>
+        <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
+          <div class="flex items-center gap-1 bg-panelDeep px-2.5 py-2 rounded-lg text-[11px] sm:text-xs shrink-0">
+            <span class="material-symbols-outlined text-[#ffb4a6] text-[16px]">hourglass_top</span>
+            <span class="font-rubik font-semibold whitespace-nowrap">14 дн.</span>
           </div>
-          <div id="passGrid" class="flex-1 grid grid-cols-8 gap-3"></div>
+          <button id="buyLevelsBtn" type="button"
+            class="flex items-center justify-center gap-1 bg-[#2e2926] hover:bg-[#3d3835] px-3 py-2 rounded-lg transition-all duration-200 active:scale-95 shadow">
+            <span class="material-symbols-outlined text-gold text-[18px]">add_circle</span>
+            <span class="font-rubik font-bold text-xs sm:text-sm tracking-wide whitespace-nowrap">+5 УРОВНЕЙ</span>
+          </button>
+          <button id="claimAllBtn" type="button"
+            class="flex items-center justify-center gap-1 bg-gradient-to-b from-gold via-[#d99b26] to-[#7f5700] text-[#432c00] px-3 py-2 rounded-lg font-rubik font-bold text-xs sm:text-sm shadow-[0_4px_16px_rgba(217,155,38,0.4)] hover:brightness-110 active:scale-95 transition-all duration-200">
+            <span class="material-symbols-outlined fill-icon text-[18px]">redeem</span>
+            ЗАБРАТЬ ВСЁ
+          </button>
         </div>
       </section>
 
-      <!-- Season rewards -->
-      <section class="bg-panel/95 backdrop-blur-md rounded-xl p-4 shadow-xl border border-gold/30">
-        <div class="flex items-center gap-2 mb-3 border-b border-line/40 pb-2">
-          <span class="material-symbols-outlined text-gold fill-icon">auto_awesome</span>
-          <h2 class="font-rubik font-bold text-gold uppercase tracking-wide text-lg">Что вы получите в этом сезоне</h2>
+      <!-- Reward track -->
+      <section class="relative bg-panel/90 backdrop-blur-md rounded-2xl p-2 sm:p-3 md:p-4 shadow-2xl border border-line/40">
+        <div class="flex items-center justify-between gap-2 mb-2 px-1">
+          <span id="passRangeLabel" class="font-rubik text-[11px] sm:text-xs font-bold text-gold uppercase tracking-wide">Уровни 1–50</span>
+          <div class="flex items-center gap-1">
+            <button id="passScrollPrev" type="button" aria-label="Назад"
+              class="w-9 h-9 rounded-lg bg-panelDeep border border-line/50 text-gold hover:bg-[#2e2926] active:scale-95 transition-all duration-200 flex items-center justify-center shadow">
+              <span class="material-symbols-outlined text-[22px]">chevron_left</span>
+            </button>
+            <button id="passScrollNext" type="button" aria-label="Вперёд"
+              class="w-9 h-9 rounded-lg bg-panelDeep border border-line/50 text-gold hover:bg-[#2e2926] active:scale-95 transition-all duration-200 flex items-center justify-center shadow">
+              <span class="material-symbols-outlined text-[22px]">chevron_right</span>
+            </button>
+          </div>
         </div>
-        <div id="seasonGrid" class="grid md:grid-cols-3 gap-3"></div>
+        <div id="passTrack" class="overflow-x-auto snap-x snap-mandatory hide-scrollbar overscroll-x-contain touch-pan-x scroll-smooth">
+          <div class="flex gap-2 sm:gap-3 w-max pr-2">
+            <aside class="sticky left-0 z-20 w-[88px] sm:w-28 shrink-0 flex flex-col justify-between py-1 gap-2 bg-panel/95 backdrop-blur-md rounded-xl p-1 shadow-[4px_0_16px_rgba(0,0,0,0.35)]">
+              <div class="h-24 sm:h-28 rounded-xl border border-line/50 bg-panelDeep flex flex-col items-center justify-center gap-1 p-2">
+                <span class="material-symbols-outlined text-gold text-[28px] sm:text-[32px]">lock_open</span>
+                <span class="text-[9px] sm:text-[11px] font-rubik font-bold uppercase text-muted text-center">Обычный</span>
+              </div>
+              <div class="bg-panelDeep/90 px-1 sm:px-2 py-1.5 rounded-xl border border-gold/40 text-center">
+                <span id="passLevelsBadge" class="font-rubik text-[9px] sm:text-[11px] font-bold text-gold uppercase leading-tight block">1–50</span>
+              </div>
+              <div class="min-h-[120px] sm:min-h-[144px] flex-1 rounded-xl border-2 border-gold ring-2 ring-gold/40 bg-gradient-to-b from-[#d99b26]/25 to-panelDeep flex flex-col items-center justify-center gap-1 p-2 shadow-[0_0_16px_rgba(253,186,69,0.35)]">
+                <span class="material-symbols-outlined text-gold text-[32px] sm:text-[36px] fill-icon">inventory_2</span>
+                <span class="text-[9px] sm:text-[11px] font-rubik font-bold uppercase text-gold text-center">Элитный</span>
+              </div>
+            </aside>
+            <div id="passGrid" class="flex gap-2 sm:gap-3"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Season -->
+      <section class="bg-panel/95 backdrop-blur-md rounded-xl p-3 sm:p-4 shadow-xl border border-gold/30">
+        <div class="flex items-center gap-2 mb-3 border-b border-line/40 pb-2">
+          <span class="material-symbols-outlined text-gold fill-icon shrink-0">auto_awesome</span>
+          <h2 class="font-rubik font-bold text-gold uppercase tracking-wide text-sm sm:text-base md:text-lg truncate">Что вы получите в этом сезоне</h2>
+        </div>
+        <div id="seasonGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3"></div>
       </section>
 
       <!-- Dungeons -->
-      <section class="bg-panel/95 backdrop-blur-md rounded-xl p-4 shadow-xl border border-line/40">
-        <div class="flex items-center gap-2 mb-3">
-          <span class="material-symbols-outlined text-gold fill-icon">swords</span>
-          <h2 class="font-rubik font-bold text-gold uppercase tracking-wide text-sm">Эксклюзивные сезонные данжи</h2>
+      <section class="bg-panel/95 backdrop-blur-md rounded-xl p-3 sm:p-4 shadow-xl border border-line/40">
+        <div class="flex items-center gap-2 mb-3 min-w-0">
+          <span class="material-symbols-outlined text-gold fill-icon shrink-0">swords</span>
+          <h2 class="font-rubik font-bold text-gold uppercase tracking-wide text-xs sm:text-sm truncate">Эксклюзивные сезонные данжи</h2>
         </div>
-        <div id="dungeonGrid" class="grid md:grid-cols-3 gap-3">
-          <div class="relative rounded-xl overflow-hidden border border-line/50 bg-panelDeep p-4 min-h-[120px] transition-all duration-200 hover:border-gold/50"
-               style="background-color:#110d0b; background-image:linear-gradient(to top,#110d0b,rgba(17,13,11,.85));">
-            <div class="font-rubik font-bold text-gold">Чертоги Парящего Когтя</div>
-            <p class="text-xs text-muted mt-1">PvE · ⚡ 12</p>
+        <div id="dungeonGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div class="relative rounded-xl overflow-hidden border border-line/50 bg-panelDeep p-3 sm:p-4 min-h-[120px] transition-all duration-200 hover:border-gold/50"
+               style="background-color:#110d0b;">
+            <div class="font-rubik font-bold text-gold text-sm sm:text-base truncate">Чертоги Парящего Когтя</div>
+            <p class="text-xs text-muted mt-1 line-clamp-2">PvE · ⚡ 12</p>
             <button type="button" data-dungeon="claw" data-cost="12"
-              class="dungeon-btn mt-3 flex items-center gap-1 bg-[#2e2926] hover:bg-[#3d3835] px-3 py-1.5 rounded-lg text-sm font-rubik font-bold transition-all duration-200 active:scale-95 border border-line/40">
+              class="dungeon-btn mt-3 min-h-[44px] flex items-center gap-1 bg-[#2e2926] hover:bg-[#3d3835] px-3 py-2 rounded-lg text-sm font-rubik font-bold transition-all duration-200 active:scale-95 border border-line/40">
               <span class="material-symbols-outlined text-green text-[16px]">bolt</span> В данж
             </button>
           </div>
-          <div class="relative rounded-xl overflow-hidden border border-line/50 bg-panelDeep p-4 min-h-[120px] transition-all duration-200 hover:border-gold/50"
+          <div class="relative rounded-xl overflow-hidden border border-line/50 bg-panelDeep p-3 sm:p-4 min-h-[120px] transition-all duration-200 hover:border-gold/50"
                style="background-color:#110d0b;">
-            <div class="font-rubik font-bold text-gold">Рудники Мяу-Кары</div>
-            <p class="text-xs text-muted mt-1">Рейд 3v3 · ⚡ 16</p>
+            <div class="font-rubik font-bold text-gold text-sm sm:text-base truncate">Рудники Мяу-Кары</div>
+            <p class="text-xs text-muted mt-1 line-clamp-2">Рейд 3v3 · ⚡ 16</p>
             <button type="button" data-dungeon="mine" data-cost="16"
-              class="dungeon-btn mt-3 flex items-center gap-1 bg-[#2e2926] hover:bg-[#3d3835] px-3 py-1.5 rounded-lg text-sm font-rubik font-bold transition-all duration-200 active:scale-95 border border-line/40">
+              class="dungeon-btn mt-3 min-h-[44px] flex items-center gap-1 bg-[#2e2926] hover:bg-[#3d3835] px-3 py-2 rounded-lg text-sm font-rubik font-bold transition-all duration-200 active:scale-95 border border-line/40">
               <span class="material-symbols-outlined text-green text-[16px]">bolt</span> В рейд
             </button>
           </div>
-          <div class="relative rounded-xl overflow-hidden border border-gold/60 bg-panelDeep p-4 min-h-[120px] shadow-[0_0_16px_rgba(253,186,69,0.3)] transition-all duration-200"
+          <div class="relative rounded-xl overflow-hidden border border-gold/60 bg-panelDeep p-3 sm:p-4 min-h-[120px] shadow-[0_0_16px_rgba(253,186,69,0.3)] transition-all duration-200 md:col-span-2 lg:col-span-1"
                style="background-color:#110d0b;">
-            <div class="font-rubik font-bold text-gold flex items-center gap-1">
-              <span class="material-symbols-outlined text-gold text-[20px]">local_fire_department</span>
-              Логово Архипса Дога
+            <div class="font-rubik font-bold text-gold text-sm sm:text-base flex items-center gap-1 min-w-0">
+              <span class="material-symbols-outlined text-gold text-[18px] sm:text-[20px] shrink-0">local_fire_department</span>
+              <span class="truncate">Логово Архипса Дога</span>
             </div>
-            <p class="text-xs text-muted mt-1">Сезонный босс · ⚡ 20</p>
+            <p class="text-xs text-muted mt-1 line-clamp-2">Сезонный босс · ⚡ 20</p>
             <button type="button" data-dungeon="boss" data-cost="20"
-              class="dungeon-btn mt-3 flex items-center gap-1 bg-gradient-to-r from-gold to-[#d99b26] text-[#432c00] px-3 py-1.5 rounded-lg text-sm font-rubik font-bold transition-all duration-200 active:scale-95 shadow-[0_0_16px_rgba(253,186,69,0.9)]">
+              class="dungeon-btn mt-3 min-h-[44px] flex items-center gap-1 bg-gradient-to-r from-gold to-[#d99b26] text-[#432c00] px-3 py-2 rounded-lg text-sm font-rubik font-bold transition-all duration-200 active:scale-95 shadow-[0_0_16px_rgba(253,186,69,0.9)]">
               <span class="material-symbols-outlined text-[16px]">bolt</span> Штурм босса
             </button>
           </div>
         </div>
       </section>
-
-      <!-- Bottom dock -->
-      <section class="bg-panel/95 backdrop-blur-md rounded-xl p-4 shadow-xl flex flex-wrap items-center justify-between gap-3 mb-4">
-        <div class="flex flex-wrap gap-2 text-xs">
-          <span class="bg-panelDeep px-3 py-1.5 rounded-lg">Авто-сбор фермы <strong class="text-green">+15%</strong></span>
-          <span class="bg-panelDeep px-3 py-1.5 rounded-lg">Скорость крафта <strong class="text-gold">×1.25</strong></span>
-          <span class="bg-panelDeep px-3 py-1.5 rounded-lg">Доп. энергия <strong class="text-green">+20</strong></span>
-        </div>
-        <button id="claimAllBtn" type="button"
-          class="flex items-center gap-2 bg-gradient-to-b from-gold via-[#d99b26] to-[#7f5700] text-[#432c00] px-6 py-2.5 rounded-xl font-rubik font-bold shadow-[0_4px_16px_rgba(217,155,38,0.4)] hover:brightness-110 active:scale-95 transition-all duration-200">
-          <span class="material-symbols-outlined fill-icon">redeem</span>
-          ЗАБРАТЬ ВСЁ
-        </button>
-      </section>
     </div>
   </main>
 
-  <!-- Skeleton while loading -->
   <div id="skeleton" class="pt-20 px-4 animate-pulse">
     <div class="h-24 bg-panel rounded-xl mb-4"></div>
     <div class="h-72 bg-panel rounded-2xl mb-4"></div>

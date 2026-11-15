@@ -3,7 +3,7 @@
 const path = require('path');
 const express = require('express');
 const compression = require('compression');
-const { db } = require('./database');
+const { db, PASS_MAX } = require('./database');
 
 const PORT = process.env.PORT || 3847;
 const BUY_LEVELS_COST = 5000;
@@ -64,11 +64,14 @@ app.post('/api/claim-all', (_req, res) => {
 });
 
 app.post('/api/buy-levels', (_req, res) => {
+  if (db.user.level >= PASS_MAX) {
+    return res.status(400).json({ error: 'Достигнут максимум пропуска' });
+  }
   if (db.user.gold < BUY_LEVELS_COST) {
     return res.status(400).json({ error: 'Недостаточно золота (нужно 5000)' });
   }
   db.user.gold -= BUY_LEVELS_COST;
-  db.user.level += BUY_LEVELS_AMOUNT;
+  db.user.level = Math.min(PASS_MAX, db.user.level + BUY_LEVELS_AMOUNT);
   db.user.xp = 0;
   res.json(snapshot());
 });
