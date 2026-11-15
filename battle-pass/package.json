@@ -1,0 +1,17 @@
+{
+  "name": "mythfel-battle-pass-proto",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Standalone Battle Pass dashboard prototype (Express + Vanilla JS)",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "compression": "^1.7.5",
+    "express": "^4.21.2"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
