@@ -2,6 +2,7 @@
 
 Одна строка на изменение конфига/схемы (skill `docs/skills/liveops.md`).
 
+- 2026-11-18: HUD attack-card live overlay removed (D-038 Rejected); plate text stays baked — retake list `docs/stitch-prompts-d035-tank-support-retune.md`
 - 2026-11-17: HUD attack-card title/effect = live overlay from `data/card-effects.json` (D-038); regen via `scripts/gen-card-effects.py`
 - 2026-11-17: tank/support late-finish retune (D-035) — Tank A bash+poke; Tank B pierce↑ + backline cost 1; Support A smite + heal−; Support B finish lowest_hp; art plates unchanged (SoT = content JSON / wiki text)
 - v1: initial schemas + defaults §7.4 (energy §3.3, milk/mouse Phase1 §16, limits 3/5, pity 50/80, season 28d, SL feature_flags off, shop offers empty)
