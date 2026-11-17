@@ -33,8 +33,10 @@ const SCREENS = [
   { id: "formation", file: "formation.html", view: "viewFormation" }, // inline, not Бои subtab
   { id: "battle", file: "battle.html", view: "viewBattle" },
   { id: "result_win", file: "result_win.html", view: "viewResultWin" },
-  // Practice/PvE victory hall (painted) — shown after p1_win
+  // Practice victory hall (painted) — shown after practice p1_win
   { id: "victory_hall", file: "victory_hall.html", view: "viewVictoryHall" },
+  // PvE expedition victory — Славная победа (MF-151)
+  { id: "pve_victory", file: "pve_victory.html", view: "viewPveVictory" },
   { id: "boss_dungeon", file: "boss_dungeon.html", view: "viewBossDungeon" },
   { id: "boss_raid", file: "boss_raid.html", view: "viewBossRaid" },
   { id: "pvp", file: "pvp.html", view: "viewPvp" },

@@ -40,6 +40,7 @@ const REQUIRED_VIEWS = [
   "viewResultWin",
   "viewResultLose",
   "viewVictoryHall",
+  "viewPveVictory",
   "viewPvp",
   "viewTradeHub",
   "viewShop",
@@ -129,6 +130,7 @@ const STITCH_SRC = [
   "yard.html",
   "pve_load.html",
   "pve_fight.html",
+  "pve_victory.html",
   "formation.html",
   "battle.html",
   "result_win.html",
@@ -499,6 +501,17 @@ ok(
     js.includes('pve_fight: "viewPveFight"') &&
     css.includes("#viewPveFight"),
   "viewPveFight missing 3-stage chapter form",
+);
+ok(
+  "painted PvE victory Славная победа (MF-151)",
+  html.includes('data-stitch="pve_victory"') &&
+    html.includes("viewPveVictory") &&
+    html.includes("pveVicNext") &&
+    /СЛАВНАЯ ПОБЕДА/.test(html) &&
+    js.includes("renderPveVictory") &&
+    js.includes('pve_victory: "viewPveVictory"') &&
+    css.includes("#viewPveVictory"),
+  "viewPveVictory missing expedition win form",
 );
 ok(
   "painted guild not placeholder",

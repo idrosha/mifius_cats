@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html class="dark" lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Славная победа PvE — Мифиус</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{primary:"#fdba45","primary-container":"#d99b26","on-primary":"#432c00",secondary:"#89d98c",surface:"#161310","on-surface":"#eae1db",outline:"#9d8f7b",background:"#161310"}}}};</script>
+<style>
+/* MF-151 PvE victory design source — live CSS in public/styles.css */
+html,body{margin:0;height:100%;background:#110d0b;color:#eae1db}
+.pve-vic{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:space-between}
+.pve-vic-backdrop{position:absolute;inset:0;z-index:0}
+.pve-vic-bg{width:100%;height:100%;object-fit:cover}
+.pve-vic-title{font-size:2rem;font-weight:800;color:#fdba45;text-align:center;text-transform:uppercase}
+/* expedition victory: squad cards + loot strip + next-level CTA */
+</style>
+</head>
+<body><main class="pve-vic mythfel-form-body" data-purpose="pve-victory">
+  <div class="pve-vic-backdrop" aria-hidden="true">
+    <img class="pve-vic-bg" alt="" src="/stitch-assets/pve-victory/bg.png"/>
+    <div class="pve-vic-shade"></div>
+  </div>
+
+  <header class="pve-vic-head">
+    <div class="pve-vic-badge">
+      <span class="material-symbols-outlined">military_tech</span>
+      <span id="pveVicBadge">ЭКСПЕДИЦИЯ ЗАВЕРШЕНА · 3/3 ВОЛНЫ ЗАЧИЩЕНО</span>
+      <span class="material-symbols-outlined">stars</span>
+    </div>
+    <div class="pve-vic-title-row">
+      <span class="pve-vic-flourish" aria-hidden="true"><span class="material-symbols-outlined">spa</span><i></i></span>
+      <h1 class="pve-vic-title" id="pveVicTitle">СЛАВНАЯ ПОБЕДА!</h1>
+      <span class="pve-vic-flourish is-flip" aria-hidden="true"><i></i><span class="material-symbols-outlined">spa</span></span>
+    </div>
+    <p class="pve-vic-lead" id="pveVicLead">Пит-Босс локации повержен! Ваши герои стяжали славу и сокровища Очага.</p>
+    <div class="pve-vic-metrics">
+      <span><span class="material-symbols-outlined">timer</span> <b id="pveVicTime">03:42</b></span>
+      <i aria-hidden="true">·</i>
+      <span><span class="material-symbols-outlined">sync</span> <b id="pveVicRounds">5 Раундов</b></span>
+      <i aria-hidden="true">·</i>
+      <span class="is-ok"><span class="material-symbols-outlined">favorite</span> <b id="pveVicLosses">0 Потерь</b></span>
+      <i aria-hidden="true">·</i>
+      <span class="is-mvp"><span class="material-symbols-outlined">workspace_premium</span> <b id="pveVicMvp">MVP: Слот #1</b></span>
+    </div>
+  </header>
+
+  <div class="pve-vic-squad" id="pveVicSlots">
+    <article class="pve-vic-card" data-role="support">
+      <div class="pve-vic-card-top">
+        <div><span class="pve-vic-slot">СЛОТ #3</span> <strong>ТЫЛ / ПОДДЕРЖКА</strong></div>
+        <em class="is-heal">Хил</em>
+      </div>
+      <div class="pve-vic-art">
+        <img alt="Мурка" src="/stitch-assets/cat-heroes/support-a.png"/>
+        <b id="pveVicName3">Мурка Родник</b>
+      </div>
+      <div class="pve-vic-stats">
+        <div><span>УРОН</span><b id="pveVicDmg3">1,240</b></div>
+        <div><span>ЩИТЫ</span><b id="pveVicShd3">850</b></div>
+        <div class="is-accent"><span>ЛЕЧЕНИЕ</span><b id="pveVicHeal3">3,420</b></div>
+      </div>
+      <div class="pve-vic-xp"><span>+850 XP</span><em>Ур. 18 → 19</em><i style="--xp:74%"></i></div>
+    </article>
+
+    <article class="pve-vic-card is-dps" data-role="dps">
+      <div class="pve-vic-card-top">
+        <div><span class="pve-vic-slot">СЛОТ #2</span> <strong>ЦЕНТР / ШТУРМОВИК</strong></div>
+        <em class="is-dps">Крит DPS</em>
+      </div>
+      <div class="pve-vic-art">
+        <img alt="Рыжик" src="/stitch-assets/cat-heroes/fighter-a.png"/>
+        <b id="pveVicName2">Рыжик Когти</b>
+      </div>
+      <div class="pve-vic-stats">
+        <div class="is-accent"><span>УРОН</span><b id="pveVicDmg2">14,860</b></div>
+        <div><span>ЩИТЫ</span><b id="pveVicShd2">320</b></div>
+        <div><span>ЛЕЧЕНИЕ</span><b id="pveVicHeal2">0</b></div>
+      </div>
+      <div class="pve-vic-xp is-dps"><span>+850 XP</span><em>Ур. 20 (MAX)</em><i style="--xp:100%"></i></div>
+    </article>
+
+    <article class="pve-vic-card is-mvp" data-role="tank">
+      <div class="pve-vic-mvp-tag"><span class="material-symbols-outlined">military_tech</span> MVP БОЯ</div>
+      <div class="pve-vic-card-top">
+        <div><span class="pve-vic-slot">СЛОТ #1</span> <strong>АВАНГАРД / ТАНК</strong></div>
+        <em class="is-tank">Таунт</em>
+      </div>
+      <div class="pve-vic-art">
+        <img alt="Барсик" src="/stitch-assets/cat-heroes/tank-a.png"/>
+        <b id="pveVicName1">Барсик Щит</b>
+      </div>
+      <div class="pve-vic-stats">
+        <div><span>УРОН</span><b id="pveVicDmg1">3,110</b></div>
+        <div class="is-accent"><span>ЩИТЫ</span><b id="pveVicShd1">9,640</b></div>
+        <div><span>ЛЕЧЕНИЕ</span><b id="pveVicHeal1">410</b></div>
+      </div>
+      <div class="pve-vic-xp"><span>+850 XP</span><em>Ур. 17 → 18</em><i style="--xp:48%"></i></div>
+    </article>
+  </div>
+
+  <footer class="pve-vic-foot">
+    <div class="pve-vic-loot">
+      <div>
+        <div class="pve-vic-loot-label">Добыча экспедиции</div>
+        <div class="pve-vic-currencies">
+          <span class="is-gold"><span class="material-symbols-outlined">monetization_on</span><b id="pveVicGold">+2,400</b></span>
+          <span class="is-gem"><span class="material-symbols-outlined">all_inclusive</span><b id="pveVicGems">+480</b></span>
+          <span class="is-dust"><span class="material-symbols-outlined">auto_awesome</span><b id="pveVicDust">+1,200</b></span>
+        </div>
+      </div>
+      <div>
+        <div class="pve-vic-loot-label">Предметы и свитки</div>
+        <div class="pve-vic-items">
+          <span class="material-symbols-outlined" title="Ларец">package_2</span>
+          <span class="material-symbols-outlined" title="Руда">diamond</span><small>15</small>
+          <span class="material-symbols-outlined" title="Родник">water_drop</span><small>25</small>
+          <span class="material-symbols-outlined" title="Свиток">history_edu</span><small>1</small>
+        </div>
+      </div>
+    </div>
+    <div class="pve-vic-actions">
+      <button type="button" class="pve-vic-btn" id="pveVicAgain"><span class="material-symbols-outlined">replay</span> <span>[R] ПОВТОРИТЬ</span></button>
+      <button type="button" class="pve-vic-btn" id="pveVicHub"><span class="material-symbols-outlined">meeting_room</span> <span>[ESC] В ХАБ</span></button>
+      <button type="button" class="pve-vic-next" id="pveVicNext">СЛЕДУЮЩИЙ УРОВЕНЬ <kbd>[ПРОБЕЛ]</kbd> <span class="material-symbols-outlined">arrow_forward</span></button>
+    </div>
+  </footer>
+</main></body>
+</html>

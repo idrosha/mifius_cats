@@ -6513,3 +6513,438 @@ body.mythfel-shell > #viewPveFight.stitch-view:not(.hidden) {
 @media (max-width: 900px) {
   #viewPveFight .pve-fight-grid { grid-template-columns: 1fr; }
 }
+
+/* =============================================================================
+ * MF-151 · #viewPveVictory — PvE expedition victory (Славная победа)
+ * D-025 hide nav/dock. No orientGate (D-036).
+ * ============================================================================= */
+body:has(#viewPveVictory:not(.hidden)) #appNav,
+body:has(#viewPveVictory:not(.hidden)) #appSubTabs,
+body:has(#viewPveVictory:not(.hidden)) #wireDock {
+  display: none !important;
+}
+body.mythfel-shell > #viewPveVictory.stitch-view:not(.hidden) {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  background: #110d0b;
+  color: #eae1db;
+}
+#viewPveVictory .pve-vic {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+  padding: 0.75rem 1.1rem 0.9rem;
+}
+#viewPveVictory .pve-vic-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+#viewPveVictory .pve-vic-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+#viewPveVictory .pve-vic-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(17, 13, 11, 0.82) 0%, rgba(17, 13, 11, 0.55) 40%, rgba(17, 13, 11, 0.92) 100%),
+    radial-gradient(circle at center, transparent 35%, rgba(17, 13, 11, 0.85) 100%);
+}
+#viewPveVictory .pve-vic-head,
+#viewPveVictory .pve-vic-squad,
+#viewPveVictory .pve-vic-foot {
+  position: relative;
+  z-index: 2;
+}
+#viewPveVictory .pve-vic-head {
+  flex: 0 0 auto;
+  text-align: center;
+}
+#viewPveVictory .pve-vic-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(46, 41, 38, 0.92);
+  color: #fdba45;
+  font-size: 0.68rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 0.35rem;
+}
+#viewPveVictory .pve-vic-badge .material-symbols-outlined { font-size: 1rem; }
+#viewPveVictory .pve-vic-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+#viewPveVictory .pve-vic-flourish {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: rgba(253, 186, 69, 0.6);
+}
+#viewPveVictory .pve-vic-flourish .material-symbols-outlined {
+  font-size: clamp(1.6rem, 2.8vw, 2.4rem);
+}
+#viewPveVictory .pve-vic-flourish i {
+  display: block;
+  width: clamp(2.5rem, 5vw, 5rem);
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(253, 186, 69, 0.55), #fdba45);
+}
+#viewPveVictory .pve-vic-flourish.is-flip {
+  transform: scaleX(-1);
+}
+#viewPveVictory .pve-vic-title {
+  margin: 0;
+  font-size: clamp(1.6rem, 3.2vw, 2.25rem);
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: linear-gradient(180deg, #ffdeae 0%, #fdba45 55%, #d99b26 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 4px 16px rgba(253, 186, 69, 0.45));
+}
+@media (max-width: 720px) {
+  #viewPveVictory .pve-vic-flourish { display: none; }
+}
+#viewPveVictory .pve-vic-lead {
+  margin: 0.35rem auto 0;
+  max-width: 40rem;
+  font-size: 0.85rem;
+  color: #d5c4af;
+}
+#viewPveVictory .pve-vic-metrics {
+  margin: 0.55rem auto 0;
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.45rem 0.7rem;
+  align-items: center;
+  padding: 0.3rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(17, 13, 11, 0.8);
+  font-size: 0.72rem;
+  color: #eae1db;
+}
+#viewPveVictory .pve-vic-metrics span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+#viewPveVictory .pve-vic-metrics .material-symbols-outlined { font-size: 0.95rem; color: #fdba45; }
+#viewPveVictory .pve-vic-metrics .is-ok { color: #89d98c; }
+#viewPveVictory .pve-vic-metrics .is-ok .material-symbols-outlined { color: #fdba45; }
+#viewPveVictory .pve-vic-metrics .is-mvp { color: #ffdeae; }
+#viewPveVictory .pve-vic-metrics i { font-style: normal; color: #504535; }
+#viewPveVictory .pve-vic-squad {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: min(72rem, 100%);
+  margin: 0.55rem auto;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+  align-items: stretch;
+}
+#viewPveVictory .pve-vic-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 0.7rem;
+  border-radius: 0.75rem;
+  background: rgba(35, 31, 28, 0.82);
+  border: 1px solid rgba(80, 69, 53, 0.55);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+}
+#viewPveVictory .pve-vic-card.is-dps {
+  border-color: rgba(255, 130, 108, 0.45);
+  box-shadow: 0 12px 32px rgba(255, 130, 108, 0.18);
+}
+#viewPveVictory .pve-vic-card.is-mvp {
+  border-color: rgba(253, 186, 69, 0.5);
+}
+#viewPveVictory .pve-vic-mvp-tag {
+  position: absolute;
+  top: -0.55rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: 999px;
+  background: #fdba45;
+  color: #432c00;
+  font-size: 0.62rem;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  z-index: 3;
+}
+#viewPveVictory .pve-vic-mvp-tag .material-symbols-outlined { font-size: 0.85rem; }
+#viewPveVictory .pve-vic-card-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.4rem;
+  align-items: center;
+  font-size: 0.72rem;
+}
+#viewPveVictory .pve-vic-slot {
+  display: inline-block;
+  padding: 0.1rem 0.4rem;
+  border-radius: 0.3rem;
+  background: #110d0b;
+  color: #fdba45;
+  font-size: 0.62rem;
+  font-weight: 750;
+  margin-right: 0.25rem;
+}
+#viewPveVictory .pve-vic-card-top em {
+  font-style: normal;
+  padding: 0.12rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  font-weight: 750;
+}
+#viewPveVictory .pve-vic-card-top em.is-heal {
+  background: #005b1e;
+  color: #a4f6a6;
+}
+#viewPveVictory .pve-vic-card-top em.is-dps {
+  background: #7c0a00;
+  color: #ffdad4;
+}
+#viewPveVictory .pve-vic-card-top em.is-tank {
+  background: #d99b26;
+  color: #432c00;
+}
+#viewPveVictory .pve-vic-art {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: 0.55rem;
+  overflow: hidden;
+  background: rgba(17, 13, 11, 0.75);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+#viewPveVictory .pve-vic-art img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+#viewPveVictory .pve-vic-art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 35%, rgba(17, 13, 11, 0.92) 100%);
+}
+#viewPveVictory .pve-vic-art b {
+  position: relative;
+  z-index: 1;
+  margin-bottom: 0.45rem;
+  font-size: 0.9rem;
+  color: #eae1db;
+}
+#viewPveVictory .pve-vic-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.25rem;
+  background: rgba(17, 13, 11, 0.85);
+  border-radius: 0.5rem;
+  padding: 0.35rem;
+}
+#viewPveVictory .pve-vic-stats > div {
+  text-align: center;
+  background: rgba(35, 31, 28, 0.7);
+  border-radius: 0.35rem;
+  padding: 0.25rem 0.15rem;
+}
+#viewPveVictory .pve-vic-stats span {
+  display: block;
+  font-size: 0.58rem;
+  color: #9d8f7b;
+  font-weight: 700;
+}
+#viewPveVictory .pve-vic-stats b {
+  display: block;
+  margin-top: 0.1rem;
+  font-size: 0.82rem;
+  color: #eae1db;
+}
+#viewPveVictory .pve-vic-stats .is-accent span,
+#viewPveVictory .pve-vic-stats .is-accent b { color: #fdba45; }
+#viewPveVictory .pve-vic-card[data-role="support"] .pve-vic-stats .is-accent span,
+#viewPveVictory .pve-vic-card[data-role="support"] .pve-vic-stats .is-accent b { color: #89d98c; }
+#viewPveVictory .pve-vic-card[data-role="dps"] .pve-vic-stats .is-accent span,
+#viewPveVictory .pve-vic-card[data-role="dps"] .pve-vic-stats .is-accent b { color: #ffb4a6; }
+#viewPveVictory .pve-vic-xp {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.15rem 0.5rem;
+  align-items: center;
+  font-size: 0.68rem;
+}
+#viewPveVictory .pve-vic-xp span { color: #ffdeae; font-weight: 750; }
+#viewPveVictory .pve-vic-xp em { font-style: normal; color: #9d8f7b; text-align: right; }
+#viewPveVictory .pve-vic-xp i {
+  grid-column: 1 / -1;
+  display: block;
+  height: 0.35rem;
+  border-radius: 999px;
+  background: #2e2926;
+  position: relative;
+  overflow: hidden;
+}
+#viewPveVictory .pve-vic-xp i::after {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: var(--xp, 50%);
+  background: linear-gradient(90deg, #d99b26, #fdba45);
+  border-radius: inherit;
+}
+#viewPveVictory .pve-vic-xp.is-dps i::after {
+  background: linear-gradient(90deg, #ff826c, #ffb4a6);
+}
+#viewPveVictory .pve-vic-foot {
+  flex: 0 0 auto;
+  width: min(72rem, 100%);
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.7rem 0.85rem;
+  border-radius: 0.75rem;
+  background: rgba(35, 31, 28, 0.9);
+  border: 1px solid rgba(80, 69, 53, 0.45);
+  backdrop-filter: blur(8px);
+}
+#viewPveVictory .pve-vic-loot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem 1.25rem;
+  align-items: center;
+}
+#viewPveVictory .pve-vic-loot-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9d8f7b;
+  font-weight: 750;
+  margin-bottom: 0.25rem;
+}
+#viewPveVictory .pve-vic-currencies,
+#viewPveVictory .pve-vic-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  align-items: center;
+}
+#viewPveVictory .pve-vic-currencies > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.45rem;
+  background: rgba(17, 13, 11, 0.8);
+  font-size: 0.85rem;
+  font-weight: 850;
+}
+#viewPveVictory .pve-vic-currencies .material-symbols-outlined { font-size: 1.1rem; }
+#viewPveVictory .pve-vic-currencies .is-gold { color: #ffdeae; }
+#viewPveVictory .pve-vic-currencies .is-gold .material-symbols-outlined { color: #fdba45; }
+#viewPveVictory .pve-vic-currencies .is-gem { color: #ffdad4; }
+#viewPveVictory .pve-vic-currencies .is-gem .material-symbols-outlined { color: #ffb4a6; }
+#viewPveVictory .pve-vic-currencies .is-dust { color: #a4f6a6; }
+#viewPveVictory .pve-vic-currencies .is-dust .material-symbols-outlined { color: #89d98c; }
+#viewPveVictory .pve-vic-items .material-symbols-outlined {
+  width: 2rem;
+  height: 2rem;
+  display: grid;
+  place-items: center;
+  border-radius: 0.45rem;
+  background: #393430;
+  color: #fdba45;
+  font-size: 1.15rem;
+}
+#viewPveVictory .pve-vic-items small {
+  margin-left: -0.55rem;
+  margin-top: 0.85rem;
+  font-size: 0.62rem;
+  font-weight: 850;
+  background: #110d0b;
+  border-radius: 0.25rem;
+  padding: 0 0.2rem;
+}
+#viewPveVictory .pve-vic-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  justify-content: flex-end;
+}
+#viewPveVictory .pve-vic-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  border: 0;
+  border-radius: 0.5rem;
+  padding: 0.55rem 0.75rem;
+  background: #393430;
+  color: #eae1db;
+  font-size: 0.72rem;
+  font-weight: 750;
+  cursor: pointer;
+}
+#viewPveVictory .pve-vic-btn .material-symbols-outlined { font-size: 1rem; }
+#viewPveVictory .pve-vic-next {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: 0;
+  border-radius: 0.55rem;
+  padding: 0.6rem 1rem;
+  font-size: 0.78rem;
+  font-weight: 850;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #432c00;
+  background: linear-gradient(180deg, #fdba45, #d99b26);
+  box-shadow: 0 4px 20px rgba(253, 186, 69, 0.35);
+  cursor: pointer;
+}
+#viewPveVictory .pve-vic-next kbd {
+  font-size: 0.62rem;
+  background: rgba(255, 222, 174, 0.35);
+  border-radius: 0.3rem;
+  padding: 0.1rem 0.35rem;
+}
+#viewPveVictory .pve-vic-next .material-symbols-outlined { font-size: 1.1rem; }
+@media (max-width: 900px) {
+  #viewPveVictory .pve-vic-squad { grid-template-columns: 1fr; }
+}

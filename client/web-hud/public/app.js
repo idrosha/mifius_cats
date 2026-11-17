@@ -914,8 +914,11 @@ function logicalViewId() {
     return "viewBattle";
   }
   if (state.battle?.result && state.lastResult) {
-    if (state.lastResult.result === "p1_win" && (state.battleMode === "practice" || state.battleMode === "pve")) {
+    if (state.lastResult.result === "p1_win" && state.battleMode === "practice") {
       return "viewVictoryHall";
+    }
+    if (state.lastResult.result === "p1_win" && state.battleMode === "pve") {
+      return "viewPveVictory";
     }
     if (state.lastResult.result === "p1_win" && state.battleMode === "pvp") {
       return "viewPvpVictory";
@@ -943,6 +946,7 @@ function logicalViewId() {
     pvp: "viewPvp",
     pve_load: "viewPveLoad",
     pve_fight: "viewPveFight",
+    pve_victory: "viewPveVictory",
     pvp_load: "viewPvpLoad",
     collection: "viewCollection",
     trade_hub: "viewTradeHub",
@@ -978,6 +982,7 @@ function logicalViewId() {
 function wireModeFor(viewId) {
   if (
     viewId === "viewVictoryHall" ||
+    viewId === "viewPveVictory" ||
     viewId === "viewPvpVictory" ||
     viewId === "viewResultWin" ||
     viewId === "viewResultLose" ||
@@ -5317,6 +5322,86 @@ function renderVictorySlots(squad) {
   if (root) root.dataset.vicActive = squad;
 }
 
+/** MF-151 · PvE expedition victory (Славная победа) — paint from design pack. */
+function renderPveVictory() {
+  const chapter = Math.max(1, Math.min(5, Number(state.pveChapter) || 1));
+  const data = pveChapterData(chapter);
+  const turn = state.battle?.turn || state.battle?.round || state.lastResult?.turn || 5;
+  const sec = Math.max(48, Math.min(240, (turn || 5) * 28));
+  const mm = String(Math.floor(sec / 60)).padStart(2, "0");
+  const ss = String(sec % 60).padStart(2, "0");
+  const setText = (id, value) => {
+    const el = $(id);
+    if (el) el.textContent = value;
+  };
+  setText("pveVicBadge", `ЭКСПЕДИЦИЯ ЗАВЕРШЕНА · 3/3 ВОЛНЫ ЗАЧИЩЕНО`);
+  setText("pveVicTitle", "СЛАВНАЯ ПОБЕДА!");
+  setText(
+    "pveVicLead",
+    `Пит-Босс «${data.bossName}» повержен! Ваши герои стяжали славу и сокровища Очага.`,
+  );
+  setText("pveVicTime", `${mm}:${ss}`);
+  setText("pveVicRounds", `${turn || 5} Раундов`);
+  setText("pveVicLosses", "0 Потерь");
+  setText("pveVicMvp", "MVP: Слот #1");
+  setText("pveVicGold", "+2,400");
+  setText("pveVicGems", "+480");
+  setText("pveVicDust", "+1,200");
+  // Prefer chapter boss hall as backdrop when present.
+  const bg = document.querySelector("#viewPveVictory .pve-vic-bg");
+  const bossArt = data.stages?.boss?.art;
+  if (bg && bossArt) bg.setAttribute("src", bossArt);
+  bindPveVictory();
+}
+
+function bindPveVictory() {
+  const root = $("viewPveVictory");
+  if (!root || root.dataset.bound === "1") return;
+  root.dataset.bound = "1";
+  const clearBattle = () => {
+    state.battle = null;
+    state.lastResult = null;
+  };
+  $("pveVicAgain")?.addEventListener("click", () => {
+    clearBattle();
+    state.battleMode = "pve";
+    openPveLoad();
+  });
+  $("pveVicHub")?.addEventListener("click", () => {
+    clearBattle();
+    state.battleMode = "";
+    navigate("battle_hub", { primary: "combat" });
+  });
+  $("pveVicNext")?.addEventListener("click", () => {
+    clearBattle();
+    state.battleMode = "pve";
+    // Advance stage within chapter, then chapter on boss clear (paint flow).
+    const order = PVE_STAGES;
+    const idx = order.indexOf(pveNormalizeStage(state.pveStage));
+    if (idx >= 0 && idx < order.length - 1) {
+      state.pveStage = order[idx + 1];
+    } else {
+      state.pveStage = "entrance";
+      state.pveChapter = Math.min(5, (Number(state.pveChapter) || 1) + 1);
+    }
+    openPveLoad();
+  });
+  document.addEventListener("keydown", (ev) => {
+    if (logicalViewId() !== "viewPveVictory") return;
+    if (ev.target.closest?.("input, textarea")) return;
+    if (ev.code === "Space") {
+      ev.preventDefault();
+      $("pveVicNext")?.click();
+    } else if (ev.code === "Escape") {
+      ev.preventDefault();
+      $("pveVicHub")?.click();
+    } else if (ev.code === "KeyR") {
+      ev.preventDefault();
+      $("pveVicAgain")?.click();
+    }
+  });
+}
+
 function renderVictoryHall() {
   const mode = state.battleMode;
   const turn = state.battle?.turn || state.battle?.round || 0;
@@ -7491,6 +7576,10 @@ function renderAll() {
   }
   if (viewId === "viewPvpVictory") {
     renderPvpVictory();
+    return;
+  }
+  if (viewId === "viewPveVictory") {
+    renderPveVictory();
     return;
   }
   if (viewId === "viewVictoryHall") {
