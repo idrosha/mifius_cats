@@ -3466,6 +3466,58 @@ body:has(#viewPvpFight:not(.hidden)) #app { height: 100dvh !important; max-heigh
   clip: rect(0, 0, 0, 0);
   border: 0;
 }
+/* D-038: live title/effect over baked parchment — covers old plate text */
+.mf-atk-card__overlay {
+  position: absolute;
+  left: 7%;
+  right: 7%;
+  bottom: 6%;
+  top: 58%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0.2rem;
+  padding: 0.35rem 0.4rem 0.45rem;
+  border-radius: 0.35rem;
+  background: linear-gradient(180deg, rgba(236, 214, 176, 0.94), rgba(220, 192, 150, 0.96));
+  box-shadow: inset 0 0 0 1px rgba(90, 55, 28, 0.22);
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+}
+.mf-atk-card__title {
+  font-size: clamp(0.55rem, 1.7vw, 0.72rem);
+  font-weight: 700;
+  color: #3a2414;
+  text-align: center;
+  line-height: 1.15;
+  flex: 0 0 auto;
+}
+.mf-atk-card__effect {
+  font-size: clamp(0.48rem, 1.45vw, 0.62rem);
+  color: #4a301c;
+  text-align: center;
+  line-height: 1.2;
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+.mf-atk-card__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.18rem;
+  justify-content: center;
+  flex: 0 0 auto;
+  margin-top: 0.1rem;
+}
+.mf-atk-card__chip {
+  font-size: clamp(0.42rem, 1.2vw, 0.52rem);
+  line-height: 1;
+  padding: 0.14rem 0.28rem;
+  border-radius: 0.2rem;
+  background: rgba(70, 48, 28, 0.16);
+  color: #3a2414;
+  font-weight: 600;
+}
 .mf-atk-card.mf-atk-card--text {
   display: flex;
   flex-direction: column;
@@ -3602,8 +3654,8 @@ body:has(#viewPracticeFight:not(.hidden)) #app {
   padding: 0;
   background: #231f1c;
 }
-#viewPracticeFight .pf-card.pf-card-art b,
-#viewPracticeFight .pf-card.pf-card-art span {
+#viewPracticeFight .pf-card.pf-card-art > b.mf-atk-card__meta,
+#viewPracticeFight .pf-card.pf-card-art > span.mf-atk-card__sub {
   position: absolute;
   width: 1px;
   height: 1px;

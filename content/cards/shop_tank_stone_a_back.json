@@ -1,14 +1,22 @@
 {
   "cost": 1,
-  "atk": 0,
-  "shield": 9,
-  "hits": 0,
-  "targetRule": "self",
+  "atk": 4,
+  "shield": 5,
+  "hits": 1,
+  "targetRule": "nearest",
   "tags": [
     "shield",
-    "taunt"
+    "taunt",
+    "attack"
   ],
-  "effectOps": [],
+  "effectOps": [
+    {
+      "op": "apply_status",
+      "status": "taunt",
+      "stacks": 1,
+      "duration": 1
+    }
+  ],
   "cardId": "card_shop_tank_stone_a_back",
   "name_key": "card.shop_tank_stone_a_back",
   "roleGate": "tank",

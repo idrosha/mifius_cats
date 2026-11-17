@@ -1,6 +1,6 @@
 {
   "cost": 1,
-  "atk": 2,
+  "atk": 3,
   "shield": 0,
   "hits": 1,
   "targetRule": "nearest",

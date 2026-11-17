@@ -10,7 +10,7 @@
   "effectOps": [
     {
       "op": "heal",
-      "amount": 6
+      "amount": 5
     }
   ],
   "cardId": "card_shop_support_water_a_eyes",

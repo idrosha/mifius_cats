@@ -79,7 +79,7 @@
 | `support` | Хил/чистота/бафф | — | `heal`/`cleanse`/`buff` |
 
 **Shop common (SL):** 6 классов × 2 варианта = **12** SKU (`common_cat`), у каждого свой **6-card kit** (§2.3, §6 Shop) — **72** attack cards total.  
-Варианты (EN id): tank A hard-def+aggro / tank B **armor pierce** (fragile/pierce, не raw ATK); fighter A dual+crit / B two-hand; assassin A evade+crit / B backline+crit; ranger A hunter any-target+crit / B heavy AoE; mage A fire AoE+crit+debuff / B ice AoE+freeze(1)+debuff; support A heal+cleanse / B heal+buff/debuff.
+Варианты (EN id): tank A hard-def+aggro (+guard bash / poke для finish) / tank B **armor pierce** (fragile/pierce, не raw ATK); fighter A dual+crit / B two-hand; assassin A evade+crit / B backline+crit; ranger A hunter any-target+crit / B heavy AoE; mage A fire AoE+crit+debuff / B ice AoE+freeze(1)+debuff; support A heal+cleanse (**+1** soft attack/smite) / B heal+buff/debuff (+finish). LiveOps retune `D-035`.
 
 **Пресет 3v3:** tank + (fighter\|assassin\|ranger\|mage) + support.  
 **Стартеры:** tank·stone, fighter·fire, support·water (`starter_tank_stone`, `starter_fighter_fire`, `starter_support_water`) — equal decks; shop common — доп. контент.

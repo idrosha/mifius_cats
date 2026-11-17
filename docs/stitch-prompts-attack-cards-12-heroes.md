@@ -65,9 +65,9 @@ Generate polished card art. Silhouette + cost gem + title must read at mobile th
 | Part | RU title | cost | target | numbers / tags |
 |---|---|---|---|---|
 | muzzle | Каменный оскал | 1 | self | shield 8 · `taunt` 2 |
-| headwear | Галька-шлем | 1 | self | shield 10 |
-| back | Щит-валун | 1 | self | shield 9 · taunt tag |
-| tail | Хвост-утёс | 1 | nearest | atk 4 · taunt tag (weak poke) |
+| headwear | Галька-шлем | 1 | self | shield 8 *(D-035; art may lag)* |
+| back | Щит-валун | 1 | nearest | atk 4 · shield 5 · taunt *(guard bash, D-035)* |
+| tail | Хвост-утёс | 1 | nearest | atk 6 · `fragile` 1 *(D-035)* |
 
 ```
 ATTACK CARDS — Mythfel / Мифиус — hero kit set.
@@ -106,9 +106,9 @@ Output: 4 card art plates (or one sheet with 4 labeled cards). Filenames: attack
 | Part | RU title | cost | target | numbers / tags |
 |---|---|---|---|---|
 | muzzle | Пробой когтем | 1 | nearest | atk 5 · `pierce` · `fragile` 2 |
-| headwear | Щит-осколок | 1 | self | shield 6 · `taunt` 2 |
-| back | Бронелом | 1 | nearest | atk 6 · `pierce` |
-| tail | Хвост-пробой | 2 | backline | atk 5 · pierce · `fragile` 1 |
+| headwear | Щит-осколок | 1 | self | shield 5 · `taunt` 2 *(D-035)* |
+| back | Бронелом | 1 | nearest | atk 7 · `pierce` *(D-035)* |
+| tail | Хвост-пробой | 1 | backline | atk 5 · pierce · `fragile` 1 *(D-035 cost 1)* |
 
 ```
 ATTACK CARDS — Mythfel / Мифиус — hero kit set.
@@ -482,10 +482,10 @@ Output: 4 card plates. Filenames: attack_shop_mage_ice_b_{muzzle|headwear|back|t
 
 | Part | RU title | cost | target | numbers / tags |
 |---|---|---|---|---|
-| muzzle | Капля жизни | 1 | ally_lowest_hp | heal 5 |
+| muzzle | Капля жизни | 1 | ally_lowest_hp | heal 4 *(D-035)* |
 | headwear | Чистый родник | 1 | ally_lowest_hp | heal 4 · `cleanse` |
-| back | Волна опеки | 2 | ally_all | heal 3 |
-| tail | Очищение | 1 | ally_lowest_hp | heal 4 · `cleanse` |
+| back | Волна опеки | 2 | ally_all | heal 2 *(D-035)* |
+| tail | Очищение | 1 | nearest | atk 4 · heal 2 self *(smite, D-035)* |
 
 ```
 ATTACK CARDS — Mythfel / Мифиус — hero kit set (heal/cleanse — no attack faces).
@@ -523,10 +523,10 @@ Output: 4 card plates. Filenames: attack_shop_support_water_a_{muzzle|headwear|b
 
 | Part | RU title | cost | target | numbers / tags |
 |---|---|---|---|---|
-| muzzle | Лёгкий хил | 1 | ally_lowest_hp | heal 4 |
+| muzzle | Лёгкий хил | 1 | ally_lowest_hp | heal 3 *(D-035)* |
 | headwear | Боевой настрой | 1 | ally_lowest_hp | ATK buff +2 for 2 |
-| back | Прилив силы | 2 | ally_all | heal 3 · shield 2 · ATK buff +1 (1) |
-| tail | Ослабить врага | 1 | nearest | atk 3 · `weak` 1 |
+| back | Прилив силы | 2 | ally_all | heal 2 · shield 2 · ATK buff +1 (1) *(D-035)* |
+| tail | Ослабить врага | 1 | lowest_hp | atk 5 · `weak` 1 *(finish, D-035)* |
 
 ```
 ATTACK CARDS — Mythfel / Мифиус — hero kit set.

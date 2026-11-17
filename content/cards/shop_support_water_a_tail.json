@@ -1,20 +1,18 @@
 {
   "cost": 1,
-  "atk": 0,
+  "atk": 4,
   "shield": 0,
-  "hits": 0,
-  "targetRule": "ally_lowest_hp",
+  "hits": 1,
+  "targetRule": "nearest",
   "tags": [
-    "heal",
-    "cleanse"
+    "attack",
+    "heal"
   ],
   "effectOps": [
     {
       "op": "heal",
-      "amount": 4
-    },
-    {
-      "op": "cleanse"
+      "amount": 2,
+      "target": "self"
     }
   ],
   "cardId": "card_shop_support_water_a_tail",

@@ -10,7 +10,7 @@
   "effectOps": [
     {
       "op": "heal",
-      "amount": 3
+      "amount": 2
     }
   ],
   "cardId": "card_shop_support_water_a_back",

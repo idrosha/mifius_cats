@@ -34,6 +34,22 @@ Append-only. Новые записи — **сверху** (после шабло
 
 ---
 
+## D-038 · 2026-11-17 · Attack-card text = live overlay (not baked art)
+
+- **Status:** Accepted
+- **Area:** hud | content | liveops
+- **SSOT:** `content/cards/*.json` → `scripts/gen-card-effects.py` → `client/web-hud/public/data/card-effects.json`
+- **Owner:** Andrew / web-hud
+
+### Context
+Баланс D-035 ломал цифры на PNG/WebP пластинах. Править 72 арта на каждый ретюн нельзя. Stitch без строки описания рисовал пустой пергамент. Id `D-036` уже занят phone landscape.
+
+### Decision
+Название / описание / чипы на attack-картах в HUD — **live overlay** поверх арта. Арт остаётся иллюстрацией+рамкой+cost gem; baked текст на пластине перекрывается пергамент-панелью. Каталог `card-effects.json` генерится из content JSON (`gen-card-effects.py`). Смена чисел → regenerate + deploy HUD, без регена арта.
+
+### Consequences
++ Баланс без Stitch. − Пока на арте виден старый текст под оверлеем при сбое CSS; позже можно вычистить пластины. Home deck + practice/PvP hand используют один helper.
+
 ## D-037 · 2026-11-17 · Cat-hero без фона только в live-бою
 
 - **Status:** Accepted
@@ -70,6 +86,30 @@ Web HUD на **телефоне** — только **landscape** (~16:9, цел�
 - Follow-up CSS только у MF-145 owner, пока задача открыта.
 
 ---
+
+
+## D-035 · 2026-11-17 · Tank/Support late-finish card retune
+
+- **Status:** Accepted
+- **Area:** liveops | content | battle
+- **SSOT:** docs/FULL-SPEC.md §2.1; `content/cards/shop_tank_stone_*`, `shop_support_water_*`
+- **Owner:** Andrew / content+liveops
+
+### Context
+Когда в конце боя остаются танк+хил, щит/heal ≫ poke (Tank A почти без ATK, Support A без атаки) → stall до Mouse Hour.
+
+### Decision
+Пакет **Recommended** (числа в content JSON; арт не регенерить — playable SoT = JSON + wiki text / HUD AP meta):
+- Tank A: shields −1…−2; `back` = guard bash atk4+shield5; `tail` atk6 + fragile 1
+- Tank B: pierce eyes 5 / back 7; headwear shield 5; `tail` backline **cost 1**
+- Support A: heal eyes 5 / muzzle 4 / back 2; `tail` = smite atk4 + heal 2 self (1 attack face)
+- Support B: muzzle heal 3; back heal 2; ears atk 3; `tail` atk 5 · `lowest_hp` · weak 1
+
+Роли читаются как раньше (A = wall/heal, B = pierce/buff); finish без превращения в DPS.
+
+### Consequences
++ Late tank+heal закрывается картами. − Цифры на старых PNG/WebP артов могут расходиться с SoT до регена арта. Practice stage `practice_dummy_1` синхронизирован.
+
 
 ## D-034 · 2026-11-17 · Practice lobby: танк всегда справа
 
