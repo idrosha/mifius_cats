@@ -1,9 +1,9 @@
 {
   "cost": 1,
-  "atk": 3,
+  "atk": 5,
   "shield": 0,
   "hits": 1,
-  "targetRule": "nearest",
+  "targetRule": "lowest_hp",
   "tags": [
     "attack",
     "buff"

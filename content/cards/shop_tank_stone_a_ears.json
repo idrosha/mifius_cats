@@ -1,7 +1,7 @@
 {
   "cost": 1,
   "atk": 0,
-  "shield": 5,
+  "shield": 4,
   "hits": 0,
   "targetRule": "ally_lowest_hp",
   "tags": [

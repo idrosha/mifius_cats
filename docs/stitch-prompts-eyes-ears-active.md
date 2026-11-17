@@ -51,10 +51,10 @@ SSOT: `eyes`/`ears` → cardId · **N=6** (`FULL-SPEC` §2.3). `card-count-axie.
 
 | # | Герой | templateId | Part | RU title | cost | target | numbers / tags | Зачем (vs старый пассив) |
 |---|---|---|---|---|---|---|---|---|
-| 1 | Танк A «Щит-утёс» | `shop_tank_stone_a` | eyes | Каменный взор | 1 | self | shield 7 | Бывший on-hit щит → явный spend |
-| 1 | | | ears | Уши валуна | 1 | ally | shield 5 · если у цели `taunt` → shield +3 | Бывший −10% входящего союзнику с taunt |
-| 2 | Танк B «Пробой» | `shop_tank_stone_b` | eyes | Трещина взора | 1 | nearest | atk 4 · `pierce` · `fragile` 1 | Бывший fragile-on-pierce |
-| 2 | | | ears | Чуткость бреши | 1 | nearest | atk 5 · `pierce` | Бывший +ATK vs щит → чуть сильнее poke |
+| 1 | Танк A «Щит-утёс» | `shop_tank_stone_a` | eyes | Каменный взор | 1 | self | shield 6 | D-035 late-finish retune |
+| 1 | | | ears | Уши валуна | 1 | ally | shield 4 | D-035 |
+| 2 | Танк B «Пробой» | `shop_tank_stone_b` | eyes | Трещина взора | 1 | nearest | atk 5 · `pierce` · `fragile` 1 | D-035 |
+| 2 | | | ears | Чуткость бреши | 1 | nearest | atk 5 · `pierce` | без изменений |
 | 3 | Боец A «Парные когти» | `shop_fighter_fire_a` | eyes | Искрящий взгляд | 1 | nearest | atk 3 · hits:2 · `bleed` 2 | Dual + порезы |
 | 3 | | | ears | Боевой слух | 1 | nearest | atk 4 · crit · `bleed` 1 · `ruffle`×1 | Бывший +E на крит → ruffle (без free energy) |
 | 4 | Боец B «Двуручный» | `shop_fighter_fire_b` | eyes | Яростный взор | 2 | nearest | atk 8 · `bleed` 2 | Тяжёлый порез (cost 2) |
@@ -71,22 +71,22 @@ SSOT: `eyes`/`ears` → cardId · **N=6** (`FULL-SPEC` §2.3). `card-count-axie.
 | 9 | | | ears | Треск искр | 1 | nearest | atk 3 · crit · `weak` 1 | Бывший weak с крита |
 | 10 | Маг B «Лёд» | `shop_mage_ice_b` | eyes | Ледяной взор | 2 | nearest | atk 3 · `stun` 1 | 2-й стан в ките, **cost 2** (есть cost-1 «Морозный укус») |
 | 10 | | | ears | Холодный слух | 1 | nearest | atk 3 · `weak` 2 | Добивание контроля |
-| 11 | Саппорт A «Чистый родник» | `shop_support_water_a` | eyes | Целительный взгляд | 1 | ally_lowest_hp | heal 6 | Бывший +10% low-HP → плоский heal 6 |
-| 11 | | | ears | Уши очищения | 1 | ally_lowest_hp | heal 3 · `cleanse`×2 | Усиленный cleanse |
-| 12 | Саппорт B «Прилив силы» | `shop_support_water_b` | eyes | Вдохновляющий взор | 1 | ally | ATK buff +2 · 3 хода | Бывший +1 длительности → длинный бафф |
-| 12 | | | ears | Шёпот слабости | 1 | nearest | atk 2 · `weak` 2 | Явный weak-spend |
+| 11 | Саппорт A «Чистый родник» | `shop_support_water_a` | eyes | Целительный взгляд | 1 | ally_lowest_hp | heal 5 | D-035 |
+| 11 | | | ears | Уши очищения | 1 | ally_lowest_hp | heal 3 · `cleanse`×2 | без изменений |
+| 12 | Саппорт B «Прилив силы» | `shop_support_water_b` | eyes | Вдохновляющий взор | 1 | ally | ATK buff +2 · 3 хода | без изменений |
+| 12 | | | ears | Шёпот слабости | 1 | nearest | atk 3 · `weak` 2 | D-035 |
 
 ### Баланс-чек (кратко)
 
 | Линия | Вывод |
 |---|---|
-| Tank A | Без нового ATK — только щиты; не конкурирует с DPS |
-| Tank B | +pierce poke; ATK 4–5 ниже «Бронелом» 6 |
+| Tank A | Wall + bash/poke (`D-035`); не DPS |
+| Tank B | pierce spike; backline cost 1 (`D-035`) |
 | Fighter A/B | Bleed вместо free energy/on-kill пассивов; B eyes cost 2 ≈ ниже «Молот жара» 11 |
 | Assassin | A = nearest stun+poison; B = backline poison+stun — не оба бьют фронт станом |
 | Ranger | A single-target CC; B AoE weak cost 2 (не спам) |
 | Mage | Fire soft CC; Ice второй stun дорогой |
-| Support | A без атаки; B weak слабее хвоста «Ослабить врага» (atk 2 vs 3, но weak×2) |
+| Support | A heal + 1 smite; B finish lowest_hp (`D-035`) |
 | Команда 3v3 | ~18 уникальных карт; энергия та же → пик DPS/ход не растёт линейно |
 
 ---

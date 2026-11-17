@@ -71,6 +71,29 @@ Web HUD на **телефоне** — только **landscape** (~16:9, цел�
 
 ---
 
+## D-035 · 2026-11-17 · Tank/Support late-finish card retune
+
+- **Status:** Accepted
+- **Area:** liveops | content | battle
+- **SSOT:** docs/FULL-SPEC.md §2.1; `content/cards/shop_tank_stone_*`, `shop_support_water_*`
+- **Owner:** Andrew / content+liveops
+
+### Context
+Когда в конце боя остаются танк+хил, щит/heal ≫ poke (Tank A почти без ATK, Support A без атаки) → stall до Mouse Hour.
+
+### Decision
+Пакет **Recommended** (числа в content JSON; арт не регенерить — playable SoT = JSON + wiki text / HUD AP meta):
+- Tank A: shields −1…−2; `back` = guard bash atk4+shield5; `tail` atk6 + fragile 1
+- Tank B: pierce eyes 5 / back 7; headwear shield 5; `tail` backline **cost 1**
+- Support A: heal eyes 5 / muzzle 4 / back 2; `tail` = smite atk4 + heal 2 self (1 attack face)
+- Support B: muzzle heal 3; back heal 2; ears atk 3; `tail` atk 5 · `lowest_hp` · weak 1
+
+Роли читаются как раньше (A = wall/heal, B = pierce/buff); finish без превращения в DPS.
+
+### Consequences
++ Late tank+heal закрывается картами. − Цифры на старых PNG/WebP артов могут расходиться с SoT до регена арта. Practice stage `practice_dummy_1` синхронизирован.
+
+
 ## D-034 · 2026-11-17 · Practice lobby: танк всегда справа
 
 - **Status:** Accepted

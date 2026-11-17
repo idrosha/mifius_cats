@@ -68,8 +68,8 @@
 
 | # | Герой | Роль / стиль | Глаза (карта) | Уши (карта) | Карточный кит (кратко) |
 |---|---|---|---|---|---|
-| 1 | **Танк A** «Щит-утёс» | tank · hard-def | **Каменный взор** — self shield 7 | **Уши валуна** — ally shield 5 (+3 если у цели `taunt`) | shield + taunt; слабый poke |
-| 2 | **Танк B** «Пробой» | tank · pierce | **Трещина взора** — atk 4 pierce · fragile 1 | **Чуткость бреши** — atk 5 pierce | pierce/fragile bash; 1 backline pierce cost 2 |
+| 1 | **Танк A** «Щит-утёс» | tank · hard-def | **Каменный взор** — self shield 6 | **Уши валуна** — ally shield 4 | shield + taunt + bash/poke (`D-035`) |
+| 2 | **Танк B** «Пробой» | tank · pierce | **Трещина взора** — atk 5 pierce · fragile 1 | **Чуткость бреши** — atk 5 pierce | pierce/fragile; backline pierce cost 1 (`D-035`) |
 | 3 | **Боец A** «Парные когти» | fighter · dual+crit | **Искрящий взгляд** — atk 3 ×2 · bleed 2 | **Боевой слух** — atk 4 crit · bleed 1 · ruffle | dual wield + crit; cost 1–2 |
 | 4 | **Боец B** «Двуручный» | fighter · two-hand | **Яростный взор** — atk 8 · bleed 2 (cost 2) | **Рёв стали** — atk 5 · fragile 1 · bleed 1 | heavy single (7–11); 1 backline smash |
 | 5 | **Ассасин A** «Тень» | assassin · stealth+crit | **Глаза мглы** — atk 3 · stun 1 | **Шёпот ветра** — atk 4 · poison 2 | crit + stealth evade |
@@ -78,8 +78,8 @@
 | 8 | **Стрелок B** «Град стрел» | ranger · AoE | **Широкий взор** — all_enemies atk 2 · weak 1 (cost 2) | **Дальний слух** — lowest_hp atk 4 · bleed 1 | heavy arrows `all_enemies` cost 2 |
 | 9 | **Маг A** «Огонь» | mage · fire AoE | **Пламенный зрачок** — atk 4 · vuln 1 | **Треск искр** — atk 3 crit · weak 1 | fire AoE + crit + debuff |
 | 10 | **Маг B** «Лёд» | mage · ice control | **Ледяной взор** — atk 3 · stun 1 (cost 2) | **Холодный слух** — atk 3 · weak 2 | ice AoE; freeze=`stun`1 + weak |
-| 11 | **Саппорт A** «Чистый родник» | support · heal/cleanse | **Целительный взгляд** — heal 6 ally_lowest_hp | **Уши очищения** — heal 3 · cleanse | pure heal + cleanse (без атаки) |
-| 12 | **Саппорт B** «Прилив силы» | support · heal/buff | **Вдохновляющий взор** — ATK buff +2 / 3 хода | **Шёпот слабости** — atk 2 · weak 2 | heal + atk buff + enemy `weak` |
+| 11 | **Саппорт A** «Чистый родник» | support · heal/cleanse | **Целительный взгляд** — heal 5 ally_lowest_hp | **Уши очищения** — heal 3 · cleanse | heal + cleanse + 1 smite (`D-035`) |
+| 12 | **Саппорт B** «Прилив силы» | support · heal/buff | **Вдохновляющий взор** — ATK buff +2 / 3 хода | **Шёпот слабости** — atk 3 · weak 2 | heal + buff + finish lowest_hp (`D-035`) |
 
 Числа карт — playable (FULL-SPEC / content); имена LOCKED для вики.
 
@@ -141,14 +141,16 @@
 
 #### Танк A «Щит-утёс»
 
-| Part | Карта | cost | Эффект на арте |
+Playable SoT = content (`D-035`); арт может показывать старые цифры.
+
+| Part | Карта | cost | Эффект (playable) |
 |---|---|---|---|
-| eyes | Каменный взор | 1 | self shield 7 *(gaps6)* |
-| ears | Уши валуна | 1 | ally shield 5 *(gaps6)* |
+| eyes | Каменный взор | 1 | self shield **6** |
+| ears | Уши валуна | 1 | ally shield **4** |
 | muzzle | Каменный оскал | 1 | shield 8 · таунт 2 |
-| headwear | Галька-шлем | 1 | shield 10 |
-| back | Щит-валун | 1 | shield 9 · таунт |
-| tail | Хвост-утёс | 1 | 4 nearest · таунт |
+| headwear | Галька-шлем | 1 | shield **8** |
+| back | Щит-валун | 1 | **atk 4 + shield 5** nearest · таунт *(bash)* |
+| tail | Хвост-утёс | 1 | **atk 6** nearest · хрупкость 1 |
 
 ![Каменный взор](attack-cards/01-tank-a-shit-utes/attack_shop_tank_stone_a_eyes.png)
 
@@ -164,14 +166,16 @@
 
 #### Танк B «Пробой»
 
-| Part | Карта | cost | Эффект на арте |
+Playable SoT = content (`D-035`); арт может показывать старые цифры.
+
+| Part | Карта | cost | Эффект (playable) |
 |---|---|---|---|
-| eyes | Трещина взора | 1 | 4 nearest · пробой · хрупкость 1 *(gaps6)* |
-| ears | Чуткость бреши | 1 | 5 nearest · пробой *(gaps6)* |
-| muzzle | Пробой когтем | 1 | 5 nearest · хрупкость 2 · Пробой |
-| headwear | Щит-осколок | 1 | shield 6 · таунт 2 |
-| back | Бронелом | 1 | 5 nearest · Пробой |
-| tail | Хвост-пробой | 2 | 5 тыл · пробой · хрупкость 1 |
+| eyes | Трещина взора | 1 | **atk 5** nearest · пробой · хрупкость 1 |
+| ears | Чуткость бреши | 1 | atk 5 nearest · пробой |
+| muzzle | Пробой когтем | 1 | atk 5 nearest · хрупкость 2 · пробой |
+| headwear | Щит-осколок | 1 | shield **5** · таунт 2 |
+| back | Бронелом | 1 | **atk 7** nearest · пробой |
+| tail | Хвост-пробой | **1** | atk 5 тыл · пробой · хрупкость 1 |
 
 ![Трещина взора](attack-cards/02-tank-b-proboy/attack_shop_tank_stone_b_eyes.png)
 
@@ -371,14 +375,16 @@
 
 #### Саппорт A «Чистый родник»
 
-| Part | Карта | cost | Эффект на арте |
+Playable SoT = content (`D-035`); арт может показывать старые цифры. 5/6 — heal; `tail` — smite.
+
+| Part | Карта | cost | Эффект (playable) |
 |---|---|---|---|
-| eyes | Целительный взгляд | 1 | heal 6 ally_lowest_hp |
+| eyes | Целительный взгляд | 1 | heal **5** ally_lowest_hp |
 | ears | Уши очищения | 1 | heal 3 ally_lowest_hp · очищение ×2 |
-| muzzle | Капля жизни | 1 | heal 5 слабейшему союзнику *(batch 5)* |
-| headwear | Чистый родник | 1 | heal 4 · снимает 1 дебафф *(batch 5)* |
-| back | Волна опеки | 2 | heal 3 всем союзникам *(batch 5)* |
-| tail | Очищение | 1 | heal 4 · снимает 1 дебафф *(batch 5)* |
+| muzzle | Капля жизни | 1 | heal **4** слабейшему союзнику |
+| headwear | Чистый родник | 1 | heal 4 · снимает 1 дебафф |
+| back | Волна опеки | 2 | heal **2** всем союзникам |
+| tail | Очищение | 1 | **atk 4** nearest · heal 2 self *(smite)* |
 
 ![Целительный взгляд](attack-cards/11-support-a-chistyy-rodnik/attack_shop_support_water_a_eyes.png)
 
@@ -394,14 +400,16 @@
 
 #### Саппорт B «Прилив силы»
 
-| Part | Карта | cost | Эффект на арте |
+Playable SoT = content (`D-035`); арт может показывать старые цифры.
+
+| Part | Карта | cost | Эффект (playable) |
 |---|---|---|---|
-| eyes | Вдохновляющий взор | 1 | ATK +2 союзнику на 3 хода *(batch 3)* |
-| ears | Шёпот слабости | 1 | 5 nearest · слабость 2 *(batch 3)* |
-| muzzle | Лёгкий хил | 1 | heal 4 раненому союзнику |
+| eyes | Вдохновляющий взор | 1 | ATK +2 союзнику на 3 хода |
+| ears | Шёпот слабости | 1 | **atk 3** nearest · слабость 2 |
+| muzzle | Лёгкий хил | 1 | heal **3** раненому союзнику |
 | headwear | Боевой настрой | 1 | ATK +2 союзнику на 2 хода |
-| back | Прилив силы | 2 | heal 3 всем · щит 2 · бафф ATK +1 |
-| tail | Ослабить врага | 1 | 3 nearest · слабость 1 |
+| back | Прилив силы | 2 | heal **2** всем · щит 2 · бафф ATK +1 |
+| tail | Ослабить врага | 1 | **atk 5** · lowest_hp · слабость 1 *(finish)* |
 
 ![Вдохновляющий взор](attack-cards/12-support-b-priliv-sily/attack_shop_support_water_b_eyes.png)
 

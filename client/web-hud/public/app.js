@@ -5679,7 +5679,6 @@ const ATTACK_CARD_COST2 = new Set([
   "card_shop_ranger_grass_b_tail",
   "card_shop_support_water_a_back",
   "card_shop_support_water_b_back",
-  "card_shop_tank_stone_b_tail",
 ]);
 
 function deckShopTemplate(templateId) {
