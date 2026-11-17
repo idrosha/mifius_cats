@@ -6484,7 +6484,8 @@ function renderPracticeFight() {
   paintSlots("#pfEnemies", enemies);
   syncOppThrowFromBattle(diff);
   const hand = document.querySelector("#viewPracticeFight #pfHand");
-  const liveCards = diff.hand || [];
+  // Display order = visual hero order (тыл→авангард), not sim lane 0→2.
+  const liveCards = sortHandByVisualLanes(diff.hand || [], diff.units || []);
   if (hand) {
     hand.removeAttribute("data-pf-hand-static");
     hand.classList.add("mf-attack-hand");
@@ -8609,42 +8610,33 @@ function startPracticeLoadSync() {
   }, 110);
 }
 
-/** Paint full-body squad + dummies onto practice load arena (MF-148). */
+/**
+ * Practice load uses painted cinematic arena art — no hero/dummy card overlay (MF-158).
+ * PvP load still paints full-body figures via renderPvpLoad (MF-148).
+ */
 function renderPracticeLoadFigures() {
   const allyBox = $("dojoLoadAllies");
   const enemyBox = $("dojoLoadEnemies");
-  if (!allyBox && !enemyBox) return;
-  ensurePracticeSquadState();
-  const allies = PRACTICE_VISUAL_LANES.map((laneIdx) => {
-    const tid = state.practiceSquad[laneIdx];
-    return practiceHeroByTemplate(tid);
-  }).filter(Boolean);
-  if (allyBox) {
-    allyBox.innerHTML = allies
-      .map((h) =>
-        battleLoadFigureHtml({
-          art: catHeroArt(h.templateId) || "",
-          name: h.short || h.name,
-          role: h.roleRu || "",
-          side: "ally",
-        })
-      )
-      .join("");
-  }
-  if (enemyBox) {
-    // Victory dummies order = авангард · центр · тыл; paint L→R тыл · центр · танк.
-    const visual = [VICTORY_DUMMIES[2], VICTORY_DUMMIES[1], VICTORY_DUMMIES[0]].filter(Boolean);
-    enemyBox.innerHTML = visual
-      .map((d) =>
-        battleLoadFigureHtml({
-          art: d.art,
-          name: d.name,
-          role: d.roleRu || "",
-          side: "enemy",
-        })
-      )
-      .join("");
-  }
+  if (allyBox) allyBox.innerHTML = "";
+  if (enemyBox) enemyBox.innerHTML = "";
+}
+
+/**
+ * Hand L→R follows lobby hero paint: тыл · центр · авангард (D-034 / MF-158).
+ * Sim hand order stays front→rear; this is display-only (playCard still uses unitId+handIndex).
+ */
+function sortHandByVisualLanes(cards, units) {
+  const laneByUnit = new Map((units || []).map((u) => [u.id, u.lane]));
+  const visualRank = (unitId) => {
+    const lane = laneByUnit.get(unitId);
+    if (lane == null) return 99;
+    const idx = PRACTICE_VISUAL_LANES.indexOf(lane);
+    return idx >= 0 ? idx : lane;
+  };
+  return [...(cards || [])].sort((a, b) => {
+    const d = visualRank(a.unitId) - visualRank(b.unitId);
+    return d !== 0 ? d : (a.handIndex || 0) - (b.handIndex || 0);
+  });
 }
 
 function showPracticeLoad(on) {
