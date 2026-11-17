@@ -34,6 +34,22 @@ Append-only. Новые записи — **сверху** (после шабло
 
 ---
 
+## D-034 · 2026-11-17 · Practice lobby: танк всегда справа
+
+- **Status:** Accepted
+- **Area:** hud
+- **SSOT:** `docs/FULL-SPEC.md` §4.2 (+ §2.1 sim lanes)
+- **Owner:** @andrew
+
+### Context
+На «Тренировка» снова рисовали строй L→R как фронт→тыл (танк слева). Визуально танк оказывался сзади относительно VS/манекенов. Уже чинили в #143 (`PRACTICE_VISUAL_LANES = [2,1,0]`), потом откатили в dojo UX («front→back lanes»).
+
+### Decision
+Locked: lobby + victory paint L→R = **тыл · центр · авангард** (танк справа). `practiceSquad` / CreatePvE остаются sim `lane 0..2` = фронт→тыл. Константа `PRACTICE_VISUAL_LANES = [2,1,0]` — единый remap; не приравнивать visual index к sim lane без Andrew + новый `D-0xx`.
+
+### Consequences
++ Совпадает со stitch empty/fight и кодексом додзё. − Нельзя «упрощать» отрисовку до `[0,1,2]`. Регресс = баг, не новый дизайн.
+
 ## D-033 · 2026-11-15 · Locked IA меню (порядок primary/subtabs)
 
 - **Status:** Accepted

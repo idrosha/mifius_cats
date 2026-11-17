@@ -4933,10 +4933,11 @@ const VICTORY_DUMMIES = [
   },
 ];
 
+/** Victory cards L→R = lobby paint (тыл · центр · авангард). D-034 */
 const VICTORY_SLOT_META = [
-  { key: "tank", badge: "СЛОТ: АВАНГАРД · ТАНК", icon: "shield", accent: "primary" },
-  { key: "fighter", badge: "СЛОТ: ЦЕНТР · БОЕЦ (MVP)", icon: "crown", accent: "primary", mvp: true },
   { key: "support", badge: "СЛОТ: ТЫЛ · САППОРТ", icon: "water_drop", accent: "secondary" },
+  { key: "fighter", badge: "СЛОТ: ЦЕНТР · БОЕЦ (MVP)", icon: "crown", accent: "primary", mvp: true },
+  { key: "tank", badge: "СЛОТ: АВАНГАРД · ТАНК", icon: "shield", accent: "primary" },
 ];
 
 function victoryStarterFallback(templateId) {
@@ -5613,16 +5614,19 @@ const PRACTICE_HEROES = {
   },
 };
 
-/** Selection index 0..2 = lobby L→R = CreatePvE lanes = FULL-SPEC фронт→тыл. */
+/**
+ * Sim / CreatePvE: index 0 = front (авангард) … 2 = rear (тыл). FULL-SPEC §2.1.
+ * Lobby + victory paint L→R: тыл · центр · авангард (танк справа). LOCKED D-034 — do not flip.
+ */
 const PRACTICE_LANE_LABEL = ["Авангард", "Центр", "Тыл"];
-const PRACTICE_VISUAL_LANES = [0, 1, 2];
+const PRACTICE_VISUAL_LANES = [2, 1, 0];
 const PRACTICE_EMPTY_SLOT_META = [
   {
-    accent: "primary",
-    icon: "shield",
-    badge: "Фронт",
-    tip: "Танк / боец",
-    tags: ["Танк", "Боец"],
+    accent: "secondary",
+    icon: "auto_awesome",
+    badge: "Тыл",
+    tip: "Саппорт / маг / стрелок",
+    tags: ["Саппорт", "Маг", "Стрелок"],
   },
   {
     accent: "tertiary",
@@ -5632,11 +5636,11 @@ const PRACTICE_EMPTY_SLOT_META = [
     tags: ["Боец", "Ассасин", "Стрелок"],
   },
   {
-    accent: "secondary",
-    icon: "auto_awesome",
-    badge: "Тыл",
-    tip: "Саппорт / маг / стрелок",
-    tags: ["Саппорт", "Маг", "Стрелок"],
+    accent: "primary",
+    icon: "shield",
+    badge: "Фронт",
+    tip: "Танк / боец",
+    tags: ["Танк", "Боец"],
   },
 ];
 
@@ -7960,9 +7964,11 @@ function renderPracticeSquad() {
 
   const grid = $("dojoSelectedSquad") || root.querySelector("[data-dojo-selected-squad]");
   if (grid) {
+    // Visual L→R = тыл · центр · танк (sim lanes via PRACTICE_VISUAL_LANES). CreatePvE keeps sim order.
     const cells = [];
     for (let visualPos = 0; visualPos < 3; visualPos++) {
-      const hero = heroes[visualPos] || null;
+      const laneIdx = PRACTICE_VISUAL_LANES[visualPos];
+      const hero = heroes[laneIdx] || null;
       cells.push(hero ? practiceSquadFilledSlot(hero, visualPos) : practiceSquadEmptySlot(visualPos));
     }
     grid.innerHTML = cells.join("");
@@ -7970,10 +7976,10 @@ function renderPracticeSquad() {
 
   const match = $("dojoMatchAllies") || root.querySelector("[data-dojo-match-allies]");
   if (match) {
-    const accents = ["primary", "tertiary", "secondary"];
-    match.innerHTML = [0, 1, 2]
-      .map((idx) => practiceMatchAllyCard(heroes[idx] || null, accents[idx]))
-      .join("");
+    const accents = ["secondary", "tertiary", "primary"];
+    match.innerHTML = PRACTICE_VISUAL_LANES.map((laneIdx, visualPos) =>
+      practiceMatchAllyCard(heroes[laneIdx] || null, accents[visualPos])
+    ).join("");
   }
 
   root.querySelectorAll("[data-hero]").forEach((card) => {
