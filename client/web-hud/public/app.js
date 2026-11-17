@@ -1705,7 +1705,9 @@ function campaignNode(chapter) {
 }
 
 function isChapterUnlocked(chapter) {
-  return isFightUnlocked(Math.max(1, Math.min(5, Number(chapter) || 1)), 1);
+  // Soft-launch / QA: all Mythmir chapters playable (no progression locks on the map).
+  void chapter;
+  return true;
 }
 
 function isChapterCleared(chapter) {
@@ -1926,7 +1928,7 @@ function bindYardForm() {
     start.addEventListener("click", () => {
       state.battleMode = "pve";
       // Fight requires unlock; map selection itself does not.
-      if (!selectPveChapter(state.pveChapter || 1, { toastPick: false, requireUnlock: true })) return;
+      if (!selectPveChapter(state.pveChapter || 1, { toastPick: false, requireUnlock: false })) return;
       openPveLoad();
     });
   }
