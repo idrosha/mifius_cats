@@ -2727,7 +2727,10 @@ const CAT_SHEET_NAMES = {
   shop_support_water_b: "Прилив силы",
 };
 
-/** Full-body portraits — wiki §1.0 / media/cat-heroes (12/12). */
+/**
+ * Full-body portraits — wiki §1.0 / media/cat-heroes (12/12).
+ * Default path keeps studio background (forms/lobby/load). Battle cutouts: D-037.
+ */
 const CAT_HERO_ART = {
   shop_tank_stone_a: "/stitch-assets/cat-heroes/tank-a.png",
   shop_tank_stone_b: "/stitch-assets/cat-heroes/tank-b.png",
@@ -2744,6 +2747,25 @@ const CAT_HERO_ART = {
   starter_tank_stone: "/stitch-assets/cat-heroes/tank-a.png",
   starter_fighter_fire: "/stitch-assets/cat-heroes/fighter-a.png",
   starter_support_water: "/stitch-assets/cat-heroes/support-a.png",
+};
+
+/** Transparent cutouts — ONLY live fight HUD (practice_fight / pvp_fight / battle). D-037. */
+const CAT_HERO_BATTLE_ART = {
+  shop_tank_stone_a: "/stitch-assets/cat-heroes/battle/tank-a.png",
+  shop_tank_stone_b: "/stitch-assets/cat-heroes/battle/tank-b.png",
+  shop_fighter_fire_a: "/stitch-assets/cat-heroes/battle/fighter-a.png",
+  shop_fighter_fire_b: "/stitch-assets/cat-heroes/battle/fighter-b.png",
+  shop_assassin_bolt_a: "/stitch-assets/cat-heroes/battle/assassin-a.png",
+  shop_assassin_bolt_b: "/stitch-assets/cat-heroes/battle/assassin-b.png",
+  shop_ranger_grass_a: "/stitch-assets/cat-heroes/battle/ranger-a.png",
+  shop_ranger_grass_b: "/stitch-assets/cat-heroes/battle/ranger-b.png",
+  shop_mage_fire_a: "/stitch-assets/cat-heroes/battle/mage-a.png",
+  shop_mage_ice_b: "/stitch-assets/cat-heroes/battle/mage-b.png",
+  shop_support_water_a: "/stitch-assets/cat-heroes/battle/support-a.png",
+  shop_support_water_b: "/stitch-assets/cat-heroes/battle/support-b.png",
+  starter_tank_stone: "/stitch-assets/cat-heroes/battle/tank-a.png",
+  starter_fighter_fire: "/stitch-assets/cat-heroes/battle/fighter-a.png",
+  starter_support_water: "/stitch-assets/cat-heroes/battle/support-a.png",
 };
 
 const CAT_HERO_BLURB = {
@@ -2763,6 +2785,11 @@ const CAT_HERO_BLURB = {
 
 function catHeroArt(templateId) {
   return CAT_HERO_ART[templateId] || null;
+}
+
+/** No-background sprite for live battle boards only (D-037). */
+function catHeroBattleArt(templateId) {
+  return CAT_HERO_BATTLE_ART[templateId] || catHeroArt(templateId);
 }
 const HOME_SLOT_PIN = {
   helm: "is-tl",
@@ -6094,10 +6121,14 @@ function renderPracticeFight() {
       if (!u) return;
       const tid = unitTemplateId(u);
       const hero = practiceHeroByTemplate(tid);
-      const art = catHeroArt(tid);
+      const art = catHeroBattleArt(tid);
       if (img && art) {
         img.src = art;
         img.alt = hero?.name || tid;
+      }
+      if (img) {
+        img.classList.add("mf-battle-cutout");
+        card.classList.add("mf-battle-unit--cutout");
       }
       if (nameEl) nameEl.textContent = hero?.short || CAT_SHEET_NAMES[tid] || tid;
       const seeSh = canSeeUnitShield(u);
@@ -6199,15 +6230,15 @@ function pvpUnitCard(u, foe, cleansedIds = []) {
   const element = CAT_ELEMENT_RU[u.element] || u.element || "";
   const name = catSheetName({ templateId: unitTemplateId(u), catId: u.id });
   const pct = u.maxHp > 0 ? Math.max(0, Math.min(100, (u.hp / u.maxHp) * 100)) : 0;
-  const art = catHeroArt(unitTemplateId(u)) || catHeroArt(u.id);
+  const art = catHeroBattleArt(unitTemplateId(u)) || catHeroBattleArt(u.id);
   const seeSh = canSeeUnitShield(u);
   const hpLine = u.alive
     ? seeSh && u.shield > 0
       ? `${u.hp} / ${u.maxHp} +${u.shield}`
       : `${u.hp} / ${u.maxHp}`
     : "КОТИК ОТДЫХАЕТ";
-  li.className = u.alive ? "" : "mf-unit-dead";
-  li.innerHTML = `${art ? `<figure class="mf-unit-frame"><img alt="" src="${art}" class="${u.alive ? "" : "mf-unit-dim"}"/><div class="mf-fatality" ${u.alive ? "hidden" : ""}><span>КОТИК ОТДЫХАЕТ</span></div><div class="mf-status-row">${statusIconsHtml(u.alive ? unitStatusList(u) : [], { cleansed: cleansedIds })}</div></figure>` : ""}<div><b>${name}</b><small>${element}${role ? " · " + role : ""}</small><em class="${u.alive ? "" : "mf-fatality-inline"}">${hpLine}</em><div class="mf-bars"><div class="mf-bar mf-bar--hp"><i style="width:${pct}%"></i></div>${seeSh && u.shield > 0 && u.alive ? `<div class="mf-bar mf-bar--shield"><i style="width:${Math.min(100, (u.shield / Math.max(u.maxHp, 1)) * 100)}%"></i></div>` : ""}</div></div>`;
+  li.className = (u.alive ? "" : "mf-unit-dead") + " mf-battle-unit--cutout";
+  li.innerHTML = `${art ? `<figure class="mf-unit-frame"><img alt="" src="${art}" class="mf-battle-cutout ${u.alive ? "" : "mf-unit-dim"}"/><div class="mf-fatality" ${u.alive ? "hidden" : ""}><span>КОТИК ОТДЫХАЕТ</span></div><div class="mf-status-row">${statusIconsHtml(u.alive ? unitStatusList(u) : [], { cleansed: cleansedIds })}</div></figure>` : ""}<div><b>${name}</b><small>${element}${role ? " · " + role : ""}</small><em class="${u.alive ? "" : "mf-fatality-inline"}">${hpLine}</em><div class="mf-bars"><div class="mf-bar mf-bar--hp"><i style="width:${pct}%"></i></div>${seeSh && u.shield > 0 && u.alive ? `<div class="mf-bar mf-bar--shield"><i style="width:${Math.min(100, (u.shield / Math.max(u.maxHp, 1)) * 100)}%"></i></div>` : ""}</div></div>`;
   if (foe) li.dataset.foe = "1";
   return li;
 }

@@ -313,7 +313,7 @@ Server validates all purchases.
 7f. `Guild` + `GuildBattle` (GvG 3–12; SL: entry + tip, §4.5)  
 8. `Pass` (×2 XP + rank boxes + autofarm perk copy when ACTIVE)  
 8b. `Farm` Soon sheet — expanded zones incl. fishing + autofarm toggles (gated / stub; §4.4)  
-9. `Battle` HUD: board 3+3, hand, energy, milk, keep, end turn, potion tray; статусы/щит/смерть — §3.5 + `D-032`; **ход противника (VFX, все режимы):** 6 карт атаки **рубашкой** к игроку (сброс/бросок), затем карты исчезают — без раскрытия руки соперника
+9. `Battle` HUD: board 3+3, hand, energy, milk, keep, end turn, potion tray; статусы/щит/смерть — §3.5 + `D-032`; **ход противника (VFX, все режимы):** 6 карт атаки **рубашкой** к игроку (сброс/бросок), затем карты исчезают — без раскрытия руки соперника. **Презентация героев (`D-037`):** на live-борде (`battle` / `practice_fight` / `pvp_fight`) — полнорост **без фона** (cutout); на всех прочих формах — портрет **с фоном**
 
 10. `Result` + rewards  
 11. `ReplayList` (10)  
