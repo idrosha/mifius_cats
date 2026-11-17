@@ -509,6 +509,7 @@ const PASS_REWARDS = [
 const state = {
   locale: "ru",
   loc: {},
+  cardEffects: {},
   liveOps: null,
   liveOpsMeta: {},
   tab: "hub",
@@ -863,6 +864,44 @@ async function api(path, opts = {}) {
 async function loadLoc() {
   const { data } = await api("/loc.json");
   state.loc = data || {};
+}
+
+/** Playable card title/effect overlay catalog (D-038). Regenerated via scripts/gen-card-effects.py */
+async function loadCardEffects() {
+  try {
+    const res = await fetch("/data/card-effects.json", { cache: "no-store" });
+    state.cardEffects = res.ok ? await res.json() : {};
+  } catch {
+    state.cardEffects = {};
+  }
+}
+
+function cardEffectEntry(cardId) {
+  if (!cardId || !state.cardEffects) return null;
+  return state.cardEffects[cardId] || null;
+}
+
+function escapeHtml(s) {
+  return String(s ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/** Live title+effect block covering baked parchment text on attack plates (D-038). */
+function attackCardOverlayHtml(cardId, titleFallback) {
+  const e = cardEffectEntry(cardId);
+  const title = escapeHtml(e?.title_ru || titleFallback || cardId || "");
+  const effect = escapeHtml(e?.effect_ru || "");
+  const chips = (e?.chips || [])
+    .map((c) => `<div class="mf-atk-card__chip">${escapeHtml(c)}</div>`)
+    .join("");
+  return `<div class="mf-atk-card__overlay">
+    <div class="mf-atk-card__title">${title}</div>
+    <div class="mf-atk-card__effect">${effect || "—"}</div>
+    ${chips ? `<div class="mf-atk-card__chips">${chips}</div>` : ""}
+  </div>`;
 }
 
 async function bootLiveOps() {
@@ -5731,7 +5770,7 @@ function renderHomeDeck(cat) {
     .map((c) => {
       const title = t(c.name_key, c.stem);
       if (c.art) {
-        return `<div class="group relative rounded-lg bg-surface-container-lowest border border-outline-variant/40 aspect-[2/3] overflow-hidden shadow" title="${title} · ${c.cost} AP · ${c.part}"><img alt="${title}" class="w-full h-full object-cover" src="${c.art}"/><span class="absolute bottom-0 inset-x-0 px-1 py-0.5 bg-surface-container-lowest/90 text-[9px] font-label-sm text-on-surface truncate text-center">${title}</span></div>`;
+        return `<div class="group relative rounded-lg bg-surface-container-lowest border border-outline-variant/40 aspect-[2/3] overflow-hidden shadow mf-atk-card mf-atk-card--art" title="${title} · ${c.cost} AP · ${c.part}"><img alt="${title}" class="w-full h-full object-cover" src="${c.art}"/>${attackCardOverlayHtml(c.cardId, title)}</div>`;
       }
       return `<div class="group relative rounded-lg bg-surface-container-lowest border border-outline-variant/40 aspect-[2/3] flex flex-col items-center justify-center p-1 text-center" title="${title}"><span class="text-[10px] font-label-sm text-on-surface">${title}</span><span class="text-[9px] text-on-surface-variant mt-1">${c.cost} AP · ${c.part}</span></div>`;
     })
@@ -6089,14 +6128,16 @@ function makeAttackHandButton(c, diff, classNames = "mf-atk-card") {
   b.disabled = !c.playable || cc || !!diff.result || diff.active !== 0 || !!state.oppThrowPlaying;
   b.title = cc ? `${title} · стан/сон — пропуск хода` : `${title} · ${cost} AP`;
   if (art) {
-    // Cost digit lives in card art (aligned with sim AP after starter back cost fix).
-    b.innerHTML = `<img alt="${title}" src="${art}"/><b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
+    // Cost gem still in plate art; title/effect are live overlay (D-038) so balance ≠ redraw.
+    b.innerHTML = `<img alt="${title}" src="${art}"/>${attackCardOverlayHtml(c.cardId, title)}<b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
     const img = b.querySelector("img");
     img?.addEventListener("error", () => {
       // Missing/broken plate → text card instead of empty black tile.
       b.classList.remove("mf-atk-card--art", "pf-card-art");
       b.classList.add("mf-atk-card--text");
       img.remove();
+      const ov = b.querySelector(".mf-atk-card__overlay");
+      ov?.remove();
     });
   } else {
     b.innerHTML = `<b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
@@ -6661,7 +6702,7 @@ function renderBattle() {
       b.disabled = !c.playable || !!diff.result || diff.active !== 0 || !!state.oppThrowPlaying;
       b.title = `${title} · ${cost} AP`;
       b.innerHTML = art
-        ? `<img alt="${title}" src="${art}"/><b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`
+        ? `<img alt="${title}" src="${art}"/>${attackCardOverlayHtml(c.cardId, title)}<b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`
         : `<b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
       b.addEventListener("click", async () => {
         if (state.selectedKeep?.mode) {
@@ -9348,6 +9389,7 @@ async function main() {
     loadProgress();
     loadGearStub();
     await loadLoc();
+    await loadCardEffects();
     await bootLiveOps();
     await loadCampaign();
     await bootStarterGrant();

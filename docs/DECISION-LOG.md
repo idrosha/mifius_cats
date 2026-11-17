@@ -34,6 +34,22 @@ Append-only. Новые записи — **сверху** (после шабло
 
 ---
 
+## D-038 · 2026-11-17 · Attack-card text = live overlay (not baked art)
+
+- **Status:** Accepted
+- **Area:** hud | content | liveops
+- **SSOT:** `content/cards/*.json` → `scripts/gen-card-effects.py` → `client/web-hud/public/data/card-effects.json`
+- **Owner:** Andrew / web-hud
+
+### Context
+Баланс D-035 ломал цифры на PNG/WebP пластинах. Править 72 арта на каждый ретюн нельзя. Stitch без строки описания рисовал пустой пергамент. Id `D-036` уже занят phone landscape.
+
+### Decision
+Название / описание / чипы на attack-картах в HUD — **live overlay** поверх арта. Арт остаётся иллюстрацией+рамкой+cost gem; baked текст на пластине перекрывается пергамент-панелью. Каталог `card-effects.json` генерится из content JSON (`gen-card-effects.py`). Смена чисел → regenerate + deploy HUD, без регена арта.
+
+### Consequences
++ Баланс без Stitch. − Пока на арте виден старый текст под оверлеем при сбое CSS; позже можно вычистить пластины. Home deck + practice/PvP hand используют один helper.
+
 ## D-037 · 2026-11-17 · Cat-hero без фона только в live-бою
 
 - **Status:** Accepted
@@ -70,6 +86,7 @@ Web HUD на **телефоне** — только **landscape** (~16:9, цел�
 - Follow-up CSS только у MF-145 owner, пока задача открыта.
 
 ---
+
 
 ## D-035 · 2026-11-17 · Tank/Support late-finish card retune
 
