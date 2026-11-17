@@ -463,6 +463,15 @@ ok(
     !/<section[^>]*data-stitch="practice"[^>]*data-placeholder/.test(html),
 );
 ok(
+  "painted yard PvE campaign hub",
+  html.includes('data-stitch="yard"') &&
+    html.includes("pve-yard-hub") &&
+    html.includes("btnYardStartBattle") &&
+    html.includes("/stitch-assets/yard/meowkara-mines-bg.png") &&
+    /Шахты Мяу-Кары/.test(html),
+  "viewYard missing painted PvE hub",
+);
+ok(
   "painted guild not placeholder",
   html.includes('data-stitch="guild"') &&
     !/<section[^>]*data-stitch="guild"[^>]*data-placeholder/.test(html),
