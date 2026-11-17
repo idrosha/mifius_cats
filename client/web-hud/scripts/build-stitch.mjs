@@ -38,6 +38,8 @@ const SCREENS = [
   { id: "boss_dungeon", file: "boss_dungeon.html", view: "viewBossDungeon" },
   { id: "boss_raid", file: "boss_raid.html", view: "viewBossRaid" },
   { id: "pvp", file: "pvp.html", view: "viewPvp" },
+  // PvP ranked duel load — full-body cats on arena (MF-148)
+  { id: "pvp_load", file: "pvp_load.html", view: "viewPvpLoad" },
   { id: "guild_battle", file: "guild_battle.html", view: "viewGuildBattle" },
   // Live Бои hub (/fronts) — battle frontiers map
   { id: "battle_hub", file: "battle_hub.html", view: "viewBattleHub" },

@@ -6605,69 +6605,89 @@ function setPvpLoadProgress(pct) {
   state.pvpLoadPct = n;
 }
 
+/** MF-148: full-body load sprite (transparent art, no card plate). */
+function battleLoadFigureHtml({ art, name, role, side }) {
+  const safeName = String(name || "").replace(/"/g, "&quot;");
+  const safeRole = String(role || "");
+  const src = art || "";
+  return `<figure class="battle-load-figure is-${side === "enemy" ? "enemy" : "ally"}">
+<img alt="${safeName}" src="${src}"/>
+<figcaption><b>${safeName}</b>${safeRole ? `<small>${safeRole}</small>` : ""}</figcaption>
+</figure>`;
+}
+
+function pvpLoadDefaultRosters() {
+  // Visual L→R тыл · центр · авангард (D-034 paint); art from CAT_HERO_ART.
+  const ally = [
+    {
+      templateId: "shop_support_water_a",
+      name: "Мурка",
+      role: "Саппорт · Вода",
+      hp: "28 HP",
+    },
+    {
+      templateId: "shop_fighter_fire_a",
+      name: "Рыжик",
+      role: "Боец · Огонь",
+      hp: "43 HP",
+    },
+    {
+      templateId: "shop_tank_stone_a",
+      name: "Барсик",
+      role: "Танк · Камень",
+      hp: "50 HP",
+    },
+  ];
+  const foe = [
+    {
+      templateId: "shop_mage_fire_a",
+      name: "Игниус",
+      role: "Маг · Огонь",
+      hp: "30 HP",
+    },
+    {
+      templateId: "shop_assassin_bolt_a",
+      name: "Тень",
+      role: "Ассасин · Молния",
+      hp: "38 HP",
+    },
+    {
+      templateId: "shop_tank_stone_b",
+      name: "Титан",
+      role: "Танк · Камень",
+      hp: "48 HP",
+    },
+  ];
+  const withArt = (row) => ({
+    ...row,
+    art: catHeroArt(row.templateId) || "/stitch-assets/cat-heroes/fighter-a.png",
+  });
+  return { ally: ally.map(withArt), foe: foe.map(withArt) };
+}
+
 function renderPvpLoad() {
   const ally = $("pvpLoadAllyList");
   const enemy = $("pvpLoadEnemyList");
-  const allyRoster = [
-    {
-      name: "Барсик Громовержец",
-      lvl: 1,
-      role: "Гром + Рыцарь Очага",
-      hp: "50 HP",
-      img: "/stitch-assets/f453fafbcca9.jpg",
-      tag: "Q3",
-    },
-    {
-      name: "Рыжик Вспышкохвост",
-      lvl: 1,
-      role: "Огонь + Берсерк",
-      hp: "43 HP",
-      img: "/stitch-assets/dc459e94ceed.jpg",
-      tag: "Q3",
-    },
-    {
-      name: "Мурка Каплегривка",
-      lvl: 1,
-      role: "Вода + Мистик",
-      hp: "28 HP",
-      img: "/stitch-assets/ad3ff067b5c8.jpg",
-      tag: "Q3",
-    },
-  ];
-  const foeRoster = [
-    {
-      name: "Громила",
-      lvl: 1,
-      role: "Чугун + Молотобоец",
-      hp: "50 HP",
-      img: "/stitch-assets/51d4dea60ec1.jpg",
-      tag: "Q2",
-    },
-    {
-      name: "Кроволап",
-      lvl: 1,
-      role: "Кровь + Разбойник",
-      hp: "43 HP",
-      img: "/stitch-assets/f453fafbcca9.jpg",
-      tag: "Q3",
-    },
-    {
-      name: "Иерофант Сфинкс",
-      lvl: 1,
-      role: "Астрал + Чародей",
-      hp: "30 HP",
-      img: "/stitch-assets/ad3ff067b5c8.jpg",
-      tag: "Q2",
-    },
-  ];
-  const card = (c) => `<li>
-    <figure><img alt="" src="${c.img}"/><span>${c.tag}</span></figure>
+  const allyFigs = $("pvpLoadAllyFigures");
+  const enemyFigs = $("pvpLoadEnemyFigures");
+  const { ally: allyRoster, foe: foeRoster } = pvpLoadDefaultRosters();
+  const nameRow = (c) => `<li>
     <b>${c.name}</b>
-    <small>Ур. ${c.lvl} · ${c.role}</small>
+    <small>${c.role}</small>
     <em class="hp">${c.hp}</em>
   </li>`;
-  if (ally) ally.innerHTML = allyRoster.map(card).join("");
-  if (enemy) enemy.innerHTML = foeRoster.map(card).join("");
+  if (ally) ally.innerHTML = allyRoster.map(nameRow).join("");
+  if (enemy) enemy.innerHTML = foeRoster.map(nameRow).join("");
+  if (allyFigs) {
+    allyFigs.innerHTML = allyRoster
+      .map((c) => battleLoadFigureHtml({ art: c.art, name: c.name, role: c.role, side: "ally" }))
+      .join("");
+  }
+  if (enemyFigs) {
+    enemyFigs.innerHTML = foeRoster
+      .map((c) => battleLoadFigureHtml({ art: c.art, name: c.name, role: c.role, side: "enemy" }))
+      .join("");
+  }
   bindPvpLoad();
   if (!state.pvpLoadTimer) startPvpLoadSync();
 }
@@ -7761,6 +7781,44 @@ function startPracticeLoadSync() {
   }, 110);
 }
 
+/** Paint full-body squad + dummies onto practice load arena (MF-148). */
+function renderPracticeLoadFigures() {
+  const allyBox = $("dojoLoadAllies");
+  const enemyBox = $("dojoLoadEnemies");
+  if (!allyBox && !enemyBox) return;
+  ensurePracticeSquadState();
+  const allies = PRACTICE_VISUAL_LANES.map((laneIdx) => {
+    const tid = state.practiceSquad[laneIdx];
+    return practiceHeroByTemplate(tid);
+  }).filter(Boolean);
+  if (allyBox) {
+    allyBox.innerHTML = allies
+      .map((h) =>
+        battleLoadFigureHtml({
+          art: catHeroArt(h.templateId) || "",
+          name: h.short || h.name,
+          role: h.roleRu || "",
+          side: "ally",
+        })
+      )
+      .join("");
+  }
+  if (enemyBox) {
+    // Victory dummies order = авангард · центр · тыл; paint L→R тыл · центр · танк.
+    const visual = [VICTORY_DUMMIES[2], VICTORY_DUMMIES[1], VICTORY_DUMMIES[0]].filter(Boolean);
+    enemyBox.innerHTML = visual
+      .map((d) =>
+        battleLoadFigureHtml({
+          art: d.art,
+          name: d.name,
+          role: d.roleRu || "",
+          side: "enemy",
+        })
+      )
+      .join("");
+  }
+}
+
 function showPracticeLoad(on) {
   const root = $("viewPractice");
   const load = root?.querySelector(".dojo-load");
@@ -7778,6 +7836,7 @@ function showPracticeLoad(on) {
     return;
   }
   if (on) {
+    renderPracticeLoadFigures();
     load.hidden = false;
     root.dataset.practiceLoad = "1";
     startPracticeLoadSync();

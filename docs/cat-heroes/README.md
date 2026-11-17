@@ -2,7 +2,8 @@
 
 SSOT имён/ролей: `docs/game-wiki.md` §1.  
 HUD path: `/stitch-assets/cat-heroes/{slug}.png`  
-Project store mirror: `media/cat-heroes/`.
+Project store mirror: `media/cat-heroes/`.  
+Формат: PNG с **прозрачным фоном** (не card plate). На загрузке боя (practice / PvP) стоят как полноростовые фигуры на арене — MF-148.
 
 ## Ready (12/12)
 

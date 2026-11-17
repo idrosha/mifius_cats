@@ -2,8 +2,7 @@
 <html class="dark" lang="ru">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-  <meta name="screen-orientation" content="landscape" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="shell-type" content="web_standard" />
   <meta name="hud-ui" content="stitch-0268-64d5-e608-4da7-18c7" />
   <meta name="hud-layout" content="landscape-flush" />
@@ -22,33 +21,17 @@
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body class="bg-surface font-body-md text-body-md text-on-surface mythfel-shell">
-  <!-- Phone soft-launch is landscape-only (D-012). Portrait phones get a rotate gate; tablet portrait stays playable. -->
-  <div id="orientGate" class="mythfel-orient-gate" role="dialog" aria-modal="true" aria-labelledby="orientGateTitle" aria-hidden="true">
-    <div class="mythfel-orient-card">
-      <span class="material-symbols-outlined mythfel-orient-ico" aria-hidden="true">screen_rotation</span>
-      <h2 id="orientGateTitle">Поверните телефон</h2>
-      <p>Мифиус на soft-launch — только <strong>горизонтальная</strong> ориентация телефона. Планшет и десктоп работают как раньше.</p>
-      <p class="mythfel-orient-hint">Rotate to landscape · ~16:9</p>
-    </div>
-  </div>
   <header id="appNav" class="mythfel-nav" aria-label="Mythfel navigation">
     <div class="mythfel-nav-top">
       <button type="button" class="mythfel-brand" id="btnBrandHub" title="Хаб">
         <span class="mythfel-brand-mark" aria-hidden="true">🐾</span>
         <span class="mythfel-brand-text">
           <strong>МИФИУС</strong>
-          <span id="brandSub">Mythfel Hearth</span>
+          <span id="brandSub">Ур. 1 · Soft Launch</span>
         </span>
       </button>
       <nav id="appTabs" class="mythfel-primary" aria-label="Основные разделы"></nav>
       <div id="hudChrome" class="mythfel-chrome" aria-label="status">
-        <div id="navWallet" class="mythfel-nav-wallet" aria-label="Ресурсы">
-          <span title="Fish"><span class="material-symbols-outlined" aria-hidden="true">monetization_on</span><span id="navGold">0</span></span>
-          <span title="Bowls"><span class="material-symbols-outlined" aria-hidden="true">water_drop</span><span id="navMilk">0</span></span>
-          <span title="Tickets"><span class="material-symbols-outlined" aria-hidden="true">bolt</span><span id="navEnergy">0/0</span></span>
-          <span title="Yarn"><span class="material-symbols-outlined" aria-hidden="true">diamond</span><span id="navGems">0</span></span>
-        </div>
-        <span id="navRank" class="mythfel-nav-rank">Ур. 1 · Soft Launch</span>
         <div class="mythfel-social" aria-label="Соцсети">
           <a class="mythfel-social-btn" id="btnSocialTg" href="https://t.me/" target="_blank" rel="noopener noreferrer" title="Telegram" aria-label="Telegram">
             <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8-1.55 7.3c-.12.54-.43.67-.87.42l-2.4-1.77-1.16 1.12c-.13.13-.24.24-.49.24l.17-2.43 4.43-4.01c.19-.17-.04-.27-.3-.1l-5.48 3.45-2.36-.74c-.51-.16-.52-.51.11-.76l9.22-3.55c.43-.16.8.1.68.63z"/></svg>
@@ -58,8 +41,8 @@
           </a>
         </div>
         <button type="button" class="mythfel-logout" id="btnLogout" title="Выйти">Logout</button>
-        <div id="liveopsPill" class="status-pill mythfel-debug-pill" hidden>LiveOps…</div>
-        <div id="battlePill" class="status-pill mythfel-debug-pill" hidden>Battle…</div>
+        <div id="liveopsPill" class="status-pill">LiveOps…</div>
+        <div id="battlePill" class="status-pill">Battle…</div>
         <div class="locale-switch" id="localeSwitch"></div>
       </div>
     </div>
@@ -1075,13 +1058,10 @@
       <span class="text-on-surface-variant font-headline text-[10px] bg-surface-container-highest px-1.5 py-0.2 rounded border border-outline-variant/20">Герои: <span class="text-primary font-stat font-bold">12</span></span>
     </div>
     <div class="flex items-center gap-1 text-[10px] font-headline font-bold pt-0.5 overflow-x-auto pb-0.5">
-      <button type="button" data-home-role-filter="all" class="px-2 py-0.5 rounded bg-primary text-on-primary shadow font-black shrink-0">Все</button>
-      <button type="button" data-home-role-filter="tank" class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors border border-outline-variant/20 shrink-0">Танк</button>
-      <button type="button" data-home-role-filter="fighter" class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors border border-outline-variant/20 shrink-0">Бойцы</button>
-      <button type="button" data-home-role-filter="assassin" class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors border border-outline-variant/20 shrink-0">Убийцы</button>
-      <button type="button" data-home-role-filter="ranger" class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors border border-outline-variant/20 shrink-0">Стрелки</button>
-      <button type="button" data-home-role-filter="mage" class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors border border-outline-variant/20 shrink-0">Маги</button>
-      <button type="button" data-home-role-filter="support" class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors border border-outline-variant/20 shrink-0">Саппорт</button>
+      <button class="px-2 py-0.5 rounded bg-primary text-on-primary shadow font-black shrink-0">Все</button>
+      <button class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors border border-outline-variant/20 shrink-0">Танк</button>
+      <button class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors border border-outline-variant/20 shrink-0">ДПС</button>
+      <button class="px-2 py-0.5 rounded bg-surface-container-high text-on-surface-variant hover:text-on-surface transition-colors border border-outline-variant/20 shrink-0">Саппорт</button>
     </div>
   </div>
   <!-- All 12 Heroes Scrollable Roster -->
@@ -1616,24 +1596,46 @@
               <h3 class="font-headline-md text-headline-md text-primary font-bold leading-tight truncate" data-field="name">Барсик Громовержец</h3>
               <p class="font-body-sm text-body-sm text-on-surface-variant truncate" data-field="meta">Мифик 5★ • Танк • Ур. 70</p>
             </div>
-            <div class="relative w-full aspect-[3/4] min-h-[14rem] rounded-lg overflow-hidden bg-surface-container-lowest my-space-xs shadow-inner breed-parent-art">
+            <div class="relative w-full aspect-square rounded-lg overflow-hidden bg-surface-container-lowest my-space-xs shadow-inner">
               <img
                 data-field="portrait"
                 alt="Барсик Громовержец"
                 width="320"
-                height="420"
+                height="320"
                 loading="lazy"
                 decoding="async"
-                class="w-full h-full object-contain object-bottom"
+                class="w-full h-full object-cover object-top"
                 src="/stitch-ref/home-keeper/breeding/token-icon.png">
               <div class="absolute bottom-2 left-2 right-2 flex justify-between items-center gap-1 bg-surface-container-lowest/80 backdrop-blur-md px-2 py-1 rounded">
                 <span class="font-label-sm text-label-sm text-on-surface-variant truncate" data-field="bm">БМ 18,420</span>
                 <span class="font-label-sm text-label-sm text-secondary shrink-0" data-field="gen">Gen 1</span>
               </div>
             </div>
-            <div class="space-y-1.5 pt-space-xs">
+            <div class="space-y-1.5 pt-space-xs hidden sm:block">
               <div class="font-label-sm text-label-sm uppercase text-on-surface-variant">Доминантные гены:</div>
-              <div id="father-genes" class="space-y-1.5"></div>
+              <div id="father-genes" class="space-y-1.5">
+                <div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between gap-1">
+                  <div class="flex items-center gap-1.5 min-w-0">
+                    <span class="material-symbols-outlined text-primary text-[16px] shrink-0">shield</span>
+                    <span class="font-body-sm text-body-sm text-on-surface truncate">Шерстяной Оплот (Пассив)</span>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-primary shrink-0">+30% Броня</span>
+                </div>
+                <div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between gap-1">
+                  <div class="flex items-center gap-1.5 min-w-0">
+                    <span class="material-symbols-outlined text-primary text-[16px] shrink-0">bolt</span>
+                    <span class="font-body-sm text-body-sm text-on-surface truncate">Громовой Удар (Атака)</span>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-tertiary-container shrink-0">Шок III</span>
+                </div>
+                <div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between gap-1">
+                  <div class="flex items-center gap-1.5 min-w-0">
+                    <span class="material-symbols-outlined text-secondary text-[16px] shrink-0">offline_bolt</span>
+                    <span class="font-body-sm text-body-sm text-on-surface truncate">Устойчивость к шоку</span>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-secondary shrink-0">+40% Сопр.</span>
+                </div>
+              </div>
             </div>
             <div class="pt-space-sm">
               <div class="flex justify-between items-center font-label-sm text-label-sm pb-1 gap-1">
@@ -1668,24 +1670,46 @@
               <h3 class="font-headline-md text-headline-md text-secondary font-bold leading-tight truncate" data-field="name">Фростия Лёд</h3>
               <p class="font-body-sm text-body-sm text-on-surface-variant truncate" data-field="meta">Мифик 5★ • Маг • Ур. 65</p>
             </div>
-            <div class="relative w-full aspect-[3/4] min-h-[14rem] rounded-lg overflow-hidden bg-surface-container-lowest my-space-xs shadow-inner breed-parent-art">
+            <div class="relative w-full aspect-square rounded-lg overflow-hidden bg-surface-container-lowest my-space-xs shadow-inner">
               <img
                 data-field="portrait"
                 alt="Фростия Лёд"
                 width="320"
-                height="420"
+                height="320"
                 loading="lazy"
                 decoding="async"
-                class="w-full h-full object-contain object-bottom"
+                class="w-full h-full object-cover object-top"
                 src="/stitch-ref/home-keeper/breeding/screen.png">
               <div class="absolute bottom-2 left-2 right-2 flex justify-between items-center gap-1 bg-surface-container-lowest/80 backdrop-blur-md px-2 py-1 rounded">
                 <span class="font-label-sm text-label-sm text-on-surface-variant truncate" data-field="bm">БМ 17,980</span>
                 <span class="font-label-sm text-label-sm text-secondary shrink-0" data-field="gen">Gen 1</span>
               </div>
             </div>
-            <div class="space-y-1.5 pt-space-xs">
+            <div class="space-y-1.5 pt-space-xs hidden sm:block">
               <div class="font-label-sm text-label-sm uppercase text-on-surface-variant">Доминантные гены:</div>
-              <div id="mother-genes" class="space-y-1.5"></div>
+              <div id="mother-genes" class="space-y-1.5">
+                <div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between gap-1">
+                  <div class="flex items-center gap-1.5 min-w-0">
+                    <span class="material-symbols-outlined text-secondary text-[16px] shrink-0">visibility</span>
+                    <span class="font-body-sm text-body-sm text-on-surface truncate">Морозный Взор (Стан 1)</span>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-secondary shrink-0">Контроль</span>
+                </div>
+                <div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between gap-1">
+                  <div class="flex items-center gap-1.5 min-w-0">
+                    <span class="material-symbols-outlined text-secondary text-[16px] shrink-0">weather_snowy</span>
+                    <span class="font-body-sm text-body-sm text-on-surface truncate">Аура Мерзлоты</span>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-primary shrink-0">-25% Скор.</span>
+                </div>
+                <div class="bg-surface-container-high p-2 rounded-lg flex items-center justify-between gap-1">
+                  <div class="flex items-center gap-1.5 min-w-0">
+                    <span class="material-symbols-outlined text-primary text-[16px] shrink-0">psychology</span>
+                    <span class="font-body-sm text-body-sm text-on-surface truncate">Интеллект чар</span>
+                  </div>
+                  <span class="font-label-sm text-label-sm text-secondary shrink-0">+35% Урон</span>
+                </div>
+              </div>
             </div>
             <div class="pt-space-sm">
               <div class="flex justify-between items-center font-label-sm text-label-sm pb-1 gap-1">
@@ -1847,12 +1871,12 @@
             <button
               id="btn-start-breed-desktop"
               type="button"
-              class="flex w-full px-6 py-3 rounded-xl bg-gradient-to-b from-[#E5A835] to-[#C48419] text-[#1A1308] font-label-lg text-label-lg shadow-[0_4px_0_rgba(0,0,0,0.35)] hover:brightness-105 active:translate-y-0.5 active:shadow-none transition-all items-center justify-center gap-2"
+              class="hidden lg:flex w-full px-6 py-3 rounded-xl bg-gradient-to-b from-[#E5A835] to-[#C48419] text-[#1A1308] font-label-lg text-label-lg shadow-[0_4px_0_rgba(0,0,0,0.35)] hover:brightness-105 active:translate-y-0.5 active:shadow-none transition-all items-center justify-center gap-2"
               data-duration-sec="30"
               data-can-start="true"
               data-action="start-breed">
               <span class="material-symbols-outlined text-[20px]">magic_button</span>
-              <span data-field="label">НАЧАТЬ СКРЕЩИВАНИЕ</span>
+              <span data-field="label">НАЧАТЬ СКРЕЩИВАНИЕ (00:30)</span>
             </button>
           </div>
         </section>
@@ -4263,6 +4287,76 @@
 <div class="wf-row" data-pad="PvP Арена-16"><span>Слот макета 17</span><span class="hint">блок заполнения · без пустот</span></div>
 <div class="wf-row" data-pad="PvP Арена-17"><span>Слот макета 18</span><span class="hint">блок заполнения · без пустот</span></div></div></section></main>
 </section>
+<section id="viewPvpLoad" class="stitch-view mythfel-form hidden" data-stitch="pvp_load" data-layout="landscape">
+<!-- Live PvP ranked duel load. Address: /pvp-load. Soft exits closed; shared fillNav only. MF-148 full-body cats. -->
+<main class="pvp-load" data-purpose="pvp-load" data-purpose-route="pvp-load">
+<div class="pvp-load-stage">
+<img class="pvp-load-art" alt="" src="/stitch-assets/pvp-load-arena.png"/>
+<div class="pvp-load-shade"></div>
+<header class="pvp-load-head">
+<p class="pvp-load-kicker">⚔ Загрузка PvP боя · Рейтинговая дуэль 3v3 ⚔</p>
+<p class="pvp-load-sync-line"><span class="pvp-load-dot"></span> Синхронизация арены и подбор колод…</p>
+</header>
+<!-- MF-148: full-body heroes on arena (no card plates). -->
+<div class="battle-load-roster" data-purpose="load-roster">
+<div class="battle-load-side is-ally" id="pvpLoadAllyFigures"></div>
+<div class="battle-load-vs-gap" aria-hidden="true"><span>VS</span></div>
+<div class="battle-load-side is-enemy" id="pvpLoadEnemyFigures"></div>
+</div>
+<div class="pvp-load-vs">
+<span class="pvp-load-vs-mark">VS</span>
+<div>
+<strong>Раунд 1 · Дуэль 3v3</strong>
+<em>Награда: <b class="is-up">+28</b> / <b class="is-down">−18</b> pts</em>
+</div>
+<span class="pvp-load-arena-pct">Арена: <b id="pvpLoadArenaPct">0%</b></span>
+</div>
+</div>
+<div class="pvp-load-teams pvp-load-teams--meta">
+<section class="pvp-load-team is-ally" id="pvpLoadAlly">
+<header>
+<span class="pvp-load-badge">Вы</span>
+<div>
+<strong>«Мурр-Оплот»</strong>
+<em>Союзный отряд</em>
+</div>
+<b>Мощь: 18 450</b>
+</header>
+<ul id="pvpLoadAllyList" class="pvp-load-names"></ul>
+<footer>
+<span>Синергия: Плазма &amp; Пар (+25% урона)</span>
+<em>Хранитель: Миурицио</em>
+</footer>
+</section>
+<section class="pvp-load-team is-enemy" id="pvpLoadEnemy">
+<header>
+<span class="pvp-load-badge">Враг</span>
+<div>
+<strong>«Свора Гладиаторов»</strong>
+<em>Соперники</em>
+</div>
+<b>Мощь: 17 980</b>
+</header>
+<ul id="pvpLoadEnemyList" class="pvp-load-names"></ul>
+<footer>
+<em>Хранитель: Клык</em>
+<span>Синергия: Кровавый Шторм (+15% крита)</span>
+</footer>
+</section>
+</div>
+<footer class="pvp-load-foot">
+<span>Бои › PvP Колизей (Рейтинговая Дуэль 3v3)</span>
+<span class="pvp-load-league">Золотая лига II</span>
+<span class="pvp-load-ping">18 ms</span>
+<div class="pvp-load-bar-wrap">
+<span id="pvpLoadBarLabel">Синхронизация колод: 0%</span>
+<div class="pvp-load-bar"><i id="pvpLoadBar" style="width:0%"></i></div>
+</div>
+<button type="button" class="pvp-load-go" id="pvpLoadGo">В бой</button>
+<button type="button" class="pvp-load-back" id="pvpLoadBack">Назад</button>
+</footer>
+</main>
+</section>
 <section id="viewGuildBattle" class="stitch-view mythfel-form hidden" data-stitch="guild_battle" data-layout="landscape">
 <main class="wf" data-purpose="wireframe" data-screen="Бой гильдий" >
 <header class="wf-head">
@@ -4822,6 +4916,12 @@
 <div class="dojo-load" hidden data-purpose="practice-load">
 <img class="dojo-load-art" alt="" src="/stitch-assets/dojo/practice-load-arena.png"/>
 <div class="dojo-load-shade"></div>
+<!-- MF-148: full-body squad on arena (not card plates). -->
+<div class="battle-load-roster" data-purpose="load-roster">
+<div class="battle-load-side is-ally" id="dojoLoadAllies"></div>
+<div class="battle-load-vs-gap" aria-hidden="true"><span>VS</span></div>
+<div class="battle-load-side is-enemy" id="dojoLoadEnemies"></div>
+</div>
 <div class="dojo-load-ui dojo-load-ui--stitch">
 <header class="dojo-load-head">
 <div class="dojo-load-head-l">

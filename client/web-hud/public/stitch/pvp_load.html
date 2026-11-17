@@ -1,6 +1,6 @@
-<!-- Live PvP ranked duel load. Address: /pvp-load. Soft exits closed; shared fillNav only. -->
-<section id="viewPvpLoad" class="stitch-view mythfel-form hidden" data-stitch="pvp_load" data-layout="landscape" data-purpose-route="pvp-load">
-<main class="pvp-load" data-purpose="pvp-load">
+<section id="viewPvpLoad" class="stitch-view mythfel-form hidden" data-stitch="pvp_load" data-layout="landscape">
+<!-- Live PvP ranked duel load. Address: /pvp-load. Soft exits closed; shared fillNav only. MF-148 full-body cats. -->
+<main class="pvp-load" data-purpose="pvp-load" data-purpose-route="pvp-load">
 <div class="pvp-load-stage">
 <img class="pvp-load-art" alt="" src="/stitch-assets/pvp-load-arena.png"/>
 <div class="pvp-load-shade"></div>
@@ -8,6 +8,12 @@
 <p class="pvp-load-kicker">⚔ Загрузка PvP боя · Рейтинговая дуэль 3v3 ⚔</p>
 <p class="pvp-load-sync-line"><span class="pvp-load-dot"></span> Синхронизация арены и подбор колод…</p>
 </header>
+<!-- MF-148: full-body heroes on arena (no card plates). -->
+<div class="battle-load-roster" data-purpose="load-roster">
+<div class="battle-load-side is-ally" id="pvpLoadAllyFigures"></div>
+<div class="battle-load-vs-gap" aria-hidden="true"><span>VS</span></div>
+<div class="battle-load-side is-enemy" id="pvpLoadEnemyFigures"></div>
+</div>
 <div class="pvp-load-vs">
 <span class="pvp-load-vs-mark">VS</span>
 <div>
@@ -17,7 +23,7 @@
 <span class="pvp-load-arena-pct">Арена: <b id="pvpLoadArenaPct">0%</b></span>
 </div>
 </div>
-<div class="pvp-load-teams">
+<div class="pvp-load-teams pvp-load-teams--meta">
 <section class="pvp-load-team is-ally" id="pvpLoadAlly">
 <header>
 <span class="pvp-load-badge">Вы</span>
@@ -27,7 +33,7 @@
 </div>
 <b>Мощь: 18 450</b>
 </header>
-<ul id="pvpLoadAllyList"></ul>
+<ul id="pvpLoadAllyList" class="pvp-load-names"></ul>
 <footer>
 <span>Синергия: Плазма &amp; Пар (+25% урона)</span>
 <em>Хранитель: Миурицио</em>
@@ -42,7 +48,7 @@
 </div>
 <b>Мощь: 17 980</b>
 </header>
-<ul id="pvpLoadEnemyList"></ul>
+<ul id="pvpLoadEnemyList" class="pvp-load-names"></ul>
 <footer>
 <em>Хранитель: Клык</em>
 <span>Синергия: Кровавый Шторм (+15% крита)</span>
@@ -62,4 +68,3 @@
 </footer>
 </main>
 </section>
-
