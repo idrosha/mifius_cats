@@ -84,6 +84,22 @@
       "iconSrc": "/gear-sets/thumbs/grey-boots.png"
     },
     {
+      "id": "grey_ring",
+      "slot": "ring",
+      "name": "Серое кольцо Лапы",
+      "atk": 0,
+      "hp": 1,
+      "def": 1,
+      "spd": 0,
+      "crit": 0,
+      "rank": 1,
+      "rarity": "common",
+      "enhance": 0,
+      "set": "grey",
+      "roles": null,
+      "iconSrc": "/gear-sets/thumbs/grey-ring.png"
+    },
+    {
       "id": "yellow_helm",
       "slot": "helm",
       "name": "Жёлтая шляпа Чародея",
@@ -162,6 +178,22 @@
       "set": "yellow",
       "roles": null,
       "iconSrc": "/gear-sets/thumbs/yellow-boots.png"
+    },
+    {
+      "id": "yellow_ring",
+      "slot": "ring",
+      "name": "Жёлтое кольцо Льва",
+      "atk": 1,
+      "hp": 1,
+      "def": 1,
+      "spd": 0,
+      "crit": 0,
+      "rank": 4,
+      "rarity": "epic",
+      "enhance": 6,
+      "set": "yellow",
+      "roles": null,
+      "iconSrc": "/gear-sets/thumbs/yellow-ring.png"
     },
     {
       "id": "yellow_staff",
@@ -298,6 +330,22 @@
       "iconSrc": "/gear-sets/thumbs/turquoise-boots.png"
     },
     {
+      "id": "turquoise_ring",
+      "slot": "ring",
+      "name": "Бирюзовое кольцо Рыси",
+      "atk": 0,
+      "hp": 2,
+      "def": 1,
+      "spd": 0,
+      "crit": 0,
+      "rank": 3,
+      "rarity": "rare",
+      "enhance": 4,
+      "set": "turquoise",
+      "roles": null,
+      "iconSrc": "/gear-sets/thumbs/turquoise-ring.png"
+    },
+    {
       "id": "turquoise_staff",
       "slot": "weapon",
       "name": "Бирюзовый посох",
@@ -396,6 +444,22 @@
       "iconSrc": "/gear-sets/thumbs/red-boots.png"
     },
     {
+      "id": "red_ring",
+      "slot": "ring",
+      "name": "Красное кольцо Дракона",
+      "atk": 1,
+      "hp": 2,
+      "def": 1,
+      "spd": 0,
+      "crit": 0,
+      "rank": 6,
+      "rarity": "legendary",
+      "enhance": 9,
+      "set": "red",
+      "roles": null,
+      "iconSrc": "/gear-sets/thumbs/red-ring.png"
+    },
+    {
       "id": "purple_helm",
       "slot": "helm",
       "name": "Фиолетовый капюшон",
@@ -476,6 +540,22 @@
       "iconSrc": "/gear-sets/thumbs/purple-boots.png"
     },
     {
+      "id": "purple_ring",
+      "slot": "ring",
+      "name": "Фиолетовое кольцо Небулы",
+      "atk": 1,
+      "hp": 1,
+      "def": 1,
+      "spd": 0,
+      "crit": 1,
+      "rank": 5,
+      "rarity": "epic",
+      "enhance": 8,
+      "set": "purple",
+      "roles": null,
+      "iconSrc": "/gear-sets/thumbs/purple-ring.png"
+    },
+    {
       "id": "green_helm",
       "slot": "helm",
       "name": "Зелёная шляпа Следопыта",
@@ -554,6 +634,22 @@
       "set": "green",
       "roles": null,
       "iconSrc": "/gear-sets/thumbs/green-boots.png"
+    },
+    {
+      "id": "green_ring",
+      "slot": "ring",
+      "name": "Зелёное кольцо Рыси",
+      "atk": 0,
+      "hp": 1,
+      "def": 1,
+      "spd": 1,
+      "crit": 0,
+      "rank": 2,
+      "rarity": "rare",
+      "enhance": 4,
+      "set": "green",
+      "roles": null,
+      "iconSrc": "/gear-sets/thumbs/green-ring.png"
     },
     {
       "id": "tank_mace",
