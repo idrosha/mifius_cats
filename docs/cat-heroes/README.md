@@ -1,8 +1,18 @@
 # Портреты 12 героев (полнорост)
 
 SSOT имён/ролей: `docs/game-wiki.md` §1.  
-HUD path: `/stitch-assets/cat-heroes/{slug}.png`  
-Project store mirror: `media/cat-heroes/`.
+HUD path (с фоном): `/stitch-assets/cat-heroes/{slug}.png`  
+HUD path (**без фона, только бой**): `/stitch-assets/cat-heroes/battle/{slug}.png` — `D-037`  
+Project store mirror: `media/cat-heroes/` (+ `battle/`).
+
+## Правило арта (`D-037`)
+
+| Где | Какой файл | API |
+|---|---|---|
+| Live бой (`practice_fight` / `pvp_fight` / `battle`) | `battle/{slug}.png` (RGBA cutout) | `catHeroBattleArt()` |
+| Все остальные формы (heroes, collection, home, lobby, load, victory…) | `{slug}.png` (студийный фон) | `catHeroArt()` |
+
+Не класть cutout в дефолтный путь — иначе сломаются карточки вне боя.
 
 ## Ready (12/12)
 
@@ -21,4 +31,4 @@ Project store mirror: `media/cat-heroes/`.
 | `support-a.png` | Саппорт A «Чистый родник» | `shop_support_water_a` |
 | `support-b.png` | Саппорт B «Прилив силы» | `shop_support_water_b` |
 
-Wired into: wiki §1.0 · `heroes` · `collection` · `/hero` (`home`).
+Wired into: wiki §1.0 · `heroes` · `collection` · `/hero` (`home`) · fight HUD (`D-037`).

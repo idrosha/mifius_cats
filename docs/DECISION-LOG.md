@@ -34,6 +34,23 @@ Append-only. Новые записи — **сверху** (после шабло
 
 ---
 
+## D-037 · 2026-11-17 · Cat-hero без фона только в live-бою
+
+- **Status:** Accepted
+- **Area:** hud
+- **SSOT:** docs/FULL-SPEC.md §6 (презентация); none (механика боя)
+- **Owner:** Andrew / web-hud (MF-148)
+
+### Context
+Полноростовые портреты героев пришли с чёрным студийным фоном. Cutout (прозрачный PNG) нужен, чтобы котик стоял на арене в бою. Если тем же cutout кормить heroes / collection / home / lobby / load — ломается «карточка с фоном как была».
+
+### Decision
+**Без фона (RGBA cutout) — только в live-режиме боя:** `practice_fight`, `pvp_fight`, `battle` (и аналогичные fight HUD). Путь: `/stitch-assets/cat-heroes/battle/{slug}.png` через `catHeroBattleArt()`.  
+**Все остальные формы** (heroes, collection, home/hero, practice lobby, load, victory, inspector…) — портреты **с фоном** из `/stitch-assets/cat-heroes/{slug}.png` через `catHeroArt()`. Не подменять дефолтный путь cutout’ом.
+
+### Consequences
+Два набора ассетов на героя. Новые экраны по умолчанию берут art **с фоном**, пока явно не fight HUD. Меню/orientGate не затрагиваются (`D-025`, `D-036`).
+
 ## D-036 · 2026-11-17 · Web HUD телефон = только landscape
 
 - **Status:** Accepted

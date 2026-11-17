@@ -760,6 +760,22 @@ body.mythfel-login .mythfel-logout {
 .mf-bar--hp i { background: linear-gradient(90deg, #4caf7a, #89d98c); }
 .mf-bar--shield i { background: linear-gradient(90deg, #5b8def, #9ec1ff); }
 .mf-unit-frame { position: relative; }
+/* D-037: transparent cutouts only on live fight boards (not lobby/forms). */
+.mf-battle-unit--cutout .mf-unit-frame,
+#viewPracticeFight .mf-battle-unit--cutout,
+#viewPvpFight .mf-battle-unit--cutout {
+  background: transparent !important;
+}
+.mf-battle-cutout,
+#viewPracticeFight img.mf-battle-cutout,
+#viewPvpFight img.mf-battle-cutout,
+#viewPracticeFight .mf-battle-unit--cutout img,
+#viewPvpFight .mf-battle-unit--cutout img {
+  object-fit: contain !important;
+  object-position: center bottom !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+}
 .mf-unit-dim { filter: brightness(0.35) grayscale(0.8); }
 .mf-fatality {
   position: absolute;
@@ -2923,6 +2939,101 @@ body:has(#viewPvpVictory:not(.hidden)) #app { height: 100dvh !important; max-hei
 .col-next div { display: flex; gap: 0.35rem; }
 .col-next div button { flex: 1 1 0; border: 1px solid rgba(80,69,53,.85); background: #1a1613; color: #eae1db; border-radius: 999px; padding: 0.32rem 0.4rem; cursor: pointer; font-size: 12px; }
 .col-keys { flex: 0 0 auto; display: flex; justify-content: flex-end; gap: 0.9rem; margin: 0.35rem 0 0; color: #9d8f7b; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; }
+/* MF-148: full-body heroes on battle load stages (transparent PNGs, not card plates). */
+.battle-load-roster {
+  position: absolute;
+  z-index: 2;
+  left: 3%;
+  right: 3%;
+  bottom: 12%;
+  top: 18%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+.battle-load-side {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: clamp(0.15rem, 1.2vw, 0.85rem);
+}
+.battle-load-side.is-enemy { justify-content: center; }
+.battle-load-vs-gap {
+  flex: 0 0 auto;
+  align-self: center;
+  display: grid;
+  place-items: center;
+  min-width: 2.5rem;
+}
+.battle-load-vs-gap span {
+  font-family: Rubik, sans-serif;
+  font-weight: 900;
+  font-size: clamp(1.4rem, 4vw, 2.4rem);
+  letter-spacing: 0.08em;
+  color: #fdba45;
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.85), 0 0 18px rgba(217, 155, 38, 0.35);
+}
+.battle-load-figure {
+  margin: 0;
+  flex: 0 1 auto;
+  width: clamp(4.2rem, 14vw, 9.5rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.65));
+}
+.battle-load-figure img {
+  display: block;
+  width: 100% !important;
+  height: clamp(7.5rem, 38vh, 16rem) !important;
+  max-width: none !important;
+  object-fit: contain !important;
+  object-position: center bottom !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  pointer-events: none;
+  user-select: none;
+}
+.battle-load-figure.is-enemy img { transform: scaleX(-1); }
+.battle-load-figure figcaption {
+  text-align: center;
+  max-width: 100%;
+  padding: 0.12rem 0.35rem;
+  border-radius: 0.35rem;
+  background: rgba(10, 8, 6, 0.72);
+  border: 1px solid rgba(80, 69, 53, 0.55);
+}
+.battle-load-figure figcaption b {
+  display: block;
+  font-size: clamp(9px, 1.4vw, 12px);
+  color: #f3e6d2;
+  line-height: 1.15;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.battle-load-figure figcaption small {
+  display: block;
+  font-size: 9px;
+  color: #9d8f7b;
+  line-height: 1.2;
+}
+.battle-load-figure.is-ally figcaption { border-color: rgba(253, 186, 69, 0.4); }
+.battle-load-figure.is-enemy figcaption { border-color: rgba(239, 138, 120, 0.45); }
+#viewPractice > .dojo-load .battle-load-roster {
+  top: 22%;
+  bottom: 22%;
+  z-index: 3;
+}
+#viewPractice > .dojo-load .battle-load-vs-gap { display: none; }
+
 /* Live PvP ranked duel load (/pvp-load). */
 body:has(#viewPvpLoad:not(.hidden)) #appNav,
 body:has(#viewPvpLoad:not(.hidden)) #wireDock { display: none !important; }
@@ -2934,7 +3045,7 @@ body:has(#viewPvpLoad:not(.hidden)) #app { height: 100dvh !important; max-height
   padding: 0.35rem 0.55rem 0.3rem !important; background: #100e0c; overflow: hidden;
 }
 #viewPvpLoad .pvp-load-stage {
-  position: relative; flex: 1.55 1 0; min-height: 13rem; border-radius: 0.55rem; overflow: hidden;
+  position: relative; flex: 2.2 1 0; min-height: 15rem; border-radius: 0.55rem; overflow: hidden;
   border: 1px solid rgba(180, 140, 70, 0.4);
 }
 #viewPvpLoad .pvp-load-art {
@@ -2978,11 +3089,14 @@ body:has(#viewPvpLoad:not(.hidden)) #app { height: 100dvh !important; max-height
 #viewPvpLoad .pvp-load-vs .is-down { color: #ef8a78; }
 #viewPvpLoad .pvp-load-arena-pct { font-size: 11px; color: #89d98c; font-weight: 700; }
 #viewPvpLoad .pvp-load-teams {
-  flex: 0.85 1 0; min-height: 9.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.45rem;
+  flex: 0 0 auto; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0.45rem;
+}
+#viewPvpLoad .pvp-load-teams--meta .pvp-load-team {
+  min-height: 0;
 }
 #viewPvpLoad .pvp-load-team {
-  min-width: 0; min-height: 0; display: flex; flex-direction: column; gap: 0.35rem;
-  background: #161310; border: 1px solid rgba(80,69,53,0.75); border-radius: 0.55rem; padding: 0.45rem 0.5rem;
+  min-width: 0; min-height: 0; display: flex; flex-direction: column; gap: 0.25rem;
+  background: #161310; border: 1px solid rgba(80,69,53,0.75); border-radius: 0.55rem; padding: 0.4rem 0.5rem;
 }
 #viewPvpLoad .pvp-load-team.is-enemy { border-color: rgba(239,138,120,0.4); }
 #viewPvpLoad .pvp-load-team > header {
@@ -2998,30 +3112,17 @@ body:has(#viewPvpLoad:not(.hidden)) #app { height: 100dvh !important; max-height
 #viewPvpLoad .pvp-load-team > header em { display: block; font-style: normal; font-size: 11px; color: #9d8f7b; }
 #viewPvpLoad .pvp-load-team > header > b { flex: 0 0 auto; font-size: 12px; color: #fdba45; }
 #viewPvpLoad .pvp-load-team.is-enemy > header > b { color: #ef8a78; }
-#viewPvpLoad .pvp-load-team ul {
-  list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.35rem;
-  flex: 1 1 auto; min-height: 0;
+/* Name-only strip under stage — portraits live as full-body figures on the arena. */
+#viewPvpLoad .pvp-load-team ul.pvp-load-names {
+  list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.3rem 0.55rem;
 }
-#viewPvpLoad .pvp-load-team li {
-  min-width: 0; background: #1a1613; border: 1px solid rgba(80,69,53,0.75); border-radius: 0.45rem;
-  padding: 0.35rem; display: flex; flex-direction: column; gap: 0.25rem;
+#viewPvpLoad .pvp-load-team ul.pvp-load-names li {
+  min-width: 0; background: transparent; border: 0; border-radius: 0; padding: 0;
+  display: flex; flex-direction: row; align-items: baseline; gap: 0.3rem;
 }
-#viewPvpLoad .pvp-load-team.is-enemy li { border-color: rgba(239,138,120,0.35); }
-#viewPvpLoad .pvp-load-team figure {
-  margin: 0; position: relative; width: 3.4rem; height: 3.4rem; border-radius: 999px; overflow: hidden;
-  border: 2px solid #fdba45; align-self: center;
-}
-#viewPvpLoad .pvp-load-team.is-enemy figure { border-color: #ef8a78; }
-#viewPvpLoad .pvp-load-team figure img {
-  width: 100% !important; height: 100% !important; object-fit: cover !important; object-position: center 20%;
-}
-#viewPvpLoad .pvp-load-team figure span {
-  position: absolute; right: -0.1rem; bottom: -0.05rem; font-size: 9px; font-weight: 800;
-  background: #1a1308; color: #fdba45; border-radius: 0.2rem; padding: 0.05rem 0.2rem;
-}
-#viewPvpLoad .pvp-load-team b { display: block; font-size: 12px; color: #f3e6d2; line-height: 1.15; }
-#viewPvpLoad .pvp-load-team small { display: block; font-size: 10px; color: #9d8f7b; }
-#viewPvpLoad .pvp-load-team em.hp { display: block; font-style: normal; font-size: 11px; color: #89d98c; font-weight: 700; }
+#viewPvpLoad .pvp-load-team ul.pvp-load-names b { display: inline; font-size: 12px; color: #f3e6d2; line-height: 1.15; }
+#viewPvpLoad .pvp-load-team ul.pvp-load-names small { display: inline; font-size: 10px; color: #9d8f7b; }
+#viewPvpLoad .pvp-load-team ul.pvp-load-names em.hp { display: inline; font-style: normal; font-size: 11px; color: #89d98c; font-weight: 700; }
 #viewPvpLoad .pvp-load-team > footer {
   display: flex; justify-content: space-between; gap: 0.4rem; flex-wrap: wrap;
   font-size: 11px; color: #d5c4af; border-top: 1px solid rgba(80,69,53,0.45); padding-top: 0.3rem;
