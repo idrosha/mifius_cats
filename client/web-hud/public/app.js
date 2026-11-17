@@ -6358,8 +6358,13 @@ function renderPracticeFight() {
   const local = diff.p1 || {};
   const energy = local.energy ?? 0;
   const mine = diff.active === 0 && !diff.result;
-  const allies = (diff.units || []).filter((u) => u.side === 0).sort((a, b) => a.lane - b.lane);
-  const enemies = (diff.units || []).filter((u) => u.side === 1).sort((a, b) => a.lane - b.lane);
+  // D-034: paint L→R = тыл · центр · авангард (same as lobby/load). Sim lanes stay 0=front…2=rear.
+  const unitsByVisualLane = (side) => {
+    const list = (diff.units || []).filter((u) => u.side === side);
+    return PRACTICE_VISUAL_LANES.map((lane) => list.find((u) => u.lane === lane)).filter(Boolean);
+  };
+  const allies = unitsByVisualLane(0);
+  const enemies = unitsByVisualLane(1);
   const drawCount = allies.reduce((n, u) => n + (u.drawCount || 0), 0);
   const discardCount = allies.reduce((n, u) => n + (u.discardCount || 0), 0);
   const energyMax = Math.max(3, energy);
@@ -6426,7 +6431,7 @@ function renderPracticeFight() {
       if (fxWrap) fxWrap.hidden = true;
       paintCombatUnitCard(card, u, { cleansedIds: clearedByUnit[u.id] || [] });
       // MF-149: idle breathe + elemental aura (cutouts stay fight-only, D-037).
-      decorateBattleUnitIdle(card, u, i);
+      decorateBattleUnitIdle(card, u, u.lane ?? i);
     });
   };
   paintSlots("#pfAllies", allies);
