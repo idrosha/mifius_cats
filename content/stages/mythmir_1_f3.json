@@ -5,12 +5,12 @@
   "bowlCost": 1,
   "enemyTeam": [
     {
-      "templateId": "bot_grass_dummy_tank_m1f3",
+      "templateId": "bot_dog_tank_m1f3",
       "role": "tank",
-      "element": "grass",
+      "element": "stone",
       "level": 1,
       "baseStats": {
-        "hp": 22,
+        "hp": 20,
         "atk": 2,
         "spd": 2,
         "skill": 1,
@@ -18,11 +18,11 @@
       },
       "deck": [
         {
-          "cardId": "card_bot_nibble_m1f3",
-          "name_key": "card.bot_nibble",
-          "element": "grass",
+          "cardId": "card_dog_bite_m1f3",
+          "name_key": "card.bot_dog_bite",
+          "element": "stone",
           "cost": 1,
-          "atk": 4,
+          "atk": 3,
           "shield": 0,
           "hits": 1,
           "targetRule": "nearest",
@@ -32,9 +32,9 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_shell_m1f3",
-          "name_key": "card.bot_shell",
-          "element": "grass",
+          "cardId": "card_dog_bark_m1f3",
+          "name_key": "card.bot_dog_bark",
+          "element": "stone",
           "cost": 1,
           "atk": 0,
           "shield": 4,
@@ -46,11 +46,11 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_nibble2_m1f3",
-          "name_key": "card.bot_nibble2",
-          "element": "grass",
+          "cardId": "card_dog_bite2_m1f3",
+          "name_key": "card.bot_dog_bite",
+          "element": "stone",
           "cost": 1,
-          "atk": 4,
+          "atk": 3,
           "shield": 0,
           "hits": 1,
           "targetRule": "nearest",
@@ -60,9 +60,9 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_shell2_m1f3",
-          "name_key": "card.bot_shell2",
-          "element": "grass",
+          "cardId": "card_dog_bark2_m1f3",
+          "name_key": "card.bot_dog_bark",
+          "element": "stone",
           "cost": 1,
           "atk": 0,
           "shield": 4,
@@ -73,25 +73,30 @@
           ],
           "effectOps": []
         }
-      ]
+      ],
+      "meta": {
+        "display_ru": "Пёс-щитоносец",
+        "faction": "dogs",
+        "isPitboss": false
+      }
     },
     {
-      "templateId": "bot_pitboss_m1f3",
+      "templateId": "bot_pitboss_dog_baron_m1f3",
       "role": "fighter",
-      "element": "grass",
+      "element": "stone",
       "level": 1,
       "baseStats": {
-        "hp": 27,
-        "atk": 5,
+        "hp": 26,
+        "atk": 4,
         "spd": 4,
-        "skill": 1,
+        "skill": 3,
         "charm": 1
       },
       "deck": [
         {
-          "cardId": "card_bot_scratch_m1f3",
-          "name_key": "card.bot_scratch",
-          "element": "grass",
+          "cardId": "card_dog_claw_m1f3",
+          "name_key": "card.bot_dog_claw",
+          "element": "stone",
           "cost": 1,
           "atk": 5,
           "shield": 0,
@@ -103,9 +108,9 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_scratch2_m1f3",
-          "name_key": "card.bot_scratch2",
-          "element": "grass",
+          "cardId": "card_dog_claw2_m1f3",
+          "name_key": "card.bot_dog_claw",
+          "element": "stone",
           "cost": 1,
           "atk": 5,
           "shield": 0,
@@ -117,9 +122,9 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_scratch3_m1f3",
-          "name_key": "card.bot_scratch3",
-          "element": "grass",
+          "cardId": "card_dog_claw3_m1f3",
+          "name_key": "card.bot_dog_claw",
+          "element": "stone",
           "cost": 1,
           "atk": 5,
           "shield": 0,
@@ -131,38 +136,43 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_scratch4_m1f3",
-          "name_key": "card.bot_scratch4",
-          "element": "grass",
+          "cardId": "card_dog_poke_m1f3",
+          "name_key": "card.bot_dog_poke",
+          "element": "stone",
           "cost": 1,
-          "atk": 5,
-          "hits": 1,
+          "atk": 4,
           "shield": 0,
+          "hits": 1,
           "targetRule": "nearest",
           "tags": [
             "attack"
           ],
           "effectOps": []
         }
-      ]
+      ],
+      "meta": {
+        "display_ru": "Барон Гав",
+        "faction": "dogs",
+        "isPitboss": true
+      }
     },
     {
-      "templateId": "bot_grass_dummy_support_m1f3",
+      "templateId": "bot_dog_support_m1f3",
       "role": "support",
-      "element": "grass",
+      "element": "stone",
       "level": 1,
       "baseStats": {
-        "hp": 15,
+        "hp": 13,
         "atk": 1,
         "spd": 3,
         "skill": 2,
-        "charm": 2
+        "charm": 1
       },
       "deck": [
         {
-          "cardId": "card_bot_sip_m1f3",
+          "cardId": "card_dog_sip_m1f3",
           "name_key": "card.bot_sip",
-          "element": "grass",
+          "element": "stone",
           "cost": 1,
           "atk": 0,
           "shield": 0,
@@ -179,9 +189,9 @@
           ]
         },
         {
-          "cardId": "card_bot_poke_m1f3",
-          "name_key": "card.bot_poke",
-          "element": "grass",
+          "cardId": "card_dog_poke_m1f3",
+          "name_key": "card.bot_dog_poke",
+          "element": "stone",
           "cost": 1,
           "atk": 2,
           "shield": 0,
@@ -193,9 +203,9 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_sip2_m1f3",
+          "cardId": "card_dog_sip2_m1f3",
           "name_key": "card.bot_sip2",
-          "element": "grass",
+          "element": "stone",
           "cost": 1,
           "atk": 0,
           "shield": 0,
@@ -212,9 +222,9 @@
           ]
         },
         {
-          "cardId": "card_bot_poke2_m1f3",
-          "name_key": "card.bot_poke2",
-          "element": "grass",
+          "cardId": "card_dog_poke2_m1f3",
+          "name_key": "card.bot_dog_poke",
+          "element": "stone",
           "cost": 1,
           "atk": 2,
           "shield": 0,
@@ -225,14 +235,21 @@
           ],
           "effectOps": []
         }
-      ]
+      ],
+      "meta": {
+        "display_ru": "Пёс-завывала",
+        "faction": "dogs",
+        "isPitboss": false
+      }
     }
   ],
   "meta": {
     "stageIndex": 1,
     "fightIndex": 3,
-    "title_ru": "Врата Усадьбы",
-    "fight_ru": "Мелкие + питбосс",
-    "waveTheme": "small_plus_pitboss"
+    "title_ru": "Железная Цитадель",
+    "fight_ru": "Питбосс + солдаты",
+    "faction": "dogs",
+    "waveTheme": "boss_plus_soldiers",
+    "location_ru": "Железная Цитадель"
   }
 }

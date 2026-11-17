@@ -23,6 +23,9 @@ type SpawnUnit struct {
 	Template content.CatTemplate
 	Deck     []content.CardDef
 	Parts    map[string]content.PartDef // for passiveOps
+	// CarryAlive: nil = alive at MaxHP; false = spawn dead (Mythmir wave carry, D-039 / §4.1).
+	// true = living unit restored to MaxHP on the next chapter level.
+	CarryAlive *bool
 }
 
 // NewBattle builds the shared core used by CreatePvE and CreatePvP.
@@ -117,6 +120,15 @@ func spawn(s SpawnUnit, side Side, lane int, rng *RNG) (*Unit, error) {
 				}
 			}
 		}
+	}
+	// D-039: dead heroes stay dead across chapter levels; living enter at full MaxHP.
+	if s.CarryAlive != nil && !*s.CarryAlive {
+		u.HP = 0
+		u.Alive = false
+		u.Shield = 0
+	} else {
+		u.HP = u.MaxHP
+		u.Alive = true
 	}
 	u.DrawPile = make([]int, n)
 	for i := 0; i < n; i++ {

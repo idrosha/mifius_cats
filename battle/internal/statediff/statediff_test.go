@@ -14,7 +14,7 @@ import (
 func TestFromBattle_CreatePvE_HasBoardAndHand(t *testing.T) {
 	cat := loadCatalog(t)
 	b, err := mode.CreatePvE(cat, "b_statediff", "test_yard_1", 20261104,
-		[]string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}, nil)
+		[]string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}, nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -39,7 +39,7 @@ func TestFromBattle_CreatePvE_HasBoardAndHand(t *testing.T) {
 func TestFromBattle_StunCardsNotPlayable(t *testing.T) {
 	cat := loadCatalog(t)
 	b, err := mode.CreatePvE(cat, "b_stun", "test_yard_1", 20261104,
-		[]string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}, nil)
+		[]string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}, nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -65,7 +65,7 @@ func TestFromBattle_StunCardsNotPlayable(t *testing.T) {
 func TestFromBattle_AutoPlay_P1Win(t *testing.T) {
 	cat := loadCatalog(t)
 	b, err := mode.CreatePvE(cat, "b_win", "test_yard_1", 20261104,
-		[]string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}, nil)
+		[]string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}, nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}

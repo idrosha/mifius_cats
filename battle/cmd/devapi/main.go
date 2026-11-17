@@ -71,11 +71,12 @@ type server struct {
 }
 
 type createPvEReq struct {
-	StageID  string   `json:"stageId"`
-	Team     []string `json:"team"`
-	Potions  []string `json:"potions"`
-	Seed     int64    `json:"seed"`
-	AutoPlay bool     `json:"autoPlay"`
+	StageID    string   `json:"stageId"`
+	Team       []string `json:"team"`
+	Potions    []string `json:"potions"`
+	Seed       int64    `json:"seed"`
+	AutoPlay   bool     `json:"autoPlay"`
+	CarryAlive []bool   `json:"carryAlive"` // D-039 Mythmir wave carry; omit = all alive
 }
 
 type createPvPReq struct {
@@ -118,7 +119,7 @@ func (s *server) createPvE(w http.ResponseWriter, r *http.Request) {
 		seed = time.Now().UnixNano()
 	}
 	id := fmt.Sprintf("pve_%d", s.seq.Add(1))
-	b, err := mode.CreatePvE(s.cat, id, req.StageID, seed, req.Team, req.Potions)
+	b, err := mode.CreatePvE(s.cat, id, req.StageID, seed, req.Team, req.Potions, req.CarryAlive)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

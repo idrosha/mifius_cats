@@ -1,29 +1,36 @@
 {
-  "version": 1,
+  "version": 2,
+  "decision": "D-039",
   "nodes": [
     {
       "stageIndex": 1,
       "id": "mythmir_1",
       "title_key": "mythmir.stage.1",
-      "title_ru": "Врата Усадьбы",
+      "title_ru": "Железная Цитадель",
+      "faction": "dogs",
+      "faction_ru": "Обычные псы",
+      "boss_ru": "Барон Гав",
       "fights": [
         {
           "fightIndex": 1,
           "stageId": "mythmir_1_f1",
-          "label_ru": "Мелкие питомцы",
-          "label_key": "stage.mythmir_1_f1"
+          "label_ru": "Солдаты",
+          "label_key": "stage.mythmir_1_f1",
+          "waveTheme": "soldiers"
         },
         {
           "fightIndex": 2,
           "stageId": "mythmir_1_f2",
-          "label_ru": "Средние питомцы",
-          "label_key": "stage.mythmir_1_f2"
+          "label_ru": "Солдаты",
+          "label_key": "stage.mythmir_1_f2",
+          "waveTheme": "soldiers"
         },
         {
           "fightIndex": 3,
           "stageId": "mythmir_1_f3",
-          "label_ru": "Мелкие + питбосс",
-          "label_key": "stage.mythmir_1_f3"
+          "label_ru": "Питбосс + солдаты",
+          "label_key": "stage.mythmir_1_f3",
+          "waveTheme": "boss_plus_soldiers"
         }
       ]
     },
@@ -31,25 +38,31 @@
       "stageIndex": 2,
       "id": "mythmir_2",
       "title_key": "mythmir.stage.2",
-      "title_ru": "Тропа Одуванчиков",
+      "title_ru": "Ледяные Пещеры",
+      "faction": "wolves",
+      "faction_ru": "Северные волки",
+      "boss_ru": "Лютый Клык",
       "fights": [
         {
           "fightIndex": 1,
           "stageId": "mythmir_2_f1",
-          "label_ru": "Мелкие питомцы",
-          "label_key": "stage.mythmir_2_f1"
+          "label_ru": "Солдаты",
+          "label_key": "stage.mythmir_2_f1",
+          "waveTheme": "soldiers"
         },
         {
           "fightIndex": 2,
           "stageId": "mythmir_2_f2",
-          "label_ru": "Средние питомцы",
-          "label_key": "stage.mythmir_2_f2"
+          "label_ru": "Солдаты",
+          "label_key": "stage.mythmir_2_f2",
+          "waveTheme": "soldiers"
         },
         {
           "fightIndex": 3,
           "stageId": "mythmir_2_f3",
-          "label_ru": "Мелкие + питбосс",
-          "label_key": "stage.mythmir_2_f3"
+          "label_ru": "Питбосс + солдаты",
+          "label_key": "stage.mythmir_2_f3",
+          "waveTheme": "boss_plus_soldiers"
         }
       ]
     },
@@ -57,25 +70,31 @@
       "stageIndex": 3,
       "id": "mythmir_3",
       "title_key": "mythmir.stage.3",
-      "title_ru": "Заброшенные Амбары",
+      "title_ru": "Алая Псарня",
+      "faction": "red_dogs",
+      "faction_ru": "Красные псы",
+      "boss_ru": "Алый Вожак",
       "fights": [
         {
           "fightIndex": 1,
           "stageId": "mythmir_3_f1",
-          "label_ru": "Мелкие питомцы",
-          "label_key": "stage.mythmir_3_f1"
+          "label_ru": "Солдаты",
+          "label_key": "stage.mythmir_3_f1",
+          "waveTheme": "soldiers"
         },
         {
           "fightIndex": 2,
           "stageId": "mythmir_3_f2",
-          "label_ru": "Средние питомцы",
-          "label_key": "stage.mythmir_3_f2"
+          "label_ru": "Солдаты",
+          "label_key": "stage.mythmir_3_f2",
+          "waveTheme": "soldiers"
         },
         {
           "fightIndex": 3,
           "stageId": "mythmir_3_f3",
-          "label_ru": "Мелкие + питбосс",
-          "label_key": "stage.mythmir_3_f3"
+          "label_ru": "Питбосс + солдаты",
+          "label_key": "stage.mythmir_3_f3",
+          "waveTheme": "boss_plus_soldiers"
         }
       ]
     },
@@ -83,25 +102,31 @@
       "stageIndex": 4,
       "id": "mythmir_4",
       "title_key": "mythmir.stage.4",
-      "title_ru": "Псарня Старого Сада",
+      "title_ru": "Чумные Склепы",
+      "faction": "zombies",
+      "faction_ru": "Зомби",
+      "boss_ru": "Некропёс Мор",
       "fights": [
         {
           "fightIndex": 1,
           "stageId": "mythmir_4_f1",
-          "label_ru": "Мелкие питомцы",
-          "label_key": "stage.mythmir_4_f1"
+          "label_ru": "Солдаты",
+          "label_key": "stage.mythmir_4_f1",
+          "waveTheme": "soldiers"
         },
         {
           "fightIndex": 2,
           "stageId": "mythmir_4_f2",
-          "label_ru": "Средние питомцы",
-          "label_key": "stage.mythmir_4_f2"
+          "label_ru": "Солдаты",
+          "label_key": "stage.mythmir_4_f2",
+          "waveTheme": "soldiers"
         },
         {
           "fightIndex": 3,
           "stageId": "mythmir_4_f3",
-          "label_ru": "Мелкие + питбосс",
-          "label_key": "stage.mythmir_4_f3"
+          "label_ru": "Питбосс + солдаты",
+          "label_key": "stage.mythmir_4_f3",
+          "waveTheme": "boss_plus_soldiers"
         }
       ]
     },
@@ -109,25 +134,31 @@
       "stageIndex": 5,
       "id": "mythmir_5",
       "title_key": "mythmir.stage.5",
-      "title_ru": "Логово Питбосса",
+      "title_ru": "Призрачный Чертог",
+      "faction": "ghosts",
+      "faction_ru": "Призраки",
+      "boss_ru": "Фантом Гул",
       "fights": [
         {
           "fightIndex": 1,
           "stageId": "mythmir_5_f1",
-          "label_ru": "Мелкие питомцы",
-          "label_key": "stage.mythmir_5_f1"
+          "label_ru": "Солдаты",
+          "label_key": "stage.mythmir_5_f1",
+          "waveTheme": "soldiers"
         },
         {
           "fightIndex": 2,
           "stageId": "mythmir_5_f2",
-          "label_ru": "Средние питомцы",
-          "label_key": "stage.mythmir_5_f2"
+          "label_ru": "Солдаты",
+          "label_key": "stage.mythmir_5_f2",
+          "waveTheme": "soldiers"
         },
         {
           "fightIndex": 3,
           "stageId": "mythmir_5_f3",
-          "label_ru": "Мелкие + питбосс",
-          "label_key": "stage.mythmir_5_f3"
+          "label_ru": "Питбосс + солдаты",
+          "label_key": "stage.mythmir_5_f3",
+          "waveTheme": "boss_plus_soldiers"
         }
       ]
     }

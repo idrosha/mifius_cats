@@ -670,6 +670,10 @@ const state = {
   pveStage: "entrance",
   pveLoadPct: 0,
   pveLoadTimer: null,
+  /** D-039 · carryAlive across chapter levels; living restored at MaxHP next CreatePvE. */
+  pveCarryAlive: [true, true, true],
+  /** D-039 · post-fight fatigue until ts (ms); SL stub via liveops pve_fatigue_stub. */
+  pveFatigueUntil: 0,
   /** True while opponent 6-card face-down discard throw VFX is playing. */
   oppThrowPlaying: false,
   bossWaveIndex: 0,
@@ -2094,6 +2098,10 @@ function fillDrinkHosts(hosts) {
       tile.addEventListener("click", () => {
         if (d.gated) {
           showGateTip();
+          return;
+        }
+        if (d.kind === "restore") {
+          clearPveFatigueStub();
           return;
         }
         toast(
@@ -5368,6 +5376,7 @@ function bindPveVictory() {
   $("pveVicAgain")?.addEventListener("click", () => {
     clearBattle();
     state.battleMode = "pve";
+    resetPveCarryAlive();
     openPveLoad();
   });
   $("pveVicHub")?.addEventListener("click", () => {
@@ -5383,10 +5392,13 @@ function bindPveVictory() {
     const idx = order.indexOf(pveNormalizeStage(state.pveStage));
     if (idx >= 0 && idx < order.length - 1) {
       state.pveStage = order[idx + 1];
+      // Living cats keep carryAlive; dead stay dead until chapter ends.
     } else {
       state.pveStage = "entrance";
       state.pveChapter = Math.min(5, (Number(state.pveChapter) || 1) + 1);
+      resetPveCarryAlive();
     }
+    state.selectedStageId = pveStageId(state.pveChapter, state.pveStage);
     openPveLoad();
   });
   document.addEventListener("keydown", (ev) => {
@@ -6730,6 +6742,10 @@ async function applyDiff(diff, note = "") {
   }
   if (diff.result) {
     state.lastResult = { battleId: diff.battleId, result: diff.result };
+    if (state.battleMode === "pve") {
+      syncPveCarryFromBattle(diff);
+      markPveFatigue();
+    }
     if (diff.result === "p1_win") {
       if (state.battleMode === "practice") {
         state.progress.practiceWins += 1;
@@ -6759,18 +6775,26 @@ async function applyDiff(diff, note = "") {
   }
 }
 
-async function createPvE({ autoPlay = false, seed = 0, stageId = null, team = null } = {}) {
+async function createPvE({ autoPlay = false, seed = 0, stageId = null, team = null, carryAlive = null } = {}) {
   const sid = stageId || state.selectedStageId || YARD_STAGE;
   const squad = Array.isArray(team) && team.length === 3 ? team : STARTERS;
+  const carry =
+    Array.isArray(carryAlive) && carryAlive.length === 3
+      ? carryAlive
+      : state.battleMode === "pve"
+        ? state.pveCarryAlive
+        : null;
+  const body = {
+    stageId: sid,
+    team: squad,
+    potions: [],
+    seed,
+    autoPlay,
+  };
+  if (Array.isArray(carry) && carry.length === 3) body.carryAlive = carry.map(Boolean);
   const { data } = await api("/api/battle/v1/CreatePvE", {
     method: "POST",
-    body: JSON.stringify({
-      stageId: sid,
-      team: squad,
-      potions: [],
-      seed,
-      autoPlay,
-    }),
+    body: JSON.stringify(body),
   });
   return data;
 }
@@ -6934,35 +6958,35 @@ const PVE_LOAD_CHAPTERS = {
     title: "Железная Цитадель",
     bossName: "Барон Гав",
     bossRole: "Железный Варлорд и Молотобоец Цитадели",
-    faction: "Железная Стая",
+    faction: "Обычные псы",
     levelPill: "Уровень Кампании: 1",
     threatStars: "★★★☆☆",
     description:
-      "Могучий мастиф в массивных латах из чёрного чугуна. Орудует шипастым осадным молотом, сотрясающим катакомбы. Не знает усталости, а его свита из верных щитоносцев прикрывает уязвимые фланги.",
-    tip: "Не атакуйте Барона Гава во время действия стойки «Железный Оплот» — сконцентрируйтесь на его псах-щитоносцах!",
+      "Барон Гав — питбосс Железной Цитадели. Солдаты-псы держат фронт; без шмоток проходим строем танк·DPS·саппорт.",
+    tip: "Держите танка впереди — между волнами живые котики восстанавливают HP, мёртвые не воскресают (D-039).",
     affixes: [
-      { icon: "🛡", title: "Железный Оплот", desc: "Иммунитет к Оглушению" },
-      { icon: "💥", title: "Ярость Вожака", desc: "+50% урона при <30% HP" },
-      { icon: "🐕", title: "Пак Охраны", desc: "Призыв 2 щитоносцев" },
-      { icon: "⚡", title: "Раскол Земли", desc: "Оглушение всего 1-го ряда" },
+      { icon: "🛡", title: "Лай-щит", desc: "Солдаты кастуют shield" },
+      { icon: "🐕", title: "Укус Стаи", desc: "Ближний урон по фронту" },
+      { icon: "💥", title: "Ярость Барона", desc: "Питбосс бьёт сильнее солдат" },
+      { icon: "⚡", title: "Тычок", desc: "Лёгкий добивающий удар" },
     ],
     stages: {
       entrance: {
         art: "/stitch-assets/pve-fight/ch1-entrance.png",
-        enemyTitle: "СТАЯ · ВОЛНА 1/3 (ВХОД)",
-        enemies: ["Страж кованых врат", "Патруль ущелья", "Лучник на башне"],
-        tip: "Этап 1/3 · Вход в Железное ущелье",
+        enemyTitle: "СТАЯ · ВОЛНА 1/3 (СОЛДАТЫ)",
+        enemies: ["Пёс-щитоносец", "Пёс-задира", "Пёс-завывала"],
+        tip: "Этап 1/3 · Солдаты Железной Цитадели",
       },
       tunnel: {
         art: "/stitch-assets/pve-fight/ch1-tunnel.png",
-        enemyTitle: "СТАЯ · ВОЛНА 2/3 (ТОННЕЛЬ)",
-        enemies: ["Молотобоец коридора", "Щитоносец стаи", "Пёс-разведчик"],
-        tip: "Этап 2/3 · Тоннель к цитадели",
+        enemyTitle: "СТАЯ · ВОЛНА 2/3 (СОЛДАТЫ)",
+        enemies: ["Пёс-щитоносец", "Пёс-задира", "Пёс-завывала"],
+        tip: "Этап 2/3 · Солдаты глубже в цитадели",
       },
       boss: {
         art: "/stitch-assets/pve-fight/ch1-boss.png",
-        enemyTitle: "СТАЯ · ВОЛНА 3/3 (БОСС)",
-        enemies: ["Железный Волкодав (Танк-Босс)", "Пёс-Молотобоец", "Железный Щитоносец"],
+        enemyTitle: "СТАЯ · ВОЛНА 3/3 (ПИТБОСС)",
+        enemies: ["Пёс-щитоносец", "Барон Гав", "Пёс-завывала"],
         tip: "Этап 3/3 · Зал Барона Гава",
       },
     },
@@ -6970,148 +6994,149 @@ const PVE_LOAD_CHAPTERS = {
   2: {
     title: "Ледяные Пещеры",
     bossName: "Лютый Клык",
-    bossRole: "Альфа-Вожак Ледяных Стай & Шаман Инея",
-    faction: "Северные Волки",
+    bossRole: "Альфа северных волков",
+    faction: "Северные волки",
     levelPill: "Уровень Кампании: 2",
     threatStars: "★★★★☆",
     description:
-      "Яростный арктический вожак в доспехах из древних костей мамонта. Вооружён зазубренными ледяными серпами, накладывающими глубокое обморожение на весь строй героев.",
-    tip: "Волки уязвимы к заклинаниям Огня x2.0! Используйте огненные свитки Мага Игниуса для снятия щитов инея!",
+      "Лютый Клык ведёт северных волков Ледяных Пещер. Чуть крепче гл.1, всё ещё clearable на стартерах.",
+    tip: "Между уровнями HP живых восстанавливается полностью; не теряйте саппорт до питбосса.",
     affixes: [
-      { icon: "❄", title: "Ледяная Стужа", desc: "-40% скорости атаки строя" },
-      { icon: "🐺", title: "Зов Метели", desc: "Призыв ледяных стрелков" },
-      { icon: "🗡", title: "Двойной Серп", desc: "Кровотечение и раскол брони" },
-      { icon: "💎", title: "Тотем Кристалла", desc: "Периодический щит 800 HP" },
+      { icon: "❄", title: "Иней", desc: "Короткий weak вместо жёсткого stun" },
+      { icon: "🐺", title: "Ледяной Коготь", desc: "Урон по фронту" },
+      { icon: "🗡", title: "Вой Инея", desc: "Щит / давление" },
+      { icon: "💎", title: "Шаман", desc: "Хил союзникам-врагам" },
     ],
     stages: {
       entrance: {
         art: "/stitch-assets/pve-fight/ch2-entrance.png",
-        enemyTitle: "СТАЯ · ВОЛНА 1/3 (ВХОД)",
-        enemies: ["Страж ледяных врат", "Волк-дозорный", "Шаман инея"],
-        tip: "Этап 1/3 · Вход в ледяную пещеру",
+        enemyTitle: "СТАЯ · ВОЛНА 1/3 (СОЛДАТЫ)",
+        enemies: ["Северный страж", "Волк-клык", "Шаман инея"],
+        tip: "Этап 1/3 · Солдаты Ледяных Пещер",
       },
       tunnel: {
         art: "/stitch-assets/pve-fight/ch2-tunnel.png",
-        enemyTitle: "СТАЯ · ВОЛНА 2/3 (ТОННЕЛЬ)",
-        enemies: ["Ледяной волк-воин", "Кристальный лучник", "Сталкер метели"],
+        enemyTitle: "СТАЯ · ВОЛНА 2/3 (СОЛДАТЫ)",
+        enemies: ["Северный страж", "Волк-клык", "Шаман инея"],
         tip: "Этап 2/3 · Ледяной проход",
       },
       boss: {
         art: "/stitch-assets/pve-fight/ch2-boss.png",
-        enemyTitle: "СТАЯ · ВОЛНА 3/3 (БОСС)",
-        enemies: ["Альфа-Вожак (Берсерк-Босс)", "Ледяной Волк-Воин", "Ледяной Волк-Шаман"],
+        enemyTitle: "СТАЯ · ВОЛНА 3/3 (ПИТБОСС)",
+        enemies: ["Северный страж", "Лютый Клык", "Шаман инея"],
         tip: "Этап 3/3 · Логово Лютого Клыка",
       },
     },
   },
   3: {
-    title: "Чумные Катакомбы",
-    bossName: "Некропёс Мор",
-    bossRole: "Владыка Гнили и Зелёного Пламени",
-    faction: "Чумной Ковен",
+    title: "Алая Псарня",
+    bossName: "Алый Вожак",
+    bossRole: "Вожак Алой Стаи и Углежор",
+    faction: "Красные псы",
     levelPill: "Уровень Кампании: 3",
     threatStars: "★★★★☆",
     description:
-      "Жуткий архи-некромант в костяной маске чумного доктора. Его фонарь струится токсичным эктоплазменным дымом, отравляющим воздух и исцеляющим неживых мясников.",
-    tip: "Запаситесь зельями очищения! Ядовитые лужи наносят периодический урон каждый раунд, пока активен фонарь Мора.",
+      "Яростный вожак в багровых латах. Ведёт углежуев и искромётов Алой Псарни; удары прожигают щиты и давят тыл.",
+    tip: "Держите танка впереди и лечите саппортом — Алый Вожак бьёт сильно, но проходим на стартерах без шмоток (D-039).",
     affixes: [
-      { icon: "🧪", title: "Ядовитая Аура", desc: "120 урона ядом в секунду" },
-      { icon: "💀", title: "Некро-Жатва", desc: "Воскрешает павших подручных" },
-      { icon: "🏮", title: "Зелёный Фонарь", desc: "Ослепляет магов заднего ряда" },
-      { icon: "🥩", title: "Чумной Тесак", desc: "Снижает исцеление отряда на 75%" },
+      { icon: "🔥", title: "Алый Рык", desc: "Давление по фронту" },
+      { icon: "🦴", title: "Угольный Коготь", desc: "Сильный одиночный удар" },
+      { icon: "🛡", title: "Щит Стаи", desc: "Солдаты прикрывают вожака" },
+      { icon: "⚡", title: "Искра", desc: "Лёгкий добивающий тычок" },
     ],
     stages: {
       entrance: {
-        art: "/stitch-assets/pve-fight/ch3-entrance.png",
-        enemyTitle: "СТАЯ · ВОЛНА 1/3 (ВХОД)",
-        enemies: ["Страж болотных врат", "Чумной дозор", "Носитель гнили"],
-        tip: "Этап 1/3 · Вход в чумные катакомбы",
+        // Existing painted forms remapped to D-039 factions (no new art).
+        art: "/stitch-assets/pve-fight/ch5-entrance.png",
+        enemyTitle: "СТАЯ · ВОЛНА 1/3 (СОЛДАТЫ)",
+        enemies: ["Алый щитоносец", "Пёс-углежуй", "Пёс-искромёт"],
+        tip: "Этап 1/3 · Вход в Алую Псарню",
       },
       tunnel: {
-        art: "/stitch-assets/pve-fight/ch3-tunnel.png",
-        enemyTitle: "СТАЯ · ВОЛНА 2/3 (ТОННЕЛЬ)",
-        enemies: ["Трупный мясник", "Ядовитый ловчий", "Канализационный пёс"],
-        tip: "Этап 2/3 · Токсичный тоннель",
+        art: "/stitch-assets/pve-fight/ch5-tunnel.png",
+        enemyTitle: "СТАЯ · ВОЛНА 2/3 (СОЛДАТЫ)",
+        enemies: ["Алый щитоносец", "Пёс-углежуй", "Пёс-искромёт"],
+        tip: "Этап 2/3 · Коридор псарни",
       },
       boss: {
-        art: "/stitch-assets/pve-fight/ch3-boss.png",
-        enemyTitle: "СТАЯ · ВОЛНА 3/3 (БОСС)",
-        enemies: ["Чумной Некромант (Маг-Босс)", "Трупный Мясник", "Могильщик-Ассасин"],
-        tip: "Этап 3/3 · Зал Некропса Мора",
+        art: "/stitch-assets/pve-fight/ch5-boss.png",
+        enemyTitle: "СТАЯ · ВОЛНА 3/3 (ПИТБОСС)",
+        enemies: ["Алый щитоносец", "Алый Вожак", "Пёс-искромёт"],
+        tip: "Этап 3/3 · Трон Алого Вожака",
       },
     },
   },
   4: {
-    title: "Призрачный Склеп",
-    bossName: "Фантом Гул",
-    bossRole: "Лорд Бестелесных Душ и Могильного Хлада",
-    faction: "Орден Призраков",
+    title: "Чумные Склепы",
+    bossName: "Некропёс Мор",
+    bossRole: "Владыка Гнили",
+    faction: "Зомби",
     levelPill: "Уровень Кампании: 4",
     threatStars: "★★★★★",
     description:
-      "Парящий над могильными камнями призрачный владыка с клинком загробного пламени. Неуязвим для обычного физического оружия, пропускает сквозь себя стрелы.",
-    tip: "Обычные клинки наносят на 80% меньше урона! Атакуйте только магическим или святым уроном Паладина!",
+      "Некропёс Мор ведёт гнилых стражей и трупных мясников Чумных Склепов. Тяжелее гл.1–3, но всё ещё clearable на стартерах.",
+    tip: "Не теряйте танка до питбосса — мёртвые котики не воскресают до конца главы (D-039).",
     affixes: [
-      { icon: "👻", title: "Эфирное Тело", desc: "-80% к физическому урону" },
-      { icon: "⚔", title: "Клинок Душ", desc: "Урон сквозь любую броню" },
-      { icon: "⛓", title: "Цепи Склепа", desc: "Приковывает танка на 4 сек" },
-      { icon: "🌌", title: "Разлом Пустоты", desc: "Крадет 2 очка энергии (AP)" },
+      { icon: "🧪", title: "Гниль", desc: "Давление DoT-тематикой (баланс soft)" },
+      { icon: "💀", title: "Трупный Удар", desc: "Сильный центр" },
+      { icon: "🛡", title: "Гнилой Страж", desc: "Фронт держит" },
+      { icon: "🥩", title: "Носитель", desc: "Хил союзникам-врагам" },
     ],
     stages: {
       entrance: {
-        art: "/stitch-assets/pve-fight/ch4-entrance.png",
-        enemyTitle: "СТАЯ · ВОЛНА 1/3 (ВХОД)",
-        enemies: ["Страж кладбищенских врат", "Блуждающий огонёк", "Могильный пёс"],
-        tip: "Этап 1/3 · Вход в призрачный склеп",
+        art: "/stitch-assets/pve-fight/ch3-entrance.png",
+        enemyTitle: "СТАЯ · ВОЛНА 1/3 (СОЛДАТЫ)",
+        enemies: ["Гнилой страж", "Трупный мясник", "Носитель гнили"],
+        tip: "Этап 1/3 · Вход в Чумные Склепы",
       },
       tunnel: {
-        art: "/stitch-assets/pve-fight/ch4-tunnel.png",
-        enemyTitle: "СТАЯ · ВОЛНА 2/3 (ТОННЕЛЬ)",
-        enemies: ["Призрачный страж", "Цепной фантом", "Волк пустоты"],
-        tip: "Этап 2/3 · Галерея призрачных колонн",
+        art: "/stitch-assets/pve-fight/ch3-tunnel.png",
+        enemyTitle: "СТАЯ · ВОЛНА 2/3 (СОЛДАТЫ)",
+        enemies: ["Гнилой страж", "Трупный мясник", "Носитель гнили"],
+        tip: "Этап 2/3 · Токсичный тоннель",
       },
       boss: {
-        art: "/stitch-assets/pve-fight/ch4-boss.png",
-        enemyTitle: "СТАЯ · ВОЛНА 3/3 (БОСС)",
-        enemies: ["Эфирный Владыка (Мистик-Босс)", "Джаггернаут-Страж", "Призрачный Волк"],
-        tip: "Этап 3/3 · Зал Фантома Гула",
+        art: "/stitch-assets/pve-fight/ch3-boss.png",
+        enemyTitle: "СТАЯ · ВОЛНА 3/3 (ПИТБОСС)",
+        enemies: ["Гнилой страж", "Некропёс Мор", "Носитель гнили"],
+        tip: "Этап 3/3 · Зал Некропса Мора",
       },
     },
   },
   5: {
-    title: "Имперский Зал",
-    bossName: "Генерал Дог",
-    bossRole: "Верховный Инквизитор и Магистр Золотого Ордена",
-    faction: "Императорская Гвардия",
+    title: "Призрачный Чертог",
+    bossName: "Фантом Гул",
+    bossRole: "Лорд Бестелесных Душ",
+    faction: "Призраки",
     levelPill: "Уровень Кампании: 5 (ФИНАЛ)",
     threatStars: "★★★★★+",
     description:
-      "Верховный архи-гончий в золотых имперских латах с пылающим клинком палача. Руководит элитными инквизиторами-доберманами и алебардщиками преторианской стражи.",
-    tip: "Финальный бой кампании! Прерывайте его способность «Суд Инквизиции», иначе весь ваш отряд погибнет в огне!",
+      "Фантом Гул парит над Призрачным Чертогом. Финальная глава Мифмира SL — тяжелее всех, но проходима танк·DPS·саппорт без шмоток.",
+    tip: "После боя котики устают: Таверна или 5–10 мин ожидания (stub D-039).",
     affixes: [
-      { icon: "🔥", title: "Огненный Клинок", desc: "Чистый урон огнем по площади" },
-      { icon: "👑", title: "Имперская Воля", desc: "Полный иммунитет к контролю" },
-      { icon: "⚖", title: "Суд Инквизиции", desc: "Каст смертоносного вихря (3 сек)" },
-      { icon: "🗡", title: "Теневые Стилеты", desc: "Удар в спину вашего лекаря" },
+      { icon: "👻", title: "Фаза", desc: "Эфирные удары" },
+      { icon: "⚔", title: "Клинок Душ", desc: "Сильный центр" },
+      { icon: "⛓", title: "Цепь Склепа", desc: "Давление по фронту" },
+      { icon: "🌌", title: "Слабость", desc: "Короткий weak" },
     ],
     stages: {
       entrance: {
-        art: "/stitch-assets/pve-fight/ch5-entrance.png",
-        enemyTitle: "СТАЯ · ВОЛНА 1/3 (ВХОД)",
-        enemies: ["Страж имперского бастиона", "Гвардеец у рва", "Сигнальщик ордена"],
-        tip: "Этап 1/3 · Вход в Имперский бастион",
+        art: "/stitch-assets/pve-fight/ch4-entrance.png",
+        enemyTitle: "СТАЯ · ВОЛНА 1/3 (СОЛДАТЫ)",
+        enemies: ["Могильный страж", "Клинок душ", "Блуждающий огонёк"],
+        tip: "Этап 1/3 · Вход в Призрачный Чертог",
       },
       tunnel: {
-        art: "/stitch-assets/pve-fight/ch5-tunnel.png",
-        enemyTitle: "СТАЯ · ВОЛНА 2/3 (ТОННЕЛЬ)",
-        enemies: ["Алебардщик преторианцев", "Волчий часовой", "Инквизитор-палач"],
-        tip: "Этап 2/3 · Зал знамён ордена",
+        art: "/stitch-assets/pve-fight/ch4-tunnel.png",
+        enemyTitle: "СТАЯ · ВОЛНА 2/3 (СОЛДАТЫ)",
+        enemies: ["Могильный страж", "Клинок душ", "Блуждающий огонёк"],
+        tip: "Этап 2/3 · Галерея призрачных колонн",
       },
       boss: {
-        art: "/stitch-assets/pve-fight/ch5-boss.png",
-        enemyTitle: "СТАЯ · ВОЛНА 3/3 (БОСС)",
-        enemies: ["Верховный Инквизитор (Апекс-Босс)", "Гвардеец с алебардой", "Пёс-Ассасин"],
-        tip: "Этап 3/3 · Тронный зал Генерала Дога",
+        art: "/stitch-assets/pve-fight/ch4-boss.png",
+        enemyTitle: "СТАЯ · ВОЛНА 3/3 (ПИТБОСС)",
+        enemies: ["Могильный страж", "Фантом Гул", "Блуждающий огонёк"],
+        tip: "Этап 3/3 · Зал Фантома Гула",
       },
     },
   },
@@ -7125,6 +7150,56 @@ function pveChapterData(chapter = state.pveChapter) {
 function pveNormalizeStage(stage) {
   const s = String(stage || "entrance");
   return PVE_STAGES.includes(s) ? s : "entrance";
+}
+
+/** Map PvE UI stage → mythmir_{ch}_f{1..3} (D-039). */
+function pveStageId(chapter = state.pveChapter, stage = state.pveStage) {
+  const ch = Math.max(1, Math.min(5, Number(chapter) || 1));
+  const st = pveNormalizeStage(stage);
+  const f = st === "tunnel" ? 2 : st === "boss" ? 3 : 1;
+  return `mythmir_${ch}_f${f}`;
+}
+
+function resetPveCarryAlive() {
+  state.pveCarryAlive = [true, true, true];
+}
+
+function syncPveCarryFromBattle(battle) {
+  if (!battle?.units) return;
+  // Prefer numeric side===0 (devapi statediff); fall back to id prefix.
+  const p1 = battle.units.filter(
+    (u) => u.side === 0 || u.side === "p1" || String(u.id || "").startsWith("p1_"),
+  );
+  const next = [false, false, false];
+  for (let j = 0; j < 3; j++) {
+    const u = p1[j];
+    next[j] = !!(u && u.alive);
+  }
+  state.pveCarryAlive = next;
+}
+
+function pveFatigueSec() {
+  const n = Number(state.liveOps?.limits?.pve_fatigue_sec);
+  return Number.isFinite(n) && n > 0 ? n : 420;
+}
+
+function pveFatigueStub() {
+  const v = state.liveOps?.limits?.pve_fatigue_stub;
+  return v !== false; // default stub on
+}
+
+function markPveFatigue() {
+  state.pveFatigueUntil = Date.now() + pveFatigueSec() * 1000;
+  toast(t("pve.fatigue.tip", "Котики устали после боя · молоко в Таверне или подождите 5–10 мин (stub)"));
+}
+
+function clearPveFatigueStub() {
+  state.pveFatigueUntil = 0;
+  toast(t("pve.fatigue.cleared", "Усталость снята молоком на льду (stub)"));
+}
+
+function pveFatigueActive() {
+  return Number(state.pveFatigueUntil || 0) > Date.now();
 }
 
 function pveStageArt(chapter = state.pveChapter, stage = state.pveStage) {
@@ -7161,8 +7236,13 @@ function setPveLoadProgress(pct) {
 
 function applyPveLoadChapter(chapter) {
   const n = Math.max(1, Math.min(5, Number(chapter) || 1));
+  if (n !== Number(state.pveChapter)) {
+    state.pveStage = "entrance";
+    resetPveCarryAlive();
+  }
   state.pveChapter = n;
   if (!state.pveStage) state.pveStage = "entrance";
+  state.selectedStageId = pveStageId(n, state.pveStage);
   const data = pveChapterData(n);
   document.querySelectorAll("#viewPveLoad .pve-load-bg").forEach((img) => {
     const ch = Number(img.getAttribute("data-chapter") || 0);
@@ -7281,6 +7361,18 @@ async function pveLoadStart() {
   state.pveLoadTimer = null;
   state.battleMode = "pve";
   state.pveStage = pveNormalizeStage(state.pveStage || "entrance");
+  state.selectedStageId = pveStageId(state.pveChapter, state.pveStage);
+  if (state.pveStage === "entrance") resetPveCarryAlive();
+  if (pveFatigueActive()) {
+    // SL stub: tip only — do not hard-block when pve_fatigue_stub=true (D-039).
+    toast(t("pve.fatigue.active", "Отряд устал (stub) · можно идти в бой; LiveOps pve_fatigue_stub"));
+    if (!pveFatigueStub()) {
+      toast(t("pve.fatigue.tip", "Котики устали после боя · молоко в Таверне или подождите 5–10 мин (stub)"));
+      const goBlocked = $("pveLoadGo");
+      if (goBlocked) goBlocked.textContent = "В БОЙ";
+      return;
+    }
+  }
   const go = $("pveLoadGo");
   if (go) go.textContent = "ВХОД В БОЙ…";
   await startYard(false);

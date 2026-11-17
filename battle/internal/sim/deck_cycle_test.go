@@ -39,7 +39,7 @@ func TestDeckCycle_EndTurnDiscardsUnused_ThenReshuffles(t *testing.T) {
 			var b *sim.Battle
 			var err error
 			if modeName == "pve" {
-				b, err = mode.CreatePvE(cat, "cycle_pve", "test_yard_1", 77, starters(), nil)
+				b, err = mode.CreatePvE(cat, "cycle_pve", "test_yard_1", 77, starters(), nil, nil)
 			} else {
 				b, err = mode.CreatePvP(cat, "cycle_pvp", "m1", 77, starters(), starters(), nil, nil)
 			}
@@ -115,7 +115,7 @@ func TestDeckCycle_KeepCarriesIntoNextOwnTurn(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	b, err := mode.CreatePvE(cat, "keep_cycle", "test_yard_1", 99, starters(), nil)
+	b, err := mode.CreatePvE(cat, "keep_cycle", "test_yard_1", 99, starters(), nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}

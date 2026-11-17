@@ -5,12 +5,12 @@
   "bowlCost": 1,
   "enemyTeam": [
     {
-      "templateId": "bot_grass_dummy_tank_m4f3",
+      "templateId": "bot_zomb_tank_m4f3",
       "role": "tank",
       "element": "grass",
-      "level": 1,
+      "level": 4,
       "baseStats": {
-        "hp": 22,
+        "hp": 23,
         "atk": 2,
         "spd": 2,
         "skill": 1,
@@ -18,11 +18,11 @@
       },
       "deck": [
         {
-          "cardId": "card_bot_nibble_m4f3",
-          "name_key": "card.bot_nibble",
+          "cardId": "card_zomb_bite_m4f3",
+          "name_key": "card.bot_zomb_bite",
           "element": "grass",
           "cost": 1,
-          "atk": 4,
+          "atk": 3,
           "shield": 0,
           "hits": 1,
           "targetRule": "nearest",
@@ -32,12 +32,12 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_shell_m4f3",
-          "name_key": "card.bot_shell",
+          "cardId": "card_zomb_bark_m4f3",
+          "name_key": "card.bot_zomb_husk",
           "element": "grass",
           "cost": 1,
           "atk": 0,
-          "shield": 4,
+          "shield": 5,
           "hits": 0,
           "targetRule": "self",
           "tags": [
@@ -46,11 +46,11 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_nibble2_m4f3",
-          "name_key": "card.bot_nibble2",
+          "cardId": "card_zomb_bite2_m4f3",
+          "name_key": "card.bot_zomb_bite",
           "element": "grass",
           "cost": 1,
-          "atk": 4,
+          "atk": 3,
           "shield": 0,
           "hits": 1,
           "targetRule": "nearest",
@@ -60,12 +60,12 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_shell2_m4f3",
-          "name_key": "card.bot_shell2",
+          "cardId": "card_zomb_bark2_m4f3",
+          "name_key": "card.bot_zomb_husk",
           "element": "grass",
           "cost": 1,
           "atk": 0,
-          "shield": 4,
+          "shield": 5,
           "hits": 0,
           "targetRule": "self",
           "tags": [
@@ -73,27 +73,32 @@
           ],
           "effectOps": []
         }
-      ]
+      ],
+      "meta": {
+        "display_ru": "Гнилой страж",
+        "faction": "zombies",
+        "isPitboss": false
+      }
     },
     {
-      "templateId": "bot_pitboss_m4f3",
+      "templateId": "bot_pitboss_zomb_necro_m4f3",
       "role": "fighter",
       "element": "grass",
-      "level": 1,
+      "level": 4,
       "baseStats": {
-        "hp": 27,
+        "hp": 30,
         "atk": 5,
         "spd": 4,
-        "skill": 1,
+        "skill": 3,
         "charm": 1
       },
       "deck": [
         {
-          "cardId": "card_bot_scratch_m4f3",
-          "name_key": "card.bot_scratch",
+          "cardId": "card_zomb_claw_m4f3",
+          "name_key": "card.bot_zomb_claw",
           "element": "grass",
           "cost": 1,
-          "atk": 5,
+          "atk": 6,
           "shield": 0,
           "hits": 1,
           "targetRule": "nearest",
@@ -103,11 +108,11 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_scratch2_m4f3",
-          "name_key": "card.bot_scratch2",
+          "cardId": "card_zomb_claw2_m4f3",
+          "name_key": "card.bot_zomb_claw",
           "element": "grass",
           "cost": 1,
-          "atk": 5,
+          "atk": 6,
           "shield": 0,
           "hits": 1,
           "targetRule": "nearest",
@@ -117,11 +122,11 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_scratch3_m4f3",
-          "name_key": "card.bot_scratch3",
+          "cardId": "card_zomb_claw3_m4f3",
+          "name_key": "card.bot_zomb_claw",
           "element": "grass",
           "cost": 1,
-          "atk": 5,
+          "atk": 6,
           "shield": 0,
           "hits": 1,
           "targetRule": "nearest",
@@ -131,36 +136,49 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_scratch4_m4f3",
-          "name_key": "card.bot_scratch4",
+          "cardId": "card_zomb_poison_m4f3",
+          "name_key": "card.bot_zomb_poison",
           "element": "grass",
           "cost": 1,
-          "atk": 5,
-          "hits": 1,
+          "atk": 4,
           "shield": 0,
+          "hits": 1,
           "targetRule": "nearest",
           "tags": [
-            "attack"
+            "attack",
+            "weak"
           ],
-          "effectOps": []
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "weak",
+              "stacks": 1,
+              "duration": 1
+            }
+          ]
         }
-      ]
+      ],
+      "meta": {
+        "display_ru": "Некропёс Мор",
+        "faction": "zombies",
+        "isPitboss": true
+      }
     },
     {
-      "templateId": "bot_grass_dummy_support_m4f3",
+      "templateId": "bot_zomb_support_m4f3",
       "role": "support",
       "element": "grass",
-      "level": 1,
+      "level": 4,
       "baseStats": {
         "hp": 15,
         "atk": 1,
         "spd": 3,
         "skill": 2,
-        "charm": 2
+        "charm": 1
       },
       "deck": [
         {
-          "cardId": "card_bot_sip_m4f3",
+          "cardId": "card_zomb_sip_m4f3",
           "name_key": "card.bot_sip",
           "element": "grass",
           "cost": 1,
@@ -179,8 +197,8 @@
           ]
         },
         {
-          "cardId": "card_bot_poke_m4f3",
-          "name_key": "card.bot_poke",
+          "cardId": "card_zomb_poke_m4f3",
+          "name_key": "card.bot_zomb_poison",
           "element": "grass",
           "cost": 1,
           "atk": 2,
@@ -193,7 +211,7 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_sip2_m4f3",
+          "cardId": "card_zomb_sip2_m4f3",
           "name_key": "card.bot_sip2",
           "element": "grass",
           "cost": 1,
@@ -212,8 +230,8 @@
           ]
         },
         {
-          "cardId": "card_bot_poke2_m4f3",
-          "name_key": "card.bot_poke2",
+          "cardId": "card_zomb_poke2_m4f3",
+          "name_key": "card.bot_zomb_poison",
           "element": "grass",
           "cost": 1,
           "atk": 2,
@@ -225,14 +243,21 @@
           ],
           "effectOps": []
         }
-      ]
+      ],
+      "meta": {
+        "display_ru": "Носитель гнили",
+        "faction": "zombies",
+        "isPitboss": false
+      }
     }
   ],
   "meta": {
     "stageIndex": 4,
     "fightIndex": 3,
-    "title_ru": "Псарня Старого Сада",
-    "fight_ru": "Мелкие + питбосс",
-    "waveTheme": "small_plus_pitboss"
+    "title_ru": "Чумные Склепы",
+    "fight_ru": "Питбосс + солдаты",
+    "faction": "zombies",
+    "waveTheme": "boss_plus_soldiers",
+    "location_ru": "Чумные Склепы"
   }
 }

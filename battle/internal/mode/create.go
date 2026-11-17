@@ -8,7 +8,9 @@ import (
 )
 
 // CreatePvE — FULL-SPEC §8.2. Economy (bowl spend) is outside battle-core; here only stage+team+seed.
-func CreatePvE(cat *content.Catalog, battleID, stageID string, seed int64, teamTemplateIDs []string, potions []string) (*sim.Battle, error) {
+// carryAlive (D-039 / §4.1): optional len=3; false = that lane stays dead across Mythmir chapter levels.
+// Living lanes always spawn at MaxHP (wave HP restore). nil / empty = all alive.
+func CreatePvE(cat *content.Catalog, battleID, stageID string, seed int64, teamTemplateIDs []string, potions []string, carryAlive []bool) (*sim.Battle, error) {
 	stage, ok := cat.Stages[stageID]
 	if !ok {
 		return nil, fmt.Errorf("unknown stage %s", stageID)
@@ -16,9 +18,21 @@ func CreatePvE(cat *content.Catalog, battleID, stageID string, seed int64, teamT
 	if len(teamTemplateIDs) != 3 {
 		return nil, fmt.Errorf("CreatePvE team must be 3")
 	}
-	p1, err := spawnStarters(cat, teamTemplateIDs, "p1")
+	if carryAlive != nil && len(carryAlive) != 3 {
+		return nil, fmt.Errorf("CreatePvE carryAlive must be len 3 or empty")
+	}
+	p1, err := spawnStarters(cat, teamTemplateIDs, "p1", carryAlive)
 	if err != nil {
 		return nil, err
+	}
+	aliveN := 0
+	for _, u := range p1 {
+		if u.CarryAlive == nil || *u.CarryAlive {
+			aliveN++
+		}
+	}
+	if aliveN == 0 {
+		return nil, fmt.Errorf("CreatePvE: no living heroes for chapter wave (D-039)")
 	}
 	p2, err := spawnStageEnemies(stage)
 	if err != nil {
@@ -40,11 +54,11 @@ func CreatePvP(cat *content.Catalog, battleID, matchID string, seed int64, team1
 	if len(team1) != 3 || len(team2) != 3 {
 		return nil, fmt.Errorf("CreatePvP teams must be 3v3")
 	}
-	p1, err := spawnStarters(cat, team1, "p1")
+	p1, err := spawnStarters(cat, team1, "p1", nil)
 	if err != nil {
 		return nil, err
 	}
-	p2, err := spawnStarters(cat, team2, "p2")
+	p2, err := spawnStarters(cat, team2, "p2", nil)
 	if err != nil {
 		return nil, err
 	}
@@ -60,7 +74,7 @@ func CreatePvP(cat *content.Catalog, battleID, matchID string, seed int64, team1
 	})
 }
 
-func spawnStarters(cat *content.Catalog, ids []string, prefix string) ([]sim.SpawnUnit, error) {
+func spawnStarters(cat *content.Catalog, ids []string, prefix string, carryAlive []bool) ([]sim.SpawnUnit, error) {
 	out := make([]sim.SpawnUnit, 0, 3)
 	for i, id := range ids {
 		t, ok := cat.Starters[id]
@@ -75,12 +89,17 @@ func spawnStarters(cat *content.Catalog, ids []string, prefix string) ([]sim.Spa
 		for slot, pid := range t.Parts {
 			parts[slot] = cat.Parts[pid]
 		}
-		out = append(out, sim.SpawnUnit{
+		su := sim.SpawnUnit{
 			ID:       fmt.Sprintf("%s_%d_%s", prefix, i, id),
 			Template: t,
 			Deck:     deck,
 			Parts:    parts,
-		})
+		}
+		if carryAlive != nil {
+			alive := carryAlive[i]
+			su.CarryAlive = &alive
+		}
+		out = append(out, su)
 	}
 	return out, nil
 }

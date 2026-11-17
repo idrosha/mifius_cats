@@ -5,12 +5,12 @@
   "bowlCost": 1,
   "enemyTeam": [
     {
-      "templateId": "bot_grass_dummy_tank_m3f2",
+      "templateId": "bot_redd_tank_m3f2",
       "role": "tank",
-      "element": "grass",
-      "level": 1,
+      "element": "fire",
+      "level": 3,
       "baseStats": {
-        "hp": 20,
+        "hp": 21,
         "atk": 2,
         "spd": 2,
         "skill": 1,
@@ -18,9 +18,9 @@
       },
       "deck": [
         {
-          "cardId": "card_bot_nibble_m3f2",
-          "name_key": "card.bot_nibble",
-          "element": "grass",
+          "cardId": "card_redd_bite_m3f2",
+          "name_key": "card.bot_redd_bite",
+          "element": "fire",
           "cost": 1,
           "atk": 3,
           "shield": 0,
@@ -32,9 +32,9 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_shell_m3f2",
-          "name_key": "card.bot_shell",
-          "element": "grass",
+          "cardId": "card_redd_bark_m3f2",
+          "name_key": "card.bot_redd_roar",
+          "element": "fire",
           "cost": 1,
           "atk": 0,
           "shield": 3,
@@ -46,9 +46,9 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_nibble2_m3f2",
-          "name_key": "card.bot_nibble2",
-          "element": "grass",
+          "cardId": "card_redd_bite2_m3f2",
+          "name_key": "card.bot_redd_bite",
+          "element": "fire",
           "cost": 1,
           "atk": 3,
           "shield": 0,
@@ -60,9 +60,9 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_shell2_m3f2",
-          "name_key": "card.bot_shell2",
-          "element": "grass",
+          "cardId": "card_redd_bark2_m3f2",
+          "name_key": "card.bot_redd_roar",
+          "element": "fire",
           "cost": 1,
           "atk": 0,
           "shield": 3,
@@ -73,15 +73,20 @@
           ],
           "effectOps": []
         }
-      ]
+      ],
+      "meta": {
+        "display_ru": "Алый щитоносец",
+        "faction": "red_dogs",
+        "isPitboss": false
+      }
     },
     {
-      "templateId": "bot_grass_dummy_fighter_m3f2",
+      "templateId": "bot_redd_fighter_m3f2",
       "role": "fighter",
-      "element": "grass",
-      "level": 1,
+      "element": "fire",
+      "level": 3,
       "baseStats": {
-        "hp": 15,
+        "hp": 17,
         "atk": 3,
         "spd": 4,
         "skill": 1,
@@ -89,9 +94,9 @@
       },
       "deck": [
         {
-          "cardId": "card_bot_scratch_m3f2",
-          "name_key": "card.bot_scratch",
-          "element": "grass",
+          "cardId": "card_redd_claw_m3f2",
+          "name_key": "card.bot_redd_claw",
+          "element": "fire",
           "cost": 1,
           "atk": 4,
           "shield": 0,
@@ -103,9 +108,9 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_scratch2_m3f2",
-          "name_key": "card.bot_scratch2",
-          "element": "grass",
+          "cardId": "card_redd_claw2_m3f2",
+          "name_key": "card.bot_redd_claw",
+          "element": "fire",
           "cost": 1,
           "atk": 4,
           "shield": 0,
@@ -117,9 +122,9 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_scratch3_m3f2",
-          "name_key": "card.bot_scratch3",
-          "element": "grass",
+          "cardId": "card_redd_claw3_m3f2",
+          "name_key": "card.bot_redd_claw",
+          "element": "fire",
           "cost": 1,
           "atk": 4,
           "shield": 0,
@@ -131,38 +136,43 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_scratch4_m3f2",
-          "name_key": "card.bot_scratch4",
-          "element": "grass",
+          "cardId": "card_redd_poke_m3f2",
+          "name_key": "card.bot_redd_spark",
+          "element": "fire",
           "cost": 1,
-          "atk": 4,
-          "hits": 1,
+          "atk": 3,
           "shield": 0,
+          "hits": 1,
           "targetRule": "nearest",
           "tags": [
             "attack"
           ],
           "effectOps": []
         }
-      ]
+      ],
+      "meta": {
+        "display_ru": "Пёс-углежуй",
+        "faction": "red_dogs",
+        "isPitboss": false
+      }
     },
     {
-      "templateId": "bot_grass_dummy_support_m3f2",
+      "templateId": "bot_redd_support_m3f2",
       "role": "support",
-      "element": "grass",
-      "level": 1,
+      "element": "fire",
+      "level": 3,
       "baseStats": {
         "hp": 13,
         "atk": 1,
         "spd": 3,
         "skill": 2,
-        "charm": 2
+        "charm": 1
       },
       "deck": [
         {
-          "cardId": "card_bot_sip_m3f2",
+          "cardId": "card_redd_sip_m3f2",
           "name_key": "card.bot_sip",
-          "element": "grass",
+          "element": "fire",
           "cost": 1,
           "atk": 0,
           "shield": 0,
@@ -179,9 +189,9 @@
           ]
         },
         {
-          "cardId": "card_bot_poke_m3f2",
-          "name_key": "card.bot_poke",
-          "element": "grass",
+          "cardId": "card_redd_poke_m3f2",
+          "name_key": "card.bot_redd_spark",
+          "element": "fire",
           "cost": 1,
           "atk": 2,
           "shield": 0,
@@ -193,9 +203,9 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_sip2_m3f2",
+          "cardId": "card_redd_sip2_m3f2",
           "name_key": "card.bot_sip2",
-          "element": "grass",
+          "element": "fire",
           "cost": 1,
           "atk": 0,
           "shield": 0,
@@ -212,9 +222,9 @@
           ]
         },
         {
-          "cardId": "card_bot_poke2_m3f2",
-          "name_key": "card.bot_poke2",
-          "element": "grass",
+          "cardId": "card_redd_poke2_m3f2",
+          "name_key": "card.bot_redd_spark",
+          "element": "fire",
           "cost": 1,
           "atk": 2,
           "shield": 0,
@@ -225,14 +235,21 @@
           ],
           "effectOps": []
         }
-      ]
+      ],
+      "meta": {
+        "display_ru": "Пёс-искромёт",
+        "faction": "red_dogs",
+        "isPitboss": false
+      }
     }
   ],
   "meta": {
     "stageIndex": 3,
     "fightIndex": 2,
-    "title_ru": "Заброшенные Амбары",
-    "fight_ru": "Средние питомцы",
-    "waveTheme": "medium"
+    "title_ru": "Алая Псарня",
+    "fight_ru": "Солдаты",
+    "faction": "red_dogs",
+    "waveTheme": "soldiers",
+    "location_ru": "Алая Псарня"
   }
 }
