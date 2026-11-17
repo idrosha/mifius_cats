@@ -1698,6 +1698,195 @@ function renderHub() {
   renderUnlockProgress();
 }
 
+function campaignNode(chapter) {
+  const ch = Math.max(1, Math.min(5, Number(chapter) || 1));
+  const nodes = state.campaign?.nodes || [];
+  return nodes.find((n) => Number(n.stageIndex) === ch) || nodes[ch - 1] || null;
+}
+
+function isChapterUnlocked(chapter) {
+  return isFightUnlocked(Math.max(1, Math.min(5, Number(chapter) || 1)), 1);
+}
+
+function isChapterCleared(chapter) {
+  const node = campaignNode(chapter);
+  const last = node?.fights?.[node.fights.length - 1]?.stageId;
+  return !!(last && state.progress.clearedFights[last]);
+}
+
+/** Next uncleared fight in chapter, else f1. Sets pveStage entrance|tunnel|boss. */
+function pickChapterFight(chapter) {
+  const node = campaignNode(chapter);
+  const fights = node?.fights || [];
+  let fight = fights[0] || null;
+  let stage = "entrance";
+  for (let i = 0; i < fights.length; i++) {
+    const f = fights[i];
+    if (!state.progress.clearedFights[f.stageId]) {
+      fight = f;
+      stage = i === 0 ? "entrance" : i === 1 ? "tunnel" : "boss";
+      break;
+    }
+    if (i === fights.length - 1) {
+      fight = f;
+      stage = "boss";
+    }
+  }
+  return { fight, stage };
+}
+
+function selectPveChapter(chapter, { toastPick = true, requireUnlock = false } = {}) {
+  const ch = Math.max(1, Math.min(5, Number(chapter) || 1));
+  const unlocked = isChapterUnlocked(ch);
+  // Map/chips: always allow switching the selected chapter (preview). Fight start can require unlock.
+  if (requireUnlock && !unlocked) {
+    showGateTip(t("yard.chapter.locked", "Глава ещё закрыта · зачисти предыдущую"));
+    return false;
+  }
+  const prev = Number(state.pveChapter) || 1;
+  state.battleMode = "pve";
+  state.pveChapter = ch;
+  if (prev !== ch) resetPveCarryAlive();
+  const { fight, stage } = pickChapterFight(ch);
+  state.pveStage = stage;
+  state.selectedStageId = fight?.stageId || pveStageId(ch, stage);
+  if (toastPick) {
+    const node = campaignNode(ch);
+    const title = node?.title_ru || pveChapterData(ch).title || `Глава ${ch}`;
+    toast(
+      unlocked
+        ? t("yard.chapter.pick", `Глава ${ch}: ${title}`)
+        : t("yard.chapter.preview", `Глава ${ch}: ${title} · пока закрыта`),
+    );
+  }
+  renderPveYardChapter();
+  return true;
+}
+
+function renderPveYardChapter() {
+  const ch = Math.max(1, Math.min(5, Number(state.pveChapter) || 1));
+  const node = campaignNode(ch);
+  const data = pveChapterData(ch);
+  const title = node?.title_ru || data.title || `Глава ${ch}`;
+  const faction = node?.faction_ru || data.faction || "";
+  const boss = node?.boss_ru || data.bossName || "";
+  const setText = (id, value) => {
+    const el = $(id);
+    if (el) el.textContent = value;
+  };
+  setText("pveYardChapterEyebrow", `Глава ${ch}${faction ? ` · ${faction}` : ""}`);
+  setText("pveYardThreatPill", data.threatStars || `Ур. ${ch}`);
+  setText("pveYardChapterTitle", title);
+  setText(
+    "pveYardChapterLore",
+    data.description ||
+      `Три уровня: солдаты → солдаты → питбосс «${boss}». Строй танк · DPS · саппорт.`,
+  );
+  setText("pveYardTip", `Совет Сэнсэя: ${data.tip || "Держите танка в авангарде."}`);
+  setText("pveYardZoneStatus", `Глава ${ch} / 5 · ${state.selectedStageId || ""}`);
+
+  // Wave cards: soldiers / soldiers / pitboss
+  const grid = $("pveYardWaveGrid");
+  if (grid) {
+    const cards = grid.querySelectorAll(":scope > div");
+    const waves = [
+      { label: "Волна 1", name: "Солдаты", sub: `${faction || "Враги"} · 3 юнита` },
+      { label: "Волна 2", name: "Солдаты", sub: `${faction || "Враги"} · крепче` },
+      { label: "В3 · Босс", name: boss || "Питбосс", sub: "Питбосс + солдаты" },
+    ];
+    waves.forEach((w, i) => {
+      const card = cards[i];
+      if (!card) return;
+      const nameEl = card.querySelector(".font-label-md");
+      const subEl = card.querySelector(".font-body-sm");
+      if (nameEl) nameEl.textContent = w.name;
+      if (subEl) subEl.textContent = w.sub;
+      const badge = card.querySelector(".font-label-sm, .bg-error-container\\/40, [class*='error-container']");
+      // leave wave badge paint; titles above are enough
+    });
+  }
+
+  // Map nodes + chips
+  document.querySelectorAll("#viewYard .pve-yard-node[data-pve-chapter]").forEach((pin) => {
+    const n = Number(pin.getAttribute("data-pve-chapter") || 0);
+    const unlocked = isChapterUnlocked(n);
+    const cleared = isChapterCleared(n);
+    const active = n === ch;
+    pin.classList.toggle("is-active", active);
+    pin.classList.toggle("is-cleared", cleared && !active);
+    pin.classList.toggle("is-locked", !unlocked);
+    pin.classList.toggle("cursor-pointer", unlocked);
+    pin.classList.toggle("cursor-not-allowed", !unlocked);
+    pin.setAttribute("aria-pressed", active ? "true" : "false");
+    const short = (campaignNode(n)?.title_ru || pveChapterData(n).title || `Глава ${n}`).split(" ")[0];
+    const label = pin.querySelector(":scope > span.font-label-sm, :scope > span.font-label-md, :scope > span.mt-1\\.5, :scope > span.mt-2");
+    // Prefer direct child label span (map pin caption)
+    const caps = [...pin.children].filter((el) => el.tagName === "SPAN");
+    if (caps[0]) {
+      const full = campaignNode(n)?.title_ru || pveChapterData(n).title || `Глава ${n}`;
+      // Short map label: last meaningful word or full if short
+      const parts = full.split(/\s+/);
+      caps[0].textContent = parts.length <= 2 ? full : parts[parts.length - 1];
+      if (active) {
+        caps[0].classList.add("text-primary");
+        caps[0].classList.remove("text-on-surface", "text-on-surface-variant");
+      }
+    }
+    // Active badge (one per selected chapter)
+    let badge = pin.querySelector(":scope > .pve-yard-active-badge");
+    if (active) {
+      if (!badge) {
+        badge = document.createElement("div");
+        badge.className =
+          "pve-yard-active-badge absolute -top-6 bg-primary text-on-primary font-label-sm text-[9px] uppercase font-bold px-2 py-0.5 rounded-full shadow-md whitespace-nowrap border border-primary/40 z-20";
+        badge.textContent = "АКТИВНЫЙ УЗЕЛ";
+        pin.prepend(badge);
+      }
+      badge.hidden = false;
+      badge.style.display = "";
+    } else if (badge) {
+      badge.hidden = true;
+      badge.style.display = "none";
+    }
+    // Icon state
+    const icon = pin.querySelector(".material-symbols-outlined");
+    if (icon && !icon.closest(".pve-yard-active-badge")) {
+      if (!unlocked) icon.textContent = "lock";
+      else if (cleared && !active) icon.textContent = "check_circle";
+      else if (active) icon.textContent = "swords";
+      else icon.textContent = "radio_button_unchecked";
+    }
+  });
+
+  document.querySelectorAll("#pveYardChapterChips [data-pve-chapter], #viewYard #pveYardChapterChips button[data-pve-chapter]").forEach((btn) => {
+    const n = Number(btn.getAttribute("data-pve-chapter") || 0);
+    const unlocked = isChapterUnlocked(n);
+    const cleared = isChapterCleared(n);
+    const active = n === ch;
+    const nodeTitle = campaignNode(n)?.title_ru || pveChapterData(n).title || "";
+    const short = nodeTitle ? nodeTitle.split(/\s+/).slice(-1)[0] : String(n);
+    btn.disabled = false;
+    btn.classList.toggle("opacity-70", !unlocked && !active);
+    if (active) {
+      btn.innerHTML = `<span class="material-symbols-outlined text-[15px]">swords</span> ${n}. ${short}`;
+      btn.className =
+        "px-3.5 py-1.5 rounded-lg text-body-sm font-label-md bg-primary-container text-on-primary font-bold shadow-md flex items-center gap-1.5 border border-primary/40";
+    } else if (!unlocked) {
+      btn.innerHTML = `<span class="material-symbols-outlined text-[15px]">lock</span> ${n}`;
+      btn.className =
+        "px-3.5 py-1.5 rounded-lg text-body-sm font-label-md font-bold bg-surface-container/60 text-outline flex items-center gap-1.5 opacity-70 border border-outline-variant/30 shadow-sm";
+    } else if (cleared) {
+      btn.innerHTML = `<span class="material-symbols-outlined text-[15px]">check_circle</span> ${n}`;
+      btn.className =
+        "px-3.5 py-1.5 rounded-lg text-body-sm font-label-md font-bold bg-surface-container text-secondary flex items-center gap-1.5 hover:bg-surface-container-high transition-all border border-secondary/30 shadow-sm";
+    } else {
+      btn.innerHTML = `<span class="material-symbols-outlined text-[15px]">radio_button_unchecked</span> ${n}`;
+      btn.className =
+        "px-3.5 py-1.5 rounded-lg text-body-sm font-label-md font-bold bg-surface-container text-on-surface flex items-center gap-1.5 hover:bg-surface-container-high transition-all border border-outline-variant/40 shadow-sm";
+    }
+  });
+}
+
 function renderYard() {
   const eyebrow = $("yardEyebrow");
   const title = $("yardTitle");
@@ -1708,6 +1897,7 @@ function renderYard() {
   renderStarters("starterCards");
   renderMythmirMissions();
   renderUnlockProgress();
+  renderPveYardChapter();
   const banner = $("tutorialBanner");
   if (!banner) return;
   if (state.tutorial) {
@@ -1735,17 +1925,22 @@ function bindYardForm() {
     start.dataset.bound = "1";
     start.addEventListener("click", () => {
       state.battleMode = "pve";
+      // Fight requires unlock; map selection itself does not.
+      if (!selectPveChapter(state.pveChapter || 1, { toastPick: false, requireUnlock: true })) return;
       openPveLoad();
     });
   }
-  // Yard node level chips → campaign chapter for load backdrop (MF-151)
-  document.querySelectorAll("#viewYard [data-pve-chapter]").forEach((btn) => {
-    if (btn.dataset.boundChapter) return;
-    btn.dataset.boundChapter = "1";
-    btn.addEventListener("click", () => {
-      const n = Number(btn.getAttribute("data-pve-chapter") || 1);
-      state.pveChapter = Math.max(1, Math.min(5, n || 1));
-      toast(t("yard.chapter.pick", `Глава ${state.pveChapter}`));
+  // Chapter chips + map nodes → select Mythmir chapter (D-039)
+  document.querySelectorAll("#viewYard [data-pve-chapter]").forEach((el) => {
+    if (el.dataset.boundChapter) return;
+    el.dataset.boundChapter = "1";
+    const activate = () => selectPveChapter(el.getAttribute("data-pve-chapter"));
+    el.addEventListener("click", activate);
+    el.addEventListener("keydown", (ev) => {
+      if (ev.key === "Enter" || ev.key === " ") {
+        ev.preventDefault();
+        activate();
+      }
     });
   });
   const toForm = $("btnYardToFormationPainted");
@@ -1783,28 +1978,6 @@ function bindYardForm() {
       toast(t("yard.diff.heroic", "Героический · Soon (stub)"));
     });
   }
-  // Map node pins: first unlocked fights tip; locked → gate tip
-  document.querySelectorAll("#viewYard .pve-yard-hub .group.cursor-pointer").forEach((pin, i) => {
-    if (pin.dataset.bound) return;
-    pin.dataset.bound = "1";
-    pin.addEventListener("click", () => {
-      const nodes = state.campaign?.nodes || [];
-      const fight = nodes[0]?.fights?.[i] || nodes[i]?.fights?.[0];
-      if (!fight) {
-        toast(t("yard.node.stub", "Узел кампании (paint)"));
-        return;
-      }
-      const unlocked = isFightUnlocked(nodes[0]?.stageIndex || 1, fight.fightIndex || i + 1);
-      if (!unlocked) {
-        showGateTip();
-        return;
-      }
-      state.selectedStageId = fight.stageId;
-      state.battleMode = "pve";
-      toast(t(fight.label_key, fight.label_ru || fight.stageId));
-      renderYard();
-    });
-  });
 }
 
 function renderUnlockProgress() {
@@ -1855,11 +2028,13 @@ function renderMythmirMissions() {
           showGateTip();
           return;
         }
+        state.pveChapter = Number(node.stageIndex) || 1;
+        state.pveStage =
+          fight.fightIndex === 2 ? "tunnel" : fight.fightIndex === 3 ? "boss" : "entrance";
         state.selectedStageId = fight.stageId;
         state.battleMode = "pve";
         toast(`${t(fight.label_key, fight.label_ru)}`);
-        renderMythmirMissions();
-        renderAll();
+        renderYard();
       });
       box.appendChild(row);
     }
