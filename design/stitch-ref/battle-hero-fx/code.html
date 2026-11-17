@@ -1,0 +1,1244 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="ru"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Анимационная витрина ожидания (Idle Stance Showcase 12 Heroes) — Мифиус</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&amp;family=Nunito+Sans:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    body {
+      font-family: 'Rubik', sans-serif;
+      background-color: #0b0806;
+      color: #f3ede2;
+      overflow-x: hidden;
+      user-select: none;
+    }
+
+    /* Individual Character Idle Breathing Keyframes */
+    @keyframes heroBreathe1 {
+      0%, 100% { transform: translateY(0px) scale(1, 1); }
+      50% { transform: translateY(-7px) scale(1.01, 1.015); }
+    }
+    @keyframes heroBreathe2 {
+      0%, 100% { transform: translateY(0px) rotate(0deg) scale(1, 1); }
+      35% { transform: translateY(-8px) rotate(0.35deg) scale(1.012, 1.02); }
+      70% { transform: translateY(-3px) rotate(-0.25deg) scale(0.995, 0.998); }
+    }
+    @keyframes heroBreathe3 {
+      0%, 100% { transform: translateY(0px) scale(1, 1); }
+      45% { transform: translateY(-9px) scale(1.012, 1.022); }
+      80% { transform: translateY(-2px) scale(0.998, 0.996); }
+    }
+    @keyframes heroBreathe4 {
+      0%, 100% { transform: translateY(0px) rotate(0deg) scale(1, 1); }
+      50% { transform: translateY(-6px) rotate(-0.3deg) scale(1.008, 1.016); }
+    }
+    @keyframes heroBreathe5 {
+      0%, 100% { transform: translateY(0px) scale(1, 1); }
+      40% { transform: translateY(-9px) scale(0.99, 1.022) skewX(-0.4deg); }
+      75% { transform: translateY(-2px) scale(1.006, 0.994) skewX(0.25deg); }
+    }
+    @keyframes heroBreathe6 {
+      0%, 100% { transform: translateY(0px) rotate(0deg) scale(1, 1); }
+      55% { transform: translateY(-8px) rotate(0.4deg) scale(1.012, 1.018); }
+    }
+
+    .idle-breathe-1 { animation: heroBreathe1 4.2s ease-in-out infinite; transform-origin: bottom center; }
+    .idle-breathe-2 { animation: heroBreathe2 3.8s ease-in-out infinite -1.1s; transform-origin: bottom center; }
+    .idle-breathe-3 { animation: heroBreathe3 4.5s ease-in-out infinite -2.3s; transform-origin: bottom center; }
+    .idle-breathe-4 { animation: heroBreathe4 4.0s ease-in-out infinite -0.7s; transform-origin: bottom center; }
+    .idle-breathe-5 { animation: heroBreathe5 3.6s ease-in-out infinite -1.8s; transform-origin: bottom center; }
+    .idle-breathe-6 { animation: heroBreathe6 4.3s ease-in-out infinite -0.4s; transform-origin: bottom center; }
+
+    /* Elemental Aura Glow Animations */
+    @keyframes pulseGlowStone {
+      0%, 100% { filter: drop-shadow(0 0 10px rgba(217, 155, 38, 0.45)) drop-shadow(0 0 25px rgba(180, 110, 20, 0.25)); }
+      50% { filter: drop-shadow(0 0 22px rgba(245, 158, 11, 0.8)) drop-shadow(0 0 45px rgba(217, 155, 38, 0.5)); }
+    }
+    @keyframes pulseGlowFire {
+      0%, 100% { filter: drop-shadow(0 0 12px rgba(239, 68, 68, 0.45)) drop-shadow(0 0 25px rgba(249, 115, 22, 0.3)); }
+      50% { filter: drop-shadow(0 0 25px rgba(239, 68, 68, 0.85)) drop-shadow(0 0 50px rgba(251, 146, 60, 0.55)); }
+    }
+    @keyframes pulseGlowLightning {
+      0%, 100% { filter: drop-shadow(0 0 12px rgba(168, 85, 247, 0.45)) drop-shadow(0 0 25px rgba(139, 92, 246, 0.25)); }
+      50% { filter: drop-shadow(0 0 25px rgba(192, 132, 252, 0.85)) drop-shadow(0 0 50px rgba(147, 51, 234, 0.5)); }
+    }
+    @keyframes pulseGlowWind {
+      0%, 100% { filter: drop-shadow(0 0 10px rgba(34, 197, 94, 0.45)) drop-shadow(0 0 25px rgba(16, 185, 129, 0.25)); }
+      50% { filter: drop-shadow(0 0 24px rgba(74, 222, 128, 0.85)) drop-shadow(0 0 45px rgba(34, 197, 94, 0.5)); }
+    }
+    @keyframes pulseGlowIce {
+      0%, 100% { filter: drop-shadow(0 0 12px rgba(56, 189, 248, 0.45)) drop-shadow(0 0 25px rgba(14, 165, 233, 0.3)); }
+      50% { filter: drop-shadow(0 0 26px rgba(125, 211, 252, 0.9)) drop-shadow(0 0 50px rgba(56, 189, 248, 0.6)); }
+    }
+    @keyframes pulseGlowWater {
+      0%, 100% { filter: drop-shadow(0 0 12px rgba(45, 212, 191, 0.45)) drop-shadow(0 0 25px rgba(20, 184, 166, 0.25)); }
+      50% { filter: drop-shadow(0 0 24px rgba(94, 234, 212, 0.9)) drop-shadow(0 0 45px rgba(13, 148, 136, 0.5)); }
+    }
+
+    .aura-stone { animation: pulseGlowStone 4.0s ease-in-out infinite; }
+    .aura-fire { animation: pulseGlowFire 3.6s ease-in-out infinite; }
+    .aura-lightning { animation: pulseGlowLightning 3.4s ease-in-out infinite; }
+    .aura-wind { animation: pulseGlowWind 4.2s ease-in-out infinite; }
+    .aura-ice { animation: pulseGlowIce 3.8s ease-in-out infinite; }
+    .aura-water { animation: pulseGlowWater 4.1s ease-in-out infinite; }
+
+    /* Ground Floating Shadow & Magic Rune Base */
+    @keyframes pedestalPulse {
+      0%, 100% { transform: scale(1, 1); opacity: 0.7; }
+      50% { transform: scale(0.94, 0.90); opacity: 0.45; }
+    }
+    .idle-pedestal { animation: pedestalPulse 4.0s ease-in-out infinite; }
+
+    /* Floating Particles Simulation */
+    @keyframes particleUp {
+      0% { transform: translateY(0) translateX(0) scale(0.6); opacity: 0; }
+      20% { opacity: 0.9; }
+      80% { opacity: 0.7; }
+      100% { transform: translateY(-75px) translateX(var(--px, 15px)) scale(0.2); opacity: 0; }
+    }
+    .p-float { animation: particleUp 2.6s linear infinite; }
+
+    /* Attack shake */
+    .combat-action-shake {
+      animation: heroHitShake 0.45s ease-out forwards !important;
+    }
+    @keyframes heroHitShake {
+      0% { transform: translateY(0) scale(1); }
+      25% { transform: translateY(-20px) scale(1.07, 1.07) rotate(-1.5deg); }
+      50% { transform: translateY(5px) scale(1.02, 0.97) rotate(1deg); }
+      75% { transform: translateY(-4px) scale(1.01, 1.01); }
+      100% { transform: translateY(0) scale(1); }
+    }
+
+    /* Damage Hit Reaction */
+    .hero-damage-hit {
+      animation: heroTakeDamage 0.55s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
+    }
+    @keyframes heroTakeDamage {
+      0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+        filter: drop-shadow(0 0 25px rgba(239, 68, 68, 0.95)) brightness(1.6);
+      }
+      15% {
+        transform: translate(-14px, 4px) scale(0.92, 1.05) rotate(-4deg);
+        filter: drop-shadow(0 0 35px rgba(220, 38, 38, 1)) brightness(2.0);
+      }
+      35% {
+        transform: translate(8px, -2px) scale(1.03, 0.96) rotate(2deg);
+        filter: drop-shadow(0 0 20px rgba(248, 113, 113, 0.7)) brightness(1.3);
+      }
+      55% {
+        transform: translate(-4px, 0) scale(0.98, 1.02) rotate(-1deg);
+        filter: drop-shadow(0 0 10px rgba(239, 68, 68, 0.4));
+      }
+      75% { transform: translate(2px, 0) scale(1.01, 0.99); }
+      100% { transform: translate(0, 0) scale(1) rotate(0deg); filter: none; }
+    }
+
+    /* Sturdy Shield Block Animation */
+    .hero-block-brace {
+      animation: heroShieldBrace 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+    }
+    @keyframes heroShieldBrace {
+      0% { transform: translate(0, 0) scale(1); filter: none; }
+      20% {
+        transform: translate(0, 6px) scale(1.06, 0.95);
+        filter: drop-shadow(0 0 24px rgba(253, 186, 69, 0.95)) drop-shadow(0 0 38px rgba(45, 212, 191, 0.8)) brightness(1.4);
+      }
+      45% {
+        transform: translate(0, -3px) scale(1.03, 1.02);
+        filter: drop-shadow(0 0 18px rgba(253, 186, 69, 0.7)) brightness(1.2);
+      }
+      75% {
+        transform: translate(0, 1px) scale(1.01, 1);
+        filter: drop-shadow(0 0 10px rgba(253, 186, 69, 0.4));
+      }
+      100% { transform: translate(0, 0) scale(1); filter: none; }
+    }
+
+    /* Glowing Shield Barrier FX */
+    .shield-barrier-fx {
+      position: absolute;
+      top: 45%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 130px;
+      height: 155px;
+      border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%;
+      border: 3px solid rgba(253, 186, 69, 0.9);
+      background: radial-gradient(circle, rgba(253, 186, 69, 0.35) 0%, rgba(45, 212, 191, 0.22) 55%, transparent 80%);
+      box-shadow: 0 0 25px rgba(253, 186, 69, 0.85), inset 0 0 20px rgba(45, 212, 191, 0.7);
+      pointer-events: none;
+      z-index: 25;
+      animation: shieldPop 0.58s ease-out forwards;
+    }
+    @keyframes shieldPop {
+      0% { transform: translate(-50%, -50%) scale(0.4); opacity: 0; }
+      25% { transform: translate(-50%, -50%) scale(1.12); opacity: 1; }
+      60% { transform: translate(-50%, -50%) scale(1.02); opacity: 0.9; }
+      100% { transform: translate(-50%, -50%) scale(1.25); opacity: 0; filter: blur(3px); }
+    }
+
+    /* Slash FX */
+    .slash-impact-fx {
+      position: absolute;
+      top: 35%;
+      left: 50%;
+      transform: translate(-50%, -50%) rotate(-25deg);
+      pointer-events: none;
+      z-index: 30;
+      animation: slashPop 0.4s ease-out forwards;
+    }
+    @keyframes slashPop {
+      0% { width: 0px; opacity: 0; filter: brightness(2); }
+      30% {
+        width: 110px;
+        height: 6px;
+        opacity: 1;
+        background: linear-gradient(90deg, transparent, #fff, #f87171, #ef4444, transparent);
+        box-shadow: 0 0 18px #ef4444, 0 0 30px #fca5a5;
+        transform: translate(-50%, -50%) rotate(-30deg) scaleY(1.5);
+      }
+      100% { width: 140px; opacity: 0; transform: translate(-45%, -50%) rotate(-35deg) scaleY(0.2); }
+    }
+
+    /* Floating combat text */
+    .floating-combat-txt {
+      position: absolute;
+      left: 50%;
+      pointer-events: none;
+      z-index: 35;
+      animation: floatCombatText 0.85s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+      white-space: nowrap;
+    }
+    @keyframes floatCombatText {
+      0% { transform: translate(-50%, 0) scale(0.4); opacity: 0; }
+      20% { transform: translate(-50%, -24px) scale(1.18); opacity: 1; }
+      45% { transform: translate(-50%, -36px) scale(1); opacity: 1; }
+      80% { transform: translate(-50%, -58px) scale(0.95); opacity: 0.9; }
+      100% { transform: translate(-50%, -75px) scale(0.85); opacity: 0; }
+    }
+
+    /* Sound waveform bar equalizer pulse */
+    .sound-bar-active span:nth-child(1) { animation: soundWave 0.35s ease-in-out infinite alternate; }
+    .sound-bar-active span:nth-child(2) { animation: soundWave 0.45s ease-in-out infinite alternate 0.1s; }
+    .sound-bar-active span:nth-child(3) { animation: soundWave 0.28s ease-in-out infinite alternate 0.05s; }
+    .sound-bar-active span:nth-child(4) { animation: soundWave 0.5s ease-in-out infinite alternate 0.15s; }
+    @keyframes soundWave {
+      0% { height: 3px; }
+      100% { height: 13px; }
+    }
+
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0c0907; }
+    ::-webkit-scrollbar-thumb { background: #33281d; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #d99b26; }
+</style>
+</head>
+<body class="bg-[#0b0806] text-[#eae1db] h-screen flex flex-col justify-between selection:bg-[#d99b26]/30 overflow-hidden">
+<!-- TOP GLOBAL HEADER -->
+<header class="w-full bg-[#140f0c]/95 backdrop-blur-md border-b border-[#2a1f16] px-4 py-2 flex items-center justify-between z-40 shrink-0 shadow-xl gap-2">
+<div class="flex items-center gap-2.5">
+<div class="w-8 h-8 rounded-lg bg-gradient-to-br from-[#d99b26] to-[#7f5700] flex items-center justify-center text-lg shadow-lg shadow-[#d99b26]/20 border border-[#f3ca6c]/40">
+        🐾
+      </div>
+<div>
+<h1 class="text-xs lg:text-sm font-bold tracking-wide text-[#fce8b3] leading-tight flex items-center gap-1.5">МИФИУС <span class="text-[9px] px-1.5 py-0.5 rounded bg-[#d99b26]/20 text-[#fdba45] border border-[#d99b26]/40 uppercase font-bold tracking-wider">6 УНИКАЛЬНЫХ КЛАССОВ</span></h1>
+<p class="text-[10px] text-[#9d8f7b] hidden sm:block">Без рамок и фонов · 6 первичных классов · Танк, Боец, Ассасин, Стрелок, Маг, Саппорт</p>
+</div>
+</div>
+<!-- Center: Class Filters -->
+<div class="flex items-center gap-1 bg-[#18120d] p-1 rounded-xl border border-[#302316] overflow-x-auto max-w-[500px]"><button class="filter-btn active px-2.5 py-0.5 rounded-lg text-xs font-semibold bg-[#d99b26] text-[#1c1611] transition-all" id="btnFilter-all" onclick="filterRoster('all')">Все 6</button><button class="filter-btn px-2 py-0.5 rounded-lg text-xs font-medium text-[#c5b5a0] hover:text-[#fed576] transition-all" id="btnFilter-tank" onclick="filterRoster('tank')">🛡️ Танк</button><button class="filter-btn px-2 py-0.5 rounded-lg text-xs font-medium text-[#c5b5a0] hover:text-[#fed576] transition-all" id="btnFilter-fighter" onclick="filterRoster('fighter')">⚔️ Боец</button><button class="filter-btn px-2 py-0.5 rounded-lg text-xs font-medium text-[#c5b5a0] hover:text-[#fed576] transition-all" id="btnFilter-assassin" onclick="filterRoster('assassin')">🗡️ Ассасин</button><button class="filter-btn px-2 py-0.5 rounded-lg text-xs font-medium text-[#c5b5a0] hover:text-[#fed576] transition-all" id="btnFilter-ranger" onclick="filterRoster('ranger')">🏹 Стрелок</button><button class="filter-btn px-2 py-0.5 rounded-lg text-xs font-medium text-[#c5b5a0] hover:text-[#fed576] transition-all" id="btnFilter-mage" onclick="filterRoster('mage')">🔮 Маг</button><button class="filter-btn px-2 py-0.5 rounded-lg text-xs font-medium text-[#c5b5a0] hover:text-[#fed576] transition-all" id="btnFilter-support" onclick="filterRoster('support')">✨ Саппорт</button></div>
+<!-- Right Controls -->
+<div class="flex items-center gap-1.5 lg:gap-2">
+<div class="flex items-center gap-1 bg-[#18110b] p-0.5 rounded-lg border border-[#352516]">
+<button class="px-2 py-1 rounded bg-red-950/80 hover:bg-red-900 border border-red-700/60 text-red-200 text-[11px] font-bold transition flex items-center gap-1 shadow-sm active:scale-95" onclick="triggerMassDamage()" title="Горячая клавиша: D">
+<span>💥 Урон</span>
+</button>
+<button class="px-2 py-1 rounded bg-amber-950/80 hover:bg-amber-900 border border-amber-600/60 text-amber-200 text-[11px] font-bold transition flex items-center gap-1 shadow-sm active:scale-95" onclick="triggerMassBlock()" title="Горячая клавиша: A">
+<span>🛡️ Блок</span>
+</button>
+</div>
+<!-- Sound Synthesizer Engine Toggle -->
+<button class="px-2.5 py-1 rounded-lg text-xs font-semibold bg-[#2a1d0f] hover:bg-[#3d2a16] text-[#fed576] border border-[#523700] transition flex items-center gap-1.5 shadow-sm active:scale-95" id="btnSoundToggle" onclick="toggleSoundEngine()" title="Включить / Выключить звуковой движок">
+<span class="text-sm" id="soundIcon">🔊</span>
+<span class="font-bold tracking-tight" id="soundLabel">Звук: ВКЛ</span>
+<div class="flex items-center gap-0.5 h-3.5 pl-0.5 sound-bar-active" id="soundVisualizer">
+<span class="w-[2.5px] h-2 bg-amber-400 rounded-full inline-block"></span>
+<span class="w-[2.5px] h-3 bg-amber-300 rounded-full inline-block"></span>
+<span class="w-[2.5px] h-1.5 bg-amber-500 rounded-full inline-block"></span>
+<span class="w-[2.5px] h-2.5 bg-amber-400 rounded-full inline-block"></span>
+</div>
+</button>
+<!-- Layout Mode Switcher -->
+<div class="bg-[#18120d] border border-[#2e2114] rounded-lg p-0.5 hidden xl:flex text-xs">
+<button class="px-2 py-0.5 rounded text-[#a89886] hover:text-[#fce8b3] font-medium text-[11px] transition" id="viewBtnFocus" onclick="setViewMode('focus')">Фокус</button>
+<button class="px-2 py-0.5 rounded bg-[#2e2318] text-[#fce8b3] font-semibold text-[11px] transition" id="viewBtnPanorama" onclick="setViewMode('panorama')">Витрина 6</button>
+</div>
+<!-- Aura Toggle -->
+<button class="px-2 py-1 rounded-lg text-xs font-semibold bg-[#1f6b2f] text-white border border-[#2b8840] transition flex items-center gap-1" id="btnAuraToggle" onclick="toggleAuras()">
+<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> <span class="hidden sm:inline">Аура</span> ВКЛ
+</button>
+<!-- 60 FPS Badge -->
+<div class="hidden sm:flex items-center gap-1 text-xs text-[#a4917a] bg-[#140e0a] px-2 py-1 rounded-lg border border-[#261c13]">
+<span class="inline-block w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+<span class="font-mono text-[10px]">60 FPS</span>
+</div>
+</div>
+</header>
+<!-- MAIN STAGE: STANDALONE CHARACTERS WITH NO BOX BACKGROUNDS -->
+<main class="flex-1 w-full max-w-[1920px] mx-auto px-3 py-1 flex flex-col justify-center overflow-y-auto" id="mainStage"><style id="sprite-transparency-fix">
+  .hero-card, .hero-viewport, .hero-sprite {
+    background: transparent !important;
+    background-color: transparent !important;
+    box-shadow: none !important;
+    border-color: transparent !important;
+  }
+  .hero-viewport {
+    background-color: transparent !important;
+    mask-image: none !important;
+    -webkit-mask-image: none !important;
+  }
+</style>
+<div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3 items-end justify-center max-w-[1780px] mx-auto w-full transition-all duration-500" id="rosterGrid">
+<!-- HERO 1: БАРСИК ЩИТ-УТЁС (Танк A) -->
+<div class="hero-card relative bg-transparent border-0 rounded-xl p-1 flex flex-col items-center group transition-all duration-300 overflow-visible cursor-pointer" data-class="tank" data-heroid="charBarsik" id="card-barsik" onclick="selectHeroCard('charBarsik'); heroAttack('charBarsik', 'Каменный монолит! Провокация врагов.');">
+<div class="w-full flex items-center justify-between text-[10px] mb-0.5 z-10 px-1">
+<span class="px-1.5 py-0.5 rounded bg-amber-950/70 text-amber-300 border border-amber-800/50 font-bold">🛡️ Танк</span>
+<span class="text-amber-400/80 font-mono text-[9px]">ЗЕМЛЯ</span>
+</div>
+<div class="text-center z-10 mb-0.5">
+<h4 class="text-xs font-bold text-[#fed576] truncate leading-tight">Барсик Щит-утёс</h4>
+<p class="text-[9px] text-[#93816e] truncate">Монолитный рунный щит</p>
+</div>
+<div class="hero-viewport relative w-full h-[320px] xl:h-[370px] flex items-end justify-center overflow-visible bg-transparent">
+<div class="absolute bottom-1 w-32 h-8 rounded-[100%] bg-gradient-to-r from-amber-600/35 via-amber-400/45 to-amber-600/35 blur-[3px] idle-pedestal"></div>
+<div class="element-particle absolute bottom-8 left-4 w-1.5 h-1.5 rounded-full bg-amber-400 blur-[0.5px] p-float" style="--px: 12px; animation-delay: 0.1s;"></div>
+<div class="element-particle absolute bottom-12 right-4 w-2 h-2 rounded-full bg-yellow-300 blur-[0.5px] p-float" style="--px: -16px; animation-delay: 1.2s;"></div>
+<div class="hero-sprite idle-breathe-1 aura-stone z-10 transition-transform origin-bottom bg-transparent w-full h-full flex items-end justify-center" id="charBarsik">
+<img alt="Барсик Щит-утёс" class="mix-blend-screen w-full h-full object-contain filter drop-shadow-[0_12px_24px_rgba(217,155,38,0.4)] pointer-events-none select-none" src="https://lh3.googleusercontent.com/aida/ALJJyrB38_vD_Jl784sbdHSpuBari-eHGaiFq2idLQr1JeD68kDirEZpwWwGY1U2HVwYFsR8Ld5grp6Kj_l4B_-SohPPhNbU-x5yWX0IJtoa6kZNcgHVIz_b1UBvqJJzo8j7AKXWZSKEsQzLHibM1AgNHoH6V4L4PPV4VGp_dYE-mPDpahABv0eDzgwKeq1uwv216ec_bnxSj02b3ImuJWkAkel7DTa6zBjS2czEAY9CDg"/>
+</div>
+</div>
+<div class="w-full mt-1.5 flex flex-col gap-1 z-10">
+<button class="w-full py-0.5 rounded bg-[#1c150e]/90 hover:bg-[#d99b26] hover:text-[#120d09] text-[#dec9a7] text-[9.5px] font-bold border border-[#3e2e1d] transition-all flex items-center justify-center gap-1 shadow-md" onclick="event.stopPropagation(); heroAttack('charBarsik', 'Каменный монолит! Провокация врагов.')">
+<span>⚔️ Провокация</span>
+</button>
+<div class="grid grid-cols-2 gap-1">
+<button class="py-0.5 px-1 rounded bg-red-950/70 hover:bg-red-800 text-red-200 border border-red-800/60 text-[9px] font-bold transition flex items-center justify-center gap-0.5 shadow" onclick="event.stopPropagation(); heroTakeDamage('charBarsik')">
+<span>💥 Урон</span>
+</button>
+<button class="py-0.5 px-1 rounded bg-amber-950/70 hover:bg-amber-800 text-amber-200 border border-amber-800/60 text-[9px] font-bold transition flex items-center justify-center gap-0.5 shadow" onclick="event.stopPropagation(); heroBlock('charBarsik')">
+<span>🛡️ Блок</span>
+</button>
+</div>
+</div>
+</div>
+<!-- HERO 2: РЫЖИК ПАРНЫЕ КОГТИ (Боец A) -->
+<div class="hero-card relative bg-transparent border-0 rounded-xl p-1 flex flex-col items-center group transition-all duration-300 overflow-visible cursor-pointer" data-class="fighter" data-heroid="charRyzhik" id="card-ryzhik" onclick="selectHeroCard('charRyzhik'); heroAttack('charRyzhik', 'Шквал пламенных когтей!');">
+<div class="w-full flex items-center justify-between text-[10px] mb-0.5 z-10 px-1">
+<span class="px-1.5 py-0.5 rounded bg-red-950/70 text-orange-300 border border-red-800/50 font-bold">🔥 Боец</span>
+<span class="text-orange-400/80 font-mono text-[9px]">ОГОНЬ</span>
+</div>
+<div class="text-center z-10 mb-0.5">
+<h4 class="text-xs font-bold text-[#fed576] truncate leading-tight">Рыжик Когти</h4>
+<p class="text-[9px] text-[#93816e] truncate">Огненные наручи берсерка</p>
+</div>
+<div class="hero-viewport relative w-full h-[320px] xl:h-[370px] flex items-end justify-center overflow-visible bg-transparent">
+<div class="absolute bottom-1 w-32 h-8 rounded-[100%] bg-gradient-to-r from-red-600/35 via-orange-500/45 to-red-600/35 blur-[3px] idle-pedestal"></div>
+<div class="element-particle absolute bottom-10 left-5 w-2 h-2 rounded-full bg-orange-400 blur-[0.5px] p-float" style="--px: 20px; animation-delay: 0.2s;"></div>
+<div class="hero-sprite idle-breathe-3 aura-fire z-10 transition-transform origin-bottom bg-transparent w-full h-full flex items-end justify-center" id="charRyzhik">
+<img alt="Рыжик Когти" class="mix-blend-screen w-full h-full object-contain filter drop-shadow-[0_12px_24px_rgba(239,68,68,0.4)] pointer-events-none select-none" src="https://lh3.googleusercontent.com/aida/ALJJyrBsSujbumPtoC-ZMIIFEdgtFsalVXsqOZNAFds-D6R5Fwxh5Im_fmZ7f1Kr1UYeQCIL61DufxeSV5RxLxjAA4Dc5uyP5kcf8D9ggYNST_qLQJgplzCeS1FPoLQT60V_dAQRzTAb7jZWOvxd-Qa5uiWUS9XcadNJlXNDGXW9NDnlKcjZz0wv2eg6CEA1IAVmqGh71_pK6HsR8D8qjHDOORCswHm84UKSK-kIJPRNops"/>
+</div>
+</div>
+<div class="w-full mt-1.5 flex flex-col gap-1 z-10">
+<button class="w-full py-0.5 rounded bg-[#1c150e]/90 hover:bg-[#f97316] hover:text-[#120d09] text-[#dec9a7] text-[9.5px] font-bold border border-[#3e2e1d] transition-all flex items-center justify-center gap-1 shadow-md" onclick="event.stopPropagation(); heroAttack('charRyzhik', 'Шквал пламенных когтей!')">
+<span>🔥 Когти</span>
+</button>
+<div class="grid grid-cols-2 gap-1">
+<button class="py-0.5 px-1 rounded bg-red-950/70 hover:bg-red-800 text-red-200 border border-red-800/60 text-[9px] font-bold transition flex items-center justify-center gap-0.5 shadow" onclick="event.stopPropagation(); heroTakeDamage('charRyzhik')">
+<span>💥 Урон</span>
+</button>
+<button class="py-0.5 px-1 rounded bg-amber-950/70 hover:bg-amber-800 text-amber-200 border border-amber-800/60 text-[9px] font-bold transition flex items-center justify-center gap-0.5 shadow" onclick="event.stopPropagation(); heroBlock('charRyzhik')">
+<span>🛡️ Блок</span>
+</button>
+</div>
+</div>
+</div>
+<!-- HERO 3: ТЕНЬ СКРЫТНЫЙ (Ассасин A) -->
+<div class="hero-card relative bg-transparent border-0 rounded-xl p-1 flex flex-col items-center group transition-all duration-300 overflow-visible cursor-pointer scale-[1.03]" data-class="assassin" data-heroid="charShadow" id="card-shadow" onclick="selectHeroCard('charShadow'); heroAttack('charShadow', 'Теневой шаг за спину врага!');">
+<div class="w-full flex items-center justify-between text-[10px] mb-0.5 z-10 px-1">
+<span class="px-1.5 py-0.5 rounded bg-purple-950/70 text-purple-300 border border-purple-800/50 font-bold">🗡️ Ассасин</span>
+<span class="text-purple-400/80 font-mono text-[9px]">МОЛНИЯ</span>
+</div>
+<div class="text-center z-10 mb-0.5">
+<h4 class="text-xs font-bold text-[#fed576] truncate leading-tight">Тень Скрытный</h4>
+<p class="text-[9px] text-[#93816e] truncate">Фиолетовое мерцание</p>
+</div>
+<div class="hero-viewport relative w-full h-[320px] xl:h-[370px] flex items-end justify-center overflow-visible bg-transparent">
+<div class="absolute bottom-1 w-32 h-8 rounded-[100%] bg-gradient-to-r from-purple-700/35 via-violet-500/45 to-purple-700/35 blur-[3px] idle-pedestal"></div>
+<div class="element-particle absolute bottom-8 left-5 w-1.5 h-1.5 rounded-full bg-purple-400 blur-[0.5px] p-float" style="--px: 22px; animation-delay: 0.3s;"></div>
+<div class="hero-sprite idle-breathe-5 aura-lightning z-10 transition-transform origin-bottom bg-transparent brightness-125 w-full h-full flex items-end justify-center" id="charShadow">
+<img alt="Тень Скрытный" class="mix-blend-screen w-full h-full object-contain filter drop-shadow-[0_12px_24px_rgba(168,85,247,0.4)] pointer-events-none select-none" src="https://lh3.googleusercontent.com/aida/ALJJyrAOz-YFmxv4_yI8EG6_-fjUErHQ6aSfkyISCT7QjtvtppPTzcLZKOCUSE_sy1hEaBU5_VxK506p5zypdIDplZe2DvextHOXPFFw7o31qGUGpdz3GJIjZXy0YWqVStssGslkjJNqaMeiRoGvcMq7EI6RDGTYb4EsvtkvMtAgm7DWXSTOr3asb29bp_brykN7BZwaLvQx6XaZ6F_H76pTVyM1D_8hJLUGVBrx_vDikLM"/>
+</div>
+</div>
+<div class="w-full mt-1.5 flex flex-col gap-1 z-10">
+<button class="w-full py-0.5 rounded bg-[#1c150e]/90 hover:bg-[#a855f7] hover:text-white text-[#dec9a7] text-[9.5px] font-bold border border-[#3e2e1d] transition-all flex items-center justify-center gap-1 shadow-md" onclick="event.stopPropagation(); heroAttack('charShadow', 'Теневой шаг за спину врага!')">
+<span>⚡ Выпад</span>
+</button>
+<div class="grid grid-cols-2 gap-1">
+<button class="py-0.5 px-1 rounded bg-red-950/70 hover:bg-red-800 text-red-200 border border-red-800/60 text-[9px] font-bold transition flex items-center justify-center gap-0.5 shadow" onclick="event.stopPropagation(); heroTakeDamage('charShadow')">
+<span>💥 Урон</span>
+</button>
+<button class="py-0.5 px-1 rounded bg-amber-950/70 hover:bg-amber-800 text-amber-200 border border-amber-800/60 text-[9px] font-bold transition flex items-center justify-center gap-0.5 shadow" onclick="event.stopPropagation(); heroBlock('charShadow')">
+<span>🛡️ Блок</span>
+</button>
+</div>
+</div>
+</div>
+<!-- HERO 4: РЫСЕЛАП ОХОТНИК (Стрелок A) -->
+<div class="hero-card relative bg-transparent border-0 rounded-xl p-1 flex flex-col items-center group transition-all duration-300 overflow-visible cursor-pointer" data-class="ranger" data-heroid="charRyselap" id="card-ryselap" onclick="selectHeroCard('charRyselap'); heroAttack('charRyselap', 'Точный выстрел в уязвимое место!');">
+<div class="w-full flex items-center justify-between text-[10px] mb-0.5 z-10 px-1">
+<span class="px-1.5 py-0.5 rounded bg-emerald-950/70 text-emerald-300 border border-emerald-800/50 font-bold">🏹 Стрелок</span>
+<span class="text-emerald-400/80 font-mono text-[9px]">ВЕТЕР</span>
+</div>
+<div class="text-center z-10 mb-0.5">
+<h4 class="text-xs font-bold text-[#fed576] truncate leading-tight">Рыселап Лук</h4>
+<p class="text-[9px] text-[#93816e] truncate">Лесной снайперский лук</p>
+</div>
+<div class="hero-viewport relative w-full h-[320px] xl:h-[370px] flex items-end justify-center overflow-visible bg-transparent">
+<div class="absolute bottom-1 w-32 h-8 rounded-[100%] bg-gradient-to-r from-emerald-600/35 via-green-400/45 to-emerald-600/35 blur-[3px] idle-pedestal"></div>
+<div class="element-particle absolute bottom-8 left-5 w-1.5 h-1.5 rounded-full bg-emerald-400 blur-[0.5px] p-float" style="--px: 24px; animation-delay: 0.2s;"></div>
+<div class="hero-sprite idle-breathe-1 aura-wind z-10 transition-transform origin-bottom bg-transparent w-full h-full flex items-end justify-center" id="charRyselap">
+<img alt="Рыселап Охотник" class="mix-blend-screen w-full h-full object-contain filter drop-shadow-[0_12px_24px_rgba(34,197,94,0.4)] pointer-events-none select-none" src="https://lh3.googleusercontent.com/aida/ALJJyrCEBTrUw33RfkdbZljl8hI_FgSYcopH1Y0ZrdMWSs27ZpXzLDcuV5QF8ryc8DmXM7p5NyEAf6QVTnQS_NhJhvmoOGPoMPngSyoL1B0Q46AssSoe2ZlNzV15SlzhSZj7DbtKBs86Wm4f_rbDAI4cvaUWAn7mRYgY_QyVcauCOkSGUkGmYvvFj--R8gqgiiznyuR-_Jo-JOMHoC2350eq1Psyp_EPcLq2uWpZlnP-KQI"/>
+</div>
+</div>
+<div class="w-full mt-1.5 flex flex-col gap-1 z-10">
+<button class="w-full py-0.5 rounded bg-[#1c150e]/90 hover:bg-[#22c55e] hover:text-[#120d09] text-[#dec9a7] text-[9.5px] font-bold border border-[#3e2e1d] transition-all flex items-center justify-center gap-1 shadow-md" onclick="event.stopPropagation(); heroAttack('charRyselap', 'Точный выстрел в уязвимое место!')">
+<span>🎯 Выстрел</span>
+</button>
+<div class="grid grid-cols-2 gap-1">
+<button class="py-0.5 px-1 rounded bg-red-950/70 hover:bg-red-800 text-red-200 border border-red-800/60 text-[9px] font-bold transition flex items-center justify-center gap-0.5 shadow" onclick="event.stopPropagation(); heroTakeDamage('charRyselap')">
+<span>💥 Урон</span>
+</button>
+<button class="py-0.5 px-1 rounded bg-amber-950/70 hover:bg-amber-800 text-amber-200 border border-amber-800/60 text-[9px] font-bold transition flex items-center justify-center gap-0.5 shadow" onclick="event.stopPropagation(); heroBlock('charRyselap')">
+<span>🛡️ Блок</span>
+</button>
+</div>
+</div>
+</div>
+<!-- HERO 5: ИГНИУС ПЛАМЯ (Маг A) -->
+<div class="hero-card relative bg-transparent border-0 rounded-xl p-1 flex flex-col items-center group transition-all duration-300 overflow-visible cursor-pointer" data-class="mage" data-heroid="charIgnius" id="card-ignius" onclick="selectHeroCard('charIgnius'); heroAttack('charIgnius', 'Инфернальный огненный шар архимага!');">
+<div class="w-full flex items-center justify-between text-[10px] mb-0.5 z-10 px-1">
+<span class="px-1.5 py-0.5 rounded bg-red-950/70 text-orange-300 border border-red-800/50 font-bold">🔮 Маг</span>
+<span class="text-orange-400/80 font-mono text-[9px]">ОГОНЬ</span>
+</div>
+<div class="text-center z-10 mb-0.5">
+<h4 class="text-xs font-bold text-[#fed576] truncate leading-tight">Игниус Пламя</h4>
+<p class="text-[9px] text-[#93816e] truncate">Огненная мантия и посох</p>
+</div>
+<div class="hero-viewport relative w-full h-[320px] xl:h-[370px] flex items-end justify-center overflow-visible bg-transparent">
+<div class="absolute bottom-1 w-32 h-8 rounded-[100%] bg-gradient-to-r from-red-600/35 via-amber-400/45 to-red-600/35 blur-[3px] idle-pedestal"></div>
+<div class="element-particle absolute bottom-8 left-5 w-2 h-2 rounded-full bg-red-400 blur-[0.5px] p-float" style="--px: 20px; animation-delay: 0.1s;"></div>
+<div class="hero-sprite idle-breathe-3 aura-fire z-10 transition-transform origin-bottom bg-transparent w-full h-full flex items-end justify-center" id="charIgnius">
+<img alt="Игниус Пламя" class="mix-blend-screen w-full h-full object-contain filter drop-shadow-[0_12px_24px_rgba(249,115,22,0.4)] pointer-events-none select-none" src="https://lh3.googleusercontent.com/aida/ALJJyrBilRxiQhRgmaOQVvUmrSj_-mtscQ-suywR1l_Flhmn0H6f3WaVjJCN3GW_nR3uVdx4havUpcbfbjlScu-T5QuZBWLLOyi9NV35hdPWkYHx9-4a1B8jbT71qadxd8qTwcatMw4MGzYwfOPZlf0LMPrvILgz8mtdH-6gtHRyJelL6S8DBMXHBloMTxXHrt4UoKMUKMfHZmTloWAT6XhHx2vVSKb9pPPadAnmw-6dRWE"/>
+</div>
+</div>
+<div class="w-full mt-1.5 flex flex-col gap-1 z-10">
+<button class="w-full py-0.5 rounded bg-[#1c150e]/90 hover:bg-[#f97316] hover:text-[#120d09] text-[#dec9a7] text-[9.5px] font-bold border border-[#3e2e1d] transition-all flex items-center justify-center gap-1 shadow-md" onclick="event.stopPropagation(); heroAttack('charIgnius', 'Инфернальный огненный шар архимага!')">
+<span>🔥 Инферно</span>
+</button>
+<div class="grid grid-cols-2 gap-1">
+<button class="py-0.5 px-1 rounded bg-red-950/70 hover:bg-red-800 text-red-200 border border-red-800/60 text-[9px] font-bold transition flex items-center justify-center gap-0.5 shadow" onclick="event.stopPropagation(); heroTakeDamage('charIgnius')">
+<span>💥 Урон</span>
+</button>
+<button class="py-0.5 px-1 rounded bg-amber-950/70 hover:bg-amber-800 text-amber-200 border border-amber-800/60 text-[9px] font-bold transition flex items-center justify-center gap-0.5 shadow" onclick="event.stopPropagation(); heroBlock('charIgnius')">
+<span>🛡️ Блок</span>
+</button>
+</div>
+</div>
+</div>
+<!-- HERO 6: МУРКА ЧИСТЫЙ РОДНИК (Саппорт A) -->
+<div class="hero-card relative bg-transparent border-0 rounded-xl p-1 flex flex-col items-center group transition-all duration-300 overflow-visible cursor-pointer" data-class="support" data-heroid="charMurka" id="card-murka" onclick="selectHeroCard('charMurka'); heroAttack('charMurka', 'Очищающий родник исцеления всей команды!');">
+<div class="w-full flex items-center justify-between text-[10px] mb-0.5 z-10 px-1">
+<span class="px-1.5 py-0.5 rounded bg-teal-950/70 text-teal-300 border border-teal-800/50 font-bold">✨ Саппорт</span>
+<span class="text-teal-400/80 font-mono text-[9px]">ВОДА</span>
+</div>
+<div class="text-center z-10 mb-0.5">
+<h4 class="text-xs font-bold text-[#fed576] truncate leading-tight">Мурка Родник</h4>
+<p class="text-[9px] text-[#93816e] truncate">Священный свиток волн</p>
+</div>
+<div class="hero-viewport relative w-full h-[320px] xl:h-[370px] flex items-end justify-center overflow-visible bg-transparent">
+<div class="absolute bottom-1 w-32 h-8 rounded-[100%] bg-gradient-to-r from-teal-600/35 via-emerald-300/45 to-teal-600/35 blur-[3px] idle-pedestal"></div>
+<div class="element-particle absolute bottom-8 left-6 w-2 h-2 rounded-full bg-teal-300 blur-[0.5px] p-float" style="--px: 16px; animation-delay: 0.4s;"></div>
+<div class="hero-sprite idle-breathe-5 aura-water z-10 transition-transform origin-bottom bg-transparent w-full h-full flex items-end justify-center" id="charMurka">
+<img alt="Мурка Родник" class="mix-blend-screen w-full h-full object-contain filter drop-shadow-[0_12px_24px_rgba(45,212,191,0.4)] pointer-events-none select-none" src="https://lh3.googleusercontent.com/aida/ALJJyrCLSBmIAscKOpuJB3ZOxWqcwHmiqjop3V-2KWvnQBZnuN_yRYaVuruK7_iDNya7Jx6ZyhfAD-so81hGwEBmYaaX4k8X47s8E0Mq55HPzjhxd3UD4YqOysS-mWX4iOOZJRJQqNfrQ882TsrQ6xkFkQZC1tFdbp-UyWSeWIuleod09f_HlmYWFNxqeRxQ4xol-ANm2GIcQ95EVVl95PyRhOum1Fla6uQOfEbkNPk1aQU"/>
+</div>
+</div>
+<div class="w-full mt-1.5 flex flex-col gap-1 z-10">
+<button class="w-full py-0.5 rounded bg-[#1c150e]/90 hover:bg-[#2dd4bf] hover:text-[#120d09] text-[#dec9a7] text-[9.5px] font-bold border border-[#3e2e1d] transition-all flex items-center justify-center gap-1 shadow-md" onclick="event.stopPropagation(); heroAttack('charMurka', 'Очищающий родник исцеления всей команды!')">
+<span>💧 Роса</span>
+</button>
+<div class="grid grid-cols-2 gap-1">
+<button class="py-0.5 px-1 rounded bg-red-950/70 hover:bg-red-800 text-red-200 border border-red-800/60 text-[9px] font-bold transition flex items-center justify-center gap-0.5 shadow" onclick="event.stopPropagation(); heroTakeDamage('charMurka')">
+<span>💥 Урон</span>
+</button>
+<button class="py-0.5 px-1 rounded bg-amber-950/70 hover:bg-amber-800 text-amber-200 border border-amber-800/60 text-[9px] font-bold transition flex items-center justify-center gap-0.5 shadow" onclick="event.stopPropagation(); heroBlock('charMurka')">
+<span>🛡️ Блок</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Event / Callout Dock -->
+<div class="mt-2 bg-[#140f0c]/90 border border-[#2e2114] rounded-xl px-3 py-1.5 flex items-center justify-between gap-3 text-xs transition-all shadow-xl" id="actionToast">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-[#d99b26] animate-ping shrink-0"></span>
+<span class="text-[#fce8b3] font-bold text-xs shrink-0" id="toastHeroTitle">[Тень Скрытный] выбран!</span>
+<span class="text-[#a4917a] text-xs font-medium truncate" id="toastMessage">Готов к приказам: кликните Урон (D) или Блок (A). Синтезатор звука активен.</span>
+</div>
+<div class="flex items-center gap-2 shrink-0">
+<button class="px-2.5 py-1 rounded-lg bg-gradient-to-r from-red-800 to-rose-950 hover:brightness-110 text-red-100 font-bold text-[11px] border border-red-700/60 transition shadow-md active:scale-95 flex items-center gap-1" onclick="triggerMassDamage()">
+<span>💥 Залп урона</span>
+</button>
+<button class="px-2.5 py-1 rounded-lg bg-gradient-to-r from-amber-700 to-amber-950 hover:brightness-110 text-amber-100 font-bold text-[11px] border border-amber-600/60 transition shadow-md active:scale-95 flex items-center gap-1" onclick="triggerMassBlock()">
+<span>🛡️ Массовый блок</span>
+</button>
+<button class="px-3 py-1 rounded-lg bg-gradient-to-r from-[#d99b26] to-[#b47a16] text-[#140e09] font-bold text-[11px] shadow-lg shadow-[#d99b26]/25 hover:brightness-110 active:scale-95 transition-all flex items-center gap-1" onclick="triggerSynchronousRally()"><span>⚔️ Боевой клич (Все 6)</span></button>
+</div>
+</div>
+</main>
+<!-- FOOTER -->
+<footer class="w-full bg-[#0d0907] border-t border-[#221810] px-4 py-1.5 flex items-center justify-between text-xs text-[#8c7b69] shrink-0">
+<div class="flex items-center gap-2.5 text-[11px]">
+<span class="font-bold text-[#c9b7a1]">Tavern Hearth Battler v2.4</span>
+<span>•</span>
+<span class="text-[#fdba45]">Pure Character Cutouts (Zero Background Box)</span>
+<span>•</span>
+<span class="text-amber-200/90 flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>Web Audio Synth FX</span>
+</div>
+<div class="flex items-center gap-3 text-[11px] font-mono">
+<div class="flex items-center gap-1">
+<span class="text-[#8c7b69]">Скорость:</span>
+<button class="px-1.5 py-0.5 rounded bg-[#d99b26] text-[#140e09] font-bold text-[10px]" id="spd1" onclick="setPlaySpeed(1.0)">1.0x</button>
+<button class="px-1.5 py-0.5 rounded bg-[#1e1711] text-[#b6a38d] hover:text-[#fed576] text-[10px]" id="spd15" onclick="setPlaySpeed(1.5)">1.5x</button>
+<button class="px-1.5 py-0.5 rounded bg-[#1e1711] text-[#b6a38d] hover:text-[#fed576] text-[10px]" id="spd2" onclick="setPlaySpeed(2.0)">2.0x</button>
+</div>
+<div class="flex items-center gap-1.5"><kbd class="px-1 py-0.5 rounded bg-[#1e1610] border border-[#3a2c1e] text-[#fdba45] font-bold">1-6</kbd> Каст героя <kbd class="px-1 py-0.5 rounded bg-[#1e1610] border border-[#3a2c1e] text-red-400 font-bold">D</kbd> Урон <kbd class="px-1 py-0.5 rounded bg-[#1e1610] border border-[#3a2c1e] text-amber-400 font-bold">A</kbd> Блок <kbd class="px-1.5 py-0.5 rounded bg-[#1e1610] border border-[#3a2c1e] text-[#fed576]">ПРОБЕЛ</kbd> Все 6</div>
+</div>
+</footer>
+<script>
+    // ==========================================
+    // PROCEDURAL WEB AUDIO SYNTHESIZER ENGINE
+    // ==========================================
+    let audioCtx = null;
+    let soundEnabled = true;
+
+    function initAudioContext() {
+      if (!audioCtx) {
+        const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+        if (AudioContextClass) {
+          audioCtx = new AudioContextClass();
+        }
+      }
+      if (audioCtx && audioCtx.state === 'suspended') {
+        audioCtx.resume();
+      }
+    }
+
+    // Generate White Noise Buffer
+    function createNoiseBuffer(duration = 1.0) {
+      if (!audioCtx) return null;
+      const bufferSize = audioCtx.sampleRate * duration;
+      const buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+      const output = buffer.getChannelData(0);
+      for (let i = 0; i < bufferSize; i++) {
+        output[i] = Math.random() * 2 - 1;
+      }
+      return buffer;
+    }
+
+    // Audio SFX Engine
+    const SoundFX = {
+      // 1. Damage Hit (Урон) - Punchy low-end impact with distorted crunch and falling pitch
+      playDamage(isCrit = false) {
+        if (!soundEnabled) return;
+        initAudioContext();
+        if (!audioCtx) return;
+
+        const now = audioCtx.currentTime;
+
+        // Sub/body Oscillator
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(isCrit ? 180 : 140, now);
+        osc.frequency.exponentialRampToValueAtTime(32, now + 0.32);
+
+        gain.gain.setValueAtTime(0.7, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.36);
+
+        // Noise crunch layer
+        const noiseBuf = createNoiseBuffer(0.25);
+        if (noiseBuf) {
+          const noiseSrc = audioCtx.createBufferSource();
+          noiseSrc.buffer = noiseBuf;
+
+          const filter = audioCtx.createBiquadFilter();
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(isCrit ? 2200 : 1200, now);
+          filter.frequency.exponentialRampToValueAtTime(160, now + 0.22);
+
+          const noiseGain = audioCtx.createGain();
+          noiseGain.gain.setValueAtTime(isCrit ? 0.8 : 0.45, now);
+          noiseGain.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
+
+          noiseSrc.connect(filter);
+          filter.connect(noiseGain);
+          noiseGain.connect(audioCtx.destination);
+          noiseSrc.start(now);
+          noiseSrc.stop(now + 0.25);
+        }
+      },
+
+      // 2. Block / Shield (Блок) - Heavy metallic and stone resonant clank with rich metallic decay
+      playBlock() {
+        if (!soundEnabled) return;
+        initAudioContext();
+        if (!audioCtx) return;
+
+        const now = audioCtx.currentTime;
+
+        // Metallic harmonic pings (multiple sines)
+        const freqs = [380, 740, 1180, 1620];
+        freqs.forEach((freq, idx) => {
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+
+          osc.type = idx % 2 === 0 ? 'sine' : 'triangle';
+          osc.frequency.setValueAtTime(freq, now);
+          osc.frequency.exponentialRampToValueAtTime(freq * 0.75, now + 0.45);
+
+          const initialAmp = 0.25 / (idx + 1);
+          gain.gain.setValueAtTime(initialAmp, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.48);
+
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(now);
+          osc.stop(now + 0.5);
+        });
+
+        // Shield impact thump
+        const thump = audioCtx.createOscillator();
+        const thumpGain = audioCtx.createGain();
+        thump.type = 'sine';
+        thump.frequency.setValueAtTime(220, now);
+        thump.frequency.exponentialRampToValueAtTime(50, now + 0.28);
+        thumpGain.gain.setValueAtTime(0.6, now);
+        thumpGain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+
+        thump.connect(thumpGain);
+        thumpGain.connect(audioCtx.destination);
+        thump.start(now);
+        thump.stop(now + 0.32);
+      },
+
+      // 3. Tank (Барсик - Провокация / Земля) - Deep seismic rumble with filter sweep down 180Hz->40Hz
+      playTank() {
+        if (!soundEnabled) return;
+        initAudioContext();
+        if (!audioCtx) return;
+
+        const now = audioCtx.currentTime;
+
+        // Sawtooth oscillator through swept lowpass
+        const saw = audioCtx.createOscillator();
+        const filter = audioCtx.createBiquadFilter();
+        const gain = audioCtx.createGain();
+
+        saw.type = 'sawtooth';
+        saw.frequency.setValueAtTime(110, now);
+        saw.frequency.exponentialRampToValueAtTime(38, now + 0.85);
+
+        filter.type = 'lowpass';
+        filter.Q.value = 8;
+        filter.frequency.setValueAtTime(280, now);
+        filter.frequency.exponentialRampToValueAtTime(45, now + 0.8);
+
+        gain.gain.setValueAtTime(0.65, now);
+        gain.gain.linearRampToValueAtTime(0.85, now + 0.15);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.85);
+
+        saw.connect(filter);
+        filter.connect(gain);
+        gain.connect(audioCtx.destination);
+        saw.start(now);
+        saw.stop(now + 0.9);
+
+        // Secondary stone crash
+        const nBuf = createNoiseBuffer(0.5);
+        if (nBuf) {
+          const nSrc = audioCtx.createBufferSource();
+          const nFilt = audioCtx.createBiquadFilter();
+          const nGain = audioCtx.createGain();
+
+          nSrc.buffer = nBuf;
+          nFilt.type = 'bandpass';
+          nFilt.frequency.setValueAtTime(160, now);
+          nFilt.Q.value = 3;
+
+          nGain.gain.setValueAtTime(0.5, now);
+          nGain.gain.exponentialRampToValueAtTime(0.001, now + 0.55);
+
+          nSrc.connect(nFilt);
+          nFilt.connect(nGain);
+          nGain.connect(audioCtx.destination);
+          nSrc.start(now);
+          nSrc.stop(now + 0.6);
+        }
+      },
+
+      // 4. Fighter (Рыжик - Когти / Огонь) - Fast double slicing whoosh with white-noise bandpass & flame crackle
+      playFighter() {
+        if (!soundEnabled) return;
+        initAudioContext();
+        if (!audioCtx) return;
+
+        [0, 0.12].forEach((delay) => {
+          const now = audioCtx.currentTime + delay;
+          const nBuf = createNoiseBuffer(0.28);
+          if (nBuf) {
+            const nSrc = audioCtx.createBufferSource();
+            const filter = audioCtx.createBiquadFilter();
+            const gain = audioCtx.createGain();
+
+            nSrc.buffer = nBuf;
+            filter.type = 'bandpass';
+            filter.frequency.setValueAtTime(1400, now);
+            filter.frequency.exponentialRampToValueAtTime(420, now + 0.22);
+            filter.Q.value = 4;
+
+            gain.gain.setValueAtTime(0.01, now);
+            gain.gain.linearRampToValueAtTime(0.65, now + 0.04);
+            gain.gain.exponentialRampToValueAtTime(0.001, now + 0.24);
+
+            nSrc.connect(filter);
+            filter.connect(gain);
+            gain.connect(audioCtx.destination);
+            nSrc.start(now);
+            nSrc.stop(now + 0.25);
+          }
+
+          // Flame body pitch drop
+          const osc = audioCtx.createOscillator();
+          const oscGain = audioCtx.createGain();
+          osc.type = 'sawtooth';
+          osc.frequency.setValueAtTime(360, now);
+          osc.frequency.exponentialRampToValueAtTime(120, now + 0.2);
+
+          oscGain.gain.setValueAtTime(0.3, now);
+          oscGain.gain.exponentialRampToValueAtTime(0.001, now + 0.22);
+
+          osc.connect(oscGain);
+          oscGain.connect(audioCtx.destination);
+          osc.start(now);
+          osc.stop(now + 0.24);
+        });
+      },
+
+      // 5. Assassin (Тень - Выпад / Молния) - Sharp high-frequency metallic slice + electrical zap
+      playAssassin() {
+        if (!soundEnabled) return;
+        initAudioContext();
+        if (!audioCtx) return;
+
+        const now = audioCtx.currentTime;
+
+        // Sharp high-pitch metallic sheen
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(1850, now);
+        osc.frequency.exponentialRampToValueAtTime(320, now + 0.28);
+
+        gain.gain.setValueAtTime(0.45, now);
+        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.3);
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.start(now);
+        osc.stop(now + 0.32);
+
+        // Electric arc zap
+        const zap = audioCtx.createOscillator();
+        const zapGain = audioCtx.createGain();
+        zap.type = 'square';
+        zap.frequency.setValueAtTime(950, now);
+        zap.frequency.setValueAtTime(1420, now + 0.04);
+        zap.frequency.setValueAtTime(440, now + 0.1);
+
+        zapGain.gain.setValueAtTime(0.35, now);
+        zapGain.gain.exponentialRampToValueAtTime(0.001, now + 0.25);
+
+        zap.connect(zapGain);
+        zapGain.connect(audioCtx.destination);
+        zap.start(now);
+        zap.stop(now + 0.26);
+      },
+
+      // 6. Ranger (Рыселап - Выстрел / Ветер) - Acoustic bowstring snap twang (440Hz->180Hz) + whistle whoosh
+      playRanger() {
+        if (!soundEnabled) return;
+        initAudioContext();
+        if (!audioCtx) return;
+
+        const now = audioCtx.currentTime;
+
+        // Bowstring twang pluck
+        const twang = audioCtx.createOscillator();
+        const twangGain = audioCtx.createGain();
+        twang.type = 'triangle';
+        twang.frequency.setValueAtTime(440, now);
+        twang.frequency.exponentialRampToValueAtTime(180, now + 0.35);
+
+        twangGain.gain.setValueAtTime(0.65, now);
+        twangGain.gain.exponentialRampToValueAtTime(0.001, now + 0.38);
+
+        twang.connect(twangGain);
+        twangGain.connect(audioCtx.destination);
+        twang.start(now);
+        twang.stop(now + 0.4);
+
+        // Arrow flight whistle
+        const whistle = audioCtx.createOscillator();
+        const whistleGain = audioCtx.createGain();
+        whistle.type = 'sine';
+        whistle.frequency.setValueAtTime(700, now + 0.05);
+        whistle.frequency.linearRampToValueAtTime(1450, now + 0.22);
+        whistle.frequency.exponentialRampToValueAtTime(900, now + 0.42);
+
+        whistleGain.gain.setValueAtTime(0.01, now + 0.05);
+        whistleGain.gain.linearRampToValueAtTime(0.35, now + 0.2);
+        whistleGain.gain.exponentialRampToValueAtTime(0.001, now + 0.44);
+
+        whistle.connect(whistleGain);
+        whistleGain.connect(audioCtx.destination);
+        whistle.start(now + 0.05);
+        whistle.stop(now + 0.46);
+      },
+
+      // 7. Mage (Игниус - Инферно / Огонь) - Deep rumbling whoosh expanding into exploding magical fire roar
+      playMage() {
+        if (!soundEnabled) return;
+        initAudioContext();
+        if (!audioCtx) return;
+
+        const now = audioCtx.currentTime;
+
+        // Expanding magic resonance
+        const magicOsc = audioCtx.createOscillator();
+        const magicGain = audioCtx.createGain();
+        magicOsc.type = 'sawtooth';
+        magicOsc.frequency.setValueAtTime(140, now);
+        magicOsc.frequency.exponentialRampToValueAtTime(560, now + 0.3);
+        magicOsc.frequency.exponentialRampToValueAtTime(80, now + 0.7);
+
+        magicGain.gain.setValueAtTime(0.1, now);
+        magicGain.gain.linearRampToValueAtTime(0.55, now + 0.25);
+        magicGain.gain.exponentialRampToValueAtTime(0.001, now + 0.72);
+
+        magicOsc.connect(magicGain);
+        magicGain.connect(audioCtx.destination);
+        magicOsc.start(now);
+        magicOsc.stop(now + 0.75);
+
+        // Fire roar noise
+        const nBuf = createNoiseBuffer(0.7);
+        if (nBuf) {
+          const nSrc = audioCtx.createBufferSource();
+          const filter = audioCtx.createBiquadFilter();
+          const nGain = audioCtx.createGain();
+
+          nSrc.buffer = nBuf;
+          filter.type = 'lowpass';
+          filter.frequency.setValueAtTime(400, now);
+          filter.frequency.linearRampToValueAtTime(1600, now + 0.3);
+          filter.frequency.exponentialRampToValueAtTime(200, now + 0.68);
+
+          nGain.gain.setValueAtTime(0.15, now);
+          nGain.gain.linearRampToValueAtTime(0.7, now + 0.28);
+          nGain.gain.exponentialRampToValueAtTime(0.001, now + 0.7);
+
+          nSrc.connect(filter);
+          filter.connect(nGain);
+          nGain.connect(audioCtx.destination);
+          nSrc.start(now);
+          nSrc.stop(now + 0.72);
+        }
+      },
+
+      // 8. Support (Мурка - Роса / Вода) - Crystalline ascending harmonic bells/chimes with soothing drop resonance
+      playSupport() {
+        if (!soundEnabled) return;
+        initAudioContext();
+        if (!audioCtx) return;
+
+        const now = audioCtx.currentTime;
+        const notes = [523.25, 659.25, 783.99, 1046.50]; // C5, E5, G5, C6 arpeggio
+
+        notes.forEach((freq, idx) => {
+          const t = now + idx * 0.08;
+          const osc = audioCtx.createOscillator();
+          const gain = audioCtx.createGain();
+
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(freq, t);
+          osc.frequency.exponentialRampToValueAtTime(freq * 1.02, t + 0.35);
+
+          gain.gain.setValueAtTime(0.0, t);
+          gain.gain.linearRampToValueAtTime(0.35, t + 0.02);
+          gain.gain.exponentialRampToValueAtTime(0.001, t + 0.5);
+
+          osc.connect(gain);
+          gain.connect(audioCtx.destination);
+          osc.start(t);
+          osc.stop(t + 0.52);
+        });
+
+        // Water drop plop
+        const drop = audioCtx.createOscillator();
+        const dropGain = audioCtx.createGain();
+        drop.type = 'sine';
+        drop.frequency.setValueAtTime(450, now + 0.28);
+        drop.frequency.exponentialRampToValueAtTime(980, now + 0.36);
+
+        dropGain.gain.setValueAtTime(0.01, now + 0.28);
+        dropGain.gain.linearRampToValueAtTime(0.4, now + 0.32);
+        dropGain.gain.exponentialRampToValueAtTime(0.001, now + 0.5);
+
+        drop.connect(dropGain);
+        dropGain.connect(audioCtx.destination);
+        drop.start(now + 0.28);
+        drop.stop(now + 0.52);
+      }
+    };
+
+    function toggleSoundEngine() {
+      soundEnabled = !soundEnabled;
+      initAudioContext();
+
+      const btn = document.getElementById('btnSoundToggle');
+      const icon = document.getElementById('soundIcon');
+      const label = document.getElementById('soundLabel');
+      const visualizer = document.getElementById('soundVisualizer');
+
+      if (soundEnabled) {
+        btn.className = "px-2.5 py-1 rounded-lg text-xs font-semibold bg-[#2a1d0f] hover:bg-[#3d2a16] text-[#fed576] border border-[#523700] transition flex items-center gap-1.5 shadow-sm active:scale-95";
+        icon.textContent = "🔊";
+        label.textContent = "Звук: ВКЛ";
+        if (visualizer) {
+          visualizer.classList.add('sound-bar-active');
+          visualizer.classList.remove('opacity-30');
+        }
+        SoundFX.playSupport(); // celebratory chime
+        updateToast("🔊 ЗВУК ВКЛЮЧЕН", "Процедурный синтезатор Web Audio API готов к воспроизведению!");
+      } else {
+        btn.className = "px-2.5 py-1 rounded-lg text-xs font-semibold bg-[#1e1711] hover:bg-[#281f17] text-[#a4917a] border border-[#3e2e1d] transition flex items-center gap-1.5 shadow-sm active:scale-95";
+        icon.textContent = "🔇";
+        label.textContent = "Звук: ВЫКЛ";
+        if (visualizer) {
+          visualizer.classList.remove('sound-bar-active');
+          visualizer.classList.add('opacity-30');
+        }
+        updateToast("🔇 ЗВУК ВЫКЛЮЧЕН", "Синтез аудио приостановлен. Кликните для включения.");
+      }
+    }
+
+    let aurasActive = true;
+    let currentSpeed = 1.0;
+    let currentFilter = 'all';
+    let selectedHeroId = 'charBarsik';
+
+    const heroIds = [
+      'charBarsik', 'charRyzhik', 'charShadow',
+      'charRyselap', 'charIgnius', 'charMurka'
+    ];
+
+    function selectHeroCard(heroId) {
+      selectedHeroId = heroId;
+      document.querySelectorAll('.hero-card').forEach(c => {
+        c.classList.remove('scale-[1.03]');
+        c.querySelector('.hero-sprite')?.classList.remove('brightness-125');
+      });
+      const el = document.getElementById(heroId);
+      if (el) {
+        const card = el.closest('.hero-card');
+        if (card) {
+          card.classList.add('scale-[1.03]');
+          el.classList.add('brightness-125');
+          const heroName = card.querySelector('h4').textContent;
+          updateToast(`[${heroName}] выбран!`, `Готов к приказам: кликните Урон (D) или Блок (A).`);
+        }
+      }
+    }
+
+    function heroTakeDamage(heroId) {
+      const el = document.getElementById(heroId);
+      if (!el) return;
+      const card = el.closest('.hero-card');
+      const viewport = el.closest('.hero-viewport');
+      const heroName = card ? card.querySelector('h4').textContent : 'Герой';
+
+      el.classList.remove('hero-damage-hit', 'hero-block-brace', 'combat-action-shake');
+      void el.offsetWidth;
+      el.classList.add('hero-damage-hit');
+
+      const isCrit = Math.random() > 0.65;
+      const baseDmg = isCrit ? Math.floor(Math.random() * 800 + 850) : Math.floor(Math.random() * 320 + 240);
+      const dmgText = isCrit ? `-${baseDmg.toLocaleString('ru-RU')} КРИТ! 💥` : `-${baseDmg}`;
+
+      // Trigger Web Audio API Procedural Damage Hit sound
+      SoundFX.playDamage(isCrit);
+
+      if (viewport) {
+        const slash = document.createElement('div');
+        slash.className = 'slash-impact-fx';
+        viewport.appendChild(slash);
+        setTimeout(() => slash.remove(), 420);
+
+        const fct = document.createElement('div');
+        fct.className = `floating-combat-txt font-black text-sm tracking-wider ${
+          isCrit ? 'text-amber-300 scale-110 drop-shadow-[0_0_12px_rgba(239,68,68,0.9)]' : 'text-red-400'
+        }`;
+        fct.innerHTML = `
+          <div class="flex items-center gap-1 bg-[#1a0a0a]/90 px-2 py-0.5 rounded-full border ${isCrit ? 'border-amber-500/80 text-amber-200' : 'border-red-600/70 text-red-300'} shadow-xl">
+            <span class="text-xs">🩸</span>
+            <span>${dmgText}</span>
+          </div>
+        `;
+        fct.style.top = '40%';
+        viewport.appendChild(fct);
+        setTimeout(() => fct.remove(), 900);
+      }
+
+      updateToast(`[${heroName}]: Вражеский удар!`, `Получено ${dmgText} урона. Котик отшатнулся с сотрясением стойки!`);
+      setTimeout(() => {
+        el.classList.remove('hero-damage-hit');
+      }, 560);
+    }
+
+    function heroBlock(heroId) {
+      const el = document.getElementById(heroId);
+      if (!el) return;
+      const card = el.closest('.hero-card');
+      const viewport = el.closest('.hero-viewport');
+      const heroName = card ? card.querySelector('h4').textContent : 'Герой';
+
+      el.classList.remove('hero-damage-hit', 'hero-block-brace', 'combat-action-shake');
+      void el.offsetWidth;
+      el.classList.add('hero-block-brace');
+
+      // Trigger Web Audio API Procedural Metallic Shield Block sound
+      SoundFX.playBlock();
+
+      if (viewport) {
+        const shieldFx = document.createElement('div');
+        shieldFx.className = 'shield-barrier-fx flex items-center justify-center';
+        shieldFx.innerHTML = '<span class="text-2xl drop-shadow-[0_0_8px_#fdba45] opacity-80">🛡️</span>';
+        viewport.appendChild(shieldFx);
+        setTimeout(() => shieldFx.remove(), 600);
+
+        const blockPhrases = ['100% БЛОК', '🛡️ БЛОК (-75%)', 'РУННЫЙ БЛОК', 'ЩИТ ВЫДЕРЖАЛ!'];
+        const chosenText = blockPhrases[Math.floor(Math.random() * blockPhrases.length)];
+
+        const fct = document.createElement('div');
+        fct.className = 'floating-combat-txt font-black text-xs tracking-wider';
+        fct.innerHTML = `
+          <div class="flex items-center gap-1.5 bg-[#261705]/95 text-amber-300 border border-amber-500/80 px-2.5 py-0.5 rounded-full shadow-[0_0_16px_rgba(253,186,69,0.7)]">
+            <span class="text-xs">🛡️</span>
+            <span class="font-extrabold uppercase">${chosenText}</span>
+          </div>
+        `;
+        fct.style.top = '42%';
+        viewport.appendChild(fct);
+        setTimeout(() => fct.remove(), 900);
+      }
+
+      updateToast(`[${heroName}]: Стойкий блок!`, `Принят удар на щит: активация рунного силового барьера!`);
+      setTimeout(() => {
+        el.classList.remove('hero-block-brace');
+      }, 620);
+    }
+
+    function heroAttack(heroId, message) {
+      const el = document.getElementById(heroId);
+      if (!el) return;
+
+      el.classList.remove('combat-action-shake', 'hero-damage-hit', 'hero-block-brace');
+      void el.offsetWidth;
+      el.classList.add('combat-action-shake');
+
+      const heroCard = el.closest('.hero-card');
+      const heroName = heroCard ? heroCard.querySelector('h4').textContent : 'Герой';
+
+      // Play unique class synthesized sound based on hero
+      if (heroId === 'charBarsik') SoundFX.playTank();
+      else if (heroId === 'charRyzhik') SoundFX.playFighter();
+      else if (heroId === 'charShadow') SoundFX.playAssassin();
+      else if (heroId === 'charRyselap') SoundFX.playRanger();
+      else if (heroId === 'charIgnius') SoundFX.playMage();
+      else if (heroId === 'charMurka') SoundFX.playSupport();
+
+      updateToast(`[${heroName}]:`, message || 'Выполнен боевой приём!');
+      setTimeout(() => {
+        el.classList.remove('combat-action-shake');
+      }, 500);
+    }
+
+    function triggerMassDamage() {
+      updateToast("💥 МАССОВЫЙ ЗАЛП УРОНА!", "Все 6 мифических котиков получают одновременный удар врага с отшатом и вспышкой урона!");
+      heroIds.forEach((id, idx) => {
+        setTimeout(() => heroTakeDamage(id), idx * 60);
+      });
+    }
+
+    function triggerMassBlock() {
+      updateToast("🛡️ МАССОВЫЙ БЛОК ОТРЯДА!", "Все 6 мифических котиков синхронно выставляют защитные барьеры и блокируют урон!");
+      heroIds.forEach((id, idx) => {
+        setTimeout(() => heroBlock(id), idx * 60);
+      });
+    }
+
+    function triggerSynchronousRally() {
+      updateToast("⚔️ СИНХРОННЫЙ БОЕВОЙ КЛИЧ!", "Все 6 мифических котиков активируют фирменные способности!");
+      heroIds.forEach((id, idx) => {
+        setTimeout(() => heroAttack(id), idx * 65);
+      });
+    }
+
+    function updateToast(title, message) {
+      const titleEl = document.getElementById('toastHeroTitle');
+      const msgEl = document.getElementById('toastMessage');
+      if (titleEl) titleEl.textContent = title;
+      if (msgEl) msgEl.textContent = message;
+    }
+
+    function filterRoster(role) {
+      currentFilter = role;
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.className = "filter-btn px-2 py-0.5 rounded-lg text-xs font-medium text-[#c5b5a0] hover:text-[#fed576] transition-all";
+      });
+      const activeBtn = document.getElementById('btnFilter-' + role);
+      if (activeBtn) {
+        activeBtn.className = "filter-btn px-2 py-0.5 rounded-lg text-xs font-semibold bg-[#d99b26] text-[#1c1611] transition-all";
+      }
+
+      const cards = document.querySelectorAll('.hero-card');
+      cards.forEach(card => {
+        if (role === 'all' || card.getAttribute('data-class') === role) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function setViewMode(mode) {
+      const grid = document.getElementById('rosterGrid');
+      const btnFocus = document.getElementById('viewBtnFocus');
+      const btnPan = document.getElementById('viewBtnPanorama');
+
+      if (mode === 'panorama') {
+        grid.className = "grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 items-end justify-center transition-all duration-500";
+        document.querySelectorAll('.hero-viewport').forEach(vp => {
+          vp.className = "hero-viewport relative w-full h-[300px] xl:h-[340px] flex items-end justify-center overflow-visible bg-transparent";
+        });
+        if (btnPan) btnPan.className = "px-2 py-0.5 rounded bg-[#2e2318] text-[#fce8b3] font-semibold text-[11px] transition";
+        if (btnFocus) btnFocus.className = "px-2 py-0.5 rounded text-[#a89886] hover:text-[#fce8b3] font-medium text-[11px] transition";
+      } else {
+        grid.className = "grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-3 items-end justify-center transition-all duration-500";
+        document.querySelectorAll('.hero-viewport').forEach(vp => {
+          vp.className = "hero-viewport relative w-full h-[320px] xl:h-[370px] flex items-end justify-center overflow-visible bg-transparent";
+        });
+        if (btnFocus) btnFocus.className = "px-2 py-0.5 rounded bg-[#2e2318] text-[#fce8b3] font-semibold text-[11px] transition";
+        if (btnPan) btnPan.className = "px-2 py-0.5 rounded text-[#a89886] hover:text-[#fce8b3] font-medium text-[11px] transition";
+      }
+    }
+
+    function toggleAuras() {
+      aurasActive = !aurasActive;
+      const btn = document.getElementById('btnAuraToggle');
+      const auraClasses = ['aura-stone', 'aura-fire', 'aura-lightning', 'aura-wind', 'aura-ice', 'aura-water'];
+      const particles = document.querySelectorAll('.element-particle');
+
+      if (aurasActive) {
+        btn.className = "px-2 py-1 rounded-lg text-xs font-semibold bg-[#1f6b2f] text-white border border-[#2b8840] transition flex items-center gap-1";
+        btn.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span> <span class="hidden sm:inline">Аура</span> ВКЛ';
+        particles.forEach(p => p.style.display = 'block');
+      } else {
+        btn.className = "px-2 py-1 rounded-lg text-xs font-semibold bg-[#302419] text-[#a4917a] border border-[#483726] transition flex items-center gap-1";
+        btn.innerHTML = '<span class="w-1.5 h-1.5 rounded-full bg-stone-500"></span> <span class="hidden sm:inline">Аура</span> ВЫКЛ';
+        particles.forEach(p => p.style.display = 'none');
+      }
+
+      heroIds.forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+          if (!aurasActive) {
+            el.dataset.savedClasses = el.className;
+            auraClasses.forEach(c => el.classList.remove(c));
+          } else {
+            if (el.dataset.savedClasses) el.className = el.dataset.savedClasses;
+          }
+        }
+      });
+    }
+
+    function setPlaySpeed(spd) {
+      currentSpeed = spd;
+      ['spd1', 'spd15', 'spd2'].forEach(id => {
+        const b = document.getElementById(id);
+        if (b) b.className = "px-1.5 py-0.5 rounded bg-[#1e1711] text-[#b6a38d] hover:text-[#fed576] text-[10px]";
+      });
+      const activeSpd = document.getElementById('spd' + (spd === 1.0 ? '1' : spd === 1.5 ? '15' : '2'));
+      if (activeSpd) activeSpd.className = "px-1.5 py-0.5 rounded bg-[#d99b26] text-[#140e09] font-bold text-[10px]";
+    }
+
+    window.addEventListener('keydown', (e) => {
+      initAudioContext();
+      const key = e.key.toLowerCase();
+      if (e.code === 'Space') {
+        e.preventDefault();
+        triggerSynchronousRally();
+      } else if (key === 'd' || key === 'в') {
+        e.preventDefault();
+        heroTakeDamage(selectedHeroId);
+      } else if (key === 'a' || key === 'ф') {
+        e.preventDefault();
+        heroBlock(selectedHeroId);
+      } else if (e.key >= '1' && e.key <= '6') {
+        const index = parseInt(e.key, 10) - 1;
+        if (heroIds[index]) {
+          selectHeroCard(heroIds[index]);
+          heroAttack(heroIds[index]);
+        }
+      }
+    });
+
+    // Resume AudioContext on any first document click
+    document.addEventListener('click', () => {
+      initAudioContext();
+    }, { once: true });
+
+    selectHeroCard('charShadow');
+</script>
+</body></html>

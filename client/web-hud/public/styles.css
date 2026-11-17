@@ -766,6 +766,21 @@ body.mythfel-login .mythfel-logout {
 #viewPvpFight .mf-battle-unit--cutout {
   background: transparent !important;
 }
+/* Drop Stitch plate chrome so full-body cutouts read as sprites, not cards. */
+#viewPracticeFight .mf-battle-unit--cutout .relative.w-full,
+#viewPracticeFight .mf-battle-unit--cutout .mf-unit-frame,
+#viewPvpFight .mf-battle-unit--cutout .mf-unit-frame {
+  overflow: visible !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+#viewPracticeFight .mf-battle-unit--cutout > div.w-full,
+#viewPracticeFight .pf-dummy-card.mf-battle-unit--cutout > div.w-full {
+  background: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
 .mf-battle-cutout,
 #viewPracticeFight img.mf-battle-cutout,
 #viewPvpFight img.mf-battle-cutout,
@@ -775,6 +790,149 @@ body.mythfel-login .mythfel-logout {
   object-position: center bottom !important;
   background: transparent !important;
   border-radius: 0 !important;
+}
+
+/* MF-149: live-fight idle / aura / hit / block (showcase → fight HUD only). */
+@keyframes heroBreathe1 {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  50% { transform: translateY(-6px) scale(1.01, 1.015); }
+}
+@keyframes heroBreathe2 {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1, 1); }
+  35% { transform: translateY(-7px) rotate(0.35deg) scale(1.012, 1.02); }
+  70% { transform: translateY(-3px) rotate(-0.25deg) scale(0.995, 0.998); }
+}
+@keyframes heroBreathe3 {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  45% { transform: translateY(-8px) scale(1.012, 1.022); }
+  80% { transform: translateY(-2px) scale(0.998, 0.996); }
+}
+@keyframes heroBreathe4 {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1, 1); }
+  50% { transform: translateY(-5px) rotate(-0.3deg) scale(1.008, 1.016); }
+}
+@keyframes heroBreathe5 {
+  0%, 100% { transform: translateY(0) scale(1, 1); }
+  40% { transform: translateY(-8px) scale(0.99, 1.022) skewX(-0.4deg); }
+  75% { transform: translateY(-2px) scale(1.006, 0.994) skewX(0.25deg); }
+}
+@keyframes heroBreathe6 {
+  0%, 100% { transform: translateY(0) rotate(0deg) scale(1, 1); }
+  55% { transform: translateY(-7px) rotate(0.4deg) scale(1.012, 1.018); }
+}
+.idle-breathe-1 { animation: heroBreathe1 4.2s ease-in-out infinite; transform-origin: bottom center; }
+.idle-breathe-2 { animation: heroBreathe2 3.8s ease-in-out infinite -1.1s; transform-origin: bottom center; }
+.idle-breathe-3 { animation: heroBreathe3 4.5s ease-in-out infinite -2.3s; transform-origin: bottom center; }
+.idle-breathe-4 { animation: heroBreathe4 4s ease-in-out infinite -0.7s; transform-origin: bottom center; }
+.idle-breathe-5 { animation: heroBreathe5 3.6s ease-in-out infinite -1.8s; transform-origin: bottom center; }
+.idle-breathe-6 { animation: heroBreathe6 4.3s ease-in-out infinite -0.4s; transform-origin: bottom center; }
+
+@keyframes pulseGlowStone {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(217, 155, 38, 0.4)); }
+  50% { filter: drop-shadow(0 0 18px rgba(245, 158, 11, 0.75)); }
+}
+@keyframes pulseGlowFire {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(239, 68, 68, 0.4)); }
+  50% { filter: drop-shadow(0 0 20px rgba(249, 115, 22, 0.75)); }
+}
+@keyframes pulseGlowLightning {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(168, 85, 247, 0.4)); }
+  50% { filter: drop-shadow(0 0 20px rgba(192, 132, 252, 0.8)); }
+}
+@keyframes pulseGlowWind {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.4)); }
+  50% { filter: drop-shadow(0 0 18px rgba(74, 222, 128, 0.75)); }
+}
+@keyframes pulseGlowIce {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(56, 189, 248, 0.4)); }
+  50% { filter: drop-shadow(0 0 20px rgba(125, 211, 252, 0.85)); }
+}
+@keyframes pulseGlowWater {
+  0%, 100% { filter: drop-shadow(0 0 8px rgba(45, 212, 191, 0.4)); }
+  50% { filter: drop-shadow(0 0 18px rgba(94, 234, 212, 0.8)); }
+}
+.aura-stone { animation: pulseGlowStone 4s ease-in-out infinite; }
+.aura-fire { animation: pulseGlowFire 3.6s ease-in-out infinite; }
+.aura-lightning { animation: pulseGlowLightning 3.4s ease-in-out infinite; }
+.aura-wind { animation: pulseGlowWind 4.2s ease-in-out infinite; }
+.aura-ice { animation: pulseGlowIce 3.8s ease-in-out infinite; }
+.aura-water { animation: pulseGlowWater 4.1s ease-in-out infinite; }
+
+.mf-hero-sprite.combat-action-shake,
+.combat-action-shake {
+  animation: heroHitShake 0.45s ease-out forwards !important;
+}
+@keyframes heroHitShake {
+  0% { transform: translateY(0) scale(1); }
+  25% { transform: translateY(-16px) scale(1.06) rotate(-1.5deg); }
+  50% { transform: translateY(4px) scale(1.02, 0.97) rotate(1deg); }
+  75% { transform: translateY(-3px) scale(1.01); }
+  100% { transform: translateY(0) scale(1); }
+}
+.hero-damage-hit {
+  animation: heroTakeDamage 0.55s cubic-bezier(0.25, 1, 0.5, 1) forwards !important;
+}
+@keyframes heroTakeDamage {
+  0% { transform: translate(0, 0) scale(1); filter: drop-shadow(0 0 18px rgba(239, 68, 68, 0.9)) brightness(1.5); }
+  15% { transform: translate(-12px, 3px) scale(0.93, 1.04) rotate(-3deg); filter: drop-shadow(0 0 28px rgba(220, 38, 38, 1)) brightness(1.9); }
+  40% { transform: translate(6px, -2px) scale(1.02, 0.97) rotate(2deg); }
+  100% { transform: translate(0, 0) scale(1); filter: none; }
+}
+.hero-block-brace {
+  animation: heroShieldBrace 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+@keyframes heroShieldBrace {
+  0% { transform: translate(0, 0) scale(1); filter: none; }
+  20% { transform: translate(0, 5px) scale(1.05, 0.96); filter: drop-shadow(0 0 20px rgba(253, 186, 69, 0.9)) brightness(1.35); }
+  55% { transform: translate(0, -2px) scale(1.02); filter: drop-shadow(0 0 12px rgba(253, 186, 69, 0.55)); }
+  100% { transform: translate(0, 0) scale(1); filter: none; }
+}
+.slash-impact-fx {
+  position: absolute; top: 35%; left: 50%; z-index: 30; pointer-events: none;
+  transform: translate(-50%, -50%) rotate(-25deg);
+  animation: slashPop 0.4s ease-out forwards;
+}
+@keyframes slashPop {
+  0% { width: 0; opacity: 0; }
+  30% {
+    width: 100px; height: 5px; opacity: 1;
+    background: linear-gradient(90deg, transparent, #fff, #f87171, #ef4444, transparent);
+    box-shadow: 0 0 14px #ef4444;
+  }
+  100% { width: 130px; opacity: 0; }
+}
+.shield-barrier-fx {
+  position: absolute; top: 45%; left: 50%; z-index: 25; pointer-events: none;
+  width: 5.5rem; height: 6.5rem; border-radius: 50% 50% 45% 45% / 60% 60% 40% 40%;
+  border: 2px solid rgba(253, 186, 69, 0.9);
+  background: radial-gradient(circle, rgba(253, 186, 69, 0.3) 0%, rgba(45, 212, 191, 0.18) 55%, transparent 80%);
+  box-shadow: 0 0 18px rgba(253, 186, 69, 0.75);
+  transform: translate(-50%, -50%);
+  animation: shieldPop 0.58s ease-out forwards;
+  display: grid; place-items: center;
+}
+.mf-fx-shield-glyph { font-size: 1.25rem; opacity: 0.85; }
+@keyframes shieldPop {
+  0% { transform: translate(-50%, -50%) scale(0.4); opacity: 0; }
+  25% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1.2); opacity: 0; filter: blur(2px); }
+}
+.floating-combat-txt {
+  position: absolute; left: 50%; top: 38%; z-index: 35; pointer-events: none;
+  font-family: Rubik, sans-serif; font-weight: 800; font-size: 12px; letter-spacing: 0.04em;
+  white-space: nowrap; text-shadow: 0 2px 8px rgba(0, 0, 0, 0.85);
+  animation: floatCombatText 0.85s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+}
+.floating-combat-txt.is-dmg { color: #f87171; }
+.floating-combat-txt.is-heal { color: #89d98c; }
+.floating-combat-txt.is-block { color: #fdba45; }
+@keyframes floatCombatText {
+  0% { transform: translate(-50%, 0) scale(0.5); opacity: 0; }
+  20% { transform: translate(-50%, -18px) scale(1.1); opacity: 1; }
+  100% { transform: translate(-50%, -56px) scale(0.9); opacity: 0; }
+}
+.mf-unit-frame, #viewPracticeFight [data-slot], #viewPvpFight .mf-unit-frame {
+  overflow: visible;
 }
 .mf-unit-dim { filter: brightness(0.35) grayscale(0.8); }
 .mf-fatality {

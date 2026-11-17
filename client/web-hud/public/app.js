@@ -5,6 +5,13 @@
  * Pack 17eb: tavern/shop/market/auction + ratings×2. No combat authority on client (§3.6 / §8.2).
  */
 
+import {
+  bindBattleFxGestureUnlock,
+  decorateBattleUnitIdle,
+  playCombatEvents,
+  SoundFX,
+} from "./battle-fx.js";
+
 const STARTERS = [
   "starter_tank_stone",
   "starter_fighter_fire",
@@ -506,6 +513,7 @@ const state = {
   primary: "combat",
   soon: null,
   battle: null,
+  lastBattleFxKey: null,
   lastResult: null,
   selectedKeep: null,
   tutorial: null,
@@ -2844,6 +2852,11 @@ const CAT_HERO_BATTLE_ART = {
   starter_tank_stone: "/stitch-assets/cat-heroes/battle/tank-a.png",
   starter_fighter_fire: "/stitch-assets/cat-heroes/battle/fighter-a.png",
   starter_support_water: "/stitch-assets/cat-heroes/battle/support-a.png",
+  // Practice dummies — dedicated no-bg mannequins (D-037 fight-only).
+  // FX/SFX reuse tank / fighter / support role kits (MF-149).
+  bot_practice_tank_a: "/stitch-assets/dojo/battle/dummy-oak-knight.png",
+  bot_practice_fighter_a: "/stitch-assets/dojo/battle/dummy-straw-berserk.png",
+  bot_practice_support_a: "/stitch-assets/dojo/battle/dummy-stone-totem.png",
 };
 
 const CAT_HERO_BLURB = {
@@ -6095,7 +6108,11 @@ function ensureCombatPortraitMounts(card) {
   }
   let bars = card.querySelector(".mf-bars");
   if (!bars) {
-    const hpWrap = card.querySelector(".w-full.h-2\\.5, .hp-bar, i[style*='--hp']")?.parentElement;
+    // Match the HP track itself — do NOT use parentElement on `.w-full.h-2.5`
+    // (that parent is the whole unit card and would wipe the portrait/img).
+    const hpWrap =
+      card.querySelector(".w-full.h-2\\.5, .hp-bar") ||
+      card.querySelector("i[style*='--hp']")?.parentElement;
     bars = document.createElement("div");
     bars.className = "mf-bars flex flex-col gap-0.5 w-full";
     bars.innerHTML = `<div class="mf-bar mf-bar--hp" title="HP"><i></i></div><div class="mf-bar mf-bar--shield" title="Щит" hidden><i></i></div>`;
@@ -6222,6 +6239,8 @@ function renderPracticeFight() {
       // Status icons replace legacy text strip on portrait.
       if (fxWrap) fxWrap.hidden = true;
       paintCombatUnitCard(card, u, { cleansedIds: clearedByUnit[u.id] || [] });
+      // MF-149: idle breathe + elemental aura (cutouts stay fight-only, D-037).
+      decorateBattleUnitIdle(card, u, i);
     });
   };
   paintSlots("#pfAllies", allies);
@@ -6318,6 +6337,7 @@ function pvpUnitCard(u, foe, cleansedIds = []) {
   li.className = (u.alive ? "" : "mf-unit-dead") + " mf-battle-unit--cutout";
   li.innerHTML = `${art ? `<figure class="mf-unit-frame"><img alt="" src="${art}" class="mf-battle-cutout ${u.alive ? "" : "mf-unit-dim"}"/><div class="mf-fatality" ${u.alive ? "hidden" : ""}><span>КОТИК ОТДЫХАЕТ</span></div><div class="mf-status-row">${statusIconsHtml(u.alive ? unitStatusList(u) : [], { cleansed: cleansedIds })}</div></figure>` : ""}<div><b>${name}</b><small>${element}${role ? " · " + role : ""}</small><em class="${u.alive ? "" : "mf-fatality-inline"}">${hpLine}</em><div class="mf-bars"><div class="mf-bar mf-bar--hp"><i style="width:${pct}%"></i></div>${seeSh && u.shield > 0 && u.alive ? `<div class="mf-bar mf-bar--shield"><i style="width:${Math.min(100, (u.shield / Math.max(u.maxHp, 1)) * 100)}%"></i></div>` : ""}</div></div>`;
   if (foe) li.dataset.foe = "1";
+  decorateBattleUnitIdle(li, u, u.lane ?? 0);
   return li;
 }
 
@@ -6530,7 +6550,17 @@ async function applyDiff(diff, note = "") {
       log(`unlock wins=${totalUnlockWins()}/${unlockN()} mode=${state.battleMode}`);
     }
   }
+  const fxKey = `${diff.battleId || ""}:${diff.seq ?? ""}`;
+  const shouldFx =
+    Array.isArray(diff.events) &&
+    diff.events.length > 0 &&
+    fxKey !== state.lastBattleFxKey;
   renderAll();
+  if (shouldFx) {
+    state.lastBattleFxKey = fxKey;
+    // After DOM paint — hit/heal/block from server events only (no client SoT numbers).
+    playCombatEvents(diff);
+  }
 }
 
 async function createPvE({ autoPlay = false, seed = 0, stageId = null, team = null } = {}) {
@@ -8664,6 +8694,8 @@ async function main() {
   window.mythfelNavigate = navigate;
   window.mythfelStartYard = startYard;
   window.mythfelStartPractice = startPractice;
+  window.mythfelSoundFX = SoundFX;
+  bindBattleFxGestureUnlock();
   syncOrientGate();
   window.addEventListener("orientationchange", syncOrientGate);
   window.addEventListener("resize", syncOrientGate);
