@@ -8569,17 +8569,6 @@ function startPracticeLoadSync() {
 }
 
 /**
- * Practice load uses painted cinematic arena art — no hero/dummy card overlay (MF-158).
- * PvP load still paints full-body figures via renderPvpLoad (MF-148).
- */
-function renderPracticeLoadFigures() {
-  const allyBox = $("dojoLoadAllies");
-  const enemyBox = $("dojoLoadEnemies");
-  if (allyBox) allyBox.innerHTML = "";
-  if (enemyBox) enemyBox.innerHTML = "";
-}
-
-/**
  * Hand L→R follows lobby hero paint: тыл · центр · авангард (D-034 / MF-158).
  * Sim hand order stays front→rear; this is display-only (playCard still uses unitId+handIndex).
  */
@@ -8594,6 +8583,14 @@ function sortHandByVisualLanes(cards, units) {
   return [...(cards || [])].sort((a, b) => {
     const d = visualRank(a.unitId) - visualRank(b.unitId);
     return d !== 0 ? d : (a.handIndex || 0) - (b.handIndex || 0);
+  });
+}
+
+/** MF-161: strip any leftover load roster/figures so only arena art + HUD remain. */
+function scrubPracticeLoadOverlays(loadRoot) {
+  if (!loadRoot) return;
+  loadRoot.querySelectorAll(".battle-load-roster, .battle-load-figure, #dojoLoadAllies, #dojoLoadEnemies").forEach((el) => {
+    el.remove();
   });
 }
 
@@ -8614,7 +8611,7 @@ function showPracticeLoad(on) {
     return;
   }
   if (on) {
-    renderPracticeLoadFigures();
+    scrubPracticeLoadOverlays(load);
     load.hidden = false;
     root.dataset.practiceLoad = "1";
     startPracticeLoadSync();
