@@ -357,6 +357,15 @@
           "type": "integer",
           "minimum": 0,
           "description": "§4.2 / §14 PvP unlock after N PvE or practice wins"
+        },
+        "pve_fatigue_sec": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "§4.1 / D-039 post-PvE fatigue wait (default 420 = 7 min within 5–10)"
+        },
+        "pve_fatigue_stub": {
+          "type": "boolean",
+          "description": "§4.1 / D-039 SL stub: tip + timer only, do not hard-block CreatePvE"
         }
       }
     },

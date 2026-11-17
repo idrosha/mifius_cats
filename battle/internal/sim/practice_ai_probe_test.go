@@ -28,7 +28,7 @@ func loadCat(t *testing.T) *content.Catalog {
 func TestPracticeBotSpendsEnergy(t *testing.T) {
 	cat := loadCat(t)
 	team := []string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}
-	b, err := mode.CreatePvE(cat, "probe", "practice_dummy_1", 42, team, nil)
+	b, err := mode.CreatePvE(cat, "probe", "practice_dummy_1", 42, team, nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -130,7 +130,7 @@ func unitByID(b *sim.Battle, id string) *sim.Unit {
 func TestPracticeAutoPlayCompletes(t *testing.T) {
 	cat := loadCat(t)
 	team := []string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}
-	b, err := mode.CreatePvE(cat, "auto", "practice_dummy_1", 20261110, team, nil)
+	b, err := mode.CreatePvE(cat, "auto", "practice_dummy_1", 20261110, team, nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}

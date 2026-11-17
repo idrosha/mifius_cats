@@ -5,10 +5,10 @@
   "bowlCost": 1,
   "enemyTeam": [
     {
-      "templateId": "bot_grass_dummy_tank_m2f2",
+      "templateId": "bot_wolf_tank_m2f2",
       "role": "tank",
-      "element": "grass",
-      "level": 1,
+      "element": "ice",
+      "level": 2,
       "baseStats": {
         "hp": 20,
         "atk": 2,
@@ -18,9 +18,9 @@
       },
       "deck": [
         {
-          "cardId": "card_bot_nibble_m2f2",
-          "name_key": "card.bot_nibble",
-          "element": "grass",
+          "cardId": "card_wolf_bite_m2f2",
+          "name_key": "card.bot_wolf_bite",
+          "element": "ice",
           "cost": 1,
           "atk": 3,
           "shield": 0,
@@ -32,9 +32,9 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_shell_m2f2",
-          "name_key": "card.bot_shell",
-          "element": "grass",
+          "cardId": "card_wolf_bark_m2f2",
+          "name_key": "card.bot_wolf_howl",
+          "element": "ice",
           "cost": 1,
           "atk": 0,
           "shield": 3,
@@ -46,9 +46,9 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_nibble2_m2f2",
-          "name_key": "card.bot_nibble2",
-          "element": "grass",
+          "cardId": "card_wolf_bite2_m2f2",
+          "name_key": "card.bot_wolf_bite",
+          "element": "ice",
           "cost": 1,
           "atk": 3,
           "shield": 0,
@@ -60,9 +60,9 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_shell2_m2f2",
-          "name_key": "card.bot_shell2",
-          "element": "grass",
+          "cardId": "card_wolf_bark2_m2f2",
+          "name_key": "card.bot_wolf_howl",
+          "element": "ice",
           "cost": 1,
           "atk": 0,
           "shield": 3,
@@ -73,15 +73,20 @@
           ],
           "effectOps": []
         }
-      ]
+      ],
+      "meta": {
+        "display_ru": "Северный страж",
+        "faction": "wolves",
+        "isPitboss": false
+      }
     },
     {
-      "templateId": "bot_grass_dummy_fighter_m2f2",
+      "templateId": "bot_wolf_fighter_m2f2",
       "role": "fighter",
-      "element": "grass",
-      "level": 1,
+      "element": "ice",
+      "level": 2,
       "baseStats": {
-        "hp": 15,
+        "hp": 16,
         "atk": 3,
         "spd": 4,
         "skill": 1,
@@ -89,9 +94,9 @@
       },
       "deck": [
         {
-          "cardId": "card_bot_scratch_m2f2",
-          "name_key": "card.bot_scratch",
-          "element": "grass",
+          "cardId": "card_wolf_claw_m2f2",
+          "name_key": "card.bot_wolf_claw",
+          "element": "ice",
           "cost": 1,
           "atk": 4,
           "shield": 0,
@@ -103,9 +108,9 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_scratch2_m2f2",
-          "name_key": "card.bot_scratch2",
-          "element": "grass",
+          "cardId": "card_wolf_claw2_m2f2",
+          "name_key": "card.bot_wolf_claw",
+          "element": "ice",
           "cost": 1,
           "atk": 4,
           "shield": 0,
@@ -117,9 +122,9 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_scratch3_m2f2",
-          "name_key": "card.bot_scratch3",
-          "element": "grass",
+          "cardId": "card_wolf_claw3_m2f2",
+          "name_key": "card.bot_wolf_claw",
+          "element": "ice",
           "cost": 1,
           "atk": 4,
           "shield": 0,
@@ -131,38 +136,51 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_scratch4_m2f2",
-          "name_key": "card.bot_scratch4",
-          "element": "grass",
+          "cardId": "card_wolf_frost_m2f2",
+          "name_key": "card.bot_wolf_frost",
+          "element": "ice",
           "cost": 1,
-          "atk": 4,
-          "hits": 1,
+          "atk": 3,
           "shield": 0,
+          "hits": 1,
           "targetRule": "nearest",
           "tags": [
-            "attack"
+            "attack",
+            "weak"
           ],
-          "effectOps": []
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "weak",
+              "stacks": 1,
+              "duration": 1
+            }
+          ]
         }
-      ]
+      ],
+      "meta": {
+        "display_ru": "Волк-клык",
+        "faction": "wolves",
+        "isPitboss": false
+      }
     },
     {
-      "templateId": "bot_grass_dummy_support_m2f2",
+      "templateId": "bot_wolf_support_m2f2",
       "role": "support",
-      "element": "grass",
-      "level": 1,
+      "element": "ice",
+      "level": 2,
       "baseStats": {
         "hp": 13,
         "atk": 1,
         "spd": 3,
         "skill": 2,
-        "charm": 2
+        "charm": 1
       },
       "deck": [
         {
-          "cardId": "card_bot_sip_m2f2",
+          "cardId": "card_wolf_sip_m2f2",
           "name_key": "card.bot_sip",
-          "element": "grass",
+          "element": "ice",
           "cost": 1,
           "atk": 0,
           "shield": 0,
@@ -179,9 +197,9 @@
           ]
         },
         {
-          "cardId": "card_bot_poke_m2f2",
-          "name_key": "card.bot_poke",
-          "element": "grass",
+          "cardId": "card_wolf_poke_m2f2",
+          "name_key": "card.bot_wolf_frost",
+          "element": "ice",
           "cost": 1,
           "atk": 2,
           "shield": 0,
@@ -193,9 +211,9 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_sip2_m2f2",
+          "cardId": "card_wolf_sip2_m2f2",
           "name_key": "card.bot_sip2",
-          "element": "grass",
+          "element": "ice",
           "cost": 1,
           "atk": 0,
           "shield": 0,
@@ -212,9 +230,9 @@
           ]
         },
         {
-          "cardId": "card_bot_poke2_m2f2",
-          "name_key": "card.bot_poke2",
-          "element": "grass",
+          "cardId": "card_wolf_poke2_m2f2",
+          "name_key": "card.bot_wolf_frost",
+          "element": "ice",
           "cost": 1,
           "atk": 2,
           "shield": 0,
@@ -225,14 +243,21 @@
           ],
           "effectOps": []
         }
-      ]
+      ],
+      "meta": {
+        "display_ru": "Шаман инея",
+        "faction": "wolves",
+        "isPitboss": false
+      }
     }
   ],
   "meta": {
     "stageIndex": 2,
     "fightIndex": 2,
-    "title_ru": "Тропа Одуванчиков",
-    "fight_ru": "Средние питомцы",
-    "waveTheme": "medium"
+    "title_ru": "Ледяные Пещеры",
+    "fight_ru": "Солдаты",
+    "faction": "wolves",
+    "waveTheme": "soldiers",
+    "location_ru": "Ледяные Пещеры"
   }
 }

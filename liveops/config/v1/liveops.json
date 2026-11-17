@@ -126,7 +126,9 @@
     "pve_per_day_free": 3,
     "pvp_per_day_free": 5,
     "pass_multiplier": 2,
-    "pve_unlock_n": 3
+    "pve_unlock_n": 3,
+    "pve_fatigue_sec": 420,
+    "pve_fatigue_stub": true
   },
   "pity": {
     "soft": 50,

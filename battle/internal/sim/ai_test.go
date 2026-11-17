@@ -26,7 +26,7 @@ func TestAdvancePvEBots_AfterEndTurn_ReturnsToP1(t *testing.T) {
 		t.Fatal(err)
 	}
 	team := []string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}
-	b, err := mode.CreatePvE(cat, "bot_advance", "test_yard_1", 20261104, team, nil)
+	b, err := mode.CreatePvE(cat, "bot_advance", "test_yard_1", 20261104, team, nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}

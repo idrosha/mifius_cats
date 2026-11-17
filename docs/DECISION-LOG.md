@@ -34,6 +34,26 @@ Append-only. Новые записи — **сверху** (после шабло
 
 ---
 
+## D-039 · 2026-11-17 · Мифмир: 5 глав × 3 волны, HP/смерть, усталость
+
+- **Status:** Accepted
+- **Area:** battle | content | liveops
+- **SSOT:** `docs/FULL-SPEC.md` §4.1
+- **Owner:** Andrew / battle+content (MF-163)
+
+### Context
+Нужна ясная кампания Мифмир: фракции врагов по главам, карты атак солдат/питбоссов, баланс без шмотков на стартерах, правила между волнами (HP / смерть) и post-fight усталость.
+
+### Decision
+1. **5 глав × 3 уровня:** солдаты → солдаты → питбосс+солдаты (`mythmir_{ch}_f{1..3}`).
+2. **Фракции:** 1 обычные псы · 2 северные волки · 3 красные псы · 4 зомби · 5 призраки (таблица §4.1).
+3. **Между уровнями одной главы:** живые → полный HP; мёртвые не воскресают (`CreatePvE.carryAlive`).
+4. **Усталость** после win/lose: таверна или 5–10 мин; SL = stub (`pve_fatigue_stub`).
+5. Баланс: каждый питбосс clearable стартерами tank+fighter+support без gear/potions.
+
+### Consequences
+Stage JSON + campaign/wiki синхронизированы с фракциями. Клиент не SoT урона/наград. Follow-up: жёсткий fatigue-gate и LiveOps числа без смены ядра.
+
 ## D-038 · 2026-11-17 · Attack-card text = live overlay (not baked art)
 
 - **Status:** Rejected

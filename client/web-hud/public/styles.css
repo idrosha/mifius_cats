@@ -5603,6 +5603,19 @@ body.mythfel-shell > #viewYard.stitch-view:not(.hidden) {
 #viewYard #btnYardStartBattle {
   flex-shrink: 0;
 }
+/* Chapter map nodes — selectable (MF-163) */
+#viewYard .pve-yard-node {
+  outline: none;
+}
+#viewYard .pve-yard-node.is-active {
+  z-index: 20;
+}
+#viewYard .pve-yard-node.is-locked {
+  opacity: 0.85;
+}
+#viewYard .pve-yard-node:focus-visible {
+  filter: drop-shadow(0 0 6px rgba(253, 186, 69, 0.7));
+}
 @media (min-width: 900px) and (max-height: 820px) {
   #viewYard .pve-yard-map { max-height: 42%; min-height: 11rem; }
   #viewYard .pve-yard-hero-art {

@@ -5,12 +5,12 @@
   "bowlCost": 1,
   "enemyTeam": [
     {
-      "templateId": "bot_grass_dummy_tank_m5f2",
+      "templateId": "bot_ghost_tank_m5f2",
       "role": "tank",
-      "element": "grass",
-      "level": 1,
+      "element": "bolt",
+      "level": 5,
       "baseStats": {
-        "hp": 20,
+        "hp": 23,
         "atk": 2,
         "spd": 2,
         "skill": 1,
@@ -18,11 +18,11 @@
       },
       "deck": [
         {
-          "cardId": "card_bot_nibble_m5f2",
-          "name_key": "card.bot_nibble",
-          "element": "grass",
+          "cardId": "card_ghost_bite_m5f2",
+          "name_key": "card.bot_ghost_strike",
+          "element": "bolt",
           "cost": 1,
-          "atk": 3,
+          "atk": 4,
           "shield": 0,
           "hits": 1,
           "targetRule": "nearest",
@@ -32,12 +32,12 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_shell_m5f2",
-          "name_key": "card.bot_shell",
-          "element": "grass",
+          "cardId": "card_ghost_bark_m5f2",
+          "name_key": "card.bot_ghost_shroud",
+          "element": "bolt",
           "cost": 1,
           "atk": 0,
-          "shield": 3,
+          "shield": 4,
           "hits": 0,
           "targetRule": "self",
           "tags": [
@@ -46,11 +46,11 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_nibble2_m5f2",
-          "name_key": "card.bot_nibble2",
-          "element": "grass",
+          "cardId": "card_ghost_bite2_m5f2",
+          "name_key": "card.bot_ghost_strike",
+          "element": "bolt",
           "cost": 1,
-          "atk": 3,
+          "atk": 4,
           "shield": 0,
           "hits": 1,
           "targetRule": "nearest",
@@ -60,12 +60,12 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_shell2_m5f2",
-          "name_key": "card.bot_shell2",
-          "element": "grass",
+          "cardId": "card_ghost_bark2_m5f2",
+          "name_key": "card.bot_ghost_shroud",
+          "element": "bolt",
           "cost": 1,
           "atk": 0,
-          "shield": 3,
+          "shield": 4,
           "hits": 0,
           "targetRule": "self",
           "tags": [
@@ -73,27 +73,32 @@
           ],
           "effectOps": []
         }
-      ]
+      ],
+      "meta": {
+        "display_ru": "Могильный страж",
+        "faction": "ghosts",
+        "isPitboss": false
+      }
     },
     {
-      "templateId": "bot_grass_dummy_fighter_m5f2",
+      "templateId": "bot_ghost_fighter_m5f2",
       "role": "fighter",
-      "element": "grass",
-      "level": 1,
+      "element": "bolt",
+      "level": 5,
       "baseStats": {
-        "hp": 15,
-        "atk": 3,
+        "hp": 18,
+        "atk": 4,
         "spd": 4,
         "skill": 1,
         "charm": 1
       },
       "deck": [
         {
-          "cardId": "card_bot_scratch_m5f2",
-          "name_key": "card.bot_scratch",
-          "element": "grass",
+          "cardId": "card_ghost_claw_m5f2",
+          "name_key": "card.bot_ghost_chain",
+          "element": "bolt",
           "cost": 1,
-          "atk": 4,
+          "atk": 5,
           "shield": 0,
           "hits": 1,
           "targetRule": "nearest",
@@ -103,11 +108,11 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_scratch2_m5f2",
-          "name_key": "card.bot_scratch2",
-          "element": "grass",
+          "cardId": "card_ghost_claw2_m5f2",
+          "name_key": "card.bot_ghost_chain",
+          "element": "bolt",
           "cost": 1,
-          "atk": 4,
+          "atk": 5,
           "shield": 0,
           "hits": 1,
           "targetRule": "nearest",
@@ -117,11 +122,11 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_scratch3_m5f2",
-          "name_key": "card.bot_scratch3",
-          "element": "grass",
+          "cardId": "card_ghost_claw3_m5f2",
+          "name_key": "card.bot_ghost_chain",
+          "element": "bolt",
           "cost": 1,
-          "atk": 4,
+          "atk": 5,
           "shield": 0,
           "hits": 1,
           "targetRule": "nearest",
@@ -131,38 +136,51 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_scratch4_m5f2",
-          "name_key": "card.bot_scratch4",
-          "element": "grass",
+          "cardId": "card_ghost_weak_m5f2",
+          "name_key": "card.bot_ghost_weak",
+          "element": "bolt",
           "cost": 1,
-          "atk": 4,
-          "hits": 1,
+          "atk": 3,
           "shield": 0,
+          "hits": 1,
           "targetRule": "nearest",
           "tags": [
-            "attack"
+            "attack",
+            "weak"
           ],
-          "effectOps": []
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "weak",
+              "stacks": 1,
+              "duration": 2
+            }
+          ]
         }
-      ]
+      ],
+      "meta": {
+        "display_ru": "Клинок душ",
+        "faction": "ghosts",
+        "isPitboss": false
+      }
     },
     {
-      "templateId": "bot_grass_dummy_support_m5f2",
+      "templateId": "bot_ghost_support_m5f2",
       "role": "support",
-      "element": "grass",
-      "level": 1,
+      "element": "bolt",
+      "level": 5,
       "baseStats": {
-        "hp": 13,
+        "hp": 14,
         "atk": 1,
         "spd": 3,
         "skill": 2,
-        "charm": 2
+        "charm": 1
       },
       "deck": [
         {
-          "cardId": "card_bot_sip_m5f2",
+          "cardId": "card_ghost_sip_m5f2",
           "name_key": "card.bot_sip",
-          "element": "grass",
+          "element": "bolt",
           "cost": 1,
           "atk": 0,
           "shield": 0,
@@ -174,14 +192,14 @@
           "effectOps": [
             {
               "op": "heal",
-              "amount": 3
+              "amount": 4
             }
           ]
         },
         {
-          "cardId": "card_bot_poke_m5f2",
-          "name_key": "card.bot_poke",
-          "element": "grass",
+          "cardId": "card_ghost_poke_m5f2",
+          "name_key": "card.bot_ghost_weak",
+          "element": "bolt",
           "cost": 1,
           "atk": 2,
           "shield": 0,
@@ -193,9 +211,9 @@
           "effectOps": []
         },
         {
-          "cardId": "card_bot_sip2_m5f2",
+          "cardId": "card_ghost_sip2_m5f2",
           "name_key": "card.bot_sip2",
-          "element": "grass",
+          "element": "bolt",
           "cost": 1,
           "atk": 0,
           "shield": 0,
@@ -207,14 +225,14 @@
           "effectOps": [
             {
               "op": "heal",
-              "amount": 3
+              "amount": 4
             }
           ]
         },
         {
-          "cardId": "card_bot_poke2_m5f2",
-          "name_key": "card.bot_poke2",
-          "element": "grass",
+          "cardId": "card_ghost_poke2_m5f2",
+          "name_key": "card.bot_ghost_weak",
+          "element": "bolt",
           "cost": 1,
           "atk": 2,
           "shield": 0,
@@ -225,14 +243,21 @@
           ],
           "effectOps": []
         }
-      ]
+      ],
+      "meta": {
+        "display_ru": "Блуждающий огонёк",
+        "faction": "ghosts",
+        "isPitboss": false
+      }
     }
   ],
   "meta": {
     "stageIndex": 5,
     "fightIndex": 2,
-    "title_ru": "Логово Питбосса",
-    "fight_ru": "Средние питомцы",
-    "waveTheme": "medium"
+    "title_ru": "Призрачный Чертог",
+    "fight_ru": "Солдаты",
+    "faction": "ghosts",
+    "waveTheme": "soldiers",
+    "location_ru": "Призрачный Чертог"
   }
 }

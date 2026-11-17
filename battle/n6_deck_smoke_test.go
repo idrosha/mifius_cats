@@ -34,7 +34,7 @@ func TestSmoke_N6GapHeroesDeckAndHand(t *testing.T) {
 			t.Fatalf("%s unique=%d", id, len(seen))
 		}
 	}
-	b, err := mode.CreatePvE(cat, "smoke_n6", "practice_dummy_1", 42, ids, nil)
+	b, err := mode.CreatePvE(cat, "smoke_n6", "practice_dummy_1", 42, ids, nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
