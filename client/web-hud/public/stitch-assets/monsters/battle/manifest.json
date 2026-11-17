@@ -1,0 +1,182 @@
+[
+  {
+    "role": "tank",
+    "file": "tank-a.png",
+    "src": "0d9e2e99-2b23-42fe-a861-804df483a127",
+    "size": [
+      861,
+      1077
+    ]
+  },
+  {
+    "role": "tank",
+    "file": "tank-b.png",
+    "src": "a8a0c5eb-a9df-45e8-a270-93815901292b",
+    "size": [
+      741,
+      970
+    ]
+  },
+  {
+    "role": "tank",
+    "file": "tank-c.png",
+    "src": "b72fb13f-3877-472d-850a-686704df390c",
+    "size": [
+      785,
+      1005
+    ]
+  },
+  {
+    "role": "tank",
+    "file": "tank-d.png",
+    "src": "8d86b1a5-9379-4e71-aeb9-30d04f0916d4",
+    "size": [
+      874,
+      1096
+    ]
+  },
+  {
+    "role": "fighter",
+    "file": "fighter-a.png",
+    "src": "1f261b95-2bd1-4daf-94a3-b4811d82258f",
+    "size": [
+      829,
+      1083
+    ]
+  },
+  {
+    "role": "fighter",
+    "file": "fighter-b.png",
+    "src": "7e97f31c-90ec-4871-8e8d-9de4b9d53b03",
+    "size": [
+      783,
+      1002
+    ]
+  },
+  {
+    "role": "fighter",
+    "file": "fighter-c.png",
+    "src": "2d3ee5d2-86f4-41ec-9a1c-3d2c6824c541",
+    "size": [
+      832,
+      1030
+    ]
+  },
+  {
+    "role": "fighter",
+    "file": "fighter-d.png",
+    "src": "4a6c01b8-4af7-4136-8add-95c6e18bdc8b",
+    "size": [
+      766,
+      1054
+    ]
+  },
+  {
+    "role": "fighter",
+    "file": "fighter-e.png",
+    "src": "07526f48-a0de-475c-bbb0-00a9ca6325f3",
+    "size": [
+      803,
+      1024
+    ]
+  },
+  {
+    "role": "fighter",
+    "file": "fighter-f.png",
+    "src": "9010c8a4-5867-4de1-95ed-8605d6489482",
+    "size": [
+      844,
+      1082
+    ]
+  },
+  {
+    "role": "fighter",
+    "file": "fighter-g.png",
+    "src": "59e7018a-a9ab-4c1e-ad44-5d3d52efc229",
+    "size": [
+      757,
+      999
+    ]
+  },
+  {
+    "role": "fighter",
+    "file": "fighter-h.png",
+    "src": "8abc342f-1fb6-4ac6-91c5-05fa3672539f",
+    "size": [
+      706,
+      951
+    ]
+  },
+  {
+    "role": "support",
+    "file": "support-a.png",
+    "src": "8d18f70f-bb84-4976-a2fb-131ec6666cdd",
+    "size": [
+      747,
+      1067
+    ]
+  },
+  {
+    "role": "support",
+    "file": "support-b.png",
+    "src": "c0091cbe-c1d8-45fa-a555-ba715357dd93",
+    "size": [
+      772,
+      1063
+    ]
+  },
+  {
+    "role": "support",
+    "file": "support-c.png",
+    "src": "f83716f5-63de-472a-b460-c3021c083983",
+    "size": [
+      807,
+      1134
+    ]
+  },
+  {
+    "role": "assassin",
+    "file": "assassin-a.png",
+    "src": "d5c3e5f0-ec0b-4572-87d9-ec0f7276295b",
+    "size": [
+      779,
+      898
+    ]
+  },
+  {
+    "role": "assassin",
+    "file": "assassin-b.png",
+    "src": "ebb72ec2-062b-43d8-9e88-97a22cd13747",
+    "size": [
+      768,
+      1048
+    ]
+  },
+  {
+    "role": "ranger",
+    "file": "ranger-a.png",
+    "src": "6238cac2-de6c-41b1-aec7-4480a4de3086",
+    "size": [
+      769,
+      1056
+    ]
+  },
+  {
+    "role": "ranger",
+    "file": "ranger-b.png",
+    "src": "8a613d2d-6bb6-426a-99e2-97022050b1d6",
+    "size": [
+      779,
+      1028
+    ]
+  },
+  {
+    "role": "mage",
+    "file": "mage-a.png",
+    "src": "1b9d780c-942a-4214-a70f-1e868c23d2c0",
+    "size": [
+      822,
+      1089
+    ]
+  }
+]

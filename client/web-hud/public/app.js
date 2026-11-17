@@ -2882,6 +2882,73 @@ function catHeroArt(templateId) {
 function catHeroBattleArt(templateId) {
   return CAT_HERO_BATTLE_ART[templateId] || catHeroArt(templateId);
 }
+
+/** PvE monster cutouts by role (MF-152). Picked stably from templateId. */
+const MONSTER_BATTLE_BY_ROLE = {
+  tank: [
+    "/stitch-assets/monsters/battle/tank-a.png",
+    "/stitch-assets/monsters/battle/tank-b.png",
+    "/stitch-assets/monsters/battle/tank-c.png",
+    "/stitch-assets/monsters/battle/tank-d.png",
+  ],
+  fighter: [
+    "/stitch-assets/monsters/battle/fighter-a.png",
+    "/stitch-assets/monsters/battle/fighter-b.png",
+    "/stitch-assets/monsters/battle/fighter-c.png",
+    "/stitch-assets/monsters/battle/fighter-d.png",
+    "/stitch-assets/monsters/battle/fighter-e.png",
+    "/stitch-assets/monsters/battle/fighter-f.png",
+    "/stitch-assets/monsters/battle/fighter-g.png",
+    "/stitch-assets/monsters/battle/fighter-h.png",
+  ],
+  support: [
+    "/stitch-assets/monsters/battle/support-a.png",
+    "/stitch-assets/monsters/battle/support-b.png",
+    "/stitch-assets/monsters/battle/support-c.png",
+  ],
+  assassin: [
+    "/stitch-assets/monsters/battle/assassin-a.png",
+    "/stitch-assets/monsters/battle/assassin-b.png",
+  ],
+  ranger: [
+    "/stitch-assets/monsters/battle/ranger-a.png",
+    "/stitch-assets/monsters/battle/ranger-b.png",
+  ],
+  mage: ["/stitch-assets/monsters/battle/mage-a.png"],
+};
+
+function hashPickArt(key, pool) {
+  if (!pool?.length) return null;
+  const s = String(key || "");
+  let h = 2166136261;
+  for (let i = 0; i < s.length; i++) {
+    h ^= s.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  // >>>0: Math.imul is signed; negative `%` would yield undefined slots.
+  return pool[(h >>> 0) % pool.length];
+}
+
+function monsterBattleArt(unit) {
+  const role = String(unit?.role || "").toLowerCase();
+  const pool = MONSTER_BATTLE_BY_ROLE[role] || MONSTER_BATTLE_BY_ROLE.fighter;
+  const tid = unitTemplateId(unit);
+  return hashPickArt(tid || unit?.id || role, pool);
+}
+
+/** Live-fight art: explicit map → PvE bot monsters by role → cat cutouts. D-037. */
+function battleUnitArt(unit) {
+  if (!unit) return null;
+  const tid = unitTemplateId(unit);
+  if (tid && Object.prototype.hasOwnProperty.call(CAT_HERO_BATTLE_ART, tid)) {
+    return CAT_HERO_BATTLE_ART[tid];
+  }
+  if (String(tid).startsWith("bot_") || String(unit.id || "").startsWith("bot_")) {
+    return monsterBattleArt(unit);
+  }
+  return catHeroBattleArt(tid);
+}
+
 const HOME_SLOT_PIN = {
   helm: "is-tl",
   armor: "is-ml",
@@ -5428,21 +5495,30 @@ function cleansedByUnitFromEvents(events) {
 
 function unitCard(u, side) {
   const d = document.createElement("div");
-  d.className = `unit ${side}${u.alive ? "" : " dead mf-unit-dead"}`;
+  d.className = `unit ${side}${u.alive ? "" : " dead mf-unit-dead"} mf-battle-unit--cutout`;
   const pct = u.maxHp > 0 ? Math.max(0, Math.min(100, (u.hp / u.maxHp) * 100)) : 0;
   const seeSh = canSeeUnitShield(u);
   const sh = seeSh && u.shield > 0 ? ` +${u.shield}` : "";
   const icons = statusIconsHtml(unitStatusList(u));
+  const art = battleUnitArt(u);
+  const roleRu = CAT_ROLE_RU[u.role] || u.role || "";
+  const elRu = CAT_ELEMENT_RU[u.element] || u.element || "";
   d.innerHTML = `
-    <div class="meta">${u.role} · ${u.element} · L${u.lane}</div>
+    <figure class="mf-unit-frame">${
+      art
+        ? `<img alt="" class="mf-battle-cutout${u.alive ? "" : " mf-unit-dim"}" src="${art}"/>`
+        : ""
+    }<div class="mf-status-row">${icons}</div><div class="mf-fatality" ${u.alive ? "hidden" : ""}><span>КОТИК ОТДЫХАЕТ</span></div></figure>
+    <div class="meta">${roleRu}${elRu ? ` · ${elRu}` : ""} · L${u.lane}</div>
     <div class="hp">${u.alive ? `${u.hp}/${u.maxHp}${sh}` : "КОТИК ОТДЫХАЕТ"}</div>
     <div class="mf-bars"><div class="mf-bar mf-bar--hp"><i style="width:${pct}%"></i></div>${
       seeSh && u.shield > 0
         ? `<div class="mf-bar mf-bar--shield"><i style="width:${Math.min(100, (u.shield / Math.max(u.maxHp, 1)) * 100)}%"></i></div>`
         : ""
     }</div>
-    <div class="mf-status-row mf-status-row--inline">${icons}</div>
   `;
+  // MF-152: idle/aura + hit FX target via data-unit-id (same kits as cats by role).
+  decorateBattleUnitIdle(d, u, u.lane ?? 0);
   return d;
 }
 

@@ -326,10 +326,15 @@ export function decorateBattleUnitIdle(card, unit, laneIndex = 0) {
 
 export function findBattleUnitEl(unitId) {
   if (!unitId) return null;
+  const esc = CSS.escape(unitId);
+  // Yard wire `#allyBoard`/`#enemyBoard` can sit outside `#viewBattle` in the DOM.
   return (
-    document.querySelector(`#viewPracticeFight [data-unit-id="${CSS.escape(unitId)}"]`) ||
-    document.querySelector(`#viewPvpFight [data-unit-id="${CSS.escape(unitId)}"]`) ||
-    document.querySelector(`#viewBattle [data-unit-id="${CSS.escape(unitId)}"]`)
+    document.querySelector(`#viewPracticeFight [data-unit-id="${esc}"]`) ||
+    document.querySelector(`#viewPvpFight [data-unit-id="${esc}"]`) ||
+    document.querySelector(`#viewBattle [data-unit-id="${esc}"]`) ||
+    document.querySelector(`#enemyBoard [data-unit-id="${esc}"]`) ||
+    document.querySelector(`#allyBoard [data-unit-id="${esc}"]`) ||
+    document.querySelector(`[data-unit-id="${esc}"]`)
   );
 }
 
