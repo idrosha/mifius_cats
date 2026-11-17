@@ -36,19 +36,19 @@ Append-only. Новые записи — **сверху** (после шабло
 
 ## D-038 · 2026-11-17 · Attack-card text = live overlay (not baked art)
 
-- **Status:** Accepted
+- **Status:** Rejected
 - **Area:** hud | content | liveops
-- **SSOT:** `content/cards/*.json` → `scripts/gen-card-effects.py` → `client/web-hud/public/data/card-effects.json`
+- **SSOT:** none (откат HUD overlay)
 - **Owner:** Andrew / web-hud
 
 ### Context
-Баланс D-035 ломал цифры на PNG/WebP пластинах. Править 72 арта на каждый ретюн нельзя. Stitch без строки описания рисовал пустой пергамент. Id `D-036` уже занят phone landscape.
+Баланс D-035 ломал цифры на PNG/WebP пластинах. Пробовали live overlay поверх арта.
 
 ### Decision
-Название / описание / чипы на attack-картах в HUD — **live overlay** поверх арта. Арт остаётся иллюстрацией+рамкой+cost gem; baked текст на пластине перекрывается пергамент-панелью. Каталог `card-effects.json` генерится из content JSON (`gen-card-effects.py`). Смена чисел → regenerate + deploy HUD, без регена арта.
+**Rejected (Andrew):** оверлей выглядит плохо (мелкий текст / чужой пергамент). Текст эффекта снова **только на арте**. Playable SoT = content JSON; пластины с устаревшим текстом правит Andrew вручную — список: `docs/stitch-prompts-d035-tank-support-retune.md`.
 
 ### Consequences
-+ Баланс без Stitch. − Пока на арте виден старый текст под оверлеем при сбое CSS; позже можно вычистить пластины. Home deck + practice/PvP hand используют один helper.
+HUD без overlay. Каталог `card-effects.json` / `gen-card-effects.py` можно оставить как helper для копипаста, не как live UI.
 
 ## D-037 · 2026-11-17 · Cat-hero без фона только в live-бою
 
