@@ -672,6 +672,8 @@ const state = {
   pveLoadTimer: null,
   /** D-039 · carryAlive across chapter levels; living restored at MaxHP next CreatePvE. */
   pveCarryAlive: [true, true, true],
+  /** True while auto-starting next Mythmir wave after f1/f2 win. */
+  pveAdvancingWave: false,
   /** D-039 · post-fight fatigue until ts (ms); SL stub via liveops pve_fatigue_stub. */
   pveFatigueUntil: 0,
   /** True while opponent 6-card face-down discard throw VFX is playing. */
@@ -916,6 +918,14 @@ function logicalViewId() {
     if (state.battleMode === "practice" || state.battleMode === "pve") return "viewPracticeFight";
     if (state.battleMode === "pvp") return "viewPvpFight";
     return "viewBattle";
+  }
+  // Mid-chapter wave clear / in-flight next CreatePvE: keep fight HUD (no victory).
+  if (
+    state.battleMode === "pve" &&
+    (state.pveAdvancingWave ||
+      (state.battle?.result === "p1_win" && !state.lastResult))
+  ) {
+    return "viewPracticeFight";
   }
   if (state.battle?.result && state.lastResult) {
     if (state.lastResult.result === "p1_win" && state.battleMode === "practice") {
@@ -3101,7 +3111,7 @@ function catHeroBattleArt(templateId) {
   return CAT_HERO_BATTLE_ART[templateId] || catHeroArt(templateId);
 }
 
-/** PvE monster cutouts by role (MF-152). Picked stably from templateId. */
+/** PvE monster cutouts by role (MF-152). Fallback when faction unknown. */
 const MONSTER_BATTLE_BY_ROLE = {
   tank: [
     "/stitch-assets/monsters/battle/tank-a.png",
@@ -3135,6 +3145,68 @@ const MONSTER_BATTLE_BY_ROLE = {
   mage: ["/stitch-assets/monsters/battle/mage-a.png"],
 };
 
+/**
+ * D-039 faction → role cutouts. Ch1 = обычные/серые псы (not red/zombie/ghost).
+ * Pitboss key overrides role pool when templateId includes pitboss.
+ */
+const MONSTER_BATTLE_BY_FACTION = {
+  dogs: {
+    tank: ["/stitch-assets/monsters/battle/tank-b.png"],
+    fighter: ["/stitch-assets/monsters/battle/fighter-h.png"],
+    support: ["/stitch-assets/monsters/battle/ranger-a.png"],
+    pitboss: ["/stitch-assets/monsters/battle/tank-d.png"],
+  },
+  wolves: {
+    tank: ["/stitch-assets/monsters/battle/tank-b.png"],
+    fighter: ["/stitch-assets/monsters/battle/fighter-e.png"],
+    support: [
+      "/stitch-assets/monsters/battle/support-a.png",
+      "/stitch-assets/monsters/battle/ranger-b.png",
+    ],
+    pitboss: ["/stitch-assets/monsters/battle/fighter-e.png"],
+  },
+  red_dogs: {
+    tank: ["/stitch-assets/monsters/battle/tank-c.png"],
+    fighter: [
+      "/stitch-assets/monsters/battle/fighter-b.png",
+      "/stitch-assets/monsters/battle/fighter-c.png",
+    ],
+    support: ["/stitch-assets/monsters/battle/fighter-a.png"],
+    pitboss: ["/stitch-assets/monsters/battle/fighter-a.png"],
+  },
+  zombies: {
+    tank: ["/stitch-assets/monsters/battle/assassin-b.png"],
+    fighter: ["/stitch-assets/monsters/battle/fighter-g.png"],
+    support: [
+      "/stitch-assets/monsters/battle/support-c.png",
+      "/stitch-assets/monsters/battle/assassin-a.png",
+    ],
+    pitboss: ["/stitch-assets/monsters/battle/fighter-g.png"],
+  },
+  ghosts: {
+    tank: ["/stitch-assets/monsters/battle/tank-a.png"],
+    fighter: [
+      "/stitch-assets/monsters/battle/fighter-d.png",
+      "/stitch-assets/monsters/battle/fighter-f.png",
+    ],
+    support: ["/stitch-assets/monsters/battle/support-b.png"],
+    pitboss: ["/stitch-assets/monsters/battle/fighter-f.png"],
+  },
+};
+
+const MONSTER_FACTION_BY_CHAPTER = ["dogs", "wolves", "red_dogs", "zombies", "ghosts"];
+
+function monsterFactionFromTid(tid) {
+  const s = String(tid || "");
+  if (s.includes("bot_dog") || s.includes("pitboss_dog")) return "dogs";
+  if (s.includes("bot_wolf") || s.includes("pitboss_wolf")) return "wolves";
+  if (s.includes("bot_redd") || s.includes("pitboss_redd")) return "red_dogs";
+  if (s.includes("bot_zomb") || s.includes("pitboss_zomb")) return "zombies";
+  if (s.includes("bot_ghost") || s.includes("pitboss_ghost")) return "ghosts";
+  const ch = Math.max(1, Math.min(5, Number(state.pveChapter) || 1));
+  return MONSTER_FACTION_BY_CHAPTER[ch - 1] || "dogs";
+}
+
 function hashPickArt(key, pool) {
   if (!pool?.length) return null;
   const s = String(key || "");
@@ -3149,8 +3221,15 @@ function hashPickArt(key, pool) {
 
 function monsterBattleArt(unit) {
   const role = String(unit?.role || "").toLowerCase();
-  const pool = MONSTER_BATTLE_BY_ROLE[role] || MONSTER_BATTLE_BY_ROLE.fighter;
   const tid = unitTemplateId(unit);
+  const faction = monsterFactionFromTid(tid);
+  const byFaction = MONSTER_BATTLE_BY_FACTION[faction];
+  const isPitboss = String(tid || "").includes("pitboss");
+  const pool =
+    (isPitboss && byFaction?.pitboss) ||
+    byFaction?.[role] ||
+    MONSTER_BATTLE_BY_ROLE[role] ||
+    MONSTER_BATTLE_BY_ROLE.fighter;
   return hashPickArt(tid || unit?.id || role, pool);
 }
 
@@ -6976,6 +7055,40 @@ function renderBattle() {
   }
 }
 
+/** D-039 · after f1/f2 win, CreatePvE next wave with carryAlive (no victory screen). */
+async function advancePveWaveAfterWin() {
+  const st = pveNormalizeStage(state.pveStage);
+  const idx = PVE_STAGES.indexOf(st);
+  if (idx < 0 || idx >= PVE_STAGES.length - 1) {
+    state.pveAdvancingWave = false;
+    return false;
+  }
+  state.pveAdvancingWave = true;
+  const next = PVE_STAGES[idx + 1];
+  state.pveStage = next;
+  state.selectedStageId = pveStageId(state.pveChapter, next);
+  state.battle = null;
+  state.lastResult = null;
+  const waveLabel = PVE_STAGE_META[next]?.wave || next;
+  toast(t("pve.wave.next", `Волна зачищена · ${waveLabel}`));
+  log(`pve_wave_advance → ${state.selectedStageId}`);
+  try {
+    const diff = await createPvE({
+      autoPlay: false,
+      stageId: state.selectedStageId,
+      carryAlive: state.pveCarryAlive,
+    });
+    await applyDiff(diff, `CreatePvE wave ${next}`);
+    return true;
+  } catch (err) {
+    log(`wave advance fail: ${err.message}`);
+    alert(err.message);
+    return false;
+  } finally {
+    state.pveAdvancingWave = false;
+  }
+}
+
 async function applyDiff(diff, note = "") {
   state.battle = diff;
   state.lastResult = null;
@@ -6998,11 +7111,20 @@ async function applyDiff(diff, note = "") {
       }
     }
   }
+  const midChapterPveWin =
+    !!diff?.result &&
+    diff.result === "p1_win" &&
+    state.battleMode === "pve" &&
+    pveNormalizeStage(state.pveStage) !== "boss";
   if (diff.result) {
-    state.lastResult = { battleId: diff.battleId, result: diff.result };
+    // Mid-chapter wave wins skip victory view — lastResult stays null until pitboss.
+    if (!midChapterPveWin) {
+      state.lastResult = { battleId: diff.battleId, result: diff.result };
+    }
     if (state.battleMode === "pve") {
       syncPveCarryFromBattle(diff);
-      markPveFatigue();
+      // Fatigue after chapter boss clear or any defeat — not between f1→f2→f3.
+      if (!midChapterPveWin) markPveFatigue();
     }
     if (diff.result === "p1_win") {
       if (state.battleMode === "practice") {
@@ -7030,6 +7152,10 @@ async function applyDiff(diff, note = "") {
     state.lastBattleFxKey = fxKey;
     // After DOM paint — hit/heal/block from server events only (no client SoT numbers).
     playCombatEvents(diff);
+  }
+  if (midChapterPveWin) {
+    state.pveAdvancingWave = true;
+    await advancePveWaveAfterWin();
   }
 }
 
