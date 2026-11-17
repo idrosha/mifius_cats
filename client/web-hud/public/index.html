@@ -2,7 +2,8 @@
 <html class="dark" lang="ru">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="screen-orientation" content="landscape" />
   <meta name="shell-type" content="web_standard" />
   <meta name="hud-ui" content="stitch-0268-64d5-e608-4da7-18c7" />
   <meta name="hud-layout" content="landscape-flush" />
@@ -21,6 +22,15 @@
   <link rel="stylesheet" href="/styles.css" />
 </head>
 <body class="bg-surface font-body-md text-body-md text-on-surface mythfel-shell">
+  <!-- Phone soft-launch is landscape-only (D-012). Portrait phones get a rotate gate; tablet portrait stays playable. -->
+  <div id="orientGate" class="mythfel-orient-gate" role="dialog" aria-modal="true" aria-labelledby="orientGateTitle" aria-hidden="true">
+    <div class="mythfel-orient-card">
+      <span class="material-symbols-outlined mythfel-orient-ico" aria-hidden="true">screen_rotation</span>
+      <h2 id="orientGateTitle">Поверните телефон</h2>
+      <p>Мифиус на soft-launch — только <strong>горизонтальная</strong> ориентация телефона. Планшет и десктоп работают как раньше.</p>
+      <p class="mythfel-orient-hint">Rotate to landscape · ~16:9</p>
+    </div>
+  </div>
   <header id="appNav" class="mythfel-nav" aria-label="Mythfel navigation">
     <div class="mythfel-nav-top">
       <button type="button" class="mythfel-brand" id="btnBrandHub" title="Хаб">
