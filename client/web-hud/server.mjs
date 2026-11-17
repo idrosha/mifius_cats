@@ -423,6 +423,8 @@ const server = http.createServer(async (req, res) => {
     rel === "/fronts/" ||
     rel === "/pve" ||
     rel === "/pve/" ||
+    rel === "/pve-load" ||
+    rel === "/pve-load/" ||
     rel === "/pvp-load" ||
     rel === "/pvp-load/" ||
     rel === "/codex" ||

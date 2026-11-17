@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html class="dark" lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Бой PvE · Кампания 3v3 — Мифиус</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{primary:"#fdba45","primary-container":"#d99b26","on-primary":"#432c00",secondary:"#89d98c",surface:"#161310","on-surface":"#eae1db",outline:"#9d8f7b","outline-variant":"#504535",background:"#161310"}}}};</script>
+<style>
+/* MF-151 PvE fight design source — live CSS in public/styles.css */
+html,body{margin:0;height:100%;background:#110d0b;color:#eae1db}
+.pve-fight{position:relative;min-height:100vh;display:flex;flex-direction:column}
+.pve-fight-backdrop{position:absolute;inset:0;z-index:0}
+.pve-fight-bg{width:100%;height:100%;object-fit:cover}
+.pve-fight-shade{position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,.75),rgba(0,0,0,.35) 40%,rgba(0,0,0,.85))}
+.pve-fight-head,.pve-fight-arena,.pve-fight-foot{position:relative;z-index:2}
+/* chapter×stage art: ch1-5 × entrance|tunnel|boss under /stitch-assets/pve-fight/ */
+</style>
+</head>
+<body><main class="pve-fight mythfel-form-body" data-purpose="pve-campaign-fight">
+  <div class="pve-fight-backdrop" id="pveFightBackdrop" aria-hidden="true">
+    <img class="pve-fight-bg is-active" data-stage="entrance" alt="" src="/stitch-assets/pve-fight/ch1-entrance.png" id="pveFightBg"/>
+    <div class="pve-fight-shade"></div>
+  </div>
+
+  <header class="pve-fight-head">
+    <div class="pve-fight-head-row">
+      <div class="pve-fight-round">
+        <span class="pve-fight-ping"></span>
+        <b>РАУНД <span id="pveFightRound">1</span></b>
+        <em>· ХОД ИГРОКА</em>
+        <span class="pve-fight-timer"><span class="material-symbols-outlined">timer</span> <b id="pveFightTimer">0:28</b></span>
+      </div>
+      <div class="pve-fight-campaign">
+        <span>Кампания:</span>
+        <strong id="pveFightCampaignTitle">Уровень 1 · Железная Цитадель</strong>
+      </div>
+      <div class="pve-fight-stages" role="group" aria-label="Этап главы">
+        <span class="pve-fight-stages-label">этап:</span>
+        <button type="button" class="pve-fight-stage-btn is-active" data-pve-stage="entrance" id="pveFightStage1">1 · Вход</button>
+        <button type="button" class="pve-fight-stage-btn" data-pve-stage="tunnel" id="pveFightStage2">2 · Тоннель</button>
+        <button type="button" class="pve-fight-stage-btn" data-pve-stage="boss" id="pveFightStage3">3 · Босс</button>
+      </div>
+      <div class="pve-fight-tools">
+        <button type="button" class="pve-fight-surrender" id="pveFightSurrender"><span class="material-symbols-outlined">flag</span> Сдаться</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="pve-fight-arena">
+    <div class="pve-fight-clash">
+      <span>ДИСТАНЦИЯ БОЯ: <b>БЛИЖНИЙ СТЫК</b></span>
+      <span class="pve-fight-boss-badge" id="pveFightBossBadge">ПИТ-БОСС: Барон Гав</span>
+    </div>
+    <div class="pve-fight-grid">
+      <section class="pve-fight-side is-ally">
+        <header><span></span>ОТРЯД ХРАНИТЕЛЯ (ВЫ)</header>
+        <div class="pve-fight-slots" id="pveFightAllySlots">
+          <article class="pve-fight-slot" data-lane="rear"><span class="pve-fight-lane">ТЫЛ</span><b>Саппорт</b><em id="pveFightAlly1">Мурка</em></article>
+          <article class="pve-fight-slot" data-lane="mid"><span class="pve-fight-lane">ЦЕНТР</span><b>Боец</b><em id="pveFightAlly2">Рыжик</em></article>
+          <article class="pve-fight-slot" data-lane="front"><span class="pve-fight-lane">АВАНГАРД</span><b>Танк</b><em id="pveFightAlly3">Барсик</em></article>
+        </div>
+      </section>
+      <section class="pve-fight-side is-enemy">
+        <header><span></span><b id="pveFightEnemyTitle">СТАЯ · ВОЛНА 1/3</b></header>
+        <div class="pve-fight-slots">
+          <article class="pve-fight-slot is-enemy" data-lane="front"><span class="pve-fight-lane">АВАНГАРД</span><em id="pveFightEnemy1">Страж входа</em></article>
+          <article class="pve-fight-slot is-enemy" data-lane="mid"><span class="pve-fight-lane">ЦЕНТР</span><em id="pveFightEnemy2">Патруль тоннеля</em></article>
+          <article class="pve-fight-slot is-enemy" data-lane="rear"><span class="pve-fight-lane">ТЫЛ</span><em id="pveFightEnemy3">Стрелок своры</em></article>
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <footer class="pve-fight-foot">
+    <div class="pve-fight-foot-row">
+      <div class="pve-fight-hand" id="pveFightHand" aria-label="Рука карт">
+        <button type="button" class="pve-fight-card" data-card="1"><b>1</b><strong>Каменный оскал</strong><span>Барсик · Защита</span></button>
+        <button type="button" class="pve-fight-card" data-card="2"><b>1</b><strong>Искрящий взгляд</strong><span>Рыжик · Атака</span></button>
+        <button type="button" class="pve-fight-card" data-card="3"><b>1</b><strong>Капля жизни</strong><span>Мурка · Исцеление</span></button>
+      </div>
+      <div class="pve-fight-controls">
+        <div class="pve-fight-ap">AP <b id="pveFightAp">4</b>/4</div>
+        <button type="button" class="pve-fight-end" id="pveFightEndTurn">ЗАВЕРШИТЬ ХОД <kbd>[ПРОБЕЛ]</kbd></button>
+        <p class="pve-fight-stage-tip" id="pveFightStageTip">Этап 1/3 · Вход в подземелье</p>
+      </div>
+    </div>
+  </footer>
+</main></body>
+</html>
