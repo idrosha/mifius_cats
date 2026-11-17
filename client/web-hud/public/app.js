@@ -2841,6 +2841,9 @@ const CAT_SHEET_NAMES = {
   shop_mage_ice_b: "Лёд",
   shop_support_water_a: "Чистый родник",
   shop_support_water_b: "Прилив силы",
+  bot_practice_tank_a: "Дубовый",
+  bot_practice_fighter_a: "Берсерк",
+  bot_practice_support_a: "Тотем",
 };
 
 /**
@@ -6358,13 +6361,11 @@ function renderPracticeFight() {
   const local = diff.p1 || {};
   const energy = local.energy ?? 0;
   const mine = diff.active === 0 && !diff.result;
-  // D-034: paint L→R = тыл · центр · авангард (same as lobby/load). Sim lanes stay 0=front…2=rear.
-  const unitsByVisualLane = (side) => {
-    const list = (diff.units || []).filter((u) => u.side === side);
-    return PRACTICE_VISUAL_LANES.map((lane) => list.find((u) => u.lane === lane)).filter(Boolean);
-  };
-  const allies = unitsByVisualLane(0);
-  const enemies = unitsByVisualLane(1);
+  // Allies D-034: L→R = тыл · центр · авангард (tank right, nearest VS). Sim lanes stay 0=front…2=rear.
+  // Enemies face left: L→R = авангард · центр · тыл (tank left, nearest VS) — do NOT reuse PRACTICE_VISUAL_LANES.
+  const listBySide = (side) => (diff.units || []).filter((u) => u.side === side);
+  const allies = PRACTICE_VISUAL_LANES.map((lane) => listBySide(0).find((u) => u.lane === lane)).filter(Boolean);
+  const enemies = listBySide(1).slice().sort((a, b) => a.lane - b.lane);
   const drawCount = allies.reduce((n, u) => n + (u.drawCount || 0), 0);
   const discardCount = allies.reduce((n, u) => n + (u.discardCount || 0), 0);
   const energyMax = Math.max(3, energy);
@@ -6407,16 +6408,21 @@ function renderPracticeFight() {
       if (!u) return;
       const tid = unitTemplateId(u);
       const hero = practiceHeroByTemplate(tid);
-      const art = catHeroBattleArt(tid);
+      const art = battleUnitArt(u) || catHeroBattleArt(tid);
       if (img && art) {
         img.src = art;
-        img.alt = hero?.name || tid;
+        img.alt = hero?.name || CAT_SHEET_NAMES[tid] || tid;
       }
       if (img) {
         img.classList.add("mf-battle-cutout");
         card.classList.add("mf-battle-unit--cutout");
       }
       if (nameEl) nameEl.textContent = hero?.short || CAT_SHEET_NAMES[tid] || tid;
+      const tierEl = card.querySelector(".absolute.top-2.left-2");
+      if (tierEl && !hero) {
+        const roleRu = CAT_ROLE_RU[u.role] || u.role || "";
+        tierEl.textContent = roleRu ? `Т1 ${roleRu}` : "Т1";
+      }
       const seeSh = canSeeUnitShield(u);
       if (em) {
         em.textContent =
