@@ -86,10 +86,10 @@ Source of truth for code agents: repo `docs/AGENTS.md`.
 | Field | Value |
 |---|---|
 | **Role** | Thin web HUD over `devapi` for Andrew’s manual browser test |
-| **Skills** | `docs/skills/web-hud.md` |
+| **Skills** | `docs/skills/web-hud.md` · design-load → `docs/skills/hud-design-load.md` |
 | **Inputs** | `client/web-hud/`; Stitch HTML/assets; `docs/nav-ia.md`; prefs (yard/trade layout) |
 | **Outputs** | `client/web-hud/**` PR; smoke notes under `internal/` |
-| **Anti-overlap** | Do **not** start HUD without Andrew’s explicit command. One HUD bring-up at a time. No Unity work. Stitch **reimport** is `stitch` role; layout accept is `qa-ui`. |
+| **Anti-overlap** | Do **not** start HUD without Andrew’s explicit command. One HUD bring-up at a time. No Unity work. **Do not** change menu/submenu (`D-025`). Phone landscape CSS/gate = **MF-145** (`D-036`) — no duplicate CSS PR. Stitch **reimport** is `stitch` role; layout accept is `qa-ui`. |
 
 ### `backend` — Nakama + economy RPC
 
@@ -209,6 +209,8 @@ These dominate soft-launch work but were historically under-specified in `AGENTS
 | Economy channels / pass | `design` → then `backend`/`liveops` | parallel shop-docs writers |
 | Stitch pack N | one `stitch` worker | another pack overlapping same screens |
 | Web HUD up | one `web-hud` | Acceptance HUD + Soft launch HUD + Re-smoke in parallel |
+| Design-load screen pack | one `web-hud` (+ `stitch` import only) | second worker on same route; menu/IA edits; MF-145 CSS |
+| Phone landscape / rotate gate | **MF-145** only | parallel orientGate / portrait MQ PRs |
 | Yard / trade layout | one `qa-ui` | Trade plaza + Yard side-actions + Screen review together |
 | Merge PR #N | one `merge-ci` | second merge agent on same PR |
 | Game wiki | one `wiki` | duplicate “rules dump” docs |
@@ -219,7 +221,7 @@ These dominate soft-launch work but were historically under-specified in `AGENTS
 
 ### Always OK for game work
 
-`orchestrator`, `battle`, `client`, `web-hud`, `backend`, `liveops`, `content`, `qa`, `design`, `stitch`, `merge-ci`
+`orchestrator`, `battle`, `client`, `web-hud`, `hud-design-load`, `backend`, `liveops`, `content`, `qa`, `design`, `stitch`, `merge-ci`
 
 ### Do **not** attach (unless marketing task)
 

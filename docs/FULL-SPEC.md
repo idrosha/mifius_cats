@@ -319,7 +319,7 @@ Server validates all purchases.
 11. `ReplayList` (10)  
 12. `Soon` placeholder sheets  
 
-Адаптив: mobile-first; PC = keyboard hotkeys later.
+Адаптив (web-hud): stage **landscape** (~16:9). На **телефоне** — только landscape; portrait → rotate gate (`D-036`, MF-145). Отдельные mobile/tablet shells — после wide web (`D-012`). PC = keyboard hotkeys later.
 
 ---
 
