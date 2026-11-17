@@ -912,9 +912,9 @@ function showPassGateTip() {
 
 function logicalViewId() {
   if (state.battle && !state.battle.result) {
-    if (state.battleMode === "practice") return "viewPracticeFight";
+    // PvE live fight reuses practice HUD (cutouts + hand + FX). Painted #viewPveFight is stub chrome only.
+    if (state.battleMode === "practice" || state.battleMode === "pve") return "viewPracticeFight";
     if (state.battleMode === "pvp") return "viewPvpFight";
-    if (state.battleMode === "pve") return "viewPveFight";
     return "viewBattle";
   }
   if (state.battle?.result && state.lastResult) {
@@ -6540,12 +6540,59 @@ function paintCombatUnitCard(card, u, { foe = false, cleansedIds = [] } = {}) {
   if (img) img.classList.toggle("mf-unit-dim", !u.alive);
 }
 
+/** PvE bot display name from templateId (stage meta not in battle payload). */
+function pveBotDisplayName(templateId, role) {
+  const tid = String(templateId || "");
+  const roleRu = CAT_ROLE_RU[role] || role || "";
+  if (tid.includes("pitboss_dog") || tid.includes("baron")) return "Барон Гав";
+  if (tid.includes("pitboss_wolf") || tid.includes("alpha_m2")) return "Лютый Клык";
+  if (tid.includes("pitboss_redd") || tid.includes("alpha_m3")) return "Алый Вожак";
+  if (tid.includes("pitboss_zomb") || tid.includes("necro")) return "Некропёс Мор";
+  if (tid.includes("pitboss_ghost") || tid.includes("_gul")) return "Фантом Гул";
+  const table = [
+    ["bot_dog_tank", "Пёс-щитоносец"],
+    ["bot_dog_fighter", "Пёс-задира"],
+    ["bot_dog_support", "Пёс-завывала"],
+    ["bot_wolf_tank", "Северный страж"],
+    ["bot_wolf_fighter", "Волк-клык"],
+    ["bot_wolf_support", "Шаман инея"],
+    ["bot_redd_tank", "Алый щитоносец"],
+    ["bot_redd_fighter", "Пёс-углежуй"],
+    ["bot_redd_support", "Пёс-искромёт"],
+    ["bot_zomb_tank", "Гнилой страж"],
+    ["bot_zomb_fighter", "Трупный мясник"],
+    ["bot_zomb_support", "Носитель гнили"],
+    ["bot_ghost_tank", "Могильный страж"],
+    ["bot_ghost_fighter", "Клинок душ"],
+    ["bot_ghost_support", "Блуждающий огонёк"],
+  ];
+  for (const [pfx, name] of table) {
+    if (tid.includes(pfx)) return name;
+  }
+  return roleRu || tid || "Враг";
+}
+
+function applyPracticeFightBackdrop() {
+  const bg = document.querySelector("#viewPracticeFight .pf-arena > .absolute.inset-0.bg-cover");
+  if (!bg) return;
+  if (state.battleMode === "pve") {
+    const art = pveStageArt(state.pveChapter, state.pveStage);
+    bg.style.backgroundImage = `url('${art}')`;
+    bg.dataset.pveBg = "1";
+  } else if (bg.dataset.pveBg === "1") {
+    bg.style.backgroundImage = "url('/stitch-ref/e608/arena_dojo.png')";
+    delete bg.dataset.pveBg;
+  }
+}
+
 function renderPracticeFight() {
   const diff = state.battle;
   if (!diff) return;
   const local = diff.p1 || {};
   const energy = local.energy ?? 0;
   const mine = diff.active === 0 && !diff.result;
+  const isPve = state.battleMode === "pve";
+  applyPracticeFightBackdrop();
   // Allies D-034: L→R = тыл · центр · авангард (tank right, nearest VS). Sim lanes stay 0=front…2=rear.
   // Enemies face left: L→R = авангард · центр · тыл (tank left, nearest VS) — do NOT reuse PRACTICE_VISUAL_LANES.
   const listBySide = (side) => (diff.units || []).filter((u) => u.side === side);
@@ -6558,7 +6605,27 @@ function renderPracticeFight() {
     $("pfRound").textContent = `РАУНД ${diff.turn || 1} • ${mine ? "ХОД ИГРОКА" : diff.result ? "ИТОГ" : "ХОД БОТА"}`;
   }
   if ($("pfEnergy")) {
-    $("pfEnergy").textContent = `ДОДЗЁ СПАРРИНГ · Энергия хода ${energy}`;
+    if (isPve) {
+      const data = pveChapterData(state.pveChapter);
+      const st = pveNormalizeStage(state.pveStage);
+      const stageRu = PVE_STAGE_META[st]?.label || st;
+      $("pfEnergy").textContent = `МИФМИР · ${data.title || "Глава"} · ${stageRu} · Энергия ${energy}`;
+    } else {
+      $("pfEnergy").textContent = `ДОДЗЁ СПАРРИНГ · Энергия хода ${energy}`;
+    }
+  }
+  // Enemy header strip (desktop): PvE faction vs dojo dummies.
+  const headTier = document.querySelector("#viewPracticeFight .font-headline-md.text-label-lg.text-tertiary");
+  const headSub = headTier?.parentElement?.querySelector(".font-body-sm");
+  if (headTier) {
+    if (isPve) {
+      const data = pveChapterData(state.pveChapter);
+      headTier.textContent = (data.faction || "ВРАГИ").toUpperCase();
+      if (headSub) headSub.textContent = `${data.bossName || "Питбосс"} · ${data.threatStars || ""}`;
+    } else {
+      headTier.textContent = "КОМАНДА МАНЕКЕНОВ";
+      if (headSub) headSub.textContent = "Угроза: Уровень 44 • Тренировочные идолы";
+    }
   }
   if ($("pfOrbs")) $("pfOrbs").textContent = `Орбы энергии ${energy}`;
   if ($("pfOrbsNum")) $("pfOrbsNum").textContent = String(energy);
@@ -6594,19 +6661,34 @@ function renderPracticeFight() {
       const tid = unitTemplateId(u);
       const hero = practiceHeroByTemplate(tid);
       const art = battleUnitArt(u) || catHeroBattleArt(tid);
+      const isBot = String(tid).startsWith("bot_") || String(u.id || "").startsWith("bot_");
+      const display =
+        hero?.short ||
+        CAT_SHEET_NAMES[tid] ||
+        (isBot ? pveBotDisplayName(tid, u.role) : null) ||
+        tid;
       if (img && art) {
         img.src = art;
-        img.alt = hero?.name || CAT_SHEET_NAMES[tid] || tid;
+        img.alt = hero?.name || display;
+        img.classList.toggle("object-contain", !!isBot || !!art.includes("/battle/"));
+        img.classList.toggle("object-cover", !(!!isBot || !!art.includes("/battle/")));
+        img.classList.toggle("object-top", !(!!isBot || !!art.includes("/battle/")));
       }
       if (img) {
         img.classList.add("mf-battle-cutout");
         card.classList.add("mf-battle-unit--cutout");
       }
-      if (nameEl) nameEl.textContent = hero?.short || CAT_SHEET_NAMES[tid] || tid;
+      if (nameEl) nameEl.textContent = display;
       const tierEl = card.querySelector(".absolute.top-2.left-2");
       if (tierEl && !hero) {
         const roleRu = CAT_ROLE_RU[u.role] || u.role || "";
-        tierEl.textContent = roleRu ? `Т1 ${roleRu}` : "Т1";
+        tierEl.textContent = isBot
+          ? roleRu
+            ? `${roleRu}`
+            : "Враг"
+          : roleRu
+            ? `Т1 ${roleRu}`
+            : "Т1";
       }
       const seeSh = canSeeUnitShield(u);
       if (em) {
@@ -6672,6 +6754,15 @@ function renderPracticeFight() {
   }
 }
 
+function leaveLiveFightHud() {
+  state.battle = null;
+  state.lastResult = null;
+  state.oppThrowPlaying = false;
+  hideOppThrow();
+  if (state.battleMode === "pve") navigate("yard", { primary: "combat" });
+  else navigate("practice");
+}
+
 function bindPracticeFight() {
   const root = $("viewPracticeFight");
   if (!root || root.dataset.bound === "1") return;
@@ -6679,13 +6770,7 @@ function bindPracticeFight() {
   root.addEventListener("click", (ev) => {
     const id = ev.target.closest("button")?.id;
     if (id === "pfEndTurn") submitAction({ kind: "endTurn" });
-    if (id === "pfBack") {
-      state.battle = null;
-      state.lastResult = null;
-      state.oppThrowPlaying = false;
-      hideOppThrow();
-      navigate("practice");
-    }
+    if (id === "pfBack") leaveLiveFightHud();
   });
   document.addEventListener("keydown", (ev) => {
     if (logicalViewId() !== "viewPracticeFight") return;
@@ -6695,11 +6780,7 @@ function bindPracticeFight() {
       submitAction({ kind: "endTurn" });
     } else if (ev.code === "Escape") {
       ev.preventDefault();
-      state.battle = null;
-      state.lastResult = null;
-      state.oppThrowPlaying = false;
-      hideOppThrow();
-      navigate("practice");
+      leaveLiveFightHud();
     }
   });
 }
