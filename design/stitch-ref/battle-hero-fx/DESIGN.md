@@ -220,3 +220,14 @@ The interface embraces organic, comfortable silhouettes that feel friendly and c
 - **Frame:** Scrollwork-inspired stone panels flanked by ornate bronze corners.
 - **Title Banner:** Centered `headline-md` encased in a raised amber ribbon.
 - **Close Button:** Prominent circular brass "X" medallion pinned to the upper-right corner for effortless dismissability on compact mobile devices.
+
+### Practice Mannequins (Манекены додзё) — live fight only
+Transparent full-body training dummies for **practice fight** boards (`D-037`). Lobby / practice-load keep studio-background JPGs.
+
+| Mannequin | Role | Cutout asset | Anim + SFX kit (same as cats) |
+|---|---|---|---|
+| Oak Knight (Дубовый рыцарь) | tank | `/stitch-assets/dojo/battle/dummy-oak-knight.png` | idle-breathe + elemental aura + hit/block; `SoundFX.playTank` |
+| Straw Berserk (Соломенный берсерк) | fighter | `/stitch-assets/dojo/battle/dummy-straw-berserk.png` | idle-breathe + aura + hit/block; `SoundFX.playFighter` |
+| Stone Totem (Каменный тотем) | support | `/stitch-assets/dojo/battle/dummy-stone-totem.png` | idle-breathe + aura + hit/heal; `SoundFX.playSupport` |
+
+Presentation is driven by server `CombatEvent` via `battle-fx.js` — client does not invent damage numbers. Cutouts are never used outside live fight HUD.

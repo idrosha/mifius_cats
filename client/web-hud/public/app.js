@@ -2774,10 +2774,11 @@ const CAT_HERO_BATTLE_ART = {
   starter_tank_stone: "/stitch-assets/cat-heroes/battle/tank-a.png",
   starter_fighter_fire: "/stitch-assets/cat-heroes/battle/fighter-a.png",
   starter_support_water: "/stitch-assets/cat-heroes/battle/support-a.png",
-  // Practice dummies — same role cutouts on the live board (D-037 fight-only).
-  bot_practice_tank_a: "/stitch-assets/cat-heroes/battle/tank-a.png",
-  bot_practice_fighter_a: "/stitch-assets/cat-heroes/battle/fighter-a.png",
-  bot_practice_support_a: "/stitch-assets/cat-heroes/battle/support-a.png",
+  // Practice dummies — dedicated no-bg mannequins (D-037 fight-only).
+  // FX/SFX reuse tank / fighter / support role kits (MF-149).
+  bot_practice_tank_a: "/stitch-assets/dojo/battle/dummy-oak-knight.png",
+  bot_practice_fighter_a: "/stitch-assets/dojo/battle/dummy-straw-berserk.png",
+  bot_practice_support_a: "/stitch-assets/dojo/battle/dummy-stone-totem.png",
 };
 
 const CAT_HERO_BLURB = {
