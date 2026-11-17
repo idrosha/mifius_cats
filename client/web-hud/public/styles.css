@@ -36,18 +36,20 @@ html, body {
   flex-direction: column;
   min-height: 100vh;
   min-height: 100dvh;
+  height: 100dvh;
   width: 100%;
   overflow-x: hidden;
   align-items: stretch;
 }
 
 /* Full-width landscape stage under chrome — no side letterbox gutters.
+ * Flex fill under sticky nav; chrome-stack is a soft cap, not a rigid box.
  * width+height both set → aspect-ratio is ignored at layout time (IA token kept). */
 #app {
   flex: 1 1 auto;
   width: 100%;
   max-width: 100%;
-  height: var(--mythfel-form-max-h);
+  height: auto;
   max-height: var(--mythfel-form-max-h);
   aspect-ratio: var(--mythfel-form-ratio);
   margin-inline: 0;
@@ -218,10 +220,11 @@ html, body {
   color: var(--muted);
 }
 
-/* Primary tabs: Stitch Hearth (old) — rounded-xl tray, not Soft-Launch pills */
+/* Primary tabs: Stitch Hearth (old) — rounded-xl tray, not Soft-Launch pills.
+ * nowrap + overflow-x keeps IA labels intact while chrome stays one row (D-025). */
 .mythfel-primary {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
   justify-self: center;
   gap: 0.25rem;
@@ -233,6 +236,9 @@ html, body {
   border: 1px solid rgba(80, 69, 53, 0.45);
   background: #110d0b;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+  overflow-x: auto;
+  scrollbar-width: thin;
+  -webkit-overflow-scrolling: touch;
 }
 
 .mythfel-primary button {
@@ -917,11 +923,11 @@ body.mythfel-login .mythfel-logout {
 
 @media (max-width: 900px) {
   .mythfel-nav-top {
-    grid-template-columns: 1fr;
+    grid-template-columns: auto minmax(0, 1fr) auto;
     justify-items: stretch;
   }
-  .mythfel-chrome { justify-content: flex-start; }
-  .mythfel-primary { justify-content: flex-start; }
+  .mythfel-chrome { justify-content: flex-end; flex-wrap: nowrap; }
+  .mythfel-primary { justify-content: flex-start; justify-self: stretch; width: 100%; }
   .mythfel-subtabs {
     flex-wrap: nowrap;
     justify-content: flex-start;
@@ -1078,25 +1084,36 @@ body.mythfel-farm #app {
   flex-shrink: 0;
   white-space: nowrap;
 }
-/* Below the size where that one-row header and the hero-over-panel still fit,
-   draw the login stage at that size and scale it into the window. */
+/* Narrow / short viewports: real fluid login (no scale-to-fit letterbox void). */
 @media (max-width: 840px), (max-height: 640px) {
   #viewLogin:not([data-auth="register"]) {
-    --login-fit: min(100vw / 1100px, 100dvh / 720px);
     overflow: hidden;
   }
   #viewLogin:not([data-auth="register"]) > main {
-    width: 1100px !important;
-    height: 720px !important;
+    width: 100% !important;
+    height: 100% !important;
     min-height: 0 !important;
     max-height: none !important;
-    flex: none !important;
-    transform: scale(var(--login-fit));
-    transform-origin: top left;
-    margin-left: calc((100% - 1100px * var(--login-fit)) / 2);
-    margin-right: calc(100% - 1100px - (100% - 1100px * var(--login-fit)) / 2);
-    margin-bottom: calc(720px * (var(--login-fit) - 1));
+    flex: 1 1 auto !important;
+    transform: none !important;
+    margin: 0 !important;
   }
+  #viewLogin:not([data-auth="register"]) main > .mythfel-login-grid.relative.z-20.flex-1 {
+    grid-template-columns: minmax(0, 1fr) !important;
+    padding: 0.75rem clamp(0.85rem, 4vw, 1.5rem) 1rem !important;
+    margin: auto 0 0 !important;
+    row-gap: 0.65rem;
+    max-width: 26rem;
+    justify-self: center;
+    width: 100%;
+  }
+  #viewLogin:not([data-auth="register"]) .mythfel-login-side,
+  #viewLogin:not([data-auth="register"]) .mythfel-login-auth {
+    grid-column: 1 !important;
+    width: 100% !important;
+  }
+  #viewLogin:not([data-auth="register"]) .mythfel-login-side { grid-row: 1; }
+  #viewLogin:not([data-auth="register"]) .mythfel-login-auth { grid-row: 2; }
 }
 #viewLogin img[alt*="Мифические Котики в Таверне"],
 #viewLogin .fixed.inset-0 > img {
@@ -2179,6 +2196,8 @@ body:has(#viewTradeHub:not(.hidden)) #app {
   height: 100dvh !important; max-height: 100dvh !important;
 }
 #viewTradeHub { background: #100e0c; }
+#viewTradeHub > header { display: none !important; }
+#viewTradeHub > main.mythfel-trade-stage,
 #viewTradeHub > main.trade-sheet {
   flex: 1 1 auto !important; min-height: 0 !important; height: 100% !important;
   display: flex !important; flex-direction: column; gap: 0.35rem;
@@ -4276,6 +4295,28 @@ body:has(#viewPass:not(.hidden)) #app {
   align-items: center;
   justify-content: center;
 }
+/* Season perk cards: icon must not steal flex width (crushed single-char text). */
+#viewPass .grid.grid-cols-3 > div.relative.flex {
+  min-width: 0;
+}
+#viewPass .grid.grid-cols-3 > div.relative > .material-symbols-outlined.w-full,
+#viewPass .grid.grid-cols-3 > div.relative > .material-symbols-outlined.h-full {
+  width: 3.25rem !important;
+  height: 3.25rem !important;
+  flex: 0 0 3.25rem !important;
+  align-self: center;
+}
+#viewPass .grid.grid-cols-3 > div.relative > div.relative.flex-shrink-0,
+#viewPass .grid.grid-cols-3 > div.relative > div.flex.items-center.-space-x-2 {
+  flex: 0 0 auto;
+  width: auto !important;
+  max-width: 5.5rem;
+}
+#viewPass .grid.grid-cols-3 > div.relative > div.relative.flex-shrink-0 .material-symbols-outlined,
+#viewPass .grid.grid-cols-3 > div.relative > div.flex.items-center.-space-x-2 .material-symbols-outlined {
+  width: 2.4rem !important;
+  height: 2.4rem !important;
+}
 #viewCraft .craft-studio {
   align-content: stretch;
 }
@@ -4610,4 +4651,457 @@ body:has(#viewBreeding:not(.hidden)) #app { height: 100dvh !important; max-heigh
   .mf-opp-throw.is-in .mf-opp-throw__card {
     /* narrower fan on small screens — keyframes still use 3.35rem; ok */
   }
+}
+
+/* =============================================================================
+ * Responsive shell — soft-launch web client (D-012)
+ * Breakpoints: ~1280 (laptop), ~768 (tablet), ~390 (phone)
+ * Nav IA/labels locked (D-025) — only wrap/scroll/stack layout.
+ * ============================================================================= */
+
+/* —— ≤1280: laptop / small desktop —— */
+@media (max-width: 1280px) {
+  :root { --mythfel-chrome-stack: 6.25rem; }
+  .mythfel-nav-top { gap: 0.4rem 0.55rem; padding: 0.28rem 0.55rem; }
+  .mythfel-primary button { padding: 0.28rem 0.5rem; font-size: 11px; }
+  .mythfel-brand-text span { display: none; }
+  .mythfel-nav-wallet { gap: 0.3rem; font-size: 10px; }
+  #viewPass .w-36.flex-shrink-0 { width: 6.5rem; }
+  #viewHome #homeGearOverlay .home-equip-ico {
+    width: 5.5rem; height: 5.5rem; min-width: 5.5rem; min-height: 5.5rem; flex-basis: 5.5rem;
+  }
+  #viewBattleHub .front-zone,
+  #viewTradeHub .trade-zone { width: min(14rem, 40%); }
+  .col-top h1 { font-size: clamp(1.5rem, 4vw, 2.25rem); }
+}
+
+/* —— ≤768: tablet / portrait —— */
+@media (max-width: 768px) {
+  :root { --mythfel-chrome-stack: 7.5rem; }
+  body:not(.mythfel-login) { --mythfel-chrome-stack: 7.5rem; }
+
+  /* Shell: drop rigid 16:9 stage; fill leftover under chrome */
+  #app {
+    flex: 1 1 auto !important;
+    height: auto !important;
+    max-height: none !important;
+    aspect-ratio: auto !important;
+    overflow: hidden;
+  }
+  body:has(#viewPass:not(.hidden)) #app,
+  body:has(#viewHome:not(.hidden)) #app,
+  body:has(#viewCollection:not(.hidden)) #app,
+  body:has(#viewGear:not(.hidden)) #app,
+  body:has(#viewCodex:not(.hidden)) #app,
+  body:has(#viewBreeding:not(.hidden)) #app,
+  body:has(#viewPvpVictory:not(.hidden)) #app,
+  body:has(#viewPractice:not(.hidden)) #app,
+  body:has(#viewPracticeFight:not(.hidden)) #app,
+  body:has(#viewBattleHub:not(.hidden)) #app,
+  body:has(#viewTradeHub:not(.hidden)) #app {
+    height: auto !important;
+    max-height: none !important;
+  }
+  .stitch-view:not(.hidden),
+  .mythfel-form:not(.hidden),
+  .hud-view:not(.hidden) {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  /* Nav: brand | chrome on row 1; scrollable primary on row 2 (IA unchanged) */
+  .mythfel-nav-top {
+    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-areas:
+      "brand chrome"
+      "tabs tabs";
+    gap: 0.35rem 0.5rem;
+    padding: 0.35rem 0.55rem;
+  }
+  .mythfel-brand { grid-area: brand; }
+  .mythfel-primary {
+    grid-area: tabs;
+    justify-self: stretch;
+    width: 100%;
+    max-width: none;
+    justify-content: flex-start;
+  }
+  .mythfel-chrome {
+    grid-area: chrome;
+    flex-wrap: nowrap;
+    gap: 0.25rem;
+    max-width: 100%;
+  }
+  .mythfel-nav-wallet span:nth-child(n + 3) { display: none; }
+  .mythfel-nav-rank { display: none; }
+  .mythfel-social { display: none; }
+  .mythfel-logout { padding: 0.28rem 0.55rem; font-size: 10px; }
+  .mythfel-subtabs { margin: 0.2rem 0 0.3rem; }
+  .mythfel-subtabs button { min-width: 5.5rem; padding: 0.28rem 0.5rem; }
+
+  /* Login: full-bleed stage, single auth column */
+  .mythfel-login #app {
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+  }
+  #viewLogin,
+  #viewLogin > main {
+    min-height: 100% !important;
+    height: 100% !important;
+  }
+  #viewLogin .fixed.inset-0,
+  #viewLogin .fixed.inset-0 > img,
+  #viewLogin img[alt*="Мифические Котики"] {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    object-position: center 30% !important;
+  }
+  #viewLogin main > .mythfel-login-grid.relative.z-20.flex-1,
+  #viewLogin:not([data-auth="register"]) main > .mythfel-login-grid.relative.z-20.flex-1 {
+    grid-template-columns: minmax(0, 1fr) !important;
+    max-width: 24rem;
+    margin-inline: auto !important;
+    margin-top: auto !important;
+    margin-bottom: 1rem !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+  #viewLogin[data-auth="register"] main > .mythfel-login-grid.relative.z-20.flex-1 {
+    grid-template-columns: 1fr !important;
+  }
+  #viewLogin .mythfel-login-side,
+  #viewLogin .mythfel-register-side,
+  #viewLogin .mythfel-login-auth {
+    grid-column: 1 !important;
+  }
+
+  /* Pass: stack header meta; scroll the dual track */
+  #viewPass > main > .flex.flex-col { min-height: 0; }
+  #viewPass > main .w-full.flex.items-center.justify-between {
+    flex-wrap: wrap !important;
+    gap: 0.55rem !important;
+  }
+  #viewPass .flex-1.max-w-md {
+    max-width: none !important;
+    margin-inline: 0 !important;
+    flex: 1 1 100% !important;
+    order: 3;
+  }
+  #viewPass .relative.w-full.flex-1.my-space-md,
+  #viewPass .relative.w-full.flex-1 {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  #viewPass .relative.w-full.flex-1 .w-full.flex.items-stretch {
+    min-width: 52rem;
+  }
+  #viewPass .grid.grid-cols-3 {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Hub portals + pass cards */
+  .mythfel-pass { grid-template-columns: 1fr !important; }
+  .mythfel-portals { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; }
+  .mythfel-hub-wallet { display: none; }
+
+  /* Gear barn — Stitch grid-cols-12 + live #barnGrid */
+  #viewGear > main > div {
+    height: auto !important;
+    max-height: none !important;
+    overflow: auto !important;
+  }
+  #viewGear .grid.grid-cols-12 {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 0.55rem !important;
+  }
+  #viewGear .grid.grid-cols-12 > [class*="col-span"] {
+    width: 100% !important;
+    max-width: none !important;
+  }
+  #viewGear .barn-body { flex-direction: column !important; }
+  #viewGear .barn-side {
+    width: 100% !important;
+    max-width: none !important;
+    min-width: 0 !important;
+  }
+  #viewGear .barn-grid,
+  #viewGear #barnGrid,
+  #viewGear .grid.grid-cols-6 {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+  #viewGear .barn-tools { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  #viewGear .barn-routes,
+  #viewGear .barn-foot {
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+  #viewGear [class*="justify-between"].bg-surface-container-low {
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+  #viewGear > main > div > .flex.items-center.justify-between {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  #viewGear > footer,
+  #viewGear [data-barn-routes],
+  #viewGear .barn-routes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    overflow-x: auto;
+  }
+
+  /* Trade plaza (live Stitch: absolute corner cards on map) */
+  #viewTradeHub > main.mythfel-trade-stage {
+    overflow: auto !important;
+    padding-top: 0.45rem !important;
+    padding-bottom: 0.45rem !important;
+  }
+  #viewTradeHub > main.mythfel-trade-stage > .relative.flex-1 {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0.45rem;
+    overflow: visible !important;
+    flex: 0 0 auto !important;
+    min-height: 0 !important;
+    height: auto !important;
+  }
+  #viewTradeHub > main.mythfel-trade-stage > .relative.flex-1 > img.absolute,
+  #viewTradeHub > main.mythfel-trade-stage > .relative.flex-1 > div.absolute.inset-0 {
+    position: relative !important;
+    inset: auto !important;
+    width: 100% !important;
+    height: 8.5rem !important;
+    flex: 0 0 auto;
+    border-radius: 0.45rem;
+  }
+  #viewTradeHub > main.mythfel-trade-stage > .relative.flex-1 > div.absolute.left-1\/2,
+  #viewTradeHub > main.mythfel-trade-stage > .relative.flex-1 > div[class*="left-1/2"] {
+    display: none !important;
+  }
+  #viewTradeHub > main.mythfel-trade-stage > .relative.flex-1 > div.absolute[class*="top-3"],
+  #viewTradeHub > main.mythfel-trade-stage > .relative.flex-1 > div.absolute[class*="bottom-3"] {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 100% !important;
+    max-width: none !important;
+    align-items: stretch !important;
+  }
+  #viewTradeHub > main.mythfel-trade-stage > .grid.grid-cols-12 {
+    height: auto !important;
+    grid-template-columns: 1fr !important;
+    gap: 0.45rem !important;
+  }
+  #viewTradeHub > main.mythfel-trade-stage > .grid.grid-cols-12 > [class*="col-span"] {
+    grid-column: 1 / -1 !important;
+  }
+  #viewTradeHub .trade-stage {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0.45rem;
+    overflow: auto !important;
+    min-height: 0;
+  }
+  #viewTradeHub .trade-bg {
+    position: relative !important;
+    inset: auto !important;
+    flex: 0 0 auto;
+    width: 100% !important;
+    height: 9.5rem !important;
+    object-fit: cover;
+    border-radius: 0.45rem;
+  }
+  #viewTradeHub .trade-veil,
+  #viewTradeHub .trade-center {
+    display: none !important;
+  }
+  #viewTradeHub .trade-zone {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    width: 100% !important;
+    max-width: none !important;
+    pointer-events: auto;
+  }
+  #viewTradeHub .trade-zone .trade-card {
+    display: flex !important;
+  }
+  #viewTradeHub .trade-dock {
+    grid-template-columns: 1fr !important;
+  }
+  #viewTradeHub .trade-wallet-row {
+    flex-wrap: wrap;
+  }
+  #viewTradeHub .trade-quick-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  /* Battle frontiers: keep % pins on art; allow map to scroll if tall */
+  #viewBattleHub .front-map {
+    min-height: 16rem;
+    overflow: auto;
+  }
+  #viewBattleHub .front-zone {
+    width: min(12.5rem, 58%) !important;
+  }
+  #viewBattleHub .front-foot,
+  #viewBattleHub .front-foot-actions {
+    flex-wrap: wrap;
+  }
+
+  /* Home mannequin chips */
+  #viewHome #homeGearOverlay .home-equip-ico {
+    width: 4.25rem; height: 4.25rem; min-width: 4.25rem; min-height: 4.25rem; flex-basis: 4.25rem;
+  }
+  #viewHome .grid.grid-cols-12 {
+    display: flex !important;
+    flex-direction: column;
+  }
+
+  /* Collection / roster */
+  #viewCollection .collection-stage {
+    flex-direction: column !important;
+  }
+
+  /* Practice dojo already has 1023 rules; tighten cards */
+  #viewPractice .dojo-match-card,
+  #viewPractice .dojo-dummy-card {
+    width: 2.85rem;
+    height: 5rem;
+  }
+
+  /* Victory / PvP */
+  .col-cats { flex-direction: column; }
+  .col-cats li { min-height: 10rem; }
+  .pv-units { flex-wrap: wrap; }
+  #viewPvpLoad .pvp-load-bar-wrap { min-width: 0; max-width: none; flex-basis: 100%; }
+  #viewVictoryHall #vicSlots {
+    grid-template-columns: 1fr !important;
+  }
+
+  /* Wireframe screens: allow vertical scroll, hide density pads */
+  .stitch-view main.wf {
+    overflow: auto !important;
+    height: 100%;
+  }
+  .stitch-view [data-purpose="wireframe-pad"] {
+    display: none !important;
+  }
+  .wf-body.grid-cols-1.lg\:grid-cols-12,
+  .wf-body[class*="grid-cols"] {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  /* Codex 3-col → stack */
+  #viewCodex > main > div.grid.grid-cols-12 {
+    display: flex !important;
+    flex-direction: column;
+    max-height: none !important;
+    height: auto !important;
+  }
+}
+
+/* —— ≤390: phone —— */
+@media (max-width: 390px) {
+  :root { --mythfel-chrome-stack: 8.25rem; }
+  body:not(.mythfel-login) { --mythfel-chrome-stack: 8.25rem; }
+
+  .mythfel-brand-mark { width: 1.75rem; height: 1.75rem; }
+  .mythfel-brand-text strong { font-size: 0.85rem; }
+  .mythfel-primary button {
+    padding: 0.26rem 0.42rem;
+    font-size: 10px;
+    letter-spacing: 0.02em;
+  }
+  .mythfel-nav-wallet span:nth-child(n + 2) { display: none; }
+  .mythfel-logout { display: none; }
+  .locale-switch { font-size: 10px; }
+
+  .mythfel-portals { grid-template-columns: 1fr !important; }
+  #viewGear .barn-grid,
+  #viewGear #barnGrid,
+  #viewGear .grid.grid-cols-6 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+  #viewTradeHub > main.mythfel-trade-stage > .relative.flex-1 > img.absolute,
+  #viewTradeHub > main.mythfel-trade-stage > .relative.flex-1 > div.absolute.inset-0 {
+    height: 7rem !important;
+  }
+  #viewBattleHub .front-zone {
+    width: min(11rem, 72%) !important;
+  }
+  #viewBattleHub .front-foot-actions {
+    width: 100%;
+  }
+  #viewBattleHub .front-foot-actions button {
+    flex: 1 1 auto;
+  }
+  #viewTradeHub .trade-bg { height: 7.5rem !important; }
+
+  #viewHome #homeGearOverlay .home-equip-ico {
+    width: 3.4rem; height: 3.4rem; min-width: 3.4rem; min-height: 3.4rem; flex-basis: 3.4rem;
+  }
+  #viewHome #homeGearOverlay .home-equip-slot > .home-equip-slot-name {
+    max-width: 3.6rem;
+    font-size: 8px;
+  }
+
+  #viewPass .relative.w-full.flex-1.my-space-md .w-full.flex.items-stretch {
+    min-width: 46rem;
+  }
+  #viewPass .w-36.flex-shrink-0 { width: 4.75rem; }
+
+  .dojo-top, .dojo-foot { flex-wrap: wrap; }
+  .col-ui { padding: 0.45rem 0.55rem 0.35rem; }
+  .col-top h1 { font-size: 1.35rem; }
+
+  #viewPracticeFight .pf-hand,
+  .pv-hand {
+    gap: 0.25rem;
+  }
+}
+
+/* Short landscape phones / foldables */
+@media (max-height: 480px) and (orientation: landscape) {
+  .mythfel-subtabs { display: none; }
+  :root, body:not(.mythfel-login) { --mythfel-chrome-stack: 3.25rem; }
+  .mythfel-nav-top { padding: 0.15rem 0.4rem; }
+  #app {
+    max-height: none !important;
+    height: auto !important;
+  }
+}
+
+/* Ejected stitch stages (practice/yard/… landed as body siblings after #137) —
+ * fill leftover shell under #appNav instead of leaving a blank #app band. */
+body.mythfel-shell > section.stitch-view:not(.hidden),
+body.mythfel-shell > section.mythfel-form:not(.hidden),
+body.mythfel-shell > section.hud-view:not(.hidden) {
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
+  overflow: auto;
+}
+body.mythfel-shell:has(> section[id^="view"]:not(.hidden)) #app.hidden {
+  display: none !important;
+  flex: 0 0 0 !important;
+  height: 0 !important;
+  max-height: 0 !important;
+  overflow: hidden !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
 }
