@@ -8480,10 +8480,22 @@ window.addEventListener("popstate", () => {
   if (state.tab !== tab) navigate(tab);
 });
 
+/** Soft-launch phone = landscape only. Portrait phones get #orientGate (CSS); sync aria. */
+function syncOrientGate() {
+  const gate = $("orientGate");
+  if (!gate) return;
+  const phonePortrait = window.matchMedia("(max-width: 600px) and (orientation: portrait)").matches;
+  gate.setAttribute("aria-hidden", phonePortrait ? "false" : "true");
+  document.body.classList.toggle("mythfel-phone-portrait", phonePortrait);
+}
+
 async function main() {
   window.mythfelNavigate = navigate;
   window.mythfelStartYard = startYard;
   window.mythfelStartPractice = startPractice;
+  syncOrientGate();
+  window.addEventListener("orientationchange", syncOrientGate);
+  window.addEventListener("resize", syncOrientGate);
   wireButtons();
   showView("viewBoot");
   $("bootMsg").textContent = "Boot → LiveOps fetch…";

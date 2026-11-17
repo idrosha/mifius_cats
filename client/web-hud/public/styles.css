@@ -4655,9 +4655,83 @@ body:has(#viewBreeding:not(.hidden)) #app { height: 100dvh !important; max-heigh
 
 /* =============================================================================
  * Responsive shell — soft-launch web client (D-012)
- * Breakpoints: ~1280 (laptop), ~768 (tablet), ~390 (phone)
+ * Breakpoints: ~1280 (laptop), ~768 (tablet portrait OK), phone = landscape only
+ * Phone portrait (≤600px + portrait) → rotate gate, not a portrait-first UI.
  * Nav IA/labels locked (D-025) — only wrap/scroll/stack layout.
  * ============================================================================= */
+
+/* —— Phone portrait gate (phones only; tablet ≥601px portrait stays open) —— */
+.mythfel-orient-gate {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  box-sizing: border-box;
+  background:
+    radial-gradient(ellipse at 50% 40%, rgba(253, 186, 69, 0.12), transparent 55%),
+    rgba(8, 6, 4, 0.96);
+  color: var(--on-surface);
+  text-align: center;
+}
+.mythfel-orient-card {
+  max-width: 22rem;
+  padding: 1.35rem 1.25rem 1.2rem;
+  border-radius: 0.85rem;
+  border: 1px solid rgba(253, 186, 69, 0.35);
+  background: rgba(22, 19, 16, 0.95);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.55);
+}
+.mythfel-orient-ico {
+  font-size: 2.75rem;
+  color: var(--primary);
+  animation: mythfel-orient-nudge 1.8s ease-in-out infinite;
+}
+.mythfel-orient-card h2 {
+  margin: 0.55rem 0 0.4rem;
+  font-family: Rubik, sans-serif;
+  font-size: 1.35rem;
+  letter-spacing: 0.04em;
+  color: var(--primary);
+}
+.mythfel-orient-card p {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: var(--muted);
+}
+.mythfel-orient-card strong { color: var(--on-surface); }
+.mythfel-orient-hint {
+  margin-top: 0.75rem !important;
+  font-family: Rubik, sans-serif;
+  font-size: 0.7rem !important;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(253, 186, 69, 0.75) !important;
+}
+@keyframes mythfel-orient-nudge {
+  0%, 100% { transform: rotate(-18deg); }
+  50% { transform: rotate(18deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .mythfel-orient-ico { animation: none; }
+}
+@media (max-width: 600px) and (orientation: portrait) {
+  .mythfel-orient-gate {
+    display: flex !important;
+  }
+  /* Freeze shell under the gate — no portrait-first playable UI on phone */
+  body.mythfel-shell > #appNav,
+  body.mythfel-shell > #app,
+  body.mythfel-shell > #toast,
+  body.mythfel-shell > #wireDock,
+  body.mythfel-shell > section[id^="view"] {
+    visibility: hidden !important;
+    pointer-events: none !important;
+  }
+}
 
 /* —— ≤1280: laptop / small desktop —— */
 @media (max-width: 1280px) {
@@ -4675,8 +4749,8 @@ body:has(#viewBreeding:not(.hidden)) #app { height: 100dvh !important; max-heigh
   .col-top h1 { font-size: clamp(1.5rem, 4vw, 2.25rem); }
 }
 
-/* —— ≤768: tablet / portrait —— */
-@media (max-width: 768px) {
+/* —— ≤768 portrait: tablet (and phone under rotate gate) —— */
+@media (max-width: 768px) and (orientation: portrait) {
   :root { --mythfel-chrome-stack: 7.5rem; }
   body:not(.mythfel-login) { --mythfel-chrome-stack: 7.5rem; }
 
@@ -5014,75 +5088,125 @@ body:has(#viewBreeding:not(.hidden)) #app { height: 100dvh !important; max-heigh
   }
 }
 
-/* —— ≤390: phone —— */
-@media (max-width: 390px) {
+/* —— ≤390 portrait leftovers (under rotate gate on real phones; rarely visible) —— */
+@media (max-width: 390px) and (orientation: portrait) {
   :root { --mythfel-chrome-stack: 8.25rem; }
   body:not(.mythfel-login) { --mythfel-chrome-stack: 8.25rem; }
+}
 
-  .mythfel-brand-mark { width: 1.75rem; height: 1.75rem; }
-  .mythfel-brand-text strong { font-size: 0.85rem; }
-  .mythfel-primary button {
-    padding: 0.26rem 0.42rem;
-    font-size: 10px;
-    letter-spacing: 0.02em;
+/* —— Phone landscape playable (~812×375 / 844×390): compact chrome, keep IA —— */
+@media (max-height: 500px) and (orientation: landscape) and (max-width: 960px) {
+  :root, body:not(.mythfel-login) { --mythfel-chrome-stack: 3.35rem; }
+  .mythfel-login { --mythfel-chrome-stack: 0px; }
+
+  .mythfel-nav-top {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "brand tabs chrome";
+    gap: 0.25rem 0.45rem;
+    padding: 0.18rem 0.45rem;
+    align-items: center;
   }
-  .mythfel-nav-wallet span:nth-child(n + 2) { display: none; }
-  .mythfel-logout { display: none; }
-  .locale-switch { font-size: 10px; }
+  .mythfel-brand { grid-area: brand; }
+  .mythfel-primary {
+    grid-area: tabs;
+    justify-self: stretch;
+    width: 100%;
+    justify-content: flex-start;
+    padding: 0.15rem;
+  }
+  .mythfel-primary button {
+    padding: 0.22rem 0.42rem;
+    font-size: 10px;
+  }
+  .mythfel-chrome { grid-area: chrome; }
+  .mythfel-brand-text span,
+  .mythfel-nav-rank,
+  .mythfel-social { display: none; }
+  .mythfel-nav-wallet span:nth-child(n + 3) { display: none; }
+  .mythfel-logout { padding: 0.22rem 0.45rem; font-size: 10px; }
+  /* Short height: subtabs become a single scroll row, not a second tall band */
+  .mythfel-subtabs {
+    display: flex;
+    margin: 0.1rem 0 0.15rem;
+    padding: 0.12rem 0.4rem;
+  }
+  .mythfel-subtabs button {
+    padding: 0.2rem 0.45rem;
+    font-size: 10px;
+    min-width: 0;
+  }
 
-  .mythfel-portals { grid-template-columns: 1fr !important; }
-  #viewGear .barn-grid,
-  #viewGear #barnGrid,
-  #viewGear .grid.grid-cols-6 {
-    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  #app {
+    flex: 1 1 auto !important;
+    height: auto !important;
+    max-height: none !important;
+    aspect-ratio: auto !important;
+  }
+  body:has(#viewPass:not(.hidden)) #app,
+  body:has(#viewHome:not(.hidden)) #app,
+  body:has(#viewGear:not(.hidden)) #app,
+  body:has(#viewTradeHub:not(.hidden)) #app,
+  body:has(#viewBattleHub:not(.hidden)) #app,
+  body:has(#viewPractice:not(.hidden)) #app,
+  body:has(#viewPracticeFight:not(.hidden)) #app {
+    height: auto !important;
+    max-height: none !important;
+  }
+
+  /* Keep map pins on art in short landscape — no tall portrait stacks */
+  #viewTradeHub > main.mythfel-trade-stage > .relative.flex-1 {
+    display: block !important;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: auto !important;
+    overflow: hidden !important;
   }
   #viewTradeHub > main.mythfel-trade-stage > .relative.flex-1 > img.absolute,
   #viewTradeHub > main.mythfel-trade-stage > .relative.flex-1 > div.absolute.inset-0 {
-    height: 7rem !important;
+    position: absolute !important;
+    inset: 0 !important;
+    height: 100% !important;
   }
-  #viewBattleHub .front-zone {
-    width: min(11rem, 72%) !important;
+  #viewTradeHub > main.mythfel-trade-stage > .relative.flex-1 > div.absolute[class*="top-3"],
+  #viewTradeHub > main.mythfel-trade-stage > .relative.flex-1 > div.absolute[class*="bottom-3"] {
+    position: absolute !important;
+    width: min(17.5rem, 40%) !important;
+    max-width: 40% !important;
   }
-  #viewBattleHub .front-foot-actions {
-    width: 100%;
+  #viewTradeHub > main.mythfel-trade-stage > .relative.flex-1 > div.absolute[class*="left-1/2"],
+  #viewTradeHub > main.mythfel-trade-stage > .relative.flex-1 > div.absolute.left-1\/2 {
+    display: flex !important;
+    position: absolute !important;
   }
-  #viewBattleHub .front-foot-actions button {
-    flex: 1 1 auto;
+  #viewTradeHub > main.mythfel-trade-stage > .grid.grid-cols-12 {
+    height: auto !important;
+    min-height: 3.6rem;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
   }
-  #viewTradeHub .trade-bg { height: 7.5rem !important; }
+  #viewTradeHub > main.mythfel-trade-stage > .grid.grid-cols-12 > [class*="col-span"] {
+    grid-column: span 1 / span 1 !important;
+  }
 
+  #viewGear .grid.grid-cols-12 {
+    display: grid !important;
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    flex-direction: unset !important;
+  }
   #viewHome #homeGearOverlay .home-equip-ico {
-    width: 3.4rem; height: 3.4rem; min-width: 3.4rem; min-height: 3.4rem; flex-basis: 3.4rem;
+    width: 4rem; height: 4rem; min-width: 4rem; min-height: 4rem; flex-basis: 4rem;
   }
-  #viewHome #homeGearOverlay .home-equip-slot > .home-equip-slot-name {
-    max-width: 3.6rem;
-    font-size: 8px;
-  }
-
-  #viewPass .relative.w-full.flex-1.my-space-md .w-full.flex.items-stretch {
-    min-width: 46rem;
-  }
-  #viewPass .w-36.flex-shrink-0 { width: 4.75rem; }
-
-  .dojo-top, .dojo-foot { flex-wrap: wrap; }
-  .col-ui { padding: 0.45rem 0.55rem 0.35rem; }
-  .col-top h1 { font-size: 1.35rem; }
-
-  #viewPracticeFight .pf-hand,
-  .pv-hand {
-    gap: 0.25rem;
+  #viewPractice .dojo-match-card,
+  #viewPractice .dojo-dummy-card {
+    width: 3.2rem;
+    height: 5.5rem;
   }
 }
 
-/* Short landscape phones / foldables */
-@media (max-height: 480px) and (orientation: landscape) {
+/* Ultra-short landscape phones */
+@media (max-height: 400px) and (orientation: landscape) {
   .mythfel-subtabs { display: none; }
-  :root, body:not(.mythfel-login) { --mythfel-chrome-stack: 3.25rem; }
-  .mythfel-nav-top { padding: 0.15rem 0.4rem; }
-  #app {
-    max-height: none !important;
-    height: auto !important;
-  }
+  :root, body:not(.mythfel-login) { --mythfel-chrome-stack: 2.85rem; }
+  .mythfel-nav-top { padding: 0.12rem 0.35rem; }
 }
 
 /* Ejected stitch stages (practice/yard/… landed as body siblings after #137) —
