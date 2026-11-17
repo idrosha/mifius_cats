@@ -1,0 +1,114 @@
+<section id="viewPveLoad" class="stitch-view mythfel-form hidden" data-stitch="pve_load" data-layout="landscape">
+<!-- PvE campaign battle load. Address: /pve-load. Chapter-dependent backdrop (MF-151). D-025: no app menu chrome. -->
+<main class="pve-load mythfel-form-body" data-purpose="pve-campaign-load" data-purpose-route="pve-load">
+  <div class="pve-load-backdrop" id="pveLoadBackdrop" data-purpose="hero-background-crossfader" aria-hidden="true">
+    <img class="pve-load-bg is-active" data-chapter="1" alt="" src="/stitch-assets/pve-load/chapter-1-iron.png"/>
+    <img class="pve-load-bg" data-chapter="2" alt="" src="/stitch-assets/pve-load/chapter-2-frost.png"/>
+    <img class="pve-load-bg" data-chapter="3" alt="" src="/stitch-assets/pve-load/chapter-3-plague.png"/>
+    <img class="pve-load-bg" data-chapter="4" alt="" src="/stitch-assets/pve-load/chapter-4-spectral.png"/>
+    <img class="pve-load-bg" data-chapter="5" alt="" src="/stitch-assets/pve-load/chapter-5-imperial.png"/>
+    <div class="pve-load-vignette pve-load-vignette--radial"></div>
+    <div class="pve-load-vignette pve-load-vignette--linear"></div>
+  </div>
+
+  <header class="pve-load-head" data-purpose="game-top-bar">
+    <div class="pve-load-head-row">
+      <div class="pve-load-sync">
+        <div class="pve-load-sync-icon" aria-hidden="true"><span class="material-symbols-outlined">shield</span></div>
+        <div>
+          <p class="pve-load-sync-line"><span class="pve-load-dot"></span> Синхронизация колод: <b id="pveLoadSyncPct">0%</b></p>
+          <p class="pve-load-server">Сервер: <span>Таверна «Дикий Вой» #RU-04</span> (18ms)</p>
+        </div>
+      </div>
+      <div class="pve-load-title-block">
+        <h1 class="pve-load-kicker">ЗАГРУЗКА PVE КАМПАНИИ · ЭКСПЕДИЦИЯ 3v3</h1>
+        <div class="pve-load-waves">
+          <span class="is-done">Волна 1/3 (Авангард)</span>
+          <span class="pve-load-wave-arrow" aria-hidden="true">→</span>
+          <span>Волна 2/3 (Элита)</span>
+          <span class="pve-load-wave-arrow" aria-hidden="true">→</span>
+          <span class="is-boss" id="pveLoadBossTab">Пит-Босс</span>
+        </div>
+      </div>
+      <div class="pve-load-chapters" data-purpose="level-switch-buttons" role="group" aria-label="Глава кампании">
+        <span class="pve-load-chapters-label">Глава:</span>
+        <button type="button" class="pve-load-chapter-btn is-active" data-pve-chapter="1" id="pveLoadChapter1">Ур. 1</button>
+        <button type="button" class="pve-load-chapter-btn" data-pve-chapter="2" id="pveLoadChapter2">Ур. 2</button>
+        <button type="button" class="pve-load-chapter-btn" data-pve-chapter="3" id="pveLoadChapter3">Ур. 3</button>
+        <button type="button" class="pve-load-chapter-btn" data-pve-chapter="4" id="pveLoadChapter4">Ур. 4</button>
+        <button type="button" class="pve-load-chapter-btn" data-pve-chapter="5" id="pveLoadChapter5">Ур. 5</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="pve-load-stage" data-purpose="boss-lore-hud">
+    <div class="pve-load-card" id="pveLoadBossCard">
+      <div class="pve-load-card-grid">
+        <div class="pve-load-lore">
+          <div class="pve-load-badges">
+            <div class="pve-load-pills">
+              <span class="pve-load-pill is-level" id="pveLoadLevelPill">Уровень Кампании: 1</span>
+              <span class="pve-load-pill is-faction" id="pveLoadFactionPill">Фракция: Железная Стая</span>
+            </div>
+            <div class="pve-load-threat">
+              <span>Угроза:</span>
+              <b id="pveLoadThreat">★★★☆☆</b>
+            </div>
+          </div>
+          <div class="pve-load-boss-meta">
+            <div class="pve-load-arena-line">
+              <span id="pveLoadArenaTitle">Железная Цитадель</span>
+              <span class="pve-load-dot-sep" aria-hidden="true">·</span>
+              <span id="pveLoadBossRole">Железный Варлорд и Молотобоец Цитадели</span>
+            </div>
+            <h2 id="pveLoadBossName">Барон Гав</h2>
+          </div>
+          <p class="pve-load-desc" id="pveLoadBossDesc">Могучий мастиф в массивных латах из чёрного чугуна. Орудует шипастым осадным молотом, сотрясающим катакомбы.</p>
+        </div>
+        <div class="pve-load-affixes-wrap">
+          <div class="pve-load-affixes-head">
+            <span>Особые механики боя (пассивные аффиксы)</span>
+            <em>Фаза 1 &amp; Фаза 2</em>
+          </div>
+          <div class="pve-load-affixes" id="pveLoadAffixes"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="pve-load-foot" data-purpose="match-loading-console">
+    <div class="pve-load-foot-grid">
+      <div class="pve-load-squad">
+        <div class="pve-load-squad-head">
+          <span>Ваш боевой отряд</span>
+          <b>3/4 AP</b>
+        </div>
+        <div class="pve-load-squad-card">
+          <span class="material-symbols-outlined" aria-hidden="true">pets</span>
+          <div>
+            <strong>ОТРЯД «МУРР-ОПЛОТ»</strong>
+            <em>Тройка №1 · Боевая мощь: <b>18,450 БМ</b></em>
+          </div>
+        </div>
+      </div>
+      <div class="pve-load-progress">
+        <div class="pve-load-progress-labels">
+          <span><i class="pve-load-dot"></i> <span id="pveLoadStageText">Подготовка арены и бросков инициативы…</span></span>
+          <b id="pveLoadPctText">0%</b>
+        </div>
+        <div class="pve-load-bar" aria-hidden="true"><i id="pveLoadBar" style="width:0%"></i></div>
+        <p class="pve-load-tip" id="pveLoadTip"><strong>Совет Сэнсэя:</strong> Не атакуйте Барона Гава во время стойки «Железный Оплот».</p>
+      </div>
+      <div class="pve-load-cta">
+        <button type="button" class="pve-load-go" id="pveLoadGo">В БОЙ! <kbd>[ПРОБЕЛ]</kbd></button>
+        <div class="pve-load-keys">
+          <span><kbd>ESC</kbd> Назад</span>
+          <span><kbd>ПРОБЕЛ</kbd> В бой</span>
+          <span><kbd>TAB</kbd> Глава</span>
+        </div>
+        <button type="button" class="pve-load-back" id="pveLoadBack">К карте Мифмира</button>
+      </div>
+    </div>
+  </footer>
+</main>
+</section>

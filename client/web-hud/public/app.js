@@ -123,6 +123,8 @@ const PATH_TO_TAB = {
   "razvitie-i-tehnologii": "guild",
   "kazna-i-zadaniya": "guild",
   "mifmir-pve": "yard",
+  "pve-load": "pve_load",
+  "загрузка-pve": "pve_load",
   glavnaya: "hub",
   "glavnyj-hab": "hub",
   "kotiki-otryad": "collection",
@@ -663,6 +665,10 @@ const state = {
   /** Practice load overlay progress (0–100) + timer handle. */
   practiceLoadPct: 0,
   practiceLoadTimer: null,
+  /** PvE campaign load (MF-151): chapter 1–5 + sync %. */
+  pveChapter: 1,
+  pveLoadPct: 0,
+  pveLoadTimer: null,
   /** True while opponent 6-card face-down discard throw VFX is playing. */
   oppThrowPlaying: false,
   bossWaveIndex: 0,
@@ -933,6 +939,7 @@ function logicalViewId() {
     boss_raid: "viewBossRaid",
     battle: "viewBattle",
     pvp: "viewPvp",
+    pve_load: "viewPveLoad",
     pvp_load: "viewPvpLoad",
     collection: "viewCollection",
     trade_hub: "viewTradeHub",
@@ -1087,6 +1094,10 @@ function pvpLoadAddressOpen() {
   return normalizedPath() === "/pvp-load";
 }
 
+function pveLoadAddressOpen() {
+  return normalizedPath() === "/pve-load";
+}
+
 function codexAddressOpen() {
   return normalizedPath() === "/codex";
 }
@@ -1104,6 +1115,7 @@ function screenAddressFor(tab) {
   if (tab === "trade_hub") return "/square";
   if (tab === "battle_hub") return "/fronts";
   if (tab === "yard" || tab === "pve") return "/pve";
+  if (tab === "pve_load") return "/pve-load";
   if (tab === "pvp_load") return "/pvp-load";
   if (tab === "codex" || tab === "knowledge") return "/codex";
   if (tab === "login") return "/home";
@@ -1711,9 +1723,19 @@ function bindYardForm() {
     start.dataset.bound = "1";
     start.addEventListener("click", () => {
       state.battleMode = "pve";
-      startYard(false);
+      openPveLoad();
     });
   }
+  // Yard node level chips → campaign chapter for load backdrop (MF-151)
+  document.querySelectorAll("#viewYard [data-pve-chapter]").forEach((btn) => {
+    if (btn.dataset.boundChapter) return;
+    btn.dataset.boundChapter = "1";
+    btn.addEventListener("click", () => {
+      const n = Number(btn.getAttribute("data-pve-chapter") || 1);
+      state.pveChapter = Math.max(1, Math.min(5, n || 1));
+      toast(t("yard.chapter.pick", `Глава ${state.pveChapter}`));
+    });
+  });
   const toForm = $("btnYardToFormationPainted");
   if (toForm && !toForm.dataset.bound) {
     toForm.dataset.bound = "1";
@@ -6800,6 +6822,238 @@ async function pvpAuto() {
   }
 }
 
+/** MF-151 · PvE campaign chapters → backdrop + lore (design pack, paint-only). */
+const PVE_LOAD_CHAPTERS = {
+  1: {
+    title: "Железная Цитадель",
+    bossName: "Барон Гав",
+    bossRole: "Железный Варлорд и Молотобоец Цитадели",
+    faction: "Железная Стая",
+    levelPill: "Уровень Кампании: 1",
+    threatStars: "★★★☆☆",
+    description:
+      "Могучий мастиф в массивных латах из чёрного чугуна. Орудует шипастым осадным молотом, сотрясающим катакомбы. Не знает усталости, а его свита из верных щитоносцев прикрывает уязвимые фланги.",
+    tip: "Не атакуйте Барона Гава во время действия стойки «Железный Оплот» — сконцентрируйтесь на его псах-щитоносцах!",
+    affixes: [
+      { icon: "🛡", title: "Железный Оплот", desc: "Иммунитет к Оглушению" },
+      { icon: "💥", title: "Ярость Вожака", desc: "+50% урона при <30% HP" },
+      { icon: "🐕", title: "Пак Охраны", desc: "Призыв 2 щитоносцев" },
+      { icon: "⚡", title: "Раскол Земли", desc: "Оглушение всего 1-го ряда" },
+    ],
+  },
+  2: {
+    title: "Ледяные Пещеры",
+    bossName: "Лютый Клык",
+    bossRole: "Альфа-Вожак Ледяных Стай & Шаман Инея",
+    faction: "Северные Волки",
+    levelPill: "Уровень Кампании: 2",
+    threatStars: "★★★★☆",
+    description:
+      "Яростный арктический вожак в доспехах из древних костей мамонта. Вооружён зазубренными ледяными серпами, накладывающими глубокое обморожение на весь строй героев.",
+    tip: "Волки уязвимы к заклинаниям Огня x2.0! Используйте огненные свитки Мага Игниуса для снятия щитов инея!",
+    affixes: [
+      { icon: "❄", title: "Ледяная Стужа", desc: "-40% скорости атаки строя" },
+      { icon: "🐺", title: "Зов Метели", desc: "Призыв ледяных стрелков" },
+      { icon: "🗡", title: "Двойной Серп", desc: "Кровотечение и раскол брони" },
+      { icon: "💎", title: "Тотем Кристалла", desc: "Периодический щит 800 HP" },
+    ],
+  },
+  3: {
+    title: "Чумные Катакомбы",
+    bossName: "Некропёс Мор",
+    bossRole: "Владыка Гнили и Зелёного Пламени",
+    faction: "Чумной Ковен",
+    levelPill: "Уровень Кампании: 3",
+    threatStars: "★★★★☆",
+    description:
+      "Жуткий архи-некромант в костяной маске чумного доктора. Его фонарь струится токсичным эктоплазменным дымом, отравляющим воздух и исцеляющим неживых мясников.",
+    tip: "Запаситесь зельями очищения! Ядовитые лужи наносят периодический урон каждый раунд, пока активен фонарь Мора.",
+    affixes: [
+      { icon: "🧪", title: "Ядовитая Аура", desc: "120 урона ядом в секунду" },
+      { icon: "💀", title: "Некро-Жатва", desc: "Воскрешает павших подручных" },
+      { icon: "🏮", title: "Зелёный Фонарь", desc: "Ослепляет магов заднего ряда" },
+      { icon: "🥩", title: "Чумной Тесак", desc: "Снижает исцеление отряда на 75%" },
+    ],
+  },
+  4: {
+    title: "Призрачный Склеп",
+    bossName: "Фантом Гул",
+    bossRole: "Лорд Бестелесных Душ и Могильного Хлада",
+    faction: "Орден Призраков",
+    levelPill: "Уровень Кампании: 4",
+    threatStars: "★★★★★",
+    description:
+      "Парящий над могильными камнями призрачный владыка с клинком загробного пламени. Неуязвим для обычного физического оружия, пропускает сквозь себя стрелы.",
+    tip: "Обычные клинки наносят на 80% меньше урона! Атакуйте только магическим или святым уроном Паладина!",
+    affixes: [
+      { icon: "👻", title: "Эфирное Тело", desc: "-80% к физическому урону" },
+      { icon: "⚔", title: "Клинок Душ", desc: "Урон сквозь любую броню" },
+      { icon: "⛓", title: "Цепи Склепа", desc: "Приковывает танка на 4 сек" },
+      { icon: "🌌", title: "Разлом Пустоты", desc: "Крадет 2 очка энергии (AP)" },
+    ],
+  },
+  5: {
+    title: "Имперский Зал",
+    bossName: "Генерал Дог",
+    bossRole: "Верховный Инквизитор и Магистр Золотого Ордена",
+    faction: "Императорская Гвардия",
+    levelPill: "Уровень Кампании: 5 (ФИНАЛ)",
+    threatStars: "★★★★★+",
+    description:
+      "Верховный архи-гончий в золотых имперских латах с пылающим клинком палача. Руководит элитными инквизиторами-доберманами и алебардщиками преторианской стражи.",
+    tip: "Финальный бой кампании! Прерывайте его способность «Суд Инквизиции», иначе весь ваш отряд погибнет в огне!",
+    affixes: [
+      { icon: "🔥", title: "Огненный Клинок", desc: "Чистый урон огнем по площади" },
+      { icon: "👑", title: "Имперская Воля", desc: "Полный иммунитет к контролю" },
+      { icon: "⚖", title: "Суд Инквизиции", desc: "Каст смертоносного вихря (3 сек)" },
+      { icon: "🗡", title: "Теневые Стилеты", desc: "Удар в спину вашего лекаря" },
+    ],
+  },
+};
+
+/** Open PvE campaign load sheet (chapter backdrop), then CreatePvE from «В бой». */
+function openPveLoad() {
+  state.battleMode = "pve";
+  const n = Math.max(1, Math.min(5, Number(state.pveChapter) || 1));
+  state.pveChapter = n;
+  navigate("pve_load", { primary: "combat" });
+}
+
+function setPveLoadProgress(pct) {
+  const n = Math.max(0, Math.min(100, Math.round(pct)));
+  const bar = $("pveLoadBar");
+  const pctText = $("pveLoadPctText");
+  const sync = $("pveLoadSyncPct");
+  const stage = $("pveLoadStageText");
+  if (bar) bar.style.width = `${n}%`;
+  if (pctText) pctText.textContent = `${n}%`;
+  if (sync) sync.textContent = `${n}%`;
+  if (stage) {
+    stage.textContent =
+      n >= 100
+        ? "Врата распахнуты! Бой готов."
+        : "Подготовка арены и бросков инициативы…";
+  }
+  state.pveLoadPct = n;
+}
+
+function applyPveLoadChapter(chapter) {
+  const n = Math.max(1, Math.min(5, Number(chapter) || 1));
+  state.pveChapter = n;
+  const data = PVE_LOAD_CHAPTERS[n] || PVE_LOAD_CHAPTERS[1];
+  document.querySelectorAll("#viewPveLoad .pve-load-bg").forEach((img) => {
+    const ch = Number(img.getAttribute("data-chapter") || 0);
+    img.classList.toggle("is-active", ch === n);
+  });
+  document.querySelectorAll("#viewPveLoad .pve-load-chapter-btn").forEach((btn) => {
+    const ch = Number(btn.getAttribute("data-pve-chapter") || 0);
+    btn.classList.toggle("is-active", ch === n);
+  });
+  const setText = (id, value) => {
+    const el = $(id);
+    if (el) el.textContent = value;
+  };
+  setText("pveLoadLevelPill", data.levelPill);
+  setText("pveLoadFactionPill", `Фракция: ${data.faction}`);
+  setText("pveLoadThreat", data.threatStars);
+  setText("pveLoadArenaTitle", data.title);
+  setText("pveLoadBossRole", data.bossRole);
+  setText("pveLoadBossName", data.bossName);
+  setText("pveLoadBossDesc", data.description);
+  setText("pveLoadBossTab", `Пит-Босс ${data.bossName}`);
+  const tip = $("pveLoadTip");
+  if (tip) tip.innerHTML = `<strong>Совет Сэнсэя:</strong> ${data.tip}`;
+  const grid = $("pveLoadAffixes");
+  if (grid) {
+    grid.innerHTML = (data.affixes || [])
+      .map(
+        (a) => `<div class="pve-load-affix"><span aria-hidden="true">${a.icon}</span><div><strong>${a.title}</strong><em>${a.desc}</em></div></div>`
+      )
+      .join("");
+  }
+  const card = $("pveLoadBossCard");
+  if (card) {
+    card.style.opacity = "0";
+    card.style.transform = "translateY(8px)";
+    requestAnimationFrame(() => {
+      card.style.opacity = "1";
+      card.style.transform = "translateY(0)";
+    });
+  }
+}
+
+function startPveLoadSync() {
+  clearInterval(state.pveLoadTimer);
+  setPveLoadProgress(0);
+  let pct = 0;
+  state.pveLoadTimer = setInterval(() => {
+    if (state.tab !== "pve_load") {
+      clearInterval(state.pveLoadTimer);
+      state.pveLoadTimer = null;
+      return;
+    }
+    pct = Math.min(100, pct + 4 + Math.floor(Math.random() * 6));
+    setPveLoadProgress(pct);
+    if (pct >= 100) {
+      clearInterval(state.pveLoadTimer);
+      state.pveLoadTimer = null;
+      toast("Арена готова · синхронизация колод 100%");
+    }
+  }, 120);
+}
+
+function bindPveLoad() {
+  const root = $("viewPveLoad");
+  if (!root || root.dataset.bound === "1") return;
+  root.dataset.bound = "1";
+  root.querySelectorAll("[data-pve-chapter]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      applyPveLoadChapter(btn.getAttribute("data-pve-chapter"));
+    });
+  });
+  $("pveLoadGo")?.addEventListener("click", () => pveLoadStart());
+  $("pveLoadBack")?.addEventListener("click", () => {
+    clearInterval(state.pveLoadTimer);
+    state.pveLoadTimer = null;
+    navigate("yard", { primary: "combat" });
+  });
+  document.addEventListener("keydown", (ev) => {
+    if (state.tab !== "pve_load") return;
+    if (ev.target.closest?.("input, textarea")) return;
+    if (ev.code === "Space") {
+      ev.preventDefault();
+      pveLoadStart();
+    } else if (ev.code === "Escape") {
+      ev.preventDefault();
+      $("pveLoadBack")?.click();
+    } else if (ev.code === "Tab") {
+      ev.preventDefault();
+      const next = (Number(state.pveChapter) || 1) + 1;
+      applyPveLoadChapter(next > 5 ? 1 : next);
+    }
+  });
+}
+
+function renderPveLoad() {
+  applyPveLoadChapter(state.pveChapter || 1);
+  bindPveLoad();
+  if (!state.pveLoadTimer) startPveLoadSync();
+}
+
+async function pveLoadStart() {
+  if (state.tab === "pve_load" && (state.pveLoadPct || 0) < 100) {
+    setPveLoadProgress(100);
+    clearInterval(state.pveLoadTimer);
+    state.pveLoadTimer = null;
+  }
+  clearInterval(state.pveLoadTimer);
+  state.pveLoadTimer = null;
+  state.battleMode = "pve";
+  const go = $("pveLoadGo");
+  if (go) go.textContent = "ВХОД В БОЙ…";
+  await startYard(false);
+}
+
 /** Open ranked duel load sheet, then CreatePvP from «В бой». */
 function openPvpLoad() {
   if (!pvpUnlocked()) {
@@ -7011,6 +7265,10 @@ function renderAll() {
   }
   if (viewId === "viewBattle" && state.battle && !state.battle.result) {
     renderBattle();
+    return;
+  }
+  if (viewId === "viewPveLoad") {
+    renderPveLoad();
     return;
   }
   if (viewId === "viewPvpLoad") {
@@ -8738,6 +8996,7 @@ function bootTabAfterLogin() {
   if (squareAddressOpen()) return "trade_hub";
   if (frontsAddressOpen()) return "battle_hub";
   if (pveAddressOpen()) return "yard";
+  if (pveLoadAddressOpen()) return "pve_load";
   if (pvpLoadAddressOpen()) return "pvp_load";
   if (codexAddressOpen()) return "codex";
   return "pass";

@@ -29,6 +29,7 @@ const REQUIRED_VIEWS = [
   "viewSoonFarm",
   "viewFormation",
   "viewYard",
+  "viewPveLoad",
   "viewPractice",
   "viewPracticeFight",
   "viewBossDungeon",
@@ -125,6 +126,7 @@ const STITCH_SRC = [
   "heroes.html",
   "soon_farm.html",
   "yard.html",
+  "pve_load.html",
   "formation.html",
   "battle.html",
   "result_win.html",
@@ -470,6 +472,19 @@ ok(
     html.includes("/stitch-assets/yard/meowkara-mines-bg.png") &&
     /Шахты Мяу-Кары/.test(html),
   "viewYard missing painted PvE hub",
+);
+ok(
+  "painted PvE battle load (MF-151)",
+  html.includes('data-stitch="pve_load"') &&
+    html.includes("viewPveLoad") &&
+    html.includes("pveLoadGo") &&
+    html.includes("/stitch-assets/pve-load/chapter-1-iron.png") &&
+    js.includes("openPveLoad") &&
+    js.includes("PVE_LOAD_CHAPTERS") &&
+    js.includes('pve_load: "viewPveLoad"') &&
+    /\/pve-load/.test(js) &&
+    css.includes("#viewPveLoad"),
+  "viewPveLoad missing chapter load form",
 );
 ok(
   "painted guild not placeholder",
