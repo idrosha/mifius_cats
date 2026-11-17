@@ -665,8 +665,9 @@ const state = {
   /** Practice load overlay progress (0–100) + timer handle. */
   practiceLoadPct: 0,
   practiceLoadTimer: null,
-  /** PvE campaign load (MF-151): chapter 1–5 + sync %. */
+  /** PvE campaign (MF-151): chapter 1–5, stage entrance|tunnel|boss. */
   pveChapter: 1,
+  pveStage: "entrance",
   pveLoadPct: 0,
   pveLoadTimer: null,
   /** True while opponent 6-card face-down discard throw VFX is playing. */
@@ -909,6 +910,7 @@ function logicalViewId() {
   if (state.battle && !state.battle.result) {
     if (state.battleMode === "practice") return "viewPracticeFight";
     if (state.battleMode === "pvp") return "viewPvpFight";
+    if (state.battleMode === "pve") return "viewPveFight";
     return "viewBattle";
   }
   if (state.battle?.result && state.lastResult) {
@@ -940,6 +942,7 @@ function logicalViewId() {
     battle: "viewBattle",
     pvp: "viewPvp",
     pve_load: "viewPveLoad",
+    pve_fight: "viewPveFight",
     pvp_load: "viewPvpLoad",
     collection: "viewCollection",
     trade_hub: "viewTradeHub",
@@ -6822,7 +6825,15 @@ async function pvpAuto() {
   }
 }
 
-/** MF-151 · PvE campaign chapters → backdrop + lore (design pack, paint-only). */
+/** MF-151 · each chapter = 3 PvE fights: entrance → tunnel → boss hall. */
+const PVE_STAGES = ["entrance", "tunnel", "boss"];
+const PVE_STAGE_META = {
+  entrance: { label: "Вход в подземелье", wave: "Волна 1/3 (Вход)", short: "1 · Вход" },
+  tunnel: { label: "Тоннель / проход", wave: "Волна 2/3 (Тоннель)", short: "2 · Тоннель" },
+  boss: { label: "Зал с боссом", wave: "Волна 3/3 (Босс)", short: "3 · Босс" },
+};
+
+/** MF-151 · PvE campaign chapters → load lore + fight stage arts. */
 const PVE_LOAD_CHAPTERS = {
   1: {
     title: "Железная Цитадель",
@@ -6840,6 +6851,26 @@ const PVE_LOAD_CHAPTERS = {
       { icon: "🐕", title: "Пак Охраны", desc: "Призыв 2 щитоносцев" },
       { icon: "⚡", title: "Раскол Земли", desc: "Оглушение всего 1-го ряда" },
     ],
+    stages: {
+      entrance: {
+        art: "/stitch-assets/pve-fight/ch1-entrance.png",
+        enemyTitle: "СТАЯ · ВОЛНА 1/3 (ВХОД)",
+        enemies: ["Страж кованых врат", "Патруль ущелья", "Лучник на башне"],
+        tip: "Этап 1/3 · Вход в Железное ущелье",
+      },
+      tunnel: {
+        art: "/stitch-assets/pve-fight/ch1-tunnel.png",
+        enemyTitle: "СТАЯ · ВОЛНА 2/3 (ТОННЕЛЬ)",
+        enemies: ["Молотобоец коридора", "Щитоносец стаи", "Пёс-разведчик"],
+        tip: "Этап 2/3 · Тоннель к цитадели",
+      },
+      boss: {
+        art: "/stitch-assets/pve-fight/ch1-boss.png",
+        enemyTitle: "СТАЯ · ВОЛНА 3/3 (БОСС)",
+        enemies: ["Железный Волкодав (Танк-Босс)", "Пёс-Молотобоец", "Железный Щитоносец"],
+        tip: "Этап 3/3 · Зал Барона Гава",
+      },
+    },
   },
   2: {
     title: "Ледяные Пещеры",
@@ -6857,6 +6888,26 @@ const PVE_LOAD_CHAPTERS = {
       { icon: "🗡", title: "Двойной Серп", desc: "Кровотечение и раскол брони" },
       { icon: "💎", title: "Тотем Кристалла", desc: "Периодический щит 800 HP" },
     ],
+    stages: {
+      entrance: {
+        art: "/stitch-assets/pve-fight/ch2-entrance.png",
+        enemyTitle: "СТАЯ · ВОЛНА 1/3 (ВХОД)",
+        enemies: ["Страж ледяных врат", "Волк-дозорный", "Шаман инея"],
+        tip: "Этап 1/3 · Вход в ледяную пещеру",
+      },
+      tunnel: {
+        art: "/stitch-assets/pve-fight/ch2-tunnel.png",
+        enemyTitle: "СТАЯ · ВОЛНА 2/3 (ТОННЕЛЬ)",
+        enemies: ["Ледяной волк-воин", "Кристальный лучник", "Сталкер метели"],
+        tip: "Этап 2/3 · Ледяной проход",
+      },
+      boss: {
+        art: "/stitch-assets/pve-fight/ch2-boss.png",
+        enemyTitle: "СТАЯ · ВОЛНА 3/3 (БОСС)",
+        enemies: ["Альфа-Вожак (Берсерк-Босс)", "Ледяной Волк-Воин", "Ледяной Волк-Шаман"],
+        tip: "Этап 3/3 · Логово Лютого Клыка",
+      },
+    },
   },
   3: {
     title: "Чумные Катакомбы",
@@ -6874,6 +6925,26 @@ const PVE_LOAD_CHAPTERS = {
       { icon: "🏮", title: "Зелёный Фонарь", desc: "Ослепляет магов заднего ряда" },
       { icon: "🥩", title: "Чумной Тесак", desc: "Снижает исцеление отряда на 75%" },
     ],
+    stages: {
+      entrance: {
+        art: "/stitch-assets/pve-fight/ch3-entrance.png",
+        enemyTitle: "СТАЯ · ВОЛНА 1/3 (ВХОД)",
+        enemies: ["Страж болотных врат", "Чумной дозор", "Носитель гнили"],
+        tip: "Этап 1/3 · Вход в чумные катакомбы",
+      },
+      tunnel: {
+        art: "/stitch-assets/pve-fight/ch3-tunnel.png",
+        enemyTitle: "СТАЯ · ВОЛНА 2/3 (ТОННЕЛЬ)",
+        enemies: ["Трупный мясник", "Ядовитый ловчий", "Канализационный пёс"],
+        tip: "Этап 2/3 · Токсичный тоннель",
+      },
+      boss: {
+        art: "/stitch-assets/pve-fight/ch3-boss.png",
+        enemyTitle: "СТАЯ · ВОЛНА 3/3 (БОСС)",
+        enemies: ["Чумной Некромант (Маг-Босс)", "Трупный Мясник", "Могильщик-Ассасин"],
+        tip: "Этап 3/3 · Зал Некропса Мора",
+      },
+    },
   },
   4: {
     title: "Призрачный Склеп",
@@ -6891,6 +6962,26 @@ const PVE_LOAD_CHAPTERS = {
       { icon: "⛓", title: "Цепи Склепа", desc: "Приковывает танка на 4 сек" },
       { icon: "🌌", title: "Разлом Пустоты", desc: "Крадет 2 очка энергии (AP)" },
     ],
+    stages: {
+      entrance: {
+        art: "/stitch-assets/pve-fight/ch4-entrance.png",
+        enemyTitle: "СТАЯ · ВОЛНА 1/3 (ВХОД)",
+        enemies: ["Страж кладбищенских врат", "Блуждающий огонёк", "Могильный пёс"],
+        tip: "Этап 1/3 · Вход в призрачный склеп",
+      },
+      tunnel: {
+        art: "/stitch-assets/pve-fight/ch4-tunnel.png",
+        enemyTitle: "СТАЯ · ВОЛНА 2/3 (ТОННЕЛЬ)",
+        enemies: ["Призрачный страж", "Цепной фантом", "Волк пустоты"],
+        tip: "Этап 2/3 · Галерея призрачных колонн",
+      },
+      boss: {
+        art: "/stitch-assets/pve-fight/ch4-boss.png",
+        enemyTitle: "СТАЯ · ВОЛНА 3/3 (БОСС)",
+        enemies: ["Эфирный Владыка (Мистик-Босс)", "Джаггернаут-Страж", "Призрачный Волк"],
+        tip: "Этап 3/3 · Зал Фантома Гула",
+      },
+    },
   },
   5: {
     title: "Имперский Зал",
@@ -6908,8 +6999,44 @@ const PVE_LOAD_CHAPTERS = {
       { icon: "⚖", title: "Суд Инквизиции", desc: "Каст смертоносного вихря (3 сек)" },
       { icon: "🗡", title: "Теневые Стилеты", desc: "Удар в спину вашего лекаря" },
     ],
+    stages: {
+      entrance: {
+        art: "/stitch-assets/pve-fight/ch5-entrance.png",
+        enemyTitle: "СТАЯ · ВОЛНА 1/3 (ВХОД)",
+        enemies: ["Страж имперского бастиона", "Гвардеец у рва", "Сигнальщик ордена"],
+        tip: "Этап 1/3 · Вход в Имперский бастион",
+      },
+      tunnel: {
+        art: "/stitch-assets/pve-fight/ch5-tunnel.png",
+        enemyTitle: "СТАЯ · ВОЛНА 2/3 (ТОННЕЛЬ)",
+        enemies: ["Алебардщик преторианцев", "Волчий часовой", "Инквизитор-палач"],
+        tip: "Этап 2/3 · Зал знамён ордена",
+      },
+      boss: {
+        art: "/stitch-assets/pve-fight/ch5-boss.png",
+        enemyTitle: "СТАЯ · ВОЛНА 3/3 (БОСС)",
+        enemies: ["Верховный Инквизитор (Апекс-Босс)", "Гвардеец с алебардой", "Пёс-Ассасин"],
+        tip: "Этап 3/3 · Тронный зал Генерала Дога",
+      },
+    },
   },
 };
+
+function pveChapterData(chapter = state.pveChapter) {
+  const n = Math.max(1, Math.min(5, Number(chapter) || 1));
+  return PVE_LOAD_CHAPTERS[n] || PVE_LOAD_CHAPTERS[1];
+}
+
+function pveNormalizeStage(stage) {
+  const s = String(stage || "entrance");
+  return PVE_STAGES.includes(s) ? s : "entrance";
+}
+
+function pveStageArt(chapter = state.pveChapter, stage = state.pveStage) {
+  const data = pveChapterData(chapter);
+  const st = pveNormalizeStage(stage);
+  return data.stages?.[st]?.art || `/stitch-assets/pve-fight/ch${Math.max(1, Math.min(5, Number(chapter) || 1))}-entrance.png`;
+}
 
 /** Open PvE campaign load sheet (chapter backdrop), then CreatePvE from «В бой». */
 function openPveLoad() {
@@ -6940,7 +7067,8 @@ function setPveLoadProgress(pct) {
 function applyPveLoadChapter(chapter) {
   const n = Math.max(1, Math.min(5, Number(chapter) || 1));
   state.pveChapter = n;
-  const data = PVE_LOAD_CHAPTERS[n] || PVE_LOAD_CHAPTERS[1];
+  if (!state.pveStage) state.pveStage = "entrance";
+  const data = pveChapterData(n);
   document.querySelectorAll("#viewPveLoad .pve-load-bg").forEach((img) => {
     const ch = Number(img.getAttribute("data-chapter") || 0);
     img.classList.toggle("is-active", ch === n);
@@ -6961,6 +7089,14 @@ function applyPveLoadChapter(chapter) {
   setText("pveLoadBossName", data.bossName);
   setText("pveLoadBossDesc", data.description);
   setText("pveLoadBossTab", `Пит-Босс ${data.bossName}`);
+  // Wave strip = 3 fights per chapter (entrance / tunnel / boss)
+  const waves = document.querySelectorAll("#viewPveLoad .pve-load-waves > span:not(.pve-load-wave-arrow)");
+  if (waves.length >= 3) {
+    waves[0].textContent = PVE_STAGE_META.entrance.wave;
+    waves[1].textContent = PVE_STAGE_META.tunnel.wave;
+    waves[2].textContent = `Пит-Босс ${data.bossName}`;
+    waves[2].id = "pveLoadBossTab";
+  }
   const tip = $("pveLoadTip");
   if (tip) tip.innerHTML = `<strong>Совет Сэнсэя:</strong> ${data.tip}`;
   const grid = $("pveLoadAffixes");
@@ -7049,9 +7185,83 @@ async function pveLoadStart() {
   clearInterval(state.pveLoadTimer);
   state.pveLoadTimer = null;
   state.battleMode = "pve";
+  state.pveStage = pveNormalizeStage(state.pveStage || "entrance");
   const go = $("pveLoadGo");
   if (go) go.textContent = "ВХОД В БОЙ…";
   await startYard(false);
+}
+
+function applyPveFightStage(stage) {
+  const st = pveNormalizeStage(stage);
+  state.pveStage = st;
+  const chapter = Math.max(1, Math.min(5, Number(state.pveChapter) || 1));
+  const data = pveChapterData(chapter);
+  const stageData = data.stages?.[st] || data.stages.entrance;
+  const bg = $("pveFightBg");
+  if (bg) {
+    bg.src = stageData.art || pveStageArt(chapter, st);
+    bg.setAttribute("data-stage", st);
+    bg.setAttribute("data-chapter", String(chapter));
+  }
+  document.querySelectorAll("#viewPveFight .pve-fight-stage-btn").forEach((btn) => {
+    btn.classList.toggle("is-active", btn.getAttribute("data-pve-stage") === st);
+  });
+  const setText = (id, value) => {
+    const el = $(id);
+    if (el) el.textContent = value;
+  };
+  setText("pveFightCampaignTitle", `Уровень ${chapter} · ${data.title}`);
+  setText("pveFightBossBadge", st === "boss" ? `ПИТ-БОСС: ${data.bossName}` : `ЭТАП: ${PVE_STAGE_META[st].label}`);
+  setText("pveFightEnemyTitle", stageData.enemyTitle || `СТАЯ · ВОЛНА`);
+  setText("pveFightEnemy1", stageData.enemies?.[0] || "Враг");
+  setText("pveFightEnemy2", stageData.enemies?.[1] || "Враг");
+  setText("pveFightEnemy3", stageData.enemies?.[2] || "Враг");
+  setText("pveFightStageTip", stageData.tip || PVE_STAGE_META[st].label);
+}
+
+function bindPveFight() {
+  const root = $("viewPveFight");
+  if (!root || root.dataset.bound === "1") return;
+  root.dataset.bound = "1";
+  root.querySelectorAll("[data-pve-stage]").forEach((btn) => {
+    btn.addEventListener("click", () => applyPveFightStage(btn.getAttribute("data-pve-stage")));
+  });
+  root.querySelectorAll(".pve-fight-card").forEach((card) => {
+    card.addEventListener("click", () => card.classList.toggle("is-selected"));
+  });
+  $("pveFightEndTurn")?.addEventListener("click", () => {
+    toast(t("pve.fight.end", "Ход подтверждён · очередь карт (paint)"));
+  });
+  $("pveFightSurrender")?.addEventListener("click", () => {
+    state.battle = null;
+    navigate("yard", { primary: "combat" });
+  });
+  document.addEventListener("keydown", (ev) => {
+    if (logicalViewId() !== "viewPveFight") return;
+    if (ev.target.closest?.("input, textarea")) return;
+    if (ev.code === "Space") {
+      ev.preventDefault();
+      $("pveFightEndTurn")?.click();
+    } else if (ev.code === "Escape") {
+      ev.preventDefault();
+      $("pveFightSurrender")?.click();
+    } else if (ev.code === "Digit1") {
+      applyPveFightStage("entrance");
+    } else if (ev.code === "Digit2") {
+      applyPveFightStage("tunnel");
+    } else if (ev.code === "Digit3") {
+      applyPveFightStage("boss");
+    }
+  });
+}
+
+function renderPveFight() {
+  applyPveFightStage(state.pveStage || "entrance");
+  bindPveFight();
+  // Mirror live battle HUD numbers when sim is present (client paints only).
+  if (state.battle && !state.battle.result) {
+    renderBattle();
+  }
 }
 
 /** Open ranked duel load sheet, then CreatePvP from «В бой». */
@@ -7269,6 +7479,10 @@ function renderAll() {
   }
   if (viewId === "viewPveLoad") {
     renderPveLoad();
+    return;
+  }
+  if (viewId === "viewPveFight" && state.battle && !state.battle.result) {
+    renderPveFight();
     return;
   }
   if (viewId === "viewPvpLoad") {

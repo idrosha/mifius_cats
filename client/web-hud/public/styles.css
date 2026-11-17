@@ -6150,3 +6150,366 @@ body.mythfel-shell > #viewPveLoad.stitch-view:not(.hidden) {
   #viewPveLoad .pve-load-chapters { justify-content: center; }
   #viewPveLoad .pve-load-tip { white-space: normal; }
 }
+
+/* =============================================================================
+ * MF-151 · #viewPveFight — PvE campaign battle (chapter × 3 stages)
+ * Stages: entrance / tunnel / boss. D-025 hide nav/dock. No orientGate (D-036).
+ * ============================================================================= */
+body:has(#viewPveFight:not(.hidden)) #appNav,
+body:has(#viewPveFight:not(.hidden)) #appSubTabs,
+body:has(#viewPveFight:not(.hidden)) #wireDock {
+  display: none !important;
+}
+body.mythfel-shell > #viewPveFight.stitch-view:not(.hidden) {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  background: #110d0b;
+  color: #eae1db;
+}
+#viewPveFight .pve-fight {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  overflow: hidden;
+}
+#viewPveFight .pve-fight-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+#viewPveFight .pve-fight-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: opacity 0.45s ease;
+}
+#viewPveFight .pve-fight-shade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.78) 0%, rgba(0, 0, 0, 0.28) 42%, rgba(0, 0, 0, 0.88) 100%),
+    radial-gradient(ellipse at center, transparent 0%, rgba(0, 0, 0, 0.55) 100%);
+}
+#viewPveFight .pve-fight-head,
+#viewPveFight .pve-fight-arena,
+#viewPveFight .pve-fight-foot {
+  position: relative;
+  z-index: 2;
+}
+#viewPveFight .pve-fight-head {
+  flex: 0 0 auto;
+  padding: 0.55rem 1rem;
+  border-bottom: 1px solid rgba(217, 155, 38, 0.28);
+  background: rgba(31, 27, 24, 0.9);
+  backdrop-filter: blur(8px);
+}
+#viewPveFight .pve-fight-head-row {
+  max-width: 1540px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 0.85rem;
+  align-items: center;
+  justify-content: space-between;
+}
+#viewPveFight .pve-fight-round {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.55rem;
+  border-radius: 0.45rem;
+  background: #2e2926;
+  border: 1px solid rgba(217, 155, 38, 0.35);
+}
+#viewPveFight .pve-fight-round b { color: #fdba45; }
+#viewPveFight .pve-fight-round em { font-style: normal; color: #a4f6a6; font-weight: 700; }
+#viewPveFight .pve-fight-ping {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 999px;
+  background: #fdba45;
+  animation: pveLoadPulse 1.4s ease-in-out infinite;
+}
+#viewPveFight .pve-fight-timer {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  margin-left: 0.35rem;
+  color: #eae1db;
+}
+#viewPveFight .pve-fight-timer .material-symbols-outlined { font-size: 0.95rem; color: #fdba45; }
+#viewPveFight .pve-fight-campaign {
+  font-size: 0.72rem;
+  color: #9d8f7b;
+}
+#viewPveFight .pve-fight-campaign strong { color: #fdba45; margin-left: 0.25rem; }
+#viewPveFight .pve-fight-stages {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem;
+  border-radius: 0.5rem;
+  background: rgba(17, 13, 11, 0.85);
+  border: 1px solid rgba(217, 155, 38, 0.35);
+}
+#viewPveFight .pve-fight-stages-label {
+  font-size: 0.62rem;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #9d8f7b;
+  padding: 0 0.35rem;
+}
+#viewPveFight .pve-fight-stage-btn {
+  border: 0;
+  border-radius: 0.35rem;
+  padding: 0.3rem 0.55rem;
+  font-size: 0.7rem;
+  font-weight: 750;
+  color: #d5c4af;
+  background: transparent;
+  cursor: pointer;
+}
+#viewPveFight .pve-fight-stage-btn:hover { background: #2e2926; }
+#viewPveFight .pve-fight-stage-btn.is-active {
+  background: #fdba45;
+  color: #432c00;
+  box-shadow: 0 0 12px rgba(253, 186, 69, 0.4);
+}
+#viewPveFight .pve-fight-surrender {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  border-radius: 0.45rem;
+  border: 1px solid rgba(255, 180, 171, 0.4);
+  background: rgba(147, 0, 10, 0.35);
+  color: #ffb4ab;
+  font-size: 0.7rem;
+  font-weight: 750;
+  padding: 0.35rem 0.6rem;
+  cursor: pointer;
+}
+#viewPveFight .pve-fight-surrender .material-symbols-outlined { font-size: 0.95rem; }
+#viewPveFight .pve-fight-arena {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.5rem 1rem;
+  max-width: 1540px;
+  width: 100%;
+  margin: 0 auto;
+}
+#viewPveFight .pve-fight-clash {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.55rem;
+  font-size: 0.68rem;
+}
+#viewPveFight .pve-fight-clash > span {
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(57, 52, 48, 0.9);
+  border: 1px solid rgba(253, 186, 69, 0.3);
+  color: #9d8f7b;
+}
+#viewPveFight .pve-fight-clash b { color: #fdba45; }
+#viewPveFight .pve-fight-boss-badge {
+  border-color: rgba(255, 180, 171, 0.45) !important;
+  color: #ffb4a6 !important;
+  background: rgba(147, 0, 10, 0.45) !important;
+}
+#viewPveFight .pve-fight-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+}
+#viewPveFight .pve-fight-side > header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-bottom: 1px solid rgba(253, 186, 69, 0.2);
+  padding-bottom: 0.3rem;
+  margin-bottom: 0.4rem;
+  color: #fdba45;
+}
+#viewPveFight .pve-fight-side.is-enemy > header {
+  color: #ffb4ab;
+  border-color: rgba(255, 180, 171, 0.25);
+}
+#viewPveFight .pve-fight-side > header > span {
+  width: 0.45rem;
+  height: 0.45rem;
+  border-radius: 999px;
+  background: currentColor;
+}
+#viewPveFight .pve-fight-slots {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+#viewPveFight .pve-fight-slot {
+  min-height: 7.5rem;
+  border-radius: 0.75rem;
+  padding: 0.55rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  background: linear-gradient(180deg, rgba(32, 26, 21, 0.85), rgba(17, 13, 11, 0.94));
+  border: 1.5px dashed rgba(217, 155, 38, 0.45);
+  box-shadow: inset 0 0 20px rgba(0, 0, 0, 0.75);
+}
+#viewPveFight .pve-fight-slot.is-enemy {
+  border-color: rgba(231, 76, 60, 0.45);
+  background: linear-gradient(180deg, rgba(36, 18, 16, 0.85), rgba(18, 11, 10, 0.94));
+}
+#viewPveFight .pve-fight-lane {
+  align-self: flex-start;
+  font-size: 0.58rem;
+  font-weight: 850;
+  letter-spacing: 0.06em;
+  padding: 0.12rem 0.35rem;
+  border-radius: 0.3rem;
+  background: rgba(253, 186, 69, 0.15);
+  color: #fdba45;
+  border: 1px solid rgba(253, 186, 69, 0.35);
+}
+#viewPveFight .pve-fight-slot.is-enemy .pve-fight-lane {
+  background: rgba(147, 0, 10, 0.35);
+  color: #ffb4ab;
+  border-color: rgba(255, 180, 171, 0.35);
+}
+#viewPveFight .pve-fight-slot > b {
+  font-size: 0.72rem;
+  color: #eae1db;
+}
+#viewPveFight .pve-fight-slot > em {
+  font-style: normal;
+  font-size: 0.68rem;
+  color: #9d8f7b;
+  margin-top: auto;
+}
+#viewPveFight .pve-fight-foot {
+  flex: 0 0 auto;
+  padding: 0.65rem 1rem;
+  border-top: 2px solid rgba(253, 186, 69, 0.35);
+  background: rgba(17, 13, 11, 0.94);
+  backdrop-filter: blur(10px);
+}
+#viewPveFight .pve-fight-foot-row {
+  max-width: 1540px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  justify-content: space-between;
+}
+#viewPveFight .pve-fight-hand {
+  display: flex;
+  gap: 0.45rem;
+  overflow-x: auto;
+  flex: 1 1 18rem;
+}
+#viewPveFight .pve-fight-card {
+  flex: 0 0 auto;
+  width: 8.5rem;
+  min-height: 5.5rem;
+  border-radius: 0.65rem;
+  border: 2px solid rgba(80, 69, 53, 0.7);
+  background: #2e2926;
+  color: #eae1db;
+  text-align: left;
+  padding: 0.45rem 0.5rem;
+  cursor: pointer;
+  position: relative;
+}
+#viewPveFight .pve-fight-card > b {
+  position: absolute;
+  top: -0.45rem;
+  left: -0.35rem;
+  width: 1.35rem;
+  height: 1.35rem;
+  border-radius: 999px;
+  display: grid;
+  place-items: center;
+  background: #d99b26;
+  color: #432c00;
+  font-size: 0.7rem;
+  border: 2px solid #fdba45;
+}
+#viewPveFight .pve-fight-card strong {
+  display: block;
+  font-size: 0.72rem;
+  color: #fdba45;
+  margin-top: 0.35rem;
+}
+#viewPveFight .pve-fight-card span {
+  display: block;
+  font-size: 0.62rem;
+  color: #9d8f7b;
+  margin-top: 0.2rem;
+}
+#viewPveFight .pve-fight-card.is-selected {
+  border-color: #fdba45;
+  transform: translateY(-0.45rem);
+  box-shadow: 0 0 18px rgba(253, 186, 69, 0.55);
+}
+#viewPveFight .pve-fight-controls {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0.35rem;
+  min-width: 12rem;
+}
+#viewPveFight .pve-fight-ap {
+  font-size: 0.75rem;
+  font-weight: 750;
+  color: #9d8f7b;
+  text-align: right;
+}
+#viewPveFight .pve-fight-ap b { color: #fdba45; font-size: 1rem; }
+#viewPveFight .pve-fight-end {
+  border: 1px solid #ffdeae;
+  border-radius: 0.65rem;
+  padding: 0.7rem 0.9rem;
+  font-weight: 900;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  color: #281900;
+  background: linear-gradient(180deg, #fdba45, #d99b26 55%, #9a6b12);
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(217, 155, 38, 0.45);
+}
+#viewPveFight .pve-fight-end kbd {
+  margin-left: 0.35rem;
+  font-size: 0.62rem;
+  opacity: 0.8;
+}
+#viewPveFight .pve-fight-stage-tip {
+  margin: 0;
+  font-size: 0.65rem;
+  color: #9d8f7b;
+  text-align: right;
+}
+@media (max-width: 900px) {
+  #viewPveFight .pve-fight-grid { grid-template-columns: 1fr; }
+}

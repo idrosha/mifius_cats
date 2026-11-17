@@ -30,6 +30,7 @@ const REQUIRED_VIEWS = [
   "viewFormation",
   "viewYard",
   "viewPveLoad",
+  "viewPveFight",
   "viewPractice",
   "viewPracticeFight",
   "viewBossDungeon",
@@ -127,6 +128,7 @@ const STITCH_SRC = [
   "soon_farm.html",
   "yard.html",
   "pve_load.html",
+  "pve_fight.html",
   "formation.html",
   "battle.html",
   "result_win.html",
@@ -485,6 +487,18 @@ ok(
     /\/pve-load/.test(js) &&
     css.includes("#viewPveLoad"),
   "viewPveLoad missing chapter load form",
+);
+ok(
+  "painted PvE fight chapter×3 stages (MF-151)",
+  html.includes('data-stitch="pve_fight"') &&
+    html.includes("viewPveFight") &&
+    html.includes("pveFightStage3") &&
+    html.includes("/stitch-assets/pve-fight/ch1-entrance.png") &&
+    js.includes("PVE_STAGES") &&
+    js.includes("applyPveFightStage") &&
+    js.includes('pve_fight: "viewPveFight"') &&
+    css.includes("#viewPveFight"),
+  "viewPveFight missing 3-stage chapter form",
 );
 ok(
   "painted guild not placeholder",
