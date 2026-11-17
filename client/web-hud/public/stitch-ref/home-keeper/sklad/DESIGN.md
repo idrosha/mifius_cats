@@ -220,3 +220,53 @@ The interface embraces organic, comfortable silhouettes that feel friendly and c
 - **Frame:** Scrollwork-inspired stone panels flanked by ornate bronze corners.
 - **Title Banner:** Centered `headline-md` encased in a raised amber ribbon.
 - **Close Button:** Prominent circular brass "X" medallion pinned to the upper-right corner for effortless dismissability on compact mobile devices.
+
+### Warehouse · Farm resources & tools (Сырьё / инструменты двора · MF-153)
+
+Icon masters for route `gear` (Склад) filter **Сырьё · Soon** and Market tool SKUs. Art lives under `/barn-icons/`. Soft launch: **design + assets only** — warehouse farm stock stays Soon tip (`D-028`, FULL-SPEC §4.4 / Phase 5+); do not wire live farm/nursery gameplay UI.
+
+**Art rules:** tavern-hearth still life; crop to square card thumb when the master has a fireplace backdrop; warm peat canvas; no neon crypto glow.
+
+#### Tools (расходники рынка · wiki §8.1)
+
+| Asset | RU | SKU / zone | Notes |
+|---|---|---|---|
+| `tool-shovel.png` | Лопата | `tool_shovel` · грядки/сад | Cat-pommel trowel; soil + mint sprouts |
+| `tool-axe.png` | Топор | `tool_axe` · лесопилка | Tree-engraved hatchet in stone |
+| `tool-pick.png` | Кирка | `tool_pick` · рудник/карьер | Dual-point pick on forge block |
+| `tool-rod.png` | Удочка | рыбная заводя (+ `bait_basic`) | Paw-handle rod + catch sparkles |
+
+Wear ≈ **7 дней** активного тика; ремонт `tool_repair_kit` / scrap (wiki §2).
+
+#### Resources (добыча двора · wiki §2)
+
+| Asset | RU | Day min (visit) | Sink |
+|---|---|---|---|
+| `wood.png` | Дерево / брёвна | 2–3 | кузня / крафт |
+| `iron.png` | Железо / слитки | 2 | кузня / ремонт tools |
+| `stone.png` | Камень (мшистый гранит) | — | карьер → кузня |
+| `veggies.png` | Овощи | ~1 ведро | алхимия «еда» |
+| `fruit.png` | Фрукты | ~1 ведро | алхимия |
+| `herbs.png` | Травы | ~1 ведро | алхимия / мята |
+| `fish.png` | Рыба (связка) | 3 / день | сытость ферм-котов |
+| `seeds.png` | Семена | buy Market | грядки / autofarm |
+| `milk.png` | Молоко Очага | Tavern | post-fight HP (не ranked buff) |
+
+#### Alchemy bottles (зелья · warehouse Soon)
+
+Split singles for Phase 6 alchemy shelf; keep `potions.png` as category row until live craft.
+
+| Asset | RU hint | Hue |
+|---|---|---|
+| `potion-mana.png` | Мана / вода | mineral teal-blue |
+| `potion-nature.png` | Природа / рост | leaf green + leaf wax seal |
+| `potion-ember.png` | Огонь / жар | amber-orange + lion «S» seal |
+
+#### Warehouse chrome (не mats)
+
+| Asset | Use |
+|---|---|
+| `seal-paw.png` | Brand / inspect badge (paw runestone) |
+| `seal-warehouse.png` | Capacity / «амбар» badge (hex shield tablet) |
+
+**HUD paths:** `/barn-icons/<file>.png`. Source pack: project media `warehouse-icons-v2/` (+ `17–25` tools/potions/seals) and `warehouse-farm-tools/`.

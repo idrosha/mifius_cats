@@ -236,3 +236,14 @@ Gold standard for **Тренировка** lobby matchup + **practice_fight** en
 - **Selected-squad grand cards (lobby bottom):** large full-bleed hero cards (≈⅓ stage each) — *not* dummy size; dummies stay in the top matchup strip only.
 
 **Card chrome:** dark peat body `#1a1613`, thin `outline-variant` border, bottom gradient scrim, mini HP pip + role label under the frame (`Танк Т1` / `Боец Т1` / `Саппорт Т1`). Total pool caption: **230,000 HP**.
+
+### Warehouse · Farm resources & tools (Сырьё / инструменты двора · MF-153)
+
+Masters for Склад (`gear`) farm/Soon shelf + Market tool SKUs. Live paths: `/barn-icons/`. Soft launch = **art + DESIGN only** — no live farm/nursery stock UI (`D-028`, §4.4 / Phase 5+). Full tables: `design/stitch-ref/home-keeper/sklad/DESIGN.md`.
+
+| Kind | Files |
+|---|---|
+| **Tools** | `tool-shovel.png` · `tool-axe.png` · `tool-pick.png` · `tool-rod.png` |
+| **Resources** | `wood` · `iron` · `stone` · `veggies` · `fruit` · `herbs` · `fish` · `seeds` · `milk` |
+| **Alchemy Soon** | `potion-mana` · `potion-nature` · `potion-ember` (+ row `potions.png`) |
+| **Chrome** | `seal-paw.png` · `seal-warehouse.png` |
