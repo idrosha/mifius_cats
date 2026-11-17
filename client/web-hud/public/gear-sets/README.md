@@ -2,7 +2,7 @@
 
 Slot model: **helm · armor · cloak · boots · weapon · shield(offhand) · belt · ring**.
 
-Combat scale (tank HP=50, card hit ≈5–6): armor → flat **DEF/HP**; weapons → modest **ATK +2…+4**.
+Combat scale (tank HP=50, card hit ≈5–6): armor → flat **DEF/HP**; weapons → modest **ATK +2…+4**; rings → modest HP/DEF (+ optional ATK/SPD/crit).
 
 ## Armor (5/5 totals)
 | Set | Rank | DEF | HP | ATK | 3+ set |
@@ -15,6 +15,18 @@ Combat scale (tank HP=50, card hit ≈5–6): armor → flat **DEF/HP**; weapons
 | red | R6 | +14 | +16 | +2 | +2 HP |
 
 Armor pieces: all heroes. Use `equipArmorSet(catId, setId)` in HUD stub.
+
+## Rings (all heroes, `roles: null`)
+| id | Set | Bonuses |
+|---|---|---|
+| grey_ring | grey | +1 HP · +1 DEF |
+| green_ring | green | +1 HP · +1 DEF · +1 SPD |
+| turquoise_ring | turquoise | +2 HP · +1 DEF |
+| yellow_ring | yellow | +1 ATK · +1 HP · +1 DEF |
+| purple_ring | purple | +1 ATK · +1 HP · +1 DEF · +1 crit |
+| red_ring | red | +1 ATK · +2 HP · +1 DEF |
+
+Thumbs: `thumbs/*-ring.png`. Full art: Project `media/gear-rings/`.
 
 ## Class weapons (ATK band)
 | Class | Kit | ATK |
