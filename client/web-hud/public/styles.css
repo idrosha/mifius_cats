@@ -3212,10 +3212,9 @@ body:has(#viewPvpVictory:not(.hidden)) #app { height: 100dvh !important; max-hei
 }
 .battle-load-figure.is-ally figcaption { border-color: rgba(253, 186, 69, 0.4); }
 .battle-load-figure.is-enemy figcaption { border-color: rgba(239, 138, 120, 0.45); }
+/* Practice load art is a painted 3v3 cinematic — no roster / hero-card overlay (MF-158). */
 #viewPractice > .dojo-load .battle-load-roster {
-  top: 22%;
-  bottom: 22%;
-  z-index: 3;
+  display: none !important;
 }
 #viewPractice > .dojo-load .battle-load-vs-gap { display: none; }
 
