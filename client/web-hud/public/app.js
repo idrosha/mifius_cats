@@ -1071,6 +1071,10 @@ function frontsAddressOpen() {
   return normalizedPath() === "/fronts";
 }
 
+function pveAddressOpen() {
+  return normalizedPath() === "/pve";
+}
+
 function pvpLoadAddressOpen() {
   return normalizedPath() === "/pvp-load";
 }
@@ -1091,6 +1095,7 @@ function screenAddressFor(tab) {
   if (tab === "breeding") return "/breeding";
   if (tab === "trade_hub") return "/square";
   if (tab === "battle_hub") return "/fronts";
+  if (tab === "yard" || tab === "pve") return "/pve";
   if (tab === "pvp_load") return "/pvp-load";
   if (tab === "codex" || tab === "knowledge") return "/codex";
   if (tab === "login") return "/home";
@@ -1662,13 +1667,17 @@ function renderHub() {
 }
 
 function renderYard() {
-  $("yardEyebrow").textContent = t("hub.tab.yard");
-  $("yardTitle").textContent = t("hub.tab.yard");
-  $("yardLead").textContent = `${t("mythmir.mission_list", "Список миссий")} · ${state.selectedStageId}`;
+  const eyebrow = $("yardEyebrow");
+  const title = $("yardTitle");
+  const lead = $("yardLead");
+  if (eyebrow) eyebrow.textContent = t("hub.tab.yard");
+  if (title) title.textContent = t("hub.tab.yard");
+  if (lead) lead.textContent = `${t("mythmir.mission_list", "Список миссий")} · ${state.selectedStageId}`;
   renderStarters("starterCards");
   renderMythmirMissions();
   renderUnlockProgress();
   const banner = $("tutorialBanner");
+  if (!banner) return;
   if (state.tutorial) {
     banner.classList.remove("hidden");
     const stepKey =
@@ -1685,6 +1694,75 @@ function renderYard() {
   } else {
     banner.classList.add("hidden");
   }
+}
+
+/** Painted PvE campaign hub (viewYard) — D-025: no menu chrome; CTAs only. */
+function bindYardForm() {
+  const start = $("btnYardStartBattle");
+  if (start && !start.dataset.bound) {
+    start.dataset.bound = "1";
+    start.addEventListener("click", () => {
+      state.battleMode = "pve";
+      startYard(false);
+    });
+  }
+  const toForm = $("btnYardToFormationPainted");
+  if (toForm && !toForm.dataset.bound) {
+    toForm.dataset.bound = "1";
+    toForm.addEventListener("click", () => navigate("formation"));
+  }
+  const team = $("btnYardTeamPreset");
+  if (team && !team.dataset.bound) {
+    team.dataset.bound = "1";
+    team.addEventListener("click", () => {
+      toast(t("yard.team.tip", "Смена отряда · открой Расстановку"));
+      navigate("formation");
+    });
+  }
+  const diffN = $("btnYardDiffNormal");
+  const diffH = $("btnYardDiffHeroic");
+  if (diffN && diffH && !diffN.dataset.bound) {
+    diffN.dataset.bound = "1";
+    diffH.dataset.bound = "1";
+    const paint = (heroic) => {
+      diffN.className = heroic
+        ? "px-space-md py-1 rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all flex items-center gap-1"
+        : "px-space-md py-1 rounded font-label-md text-label-md bg-primary-container text-on-primary font-bold shadow-sm flex items-center gap-1";
+      diffH.className = heroic
+        ? "px-space-md py-1 rounded font-label-md text-label-md bg-tertiary-container text-on-tertiary shadow-sm font-bold flex items-center gap-1 transition-all"
+        : "px-space-md py-1 rounded font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all flex items-center gap-1";
+    };
+    diffN.addEventListener("click", () => {
+      paint(false);
+      toast(t("yard.diff.normal", "Обычный режим"));
+    });
+    diffH.addEventListener("click", () => {
+      paint(true);
+      toast(t("yard.diff.heroic", "Героический · Soon (stub)"));
+    });
+  }
+  // Map node pins: first unlocked fights tip; locked → gate tip
+  document.querySelectorAll("#viewYard .pve-yard-hub .group.cursor-pointer").forEach((pin, i) => {
+    if (pin.dataset.bound) return;
+    pin.dataset.bound = "1";
+    pin.addEventListener("click", () => {
+      const nodes = state.campaign?.nodes || [];
+      const fight = nodes[0]?.fights?.[i] || nodes[i]?.fights?.[0];
+      if (!fight) {
+        toast(t("yard.node.stub", "Узел кампании (paint)"));
+        return;
+      }
+      const unlocked = isFightUnlocked(nodes[0]?.stageIndex || 1, fight.fightIndex || i + 1);
+      if (!unlocked) {
+        showGateTip();
+        return;
+      }
+      state.selectedStageId = fight.stageId;
+      state.battleMode = "pve";
+      toast(t(fight.label_key, fight.label_ru || fight.stageId));
+      renderYard();
+    });
+  });
 }
 
 function renderUnlockProgress() {
@@ -6897,6 +6975,7 @@ function renderAll() {
       break;
     case "yard":
       renderYard();
+      bindYardForm();
       break;
     case "formation":
       renderFormation();
@@ -8419,6 +8498,7 @@ function wireButtons() {
     startYard(true);
   });
   $("btnYardToFormation").addEventListener("click", () => navigate("formation"));
+  bindYardForm();
   $("btnFormationBattle").addEventListener("click", () => startYard(false));
   $("btnFormationYard").addEventListener("click", () => navigate("yard"));
   $("btnFormationTavern").addEventListener("click", () => navigate("tavern"));
@@ -8551,6 +8631,7 @@ function bootTabAfterLogin() {
   if (breedingAddressOpen()) return "breeding";
   if (squareAddressOpen()) return "trade_hub";
   if (frontsAddressOpen()) return "battle_hub";
+  if (pveAddressOpen()) return "yard";
   if (pvpLoadAddressOpen()) return "pvp_load";
   if (codexAddressOpen()) return "codex";
   return "pass";
