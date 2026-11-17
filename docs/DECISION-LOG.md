@@ -34,6 +34,26 @@ Append-only. Новые записи — **сверху** (после шабло
 
 ---
 
+## D-036 · 2026-11-17 · Web HUD телефон = только landscape
+
+- **Status:** Accepted
+- **Area:** hud
+- **SSOT:** docs/FULL-SPEC.md §6 (адаптив); none (механика боя)
+- **Owner:** Andrew / web-hud (MF-145)
+
+### Context
+На soft-launch phone UI не должен быть portrait-first. Prefs уже фиксировали: телефон — горизонтально; портрет — rotate gate. Нужен locked id, чтобы агенты не плодили portrait media queries / второй «mobile shell».
+
+### Decision
+Web HUD на **телефоне** — только **landscape** (~16:9, цели ≈844×390 / 812×375). В phone portrait — **rotate gate**, не playable portrait UI. Это адаптация того же wide web-hud, **не** отдельный mobile/tablet shell (`D-012` остаётся: native/отдельные шеллы — после wide web). Меню/subtabs IA не менять (`D-025` / `D-033`). Реализация CSS/gate — **MF-145** (не дублировать в design-load задачах).
+
+### Consequences
+- Design-load / screen import: формы landscape; не писать portrait-first layout и не трогать `#appNav` / `#appSubTabs` chrome.
+- QA smoke phone: landscape viewport; portrait → gate.
+- Follow-up CSS только у MF-145 owner, пока задача открыта.
+
+---
+
 ## D-034 · 2026-11-17 · Practice lobby: танк всегда справа
 
 - **Status:** Accepted

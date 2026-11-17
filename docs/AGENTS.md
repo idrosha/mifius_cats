@@ -41,8 +41,8 @@
 ### 2b. `web-hud` — тонкий browser HUD (soft-launch тест)
 - **Читает:** `client/web-hud/`, `docs/nav-ia.md`, prefs UI/Stitch; §6 только как IA  
 - **Пишет:** `client/web-hud/**`; smoke-заметки в Project `internal/`  
-- **Скилл:** `docs/skills/web-hud.md`  
-- **Не трогает:** Unity; не поднимает HUD без явной команды Andrew; не делает полный Stitch-реимпорт (роль `stitch`)
+- **Скилл:** `docs/skills/web-hud.md` · загрузка новых дизайнов экранов → `docs/skills/hud-design-load.md`  
+- **Не трогает:** Unity; меню/subtabs IA (`D-025`); portrait/orientGate CSS (MF-145 / `D-036`); не поднимает HUD без явной команды Andrew; не делает полный Stitch-реимпорт (роль `stitch`)
 
 ### 3. `backend` — Nakama + economy RPC
 - **Читает:** §5, §7.5, §8.1, §8.3, §4, §11; §0 кросс-плей  
@@ -102,6 +102,7 @@
 SSOT: docs/FULL-SPEC.md
 Секции: §...
 Скилл: docs/skills/<role>.md
+  (design-load экранов: + docs/skills/hud-design-load.md; D-025 меню; D-036 phone landscape → MF-145)
 Сделать: <1 результат>
 Не делать: <границы + anti-overlap из docs/agents-export.md>
 DoD: <проверка из §13 или тест>
