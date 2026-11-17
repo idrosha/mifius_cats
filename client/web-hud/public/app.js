@@ -6615,9 +6615,6 @@ function renderPracticeFight() {
     }
   }
   // Enemy header strip (desktop): PvE faction vs dojo dummies.
-  const enemyHead = document.querySelector("#viewPracticeFight .pf-arena")?.previousElementSibling
-    ? null
-    : null;
   const headTier = document.querySelector("#viewPracticeFight .font-headline-md.text-label-lg.text-tertiary");
   const headSub = headTier?.parentElement?.querySelector(".font-body-sm");
   if (headTier) {
