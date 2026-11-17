@@ -12,6 +12,22 @@ Append-only. Новые записи — **сверху** (после шабло
 6. Одна запись = одно решение. Не смешивать баланс и IA в одном D-id.
 7. В коде/доках ссылайся `D-0xx`, не копируй абзац Context.
 
+## D-040 · 2026-11-17 · Sprite facing: герои вправо, враги влево
+
+- **Status:** Accepted
+- **Area:** hud
+- **SSOT:** docs/FULL-SPEC.md §6 (презентация)
+- **Owner:** Andrew / web-hud (MF-170)
+
+### Context
+Арт cutout/портретов смотрит в разные стороны. В бою союзники слева / враги справа должны смотреть к центру. На остальных формах котики всегда вправо, манекены и PvE-монстры — влево. Старый путь `.battle-load-figure.is-enemy img { scaleX(-1) }` зеркалил всех врагов на load (ломая PvP-котов и уже «левых» манекенов) и не покрывал live fight.
+
+### Decision
+Locked type-facing: **cat heroes → right**; **practice dummies + PvE monsters/soldiers/pitbosses → left** on every form. Implement via one helper (`applySpriteFacing` / `spriteFaceHtml`) + CSS `.mf-sprite-face.is-flipped` (`scaleX(-1)` on a wrapper so MF-149 idle breathe on `img` still works). Flip only when native art face ≠ desired (`ART_NATIVE_FACE_LEFT`). Cutouts without BG stay fight-only (`D-037`); framed portraits only flip facing. Do not change `#appNav` / `#appSubTabs` (`D-025`).
+
+### Consequences
+Practice/PvE boards look toward center. PvP enemy cats stay facing right (they are cats). New assets: add to `ART_NATIVE_FACE_LEFT` only if authored facing left.
+
 ## Шаблон (копировать)
 
 ```markdown
