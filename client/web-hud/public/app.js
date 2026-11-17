@@ -1755,13 +1755,13 @@ function selectPveChapter(chapter, { toastPick = true, requireUnlock = false } =
     showGateTip(t("yard.chapter.locked", "Глава ещё закрыта · зачисти предыдущую"));
     return false;
   }
-  const prev = Number(state.pveChapter) || 1;
   state.battleMode = "pve";
   state.pveChapter = ch;
-  if (prev !== ch) resetPveCarryAlive();
-  const { fight, stage } = pickChapterFight(ch);
-  state.pveStage = stage;
-  state.selectedStageId = fight?.stageId || pveStageId(ch, stage);
+  // D-039 · every map launch is a full 3-wave run (soldiers → soldiers → pitboss).
+  // Do not resume mid-chapter via clearedFights — that skipped wave 2 and put the boss on "wave 2".
+  state.pveStage = "entrance";
+  state.selectedStageId = pveStageId(ch, "entrance");
+  resetPveCarryAlive();
   if (toastPick) {
     const node = campaignNode(ch);
     const title = node?.title_ru || pveChapterData(ch).title || `Глава ${ch}`;
@@ -5632,6 +5632,8 @@ function bindPveVictory() {
   $("pveVicAgain")?.addEventListener("click", () => {
     clearBattle();
     state.battleMode = "pve";
+    state.pveStage = "entrance";
+    state.selectedStageId = pveStageId(state.pveChapter, "entrance");
     resetPveCarryAlive();
     openPveLoad();
   });
@@ -5642,20 +5644,12 @@ function bindPveVictory() {
   });
   $("pveVicNext")?.addEventListener("click", () => {
     clearBattle();
+    // After pitboss: back to Mythmir map — not the next fight/chapter load.
     state.battleMode = "pve";
-    // Advance stage within chapter, then chapter on boss clear (paint flow).
-    const order = PVE_STAGES;
-    const idx = order.indexOf(pveNormalizeStage(state.pveStage));
-    if (idx >= 0 && idx < order.length - 1) {
-      state.pveStage = order[idx + 1];
-      // Living cats keep carryAlive; dead stay dead until chapter ends.
-    } else {
-      state.pveStage = "entrance";
-      state.pveChapter = Math.min(5, (Number(state.pveChapter) || 1) + 1);
-      resetPveCarryAlive();
-    }
-    state.selectedStageId = pveStageId(state.pveChapter, state.pveStage);
-    openPveLoad();
+    state.pveStage = "entrance";
+    state.selectedStageId = pveStageId(state.pveChapter, "entrance");
+    resetPveCarryAlive();
+    navigate("yard", { primary: "combat" });
   });
   document.addEventListener("keydown", (ev) => {
     if (logicalViewId() !== "viewPveVictory") return;
@@ -7055,18 +7049,26 @@ function renderBattle() {
   }
 }
 
+/** mythmir_{ch}_f{1|2|3} → 1..3 (source of truth for wave advance). */
+function pveFightNum(stageId = state.selectedStageId) {
+  const m = String(stageId || "").match(/_f([123])$/);
+  return m ? Number(m[1]) : 1;
+}
+
 /** D-039 · after f1/f2 win, CreatePvE next wave with carryAlive (no victory screen). */
 async function advancePveWaveAfterWin() {
-  const st = pveNormalizeStage(state.pveStage);
-  const idx = PVE_STAGES.indexOf(st);
-  if (idx < 0 || idx >= PVE_STAGES.length - 1) {
+  const f = pveFightNum(state.selectedStageId);
+  if (f >= 3) {
     state.pveAdvancingWave = false;
     return false;
   }
   state.pveAdvancingWave = true;
-  const next = PVE_STAGES[idx + 1];
+  const ch = Math.max(1, Math.min(5, Number(state.pveChapter) || 1));
+  const nextF = f + 1;
+  const next = nextF === 2 ? "tunnel" : "boss";
+  state.pveChapter = ch;
   state.pveStage = next;
-  state.selectedStageId = pveStageId(state.pveChapter, next);
+  state.selectedStageId = `mythmir_${ch}_f${nextF}`;
   state.battle = null;
   state.lastResult = null;
   const waveLabel = PVE_STAGE_META[next]?.wave || next;
@@ -7115,7 +7117,7 @@ async function applyDiff(diff, note = "") {
     !!diff?.result &&
     diff.result === "p1_win" &&
     state.battleMode === "pve" &&
-    pveNormalizeStage(state.pveStage) !== "boss";
+    pveFightNum(state.selectedStageId) < 3;
   if (diff.result) {
     // Mid-chapter wave wins skip victory view — lastResult stays null until pitboss.
     if (!midChapterPveWin) {
@@ -7744,9 +7746,10 @@ async function pveLoadStart() {
   clearInterval(state.pveLoadTimer);
   state.pveLoadTimer = null;
   state.battleMode = "pve";
-  state.pveStage = pveNormalizeStage(state.pveStage || "entrance");
-  state.selectedStageId = pveStageId(state.pveChapter, state.pveStage);
-  if (state.pveStage === "entrance") resetPveCarryAlive();
+  // Always wave 1 from load CTA; f2/f3 only via in-fight auto-advance (pitboss = f3 only).
+  state.pveStage = "entrance";
+  state.selectedStageId = pveStageId(state.pveChapter, "entrance");
+  resetPveCarryAlive();
   if (pveFatigueActive()) {
     // SL stub: tip only — do not hard-block when pve_fatigue_stub=true (D-039).
     toast(t("pve.fatigue.active", "Отряд устал (stub) · можно идти в бой; LiveOps pve_fatigue_stub"));
