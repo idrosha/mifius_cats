@@ -208,7 +208,8 @@ UI name: **Мифмир** (кампания / карта). Route id `yard` / `Ya
 
 ### §4.2 Дуэли
 Unranked/points. Unlock after `pve_unlock_n=3` успешных **PvE или practice** боёв. Cost: 1 pvp ticket.  
-Practice: отдельный экран «Тренировочный лагерь» (`practice`).
+Practice: отдельный экран «Тренировочный лагерь» (`practice`).  
+**HUD paint (LOCKED `D-034`):** в лобби/победе строй рисуется **слева→направо** как тыл · центр · авангард (**танк справа**). Симуляторные `lane 0..2` остаются фронт→тыл (§2.1); `CreatePvE.team` = sim-порядок, не зеркало UI.
 
 ### §4.3 Арена
 Season 28 days. Rating. Same anti-P2W. Soft-cap pendant/bow rarity optional via LiveOps.
