@@ -3316,12 +3316,12 @@ const DUMMY_NATIVE_FACE_LEFT = new Set([
 ]);
 // Only assets authored aiming/looking LEFT. Default native = RIGHT → flip for desired left.
 // Do NOT list: ranger-a, tank-b, wolf-tank/pitboss (shield/glow RIGHT → flip).
-// fighter-h is near-FRONT — ch1 uses fighter-b instead (RIGHT→flip LEFT).
-// Ch3 redd-* cutouts are pixel-authored LEFT (tank/fighter re-baked) — list all four so
-// CSS scaleX does not mirror them away from the cats (Andrew: все монстры смотрят налево).
+// fighter-h (ch1 Пёс-задира) re-baked pixel-LEFT + listed — lock so CSS never mirrors it away
+// (Andrew: боец смотрел направо). Ch3 redd-* same bake+list pattern.
 const MONSTER_NATIVE_FACE_LEFT = new Set([
   "assassin-b",
   "fighter-f",
+  "fighter-h",
   "redd-tank-cutout",
   "redd-fighter-cutout",
   "redd-support-cutout",
