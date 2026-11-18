@@ -86,6 +86,44 @@ func TestCh2Pitboss_PrefersBacklineOverChipHeal(t *testing.T) {
 	}
 }
 
+// Heavy chip: healers still urgent, but must leave energy so pitboss leaps at least once.
+func TestCh2Pitboss_AttacksDespiteUrgentHeals(t *testing.T) {
+	cat, err := content.LoadCatalog(contentRoot(t))
+	if err != nil {
+		t.Fatal(err)
+	}
+	team := []string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}
+	b, err := mode.CreatePvE(cat, "ch2_leap_urgent", "mythmir_2_f3", 99, team, nil, nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	var boss *sim.Unit
+	for _, u := range b.Units {
+		if u.Side == sim.SideP2 && strings.Contains(u.ID, "pitboss") {
+			boss = u
+			u.HP = u.MaxHP / 2 // miss ≥ 12 — urgent heal path
+		}
+	}
+	if boss == nil {
+		t.Fatal("missing ch2 pitboss")
+	}
+	if err := b.SubmitAction(sim.Action{Kind: sim.ActionEndTurn}); err != nil {
+		t.Fatal(err)
+	}
+	if err := b.AdvancePvEBots(); err != nil {
+		t.Fatal(err)
+	}
+	bossHits := 0
+	for _, ev := range b.Events {
+		if ev.Kind == "hit" && ev.SourceID == boss.ID {
+			bossHits++
+		}
+	}
+	if bossHits < 1 {
+		t.Fatalf("want ≥1 pitboss hit this P2 turn despite urgent heals, got %d events=%d", bossHits, len(b.Events))
+	}
+}
+
 func TestAdvancePvEBots_PvPSmoke_AfterEndTurn_ReturnsToP1(t *testing.T) {
 	cat, err := content.LoadCatalog(contentRoot(t))
 	if err != nil {

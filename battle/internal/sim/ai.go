@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"sort"
+	"strings"
 
 	"github.com/idrosha/mir_games/battle/internal/content"
 )
@@ -61,6 +62,50 @@ func enemyHasLivingSupport(b *Battle, side Side) bool {
 	return false
 }
 
+func isPitbossUnit(u *Unit) bool {
+	return u != nil && strings.Contains(u.ID, "pitboss")
+}
+
+// pitbossCanAffordAttack — living pitboss has a playable attack at ≤ energy.
+func pitbossCanAffordAttack(b *Battle, side Side, energy int, skip map[string]bool) bool {
+	for _, u := range b.living(side) {
+		if !isPitbossUnit(u) || u.hasStatus("stun") || u.hasStatus("sleep") {
+			continue
+		}
+		for hi, cardIdx := range u.Hand {
+			key := fmt.Sprintf("%s#%d", u.ID, hi)
+			if skip != nil && skip[key] {
+				continue
+			}
+			card := u.Deck[cardIdx]
+			if card.Atk <= 0 || card.Cost > energy {
+				continue
+			}
+			if actorClawBlocksRuffle(u, card.Tags) {
+				continue
+			}
+			targets := b.SelectTargets(u, card.TargetRule, "", hasTag(card.Tags, "ambush"))
+			if needsTarget(card.TargetRule) && len(targets) == 0 {
+				continue
+			}
+			return true
+		}
+	}
+	return false
+}
+
+// healWouldStarvePitboss — spending healCost would leave the pitboss unable to attack
+// while it still could with current energy (Andrew: ch2 boss idle while healers spend all E).
+func healWouldStarvePitboss(b *Battle, side Side, energy, healCost int, skip map[string]bool) bool {
+	if healCost > energy {
+		return false
+	}
+	if !pitbossCanAffordAttack(b, side, energy, skip) {
+		return false
+	}
+	return !pitbossCanAffordAttack(b, side, energy-healCost, skip)
+}
+
 // ChooseAction — deterministic scripted-deck AI for PvE bots (and optional auto-play).
 // Prefers: affordable attack cards by atk desc, then shield/heal, else end turn.
 func (b *Battle) ChooseAction() Action {
@@ -112,10 +157,12 @@ func (b *Battle) chooseActionSkipping(skip map[string]bool) Action {
 					p += 45
 				}
 			} else if u.Role == "support" && isHealCard(card) && allyNeedsHeal(b, side) {
-				// Support healers must heal (ch2/ch4/ch5). On ch2 wolf pitboss wave only:
-				// chip top-ups must not eat energy before backline leaps (Andrew: boss stood idle).
+				// Support healers must heal (ch2/ch4/ch5), but never spend the last energy
+				// a living pitboss needs for an attack (D-042 — Лютый Клык / heal packs).
 				miss := maxAllyMissingHP(b, side)
-				if b.StageID == "mythmir_2_f3" && miss < 12 {
+				starve := healWouldStarvePitboss(b, side, ps.Energy, card.Cost, skip)
+				chipSoft := b.StageID == "mythmir_2_f3" && miss < 12
+				if starve || chipSoft {
 					p = 55 + healAmount(card) // below attacks (~100+)
 				} else {
 					p = 160 + healAmount(card)
