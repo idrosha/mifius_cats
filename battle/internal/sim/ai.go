@@ -37,12 +37,19 @@ func healAmount(card content.CardDef) int {
 }
 
 func allyNeedsHeal(b *Battle, side Side) bool {
+	return maxAllyMissingHP(b, side) > 0
+}
+
+// maxAllyMissingHP — largest MaxHP−HP among living allies (0 if full).
+func maxAllyMissingHP(b *Battle, side Side) int {
+	max := 0
 	for _, u := range b.living(side) {
-		if u.HP < u.MaxHP {
-			return true
+		miss := u.MaxHP - u.HP
+		if miss > max {
+			max = miss
 		}
 	}
-	return false
+	return max
 }
 
 func enemyHasLivingSupport(b *Battle, side Side) bool {
@@ -105,8 +112,14 @@ func (b *Battle) chooseActionSkipping(skip map[string]bool) Action {
 					p += 45
 				}
 			} else if u.Role == "support" && isHealCard(card) && allyNeedsHeal(b, side) {
-				// Support healers must actually heal (ch2/ch4/ch5 boss waves). Other roles unchanged.
-				p = 160 + healAmount(card)
+				// Support healers must heal (ch2/ch4/ch5). On ch2 wolf pitboss wave only:
+				// chip top-ups must not eat energy before backline leaps (Andrew: boss stood idle).
+				miss := maxAllyMissingHP(b, side)
+				if b.StageID == "mythmir_2_f3" && miss < 12 {
+					p = 55 + healAmount(card) // below attacks (~100+)
+				} else {
+					p = 160 + healAmount(card)
+				}
 			} else if card.Shield > 0 {
 				p = 50 + card.Shield
 			} else {

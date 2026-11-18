@@ -42,7 +42,7 @@ Shop assassin poison cards наследуют тот же стек. Wiki/HUD tip
 Зафиксировать f3-расстановки (sim lane 0=фронт→2=тыл): **1** соло-босс центр + pierce (пустые фланги `empty_lane`); **2** босс фронт + 2 хила; **3** танк·босс·танк; **4** 2 poison-убийцы + некромант-тыл; **5** танк·рубящий босс·хил. AI support предпочитает heal по раненым; P1 AutoPlay смещает приоритет на `backline`, если жив вражеский support. Wiki + layout/clear tests обновлены.
 
 ### Consequences
-HUD не рисует `empty_lane` (класс `.hidden` — Tailwind `flex` иначе оставляет «пёс отдыхает»). Clear на стартерах — CI-гейт **по каждому уровню** на полном tank·DPS·heal (attrition carry отдельно). Солдаты: высокий HP + щиты танков, ATK↑ с гл.3–4 — без хила/танка больно (retune 2026-11-18 #2).
+HUD не рисует `empty_lane` (класс `.hidden` — Tailwind `flex` иначе оставляет «пёс отдыхает»). Clear на стартерах — CI-гейт **по каждому уровню** на полном tank·DPS·heal (attrition carry отдельно). Солдаты: высокий HP + щиты танков, ATK↑ с гл.3–4 — без хила/танка больно (retune 2026-11-18 #2). Ch1 fighter art = `fighter-h` (не `fighter-b`/ch3). Ch2: chip-heal на `mythmir_2_f3` не съедает энергию до прыжков босса.
 
 ## D-041 · 2026-11-18 · Fatality overlay: вид цели, не всегда «котик»
 
