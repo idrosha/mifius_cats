@@ -178,7 +178,13 @@ func (b *Battle) tickStatuses(side Side) {
 		kept := u.Statuses[:0]
 		for _, s := range u.Statuses {
 			switch s.ID {
-			case "poison", "bleed":
+			case "poison":
+				// D-043: permanent stack DoT — tick for stacks, then +1; never expires (cleanse/mint only).
+				b.applyHit(nil, u, s.Stacks, false, false, false, false)
+				s.Stacks++
+				kept = append(kept, s)
+				continue
+			case "bleed":
 				b.applyHit(nil, u, s.Stacks, false, false, false, false)
 			}
 			if s.Duration > 0 {

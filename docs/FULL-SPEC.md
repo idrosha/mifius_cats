@@ -180,16 +180,19 @@ Unused energy не переносится. Unused cards не переносят�
     затем nearer lane к актёру → меньший id.  
   - `backline`: приоритет тыла — `support` → `ranger` → `mage` → `assassin` → `fighter` → `tank`;  
     затем больший lane → nearer к актёру → id.  
-  - Прочие: `self`, `ally_lowest_hp`, `ally_all`, `all_enemies`, `lowest_hp`.  
+  - Прочие: `self`, `ally_lowest_hp`, `ally_all`, `all_enemies`, `lowest_hp`, `random_enemy`.  
+  - `random_enemy` (LOCKED `D-043`): seeded pick среди живых врагов (после stealth-filter); **taunt не редиректит** — нужен для spread DoT (яд убийц).  
   - Теги урона: `crit` → **×2** dmg (player wiki / MF-59; было ×1.5 SL stub); `pierce` / статус `fragile` → урон игнорит shield. Freeze = `stun` 1 ход. AoE вторичные цели = **50%** hit. Life drain / in-fight HP refresh запрещены (короткий PvP). Свод чисел: `docs/game-wiki.md`.  
-  - Overrides: `taunt` принуждает цель; `stealth` скрывает от обычного таргета; `ambush` (тег карты) обходит stealth.
+  - Overrides: `taunt` принуждает цель (кроме `random_enemy`); `stealth` скрывает от обычного таргета; `ambush` (тег карты) обходит stealth.
   - **UX атаки в тыл (LOCKED):** когда дроп/добор даёт карту с доступом к дальним/тыловым врагам (`targetRule: backline`, тег `backline` / тыл / rear / support targeting — лучники, маги, ассасины с прыжком/ударом и т.п.), игрок **обязан вытянуть карту из руки и навести её на выбранного героя**; без вытягивания и прицела карта в тыл не играет. Обычные `nearest` удары бьют фронт; строй prefs: танк → боец → стрелок → саппорт. Player wiki: `docs/game-wiki.md` §4.1.
 - **Potions:** loadout pre-match, ≤1 per potionId.
 
 ### §3.5 Статусы MVP
 `ruffle`, `claw_mode`, `mint`, `taunt`, `stealth`, `bleed`, `poison`, `sleep`, `stun`, `weak`, `vuln`, `fragile`, `cleanser`.
 
-**HUD (D-032, D-041):** иконки статусов + длительность (ходы) видны всем; `stun`/`sleep` → карты юнита в руке `playable:false` (пропуск хода). Щит (`shield` от танк-баффа) — отдельная шкала рядом с HP; в **PvP** шкалу щита видит только сторона баффера (враг не видит, кого бафнули). Cleanse/mint → `events[]` `statusOp:clear` по снятым дебаффам (видят все). Смерть: затемнение портрета + красный fatality по типу цели — котик → «котик отдыхает»; манекен (practice) → «манекен отдыхает»; PvE/данж/рейд-монстр → «{вид} отдыхает» (`пёс` / `волк` / `зомби` / `призрак` по фракции §4.1 / `D-039`).
+**Poison (LOCKED `D-043`):** не тикает по `duration` и **не спадает** сам — только копится. На конце хода стороны: урон = текущие `stacks`, затем `stacks += 1` (+1 урона за каждый следующий тик). Снятие: `cleanse` / `mint` (иcleanser-absorb на apply). `bleed` по-прежнему duration-based.
+
+**HUD (D-032, D-041):** иконки статусов + длительность (ходы) видны всем; у poison длительность не показывают / `0` — важен стек (`×N`). `stun`/`sleep` → карты юнита в руке `playable:false` (пропуск хода). Щит (`shield` от танк-баффа) — отдельная шкала рядом с HP; в **PvP** шкалу щита видит только сторона баффера (враг не видит, кого бафнули). Cleanse/mint → `events[]` `statusOp:clear` по снятым дебаффам (видят все). Смерть: затемнение портрета + красный fatality по типу цели — котик → «котик отдыхает»; манекен (practice) → «манекен отдыхает»; PvE/данж/рейд-монстр → «{вид} отдыхает» (`пёс` / `волк` / `зомби` / `призрак` по фракции §4.1 / `D-039`).
 
 ### §3.6 Авторитет
 Только server симулирует. Client = input + VFX.  
@@ -225,7 +228,7 @@ UI name: **Мифмир** (кампания / карта). Route id `yard` / `Ya
 | 1 | Соло-босс **центр** (пустые фланги); HP ≈ сумма HP стартеров (121); супер: **pierce / fragile** | Держать танк·хил, бить босса; щиты не спасают от pierce |
 | 2 | Босс **фронт** (прыжки `backline` в тыл), два **хила** сзади | Сначала снять хилов; танк/taunt держит прыжки босса, иначе рвёт саппорт |
 | 3 | **Танк · босс · танк** (taunt) | Снять одного танка, чтобы добраться до босса |
-| 4 | Два **убийцы** (poison) спереди, **некромант**-босс в тылу (хил/дебаффы) | Рвать некро/хил; не игнорировать яд |
+| 4 | Два **убийцы** (`random_enemy`+poison) спереди, **некромант** в тылу | Яд стекается (+1/тик); после смерти убийц некро бьёт `backline` — чистить яд / рвать некро |
 | 5 | **Танк** спереди, босс **центр** (сильные рубящие / AoE), **хил** сзади | Снять хил или танк по ситуации, затем босса |
 
 **Прохождение главы (волны / уровни):**
@@ -367,7 +370,7 @@ rarity, origin: starter|farm|jar|workshop|nursery
 ```
 cardId, name_key, roleGate?, element, cost, atk, shield, hits,
 targetRule, tags[], effectOps[]  // DSL ops, не хардкод C#
-// targetRule: nearest | backline | self | ally_lowest_hp | ally_all | all_enemies | lowest_hp
+// targetRule: nearest | backline | self | ally_lowest_hp | ally_all | all_enemies | lowest_hp | random_enemy
 // tags: crit | pierce | aoe | ambush | backline | ranged | …
 // backline-атаки: ≥1 карта с attack+backline на роли (tank/fighter/assassin/mage/ranger/…)
 ```

@@ -77,6 +77,27 @@ func TestSelectTargets_TauntOverridesBackline(t *testing.T) {
 	}
 }
 
+func TestSelectTargets_RandomEnemyIgnoresTaunt(t *testing.T) {
+	b, actor := baseBattleThreeRoles()
+	b.rng = NewRNG(42)
+	for _, u := range b.Units {
+		if u.ID == "e_tank" {
+			u.addStatus("taunt", 1, 1)
+		}
+	}
+	seen := map[string]bool{}
+	for i := 0; i < 40; i++ {
+		got := b.SelectTargets(actor, "random_enemy", "", false)
+		if len(got) != 1 {
+			t.Fatalf("random_enemy want 1 target, got %#v", ids(got))
+		}
+		seen[got[0].ID] = true
+	}
+	if len(seen) < 2 {
+		t.Fatalf("random_enemy should hit multiple ids despite taunt, got %#v", seen)
+	}
+}
+
 func TestSelectTargets_AmbushBypassesStealth(t *testing.T) {
 	b, actor := baseBattleThreeRoles()
 	for _, u := range b.Units {

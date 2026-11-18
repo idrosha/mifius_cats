@@ -75,6 +75,19 @@ func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string, allo
 			return cands[i].ID < cands[j].ID
 		})
 		return []*Unit{cands[0]}
+	case "random_enemy":
+		// D-043: seeded pick among living (stealth-filtered). Taunt does not redirect — poison spread.
+		cands := filterStealth(enemies, allowAmbush)
+		if len(cands) == 0 {
+			return nil
+		}
+		sort.SliceStable(cands, func(i, j int) bool {
+			return cands[i].ID < cands[j].ID
+		})
+		if b.rng == nil {
+			return []*Unit{cands[0]}
+		}
+		return []*Unit{cands[b.rng.Intn(len(cands))]}
 	default: // nearest — frontmost lane, then role rank (§3.4)
 		cands := filterStealth(enemies, allowAmbush)
 		cands = applyTaunt(cands, enemies)
