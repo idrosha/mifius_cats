@@ -3169,9 +3169,9 @@ const MONSTER_BATTLE_BY_ROLE = {
 const MONSTER_BATTLE_BY_FACTION = {
   dogs: {
     tank: ["/stitch-assets/monsters/battle/tank-b.webp"],
-    // fighter-h is near-FRONT (dual clubs) — flip cannot make a left profile (Andrew ch1 боец).
-    // fighter-b is native RIGHT dual-axe → scaleX gives clear left toward cats (D-040).
-    fighter: ["/stitch-assets/monsters/battle/fighter-b.webp"],
+    // Grey dual-club fighter-h (обычный пёс). Do NOT use fighter-b — that dual-axe red plate
+    // is the ch3 red-dog look (Andrew: ch1 showed «красный пёс»).
+    fighter: ["/stitch-assets/monsters/battle/fighter-h.webp"],
     support: ["/stitch-assets/monsters/battle/ranger-a.webp"],
     pitboss: ["/stitch-assets/monsters/battle/tank-d.webp"],
   },
@@ -3299,8 +3299,7 @@ const DUMMY_NATIVE_FACE_LEFT = new Set([
   "dummy-stone-totem",
 ]);
 // Only assets authored aiming/looking LEFT. Default native = RIGHT → flip for desired left.
-// Do NOT list: ranger-a, tank-b, redd-tank/fighter, wolf-tank/pitboss (shield/glow RIGHT → flip).
-// fighter-h is near-FRONT — ch1 uses fighter-b instead (RIGHT→flip LEFT).
+// Do NOT list: ranger-a, tank-b, redd-tank/fighter, wolf-tank/pitboss, fighter-h (FRONT/RIGHT → flip or leave).
 // Listed = native LEFT (glow); without the entry the board flips them away from cats (Andrew):
 // ch3 redd-support, ch2 wolf-support, ch4 zombie-pitboss.
 const MONSTER_NATIVE_FACE_LEFT = new Set([
