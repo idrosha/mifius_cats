@@ -5668,7 +5668,6 @@ ${face}
 </div>
 <div class="relative z-10 flex items-center justify-between p-3 border-b border-outline-variant/30 bg-surface-container-lowest/55 backdrop-blur-sm">
 <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full ${badgeCls}"><span class="material-symbols-outlined text-[16px] ${mvp ? "" : iconTone}">${mvp ? "crown" : meta.icon}</span><span class="text-[10px] font-bold uppercase tracking-wider">${meta.badge}</span></div>
-<div class="flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-surface-container-high/90 ${mvp ? "text-primary" : "text-outline"} text-[12px] font-extrabold shadow">Ур. ${card.lvl}</div>
 </div>
 <div class="relative z-10 flex-1 flex flex-col items-center justify-end p-3 text-center min-h-0">
 ${mvp ? `<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-container/25 text-primary-fixed mb-1"><span class="material-symbols-outlined text-[14px]">workspace_premium</span><span class="text-[10px] font-bold">Золотой MVP</span></div>` : ""}
