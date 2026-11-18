@@ -3214,6 +3214,29 @@ function monsterFactionFromTid(tid) {
   return MONSTER_FACTION_BY_CHAPTER[ch - 1] || "dogs";
 }
 
+/** Species noun for death overlay (CSS uppercases). Dummies / PvE·dungeon·raid bots. */
+const MONSTER_SPECIES_RU = {
+  dogs: "пёс",
+  wolves: "волк",
+  red_dogs: "пёс",
+  zombies: "зомби",
+  ghosts: "призрак",
+};
+
+/** Fatality line over a dead unit: манекен / species / котик. */
+function unitFatalityLabel(u) {
+  const tid = String(unitTemplateId(u) || "");
+  const id = String(u?.id || "");
+  if (tid.includes("bot_practice") || id.includes("bot_practice")) {
+    return "манекен отдыхает";
+  }
+  if (tid.startsWith("bot_") || id.startsWith("bot_") || tid.includes("pitboss")) {
+    const species = MONSTER_SPECIES_RU[monsterFactionFromTid(tid)] || "монстр";
+    return `${species} отдыхает`;
+  }
+  return "котик отдыхает";
+}
+
 function hashPickArt(key, pool) {
   if (!pool?.length) return null;
   const s = String(key || "");
@@ -5988,10 +6011,11 @@ function unitCard(u, side) {
         { artSrc: art, desiredFace }
       )
     : "";
+  const rest = unitFatalityLabel(u);
   d.innerHTML = `
-    <figure class="mf-unit-frame">${cutout}<div class="mf-status-row">${icons}</div><div class="mf-fatality" ${u.alive ? "hidden" : ""}><span>КОТИК ОТДЫХАЕТ</span></div></figure>
+    <figure class="mf-unit-frame">${cutout}<div class="mf-status-row">${icons}</div><div class="mf-fatality" ${u.alive ? "hidden" : ""}><span>${rest}</span></div></figure>
     <div class="meta">${roleRu}${elRu ? ` · ${elRu}` : ""} · L${u.lane}</div>
-    <div class="hp">${u.alive ? `${u.hp}/${u.maxHp}${sh}` : "КОТИК ОТДЫХАЕТ"}</div>
+    <div class="hp">${u.alive ? `${u.hp}/${u.maxHp}${sh}` : rest}</div>
     <div class="mf-bars"><div class="mf-bar mf-bar--hp"><i style="width:${pct}%"></i></div>${
       seeSh && u.shield > 0
         ? `<div class="mf-bar mf-bar--shield"><i style="width:${Math.min(100, (u.shield / Math.max(u.maxHp, 1)) * 100)}%"></i></div>`
@@ -6658,7 +6682,7 @@ function ensureCombatPortraitMounts(card) {
     const fat = document.createElement("div");
     fat.className = "mf-fatality";
     fat.hidden = true;
-    fat.innerHTML = `<span>КОТИК ОТДЫХАЕТ</span>`;
+    fat.innerHTML = `<span></span>`;
     frame.appendChild(fat);
   }
   let bars = card.querySelector(".mf-bars");
@@ -6710,6 +6734,8 @@ function paintCombatUnitCard(card, u, { foe = false, cleansedIds = [] } = {}) {
   }
   if (mounts.fatality) {
     mounts.fatality.hidden = !!u.alive;
+    const span = mounts.fatality.querySelector("span") || mounts.fatality;
+    span.textContent = unitFatalityLabel(u);
   }
   if (mounts.statusRow) {
     const list = u.alive ? unitStatusList(u) : [];
@@ -6978,11 +7004,12 @@ function pvpUnitCard(u, foe, cleansedIds = []) {
   const pct = u.maxHp > 0 ? Math.max(0, Math.min(100, (u.hp / u.maxHp) * 100)) : 0;
   const art = catHeroBattleArt(unitTemplateId(u)) || catHeroBattleArt(u.id);
   const seeSh = canSeeUnitShield(u);
+  const rest = unitFatalityLabel(u);
   const hpLine = u.alive
     ? seeSh && u.shield > 0
       ? `${u.hp} / ${u.maxHp} +${u.shield}`
       : `${u.hp} / ${u.maxHp}`
-    : "КОТИК ОТДЫХАЕТ";
+    : rest;
   li.className = (u.alive ? "" : "mf-unit-dead") + " mf-battle-unit--cutout";
   // D-040: PvP both sides are cat heroes → face right (type rule), not side-flip.
   const desiredFace = desiredSpriteFace(u);
@@ -6992,7 +7019,7 @@ function pvpUnitCard(u, foe, cleansedIds = []) {
         { artSrc: art, desiredFace }
       )
     : "";
-  li.innerHTML = `${art ? `<figure class="mf-unit-frame">${cutout}<div class="mf-fatality" ${u.alive ? "hidden" : ""}><span>КОТИК ОТДЫХАЕТ</span></div><div class="mf-status-row">${statusIconsHtml(u.alive ? unitStatusList(u) : [], { cleansed: cleansedIds })}</div></figure>` : ""}<div><b>${name}</b><small>${element}${role ? " · " + role : ""}</small><em class="${u.alive ? "" : "mf-fatality-inline"}">${hpLine}</em><div class="mf-bars"><div class="mf-bar mf-bar--hp"><i style="width:${pct}%"></i></div>${seeSh && u.shield > 0 && u.alive ? `<div class="mf-bar mf-bar--shield"><i style="width:${Math.min(100, (u.shield / Math.max(u.maxHp, 1)) * 100)}%"></i></div>` : ""}</div></div>`;
+  li.innerHTML = `${art ? `<figure class="mf-unit-frame">${cutout}<div class="mf-fatality" ${u.alive ? "hidden" : ""}><span>${rest}</span></div><div class="mf-status-row">${statusIconsHtml(u.alive ? unitStatusList(u) : [], { cleansed: cleansedIds })}</div></figure>` : ""}<div><b>${name}</b><small>${element}${role ? " · " + role : ""}</small><em class="${u.alive ? "" : "mf-fatality-inline"}">${hpLine}</em><div class="mf-bars"><div class="mf-bar mf-bar--hp"><i style="width:${pct}%"></i></div>${seeSh && u.shield > 0 && u.alive ? `<div class="mf-bar mf-bar--shield"><i style="width:${Math.min(100, (u.shield / Math.max(u.maxHp, 1)) * 100)}%"></i></div>` : ""}</div></div>`;
   if (foe) li.dataset.foe = "1";
   decorateBattleUnitIdle(li, u, u.lane ?? 0);
   return li;
@@ -9965,6 +9992,45 @@ async function main() {
   window.mythfelStartYard = startYard;
   window.mythfelStartPractice = startPractice;
   window.mythfelSoundFX = SoundFX;
+  window.mythfelUnitFatalityLabel = unitFatalityLabel;
+  /** QA: CreatePvE for stage + mode, then paint live fight HUD. */
+  window.mythfelDebugStartStage = async (stageId, mode = "pve") => {
+    state.battle = null;
+    state.lastResult = null;
+    state.battleMode = mode;
+    state.selectedStageId = stageId || (mode === "practice" ? PRACTICE_STAGE : YARD_STAGE);
+    if (mode === "pve") {
+      state.pveChapter = 1;
+      state.pveStage = "entrance";
+      state.selectedStageId = stageId || YARD_STAGE;
+    }
+    if (mode === "practice") {
+      state.practiceSquad = [
+        "shop_tank_stone_a",
+        "shop_fighter_fire_a",
+        "shop_support_water_a",
+      ];
+    }
+    await startYard(false);
+    return { ok: !!state.battle, battleId: state.battle?.battleId, mode: state.battleMode, stageId: state.selectedStageId };
+  };
+  /** QA: mark foe lane dead + re-paint; returns label + DOM text (D-041). */
+  window.mythfelDebugSetFoeDead = (lane = 0) => {
+    const diff = state.battle;
+    if (!diff) return { ok: false, reason: "no battle" };
+    const foes = (diff.units || []).filter((u) => u.side === 1).sort((a, b) => a.lane - b.lane);
+    const u = foes[lane] || foes[0];
+    if (!u) return { ok: false, reason: "no foe" };
+    u.hp = 0;
+    u.alive = false;
+    if (state.battleMode === "practice" || state.battleMode === "pve") renderPracticeFight();
+    else if (state.battleMode === "pvp") renderPvpFight();
+    else renderBattle();
+    const fat = document.querySelector(
+      "#pfEnemies .mf-fatality:not([hidden]) span, #enemyBoard .mf-fatality:not([hidden]) span",
+    );
+    return { ok: true, id: u.id, label: unitFatalityLabel(u), dom: fat?.textContent || null };
+  };
   bindBattleFxGestureUnlock();
   syncOrientGate();
   window.addEventListener("orientationchange", syncOrientGate);
