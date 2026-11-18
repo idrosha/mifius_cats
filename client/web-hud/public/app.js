@@ -3188,10 +3188,11 @@ const MONSTER_BATTLE_BY_FACTION = {
     pitboss: ["/stitch-assets/monsters/battle/fighter-a.png"],
   },
   zombies: {
-    tank: ["/stitch-assets/monsters/battle/assassin-b.png"],
-    fighter: ["/stitch-assets/monsters/battle/assassin-a.png"],
-    support: ["/stitch-assets/monsters/battle/support-c.png"],
-    pitboss: ["/stitch-assets/monsters/battle/fighter-g.png"],
+    // Ch4 refs: axe guardian / cleaver butcher / dagger plague-carrier; scythe pitboss.
+    tank: ["/stitch-assets/monsters/battle/zombie-tank-cutout.png"],
+    fighter: ["/stitch-assets/monsters/battle/zombie-fighter-cutout.png"],
+    support: ["/stitch-assets/monsters/battle/zombie-support-cutout.png"],
+    pitboss: ["/stitch-assets/monsters/battle/zombie-pitboss-cutout.png"],
   },
   ghosts: {
     tank: ["/stitch-assets/monsters/battle/tank-a.png"],
