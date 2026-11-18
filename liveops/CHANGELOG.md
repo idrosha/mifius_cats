@@ -2,6 +2,7 @@
 
 Одна строка на изменение конфига/схемы (skill `docs/skills/liveops.md`).
 
+- 2026-11-18: Mythmir ch2 f3 — Лютый Клык stronger + `backline` leaps to rear (D-042 / §4.1); stage `mythmir_2_f3`
 - 2026-11-18: Mythmir f3 pitboss tactics — chapter layouts + balance in `content/stages/mythmir_{1..5}_f3` (D-042 / §4.1); solo pierce boss, healer packs, tank walls, necro+poison, slash mid
 - 2026-11-17: Mythmir PvE fatigue stub — `limits.pve_fatigue_sec=420`, `pve_fatigue_stub=true` (D-039 / §4.1); chapter enemy balance in `content/stages/mythmir_*`
 - 2026-11-18: HUD attack-card live overlay removed (D-038 Rejected); plate text stays baked — retake list `docs/stitch-prompts-d035-tank-support-retune.md`
