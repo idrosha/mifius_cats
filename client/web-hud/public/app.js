@@ -3191,6 +3191,7 @@ const MONSTER_BATTLE_BY_FACTION = {
     // Ch4 refs: axe guardian / cleaver butcher / dagger plague-carrier; scythe pitboss.
     tank: ["/stitch-assets/monsters/battle/zombie-tank-cutout.png"],
     fighter: ["/stitch-assets/monsters/battle/zombie-fighter-cutout.png"],
+    assassin: ["/stitch-assets/monsters/battle/zombie-fighter-cutout.png"],
     support: ["/stitch-assets/monsters/battle/zombie-support-cutout.png"],
     pitboss: ["/stitch-assets/monsters/battle/zombie-pitboss-cutout.png"],
   },
@@ -6876,9 +6877,12 @@ function renderPracticeFight() {
       const nameEl = card.querySelector(".font-headline-md, b, h4");
       const laneBadge = card.querySelector(".font-label-sm.text-label-sm");
       const fxWrap = card.querySelector(".absolute.bottom-2");
-      card.hidden = !u;
-      if (!u) return;
-      const tid = unitTemplateId(u);
+      const tidEarly = u ? unitTemplateId(u) : "";
+      // D-042: empty_lane placeholders stay in sim 3v3 but never paint (solo boss center).
+      const emptyLane = !!tidEarly && String(tidEarly).includes("empty_lane");
+      card.hidden = !u || (emptyLane && !u.alive);
+      if (!u || card.hidden) return;
+      const tid = tidEarly;
       const hero = practiceHeroByTemplate(tid);
       const art = battleUnitArt(u) || catHeroBattleArt(tid);
       const isBot = String(tid).startsWith("bot_") || String(u.id || "").startsWith("bot_");
@@ -7526,9 +7530,9 @@ const PVE_LOAD_CHAPTERS = {
       },
       boss: {
         art: "/stitch-assets/pve-fight/ch1-boss.png",
-        enemyTitle: "СТАЯ · ВОЛНА 3/3 (ПИТБОСС)",
-        enemies: ["Пёс-щитоносец", "Барон Гав", "Пёс-завывала"],
-        tip: "Этап 3/3 · Зал Барона Гава",
+        enemyTitle: "СТАЯ · ВОЛНА 3/3 (ПИТБОСС СОЛО)",
+        enemies: ["Барон Гав"],
+        tip: "Этап 3/3 · Соло Барон Гав · пробитие брони (D-042)",
       },
     },
   },
@@ -7563,9 +7567,9 @@ const PVE_LOAD_CHAPTERS = {
       },
       boss: {
         art: "/stitch-assets/pve-fight/ch2-boss.png",
-        enemyTitle: "СТАЯ · ВОЛНА 3/3 (ПИТБОСС)",
-        enemies: ["Северный страж", "Лютый Клык", "Шаман инея"],
-        tip: "Этап 3/3 · Логово Лютого Клыка",
+        enemyTitle: "СТАЯ · ВОЛНА 3/3 (БОСС + 2 ХИЛА)",
+        enemies: ["Лютый Клык", "Шаман инея", "Шаман вьюги"],
+        tip: "Этап 3/3 · Сначала хилы (backline), потом босс (D-042)",
       },
     },
   },
@@ -7601,9 +7605,9 @@ const PVE_LOAD_CHAPTERS = {
       },
       boss: {
         art: "/stitch-assets/pve-fight/ch5-boss.png",
-        enemyTitle: "СТАЯ · ВОЛНА 3/3 (ПИТБОСС)",
-        enemies: ["Алый щитоносец", "Алый Вожак", "Пёс-искромёт"],
-        tip: "Этап 3/3 · Трон Алого Вожака",
+        enemyTitle: "СТАЯ · ВОЛНА 3/3 (ТАНК · БОСС · ТАНК)",
+        enemies: ["Алый щитоносец", "Алый Вожак", "Алый страж"],
+        tip: "Этап 3/3 · Снимите одного танка, чтобы добраться до вожака (D-042)",
       },
     },
   },
@@ -7638,9 +7642,9 @@ const PVE_LOAD_CHAPTERS = {
       },
       boss: {
         art: "/stitch-assets/pve-fight/ch3-boss.png",
-        enemyTitle: "СТАЯ · ВОЛНА 3/3 (ПИТБОСС)",
-        enemies: ["Гнилой страж", "Некропёс Мор", "Носитель гнили"],
-        tip: "Этап 3/3 · Зал Некропса Мора",
+        enemyTitle: "СТАЯ · ВОЛНА 3/3 (УБИЙЦЫ + НЕКРО)",
+        enemies: ["Трупный мясник", "Ядовитый коготь", "Некропёс Мор"],
+        tip: "Этап 3/3 · Яд спереди, некромант в тылу лечит — рвите хил (D-042)",
       },
     },
   },
@@ -7677,9 +7681,9 @@ const PVE_LOAD_CHAPTERS = {
       },
       boss: {
         art: "/stitch-assets/pve-fight/ch4-tunnel.png",
-        enemyTitle: "СТАЯ · ВОЛНА 3/3 (ПИТБОСС)",
+        enemyTitle: "СТАЯ · ВОЛНА 3/3 (ТАНК · БОСС · ХИЛ)",
         enemies: ["Могильный страж", "Фантом Гул", "Блуждающий огонёк"],
-        tip: "Этап 3/3 · Зал Фантома Гула",
+        tip: "Этап 3/3 · Танк спереди, рубящий босс, хил сзади (D-042)",
       },
     },
   },
