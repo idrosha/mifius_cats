@@ -2,6 +2,7 @@ package mode
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/idrosha/mir_games/battle/internal/content"
 	"github.com/idrosha/mir_games/battle/internal/sim"
@@ -113,12 +114,18 @@ func spawnStageEnemies(stage content.StageDef) ([]sim.SpawnUnit, error) {
 		if n := len(t.Deck); n < 4 || n > 6 {
 			return nil, fmt.Errorf("enemy %s deck must be 4–6, got %d", t.TemplateID, n)
 		}
-		out = append(out, sim.SpawnUnit{
+		su := sim.SpawnUnit{
 			ID:       fmt.Sprintf("bot_%d_%s", i, t.TemplateID),
 			Template: t,
 			Deck:     t.Deck,
 			Parts:    nil,
-		})
+		}
+		// D-042: empty_lane placeholders keep 3v3 slots but spawn dead (solo boss center).
+		if strings.Contains(t.TemplateID, "empty_lane") {
+			dead := false
+			su.CarryAlive = &dead
+		}
+		out = append(out, su)
 	}
 	return out, nil
 }

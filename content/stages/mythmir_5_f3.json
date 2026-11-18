@@ -10,7 +10,7 @@
       "element": "bolt",
       "level": 5,
       "baseStats": {
-        "hp": 24,
+        "hp": 40,
         "atk": 2,
         "spd": 2,
         "skill": 1,
@@ -18,22 +18,8 @@
       },
       "deck": [
         {
-          "cardId": "card_ghost_bite_m5f3",
-          "name_key": "card.bot_ghost_strike",
-          "element": "bolt",
-          "cost": 1,
-          "atk": 4,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack"
-          ],
-          "effectOps": []
-        },
-        {
-          "cardId": "card_ghost_bark_m5f3",
-          "name_key": "card.bot_ghost_shroud",
+          "cardId": "card_ghost_taunt_m5f3",
+          "name_key": "card.bot_ghost_ward",
           "element": "bolt",
           "cost": 1,
           "atk": 0,
@@ -43,14 +29,42 @@
           "tags": [
             "shield"
           ],
-          "effectOps": []
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "taunt",
+              "stacks": 1,
+              "duration": 2
+            }
+          ]
         },
         {
-          "cardId": "card_ghost_bite2_m5f3",
-          "name_key": "card.bot_ghost_strike",
+          "cardId": "card_ghost_taunt2_m5f3",
+          "name_key": "card.bot_ghost_ward",
           "element": "bolt",
           "cost": 1,
-          "atk": 4,
+          "atk": 0,
+          "shield": 4,
+          "hits": 0,
+          "targetRule": "self",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "taunt",
+              "stacks": 1,
+              "duration": 2
+            }
+          ]
+        },
+        {
+          "cardId": "card_ghost_bash_m5f3",
+          "name_key": "card.bot_ghost_bash",
+          "element": "bolt",
+          "cost": 1,
+          "atk": 3,
           "shield": 0,
           "hits": 1,
           "targetRule": "nearest",
@@ -60,16 +74,16 @@
           "effectOps": []
         },
         {
-          "cardId": "card_ghost_bark2_m5f3",
-          "name_key": "card.bot_ghost_shroud",
+          "cardId": "card_ghost_bash2_m5f3",
+          "name_key": "card.bot_ghost_bash",
           "element": "bolt",
           "cost": 1,
-          "atk": 0,
-          "shield": 5,
-          "hits": 0,
-          "targetRule": "self",
+          "atk": 3,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
           "tags": [
-            "shield"
+            "attack"
           ],
           "effectOps": []
         }
@@ -86,49 +100,19 @@
       "element": "bolt",
       "level": 5,
       "baseStats": {
-        "hp": 31,
-        "atk": 5,
-        "spd": 4,
+        "hp": 60,
+        "atk": 6,
+        "spd": 5,
         "skill": 3,
         "charm": 1
       },
       "deck": [
         {
-          "cardId": "card_ghost_claw_m5f3",
-          "name_key": "card.bot_ghost_chain",
+          "cardId": "card_ghost_slash_m5f3",
+          "name_key": "card.bot_ghost_slash",
           "element": "bolt",
           "cost": 1,
-          "atk": 6,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack",
-            "pierce"
-          ],
-          "effectOps": []
-        },
-        {
-          "cardId": "card_ghost_claw2_m5f3",
-          "name_key": "card.bot_ghost_chain",
-          "element": "bolt",
-          "cost": 1,
-          "atk": 6,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack",
-            "pierce"
-          ],
-          "effectOps": []
-        },
-        {
-          "cardId": "card_ghost_claw3_m5f3",
-          "name_key": "card.bot_ghost_chain",
-          "element": "bolt",
-          "cost": 1,
-          "atk": 6,
+          "atk": 8,
           "shield": 0,
           "hits": 1,
           "targetRule": "nearest",
@@ -138,26 +122,47 @@
           "effectOps": []
         },
         {
-          "cardId": "card_ghost_weak_m5f3",
-          "name_key": "card.bot_ghost_weak",
+          "cardId": "card_ghost_slash2_m5f3",
+          "name_key": "card.bot_ghost_slash",
           "element": "bolt",
           "cost": 1,
-          "atk": 4,
+          "atk": 8,
           "shield": 0,
           "hits": 1,
           "targetRule": "nearest",
           "tags": [
-            "attack",
-            "weak"
+            "attack"
           ],
-          "effectOps": [
-            {
-              "op": "apply_status",
-              "status": "weak",
-              "stacks": 1,
-              "duration": 2
-            }
-          ]
+          "effectOps": []
+        },
+        {
+          "cardId": "card_ghost_slash3_m5f3",
+          "name_key": "card.bot_ghost_slash",
+          "element": "bolt",
+          "cost": 1,
+          "atk": 9,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_ghost_cleave_m5f3",
+          "name_key": "card.bot_ghost_cleave",
+          "element": "bolt",
+          "cost": 1,
+          "atk": 6,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "all_enemies",
+          "tags": [
+            "attack",
+            "aoe"
+          ],
+          "effectOps": []
         }
       ],
       "meta": {
@@ -172,15 +177,15 @@
       "element": "bolt",
       "level": 5,
       "baseStats": {
-        "hp": 16,
+        "hp": 24,
         "atk": 1,
-        "spd": 3,
-        "skill": 2,
+        "spd": 4,
+        "skill": 4,
         "charm": 1
       },
       "deck": [
         {
-          "cardId": "card_ghost_sip_m5f3",
+          "cardId": "card_ghost_heal_m5f3",
           "name_key": "card.bot_sip",
           "element": "bolt",
           "cost": 1,
@@ -194,26 +199,12 @@
           "effectOps": [
             {
               "op": "heal",
-              "amount": 4
+              "amount": 7
             }
           ]
         },
         {
-          "cardId": "card_ghost_poke_m5f3",
-          "name_key": "card.bot_ghost_weak",
-          "element": "bolt",
-          "cost": 1,
-          "atk": 2,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack"
-          ],
-          "effectOps": []
-        },
-        {
-          "cardId": "card_ghost_sip2_m5f3",
+          "cardId": "card_ghost_heal2_m5f3",
           "name_key": "card.bot_sip2",
           "element": "bolt",
           "cost": 1,
@@ -227,16 +218,35 @@
           "effectOps": [
             {
               "op": "heal",
-              "amount": 4
+              "amount": 7
             }
           ]
         },
         {
-          "cardId": "card_ghost_poke2_m5f3",
-          "name_key": "card.bot_ghost_weak",
+          "cardId": "card_ghost_heal3_m5f3",
+          "name_key": "card.bot_sip",
           "element": "bolt",
           "cost": 1,
-          "atk": 2,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "ally_lowest_hp",
+          "tags": [
+            "heal"
+          ],
+          "effectOps": [
+            {
+              "op": "heal",
+              "amount": 6
+            }
+          ]
+        },
+        {
+          "cardId": "card_ghost_poke_m5f3",
+          "name_key": "card.bot_ghost_poke",
+          "element": "bolt",
+          "cost": 1,
+          "atk": 1,
           "shield": 0,
           "hits": 1,
           "targetRule": "nearest",
@@ -254,12 +264,13 @@
     }
   ],
   "meta": {
-    "stageIndex": 5,
+    "stageIndex": 1,
     "fightIndex": 3,
     "title_ru": "Призрачный Чертог",
-    "fight_ru": "Питбосс + солдаты",
+    "fight_ru": "Танк + босс + хил",
     "faction": "ghosts",
-    "waveTheme": "boss_plus_soldiers",
-    "location_ru": "Призрачный Чертог"
+    "waveTheme": "tank_boss_heal",
+    "location_ru": "Призрачный Чертог",
+    "tactic_ru": "Танк спереди, босс рубит в центре, хил сзади — снять хил/танк по ситуации."
   }
 }

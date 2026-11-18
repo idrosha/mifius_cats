@@ -5,39 +5,25 @@
   "bowlCost": 1,
   "enemyTeam": [
     {
-      "templateId": "bot_dog_tank_m1f3",
+      "templateId": "bot_empty_lane_m1f3_a",
       "role": "tank",
       "element": "stone",
       "level": 1,
       "baseStats": {
-        "hp": 20,
-        "atk": 2,
-        "spd": 2,
-        "skill": 1,
-        "charm": 1
+        "hp": 1,
+        "atk": 0,
+        "spd": 1,
+        "skill": 0,
+        "charm": 0
       },
       "deck": [
         {
-          "cardId": "card_dog_bite_m1f3",
-          "name_key": "card.bot_dog_bite",
-          "element": "stone",
-          "cost": 1,
-          "atk": 3,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack"
-          ],
-          "effectOps": []
-        },
-        {
-          "cardId": "card_dog_bark_m1f3",
-          "name_key": "card.bot_dog_bark",
+          "cardId": "card_empty_1a_0",
+          "name_key": "card.bot_empty",
           "element": "stone",
           "cost": 1,
           "atk": 0,
-          "shield": 4,
+          "shield": 0,
           "hits": 0,
           "targetRule": "self",
           "tags": [
@@ -46,26 +32,40 @@
           "effectOps": []
         },
         {
-          "cardId": "card_dog_bite2_m1f3",
-          "name_key": "card.bot_dog_bite",
+          "cardId": "card_empty_1a_1",
+          "name_key": "card.bot_empty",
           "element": "stone",
           "cost": 1,
-          "atk": 3,
+          "atk": 0,
           "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
+          "hits": 0,
+          "targetRule": "self",
           "tags": [
-            "attack"
+            "shield"
           ],
           "effectOps": []
         },
         {
-          "cardId": "card_dog_bark2_m1f3",
-          "name_key": "card.bot_dog_bark",
+          "cardId": "card_empty_1a_2",
+          "name_key": "card.bot_empty",
           "element": "stone",
           "cost": 1,
           "atk": 0,
-          "shield": 4,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "self",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_empty_1a_3",
+          "name_key": "card.bot_empty",
+          "element": "stone",
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
           "hits": 0,
           "targetRule": "self",
           "tags": [
@@ -75,9 +75,11 @@
         }
       ],
       "meta": {
-        "display_ru": "Пёс-щитоносец",
+        "display_ru": "—",
         "faction": "dogs",
-        "isPitboss": false
+        "isPitboss": false,
+        "emptyLane": true,
+        "startDead": true
       }
     },
     {
@@ -86,58 +88,16 @@
       "element": "stone",
       "level": 1,
       "baseStats": {
-        "hp": 26,
-        "atk": 4,
+        "hp": 121,
+        "atk": 3,
         "spd": 4,
         "skill": 3,
         "charm": 1
       },
       "deck": [
         {
-          "cardId": "card_dog_claw_m1f3",
-          "name_key": "card.bot_dog_claw",
-          "element": "stone",
-          "cost": 1,
-          "atk": 5,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack"
-          ],
-          "effectOps": []
-        },
-        {
-          "cardId": "card_dog_claw2_m1f3",
-          "name_key": "card.bot_dog_claw",
-          "element": "stone",
-          "cost": 1,
-          "atk": 5,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack"
-          ],
-          "effectOps": []
-        },
-        {
-          "cardId": "card_dog_claw3_m1f3",
-          "name_key": "card.bot_dog_claw",
-          "element": "stone",
-          "cost": 1,
-          "atk": 5,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack"
-          ],
-          "effectOps": []
-        },
-        {
-          "cardId": "card_dog_poke_m1f3",
-          "name_key": "card.bot_dog_poke",
+          "cardId": "card_dog_pierce_m1f3",
+          "name_key": "card.bot_dog_pierce",
           "element": "stone",
           "cost": 1,
           "atk": 4,
@@ -145,7 +105,60 @@
           "hits": 1,
           "targetRule": "nearest",
           "tags": [
-            "attack"
+            "attack",
+            "pierce"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_dog_pierce2_m1f3",
+          "name_key": "card.bot_dog_pierce",
+          "element": "stone",
+          "cost": 1,
+          "atk": 4,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack",
+            "pierce"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_dog_pierce3_m1f3",
+          "name_key": "card.bot_dog_pierce",
+          "element": "stone",
+          "cost": 1,
+          "atk": 4,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack",
+            "pierce"
+          ],
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "fragile",
+              "stacks": 1,
+              "duration": 2
+            }
+          ]
+        },
+        {
+          "cardId": "card_dog_crush_m1f3",
+          "name_key": "card.bot_dog_crush",
+          "element": "stone",
+          "cost": 1,
+          "atk": 5,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack",
+            "pierce"
           ],
           "effectOps": []
         }
@@ -157,89 +170,81 @@
       }
     },
     {
-      "templateId": "bot_dog_support_m1f3",
-      "role": "support",
+      "templateId": "bot_empty_lane_m1f3_b",
+      "role": "tank",
       "element": "stone",
       "level": 1,
       "baseStats": {
-        "hp": 13,
-        "atk": 1,
-        "spd": 3,
-        "skill": 2,
-        "charm": 1
+        "hp": 1,
+        "atk": 0,
+        "spd": 1,
+        "skill": 0,
+        "charm": 0
       },
       "deck": [
         {
-          "cardId": "card_dog_sip_m1f3",
-          "name_key": "card.bot_sip",
+          "cardId": "card_empty_1b_0",
+          "name_key": "card.bot_empty",
           "element": "stone",
           "cost": 1,
           "atk": 0,
           "shield": 0,
           "hits": 0,
-          "targetRule": "ally_lowest_hp",
+          "targetRule": "self",
           "tags": [
-            "heal"
-          ],
-          "effectOps": [
-            {
-              "op": "heal",
-              "amount": 3
-            }
-          ]
-        },
-        {
-          "cardId": "card_dog_poke_m1f3",
-          "name_key": "card.bot_dog_poke",
-          "element": "stone",
-          "cost": 1,
-          "atk": 2,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack"
+            "shield"
           ],
           "effectOps": []
         },
         {
-          "cardId": "card_dog_sip2_m1f3",
-          "name_key": "card.bot_sip2",
+          "cardId": "card_empty_1b_1",
+          "name_key": "card.bot_empty",
           "element": "stone",
           "cost": 1,
           "atk": 0,
           "shield": 0,
           "hits": 0,
-          "targetRule": "ally_lowest_hp",
+          "targetRule": "self",
           "tags": [
-            "heal"
+            "shield"
           ],
-          "effectOps": [
-            {
-              "op": "heal",
-              "amount": 3
-            }
-          ]
+          "effectOps": []
         },
         {
-          "cardId": "card_dog_poke2_m1f3",
-          "name_key": "card.bot_dog_poke",
+          "cardId": "card_empty_1b_2",
+          "name_key": "card.bot_empty",
           "element": "stone",
           "cost": 1,
-          "atk": 2,
+          "atk": 0,
           "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
+          "hits": 0,
+          "targetRule": "self",
           "tags": [
-            "attack"
+            "shield"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_empty_1b_3",
+          "name_key": "card.bot_empty",
+          "element": "stone",
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "self",
+          "tags": [
+            "shield"
           ],
           "effectOps": []
         }
       ],
       "meta": {
-        "display_ru": "Пёс-завывала",
+        "display_ru": "—",
         "faction": "dogs",
-        "isPitboss": false
+        "isPitboss": false,
+        "emptyLane": true,
+        "startDead": true
       }
     }
   ],
@@ -247,9 +252,10 @@
     "stageIndex": 1,
     "fightIndex": 3,
     "title_ru": "Железная Цитадель",
-    "fight_ru": "Питбосс + солдаты",
+    "fight_ru": "Питбосс соло",
     "faction": "dogs",
-    "waveTheme": "boss_plus_soldiers",
-    "location_ru": "Железная Цитадель"
+    "waveTheme": "solo_boss",
+    "location_ru": "Железная Цитадель",
+    "tactic_ru": "Соло-босс в центре; пробитие брони (pierce/fragile). HP ≈ сумма стартеров."
   }
 }

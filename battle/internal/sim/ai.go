@@ -4,9 +4,55 @@ import (
 	"errors"
 	"fmt"
 	"sort"
+
+	"github.com/idrosha/mir_games/battle/internal/content"
 )
 
 var errRunaway = errors.New("battle runaway")
+
+func isHealCard(card content.CardDef) bool {
+	if hasTag(card.Tags, "heal") {
+		return true
+	}
+	for _, op := range card.EffectOps {
+		if op["op"] == "heal" {
+			return true
+		}
+	}
+	return false
+}
+
+func healAmount(card content.CardDef) int {
+	n := 0
+	for _, op := range card.EffectOps {
+		if op["op"] == "heal" {
+			if v, ok := op["amount"].(float64); ok {
+				n += int(v)
+			} else if v, ok := op["amount"].(int); ok {
+				n += v
+			}
+		}
+	}
+	return n
+}
+
+func allyNeedsHeal(b *Battle, side Side) bool {
+	for _, u := range b.living(side) {
+		if u.HP < u.MaxHP {
+			return true
+		}
+	}
+	return false
+}
+
+func enemyHasLivingSupport(b *Battle, side Side) bool {
+	for _, u := range b.living(opposite(side)) {
+		if u.Role == "support" {
+			return true
+		}
+	}
+	return false
+}
 
 // ChooseAction — deterministic scripted-deck AI for PvE bots (and optional auto-play).
 // Prefers: affordable attack cards by atk desc, then shield/heal, else end turn.
@@ -50,10 +96,17 @@ func (b *Battle) chooseActionSkipping(skip map[string]bool) Action {
 				if card.Cost == ps.Energy {
 					p += 5
 				}
+				// D-042 chess: prefer backline when enemy healers/supports still up.
+				if card.TargetRule == "backline" && enemyHasLivingSupport(b, side) {
+					p += 40
+				}
+			} else if u.Role == "support" && isHealCard(card) && allyNeedsHeal(b, side) {
+				// Support healers must actually heal (ch2/ch4/ch5 boss waves). Other roles unchanged.
+				p = 160 + healAmount(card)
 			} else if card.Shield > 0 {
 				p = 50 + card.Shield
 			} else {
-				p = 40 // heal/buff
+				p = 40 // buff / other
 			}
 			cs = append(cs, cand{unit: u, handIdx: hi, priority: p})
 		}
