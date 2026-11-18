@@ -3181,11 +3181,11 @@ const MONSTER_BATTLE_BY_FACTION = {
     pitboss: ["/stitch-assets/monsters/battle/wolf-pitboss-cutout.png"],
   },
   red_dogs: {
-    tank: ["/stitch-assets/monsters/battle/tank-c.png"],
-    fighter: ["/stitch-assets/monsters/battle/fighter-b.png"],
-    support: ["/stitch-assets/monsters/battle/fighter-c.png"],
-    // Pitboss art must not appear on f1/f2 soldiers.
-    pitboss: ["/stitch-assets/monsters/battle/fighter-a.png"],
+    // Ch3 refs: shield tank / dual-axe fighter / flaming-sickle support; flaming-sword pitboss.
+    tank: ["/stitch-assets/monsters/battle/redd-tank-cutout.png"],
+    fighter: ["/stitch-assets/monsters/battle/redd-fighter-cutout.png"],
+    support: ["/stitch-assets/monsters/battle/redd-support-cutout.png"],
+    pitboss: ["/stitch-assets/monsters/battle/redd-pitboss-cutout.png"],
   },
   zombies: {
     // Ch4 refs: axe guardian / cleaver butcher / dagger plague-carrier; scythe pitboss.
