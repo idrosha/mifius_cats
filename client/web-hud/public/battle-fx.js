@@ -267,8 +267,11 @@ const BREATHE = [
 function spriteRoot(el) {
   if (!el) return null;
   if (el.matches?.("img, .mf-battle-cutout, .mf-hero-sprite")) return el;
+  // Prefer the cutout img inside `.mf-sprite-face` (D-040 flip wrapper); keep breathe/hit on img.
   return (
-    el.querySelector("img.mf-battle-cutout, .mf-battle-cutout, .mf-unit-frame img, img") || el
+    el.querySelector(
+      ".mf-sprite-face img.mf-battle-cutout, .mf-sprite-face img, img.mf-battle-cutout, .mf-battle-cutout, .mf-unit-frame img, img"
+    ) || el
   );
 }
 

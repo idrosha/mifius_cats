@@ -7,6 +7,7 @@
 - **Меню locked:** при замене форм не менять `#appNav` / `#appSubTabs` / `NAV` (`D-025`, `D-033`, `D-029`).
 - **Phone:** только landscape + rotate gate (`D-036`). Portrait-first UI запрещён. CSS/gate owner = **MF-145** — не дублировать, пока задача открыта.
 - **Cat art (`D-037`):** без фона (`/stitch-assets/cat-heroes/battle/` + `catHeroBattleArt`) — **только** live fight HUD. На остальных формах — портреты с фоном (`catHeroArt`).
+- **Facing (`D-040` / MF-170):** котики → вправо; манекены/PvE-монстры → влево. Один путь: `applySpriteFacing` / `.mf-sprite-face.is-flipped` (не blanket enemy flip; не трогать nav).
 - **Fight FX (`MF-149`):** idle/aura/hit/block + Web Audio в `public/battle-fx.js` — practice / **PvE** / pvp live fight; числа только из server `events`.
 - **Practice dummies:** cutouts `stitch-assets/dojo/battle/dummy-*.png` + те же role SFX/anim, что у tank/fighter/support котиков; load/lobby — JPG с фоном.
 - **PvE live fight:** active Mythmir battle reuses `#viewPracticeFight` HUD (cutouts + hand + FX); chapter backdrop via `pveStageArt`. Painted `#viewPveFight` = stub chrome only.

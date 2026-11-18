@@ -3263,6 +3263,97 @@ function battleUnitArt(unit) {
   return catHeroBattleArt(tid);
 }
 
+/**
+ * Sprite facing (Andrew / MF-170 · D-040):
+ * - Cat heroes always face RIGHT (every form).
+ * - Practice dummies + PvE monsters/soldiers/pitbosses always face LEFT.
+ * Battle layout (allies left / foes right) → they look toward center.
+ * Prefer CSS scaleX via `.mf-sprite-face.is-flipped` (wrapper so idle breathe keeps working).
+ */
+/**
+ * Authored-left art slugs by folder (cats/dojo/monsters share role names — scope by path).
+ * Default native = RIGHT → flip when desired is left.
+ */
+const CAT_NATIVE_FACE_LEFT = new Set(["assassin-a", "tank-a", "fighter-a", "support-a"]);
+const DUMMY_NATIVE_FACE_LEFT = new Set([
+  "dummy-oak-knight",
+  "dummy-straw-berserk", // head/gaze left (body lean can read right)
+  "dummy-stone-totem",
+]);
+const MONSTER_NATIVE_FACE_LEFT = new Set(["assassin-b", "fighter-f", "ranger-a"]);
+
+function artSlugFromSrc(src) {
+  const base = String(src || "")
+    .split("?")[0]
+    .split("/")
+    .pop() || "";
+  return base.replace(/\.(png|jpe?g|webp)$/i, "");
+}
+
+function isFoeSpriteUnit(unitOrTid) {
+  if (unitOrTid == null) return false;
+  if (typeof unitOrTid === "string") {
+    const tid = unitOrTid;
+    return tid.startsWith("bot_") || tid.includes("/dojo/") || tid.includes("/monsters/");
+  }
+  const tid = String(unitTemplateId(unitOrTid) || unitOrTid.templateId || "");
+  const id = String(unitOrTid.id || "");
+  if (tid.startsWith("bot_") || id.startsWith("bot_")) return true;
+  const art = battleUnitArt(unitOrTid) || "";
+  return art.includes("/dojo/") || art.includes("/monsters/");
+}
+
+/** @returns {'left'|'right'} */
+function desiredSpriteFace(unitOrKind) {
+  if (unitOrKind === "enemy" || unitOrKind === "foe" || unitOrKind === "left") return "left";
+  if (unitOrKind === "ally" || unitOrKind === "hero" || unitOrKind === "right") return "right";
+  return isFoeSpriteUnit(unitOrKind) ? "left" : "right";
+}
+
+function artNativeFace(src) {
+  const path = String(src || "").split("?")[0];
+  const slug = artSlugFromSrc(path);
+  if (path.includes("/monsters/")) {
+    return MONSTER_NATIVE_FACE_LEFT.has(slug) ? "left" : "right";
+  }
+  if (path.includes("/dojo/")) {
+    return DUMMY_NATIVE_FACE_LEFT.has(slug) ? "left" : "right";
+  }
+  // cat-heroes framed + battle cutouts
+  return CAT_NATIVE_FACE_LEFT.has(slug) ? "left" : "right";
+}
+
+function spriteNeedsFaceFlip(artSrc, desiredFace) {
+  return artNativeFace(artSrc) !== desiredFace;
+}
+
+/** Ensure img sits in `.mf-sprite-face` wrapper; toggle `.is-flipped` for scaleX(-1). */
+function applySpriteFacing(imgOrRoot, { artSrc, desiredFace, unit } = {}) {
+  if (!imgOrRoot) return null;
+  const img =
+    imgOrRoot.tagName === "IMG"
+      ? imgOrRoot
+      : imgOrRoot.querySelector?.("img.mf-battle-cutout, img.mf-hero-sprite, .mf-sprite-face img, img");
+  if (!img) return null;
+  const src = artSrc || img.getAttribute("src") || "";
+  const desired = desiredFace || desiredSpriteFace(unit);
+  let face = img.closest?.(".mf-sprite-face");
+  if (!face) {
+    face = document.createElement("span");
+    face.className = "mf-sprite-face";
+    img.replaceWith(face);
+    face.appendChild(img);
+  }
+  face.classList.toggle("is-flipped", spriteNeedsFaceFlip(src, desired));
+  face.dataset.face = desired;
+  return face;
+}
+
+function spriteFaceHtml(imgHtml, { artSrc, desiredFace }) {
+  const flip = spriteNeedsFaceFlip(artSrc, desiredFace) ? " is-flipped" : "";
+  return `<span class="mf-sprite-face${flip}" data-face="${desiredFace}">${imgHtml}</span>`;
+}
+
 const HOME_SLOT_PIN = {
   helm: "is-tl",
   armor: "is-ml",
@@ -4417,6 +4508,7 @@ function renderHome() {
   if (artEl && art) {
     artEl.src = art;
     artEl.alt = name;
+    applySpriteFacing(artEl, { artSrc: art, desiredFace: "right" });
   }
   ensureHomeStitchLoadout(cat.catId);
   bindHomeEquipClicks();
@@ -5565,9 +5657,13 @@ function victoryHeroCardHtml(card, meta) {
   const footCls = mvp
     ? "bg-primary-container/20 text-primary"
     : "bg-surface-container text-outline";
+  const face = spriteFaceHtml(
+    `<img alt="${card.name}" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500 mf-hero-portrait" src="${card.art}"/>`,
+    { artSrc: card.art, desiredFace: desiredFaceFromArtSrc(card.art) }
+  );
   return `<article class="relative flex flex-col justify-between ${height} rounded-xl bg-surface-container-high ${shadow} overflow-hidden transition-all duration-300 hover:-translate-y-1 group" data-vic-card="${card.id}" data-mvp="${mvp ? "1" : "0"}">
 <div class="absolute inset-0 z-0">
-<img alt="${card.name}" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-500" src="${card.art}"/>
+${face}
 <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/55 to-surface-container-lowest/20"></div>
 </div>
 <div class="relative z-10 flex items-center justify-between p-3 border-b border-outline-variant/30 bg-surface-container-lowest/55 backdrop-blur-sm">
@@ -5895,12 +5991,15 @@ function unitCard(u, side) {
   const art = battleUnitArt(u);
   const roleRu = CAT_ROLE_RU[u.role] || u.role || "";
   const elRu = CAT_ELEMENT_RU[u.element] || u.element || "";
+  const desiredFace = desiredSpriteFace(u);
+  const cutout = art
+    ? spriteFaceHtml(
+        `<img alt="" class="mf-battle-cutout${u.alive ? "" : " mf-unit-dim"}" src="${art}"/>`,
+        { artSrc: art, desiredFace }
+      )
+    : "";
   d.innerHTML = `
-    <figure class="mf-unit-frame">${
-      art
-        ? `<img alt="" class="mf-battle-cutout${u.alive ? "" : " mf-unit-dim"}" src="${art}"/>`
-        : ""
-    }<div class="mf-status-row">${icons}</div><div class="mf-fatality" ${u.alive ? "hidden" : ""}><span>КОТИК ОТДЫХАЕТ</span></div></figure>
+    <figure class="mf-unit-frame">${cutout}<div class="mf-status-row">${icons}</div><div class="mf-fatality" ${u.alive ? "hidden" : ""}><span>КОТИК ОТДЫХАЕТ</span></div></figure>
     <div class="meta">${roleRu}${elRu ? ` · ${elRu}` : ""} · L${u.lane}</div>
     <div class="hp">${u.alive ? `${u.hp}/${u.maxHp}${sh}` : "КОТИК ОТДЫХАЕТ"}</div>
     <div class="mf-bars"><div class="mf-bar mf-bar--hp"><i style="width:${pct}%"></i></div>${
@@ -6769,6 +6868,8 @@ function renderPracticeFight() {
       if (img) {
         img.classList.add("mf-battle-cutout");
         card.classList.add("mf-battle-unit--cutout");
+        // D-040: cats → right, dummies/monsters → left (toward center on the board).
+        applySpriteFacing(img, { artSrc: art || img.getAttribute("src"), unit: u });
       }
       if (nameEl) nameEl.textContent = display;
       const tierEl = card.querySelector(".absolute.top-2.left-2");
@@ -6891,7 +6992,15 @@ function pvpUnitCard(u, foe, cleansedIds = []) {
       : `${u.hp} / ${u.maxHp}`
     : "КОТИК ОТДЫХАЕТ";
   li.className = (u.alive ? "" : "mf-unit-dead") + " mf-battle-unit--cutout";
-  li.innerHTML = `${art ? `<figure class="mf-unit-frame"><img alt="" src="${art}" class="mf-battle-cutout ${u.alive ? "" : "mf-unit-dim"}"/><div class="mf-fatality" ${u.alive ? "hidden" : ""}><span>КОТИК ОТДЫХАЕТ</span></div><div class="mf-status-row">${statusIconsHtml(u.alive ? unitStatusList(u) : [], { cleansed: cleansedIds })}</div></figure>` : ""}<div><b>${name}</b><small>${element}${role ? " · " + role : ""}</small><em class="${u.alive ? "" : "mf-fatality-inline"}">${hpLine}</em><div class="mf-bars"><div class="mf-bar mf-bar--hp"><i style="width:${pct}%"></i></div>${seeSh && u.shield > 0 && u.alive ? `<div class="mf-bar mf-bar--shield"><i style="width:${Math.min(100, (u.shield / Math.max(u.maxHp, 1)) * 100)}%"></i></div>` : ""}</div></div>`;
+  // D-040: PvP both sides are cat heroes → face right (type rule), not side-flip.
+  const desiredFace = desiredSpriteFace(u);
+  const cutout = art
+    ? spriteFaceHtml(
+        `<img alt="" src="${art}" class="mf-battle-cutout ${u.alive ? "" : "mf-unit-dim"}"/>`,
+        { artSrc: art, desiredFace }
+      )
+    : "";
+  li.innerHTML = `${art ? `<figure class="mf-unit-frame">${cutout}<div class="mf-fatality" ${u.alive ? "hidden" : ""}><span>КОТИК ОТДЫХАЕТ</span></div><div class="mf-status-row">${statusIconsHtml(u.alive ? unitStatusList(u) : [], { cleansed: cleansedIds })}</div></figure>` : ""}<div><b>${name}</b><small>${element}${role ? " · " + role : ""}</small><em class="${u.alive ? "" : "mf-fatality-inline"}">${hpLine}</em><div class="mf-bars"><div class="mf-bar mf-bar--hp"><i style="width:${pct}%"></i></div>${seeSh && u.shield > 0 && u.alive ? `<div class="mf-bar mf-bar--shield"><i style="width:${Math.min(100, (u.shield / Math.max(u.maxHp, 1)) * 100)}%"></i></div>` : ""}</div></div>`;
   if (foe) li.dataset.foe = "1";
   decorateBattleUnitIdle(li, u, u.lane ?? 0);
   return li;
@@ -7875,13 +7984,26 @@ function setPvpLoadProgress(pct) {
   state.pvpLoadPct = n;
 }
 
+/** Desired face from art path (D-040): cats → right; dojo/monsters → left. */
+function desiredFaceFromArtSrc(src) {
+  const path = String(src || "");
+  if (path.includes("/dojo/") || path.includes("/monsters/")) return "left";
+  return "right";
+}
+
 /** MF-148: full-body load sprite (transparent art, no card plate). */
 function battleLoadFigureHtml({ art, name, role, side }) {
   const safeName = String(name || "").replace(/"/g, "&quot;");
   const safeRole = String(role || "");
   const src = art || "";
+  // D-040: facing by art kind (not blanket `.is-enemy` flip — PvP foes are still cats).
+  const face = desiredFaceFromArtSrc(src);
+  const img = spriteFaceHtml(`<img alt="${safeName}" src="${src}"/>`, {
+    artSrc: src,
+    desiredFace: face,
+  });
   return `<figure class="battle-load-figure is-${side === "enemy" ? "enemy" : "ally"}">
-<img alt="${safeName}" src="${src}"/>
+${img}
 <figcaption><b>${safeName}</b>${safeRole ? `<small>${safeRole}</small>` : ""}</figcaption>
 </figure>`;
 }
@@ -9208,9 +9330,13 @@ function practiceSquadFilledSlot(hero, visualPos) {
   const midVal = hero.role === "fighter" || hero.role === "assassin" ? hero.dmg : hero.shield;
   const midPct = hero.role === "fighter" || hero.role === "assassin" ? dmgPct : shPct;
   const midBar = accent === "tertiary" ? "bg-tertiary" : accent === "secondary" ? "bg-secondary" : "bg-primary";
+  const heroFace = spriteFaceHtml(
+    `<img alt="${hero.name}" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300 pointer-events-none mf-hero-portrait" src="${art}"/>`,
+    { artSrc: art, desiredFace: "right" }
+  );
   return `<button type="button" class="dojo-squad-slot is-filled group relative rounded-xl bg-[#1a1613] border shadow-lg overflow-hidden flex flex-col justify-between min-h-0 text-left cursor-pointer hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary" data-accent="${accent}" data-squad-hero="${hero.templateId}" data-lane="${laneIdx}" title="Убрать из отряда">
 <div class="absolute inset-0 z-0">
-<img alt="${hero.name}" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300 pointer-events-none" src="${art}"/>
+${heroFace}
 <div class="absolute inset-0 bg-gradient-to-t from-[#110d0b] via-[#110d0b]/75 to-transparent"></div>
 </div>
 <div class="relative z-10 p-2 flex items-center justify-between">
@@ -9243,9 +9369,13 @@ function practiceMatchAllyCard(hero, accentFallback) {
   const accent = hero.accent || accentFallback || "primary";
   const accentText = practiceAccentTextClass(accent);
   const art = catHeroArt(hero.templateId) || "";
+  const face = spriteFaceHtml(
+    `<img alt="${hero.short}" class="w-full h-full object-cover object-top mf-hero-portrait" src="${art}"/>`,
+    { artSrc: art, desiredFace: "right" }
+  );
   return `<div class="flex flex-col items-center">
 <div class="dojo-match-card w-16 h-28 rounded-lg bg-[#1a1613] overflow-hidden relative shadow-[0_0_12px_rgba(253,186,69,0.35)] border-2" data-accent="${accent}">
-<img alt="${hero.short}" class="w-full h-full object-cover object-top" src="${art}"/>
+${face}
 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-transparent to-transparent"></div>
 <div class="absolute bottom-1 inset-x-0 text-center"><span class="text-[9px] ${accentText} font-bold truncate block px-1">${hero.short}</span></div>
 </div>
@@ -9319,6 +9449,14 @@ function renderPracticeSquad() {
     const slotIdx = on ? squad.indexOf(hero.templateId) : -1;
     card.classList.toggle("is-picked", on);
     card.setAttribute("aria-pressed", on ? "true" : "false");
+    const portrait = card.querySelector("img");
+    if (portrait) {
+      // D-040: framed roster cats always face right.
+      applySpriteFacing(portrait, {
+        artSrc: portrait.getAttribute("src") || (hero ? catHeroArt(hero.templateId) : ""),
+        desiredFace: "right",
+      });
+    }
     const btn = card.querySelector("button");
     if (btn) {
       btn.textContent = on ? `Слот ${slotIdx + 1}` : "+ В отряд";
@@ -9335,6 +9473,14 @@ function renderPracticeSquad() {
         }
       }
     }
+  });
+
+  // D-040: lobby dummy / monster previews always face left (not arena backdrops).
+  root.querySelectorAll("img[src*='/dojo/'], img[src*='/monsters/']").forEach((img) => {
+    const src = img.getAttribute("src") || "";
+    if (/arena|backdrop|bg-|background|load-arena/i.test(src)) return;
+    if (!/dummy-|battle\/|monsters\//i.test(src)) return;
+    applySpriteFacing(img, { artSrc: src, desiredFace: "left" });
   });
 
   const startBtn = root.querySelector("#btnDojoStart, .dojo-start");

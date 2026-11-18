@@ -819,6 +819,49 @@ body.mythfel-login .mythfel-logout {
   border-radius: 0 !important;
 }
 
+/**
+ * D-040 / MF-170: sprite facing via wrapper scaleX so idle breathe (transform on img) still works.
+ * Cats → face right; dummies/monsters → face left. Flip only when native art ≠ desired.
+ */
+.mf-sprite-face {
+  display: block;
+  width: 100%;
+  height: 100%;
+  transform-origin: center bottom;
+  pointer-events: none;
+}
+.mf-sprite-face > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.mf-sprite-face.is-flipped {
+  transform: scaleX(-1);
+}
+/* Absolute fill portraits (squad / victory / home / roster) keep the face wrapper sized to the plate. */
+.dojo-squad-slot .mf-sprite-face,
+.dojo-match-card .mf-sprite-face,
+.dojo-roster-card .mf-sprite-face,
+[data-hero] .mf-sprite-face,
+[data-vic-card] .mf-sprite-face {
+  position: absolute;
+  inset: 0;
+}
+#homeHeroArt.mf-sprite-face,
+.mf-sprite-face:has(#homeHeroArt) {
+  position: relative;
+  width: auto;
+  height: auto;
+  max-height: 92%;
+  max-width: 90%;
+}
+.mf-sprite-face:has(#homeHeroArt) > #homeHeroArt {
+  max-height: 92%;
+  max-width: 90%;
+  width: auto;
+  height: auto;
+}
+
 /* MF-149: live-fight idle / aura / hit / block (showcase → fight HUD only). */
 @keyframes heroBreathe1 {
   0%, 100% { transform: translateY(0) scale(1, 1); }
@@ -3186,7 +3229,7 @@ body:has(#viewPvpVictory:not(.hidden)) #app { height: 100dvh !important; max-hei
   pointer-events: none;
   user-select: none;
 }
-.battle-load-figure.is-enemy img { transform: scaleX(-1); }
+/* D-040: facing via `.mf-sprite-face.is-flipped` (not blanket enemy flip — PvP foes are cats). */
 .battle-load-figure figcaption {
   text-align: center;
   max-width: 100%;
