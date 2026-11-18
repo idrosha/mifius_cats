@@ -10,7 +10,7 @@
       "element": "grass",
       "level": 4,
       "baseStats": {
-        "hp": 28,
+        "hp": 30,
         "atk": 4,
         "spd": 6,
         "skill": 2,
@@ -19,13 +19,13 @@
       "deck": [
         {
           "cardId": "card_zomb_stab_m4f3_a",
-          "name_key": "card.bot_zomb_poison",
-          "element": "grass",
+          "name_key": "card.bot_zomb_stab",
+          "element": "shadow",
           "cost": 1,
           "atk": 4,
           "shield": 0,
           "hits": 1,
-          "targetRule": "nearest",
+          "targetRule": "random_enemy",
           "tags": [
             "attack",
             "poison"
@@ -34,20 +34,20 @@
             {
               "op": "apply_status",
               "status": "poison",
-              "stacks": 2,
-              "duration": 2
+              "stacks": 1,
+              "duration": 0
             }
           ]
         },
         {
           "cardId": "card_zomb_stab2_m4f3_a",
-          "name_key": "card.bot_zomb_poison",
-          "element": "grass",
+          "name_key": "card.bot_zomb_stab",
+          "element": "shadow",
           "cost": 1,
           "atk": 4,
           "shield": 0,
           "hits": 1,
-          "targetRule": "nearest",
+          "targetRule": "random_enemy",
           "tags": [
             "attack",
             "poison"
@@ -56,50 +56,52 @@
             {
               "op": "apply_status",
               "status": "poison",
-              "stacks": 2,
-              "duration": 2
+              "stacks": 1,
+              "duration": 0
             }
           ]
         },
         {
           "cardId": "card_zomb_stab3_m4f3_a",
-          "name_key": "card.bot_zomb_claw",
-          "element": "grass",
+          "name_key": "card.bot_zomb_stab",
+          "element": "shadow",
           "cost": 1,
           "atk": 5,
           "shield": 0,
           "hits": 1,
-          "targetRule": "nearest",
+          "targetRule": "random_enemy",
           "tags": [
-            "attack"
+            "attack",
+            "poison"
           ],
           "effectOps": [
             {
               "op": "apply_status",
               "status": "poison",
               "stacks": 1,
-              "duration": 2
+              "duration": 0
             }
           ]
         },
         {
           "cardId": "card_zomb_cut_m4f3_a",
-          "name_key": "card.bot_zomb_claw",
-          "element": "grass",
+          "name_key": "card.bot_zomb_cut",
+          "element": "shadow",
           "cost": 1,
           "atk": 3,
           "shield": 0,
           "hits": 1,
-          "targetRule": "nearest",
+          "targetRule": "random_enemy",
           "tags": [
-            "attack"
+            "attack",
+            "poison"
           ],
           "effectOps": [
             {
               "op": "apply_status",
-              "status": "weak",
+              "status": "poison",
               "stacks": 1,
-              "duration": 1
+              "duration": 0
             }
           ]
         }
@@ -116,7 +118,7 @@
       "element": "grass",
       "level": 4,
       "baseStats": {
-        "hp": 28,
+        "hp": 30,
         "atk": 4,
         "spd": 6,
         "skill": 2,
@@ -125,13 +127,13 @@
       "deck": [
         {
           "cardId": "card_zomb_stab_m4f3_b",
-          "name_key": "card.bot_zomb_poison",
-          "element": "grass",
+          "name_key": "card.bot_zomb_stab",
+          "element": "shadow",
           "cost": 1,
           "atk": 4,
           "shield": 0,
           "hits": 1,
-          "targetRule": "nearest",
+          "targetRule": "random_enemy",
           "tags": [
             "attack",
             "poison"
@@ -140,20 +142,20 @@
             {
               "op": "apply_status",
               "status": "poison",
-              "stacks": 2,
-              "duration": 2
+              "stacks": 1,
+              "duration": 0
             }
           ]
         },
         {
           "cardId": "card_zomb_stab2_m4f3_b",
-          "name_key": "card.bot_zomb_poison",
-          "element": "grass",
+          "name_key": "card.bot_zomb_stab",
+          "element": "shadow",
           "cost": 1,
           "atk": 4,
           "shield": 0,
           "hits": 1,
-          "targetRule": "nearest",
+          "targetRule": "random_enemy",
           "tags": [
             "attack",
             "poison"
@@ -162,50 +164,52 @@
             {
               "op": "apply_status",
               "status": "poison",
-              "stacks": 2,
-              "duration": 2
+              "stacks": 1,
+              "duration": 0
             }
           ]
         },
         {
           "cardId": "card_zomb_stab3_m4f3_b",
-          "name_key": "card.bot_zomb_claw",
-          "element": "grass",
+          "name_key": "card.bot_zomb_stab",
+          "element": "shadow",
           "cost": 1,
           "atk": 5,
           "shield": 0,
           "hits": 1,
-          "targetRule": "nearest",
+          "targetRule": "random_enemy",
           "tags": [
-            "attack"
+            "attack",
+            "poison"
           ],
           "effectOps": [
             {
               "op": "apply_status",
               "status": "poison",
               "stacks": 1,
-              "duration": 2
+              "duration": 0
             }
           ]
         },
         {
           "cardId": "card_zomb_cut_m4f3_b",
-          "name_key": "card.bot_zomb_claw",
-          "element": "grass",
+          "name_key": "card.bot_zomb_cut",
+          "element": "shadow",
           "cost": 1,
           "atk": 3,
           "shield": 0,
           "hits": 1,
-          "targetRule": "nearest",
+          "targetRule": "random_enemy",
           "tags": [
-            "attack"
+            "attack",
+            "poison"
           ],
           "effectOps": [
             {
               "op": "apply_status",
-              "status": "weak",
+              "status": "poison",
               "stacks": 1,
-              "duration": 1
+              "duration": 0
             }
           ]
         }
@@ -222,9 +226,9 @@
       "element": "grass",
       "level": 4,
       "baseStats": {
-        "hp": 48,
-        "atk": 2,
-        "spd": 3,
+        "hp": 52,
+        "atk": 3,
+        "spd": 4,
         "skill": 5,
         "charm": 1
       },
@@ -232,7 +236,7 @@
         {
           "cardId": "card_zomb_necro_heal_m4f3",
           "name_key": "card.bot_sip",
-          "element": "grass",
+          "element": "shadow",
           "cost": 1,
           "atk": 0,
           "shield": 0,
@@ -244,14 +248,14 @@
           "effectOps": [
             {
               "op": "heal",
-              "amount": 6
+              "amount": 7
             }
           ]
         },
         {
           "cardId": "card_zomb_necro_heal2_m4f3",
           "name_key": "card.bot_sip2",
-          "element": "grass",
+          "element": "shadow",
           "cost": 1,
           "atk": 0,
           "shield": 0,
@@ -263,21 +267,22 @@
           "effectOps": [
             {
               "op": "heal",
-              "amount": 10
+              "amount": 11
             }
           ]
         },
         {
-          "cardId": "card_zomb_necro_hex_m4f3",
-          "name_key": "card.bot_zomb_hex",
-          "element": "grass",
+          "cardId": "card_zomb_necro_bolt_m4f3",
+          "name_key": "card.bot_zomb_necro_bolt",
+          "element": "shadow",
           "cost": 1,
-          "atk": 2,
+          "atk": 7,
           "shield": 0,
           "hits": 1,
-          "targetRule": "nearest",
+          "targetRule": "backline",
           "tags": [
-            "attack"
+            "attack",
+            "backline"
           ],
           "effectOps": [
             {
@@ -289,16 +294,17 @@
           ]
         },
         {
-          "cardId": "card_zomb_necro_hex2_m4f3",
-          "name_key": "card.bot_zomb_hex",
-          "element": "grass",
+          "cardId": "card_zomb_necro_bolt2_m4f3",
+          "name_key": "card.bot_zomb_necro_bolt",
+          "element": "shadow",
           "cost": 1,
-          "atk": 2,
+          "atk": 8,
           "shield": 0,
           "hits": 1,
-          "targetRule": "nearest",
+          "targetRule": "backline",
           "tags": [
-            "attack"
+            "attack",
+            "backline"
           ],
           "effectOps": [
             {

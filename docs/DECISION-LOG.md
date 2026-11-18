@@ -12,6 +12,22 @@ Append-only. Новые записи — **сверху** (после шабло
 6. Одна запись = одно решение. Не смешивать баланс и IA в одном D-id.
 7. В коде/доках ссылайся `D-0xx`, не копируй абзац Context.
 
+## D-043 · 2026-11-18 · Poison: постоянный стек +1/тик; random_enemy
+
+- **Status:** Accepted
+- **Area:** battle | content
+- **SSOT:** docs/FULL-SPEC.md §3.4 · §3.5 · §4.1
+- **Owner:** Andrew / battle
+
+### Context
+Ch4 питбосс: убийцы травят случайных бойцов; яд не должен спадать по duration, только копиться и усиливаться. После смерти убийц некромант рвёт тыл, пока фронт под DoT.
+
+### Decision
+**Poison (LOCKED):** `duration` игнор → 0; тик наносит `stacks` урона, затем `stacks++`; снятие только cleanse/mint. **`targetRule: random_enemy`:** seeded pick среди живых (stealth filter); taunt не редиректит (spread DoT). Ch4 f3: 2 assassin `random_enemy`+poison; necro heal, пока живы убийцы, иначе `backline` охота (AI).
+
+### Consequences
+Shop assassin poison cards наследуют тот же стек. Wiki/HUD tip ch4 обновлены. Clear-all на стартерах остаётся CI-гейтом.
+
 ## D-042 · 2026-11-18 · Mythmir f3: тактические расстановки питбоссов
 
 - **Status:** Accepted

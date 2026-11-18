@@ -100,6 +100,10 @@ func (b *Battle) chooseActionSkipping(skip map[string]bool) Action {
 				if card.TargetRule == "backline" && enemyHasLivingSupport(b, side) {
 					p += 40
 				}
+				// D-043 ch4: solo support (necro after assassins fall) hunts the rear.
+				if u.Role == "support" && card.TargetRule == "backline" && len(b.living(side)) == 1 {
+					p += 45
+				}
 			} else if u.Role == "support" && isHealCard(card) && allyNeedsHeal(b, side) {
 				// Support healers must actually heal (ch2/ch4/ch5 boss waves). Other roles unchanged.
 				p = 160 + healAmount(card)

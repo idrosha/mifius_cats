@@ -197,10 +197,14 @@ func (u *Unit) addStatus(id string, stacks, duration int) {
 		u.clearStatus("cleanser")
 		return
 	}
+	// D-043: poison never uses duration — permanent until cleanse/mint; stacks only.
+	if id == "poison" {
+		duration = 0
+	}
 	for i := range u.Statuses {
 		if u.Statuses[i].ID == id {
 			u.Statuses[i].Stacks += stacks
-			if duration > u.Statuses[i].Duration {
+			if id != "poison" && duration > u.Statuses[i].Duration {
 				u.Statuses[i].Duration = duration
 			}
 			return
