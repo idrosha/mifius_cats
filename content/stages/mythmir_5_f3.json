@@ -10,8 +10,8 @@
       "element": "bolt",
       "level": 5,
       "baseStats": {
-        "hp": 40,
-        "atk": 2,
+        "hp": 42,
+        "atk": 3,
         "spd": 2,
         "skill": 1,
         "charm": 1
@@ -64,7 +64,7 @@
           "name_key": "card.bot_ghost_bash",
           "element": "bolt",
           "cost": 1,
-          "atk": 3,
+          "atk": 5,
           "shield": 0,
           "hits": 1,
           "targetRule": "nearest",
@@ -78,7 +78,7 @@
           "name_key": "card.bot_ghost_bash",
           "element": "bolt",
           "cost": 1,
-          "atk": 3,
+          "atk": 5,
           "shield": 0,
           "hits": 1,
           "targetRule": "nearest",
@@ -178,7 +178,7 @@
       "level": 5,
       "baseStats": {
         "hp": 24,
-        "atk": 1,
+        "atk": 2,
         "spd": 4,
         "skill": 4,
         "charm": 1
@@ -246,7 +246,7 @@
           "name_key": "card.bot_ghost_poke",
           "element": "bolt",
           "cost": 1,
-          "atk": 1,
+          "atk": 2,
           "shield": 0,
           "hits": 1,
           "targetRule": "nearest",

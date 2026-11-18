@@ -99,7 +99,7 @@
       "level": 2,
       "baseStats": {
         "hp": 22,
-        "atk": 1,
+        "atk": 2,
         "spd": 4,
         "skill": 3,
         "charm": 1
@@ -167,7 +167,7 @@
           "name_key": "card.bot_wolf_poke",
           "element": "ice",
           "cost": 1,
-          "atk": 1,
+          "atk": 2,
           "shield": 0,
           "hits": 1,
           "targetRule": "nearest",
@@ -190,7 +190,7 @@
       "level": 2,
       "baseStats": {
         "hp": 22,
-        "atk": 1,
+        "atk": 2,
         "spd": 4,
         "skill": 3,
         "charm": 1
@@ -258,7 +258,7 @@
           "name_key": "card.bot_wolf_poke",
           "element": "ice",
           "cost": 1,
-          "atk": 1,
+          "atk": 2,
           "shield": 0,
           "hits": 1,
           "targetRule": "nearest",
