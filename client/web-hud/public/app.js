@@ -6879,10 +6879,9 @@ function renderPracticeFight() {
       if (nameEl) nameEl.textContent = display;
       const tierEl = card.querySelector(".absolute.top-2.left-2");
       if (tierEl) {
-        // MF-171: drop duplicate corner badges (Т1 / role). Lane pill above already
-        // shows «Тыл • Роль» — keep that; hide the portrait overlay on both sides.
-        tierEl.hidden = true;
-        tierEl.textContent = "";
+        // MF-171 / MF-173: drop portrait corner chips (Ур. N / Т1 / role).
+        // Lane pill above already shows «Тыл • Роль».
+        tierEl.remove();
       }
       const seeSh = canSeeUnitShield(u);
       if (em) {
