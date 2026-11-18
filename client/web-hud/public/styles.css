@@ -6590,17 +6590,32 @@ body.mythfel-shell > #viewPveFight.stitch-view:not(.hidden) {
 /* =============================================================================
  * MF-151 · #viewPveVictory — PvE expedition victory (Славная победа)
  * D-025 hide nav/dock. No orientGate (D-036).
+ * Stage lives under #app (not body-ejected): zero chrome-stack + fill 100dvh
+ * so hiding nav does not leave an empty «подвал» band under the loot/CTA strip.
  * ============================================================================= */
+body:has(#viewPveVictory:not(.hidden)) {
+  --mythfel-chrome-stack: 0px;
+}
 body:has(#viewPveVictory:not(.hidden)) #appNav,
 body:has(#viewPveVictory:not(.hidden)) #appSubTabs,
 body:has(#viewPveVictory:not(.hidden)) #wireDock {
   display: none !important;
 }
-body.mythfel-shell > #viewPveVictory.stitch-view:not(.hidden) {
+body:has(#viewPveVictory:not(.hidden)) #app {
+  height: 100dvh !important;
+  max-height: 100dvh !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  aspect-ratio: auto !important;
+  margin: 0 !important;
+}
+#viewPveVictory.stitch-view:not(.hidden) {
   display: flex !important;
   flex-direction: column !important;
   flex: 1 1 auto !important;
   min-height: 0 !important;
+  height: 100% !important;
+  max-height: 100% !important;
   overflow: hidden !important;
   background: #110d0b;
   color: #eae1db;
@@ -6612,9 +6627,10 @@ body.mythfel-shell > #viewPveVictory.stitch-view:not(.hidden) {
   justify-content: space-between;
   flex: 1 1 auto;
   min-height: 0;
-  height: 100%;
+  height: 100% !important;
   overflow: hidden;
-  padding: 0.75rem 1.1rem 0.9rem;
+  padding: 0.75rem 1.1rem 0.85rem;
+  box-sizing: border-box;
 }
 #viewPveVictory .pve-vic-backdrop {
   position: absolute;
