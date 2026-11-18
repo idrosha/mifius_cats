@@ -3174,38 +3174,28 @@ const MONSTER_BATTLE_BY_FACTION = {
     pitboss: ["/stitch-assets/monsters/battle/tank-d.png"],
   },
   wolves: {
-    tank: ["/stitch-assets/monsters/battle/tank-b.png"],
-    fighter: ["/stitch-assets/monsters/battle/fighter-e.png"],
-    support: [
-      "/stitch-assets/monsters/battle/support-a.png",
-      "/stitch-assets/monsters/battle/ranger-b.png",
-    ],
-    pitboss: ["/stitch-assets/monsters/battle/fighter-e.png"],
+    // Ch2 refs: ice sword / archer / shaman soldiers; dual-blade pitboss (not grey dog tank).
+    tank: ["/stitch-assets/monsters/battle/wolf-tank.png"],
+    fighter: ["/stitch-assets/monsters/battle/wolf-fighter.png"],
+    support: ["/stitch-assets/monsters/battle/wolf-support.png"],
+    pitboss: ["/stitch-assets/monsters/battle/wolf-pitboss.png"],
   },
   red_dogs: {
     tank: ["/stitch-assets/monsters/battle/tank-c.png"],
-    fighter: [
-      "/stitch-assets/monsters/battle/fighter-b.png",
-      "/stitch-assets/monsters/battle/fighter-c.png",
-    ],
-    support: ["/stitch-assets/monsters/battle/fighter-a.png"],
+    fighter: ["/stitch-assets/monsters/battle/fighter-b.png"],
+    support: ["/stitch-assets/monsters/battle/fighter-c.png"],
+    // Pitboss art must not appear on f1/f2 soldiers.
     pitboss: ["/stitch-assets/monsters/battle/fighter-a.png"],
   },
   zombies: {
     tank: ["/stitch-assets/monsters/battle/assassin-b.png"],
-    fighter: ["/stitch-assets/monsters/battle/fighter-g.png"],
-    support: [
-      "/stitch-assets/monsters/battle/support-c.png",
-      "/stitch-assets/monsters/battle/assassin-a.png",
-    ],
+    fighter: ["/stitch-assets/monsters/battle/assassin-a.png"],
+    support: ["/stitch-assets/monsters/battle/support-c.png"],
     pitboss: ["/stitch-assets/monsters/battle/fighter-g.png"],
   },
   ghosts: {
     tank: ["/stitch-assets/monsters/battle/tank-a.png"],
-    fighter: [
-      "/stitch-assets/monsters/battle/fighter-d.png",
-      "/stitch-assets/monsters/battle/fighter-f.png",
-    ],
+    fighter: ["/stitch-assets/monsters/battle/fighter-d.png"],
     support: ["/stitch-assets/monsters/battle/support-b.png"],
     pitboss: ["/stitch-assets/monsters/battle/fighter-f.png"],
   },
@@ -6878,10 +6868,10 @@ function renderPracticeFight() {
         });
       }
       if (nameEl) nameEl.textContent = display;
+      // MF-171: drop duplicate corner badges (Т1 / role). Lane pill above already
+      // shows «Тыл • Роль» — keep that; hide the portrait overlay on both sides.
       const tierEl = card.querySelector(".absolute.top-2.left-2");
       if (tierEl) {
-        // MF-171: drop duplicate corner badges (Т1 / role). Lane pill above already
-        // shows «Тыл • Роль» — keep that; hide the portrait overlay on both sides.
         tierEl.hidden = true;
         tierEl.textContent = "";
       }

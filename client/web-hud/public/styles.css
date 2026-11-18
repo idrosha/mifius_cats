@@ -3560,6 +3560,10 @@ body:has(#viewPracticeFight:not(.hidden)) #app {
   display: flex;
   flex-direction: column;
 }
+/* Portrait tier/role chips (Т1 Страж / Боец / …) — removed per Andrew; keep lane pills. */
+#viewPracticeFight [data-slot] .absolute.top-2.left-2 {
+  display: none !important;
+}
 #viewPracticeFight > main {
   padding-top: 0 !important;
   padding-bottom: 0 !important;
