@@ -17,3 +17,4 @@ Ch1 dogs → grey armored cutouts (`tank-b` / `fighter-h` / `ranger-a`, pitboss 
 Ch2 wolves → `wolf-tank` / `wolf-fighter` / `wolf-support`, pitboss `wolf-pitboss`.
 Load/fight backdrops: `pve-load/chapter-2-frost.png` + `pve-fight/ch2-{entrance,tunnel,boss}.png` (order locked).
 See `manifest.json` for source UUID → file map.
+
