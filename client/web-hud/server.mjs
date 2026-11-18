@@ -59,7 +59,9 @@ function cacheControlFor(ext) {
   if ([".woff", ".woff2"].includes(ext)) {
     return "public, max-age=604800, immutable";
   }
-  if ([".css", ".js"].includes(ext)) return "public, max-age=120";
+  // Soft-launch: JS/CSS change often (fatality labels, FX). max-age trapped
+  // open tabs on pre-deploy app.js (D-041 «котик» after merge) — always revalidate.
+  if ([".css", ".js"].includes(ext)) return "no-cache";
   return "no-store";
 }
 
