@@ -3195,10 +3195,11 @@ const MONSTER_BATTLE_BY_FACTION = {
     pitboss: ["/stitch-assets/monsters/battle/zombie-pitboss-cutout.png"],
   },
   ghosts: {
-    tank: ["/stitch-assets/monsters/battle/tank-a.png"],
-    fighter: ["/stitch-assets/monsters/battle/fighter-d.png"],
-    support: ["/stitch-assets/monsters/battle/support-b.png"],
-    pitboss: ["/stitch-assets/monsters/battle/fighter-f.png"],
+    // Ch5 refs: shield+flail / scimitar cape / shaman staff; banner-sword pitboss.
+    tank: ["/stitch-assets/monsters/battle/ghost-tank-cutout.png"],
+    fighter: ["/stitch-assets/monsters/battle/ghost-fighter-cutout.png"],
+    support: ["/stitch-assets/monsters/battle/ghost-support-cutout.png"],
+    pitboss: ["/stitch-assets/monsters/battle/ghost-pitboss-cutout.png"],
   },
 };
 
@@ -7656,19 +7657,21 @@ const PVE_LOAD_CHAPTERS = {
     ],
     stages: {
       entrance: {
+        // Andrew order: graveyard → ghost gallery → spectral cathedral.
+        // File names ch4-* are legacy remap; tunnel/boss files were swapped vs labels.
         art: "/stitch-assets/pve-fight/ch4-entrance.png",
         enemyTitle: "СТАЯ · ВОЛНА 1/3 (СОЛДАТЫ)",
         enemies: ["Могильный страж", "Клинок душ", "Блуждающий огонёк"],
         tip: "Этап 1/3 · Вход в Призрачный Чертог",
       },
       tunnel: {
-        art: "/stitch-assets/pve-fight/ch4-tunnel.png",
+        art: "/stitch-assets/pve-fight/ch4-boss.png",
         enemyTitle: "СТАЯ · ВОЛНА 2/3 (СОЛДАТЫ)",
         enemies: ["Могильный страж", "Клинок душ", "Блуждающий огонёк"],
         tip: "Этап 2/3 · Галерея призрачных колонн",
       },
       boss: {
-        art: "/stitch-assets/pve-fight/ch4-boss.png",
+        art: "/stitch-assets/pve-fight/ch4-tunnel.png",
         enemyTitle: "СТАЯ · ВОЛНА 3/3 (ПИТБОСС)",
         enemies: ["Могильный страж", "Фантом Гул", "Блуждающий огонёк"],
         tip: "Этап 3/3 · Зал Фантома Гула",
