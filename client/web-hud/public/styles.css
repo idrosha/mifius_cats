@@ -6593,12 +6593,17 @@ body.mythfel-shell > #viewPveFight.stitch-view:not(.hidden) {
  * Stage lives under #app (not body-ejected): zero chrome-stack + fill 100dvh
  * so hiding nav does not leave an empty «подвал» band under the loot/CTA strip.
  * ============================================================================= */
-body:has(#viewPveVictory:not(.hidden)) {
+/* Zero chrome-stack (#179) + hide IA chrome so subtabs/dock cannot cover hero legs. */
+body:has(#viewPveVictory:not(.hidden)),
+:root:has(#viewPveVictory:not(.hidden)) {
   --mythfel-chrome-stack: 0px;
 }
 body:has(#viewPveVictory:not(.hidden)) #appNav,
 body:has(#viewPveVictory:not(.hidden)) #appSubTabs,
-body:has(#viewPveVictory:not(.hidden)) #wireDock {
+body:has(#viewPveVictory:not(.hidden)) #wireDock,
+body:has(#viewPveVictory:not(.hidden)) .mythfel-nav,
+body:has(#viewPveVictory:not(.hidden)) .mythfel-subtabs,
+body:has(#viewPveVictory:not(.hidden)) .mythfel-wire {
   display: none !important;
 }
 body:has(#viewPveVictory:not(.hidden)) #app {
@@ -6608,6 +6613,7 @@ body:has(#viewPveVictory:not(.hidden)) #app {
   max-width: 100% !important;
   aspect-ratio: auto !important;
   margin: 0 !important;
+  flex: 1 1 auto !important;
 }
 #viewPveVictory.stitch-view:not(.hidden) {
   display: flex !important;
@@ -6758,6 +6764,8 @@ body:has(#viewPveVictory:not(.hidden)) #app {
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
+  min-height: 0;
+  height: 100%;
   padding: 0.7rem;
   border-radius: 0.75rem;
   background: rgba(35, 31, 28, 0.82);
@@ -6795,6 +6803,7 @@ body:has(#viewPveVictory:not(.hidden)) #app {
   justify-content: space-between;
   gap: 0.4rem;
   align-items: center;
+  flex: 0 0 auto;
   font-size: 0.72rem;
 }
 #viewPveVictory .pve-vic-slot {
@@ -6826,9 +6835,12 @@ body:has(#viewPveVictory:not(.hidden)) #app {
   background: #d99b26;
   color: #432c00;
 }
+/* Framed catHeroArt is ~3:4 full-body; grow art (not 4:3 waist crop) so cats stand. */
 #viewPveVictory .pve-vic-art {
   position: relative;
-  aspect-ratio: 4 / 3;
+  flex: 1 1 auto;
+  min-height: 0;
+  width: 100%;
   border-radius: 0.55rem;
   overflow: hidden;
   background: rgba(17, 13, 11, 0.75);
@@ -6842,26 +6854,34 @@ body:has(#viewPveVictory:not(.hidden)) #app {
   inset: 0;
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: top;
+  /* Match ~3:4 catHeroArt; contain keeps paws visible (no waist crop). */
+  object-fit: contain;
+  object-position: center bottom;
 }
+/* Nameplate veil only — do not paint a «подвал» over the lower half of the hero. */
 #viewPveVictory .pve-vic-art::after {
   content: "";
   position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 35%, rgba(17, 13, 11, 0.92) 100%);
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 28%;
+  background: linear-gradient(180deg, transparent 0%, rgba(17, 13, 11, 0.55) 55%, rgba(17, 13, 11, 0.88) 100%);
+  pointer-events: none;
 }
 #viewPveVictory .pve-vic-art b {
   position: relative;
   z-index: 1;
-  margin-bottom: 0.45rem;
+  margin-bottom: 0.35rem;
   font-size: 0.9rem;
   color: #eae1db;
+  text-shadow: 0 1px 8px rgba(17, 13, 11, 0.95);
 }
 #viewPveVictory .pve-vic-stats {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 0.25rem;
+  flex: 0 0 auto;
   background: rgba(17, 13, 11, 0.85);
   border-radius: 0.5rem;
   padding: 0.35rem;
@@ -6895,6 +6915,7 @@ body:has(#viewPveVictory:not(.hidden)) #app {
   grid-template-columns: auto 1fr;
   gap: 0.15rem 0.5rem;
   align-items: center;
+  flex: 0 0 auto;
   font-size: 0.68rem;
 }
 #viewPveVictory .pve-vic-xp span { color: #ffdeae; font-weight: 750; }
