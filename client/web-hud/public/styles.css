@@ -838,6 +838,12 @@ body.mythfel-login .mythfel-logout {
 .mf-sprite-face.is-flipped {
   transform: scaleX(-1);
 }
+/* Fight boards: beat any leftover Tailwind `transform` utilities on ancestors/children. */
+#viewPracticeFight .mf-sprite-face.is-flipped,
+#viewPvpFight .mf-sprite-face.is-flipped,
+#viewBattle .mf-sprite-face.is-flipped {
+  transform: scaleX(-1) !important;
+}
 /* Absolute fill portraits (squad / victory / home / roster) keep the face wrapper sized to the plate. */
 .dojo-squad-slot .mf-sprite-face,
 .dojo-match-card .mf-sprite-face,
