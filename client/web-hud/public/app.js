@@ -3270,7 +3270,9 @@ const DUMMY_NATIVE_FACE_LEFT = new Set([
   // dummy-straw-berserk is authored facing RIGHT — flip when desired=left (MF-171).
   "dummy-stone-totem",
 ]);
-const MONSTER_NATIVE_FACE_LEFT = new Set(["assassin-b", "fighter-f", "ranger-a"]);
+// Only assets authored aiming/looking LEFT. ranger-a aims RIGHT (bow) — do NOT list it
+// or enemies keep shooting away from the cats (Andrew / ch1 PvE).
+const MONSTER_NATIVE_FACE_LEFT = new Set(["assassin-b", "fighter-f"]);
 
 function artSlugFromSrc(src) {
   const base = String(src || "")
@@ -3334,8 +3336,11 @@ function applySpriteFacing(imgOrRoot, { artSrc, desiredFace, unit } = {}) {
     img.replaceWith(face);
     face.appendChild(img);
   }
-  face.classList.toggle("is-flipped", spriteNeedsFaceFlip(src, desired));
+  const flip = spriteNeedsFaceFlip(src, desired);
+  face.classList.toggle("is-flipped", flip);
   face.dataset.face = desired;
+  // Inline backup: some Tailwind `transform` utilities can otherwise win the cascade.
+  face.style.transform = flip ? "scaleX(-1)" : "";
   return face;
 }
 
