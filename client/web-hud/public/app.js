@@ -6873,15 +6873,12 @@ function renderPracticeFight() {
       }
       if (nameEl) nameEl.textContent = display;
       const tierEl = card.querySelector(".absolute.top-2.left-2");
-      if (tierEl && !hero) {
-        const roleRu = CAT_ROLE_RU[u.role] || u.role || "";
-        tierEl.textContent = isBot
-          ? roleRu
-            ? `${roleRu}`
-            : "Враг"
-          : roleRu
-            ? `Т1 ${roleRu}`
-            : "Т1";
+      if (tierEl) {
+        // Live fight corner badge = role only (MF-171). Never stamp dummy "Т1 …"
+        // on cat heroes — PvE allies often miss PRACTICE_HEROES, so the old
+        // !hero path leaked mannequin-tier labels onto starter cats.
+        const roleRu = hero?.roleRu || CAT_ROLE_RU[u.role] || u.role || "";
+        tierEl.textContent = roleRu || (isBot ? "Враг" : "");
       }
       const seeSh = canSeeUnitShield(u);
       if (em) {
