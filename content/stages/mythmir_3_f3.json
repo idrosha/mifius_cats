@@ -10,7 +10,7 @@
       "element": "fire",
       "level": 3,
       "baseStats": {
-        "hp": 44,
+        "hp": 54,
         "atk": 3,
         "spd": 2,
         "skill": 1,
@@ -23,7 +23,7 @@
           "element": "fire",
           "cost": 1,
           "atk": 0,
-          "shield": 5,
+          "shield": 8,
           "hits": 0,
           "targetRule": "self",
           "tags": [
@@ -44,7 +44,7 @@
           "element": "fire",
           "cost": 1,
           "atk": 0,
-          "shield": 4,
+          "shield": 7,
           "hits": 0,
           "targetRule": "self",
           "tags": [
@@ -183,7 +183,7 @@
       "element": "fire",
       "level": 3,
       "baseStats": {
-        "hp": 44,
+        "hp": 54,
         "atk": 3,
         "spd": 2,
         "skill": 1,
@@ -196,7 +196,7 @@
           "element": "fire",
           "cost": 1,
           "atk": 0,
-          "shield": 5,
+          "shield": 8,
           "hits": 0,
           "targetRule": "self",
           "tags": [
@@ -217,7 +217,7 @@
           "element": "fire",
           "cost": 1,
           "atk": 0,
-          "shield": 4,
+          "shield": 7,
           "hits": 0,
           "targetRule": "self",
           "tags": [

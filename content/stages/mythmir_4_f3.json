@@ -10,7 +10,7 @@
       "element": "grass",
       "level": 4,
       "baseStats": {
-        "hp": 32,
+        "hp": 40,
         "atk": 5,
         "spd": 6,
         "skill": 2,
@@ -19,50 +19,6 @@
       "deck": [
         {
           "cardId": "card_zomb_stab_m4f3_a",
-          "name_key": "card.bot_zomb_stab",
-          "element": "shadow",
-          "cost": 1,
-          "atk": 6,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "random_enemy",
-          "tags": [
-            "attack",
-            "poison"
-          ],
-          "effectOps": [
-            {
-              "op": "apply_status",
-              "status": "poison",
-              "stacks": 1,
-              "duration": 0
-            }
-          ]
-        },
-        {
-          "cardId": "card_zomb_stab2_m4f3_a",
-          "name_key": "card.bot_zomb_stab",
-          "element": "shadow",
-          "cost": 1,
-          "atk": 6,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "random_enemy",
-          "tags": [
-            "attack",
-            "poison"
-          ],
-          "effectOps": [
-            {
-              "op": "apply_status",
-              "status": "poison",
-              "stacks": 1,
-              "duration": 0
-            }
-          ]
-        },
-        {
-          "cardId": "card_zomb_stab3_m4f3_a",
           "name_key": "card.bot_zomb_stab",
           "element": "shadow",
           "cost": 1,
@@ -84,11 +40,55 @@
           ]
         },
         {
+          "cardId": "card_zomb_stab2_m4f3_a",
+          "name_key": "card.bot_zomb_stab",
+          "element": "shadow",
+          "cost": 1,
+          "atk": 7,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "random_enemy",
+          "tags": [
+            "attack",
+            "poison"
+          ],
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "poison",
+              "stacks": 1,
+              "duration": 0
+            }
+          ]
+        },
+        {
+          "cardId": "card_zomb_stab3_m4f3_a",
+          "name_key": "card.bot_zomb_stab",
+          "element": "shadow",
+          "cost": 1,
+          "atk": 8,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "random_enemy",
+          "tags": [
+            "attack",
+            "poison"
+          ],
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "poison",
+              "stacks": 1,
+              "duration": 0
+            }
+          ]
+        },
+        {
           "cardId": "card_zomb_cut_m4f3_a",
           "name_key": "card.bot_zomb_cut",
           "element": "shadow",
           "cost": 1,
-          "atk": 5,
+          "atk": 6,
           "shield": 0,
           "hits": 1,
           "targetRule": "random_enemy",
@@ -118,7 +118,7 @@
       "element": "grass",
       "level": 4,
       "baseStats": {
-        "hp": 32,
+        "hp": 40,
         "atk": 5,
         "spd": 6,
         "skill": 2,
@@ -127,50 +127,6 @@
       "deck": [
         {
           "cardId": "card_zomb_stab_m4f3_b",
-          "name_key": "card.bot_zomb_stab",
-          "element": "shadow",
-          "cost": 1,
-          "atk": 6,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "random_enemy",
-          "tags": [
-            "attack",
-            "poison"
-          ],
-          "effectOps": [
-            {
-              "op": "apply_status",
-              "status": "poison",
-              "stacks": 1,
-              "duration": 0
-            }
-          ]
-        },
-        {
-          "cardId": "card_zomb_stab2_m4f3_b",
-          "name_key": "card.bot_zomb_stab",
-          "element": "shadow",
-          "cost": 1,
-          "atk": 6,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "random_enemy",
-          "tags": [
-            "attack",
-            "poison"
-          ],
-          "effectOps": [
-            {
-              "op": "apply_status",
-              "status": "poison",
-              "stacks": 1,
-              "duration": 0
-            }
-          ]
-        },
-        {
-          "cardId": "card_zomb_stab3_m4f3_b",
           "name_key": "card.bot_zomb_stab",
           "element": "shadow",
           "cost": 1,
@@ -192,11 +148,55 @@
           ]
         },
         {
+          "cardId": "card_zomb_stab2_m4f3_b",
+          "name_key": "card.bot_zomb_stab",
+          "element": "shadow",
+          "cost": 1,
+          "atk": 7,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "random_enemy",
+          "tags": [
+            "attack",
+            "poison"
+          ],
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "poison",
+              "stacks": 1,
+              "duration": 0
+            }
+          ]
+        },
+        {
+          "cardId": "card_zomb_stab3_m4f3_b",
+          "name_key": "card.bot_zomb_stab",
+          "element": "shadow",
+          "cost": 1,
+          "atk": 8,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "random_enemy",
+          "tags": [
+            "attack",
+            "poison"
+          ],
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "poison",
+              "stacks": 1,
+              "duration": 0
+            }
+          ]
+        },
+        {
           "cardId": "card_zomb_cut_m4f3_b",
           "name_key": "card.bot_zomb_cut",
           "element": "shadow",
           "cost": 1,
-          "atk": 5,
+          "atk": 6,
           "shield": 0,
           "hits": 1,
           "targetRule": "random_enemy",

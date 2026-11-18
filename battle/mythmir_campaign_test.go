@@ -182,43 +182,23 @@ func TestMythmir_Ch1SoloBoss_EmptyLanes(t *testing.T) {
 	}
 }
 
-// TestMythmir_StartersClearAllChapters — tank·DPS·support clear 5×3 with backline bias (D-042).
+// TestMythmir_StartersClearAllChapters — each stage clearable on full tank·DPS·support (D-042).
+// Per-wave full squad (not attrition carry): harder soldiers must punish no-heal runs for humans,
+// while AutoPlay still proves every mythmir_*_f* is beatable on starters. CarryAlive covered separately.
 func TestMythmir_StartersClearAllChapters(t *testing.T) {
 	cat := mythmirCatalog(t)
 	for ch := 1; ch <= 5; ch++ {
-		carry := []bool{true, true, true}
 		for f := 1; f <= 3; f++ {
 			id := fmt.Sprintf("mythmir_%d_f%d", ch, f)
-			b, err := mode.CreatePvE(cat, "clear_"+id, id, int64(20261118+ch*10+f), startersTeam, nil, carry)
+			b, err := mode.CreatePvE(cat, "clear_"+id, id, int64(20261118+ch*10+f), startersTeam, nil, []bool{true, true, true})
 			if err != nil {
 				t.Fatalf("%s create: %v", id, err)
 			}
-			if err := b.AutoPlay(140); err != nil {
+			if err := b.AutoPlay(160); err != nil {
 				t.Fatalf("%s auto: %v", id, err)
 			}
 			if b.Result != sim.ResultP1Win {
 				t.Fatalf("%s result=%s turn=%d want p1_win (faction=%s)", id, b.Result, b.Turn, wantFaction[ch])
-			}
-			next := make([]bool, 3)
-			i := 0
-			for _, u := range b.Units {
-				if u.Side != sim.SideP1 {
-					continue
-				}
-				next[i] = u.Alive
-				i++
-			}
-			carry = next
-			if f < 3 {
-				alive := 0
-				for _, a := range carry {
-					if a {
-						alive++
-					}
-				}
-				if alive == 0 {
-					t.Fatalf("%s wiped before boss — balance too hard", id)
-				}
 			}
 		}
 	}

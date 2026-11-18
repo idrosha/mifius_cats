@@ -10,8 +10,8 @@
       "element": "ice",
       "level": 2,
       "baseStats": {
-        "hp": 19,
-        "atk": 3,
+        "hp": 35,
+        "atk": 4,
         "spd": 2,
         "skill": 1,
         "charm": 1
@@ -37,7 +37,7 @@
           "element": "ice",
           "cost": 1,
           "atk": 0,
-          "shield": 3,
+          "shield": 7,
           "hits": 0,
           "targetRule": "self",
           "tags": [
@@ -65,7 +65,7 @@
           "element": "ice",
           "cost": 1,
           "atk": 0,
-          "shield": 3,
+          "shield": 7,
           "hits": 0,
           "targetRule": "self",
           "tags": [
@@ -86,8 +86,8 @@
       "element": "ice",
       "level": 2,
       "baseStats": {
-        "hp": 15,
-        "atk": 5,
+        "hp": 29,
+        "atk": 6,
         "spd": 4,
         "skill": 1,
         "charm": 1
@@ -170,8 +170,8 @@
       "element": "ice",
       "level": 2,
       "baseStats": {
-        "hp": 13,
-        "atk": 2,
+        "hp": 25,
+        "atk": 3,
         "spd": 3,
         "skill": 2,
         "charm": 1
