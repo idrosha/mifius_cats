@@ -1814,14 +1814,14 @@ function renderPveYardChapter() {
   setText("pveYardTip", `Совет Сэнсэя: ${data.tip || "Держите танка в авангарде."}`);
   setText("pveYardZoneStatus", `Глава ${ch} / 5 · ${state.selectedStageId || ""}`);
 
-  // Wave cards: soldiers / soldiers / pitboss
+  // Wave cards: soldiers / soldiers / pitboss — art = this chapter's fight BGs (not fixed portraits).
   const grid = $("pveYardWaveGrid");
   if (grid) {
     const cards = grid.querySelectorAll(":scope > div");
     const waves = [
-      { label: "Волна 1", name: "Солдаты", sub: `${faction || "Враги"} · 3 юнита` },
-      { label: "Волна 2", name: "Солдаты", sub: `${faction || "Враги"} · крепче` },
-      { label: "В3 · Босс", name: boss || "Питбосс", sub: "Питбосс + солдаты" },
+      { label: "Волна 1", stage: "entrance", name: "Солдаты", sub: `${faction || "Враги"} · 3 юнита` },
+      { label: "Волна 2", stage: "tunnel", name: "Солдаты", sub: `${faction || "Враги"} · крепче` },
+      { label: "Босс", stage: "boss", name: boss || "Питбосс", sub: "Питбосс-волна" },
     ];
     waves.forEach((w, i) => {
       const card = cards[i];
@@ -1830,8 +1830,24 @@ function renderPveYardChapter() {
       const subEl = card.querySelector(".font-body-sm");
       if (nameEl) nameEl.textContent = w.name;
       if (subEl) subEl.textContent = w.sub;
-      const badge = card.querySelector(".font-label-sm, .bg-error-container\\/40, [class*='error-container']");
-      // leave wave badge paint; titles above are enough
+      const badge =
+        card.querySelector(".font-label-sm") ||
+        card.querySelector("[class*='error-container']");
+      if (badge) {
+        // Keep skull icon on boss pill if present.
+        const icon = badge.querySelector(".material-symbols-outlined");
+        badge.textContent = "";
+        if (icon) badge.appendChild(icon);
+        badge.append(document.createTextNode(icon ? ` ${w.label}` : w.label));
+      }
+      const img = card.querySelector("img");
+      if (img) {
+        const art = pveStageArt(ch, w.stage);
+        if (img.getAttribute("src") !== art) img.src = art;
+        img.alt = `${title} · ${w.label}`;
+        img.classList.add("object-cover", "object-center");
+        img.classList.remove("object-top");
+      }
     });
   }
 
