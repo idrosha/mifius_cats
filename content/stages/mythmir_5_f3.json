@@ -100,8 +100,8 @@
       "element": "bolt",
       "level": 5,
       "baseStats": {
-        "hp": 60,
-        "atk": 6,
+        "hp": 95,
+        "atk": 8,
         "spd": 5,
         "skill": 3,
         "charm": 1
@@ -112,12 +112,13 @@
           "name_key": "card.bot_ghost_slash",
           "element": "bolt",
           "cost": 1,
-          "atk": 8,
+          "atk": 10,
           "shield": 0,
           "hits": 1,
-          "targetRule": "nearest",
+          "targetRule": "backline",
           "tags": [
-            "attack"
+            "attack",
+            "backline"
           ],
           "effectOps": []
         },
@@ -126,12 +127,13 @@
           "name_key": "card.bot_ghost_slash",
           "element": "bolt",
           "cost": 1,
-          "atk": 8,
+          "atk": 10,
           "shield": 0,
           "hits": 1,
-          "targetRule": "nearest",
+          "targetRule": "backline",
           "tags": [
-            "attack"
+            "attack",
+            "backline"
           ],
           "effectOps": []
         },
@@ -140,12 +142,13 @@
           "name_key": "card.bot_ghost_slash",
           "element": "bolt",
           "cost": 1,
-          "atk": 9,
+          "atk": 12,
           "shield": 0,
           "hits": 1,
-          "targetRule": "nearest",
+          "targetRule": "backline",
           "tags": [
-            "attack"
+            "attack",
+            "backline"
           ],
           "effectOps": []
         },
@@ -154,7 +157,7 @@
           "name_key": "card.bot_ghost_cleave",
           "element": "bolt",
           "cost": 1,
-          "atk": 6,
+          "atk": 9,
           "shield": 0,
           "hits": 1,
           "targetRule": "all_enemies",
