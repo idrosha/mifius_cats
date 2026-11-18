@@ -3187,7 +3187,8 @@ const MONSTER_BATTLE_BY_FACTION = {
     tank: ["/stitch-assets/monsters/battle/tank-b.webp"],
     // Grey dual-club fighter-h (обычный пёс). Do NOT use fighter-b — that dual-axe red plate
     // is the ch3 red-dog look (Andrew: ch1 showed «красный пёс»).
-    fighter: ["/stitch-assets/monsters/battle/fighter-h.webp"],
+    // ?v= busts Amvera/browser max-age=300 after in-place facing rebakes (D-040).
+    fighter: ["/stitch-assets/monsters/battle/fighter-h.webp?v=d040ch1f"],
     support: ["/stitch-assets/monsters/battle/ranger-a.webp"],
     pitboss: ["/stitch-assets/monsters/battle/tank-d.webp"],
   },
@@ -3195,7 +3196,7 @@ const MONSTER_BATTLE_BY_FACTION = {
     // Ch2 RGBA cutouts (new filenames bust 7d immutable cache of black-plate RGB).
     tank: ["/stitch-assets/monsters/battle/wolf-tank-cutout.webp"],
     fighter: ["/stitch-assets/monsters/battle/wolf-fighter-cutout.webp"],
-    support: ["/stitch-assets/monsters/battle/wolf-support-cutout.webp"],
+    support: ["/stitch-assets/monsters/battle/wolf-support-cutout.webp?v=d040ch2s"],
     pitboss: ["/stitch-assets/monsters/battle/wolf-pitboss-cutout.webp"],
   },
   red_dogs: {
