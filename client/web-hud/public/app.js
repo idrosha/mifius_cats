@@ -6879,9 +6879,13 @@ function renderPracticeFight() {
       const fxWrap = card.querySelector(".absolute.bottom-2");
       const tidEarly = u ? unitTemplateId(u) : "";
       // D-042: empty_lane placeholders stay in sim 3v3 but never paint (solo boss center).
+      // Must use class `.hidden` (display:none !important) — Tailwind `flex` overrides the HTML [hidden] attr,
+      // so f2 dogs otherwise linger as «пёс отдыхает» on ch1 f3 after wave advance.
       const emptyLane = !!tidEarly && String(tidEarly).includes("empty_lane");
-      card.hidden = !u || (emptyLane && !u.alive);
-      if (!u || card.hidden) return;
+      const hideSlot = !u || emptyLane;
+      card.hidden = hideSlot;
+      card.classList.toggle("hidden", hideSlot);
+      if (hideSlot) return;
       const tid = tidEarly;
       const hero = practiceHeroByTemplate(tid);
       const art = battleUnitArt(u) || catHeroBattleArt(tid);
