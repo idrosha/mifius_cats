@@ -2,6 +2,7 @@
 
 Одна строка на изменение конфига/схемы (skill `docs/skills/liveops.md`).
 
+- 2026-11-18: Mythmir soldier damage up across ch1–5 f1/f2 (+ card ATK / HP); f3 flanks light bump; ch1 baron pierce −1 & HP 110 so clear-all holds (D-042)
 - 2026-11-18: Poison permanent escalate +1/tick; `random_enemy` targeting (D-043 / §3.4–3.5); ch4 f3 assassins+necro rear hunt — `mythmir_4_f3`
 - 2026-11-18: Mythmir ch2 f3 — Лютый Клык stronger + `backline` leaps to rear (D-042 / §4.1); stage `mythmir_2_f3`
 - 2026-11-18: Mythmir f3 pitboss tactics — chapter layouts + balance in `content/stages/mythmir_{1..5}_f3` (D-042 / §4.1); solo pierce boss, healer packs, tank walls, necro+poison, slash mid
