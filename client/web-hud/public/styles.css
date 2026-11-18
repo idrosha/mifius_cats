@@ -4008,6 +4008,23 @@ body:has(#viewPractice > .dojo-load:not([hidden])) #app {
   object-fit: cover;
   object-position: top center;
 }
+/* Enemy Stitch cards keep dark plate classes in HTML — kill them for live cutouts. */
+#viewPracticeFight .pf-dummy-card.mf-battle-unit--cutout .relative,
+#viewPracticeFight .pf-dummy-card.mf-battle-unit--cutout .bg-surface-container-high,
+#viewPracticeFight .pf-dummy-card.mf-battle-unit--cutout .bg-surface-container,
+#viewPracticeFight .pf-dummy-card.mf-battle-unit--cutout .bg-surface-container-low,
+#viewPracticeFight .pf-dummy-card.mf-battle-unit--cutout .bg-surface-container\/95,
+#viewPracticeFight [data-slot].mf-battle-unit--cutout .bg-surface-container-high,
+#viewPracticeFight [data-slot].mf-battle-unit--cutout .bg-surface-container-low {
+  background: transparent !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+#viewPracticeFight .pf-dummy-card.mf-battle-unit--cutout img {
+  object-fit: contain !important;
+  object-position: center bottom !important;
+  background: transparent !important;
+}
 .dojo-top, .dojo-foot {
   display: flex;
   align-items: center;

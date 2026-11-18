@@ -51,8 +51,12 @@ const MIME = {
 };
 
 function cacheControlFor(ext) {
-  // Static art is the bulk of HUD weight — allow browser reuse across routes.
-  if ([".png", ".jpg", ".jpeg", ".webp", ".gif", ".svg", ".ico", ".woff", ".woff2"].includes(ext)) {
+  // Soft-launch art still iterates (cutouts, chapter soldiers). `immutable` trapped
+  // browsers on black-plate wolf PNGs for a week after replace — use short revalidate.
+  if ([".png", ".jpg", ".jpeg", ".webp", ".gif", ".svg", ".ico"].includes(ext)) {
+    return "public, max-age=300, must-revalidate";
+  }
+  if ([".woff", ".woff2"].includes(ext)) {
     return "public, max-age=604800, immutable";
   }
   if ([".css", ".js"].includes(ext)) return "public, max-age=120";

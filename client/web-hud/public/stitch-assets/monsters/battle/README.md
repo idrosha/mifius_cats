@@ -14,7 +14,7 @@ Lobby / yard map keep non-cutout art. Anim + SFX reuse cat **role** kits via `ba
 
 Wiring: `monsterBattleArt` / `battleUnitArt` in `app.js` — **faction pools** (`MONSTER_BATTLE_BY_FACTION`, D-039) then role fallback; stable pick by `templateId` hash.
 Ch1 dogs → grey armored cutouts (`tank-b` / `fighter-h` / `ranger-a`, pitboss `tank-d`).
-Ch2 wolves → `wolf-tank` / `wolf-fighter` / `wolf-support`, pitboss `wolf-pitboss`.
+Ch2 wolves → RGBA `wolf-*-cutout.png` (tank/fighter/support/pitboss). Do not reintroduce RGB studio plates.
 Load/fight backdrops: `pve-load/chapter-2-frost.png` + `pve-fight/ch2-{entrance,tunnel,boss}.png` (order locked).
 See `manifest.json` for source UUID → file map.
 
