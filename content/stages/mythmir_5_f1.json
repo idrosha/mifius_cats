@@ -10,8 +10,8 @@
       "element": "bolt",
       "level": 5,
       "baseStats": {
-        "hp": 21,
-        "atk": 3,
+        "hp": 46,
+        "atk": 4,
         "spd": 2,
         "skill": 1,
         "charm": 1
@@ -37,7 +37,7 @@
           "element": "bolt",
           "cost": 1,
           "atk": 0,
-          "shield": 4,
+          "shield": 8,
           "hits": 0,
           "targetRule": "self",
           "tags": [
@@ -65,7 +65,7 @@
           "element": "bolt",
           "cost": 1,
           "atk": 0,
-          "shield": 4,
+          "shield": 8,
           "hits": 0,
           "targetRule": "self",
           "tags": [
@@ -86,8 +86,8 @@
       "element": "bolt",
       "level": 5,
       "baseStats": {
-        "hp": 17,
-        "atk": 6,
+        "hp": 40,
+        "atk": 7,
         "spd": 4,
         "skill": 1,
         "charm": 1
@@ -170,8 +170,8 @@
       "element": "bolt",
       "level": 5,
       "baseStats": {
-        "hp": 14,
-        "atk": 2,
+        "hp": 35,
+        "atk": 3,
         "spd": 3,
         "skill": 2,
         "charm": 1

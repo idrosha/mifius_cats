@@ -10,8 +10,8 @@
       "element": "stone",
       "level": 1,
       "baseStats": {
-        "hp": 21,
-        "atk": 3,
+        "hp": 37,
+        "atk": 4,
         "spd": 2,
         "skill": 1,
         "charm": 1
@@ -37,7 +37,7 @@
           "element": "stone",
           "cost": 1,
           "atk": 0,
-          "shield": 3,
+          "shield": 7,
           "hits": 0,
           "targetRule": "self",
           "tags": [
@@ -65,7 +65,7 @@
           "element": "stone",
           "cost": 1,
           "atk": 0,
-          "shield": 3,
+          "shield": 7,
           "hits": 0,
           "targetRule": "self",
           "tags": [
@@ -86,8 +86,8 @@
       "element": "stone",
       "level": 1,
       "baseStats": {
-        "hp": 16,
-        "atk": 4,
+        "hp": 30,
+        "atk": 5,
         "spd": 4,
         "skill": 1,
         "charm": 1
@@ -162,8 +162,8 @@
       "element": "stone",
       "level": 1,
       "baseStats": {
-        "hp": 13,
-        "atk": 2,
+        "hp": 25,
+        "atk": 3,
         "spd": 3,
         "skill": 2,
         "charm": 1

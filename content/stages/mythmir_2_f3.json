@@ -98,7 +98,7 @@
       "element": "ice",
       "level": 2,
       "baseStats": {
-        "hp": 22,
+        "hp": 28,
         "atk": 2,
         "spd": 4,
         "skill": 3,
@@ -189,7 +189,7 @@
       "element": "ice",
       "level": 2,
       "baseStats": {
-        "hp": 22,
+        "hp": 28,
         "atk": 2,
         "spd": 4,
         "skill": 3,
