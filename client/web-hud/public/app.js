@@ -3182,28 +3182,20 @@ const MONSTER_BATTLE_BY_FACTION = {
   },
   red_dogs: {
     tank: ["/stitch-assets/monsters/battle/tank-c.png"],
-    fighter: [
-      "/stitch-assets/monsters/battle/fighter-b.png",
-      "/stitch-assets/monsters/battle/fighter-c.png",
-    ],
-    support: ["/stitch-assets/monsters/battle/fighter-a.png"],
+    fighter: ["/stitch-assets/monsters/battle/fighter-b.png"],
+    support: ["/stitch-assets/monsters/battle/fighter-c.png"],
+    // Pitboss art must not appear on f1/f2 soldiers.
     pitboss: ["/stitch-assets/monsters/battle/fighter-a.png"],
   },
   zombies: {
     tank: ["/stitch-assets/monsters/battle/assassin-b.png"],
-    fighter: ["/stitch-assets/monsters/battle/fighter-g.png"],
-    support: [
-      "/stitch-assets/monsters/battle/support-c.png",
-      "/stitch-assets/monsters/battle/assassin-a.png",
-    ],
+    fighter: ["/stitch-assets/monsters/battle/assassin-a.png"],
+    support: ["/stitch-assets/monsters/battle/support-c.png"],
     pitboss: ["/stitch-assets/monsters/battle/fighter-g.png"],
   },
   ghosts: {
     tank: ["/stitch-assets/monsters/battle/tank-a.png"],
-    fighter: [
-      "/stitch-assets/monsters/battle/fighter-d.png",
-      "/stitch-assets/monsters/battle/fighter-f.png",
-    ],
+    fighter: ["/stitch-assets/monsters/battle/fighter-d.png"],
     support: ["/stitch-assets/monsters/battle/support-b.png"],
     pitboss: ["/stitch-assets/monsters/battle/fighter-f.png"],
   },
@@ -6870,16 +6862,11 @@ function renderPracticeFight() {
         applySpriteFacing(img, { artSrc: art || img.getAttribute("src"), unit: u });
       }
       if (nameEl) nameEl.textContent = display;
+      // Andrew: drop portrait tier/role chips (Т1 Страж / Боец / …) on all fight forms.
       const tierEl = card.querySelector(".absolute.top-2.left-2");
-      if (tierEl && !hero) {
-        const roleRu = CAT_ROLE_RU[u.role] || u.role || "";
-        tierEl.textContent = isBot
-          ? roleRu
-            ? `${roleRu}`
-            : "Враг"
-          : roleRu
-            ? `Т1 ${roleRu}`
-            : "Т1";
+      if (tierEl) {
+        tierEl.hidden = true;
+        tierEl.textContent = "";
       }
       const seeSh = canSeeUnitShield(u);
       if (em) {
