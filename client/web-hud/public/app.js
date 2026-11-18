@@ -3205,7 +3205,7 @@ const MONSTER_BATTLE_BY_FACTION = {
     tank: ["/stitch-assets/monsters/battle/redd-tank-cutout.webp?v=d040ch3tf"],
     fighter: ["/stitch-assets/monsters/battle/redd-fighter-cutout.webp?v=d040ch3tf"],
     support: ["/stitch-assets/monsters/battle/redd-support-cutout.webp"],
-    pitboss: ["/stitch-assets/monsters/battle/redd-pitboss-cutout.webp"],
+    pitboss: ["/stitch-assets/monsters/battle/redd-pitboss-cutout.webp?v=d040ch3pb"],
   },
   zombies: {
     // Ch4 refs: axe guardian / cleaver butcher / dagger plague-carrier; scythe pitboss.
@@ -3319,8 +3319,8 @@ const DUMMY_NATIVE_FACE_LEFT = new Set([
 // Only assets authored aiming/looking LEFT. Default native = RIGHT → flip for desired left.
 // Do NOT list: ranger-a, tank-b, wolf-tank/pitboss (shield/glow RIGHT → flip).
 // Pixel-LEFT locks (listed so CSS never mirrors them away):
-// fighter-h (ch1), wolf-support (ch2), redd-tank/fighter re-baked (ch3 Алый щитоносец / Пёс-углежуй),
-// redd-support/pitboss, zombie-pitboss.
+// fighter-h (ch1), wolf-support (ch2), redd-tank/fighter (ch3), redd-pitboss (Алый Вожак) re-baked,
+// redd-support, zombie-pitboss.
 const MONSTER_NATIVE_FACE_LEFT = new Set([
   "assassin-b",
   "fighter-f",
