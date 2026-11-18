@@ -3277,7 +3277,7 @@ function battleUnitArt(unit) {
 const CAT_NATIVE_FACE_LEFT = new Set(["assassin-a", "tank-a", "fighter-a", "support-a"]);
 const DUMMY_NATIVE_FACE_LEFT = new Set([
   "dummy-oak-knight",
-  "dummy-straw-berserk", // head/gaze left (body lean can read right)
+  // dummy-straw-berserk is authored facing RIGHT — flip when desired=left (MF-171).
   "dummy-stone-totem",
 ]);
 const MONSTER_NATIVE_FACE_LEFT = new Set(["assassin-b", "fighter-f", "ranger-a"]);
@@ -6839,6 +6839,8 @@ function renderPracticeFight() {
   const paintSlots = (rootSel, units) => {
     const root = document.querySelector(`#viewPracticeFight ${rootSel}`);
     if (!root) return;
+    // Live board: left column looks right, right column looks left (D-040 / MF-171).
+    const boardFace = /enem/i.test(rootSel) ? "left" : "right";
     const slots = [...root.querySelectorAll("[data-slot]")];
     slots.forEach((card, i) => {
       const u = units[i];
@@ -6868,20 +6870,20 @@ function renderPracticeFight() {
       if (img) {
         img.classList.add("mf-battle-cutout");
         card.classList.add("mf-battle-unit--cutout");
-        // D-040: cats → right, dummies/monsters → left (toward center on the board).
-        applySpriteFacing(img, { artSrc: art || img.getAttribute("src"), unit: u });
+        // D-040: toward center on this board (allies right / foes left).
+        applySpriteFacing(img, {
+          artSrc: art || img.getAttribute("src"),
+          desiredFace: boardFace,
+          unit: u,
+        });
       }
       if (nameEl) nameEl.textContent = display;
       const tierEl = card.querySelector(".absolute.top-2.left-2");
-      if (tierEl && !hero) {
-        const roleRu = CAT_ROLE_RU[u.role] || u.role || "";
-        tierEl.textContent = isBot
-          ? roleRu
-            ? `${roleRu}`
-            : "Враг"
-          : roleRu
-            ? `Т1 ${roleRu}`
-            : "Т1";
+      if (tierEl) {
+        // MF-171: drop duplicate corner badges (Т1 / role). Lane pill above already
+        // shows «Тыл • Роль» — keep that; hide the portrait overlay on both sides.
+        tierEl.hidden = true;
+        tierEl.textContent = "";
       }
       const seeSh = canSeeUnitShield(u);
       if (em) {
