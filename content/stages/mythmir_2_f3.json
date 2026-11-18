@@ -10,68 +10,80 @@
       "element": "ice",
       "level": 2,
       "baseStats": {
-        "hp": 36,
-        "atk": 3,
-        "spd": 3,
-        "skill": 2,
+        "hp": 58,
+        "atk": 6,
+        "spd": 5,
+        "skill": 3,
         "charm": 1
       },
       "deck": [
         {
-          "cardId": "card_wolf_swipe_m2f3",
-          "name_key": "card.bot_wolf_claw",
+          "cardId": "card_wolf_leap_m2f3",
+          "name_key": "card.bot_wolf_leap",
           "element": "ice",
           "cost": 1,
-          "atk": 3,
+          "atk": 7,
           "shield": 0,
           "hits": 1,
-          "targetRule": "nearest",
+          "targetRule": "backline",
           "tags": [
-            "attack"
+            "attack",
+            "backline"
           ],
           "effectOps": []
         },
         {
-          "cardId": "card_wolf_swipe2_m2f3",
-          "name_key": "card.bot_wolf_claw",
+          "cardId": "card_wolf_leap2_m2f3",
+          "name_key": "card.bot_wolf_leap",
           "element": "ice",
           "cost": 1,
-          "atk": 3,
+          "atk": 7,
           "shield": 0,
           "hits": 1,
-          "targetRule": "nearest",
+          "targetRule": "backline",
           "tags": [
-            "attack"
+            "attack",
+            "backline"
           ],
           "effectOps": []
         },
         {
-          "cardId": "card_wolf_swipe3_m2f3",
-          "name_key": "card.bot_wolf_claw",
+          "cardId": "card_wolf_leap3_m2f3",
+          "name_key": "card.bot_wolf_pounce",
           "element": "ice",
           "cost": 1,
-          "atk": 4,
+          "atk": 8,
           "shield": 0,
           "hits": 1,
-          "targetRule": "nearest",
+          "targetRule": "backline",
           "tags": [
-            "attack"
+            "attack",
+            "backline",
+            "crit"
           ],
           "effectOps": []
         },
         {
-          "cardId": "card_wolf_guard_m2f3",
-          "name_key": "card.bot_wolf_howl",
+          "cardId": "card_wolf_rend_m2f3",
+          "name_key": "card.bot_wolf_rend",
           "element": "ice",
           "cost": 1,
-          "atk": 0,
-          "shield": 3,
-          "hits": 0,
-          "targetRule": "self",
+          "atk": 6,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "backline",
           "tags": [
-            "shield"
+            "attack",
+            "backline"
           ],
-          "effectOps": []
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "bleed",
+              "stacks": 2,
+              "duration": 2
+            }
+          ]
         }
       ],
       "meta": {
