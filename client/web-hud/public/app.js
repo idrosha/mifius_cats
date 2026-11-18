@@ -3174,13 +3174,11 @@ const MONSTER_BATTLE_BY_FACTION = {
     pitboss: ["/stitch-assets/monsters/battle/tank-d.png"],
   },
   wolves: {
-    tank: ["/stitch-assets/monsters/battle/tank-b.png"],
-    fighter: ["/stitch-assets/monsters/battle/fighter-e.png"],
-    support: [
-      "/stitch-assets/monsters/battle/support-a.png",
-      "/stitch-assets/monsters/battle/ranger-b.png",
-    ],
-    pitboss: ["/stitch-assets/monsters/battle/fighter-e.png"],
+    // Ch2 refs: ice sword / archer / shaman soldiers; dual-blade pitboss (not grey dog tank).
+    tank: ["/stitch-assets/monsters/battle/wolf-tank.png"],
+    fighter: ["/stitch-assets/monsters/battle/wolf-fighter.png"],
+    support: ["/stitch-assets/monsters/battle/wolf-support.png"],
+    pitboss: ["/stitch-assets/monsters/battle/wolf-pitboss.png"],
   },
   red_dogs: {
     tank: ["/stitch-assets/monsters/battle/tank-c.png"],
