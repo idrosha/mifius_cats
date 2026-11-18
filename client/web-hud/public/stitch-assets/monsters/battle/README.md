@@ -16,7 +16,7 @@ Wiring: `monsterBattleArt` / `battleUnitArt` in `app.js` — **faction pools** (
 Ch1 dogs → grey armored cutouts (`tank-b` / `fighter-h` / `ranger-a`, pitboss `tank-d`).
 `fighter-h` = обычный пёс (dual clubs). Do not map ch1 to `fighter-b` — that red dual-axe plate is ch3.
 Ch2 wolves → RGBA `wolf-*-cutout.webp` (tank/fighter/support/pitboss). Do not reintroduce RGB studio plates.
-Ch3 red dogs → RGBA `redd-*-cutout.webp` (shield tank / dual-axe fighter / flaming-sickle support / flaming-sword pitboss).
+Ch3 red dogs → RGBA `redd-*-cutout.webp` (shield tank / dual-axe fighter / flaming-sickle support / flaming-sword pitboss). All four pixel-authored facing **left** (D-040); listed in `MONSTER_NATIVE_FACE_LEFT`.
 Ch4 zombies → RGBA `zombie-*-cutout.webp` (axe tank / cleaver fighter / dagger support / scythe pitboss).
 Ch5 ghosts → RGBA `ghost-*-cutout.webp` (flail-shield tank / scimitar fighter / shaman support / banner-sword pitboss).
 Load/fight backdrops: `pve-load/chapter-2-frost.webp` + `pve-fight/ch2-{entrance,tunnel,boss}.webp` (order locked).

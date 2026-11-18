@@ -3299,13 +3299,17 @@ const DUMMY_NATIVE_FACE_LEFT = new Set([
   "dummy-stone-totem",
 ]);
 // Only assets authored aiming/looking LEFT. Default native = RIGHT → flip for desired left.
-// Do NOT list: ranger-a, tank-b, redd-tank/fighter, wolf-tank/pitboss, fighter-h (FRONT/RIGHT → flip or leave).
-// Listed = native LEFT (glow); without the entry the board flips them away from cats (Andrew):
-// ch3 redd-support, ch2 wolf-support, ch4 zombie-pitboss.
+// Do NOT list: ranger-a, tank-b, wolf-tank/pitboss (shield/glow RIGHT → flip).
+// fighter-h is near-FRONT — ch1 uses fighter-b instead (RIGHT→flip LEFT).
+// Ch3 redd-* cutouts are pixel-authored LEFT (tank/fighter re-baked) — list all four so
+// CSS scaleX does not mirror them away from the cats (Andrew: все монстры смотрят налево).
 const MONSTER_NATIVE_FACE_LEFT = new Set([
   "assassin-b",
   "fighter-f",
+  "redd-tank-cutout",
+  "redd-fighter-cutout",
   "redd-support-cutout",
+  "redd-pitboss-cutout",
   "wolf-support-cutout",
   "zombie-pitboss-cutout",
 ]);
