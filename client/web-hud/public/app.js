@@ -3082,21 +3082,21 @@ const CAT_HERO_ART = {
 
 /** Transparent cutouts — ONLY live fight HUD (practice_fight / pvp_fight / battle). D-037. */
 const CAT_HERO_BATTLE_ART = {
-  shop_tank_stone_a: "/stitch-assets/cat-heroes/battle/tank-a.png",
-  shop_tank_stone_b: "/stitch-assets/cat-heroes/battle/tank-b.png",
-  shop_fighter_fire_a: "/stitch-assets/cat-heroes/battle/fighter-a.png",
-  shop_fighter_fire_b: "/stitch-assets/cat-heroes/battle/fighter-b.png",
-  shop_assassin_bolt_a: "/stitch-assets/cat-heroes/battle/assassin-a.png",
-  shop_assassin_bolt_b: "/stitch-assets/cat-heroes/battle/assassin-b.png",
-  shop_ranger_grass_a: "/stitch-assets/cat-heroes/battle/ranger-a.png",
-  shop_ranger_grass_b: "/stitch-assets/cat-heroes/battle/ranger-b.png",
-  shop_mage_fire_a: "/stitch-assets/cat-heroes/battle/mage-a.png",
-  shop_mage_ice_b: "/stitch-assets/cat-heroes/battle/mage-b.png",
-  shop_support_water_a: "/stitch-assets/cat-heroes/battle/support-a.png",
-  shop_support_water_b: "/stitch-assets/cat-heroes/battle/support-b.png",
-  starter_tank_stone: "/stitch-assets/cat-heroes/battle/tank-a.png",
-  starter_fighter_fire: "/stitch-assets/cat-heroes/battle/fighter-a.png",
-  starter_support_water: "/stitch-assets/cat-heroes/battle/support-a.png",
+  shop_tank_stone_a: "/stitch-assets/cat-heroes/battle/tank-a.webp",
+  shop_tank_stone_b: "/stitch-assets/cat-heroes/battle/tank-b.webp",
+  shop_fighter_fire_a: "/stitch-assets/cat-heroes/battle/fighter-a.webp",
+  shop_fighter_fire_b: "/stitch-assets/cat-heroes/battle/fighter-b.webp",
+  shop_assassin_bolt_a: "/stitch-assets/cat-heroes/battle/assassin-a.webp",
+  shop_assassin_bolt_b: "/stitch-assets/cat-heroes/battle/assassin-b.webp",
+  shop_ranger_grass_a: "/stitch-assets/cat-heroes/battle/ranger-a.webp",
+  shop_ranger_grass_b: "/stitch-assets/cat-heroes/battle/ranger-b.webp",
+  shop_mage_fire_a: "/stitch-assets/cat-heroes/battle/mage-a.webp",
+  shop_mage_ice_b: "/stitch-assets/cat-heroes/battle/mage-b.webp",
+  shop_support_water_a: "/stitch-assets/cat-heroes/battle/support-a.webp",
+  shop_support_water_b: "/stitch-assets/cat-heroes/battle/support-b.webp",
+  starter_tank_stone: "/stitch-assets/cat-heroes/battle/tank-a.webp",
+  starter_fighter_fire: "/stitch-assets/cat-heroes/battle/fighter-a.webp",
+  starter_support_water: "/stitch-assets/cat-heroes/battle/support-a.webp",
   // Practice dummies — dedicated no-bg mannequins (D-037 fight-only).
   // FX/SFX reuse tank / fighter / support role kits (MF-149).
   bot_practice_tank_a: "/stitch-assets/dojo/battle/dummy-oak-knight.png",
@@ -3131,35 +3131,35 @@ function catHeroBattleArt(templateId) {
 /** PvE monster cutouts by role (MF-152). Fallback when faction unknown. */
 const MONSTER_BATTLE_BY_ROLE = {
   tank: [
-    "/stitch-assets/monsters/battle/tank-a.png",
-    "/stitch-assets/monsters/battle/tank-b.png",
-    "/stitch-assets/monsters/battle/tank-c.png",
-    "/stitch-assets/monsters/battle/tank-d.png",
+    "/stitch-assets/monsters/battle/tank-a.webp",
+    "/stitch-assets/monsters/battle/tank-b.webp",
+    "/stitch-assets/monsters/battle/tank-c.webp",
+    "/stitch-assets/monsters/battle/tank-d.webp",
   ],
   fighter: [
-    "/stitch-assets/monsters/battle/fighter-a.png",
-    "/stitch-assets/monsters/battle/fighter-b.png",
-    "/stitch-assets/monsters/battle/fighter-c.png",
-    "/stitch-assets/monsters/battle/fighter-d.png",
-    "/stitch-assets/monsters/battle/fighter-e.png",
-    "/stitch-assets/monsters/battle/fighter-f.png",
-    "/stitch-assets/monsters/battle/fighter-g.png",
-    "/stitch-assets/monsters/battle/fighter-h.png",
+    "/stitch-assets/monsters/battle/fighter-a.webp",
+    "/stitch-assets/monsters/battle/fighter-b.webp",
+    "/stitch-assets/monsters/battle/fighter-c.webp",
+    "/stitch-assets/monsters/battle/fighter-d.webp",
+    "/stitch-assets/monsters/battle/fighter-e.webp",
+    "/stitch-assets/monsters/battle/fighter-f.webp",
+    "/stitch-assets/monsters/battle/fighter-g.webp",
+    "/stitch-assets/monsters/battle/fighter-h.webp",
   ],
   support: [
-    "/stitch-assets/monsters/battle/support-a.png",
-    "/stitch-assets/monsters/battle/support-b.png",
-    "/stitch-assets/monsters/battle/support-c.png",
+    "/stitch-assets/monsters/battle/support-a.webp",
+    "/stitch-assets/monsters/battle/support-b.webp",
+    "/stitch-assets/monsters/battle/support-c.webp",
   ],
   assassin: [
-    "/stitch-assets/monsters/battle/assassin-a.png",
-    "/stitch-assets/monsters/battle/assassin-b.png",
+    "/stitch-assets/monsters/battle/assassin-a.webp",
+    "/stitch-assets/monsters/battle/assassin-b.webp",
   ],
   ranger: [
-    "/stitch-assets/monsters/battle/ranger-a.png",
-    "/stitch-assets/monsters/battle/ranger-b.png",
+    "/stitch-assets/monsters/battle/ranger-a.webp",
+    "/stitch-assets/monsters/battle/ranger-b.webp",
   ],
-  mage: ["/stitch-assets/monsters/battle/mage-a.png"],
+  mage: ["/stitch-assets/monsters/battle/mage-a.webp"],
 };
 
 /**
@@ -3168,39 +3168,39 @@ const MONSTER_BATTLE_BY_ROLE = {
  */
 const MONSTER_BATTLE_BY_FACTION = {
   dogs: {
-    tank: ["/stitch-assets/monsters/battle/tank-b.png"],
-    fighter: ["/stitch-assets/monsters/battle/fighter-h.png"],
-    support: ["/stitch-assets/monsters/battle/ranger-a.png"],
-    pitboss: ["/stitch-assets/monsters/battle/tank-d.png"],
+    tank: ["/stitch-assets/monsters/battle/tank-b.webp"],
+    fighter: ["/stitch-assets/monsters/battle/fighter-h.webp"],
+    support: ["/stitch-assets/monsters/battle/ranger-a.webp"],
+    pitboss: ["/stitch-assets/monsters/battle/tank-d.webp"],
   },
   wolves: {
     // Ch2 RGBA cutouts (new filenames bust 7d immutable cache of black-plate RGB).
-    tank: ["/stitch-assets/monsters/battle/wolf-tank-cutout.png"],
-    fighter: ["/stitch-assets/monsters/battle/wolf-fighter-cutout.png"],
-    support: ["/stitch-assets/monsters/battle/wolf-support-cutout.png"],
-    pitboss: ["/stitch-assets/monsters/battle/wolf-pitboss-cutout.png"],
+    tank: ["/stitch-assets/monsters/battle/wolf-tank-cutout.webp"],
+    fighter: ["/stitch-assets/monsters/battle/wolf-fighter-cutout.webp"],
+    support: ["/stitch-assets/monsters/battle/wolf-support-cutout.webp"],
+    pitboss: ["/stitch-assets/monsters/battle/wolf-pitboss-cutout.webp"],
   },
   red_dogs: {
     // Ch3 refs: shield tank / dual-axe fighter / flaming-sickle support; flaming-sword pitboss.
-    tank: ["/stitch-assets/monsters/battle/redd-tank-cutout.png"],
-    fighter: ["/stitch-assets/monsters/battle/redd-fighter-cutout.png"],
-    support: ["/stitch-assets/monsters/battle/redd-support-cutout.png"],
-    pitboss: ["/stitch-assets/monsters/battle/redd-pitboss-cutout.png"],
+    tank: ["/stitch-assets/monsters/battle/redd-tank-cutout.webp"],
+    fighter: ["/stitch-assets/monsters/battle/redd-fighter-cutout.webp"],
+    support: ["/stitch-assets/monsters/battle/redd-support-cutout.webp"],
+    pitboss: ["/stitch-assets/monsters/battle/redd-pitboss-cutout.webp"],
   },
   zombies: {
     // Ch4 refs: axe guardian / cleaver butcher / dagger plague-carrier; scythe pitboss.
-    tank: ["/stitch-assets/monsters/battle/zombie-tank-cutout.png"],
-    fighter: ["/stitch-assets/monsters/battle/zombie-fighter-cutout.png"],
-    assassin: ["/stitch-assets/monsters/battle/zombie-fighter-cutout.png"],
-    support: ["/stitch-assets/monsters/battle/zombie-support-cutout.png"],
-    pitboss: ["/stitch-assets/monsters/battle/zombie-pitboss-cutout.png"],
+    tank: ["/stitch-assets/monsters/battle/zombie-tank-cutout.webp"],
+    fighter: ["/stitch-assets/monsters/battle/zombie-fighter-cutout.webp"],
+    assassin: ["/stitch-assets/monsters/battle/zombie-fighter-cutout.webp"],
+    support: ["/stitch-assets/monsters/battle/zombie-support-cutout.webp"],
+    pitboss: ["/stitch-assets/monsters/battle/zombie-pitboss-cutout.webp"],
   },
   ghosts: {
     // Ch5 refs: shield+flail / scimitar cape / shaman staff; banner-sword pitboss.
-    tank: ["/stitch-assets/monsters/battle/ghost-tank-cutout.png"],
-    fighter: ["/stitch-assets/monsters/battle/ghost-fighter-cutout.png"],
-    support: ["/stitch-assets/monsters/battle/ghost-support-cutout.png"],
-    pitboss: ["/stitch-assets/monsters/battle/ghost-pitboss-cutout.png"],
+    tank: ["/stitch-assets/monsters/battle/ghost-tank-cutout.webp"],
+    fighter: ["/stitch-assets/monsters/battle/ghost-fighter-cutout.webp"],
+    support: ["/stitch-assets/monsters/battle/ghost-support-cutout.webp"],
+    pitboss: ["/stitch-assets/monsters/battle/ghost-pitboss-cutout.webp"],
   },
 };
 
@@ -6792,11 +6792,55 @@ function pveBotDisplayName(templateId, role) {
   return roleRu || tid || "Враг";
 }
 
+/** Warm fight art into browser cache (webp cutouts + chapter BG). */
+const _pveArtPreload = new Set();
+function preloadImages(urls = []) {
+  for (const raw of urls) {
+    const u = String(raw || "");
+    if (!u || _pveArtPreload.has(u)) continue;
+    _pveArtPreload.add(u);
+    const img = new Image();
+    img.decoding = "async";
+    img.src = u;
+  }
+}
+
+/** Prefetch current chapter arena + starters + faction monsters before «В бой». */
+function preloadPveFightAssets(chapter = state.pveChapter) {
+  const n = Math.max(1, Math.min(5, Number(chapter) || 1));
+  const data = pveChapterData(n);
+  const urls = [];
+  for (const st of ["entrance", "tunnel", "boss"]) {
+    const art = data.stages?.[st]?.art;
+    if (art) urls.push(art);
+  }
+  const squad =
+    Array.isArray(state.practiceSquad) && state.practiceSquad.length === 3
+      ? state.practiceSquad
+      : typeof STARTERS !== "undefined"
+        ? STARTERS
+        : ["starter_tank_stone", "starter_fighter_fire", "starter_support_water"];
+  for (const tid of squad) {
+    const art = catHeroBattleArt(tid);
+    if (art) urls.push(art);
+  }
+  const faction = MONSTER_FACTION_BY_CHAPTER[n - 1];
+  const byFaction = MONSTER_BATTLE_BY_FACTION[faction];
+  if (byFaction) {
+    for (const pool of Object.values(byFaction)) {
+      for (const u of pool || []) urls.push(u);
+    }
+  }
+  preloadImages(urls);
+}
+
 function applyPracticeFightBackdrop() {
   const bg = document.querySelector("#viewPracticeFight .pf-arena > .absolute.inset-0.bg-cover");
   if (!bg) return;
   if (state.battleMode === "pve") {
     const art = pveStageArt(state.pveChapter, state.pveStage);
+    // Decode off main paint when possible, then swap (avoids multi-MB PNG hitch).
+    preloadImages([art]);
     bg.style.backgroundImage = `url('${art}')`;
     bg.dataset.pveBg = "1";
   } else if (bg.dataset.pveBg === "1") {
@@ -6897,6 +6941,8 @@ function renderPracticeFight() {
         (isBot ? pveBotDisplayName(tid, u.role) : null) ||
         tid;
       if (img && art) {
+        img.decoding = "async";
+        img.loading = "eager";
         img.src = art;
         img.alt = hero?.name || display;
         img.classList.toggle("object-contain", !!isBot || !!art.includes("/battle/"));
@@ -7238,6 +7284,7 @@ async function advancePveWaveAfterWin() {
   const waveLabel = PVE_STAGE_META[next]?.wave || next;
   toast(t("pve.wave.next", `Волна зачищена · ${waveLabel}`));
   log(`pve_wave_advance → ${state.selectedStageId}`);
+  preloadImages([pveStageArt(ch, next)]);
   try {
     const diff = await createPvE({
       autoPlay: false,
@@ -7522,19 +7569,19 @@ const PVE_LOAD_CHAPTERS = {
     ],
     stages: {
       entrance: {
-        art: "/stitch-assets/pve-fight/ch1-entrance.png",
+        art: "/stitch-assets/pve-fight/ch1-entrance.webp",
         enemyTitle: "СТАЯ · ВОЛНА 1/3 (СОЛДАТЫ)",
         enemies: ["Пёс-щитоносец", "Пёс-задира", "Пёс-завывала"],
         tip: "Этап 1/3 · Солдаты Железной Цитадели",
       },
       tunnel: {
-        art: "/stitch-assets/pve-fight/ch1-tunnel.png",
+        art: "/stitch-assets/pve-fight/ch1-tunnel.webp",
         enemyTitle: "СТАЯ · ВОЛНА 2/3 (СОЛДАТЫ)",
         enemies: ["Пёс-щитоносец", "Пёс-задира", "Пёс-завывала"],
         tip: "Этап 2/3 · Солдаты глубже в цитадели",
       },
       boss: {
-        art: "/stitch-assets/pve-fight/ch1-boss.png",
+        art: "/stitch-assets/pve-fight/ch1-boss.webp",
         enemyTitle: "СТАЯ · ВОЛНА 3/3 (ПИТБОСС СОЛО)",
         enemies: ["Барон Гав"],
         tip: "Этап 3/3 · Соло Барон Гав · пробитие брони (D-042)",
@@ -7559,19 +7606,19 @@ const PVE_LOAD_CHAPTERS = {
     ],
     stages: {
       entrance: {
-        art: "/stitch-assets/pve-fight/ch2-entrance.png",
+        art: "/stitch-assets/pve-fight/ch2-entrance.webp",
         enemyTitle: "СТАЯ · ВОЛНА 1/3 (СОЛДАТЫ)",
         enemies: ["Северный страж", "Волк-клык", "Шаман инея"],
         tip: "Этап 1/3 · Солдаты Ледяных Пещер",
       },
       tunnel: {
-        art: "/stitch-assets/pve-fight/ch2-tunnel.png",
+        art: "/stitch-assets/pve-fight/ch2-tunnel.webp",
         enemyTitle: "СТАЯ · ВОЛНА 2/3 (СОЛДАТЫ)",
         enemies: ["Северный страж", "Волк-клык", "Шаман инея"],
         tip: "Этап 2/3 · Ледяной проход",
       },
       boss: {
-        art: "/stitch-assets/pve-fight/ch2-boss.png",
+        art: "/stitch-assets/pve-fight/ch2-boss.webp",
         enemyTitle: "СТАЯ · ВОЛНА 3/3 (БОСС + 2 ХИЛА)",
         enemies: ["Лютый Клык", "Шаман инея", "Шаман вьюги"],
         tip: "Этап 3/3 · Босс прыгает в тыл · сначала хилы, танк держит (D-042)",
@@ -7597,19 +7644,19 @@ const PVE_LOAD_CHAPTERS = {
     stages: {
       entrance: {
         // Existing painted forms remapped to D-039 factions (no new art).
-        art: "/stitch-assets/pve-fight/ch5-entrance.png",
+        art: "/stitch-assets/pve-fight/ch5-entrance.webp",
         enemyTitle: "СТАЯ · ВОЛНА 1/3 (СОЛДАТЫ)",
         enemies: ["Алый щитоносец", "Пёс-углежуй", "Пёс-искромёт"],
         tip: "Этап 1/3 · Вход в Алую Псарню",
       },
       tunnel: {
-        art: "/stitch-assets/pve-fight/ch5-tunnel.png",
+        art: "/stitch-assets/pve-fight/ch5-tunnel.webp",
         enemyTitle: "СТАЯ · ВОЛНА 2/3 (СОЛДАТЫ)",
         enemies: ["Алый щитоносец", "Пёс-углежуй", "Пёс-искромёт"],
         tip: "Этап 2/3 · Коридор псарни",
       },
       boss: {
-        art: "/stitch-assets/pve-fight/ch5-boss.png",
+        art: "/stitch-assets/pve-fight/ch5-boss.webp",
         enemyTitle: "СТАЯ · ВОЛНА 3/3 (ТАНК · БОСС · ТАНК)",
         enemies: ["Алый щитоносец", "Алый Вожак", "Алый страж"],
         tip: "Этап 3/3 · Снимите одного танка, чтобы добраться до вожака (D-042)",
@@ -7634,19 +7681,19 @@ const PVE_LOAD_CHAPTERS = {
     ],
     stages: {
       entrance: {
-        art: "/stitch-assets/pve-fight/ch3-entrance.png",
+        art: "/stitch-assets/pve-fight/ch3-entrance.webp",
         enemyTitle: "СТАЯ · ВОЛНА 1/3 (СОЛДАТЫ)",
         enemies: ["Гнилой страж", "Трупный мясник", "Носитель гнили"],
         tip: "Этап 1/3 · Вход в Чумные Склепы",
       },
       tunnel: {
-        art: "/stitch-assets/pve-fight/ch3-tunnel.png",
+        art: "/stitch-assets/pve-fight/ch3-tunnel.webp",
         enemyTitle: "СТАЯ · ВОЛНА 2/3 (СОЛДАТЫ)",
         enemies: ["Гнилой страж", "Трупный мясник", "Носитель гнили"],
         tip: "Этап 2/3 · Токсичный тоннель",
       },
       boss: {
-        art: "/stitch-assets/pve-fight/ch3-boss.png",
+        art: "/stitch-assets/pve-fight/ch3-boss.webp",
         enemyTitle: "СТАЯ · ВОЛНА 3/3 (УБИЙЦЫ + НЕКРО)",
         enemies: ["Ядовитый коготь", "Ядовитый коготь", "Некропёс Мор"],
         tip: "Этап 3/3 · Яд стекается · после убийц некро бьёт тыл (D-043)",
@@ -7673,19 +7720,19 @@ const PVE_LOAD_CHAPTERS = {
       entrance: {
         // Andrew order: graveyard → ghost gallery → spectral cathedral.
         // File names ch4-* are legacy remap; tunnel/boss files were swapped vs labels.
-        art: "/stitch-assets/pve-fight/ch4-entrance.png",
+        art: "/stitch-assets/pve-fight/ch4-entrance.webp",
         enemyTitle: "СТАЯ · ВОЛНА 1/3 (СОЛДАТЫ)",
         enemies: ["Могильный страж", "Клинок душ", "Блуждающий огонёк"],
         tip: "Этап 1/3 · Вход в Призрачный Чертог",
       },
       tunnel: {
-        art: "/stitch-assets/pve-fight/ch4-boss.png",
+        art: "/stitch-assets/pve-fight/ch4-boss.webp",
         enemyTitle: "СТАЯ · ВОЛНА 2/3 (СОЛДАТЫ)",
         enemies: ["Могильный страж", "Клинок душ", "Блуждающий огонёк"],
         tip: "Этап 2/3 · Галерея призрачных колонн",
       },
       boss: {
-        art: "/stitch-assets/pve-fight/ch4-tunnel.png",
+        art: "/stitch-assets/pve-fight/ch4-tunnel.webp",
         enemyTitle: "СТАЯ · ВОЛНА 3/3 (ТАНК · БОСС · ХИЛ)",
         enemies: ["Могильный страж", "Фантом Гул", "Блуждающий огонёк"],
         tip: "Этап 3/3 · Танк спереди, рубящий босс, хил сзади (D-042)",
@@ -7757,7 +7804,7 @@ function pveFatigueActive() {
 function pveStageArt(chapter = state.pveChapter, stage = state.pveStage) {
   const data = pveChapterData(chapter);
   const st = pveNormalizeStage(stage);
-  return data.stages?.[st]?.art || `/stitch-assets/pve-fight/ch${Math.max(1, Math.min(5, Number(chapter) || 1))}-entrance.png`;
+  return data.stages?.[st]?.art || `/stitch-assets/pve-fight/ch${Math.max(1, Math.min(5, Number(chapter) || 1))}-entrance.webp`;
 }
 
 /** Open PvE campaign load sheet (chapter backdrop), then CreatePvE from «В бой». */
@@ -7766,6 +7813,7 @@ function openPveLoad() {
   const n = Math.max(1, Math.min(5, Number(state.pveChapter) || 1));
   state.pveChapter = n;
   navigate("pve_load", { primary: "combat" });
+  preloadPveFightAssets(n);
 }
 
 function setPveLoadProgress(pct) {
@@ -7798,7 +7846,17 @@ function applyPveLoadChapter(chapter) {
   const data = pveChapterData(n);
   document.querySelectorAll("#viewPveLoad .pve-load-bg").forEach((img) => {
     const ch = Number(img.getAttribute("data-chapter") || 0);
-    img.classList.toggle("is-active", ch === n);
+    const on = ch === n;
+    img.classList.toggle("is-active", on);
+    // Only the active chapter sheet is eager; others stay lazy (perf).
+    if (on) {
+      img.loading = "eager";
+      img.fetchPriority = "high";
+      preloadPveFightAssets(n);
+    } else {
+      img.loading = "lazy";
+      img.fetchPriority = "low";
+    }
   });
   document.querySelectorAll("#viewPveLoad .pve-load-chapter-btn").forEach((btn) => {
     const ch = Number(btn.getAttribute("data-pve-chapter") || 0);

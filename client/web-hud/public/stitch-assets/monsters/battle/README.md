@@ -14,10 +14,10 @@ Lobby / yard map keep non-cutout art. Anim + SFX reuse cat **role** kits via `ba
 
 Wiring: `monsterBattleArt` / `battleUnitArt` in `app.js` — **faction pools** (`MONSTER_BATTLE_BY_FACTION`, D-039) then role fallback; stable pick by `templateId` hash.
 Ch1 dogs → grey armored cutouts (`tank-b` / `fighter-h` / `ranger-a`, pitboss `tank-d`).
-Ch2 wolves → RGBA `wolf-*-cutout.png` (tank/fighter/support/pitboss). Do not reintroduce RGB studio plates.
-Ch3 red dogs → RGBA `redd-*-cutout.png` (shield tank / dual-axe fighter / flaming-sickle support / flaming-sword pitboss).
-Ch4 zombies → RGBA `zombie-*-cutout.png` (axe tank / cleaver fighter / dagger support / scythe pitboss).
-Ch5 ghosts → RGBA `ghost-*-cutout.png` (flail-shield tank / scimitar fighter / shaman support / banner-sword pitboss).
-Load/fight backdrops: `pve-load/chapter-2-frost.png` + `pve-fight/ch2-{entrance,tunnel,boss}.png` (order locked).
+Ch2 wolves → RGBA `wolf-*-cutout.webp` (tank/fighter/support/pitboss). Do not reintroduce RGB studio plates.
+Ch3 red dogs → RGBA `redd-*-cutout.webp` (shield tank / dual-axe fighter / flaming-sickle support / flaming-sword pitboss).
+Ch4 zombies → RGBA `zombie-*-cutout.webp` (axe tank / cleaver fighter / dagger support / scythe pitboss).
+Ch5 ghosts → RGBA `ghost-*-cutout.webp` (flail-shield tank / scimitar fighter / shaman support / banner-sword pitboss).
+Load/fight backdrops: `pve-load/chapter-2-frost.webp` + `pve-fight/ch2-{entrance,tunnel,boss}.webp` (order locked).
 See `manifest.json` for source UUID → file map.
 
