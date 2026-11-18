@@ -13,7 +13,8 @@ Lobby / yard map keep non-cutout art. Anim + SFX reuse cat **role** kits via `ba
 | mage | `mage-a` | reserved |
 
 Wiring: `monsterBattleArt` / `battleUnitArt` in `app.js` — **faction pools** (`MONSTER_BATTLE_BY_FACTION`, D-039) then role fallback; stable pick by `templateId` hash.
-Ch1 dogs → grey armored cutouts (`tank-b` / `fighter-h` / `ranger-a`, pitboss `tank-d`).
+Ch1 dogs → grey armored cutouts (`tank-b` / `fighter-b` / `ranger-a`, pitboss `tank-d`).
+`fighter-h` is near-FRONT (flip cannot fix facing); ch1 uses `fighter-b` for a clear left profile after D-040 flip.
 Ch2 wolves → RGBA `wolf-*-cutout.webp` (tank/fighter/support/pitboss). Do not reintroduce RGB studio plates.
 Ch3 red dogs → RGBA `redd-*-cutout.webp` (shield tank / dual-axe fighter / flaming-sickle support / flaming-sword pitboss).
 Ch4 zombies → RGBA `zombie-*-cutout.webp` (axe tank / cleaver fighter / dagger support / scythe pitboss).

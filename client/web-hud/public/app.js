@@ -3169,7 +3169,9 @@ const MONSTER_BATTLE_BY_ROLE = {
 const MONSTER_BATTLE_BY_FACTION = {
   dogs: {
     tank: ["/stitch-assets/monsters/battle/tank-b.webp"],
-    fighter: ["/stitch-assets/monsters/battle/fighter-h.webp"],
+    // fighter-h is near-FRONT (dual clubs) — flip cannot make a left profile (Andrew ch1 боец).
+    // fighter-b is native RIGHT dual-axe → scaleX gives clear left toward cats (D-040).
+    fighter: ["/stitch-assets/monsters/battle/fighter-b.webp"],
     support: ["/stitch-assets/monsters/battle/ranger-a.webp"],
     pitboss: ["/stitch-assets/monsters/battle/tank-d.webp"],
   },
@@ -3297,11 +3299,15 @@ const DUMMY_NATIVE_FACE_LEFT = new Set([
   "dummy-stone-totem",
 ]);
 // Only assets authored aiming/looking LEFT. Default native = RIGHT → flip for desired left.
-// ranger-a aims RIGHT — do not list. zombie-pitboss-cutout is authored LEFT (scythe) —
-// without this entry ch4 Некропёс Мор flips to face away from the cats (Andrew).
+// Do NOT list: ranger-a, tank-b, redd-tank/fighter, wolf-tank/pitboss (shield/glow RIGHT → flip).
+// fighter-h is near-FRONT — ch1 uses fighter-b instead (RIGHT→flip LEFT).
+// Listed = native LEFT (glow); without the entry the board flips them away from cats (Andrew):
+// ch3 redd-support, ch2 wolf-support, ch4 zombie-pitboss.
 const MONSTER_NATIVE_FACE_LEFT = new Set([
   "assassin-b",
   "fighter-f",
+  "redd-support-cutout",
+  "wolf-support-cutout",
   "zombie-pitboss-cutout",
 ]);
 
@@ -6918,7 +6924,10 @@ function renderPracticeFight() {
     slots.forEach((card, i) => {
       const u = units[i];
       const em = card.querySelector("em");
-      const img = card.querySelector("img");
+      // Prefer the portrait cutout (not status/UI icons).
+      const img =
+        card.querySelector("img.mf-battle-cutout") ||
+        card.querySelector(".relative.w-full img, .mf-unit-frame img, img");
       const nameEl = card.querySelector(".font-headline-md, b, h4");
       const laneBadge = card.querySelector(".font-label-sm.text-label-sm");
       const fxWrap = card.querySelector(".absolute.bottom-2");
@@ -6952,10 +6961,11 @@ function renderPracticeFight() {
       if (img) {
         img.classList.add("mf-battle-cutout");
         card.classList.add("mf-battle-unit--cutout");
-        // D-040: toward center on this board (allies right / foes left).
+        // D-040: foes always left (toward cats); allies right. Prefer unit-kind over selector.
+        const face = isFoeSpriteUnit(u) ? "left" : boardFace;
         applySpriteFacing(img, {
           artSrc: art || img.getAttribute("src"),
-          desiredFace: boardFace,
+          desiredFace: face,
           unit: u,
         });
       }
