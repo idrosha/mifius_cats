@@ -1022,6 +1022,11 @@ body.mythfel-login .mythfel-logout {
   pointer-events: none;
 }
 .mf-fatality[hidden] { display: none !important; }
+/* D-042: solo boss flanks — Tailwind flex must not resurrect [hidden] empty_lane slots. */
+#viewPracticeFight [data-slot][hidden],
+#viewPracticeFight [data-slot].hidden {
+  display: none !important;
+}
 .mf-fatality span,
 .mf-fatality-inline {
   font-family: "Rubik", "Nunito Sans", system-ui, sans-serif;
