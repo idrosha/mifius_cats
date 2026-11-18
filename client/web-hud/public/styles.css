@@ -3560,7 +3560,7 @@ body:has(#viewPracticeFight:not(.hidden)) #app {
   display: flex;
   flex-direction: column;
 }
-/* Portrait tier/role chips (Т1 Страж / Боец / …) — removed per Andrew; keep lane pills. */
+/* MF-173 / MF-171: no portrait «Ур. N» / Т1 chips on live fight (practice + PvE). Lane pills stay. */
 #viewPracticeFight [data-slot] .absolute.top-2.left-2 {
   display: none !important;
 }
