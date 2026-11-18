@@ -3295,9 +3295,14 @@ const DUMMY_NATIVE_FACE_LEFT = new Set([
   // dummy-straw-berserk is authored facing RIGHT — flip when desired=left (MF-171).
   "dummy-stone-totem",
 ]);
-// Only assets authored aiming/looking LEFT. ranger-a aims RIGHT (bow) — do NOT list it
-// or enemies keep shooting away from the cats (Andrew / ch1 PvE).
-const MONSTER_NATIVE_FACE_LEFT = new Set(["assassin-b", "fighter-f"]);
+// Only assets authored aiming/looking LEFT. Default native = RIGHT → flip for desired left.
+// ranger-a aims RIGHT — do not list. zombie-pitboss-cutout is authored LEFT (scythe) —
+// without this entry ch4 Некропёс Мор flips to face away from the cats (Andrew).
+const MONSTER_NATIVE_FACE_LEFT = new Set([
+  "assassin-b",
+  "fighter-f",
+  "zombie-pitboss-cutout",
+]);
 
 function artSlugFromSrc(src) {
   const base = String(src || "")
