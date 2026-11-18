@@ -17,6 +17,7 @@ Ch1 dogs → grey armored cutouts (`tank-b` / `fighter-h` / `ranger-a`, pitboss 
 Ch2 wolves → RGBA `wolf-*-cutout.png` (tank/fighter/support/pitboss). Do not reintroduce RGB studio plates.
 Ch3 red dogs → RGBA `redd-*-cutout.png` (shield tank / dual-axe fighter / flaming-sickle support / flaming-sword pitboss).
 Ch4 zombies → RGBA `zombie-*-cutout.png` (axe tank / cleaver fighter / dagger support / scythe pitboss).
+Ch5 ghosts → RGBA `ghost-*-cutout.png` (flail-shield tank / scimitar fighter / shaman support / banner-sword pitboss).
 Load/fight backdrops: `pve-load/chapter-2-frost.png` + `pve-fight/ch2-{entrance,tunnel,boss}.png` (order locked).
 See `manifest.json` for source UUID → file map.
 
