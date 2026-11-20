@@ -3657,6 +3657,19 @@ body:has(#viewPvpFight:not(.hidden)) #app { height: 100dvh !important; max-heigh
   box-shadow: inset 0 0 0 2px var(--mf-card-tint);
   z-index: 5;
 }
+.mf-atk-card.mf-atk-card--compose > .mf-atk-card__illust {
+  position: absolute;
+  left: 8%;
+  top: 12%; /* below opaque top rail of chrome PNG */
+  width: 84%;
+  height: 35%; /* ends before title ribbon (~48%) */
+  object-fit: cover;
+  object-position: center 55%;
+  border-radius: 0.2rem;
+  background: #0a0a0a;
+  z-index: 1; /* under chrome; hole in PNG shows art */
+  pointer-events: none;
+}
 .mf-atk-card.mf-atk-card--compose > .mf-atk-card__chrome {
   position: absolute;
   inset: 0;
@@ -3664,27 +3677,13 @@ body:has(#viewPvpFight:not(.hidden)) #app { height: 100dvh !important; max-heigh
   height: 100%;
   object-fit: fill;
   background: transparent;
-  z-index: 1;
-  pointer-events: none;
-}
-.mf-atk-card.mf-atk-card--compose > .mf-atk-card__illust {
-  position: absolute;
-  left: 7%;
-  top: 4.5%;
-  width: 86%;
-  height: 48%;
-  object-fit: cover;
-  /* bias to subject (upper half of illust); avoid empty room at bottom */
-  object-position: center 28%;
-  border-radius: 0.3rem 0.3rem 0.55rem 0.55rem;
-  background: #0a0a0a;
-  z-index: 2;
+  z-index: 3;
   pointer-events: none;
 }
 .mf-atk-card.mf-atk-card--compose > .mf-atk-card__rune {
   position: absolute;
-  right: 6.5%;
-  top: 3.2%;
+  right: 7%;
+  top: 3.5%;
   left: auto;
   width: 11%;
   height: auto; /* override .mf-atk-card img { height:100% } */
@@ -3718,10 +3717,10 @@ body:has(#viewPvpFight:not(.hidden)) #app { height: 100dvh !important; max-heigh
 }
 .mf-atk-card.mf-atk-card--compose > .mf-atk-card__meta {
   position: absolute;
-  left: 12%;
-  top: 54.5%;
-  width: 76%;
-  height: 8%;
+  left: 14%;
+  top: 50.5%;
+  width: 72%;
+  height: 6.5%;
   z-index: 4;
   margin: 0;
   padding: 0 0.35rem;
@@ -3733,19 +3732,19 @@ body:has(#viewPvpFight:not(.hidden)) #app { height: 100dvh !important; max-heigh
   font-weight: 700;
   color: #3a2410;
   text-align: center;
-  line-height: 1.15;
+  line-height: 1.1;
   overflow: hidden;
   pointer-events: none;
 }
 .mf-atk-card.mf-atk-card--compose > .mf-atk-card__desc {
   position: absolute;
-  left: 11%;
-  top: 64%;
-  width: 78%;
-  height: 20%;
+  left: 12%;
+  top: 61%;
+  width: 76%;
+  height: 22%;
   z-index: 4;
   margin: 0;
-  padding: 0 0.45rem;
+  padding: 0 0.5rem;
   box-sizing: border-box;
   display: flex;
   align-items: center;

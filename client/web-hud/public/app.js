@@ -6502,7 +6502,7 @@ const ATTACK_CARD_ART_ALIAS = {
 };
 
 /** D-045/D-049 · locked empty frame; do not swap per class/element. */
-const ATTACK_CARD_CHROME_URL = "/stitch-assets/attack-cards/chrome/attack_card_chrome.jpg";
+const ATTACK_CARD_CHROME_URL = "/stitch-assets/attack-cards/chrome/attack_card_chrome.png";
 
 function attackCardArtParts(cardId) {
   if (!cardId) return null;
