@@ -255,14 +255,26 @@ const ELEMENT_AURA = {
   water: "aura-water",
 };
 
-const BREATHE = [
-  "idle-breathe-1",
-  "idle-breathe-2",
-  "idle-breathe-3",
-  "idle-breathe-4",
-  "idle-breathe-5",
-  "idle-breathe-6",
+/** Keyframe + timing — breathe (transform) and aura (filter) must share one animation list (D-046). */
+const BREATHE_SPEC = [
+  { cls: "idle-breathe-1", name: "heroBreathe1", duration: "4.2s", delay: "0s" },
+  { cls: "idle-breathe-2", name: "heroBreathe2", duration: "3.8s", delay: "-1.1s" },
+  { cls: "idle-breathe-3", name: "heroBreathe3", duration: "4.5s", delay: "-2.3s" },
+  { cls: "idle-breathe-4", name: "heroBreathe4", duration: "4s", delay: "-0.7s" },
+  { cls: "idle-breathe-5", name: "heroBreathe5", duration: "3.6s", delay: "-1.8s" },
+  { cls: "idle-breathe-6", name: "heroBreathe6", duration: "4.3s", delay: "-0.4s" },
 ];
+
+const AURA_SPEC = {
+  stone: { cls: "aura-stone", name: "pulseGlowStone", duration: "4s" },
+  fire: { cls: "aura-fire", name: "pulseGlowFire", duration: "3.6s" },
+  bolt: { cls: "aura-lightning", name: "pulseGlowLightning", duration: "3.4s" },
+  grass: { cls: "aura-wind", name: "pulseGlowWind", duration: "4.2s" },
+  ice: { cls: "aura-ice", name: "pulseGlowIce", duration: "3.8s" },
+  water: { cls: "aura-water", name: "pulseGlowWater", duration: "4.1s" },
+};
+
+const BREATHE = BREATHE_SPEC.map((s) => s.cls);
 
 function spriteRoot(el) {
   if (!el) return null;
@@ -313,15 +325,18 @@ function floatText(viewport, text, tone = "dmg") {
 
 /**
  * Ch3 red dogs + ch4 zombies: cutout already emits fire/plague.
- * Skip the pulsing drop-shadow aura (washes soft fringe). No SVG filter —
- * url(#mfTameGlow) made bodies look translucent vs opaque cat heroes.
+ * Skip pulsing drop-shadow aura (washes soft fringe). Breathe still runs (D-046).
  */
 function monsterGlowIsBaked(unit) {
   const id = `${unit?.id || ""} ${unit?.templateId || ""}`;
   return /bot_redd|bot_zomb|pitboss_redd|pitboss_zomb/.test(id);
 }
 
-/** Idle breathe + elemental aura on a fight unit card/li (cutout img). */
+/**
+ * Idle breathe (+ optional elemental aura) on a fight unit cutout.
+ * Locked for every live-fight mode: practice / Mythmir PvE / PvP / wire (D-046, MF-149).
+ * One `animation` list — separate aura class alone overwrote breathe.
+ */
 export function decorateBattleUnitIdle(card, unit, laneIndex = 0) {
   if (!card || !unit) return;
   const img = spriteRoot(card);
@@ -329,15 +344,26 @@ export function decorateBattleUnitIdle(card, unit, laneIndex = 0) {
   BREATHE.forEach((c) => img.classList.remove(c));
   Object.values(ELEMENT_AURA).forEach((c) => img.classList.remove(c));
   img.classList.remove("mf-sprite-crisp");
-  img.classList.add(BREATHE[laneIndex % BREATHE.length]);
-  if (!monsterGlowIsBaked(unit)) {
-    const aura = ELEMENT_AURA[unit.element] || ELEMENT_AURA.stone;
-    img.classList.add(aura);
-  }
-  img.classList.add("mf-hero-sprite");
+  img.style.removeProperty("animation");
   card.dataset.unitId = unit.id || "";
   card.dataset.role = unit.role || "";
   card.dataset.element = unit.element || "";
+  if (!unit.alive) {
+    img.classList.remove("mf-hero-sprite");
+    return;
+  }
+  const breathe = BREATHE_SPEC[Math.abs(laneIndex) % BREATHE_SPEC.length];
+  const anim = [
+    `${breathe.name} ${breathe.duration} ease-in-out ${breathe.delay} infinite`,
+  ];
+  img.classList.add(breathe.cls, "mf-hero-sprite");
+  if (!monsterGlowIsBaked(unit)) {
+    const aura = AURA_SPEC[unit.element] || AURA_SPEC.stone;
+    img.classList.add(aura.cls);
+    anim.push(`${aura.name} ${aura.duration} ease-in-out infinite`);
+  }
+  img.style.animation = anim.join(", ");
+  img.style.transformOrigin = "bottom center";
 }
 
 export function findBattleUnitEl(unitId) {
