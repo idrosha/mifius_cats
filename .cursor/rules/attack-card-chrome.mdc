@@ -1,0 +1,13 @@
+---
+description: Locked attack-card chrome compose (D-045 / D-049)
+alwaysApply: true
+---
+
+# Attack card chrome (locked)
+
+- One shared frame: `client/web-hud/public/stitch-assets/attack-cards/chrome/attack_card_chrome.jpg` (`ATTACK_CARD_CHROME_URL`).
+- Do **not** swap chrome per class/element/rarity. Element = rune slot + CSS tint only.
+- Illustrations go in `.mf-atk-card__illust` inside the art window (`object-fit: cover`, `object-position` biased to subject — not empty top).
+- Title / description: centered in slots; use `fitAttackCardText` so long copy shrinks and never spills past the parchment.
+- Compose path: `attackCardComposeHtml` + `.mf-atk-card--compose`. No return to full baked plates for live hand/home deck.
+- New frame art: crop empty margins, retune slot % in `styles.css`, keep the same class names.

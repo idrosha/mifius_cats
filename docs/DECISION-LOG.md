@@ -12,6 +12,22 @@ Append-only. Новые записи — **сверху** (после шабло
 6. Одна запись = одно решение. Не смешивать баланс и IA в одном D-id.
 7. В коде/доках ссылайся `D-0xx`, не копируй абзац Context.
 
+## D-049 · 2026-11-20 · Attack chrome locked + fit text
+
+- **Status:** Accepted
+- **Area:** hud | content
+- **SSOT:** docs/FULL-SPEC.md §6
+- **Owner:** Andrew / web-hud
+
+### Context
+Compose (`D-045`) давал съезд арта/текста при смене рамки; иллюстрации обрезали верх субъекта; длинный effect_ru вылезал из пергамента.
+
+### Decision
+Один файл chrome (`attack_card_chrome.jpg`) **locked** — не менять per class/element. Illust только в окне арта (`object-position` к субъекту). Title/desc — центрово в слотах; `fitAttackCardText` уменьшает шрифт, пока текст не влезает. Agent rule: `.cursor/rules/attack-card-chrome.mdc`.
+
+### Consequences
+Новая рамка = crop полей + ретайм % слотов, те же class names. Без возврата к baked plates в hand/home.
+
 ## D-048 · 2026-11-20 · Live cutout silhouette by role
 
 - **Status:** Accepted

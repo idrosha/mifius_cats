@@ -3634,9 +3634,11 @@ body:has(#viewPvpFight:not(.hidden)) #app { height: 100dvh !important; max-heigh
   border: 0;
 }
 
-/* D-045 · composed attack card: one chrome + illust + title/desc/cost/rune */
+/* D-045/D-049 · locked chrome; illust/text only inside slots; center + fit text */
 .mf-atk-card.mf-atk-card--compose {
   --mf-card-tint: transparent;
+  position: relative;
+  overflow: hidden;
   background: #110d0b;
   isolation: isolate;
 }
@@ -3667,25 +3669,27 @@ body:has(#viewPvpFight:not(.hidden)) #app { height: 100dvh !important; max-heigh
 }
 .mf-atk-card.mf-atk-card--compose > .mf-atk-card__illust {
   position: absolute;
-  left: 11%;
-  top: 5.5%;
-  width: 78%;
-  height: 54%;
+  left: 7%;
+  top: 4.5%;
+  width: 86%;
+  height: 48%;
   object-fit: cover;
-  object-position: center;
-  border-radius: 0.35rem 0.35rem 0.55rem 0.55rem;
+  /* bias to subject (upper half of illust); avoid empty room at bottom */
+  object-position: center 28%;
+  border-radius: 0.3rem 0.3rem 0.55rem 0.55rem;
   background: #0a0a0a;
   z-index: 2;
   pointer-events: none;
 }
 .mf-atk-card.mf-atk-card--compose > .mf-atk-card__rune {
   position: absolute;
-  left: 50%;
-  top: 2.4%;
-  width: 10%;
-  height: auto; /* override .mf-atk-card img { height:100% } — иначе чёрная полоса */
+  right: 6.5%;
+  top: 3.2%;
+  left: auto;
+  width: 11%;
+  height: auto; /* override .mf-atk-card img { height:100% } */
   aspect-ratio: 1;
-  transform: translateX(-50%);
+  transform: none;
   z-index: 4;
   object-fit: contain;
   background: transparent;
@@ -3695,10 +3699,10 @@ body:has(#viewPvpFight:not(.hidden)) #app { height: 100dvh !important; max-heigh
 }
 .mf-atk-card.mf-atk-card--compose > .mf-atk-card__cost {
   position: absolute;
-  left: 14%;
-  top: 7%;
+  left: 8%;
+  top: 5%;
   z-index: 4;
-  width: 14%;
+  width: 13%;
   aspect-ratio: 1;
   display: flex;
   align-items: center;
@@ -3714,10 +3718,10 @@ body:has(#viewPvpFight:not(.hidden)) #app { height: 100dvh !important; max-heigh
 }
 .mf-atk-card.mf-atk-card--compose > .mf-atk-card__meta {
   position: absolute;
-  left: 14%;
-  top: 62.5%;
-  width: 72%;
-  height: 9%;
+  left: 12%;
+  top: 54.5%;
+  width: 76%;
+  height: 8%;
   z-index: 4;
   margin: 0;
   padding: 0 0.35rem;
@@ -3735,13 +3739,13 @@ body:has(#viewPvpFight:not(.hidden)) #app { height: 100dvh !important; max-heigh
 }
 .mf-atk-card.mf-atk-card--compose > .mf-atk-card__desc {
   position: absolute;
-  left: 13%;
-  top: 74%;
-  width: 74%;
-  height: 11.5%;
+  left: 11%;
+  top: 64%;
+  width: 78%;
+  height: 20%;
   z-index: 4;
   margin: 0;
-  padding: 0 0.4rem;
+  padding: 0 0.45rem;
   box-sizing: border-box;
   display: flex;
   align-items: center;

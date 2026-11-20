@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <title>D-049 preview — locked chrome</title>
+  <link rel="stylesheet" href="/styles.css?v=d049chrome" />
+  <style>
+    body { margin: 0; min-height: 100vh; background: #161310; color: #eae1db; font-family: Georgia, serif; padding: 24px; }
+    h1 { font-size: 18px; margin: 0 0 8px; }
+    p { margin: 0 0 20px; opacity: 0.8; font-size: 14px; }
+    .row { display: flex; flex-wrap: wrap; gap: 16px; }
+    .mf-atk-card { width: 160px; height: 240px; }
+  </style>
+</head>
+<body>
+  <h1>Превью compose-карт (локально)</h1>
+  <p>Locked chrome · арт в окне · текст по центру со shrink.</p>
+  <div class="row" id="row"></div>
+  <script type="module">
+    const chrome = "/stitch-assets/attack-cards/chrome/attack_card_chrome.jpg?v=d049";
+    const cards = [
+      { t: "Уши валуна", c: 1, d: "Даёт 5 щита слабейшему союзнику. Таунт.", el: "stone",
+        art: "/stitch-assets/attack-cards/illust/tank-a/attack_shop_tank_stone_a_ears.jpg",
+        rune: "/stitch-assets/attack-cards/chrome/runes/stone.svg" },
+      { t: "Капля жизни", c: 1, d: "Восстанавливает 10 HP слабейшему союзнику.", el: "water",
+        art: "/stitch-assets/attack-cards/illust/support-a/attack_shop_support_water_a_muzzle.jpg",
+        rune: "/stitch-assets/attack-cards/chrome/runes/water.svg" },
+      { t: "Огненный круг", c: 2,
+        d: "Наносит урон по площади всем врагам в переднем ряду и поджигает их на два хода.",
+        el: "fire",
+        art: "/stitch-assets/attack-cards/illust/mage-a/attack_shop_mage_fire_a_muzzle.jpg",
+        rune: "/stitch-assets/attack-cards/chrome/runes/fire.svg" },
+    ];
+    function fit(root) {
+      root.querySelectorAll(".mf-atk-card__meta, .mf-atk-card__desc").forEach((el) => {
+        let size = parseFloat(getComputedStyle(el).fontSize) || 12;
+        const min = el.classList.contains("mf-atk-card__meta") ? 7 : 6;
+        el.style.fontSize = size + "px";
+        let guard = 24;
+        while (guard-- > 0 && size > min && (el.scrollHeight > el.clientHeight + 1 || el.scrollWidth > el.clientWidth + 1)) {
+          size -= 0.5;
+          el.style.fontSize = size + "px";
+        }
+      });
+    }
+    const row = document.getElementById("row");
+    for (const p of cards) {
+      const b = document.createElement("button");
+      b.type = "button";
+      b.className = "mf-atk-card mf-atk-card--art mf-atk-card--compose";
+      b.dataset.element = p.el;
+      b.innerHTML =
+        `<img class="mf-atk-card__chrome" alt="" src="${chrome}"/>` +
+        `<img class="mf-atk-card__illust" alt="${p.t}" src="${p.art}"/>` +
+        `<img class="mf-atk-card__rune" alt="" src="${p.rune}"/>` +
+        `<span class="mf-atk-card__cost">${p.c}</span>` +
+        `<b class="mf-atk-card__meta">${p.t}</b>` +
+        `<span class="mf-atk-card__desc">${p.d}</span>` +
+        `<span class="mf-atk-card__sub">${p.c} AP</span>`;
+      row.appendChild(b);
+    }
+    const imgs = [...document.images];
+    await Promise.all(imgs.map((i) => i.decode().catch(() => null)));
+    fit(row);
+    const bad = imgs.filter((i) => !i.naturalWidth).map((i) => i.src);
+    document.title = bad.length ? "PREVIEW_FAIL" : "PREVIEW_OK";
+    if (bad.length) {
+      const pre = document.createElement("pre");
+      pre.textContent = "404:\n" + bad.join("\n");
+      document.body.appendChild(pre);
+    }
+  </script>
+</body>
+</html>
