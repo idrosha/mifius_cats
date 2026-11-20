@@ -12,6 +12,23 @@ Append-only. Новые записи — **сверху** (после шабло
 6. Одна запись = одно решение. Не смешивать баланс и IA в одном D-id.
 7. В коде/доках ссылайся `D-0xx`, не копируй абзац Context.
 
+## D-047 · 2026-11-20 · Live board facing: left→right, right→left
+
+- **Status:** Accepted
+- **Area:** hud
+- **SSOT:** docs/FULL-SPEC.md §6
+- **Owner:** Andrew / web-hud
+- **Supersedes:** board half of `D-040` (type-only «cats always right» on the enemy column)
+
+### Context
+Часть cutout’ов смотрела от центра: неверный `*_NATIVE_FACE_LEFT` (Мурка/Тень зеркалились зря; ch1 `fighter-h` не зеркалился) и PvP-коты справа оставались «вправо» по `D-040`.
+
+### Decision
+**Locked (live board / load roster):** колонка слева → face **right**; колонка справа → face **left** (к центру). Тип юнита не важнее стороны. Flip только если native ≠ desired (`CAT_`/`DUMMY_`/`MONSTER_NATIVE_FACE_LEFT`). Новый арт: вносить в `*_NATIVE_FACE_LEFT` **только** если файл нарисован влево. Вне боя (дом/магазин) котики по-прежнему вправо.
+
+### Consequences
+`paintSlots` / `pvpUnitCard` / `battleLoadFigureHtml` / `desiredSpriteFace(side)` — side-first. `D-040` остаётся для non-board type default + flip helper. Rule: `.cursor/rules/fight-facing.mdc`.
+
 ## D-046 · 2026-11-20 · Live fight: idle breathe on every unit
 
 - **Status:** Accepted
@@ -110,7 +127,7 @@ HUD не рисует `empty_lane` (класс `.hidden` — Tailwind `flex` и�
 
 ## D-040 · 2026-11-17 · Sprite facing: герои вправо, враги влево
 
-- **Status:** Accepted
+- **Status:** Superseded by D-047 (live board / load roster side rule)
 - **Area:** hud
 - **SSOT:** docs/FULL-SPEC.md §6 (презентация)
 - **Owner:** Andrew / web-hud (MF-170)
