@@ -12,7 +12,7 @@ Paste into another Project’s store `docs/` (or kickoff prompts). Pair with rep
 1. Copy this file + attach repo `docs/AGENTS.md` and `docs/skills/<role>.md`.
 2. Keep **one coordinator** that owns the tracker (`taskPrefix`, e.g. `MF`) and store paths.
 3. Spawn **one worker per outcome**; parallel only on non-overlapping paths.
-4. Do **not** attach marketing/SEO/ponytail user skills unless the task is a landing/site.
+4. **Ponytail** is always-on via `.cursor/rules/ponytail.mdc` (`D-044`). Do **not** attach other marketing/SEO user skills (`brand`, `page-copy`, …) unless the task is a landing/site.
 5. Never paste `FULL-SPEC.md` into the prompt — cite `docs/FULL-SPEC.md` §N.
 
 ### Kickoff shape (universal)
@@ -223,9 +223,13 @@ These dominate soft-launch work but were historically under-specified in `AGENTS
 
 `orchestrator`, `battle`, `client`, `web-hud`, `hud-design-load`, `backend`, `liveops`, `content`, `qa`, `design`, `stitch`, `merge-ci`
 
+### Always-on process (Cursor)
+
+`.cursor/rules/ponytail.mdc` — smallest complete change (`D-044`). Does not replace Mythfel SSOT / antifailure / role skills.
+
 ### Do **not** attach (unless marketing task)
 
-User skills: `brand`, `page-copy`, `semantic-core`, `site-contract`, `social-posts`, `launch-checklist`, `weekly-growth`, `seo-audit`, `ponytail*`
+User skills: `brand`, `page-copy`, `semantic-core`, `site-contract`, `social-posts`, `launch-checklist`, `weekly-growth`, `seo-audit`
 
 ---
 

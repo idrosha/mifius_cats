@@ -1552,6 +1552,44 @@ function combatStarterIds() {
   return combat.length ? combat : STARTERS;
 }
 
+/** Active 3-cat team: practice formation if set, else profile starters (B5). */
+function combatSquadIds() {
+  if (Array.isArray(state.practiceSquad) && state.practiceSquad.length === 3) {
+    return [...state.practiceSquad];
+  }
+  const starters = combatStarterIds();
+  return starters.length === 3 ? [...starters] : [...STARTERS];
+}
+
+/** SL stub spend — HUD/profile only until economy-service (D1). */
+function spendBowlStub() {
+  if (state.profile && typeof state.profile.bowls === "number") {
+    if (state.profile.bowls <= 0) {
+      toast(t("limits.bowl.empty", "Миски на сегодня кончились (stub)"));
+      return false;
+    }
+    state.profile.bowls -= 1;
+    state.wallet.milk = state.profile.bowls;
+    renderCurrency();
+    toast(`Миска −1 · осталось ${state.profile.bowls} (stub)`);
+  }
+  return true;
+}
+
+function spendTicketStub() {
+  if (state.profile && typeof state.profile.pvpTickets === "number") {
+    if (state.profile.pvpTickets <= 0) {
+      toast(t("limits.ticket.empty", "Билеты PvP на сегодня кончились (stub)"));
+      return false;
+    }
+    state.profile.pvpTickets -= 1;
+    state.wallet.energy = `${state.profile.pvpTickets}/5`;
+    renderCurrency();
+    toast(`Билет −1 · осталось ${state.profile.pvpTickets} (stub)`);
+  }
+  return true;
+}
+
 function renderStarters(intoId) {
   const box = $(intoId);
   if (!box) return;
@@ -1732,9 +1770,9 @@ function campaignNode(chapter) {
 }
 
 function isChapterUnlocked(chapter) {
-  // Soft-launch / QA: all Mythmir chapters playable (no progression locks on the map).
-  void chapter;
-  return true;
+  const ch = Math.max(1, Math.min(5, Number(chapter) || 1));
+  if (ch <= 1) return true;
+  return isChapterCleared(ch - 1);
 }
 
 function isChapterCleared(chapter) {
@@ -2147,15 +2185,29 @@ function renderFormation() {
   });
   const tray = $("formationPotions");
   tray.innerHTML = "";
+  // A4: potions not playable in Phase 1 sim — show inventory as Soon, do not promise in-fight use.
+  const note = document.createElement("p");
+  note.className = "text-xs text-on-surface-variant mb-1";
+  note.textContent = t(
+    "formation.potions.soon",
+    "Боевые зелья · Soon (каталог есть; play в бою — следующая фаза)",
+  );
+  tray.appendChild(note);
   for (const pid of state.ownedPotions) {
     const def = POTIONS.find((p) => p.id === pid);
-    const chip = document.createElement("span");
+    const chip = document.createElement("button");
+    chip.type = "button";
     chip.className = "potion-chip";
-    chip.textContent = t(def?.nameKey || pid, pid);
+    chip.textContent = `${t(def?.nameKey || pid, pid)} · Soon`;
+    chip.addEventListener("click", () =>
+      showGateTip(t("formation.potions.gate", "Зелья в бою ещё не подключены (Phase 1)")),
+    );
     tray.appendChild(chip);
   }
   if (!state.ownedPotions.length) {
-    tray.textContent = t("formation.no_potions", "Нет зелий — рынок у крафтеров");
+    const empty = document.createElement("span");
+    empty.textContent = t("formation.no_potions", "Нет зелий — рынок у крафтеров");
+    tray.appendChild(empty);
   }
 }
 
@@ -6002,14 +6054,18 @@ function bindPvpVictory() {
 function renderResult() {
   const r = state.lastResult;
   const win = r?.result === "p1_win";
+  const modeRu =
+    { practice: "Тренировка", pve: "Мифмир", pvp: "PvP smoke", boss: "Босс" }[state.battleMode] ||
+    state.battleMode ||
+    "бой";
   $("resultEyebrow").textContent = t("result.eyebrow", "Итог боя");
   $("resultTitle").textContent = win
     ? t("result.win", "Блестящая победа!")
     : t("result.lose", "Поражение в бою");
-  $("resultLead").textContent = `${r?.battleId || "?"} · ${r?.result || "?"} · mode=${state.battleMode}`;
+  $("resultLead").textContent = `${r?.battleId || "?"} · ${r?.result || "?"} · ${modeRu}`;
   const loseLead = $("resultLoseLead");
   if (loseLead && !win) {
-    loseLead.textContent = `${r?.battleId || "?"} · ${r?.result || "?"} · ${state.battleMode}. Пересобери строй и попробуй снова.`;
+    loseLead.textContent = `${modeRu}: ${r?.result || "поражение"}. Пересобери строй, зайди в таверну за молоком и попробуй снова.`;
   }
   // Wire painted/lose CTAs once
   document.querySelectorAll("[data-hud-action]").forEach((btn) => {
@@ -6017,13 +6073,17 @@ function renderResult() {
     btn.dataset.bound = "1";
     btn.addEventListener("click", () => {
       const act = btn.getAttribute("data-hud-action");
+      const mode = state.battleMode;
       state.battle = null;
       state.lastResult = null;
-      if (act === "result-retry") startYard(false);
-      else if (act === "result-formation") navigate("formation");
+      if (act === "result-retry") {
+        if (mode === "pvp") pvpStart();
+        else if (mode === "practice") startPractice(false);
+        else startYard(false);
+      } else if (act === "result-formation") navigate("formation");
       else if (act === "result-tavern") navigate("tavern");
       else if (act === "result-hub") navigate("hub");
-      else if (act === "result-yard") navigate("yard");
+      else if (act === "result-yard") navigate(mode === "practice" ? "practice" : "yard");
     });
   });
 }
@@ -6538,9 +6598,15 @@ function makeAttackHandButton(c, diff, classNames = "mf-atk-card") {
   } else {
     b.innerHTML = `<b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
   }
-  b.addEventListener("click", () =>
-    submitAction({ kind: "playCard", unitId: c.unitId, handIndex: c.handIndex, targetId: "" }),
-  );
+  b.addEventListener("click", () => {
+    // D-050: playCard with empty targetId — server resolves TargetRule (incl. backline).
+    if (state.selectedKeep?.mode) {
+      state.selectedKeep = null;
+      submitAction({ kind: "keep", unitId: c.unitId, handIndex: c.handIndex });
+      return;
+    }
+    submitAction({ kind: "playCard", unitId: c.unitId, handIndex: c.handIndex, targetId: "" });
+  });
   return b;
 }
 
@@ -7048,6 +7114,14 @@ function renderPracticeFight() {
       }
     }
   }
+  const keepBtn = document.querySelector("#viewPracticeFight #pfKeep");
+  if (keepBtn) {
+    const kc = local.keepCost ?? 1;
+    keepBtn.disabled = !diff.canKeep || !!diff.result || !mine || state.oppThrowPlaying;
+    keepBtn.innerHTML = state.selectedKeep?.mode
+      ? `<span class="material-symbols-outlined text-[16px]">touch_app</span><span>Keep: клик по карте</span>`
+      : `<span class="material-symbols-outlined text-[16px]">back_hand</span><span>Keep (${kc})</span>`;
+  }
   const end = document.querySelector("#viewPracticeFight #pfEndTurn");
   if (end) {
     end.disabled = !diff.canEndTurn || !!diff.result || diff.active !== 0 || state.oppThrowPlaying;
@@ -7078,7 +7152,17 @@ function bindPracticeFight() {
   root.dataset.bound = "1";
   root.addEventListener("click", (ev) => {
     const id = ev.target.closest("button")?.id;
-    if (id === "pfEndTurn") submitAction({ kind: "endTurn" });
+    if (id === "pfKeep") {
+      if (!state.battle?.canKeep || state.battle?.result) return;
+      state.selectedKeep = { mode: true };
+      toast(state.locale === "ru" ? "Keep: клик по карте в руке" : "Keep: click a hand card");
+      renderPracticeFight();
+      return;
+    }
+    if (id === "pfEndTurn") {
+      state.selectedKeep = null;
+      submitAction({ kind: "endTurn" });
+    }
     if (id === "pfBack") leaveLiveFightHud();
   });
   document.addEventListener("keydown", (ev) => {
@@ -7128,7 +7212,11 @@ function renderPvpFight() {
   if (!diff) return;
   const energy = diff.p1?.energy ?? 0;
   const mine = diff.active === 0 && !diff.result;
-  if ($("pvRound")) $("pvRound").textContent = `Раунд ${diff.turn || 1} · ${mine ? "Ход игрока" : "Ход соперника"}`;
+  if ($("pvRound")) {
+    $("pvRound").textContent = `Раунд ${diff.turn || 1} · ${
+      mine ? "Ход игрока" : diff.result ? "Итог" : "Ход AI (smoke)"
+    }`;
+  }
   if ($("pvEnergy")) $("pvEnergy").textContent = `Энергия ${energy}`;
   const allies = (diff.units || []).filter((u) => u.side === 0).sort((a, b) => a.lane - b.lane);
   const enemies = (diff.units || []).filter((u) => u.side === 1).sort((a, b) => a.lane - b.lane);
@@ -7172,6 +7260,12 @@ function renderPvpFight() {
       }
     }
   }
+  const keepBtn = $("pvKeep");
+  if (keepBtn) {
+    const kc = diff.p1?.keepCost ?? 1;
+    keepBtn.disabled = !diff.canKeep || !!diff.result || !mine || state.oppThrowPlaying;
+    keepBtn.textContent = state.selectedKeep?.mode ? "Keep: клик по карте" : `Keep (${kc})`;
+  }
   const end = $("pvEndTurn");
   if (end) end.disabled = !diff.canEndTurn || !!diff.result || diff.active !== 0 || state.oppThrowPlaying;
 }
@@ -7191,7 +7285,17 @@ function bindPvpFight() {
   root.dataset.bound = "1";
   root.addEventListener("click", (ev) => {
     const id = ev.target.closest("button")?.id;
-    if (id === "pvEndTurn") submitAction({ kind: "endTurn" });
+    if (id === "pvKeep") {
+      if (!state.battle?.canKeep || state.battle?.result) return;
+      state.selectedKeep = { mode: true };
+      toast(state.locale === "ru" ? "Keep: клик по карте в руке" : "Keep: click a hand card");
+      renderPvpFight();
+      return;
+    }
+    if (id === "pvEndTurn") {
+      state.selectedKeep = null;
+      submitAction({ kind: "endTurn" });
+    }
     if (id === "pvSurrender") submitAction({ kind: "surrender" });
   });
   document.addEventListener("keydown", (ev) => {
@@ -7407,7 +7511,7 @@ async function applyDiff(diff, note = "") {
 
 async function createPvE({ autoPlay = false, seed = 0, stageId = null, team = null, carryAlive = null } = {}) {
   const sid = stageId || state.selectedStageId || YARD_STAGE;
-  const squad = Array.isArray(team) && team.length === 3 ? team : STARTERS;
+  const squad = Array.isArray(team) && team.length === 3 ? team : combatSquadIds();
   const carry =
     Array.isArray(carryAlive) && carryAlive.length === 3
       ? carryAlive
@@ -7453,7 +7557,7 @@ async function submitAction(action) {
       action.kind === "endTurn" && prevActive === 0 && state.battle && !state.battle.result;
     if (shouldThrow) {
       if ($("pfRound")) $("pfRound").textContent = `РАУНД ${state.battle.turn || 1} • ХОД БОТА`;
-      if ($("pvRound")) $("pvRound").textContent = `Раунд ${state.battle.turn || 1} · Ход соперника`;
+      if ($("pvRound")) $("pvRound").textContent = `Раунд ${state.battle.turn || 1} · Ход AI (smoke)`;
       await playOpponentDiscardThrow();
     }
     await applyDiff(data, `${action.kind}${action.unitId ? " " + action.unitId : ""}`);
@@ -7468,14 +7572,13 @@ async function submitAction(action) {
 async function startYard(autoPlay = false) {
   try {
     if (!state.battleMode) state.battleMode = "pve";
-    const practiceTeam =
-      state.battleMode === "practice" && Array.isArray(state.practiceSquad) && state.practiceSquad.length === 3
-        ? [...state.practiceSquad]
-        : null;
+    if (state.battleMode === "pve" || state.battleMode === "boss") {
+      if (!spendBowlStub()) return;
+    }
     const diff = await createPvE({
       autoPlay,
       seed: autoPlay ? 20261104 : 0,
-      team: practiceTeam,
+      team: combatSquadIds(),
     });
     await applyDiff(diff, autoPlay ? "CreatePvE autoPlay" : `CreatePvE ${state.selectedStageId}`);
   } catch (err) {
@@ -7519,6 +7622,7 @@ async function refreshReplays() {
   try {
     const { data } = await api("/api/battle/v1/ListReplays?userId=local_smoke");
     const list = $("replayList");
+    if (!list) return;
     list.innerHTML = "";
     for (const item of data || []) {
       const li = document.createElement("li");
@@ -7526,13 +7630,18 @@ async function refreshReplays() {
       const b = document.createElement("button");
       b.type = "button";
       b.className = "wire-btn";
-      b.textContent = "Open";
+      b.textContent = state.locale === "ru" ? "Открыть" : "Open";
       b.addEventListener("click", async () => {
         const { data: frames } = await api(
           `/api/battle/v1/GetReplay?battleId=${encodeURIComponent(item.battleId)}`,
         );
-        log(`replay ${item.battleId}: ${(frames || []).length} frames`, "pvp");
-        alert(`Replay ${item.battleId}: ${(frames || []).length} frames`);
+        const n = (frames || []).length;
+        const last = n ? frames[n - 1] : null;
+        const summary = last
+          ? `T${last.turn ?? "?"} · ${last.result || item.result || "?"} · ${n} frames`
+          : `${n} frames`;
+        log(`replay ${item.battleId}: ${summary}`, "pvp");
+        toast(`Реплей ${item.battleId}: ${summary}`);
       });
       li.appendChild(b);
       list.appendChild(li);
@@ -7555,12 +7664,13 @@ async function pvpAuto() {
   }
   try {
     state.battleMode = "pvp";
+    const team = combatSquadIds();
     const { data } = await api("/api/battle/v1/CreatePvP", {
       method: "POST",
       body: JSON.stringify({
         matchId: `web_${Date.now()}`,
-        team1: STARTERS,
-        team2: STARTERS,
+        team1: team,
+        team2: team,
         seed: 20261104,
         autoPlay: true,
       }),
@@ -8089,9 +8199,12 @@ function bindPveFight() {
 function renderPveFight() {
   applyPveFightStage(state.pveStage || "entrance");
   bindPveFight();
-  // Mirror live battle HUD numbers when sim is present (client paints only).
-  if (state.battle && !state.battle.result) {
-    renderBattle();
+  // C4: stub chrome only — do not dual-paint wire battle; tip if opened live.
+  const tipEl = $("pveFightStageTip");
+  if (tipEl) {
+    tipEl.textContent = state.battle
+      ? "Live Мифмир идёт в HUD тренировки (practice_fight). Этот экран — chrome stub."
+      : tipEl.textContent;
   }
 }
 
@@ -8258,12 +8371,13 @@ function bindPvpLoad() {
   });
 }
 
-/** Interactive PvP (same core; human turns until end / surrender). */
+/** Interactive PvP (same core; P2 = scripted AI until live MM — B1/B2 smoke). */
 async function pvpStart() {
   if (!pvpUnlocked()) {
     showGateTip(t("gate.tip.pvp", "PvP откроется после 3 побед в Мифмире или тренировке"));
     return;
   }
+  if (!spendTicketStub()) return;
   if (state.tab === "pvp_load" && (state.pvpLoadPct || 0) < 100) {
     setPvpLoadProgress(100);
     clearInterval(state.pvpLoadTimer);
@@ -8273,12 +8387,19 @@ async function pvpStart() {
     clearInterval(state.pvpLoadTimer);
     state.pvpLoadTimer = null;
     state.battleMode = "pvp";
+    const team = combatSquadIds();
+    toast(
+      t(
+        "pvp.smoke.ai",
+        "PvP smoke: соперник — скриптовый AI (общий MM позже)",
+      ),
+    );
     const { data } = await api("/api/battle/v1/CreatePvP", {
       method: "POST",
       body: JSON.stringify({
         matchId: `web_${Date.now()}`,
-        team1: STARTERS,
-        team2: STARTERS,
+        team1: team,
+        team2: team,
         seed: Date.now() % 1e9,
         autoPlay: false,
       }),
@@ -8306,13 +8427,12 @@ function renderAll() {
   bindStitchNav($(viewId));
 
   if (viewId === "viewPracticeFight" && state.battle && !state.battle.result) {
-    renderBattle();
+    // C3: stitch fight is SoT paint — skip dual wire renderBattle.
     renderPracticeFight();
     bindPracticeFight();
     return;
   }
   if (viewId === "viewPvpFight" && state.battle && !state.battle.result) {
-    renderBattle();
     renderPvpFight();
     bindPvpFight();
     return;
@@ -8325,7 +8445,8 @@ function renderAll() {
     renderPveLoad();
     return;
   }
-  if (viewId === "viewPveFight" && state.battle && !state.battle.result) {
+  if (viewId === "viewPveFight") {
+    // C4: painted PvE fight is stub chrome — live Mythmir uses practice HUD.
     renderPveFight();
     return;
   }

@@ -8,22 +8,44 @@ import "sort"
 // Free-target roles (ranger/mage/support) may pass explicitID for any living enemy.
 // taunt/stealth/ambush override.
 
+// freeTargetRole — §3.4: ranger/mage/support may name any living unit via explicitID.
+func freeTargetRole(role string) bool {
+	switch role {
+	case "ranger", "mage", "support":
+		return true
+	default:
+		return false
+	}
+}
+
 // allowAmbush: card tag `ambush` bypasses stealth (§3.4 / FULL-SPEC).
 func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string, allowAmbush bool) []*Unit {
+	var wantExplicit *Unit
 	if explicitID != "" {
 		if t := b.unitByID(explicitID); t != nil && t.Alive {
-			// Free-target roles may pick any; melee still honors explicit when UI sends it
-			// (server validates separately for illegal mid-melee deep picks if needed).
-			return []*Unit{t}
+			if freeTargetRole(actor.Role) {
+				return []*Unit{t}
+			}
+			// Melee: multi/self/backline cards may name a target; nearest/lowest_hp
+			// must match the auto pick (no illegal deep-pick of rear).
+			switch rule {
+			case "all_enemies", "ally_all", "self":
+				// ignore explicit — resolve full set below
+			case "backline", "random_enemy", "ally_lowest_hp":
+				return []*Unit{t}
+			default: // nearest / lowest_hp / ""
+				wantExplicit = t
+			}
 		}
 	}
 
 	allies := b.living(actor.Side)
 	enemies := b.living(opposite(actor.Side))
 
+	var out []*Unit
 	switch rule {
 	case "self":
-		return []*Unit{actor}
+		out = []*Unit{actor}
 	case "ally_lowest_hp":
 		if len(allies) == 0 {
 			return nil
@@ -34,11 +56,11 @@ func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string, allo
 			}
 			return allies[i].Lane < allies[j].Lane
 		})
-		return []*Unit{allies[0]}
+		out = []*Unit{allies[0]}
 	case "ally_all":
-		return allies
+		out = allies
 	case "all_enemies":
-		return enemies
+		out = enemies
 	case "lowest_hp":
 		cands := filterStealth(enemies, allowAmbush)
 		cands = applyTaunt(cands, enemies)
@@ -51,7 +73,7 @@ func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string, allo
 			}
 			return cands[i].Lane < cands[j].Lane
 		})
-		return []*Unit{cands[0]}
+		out = []*Unit{cands[0]}
 	case "backline":
 		cands := filterStealth(enemies, allowAmbush)
 		cands = applyTaunt(cands, enemies)
@@ -74,7 +96,7 @@ func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string, allo
 			}
 			return cands[i].ID < cands[j].ID
 		})
-		return []*Unit{cands[0]}
+		out = []*Unit{cands[0]}
 	case "random_enemy":
 		// D-043: seeded pick among living (stealth-filtered). Taunt does not redirect — poison spread.
 		cands := filterStealth(enemies, allowAmbush)
@@ -85,9 +107,10 @@ func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string, allo
 			return cands[i].ID < cands[j].ID
 		})
 		if b.rng == nil {
-			return []*Unit{cands[0]}
+			out = []*Unit{cands[0]}
+		} else {
+			out = []*Unit{cands[b.rng.Intn(len(cands))]}
 		}
-		return []*Unit{cands[b.rng.Intn(len(cands))]}
 	default: // nearest — frontmost lane, then role rank (§3.4)
 		cands := filterStealth(enemies, allowAmbush)
 		cands = applyTaunt(cands, enemies)
@@ -110,8 +133,16 @@ func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string, allo
 			}
 			return cands[i].ID < cands[j].ID
 		})
-		return []*Unit{cands[0]}
+		out = []*Unit{cands[0]}
 	}
+
+	// Melee named a nearest/lowest_hp target that is not the legal auto pick → reject.
+	if wantExplicit != nil {
+		if len(out) != 1 || out[0].ID != wantExplicit.ID {
+			return nil
+		}
+	}
+	return out
 }
 
 // roleFrontRank — §3.4: tank → fighter → assassin → mage → ranger → support.

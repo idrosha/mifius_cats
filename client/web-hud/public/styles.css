@@ -3618,7 +3618,7 @@ body:has(#viewPvpFight:not(.hidden)) #app { height: 100dvh !important; max-heigh
   padding: 0.2rem 0.5rem 0.45rem;
   line-height: 1.25;
 }
-/* Legacy full-plate art: hide overlay text. D-045 compose shows live slots. */
+/* Full-plate art (D-050): hide overlay text chips on webp plates. */
 .mf-atk-card.mf-atk-card--art > .mf-atk-card__meta,
 .mf-atk-card.mf-atk-card--art > .mf-atk-card__sub {
   position: absolute;
@@ -3771,8 +3771,8 @@ body:has(#viewPracticeFight:not(.hidden)) #app {
   padding: 0;
   background: #231f1c;
 }
-#viewPracticeFight .pf-card.pf-card-art > b.mf-atk-card__meta,
-#viewPracticeFight .pf-card.pf-card-art > span.mf-atk-card__sub {
+#viewPracticeFight .pf-card.pf-card-art:not(.mf-atk-card--compose) > b.mf-atk-card__meta,
+#viewPracticeFight .pf-card.pf-card-art:not(.mf-atk-card--compose) > span.mf-atk-card__sub {
   position: absolute;
   width: 1px;
   height: 1px;

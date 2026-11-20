@@ -61,6 +61,7 @@ public sealed class BattlePresenter
             EnemyBoard = enemies,
             Hand = diff.Hand.Select(ToHandView).ToList(),
             PotionTray = diff.PotionTray.Select(ToPotionView).ToList(),
+            Events = diff.Events ?? Array.Empty<CombatEventDiff>(),
         };
 
         _view.Render(State);
@@ -85,7 +86,12 @@ public sealed class BattlePresenter
         Shield = u.Shield,
         Alive = u.Alive,
         StatusIds = u.Statuses.Select(s => s.Id).ToList(),
+        Statuses = u.Statuses,
         HandCount = u.HandCount,
+        DrawCount = u.DrawCount,
+        DiscardCount = u.DiscardCount,
+        AtkBuff = u.AtkBuff,
+        AtkBuffDur = u.AtkBuffDur,
     };
 
     private HandCardView ToHandView(HandCardDiff c) => new()
@@ -97,6 +103,9 @@ public sealed class BattlePresenter
         DisplayName = _loc.Resolve(c.NameKey),
         Cost = c.Cost,
         Playable = c.Playable,
+        Kept = c.Kept,
+        TargetRule = c.TargetRule ?? "",
+        Tags = c.Tags ?? Array.Empty<string>(),
     };
 
     private PotionSlotView ToPotionView(PotionSlotDiff p) => new()
