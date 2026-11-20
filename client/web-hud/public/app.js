@@ -3188,7 +3188,7 @@ const MONSTER_BATTLE_BY_FACTION = {
     // Grey dual-club fighter-h (обычный пёс). Do NOT use fighter-b — that dual-axe red plate
     // is the ch3 red-dog look (Andrew: ch1 showed «красный пёс»).
     // ?v= busts Amvera/browser max-age=300 after in-place facing rebakes (D-040).
-    fighter: ["/stitch-assets/monsters/battle/fighter-h.webp?v=d040ch1f"],
+    fighter: ["/stitch-assets/monsters/battle/fighter-h.webp?v=d047face"],
     support: ["/stitch-assets/monsters/battle/ranger-a.webp"],
     pitboss: ["/stitch-assets/monsters/battle/tank-d.webp"],
   },
@@ -3300,31 +3300,26 @@ function battleUnitArt(unit) {
 }
 
 /**
- * Sprite facing (Andrew / MF-170 · D-040):
- * - Cat heroes always face RIGHT (every form).
- * - Practice dummies + PvE monsters/soldiers/pitbosses always face LEFT.
- * Battle layout (allies left / foes right) → they look toward center.
- * Prefer CSS scaleX via `.mf-sprite-face.is-flipped` (wrapper so idle breathe keeps working).
+ * Sprite facing (D-047 · supersedes board part of D-040 / MF-170):
+ * Live board: LEFT column → face RIGHT; RIGHT column → face LEFT (toward center).
+ * Non-board forms: cats → right; dummies/monsters → left (type default).
+ * Flip via `.mf-sprite-face.is-flipped` only when native art ≠ desired.
+ * New assets: add slug to *_NATIVE_FACE_LEFT only if the file is authored facing left.
  */
-/**
- * Authored-left art slugs by folder (cats/dojo/monsters share role names — scope by path).
- * Default native = RIGHT → flip when desired is left.
- */
-const CAT_NATIVE_FACE_LEFT = new Set(["assassin-a", "tank-a", "fighter-a", "support-a"]);
+/** Authored-left cat battle/portrait slugs. Default native = RIGHT. */
+const CAT_NATIVE_FACE_LEFT = new Set([
+  "tank-a", // shield on viewer's left → looks left
+  "fighter-b", // tiger plate, three-quarter left
+]);
 const DUMMY_NATIVE_FACE_LEFT = new Set([
   "dummy-oak-knight",
-  // dummy-straw-berserk is authored facing RIGHT — flip when desired=left (MF-171).
   "dummy-stone-totem",
 ]);
-// Only assets authored aiming/looking LEFT. Default native = RIGHT → flip for desired left.
-// Do NOT list: ranger-a, tank-b, wolf-tank/pitboss (shield/glow RIGHT → flip).
-// Pixel-LEFT locks (listed so CSS never mirrors them away):
-// fighter-h (ch1), wolf-support (ch2), redd-tank/fighter (ch3), redd-pitboss (Алый Вожак) re-baked,
-// redd-support, zombie-pitboss.
+/** Authored-left monster cutouts. Default native = RIGHT → flip for board-right. */
 const MONSTER_NATIVE_FACE_LEFT = new Set([
   "assassin-b",
   "fighter-f",
-  "fighter-h",
+  // ch3/ch4/wolf cutouts authored toward left (do not flip away from center)
   "redd-tank-cutout",
   "redd-fighter-cutout",
   "redd-support-cutout",
@@ -3354,10 +3349,18 @@ function isFoeSpriteUnit(unitOrTid) {
   return art.includes("/dojo/") || art.includes("/monsters/");
 }
 
-/** @returns {'left'|'right'} */
+/**
+ * Desired face for a unit.
+ * @param {object|string} unitOrKind unit | 'ally'|'foe'|'board-left'|'board-right'
+ * @returns {'left'|'right'}
+ */
 function desiredSpriteFace(unitOrKind) {
-  if (unitOrKind === "enemy" || unitOrKind === "foe" || unitOrKind === "left") return "left";
-  if (unitOrKind === "ally" || unitOrKind === "hero" || unitOrKind === "right") return "right";
+  if (unitOrKind === "board-right" || unitOrKind === "enemy" || unitOrKind === "foe") return "left";
+  if (unitOrKind === "board-left" || unitOrKind === "ally" || unitOrKind === "hero") return "right";
+  // Live unit: side 0 = left column (face right), side 1 = right column (face left).
+  if (unitOrKind && typeof unitOrKind === "object" && (unitOrKind.side === 0 || unitOrKind.side === 1)) {
+    return unitOrKind.side === 0 ? "right" : "left";
+  }
   return isFoeSpriteUnit(unitOrKind) ? "left" : "right";
 }
 
@@ -6940,7 +6943,7 @@ function renderPracticeFight() {
   const paintSlots = (rootSel, units) => {
     const root = document.querySelector(`#viewPracticeFight ${rootSel}`);
     if (!root) return;
-    // Live board: left column looks right, right column looks left (D-040 / MF-171).
+    // D-047: column side → face toward center (not type).
     const boardFace = /enem/i.test(rootSel) ? "left" : "right";
     const slots = [...root.querySelectorAll("[data-slot]")];
     slots.forEach((card, i) => {
@@ -6983,11 +6986,9 @@ function renderPracticeFight() {
       if (img) {
         img.classList.add("mf-battle-cutout");
         card.classList.add("mf-battle-unit--cutout");
-        // D-040: foes always left (toward cats); allies right. Prefer unit-kind over selector.
-        const face = isFoeSpriteUnit(u) ? "left" : boardFace;
         applySpriteFacing(img, {
           artSrc: art || img.getAttribute("src"),
-          desiredFace: face,
+          desiredFace: boardFace,
           unit: u,
         });
       }
@@ -7108,8 +7109,8 @@ function pvpUnitCard(u, foe, cleansedIds = []) {
       : `${u.hp} / ${u.maxHp}`
     : rest;
   li.className = (u.alive ? "" : "mf-unit-dead") + " mf-battle-unit--cutout";
-  // D-040: PvP both sides are cat heroes → face right (type rule), not side-flip.
-  const desiredFace = desiredSpriteFace(u);
+  // D-047: board side → toward center (PvP foe cats face left when on the right column).
+  const desiredFace = foe ? "left" : "right";
   const cutout = art
     ? spriteFaceHtml(
         `<img alt="" src="${art}" class="mf-battle-cutout ${u.alive ? "" : "mf-unit-dim"}"/>`,
@@ -8126,8 +8127,8 @@ function battleLoadFigureHtml({ art, name, role, side }) {
   const safeName = String(name || "").replace(/"/g, "&quot;");
   const safeRole = String(role || "");
   const src = art || "";
-  // D-040: facing by art kind (not blanket `.is-enemy` flip — PvP foes are still cats).
-  const face = desiredFaceFromArtSrc(src);
+  // D-047: load roster uses column side (ally left → face right; enemy right → face left).
+  const face = side === "enemy" ? "left" : "right";
   const img = spriteFaceHtml(`<img alt="${safeName}" src="${src}"/>`, {
     artSrc: src,
     desiredFace: face,
