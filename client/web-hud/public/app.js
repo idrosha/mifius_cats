@@ -694,6 +694,8 @@ const state = {
     pvpWins: 0,
     clearedFights: {}, // stageId -> true
   },
+  /** D-045 · title_ru / effect_ru / cost from data/card-effects.json */
+  cardEffects: {},
 };
 
 /** Seed for warehouse stub reset / API mirror (D-028). */
@@ -886,6 +888,16 @@ async function api(path, opts = {}) {
 async function loadLoc() {
   const { data } = await api("/loc.json");
   state.loc = data || {};
+}
+
+/** D-045 · attack-card copy for composed chrome (title / effect / cost). */
+async function loadCardEffects() {
+  try {
+    const { data } = await api("/data/card-effects.json");
+    state.cardEffects = data && typeof data === "object" ? data : {};
+  } catch {
+    state.cardEffects = {};
+  }
 }
 
 async function bootLiveOps() {
@@ -3202,18 +3214,18 @@ const MONSTER_BATTLE_BY_FACTION = {
   red_dogs: {
     // Ch3 refs: shield tank / dual-axe fighter / flaming-sickle support; flaming-sword pitboss.
     // ?v= after in-place facing rebakes (Amvera/browser max-age=300).
-    tank: ["/stitch-assets/monsters/battle/redd-tank-cutout.webp?v=d040ch3tf"],
-    fighter: ["/stitch-assets/monsters/battle/redd-fighter-cutout.webp?v=d040ch3tf"],
-    support: ["/stitch-assets/monsters/battle/redd-support-cutout.webp"],
-    pitboss: ["/stitch-assets/monsters/battle/redd-pitboss-cutout.webp?v=d040ch3pb"],
+    tank: ["/stitch-assets/monsters/battle/redd-tank-cutout.webp?v=opaque1"],
+    fighter: ["/stitch-assets/monsters/battle/redd-fighter-cutout.webp?v=opaque1"],
+    support: ["/stitch-assets/monsters/battle/redd-support-cutout.webp?v=opaque1"],
+    pitboss: ["/stitch-assets/monsters/battle/redd-pitboss-cutout.webp?v=opaque1"],
   },
   zombies: {
     // Ch4 refs: axe guardian / cleaver butcher / dagger plague-carrier; scythe pitboss.
-    tank: ["/stitch-assets/monsters/battle/zombie-tank-cutout.webp"],
-    fighter: ["/stitch-assets/monsters/battle/zombie-fighter-cutout.webp"],
-    assassin: ["/stitch-assets/monsters/battle/zombie-fighter-cutout.webp"],
-    support: ["/stitch-assets/monsters/battle/zombie-support-cutout.webp"],
-    pitboss: ["/stitch-assets/monsters/battle/zombie-pitboss-cutout.webp"],
+    tank: ["/stitch-assets/monsters/battle/zombie-tank-cutout.webp?v=opaque1"],
+    fighter: ["/stitch-assets/monsters/battle/zombie-fighter-cutout.webp?v=opaque1"],
+    assassin: ["/stitch-assets/monsters/battle/zombie-fighter-cutout.webp?v=opaque1"],
+    support: ["/stitch-assets/monsters/battle/zombie-support-cutout.webp?v=opaque1"],
+    pitboss: ["/stitch-assets/monsters/battle/zombie-pitboss-cutout.webp?v=opaque1"],
   },
   ghosts: {
     // Ch5 refs: shield+flail / scimitar cape / shaman staff; banner-sword pitboss.
@@ -6164,13 +6176,15 @@ function renderHomeDeck(cat) {
   }
   grid.innerHTML = cards
     .map((c) => {
-      const title = t(c.name_key, c.stem);
-      if (c.art) {
-        return `<div class="group relative rounded-lg bg-surface-container-lowest border border-outline-variant/40 aspect-[2/3] overflow-hidden shadow mf-atk-card mf-atk-card--art" title="${title} · ${c.cost} AP · ${c.part}"><img alt="${title}" class="w-full h-full object-cover" src="${c.art}"/></div>`;
+      const pres = attackCardPresentation({ cardId: c.cardId, name_key: c.name_key, cost: c.cost });
+      const title = pres.title;
+      if (pres.art) {
+        return `<div class="group relative rounded-lg border border-outline-variant/40 aspect-[2/3] overflow-hidden shadow mf-atk-card mf-atk-card--art mf-atk-card--compose" data-element="${pres.element || ""}" title="${escapeAttackCardText(title)} · ${pres.cost} AP · ${c.part}">${attackCardComposeHtml(pres)}</div>`;
       }
-      return `<div class="group relative rounded-lg bg-surface-container-lowest border border-outline-variant/40 aspect-[2/3] flex flex-col items-center justify-center p-1 text-center" title="${title}"><span class="text-[10px] font-label-sm text-on-surface">${title}</span><span class="text-[9px] text-on-surface-variant mt-1">${c.cost} AP · ${c.part}</span></div>`;
+      return `<div class="group relative rounded-lg bg-surface-container-lowest border border-outline-variant/40 aspect-[2/3] flex flex-col items-center justify-center p-1 text-center" title="${escapeAttackCardText(title)}"><span class="text-[10px] font-label-sm text-on-surface">${escapeAttackCardText(title)}</span><span class="text-[9px] text-on-surface-variant mt-1">${pres.cost} AP · ${c.part}</span></div>`;
     })
     .join("");
+  bindAttackCardIllustFallback(grid);
 }
 
 /** Extract cat templateId from battle unit id (`p1_0_shop_tank_stone_a`). */
@@ -6483,11 +6497,17 @@ const ATTACK_CARD_ART_ALIAS = {
   card_support_water_tail: "shop_support_water_a_tail",
 };
 
-function attackCardArtUrl(cardId) {
-  if (!cardId) return "";
+/** D-045 · shared empty frame; element rune + soft CSS tint. */
+const ATTACK_CARD_CHROME_URL = "/stitch-assets/attack-cards/chrome/attack_card_chrome.jpg";
+
+function attackCardRuneUrl(element) {
+  if (!element) return "";
+  return `/stitch-assets/attack-cards/chrome/runes/${element}.svg`;
+}
+
+function attackCardArtParts(cardId) {
+  if (!cardId) return null;
   const raw = ATTACK_CARD_ART_ALIAS[cardId] || String(cardId).replace(/^card_/, "");
-  // shop_tank_stone_a_muzzle → shop_tank_stone_a | muzzle
-  // tank_stone_muzzle (after alias) already shop_*
   let folderKey = "";
   let fileStem = raw;
   if (raw.startsWith("shop_")) {
@@ -6501,8 +6521,96 @@ function attackCardArtUrl(cardId) {
     if (m) folderKey = m[1];
   }
   const folder = ATTACK_CARD_ART_FOLDER[folderKey];
-  if (!folder) return "";
-  return `/stitch-assets/attack-cards/${folder}/attack_${fileStem}.webp`;
+  if (!folder) return null;
+  return { folder, fileStem, raw, folderKey };
+}
+
+function attackCardElement(cardId) {
+  const parts = attackCardArtParts(cardId);
+  const raw = parts?.raw || String(cardId || "");
+  if (/_stone_/.test(raw)) return "stone";
+  if (/_fire_/.test(raw)) return "fire";
+  if (/_ice_/.test(raw)) return "ice";
+  if (/_water_/.test(raw)) return "water";
+  if (/_grass_/.test(raw)) return "grass";
+  if (/_bolt_/.test(raw)) return "bolt";
+  return "";
+}
+
+/** D-045 · illustration crop (not full plate). Fallback to legacy webp plate. */
+function attackCardArtUrl(cardId) {
+  const parts = attackCardArtParts(cardId);
+  if (!parts) return "";
+  return `/stitch-assets/attack-cards/illust/${parts.folder}/attack_${parts.fileStem}.jpg`;
+}
+
+function attackCardLegacyPlateUrl(cardId) {
+  const parts = attackCardArtParts(cardId);
+  if (!parts) return "";
+  return `/stitch-assets/attack-cards/${parts.folder}/attack_${parts.fileStem}.webp`;
+}
+
+function attackCardPresentation(c) {
+  const cardId = c?.cardId || "";
+  const fx = state.cardEffects?.[cardId] || {};
+  const title = fx.title_ru || t(c?.name_key, cardId);
+  const effect = fx.effect_ru || "";
+  const cost = c?.cost ?? fx.cost ?? "?";
+  const art = attackCardArtUrl(cardId);
+  const element = attackCardElement(cardId);
+  return {
+    cardId,
+    title,
+    effect,
+    cost,
+    art,
+    element,
+    chrome: ATTACK_CARD_CHROME_URL,
+    rune: attackCardRuneUrl(element),
+  };
+}
+
+function escapeAttackCardText(s) {
+  return String(s ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/** D-045 · one chrome + live title / cost / effect / illust / element rune. */
+function attackCardComposeHtml(pres) {
+  const title = escapeAttackCardText(pres.title);
+  const effect = escapeAttackCardText(pres.effect);
+  const cost = escapeAttackCardText(pres.cost);
+  const art = escapeAttackCardText(pres.art);
+  const chrome = escapeAttackCardText(pres.chrome);
+  const rune = escapeAttackCardText(pres.rune || "");
+  const artBlock = art
+    ? `<img class="mf-atk-card__illust" alt="${title}" src="${art}" data-fallback="${escapeAttackCardText(attackCardLegacyPlateUrl(pres.cardId))}"/>`
+    : "";
+  const runeBlock = rune
+    ? `<img class="mf-atk-card__rune" alt="" src="${rune}" draggable="false"/>`
+    : "";
+  return `<img class="mf-atk-card__chrome" alt="" src="${chrome}" draggable="false"/>${artBlock}${runeBlock}<span class="mf-atk-card__cost">${cost}</span><b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__desc">${effect}</span><span class="mf-atk-card__sub">${cost} AP</span>`;
+}
+
+function bindAttackCardIllustFallback(root) {
+  root?.querySelectorAll?.("img.mf-atk-card__illust[data-fallback]").forEach((img) => {
+    img.addEventListener(
+      "error",
+      () => {
+        const fb = img.getAttribute("data-fallback");
+        if (fb && img.src !== fb) {
+          img.removeAttribute("data-fallback");
+          img.src = fb;
+          return;
+        }
+        img.remove();
+      },
+      { once: true },
+    );
+  });
 }
 
 function unitCrowdControlled(diff, unitId) {
@@ -6511,29 +6619,25 @@ function unitCrowdControlled(diff, unitId) {
   return (u.statuses || []).some((s) => s.id === "stun" || s.id === "sleep");
 }
 
-/** Portrait attack-card button for practice / PvP / wire battle hands. */
+/** Portrait attack-card button for practice / PvP / wire battle hands. D-045 compose. */
 function makeAttackHandButton(c, diff, classNames = "mf-atk-card") {
   const b = document.createElement("button");
   b.type = "button";
-  const art = attackCardArtUrl(c.cardId);
-  const title = t(c.name_key, c.cardId);
-  const cost = c.cost ?? "?";
+  const pres = attackCardPresentation(c);
+  const { title, cost, art, element } = pres;
   const cc = unitCrowdControlled(diff, c.unitId);
-  b.className = art ? `${classNames} mf-atk-card--art pf-card pf-card-art` : `${classNames} mf-atk-card--text pf-card`;
+  b.className = art
+    ? `${classNames} mf-atk-card--art mf-atk-card--compose pf-card pf-card-art`
+    : `${classNames} mf-atk-card--text pf-card`;
+  if (element) b.dataset.element = element;
   if (cc) b.classList.add("mf-atk-card--stunned");
   b.disabled = !c.playable || cc || !!diff.result || diff.active !== 0 || !!state.oppThrowPlaying;
   b.title = cc ? `${title} · стан/сон — пропуск хода` : `${title} · ${cost} AP`;
   if (art) {
-    b.innerHTML = `<img alt="${title}" src="${art}"/><b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
-    const img = b.querySelector("img");
-    img?.addEventListener("error", () => {
-      // Missing/broken plate → text card instead of empty black tile.
-      b.classList.remove("mf-atk-card--art", "pf-card-art");
-      b.classList.add("mf-atk-card--text");
-      img.remove();
-    });
+    b.innerHTML = attackCardComposeHtml(pres);
+    bindAttackCardIllustFallback(b);
   } else {
-    b.innerHTML = `<b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
+    b.innerHTML = `<b class="mf-atk-card__meta">${escapeAttackCardText(title)}</b><span class="mf-atk-card__sub">${escapeAttackCardText(cost)} AP</span>`;
   }
   b.addEventListener("click", () =>
     submitAction({ kind: "playCard", unitId: c.unitId, handIndex: c.handIndex, targetId: "" }),
@@ -7241,32 +7345,18 @@ function renderBattle() {
     hand.appendChild(b);
   } else {
     for (const c of diff.hand || []) {
-      const art = attackCardArtUrl(c.cardId);
-      const title = t(c.name_key, c.cardId);
-      const cost = c.cost ?? "?";
-      const b = document.createElement("button");
-      b.type = "button";
-      b.className = art
-        ? "mf-atk-card mf-atk-card--art pf-card pf-card-art"
-        : "mf-atk-card mf-atk-card--text pf-card";
-      b.disabled = !c.playable || !!diff.result || diff.active !== 0 || !!state.oppThrowPlaying;
-      b.title = `${title} · ${cost} AP`;
-      b.innerHTML = art
-        ? `<img alt="${title}" src="${art}"/><b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`
-        : `<b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
-      b.addEventListener("click", async () => {
-        if (state.selectedKeep?.mode) {
-          await submitAction({ kind: "keep", unitId: c.unitId, handIndex: c.handIndex });
-          state.selectedKeep = null;
-          return;
-        }
-        await submitAction({
-          kind: "playCard",
-          unitId: c.unitId,
-          handIndex: c.handIndex,
-          targetId: "",
-        });
-      });
+      const b = makeAttackHandButton(c, diff, "mf-atk-card");
+      if (state.selectedKeep?.mode) {
+        b.addEventListener(
+          "click",
+          async (ev) => {
+            ev.stopImmediatePropagation();
+            await submitAction({ kind: "keep", unitId: c.unitId, handIndex: c.handIndex });
+            state.selectedKeep = null;
+          },
+          true,
+        );
+      }
       hand.appendChild(b);
     }
   }
@@ -10153,6 +10243,7 @@ async function main() {
     loadProgress();
     loadGearStub();
     await loadLoc();
+    await loadCardEffects();
     await bootLiveOps();
     await loadCampaign();
     await bootStarterGrant();
