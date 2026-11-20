@@ -3202,18 +3202,18 @@ const MONSTER_BATTLE_BY_FACTION = {
   red_dogs: {
     // Ch3 refs: shield tank / dual-axe fighter / flaming-sickle support; flaming-sword pitboss.
     // ?v= after in-place facing rebakes (Amvera/browser max-age=300).
-    tank: ["/stitch-assets/monsters/battle/redd-tank-cutout.webp?v=d040ch3tf"],
-    fighter: ["/stitch-assets/monsters/battle/redd-fighter-cutout.webp?v=d040ch3tf"],
-    support: ["/stitch-assets/monsters/battle/redd-support-cutout.webp"],
-    pitboss: ["/stitch-assets/monsters/battle/redd-pitboss-cutout.webp?v=d040ch3pb"],
+    tank: ["/stitch-assets/monsters/battle/redd-tank-cutout.webp?v=opaque1"],
+    fighter: ["/stitch-assets/monsters/battle/redd-fighter-cutout.webp?v=opaque1"],
+    support: ["/stitch-assets/monsters/battle/redd-support-cutout.webp?v=opaque1"],
+    pitboss: ["/stitch-assets/monsters/battle/redd-pitboss-cutout.webp?v=opaque1"],
   },
   zombies: {
     // Ch4 refs: axe guardian / cleaver butcher / dagger plague-carrier; scythe pitboss.
-    tank: ["/stitch-assets/monsters/battle/zombie-tank-cutout.webp"],
-    fighter: ["/stitch-assets/monsters/battle/zombie-fighter-cutout.webp"],
-    assassin: ["/stitch-assets/monsters/battle/zombie-fighter-cutout.webp"],
-    support: ["/stitch-assets/monsters/battle/zombie-support-cutout.webp"],
-    pitboss: ["/stitch-assets/monsters/battle/zombie-pitboss-cutout.webp"],
+    tank: ["/stitch-assets/monsters/battle/zombie-tank-cutout.webp?v=opaque1"],
+    fighter: ["/stitch-assets/monsters/battle/zombie-fighter-cutout.webp?v=opaque1"],
+    assassin: ["/stitch-assets/monsters/battle/zombie-fighter-cutout.webp?v=opaque1"],
+    support: ["/stitch-assets/monsters/battle/zombie-support-cutout.webp?v=opaque1"],
+    pitboss: ["/stitch-assets/monsters/battle/zombie-pitboss-cutout.webp?v=opaque1"],
   },
   ghosts: {
     // Ch5 refs: shield+flail / scimitar cape / shaman staff; banner-sword pitboss.
