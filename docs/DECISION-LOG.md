@@ -12,6 +12,22 @@ Append-only. Новые записи — **сверху** (после шабло
 6. Одна запись = одно решение. Не смешивать баланс и IA в одном D-id.
 7. В коде/доках ссылайся `D-0xx`, не копируй абзац Context.
 
+## D-048 · 2026-11-20 · Live cutout silhouette by role
+
+- **Status:** Accepted
+- **Area:** hud
+- **SSOT:** docs/FULL-SPEC.md §6
+- **Owner:** Andrew / web-hud
+
+### Context
+На live-борде cutout’ы читались разного «роста»: assassin выше fighter/tank, вражеские манекены выше союзников из‑за разных art-well (`h-40` vs `aspect-[2/3]` ~16rem) и разного fill артов при `object-fit: contain`.
+
+### Decision
+**Locked (live cutouts only):** визуальный силуэт по `data-role` — assassin/mage < ranger < support < fighter < tank; все роли крупнее прежнего baseline. Размер через art-well `--mf-role-h` / `--mf-role-w` (не `transform` на спрайте — высокий арт ассасина не должен перегонять танк по голове). Монстры — та же шкала по роли. **Манекены (`[data-dummy]`):** один размер ≈ fighter + `--mf-dummy-zoom` (PNG fringe). Единый well-формул на practice (союзники = враги; без enemy-only `aspect-[2/3]`). Lobby/портреты с фоном — без шкалы.
+
+### Consequences
+`styles.css` role vars + unified wells; rule `.cursor/rules/fight-silhouette.mdc`; skill `web-hud.md`. Не менять арт-ассеты ради роста.
+
 ## D-047 · 2026-11-20 · Live board facing: left→right, right→left
 
 - **Status:** Accepted

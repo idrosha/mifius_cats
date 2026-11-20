@@ -770,8 +770,8 @@ body.mythfel-login .mythfel-logout {
 /* PvE yard board: full-body cutouts (cats + monsters, MF-152). */
 #viewBattle .lane-row .unit.mf-battle-unit--cutout {
   background: transparent;
-  min-width: 6.25rem;
-  max-width: 7.5rem;
+  min-width: 7.75rem;
+  max-width: 9.5rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -780,8 +780,8 @@ body.mythfel-login .mythfel-logout {
   padding: 0.35rem 0.25rem;
 }
 #viewBattle .unit.mf-battle-unit--cutout .mf-unit-frame {
-  width: 5.75rem;
-  height: 7.25rem;
+  width: 7.5rem; /* D-048 overrides with --mf-role-w/h below */
+  height: 9.75rem;
   overflow: visible;
   background: transparent;
   box-shadow: none;
@@ -817,6 +817,107 @@ body.mythfel-login .mythfel-logout {
   object-position: center bottom !important;
   background: transparent !important;
   border-radius: 0 !important;
+}
+
+/**
+ * D-048: live-cutout silhouette by role + overall bump (practice / Mythmir / PvP / yard).
+ * Size via art-well width/height (not transform) so tall assassin art cannot out-head a tank.
+ * Assassin/mage = floor (still larger than pre-D-048 h-40); ranger < support < fighter < tank.
+ * Dummies follow the same role map. Flip stays plain scaleX on `.mf-sprite-face`.
+ */
+#viewPracticeFight .mf-battle-unit--cutout,
+#viewPvpFight .mf-battle-unit--cutout,
+#viewBattle .mf-battle-unit--cutout {
+  --mf-role-h: 1;
+  --mf-role-w: 1;
+}
+#viewPracticeFight .mf-battle-unit--cutout[data-role="assassin"],
+#viewPvpFight .mf-battle-unit--cutout[data-role="assassin"],
+#viewBattle .mf-battle-unit--cutout[data-role="assassin"],
+#viewPracticeFight .mf-battle-unit--cutout[data-role="mage"],
+#viewPvpFight .mf-battle-unit--cutout[data-role="mage"],
+#viewBattle .mf-battle-unit--cutout[data-role="mage"] {
+  --mf-role-h: 1;
+  --mf-role-w: 1;
+}
+#viewPracticeFight .mf-battle-unit--cutout[data-role="ranger"],
+#viewPvpFight .mf-battle-unit--cutout[data-role="ranger"],
+#viewBattle .mf-battle-unit--cutout[data-role="ranger"] {
+  --mf-role-h: 1.06;
+  --mf-role-w: 1.04;
+}
+#viewPracticeFight .mf-battle-unit--cutout[data-role="support"],
+#viewPvpFight .mf-battle-unit--cutout[data-role="support"],
+#viewBattle .mf-battle-unit--cutout[data-role="support"] {
+  --mf-role-h: 1.12;
+  --mf-role-w: 1.08;
+}
+#viewPracticeFight .mf-battle-unit--cutout[data-role="fighter"],
+#viewPvpFight .mf-battle-unit--cutout[data-role="fighter"],
+#viewBattle .mf-battle-unit--cutout[data-role="fighter"] {
+  --mf-role-h: 1.22;
+  --mf-role-w: 1.14;
+}
+#viewPracticeFight .mf-battle-unit--cutout[data-role="tank"],
+#viewPvpFight .mf-battle-unit--cutout[data-role="tank"],
+#viewBattle .mf-battle-unit--cutout[data-role="tank"] {
+  --mf-role-h: 1.32;
+  --mf-role-w: 1.22;
+}
+/* Dummies: one size (≈ fighter). PNG cutouts have empty fringe — zoom face so they read as large as cats. */
+#viewPracticeFight .mf-battle-unit--cutout[data-dummy],
+#viewPracticeFight .pf-dummy-card.mf-battle-unit--cutout {
+  --mf-role-h: 1.22;
+  --mf-role-w: 1.14;
+  --mf-dummy-zoom: 1.28;
+  /* Kill Stitch `scale-105` / hover translate so silhouette zoom is the only transform on the card. */
+  transform: none !important;
+}
+/* Ally/enemy art wells used to differ (h-40 vs aspect 2/3 ~16rem) — unify + bump under cutout mode. */
+#viewPracticeFight .mf-battle-unit--cutout .relative.w-full,
+#viewPracticeFight .mf-battle-unit--cutout .mf-unit-frame,
+#viewPracticeFight .pf-dummy-card.mf-battle-unit--cutout .relative.w-full,
+#viewPracticeFight #pfEnemies .mf-battle-unit--cutout .relative.w-full {
+  height: calc(13.25rem * var(--mf-role-h, 1)) !important;
+  max-height: none !important;
+  aspect-ratio: auto !important;
+  width: 100% !important;
+}
+#viewPracticeFight [data-slot].mf-battle-unit--cutout,
+#viewPracticeFight .pf-dummy-card.mf-battle-unit--cutout,
+#viewPracticeFight #pfEnemies .mf-battle-unit--cutout {
+  width: calc(11.5rem * var(--mf-role-w, 1)) !important;
+}
+#viewPvpFight .mf-battle-unit--cutout .mf-unit-frame {
+  width: calc(7.25rem * var(--mf-role-w, 1));
+  height: calc(9.5rem * var(--mf-role-h, 1));
+}
+#viewBattle .unit.mf-battle-unit--cutout .mf-unit-frame {
+  width: calc(7.25rem * var(--mf-role-w, 1));
+  height: calc(9.5rem * var(--mf-role-h, 1));
+}
+@media (min-width: 1024px) {
+  #viewPracticeFight .mf-battle-unit--cutout .relative.w-full,
+  #viewPracticeFight .mf-battle-unit--cutout .mf-unit-frame,
+  #viewPracticeFight .pf-dummy-card.mf-battle-unit--cutout .relative.w-full,
+  #viewPracticeFight #pfEnemies .mf-battle-unit--cutout .relative.w-full {
+    height: calc(14.5rem * var(--mf-role-h, 1)) !important;
+  }
+  #viewPracticeFight [data-slot].mf-battle-unit--cutout,
+  #viewPracticeFight .pf-dummy-card.mf-battle-unit--cutout,
+  #viewPracticeFight #pfEnemies .mf-battle-unit--cutout {
+    width: calc(12.25rem * var(--mf-role-w, 1)) !important;
+  }
+}
+/* Dummy fringe compensate: zoom on face wrapper (compose with D-047 flip). */
+#viewPracticeFight .mf-battle-unit--cutout[data-dummy] .mf-sprite-face,
+#viewPracticeFight .pf-dummy-card.mf-battle-unit--cutout .mf-sprite-face {
+  transform: scale(var(--mf-dummy-zoom, 1.28));
+  transform-origin: center bottom;
+}
+#viewPracticeFight .mf-battle-unit--cutout[data-dummy] .mf-sprite-face.is-flipped,
+#viewPracticeFight .pf-dummy-card.mf-battle-unit--cutout .mf-sprite-face.is-flipped {
+  transform: scaleX(-1) scale(var(--mf-dummy-zoom, 1.28)) !important;
 }
 
 /**

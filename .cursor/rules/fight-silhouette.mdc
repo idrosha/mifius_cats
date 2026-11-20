@@ -1,0 +1,26 @@
+---
+description: Live-cutout silhouette size by role (D-048)
+globs: client/web-hud/public/**/*.{js,css}
+alwaysApply: false
+---
+
+# Fight silhouette (D-048)
+
+Live fight cutouts only (`practice_fight` / Mythmir / `pvp_fight` / yard wire):
+
+| `data-role` | Visual mass |
+|---|---|
+| assassin / mage | floor (smallest; still bumped vs pre-D-048) |
+| ranger | slight above floor |
+| support | mid |
+| fighter | large |
+| tank | largest |
+
+- Size via art-well `--mf-role-h` / `--mf-role-w` (height/width), **not** `transform` on the sprite — tall assassin art must not out-head a tank.
+- Vars on `.mf-battle-unit--cutout` from `decorateBattleUnitIdle` → `data-role`.
+- Flip stays `scaleX(-1)` on `.mf-sprite-face` only (idle breathe owns img `transform`).
+- Monsters use the **same** role map as cats.
+- Practice dummies (`[data-dummy]`): **one** size ≈ fighter + `--mf-dummy-zoom` on `.mf-sprite-face` (PNG fringe); flip composes `scaleX(-1) scale(zoom)`.
+- Practice: one art-well formula for allies and enemies under cutout mode (no enemy-only `aspect-[2/3]` taller well).
+- Do **not** role-size lobby / background portraits (`D-037`).
+- Do not shrink roles below the assassin floor — bump tank/fighter up instead.
