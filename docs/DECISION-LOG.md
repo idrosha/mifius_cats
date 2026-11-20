@@ -12,6 +12,71 @@ Append-only. Новые записи — **сверху** (после шабло
 6. Одна запись = одно решение. Не смешивать баланс и IA в одном D-id.
 7. В коде/доках ссылайся `D-0xx`, не копируй абзац Context.
 
+## D-047 · 2026-11-20 · Live board facing: left→right, right→left
+
+- **Status:** Accepted
+- **Area:** hud
+- **SSOT:** docs/FULL-SPEC.md §6
+- **Owner:** Andrew / web-hud
+- **Supersedes:** board half of `D-040` (type-only «cats always right» on the enemy column)
+
+### Context
+Часть cutout’ов смотрела от центра: неверный `*_NATIVE_FACE_LEFT` (Мурка/Тень зеркалились зря; ch1 `fighter-h` не зеркалился) и PvP-коты справа оставались «вправо» по `D-040`.
+
+### Decision
+**Locked (live board / load roster):** колонка слева → face **right**; колонка справа → face **left** (к центру). Тип юнита не важнее стороны. Flip только если native ≠ desired (`CAT_`/`DUMMY_`/`MONSTER_NATIVE_FACE_LEFT`). Новый арт: вносить в `*_NATIVE_FACE_LEFT` **только** если файл нарисован влево. Вне боя (дом/магазин) котики по-прежнему вправо.
+
+### Consequences
+`paintSlots` / `pvpUnitCard` / `battleLoadFigureHtml` / `desiredSpriteFace(side)` — side-first. `D-040` остаётся для non-board type default + flip helper. Rule: `.cursor/rules/fight-facing.mdc`.
+
+## D-046 · 2026-11-20 · Live fight: idle breathe on every unit
+
+- **Status:** Accepted
+- **Area:** hud
+- **SSOT:** none (presentation; MF-149)
+- **Owner:** Andrew / web-hud
+
+### Context
+В ch3/ch4 монстры «дышали», а котики и юниты с elemental aura казались статичными: CSS-класс `.aura-*` перетирал `animation` у `.idle-breathe-*`.
+
+### Decision
+**Locked:** любой живой cutout в live-fight HUD (practice / Mythmir PvE / PvP / yard wire) проходит через `decorateBattleUnitIdle`: idle breathe обязателен. Aura (filter pulse) — опционально в **том же** `animation` list; ch3/ch4 baked-glow монстры без aura. Мёртвые — без idle.
+
+### Consequences
+`battle-fx.js` задаёт combined inline animation; CSS `.aura-*` / `.idle-breathe-*` не ставят свой `animation`. Skill `docs/skills/web-hud.md` + `.cursor/rules/fight-idle-breathe.mdc`.
+
+## D-045 · 2026-11-20 · Attack cards: one chrome + live data
+
+- **Status:** Accepted
+- **Area:** hud | content
+- **SSOT:** docs/FULL-SPEC.md §6
+- **Owner:** Andrew / web-hud
+
+### Context
+Карты атаки в HUD были цельными webp-плашками (рамка+название+арт+описание+AP). Правки текста/энергии требовали перерисовки арта; служебные filename-строки попадали в кадр.
+
+### Decision
+Одна нейтральная рамка (`chrome`) на все классы; название, описание, cost и иллюстрация подставляются из данных (`card-effects` / бой) поверх chrome. Стихия — позже только CSS tint (`data-element` / `--mf-card-tint`), не отдельные рамки. Иллюстрации на переходный период — кроп центра из старых плашек (`illust/`).
+
+### Consequences
+HUD compose в `makeAttackHandButton` / дом-колода; Stitch-промпт пустой рамки — `docs/stitch-prompts-attack-card-chrome.md`. Механика §2.3 (72 карты) без изменений.
+
+## D-044 · 2026-11-20 · Cursor: always-on Ponytail ruleset
+
+- **Status:** Accepted
+- **Area:** process
+- **SSOT:** none (agent process; не механика FULL-SPEC)
+- **Owner:** Andrew / orchestrator
+
+### Context
+Нужен набор «lazy senior / минимальный полный дифф» из [DietrichGebert/ponytail](https://github.com/DietrichGebert/ponytail). Хуки Cursor требуют Node (`node …/cursor-hooks.js install`); на машине Node нет.
+
+### Decision
+Подключить **rule-only** вариант: `.cursor/rules/ponytail.mdc` (`alwaysApply: true`), текст с upstream. Mythfel SSOT (`FULL-SPEC`, antifailure шлюз, роли `docs/AGENTS.md`) не отменяется. Уровни `/ponytail lite|full|ultra|off` недоступны, пока нет hooks+Node.
+
+### Consequences
+Новые чаты в этом workspace получают Ponytail. Чтобы переключать уровни — поставить Node, клонировать ponytail и `node scripts/cursor-hooks.js install --project`, затем удалить `ponytail.mdc` (rule и hooks — альтернативы).
+
 ## D-043 · 2026-11-18 · Poison: постоянный стек +1/тик; random_enemy
 
 - **Status:** Accepted
@@ -62,7 +127,7 @@ HUD не рисует `empty_lane` (класс `.hidden` — Tailwind `flex` и�
 
 ## D-040 · 2026-11-17 · Sprite facing: герои вправо, враги влево
 
-- **Status:** Accepted
+- **Status:** Superseded by D-047 (live board / load roster side rule)
 - **Area:** hud
 - **SSOT:** docs/FULL-SPEC.md §6 (презентация)
 - **Owner:** Andrew / web-hud (MF-170)

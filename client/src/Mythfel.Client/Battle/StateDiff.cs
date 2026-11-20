@@ -5,7 +5,7 @@ namespace Mythfel.Client.Battle;
 /// <summary>
 /// Server-authored battle presentation payload (§8.2 stateDiff out).
 /// Numbers are authoritative; client never recomputes damage/rewards.
-/// Shape mirrors battle snapshot + PlayerState fields needed by HUD §6.
+/// Shape mirrors battle/internal/statediff Diff (+ D5 catch-up fields).
 /// </summary>
 public sealed class StateDiff
 {
@@ -45,6 +45,10 @@ public sealed class StateDiff
 
     [JsonPropertyName("canEndTurn")]
     public bool CanEndTurn { get; init; } = true;
+
+    /// <summary>Combat VFX cues from last action (server SoT amounts).</summary>
+    [JsonPropertyName("events")]
+    public IReadOnlyList<CombatEventDiff> Events { get; init; } = Array.Empty<CombatEventDiff>();
 }
 
 public sealed class PlayerDiff
@@ -91,11 +95,23 @@ public sealed class UnitDiff
     [JsonPropertyName("alive")]
     public bool Alive { get; init; }
 
+    [JsonPropertyName("atkBuff")]
+    public int AtkBuff { get; init; }
+
+    [JsonPropertyName("atkBuffDur")]
+    public int AtkBuffDur { get; init; }
+
     [JsonPropertyName("statuses")]
     public IReadOnlyList<StatusDiff> Statuses { get; init; } = Array.Empty<StatusDiff>();
 
     [JsonPropertyName("handCount")]
     public int HandCount { get; init; }
+
+    [JsonPropertyName("drawCount")]
+    public int DrawCount { get; init; }
+
+    [JsonPropertyName("discardCount")]
+    public int DiscardCount { get; init; }
 }
 
 public sealed class StatusDiff
@@ -129,6 +145,15 @@ public sealed class HandCardDiff
 
     [JsonPropertyName("playable")]
     public bool Playable { get; init; }
+
+    [JsonPropertyName("kept")]
+    public bool Kept { get; init; }
+
+    [JsonPropertyName("targetRule")]
+    public string TargetRule { get; init; } = "";
+
+    [JsonPropertyName("tags")]
+    public IReadOnlyList<string> Tags { get; init; } = Array.Empty<string>();
 }
 
 public sealed class PotionSlotDiff
@@ -141,4 +166,32 @@ public sealed class PotionSlotDiff
 
     [JsonPropertyName("available")]
     public bool Available { get; init; }
+}
+
+/// <summary>Mirrors sim.CombatEvent JSON for HUD FX (no client damage math).</summary>
+public sealed class CombatEventDiff
+{
+    [JsonPropertyName("kind")]
+    public string Kind { get; init; } = "";
+
+    [JsonPropertyName("sourceId")]
+    public string SourceId { get; init; } = "";
+
+    [JsonPropertyName("targetId")]
+    public string TargetId { get; init; } = "";
+
+    [JsonPropertyName("amount")]
+    public int Amount { get; init; }
+
+    [JsonPropertyName("shieldAbsorb")]
+    public int ShieldAbsorb { get; init; }
+
+    [JsonPropertyName("status")]
+    public string Status { get; init; } = "";
+
+    [JsonPropertyName("statusOp")]
+    public string StatusOp { get; init; } = "";
+
+    [JsonPropertyName("crit")]
+    public bool Crit { get; init; }
 }

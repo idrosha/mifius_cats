@@ -1,0 +1,17 @@
+---
+description: Live-fight idle breathe for all heroes and monsters (D-046)
+globs: client/web-hud/public/**/*.{js,css}
+alwaysApply: false
+---
+
+# Fight idle breathe (D-046)
+
+Every **alive** battle cutout in live-fight HUD must idle-breathe:
+
+- practice · Mythmir PvE · PvP · yard wire
+- One path: `decorateBattleUnitIdle` in `battle-fx.js`
+- Breathe + optional elemental aura share **one** `animation` list (inline). Never rely on `.aura-*` alone — it overwrites breathe.
+- Ch3/ch4 baked-glow monsters: breathe yes, aura no.
+- Dead units: no idle animation.
+
+Do not invent a second idle system per mode. Numbers stay server `events` only (MF-149).

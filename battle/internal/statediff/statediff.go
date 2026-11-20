@@ -55,13 +55,15 @@ type Status struct {
 }
 
 type HandCard struct {
-	UnitID    string `json:"unitId"`
-	HandIndex int    `json:"handIndex"`
-	CardID    string `json:"cardId"`
-	NameKey   string `json:"name_key"`
-	Cost      int    `json:"cost"`
-	Playable  bool   `json:"playable"`
-	Kept      bool   `json:"kept"`
+	UnitID     string   `json:"unitId"`
+	HandIndex  int      `json:"handIndex"`
+	CardID     string   `json:"cardId"`
+	NameKey    string   `json:"name_key"`
+	Cost       int      `json:"cost"`
+	Playable   bool     `json:"playable"`
+	Kept       bool     `json:"kept"`
+	TargetRule string   `json:"targetRule,omitempty"`
+	Tags       []string `json:"tags,omitempty"`
 }
 
 type PotionSlot struct {
@@ -144,13 +146,15 @@ func FromBattle(b *sim.Battle) Diff {
 			card := u.Deck[cardIdx]
 			kept := hi < len(u.KeepMask) && u.KeepMask[hi]
 			d.Hand = append(d.Hand, HandCard{
-				UnitID:    u.ID,
-				HandIndex: hi,
-				CardID:    card.CardID,
-				NameKey:   card.NameKey,
-				Cost:      card.Cost,
-				Playable:  !stunned && card.Cost <= energy,
-				Kept:      kept,
+				UnitID:     u.ID,
+				HandIndex:  hi,
+				CardID:     card.CardID,
+				NameKey:    card.NameKey,
+				Cost:       card.Cost,
+				Playable:   !stunned && card.Cost <= energy,
+				Kept:       kept,
+				TargetRule: card.TargetRule,
+				Tags:       append([]string(nil), card.Tags...),
 			})
 		}
 	}

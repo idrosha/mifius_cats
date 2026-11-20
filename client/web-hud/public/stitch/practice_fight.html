@@ -200,14 +200,13 @@
 <div class="flex items-center gap-1.5"><span class="text-[15px]">🍶</span><div class="flex flex-col"><span class="font-label-sm text-on-surface font-bold leading-tight text-[11px]">Кувшин Сливок</span><span class="text-[10px] text-secondary">+250 HP</span></div></div>
 <span class="font-stat-numeral text-label-sm px-1 py-0.5 rounded bg-surface-container-high text-outline font-bold">2/2</span>
 </div>
+<button id="pfKeep" class="w-full rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-sm text-[12px] font-bold uppercase tracking-wide transition flex items-center justify-center gap-1.5 py-2 px-2 cursor-pointer border border-outline-variant/40 disabled:opacity-40 disabled:cursor-not-allowed" type="button" title="Удержать карту в руке (§3.4)">
+<span class="material-symbols-outlined text-[16px]">back_hand</span><span>Keep</span>
+</button>
 <button id="pfEndTurn" class="w-full rounded-xl bg-gradient-to-b from-primary to-primary-container text-on-primary font-headline-md text-[13px] tracking-wider uppercase font-bold shadow-[0_3px_0_#604100,0_6px_12px_rgba(217,155,38,0.35)] hover:brightness-110 active:translate-y-0.5 active:shadow-[0_1px_0_#604100] transition flex items-center justify-between py-2.5 px-2.5 cursor-pointer" type="button">
 <span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px]">check_circle</span><span>Завершить ход</span></span>
 <span class="text-[11px] px-1.5 py-0.5 rounded-full bg-on-primary/20 text-on-primary font-body-sm font-bold">—</span>
 </button>
-<div class="grid grid-cols-2 gap-1 w-full">
-<button class="py-1 px-1.5 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface font-label-sm text-[11px] transition flex items-center justify-center gap-1 cursor-pointer" type="button"><span class="material-symbols-outlined text-[13px]">smart_toy</span><span>Авто</span></button>
-<button class="py-1 px-1.5 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface font-label-sm text-[11px] transition flex items-center justify-center gap-1 cursor-pointer" type="button"><span class="material-symbols-outlined text-[13px]">refresh</span><span>DPS</span></button>
-</div>
 </div>
 
 <div class="mf-attack-hand relative z-10 flex-1 min-w-0 self-stretch items-stretch justify-center overflow-x-auto py-0.5 gap-space-xs lg:gap-space-sm" id="pfHand" data-pf-hand-static="1" style="--mf-hand-h:20rem;height:20rem;min-height:20rem">

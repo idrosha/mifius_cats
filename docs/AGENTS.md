@@ -8,7 +8,9 @@
 **Правило №3:** не плодить новые правила/доки без дыры в SSOT. Правки → патч FULL-SPEC.  
 **Запуск:** корневой `ЗАПУСК.md`.
 
-Скиллы: `docs/skills/<role>.md`. **Не** подключать посторонние skill-паки (seo/brand/ponytail лендинга и т.п.), пока задача не про сайт/маркетинг.
+Скиллы: `docs/skills/<role>.md`.  
+**Ponytail** (lazy senior / минимальный дифф): always-on правило `.cursor/rules/ponytail.mdc` (`D-044`). Не отменяет Mythfel SSOT / шлюз antifailure / роли.  
+**Не** подключать остальные marketing skill-паки (`seo` / `brand` / `page-copy` и т.п.), пока задача не про сайт/маркетинг.
 
 ---
 

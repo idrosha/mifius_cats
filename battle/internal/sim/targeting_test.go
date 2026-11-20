@@ -98,6 +98,29 @@ func TestSelectTargets_RandomEnemyIgnoresTaunt(t *testing.T) {
 	}
 }
 
+func TestSelectTargets_MeleeExplicitDeepPickRejected(t *testing.T) {
+	b, actor := baseBattleThreeRoles()
+	// Fighter naming rear support on nearest = illegal (§3.4).
+	got := b.SelectTargets(actor, "nearest", "e_support", false)
+	if got != nil {
+		t.Fatalf("melee deep-pick must reject, got %#v", ids(got))
+	}
+	got = b.SelectTargets(actor, "nearest", "e_tank", false)
+	if len(got) != 1 || got[0].ID != "e_tank" {
+		t.Fatalf("melee may name legal nearest tank, got %#v", ids(got))
+	}
+}
+
+func TestSelectTargets_FreeTargetExplicitAnyEnemy(t *testing.T) {
+	b, _ := baseBattleThreeRoles()
+	ranger := &Unit{ID: "p_ranger", Side: SideP1, Lane: 2, Role: "ranger", HP: 35, MaxHP: 35, Alive: true}
+	b.Units = append(b.Units, ranger)
+	got := b.SelectTargets(ranger, "nearest", "e_support", false)
+	if len(got) != 1 || got[0].ID != "e_support" {
+		t.Fatalf("ranger free-target may name rear support, got %#v", ids(got))
+	}
+}
+
 func TestSelectTargets_AmbushBypassesStealth(t *testing.T) {
 	b, actor := baseBattleThreeRoles()
 	for _, u := range b.Units {

@@ -1552,6 +1552,44 @@ function combatStarterIds() {
   return combat.length ? combat : STARTERS;
 }
 
+/** Active 3-cat team: practice formation if set, else profile starters (B5). */
+function combatSquadIds() {
+  if (Array.isArray(state.practiceSquad) && state.practiceSquad.length === 3) {
+    return [...state.practiceSquad];
+  }
+  const starters = combatStarterIds();
+  return starters.length === 3 ? [...starters] : [...STARTERS];
+}
+
+/** SL stub spend — HUD/profile only until economy-service (D1). */
+function spendBowlStub() {
+  if (state.profile && typeof state.profile.bowls === "number") {
+    if (state.profile.bowls <= 0) {
+      toast(t("limits.bowl.empty", "Миски на сегодня кончились (stub)"));
+      return false;
+    }
+    state.profile.bowls -= 1;
+    state.wallet.milk = state.profile.bowls;
+    renderCurrency();
+    toast(`Миска −1 · осталось ${state.profile.bowls} (stub)`);
+  }
+  return true;
+}
+
+function spendTicketStub() {
+  if (state.profile && typeof state.profile.pvpTickets === "number") {
+    if (state.profile.pvpTickets <= 0) {
+      toast(t("limits.ticket.empty", "Билеты PvP на сегодня кончились (stub)"));
+      return false;
+    }
+    state.profile.pvpTickets -= 1;
+    state.wallet.energy = `${state.profile.pvpTickets}/5`;
+    renderCurrency();
+    toast(`Билет −1 · осталось ${state.profile.pvpTickets} (stub)`);
+  }
+  return true;
+}
+
 function renderStarters(intoId) {
   const box = $(intoId);
   if (!box) return;
@@ -1732,9 +1770,9 @@ function campaignNode(chapter) {
 }
 
 function isChapterUnlocked(chapter) {
-  // Soft-launch / QA: all Mythmir chapters playable (no progression locks on the map).
-  void chapter;
-  return true;
+  const ch = Math.max(1, Math.min(5, Number(chapter) || 1));
+  if (ch <= 1) return true;
+  return isChapterCleared(ch - 1);
 }
 
 function isChapterCleared(chapter) {
@@ -2147,15 +2185,29 @@ function renderFormation() {
   });
   const tray = $("formationPotions");
   tray.innerHTML = "";
+  // A4: potions not playable in Phase 1 sim — show inventory as Soon, do not promise in-fight use.
+  const note = document.createElement("p");
+  note.className = "text-xs text-on-surface-variant mb-1";
+  note.textContent = t(
+    "formation.potions.soon",
+    "Боевые зелья · Soon (каталог есть; play в бою — следующая фаза)",
+  );
+  tray.appendChild(note);
   for (const pid of state.ownedPotions) {
     const def = POTIONS.find((p) => p.id === pid);
-    const chip = document.createElement("span");
+    const chip = document.createElement("button");
+    chip.type = "button";
     chip.className = "potion-chip";
-    chip.textContent = t(def?.nameKey || pid, pid);
+    chip.textContent = `${t(def?.nameKey || pid, pid)} · Soon`;
+    chip.addEventListener("click", () =>
+      showGateTip(t("formation.potions.gate", "Зелья в бою ещё не подключены (Phase 1)")),
+    );
     tray.appendChild(chip);
   }
   if (!state.ownedPotions.length) {
-    tray.textContent = t("formation.no_potions", "Нет зелий — рынок у крафтеров");
+    const empty = document.createElement("span");
+    empty.textContent = t("formation.no_potions", "Нет зелий — рынок у крафтеров");
+    tray.appendChild(empty);
   }
 }
 
@@ -3188,7 +3240,7 @@ const MONSTER_BATTLE_BY_FACTION = {
     // Grey dual-club fighter-h (обычный пёс). Do NOT use fighter-b — that dual-axe red plate
     // is the ch3 red-dog look (Andrew: ch1 showed «красный пёс»).
     // ?v= busts Amvera/browser max-age=300 after in-place facing rebakes (D-040).
-    fighter: ["/stitch-assets/monsters/battle/fighter-h.webp?v=d040ch1f"],
+    fighter: ["/stitch-assets/monsters/battle/fighter-h.webp?v=d047face"],
     support: ["/stitch-assets/monsters/battle/ranger-a.webp"],
     pitboss: ["/stitch-assets/monsters/battle/tank-d.webp"],
   },
@@ -3202,18 +3254,18 @@ const MONSTER_BATTLE_BY_FACTION = {
   red_dogs: {
     // Ch3 refs: shield tank / dual-axe fighter / flaming-sickle support; flaming-sword pitboss.
     // ?v= after in-place facing rebakes (Amvera/browser max-age=300).
-    tank: ["/stitch-assets/monsters/battle/redd-tank-cutout.webp?v=d040ch3tf"],
-    fighter: ["/stitch-assets/monsters/battle/redd-fighter-cutout.webp?v=d040ch3tf"],
-    support: ["/stitch-assets/monsters/battle/redd-support-cutout.webp"],
-    pitboss: ["/stitch-assets/monsters/battle/redd-pitboss-cutout.webp?v=d040ch3pb"],
+    tank: ["/stitch-assets/monsters/battle/redd-tank-cutout.webp?v=opaque1"],
+    fighter: ["/stitch-assets/monsters/battle/redd-fighter-cutout.webp?v=opaque1"],
+    support: ["/stitch-assets/monsters/battle/redd-support-cutout.webp?v=opaque1"],
+    pitboss: ["/stitch-assets/monsters/battle/redd-pitboss-cutout.webp?v=opaque1"],
   },
   zombies: {
     // Ch4 refs: axe guardian / cleaver butcher / dagger plague-carrier; scythe pitboss.
-    tank: ["/stitch-assets/monsters/battle/zombie-tank-cutout.webp"],
-    fighter: ["/stitch-assets/monsters/battle/zombie-fighter-cutout.webp"],
-    assassin: ["/stitch-assets/monsters/battle/zombie-fighter-cutout.webp"],
-    support: ["/stitch-assets/monsters/battle/zombie-support-cutout.webp"],
-    pitboss: ["/stitch-assets/monsters/battle/zombie-pitboss-cutout.webp"],
+    tank: ["/stitch-assets/monsters/battle/zombie-tank-cutout.webp?v=opaque1"],
+    fighter: ["/stitch-assets/monsters/battle/zombie-fighter-cutout.webp?v=opaque1"],
+    assassin: ["/stitch-assets/monsters/battle/zombie-fighter-cutout.webp?v=opaque1"],
+    support: ["/stitch-assets/monsters/battle/zombie-support-cutout.webp?v=opaque1"],
+    pitboss: ["/stitch-assets/monsters/battle/zombie-pitboss-cutout.webp?v=opaque1"],
   },
   ghosts: {
     // Ch5 refs: shield+flail / scimitar cape / shaman staff; banner-sword pitboss.
@@ -3300,31 +3352,26 @@ function battleUnitArt(unit) {
 }
 
 /**
- * Sprite facing (Andrew / MF-170 · D-040):
- * - Cat heroes always face RIGHT (every form).
- * - Practice dummies + PvE monsters/soldiers/pitbosses always face LEFT.
- * Battle layout (allies left / foes right) → they look toward center.
- * Prefer CSS scaleX via `.mf-sprite-face.is-flipped` (wrapper so idle breathe keeps working).
+ * Sprite facing (D-047 · supersedes board part of D-040 / MF-170):
+ * Live board: LEFT column → face RIGHT; RIGHT column → face LEFT (toward center).
+ * Non-board forms: cats → right; dummies/monsters → left (type default).
+ * Flip via `.mf-sprite-face.is-flipped` only when native art ≠ desired.
+ * New assets: add slug to *_NATIVE_FACE_LEFT only if the file is authored facing left.
  */
-/**
- * Authored-left art slugs by folder (cats/dojo/monsters share role names — scope by path).
- * Default native = RIGHT → flip when desired is left.
- */
-const CAT_NATIVE_FACE_LEFT = new Set(["assassin-a", "tank-a", "fighter-a", "support-a"]);
+/** Authored-left cat battle/portrait slugs. Default native = RIGHT. */
+const CAT_NATIVE_FACE_LEFT = new Set([
+  "tank-a", // shield on viewer's left → looks left
+  "fighter-b", // tiger plate, three-quarter left
+]);
 const DUMMY_NATIVE_FACE_LEFT = new Set([
   "dummy-oak-knight",
-  // dummy-straw-berserk is authored facing RIGHT — flip when desired=left (MF-171).
   "dummy-stone-totem",
 ]);
-// Only assets authored aiming/looking LEFT. Default native = RIGHT → flip for desired left.
-// Do NOT list: ranger-a, tank-b, wolf-tank/pitboss (shield/glow RIGHT → flip).
-// Pixel-LEFT locks (listed so CSS never mirrors them away):
-// fighter-h (ch1), wolf-support (ch2), redd-tank/fighter (ch3), redd-pitboss (Алый Вожак) re-baked,
-// redd-support, zombie-pitboss.
+/** Authored-left monster cutouts. Default native = RIGHT → flip for board-right. */
 const MONSTER_NATIVE_FACE_LEFT = new Set([
   "assassin-b",
   "fighter-f",
-  "fighter-h",
+  // ch3/ch4/wolf cutouts authored toward left (do not flip away from center)
   "redd-tank-cutout",
   "redd-fighter-cutout",
   "redd-support-cutout",
@@ -3354,10 +3401,18 @@ function isFoeSpriteUnit(unitOrTid) {
   return art.includes("/dojo/") || art.includes("/monsters/");
 }
 
-/** @returns {'left'|'right'} */
+/**
+ * Desired face for a unit.
+ * @param {object|string} unitOrKind unit | 'ally'|'foe'|'board-left'|'board-right'
+ * @returns {'left'|'right'}
+ */
 function desiredSpriteFace(unitOrKind) {
-  if (unitOrKind === "enemy" || unitOrKind === "foe" || unitOrKind === "left") return "left";
-  if (unitOrKind === "ally" || unitOrKind === "hero" || unitOrKind === "right") return "right";
+  if (unitOrKind === "board-right" || unitOrKind === "enemy" || unitOrKind === "foe") return "left";
+  if (unitOrKind === "board-left" || unitOrKind === "ally" || unitOrKind === "hero") return "right";
+  // Live unit: side 0 = left column (face right), side 1 = right column (face left).
+  if (unitOrKind && typeof unitOrKind === "object" && (unitOrKind.side === 0 || unitOrKind.side === 1)) {
+    return unitOrKind.side === 0 ? "right" : "left";
+  }
   return isFoeSpriteUnit(unitOrKind) ? "left" : "right";
 }
 
@@ -5999,14 +6054,18 @@ function bindPvpVictory() {
 function renderResult() {
   const r = state.lastResult;
   const win = r?.result === "p1_win";
+  const modeRu =
+    { practice: "Тренировка", pve: "Мифмир", pvp: "PvP smoke", boss: "Босс" }[state.battleMode] ||
+    state.battleMode ||
+    "бой";
   $("resultEyebrow").textContent = t("result.eyebrow", "Итог боя");
   $("resultTitle").textContent = win
     ? t("result.win", "Блестящая победа!")
     : t("result.lose", "Поражение в бою");
-  $("resultLead").textContent = `${r?.battleId || "?"} · ${r?.result || "?"} · mode=${state.battleMode}`;
+  $("resultLead").textContent = `${r?.battleId || "?"} · ${r?.result || "?"} · ${modeRu}`;
   const loseLead = $("resultLoseLead");
   if (loseLead && !win) {
-    loseLead.textContent = `${r?.battleId || "?"} · ${r?.result || "?"} · ${state.battleMode}. Пересобери строй и попробуй снова.`;
+    loseLead.textContent = `${modeRu}: ${r?.result || "поражение"}. Пересобери строй, зайди в таверну за молоком и попробуй снова.`;
   }
   // Wire painted/lose CTAs once
   document.querySelectorAll("[data-hud-action]").forEach((btn) => {
@@ -6014,13 +6073,17 @@ function renderResult() {
     btn.dataset.bound = "1";
     btn.addEventListener("click", () => {
       const act = btn.getAttribute("data-hud-action");
+      const mode = state.battleMode;
       state.battle = null;
       state.lastResult = null;
-      if (act === "result-retry") startYard(false);
-      else if (act === "result-formation") navigate("formation");
+      if (act === "result-retry") {
+        if (mode === "pvp") pvpStart();
+        else if (mode === "practice") startPractice(false);
+        else startYard(false);
+      } else if (act === "result-formation") navigate("formation");
       else if (act === "result-tavern") navigate("tavern");
       else if (act === "result-hub") navigate("hub");
-      else if (act === "result-yard") navigate("yard");
+      else if (act === "result-yard") navigate(mode === "practice" ? "practice" : "yard");
     });
   });
 }
@@ -6940,7 +7003,7 @@ function renderPracticeFight() {
   const paintSlots = (rootSel, units) => {
     const root = document.querySelector(`#viewPracticeFight ${rootSel}`);
     if (!root) return;
-    // Live board: left column looks right, right column looks left (D-040 / MF-171).
+    // D-047: column side → face toward center (not type).
     const boardFace = /enem/i.test(rootSel) ? "left" : "right";
     const slots = [...root.querySelectorAll("[data-slot]")];
     slots.forEach((card, i) => {
@@ -6983,11 +7046,9 @@ function renderPracticeFight() {
       if (img) {
         img.classList.add("mf-battle-cutout");
         card.classList.add("mf-battle-unit--cutout");
-        // D-040: foes always left (toward cats); allies right. Prefer unit-kind over selector.
-        const face = isFoeSpriteUnit(u) ? "left" : boardFace;
         applySpriteFacing(img, {
           artSrc: art || img.getAttribute("src"),
-          desiredFace: face,
+          desiredFace: boardFace,
           unit: u,
         });
       }
@@ -7108,8 +7169,8 @@ function pvpUnitCard(u, foe, cleansedIds = []) {
       : `${u.hp} / ${u.maxHp}`
     : rest;
   li.className = (u.alive ? "" : "mf-unit-dead") + " mf-battle-unit--cutout";
-  // D-040: PvP both sides are cat heroes → face right (type rule), not side-flip.
-  const desiredFace = desiredSpriteFace(u);
+  // D-047: board side → toward center (PvP foe cats face left when on the right column).
+  const desiredFace = foe ? "left" : "right";
   const cutout = art
     ? spriteFaceHtml(
         `<img alt="" src="${art}" class="mf-battle-cutout ${u.alive ? "" : "mf-unit-dim"}"/>`,
@@ -7127,7 +7188,11 @@ function renderPvpFight() {
   if (!diff) return;
   const energy = diff.p1?.energy ?? 0;
   const mine = diff.active === 0 && !diff.result;
-  if ($("pvRound")) $("pvRound").textContent = `Раунд ${diff.turn || 1} · ${mine ? "Ход игрока" : "Ход соперника"}`;
+  if ($("pvRound")) {
+    $("pvRound").textContent = `Раунд ${diff.turn || 1} · ${
+      mine ? "Ход игрока" : diff.result ? "Итог" : "Ход AI (smoke)"
+    }`;
+  }
   if ($("pvEnergy")) $("pvEnergy").textContent = `Энергия ${energy}`;
   const allies = (diff.units || []).filter((u) => u.side === 0).sort((a, b) => a.lane - b.lane);
   const enemies = (diff.units || []).filter((u) => u.side === 1).sort((a, b) => a.lane - b.lane);
@@ -7406,7 +7471,7 @@ async function applyDiff(diff, note = "") {
 
 async function createPvE({ autoPlay = false, seed = 0, stageId = null, team = null, carryAlive = null } = {}) {
   const sid = stageId || state.selectedStageId || YARD_STAGE;
-  const squad = Array.isArray(team) && team.length === 3 ? team : STARTERS;
+  const squad = Array.isArray(team) && team.length === 3 ? team : combatSquadIds();
   const carry =
     Array.isArray(carryAlive) && carryAlive.length === 3
       ? carryAlive
@@ -7452,7 +7517,7 @@ async function submitAction(action) {
       action.kind === "endTurn" && prevActive === 0 && state.battle && !state.battle.result;
     if (shouldThrow) {
       if ($("pfRound")) $("pfRound").textContent = `РАУНД ${state.battle.turn || 1} • ХОД БОТА`;
-      if ($("pvRound")) $("pvRound").textContent = `Раунд ${state.battle.turn || 1} · Ход соперника`;
+      if ($("pvRound")) $("pvRound").textContent = `Раунд ${state.battle.turn || 1} · Ход AI (smoke)`;
       await playOpponentDiscardThrow();
     }
     await applyDiff(data, `${action.kind}${action.unitId ? " " + action.unitId : ""}`);
@@ -7467,14 +7532,13 @@ async function submitAction(action) {
 async function startYard(autoPlay = false) {
   try {
     if (!state.battleMode) state.battleMode = "pve";
-    const practiceTeam =
-      state.battleMode === "practice" && Array.isArray(state.practiceSquad) && state.practiceSquad.length === 3
-        ? [...state.practiceSquad]
-        : null;
+    if (state.battleMode === "pve" || state.battleMode === "boss") {
+      if (!spendBowlStub()) return;
+    }
     const diff = await createPvE({
       autoPlay,
       seed: autoPlay ? 20261104 : 0,
-      team: practiceTeam,
+      team: combatSquadIds(),
     });
     await applyDiff(diff, autoPlay ? "CreatePvE autoPlay" : `CreatePvE ${state.selectedStageId}`);
   } catch (err) {
@@ -7518,6 +7582,7 @@ async function refreshReplays() {
   try {
     const { data } = await api("/api/battle/v1/ListReplays?userId=local_smoke");
     const list = $("replayList");
+    if (!list) return;
     list.innerHTML = "";
     for (const item of data || []) {
       const li = document.createElement("li");
@@ -7525,13 +7590,18 @@ async function refreshReplays() {
       const b = document.createElement("button");
       b.type = "button";
       b.className = "wire-btn";
-      b.textContent = "Open";
+      b.textContent = state.locale === "ru" ? "Открыть" : "Open";
       b.addEventListener("click", async () => {
         const { data: frames } = await api(
           `/api/battle/v1/GetReplay?battleId=${encodeURIComponent(item.battleId)}`,
         );
-        log(`replay ${item.battleId}: ${(frames || []).length} frames`, "pvp");
-        alert(`Replay ${item.battleId}: ${(frames || []).length} frames`);
+        const n = (frames || []).length;
+        const last = n ? frames[n - 1] : null;
+        const summary = last
+          ? `T${last.turn ?? "?"} · ${last.result || item.result || "?"} · ${n} frames`
+          : `${n} frames`;
+        log(`replay ${item.battleId}: ${summary}`, "pvp");
+        toast(`Реплей ${item.battleId}: ${summary}`);
       });
       li.appendChild(b);
       list.appendChild(li);
@@ -7554,12 +7624,13 @@ async function pvpAuto() {
   }
   try {
     state.battleMode = "pvp";
+    const team = combatSquadIds();
     const { data } = await api("/api/battle/v1/CreatePvP", {
       method: "POST",
       body: JSON.stringify({
         matchId: `web_${Date.now()}`,
-        team1: STARTERS,
-        team2: STARTERS,
+        team1: team,
+        team2: team,
         seed: 20261104,
         autoPlay: true,
       }),
@@ -8088,9 +8159,12 @@ function bindPveFight() {
 function renderPveFight() {
   applyPveFightStage(state.pveStage || "entrance");
   bindPveFight();
-  // Mirror live battle HUD numbers when sim is present (client paints only).
-  if (state.battle && !state.battle.result) {
-    renderBattle();
+  // C4: stub chrome only — do not dual-paint wire battle; tip if opened live.
+  const tipEl = $("pveFightStageTip");
+  if (tipEl) {
+    tipEl.textContent = state.battle
+      ? "Live Мифмир идёт в HUD тренировки (practice_fight). Этот экран — chrome stub."
+      : tipEl.textContent;
   }
 }
 
@@ -8126,8 +8200,8 @@ function battleLoadFigureHtml({ art, name, role, side }) {
   const safeName = String(name || "").replace(/"/g, "&quot;");
   const safeRole = String(role || "");
   const src = art || "";
-  // D-040: facing by art kind (not blanket `.is-enemy` flip — PvP foes are still cats).
-  const face = desiredFaceFromArtSrc(src);
+  // D-047: load roster uses column side (ally left → face right; enemy right → face left).
+  const face = side === "enemy" ? "left" : "right";
   const img = spriteFaceHtml(`<img alt="${safeName}" src="${src}"/>`, {
     artSrc: src,
     desiredFace: face,
@@ -8257,12 +8331,13 @@ function bindPvpLoad() {
   });
 }
 
-/** Interactive PvP (same core; human turns until end / surrender). */
+/** Interactive PvP (same core; P2 = scripted AI until live MM — B1/B2 smoke). */
 async function pvpStart() {
   if (!pvpUnlocked()) {
     showGateTip(t("gate.tip.pvp", "PvP откроется после 3 побед в Мифмире или тренировке"));
     return;
   }
+  if (!spendTicketStub()) return;
   if (state.tab === "pvp_load" && (state.pvpLoadPct || 0) < 100) {
     setPvpLoadProgress(100);
     clearInterval(state.pvpLoadTimer);
@@ -8272,12 +8347,19 @@ async function pvpStart() {
     clearInterval(state.pvpLoadTimer);
     state.pvpLoadTimer = null;
     state.battleMode = "pvp";
+    const team = combatSquadIds();
+    toast(
+      t(
+        "pvp.smoke.ai",
+        "PvP smoke: соперник — скриптовый AI (общий MM позже)",
+      ),
+    );
     const { data } = await api("/api/battle/v1/CreatePvP", {
       method: "POST",
       body: JSON.stringify({
         matchId: `web_${Date.now()}`,
-        team1: STARTERS,
-        team2: STARTERS,
+        team1: team,
+        team2: team,
         seed: Date.now() % 1e9,
         autoPlay: false,
       }),
@@ -8305,13 +8387,12 @@ function renderAll() {
   bindStitchNav($(viewId));
 
   if (viewId === "viewPracticeFight" && state.battle && !state.battle.result) {
-    renderBattle();
+    // C3: stitch fight is SoT paint — skip dual wire renderBattle.
     renderPracticeFight();
     bindPracticeFight();
     return;
   }
   if (viewId === "viewPvpFight" && state.battle && !state.battle.result) {
-    renderBattle();
     renderPvpFight();
     bindPvpFight();
     return;
@@ -8324,7 +8405,8 @@ function renderAll() {
     renderPveLoad();
     return;
   }
-  if (viewId === "viewPveFight" && state.battle && !state.battle.result) {
+  if (viewId === "viewPveFight") {
+    // C4: painted PvE fight is stub chrome — live Mythmir uses practice HUD.
     renderPveFight();
     return;
   }

@@ -12,6 +12,8 @@ alwaysApply: true
 - Читать только указанные § FULL-SPEC, не весь документ без нужды.
 - Soft launch: Двор + PvP. Ферма / питомник / клан-босс — не реализовывать, пока нет задачи фазы 5+.
 - Бой: сервер авторитетен. Клиент не считает награды/урон как source of truth.
+- Live-fight idle breathe: все живые cutout’ы через `decorateBattleUnitIdle` (`D-046` / `fight-idle-breathe.mdc`).
+- Live-board facing: слева → вправо, справа → влево (`D-047` / `fight-facing.mdc`); новый арт — в `*_NATIVE_FACE_LEFT` только если authored left.
 - Кросс-плей: общий матчмейкинг mobile/web/desktop; Steam — целевой PC-канал (§0). Без выдуманных store API.
 - Не предлагать крипту, NFT, Axie-имена, «Битву котиков».
 - Правки правил — патч `docs/FULL-SPEC.md`, не скрытые исключения в коде.

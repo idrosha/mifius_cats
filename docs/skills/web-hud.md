@@ -7,8 +7,8 @@
 - **Меню locked:** при замене форм не менять `#appNav` / `#appSubTabs` / `NAV` (`D-025`, `D-033`, `D-029`).
 - **Phone:** только landscape + rotate gate (`D-036`). Portrait-first UI запрещён. CSS/gate owner = **MF-145** — не дублировать, пока задача открыта.
 - **Cat art (`D-037`):** без фона (`/stitch-assets/cat-heroes/battle/` + `catHeroBattleArt`) — **только** live fight HUD. На остальных формах — портреты с фоном (`catHeroArt`).
-- **Facing (`D-040` / MF-170):** котики → вправо; манекены/PvE-монстры → влево. Один путь: `applySpriteFacing` / `.mf-sprite-face.is-flipped` (не blanket enemy flip; не трогать nav).
-- **Fight FX (`MF-149`):** idle/aura/hit/block + Web Audio в `public/battle-fx.js` — practice / **PvE** / pvp live fight; числа только из server `events`.
+- **Facing (`D-047` / MF-170):** live/load board — слева → вправо, справа → влево (к центру). Вне боя: котики вправо. Один путь: `applySpriteFacing` / `.mf-sprite-face.is-flipped`. Новый арт → `*_NATIVE_FACE_LEFT` только если authored left.
+- **Fight FX (`MF-149` / `D-046`):** idle/aura/hit/block + Web Audio в `public/battle-fx.js` — practice / **PvE** / pvp / wire live fight; числа только из server `events`. **Idle breathe обязателен** для каждого живого cutout через `decorateBattleUnitIdle` (breathe+aura **одной** inline `animation` list — иначе aura class перетирает breathe). Ch3/ch4 baked monsters: breathe без aura.
 - **Practice dummies:** cutouts `stitch-assets/dojo/battle/dummy-*.png` + те же role SFX/anim, что у tank/fighter/support котиков; load/lobby — JPG с фоном.
 - **PvE live fight:** active Mythmir battle reuses `#viewPracticeFight` HUD (cutouts + hand + FX); chapter backdrop via `pveStageArt`. Painted `#viewPveFight` = stub chrome only.
 - **PvE monsters (`MF-152`):** cutouts `stitch-assets/monsters/battle/{role}-*.png` via `battleUnitArt` / `monsterBattleArt`; FX = role kits из `battle-fx.js`.

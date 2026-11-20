@@ -1,0 +1,22 @@
+---
+description: Live-board sprite facing toward center (D-047)
+globs: client/web-hud/public/**/*.{js,css}
+alwaysApply: false
+---
+
+# Fight facing (D-047)
+
+Live fight / load roster columns:
+
+- **Left** column (allies / `#pfAllies` / PvP own) → face **right**
+- **Right** column (enemies / `#pfEnemies` / PvP foe) → face **left**
+
+One path: `applySpriteFacing` / `spriteFaceHtml` + `.mf-sprite-face.is-flipped`.
+
+When adding new cutouts:
+
+1. Check which way the file is authored.
+2. If authored **left**, add the slug to `CAT_NATIVE_FACE_LEFT` / `DUMMY_NATIVE_FACE_LEFT` / `MONSTER_NATIVE_FACE_LEFT` in `app.js`.
+3. If authored **right** (default), do **not** list it — the board side flip will handle enemies.
+
+Do not blanket `scaleX(-1)` on `.is-enemy`. Do not change `#appNav`.

@@ -25,6 +25,7 @@ public sealed class BattleViewState
 
     public IReadOnlyList<HandCardView> Hand { get; init; } = Array.Empty<HandCardView>();
     public IReadOnlyList<PotionSlotView> PotionTray { get; init; } = Array.Empty<PotionSlotView>();
+    public IReadOnlyList<CombatEventDiff> Events { get; init; } = Array.Empty<CombatEventDiff>();
 }
 
 public sealed class UnitView
@@ -38,7 +39,12 @@ public sealed class UnitView
     public int Shield { get; init; }
     public bool Alive { get; init; }
     public IReadOnlyList<string> StatusIds { get; init; } = Array.Empty<string>();
+    public IReadOnlyList<StatusDiff> Statuses { get; init; } = Array.Empty<StatusDiff>();
     public int HandCount { get; init; }
+    public int DrawCount { get; init; }
+    public int DiscardCount { get; init; }
+    public int AtkBuff { get; init; }
+    public int AtkBuffDur { get; init; }
 }
 
 public sealed class HandCardView
@@ -50,6 +56,9 @@ public sealed class HandCardView
     public string DisplayName { get; init; } = "";
     public int Cost { get; init; }
     public bool Playable { get; init; }
+    public bool Kept { get; init; }
+    public string TargetRule { get; init; } = "";
+    public IReadOnlyList<string> Tags { get; init; } = Array.Empty<string>();
 }
 
 public sealed class PotionSlotView
