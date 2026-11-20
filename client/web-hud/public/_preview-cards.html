@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <title>D-049 preview — locked chrome</title>
-  <link rel="stylesheet" href="/styles.css?v=d049fix1" />
+  <link rel="stylesheet" href="/styles.css?v=d049fix6" />
   <style>
     body { margin: 0; min-height: 100vh; background: #161310; color: #eae1db; font-family: Georgia, serif; padding: 24px; }
     h1 { font-size: 18px; margin: 0 0 8px; }
@@ -14,27 +14,29 @@
 </head>
 <body>
   <h1>Превью compose-карт (локально)</h1>
-  <p>Locked chrome · арт в окне · текст по центру со shrink.</p>
+  <p>Руна в слот · арт выше · desc жирнее · чипы внизу.</p>
   <div class="row" id="row"></div>
   <script type="module">
-    const chrome = "/stitch-assets/attack-cards/chrome/attack_card_chrome.png?v=d049fix1";
+    const chrome = "/stitch-assets/attack-cards/chrome/attack_card_chrome.png?v=d049fix6";
     const cards = [
       { t: "Уши валуна", c: 1, d: "Даёт 5 щита слабейшему союзнику. Таунт.", el: "stone",
+        chips: ["Щит", "Таунт"],
         art: "/stitch-assets/attack-cards/illust/tank-a/attack_shop_tank_stone_a_ears.jpg?v=2",
         rune: "/stitch-assets/attack-cards/chrome/runes/stone.svg" },
       { t: "Капля жизни", c: 1, d: "Восстанавливает 10 HP слабейшему союзнику.", el: "water",
+        chips: ["Хил"],
         art: "/stitch-assets/attack-cards/illust/support-a/attack_shop_support_water_a_muzzle.jpg?v=2",
         rune: "/stitch-assets/attack-cards/chrome/runes/water.svg" },
       { t: "Огненный круг", c: 2,
         d: "Наносит урон по площади всем врагам в переднем ряду и поджигает их на два хода.",
-        el: "fire",
+        el: "fire", chips: ["Атака", "AoE"],
         art: "/stitch-assets/attack-cards/illust/mage-a/attack_shop_mage_fire_a_muzzle.jpg?v=2",
         rune: "/stitch-assets/attack-cards/chrome/runes/fire.svg" },
     ];
     function fit(root) {
-      root.querySelectorAll(".mf-atk-card__meta, .mf-atk-card__desc").forEach((el) => {
+      root.querySelectorAll(".mf-atk-card__meta, .mf-atk-card__desc, .mf-atk-card__chip").forEach((el) => {
         let size = parseFloat(getComputedStyle(el).fontSize) || 12;
-        const min = el.classList.contains("mf-atk-card__meta") ? 7 : 6;
+        const min = el.classList.contains("mf-atk-card__chip") ? 5 : 6;
         el.style.fontSize = size + "px";
         let guard = 24;
         while (guard-- > 0 && size > min && (el.scrollHeight > el.clientHeight + 1 || el.scrollWidth > el.clientWidth + 1)) {
@@ -49,6 +51,8 @@
       b.type = "button";
       b.className = "mf-atk-card mf-atk-card--art mf-atk-card--compose";
       b.dataset.element = p.el;
+      const chipA = p.chips[0] ? `<span class="mf-atk-card__chip mf-atk-card__chip--a">${p.chips[0]}</span>` : "";
+      const chipB = p.chips[1] ? `<span class="mf-atk-card__chip mf-atk-card__chip--b">${p.chips[1]}</span>` : "";
       b.innerHTML =
         `<img class="mf-atk-card__chrome" alt="" src="${chrome}"/>` +
         `<img class="mf-atk-card__illust" alt="${p.t}" src="${p.art}"/>` +
@@ -56,6 +60,7 @@
         `<span class="mf-atk-card__cost">${p.c}</span>` +
         `<b class="mf-atk-card__meta">${p.t}</b>` +
         `<span class="mf-atk-card__desc">${p.d}</span>` +
+        chipA + chipB +
         `<span class="mf-atk-card__sub">${p.c} AP</span>`;
       row.appendChild(b);
     }

@@ -6561,6 +6561,7 @@ function attackCardPresentation(c) {
   const cost = c?.cost ?? fx.cost ?? "?";
   const art = attackCardArtUrl(cardId) || c?.art || "";
   const element = attackCardElement(cardId);
+  const chips = Array.isArray(fx.chips) ? fx.chips.filter(Boolean).slice(0, 2) : [];
   return {
     cardId,
     title,
@@ -6568,6 +6569,7 @@ function attackCardPresentation(c) {
     cost,
     art,
     element,
+    chips,
     rune: attackCardRuneUrl(element),
     chrome: ATTACK_CARD_CHROME_URL,
   };
@@ -6589,10 +6591,17 @@ function attackCardComposeHtml(pres) {
   const art = escapeAttackCardText(pres.art);
   const chrome = escapeAttackCardText(pres.chrome);
   const rune = escapeAttackCardText(pres.rune || "");
+  const chips = Array.isArray(pres.chips) ? pres.chips : [];
   const artBlock = art
     ? `<img class="mf-atk-card__illust" alt="${title}" src="${art}" data-fallback="${escapeAttackCardText(attackCardLegacyPlateUrl(pres.cardId))}"/>`
     : "";
   const runeBlock = rune ? `<img class="mf-atk-card__rune" alt="" src="${rune}"/>` : "";
+  const chipA = chips[0]
+    ? `<span class="mf-atk-card__chip mf-atk-card__chip--a">${escapeAttackCardText(chips[0])}</span>`
+    : "";
+  const chipB = chips[1]
+    ? `<span class="mf-atk-card__chip mf-atk-card__chip--b">${escapeAttackCardText(chips[1])}</span>`
+    : "";
   return (
     `<img class="mf-atk-card__chrome" alt="" src="${chrome}" draggable="false"/>` +
     artBlock +
@@ -6600,6 +6609,8 @@ function attackCardComposeHtml(pres) {
     `<span class="mf-atk-card__cost">${cost}</span>` +
     `<b class="mf-atk-card__meta">${title}</b>` +
     `<span class="mf-atk-card__desc">${effect}</span>` +
+    chipA +
+    chipB +
     `<span class="mf-atk-card__sub">${cost} AP</span>`
   );
 }
@@ -6622,13 +6633,17 @@ function bindAttackCardIllustFallback(root) {
   });
 }
 
-/** D-049 · shrink title/desc until they fit their slots (center layout). */
+/** D-049 · shrink title/desc/chips until they fit their slots (center layout). */
 function fitAttackCardText(root) {
-  const nodes = root?.querySelectorAll?.(".mf-atk-card__meta, .mf-atk-card__desc");
+  const nodes = root?.querySelectorAll?.(".mf-atk-card__meta, .mf-atk-card__desc, .mf-atk-card__chip");
   if (!nodes?.length) return;
   nodes.forEach((el) => {
     let size = parseFloat(getComputedStyle(el).fontSize) || 12;
-    const min = el.classList.contains("mf-atk-card__meta") ? 7 : 6;
+    const min = el.classList.contains("mf-atk-card__chip")
+      ? 5
+      : el.classList.contains("mf-atk-card__meta")
+        ? 7
+        : 6;
     el.style.fontSize = `${size}px`;
     let guard = 24;
     while (
