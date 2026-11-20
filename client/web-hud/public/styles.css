@@ -3664,9 +3664,8 @@ body:has(#viewPvpFight:not(.hidden)) #app { height: 100dvh !important; max-heigh
   width: 84%;
   height: 36%;
   object-fit: cover;
-  /* subject sits low in illust crop — pull it up into the art window */
-  object-position: center bottom;
-  transform: translateY(-22%);
+  object-position: center 85%; /* cat/orb sit in lower half of illust crop */
+  transform: none;
   border-radius: 0.2rem;
   background: #0a0a0a;
   z-index: 1; /* under chrome; hole in PNG shows art */
@@ -3685,10 +3684,10 @@ body:has(#viewPvpFight:not(.hidden)) #app { height: 100dvh !important; max-heigh
 .mf-atk-card.mf-atk-card--compose > .mf-atk-card__rune {
   position: absolute;
   /* socket center ~87%x / ~7%y */
-  left: 83.5%;
+  left: 84%;
   right: auto;
-  top: 6.2%;
-  width: 9%;
+  top: 6.8%;
+  width: 8.5%;
   height: auto; /* override .mf-atk-card img { height:100% } */
   aspect-ratio: 1;
   transform: none;

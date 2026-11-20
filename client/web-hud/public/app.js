@@ -6561,7 +6561,14 @@ function attackCardPresentation(c) {
   const cost = c?.cost ?? fx.cost ?? "?";
   const art = attackCardArtUrl(cardId) || c?.art || "";
   const element = attackCardElement(cardId);
-  const chips = Array.isArray(fx.chips) ? fx.chips.filter(Boolean).slice(0, 2) : [];
+  // bottom plaques: prefer first chip + AoE if present, else first two
+  const rawChips = Array.isArray(fx.chips) ? fx.chips.filter(Boolean) : [];
+  const chips = (() => {
+    if (!rawChips.length) return [];
+    const aoe = rawChips.find((c) => String(c).toLowerCase() === "aoe");
+    if (aoe && rawChips[0] !== aoe) return [rawChips[0], aoe].slice(0, 2);
+    return rawChips.slice(0, 2);
+  })();
   return {
     cardId,
     title,
