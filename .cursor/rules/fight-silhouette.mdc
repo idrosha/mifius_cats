@@ -20,7 +20,6 @@ Live fight cutouts only (`practice_fight` / Mythmir / `pvp_fight` / yard wire):
 - Vars on `.mf-battle-unit--cutout` from `decorateBattleUnitIdle` → `data-role`.
 - Flip stays `scaleX(-1)` on `.mf-sprite-face` only (idle breathe owns img `transform`).
 - Monsters use the **same** role map as cats.
-- Practice dummies (`[data-dummy]`): **one** size ≈ fighter + `--mf-dummy-zoom` on `.mf-sprite-face` (PNG fringe); flip composes `scaleX(-1) scale(zoom)`.
-- Practice: one art-well formula for allies and enemies under cutout mode (no enemy-only `aspect-[2/3]` taller well).
+- Practice dummies (`[data-dummy]` / `.pf-dummy-card`): **no** D-048 bump — keep Stitch `aspect-[2/3]` + `max-h` 14.5/16rem (pre-silhouette size).
 - Do **not** role-size lobby / background portraits (`D-037`).
 - Do not shrink roles below the assassin floor — bump tank/fighter up instead.
