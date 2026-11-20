@@ -3622,8 +3622,8 @@ body:has(#viewPvpFight:not(.hidden)) #app { height: 100dvh !important; max-heigh
   line-height: 1.25;
 }
 /* Legacy full-plate art: hide overlay text. D-045 compose shows live slots. */
-.mf-atk-card.mf-atk-card--art:not(.mf-atk-card--compose) > .mf-atk-card__meta,
-.mf-atk-card.mf-atk-card--art:not(.mf-atk-card--compose) > .mf-atk-card__sub {
+.mf-atk-card.mf-atk-card--art > .mf-atk-card__meta,
+.mf-atk-card.mf-atk-card--art > .mf-atk-card__sub {
   position: absolute;
   width: 1px;
   height: 1px;
@@ -3634,165 +3634,6 @@ body:has(#viewPvpFight:not(.hidden)) #app { height: 100dvh !important; max-heigh
   border: 0;
 }
 
-/* D-045/D-049 · locked chrome; illust/text only inside slots; center + fit text */
-.mf-atk-card.mf-atk-card--compose {
-  --mf-card-tint: transparent;
-  position: relative;
-  overflow: hidden;
-  background: #110d0b;
-  isolation: isolate;
-}
-.mf-atk-card.mf-atk-card--compose[data-element="stone"] { --mf-card-tint: rgba(180, 160, 120, 0.22); }
-.mf-atk-card.mf-atk-card--compose[data-element="fire"] { --mf-card-tint: rgba(220, 90, 40, 0.2); }
-.mf-atk-card.mf-atk-card--compose[data-element="ice"] { --mf-card-tint: rgba(140, 180, 220, 0.22); }
-.mf-atk-card.mf-atk-card--compose[data-element="water"] { --mf-card-tint: rgba(60, 160, 170, 0.22); }
-.mf-atk-card.mf-atk-card--compose[data-element="grass"] { --mf-card-tint: rgba(90, 160, 70, 0.2); }
-.mf-atk-card.mf-atk-card--compose[data-element="bolt"] { --mf-card-tint: rgba(230, 180, 50, 0.22); }
-.mf-atk-card.mf-atk-card--compose::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  pointer-events: none;
-  box-shadow: inset 0 0 0 2px var(--mf-card-tint);
-  z-index: 5;
-}
-.mf-atk-card.mf-atk-card--compose > .mf-atk-card__illust {
-  position: absolute;
-  left: 8%;
-  top: 11%;
-  width: 84%;
-  height: 36%;
-  object-fit: cover;
-  object-position: center 85%; /* cat/orb sit in lower half of illust crop */
-  transform: none;
-  border-radius: 0.2rem;
-  background: #0a0a0a;
-  z-index: 1; /* under chrome; hole in PNG shows art */
-  pointer-events: none;
-}
-.mf-atk-card.mf-atk-card--compose > .mf-atk-card__chrome {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: fill;
-  background: transparent;
-  z-index: 3;
-  pointer-events: none;
-}
-.mf-atk-card.mf-atk-card--compose > .mf-atk-card__rune {
-  position: absolute;
-  /* socket center ~87%x / ~7%y */
-  left: 84%;
-  right: auto;
-  top: 6.8%;
-  width: 8.5%;
-  height: auto; /* override .mf-atk-card img { height:100% } */
-  aspect-ratio: 1;
-  transform: none;
-  z-index: 4;
-  object-fit: contain;
-  background: transparent;
-  border-radius: 50%;
-  pointer-events: none;
-  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.65));
-}
-.mf-atk-card.mf-atk-card--compose > .mf-atk-card__cost {
-  position: absolute;
-  left: 8%;
-  top: 5%;
-  z-index: 4;
-  width: 13%;
-  aspect-ratio: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0;
-  padding: 0;
-  font-size: clamp(10px, 2.6vw, 15px);
-  font-weight: 800;
-  color: #1a0e05;
-  text-shadow: 0 0 2px #fdba45, 0 1px 0 #fff6;
-  line-height: 1;
-  pointer-events: none;
-}
-.mf-atk-card.mf-atk-card--compose > .mf-atk-card__meta {
-  position: absolute;
-  left: 14%;
-  top: 50.5%;
-  width: 72%;
-  height: 6.5%;
-  z-index: 4;
-  margin: 0;
-  padding: 0 0.35rem;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: clamp(8px, 1.7vw, 12px);
-  font-weight: 700;
-  color: #3a2410;
-  text-align: center;
-  line-height: 1.1;
-  overflow: hidden;
-  pointer-events: none;
-}
-.mf-atk-card.mf-atk-card--compose > .mf-atk-card__desc {
-  position: absolute;
-  left: 12%;
-  top: 66%;
-  width: 76%;
-  height: 18%;
-  z-index: 4;
-  margin: 0;
-  padding: 0 0.5rem;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: clamp(7px, 1.35vw, 10px);
-  font-weight: 800; /* like title */
-  color: #2a1c12;
-  text-align: center;
-  line-height: 1.25;
-  overflow: hidden;
-  pointer-events: none;
-}
-.mf-atk-card.mf-atk-card--compose > .mf-atk-card__chip {
-  position: absolute;
-  top: 90.2%;
-  height: 5.8%;
-  width: 18%;
-  z-index: 4;
-  margin: 0;
-  padding: 0 0.15rem;
-  box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: clamp(5px, 1.1vw, 8px);
-  font-weight: 700;
-  color: #eae1db;
-  text-align: center;
-  line-height: 1.05;
-  overflow: hidden;
-  white-space: nowrap;
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.75);
-  pointer-events: none;
-}
-.mf-atk-card.mf-atk-card--compose > .mf-atk-card__chip--a { left: 26.5%; }
-.mf-atk-card.mf-atk-card--compose > .mf-atk-card__chip--b { left: 55%; }
-.mf-atk-card.mf-atk-card--compose > .mf-atk-card__sub {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-}
 .mf-atk-card.mf-atk-card--text {
   display: flex;
   flex-direction: column;
@@ -3933,8 +3774,8 @@ body:has(#viewPracticeFight:not(.hidden)) #app {
   padding: 0;
   background: #231f1c;
 }
-#viewPracticeFight .pf-card.pf-card-art:not(.mf-atk-card--compose) > b.mf-atk-card__meta,
-#viewPracticeFight .pf-card.pf-card-art:not(.mf-atk-card--compose) > span.mf-atk-card__sub {
+#viewPracticeFight .pf-card.pf-card-art > b.mf-atk-card__meta,
+#viewPracticeFight .pf-card.pf-card-art > span.mf-atk-card__sub {
   position: absolute;
   width: 1px;
   height: 1px;

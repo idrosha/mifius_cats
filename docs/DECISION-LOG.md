@@ -12,22 +12,6 @@ Append-only. Новые записи — **сверху** (после шабло
 6. Одна запись = одно решение. Не смешивать баланс и IA в одном D-id.
 7. В коде/доках ссылайся `D-0xx`, не копируй абзац Context.
 
-## D-049 · 2026-11-20 · Attack chrome locked + fit text
-
-- **Status:** Accepted
-- **Area:** hud | content
-- **SSOT:** docs/FULL-SPEC.md §6
-- **Owner:** Andrew / web-hud
-
-### Context
-Compose (`D-045`) давал съезд арта/текста при смене рамки; иллюстрации обрезали верх субъекта; длинный effect_ru вылезал из пергамента.
-
-### Decision
-Один файл chrome (`attack_card_chrome.jpg`) **locked** — не менять per class/element. Illust только в окне арта (`object-position` к субъекту). Title/desc — центрово в слотах; `fitAttackCardText` уменьшает шрифт, пока текст не влезает. Agent rule: `.cursor/rules/attack-card-chrome.mdc`.
-
-### Consequences
-Новая рамка = crop полей + ретайм % слотов, те же class names. Без возврата к baked plates в hand/home.
-
 ## D-048 · 2026-11-20 · Live cutout silhouette by role
 
 - **Status:** Accepted
@@ -61,6 +45,22 @@ Compose (`D-045`) давал съезд арта/текста при смене 
 ### Consequences
 `paintSlots` / `pvpUnitCard` / `battleLoadFigureHtml` / `desiredSpriteFace(side)` — side-first. `D-040` остаётся для non-board type default + flip helper. Rule: `.cursor/rules/fight-facing.mdc`.
 
+## D-050 · 2026-11-20 · Pause attack-card chrome compose
+
+- **Status:** Accepted
+- **Area:** hud | content
+- **SSOT:** docs/FULL-SPEC.md §6
+- **Owner:** Andrew / web-hud
+
+### Context
+Compose chrome (`D-045` / `D-049`) в превью оставался кривым (слоты/арт/руна). Выбор цели атаки в UI тоже отложен.
+
+### Decision
+**Pause:** вернуть цельные webp-плашки в руке/дом-колоде. Клиент шлёт `playCard` с пустым `targetId` — как раньше. Карты с `TargetRule=backline` (тыл) продолжают резолвиться на сервере. Ручной выбор цели / новый chrome — отдельная задача.
+
+### Consequences
+`D-045` → `Superseded by D-050` (HUD presentation). Механика §2.3 / §3.4 без изменений.
+
 ## D-046 · 2026-11-20 · Live fight: idle breathe on every unit
 
 - **Status:** Accepted
@@ -79,7 +79,7 @@ Compose (`D-045`) давал съезд арта/текста при смене 
 
 ## D-045 · 2026-11-20 · Attack cards: one chrome + live data
 
-- **Status:** Accepted
+- **Status:** Superseded by D-050
 - **Area:** hud | content
 - **SSOT:** docs/FULL-SPEC.md §6
 - **Owner:** Andrew / web-hud
@@ -91,7 +91,7 @@ Compose (`D-045`) давал съезд арта/текста при смене 
 Одна нейтральная рамка (`chrome`) на все классы; название, описание, cost и иллюстрация подставляются из данных (`card-effects` / бой) поверх chrome. Стихия — позже только CSS tint (`data-element` / `--mf-card-tint`), не отдельные рамки. Иллюстрации на переходный период — кроп центра из старых плашек (`illust/`).
 
 ### Consequences
-HUD compose в `makeAttackHandButton` / дом-колода; Stitch-промпт пустой рамки — `docs/stitch-prompts-attack-card-chrome.md`. Механика §2.3 (72 карты) без изменений.
+Paused — см. `D-050`. Механика §2.3 без изменений.
 
 ## D-044 · 2026-11-20 · Cursor: always-on Ponytail ruleset
 
