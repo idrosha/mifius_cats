@@ -312,35 +312,13 @@ function floatText(viewport, text, tone = "dmg") {
 }
 
 /**
- * Ch3 red dogs + ch4 zombies: the cutout already emits fire/plague.
- * The pulsing drop-shadow (same kit as cats) stacks on that soft fringe and
- * washes the body out. Those sprites get a highlight cap instead of the aura.
+ * Ch3 red dogs + ch4 zombies: cutout already emits fire/plague.
+ * Skip the pulsing drop-shadow aura (washes soft fringe). No SVG filter —
+ * url(#mfTameGlow) made bodies look translucent vs opaque cat heroes.
  */
 function monsterGlowIsBaked(unit) {
   const id = `${unit?.id || ""} ${unit?.templateId || ""}`;
   return /bot_redd|bot_zomb|pitboss_redd|pitboss_zomb/.test(id);
-}
-
-let crispFilterReady = false;
-function ensureMonsterCrispFilter() {
-  if (crispFilterReady || document.getElementById("mfTameGlow")) {
-    crispFilterReady = true;
-    return;
-  }
-  const wrap = document.createElement("div");
-  // Lift armor midtones, cap the neon top so eyes/flames stay but don't bloom.
-  wrap.innerHTML =
-    '<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="0" height="0" style="position:absolute;width:0;height:0;overflow:hidden">' +
-    '<filter id="mfTameGlow" color-interpolation-filters="sRGB" x="-4%" y="-4%" width="108%" height="108%">' +
-    "<feComponentTransfer>" +
-    '<feFuncR type="table" tableValues="0 0.22 0.40 0.54 0.64 0.70 0.74 0.76"/>' +
-    '<feFuncG type="table" tableValues="0 0.20 0.36 0.48 0.58 0.64 0.68 0.70"/>' +
-    '<feFuncB type="table" tableValues="0 0.22 0.40 0.54 0.64 0.70 0.74 0.76"/>' +
-    '<feFuncA type="identity"/>' +
-    "</feComponentTransfer></filter></svg>";
-  const svg = wrap.firstElementChild;
-  if (svg) document.body.prepend(svg);
-  crispFilterReady = !!document.getElementById("mfTameGlow");
 }
 
 /** Idle breathe + elemental aura on a fight unit card/li (cutout img). */
@@ -352,10 +330,7 @@ export function decorateBattleUnitIdle(card, unit, laneIndex = 0) {
   Object.values(ELEMENT_AURA).forEach((c) => img.classList.remove(c));
   img.classList.remove("mf-sprite-crisp");
   img.classList.add(BREATHE[laneIndex % BREATHE.length]);
-  if (monsterGlowIsBaked(unit)) {
-    ensureMonsterCrispFilter();
-    img.classList.add("mf-sprite-crisp");
-  } else {
+  if (!monsterGlowIsBaked(unit)) {
     const aura = ELEMENT_AURA[unit.element] || ELEMENT_AURA.stone;
     img.classList.add(aura);
   }

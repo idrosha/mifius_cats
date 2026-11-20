@@ -933,8 +933,6 @@ body.mythfel-login .mythfel-logout {
 .aura-wind { animation: pulseGlowWind 4.2s ease-in-out infinite; }
 .aura-ice { animation: pulseGlowIce 3.8s ease-in-out infinite; }
 .aura-water { animation: pulseGlowWater 4.1s ease-in-out infinite; }
-/* Ch3/ch4 monsters: no colored pulse (art already glows). #mfTameGlow caps the neon. */
-.mf-sprite-crisp { filter: url("#mfTameGlow"); }
 
 .mf-hero-sprite.combat-action-shake,
 .combat-action-shake {
