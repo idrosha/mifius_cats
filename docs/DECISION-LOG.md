@@ -23,10 +23,10 @@ Append-only. Новые записи — **сверху** (после шабло
 На live-борде cutout’ы читались разного «роста»: assassin выше fighter/tank, вражеские манекены выше союзников из‑за разных art-well (`h-40` vs `aspect-[2/3]` ~16rem) и разного fill артов при `object-fit: contain`.
 
 ### Decision
-**Locked (live cutouts only):** визуальный силуэт по `data-role` — assassin/mage < ranger < support < fighter < tank; все роли крупнее прежнего baseline. Размер через art-well `--mf-role-h` / `--mf-role-w` (не `transform` на спрайте — высокий арт ассасина не должен перегонять танк по голове). Монстры — та же шкала по роли. **Манекены (`[data-dummy]` / `.pf-dummy-card`):** без D-048 bump/zoom — Stitch wells `aspect-[2/3]` + `max-h` 14.5/16rem (как до силуэта). Lobby/портреты с фоном — без шкалы.
+**Locked (live cutouts only):** визуальный силуэт по `data-role` — assassin/mage < ranger < support < fighter < tank; все роли крупнее прежнего baseline. Размер через art-well `--mf-role-h` / `--mf-role-w` (не `transform` на спрайте — высокий арт ассасина не должен перегонять танк по голове). **Монстры (солдаты/боссы) и манекены** — та же шкала и те же wells, что у котиков-героев по роли. Lobby/портреты с фоном — без шкалы.
 
 ### Consequences
-`styles.css` role vars on `#pfAllies` / PvP / yard; dummies keep Stitch wells; rule `.cursor/rules/fight-silhouette.mdc`; skill `web-hud.md`.
+`styles.css` role wells on `#pfAllies` + `#pfEnemies` / PvP / yard; rule `.cursor/rules/fight-silhouette.mdc`; skill `web-hud.md`.
 
 ## D-047 · 2026-11-20 · Live board facing: left→right, right→left
 

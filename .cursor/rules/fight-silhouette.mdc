@@ -19,7 +19,6 @@ Live fight cutouts only (`practice_fight` / Mythmir / `pvp_fight` / yard wire):
 - Size via art-well `--mf-role-h` / `--mf-role-w` (height/width), **not** `transform` on the sprite — tall assassin art must not out-head a tank.
 - Vars on `.mf-battle-unit--cutout` from `decorateBattleUnitIdle` → `data-role`.
 - Flip stays `scaleX(-1)` on `.mf-sprite-face` only (idle breathe owns img `transform`).
-- Monsters use the **same** role map as cats.
-- Practice dummies (`[data-dummy]` / `.pf-dummy-card`): **no** D-048 bump — keep Stitch `aspect-[2/3]` + `max-h` 14.5/16rem (pre-silhouette size).
+- Monsters (PvE soldiers / bosses) and practice dummies use the **same** role map and wells as cats.
 - Do **not** role-size lobby / background portraits (`D-037`).
 - Do not shrink roles below the assassin floor — bump tank/fighter up instead.
