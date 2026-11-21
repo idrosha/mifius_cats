@@ -19,6 +19,8 @@
 .card-hover-fx:hover { transform: translateY(-3px) scale(1.015); }
 </style>
   <link rel="stylesheet" href="/styles.css" />
+  <!-- LCP: login tavern BG (webp). Yard/dojo warm via showView preload. -->
+  <link rel="preload" as="image" type="image/webp" href="/stitch-assets/login-bg.webp?v=opt1" fetchpriority="high" />
 </head>
 <body class="bg-surface font-body-md text-body-md text-on-surface mythfel-shell">
   <header id="appNav" class="mythfel-nav" aria-label="Mythfel navigation">
@@ -281,7 +283,7 @@
 <main class="relative h-screen w-screen overflow-hidden flex flex-col justify-between">
 <!-- Background Image Layer: Full bleed 100vw x 100vh with atmospheric tavern vignette -->
 <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
-<img alt="МИФИУС: Мифические Котики в Таверне" class="w-full h-full object-cover object-center scale-[1.01] brightness-[0.92] contrast-[1.06]" src="/stitch-assets/login-bg.png">
+<img alt="МИФИУС: Мифические Котики в Таверне" class="w-full h-full object-cover object-center scale-[1.01] brightness-[0.92] contrast-[1.06]" src="/stitch-assets/login-bg.webp?v=opt1" decoding="async" fetchpriority="high" width="1048" height="584">
 <!-- Rich Cozy Tavern Hearth Vignette -->
 <div class="absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-black/75"></div>
 <div class="absolute inset-0 bg-gradient-to-r from-black/75 via-transparent to-black/85"></div>
@@ -2824,7 +2826,7 @@
 <article class="archetype-card cursor-pointer rounded-lg p-space-sm transition-all duration-200 bg-surface-container-highest shadow-md relative group flex flex-col justify-between" data-id="tank-a" data-template="shop_tank_stone_a" data-role="tank" style="box-shadow: 0 0 12px rgba(217, 155, 38, 0.4);">
 <div class="flex items-start gap-space-sm">
 <div class="w-12 h-12 rounded-lg bg-surface-container-lowest shrink-0 overflow-hidden relative shadow-inner">
-<img class="w-full h-full object-cover" data-alt="Танк A Щит-утёс — каменный щит со львом и булава, руны" src="/stitch-assets/cat-heroes/tank-a.png"/>
+<img class="w-full h-full object-cover" data-alt="Танк A Щит-утёс — каменный щит со львом и булава, руны" src="/stitch-assets/cat-heroes/tank-a.webp?v=opt1"/>
 <span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-primary flex items-center justify-center text-[9px] text-on-primary font-bold">1</span>
 </div>
 <div class="flex flex-col min-w-0 flex-1">
@@ -2845,7 +2847,7 @@
 <article class="archetype-card cursor-pointer rounded-lg p-space-sm transition-all duration-200 bg-surface-container-low hover:bg-surface-container-high shadow flex flex-col justify-between group" data-id="tank-b" data-template="shop_tank_stone_b" data-role="tank">
 <div class="flex items-start gap-space-sm">
 <div class="w-12 h-12 rounded-lg bg-surface-container-lowest shrink-0 overflow-hidden relative shadow-inner">
-<img class="w-full h-full object-cover" data-alt="Танк B Пробой — расплавленный камень, молот и щит" src="/stitch-assets/cat-heroes/tank-b.png"/>
+<img class="w-full h-full object-cover" data-alt="Танк B Пробой — расплавленный камень, молот и щит" src="/stitch-assets/cat-heroes/tank-b.webp?v=opt1"/>
 <span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-surface-tint flex items-center justify-center text-[9px] text-on-primary font-bold">2</span>
 </div>
 <div class="flex flex-col min-w-0 flex-1">
@@ -2866,7 +2868,7 @@
 <article class="archetype-card cursor-pointer rounded-lg p-space-sm transition-all duration-200 bg-surface-container-low hover:bg-surface-container-high shadow flex flex-col justify-between group" data-id="fighter-a" data-template="shop_fighter_fire_a" data-role="fighter">
 <div class="flex items-start gap-space-sm">
 <div class="w-12 h-12 rounded-lg bg-surface-container-lowest shrink-0 overflow-hidden relative shadow-inner">
-<img class="w-full h-full object-cover" data-alt="Боец A Парные когти — парные огненные когти" src="/stitch-assets/cat-heroes/fighter-a.png"/>
+<img class="w-full h-full object-cover" data-alt="Боец A Парные когти — парные огненные когти" src="/stitch-assets/cat-heroes/fighter-a.webp?v=opt1"/>
 </div>
 <div class="flex flex-col min-w-0 flex-1">
 <div class="flex items-center justify-between">
@@ -2886,7 +2888,7 @@
 <article class="archetype-card cursor-pointer rounded-lg p-space-sm transition-all duration-200 bg-surface-container-low hover:bg-surface-container-high shadow flex flex-col justify-between group" data-id="fighter-b" data-template="shop_fighter_fire_b" data-role="fighter">
 <div class="flex items-start gap-space-sm">
 <div class="w-12 h-12 rounded-lg bg-surface-container-lowest shrink-0 overflow-hidden relative shadow-inner">
-<img class="w-full h-full object-cover" data-alt="Боец B Двуручный — тигр с двуручным мечом" src="/stitch-assets/cat-heroes/fighter-b.png"/>
+<img class="w-full h-full object-cover" data-alt="Боец B Двуручный — тигр с двуручным мечом" src="/stitch-assets/cat-heroes/fighter-b.webp?v=opt1"/>
 </div>
 <div class="flex flex-col min-w-0 flex-1">
 <div class="flex items-center justify-between">
@@ -2906,7 +2908,7 @@
 <article class="archetype-card cursor-pointer rounded-lg p-space-sm transition-all duration-200 bg-surface-container-low hover:bg-surface-container-high shadow flex flex-col justify-between group" data-id="assassin-a" data-template="shop_assassin_bolt_a" data-role="assassin">
 <div class="flex items-start gap-space-sm">
 <div class="w-12 h-12 rounded-lg bg-surface-container-lowest shrink-0 overflow-hidden relative shadow-inner">
-<img class="w-full h-full object-cover" data-alt="Ассасин A Тень — чёрная пантера, теневые кинжалы" src="/stitch-assets/cat-heroes/assassin-a.png"/>
+<img class="w-full h-full object-cover" data-alt="Ассасин A Тень — чёрная пантера, теневые кинжалы" src="/stitch-assets/cat-heroes/assassin-a.webp?v=opt1"/>
 </div>
 <div class="flex flex-col min-w-0 flex-1">
 <div class="flex items-center justify-between">
@@ -2926,7 +2928,7 @@
 <article class="archetype-card cursor-pointer rounded-lg p-space-sm transition-all duration-200 bg-surface-container-low hover:bg-surface-container-high shadow flex flex-col justify-between group" data-id="assassin-b" data-template="shop_assassin_bolt_b" data-role="assassin">
 <div class="flex items-start gap-space-sm">
 <div class="w-12 h-12 rounded-lg bg-surface-container-lowest shrink-0 overflow-hidden relative shadow-inner">
-<img class="w-full h-full object-cover" data-alt="Ассасин B Охотник тыла — сиам, bolt-кинжалы" src="/stitch-assets/cat-heroes/assassin-b.png"/>
+<img class="w-full h-full object-cover" data-alt="Ассасин B Охотник тыла — сиам, bolt-кинжалы" src="/stitch-assets/cat-heroes/assassin-b.webp?v=opt1"/>
 </div>
 <div class="flex flex-col min-w-0 flex-1">
 <div class="flex items-center justify-between">
@@ -2946,7 +2948,7 @@
 <article class="archetype-card cursor-pointer rounded-lg p-space-sm transition-all duration-200 bg-surface-container-low hover:bg-surface-container-high shadow flex flex-col justify-between group" data-id="archer-a" data-template="shop_ranger_grass_a" data-role="archer">
 <div class="flex items-start gap-space-sm">
 <div class="w-12 h-12 rounded-lg bg-surface-container-lowest shrink-0 overflow-hidden relative shadow-inner">
-<img class="w-full h-full object-cover" data-alt="Стрелок A Охотник — рысь, зелёный лук" src="/stitch-assets/cat-heroes/ranger-a.png"/>
+<img class="w-full h-full object-cover" data-alt="Стрелок A Охотник — рысь, зелёный лук" src="/stitch-assets/cat-heroes/ranger-a.webp?v=opt1"/>
 </div>
 <div class="flex flex-col min-w-0 flex-1">
 <div class="flex items-center justify-between">
@@ -2966,7 +2968,7 @@
 <article class="archetype-card cursor-pointer rounded-lg p-space-sm transition-all duration-200 bg-surface-container-low hover:bg-surface-container-high shadow flex flex-col justify-between group" data-id="archer-b" data-template="shop_ranger_grass_b" data-role="archer">
 <div class="flex items-start gap-space-sm">
 <div class="w-12 h-12 rounded-lg bg-surface-container-lowest shrink-0 overflow-hidden relative shadow-inner">
-<img class="w-full h-full object-cover" data-alt="Стрелок B Град стрел — леопард, магический лук" src="/stitch-assets/cat-heroes/ranger-b.png"/>
+<img class="w-full h-full object-cover" data-alt="Стрелок B Град стрел — леопард, магический лук" src="/stitch-assets/cat-heroes/ranger-b.webp?v=opt1"/>
 </div>
 <div class="flex flex-col min-w-0 flex-1">
 <div class="flex items-center justify-between">
@@ -2986,7 +2988,7 @@
 <article class="archetype-card cursor-pointer rounded-lg p-space-sm transition-all duration-200 bg-surface-container-low hover:bg-surface-container-high shadow flex flex-col justify-between group" data-id="mage-a" data-template="shop_mage_fire_a" data-role="mage">
 <div class="flex items-start gap-space-sm">
 <div class="w-12 h-12 rounded-lg bg-surface-container-lowest shrink-0 overflow-hidden relative shadow-inner">
-<img class="w-full h-full object-cover" data-alt="Маг A Огонь — рыжий пиромант со посохом" src="/stitch-assets/cat-heroes/mage-a.png"/>
+<img class="w-full h-full object-cover" data-alt="Маг A Огонь — рыжий пиромант со посохом" src="/stitch-assets/cat-heroes/mage-a.webp?v=opt1"/>
 </div>
 <div class="flex flex-col min-w-0 flex-1">
 <div class="flex items-center justify-between">
@@ -3006,7 +3008,7 @@
 <article class="archetype-card cursor-pointer rounded-lg p-space-sm transition-all duration-200 bg-surface-container-low hover:bg-surface-container-high shadow flex flex-col justify-between group" data-id="mage-b" data-template="shop_mage_ice_b" data-role="mage">
 <div class="flex items-start gap-space-sm">
 <div class="w-12 h-12 rounded-lg bg-surface-container-lowest shrink-0 overflow-hidden relative shadow-inner">
-<img class="w-full h-full object-cover" data-alt="Маг B Лёд — белый криомант" src="/stitch-assets/cat-heroes/mage-b.png"/>
+<img class="w-full h-full object-cover" data-alt="Маг B Лёд — белый криомант" src="/stitch-assets/cat-heroes/mage-b.webp?v=opt1"/>
 </div>
 <div class="flex flex-col min-w-0 flex-1">
 <div class="flex items-center justify-between">
@@ -3026,7 +3028,7 @@
 <article class="archetype-card cursor-pointer rounded-lg p-space-sm transition-all duration-200 bg-surface-container-low hover:bg-surface-container-high shadow flex flex-col justify-between group" data-id="support-a" data-template="shop_support_water_a" data-role="support">
 <div class="flex items-start gap-space-sm">
 <div class="w-12 h-12 rounded-lg bg-surface-container-lowest shrink-0 overflow-hidden relative shadow-inner">
-<img class="w-full h-full object-cover" data-alt="Саппорт A Чистый родник — водный целитель" src="/stitch-assets/cat-heroes/support-a.png"/>
+<img class="w-full h-full object-cover" data-alt="Саппорт A Чистый родник — водный целитель" src="/stitch-assets/cat-heroes/support-a.webp?v=opt1"/>
 </div>
 <div class="flex flex-col min-w-0 flex-1">
 <div class="flex items-center justify-between">
@@ -3046,7 +3048,7 @@
 <article class="archetype-card cursor-pointer rounded-lg p-space-sm transition-all duration-200 bg-surface-container-low hover:bg-surface-container-high shadow flex flex-col justify-between group" data-id="support-b" data-template="shop_support_water_b" data-role="support">
 <div class="flex items-start gap-space-sm">
 <div class="w-12 h-12 rounded-lg bg-surface-container-lowest shrink-0 overflow-hidden relative shadow-inner">
-<img class="w-full h-full object-cover" data-alt="Саппорт B Прилив силы — солнечный баффер" src="/stitch-assets/cat-heroes/support-b.png"/>
+<img class="w-full h-full object-cover" data-alt="Саппорт B Прилив силы — солнечный баффер" src="/stitch-assets/cat-heroes/support-b.webp?v=opt1"/>
 </div>
 <div class="flex flex-col min-w-0 flex-1">
 <div class="flex items-center justify-between">
@@ -3071,7 +3073,7 @@
 <div class="flex flex-col md:flex-row gap-space-md items-stretch">
 <!-- Живописный полноростовой 2D-арт котика -->
 <div class="w-full md:w-56 h-80 rounded-xl bg-surface-container-lowest overflow-hidden relative shadow-inner shrink-0 group">
-<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Танк A Щит-утёс — полноростовой портрет" id="heroInspectorArt" src="/stitch-assets/cat-heroes/tank-a.png"/>
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="Танк A Щит-утёс — полноростовой портрет" id="heroInspectorArt" src="/stitch-assets/cat-heroes/tank-a.webp?v=opt1"/>
 <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent"></div>
 <div class="absolute top-2 left-2 flex items-center gap-1 px-2 py-0.5 rounded bg-surface-container-lowest/80 backdrop-blur-md">
 <span class="material-symbols-outlined text-primary text-[14px]" style="font-variation-settings: 'FILL' 1;">star</span>
@@ -3918,7 +3920,7 @@
 <div class="pve-yard-inner flex flex-col flex-1 min-h-0 w-full overflow-hidden gap-space-sm"><!-- Top Section: Map Canvas & Campaign Navigation (~58% screen height) -->
 <section class="pve-yard-map w-full flex-1 relative rounded-xl overflow-hidden shadow-2xl flex flex-col justify-between border border-outline-variant/30 select-none">
   <!-- Full-bleed Rich Background Cavern -->
-  <div class="absolute inset-0 bg-cover bg-center pointer-events-none" style="background-image: url('/stitch-assets/yard/meowkara-mines-bg.png');">
+  <div class="absolute inset-0 bg-cover bg-center pointer-events-none" style="background-image: url('/stitch-assets/yard/meowkara-mines-bg.webp?v=opt1');">
     <div class="absolute inset-0 bg-gradient-to-b from-surface-container-lowest/80 via-transparent to-surface-container-lowest/90"></div>
     <div class="absolute inset-0 bg-radial from-transparent via-background/30 to-background/70"></div>
   </div>
@@ -4124,7 +4126,7 @@
     <div class="flex items-center justify-between gap-2 flex-nowrap w-full border-b border-surface-container-high/40 mb-1.5 pb-1.5"><button type="button" id="btnYardTeamPreset" class="flex items-center gap-1.5 px-3 py-1 text-xs font-bold rounded-lg bg-gradient-to-r from-primary to-primary-container text-on-primary shadow-md shadow-primary/20 hover:brightness-110 active:translate-y-0.5 whitespace-nowrap shrink-0 cursor-pointer transition-all" id="btn-team-preset"><span class="material-symbols-outlined text-[16px]">group</span><span>Выбор команды</span></button><div class="flex items-center gap-1.5 px-2.5 py-1 text-xs font-semibold rounded-lg bg-amber-500/15 text-primary border border-amber-500/30 whitespace-nowrap shrink-0"><span class="material-symbols-outlined text-secondary text-[16px]">all_inclusive</span><span>Плазма &amp; Пар (+25%)</span></div><button type="button" id="btnYardToFormationPainted" data-hud-action="yard-formation" class="flex items-center gap-1.5 px-2.5 py-1 text-xs font-medium rounded-lg text-on-surface-variant hover:text-on-surface whitespace-nowrap shrink-0 cursor-pointer border border-primary" id="btn-change-roster"><span class="material-symbols-outlined text-primary text-[16px]">swap_horiz</span><span>Поменять порядок</span></button></div>
 
     <!-- 3 Cat Heroes in Tactical Slots -->
-    <div class="grid grid-cols-3 gap-3 my-1"><!-- Slot 1: Тыл / Саппорт (Мурка Родник) --><div class="bg-surface-container rounded-xl p-2.5 border border-secondary/40 flex flex-col justify-between hover:border-secondary/60 transition-all shadow-md group relative overflow-hidden"><div class="flex items-center justify-between mb-1.5 z-10 relative"><span class="text-[11px] font-label-sm text-secondary font-bold uppercase tracking-wider">Тыл</span><span class="text-[11px] font-stat-numeral text-primary font-bold bg-primary/10 px-1.5 py-0.5 rounded">Ур. 46</span></div><!-- Tall Full-Height Hero Visual --><div class="pve-yard-hero-art w-full h-44 rounded-lg overflow-hidden relative bg-surface-container-highest border border-secondary/40 shadow-inner flex items-center justify-center"><img class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" alt="Мурка Родник" src="/stitch-assets/cat-heroes/support-a.png"><div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent opacity-80 pointer-events-none"></div><span class="absolute bottom-1.5 left-1.5 bg-secondary text-on-secondary text-[10px] font-bold px-1.5 py-0.5 rounded leading-tight shadow-sm">ХИЛ</span></div><div class="flex flex-col min-w-0 mt-2 z-10 relative"><span class="font-label-md text-[13px] text-on-surface font-bold truncate leading-tight">Мурка Родник</span><div class="flex items-center justify-between gap-1 mt-1.5"><span class="text-secondary text-[11px] font-stat-numeral flex items-center gap-0.5 font-bold leading-none"><span class="material-symbols-outlined text-[13px]">favorite</span>11.1k</span><span class="text-secondary-fixed text-[11px] font-stat-numeral flex items-center gap-0.5 font-bold leading-none"><span class="material-symbols-outlined text-[13px]">healing</span>2.1k</span></div></div></div><!-- Slot 2: Центр / Боец (Рыжик Когти) --><div class="bg-surface-container rounded-xl p-2.5 border border-tertiary/40 flex flex-col justify-between hover:border-tertiary/60 transition-all shadow-md group relative overflow-hidden"><div class="flex items-center justify-between mb-1.5 z-10 relative"><span class="text-[11px] font-label-sm text-tertiary font-bold uppercase tracking-wider">Центр</span><span class="text-[11px] font-stat-numeral text-primary font-bold bg-primary/10 px-1.5 py-0.5 rounded">Ур. 48</span></div><!-- Tall Full-Height Hero Visual --><div class="pve-yard-hero-art w-full h-44 rounded-lg overflow-hidden relative bg-surface-container-highest border border-tertiary/40 shadow-inner flex items-center justify-center"><img class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" alt="Рыжик Когти" src="/stitch-assets/cat-heroes/fighter-a.png"><div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent opacity-80 pointer-events-none"></div><span class="absolute bottom-1.5 left-1.5 bg-tertiary text-on-tertiary text-[10px] font-bold px-1.5 py-0.5 rounded leading-tight shadow-sm">ДПС</span></div><div class="flex flex-col min-w-0 mt-2 z-10 relative"><span class="font-label-md text-[13px] text-on-surface font-bold truncate leading-tight">Рыжик Когти</span><div class="flex items-center justify-between gap-1 mt-1.5"><span class="text-secondary text-[11px] font-stat-numeral flex items-center gap-0.5 font-bold leading-none"><span class="material-symbols-outlined text-[13px]">favorite</span>9.6k</span><span class="text-primary text-[11px] font-stat-numeral flex items-center gap-0.5 font-bold leading-none"><span class="material-symbols-outlined text-[13px]">swords</span>5.8k</span></div></div></div><!-- Slot 3: Авангард / Танк (Барсик Щит) --><div class="bg-surface-container rounded-xl p-2.5 border border-primary/40 flex flex-col justify-between hover:border-primary/60 transition-all shadow-md group relative overflow-hidden"><div class="flex items-center justify-between mb-1.5 z-10 relative"><span class="text-[11px] font-label-sm text-primary font-bold uppercase tracking-wider">Авангард</span><span class="text-[11px] font-stat-numeral text-primary font-bold bg-primary/10 px-1.5 py-0.5 rounded">Ур. 50</span></div><!-- Tall Full-Height Hero Visual --><div class="pve-yard-hero-art w-full h-44 rounded-lg overflow-hidden relative bg-surface-container-highest border border-primary/40 shadow-inner flex items-center justify-center"><img class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" alt="Барсик Щит" src="/stitch-assets/cat-heroes/tank-a.png"><div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent opacity-80 pointer-events-none"></div><span class="absolute bottom-1.5 left-1.5 bg-primary text-on-primary text-[10px] font-bold px-1.5 py-0.5 rounded leading-tight shadow-sm">ТАНК</span></div><div class="flex flex-col min-w-0 mt-2 z-10 relative"><span class="font-label-md text-[13px] text-on-surface font-bold truncate leading-tight">Барсик Щит</span><div class="flex items-center justify-between gap-1 mt-1.5"><span class="text-secondary text-[11px] font-stat-numeral flex items-center gap-0.5 font-bold leading-none"><span class="material-symbols-outlined text-[13px]">favorite</span>14.2k</span><span class="text-tertiary-fixed-dim text-[11px] font-stat-numeral flex items-center gap-0.5 font-bold leading-none"><span class="material-symbols-outlined text-[13px]">shield</span>4.8k</span></div></div></div></div>
+    <div class="grid grid-cols-3 gap-3 my-1"><!-- Slot 1: Тыл / Саппорт (Мурка Родник) --><div class="bg-surface-container rounded-xl p-2.5 border border-secondary/40 flex flex-col justify-between hover:border-secondary/60 transition-all shadow-md group relative overflow-hidden"><div class="flex items-center justify-between mb-1.5 z-10 relative"><span class="text-[11px] font-label-sm text-secondary font-bold uppercase tracking-wider">Тыл</span><span class="text-[11px] font-stat-numeral text-primary font-bold bg-primary/10 px-1.5 py-0.5 rounded">Ур. 46</span></div><!-- Tall Full-Height Hero Visual --><div class="pve-yard-hero-art w-full h-44 rounded-lg overflow-hidden relative bg-surface-container-highest border border-secondary/40 shadow-inner flex items-center justify-center"><img class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" alt="Мурка Родник" src="/stitch-assets/cat-heroes/support-a.webp?v=opt1"><div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent opacity-80 pointer-events-none"></div><span class="absolute bottom-1.5 left-1.5 bg-secondary text-on-secondary text-[10px] font-bold px-1.5 py-0.5 rounded leading-tight shadow-sm">ХИЛ</span></div><div class="flex flex-col min-w-0 mt-2 z-10 relative"><span class="font-label-md text-[13px] text-on-surface font-bold truncate leading-tight">Мурка Родник</span><div class="flex items-center justify-between gap-1 mt-1.5"><span class="text-secondary text-[11px] font-stat-numeral flex items-center gap-0.5 font-bold leading-none"><span class="material-symbols-outlined text-[13px]">favorite</span>11.1k</span><span class="text-secondary-fixed text-[11px] font-stat-numeral flex items-center gap-0.5 font-bold leading-none"><span class="material-symbols-outlined text-[13px]">healing</span>2.1k</span></div></div></div><!-- Slot 2: Центр / Боец (Рыжик Когти) --><div class="bg-surface-container rounded-xl p-2.5 border border-tertiary/40 flex flex-col justify-between hover:border-tertiary/60 transition-all shadow-md group relative overflow-hidden"><div class="flex items-center justify-between mb-1.5 z-10 relative"><span class="text-[11px] font-label-sm text-tertiary font-bold uppercase tracking-wider">Центр</span><span class="text-[11px] font-stat-numeral text-primary font-bold bg-primary/10 px-1.5 py-0.5 rounded">Ур. 48</span></div><!-- Tall Full-Height Hero Visual --><div class="pve-yard-hero-art w-full h-44 rounded-lg overflow-hidden relative bg-surface-container-highest border border-tertiary/40 shadow-inner flex items-center justify-center"><img class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" alt="Рыжик Когти" src="/stitch-assets/cat-heroes/fighter-a.webp?v=opt1"><div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent opacity-80 pointer-events-none"></div><span class="absolute bottom-1.5 left-1.5 bg-tertiary text-on-tertiary text-[10px] font-bold px-1.5 py-0.5 rounded leading-tight shadow-sm">ДПС</span></div><div class="flex flex-col min-w-0 mt-2 z-10 relative"><span class="font-label-md text-[13px] text-on-surface font-bold truncate leading-tight">Рыжик Когти</span><div class="flex items-center justify-between gap-1 mt-1.5"><span class="text-secondary text-[11px] font-stat-numeral flex items-center gap-0.5 font-bold leading-none"><span class="material-symbols-outlined text-[13px]">favorite</span>9.6k</span><span class="text-primary text-[11px] font-stat-numeral flex items-center gap-0.5 font-bold leading-none"><span class="material-symbols-outlined text-[13px]">swords</span>5.8k</span></div></div></div><!-- Slot 3: Авангард / Танк (Барсик Щит) --><div class="bg-surface-container rounded-xl p-2.5 border border-primary/40 flex flex-col justify-between hover:border-primary/60 transition-all shadow-md group relative overflow-hidden"><div class="flex items-center justify-between mb-1.5 z-10 relative"><span class="text-[11px] font-label-sm text-primary font-bold uppercase tracking-wider">Авангард</span><span class="text-[11px] font-stat-numeral text-primary font-bold bg-primary/10 px-1.5 py-0.5 rounded">Ур. 50</span></div><!-- Tall Full-Height Hero Visual --><div class="pve-yard-hero-art w-full h-44 rounded-lg overflow-hidden relative bg-surface-container-highest border border-primary/40 shadow-inner flex items-center justify-center"><img class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" alt="Барсик Щит" src="/stitch-assets/cat-heroes/tank-a.webp?v=opt1"><div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent opacity-80 pointer-events-none"></div><span class="absolute bottom-1.5 left-1.5 bg-primary text-on-primary text-[10px] font-bold px-1.5 py-0.5 rounded leading-tight shadow-sm">ТАНК</span></div><div class="flex flex-col min-w-0 mt-2 z-10 relative"><span class="font-label-md text-[13px] text-on-surface font-bold truncate leading-tight">Барсик Щит</span><div class="flex items-center justify-between gap-1 mt-1.5"><span class="text-secondary text-[11px] font-stat-numeral flex items-center gap-0.5 font-bold leading-none"><span class="material-symbols-outlined text-[13px]">favorite</span>14.2k</span><span class="text-tertiary-fixed-dim text-[11px] font-stat-numeral flex items-center gap-0.5 font-bold leading-none"><span class="material-symbols-outlined text-[13px]">shield</span>4.8k</span></div></div></div></div>
 
     <!-- Action CTAs Row: Tactics button & Start combat button -->
     <div class="grid gap-space-md pt-1">
@@ -4268,7 +4270,7 @@
 <section id="viewVictoryHall" class="stitch-view mythfel-form hidden" data-stitch="victory_hall" data-layout="landscape">
 <!-- Training victory hall · Stitch victory-practice · winners fill via renderVictoryHall() -->
 <div class="vic-hall relative w-full h-full min-h-0 overflow-hidden flex flex-col justify-between bg-background">
-<div class="absolute inset-0 bg-cover bg-center pointer-events-none z-0" style="background-image:url('/stitch-ref/e608/victory_hall.png')">
+<div class="absolute inset-0 bg-cover bg-center pointer-events-none z-0" style="background-image:url('/stitch-ref/e608/victory_hall.webp?v=opt1')">
 <div class="absolute inset-0 bg-gradient-to-t from-background via-surface-container-lowest/80 to-background/65"></div>
 <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_0%,rgba(17,13,11,0.55)_70%,rgba(17,13,11,0.9)_100%)]"></div>
 </div>
@@ -4305,19 +4307,19 @@
 <div class="relative z-20 w-full max-w-7xl mx-auto px-3 py-2 flex-1 min-h-0 flex items-center justify-center">
 <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-3 lg:gap-4 items-end justify-center" id="vicSlots" data-vic-slots="1" aria-live="polite">
 <article class="relative flex flex-col justify-between h-[460px] lg:h-[510px] rounded-xl bg-surface-container-high shadow-xl border border-outline-variant/40 overflow-hidden" data-vic-card="shop_support_water_a">
-<div class="absolute inset-0 z-0"><img alt="Мурка Родник" class="w-full h-full object-cover object-top" src="/stitch-assets/cat-heroes/support-a.png"/><div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/55 to-surface-container-lowest/20"></div></div>
+<div class="absolute inset-0 z-0"><img alt="Мурка Родник" class="w-full h-full object-cover object-top" src="/stitch-assets/cat-heroes/support-a.webp?v=opt1"/><div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/55 to-surface-container-lowest/20"></div></div>
 <div class="relative z-10 flex items-center justify-between p-3 border-b border-outline-variant/30 bg-surface-container-lowest/55"><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface shadow"><span class="material-symbols-outlined text-[16px] text-secondary">water_drop</span><span class="text-[10px] font-bold uppercase tracking-wider">СЛОТ: ТЫЛ · САППОРТ</span></div></div>
 <div class="relative z-10 flex-1 flex flex-col items-center justify-end p-3 text-center"><h3 class="text-[18px] font-bold text-on-surface">Мурка Родник</h3><p class="text-[12px] text-on-surface-variant">Саппорт A</p></div>
 <div class="relative z-10 p-3 bg-surface-container-lowest/92 border-t border-outline-variant/30"><div class="grid grid-cols-3 gap-1 text-center bg-surface-container/80 rounded-lg p-1.5 text-[10px]"><div><p class="text-outline font-bold">Урон</p><p class="font-extrabold text-[18px]">840</p></div><div class="border-x border-outline-variant/30"><p class="text-secondary font-bold">Лечение</p><p class="font-extrabold text-[18px]">1 680</p></div><div><p class="text-tertiary font-bold">Получено</p><p class="font-extrabold text-[18px]">1 120</p></div></div><div class="flex items-center justify-center py-2 mt-1 rounded bg-surface-container text-outline text-[11px] font-bold"><span class="material-symbols-outlined text-[16px] mr-1">emoji_events</span>Победитель спарринга</div></div>
 </article>
 <article class="relative flex flex-col justify-between h-[500px] lg:h-[555px] -mt-4 z-20 rounded-xl bg-surface-container-high shadow-2xl shadow-primary/20 border border-primary/40 overflow-hidden" data-vic-card="shop_fighter_fire_a" data-mvp="1">
-<div class="absolute inset-0 z-0"><img alt="Рыжик Когти" class="w-full h-full object-cover object-top" src="/stitch-assets/cat-heroes/fighter-a.png"/><div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/55 to-surface-container-lowest/20"></div></div>
+<div class="absolute inset-0 z-0"><img alt="Рыжик Когти" class="w-full h-full object-cover object-top" src="/stitch-assets/cat-heroes/fighter-a.webp?v=opt1"/><div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/55 to-surface-container-lowest/20"></div></div>
 <div class="relative z-10 flex items-center justify-between p-3 border-b border-outline-variant/30 bg-surface-container-lowest/55"><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary text-on-primary shadow-lg"><span class="material-symbols-outlined text-[16px]">crown</span><span class="text-[10px] font-bold uppercase tracking-wider">СЛОТ: ЦЕНТР · БОЕЦ (MVP)</span></div></div>
 <div class="relative z-10 flex-1 flex flex-col items-center justify-end p-3 text-center"><div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-container/25 text-primary-fixed mb-1"><span class="material-symbols-outlined text-[14px]">workspace_premium</span><span class="text-[10px] font-bold">Золотой MVP</span></div><h3 class="text-[22px] font-bold text-primary">Рыжик Когти</h3><p class="text-[12px] text-on-surface-variant">Боец A</p></div>
 <div class="relative z-10 p-3 bg-surface-container-lowest/92 border-t border-outline-variant/30"><div class="grid grid-cols-3 gap-1 text-center bg-surface-container/80 rounded-lg p-1.5 text-[10px]"><div><p class="text-primary font-bold">Урон</p><p class="font-extrabold text-[18px]">4 160</p></div><div class="border-x border-outline-variant/30"><p class="text-tertiary font-bold">Крит</p><p class="font-extrabold text-[18px]">20%</p></div><div><p class="text-outline font-bold">Опыт</p><p class="font-extrabold text-[18px]">+150</p></div></div><div class="flex items-center justify-center py-2 mt-1 rounded bg-primary-container/20 text-primary text-[11px] font-bold"><span class="material-symbols-outlined text-[16px] mr-1">add_circle</span>MVP боя ×1.5</div></div>
 </article>
 <article class="relative flex flex-col justify-between h-[460px] lg:h-[510px] rounded-xl bg-surface-container-high shadow-xl border border-outline-variant/40 overflow-hidden" data-vic-card="shop_tank_stone_a">
-<div class="absolute inset-0 z-0"><img alt="Барсик Щит-утёс" class="w-full h-full object-cover object-top" src="/stitch-assets/cat-heroes/tank-a.png"/><div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/55 to-surface-container-lowest/20"></div></div>
+<div class="absolute inset-0 z-0"><img alt="Барсик Щит-утёс" class="w-full h-full object-cover object-top" src="/stitch-assets/cat-heroes/tank-a.webp?v=opt1"/><div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/55 to-surface-container-lowest/20"></div></div>
 <div class="relative z-10 flex items-center justify-between p-3 border-b border-outline-variant/30 bg-surface-container-lowest/55"><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface shadow"><span class="material-symbols-outlined text-[16px] text-primary">shield</span><span class="text-[10px] font-bold uppercase tracking-wider">СЛОТ: АВАНГАРД · ТАНК</span></div></div>
 <div class="relative z-10 flex-1 flex flex-col items-center justify-end p-3 text-center"><h3 class="text-[18px] font-bold text-on-surface">Барсик Щит-утёс</h3><p class="text-[12px] text-on-surface-variant">Танк A</p></div>
 <div class="relative z-10 p-3 bg-surface-container-lowest/92 border-t border-outline-variant/30"><div class="grid grid-cols-3 gap-1 text-center bg-surface-container/80 rounded-lg p-1.5 text-[10px]"><div><p class="text-outline font-bold">Блок</p><p class="font-extrabold text-[18px]">2 080</p></div><div class="border-x border-outline-variant/30"><p class="text-outline font-bold">Урон</p><p class="font-extrabold text-[18px]">720</p></div><div><p class="text-tertiary font-bold">Принято</p><p class="font-extrabold text-[18px]">4 250</p></div></div><div class="flex items-center justify-center py-2 mt-1 rounded bg-surface-container text-outline text-[11px] font-bold"><span class="material-symbols-outlined text-[16px] mr-1">emoji_events</span>Победитель спарринга</div></div>
@@ -4365,7 +4367,7 @@
 <section id="viewPveVictory" class="stitch-view mythfel-form hidden" data-stitch="pve_victory" data-layout="landscape">
 <main class="pve-vic mythfel-form-body" data-purpose="pve-victory">
   <div class="pve-vic-backdrop" aria-hidden="true">
-    <img class="pve-vic-bg" alt="" src="/stitch-assets/pve-victory/bg.png"/>
+    <img class="pve-vic-bg" alt="" src="/stitch-assets/pve-victory/bg.webp?v=opt1"/>
     <div class="pve-vic-shade"></div>
   </div>
 
@@ -4399,7 +4401,7 @@
         <em class="is-heal">Хил</em>
       </div>
       <div class="pve-vic-art">
-        <img alt="Мурка" src="/stitch-assets/cat-heroes/support-a.png"/>
+        <img alt="Мурка" src="/stitch-assets/cat-heroes/support-a.webp?v=opt1"/>
         <b id="pveVicName3">Мурка Родник</b>
       </div>
       <div class="pve-vic-stats">
@@ -4416,7 +4418,7 @@
         <em class="is-dps">Крит DPS</em>
       </div>
       <div class="pve-vic-art">
-        <img alt="Рыжик" src="/stitch-assets/cat-heroes/fighter-a.png"/>
+        <img alt="Рыжик" src="/stitch-assets/cat-heroes/fighter-a.webp?v=opt1"/>
         <b id="pveVicName2">Рыжик Когти</b>
       </div>
       <div class="pve-vic-stats">
@@ -4434,7 +4436,7 @@
         <em class="is-tank">Таунт</em>
       </div>
       <div class="pve-vic-art">
-        <img alt="Барсик" src="/stitch-assets/cat-heroes/tank-a.png"/>
+        <img alt="Барсик" src="/stitch-assets/cat-heroes/tank-a.webp?v=opt1"/>
         <b id="pveVicName1">Барсик Щит</b>
       </div>
       <div class="pve-vic-stats">
@@ -4783,7 +4785,7 @@
 <!-- Live PvP ranked duel load. Address: /pvp-load. Soft exits closed; shared fillNav only. MF-148 full-body cats. -->
 <main class="pvp-load" data-purpose="pvp-load" data-purpose-route="pvp-load">
 <div class="pvp-load-stage">
-<img class="pvp-load-art" alt="" src="/stitch-assets/pvp-load-arena.png"/>
+<img class="pvp-load-art" alt="" src="/stitch-assets/pvp-load-arena.webp?v=opt1"/>
 <div class="pvp-load-shade"></div>
 <header class="pvp-load-head">
 <p class="pvp-load-kicker">⚔ Загрузка PvP боя · Рейтинговая дуэль 3v3 ⚔</p>
@@ -5029,7 +5031,7 @@
 <div class="grid grid-cols-3 gap-2 p-1 overflow-y-auto flex-1 min-h-0 my-1 content-start">
 <div class="relative bg-[#1a1613] rounded-lg border border-outline-variant/40 hover:border-primary transition-all overflow-hidden flex flex-col shadow-md group cursor-pointer h-36" data-hero="barsik" tabindex="0">
 <div class="absolute inset-0 z-0">
-<img alt="Барсик Щит" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/tank-a.png"/>
+<img alt="Барсик Щит" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/tank-a.webp?v=opt1"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
 </div>
 <div class="relative z-10 flex items-center justify-between p-1">
@@ -5046,7 +5048,7 @@
 </div>
 <div class="relative bg-[#1a1613] rounded-lg border border-outline-variant/40 hover:border-primary transition-all overflow-hidden flex flex-col shadow-md group cursor-pointer h-36" data-hero="titan" tabindex="0">
 <div class="absolute inset-0 z-0">
-<img alt="Титан Пробой" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/tank-b.png"/>
+<img alt="Титан Пробой" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/tank-b.webp?v=opt1"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
 </div>
 <div class="relative z-10 flex items-center justify-between p-1">
@@ -5063,7 +5065,7 @@
 </div>
 <div class="relative bg-[#1a1613] rounded-lg border border-outline-variant/40 hover:border-tertiary transition-all overflow-hidden flex flex-col shadow-md group cursor-pointer h-36" data-hero="ryzhik" tabindex="0">
 <div class="absolute inset-0 z-0">
-<img alt="Рыжик Когти" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/fighter-a.png"/>
+<img alt="Рыжик Когти" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/fighter-a.webp?v=opt1"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
 </div>
 <div class="relative z-10 flex items-center justify-between p-1">
@@ -5080,7 +5082,7 @@
 </div>
 <div class="relative bg-[#1a1613] rounded-lg border border-outline-variant/40 hover:border-tertiary transition-all overflow-hidden flex flex-col shadow-md group cursor-pointer h-36" data-hero="grom" tabindex="0">
 <div class="absolute inset-0 z-0">
-<img alt="Гром Клинок" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/fighter-b.png"/>
+<img alt="Гром Клинок" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/fighter-b.webp?v=opt1"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
 </div>
 <div class="relative z-10 flex items-center justify-between p-1">
@@ -5097,7 +5099,7 @@
 </div>
 <div class="relative bg-[#1a1613] rounded-lg border border-outline-variant/40 hover:border-primary transition-all overflow-hidden flex flex-col shadow-md group cursor-pointer h-36" data-hero="shadow" tabindex="0">
 <div class="absolute inset-0 z-0">
-<img alt="Тень Скрытный" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/assassin-a.png"/>
+<img alt="Тень Скрытный" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/assassin-a.webp?v=opt1"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
 </div>
 <div class="relative z-10 flex items-center justify-between p-1">
@@ -5114,7 +5116,7 @@
 </div>
 <div class="relative bg-[#1a1613] rounded-lg border border-outline-variant/40 hover:border-primary transition-all overflow-hidden flex flex-col shadow-md group cursor-pointer h-36" data-hero="bagheera" tabindex="0">
 <div class="absolute inset-0 z-0">
-<img alt="Багира Тень" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/assassin-b.png"/>
+<img alt="Багира Тень" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/assassin-b.webp?v=opt1"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
 </div>
 <div class="relative z-10 flex items-center justify-between p-1">
@@ -5131,7 +5133,7 @@
 </div>
 <div class="relative bg-[#1a1613] rounded-lg border border-outline-variant/40 hover:border-secondary transition-all overflow-hidden flex flex-col shadow-md group cursor-pointer h-36" data-hero="lynx" tabindex="0">
 <div class="absolute inset-0 z-0">
-<img alt="Рыселап Лук" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/ranger-a.png"/>
+<img alt="Рыселап Лук" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/ranger-a.webp?v=opt1"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
 </div>
 <div class="relative z-10 flex items-center justify-between p-1">
@@ -5148,7 +5150,7 @@
 </div>
 <div class="relative bg-[#1a1613] rounded-lg border border-outline-variant/40 hover:border-secondary transition-all overflow-hidden flex flex-col shadow-md group cursor-pointer h-36" data-hero="leo" tabindex="0">
 <div class="absolute inset-0 z-0">
-<img alt="Лео Лучник" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/ranger-b.png"/>
+<img alt="Лео Лучник" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/ranger-b.webp?v=opt1"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
 </div>
 <div class="relative z-10 flex items-center justify-between p-1">
@@ -5165,7 +5167,7 @@
 </div>
 <div class="relative bg-[#1a1613] rounded-lg border border-outline-variant/40 hover:border-tertiary transition-all overflow-hidden flex flex-col shadow-md group cursor-pointer h-36" data-hero="ignius" tabindex="0">
 <div class="absolute inset-0 z-0">
-<img alt="Игниус Пламя" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/mage-a.png"/>
+<img alt="Игниус Пламя" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/mage-a.webp?v=opt1"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
 </div>
 <div class="relative z-10 flex items-center justify-between p-1">
@@ -5182,7 +5184,7 @@
 </div>
 <div class="relative bg-[#1a1613] rounded-lg border border-outline-variant/40 hover:border-secondary transition-all overflow-hidden flex flex-col shadow-md group cursor-pointer h-36" data-hero="frostia" tabindex="0">
 <div class="absolute inset-0 z-0">
-<img alt="Фростия Лёд" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/mage-b.png"/>
+<img alt="Фростия Лёд" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/mage-b.webp?v=opt1"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
 </div>
 <div class="relative z-10 flex items-center justify-between p-1">
@@ -5199,7 +5201,7 @@
 </div>
 <div class="relative bg-[#1a1613] rounded-lg border border-outline-variant/40 hover:border-secondary transition-all overflow-hidden flex flex-col shadow-md group cursor-pointer h-36" data-hero="murka" tabindex="0">
 <div class="absolute inset-0 z-0">
-<img alt="Мурка Родник" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/support-a.png"/>
+<img alt="Мурка Родник" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/support-a.webp?v=opt1"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
 </div>
 <div class="relative z-10 flex items-center justify-between p-1">
@@ -5216,7 +5218,7 @@
 </div>
 <div class="relative bg-[#1a1613] rounded-lg border border-outline-variant/40 hover:border-primary transition-all overflow-hidden flex flex-col shadow-md group cursor-pointer h-36" data-hero="aurelia" tabindex="0">
 <div class="absolute inset-0 z-0">
-<img alt="Аурелия Клирик" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/support-b.png"/>
+<img alt="Аурелия Клирик" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/cat-heroes/support-b.webp?v=opt1"/>
 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
 </div>
 <div class="relative z-10 flex items-center justify-between p-1">
@@ -5260,7 +5262,7 @@
 <div class="col-span-12 lg:col-span-8 flex flex-col h-full gap-2 min-h-0">
 <!-- Matchup stage: allies vs dummy cards -->
 <div class="relative h-[250px] rounded-xl overflow-hidden bg-surface-container-lowest shadow-2xl flex flex-col justify-between p-2.5 flex-shrink-0 border border-outline-variant/30" role="region" aria-label="Симулятор спарринга 3v3">
-<div class="absolute inset-0 bg-cover bg-center" style="background-image:url('/stitch-ref/e608/arena_dojo.png')"></div>
+<div class="absolute inset-0 bg-cover bg-center" style="background-image:url('/stitch-ref/e608/arena_dojo.webp?v=opt1')"></div>
 <div class="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-background/30"></div>
 <div class="relative z-10 flex items-center justify-between bg-surface-container-lowest/85 backdrop-blur-md px-3 py-1 rounded-lg border border-outline-variant/30">
 <div class="flex items-center gap-2">
@@ -5405,9 +5407,9 @@
 </main>
 
 <!-- Stitch 3v3 dojo load — progress 0→100% then auto-start (no confirm). Ref: design/stitch-ref/practice-dojo-load/ -->
-<!-- MF-161: background art only — no hero/dummy roster/figures (painted cats stay in practice-load-arena.png). -->
+<!-- MF-161: background art only — no hero/dummy roster/figures (painted cats stay in practice-load-arena.webp). -->
 <div class="dojo-load" hidden data-purpose="practice-load">
-<img class="dojo-load-art" alt="" src="/stitch-assets/dojo/practice-load-arena.png"/>
+<img class="dojo-load-art" alt="" src="/stitch-assets/dojo/practice-load-arena.webp?v=opt1"/>
 <div class="dojo-load-shade"></div>
 <div class="dojo-load-ui dojo-load-ui--stitch">
 <header class="dojo-load-head">
@@ -5508,7 +5510,7 @@
 
 <!-- Arena -->
 <div class="pf-arena relative w-full flex-1 min-h-[200px] flex items-center justify-between px-space-lg lg:px-8 max-w-[1720px] mx-auto overflow-hidden">
-<div class="absolute inset-0 bg-cover bg-center pointer-events-none" style="background-image: url('/stitch-ref/e608/arena_dojo.png')"></div>
+<div class="absolute inset-0 bg-cover bg-center pointer-events-none" style="background-image: url('/stitch-ref/e608/arena_dojo.webp?v=opt1')"></div>
 <div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-surface/80 pointer-events-none"></div>
 <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-surface-container-lowest/40 to-surface pointer-events-none"></div>
 
@@ -6610,7 +6612,7 @@
 <section id="viewResultLose" class="stitch-view mythfel-form hidden" data-stitch="result_lose" data-layout="landscape">
 <main class="w-full h-full min-h-0 flex flex-col bg-[#161310]" data-purpose="result-lose">
     <div class="flex-1 flex flex-col items-center justify-center gap-4 px-6 py-8 text-center relative overflow-hidden">
-      <div class="absolute inset-0 opacity-40 bg-cover bg-center pointer-events-none" style="background-image:url('/stitch-ref/e608/arena_interior.png')"></div>
+      <div class="absolute inset-0 opacity-40 bg-cover bg-center pointer-events-none" style="background-image:url('/stitch-ref/e608/arena_interior.webp?v=opt1')"></div>
       <div class="absolute inset-0 bg-gradient-to-t from-[#161310] via-[#161310]/85 to-[#2e1614]/70"></div>
       <div class="relative z-10 max-w-3xl w-full flex flex-col gap-4 items-center">
         <p class="eyebrow text-[#ffb4ab] uppercase tracking-[0.2em] text-xs font-bold">Итог боя · поражение</p>
@@ -6851,6 +6853,6 @@
   </aside>
 
   <nav id="hubTabs" class="hidden" aria-hidden="true"></nav>
-  <script type="module" src="/app.js?v=d050planB"></script>
+  <script type="module" src="/app.js?v=optAssets1"></script>
 </body>
 </html>

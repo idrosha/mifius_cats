@@ -51,10 +51,10 @@ const MIME = {
 };
 
 function cacheControlFor(ext) {
-  // Soft-launch art still iterates (cutouts, chapter soldiers). `immutable` trapped
-  // browsers on black-plate wolf PNGs for a week after replace — use short revalidate.
+  // Soft-launch cutouts still iterate — keep must-revalidate. Query `?v=` on URLs
+  // busts after rebakes; longer max-age cuts repeat downloads on warm sessions.
   if ([".png", ".jpg", ".jpeg", ".webp", ".gif", ".svg", ".ico"].includes(ext)) {
-    return "public, max-age=300, must-revalidate";
+    return "public, max-age=86400, must-revalidate";
   }
   if ([".woff", ".woff2"].includes(ext)) {
     return "public, max-age=604800, immutable";
@@ -442,6 +442,11 @@ const server = http.createServer(async (req, res) => {
     return;
   }
   if (rel === "/" || rel === "") rel = "/index.html";
+  // Masters / pre-optimize originals — not for runtime (keep on disk under _src/).
+  if (/(^|\/|\\)_src(\/|\\|$)/i.test(rel) || rel.includes("/_src/") || rel.includes("\\_src\\")) {
+    send(res, 404, "not found", { "Content-Type": "text/plain; charset=utf-8" });
+    return;
+  }
   const filePath = path.normalize(path.join(PUBLIC, rel));
   if (!filePath.startsWith(PUBLIC)) {
     send(res, 403, "forbidden", { "Content-Type": "text/plain; charset=utf-8" });

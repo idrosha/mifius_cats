@@ -482,7 +482,7 @@ ok(
   html.includes('data-stitch="yard"') &&
     html.includes("pve-yard-hub") &&
     html.includes("btnYardStartBattle") &&
-    html.includes("/stitch-assets/yard/meowkara-mines-bg.png") &&
+    html.includes("/stitch-assets/yard/meowkara-mines-bg.webp?v=opt1") &&
     /Шахты Мяу-Кары/.test(html),
   "viewYard missing painted PvE hub",
 );

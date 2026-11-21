@@ -38,3 +38,7 @@ apps/mobile-capacitor/ios/
 *.keystore
 local.properties
 .capacitor/
+
+# Local toolchain (portable node, asset opt staging)
+client/web-hud/.tools/
+
