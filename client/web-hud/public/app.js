@@ -1084,6 +1084,20 @@ function showView(id) {
   if (id === "viewResultWin" || id === "viewResultLose") {
     $("viewResult")?.classList.add("hidden");
   }
+  // Warm current + next-likely screen art (not every chapter / every pack).
+  if (id === "viewLogin") preloadScreenBgs("login", "yard");
+  else if (id === "viewYard") preloadScreenBgs("yard", "dojoLoad", "dojo");
+  else if (id === "viewPractice" || id === "viewPracticeLoad") {
+    preloadScreenBgs("dojoLoad", "dojo");
+    prefetchSquadCardArt(combatSquadForPrefetch());
+  } else if (id === "viewPracticeFight") {
+    preloadScreenBgs("dojo", "pveVictory", "victoryHall");
+    prefetchSquadCardArt(combatSquadForPrefetch());
+  } else if (id === "viewPvpLoad") preloadScreenBgs("pvpLoad", "arenaInterior");
+  else if (id === "viewPvpFight") preloadScreenBgs("arenaInterior", "victoryHall");
+  else if (id === "viewPveVictory" || id === "viewVictoryHall" || id === "viewPvpVictory") {
+    preloadScreenBgs("pveVictory", "victoryHall", "yard");
+  }
   state.wireMode = wireModeFor(id);
   updateWireDock();
 }
@@ -3139,21 +3153,21 @@ const CAT_SHEET_NAMES = {
  * Default path keeps studio background (forms/lobby/load). Battle cutouts: D-037.
  */
 const CAT_HERO_ART = {
-  shop_tank_stone_a: "/stitch-assets/cat-heroes/tank-a.png",
-  shop_tank_stone_b: "/stitch-assets/cat-heroes/tank-b.png",
-  shop_fighter_fire_a: "/stitch-assets/cat-heroes/fighter-a.png",
-  shop_fighter_fire_b: "/stitch-assets/cat-heroes/fighter-b.png",
-  shop_assassin_bolt_a: "/stitch-assets/cat-heroes/assassin-a.png",
-  shop_assassin_bolt_b: "/stitch-assets/cat-heroes/assassin-b.png",
-  shop_ranger_grass_a: "/stitch-assets/cat-heroes/ranger-a.png",
-  shop_ranger_grass_b: "/stitch-assets/cat-heroes/ranger-b.png",
-  shop_mage_fire_a: "/stitch-assets/cat-heroes/mage-a.png",
-  shop_mage_ice_b: "/stitch-assets/cat-heroes/mage-b.png",
-  shop_support_water_a: "/stitch-assets/cat-heroes/support-a.png",
-  shop_support_water_b: "/stitch-assets/cat-heroes/support-b.png",
-  starter_tank_stone: "/stitch-assets/cat-heroes/tank-a.png",
-  starter_fighter_fire: "/stitch-assets/cat-heroes/fighter-a.png",
-  starter_support_water: "/stitch-assets/cat-heroes/support-a.png",
+  shop_tank_stone_a: "/stitch-assets/cat-heroes/tank-a.webp?v=opt1",
+  shop_tank_stone_b: "/stitch-assets/cat-heroes/tank-b.webp?v=opt1",
+  shop_fighter_fire_a: "/stitch-assets/cat-heroes/fighter-a.webp?v=opt1",
+  shop_fighter_fire_b: "/stitch-assets/cat-heroes/fighter-b.webp?v=opt1",
+  shop_assassin_bolt_a: "/stitch-assets/cat-heroes/assassin-a.webp?v=opt1",
+  shop_assassin_bolt_b: "/stitch-assets/cat-heroes/assassin-b.webp?v=opt1",
+  shop_ranger_grass_a: "/stitch-assets/cat-heroes/ranger-a.webp?v=opt1",
+  shop_ranger_grass_b: "/stitch-assets/cat-heroes/ranger-b.webp?v=opt1",
+  shop_mage_fire_a: "/stitch-assets/cat-heroes/mage-a.webp?v=opt1",
+  shop_mage_ice_b: "/stitch-assets/cat-heroes/mage-b.webp?v=opt1",
+  shop_support_water_a: "/stitch-assets/cat-heroes/support-a.webp?v=opt1",
+  shop_support_water_b: "/stitch-assets/cat-heroes/support-b.webp?v=opt1",
+  starter_tank_stone: "/stitch-assets/cat-heroes/tank-a.webp?v=opt1",
+  starter_fighter_fire: "/stitch-assets/cat-heroes/fighter-a.webp?v=opt1",
+  starter_support_water: "/stitch-assets/cat-heroes/support-a.webp?v=opt1",
 };
 
 /** Transparent cutouts — ONLY live fight HUD (practice_fight / pvp_fight / battle). D-037. */
@@ -3175,9 +3189,9 @@ const CAT_HERO_BATTLE_ART = {
   starter_support_water: "/stitch-assets/cat-heroes/battle/support-a.webp",
   // Practice dummies — dedicated no-bg mannequins (D-037 fight-only).
   // FX/SFX reuse tank / fighter / support role kits (MF-149).
-  bot_practice_tank_a: "/stitch-assets/dojo/battle/dummy-oak-knight.png",
-  bot_practice_fighter_a: "/stitch-assets/dojo/battle/dummy-straw-berserk.png",
-  bot_practice_support_a: "/stitch-assets/dojo/battle/dummy-stone-totem.png",
+  bot_practice_tank_a: "/stitch-assets/dojo/battle/dummy-oak-knight.webp?v=opt1",
+  bot_practice_fighter_a: "/stitch-assets/dojo/battle/dummy-straw-berserk.webp?v=opt1",
+  bot_practice_support_a: "/stitch-assets/dojo/battle/dummy-stone-totem.webp?v=opt1",
 };
 
 const CAT_HERO_BLURB = {
@@ -5727,7 +5741,7 @@ function victoryCatCards() {
       };
     const meta = VICTORY_SLOT_META[visualPos];
     const isMvp = !!meta?.mvp;
-    const art = catHeroArt(hero.templateId) || "/stitch-assets/cat-heroes/fighter-a.png";
+    const art = catHeroArt(hero.templateId) || "/stitch-assets/cat-heroes/fighter-a.webp?v=opt1";
     const dmg = Math.round((hero.dmg || 4) * (isMvp ? 520 : 280));
     const heal = hero.role === "support" || hero.role === "mage" ? Math.round((hero.shield || 3) * 420) : 0;
     const taken = Math.round((hero.hp || 30) * (hero.role === "tank" ? 85 : 40));
@@ -6120,6 +6134,36 @@ function cleansedByUnitFromEvents(events) {
   return map;
 }
 
+/** Cleanse «−» flash: play once per event batch, then drop (do not linger until next action). */
+const CLEANSE_FLASH_MS = 1300;
+const _cleanseFlash = { sig: "", byUnit: {}, shownAt: 0, timer: 0 };
+
+function activeCleanseFlashes(events, battleKey = "") {
+  const map = cleansedByUnitFromEvents(events);
+  const ids = Object.keys(map);
+  if (!ids.length) return {};
+  const sig = `${battleKey}|${ids
+    .sort()
+    .map((id) => `${id}:${(map[id] || []).join(",")}`)
+    .join(";")}`;
+  const now = Date.now();
+  if (sig !== _cleanseFlash.sig) {
+    _cleanseFlash.sig = sig;
+    _cleanseFlash.byUnit = map;
+    _cleanseFlash.shownAt = now;
+    clearTimeout(_cleanseFlash.timer);
+    _cleanseFlash.timer = setTimeout(() => {
+      if (_cleanseFlash.sig !== sig) return;
+      _cleanseFlash.byUnit = {};
+      if (!state.battle) return;
+      if (state.battleMode === "pvp") renderPvpFight();
+      else if (state.battleMode === "practice" || state.battleMode === "pve") renderPracticeFight();
+    }, CLEANSE_FLASH_MS);
+  }
+  if (now - _cleanseFlash.shownAt >= CLEANSE_FLASH_MS) return {};
+  return _cleanseFlash.byUnit;
+}
+
 function unitCard(u, side) {
   const d = document.createElement("div");
   d.className = `unit ${side}${u.alive ? "" : " dead mf-unit-dead"} mf-battle-unit--cutout`;
@@ -6144,10 +6188,11 @@ function unitCard(u, side) {
     <div class="hp">${u.alive ? `${u.hp}/${u.maxHp}${sh}` : rest}</div>
     <div class="mf-bars"><div class="mf-bar mf-bar--hp"><i style="width:${pct}%"></i></div>${
       seeSh && u.shield > 0
-        ? `<div class="mf-bar mf-bar--shield"><i style="width:${Math.min(100, (u.shield / Math.max(u.maxHp, 1)) * 100)}%"></i></div>`
+        ? `<div class="mf-bar mf-bar--shield" title="Щит ${u.shield}"><i style="width:${Math.min(100, (u.shield / Math.max(u.maxHp, 1)) * 100)}%"></i></div>`
         : ""
     }</div>
   `;
+  d.classList.toggle("is-stunned", !!(u.alive && (u.statuses || []).some((s) => s.id === "stun" || s.id === "sleep")));
   // MF-152: idle/aura + hit FX target via data-unit-id (same kits as cats by role).
   decorateBattleUnitIdle(d, u, u.lane ?? 0);
   return d;
@@ -6569,6 +6614,9 @@ const ATTACK_CARD_ART_ALIAS = {
   card_support_water_tail: "shop_support_water_a_tail",
 };
 
+/** Bust Amvera/browser max-age after in-place webp rebakes. */
+const STITCH_ASSET_V = "opt1";
+
 function attackCardArtUrl(cardId) {
   if (!cardId) return "";
   const raw = ATTACK_CARD_ART_ALIAS[cardId] || String(cardId).replace(/^card_/, "");
@@ -6588,7 +6636,7 @@ function attackCardArtUrl(cardId) {
   }
   const folder = ATTACK_CARD_ART_FOLDER[folderKey];
   if (!folder) return "";
-  return `/stitch-assets/attack-cards/${folder}/attack_${fileStem}.webp`;
+  return `/stitch-assets/attack-cards/${folder}/attack_${fileStem}.webp?v=${STITCH_ASSET_V}`;
 }
 
 function unitCrowdControlled(diff, unitId) {
@@ -6758,7 +6806,7 @@ function findBattleUnitElForAim(unitId) {
 }
 
 /** Shared attack-card reverse used for opponent discard throw (all modes). */
-const OPP_CARD_BACK_URL = "/stitch-assets/attack-cards/card-back.webp";
+const OPP_CARD_BACK_URL = `/stitch-assets/attack-cards/card-back.webp?v=${STITCH_ASSET_V}`;
 const OPP_THROW_COUNT = 6;
 let oppThrowToken = 0;
 let oppThrowSkip = null;
@@ -6885,6 +6933,7 @@ const STATUS_META = {
   stealth: { label: "Стелс", icon: "visibility_off", kind: "buff" },
   bleed: { label: "Кровотечение", icon: "bloodtype", kind: "debuff" },
   poison: { label: "Яд", icon: "skull", kind: "debuff" },
+  // freeze = same stun id (ice mage / pitboss taunt); player-facing RU = Заморозка
   stun: { label: "Заморозка", icon: "ac_unit", kind: "debuff" },
   dodge: { label: "Уворот", icon: "speed", kind: "buff" },
   sleep: { label: "Сон", icon: "bedtime", kind: "debuff" },
@@ -6898,9 +6947,60 @@ const STATUS_META = {
   last_meow: { label: "Последний мяу", icon: "favorite", kind: "buff" },
   atk_up: { label: "Сила", icon: "swords", kind: "buff" },
 };
+/** Stable chip order: debuffs first, then buffs (within kind — this list). */
+const STATUS_SORT_IDS = [
+  "stun",
+  "sleep",
+  "poison",
+  "bleed",
+  "weak",
+  "vuln",
+  "fragile",
+  "taunt",
+  "stealth",
+  "dodge",
+  "ruffle",
+  "claw_mode",
+  "mint",
+  "cleanser",
+  "last_meow",
+  "atk_up",
+];
+const STATUS_SORT_INDEX = Object.fromEntries(STATUS_SORT_IDS.map((id, i) => [id, i]));
+const STATUS_CHIP_SOFT_CAP = 8;
 const STATUS_LABEL_RU = Object.fromEntries(
   Object.entries(STATUS_META).map(([id, m]) => [id, m.label]),
 );
+
+function statusMetaFor(id) {
+  return (
+    STATUS_META[id] || {
+      label: String(id || "?"),
+      icon: "help",
+      kind: "debuff",
+    }
+  );
+}
+
+function statusTurnsRu(n) {
+  const v = Math.abs(Number(n) || 0);
+  const mod100 = v % 100;
+  const mod10 = v % 10;
+  let word = "ходов";
+  if (mod100 < 11 || mod100 > 14) {
+    if (mod10 === 1) word = "ход";
+    else if (mod10 >= 2 && mod10 <= 4) word = "хода";
+  }
+  return `${v} ${word}`;
+}
+
+/** Escape attribute text for title= tooltips. */
+function escAttr(s) {
+  return String(s ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;");
+}
 
 /** PvP: shield bar only for allies (D-032). Practice/PvE: both sides visible for training. */
 function canSeeUnitShield(u) {
@@ -6911,39 +7011,88 @@ function canSeeUnitShield(u) {
 
 function unitStatusList(u) {
   const out = [];
+  const seen = new Set();
   for (const s of u?.statuses || []) {
+    const id = s?.id;
+    if (!id || id === "shield") continue; // shield = HP bar only, never a chip
+    seen.add(id);
     out.push({
-      id: s.id,
-      stacks: s.stacks || 1,
-      duration: s.duration || 0,
-      meta: STATUS_META[s.id] || { label: s.id, icon: "label", kind: "buff" },
+      id,
+      stacks: Math.max(1, Number(s.stacks) || 1),
+      duration: Math.max(0, Number(s.duration) || 0),
+      meta: statusMetaFor(id),
     });
   }
-  if (u?.atkBuff > 0) {
+  if (u?.atkBuff > 0 && !seen.has("atk_up")) {
     out.push({
       id: "atk_up",
-      stacks: u.atkBuff,
-      duration: u.atkBuffDur || 0,
+      stacks: Math.max(1, Number(u.atkBuff) || 1),
+      duration: Math.max(0, Number(u.atkBuffDur) || 0),
       meta: STATUS_META.atk_up,
     });
   }
+  out.sort((a, b) => {
+    const ka = a.meta.kind === "debuff" ? 0 : 1;
+    const kb = b.meta.kind === "debuff" ? 0 : 1;
+    if (ka !== kb) return ka - kb;
+    const ia = STATUS_SORT_INDEX[a.id] ?? 900;
+    const ib = STATUS_SORT_INDEX[b.id] ?? 900;
+    if (ia !== ib) return ia - ib;
+    return String(a.id).localeCompare(String(b.id));
+  });
   return out;
 }
 
+function statusChipTitle(s) {
+  const label = s.meta?.label || s.id;
+  if (s.id === "poison") {
+    return `${label} · ×${s.stacks || 1} · до очищения`;
+  }
+  const parts = [label];
+  if (s.stacks > 1 || s.id === "ruffle") parts.push(`×${s.stacks || 1}`);
+  if (s.duration > 0) parts.push(statusTurnsRu(s.duration));
+  return parts.join(" · ");
+}
+
+function statusChipHtml(s) {
+  const kind = s.meta?.kind === "buff" ? "buff" : "debuff";
+  const isPoison = s.id === "poison";
+  const showStacks = isPoison || s.id === "ruffle" || s.stacks > 1;
+  const showTurns = !isPoison && s.duration > 0;
+  const stacks = showStacks ? `<b class="mf-status__stacks">×${s.stacks || 1}</b>` : "";
+  const turns = showTurns ? `<em>${s.duration}</em>` : "";
+  const tip = escAttr(statusChipTitle(s));
+  const icon = s.meta?.icon || "help";
+  return `<span class="mf-status mf-status--${kind}" data-status="${escAttr(s.id)}" title="${tip}"><span class="material-symbols-outlined" aria-hidden="true">${icon}</span>${stacks}${turns}</span>`;
+}
+
 function statusIconsHtml(list, { cleansed = [] } = {}) {
-  const chips = list
+  const items = Array.isArray(list) ? list.slice() : [];
+  let overflowTip = "";
+  let visible = items;
+  if (items.length > STATUS_CHIP_SOFT_CAP) {
+    const keep = STATUS_CHIP_SOFT_CAP - 1;
+    const hidden = items.slice(keep);
+    visible = items.slice(0, keep);
+    overflowTip = escAttr(hidden.map((s) => statusChipTitle(s)).join("; "));
+    visible.push({
+      _overflow: true,
+      count: hidden.length,
+      tip: overflowTip,
+    });
+  }
+  const chips = visible
     .map((s) => {
-      const turns = s.duration > 0 ? `<em>${s.duration}</em>` : "";
-      const stacksN = s.stacks > 1 ? s.stacks : 0;
-      const stacks = stacksN ? `<b class="mf-status__stacks">×${stacksN}</b>` : "";
-      const tipStacks = stacksN ? ` ×${stacksN}` : "";
-      return `<span class="mf-status mf-status--${s.meta.kind}" data-status="${s.id}" title="${s.meta.label}${tipStacks}"><span class="material-symbols-outlined">${s.meta.icon}</span>${stacks}${turns}</span>`;
+      if (s._overflow) {
+        return `<span class="mf-status mf-status--more" title="${s.tip}"><b>+${s.count}</b></span>`;
+      }
+      return statusChipHtml(s);
     })
     .join("");
   const gone = (cleansed || [])
     .map((id) => {
-      const m = STATUS_META[id] || { label: id, icon: "close" };
-      return `<span class="mf-status mf-status--cleared" data-status="${id}" title="Снято: ${m.label}"><span class="material-symbols-outlined">${m.icon}</span><b>−</b></span>`;
+      const m = statusMetaFor(id);
+      return `<span class="mf-status mf-status--cleared" data-status="${escAttr(id)}" title="${escAttr(`Снято: ${m.label}`)}"><span class="material-symbols-outlined" aria-hidden="true">${m.icon}</span><b>−</b></span>`;
     })
     .join("");
   return chips + gone;
@@ -7026,11 +7175,13 @@ function moveAimGhost(x, y) {
 function ensureCombatPortraitMounts(card) {
   const frame = card.querySelector(".relative.w-full, figure, .mf-unit-frame") || card;
   if (!frame.classList.contains("mf-unit-frame")) frame.classList.add("mf-unit-frame");
-  if (!frame.querySelector(".mf-status-row")) {
-    const row = document.createElement("div");
-    row.className = "mf-status-row absolute top-2 right-2 flex flex-wrap justify-end gap-0.5 z-[2] max-w-[70%]";
-    frame.appendChild(row);
+  let statusRow = frame.querySelector(".mf-status-row");
+  if (!statusRow) {
+    statusRow = document.createElement("div");
+    frame.appendChild(statusRow);
   }
+  // Unified class for practice / PvE / PvP (position + size in CSS).
+  statusRow.className = "mf-status-row";
   if (!frame.querySelector(".mf-fatality")) {
     const fat = document.createElement("div");
     fat.className = "mf-fatality";
@@ -7146,6 +7297,51 @@ function preloadImages(urls = []) {
   }
 }
 
+/** Critical screen backdrops — current + next-likely (not every chapter). */
+const SCREEN_BG = {
+  login: `/stitch-assets/login-bg.webp?v=${STITCH_ASSET_V}`,
+  yard: `/stitch-assets/yard/meowkara-mines-bg.webp?v=${STITCH_ASSET_V}`,
+  dojo: `/stitch-ref/e608/arena_dojo.webp?v=${STITCH_ASSET_V}`,
+  dojoLoad: `/stitch-assets/dojo/practice-load-arena.webp?v=${STITCH_ASSET_V}`,
+  pvpLoad: `/stitch-assets/pvp-load-arena.webp?v=${STITCH_ASSET_V}`,
+  pveVictory: `/stitch-assets/pve-victory/bg.webp?v=${STITCH_ASSET_V}`,
+  victoryHall: `/stitch-ref/e608/victory_hall.webp?v=${STITCH_ASSET_V}`,
+  arenaInterior: `/stitch-ref/e608/arena_interior.webp?v=${STITCH_ASSET_V}`,
+};
+
+function preloadScreenBgs(...keys) {
+  preloadImages(keys.map((k) => SCREEN_BG[k]).filter(Boolean));
+}
+
+/** Prefetch N=6 attack plates for each squad template (not only visible hand). */
+function prefetchSquadCardArt(templateIds) {
+  const urls = [];
+  for (const tid of templateIds || []) {
+    for (const c of heroDeckCards(tid)) {
+      if (c.art) urls.push(c.art);
+    }
+  }
+  if (urls.length) preloadImages(urls);
+  preloadImages([OPP_CARD_BACK_URL]);
+}
+
+function combatSquadForPrefetch() {
+  if (Array.isArray(state.practiceSquad) && state.practiceSquad.length) {
+    return state.practiceSquad;
+  }
+  if (typeof combatSquadIds === "function") {
+    try {
+      const ids = combatSquadIds();
+      if (Array.isArray(ids) && ids.length) return ids;
+    } catch {
+      /* ignore */
+    }
+  }
+  return typeof STARTERS !== "undefined"
+    ? STARTERS
+    : ["starter_tank_stone", "starter_fighter_fire", "starter_support_water"];
+}
+
 /** Prefetch current chapter arena + starters + faction monsters before «В бой». */
 function preloadPveFightAssets(chapter = state.pveChapter) {
   const n = Math.max(1, Math.min(5, Number(chapter) || 1));
@@ -7155,12 +7351,7 @@ function preloadPveFightAssets(chapter = state.pveChapter) {
     const art = data.stages?.[st]?.art;
     if (art) urls.push(art);
   }
-  const squad =
-    Array.isArray(state.practiceSquad) && state.practiceSquad.length === 3
-      ? state.practiceSquad
-      : typeof STARTERS !== "undefined"
-        ? STARTERS
-        : ["starter_tank_stone", "starter_fighter_fire", "starter_support_water"];
+  const squad = combatSquadForPrefetch();
   for (const tid of squad) {
     const art = catHeroBattleArt(tid);
     if (art) urls.push(art);
@@ -7173,6 +7364,7 @@ function preloadPveFightAssets(chapter = state.pveChapter) {
     }
   }
   preloadImages(urls);
+  prefetchSquadCardArt(squad);
 }
 
 function applyPracticeFightBackdrop() {
@@ -7185,7 +7377,7 @@ function applyPracticeFightBackdrop() {
     bg.style.backgroundImage = `url('${art}')`;
     bg.dataset.pveBg = "1";
   } else if (bg.dataset.pveBg === "1") {
-    bg.style.backgroundImage = "url('/stitch-ref/e608/arena_dojo.png')";
+    bg.style.backgroundImage = "url('/stitch-ref/e608/arena_dojo.webp?v=opt1')";
     delete bg.dataset.pveBg;
   }
 }
@@ -7260,7 +7452,10 @@ function renderPracticeFight() {
       pips.appendChild(pip);
     }
   }
-  const clearedByUnit = cleansedByUnitFromEvents(diff.events);
+  const clearedByUnit = activeCleanseFlashes(
+    diff.events,
+    `${diff.battleId || ""}:${diff.seq ?? ""}`,
+  );
   const paintSlots = (rootSel, units) => {
     const root = document.querySelector(`#viewPracticeFight ${rootSel}`);
     if (!root) return;
@@ -7483,12 +7678,14 @@ function pvpUnitCard(u, foe, cleansedIds = []) {
   const art = catHeroBattleArt(unitTemplateId(u)) || catHeroBattleArt(u.id);
   const seeSh = canSeeUnitShield(u);
   const rest = unitFatalityLabel(u);
+  // D-032: never leak enemy shield as «+N» text in PvP.
   const hpLine = u.alive
     ? seeSh && u.shield > 0
       ? `${u.hp} / ${u.maxHp} +${u.shield}`
       : `${u.hp} / ${u.maxHp}`
     : rest;
   li.className = (u.alive ? "" : "mf-unit-dead") + " mf-battle-unit--cutout";
+  li.classList.toggle("is-stunned", !!(u.alive && (u.statuses || []).some((s) => s.id === "stun" || s.id === "sleep")));
   // D-047: board side → toward center (PvP foe cats face left when on the right column).
   const desiredFace = foe ? "left" : "right";
   const cutout = art
@@ -7497,7 +7694,16 @@ function pvpUnitCard(u, foe, cleansedIds = []) {
         { artSrc: art, desiredFace }
       )
     : "";
-  li.innerHTML = `${art ? `<figure class="mf-unit-frame">${cutout}<div class="mf-fatality" ${u.alive ? "hidden" : ""}><span>${rest}</span></div><div class="mf-status-row">${statusIconsHtml(u.alive ? unitStatusList(u) : [], { cleansed: cleansedIds })}</div></figure>` : ""}<div><b>${name}</b><small>${element}${role ? " · " + role : ""}</small><em class="${u.alive ? "" : "mf-fatality-inline"}">${hpLine}</em><div class="mf-bars"><div class="mf-bar mf-bar--hp"><i style="width:${pct}%"></i></div>${seeSh && u.shield > 0 && u.alive ? `<div class="mf-bar mf-bar--shield"><i style="width:${Math.min(100, (u.shield / Math.max(u.maxHp, 1)) * 100)}%"></i></div>` : ""}</div></div>`;
+  const statusHtml = statusIconsHtml(u.alive ? unitStatusList(u) : [], { cleansed: cleansedIds });
+  const shieldBar =
+    seeSh && u.shield > 0 && u.alive
+      ? `<div class="mf-bar mf-bar--shield" title="Щит ${u.shield}"><i style="width:${Math.min(100, (u.shield / Math.max(u.maxHp, 1)) * 100)}%"></i></div>`
+      : "";
+  li.innerHTML = `${
+    art
+      ? `<figure class="mf-unit-frame">${cutout}<div class="mf-status-row">${statusHtml}</div><div class="mf-fatality" ${u.alive ? "hidden" : ""}><span>${rest}</span></div></figure>`
+      : ""
+  }<div><b>${name}</b><small>${element}${role ? " · " + role : ""}</small><em class="${u.alive ? "" : "mf-fatality-inline"}">${hpLine}</em><div class="mf-bars"><div class="mf-bar mf-bar--hp"><i style="width:${pct}%"></i></div>${shieldBar}</div></div>`;
   if (foe) li.dataset.foe = "1";
   decorateBattleUnitIdle(li, u, u.lane ?? 0);
   return li;
@@ -7519,7 +7725,10 @@ function renderPvpFight() {
   const enemies = (diff.units || []).filter((u) => u.side === 1).sort((a, b) => a.lane - b.lane);
   const allyBox = $("pvAllies");
   const foeBox = $("pvEnemies");
-  const clearedByUnit = cleansedByUnitFromEvents(diff.events);
+  const clearedByUnit = activeCleanseFlashes(
+    diff.events,
+    `${diff.battleId || ""}:${diff.seq ?? ""}`,
+  );
   if (allyBox) {
     allyBox.innerHTML = "";
     allies.forEach((u) => allyBox.appendChild(pvpUnitCard(u, false, clearedByUnit[u.id] || [])));
@@ -7734,7 +7943,8 @@ async function advancePveWaveAfterWin() {
 function prefetchHandCardArt(hand) {
   const urls = (hand || []).map((c) => attackCardArtUrl(c.cardId)).filter(Boolean);
   if (urls.length) preloadImages(urls);
-  preloadImages([OPP_CARD_BACK_URL]);
+  // Also warm the rest of the current squad decks so draws/reshuffles stay instant.
+  prefetchSquadCardArt(combatSquadForPrefetch());
 }
 
 async function applyDiff(diff, note = "") {
@@ -8635,7 +8845,7 @@ function pvpLoadDefaultRosters() {
   ];
   const withArt = (row) => ({
     ...row,
-    art: catHeroArt(row.templateId) || "/stitch-assets/cat-heroes/fighter-a.png",
+    art: catHeroArt(row.templateId) || "/stitch-assets/cat-heroes/fighter-a.webp?v=opt1",
   });
   return { ally: ally.map(withArt), foe: foe.map(withArt) };
 }
@@ -9760,6 +9970,9 @@ function setPracticeLoadProgress(pct) {
 function startPracticeLoadSync() {
   clearPracticeLoadTimer();
   setPracticeLoadProgress(0);
+  // Prefetch fight backdrop + full squad card decks during the load bar.
+  preloadScreenBgs("dojoLoad", "dojo");
+  prefetchSquadCardArt(combatSquadForPrefetch());
   let pct = 0;
   state.practiceLoadTimer = setInterval(() => {
     const root = $("viewPractice");
