@@ -2,14 +2,30 @@
  * Live-fight presentation FX (D-037 cutouts + showcase anim/SFX).
  * Numbers come from server CombatEvent — client does not invent damage.
  * Source showcase: idle/aura/hit/block + Web Audio synth (Tavern Hearth).
+ *
+ * Perf notes (battle HUD):
+ * - Idle aura uses a sibling glow layer (box-shadow), not animated filter on the cutout.
+ * - Combat event VFX are budgeted + speed-scalable; skip clears pending timers.
  */
 
 let audioCtx = null;
 let soundEnabled = true;
+/** 1 = normal, 1.5 = faster, 2 = snappy. */
+let fxSpeed = 1;
+let fxToken = 0;
+let activeFxNodes = 0;
+const FX_CONCURRENT_MAX = 3;
 
 try {
   const raw = localStorage.getItem("mythfel_sfx");
   if (raw === "0") soundEnabled = false;
+} catch {
+  /* ignore */
+}
+
+try {
+  const sp = localStorage.getItem("mythfel_fx_speed");
+  if (sp === "1.5" || sp === "2") fxSpeed = Number(sp);
 } catch {
   /* ignore */
 }
@@ -30,6 +46,10 @@ function createNoiseBuffer(duration = 1) {
   const out = buffer.getChannelData(0);
   for (let i = 0; i < n; i++) out[i] = Math.random() * 2 - 1;
   return buffer;
+}
+
+function fxMs(ms) {
+  return Math.max(40, Math.round(ms / fxSpeed));
 }
 
 export const SoundFX = {
@@ -255,7 +275,7 @@ const ELEMENT_AURA = {
   water: "aura-water",
 };
 
-/** Keyframe + timing — breathe (transform) and aura (filter) must share one animation list (D-046). */
+/** Keyframe + timing — breathe (transform) only on cutout (D-046). Aura = sibling glow. */
 const BREATHE_SPEC = [
   { cls: "idle-breathe-1", name: "heroBreathe1", duration: "4.2s", delay: "0s" },
   { cls: "idle-breathe-2", name: "heroBreathe2", duration: "3.8s", delay: "-1.1s" },
@@ -266,12 +286,12 @@ const BREATHE_SPEC = [
 ];
 
 const AURA_SPEC = {
-  stone: { cls: "aura-stone", name: "pulseGlowStone", duration: "4s" },
-  fire: { cls: "aura-fire", name: "pulseGlowFire", duration: "3.6s" },
-  bolt: { cls: "aura-lightning", name: "pulseGlowLightning", duration: "3.4s" },
-  grass: { cls: "aura-wind", name: "pulseGlowWind", duration: "4.2s" },
-  ice: { cls: "aura-ice", name: "pulseGlowIce", duration: "3.8s" },
-  water: { cls: "aura-water", name: "pulseGlowWater", duration: "4.1s" },
+  stone: { cls: "aura-stone", glow: "mf-aura-glow--stone" },
+  fire: { cls: "aura-fire", glow: "mf-aura-glow--fire" },
+  bolt: { cls: "aura-lightning", glow: "mf-aura-glow--bolt" },
+  grass: { cls: "aura-wind", glow: "mf-aura-glow--grass" },
+  ice: { cls: "aura-ice", glow: "mf-aura-glow--ice" },
+  water: { cls: "aura-water", glow: "mf-aura-glow--water" },
 };
 
 const BREATHE = BREATHE_SPEC.map((s) => s.cls);
@@ -297,21 +317,49 @@ function viewportFor(el) {
   return frame;
 }
 
+function ensureAuraGlow(frame, glowCls) {
+  if (!frame) return;
+  let glow = frame.querySelector(":scope > .mf-aura-glow");
+  if (!glow) {
+    glow = document.createElement("div");
+    glow.className = "mf-aura-glow";
+    glow.setAttribute("aria-hidden", "true");
+    frame.appendChild(glow);
+  }
+  glow.className = `mf-aura-glow ${glowCls}`;
+  glow.hidden = false;
+}
+
+function clearAuraGlow(frame) {
+  const glow = frame?.querySelector?.(":scope > .mf-aura-glow");
+  if (glow) glow.hidden = true;
+}
+
 function bumpClass(el, cls, ms) {
   if (!el) return;
   el.classList.remove(cls);
   void el.offsetWidth;
   el.classList.add(cls);
-  setTimeout(() => el.classList.remove(cls), ms);
+  const token = fxToken;
+  setTimeout(() => {
+    if (token !== fxToken) return;
+    el.classList.remove(cls);
+  }, fxMs(ms));
 }
 
 function spawnFx(viewport, className, html = "", ms = 500) {
   if (!viewport) return;
+  if (activeFxNodes >= FX_CONCURRENT_MAX) return;
   const node = document.createElement("div");
   node.className = className;
   if (html) node.innerHTML = html;
   viewport.appendChild(node);
-  setTimeout(() => node.remove(), ms);
+  activeFxNodes += 1;
+  const token = fxToken;
+  setTimeout(() => {
+    node.remove();
+    if (token === fxToken) activeFxNodes = Math.max(0, activeFxNodes - 1);
+  }, fxMs(ms));
 }
 
 function floatText(viewport, text, tone = "dmg") {
@@ -320,12 +368,16 @@ function floatText(viewport, text, tone = "dmg") {
   fct.className = `floating-combat-txt mf-fx-float ${tone === "heal" ? "is-heal" : tone === "block" ? "is-block" : "is-dmg"}`;
   fct.textContent = text;
   viewport.appendChild(fct);
-  setTimeout(() => fct.remove(), 900);
+  const token = fxToken;
+  setTimeout(() => {
+    if (token === fxToken) fct.remove();
+    else fct.remove();
+  }, fxMs(900));
 }
 
 /**
  * Ch3 red dogs + ch4 zombies: cutout already emits fire/plague.
- * Skip pulsing drop-shadow aura (washes soft fringe). Breathe still runs (D-046).
+ * Skip pulsing glow (washes soft fringe). Breathe still runs (D-046).
  */
 function monsterGlowIsBaked(unit) {
   const id = `${unit?.id || ""} ${unit?.templateId || ""}`;
@@ -333,14 +385,15 @@ function monsterGlowIsBaked(unit) {
 }
 
 /**
- * Idle breathe (+ optional elemental aura) on a fight unit cutout.
+ * Idle breathe (+ optional elemental aura glow sibling) on a fight unit cutout.
  * Locked for every live-fight mode: practice / Mythmir PvE / PvP / wire (D-046, MF-149).
- * One `animation` list — separate aura class alone overwrote breathe.
+ * Breathe = transform on img; aura = `.mf-aura-glow` box-shadow (no filter on cutout).
  */
 export function decorateBattleUnitIdle(card, unit, laneIndex = 0) {
   if (!card || !unit) return;
   const img = spriteRoot(card);
   if (!img) return;
+  const frame = viewportFor(card);
   BREATHE.forEach((c) => img.classList.remove(c));
   Object.values(ELEMENT_AURA).forEach((c) => img.classList.remove(c));
   img.classList.remove("mf-sprite-crisp");
@@ -350,20 +403,20 @@ export function decorateBattleUnitIdle(card, unit, laneIndex = 0) {
   card.dataset.element = unit.element || "";
   if (!unit.alive) {
     img.classList.remove("mf-hero-sprite");
+    clearAuraGlow(frame);
     return;
   }
   const breathe = BREATHE_SPEC[Math.abs(laneIndex) % BREATHE_SPEC.length];
-  const anim = [
-    `${breathe.name} ${breathe.duration} ease-in-out ${breathe.delay} infinite`,
-  ];
   img.classList.add(breathe.cls, "mf-hero-sprite");
+  img.style.animation = `${breathe.name} ${breathe.duration} ease-in-out ${breathe.delay} infinite`;
+  img.style.transformOrigin = "bottom center";
   if (!monsterGlowIsBaked(unit)) {
     const aura = AURA_SPEC[unit.element] || AURA_SPEC.stone;
     img.classList.add(aura.cls);
-    anim.push(`${aura.name} ${aura.duration} ease-in-out infinite`);
+    ensureAuraGlow(frame, aura.glow);
+  } else {
+    clearAuraGlow(frame);
   }
-  img.style.animation = anim.join(", ");
-  img.style.transformOrigin = "bottom center";
 }
 
 export function findBattleUnitEl(unitId) {
@@ -385,15 +438,41 @@ function unitRoleFromDiff(diff, unitId) {
   return u?.role || "";
 }
 
+export function setFxSpeed(speed) {
+  const n = Number(speed);
+  fxSpeed = n === 1.5 || n === 2 ? n : 1;
+  try {
+    localStorage.setItem("mythfel_fx_speed", String(fxSpeed));
+  } catch {
+    /* ignore */
+  }
+}
+
+export function getFxSpeed() {
+  return fxSpeed;
+}
+
+/** Cancel pending combat presentation timers / floating nodes. */
+export function skipCombatFx() {
+  fxToken += 1;
+  activeFxNodes = 0;
+  document.querySelectorAll(".mf-fx-float, .slash-impact-fx, .shield-barrier-fx").forEach((n) => n.remove());
+}
+
 /** Play presentation for server CombatEvent[] (hit | heal | status). */
 export function playCombatEvents(diff) {
   const events = diff?.events;
   if (!Array.isArray(events) || !events.length) return;
   initAudioContext();
+  const token = ++fxToken;
+  activeFxNodes = 0;
   const playedAttack = new Set();
+  const stagger = fxMs(55);
   events.forEach((ev, idx) => {
-    const delay = idx * 55;
+    // Soft budget: after many events, coalesce delays so settle stays snappy.
+    const delay = Math.min(idx * stagger, fxMs(420));
     setTimeout(() => {
+      if (token !== fxToken) return;
       const targetEl = findBattleUnitEl(ev.targetId);
       const sourceEl = findBattleUnitEl(ev.sourceId);
       const targetSprite = spriteRoot(targetEl);

@@ -10,7 +10,7 @@
 - **Facing (`D-047` / MF-170):** live/load board — слева → вправо, справа → влево (к центру). Вне боя: котики вправо. Один путь: `applySpriteFacing` / `.mf-sprite-face.is-flipped`. Новый арт → `*_NATIVE_FACE_LEFT` только если authored left.
 - **Silhouette (`D-048`):** live cutouts — `--mf-role-h`/`--mf-role-w` by `data-role`: assassin/mage < ranger < support < fighter < tank; overall bump; cats / PvE monsters / practice dummies share the same role wells on `#pfAllies` + `#pfEnemies`. Lobby portraits — no role scale.
 - **Fight FX (`MF-149` / `D-046`):** idle/aura/hit/block + Web Audio в `public/battle-fx.js` — practice / **PvE** / pvp / wire live fight; числа только из server `events`. **Idle breathe обязателен** для каждого живого cutout через `decorateBattleUnitIdle` (breathe+aura **одной** inline `animation` list — иначе aura class перетирает breathe). Ch3/ch4 baked monsters: breathe без aura.
-- **Attack cards (`D-050`):** цельные webp-плашки; compose chrome / ручной aim — pause. `targetId:""`; backline на сервере.
+- **Attack cards (`D-050` + §3.4 LOCKED):** цельные webp-плашки; `nearest` = tap (`targetId:""`); **backline = drag+aim** на цель (`targetId` explicit). Compose chrome всё ещё pause.
 - **Practice dummies:** cutouts `stitch-assets/dojo/battle/dummy-*.png` + те же role SFX/anim, что у tank/fighter/support котиков; load/lobby — JPG с фоном.
 - **PvE live fight:** active Mythmir battle reuses `#viewPracticeFight` HUD (cutouts + hand + FX); chapter backdrop via `pveStageArt`. Painted `#viewPveFight` = stub chrome only.
 - **PvE monsters (`MF-152`):** cutouts `stitch-assets/monsters/battle/{role}-*.png` via `battleUnitArt` / `monsterBattleArt`; FX = role kits из `battle-fx.js`.
