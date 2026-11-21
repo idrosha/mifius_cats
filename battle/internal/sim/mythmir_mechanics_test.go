@@ -19,6 +19,27 @@ func testUnit(id, role string, side Side, lane, hp int) *Unit {
 	}
 }
 
+// Pitboss backline leaps respect taunt → tank; without taunt → rear support.
+func TestPitbossBacklineRespectsTaunt(t *testing.T) {
+	b := &Battle{rng: NewRNG(1)}
+	boss := testUnit("bot_pitboss_wolf", "fighter", SideP2, 1, 60)
+	boss.Deck[0].TargetRule = "backline"
+	boss.Deck[0].Atk = 6
+	support := testUnit("p1_2_support", "support", SideP1, 2, 28)
+	tank := testUnit("p1_0_tank", "tank", SideP1, 0, 50)
+	b.Units = []*Unit{boss, support, tank}
+
+	got := b.SelectTargets(boss, "backline", "", false)
+	if len(got) != 1 || got[0].ID != support.ID {
+		t.Fatalf("backline without taunt want support, got %#v", got)
+	}
+	tank.addStatus("taunt", 1, 2)
+	got = b.SelectTargets(boss, "backline", "", false)
+	if len(got) != 1 || got[0].ID != tank.ID {
+		t.Fatalf("backline+taunt want tank, got %#v", got)
+	}
+}
+
 func TestCenterTargetingRespectsTaunt(t *testing.T) {
 	b := &Battle{rng: NewRNG(1)}
 	actor := testUnit("bot_0_wolf", "ranger", SideP2, 2, 20)

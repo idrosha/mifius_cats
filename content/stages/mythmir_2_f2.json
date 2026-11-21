@@ -1,270 +1,246 @@
 {
-    "stageId":  "mythmir_2_f2",
-    "chapter":  2,
-    "name_key":  "stage.mythmir_2_f2",
-    "bowlCost":  1,
-    "enemyTeam":  [
-                      {
-                          "templateId":  "bot_wolf_ranger_m2f2_a",
-                          "role":  "ranger",
-                          "element":  "ice",
-                          "level":  2,
-                          "baseStats":  {
-                                            "hp":  29,
-                                            "atk":  6,
-                                            "spd":  5,
-                                            "skill":  2,
-                                            "charm":  1
-                                        },
-                          "deck":  [
-                                       {
-                                           "cardId":  "bot_wolf_ranger_m2f2_a_1",
-                                           "name_key":  "card.bot_wolf_shot",
-                                           "element":  "ice",
-                                           "cost":  1,
-                                           "atk":  6,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "center",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "bot_wolf_ranger_m2f2_a_2",
-                                           "name_key":  "card.bot_wolf_shot",
-                                           "element":  "ice",
-                                           "cost":  1,
-                                           "atk":  6,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "center",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "bot_wolf_ranger_m2f2_a_3",
-                                           "name_key":  "card.bot_wolf_shot",
-                                           "element":  "ice",
-                                           "cost":  1,
-                                           "atk":  7,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "center",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "bot_wolf_ranger_m2f2_a_4",
-                                           "name_key":  "card.bot_wolf_shot",
-                                           "element":  "ice",
-                                           "cost":  1,
-                                           "atk":  6,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "center",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       }
-                                   ],
-                          "meta":  {
-                                       "display_ru":  "Волк-лучник",
-                                       "faction":  "wolves",
-                                       "isPitboss":  false
-                                   }
-                      },
-                      {
-                          "templateId":  "bot_wolf_ranger_m2f2_b",
-                          "role":  "ranger",
-                          "element":  "ice",
-                          "level":  2,
-                          "baseStats":  {
-                                            "hp":  29,
-                                            "atk":  6,
-                                            "spd":  5,
-                                            "skill":  2,
-                                            "charm":  1
-                                        },
-                          "deck":  [
-                                       {
-                                           "cardId":  "bot_wolf_ranger_m2f2_b_1",
-                                           "name_key":  "card.bot_wolf_shot",
-                                           "element":  "ice",
-                                           "cost":  1,
-                                           "atk":  6,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "center",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "bot_wolf_ranger_m2f2_b_2",
-                                           "name_key":  "card.bot_wolf_shot",
-                                           "element":  "ice",
-                                           "cost":  1,
-                                           "atk":  6,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "center",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "bot_wolf_ranger_m2f2_b_3",
-                                           "name_key":  "card.bot_wolf_shot",
-                                           "element":  "ice",
-                                           "cost":  1,
-                                           "atk":  7,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "center",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "bot_wolf_ranger_m2f2_b_4",
-                                           "name_key":  "card.bot_wolf_shot",
-                                           "element":  "ice",
-                                           "cost":  1,
-                                           "atk":  6,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "center",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       }
-                                   ],
-                          "meta":  {
-                                       "display_ru":  "Волк-лучник",
-                                       "faction":  "wolves",
-                                       "isPitboss":  false
-                                   }
-                      },
-                      {
-                          "templateId":  "bot_wolf_ranger_m2f2_c",
-                          "role":  "ranger",
-                          "element":  "ice",
-                          "level":  2,
-                          "baseStats":  {
-                                            "hp":  29,
-                                            "atk":  6,
-                                            "spd":  5,
-                                            "skill":  2,
-                                            "charm":  1
-                                        },
-                          "deck":  [
-                                       {
-                                           "cardId":  "bot_wolf_ranger_m2f2_c_1",
-                                           "name_key":  "card.bot_wolf_shot",
-                                           "element":  "ice",
-                                           "cost":  1,
-                                           "atk":  6,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "center",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "bot_wolf_ranger_m2f2_c_2",
-                                           "name_key":  "card.bot_wolf_shot",
-                                           "element":  "ice",
-                                           "cost":  1,
-                                           "atk":  6,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "center",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "bot_wolf_ranger_m2f2_c_3",
-                                           "name_key":  "card.bot_wolf_shot",
-                                           "element":  "ice",
-                                           "cost":  1,
-                                           "atk":  7,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "center",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "bot_wolf_ranger_m2f2_c_4",
-                                           "name_key":  "card.bot_wolf_shot",
-                                           "element":  "ice",
-                                           "cost":  1,
-                                           "atk":  6,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "center",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       }
-                                   ],
-                          "meta":  {
-                                       "display_ru":  "Волк-лучник",
-                                       "faction":  "wolves",
-                                       "isPitboss":  false
-                                   }
-                      }
-                  ],
-    "meta":  {
-                 "stageIndex":  2,
-                 "fightIndex":  2,
-                 "title_ru":  "Ледяные Пещеры",
-                 "fight_ru":  "Три лучника",
-                 "faction":  "wolves",
-                 "waveTheme":  "three_rangers",
-                 "location_ru":  "Ледяные Пещеры",
-                 "tactic_ru":  "Три лучника center+taunt."
-             }
+  "bowlCost": 1,
+  "chapter": 2,
+  "enemyTeam": [
+    {
+      "baseStats": {
+        "atk": 6,
+        "charm": 1,
+        "hp": 29,
+        "skill": 2,
+        "spd": 5
+      },
+      "deck": [
+        {
+          "atk": 6,
+          "cardId": "bot_wolf_ranger_m2f2_a_1",
+          "cost": 1,
+          "effectOps": [],
+          "element": "ice",
+          "hits": 1,
+          "name_key": "card.bot_wolf_shot",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        },
+        {
+          "atk": 6,
+          "cardId": "bot_wolf_ranger_m2f2_a_2",
+          "cost": 1,
+          "effectOps": [],
+          "element": "ice",
+          "hits": 1,
+          "name_key": "card.bot_wolf_shot",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        },
+        {
+          "atk": 7,
+          "cardId": "bot_wolf_ranger_m2f2_a_3",
+          "cost": 1,
+          "effectOps": [],
+          "element": "ice",
+          "hits": 1,
+          "name_key": "card.bot_wolf_shot",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        },
+        {
+          "atk": 6,
+          "cardId": "bot_wolf_ranger_m2f2_a_4",
+          "cost": 1,
+          "effectOps": [],
+          "element": "ice",
+          "hits": 1,
+          "name_key": "card.bot_wolf_shot",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        }
+      ],
+      "element": "ice",
+      "level": 2,
+      "meta": {
+        "display_ru": "Волк-лучник",
+        "faction": "wolves",
+        "isPitboss": false
+      },
+      "role": "ranger",
+      "templateId": "bot_wolf_ranger_m2f2_a"
+    },
+    {
+      "baseStats": {
+        "atk": 6,
+        "charm": 1,
+        "hp": 29,
+        "skill": 2,
+        "spd": 5
+      },
+      "deck": [
+        {
+          "atk": 6,
+          "cardId": "bot_wolf_ranger_m2f2_b_1",
+          "cost": 1,
+          "effectOps": [],
+          "element": "ice",
+          "hits": 1,
+          "name_key": "card.bot_wolf_shot",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        },
+        {
+          "atk": 6,
+          "cardId": "bot_wolf_ranger_m2f2_b_2",
+          "cost": 1,
+          "effectOps": [],
+          "element": "ice",
+          "hits": 1,
+          "name_key": "card.bot_wolf_shot",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        },
+        {
+          "atk": 7,
+          "cardId": "bot_wolf_ranger_m2f2_b_3",
+          "cost": 1,
+          "effectOps": [],
+          "element": "ice",
+          "hits": 1,
+          "name_key": "card.bot_wolf_shot",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        },
+        {
+          "atk": 6,
+          "cardId": "bot_wolf_ranger_m2f2_b_4",
+          "cost": 1,
+          "effectOps": [],
+          "element": "ice",
+          "hits": 1,
+          "name_key": "card.bot_wolf_shot",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        }
+      ],
+      "element": "ice",
+      "level": 2,
+      "meta": {
+        "display_ru": "Волк-лучник",
+        "faction": "wolves",
+        "isPitboss": false
+      },
+      "role": "ranger",
+      "templateId": "bot_wolf_ranger_m2f2_b"
+    },
+    {
+      "baseStats": {
+        "atk": 6,
+        "charm": 1,
+        "hp": 29,
+        "skill": 2,
+        "spd": 5
+      },
+      "deck": [
+        {
+          "atk": 6,
+          "cardId": "bot_wolf_ranger_m2f2_c_1",
+          "cost": 1,
+          "effectOps": [],
+          "element": "ice",
+          "hits": 1,
+          "name_key": "card.bot_wolf_shot",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        },
+        {
+          "atk": 6,
+          "cardId": "bot_wolf_ranger_m2f2_c_2",
+          "cost": 1,
+          "effectOps": [],
+          "element": "ice",
+          "hits": 1,
+          "name_key": "card.bot_wolf_shot",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        },
+        {
+          "atk": 7,
+          "cardId": "bot_wolf_ranger_m2f2_c_3",
+          "cost": 1,
+          "effectOps": [],
+          "element": "ice",
+          "hits": 1,
+          "name_key": "card.bot_wolf_shot",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        },
+        {
+          "atk": 6,
+          "cardId": "bot_wolf_ranger_m2f2_c_4",
+          "cost": 1,
+          "effectOps": [],
+          "element": "ice",
+          "hits": 1,
+          "name_key": "card.bot_wolf_shot",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        }
+      ],
+      "element": "ice",
+      "level": 2,
+      "meta": {
+        "display_ru": "Волк-лучник",
+        "faction": "wolves",
+        "isPitboss": false
+      },
+      "role": "ranger",
+      "templateId": "bot_wolf_ranger_m2f2_c"
+    }
+  ],
+  "meta": {
+    "faction": "wolves",
+    "fightIndex": 2,
+    "fight_ru": "Три лучника",
+    "location_ru": "Ледяные Пещеры",
+    "stageIndex": 2,
+    "tactic_ru": "Три лучника center; mono без танка валятся, REF таунт держит.",
+    "title_ru": "Ледяные Пещеры",
+    "waveTheme": "three_rangers"
+  },
+  "name_key": "stage.mythmir_2_f2",
+  "stageId": "mythmir_2_f2"
 }

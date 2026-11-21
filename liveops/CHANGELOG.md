@@ -2,6 +2,8 @@
 
 Одна строка на изменение конфига/схемы (skill `docs/skills/liveops.md`).
 
+- 2026-11-22: Mythmir chess rebalance — ch2 pitboss Лютый Клык backline leaps 6–7 HP 54; ch5 Фантом Гул backline slash 7 + cleave 6 HP 58; ch4 Некропёс HP 48 miasma 3; ch2 f1 soldiers buffed; pitboss cards respect taunt via `backline` rule (`mythmir_*`)
+
 - 2026-11-18: Mythmir ch5 f3 — Фантом Гул HP 95 + backline slashes 10/12 + cleave 9 (D-042 / `mythmir_5_f3`)
 - 2026-11-18: Mythmir soldiers retune #2 — much higher HP + tank shields; ch3–4 card ATK up (punish no-heal). Clear-all CI = per-wave full starters (D-042)
 - 2026-11-18: Mythmir soldier damage up across ch1–5 f1/f2 (+ card ATK / HP); f3 flanks light bump; ch1 baron pierce −1 & HP 110 so clear-all holds (D-042)

@@ -688,12 +688,8 @@ const state = {
   oppThrowPlaying: false,
   /** True while SubmitAction is in flight (blocks double-tap). */
   actionBusy: false,
-  /** LOCKED backline drag+aim session. */
-  aimSession: null,
   /** Space must be pressed twice within window to end turn (accidental-tap guard). */
   endTurnArmed: false,
-  /** One-shot tip when a backline card first appears in hand. */
-  seenBacklineTip: false,
   bossWaveIndex: 0,
   campaign: null,
   bossFirst: null,
@@ -1582,6 +1578,71 @@ function combatSquadIds() {
   }
   const starters = combatStarterIds();
   return starters.length === 3 ? [...starters] : [...STARTERS];
+}
+
+/** mythmir_{ch}_f{1|2|3} → { chapter, stage: entrance|tunnel|boss } or null. */
+function parseMythmirStageId(stageId) {
+  const m = String(stageId || "").match(/^mythmir_([1-5])_f([123])$/);
+  if (!m) return null;
+  const fight = Number(m[2]);
+  return {
+    chapter: Number(m[1]),
+    stage: fight === 2 ? "tunnel" : fight === 3 ? "boss" : "entrance",
+    fight,
+  };
+}
+
+/** Keep pveChapter / pveStage / selectedStageId aligned with Mythmir SSOT (D-039 / D-051). */
+function syncPveFromStageId(stageId = state.selectedStageId) {
+  const parsed = parseMythmirStageId(stageId);
+  if (!parsed) return false;
+  state.pveChapter = parsed.chapter;
+  state.pveStage = parsed.stage;
+  state.selectedStageId = `mythmir_${parsed.chapter}_f${parsed.fight}`;
+  return true;
+}
+
+/**
+ * Resolve stage + player team for the active battle mode.
+ * Prevents practice dummies / stale mythmir waves / wrong-chapter soldiers leaking across modes.
+ */
+function resolveBattlePlan(mode = state.battleMode) {
+  const m = String(mode || "pve");
+  if (m === "practice") {
+    return {
+      mode: "practice",
+      stageId: PRACTICE_STAGE,
+      team: combatSquadIds(),
+      carryAlive: null,
+    };
+  }
+  if (m === "boss") {
+    const waves = state.bossFirst?.waves || [];
+    const idx = Math.max(0, Number(state.bossWaveIndex) || 0);
+    const stageId = waves[idx]?.stageId || state.selectedStageId || "boss_first_w1";
+    return { mode: "boss", stageId, team: combatSquadIds(), carryAlive: null };
+  }
+  if (m === "pvp") {
+    return { mode: "pvp", stageId: null, team: combatSquadIds(), carryAlive: null };
+  }
+  // PvE / guild_demo / default → Mythmir chapter wave
+  const ch = Math.max(1, Math.min(5, Number(state.pveChapter) || 1));
+  const parsed = parseMythmirStageId(state.selectedStageId);
+  if (!parsed || parsed.chapter !== ch) {
+    // Stale practice/boss/other-chapter id → start this chapter at wave 1 soldiers.
+    state.pveChapter = ch;
+    state.pveStage = "entrance";
+    state.selectedStageId = pveStageId(ch, "entrance");
+    resetPveCarryAlive();
+  } else {
+    syncPveFromStageId(state.selectedStageId);
+  }
+  return {
+    mode: "pve",
+    stageId: state.selectedStageId,
+    team: combatSquadIds(),
+    carryAlive: state.pveCarryAlive,
+  };
 }
 
 /** SL stub spend — HUD/profile only until economy-service (D1). */
@@ -3189,10 +3250,47 @@ const CAT_HERO_BATTLE_ART = {
   starter_support_water: "/stitch-assets/cat-heroes/battle/support-a.webp",
   // Practice dummies — dedicated no-bg mannequins (D-037 fight-only).
   // FX/SFX reuse tank / fighter / support role kits (MF-149).
-  bot_practice_tank_a: "/stitch-assets/dojo/battle/dummy-oak-knight.webp?v=opt1",
-  bot_practice_fighter_a: "/stitch-assets/dojo/battle/dummy-straw-berserk.webp?v=opt1",
-  bot_practice_support_a: "/stitch-assets/dojo/battle/dummy-stone-totem.webp?v=opt1",
+  // Prefer PNG cutouts: webp?v=opt1 briefly 404'd before assets landed and CDNs
+  // can negative-cache that miss; ?v=dummyfix1 busts it. WebP still available as fallback.
+  bot_practice_tank_a: "/stitch-assets/dojo/battle/dummy-oak-knight.png?v=dummyfix1",
+  bot_practice_fighter_a: "/stitch-assets/dojo/battle/dummy-straw-berserk.png?v=dummyfix1",
+  bot_practice_support_a: "/stitch-assets/dojo/battle/dummy-stone-totem.png?v=dummyfix1",
 };
+
+/** Lobby JPG + battle WebP fallbacks when primary cutout 404s. */
+const PRACTICE_DUMMY_ART_FALLBACKS = {
+  bot_practice_tank_a: [
+    "/stitch-assets/dojo/battle/dummy-oak-knight.webp?v=dummyfix1",
+    "/stitch-assets/dojo/dummy-oak-knight.jpg",
+  ],
+  bot_practice_fighter_a: [
+    "/stitch-assets/dojo/battle/dummy-straw-berserk.webp?v=dummyfix1",
+    "/stitch-assets/dojo/dummy-straw-berserk.jpg",
+  ],
+  bot_practice_support_a: [
+    "/stitch-assets/dojo/battle/dummy-stone-totem.webp?v=dummyfix1",
+    "/stitch-assets/dojo/dummy-stone-totem.jpg",
+  ],
+};
+
+/** Set fight portrait src; on error walk fallbacks (practice dummies / missing cutouts). */
+function bindBattleUnitImg(img, primarySrc, fallbackSrcs = []) {
+  if (!img || !primarySrc) return;
+  const chain = [primarySrc, ...fallbackSrcs].filter(Boolean);
+  let i = 0;
+  const apply = () => {
+    if (i >= chain.length) return;
+    img.onerror =
+      i < chain.length - 1
+        ? () => {
+            i += 1;
+            apply();
+          }
+        : null;
+    img.src = chain[i];
+  };
+  apply();
+}
 
 const CAT_HERO_BLURB = {
   shop_tank_stone_a: "Танк A · hard-def: щит + taunt. Карты «Каменный взор» / «Уши валуна» (N=6).",
@@ -3263,20 +3361,19 @@ const MONSTER_BATTLE_BY_FACTION = {
     // is the ch3 red-dog look (Andrew: ch1 showed «красный пёс»).
     // ?v= busts Amvera/browser max-age=300 after in-place facing rebakes (D-040).
     fighter: ["/stitch-assets/monsters/battle/fighter-h.webp?v=d047face"],
-    ranger: [
-      "/stitch-assets/monsters/battle/ranger-a.webp",
-      "/stitch-assets/monsters/battle/ranger-b.webp",
-    ],
-    support: ["/stitch-assets/monsters/battle/ranger-a.webp"],
+    // Ch1 dog archers: grey canine only. Never ranger-b (frost wolf = ch2 Ледяные Пещеры).
+    ranger: ["/stitch-assets/monsters/battle/ranger-a.webp?v=d051dog"],
+    support: ["/stitch-assets/monsters/battle/support-a.webp"],
     pitboss: ["/stitch-assets/monsters/battle/tank-d.webp"],
   },
   wolves: {
     // Ch2 RGBA cutouts (new filenames bust 7d immutable cache of black-plate RGB).
     tank: ["/stitch-assets/monsters/battle/wolf-tank-cutout.webp"],
     fighter: ["/stitch-assets/monsters/battle/wolf-fighter-cutout.webp"],
+    // Frost/ice wolf archers for Ледяные Пещеры (not grey dog ranger-a alone).
     ranger: [
-      "/stitch-assets/monsters/battle/ranger-a.webp",
-      "/stitch-assets/monsters/battle/ranger-b.webp",
+      "/stitch-assets/monsters/battle/ranger-b.webp?v=d051wolf",
+      "/stitch-assets/monsters/battle/ranger-a.webp?v=d051wolf",
     ],
     support: ["/stitch-assets/monsters/battle/wolf-support-cutout.webp?v=d040ch2s"],
     pitboss: ["/stitch-assets/monsters/battle/wolf-pitboss-cutout.webp"],
@@ -6175,9 +6272,11 @@ function unitCard(u, side) {
   const roleRu = CAT_ROLE_RU[u.role] || u.role || "";
   const elRu = CAT_ELEMENT_RU[u.element] || u.element || "";
   const desiredFace = desiredSpriteFace(u);
+  const tidArt = unitTemplateId(u);
+  const artFallback = (PRACTICE_DUMMY_ART_FALLBACKS[tidArt] || [])[0] || art;
   const cutout = art
     ? spriteFaceHtml(
-        `<img alt="" class="mf-battle-cutout${u.alive ? "" : " mf-unit-dim"}" src="${art}"/>`,
+        `<img alt="" class="mf-battle-cutout${u.alive ? "" : " mf-unit-dim"}" src="${art}" onerror="this.onerror=null;this.src='${artFallback}'"/>`,
         { artSrc: art, desiredFace }
       )
     : "";
@@ -7251,22 +7350,27 @@ function paintCombatUnitCard(card, u, { foe = false, cleansedIds = [] } = {}) {
   if (img) img.classList.toggle("mf-unit-dim", !u.alive);
 }
 
-/** PvE bot display name from templateId (stage meta not in battle payload). */
+/** PvE bot display name from templateId (stage meta not in battle payload). D-051 roles. */
 function pveBotDisplayName(templateId, role) {
   const tid = String(templateId || "");
   const roleRu = CAT_ROLE_RU[role] || role || "";
+  if (tid.includes("empty_lane")) return "";
   if (tid.includes("pitboss_dog") || tid.includes("baron")) return "Барон Гав";
   if (tid.includes("pitboss_wolf") || tid.includes("alpha_m2")) return "Лютый Клык";
   if (tid.includes("pitboss_redd") || tid.includes("alpha_m3")) return "Алый Вожак";
   if (tid.includes("pitboss_zomb") || tid.includes("necro")) return "Некропёс Мор";
   if (tid.includes("pitboss_ghost") || tid.includes("_gul")) return "Фантом Гул";
+  // Longer / more specific prefixes first (ranger before generic faction).
   const table = [
+    ["bot_dog_ranger", "Пёс-лучник"],
     ["bot_dog_tank", "Пёс-щитоносец"],
     ["bot_dog_fighter", "Пёс-задира"],
     ["bot_dog_support", "Пёс-завывала"],
+    ["bot_wolf_ranger", "Волк-лучник"],
     ["bot_wolf_tank", "Северный страж"],
     ["bot_wolf_fighter", "Волк-клык"],
     ["bot_wolf_support", "Шаман инея"],
+    ["bot_redd_assassin", "Алый убийца"],
     ["bot_redd_tank", "Алый щитоносец"],
     ["bot_redd_fighter", "Пёс-углежуй"],
     ["bot_redd_support", "Пёс-искромёт"],
@@ -7277,6 +7381,9 @@ function pveBotDisplayName(templateId, role) {
     ["bot_ghost_tank", "Могильный страж"],
     ["bot_ghost_fighter", "Клинок душ"],
     ["bot_ghost_support", "Блуждающий огонёк"],
+    ["bot_practice_tank", "Дубовый"],
+    ["bot_practice_fighter", "Берсерк"],
+    ["bot_practice_support", "Тотем"],
   ];
   for (const [pfx, name] of table) {
     if (tid.includes(pfx)) return name;
@@ -7389,6 +7496,7 @@ function renderPracticeFight() {
   const energy = local.energy ?? 0;
   const mine = diff.active === 0 && !diff.result;
   const isPve = state.battleMode === "pve";
+  if (isPve) syncPveFromStageId(state.selectedStageId);
   applyPracticeFightBackdrop();
   // Allies D-034: L→R = тыл · центр · авангард (tank right, nearest VS). Sim lanes stay 0=front…2=rear.
   // Enemies face left: L→R = авангард · центр · тыл (tank left, nearest VS) — do NOT reuse PRACTICE_VISUAL_LANES.
@@ -7493,11 +7601,13 @@ function renderPracticeFight() {
       if (img && art) {
         img.decoding = "async";
         img.loading = "eager";
-        img.src = art;
         img.alt = hero?.name || display;
-        img.classList.toggle("object-contain", !!isBot || !!art.includes("/battle/"));
-        img.classList.toggle("object-cover", !(!!isBot || !!art.includes("/battle/")));
-        img.classList.toggle("object-top", !(!!isBot || !!art.includes("/battle/")));
+        const dummyFallbacks = PRACTICE_DUMMY_ART_FALLBACKS[tid] || [];
+        bindBattleUnitImg(img, art, dummyFallbacks);
+        const cutout = !!isBot || !!art.includes("/battle/");
+        img.classList.toggle("object-contain", cutout);
+        img.classList.toggle("object-cover", !cutout);
+        img.classList.toggle("object-top", !cutout);
       }
       if (img) {
         img.classList.add("mf-battle-cutout");
@@ -8019,13 +8129,21 @@ async function applyDiff(diff, note = "") {
 }
 
 async function createPvE({ autoPlay = false, seed = 0, stageId = null, team = null, carryAlive = null } = {}) {
-  const sid = stageId || state.selectedStageId || YARD_STAGE;
-  const squad = Array.isArray(team) && team.length === 3 ? team : combatSquadIds();
+  const plan = resolveBattlePlan(state.battleMode || "pve");
+  // Explicit args win; otherwise mode plan (never leak practice_dummy into Mythmir, etc.).
+  const sid = stageId || plan.stageId || state.selectedStageId || YARD_STAGE;
+  if (parseMythmirStageId(sid)) {
+    state.selectedStageId = sid;
+    syncPveFromStageId(sid);
+  } else if (plan.mode === "practice" || plan.mode === "boss") {
+    state.selectedStageId = sid;
+  }
+  const squad = Array.isArray(team) && team.length === 3 ? team : plan.team;
   const carry =
     Array.isArray(carryAlive) && carryAlive.length === 3
       ? carryAlive
-      : state.battleMode === "pve"
-        ? state.pveCarryAlive
+      : plan.mode === "pve"
+        ? plan.carryAlive
         : null;
   const body = {
     stageId: sid,
@@ -8121,15 +8239,22 @@ async function submitAction(action) {
 async function startYard(autoPlay = false) {
   try {
     if (!state.battleMode) state.battleMode = "pve";
-    if (state.battleMode === "pve" || state.battleMode === "boss") {
+    const plan = resolveBattlePlan(state.battleMode);
+    if (plan.mode === "pve" || plan.mode === "boss") {
       if (!spendBowlStub()) return;
+    }
+    if (plan.mode === "practice" && (!Array.isArray(plan.team) || plan.team.length !== 3)) {
+      toast("Выберите 3 котиков в боевой отряд");
+      return;
     }
     const diff = await createPvE({
       autoPlay,
       seed: autoPlay ? 20261104 : 0,
-      team: combatSquadIds(),
+      stageId: plan.stageId,
+      team: plan.team,
+      carryAlive: plan.carryAlive,
     });
-    await applyDiff(diff, autoPlay ? "CreatePvE autoPlay" : `CreatePvE ${state.selectedStageId}`);
+    await applyDiff(diff, autoPlay ? "CreatePvE autoPlay" : `CreatePvE ${plan.stageId}`);
   } catch (err) {
     log(`CreatePvE fail: ${err.message}`);
     alert(err.message);
@@ -8213,7 +8338,7 @@ async function pvpAuto() {
   }
   try {
     state.battleMode = "pvp";
-    const team = combatSquadIds();
+    const team = resolveBattlePlan("pvp").team;
     const { data } = await api("/api/battle/v1/CreatePvP", {
       method: "POST",
       body: JSON.stringify({
@@ -8260,17 +8385,18 @@ const PVE_LOAD_CHAPTERS = {
       { icon: "⚡", title: "Тычок", desc: "Лёгкий добивающий удар" },
     ],
     stages: {
+      // Enemy names = D-051 wave layouts (must match content/stages/mythmir_*).
       entrance: {
         art: "/stitch-assets/pve-fight/ch1-entrance.webp",
         enemyTitle: "СТАЯ · ВОЛНА 1/3 (СОЛДАТЫ)",
-        enemies: ["Пёс-щитоносец", "Пёс-задира", "Пёс-завывала"],
-        tip: "Этап 1/3 · Солдаты Железной Цитадели",
+        enemies: ["Пёс-задира", "Пёс-задира", "Пёс-задира"],
+        tip: "Этап 1/3 · Три бойца Железной Цитадели",
       },
       tunnel: {
         art: "/stitch-assets/pve-fight/ch1-tunnel.webp",
         enemyTitle: "СТАЯ · ВОЛНА 2/3 (СОЛДАТЫ)",
-        enemies: ["Пёс-щитоносец", "Пёс-задира", "Пёс-завывала"],
-        tip: "Этап 2/3 · Солдаты глубже в цитадели",
+        enemies: ["Пёс-щитоносец", "Пёс-лучник", "Пёс-лучник"],
+        tip: "Этап 2/3 · Танк + два лучника",
       },
       boss: {
         art: "/stitch-assets/pve-fight/ch1-boss.webp",
@@ -8300,19 +8426,19 @@ const PVE_LOAD_CHAPTERS = {
       entrance: {
         art: "/stitch-assets/pve-fight/ch2-entrance.webp",
         enemyTitle: "СТАЯ · ВОЛНА 1/3 (СОЛДАТЫ)",
-        enemies: ["Северный страж", "Волк-клык", "Шаман инея"],
-        tip: "Этап 1/3 · Солдаты Ледяных Пещер",
+        enemies: ["Волк-клык", "Шаман инея", "Волк-лучник"],
+        tip: "Этап 1/3 · Боец · хил · лучник",
       },
       tunnel: {
         art: "/stitch-assets/pve-fight/ch2-tunnel.webp",
         enemyTitle: "СТАЯ · ВОЛНА 2/3 (СОЛДАТЫ)",
-        enemies: ["Северный страж", "Волк-клык", "Шаман инея"],
-        tip: "Этап 2/3 · Ледяной проход",
+        enemies: ["Волк-лучник", "Волк-лучник", "Волк-лучник"],
+        tip: "Этап 2/3 · Три лучника (center + taunt)",
       },
       boss: {
         art: "/stitch-assets/pve-fight/ch2-boss.webp",
-        enemyTitle: "СТАЯ · ВОЛНА 3/3 (БОСС + 2 ХИЛА)",
-        enemies: ["Лютый Клык", "Шаман инея", "Шаман вьюги"],
+        enemyTitle: "СТАЯ · ВОЛНА 3/3 (ХИЛ · БОСС · ХИЛ)",
+        enemies: ["Шаман инея", "Лютый Клык", "Шаман инея"],
         tip: "Этап 3/3 · Босс прыгает в тыл · сначала хилы, танк держит (D-042)",
       },
     },
@@ -8338,19 +8464,19 @@ const PVE_LOAD_CHAPTERS = {
         // Existing painted forms remapped to D-039 factions (no new art).
         art: "/stitch-assets/pve-fight/ch5-entrance.webp",
         enemyTitle: "СТАЯ · ВОЛНА 1/3 (СОЛДАТЫ)",
-        enemies: ["Алый щитоносец", "Пёс-углежуй", "Пёс-искромёт"],
-        tip: "Этап 1/3 · Вход в Алую Псарню",
+        enemies: ["Пёс-углежуй", "Алый щитоносец", "Пёс-углежуй"],
+        tip: "Этап 1/3 · Боец · танк · боец",
       },
       tunnel: {
         art: "/stitch-assets/pve-fight/ch5-tunnel.webp",
         enemyTitle: "СТАЯ · ВОЛНА 2/3 (СОЛДАТЫ)",
-        enemies: ["Алый щитоносец", "Пёс-углежуй", "Пёс-искромёт"],
-        tip: "Этап 2/3 · Коридор псарни",
+        enemies: ["Алый убийца", "Алый щитоносец", "Алый убийца"],
+        tip: "Этап 2/3 · Убийца · танк · убийца",
       },
       boss: {
         art: "/stitch-assets/pve-fight/ch5-boss.webp",
         enemyTitle: "СТАЯ · ВОЛНА 3/3 (ТАНК · БОСС · ТАНК)",
-        enemies: ["Алый щитоносец", "Алый Вожак", "Алый страж"],
+        enemies: ["Алый щитоносец", "Алый Вожак", "Алый щитоносец"],
         tip: "Этап 3/3 · Снимите одного танка, чтобы добраться до вожака (D-042)",
       },
     },
@@ -8375,19 +8501,19 @@ const PVE_LOAD_CHAPTERS = {
       entrance: {
         art: "/stitch-assets/pve-fight/ch3-entrance.webp",
         enemyTitle: "СТАЯ · ВОЛНА 1/3 (СОЛДАТЫ)",
-        enemies: ["Гнилой страж", "Трупный мясник", "Носитель гнили"],
-        tip: "Этап 1/3 · Вход в Чумные Склепы",
+        enemies: ["Трупный мясник", "Ядовитый коготь", "Трупный мясник"],
+        tip: "Этап 1/3 · Боец · убийца · боец",
       },
       tunnel: {
         art: "/stitch-assets/pve-fight/ch3-tunnel.webp",
         enemyTitle: "СТАЯ · ВОЛНА 2/3 (СОЛДАТЫ)",
-        enemies: ["Гнилой страж", "Трупный мясник", "Носитель гнили"],
-        tip: "Этап 2/3 · Токсичный тоннель",
+        enemies: ["Трупный мясник", "Ядовитый коготь", "Трупный мясник"],
+        tip: "Этап 2/3 · Боец · убийца · боец (сильнее)",
       },
       boss: {
         art: "/stitch-assets/pve-fight/ch3-boss.webp",
         enemyTitle: "СТАЯ · ВОЛНА 3/3 (УБИЙЦЫ + НЕКРО)",
-        enemies: ["Ядовитый коготь", "Ядовитый коготь", "Некропёс Мор"],
+        enemies: ["Ядовитый коготь", "Некропёс Мор", "Ядовитый коготь"],
         tip: "Этап 3/3 · Яд стекается · после убийц некро бьёт тыл (D-043)",
       },
     },
@@ -8415,13 +8541,13 @@ const PVE_LOAD_CHAPTERS = {
         art: "/stitch-assets/pve-fight/ch4-entrance.webp",
         enemyTitle: "СТАЯ · ВОЛНА 1/3 (СОЛДАТЫ)",
         enemies: ["Могильный страж", "Клинок душ", "Блуждающий огонёк"],
-        tip: "Этап 1/3 · Вход в Призрачный Чертог",
+        tip: "Этап 1/3 · Танк · боец · хил",
       },
       tunnel: {
         art: "/stitch-assets/pve-fight/ch4-boss.webp",
         enemyTitle: "СТАЯ · ВОЛНА 2/3 (СОЛДАТЫ)",
-        enemies: ["Могильный страж", "Клинок душ", "Блуждающий огонёк"],
-        tip: "Этап 2/3 · Галерея призрачных колонн",
+        enemies: ["Клинок душ", "Блуждающий огонёк", "Клинок душ"],
+        tip: "Этап 2/3 · Боец · хил · боец",
       },
       boss: {
         art: "/stitch-assets/pve-fight/ch4-tunnel.webp",
@@ -8936,7 +9062,7 @@ async function pvpStart() {
     clearInterval(state.pvpLoadTimer);
     state.pvpLoadTimer = null;
     state.battleMode = "pvp";
-    const team = combatSquadIds();
+    const team = resolveBattlePlan("pvp").team;
     toast(
       t(
         "pvp.smoke.ai",
@@ -10602,15 +10728,29 @@ function wireButtons() {
   });
   $("btnYardBattle").addEventListener("click", () => {
     state.battleMode = "pve";
+    // Full chapter run from wave 1 soldiers (same as pveLoadStart).
+    state.pveStage = "entrance";
+    state.selectedStageId = pveStageId(state.pveChapter, "entrance");
+    resetPveCarryAlive();
     startYard(false);
   });
   $("btnYardAuto").addEventListener("click", () => {
     state.battleMode = "pve";
+    state.pveStage = "entrance";
+    state.selectedStageId = pveStageId(state.pveChapter, "entrance");
+    resetPveCarryAlive();
     startYard(true);
   });
   $("btnYardToFormation").addEventListener("click", () => navigate("formation"));
   bindYardForm();
-  $("btnFormationBattle").addEventListener("click", () => startYard(false));
+  $("btnFormationBattle").addEventListener("click", () => {
+    // Formation «В бой» → current Mythmir chapter soldiers (not practice dummies).
+    state.battleMode = "pve";
+    state.pveStage = "entrance";
+    state.selectedStageId = pveStageId(state.pveChapter, "entrance");
+    resetPveCarryAlive();
+    startYard(false);
+  });
   $("btnFormationYard").addEventListener("click", () => navigate("yard"));
   $("btnFormationTavern").addEventListener("click", () => navigate("tavern"));
   $("btnBossDungeonRaid")?.addEventListener("click", () => navigate("boss_raid"));

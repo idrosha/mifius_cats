@@ -1,270 +1,246 @@
 {
-    "stageId":  "mythmir_1_f1",
-    "chapter":  1,
-    "name_key":  "stage.mythmir_1_f1",
-    "bowlCost":  1,
-    "enemyTeam":  [
-                      {
-                          "templateId":  "bot_dog_fighter_m1f1_a",
-                          "role":  "fighter",
-                          "element":  "stone",
-                          "level":  1,
-                          "baseStats":  {
-                                            "hp":  28,
-                                            "atk":  5,
-                                            "spd":  4,
-                                            "skill":  2,
-                                            "charm":  1
-                                        },
-                          "deck":  [
-                                       {
-                                           "cardId":  "bot_dog_fighter_m1f1_a_a1",
-                                           "name_key":  "card.bot_dog_claw",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  5,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "bot_dog_fighter_m1f1_a_a2",
-                                           "name_key":  "card.bot_dog_claw",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  5,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "bot_dog_fighter_m1f1_a_a3",
-                                           "name_key":  "card.bot_dog_claw",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  6,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "bot_dog_fighter_m1f1_a_a4",
-                                           "name_key":  "card.bot_dog_claw",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  5,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       }
-                                   ],
-                          "meta":  {
-                                       "display_ru":  "Пёс-боец",
-                                       "faction":  "dogs",
-                                       "isPitboss":  false
-                                   }
-                      },
-                      {
-                          "templateId":  "bot_dog_fighter_m1f1_b",
-                          "role":  "fighter",
-                          "element":  "stone",
-                          "level":  1,
-                          "baseStats":  {
-                                            "hp":  28,
-                                            "atk":  5,
-                                            "spd":  4,
-                                            "skill":  2,
-                                            "charm":  1
-                                        },
-                          "deck":  [
-                                       {
-                                           "cardId":  "bot_dog_fighter_m1f1_b_a1",
-                                           "name_key":  "card.bot_dog_claw",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  5,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "bot_dog_fighter_m1f1_b_a2",
-                                           "name_key":  "card.bot_dog_claw",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  5,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "bot_dog_fighter_m1f1_b_a3",
-                                           "name_key":  "card.bot_dog_claw",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  6,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "bot_dog_fighter_m1f1_b_a4",
-                                           "name_key":  "card.bot_dog_claw",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  5,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       }
-                                   ],
-                          "meta":  {
-                                       "display_ru":  "Пёс-боец",
-                                       "faction":  "dogs",
-                                       "isPitboss":  false
-                                   }
-                      },
-                      {
-                          "templateId":  "bot_dog_fighter_m1f1_c",
-                          "role":  "fighter",
-                          "element":  "stone",
-                          "level":  1,
-                          "baseStats":  {
-                                            "hp":  28,
-                                            "atk":  5,
-                                            "spd":  4,
-                                            "skill":  2,
-                                            "charm":  1
-                                        },
-                          "deck":  [
-                                       {
-                                           "cardId":  "bot_dog_fighter_m1f1_c_a1",
-                                           "name_key":  "card.bot_dog_claw",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  5,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "bot_dog_fighter_m1f1_c_a2",
-                                           "name_key":  "card.bot_dog_claw",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  5,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "bot_dog_fighter_m1f1_c_a3",
-                                           "name_key":  "card.bot_dog_claw",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  6,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "bot_dog_fighter_m1f1_c_a4",
-                                           "name_key":  "card.bot_dog_claw",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  5,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       }
-                                   ],
-                          "meta":  {
-                                       "display_ru":  "Пёс-боец",
-                                       "faction":  "dogs",
-                                       "isPitboss":  false
-                                   }
-                      }
-                  ],
-    "meta":  {
-                 "stageIndex":  1,
-                 "fightIndex":  1,
-                 "title_ru":  "Железная Цитадель",
-                 "fight_ru":  "Три бойца",
-                 "faction":  "dogs",
-                 "waveTheme":  "three_fighters",
-                 "location_ru":  "Железная Цитадель",
-                 "tactic_ru":  "Три бойца; nearest."
-             }
+  "bowlCost": 1,
+  "chapter": 1,
+  "enemyTeam": [
+    {
+      "baseStats": {
+        "atk": 5,
+        "charm": 1,
+        "hp": 28,
+        "skill": 2,
+        "spd": 4
+      },
+      "deck": [
+        {
+          "atk": 5,
+          "cardId": "bot_dog_fighter_m1f1_a_a1",
+          "cost": 1,
+          "effectOps": [],
+          "element": "stone",
+          "hits": 1,
+          "name_key": "card.bot_dog_claw",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        },
+        {
+          "atk": 5,
+          "cardId": "bot_dog_fighter_m1f1_a_a2",
+          "cost": 1,
+          "effectOps": [],
+          "element": "stone",
+          "hits": 1,
+          "name_key": "card.bot_dog_claw",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        },
+        {
+          "atk": 6,
+          "cardId": "bot_dog_fighter_m1f1_a_a3",
+          "cost": 1,
+          "effectOps": [],
+          "element": "stone",
+          "hits": 1,
+          "name_key": "card.bot_dog_claw",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        },
+        {
+          "atk": 5,
+          "cardId": "bot_dog_fighter_m1f1_a_a4",
+          "cost": 1,
+          "effectOps": [],
+          "element": "stone",
+          "hits": 1,
+          "name_key": "card.bot_dog_claw",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        }
+      ],
+      "element": "stone",
+      "level": 1,
+      "meta": {
+        "display_ru": "Пёс-боец",
+        "faction": "dogs",
+        "isPitboss": false
+      },
+      "role": "fighter",
+      "templateId": "bot_dog_fighter_m1f1_a"
+    },
+    {
+      "baseStats": {
+        "atk": 5,
+        "charm": 1,
+        "hp": 28,
+        "skill": 2,
+        "spd": 4
+      },
+      "deck": [
+        {
+          "atk": 5,
+          "cardId": "bot_dog_fighter_m1f1_b_a1",
+          "cost": 1,
+          "effectOps": [],
+          "element": "stone",
+          "hits": 1,
+          "name_key": "card.bot_dog_claw",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        },
+        {
+          "atk": 5,
+          "cardId": "bot_dog_fighter_m1f1_b_a2",
+          "cost": 1,
+          "effectOps": [],
+          "element": "stone",
+          "hits": 1,
+          "name_key": "card.bot_dog_claw",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        },
+        {
+          "atk": 6,
+          "cardId": "bot_dog_fighter_m1f1_b_a3",
+          "cost": 1,
+          "effectOps": [],
+          "element": "stone",
+          "hits": 1,
+          "name_key": "card.bot_dog_claw",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        },
+        {
+          "atk": 5,
+          "cardId": "bot_dog_fighter_m1f1_b_a4",
+          "cost": 1,
+          "effectOps": [],
+          "element": "stone",
+          "hits": 1,
+          "name_key": "card.bot_dog_claw",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        }
+      ],
+      "element": "stone",
+      "level": 1,
+      "meta": {
+        "display_ru": "Пёс-боец",
+        "faction": "dogs",
+        "isPitboss": false
+      },
+      "role": "fighter",
+      "templateId": "bot_dog_fighter_m1f1_b"
+    },
+    {
+      "baseStats": {
+        "atk": 5,
+        "charm": 1,
+        "hp": 28,
+        "skill": 2,
+        "spd": 4
+      },
+      "deck": [
+        {
+          "atk": 5,
+          "cardId": "bot_dog_fighter_m1f1_c_a1",
+          "cost": 1,
+          "effectOps": [],
+          "element": "stone",
+          "hits": 1,
+          "name_key": "card.bot_dog_claw",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        },
+        {
+          "atk": 5,
+          "cardId": "bot_dog_fighter_m1f1_c_a2",
+          "cost": 1,
+          "effectOps": [],
+          "element": "stone",
+          "hits": 1,
+          "name_key": "card.bot_dog_claw",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        },
+        {
+          "atk": 6,
+          "cardId": "bot_dog_fighter_m1f1_c_a3",
+          "cost": 1,
+          "effectOps": [],
+          "element": "stone",
+          "hits": 1,
+          "name_key": "card.bot_dog_claw",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        },
+        {
+          "atk": 5,
+          "cardId": "bot_dog_fighter_m1f1_c_a4",
+          "cost": 1,
+          "effectOps": [],
+          "element": "stone",
+          "hits": 1,
+          "name_key": "card.bot_dog_claw",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        }
+      ],
+      "element": "stone",
+      "level": 1,
+      "meta": {
+        "display_ru": "Пёс-боец",
+        "faction": "dogs",
+        "isPitboss": false
+      },
+      "role": "fighter",
+      "templateId": "bot_dog_fighter_m1f1_c"
+    }
+  ],
+  "meta": {
+    "faction": "dogs",
+    "fightIndex": 1,
+    "fight_ru": "Три бойца",
+    "location_ru": "Железная Цитадель",
+    "stageIndex": 1,
+    "tactic_ru": "Три бойца во фронте·центре·тылу; nearest.",
+    "title_ru": "Железная Цитадель",
+    "waveTheme": "three_fighters"
+  },
+  "name_key": "stage.mythmir_1_f1",
+  "stageId": "mythmir_1_f1"
 }

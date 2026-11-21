@@ -1,283 +1,261 @@
 {
-    "stageId":  "mythmir_1_f3",
-    "chapter":  1,
-    "name_key":  "stage.mythmir_1_f3",
-    "bowlCost":  1,
-    "enemyTeam":  [
-                      {
-                          "templateId":  "bot_pitboss_dog_baron_m1f3",
-                          "role":  "fighter",
-                          "element":  "stone",
-                          "level":  1,
-                          "baseStats":  {
-                                            "hp":  110,
-                                            "atk":  3,
-                                            "spd":  4,
-                                            "skill":  3,
-                                            "charm":  1
-                                        },
-                          "deck":  [
-                                       {
-                                           "cardId":  "card_dog_pierce_m1f3",
-                                           "name_key":  "card.bot_dog_pierce",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  3,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack",
-                                                        "pierce"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "card_dog_pierce2_m1f3",
-                                           "name_key":  "card.bot_dog_pierce",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  3,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack",
-                                                        "pierce"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "card_dog_pierce3_m1f3",
-                                           "name_key":  "card.bot_dog_pierce",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  3,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack",
-                                                        "pierce"
-                                                    ],
-                                           "effectOps":  [
-                                                             {
-                                                                 "duration":  2,
-                                                                 "status":  "fragile",
-                                                                 "op":  "apply_status",
-                                                                 "stacks":  1
-                                                             }
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "card_dog_crush_m1f3",
-                                           "name_key":  "card.bot_dog_crush",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  4,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack",
-                                                        "pierce"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       }
-                                   ],
-                          "meta":  {
-                                       "display_ru":  "Барон Гав",
-                                       "faction":  "dogs",
-                                       "isPitboss":  true
-                                   }
-                      },
-                      {
-                          "templateId":  "bot_empty_lane_m1f3_a",
-                          "role":  "tank",
-                          "element":  "stone",
-                          "level":  1,
-                          "baseStats":  {
-                                            "hp":  1,
-                                            "atk":  0,
-                                            "spd":  1,
-                                            "skill":  0,
-                                            "charm":  0
-                                        },
-                          "deck":  [
-                                       {
-                                           "cardId":  "card_empty_bot_empty_lane_m1f3_a_0",
-                                           "name_key":  "card.bot_empty",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  0,
-                                           "shield":  0,
-                                           "hits":  0,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "shield"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "card_empty_bot_empty_lane_m1f3_a_1",
-                                           "name_key":  "card.bot_empty",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  0,
-                                           "shield":  0,
-                                           "hits":  0,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "shield"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "card_empty_bot_empty_lane_m1f3_a_2",
-                                           "name_key":  "card.bot_empty",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  0,
-                                           "shield":  0,
-                                           "hits":  0,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "shield"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "card_empty_bot_empty_lane_m1f3_a_3",
-                                           "name_key":  "card.bot_empty",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  0,
-                                           "shield":  0,
-                                           "hits":  0,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "shield"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       }
-                                   ],
-                          "meta":  {
-                                       "display_ru":  "—",
-                                       "faction":  "dogs",
-                                       "isPitboss":  false,
-                                       "emptyLane":  true,
-                                       "startDead":  true
-                                   }
-                      },
-                      {
-                          "templateId":  "bot_empty_lane_m1f3_b",
-                          "role":  "tank",
-                          "element":  "stone",
-                          "level":  1,
-                          "baseStats":  {
-                                            "hp":  1,
-                                            "atk":  0,
-                                            "spd":  1,
-                                            "skill":  0,
-                                            "charm":  0
-                                        },
-                          "deck":  [
-                                       {
-                                           "cardId":  "card_empty_bot_empty_lane_m1f3_b_0",
-                                           "name_key":  "card.bot_empty",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  0,
-                                           "shield":  0,
-                                           "hits":  0,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "shield"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "card_empty_bot_empty_lane_m1f3_b_1",
-                                           "name_key":  "card.bot_empty",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  0,
-                                           "shield":  0,
-                                           "hits":  0,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "shield"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "card_empty_bot_empty_lane_m1f3_b_2",
-                                           "name_key":  "card.bot_empty",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  0,
-                                           "shield":  0,
-                                           "hits":  0,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "shield"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "card_empty_bot_empty_lane_m1f3_b_3",
-                                           "name_key":  "card.bot_empty",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  0,
-                                           "shield":  0,
-                                           "hits":  0,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "shield"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       }
-                                   ],
-                          "meta":  {
-                                       "display_ru":  "—",
-                                       "faction":  "dogs",
-                                       "isPitboss":  false,
-                                       "emptyLane":  true,
-                                       "startDead":  true
-                                   }
-                      }
-                  ],
-    "meta":  {
-                 "stageIndex":  1,
-                 "fightIndex":  3,
-                 "title_ru":  "Железная Цитадель",
-                 "fight_ru":  "Питбосс спереди",
-                 "faction":  "dogs",
-                 "waveTheme":  "solo_boss_front",
-                 "location_ru":  "Железная Цитадель",
-                 "tactic_ru":  "Соло-босс фронт."
-             }
+  "stageId": "mythmir_1_f3",
+  "chapter": 1,
+  "name_key": "stage.mythmir_1_f3",
+  "bowlCost": 1,
+  "enemyTeam": [
+    {
+      "templateId": "bot_pitboss_dog_baron_m1f3",
+      "role": "fighter",
+      "element": "stone",
+      "level": 1,
+      "baseStats": {
+        "hp": 110,
+        "atk": 3,
+        "spd": 4,
+        "skill": 3,
+        "charm": 1
+      },
+      "deck": [
+        {
+          "cardId": "card_dog_pierce_m1f3",
+          "name_key": "card.bot_dog_pierce",
+          "element": "stone",
+          "cost": 1,
+          "atk": 3,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack",
+            "pierce"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_dog_pierce2_m1f3",
+          "name_key": "card.bot_dog_pierce",
+          "element": "stone",
+          "cost": 1,
+          "atk": 3,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack",
+            "pierce"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_dog_pierce3_m1f3",
+          "name_key": "card.bot_dog_pierce",
+          "element": "stone",
+          "cost": 1,
+          "atk": 3,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack",
+            "pierce"
+          ],
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "fragile",
+              "stacks": 1,
+              "duration": 2
+            }
+          ]
+        },
+        {
+          "cardId": "card_dog_crush_m1f3",
+          "name_key": "card.bot_dog_crush",
+          "element": "stone",
+          "cost": 1,
+          "atk": 4,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack",
+            "pierce"
+          ],
+          "effectOps": []
+        }
+      ],
+      "meta": {
+        "display_ru": "Барон Гав",
+        "faction": "dogs",
+        "isPitboss": true
+      }
+    },
+    {
+      "templateId": "bot_empty_lane_m1f3_a",
+      "role": "tank",
+      "element": "stone",
+      "level": 1,
+      "baseStats": {
+        "hp": 1,
+        "atk": 0,
+        "spd": 1,
+        "skill": 0,
+        "charm": 0
+      },
+      "deck": [
+        {
+          "cardId": "card_empty_bot_empty_lane_m1f3_a_0",
+          "name_key": "card.bot_empty",
+          "element": "stone",
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "nearest",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_empty_bot_empty_lane_m1f3_a_1",
+          "name_key": "card.bot_empty",
+          "element": "stone",
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "nearest",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_empty_bot_empty_lane_m1f3_a_2",
+          "name_key": "card.bot_empty",
+          "element": "stone",
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "nearest",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_empty_bot_empty_lane_m1f3_a_3",
+          "name_key": "card.bot_empty",
+          "element": "stone",
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "nearest",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": []
+        }
+      ],
+      "meta": {
+        "display_ru": "—",
+        "faction": "dogs",
+        "isPitboss": false,
+        "emptyLane": true,
+        "startDead": true
+      }
+    },
+    {
+      "templateId": "bot_empty_lane_m1f3_b",
+      "role": "tank",
+      "element": "stone",
+      "level": 1,
+      "baseStats": {
+        "hp": 1,
+        "atk": 0,
+        "spd": 1,
+        "skill": 0,
+        "charm": 0
+      },
+      "deck": [
+        {
+          "cardId": "card_empty_bot_empty_lane_m1f3_b_0",
+          "name_key": "card.bot_empty",
+          "element": "stone",
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "nearest",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_empty_bot_empty_lane_m1f3_b_1",
+          "name_key": "card.bot_empty",
+          "element": "stone",
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "nearest",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_empty_bot_empty_lane_m1f3_b_2",
+          "name_key": "card.bot_empty",
+          "element": "stone",
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "nearest",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_empty_bot_empty_lane_m1f3_b_3",
+          "name_key": "card.bot_empty",
+          "element": "stone",
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "nearest",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": []
+        }
+      ],
+      "meta": {
+        "display_ru": "—",
+        "faction": "dogs",
+        "isPitboss": false,
+        "emptyLane": true,
+        "startDead": true
+      }
+    }
+  ],
+  "meta": {
+    "stageIndex": 1,
+    "fightIndex": 3,
+    "title_ru": "Железная Цитадель",
+    "fight_ru": "Питбосс спереди",
+    "faction": "dogs",
+    "waveTheme": "solo_boss_front",
+    "location_ru": "Железная Цитадель",
+    "tactic_ru": "Соло-босс фронт; pierce/fragile; cost 1."
+  }
 }
