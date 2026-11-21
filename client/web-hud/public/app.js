@@ -6752,20 +6752,14 @@ function makeAttackHandButton(c, diff, classNames = "mf-atk-card") {
   const title = t(c.name_key, c.cardId);
   const cost = c.cost ?? "?";
   const cc = unitCrowdControlled(diff, c.unitId);
-  const needsAim = cardNeedsAim(c);
   const busy = !!state.oppThrowPlaying || !!state.actionBusy;
   b.className = art ? `${classNames} mf-atk-card--art pf-card pf-card-art` : `${classNames} mf-atk-card--text pf-card`;
   if (cc) b.classList.add("mf-atk-card--stunned");
-  if (needsAim) b.classList.add("mf-atk-card--needs-aim");
   if (busy) b.classList.add("is-busy-wait");
   b.disabled = !c.playable || cc || !!diff.result || diff.active !== 0 || busy;
   b.dataset.cardId = c.cardId || "";
   b.dataset.targetRule = c.targetRule || "";
-  b.title = cc
-    ? `${title} · стан/сон — пропуск хода`
-    : needsAim
-      ? `${title} · ${cost} AP · вытяните на цель (тыл)`
-      : `${title} · ${cost} AP`;
+  b.title = cc ? `${title} · стан/сон — пропуск хода` : `${title} · ${cost} AP`;
   if (art) {
     b.innerHTML = `<img alt="${title}" src="${art}" draggable="false"/><b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
     const img = b.querySelector("img");
@@ -6779,129 +6773,17 @@ function makeAttackHandButton(c, diff, classNames = "mf-atk-card") {
     b.innerHTML = `<b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
   }
 
-  const playNearest = () => {
+  b.addEventListener("click", () => {
+    if (b.disabled) return;
     if (state.selectedKeep?.mode) {
       state.selectedKeep = null;
       submitAction({ kind: "keep", unitId: c.unitId, handIndex: c.handIndex });
       return;
     }
-    // nearest / auto rules: empty targetId — server resolves TargetRule.
+    // Auto-target by card TargetRule (nearest / backline / all_enemies / self / heal…).
     submitAction({ kind: "playCard", unitId: c.unitId, handIndex: c.handIndex, targetId: "" });
-  };
-
-  const beginAim = (ev) => {
-    if (b.disabled || state.selectedKeep?.mode) return false;
-    const targets = legalAimTargets(diff, c);
-    if (!targets.length) {
-      toast(state.locale === "ru" ? "Нет цели для атаки в тыл" : "No backline target");
-      return false;
-    }
-    const validIds = new Set(targets.map((u) => u.id));
-    clearAimHighlights();
-    state.aimSession = {
-      unitId: c.unitId,
-      handIndex: c.handIndex,
-      card: c,
-      validIds,
-      pointerId: ev.pointerId,
-      startX: ev.clientX,
-      startY: ev.clientY,
-      dragged: false,
-    };
-    b.classList.add("mf-atk-card--aiming", "is-press");
-    document.body.classList.add("mf-aim-mode");
-    targets.forEach((u) => {
-      const el = findBattleUnitElForAim(u.id);
-      if (el) el.classList.add("mf-aim-valid");
-    });
-    moveAimGhost(ev.clientX, ev.clientY);
-    try {
-      b.setPointerCapture(ev.pointerId);
-    } catch {
-      /* ignore */
-    }
-    return true;
-  };
-
-  b.addEventListener("pointerdown", (ev) => {
-    if (ev.button != null && ev.button !== 0) return;
-    if (b.disabled) return;
-    b.classList.add("is-press");
-    if (state.selectedKeep?.mode) return;
-    if (needsAim) {
-      ev.preventDefault();
-      beginAim(ev);
-    }
-  });
-
-  b.addEventListener("pointermove", (ev) => {
-    const aim = state.aimSession;
-    if (!aim || aim.pointerId !== ev.pointerId) return;
-    const dx = ev.clientX - aim.startX;
-    const dy = ev.clientY - aim.startY;
-    if (!aim.dragged && dx * dx + dy * dy > 36) aim.dragged = true;
-    moveAimGhost(ev.clientX, ev.clientY);
-    setAimHotFromPoint(ev.clientX, ev.clientY, aim.validIds);
-  });
-
-  const endAim = (ev) => {
-    b.classList.remove("is-press");
-    const aim = state.aimSession;
-    if (!aim || aim.pointerId !== ev.pointerId) return;
-    const targetId = setAimHotFromPoint(ev.clientX, ev.clientY, aim.validIds);
-    const dragged = aim.dragged;
-    const payload = { unitId: aim.unitId, handIndex: aim.handIndex };
-    cancelAimSession();
-    if (targetId && dragged) {
-      submitAction({ kind: "playCard", ...payload, targetId });
-      return;
-    }
-    toast(
-      state.locale === "ru"
-        ? "Тыл: вытяните карту и наведите на врага"
-        : "Backline: drag the card onto an enemy",
-    );
-  };
-
-  b.addEventListener("pointerup", (ev) => {
-    if (needsAim && state.aimSession?.pointerId === ev.pointerId) {
-      endAim(ev);
-      return;
-    }
-    b.classList.remove("is-press");
-  });
-  b.addEventListener("pointercancel", (ev) => {
-    b.classList.remove("is-press");
-    if (needsAim && state.aimSession?.pointerId === ev.pointerId) {
-      cancelAimSession();
-    }
-  });
-
-  b.addEventListener("click", (ev) => {
-    if (b.disabled) return;
-    if (state.selectedKeep?.mode) {
-      playNearest();
-      return;
-    }
-    if (needsAim) {
-      ev.preventDefault();
-      return;
-    }
-    playNearest();
   });
   return b;
-}
-
-function findBattleUnitElForAim(unitId) {
-  if (!unitId) return null;
-  const esc = CSS.escape(unitId);
-  return (
-    document.querySelector(`#viewPracticeFight [data-unit-id="${esc}"]`) ||
-    document.querySelector(`#viewPvpFight [data-unit-id="${esc}"]`) ||
-    document.querySelector(`#viewBattle [data-unit-id="${esc}"]`) ||
-    document.querySelector(`#enemyBoard [data-unit-id="${esc}"]`) ||
-    document.querySelector(`[data-unit-id="${esc}"]`)
-  );
 }
 
 /** Shared attack-card reverse used for opponent discard throw (all modes). */
@@ -7203,71 +7085,6 @@ function energyTurnCap(turn, isFirstActor = true) {
   if (t <= 1) return isFirstActor ? 1 : 2;
   if (t <= 3) return isFirstActor ? 2 : 3;
   return 3;
-}
-
-/** LOCKED §3.4: backline cards require drag+aim (not tap-to-auto). */
-function cardNeedsAim(c) {
-  if (!c) return false;
-  const rule = String(c.targetRule || "").toLowerCase();
-  if (rule === "backline") return true;
-  const tags = c.tags || [];
-  return tags.some((t) => /^(backline|rear)$/i.test(String(t)));
-}
-
-function legalAimTargets(diff, card) {
-  const enemies = (diff?.units || []).filter((u) => u.side === 1 && u.alive);
-  const taunters = enemies.filter((u) => (u.statuses || []).some((s) => s.id === "taunt"));
-  let cands = taunters.length ? taunters : enemies;
-  const ambush = (card?.tags || []).some((t) => String(t).toLowerCase() === "ambush");
-  if (!ambush) {
-    const visible = cands.filter((u) => !(u.statuses || []).some((s) => s.id === "stealth"));
-    if (visible.length) cands = visible;
-  }
-  return cands;
-}
-
-function clearAimHighlights() {
-  document.querySelectorAll(".mf-aim-valid, .mf-aim-hot").forEach((el) => {
-    el.classList.remove("mf-aim-valid", "mf-aim-hot");
-  });
-  document.body.classList.remove("mf-aim-mode");
-  document.querySelectorAll(".mf-aim-ghost").forEach((n) => n.remove());
-  document.querySelectorAll(".mf-atk-card--aiming").forEach((n) => n.classList.remove("mf-atk-card--aiming"));
-}
-
-function cancelAimSession(toastMsg) {
-  state.aimSession = null;
-  clearAimHighlights();
-  if (toastMsg) toast(toastMsg);
-}
-
-function unitElFromPoint(x, y) {
-  const stack = document.elementsFromPoint(x, y);
-  for (const el of stack) {
-    const host = el.closest?.("[data-unit-id]");
-    if (host?.dataset?.unitId) return host;
-  }
-  return null;
-}
-
-function setAimHotFromPoint(x, y, validIds) {
-  document.querySelectorAll(".mf-aim-hot").forEach((el) => el.classList.remove("mf-aim-hot"));
-  const host = unitElFromPoint(x, y);
-  const id = host?.dataset?.unitId;
-  if (id && validIds.has(id)) host.classList.add("mf-aim-hot");
-  return id && validIds.has(id) ? id : "";
-}
-
-function moveAimGhost(x, y) {
-  let ghost = document.querySelector(".mf-aim-ghost");
-  if (!ghost) {
-    ghost = document.createElement("div");
-    ghost.className = "mf-aim-ghost";
-    ghost.setAttribute("aria-hidden", "true");
-    document.body.appendChild(ghost);
-  }
-  ghost.style.left = `${x}px`;
-  ghost.style.top = `${y}px`;
 }
 
 /** Ensure portrait mount has HP + shield bars, status row, death overlay. */
@@ -7672,14 +7489,6 @@ function renderPracticeFight() {
       for (const c of liveCards) {
         hand.appendChild(makeAttackHandButton(c, diff, "mf-atk-card"));
       }
-      if (!state.seenBacklineTip && liveCards.some(cardNeedsAim)) {
-        state.seenBacklineTip = true;
-        toast(
-          state.locale === "ru"
-            ? "Карта в тыл: вытяните и наведите на врага"
-            : "Backline card: drag onto an enemy",
-        );
-      }
     }
   }
   const keepBtn = document.querySelector("#viewPracticeFight #pfKeep");
@@ -7712,7 +7521,6 @@ function renderPracticeFight() {
 }
 
 function leaveLiveFightHud() {
-  cancelAimSession();
   state.battle = null;
   state.lastResult = null;
   state.oppThrowPlaying = false;
@@ -7746,24 +7554,24 @@ function bindPracticeFight() {
     if (ev.target.closest("input, textarea")) return;
     if (ev.code === "Escape") {
       ev.preventDefault();
-      if (state.aimSession) {
-        cancelAimSession(
-          state.locale === "ru" ? "Прицел отменён" : "Aim cancelled",
-        );
-        return;
-      }
       leaveLiveFightHud();
       return;
     }
     if (ev.code === "Space") {
       ev.preventDefault();
       requestEndTurn();
+      return;
+    }
+    const digit = /^Digit([1-6])$/.exec(ev.code);
+    if (digit) {
+      ev.preventDefault();
+      playHandCardByHotkey(Number(digit[1]) - 1);
     }
   });
 }
 
 function requestEndTurn() {
-  if (state.actionBusy || state.oppThrowPlaying || state.aimSession) return;
+  if (state.actionBusy || state.oppThrowPlaying) return;
   if (!state.battle?.canEndTurn || state.battle?.result || state.battle?.active !== 0) return;
   if (!state.endTurnArmed) {
     state.endTurnArmed = true;
@@ -7777,6 +7585,23 @@ function requestEndTurn() {
   state.endTurnArmed = false;
   state.selectedKeep = null;
   submitAction({ kind: "endTurn" });
+}
+
+/** Hotkeys 1–6: play visible hand card; empty targetId → server TargetRule. */
+function playHandCardByHotkey(slotIndex) {
+  if (state.actionBusy || state.oppThrowPlaying) return;
+  const diff = state.battle;
+  if (!diff || diff.result || diff.active !== 0) return;
+  const cards = sortHandByVisualLanes(diff.hand || [], diff.units || []);
+  const c = cards[slotIndex];
+  if (!c || !c.playable) return;
+  if (unitCrowdControlled(diff, c.unitId)) return;
+  if (state.selectedKeep?.mode) {
+    state.selectedKeep = null;
+    submitAction({ kind: "keep", unitId: c.unitId, handIndex: c.handIndex });
+    return;
+  }
+  submitAction({ kind: "playCard", unitId: c.unitId, handIndex: c.handIndex, targetId: "" });
 }
 
 function pvpUnitCard(u, foe, cleansedIds = []) {
@@ -7895,7 +7720,6 @@ function renderPvpFight() {
 }
 
 function leavePvpFight() {
-  cancelAimSession();
   state.battle = null;
   state.lastResult = null;
   state.battleMode = "";
@@ -7929,18 +7753,18 @@ function bindPvpFight() {
     if (ev.target.closest("input, textarea")) return;
     if (ev.code === "Escape") {
       ev.preventDefault();
-      if (state.aimSession) {
-        cancelAimSession(
-          state.locale === "ru" ? "Прицел отменён" : "Aim cancelled",
-        );
-        return;
-      }
       leavePvpFight();
       return;
     }
     if (ev.code === "Space") {
       ev.preventDefault();
       requestEndTurn();
+      return;
+    }
+    const digit = /^Digit([1-6])$/.exec(ev.code);
+    if (digit) {
+      ev.preventDefault();
+      playHandCardByHotkey(Number(digit[1]) - 1);
     }
   });
 }
@@ -8163,7 +7987,6 @@ async function createPvE({ autoPlay = false, seed = 0, stageId = null, team = nu
 async function submitAction(action) {
   if (!state.battle?.battleId) return;
   if (state.oppThrowPlaying || state.actionBusy) return;
-  if (state.aimSession) cancelAimSession();
   state.actionBusy = true;
   try {
     const prevActive = state.battle.active;

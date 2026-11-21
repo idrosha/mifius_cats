@@ -5210,42 +5210,6 @@ body:has(#viewBreeding:not(.hidden)) #app { height: 100dvh !important; max-heigh
   animation: mf-opp-throw-out 0.3s ease-in forwards;
   animation-delay: calc(var(--i) * 24ms);
 }
-/* Backline LOCKED aim + press feedback */
-.mf-atk-card.is-press,
-#viewPracticeFight .pf-card.is-press {
-  transform: scale(0.96);
-  filter: brightness(1.12);
-}
-.mf-atk-card.mf-atk-card--needs-aim:not(:disabled) {
-  box-shadow: 0 0 0 1px rgba(253, 186, 69, 0.55), 0 6px 18px rgba(0, 0, 0, 0.55);
-}
-.mf-atk-card.mf-atk-card--aiming {
-  outline: 2px solid #fdba45;
-  outline-offset: 2px;
-  z-index: 5;
-}
-body.mf-aim-mode [data-unit-id].mf-aim-valid {
-  outline: 2px solid rgba(137, 217, 140, 0.95);
-  outline-offset: 3px;
-  box-shadow: 0 0 18px rgba(137, 217, 140, 0.45);
-  cursor: crosshair;
-}
-body.mf-aim-mode [data-unit-id].mf-aim-valid.mf-aim-hot {
-  outline-color: #fdba45;
-  box-shadow: 0 0 22px rgba(253, 186, 69, 0.65);
-}
-body.mf-aim-mode .mf-aim-ghost {
-  position: fixed;
-  z-index: 90;
-  pointer-events: none;
-  width: 4.5rem;
-  height: 6.75rem;
-  border-radius: 0.55rem;
-  border: 1px dashed rgba(253, 186, 69, 0.85);
-  background: rgba(22, 19, 16, 0.55);
-  transform: translate(-50%, -50%) rotate(-8deg);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5);
-}
 .mf-atk-card:disabled.is-busy-wait,
 #viewPracticeFight .pf-card:disabled.is-busy-wait {
   opacity: 0.55;
