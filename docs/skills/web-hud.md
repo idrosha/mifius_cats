@@ -12,7 +12,7 @@
 - **Fight FX (`MF-149` / `D-046`):** idle/aura/hit/block + Web Audio в `public/battle-fx.js` — practice / **PvE** / pvp / wire live fight; числа только из server `events`. **Idle breathe обязателен** для каждого живого cutout через `decorateBattleUnitIdle` (breathe+aura **одной** inline `animation` list — иначе aura class перетирает breathe). Ch3/ch4 baked monsters: breathe без aura.
 - **Attack cards (`D-050` + §3.4 LOCKED):** цельные webp-плашки; `nearest` = tap (`targetId:""`); **backline = drag+aim** на цель (`targetId` explicit). Compose chrome всё ещё pause.
 - **Practice dummies:** cutouts `stitch-assets/dojo/battle/dummy-*.png` + те же role SFX/anim, что у tank/fighter/support котиков; load/lobby — JPG с фоном.
-- **PvE live fight:** active Mythmir battle reuses `#viewPracticeFight` HUD (cutouts + hand + FX); chapter backdrop via `pveStageArt`. Painted `#viewPveFight` = stub chrome only.
+- **PvE live fight:** active Mythmir battle reuses `#viewPracticeFight` HUD (cutouts + hand + FX); chapter backdrop via `pveStageArt`. Painted `#viewPveFight` = stub chrome only. Wave strip `#pfPveWaveStrip` shows **1·2·3** (`D-051`); highlight via `pveFightNum(selectedStageId)`.
 - **PvE monsters (`MF-152`):** cutouts `stitch-assets/monsters/battle/{role}-*.png` via `battleUnitArt` / `monsterBattleArt`; FX = role kits из `battle-fx.js`.
 - Загрузка новых дизайнов экранов → скилл `docs/skills/hud-design-load.md`.
 - Stitch assets: потребляй уже импортированное; полный реимпорт/zip → роль `stitch`.

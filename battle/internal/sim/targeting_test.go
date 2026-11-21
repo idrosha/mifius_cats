@@ -77,6 +77,14 @@ func TestSelectTargets_TauntOverridesBackline(t *testing.T) {
 	}
 }
 
+func TestSelectTargets_CenterPrefersMidLane(t *testing.T) {
+	b, actor := baseBattleThreeRoles()
+	got := b.SelectTargets(actor, "center", "", false)
+	if len(got) != 1 || got[0].ID != "e_fighter" {
+		t.Fatalf("center want mid fighter, got %#v", ids(got))
+	}
+}
+
 func TestSelectTargets_RandomEnemyIgnoresTaunt(t *testing.T) {
 	b, actor := baseBattleThreeRoles()
 	b.rng = NewRNG(42)

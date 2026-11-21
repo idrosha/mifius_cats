@@ -37,13 +37,13 @@ var wantPrefix = map[int]string{
 	5: "ghost",
 }
 
-// D-042 f3 layouts: pitboss lane + wave theme per chapter.
+// D-042 / D-051 f3 layouts: pitboss lane per chapter (0=front → 2=back).
 var wantBossLane = map[int]int{
-	1: 1, // solo center
-	2: 0, // front, healers behind
-	3: 1, // between tanks
-	4: 2, // necro rear
-	5: 1, // mid, tank front / heal rear
+	1: 0, // solo front
+	2: 1, // heal · boss · heal
+	3: 1, // tank · boss · tank
+	4: 1, // assassin · necro · assassin
+	5: 1, // tank · boss · heal
 }
 
 // TestMythmirStages_Layout — no combat: chapters, locations, soldiers/boss placement (MF-163 / D-042).
@@ -158,7 +158,7 @@ func TestMythmir_CarryAlive_NoRevive(t *testing.T) {
 	}
 }
 
-// TestMythmir_Ch1SoloBoss_EmptyLanes — side slots start dead; boss alone center.
+// TestMythmir_Ch1SoloBoss_EmptyLanes — mid/back empty; boss alone front (D-051).
 func TestMythmir_Ch1SoloBoss_EmptyLanes(t *testing.T) {
 	cat := mythmirCatalog(t)
 	b, err := mode.CreatePvE(cat, "solo", "mythmir_1_f3", 7, startersTeam, nil, nil)
@@ -174,11 +174,11 @@ func TestMythmir_Ch1SoloBoss_EmptyLanes(t *testing.T) {
 	if len(p2) != 3 {
 		t.Fatalf("p2=%d", len(p2))
 	}
-	if p2[0].Alive || p2[2].Alive {
-		t.Fatalf("empty lanes should be dead: %v %v", p2[0].Alive, p2[2].Alive)
+	if p2[1].Alive || p2[2].Alive {
+		t.Fatalf("empty lanes should be dead: %v %v", p2[1].Alive, p2[2].Alive)
 	}
-	if !p2[1].Alive || !strings.Contains(p2[1].ID, "pitboss") {
-		t.Fatalf("center want living pitboss, got alive=%v id=%s", p2[1].Alive, p2[1].ID)
+	if !p2[0].Alive || !strings.Contains(p2[0].ID, "pitboss") {
+		t.Fatalf("front want living pitboss, got alive=%v id=%s", p2[0].Alive, p2[0].ID)
 	}
 }
 

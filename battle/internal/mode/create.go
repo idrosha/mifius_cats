@@ -120,7 +120,7 @@ func spawnStageEnemies(stage content.StageDef) ([]sim.SpawnUnit, error) {
 			Deck:     t.Deck,
 			Parts:    nil,
 		}
-		// D-042: empty_lane placeholders keep 3v3 slots but spawn dead (solo boss center).
+		// D-042/D-051: empty_lane placeholders keep 3v3 slots but spawn dead (solo boss front).
 		if strings.Contains(t.TemplateID, "empty_lane") {
 			dead := false
 			su.CarryAlive = &dead

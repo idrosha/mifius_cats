@@ -505,6 +505,12 @@ export function playCombatEvents(diff) {
         return;
       }
 
+      if (kind === "dodge") {
+        bumpClass(targetSprite, "combat-action-shake", 380);
+        floatText(targetView, "УВОРОТ", "block");
+        return;
+      }
+
       if (kind === "status" && ev.statusOp === "block") {
         SoundFX.playBlock();
         bumpClass(targetSprite, "hero-block-brace", 620);

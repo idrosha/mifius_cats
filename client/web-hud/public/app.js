@@ -1866,9 +1866,8 @@ function renderPveYardChapter() {
   if (grid) {
     const cards = grid.querySelectorAll(":scope > div");
     const waves = [
-      { label: "Волна 1", stage: "entrance", name: "Солдаты", sub: `${faction || "Враги"} · 3 юнита` },
-      { label: "Волна 2", stage: "tunnel", name: "Солдаты", sub: `${faction || "Враги"} · крепче` },
-      { label: "Босс", stage: "boss", name: boss || "Питбосс", sub: "Питбосс-волна" },
+      { label: "Волна 1", stage: "entrance", name: "Волна 1", sub: `${faction || "Враги"} · солдаты` },
+      { label: "Волна 2", stage: "tunnel", name: "Волна 2", sub: `${faction || "Враги"} · солдаты` },      { label: "Босс", stage: "boss", name: boss || "Питбосс", sub: "Питбосс-волна" },
     ];
     waves.forEach((w, i) => {
       const card = cards[i];
@@ -3250,6 +3249,10 @@ const MONSTER_BATTLE_BY_FACTION = {
     // is the ch3 red-dog look (Andrew: ch1 showed «красный пёс»).
     // ?v= busts Amvera/browser max-age=300 after in-place facing rebakes (D-040).
     fighter: ["/stitch-assets/monsters/battle/fighter-h.webp?v=d047face"],
+    ranger: [
+      "/stitch-assets/monsters/battle/ranger-a.webp",
+      "/stitch-assets/monsters/battle/ranger-b.webp",
+    ],
     support: ["/stitch-assets/monsters/battle/ranger-a.webp"],
     pitboss: ["/stitch-assets/monsters/battle/tank-d.webp"],
   },
@@ -3257,6 +3260,10 @@ const MONSTER_BATTLE_BY_FACTION = {
     // Ch2 RGBA cutouts (new filenames bust 7d immutable cache of black-plate RGB).
     tank: ["/stitch-assets/monsters/battle/wolf-tank-cutout.webp"],
     fighter: ["/stitch-assets/monsters/battle/wolf-fighter-cutout.webp"],
+    ranger: [
+      "/stitch-assets/monsters/battle/ranger-a.webp",
+      "/stitch-assets/monsters/battle/ranger-b.webp",
+    ],
     support: ["/stitch-assets/monsters/battle/wolf-support-cutout.webp?v=d040ch2s"],
     pitboss: ["/stitch-assets/monsters/battle/wolf-pitboss-cutout.webp"],
   },
@@ -3265,14 +3272,21 @@ const MONSTER_BATTLE_BY_FACTION = {
     // ?v= after in-place facing rebakes (Amvera/browser max-age=300).
     tank: ["/stitch-assets/monsters/battle/redd-tank-cutout.webp?v=opaque1"],
     fighter: ["/stitch-assets/monsters/battle/redd-fighter-cutout.webp?v=opaque1"],
+    assassin: [
+      "/stitch-assets/monsters/battle/assassin-a.webp",
+      "/stitch-assets/monsters/battle/assassin-b.webp",
+    ],
     support: ["/stitch-assets/monsters/battle/redd-support-cutout.webp?v=opaque1"],
     pitboss: ["/stitch-assets/monsters/battle/redd-pitboss-cutout.webp?v=opaque1"],
   },
   zombies: {
-    // Ch4 refs: axe guardian / cleaver butcher / dagger plague-carrier; scythe pitboss.
+    // Ch4: fighter_a vs fighter_b (butcher) via dual pool hash; assassins + scythe pitboss.
     tank: ["/stitch-assets/monsters/battle/zombie-tank-cutout.webp?v=opaque1"],
-    fighter: ["/stitch-assets/monsters/battle/zombie-fighter-cutout.webp?v=opaque1"],
-    assassin: ["/stitch-assets/monsters/battle/zombie-fighter-cutout.webp?v=opaque1"],
+    fighter: [
+      "/stitch-assets/monsters/battle/zombie-fighter-cutout.webp?v=opaque1",
+      "/stitch-assets/monsters/battle/zombie-tank-cutout.webp?v=opaque1",
+    ],
+    assassin: ["/stitch-assets/monsters/battle/zombie-support-cutout.webp?v=opaque1"],
     support: ["/stitch-assets/monsters/battle/zombie-support-cutout.webp?v=opaque1"],
     pitboss: ["/stitch-assets/monsters/battle/zombie-pitboss-cutout.webp?v=opaque1"],
   },
@@ -6871,7 +6885,8 @@ const STATUS_META = {
   stealth: { label: "Стелс", icon: "visibility_off", kind: "buff" },
   bleed: { label: "Кровотечение", icon: "bloodtype", kind: "debuff" },
   poison: { label: "Яд", icon: "skull", kind: "debuff" },
-  stun: { label: "Стан", icon: "flash_on", kind: "debuff" },
+  stun: { label: "Заморозка", icon: "ac_unit", kind: "debuff" },
+  dodge: { label: "Уворот", icon: "speed", kind: "buff" },
   sleep: { label: "Сон", icon: "bedtime", kind: "debuff" },
   weak: { label: "Слабость", icon: "trending_down", kind: "debuff" },
   vuln: { label: "Уязвимость", icon: "crisis_alert", kind: "debuff" },
@@ -7197,11 +7212,22 @@ function renderPracticeFight() {
   if ($("pfEnergy")) {
     if (isPve) {
       const data = pveChapterData(state.pveChapter);
-      const st = pveNormalizeStage(state.pveStage);
-      const stageRu = PVE_STAGE_META[st]?.label || st;
-      $("pfEnergy").textContent = `МИФМИР · ${data.title || "Глава"} · ${stageRu} · Энергия ${energy}`;
+      const waveN = pveFightNum(state.selectedStageId);
+      $("pfEnergy").textContent = `МИФМИР · ${data.title || "Глава"} · Волна ${waveN}/3 · Энергия ${energy}`;
     } else {
       $("pfEnergy").textContent = `ДОДЗЁ СПАРРИНГ · Энергия хода ${energy}`;
+    }
+  }
+  const waveStrip = $("pfPveWaveStrip");
+  if (waveStrip) {
+    waveStrip.classList.toggle("hidden", !isPve);
+    if (isPve) {
+      const waveN = pveFightNum(state.selectedStageId);
+      waveStrip.querySelectorAll(".pf-pve-wave").forEach((el) => {
+        const n = Number(el.getAttribute("data-wave") || 0);
+        el.classList.toggle("is-active", n === waveN);
+        el.classList.toggle("is-done", n < waveN);
+      });
     }
   }
   // Enemy header strip (desktop): PvE faction vs dojo dummies.
@@ -8000,9 +8026,9 @@ async function pvpAuto() {
 /** MF-151 · each chapter = 3 PvE fights: entrance → tunnel → boss hall. */
 const PVE_STAGES = ["entrance", "tunnel", "boss"];
 const PVE_STAGE_META = {
-  entrance: { label: "Вход в подземелье", wave: "Волна 1/3 (Вход)", short: "1 · Вход" },
-  tunnel: { label: "Тоннель / проход", wave: "Волна 2/3 (Тоннель)", short: "2 · Тоннель" },
-  boss: { label: "Зал с боссом", wave: "Волна 3/3 (Босс)", short: "3 · Босс" },
+  entrance: { label: "Волна 1", wave: "Волна 1", short: "1" },
+  tunnel: { label: "Волна 2", wave: "Волна 2", short: "2" },
+  boss: { label: "Волна 3", wave: "Волна 3 · Босс", short: "3" },
 };
 
 /** MF-151 · PvE campaign chapters → load lore + fight stage arts. */
@@ -8333,9 +8359,9 @@ function applyPveLoadChapter(chapter) {
   // Wave strip = 3 fights per chapter (entrance / tunnel / boss)
   const waves = document.querySelectorAll("#viewPveLoad .pve-load-waves > span:not(.pve-load-wave-arrow)");
   if (waves.length >= 3) {
-    waves[0].textContent = PVE_STAGE_META.entrance.wave;
-    waves[1].textContent = PVE_STAGE_META.tunnel.wave;
-    waves[2].textContent = `Пит-Босс ${data.bossName}`;
+    waves[0].textContent = "Волна 1";
+    waves[1].textContent = "Волна 2";
+    waves[2].textContent = `Волна 3 · ${data.bossName}`;
     waves[2].id = "pveLoadBossTab";
   }
   const tip = $("pveLoadTip");
@@ -8465,7 +8491,7 @@ function applyPveFightStage(stage) {
     if (el) el.textContent = value;
   };
   setText("pveFightCampaignTitle", `Уровень ${chapter} · ${data.title}`);
-  setText("pveFightBossBadge", st === "boss" ? `ПИТ-БОСС: ${data.bossName}` : `ЭТАП: ${PVE_STAGE_META[st].label}`);
+  setText("pveFightBossBadge", st === "boss" ? `ВОЛНА 3 · ${data.bossName}` : `ВОЛНА ${PVE_STAGE_META[st].short}`);
   setText("pveFightEnemyTitle", stageData.enemyTitle || `СТАЯ · ВОЛНА`);
   setText("pveFightEnemy1", stageData.enemies?.[0] || "Враг");
   setText("pveFightEnemy2", stageData.enemies?.[1] || "Враг");

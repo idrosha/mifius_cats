@@ -12,6 +12,23 @@ Append-only. Новые записи — **сверху** (после шабло
 6. Одна запись = одно решение. Не смешивать баланс и IA в одном D-id.
 7. В коде/доках ссылайся `D-0xx`, не копируй абзац Context.
 
+## D-051 · 2026-11-21 · Mythmir wave layouts + shared bot energy budget
+
+- **Status:** Accepted
+- **Area:** battle | content | hud
+- **SSOT:** docs/FULL-SPEC.md §4.1
+- **Owner:** Andrew / battle
+- **Supersedes:** f3 layout table of `D-042` (energy/AI notes for heal-starve still apply)
+
+### Context
+Нужны новые раскладки волн 1–5, общий пул энергии ботов (солдаты cost1; масс-атака босса cost2 = один удар; leftover солдатам по нужде), таунт→stun от питбосса, thorns-poison у зомби, dodge ~1/4 у призраков, UI «Волна 1·2·3».
+
+### Decision
+**Layouts (lane 0=front→2):** ch1 f1 три бойца; f2 танк+2 лучника; f3 соло-босс **фронт**. ch2 f1 боец·хил·лучник; f2 три лучника (`center`+taunt); f3 хил·босс·хил. ch3 f1 боец·танк·боец; f2 убийца·танк·убийца; f3 танк·босс·танк + масс bleed cost2. ch4 солдаты HP≈support; f1/f2 боец·убийца·боец (два вида бойца); f3 убийца·некро·убийца + масс poison cost2; hit vs zombie → +1 poison attacker. ch5 dodge 25% ghosts; f1 танк·боец·хил; f2 боец·хил·боец; f3 танк·босс·хил. **Energy:** shared side pool; mass boss card cost 2 = one hit; cannot double-cast 2E at 3E. Pitboss hit on taunter → `stun` 1 (cleanse removes). HUD: persistent wave 1·2·3 strip on live Mythmir fight.
+
+### Consequences
+`content/stages/mythmir_*`, `sim/ai.go` / `effects.go` / `targeting.go` (`center`), web-hud wave strip, campaign tests. `D-042` clear-on-starters CI remains.
+
 ## D-048 · 2026-11-20 · Live cutout silhouette by role
 
 - **Status:** Accepted

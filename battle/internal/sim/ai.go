@@ -148,27 +148,45 @@ func (b *Battle) chooseActionSkipping(skip map[string]bool) Action {
 				if card.Cost == ps.Energy {
 					p += 5
 				}
+				// Shared side E: pitboss strike first (mass cost-2 is still one hit).
+				if isPitbossUnit(u) {
+					p = 220 + card.Atk + card.Cost*10
+				}
 				// D-042 chess: prefer backline when enemy healers/supports still up.
 				if card.TargetRule == "backline" && enemyHasLivingSupport(b, side) {
 					p += 40
+				}
+				// Prefer center focus when scripted (ch2 rangers / mid priority).
+				if card.TargetRule == "center" {
+					p += 15
+				}
+				// Support poke is last resort — heal/stand when allies are hurt.
+				if u.Role == "support" && !isPitbossUnit(u) {
+					if allyNeedsHeal(b, side) {
+						p = 30 + card.Atk
+					} else {
+						p = 45 + card.Atk
+					}
 				}
 				// D-043 ch4: solo support (necro after assassins fall) hunts the rear.
 				if u.Role == "support" && card.TargetRule == "backline" && len(b.living(side)) == 1 {
 					p += 45
 				}
 			} else if u.Role == "support" && isHealCard(card) && allyNeedsHeal(b, side) {
-				// Support healers must heal (ch2/ch4/ch5), but never spend the last energy
-				// a living pitboss needs for an attack (D-042 — Лютый Клык / heal packs).
+				// Heal with leftover E after boss, but never starve a living pitboss attack.
 				miss := maxAllyMissingHP(b, side)
 				starve := healWouldStarvePitboss(b, side, ps.Energy, card.Cost, skip)
 				chipSoft := b.StageID == "mythmir_2_f3" && miss < 12
 				if starve || chipSoft {
-					p = 55 + healAmount(card) // below attacks (~100+)
+					p = 55 + healAmount(card) // below pitboss (~220) and soldier attacks (~100+)
 				} else {
-					p = 160 + healAmount(card)
+					p = 180 + healAmount(card)
 				}
 			} else if card.Shield > 0 {
 				p = 50 + card.Shield
+				if u.Role == "tank" && !isPitbossUnit(u) {
+					p += 10 // tanks spend their 1E on defend or attack
+				}
 			} else {
 				p = 40 // buff / other
 			}

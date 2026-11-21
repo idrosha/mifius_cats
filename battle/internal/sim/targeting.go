@@ -111,6 +111,25 @@ func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string, allo
 		} else {
 			out = []*Unit{cands[b.rng.Intn(len(cands))]}
 		}
+	case "center":
+		// Prefer mid lane (1), then nearest living; taunt still redirects.
+		cands := filterStealth(enemies, allowAmbush)
+		cands = applyTaunt(cands, enemies)
+		if len(cands) == 0 {
+			return nil
+		}
+		sort.SliceStable(cands, func(i, j int) bool {
+			di := abs(cands[i].Lane - 1)
+			dj := abs(cands[j].Lane - 1)
+			if di != dj {
+				return di < dj
+			}
+			if cands[i].Lane != cands[j].Lane {
+				return cands[i].Lane < cands[j].Lane
+			}
+			return cands[i].ID < cands[j].ID
+		})
+		out = []*Unit{cands[0]}
 	default: // nearest — frontmost lane, then role rank (§3.4)
 		cands := filterStealth(enemies, allowAmbush)
 		cands = applyTaunt(cands, enemies)

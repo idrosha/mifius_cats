@@ -1,255 +1,280 @@
 {
-  "stageId": "mythmir_1_f2",
-  "chapter": 1,
-  "name_key": "stage.mythmir_1_f2",
-  "bowlCost": 1,
-  "enemyTeam": [
-    {
-      "templateId": "bot_dog_tank_m1f2",
-      "role": "tank",
-      "element": "stone",
-      "level": 1,
-      "baseStats": {
-        "hp": 37,
-        "atk": 4,
-        "spd": 2,
-        "skill": 1,
-        "charm": 1
-      },
-      "deck": [
-        {
-          "cardId": "card_dog_bite_m1f2",
-          "name_key": "card.bot_dog_bite",
-          "element": "stone",
-          "cost": 1,
-          "atk": 4,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack"
-          ],
-          "effectOps": []
-        },
-        {
-          "cardId": "card_dog_bark_m1f2",
-          "name_key": "card.bot_dog_bark",
-          "element": "stone",
-          "cost": 1,
-          "atk": 0,
-          "shield": 7,
-          "hits": 0,
-          "targetRule": "self",
-          "tags": [
-            "shield"
-          ],
-          "effectOps": []
-        },
-        {
-          "cardId": "card_dog_bite2_m1f2",
-          "name_key": "card.bot_dog_bite",
-          "element": "stone",
-          "cost": 1,
-          "atk": 4,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack"
-          ],
-          "effectOps": []
-        },
-        {
-          "cardId": "card_dog_bark2_m1f2",
-          "name_key": "card.bot_dog_bark",
-          "element": "stone",
-          "cost": 1,
-          "atk": 0,
-          "shield": 7,
-          "hits": 0,
-          "targetRule": "self",
-          "tags": [
-            "shield"
-          ],
-          "effectOps": []
-        }
-      ],
-      "meta": {
-        "display_ru": "Пёс-щитоносец",
-        "faction": "dogs",
-        "isPitboss": false
-      }
-    },
-    {
-      "templateId": "bot_dog_fighter_m1f2",
-      "role": "fighter",
-      "element": "stone",
-      "level": 1,
-      "baseStats": {
-        "hp": 30,
-        "atk": 5,
-        "spd": 4,
-        "skill": 1,
-        "charm": 1
-      },
-      "deck": [
-        {
-          "cardId": "card_dog_claw_m1f2",
-          "name_key": "card.bot_dog_claw",
-          "element": "stone",
-          "cost": 1,
-          "atk": 5,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack"
-          ],
-          "effectOps": []
-        },
-        {
-          "cardId": "card_dog_claw2_m1f2",
-          "name_key": "card.bot_dog_claw",
-          "element": "stone",
-          "cost": 1,
-          "atk": 5,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack"
-          ],
-          "effectOps": []
-        },
-        {
-          "cardId": "card_dog_claw3_m1f2",
-          "name_key": "card.bot_dog_claw",
-          "element": "stone",
-          "cost": 1,
-          "atk": 5,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack"
-          ],
-          "effectOps": []
-        },
-        {
-          "cardId": "card_dog_poke_m1f2",
-          "name_key": "card.bot_dog_poke",
-          "element": "stone",
-          "cost": 1,
-          "atk": 4,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack"
-          ],
-          "effectOps": []
-        }
-      ],
-      "meta": {
-        "display_ru": "Пёс-задира",
-        "faction": "dogs",
-        "isPitboss": false
-      }
-    },
-    {
-      "templateId": "bot_dog_support_m1f2",
-      "role": "support",
-      "element": "stone",
-      "level": 1,
-      "baseStats": {
-        "hp": 25,
-        "atk": 3,
-        "spd": 3,
-        "skill": 2,
-        "charm": 1
-      },
-      "deck": [
-        {
-          "cardId": "card_dog_sip_m1f2",
-          "name_key": "card.bot_sip",
-          "element": "stone",
-          "cost": 1,
-          "atk": 0,
-          "shield": 0,
-          "hits": 0,
-          "targetRule": "ally_lowest_hp",
-          "tags": [
-            "heal"
-          ],
-          "effectOps": [
-            {
-              "op": "heal",
-              "amount": 3
-            }
-          ]
-        },
-        {
-          "cardId": "card_dog_poke_m1f2",
-          "name_key": "card.bot_dog_poke",
-          "element": "stone",
-          "cost": 1,
-          "atk": 3,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack"
-          ],
-          "effectOps": []
-        },
-        {
-          "cardId": "card_dog_sip2_m1f2",
-          "name_key": "card.bot_sip2",
-          "element": "stone",
-          "cost": 1,
-          "atk": 0,
-          "shield": 0,
-          "hits": 0,
-          "targetRule": "ally_lowest_hp",
-          "tags": [
-            "heal"
-          ],
-          "effectOps": [
-            {
-              "op": "heal",
-              "amount": 3
-            }
-          ]
-        },
-        {
-          "cardId": "card_dog_poke2_m1f2",
-          "name_key": "card.bot_dog_poke",
-          "element": "stone",
-          "cost": 1,
-          "atk": 3,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack"
-          ],
-          "effectOps": []
-        }
-      ],
-      "meta": {
-        "display_ru": "Пёс-завывала",
-        "faction": "dogs",
-        "isPitboss": false
-      }
-    }
-  ],
-  "meta": {
-    "stageIndex": 1,
-    "fightIndex": 2,
-    "title_ru": "Железная Цитадель",
-    "fight_ru": "Солдаты",
-    "faction": "dogs",
-    "waveTheme": "soldiers",
-    "location_ru": "Железная Цитадель"
-  }
+    "stageId":  "mythmir_1_f2",
+    "chapter":  1,
+    "name_key":  "stage.mythmir_1_f2",
+    "bowlCost":  1,
+    "enemyTeam":  [
+                      {
+                          "templateId":  "bot_dog_tank_m1f2",
+                          "role":  "tank",
+                          "element":  "stone",
+                          "level":  1,
+                          "baseStats":  {
+                                            "hp":  36,
+                                            "atk":  4,
+                                            "spd":  2,
+                                            "skill":  1,
+                                            "charm":  1
+                                        },
+                          "deck":  [
+                                       {
+                                           "cardId":  "card_dog_bark_m1f2",
+                                           "name_key":  "card.bot_dog_bark",
+                                           "element":  "stone",
+                                           "cost":  1,
+                                           "atk":  0,
+                                           "shield":  7,
+                                           "hits":  0,
+                                           "targetRule":  "nearest",
+                                           "tags":  [
+                                                        "shield"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "duration":  2,
+                                                                 "status":  "taunt",
+                                                                 "op":  "apply_status",
+                                                                 "stacks":  1
+                                                             }
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "card_dog_bark2_m1f2",
+                                           "name_key":  "card.bot_dog_bark",
+                                           "element":  "stone",
+                                           "cost":  1,
+                                           "atk":  0,
+                                           "shield":  6,
+                                           "hits":  0,
+                                           "targetRule":  "nearest",
+                                           "tags":  [
+                                                        "shield"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "duration":  2,
+                                                                 "status":  "taunt",
+                                                                 "op":  "apply_status",
+                                                                 "stacks":  1
+                                                             }
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "card_dog_bite_m1f2",
+                                           "name_key":  "card.bot_dog_bite",
+                                           "element":  "stone",
+                                           "cost":  1,
+                                           "atk":  4,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "nearest",
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "effectOps":  [
+
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "card_dog_bite2_m1f2",
+                                           "name_key":  "card.bot_dog_bite",
+                                           "element":  "stone",
+                                           "cost":  1,
+                                           "atk":  4,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "nearest",
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "effectOps":  [
+
+                                                         ]
+                                       }
+                                   ],
+                          "meta":  {
+                                       "display_ru":  "Пёс-щитоносец",
+                                       "faction":  "dogs",
+                                       "isPitboss":  false
+                                   }
+                      },
+                      {
+                          "templateId":  "bot_dog_ranger_m1f2_a",
+                          "role":  "ranger",
+                          "element":  "stone",
+                          "level":  1,
+                          "baseStats":  {
+                                            "hp":  26,
+                                            "atk":  5,
+                                            "spd":  5,
+                                            "skill":  2,
+                                            "charm":  1
+                                        },
+                          "deck":  [
+                                       {
+                                           "cardId":  "bot_dog_ranger_m1f2_a_s1",
+                                           "name_key":  "card.bot_dog_shot",
+                                           "element":  "stone",
+                                           "cost":  1,
+                                           "atk":  5,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "center",
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "effectOps":  [
+
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "bot_dog_ranger_m1f2_a_s2",
+                                           "name_key":  "card.bot_dog_shot",
+                                           "element":  "stone",
+                                           "cost":  1,
+                                           "atk":  5,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "center",
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "effectOps":  [
+
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "bot_dog_ranger_m1f2_a_s3",
+                                           "name_key":  "card.bot_dog_shot",
+                                           "element":  "stone",
+                                           "cost":  1,
+                                           "atk":  6,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "center",
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "effectOps":  [
+
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "bot_dog_ranger_m1f2_a_s4",
+                                           "name_key":  "card.bot_dog_shot",
+                                           "element":  "stone",
+                                           "cost":  1,
+                                           "atk":  5,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "center",
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "effectOps":  [
+
+                                                         ]
+                                       }
+                                   ],
+                          "meta":  {
+                                       "display_ru":  "Пёс-лучник",
+                                       "faction":  "dogs",
+                                       "isPitboss":  false
+                                   }
+                      },
+                      {
+                          "templateId":  "bot_dog_ranger_m1f2_b",
+                          "role":  "ranger",
+                          "element":  "stone",
+                          "level":  1,
+                          "baseStats":  {
+                                            "hp":  26,
+                                            "atk":  5,
+                                            "spd":  5,
+                                            "skill":  2,
+                                            "charm":  1
+                                        },
+                          "deck":  [
+                                       {
+                                           "cardId":  "bot_dog_ranger_m1f2_b_s1",
+                                           "name_key":  "card.bot_dog_shot",
+                                           "element":  "stone",
+                                           "cost":  1,
+                                           "atk":  5,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "center",
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "effectOps":  [
+
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "bot_dog_ranger_m1f2_b_s2",
+                                           "name_key":  "card.bot_dog_shot",
+                                           "element":  "stone",
+                                           "cost":  1,
+                                           "atk":  5,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "center",
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "effectOps":  [
+
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "bot_dog_ranger_m1f2_b_s3",
+                                           "name_key":  "card.bot_dog_shot",
+                                           "element":  "stone",
+                                           "cost":  1,
+                                           "atk":  6,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "center",
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "effectOps":  [
+
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "bot_dog_ranger_m1f2_b_s4",
+                                           "name_key":  "card.bot_dog_shot",
+                                           "element":  "stone",
+                                           "cost":  1,
+                                           "atk":  5,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "center",
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "effectOps":  [
+
+                                                         ]
+                                       }
+                                   ],
+                          "meta":  {
+                                       "display_ru":  "Пёс-лучник",
+                                       "faction":  "dogs",
+                                       "isPitboss":  false
+                                   }
+                      }
+                  ],
+    "meta":  {
+                 "stageIndex":  1,
+                 "fightIndex":  2,
+                 "title_ru":  "Железная Цитадель",
+                 "fight_ru":  "Танк + лучники",
+                 "faction":  "dogs",
+                 "waveTheme":  "tank_two_rangers",
+                 "location_ru":  "Железная Цитадель",
+                 "tactic_ru":  "Танк + 2 лучника."
+             }
 }

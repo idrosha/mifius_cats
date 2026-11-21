@@ -3696,6 +3696,43 @@ body:has(#viewPracticeFight:not(.hidden)) #app {
   flex-direction: column;
   overflow: hidden;
 }
+/* Mythmir live fight: wave 1·2·3 strip (top center) */
+#viewPracticeFight .pf-pve-wave-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+}
+#viewPracticeFight .pf-pve-wave-strip.hidden {
+  display: none !important;
+}
+#viewPracticeFight .pf-pve-wave {
+  min-width: 1.65rem;
+  height: 1.65rem;
+  padding: 0 0.35rem;
+  border-radius: 0.45rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-stat, "Space Grotesk", sans-serif);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.45);
+  background: rgba(20, 18, 28, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+#viewPracticeFight .pf-pve-wave.is-done {
+  color: rgba(137, 217, 140, 0.85);
+  border-color: rgba(137, 217, 140, 0.35);
+}
+#viewPracticeFight .pf-pve-wave.is-active {
+  color: #1a1208;
+  background: linear-gradient(180deg, #fdba45, #e89a2e);
+  border-color: rgba(253, 186, 69, 0.9);
+  box-shadow: 0 0 10px rgba(253, 186, 69, 0.35);
+  transform: scale(1.08);
+}
 /* Arena absorbs leftover height — no empty basement under shortcut bar */
 #viewPracticeFight .pf-arena {
   flex: 1 1 auto;

@@ -1,336 +1,335 @@
 {
-  "stageId": "mythmir_4_f3",
-  "chapter": 4,
-  "name_key": "stage.mythmir_4_f3",
-  "bowlCost": 1,
-  "enemyTeam": [
-    {
-      "templateId": "bot_zomb_assassin_m4f3_a",
-      "role": "assassin",
-      "element": "grass",
-      "level": 4,
-      "baseStats": {
-        "hp": 40,
-        "atk": 5,
-        "spd": 6,
-        "skill": 2,
-        "charm": 1
-      },
-      "deck": [
-        {
-          "cardId": "card_zomb_stab_m4f3_a",
-          "name_key": "card.bot_zomb_stab",
-          "element": "shadow",
-          "cost": 1,
-          "atk": 7,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "random_enemy",
-          "tags": [
-            "attack",
-            "poison"
-          ],
-          "effectOps": [
-            {
-              "op": "apply_status",
-              "status": "poison",
-              "stacks": 1,
-              "duration": 0
-            }
-          ]
-        },
-        {
-          "cardId": "card_zomb_stab2_m4f3_a",
-          "name_key": "card.bot_zomb_stab",
-          "element": "shadow",
-          "cost": 1,
-          "atk": 7,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "random_enemy",
-          "tags": [
-            "attack",
-            "poison"
-          ],
-          "effectOps": [
-            {
-              "op": "apply_status",
-              "status": "poison",
-              "stacks": 1,
-              "duration": 0
-            }
-          ]
-        },
-        {
-          "cardId": "card_zomb_stab3_m4f3_a",
-          "name_key": "card.bot_zomb_stab",
-          "element": "shadow",
-          "cost": 1,
-          "atk": 8,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "random_enemy",
-          "tags": [
-            "attack",
-            "poison"
-          ],
-          "effectOps": [
-            {
-              "op": "apply_status",
-              "status": "poison",
-              "stacks": 1,
-              "duration": 0
-            }
-          ]
-        },
-        {
-          "cardId": "card_zomb_cut_m4f3_a",
-          "name_key": "card.bot_zomb_cut",
-          "element": "shadow",
-          "cost": 1,
-          "atk": 6,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "random_enemy",
-          "tags": [
-            "attack",
-            "poison"
-          ],
-          "effectOps": [
-            {
-              "op": "apply_status",
-              "status": "poison",
-              "stacks": 1,
-              "duration": 0
-            }
-          ]
-        }
-      ],
-      "meta": {
-        "display_ru": "Трупный мясник",
-        "faction": "zombies",
-        "isPitboss": false
-      }
-    },
-    {
-      "templateId": "bot_zomb_assassin_m4f3_b",
-      "role": "assassin",
-      "element": "grass",
-      "level": 4,
-      "baseStats": {
-        "hp": 40,
-        "atk": 5,
-        "spd": 6,
-        "skill": 2,
-        "charm": 1
-      },
-      "deck": [
-        {
-          "cardId": "card_zomb_stab_m4f3_b",
-          "name_key": "card.bot_zomb_stab",
-          "element": "shadow",
-          "cost": 1,
-          "atk": 7,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "random_enemy",
-          "tags": [
-            "attack",
-            "poison"
-          ],
-          "effectOps": [
-            {
-              "op": "apply_status",
-              "status": "poison",
-              "stacks": 1,
-              "duration": 0
-            }
-          ]
-        },
-        {
-          "cardId": "card_zomb_stab2_m4f3_b",
-          "name_key": "card.bot_zomb_stab",
-          "element": "shadow",
-          "cost": 1,
-          "atk": 7,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "random_enemy",
-          "tags": [
-            "attack",
-            "poison"
-          ],
-          "effectOps": [
-            {
-              "op": "apply_status",
-              "status": "poison",
-              "stacks": 1,
-              "duration": 0
-            }
-          ]
-        },
-        {
-          "cardId": "card_zomb_stab3_m4f3_b",
-          "name_key": "card.bot_zomb_stab",
-          "element": "shadow",
-          "cost": 1,
-          "atk": 8,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "random_enemy",
-          "tags": [
-            "attack",
-            "poison"
-          ],
-          "effectOps": [
-            {
-              "op": "apply_status",
-              "status": "poison",
-              "stacks": 1,
-              "duration": 0
-            }
-          ]
-        },
-        {
-          "cardId": "card_zomb_cut_m4f3_b",
-          "name_key": "card.bot_zomb_cut",
-          "element": "shadow",
-          "cost": 1,
-          "atk": 6,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "random_enemy",
-          "tags": [
-            "attack",
-            "poison"
-          ],
-          "effectOps": [
-            {
-              "op": "apply_status",
-              "status": "poison",
-              "stacks": 1,
-              "duration": 0
-            }
-          ]
-        }
-      ],
-      "meta": {
-        "display_ru": "Ядовитый коготь",
-        "faction": "zombies",
-        "isPitboss": false
-      }
-    },
-    {
-      "templateId": "bot_pitboss_zomb_necro_m4f3",
-      "role": "support",
-      "element": "grass",
-      "level": 4,
-      "baseStats": {
-        "hp": 52,
-        "atk": 3,
-        "spd": 4,
-        "skill": 5,
-        "charm": 1
-      },
-      "deck": [
-        {
-          "cardId": "card_zomb_necro_heal_m4f3",
-          "name_key": "card.bot_sip",
-          "element": "shadow",
-          "cost": 1,
-          "atk": 0,
-          "shield": 0,
-          "hits": 0,
-          "targetRule": "ally_all",
-          "tags": [
-            "heal"
-          ],
-          "effectOps": [
-            {
-              "op": "heal",
-              "amount": 7
-            }
-          ]
-        },
-        {
-          "cardId": "card_zomb_necro_heal2_m4f3",
-          "name_key": "card.bot_sip2",
-          "element": "shadow",
-          "cost": 1,
-          "atk": 0,
-          "shield": 0,
-          "hits": 0,
-          "targetRule": "ally_lowest_hp",
-          "tags": [
-            "heal"
-          ],
-          "effectOps": [
-            {
-              "op": "heal",
-              "amount": 11
-            }
-          ]
-        },
-        {
-          "cardId": "card_zomb_necro_bolt_m4f3",
-          "name_key": "card.bot_zomb_necro_bolt",
-          "element": "shadow",
-          "cost": 1,
-          "atk": 7,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "backline",
-          "tags": [
-            "attack",
-            "backline"
-          ],
-          "effectOps": [
-            {
-              "op": "apply_status",
-              "status": "weak",
-              "stacks": 1,
-              "duration": 2
-            }
-          ]
-        },
-        {
-          "cardId": "card_zomb_necro_bolt2_m4f3",
-          "name_key": "card.bot_zomb_necro_bolt",
-          "element": "shadow",
-          "cost": 1,
-          "atk": 8,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "backline",
-          "tags": [
-            "attack",
-            "backline"
-          ],
-          "effectOps": [
-            {
-              "op": "apply_status",
-              "status": "vuln",
-              "stacks": 1,
-              "duration": 2
-            }
-          ]
-        }
-      ],
-      "meta": {
-        "display_ru": "Некропёс Мор",
-        "faction": "zombies",
-        "isPitboss": true
-      }
-    }
-  ],
-  "meta": {
-    "stageIndex": 1,
-    "fightIndex": 3,
-    "title_ru": "Чумные Склепы",
-    "fight_ru": "Убийцы + некромант",
-    "faction": "zombies",
-    "waveTheme": "assassins_necro_rear",
-    "location_ru": "Чумные Склепы",
-    "tactic_ru": "Спереди яд-убийцы; некромант в тылу лечит/дебафает — приоритет снять хил/некро."
-  }
+    "stageId":  "mythmir_4_f3",
+    "chapter":  4,
+    "name_key":  "stage.mythmir_4_f3",
+    "bowlCost":  1,
+    "enemyTeam":  [
+                      {
+                          "templateId":  "bot_zomb_assassin_m4f3_a",
+                          "role":  "assassin",
+                          "element":  "grass",
+                          "level":  4,
+                          "baseStats":  {
+                                            "hp":  26,
+                                            "atk":  5,
+                                            "spd":  6,
+                                            "skill":  2,
+                                            "charm":  1
+                                        },
+                          "deck":  [
+                                       {
+                                           "cardId":  "bot_zomb_assassin_m4f3_a_1",
+                                           "name_key":  "card.bot_zomb_stab",
+                                           "element":  "grass",
+                                           "cost":  1,
+                                           "atk":  7,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "random_enemy",
+                                           "tags":  [
+                                                        "attack",
+                                                        "poison"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "duration":  0,
+                                                                 "status":  "poison",
+                                                                 "op":  "apply_status",
+                                                                 "stacks":  1
+                                                             }
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "bot_zomb_assassin_m4f3_a_2",
+                                           "name_key":  "card.bot_zomb_stab",
+                                           "element":  "grass",
+                                           "cost":  1,
+                                           "atk":  7,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "random_enemy",
+                                           "tags":  [
+                                                        "attack",
+                                                        "poison"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "duration":  0,
+                                                                 "status":  "poison",
+                                                                 "op":  "apply_status",
+                                                                 "stacks":  1
+                                                             }
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "bot_zomb_assassin_m4f3_a_3",
+                                           "name_key":  "card.bot_zomb_stab",
+                                           "element":  "grass",
+                                           "cost":  1,
+                                           "atk":  8,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "random_enemy",
+                                           "tags":  [
+                                                        "attack",
+                                                        "poison"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "duration":  0,
+                                                                 "status":  "poison",
+                                                                 "op":  "apply_status",
+                                                                 "stacks":  1
+                                                             }
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "bot_zomb_assassin_m4f3_a_4",
+                                           "name_key":  "card.bot_zomb_stab",
+                                           "element":  "grass",
+                                           "cost":  1,
+                                           "atk":  6,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "random_enemy",
+                                           "tags":  [
+                                                        "attack",
+                                                        "poison"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "duration":  0,
+                                                                 "status":  "poison",
+                                                                 "op":  "apply_status",
+                                                                 "stacks":  1
+                                                             }
+                                                         ]
+                                       }
+                                   ],
+                          "meta":  {
+                                       "display_ru":  "Трупный мясник",
+                                       "faction":  "zombies",
+                                       "isPitboss":  false
+                                   }
+                      },
+                      {
+                          "templateId":  "bot_pitboss_zomb_necro_m4f3",
+                          "role":  "support",
+                          "element":  "grass",
+                          "level":  4,
+                          "baseStats":  {
+                                            "hp":  70,
+                                            "atk":  4,
+                                            "spd":  3,
+                                            "skill":  3,
+                                            "charm":  1
+                                        },
+                          "deck":  [
+                                       {
+                                           "cardId":  "card_zomb_miasma_m4f3",
+                                           "name_key":  "card.bot_zomb_miasma",
+                                           "element":  "grass",
+                                           "cost":  2,
+                                           "atk":  5,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "all_enemies",
+                                           "tags":  [
+                                                        "attack",
+                                                        "aoe",
+                                                        "poison"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "duration":  0,
+                                                                 "status":  "poison",
+                                                                 "op":  "apply_status",
+                                                                 "stacks":  1
+                                                             }
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "card_zomb_miasma2_m4f3",
+                                           "name_key":  "card.bot_zomb_miasma",
+                                           "element":  "grass",
+                                           "cost":  2,
+                                           "atk":  5,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "all_enemies",
+                                           "tags":  [
+                                                        "attack",
+                                                        "aoe",
+                                                        "poison"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "duration":  0,
+                                                                 "status":  "poison",
+                                                                 "op":  "apply_status",
+                                                                 "stacks":  1
+                                                             }
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "card_zomb_bolt_m4f3",
+                                           "name_key":  "card.bot_zomb_bolt",
+                                           "element":  "grass",
+                                           "cost":  1,
+                                           "atk":  6,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "nearest",
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "effectOps":  [
+
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "card_zomb_heal_m4f3",
+                                           "name_key":  "card.bot_zomb_heal",
+                                           "element":  "grass",
+                                           "cost":  1,
+                                           "atk":  0,
+                                           "shield":  0,
+                                           "hits":  0,
+                                           "targetRule":  "ally_lowest_hp",
+                                           "tags":  [
+                                                        "heal"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "op":  "heal",
+                                                                 "amount":  8
+                                                             }
+                                                         ]
+                                       }
+                                   ],
+                          "meta":  {
+                                       "display_ru":  "Некропёс Мор",
+                                       "faction":  "zombies",
+                                       "isPitboss":  true
+                                   }
+                      },
+                      {
+                          "templateId":  "bot_zomb_assassin_m4f3_b",
+                          "role":  "assassin",
+                          "element":  "grass",
+                          "level":  4,
+                          "baseStats":  {
+                                            "hp":  26,
+                                            "atk":  5,
+                                            "spd":  6,
+                                            "skill":  2,
+                                            "charm":  1
+                                        },
+                          "deck":  [
+                                       {
+                                           "cardId":  "bot_zomb_assassin_m4f3_b_1",
+                                           "name_key":  "card.bot_zomb_stab",
+                                           "element":  "grass",
+                                           "cost":  1,
+                                           "atk":  7,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "random_enemy",
+                                           "tags":  [
+                                                        "attack",
+                                                        "poison"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "duration":  0,
+                                                                 "status":  "poison",
+                                                                 "op":  "apply_status",
+                                                                 "stacks":  1
+                                                             }
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "bot_zomb_assassin_m4f3_b_2",
+                                           "name_key":  "card.bot_zomb_stab",
+                                           "element":  "grass",
+                                           "cost":  1,
+                                           "atk":  7,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "random_enemy",
+                                           "tags":  [
+                                                        "attack",
+                                                        "poison"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "duration":  0,
+                                                                 "status":  "poison",
+                                                                 "op":  "apply_status",
+                                                                 "stacks":  1
+                                                             }
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "bot_zomb_assassin_m4f3_b_3",
+                                           "name_key":  "card.bot_zomb_stab",
+                                           "element":  "grass",
+                                           "cost":  1,
+                                           "atk":  8,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "random_enemy",
+                                           "tags":  [
+                                                        "attack",
+                                                        "poison"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "duration":  0,
+                                                                 "status":  "poison",
+                                                                 "op":  "apply_status",
+                                                                 "stacks":  1
+                                                             }
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "bot_zomb_assassin_m4f3_b_4",
+                                           "name_key":  "card.bot_zomb_stab",
+                                           "element":  "grass",
+                                           "cost":  1,
+                                           "atk":  6,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "random_enemy",
+                                           "tags":  [
+                                                        "attack",
+                                                        "poison"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "duration":  0,
+                                                                 "status":  "poison",
+                                                                 "op":  "apply_status",
+                                                                 "stacks":  1
+                                                             }
+                                                         ]
+                                       }
+                                   ],
+                          "meta":  {
+                                       "display_ru":  "Трупный мясник",
+                                       "faction":  "zombies",
+                                       "isPitboss":  false
+                                   }
+                      }
+                  ],
+    "meta":  {
+                 "stageIndex":  4,
+                 "fightIndex":  3,
+                 "title_ru":  "Чумные Склепы",
+                 "fight_ru":  "Убийца · босс · убийца",
+                 "faction":  "zombies",
+                 "waveTheme":  "assassins_necro_mid",
+                 "location_ru":  "Чумные Склепы",
+                 "tactic_ru":  "Босс масс-poison cost2."
+             }
 }

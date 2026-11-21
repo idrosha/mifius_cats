@@ -2,9 +2,31 @@ package sim
 
 import (
 	"math"
+	"strings"
 
 	"github.com/idrosha/mir_games/battle/internal/content"
 )
+
+func unitFactionHint(u *Unit) string {
+	if u == nil {
+		return ""
+	}
+	id := strings.ToLower(u.ID)
+	switch {
+	case strings.Contains(id, "ghost"):
+		return "ghosts"
+	case strings.Contains(id, "zomb"):
+		return "zombies"
+	case strings.Contains(id, "wolf"):
+		return "wolves"
+	case strings.Contains(id, "redd"):
+		return "red_dogs"
+	case strings.Contains(id, "dog"):
+		return "dogs"
+	default:
+		return ""
+	}
+}
 
 func (b *Battle) resolveCard(actor *Unit, card content.CardDef, targets []*Unit) {
 	if card.Shield > 0 {
@@ -84,6 +106,12 @@ func (b *Battle) applyHit(attacker, target *Unit, amount int, ignoreShield, crit
 	if attacker != nil {
 		src = attacker.ID
 	}
+	// Ch5 ghosts: rare dodge (~1 of 4 hits).
+	if unitFactionHint(target) == "ghosts" && b.rng != nil && b.rng.ChancePercent(25) {
+		b.emit(CombatEvent{Kind: "dodge", SourceID: src, TargetID: target.ID})
+		return
+	}
+	hadTaunt := target.hasStatus("taunt")
 	hpLost, shAbs, killed := b.applyDamage(attacker, target, amount, ignoreShield)
 	if hpLost == 0 && shAbs == 0 {
 		return
@@ -99,6 +127,16 @@ func (b *Battle) applyHit(attacker, target *Unit, amount int, ignoreShield, crit
 		AoeSecondary: aoeSecondary,
 		Kill:         killed,
 	})
+	// Ch4 zombies: attacker gains +1 poison stack (thorns) on any successful hit.
+	if attacker != nil && attacker.Alive && unitFactionHint(target) == "zombies" {
+		attacker.addStatus("poison", 1, 0)
+		b.emit(CombatEvent{Kind: "status", SourceID: target.ID, TargetID: attacker.ID, Status: "poison", StatusOp: "apply", Amount: 1})
+	}
+	// Pitboss hitting a taunting tank freezes them (stun) for the next turn; support cleanse removes it.
+	if attacker != nil && isPitbossUnit(attacker) && hadTaunt && target.Alive {
+		target.addStatus("stun", 1, 1)
+		b.emit(CombatEvent{Kind: "status", SourceID: src, TargetID: target.ID, Status: "stun", StatusOp: "apply", Amount: 1})
+	}
 }
 
 // applyDamage mutates HP/shield; returns HP lost, shield absorbed, and whether the unit died this hit.
