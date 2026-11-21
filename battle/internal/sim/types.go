@@ -82,17 +82,17 @@ type Frame struct {
 
 // CombatEvent — server-authored VFX/HUD cues for the last action (client must not invent numbers).
 type CombatEvent struct {
-	Kind         string `json:"kind"` // hit | heal | status
+	Kind         string `json:"kind"` // hit | heal | status | dodge
 	SourceID     string `json:"sourceId,omitempty"`
 	TargetID     string `json:"targetId"`
-	Amount       int    `json:"amount,omitempty"`       // HP change (hit/heal)
+	Amount       int    `json:"amount,omitempty"`       // HP change (hit/heal) or shield/buff magnitude
 	ShieldAbsorb int    `json:"shieldAbsorb,omitempty"` // damage eaten by shield
 	Crit         bool   `json:"crit,omitempty"`
 	Pierce       bool   `json:"pierce,omitempty"`
 	AoeSecondary bool   `json:"aoeSecondary,omitempty"`
 	Kill         bool   `json:"kill,omitempty"`
 	Status       string `json:"status,omitempty"`
-	StatusOp     string `json:"statusOp,omitempty"` // apply | clear | block
+	StatusOp     string `json:"statusOp,omitempty"` // apply | clear | block | shield
 }
 
 type Result string

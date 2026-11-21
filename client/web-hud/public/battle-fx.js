@@ -490,8 +490,11 @@ export function playCombatEvents(diff) {
         bumpClass(targetSprite, "hero-damage-hit", 560);
         spawnFx(targetView, "slash-impact-fx", "", 420);
         const amt = Number(ev.amount) || 0;
-        const label = ev.crit ? `-${amt} КРИТ!` : `-${amt}`;
-        floatText(targetView, label, "dmg");
+        // Pure shield-absorb hits: show absorb only (no floating −0).
+        if (amt > 0) {
+          const label = ev.crit ? `-${amt} КРИТ!` : `-${amt}`;
+          floatText(targetView, label, "dmg");
+        }
         if (ev.shieldAbsorb > 0) {
           floatText(targetView, `🛡 −${ev.shieldAbsorb}`, "block");
         }
@@ -499,6 +502,7 @@ export function playCombatEvents(diff) {
       }
 
       if (kind === "heal") {
+        // Always on ev.targetId (healed unit), never the support caster.
         SoundFX.playSupport();
         bumpClass(targetSprite, "combat-action-shake", 450);
         floatText(targetView, `+${Number(ev.amount) || 0}`, "heal");
@@ -508,6 +512,26 @@ export function playCombatEvents(diff) {
       if (kind === "dodge") {
         bumpClass(targetSprite, "combat-action-shake", 380);
         floatText(targetView, "УВОРОТ", "block");
+        return;
+      }
+
+      if (kind === "status" && ev.statusOp === "shield") {
+        // Barrier gain on the shielded unit (ally / self), not the attacker.
+        SoundFX.playBlock();
+        bumpClass(targetSprite, "hero-block-brace", 620);
+        spawnFx(
+          targetView,
+          "shield-barrier-fx",
+          '<span class="mf-fx-shield-glyph">🛡</span>',
+          600
+        );
+        floatText(targetView, `+${Number(ev.amount) || 0} щит`, "block");
+        return;
+      }
+
+      if (kind === "status" && ev.status === "atk_up" && ev.statusOp === "apply") {
+        bumpClass(targetSprite, "combat-action-shake", 400);
+        floatText(targetView, `+${Number(ev.amount) || 0} ATK`, "heal");
         return;
       }
 

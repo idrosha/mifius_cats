@@ -129,6 +129,30 @@ func TestSelectTargets_FreeTargetExplicitAnyEnemy(t *testing.T) {
 	}
 }
 
+func TestSelectTargets_FreeTargetAllyAllIgnoresExplicit(t *testing.T) {
+	b := &Battle{ID: "ally_all", Mode: ModePvE}
+	supp := &Unit{ID: "p_support", Side: SideP1, Lane: 2, Role: "support", HP: 28, MaxHP: 28, Alive: true}
+	tank := &Unit{ID: "p_tank", Side: SideP1, Lane: 0, Role: "tank", HP: 50, MaxHP: 50, Alive: true}
+	fighter := &Unit{ID: "p_fighter", Side: SideP1, Lane: 1, Role: "fighter", HP: 43, MaxHP: 43, Alive: true}
+	b.Units = []*Unit{supp, tank, fighter}
+	got := b.SelectTargets(supp, "ally_all", "p_tank", false)
+	if len(got) != 3 {
+		t.Fatalf("ally_all must keep all allies despite explicit, got %#v", ids(got))
+	}
+}
+
+func TestSelectTargets_FreeTargetAllyLowestNamedAlly(t *testing.T) {
+	b := &Battle{ID: "ally_named", Mode: ModePvE}
+	supp := &Unit{ID: "p_support", Side: SideP1, Lane: 2, Role: "support", HP: 28, MaxHP: 28, Alive: true}
+	tank := &Unit{ID: "p_tank", Side: SideP1, Lane: 0, Role: "tank", HP: 30, MaxHP: 50, Alive: true}
+	fighter := &Unit{ID: "p_fighter", Side: SideP1, Lane: 1, Role: "fighter", HP: 10, MaxHP: 43, Alive: true}
+	b.Units = []*Unit{supp, tank, fighter}
+	got := b.SelectTargets(supp, "ally_lowest_hp", "p_tank", false)
+	if len(got) != 1 || got[0].ID != "p_tank" {
+		t.Fatalf("support may name ally tank, got %#v", ids(got))
+	}
+}
+
 func TestSelectTargets_AmbushBypassesStealth(t *testing.T) {
 	b, actor := baseBattleThreeRoles()
 	for _, u := range b.Units {
@@ -143,6 +167,38 @@ func TestSelectTargets_AmbushBypassesStealth(t *testing.T) {
 	got = b.SelectTargets(actor, "nearest", "", true)
 	if len(got) != 1 || got[0].ID != "e_tank" {
 		t.Fatalf("ambush must hit stealthed front tank, got %#v", ids(got))
+	}
+}
+
+func TestSelectTargets_AllyLowestHPByMissing(t *testing.T) {
+	// Tank 30/50 (missing 20), fighter 40/43 (missing 3), support 28/28 (missing 0)
+	// → heal/shield must pick tank, not the small-MaxHP support.
+	b := &Battle{ID: "ally_missing", Mode: ModePvE}
+	support := &Unit{ID: "p_support", Side: SideP1, Lane: 2, Role: "support", HP: 28, MaxHP: 28, Alive: true}
+	tank := &Unit{ID: "p_tank", Side: SideP1, Lane: 0, Role: "tank", HP: 30, MaxHP: 50, Alive: true}
+	fighter := &Unit{ID: "p_fighter", Side: SideP1, Lane: 1, Role: "fighter", HP: 40, MaxHP: 43, Alive: true}
+	b.Units = []*Unit{support, tank, fighter}
+
+	got := b.SelectTargets(support, "ally_lowest_hp", "", false)
+	if len(got) != 1 || got[0].ID != "p_tank" {
+		t.Fatalf("ally_lowest_hp by missing want p_tank, got %#v", ids(got))
+	}
+}
+
+func TestSelectTargets_LowestHPEnemyAbsolute(t *testing.T) {
+	// Absolute HP: support 10/28 beats wounded tank 25/50 (missing 25).
+	b, actor := baseBattleThreeRoles()
+	for _, u := range b.Units {
+		switch u.ID {
+		case "e_tank":
+			u.HP = 25
+		case "e_support":
+			u.HP = 10
+		}
+	}
+	got := b.SelectTargets(actor, "lowest_hp", "", false)
+	if len(got) != 1 || got[0].ID != "e_support" {
+		t.Fatalf("enemy lowest_hp absolute want e_support, got %#v", ids(got))
 	}
 }
 

@@ -181,6 +181,8 @@ Unused energy не переносится. Unused cards не переносят�
   - `backline`: приоритет тыла — `support` → `ranger` → `mage` → `assassin` → `fighter` → `tank`;  
     затем больший lane → nearer к актёру → id.  
   - Прочие: `self`, `ally_lowest_hp`, `ally_all`, `all_enemies`, `lowest_hp`, `random_enemy`.  
+  - `ally_lowest_hp`: союзник с **макс. missing HP** (`MaxHP − HP`); tie-break меньший lane → меньший id. Не absolute HP (иначе full-HP support с малым MaxHP всегда «слабейший»).  
+  - `lowest_hp` (враг): **absolute current HP** asc (wiki / D-035 «наименьшим HP»); stealth/taunt/ambush как у nearest. Не %HP и не missing.  
   - `random_enemy` (LOCKED `D-043`): seeded pick среди живых врагов (после stealth-filter); **taunt не редиректит** — нужен для spread DoT (яд убийц).  
   - Теги урона: `crit` → **×2** dmg (player wiki / MF-59; было ×1.5 SL stub); `pierce` / статус `fragile` → урон игнорит shield. Freeze = `stun` 1 ход. AoE вторичные цели = **50%** hit. Life drain / in-fight HP refresh запрещены (короткий PvP). Свод чисел: `docs/game-wiki.md`.  
   - Overrides: `taunt` принуждает цель (кроме `random_enemy`); `stealth` скрывает от обычного таргета; `ambush` (тег карты) обходит stealth.

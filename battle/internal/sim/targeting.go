@@ -24,17 +24,36 @@ func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string, allo
 	if explicitID != "" {
 		if t := b.unitByID(explicitID); t != nil && t.Alive {
 			if freeTargetRole(actor.Role) {
-				return []*Unit{t}
-			}
-			// Melee: multi/self/backline cards may name a target; nearest/lowest_hp
-			// must match the auto pick (no illegal deep-pick of rear).
-			switch rule {
-			case "all_enemies", "ally_all", "self":
-				// ignore explicit — resolve full set below
-			case "backline", "random_enemy", "ally_lowest_hp":
-				return []*Unit{t}
-			default: // nearest / lowest_hp / ""
-				wantExplicit = t
+				switch rule {
+				case "all_enemies", "ally_all", "self":
+					// ignore explicit — resolve full set / self below
+				case "ally_lowest_hp":
+					// Support may name a living ally; wrong side → auto missing-HP pick.
+					if t.Side == actor.Side {
+						return []*Unit{t}
+					}
+				default:
+					// Enemy single-target (nearest / lowest_hp / backline / …).
+					if t.Side != actor.Side {
+						return []*Unit{t}
+					}
+				}
+			} else {
+				// Melee: multi/self/backline cards may name a target; nearest/lowest_hp
+				// must match the auto pick (no illegal deep-pick of rear).
+				switch rule {
+				case "all_enemies", "ally_all", "self":
+					// ignore explicit — resolve full set below
+				case "ally_lowest_hp":
+					if t.Side == actor.Side {
+						return []*Unit{t}
+					}
+					// wrong side → auto missing-HP pick
+				case "backline", "random_enemy":
+					return []*Unit{t}
+				default: // nearest / lowest_hp / ""
+					wantExplicit = t
+				}
 			}
 		}
 	}
@@ -47,14 +66,21 @@ func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string, allo
 	case "self":
 		out = []*Unit{actor}
 	case "ally_lowest_hp":
+		// Most wounded ally by missing HP (MaxHP−HP), not absolute HP —
+		// otherwise a full-HP support with small MaxHP always wins.
 		if len(allies) == 0 {
 			return nil
 		}
 		sort.SliceStable(allies, func(i, j int) bool {
-			if allies[i].HP != allies[j].HP {
-				return allies[i].HP < allies[j].HP
+			mi := allies[i].MaxHP - allies[i].HP
+			mj := allies[j].MaxHP - allies[j].HP
+			if mi != mj {
+				return mi > mj
 			}
-			return allies[i].Lane < allies[j].Lane
+			if allies[i].Lane != allies[j].Lane {
+				return allies[i].Lane < allies[j].Lane
+			}
+			return allies[i].ID < allies[j].ID
 		})
 		out = []*Unit{allies[0]}
 	case "ally_all":
@@ -62,6 +88,8 @@ func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string, allo
 	case "all_enemies":
 		out = enemies
 	case "lowest_hp":
+		// Enemy hunter mark: absolute current HP (wiki / D-035 «наименьшим HP»).
+		// Distinct from ally_lowest_hp (missing). Taunt/stealth/ambush still apply.
 		cands := filterStealth(enemies, allowAmbush)
 		cands = applyTaunt(cands, enemies)
 		if len(cands) == 0 {
@@ -71,7 +99,10 @@ func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string, allo
 			if cands[i].HP != cands[j].HP {
 				return cands[i].HP < cands[j].HP
 			}
-			return cands[i].Lane < cands[j].Lane
+			if cands[i].Lane != cands[j].Lane {
+				return cands[i].Lane < cands[j].Lane
+			}
+			return cands[i].ID < cands[j].ID
 		})
 		out = []*Unit{cands[0]}
 	case "backline":

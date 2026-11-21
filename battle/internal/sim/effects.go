@@ -31,17 +31,32 @@ func unitFactionHint(u *Unit) string {
 func (b *Battle) resolveCard(actor *Unit, card content.CardDef, targets []*Unit) {
 	if card.Shield > 0 {
 		amt := int(math.Floor(float64(card.Shield) * kinshipOnly(card.Element, actor.Element)))
+		var shieldTargets []*Unit
 		switch card.TargetRule {
-		case "ally_all":
-			for _, t := range targets {
-				t.Shield += amt
-			}
-		case "ally_lowest_hp", "self":
-			for _, t := range targets {
-				t.Shield += amt
-			}
+		case "ally_all", "ally_lowest_hp", "self":
+			// Ally/self shields resolve via SelectTargets (ally_lowest = missing HP).
+			shieldTargets = targets
 		default:
-			actor.Shield += amt
+			// Bash / poke: attack hits enemies; barrier stays on the caster.
+			shieldTargets = []*Unit{actor}
+		}
+		src := ""
+		if actor != nil {
+			src = actor.ID
+		}
+		for _, t := range shieldTargets {
+			if t == nil || !t.Alive || amt <= 0 {
+				continue
+			}
+			t.Shield += amt
+			b.emit(CombatEvent{
+				Kind:     "status",
+				SourceID: src,
+				TargetID: t.ID,
+				Status:   "shield",
+				StatusOp: "shield",
+				Amount:   amt,
+			})
 		}
 	}
 
@@ -258,10 +273,25 @@ func (b *Battle) applyOp(actor *Unit, targets []*Unit, op map[string]any) {
 		stat, _ := op["stat"].(string)
 		amt := intFrom(op["amount"], 0)
 		dur := intFrom(op["duration"], 1)
+		src := ""
+		if actor != nil {
+			src = actor.ID
+		}
 		for _, t := range targets {
+			if t == nil || !t.Alive {
+				continue
+			}
 			if stat == "atk" {
 				t.AtkBuff += amt
 				t.AtkBuffDur = dur
+				b.emit(CombatEvent{
+					Kind:     "status",
+					SourceID: src,
+					TargetID: t.ID,
+					Status:   "atk_up",
+					StatusOp: "apply",
+					Amount:   amt,
+				})
 			}
 		}
 	}

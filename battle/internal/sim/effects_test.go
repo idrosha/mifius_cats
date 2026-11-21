@@ -93,3 +93,60 @@ func TestHitEventsInBattle(t *testing.T) {
 		t.Fatalf("want shield 5 + hp 15 (crit 20), got absorb=%d amount=%d", ev.ShieldAbsorb, ev.Amount)
 	}
 }
+
+func TestShieldEmitsEventOnAllyLowest(t *testing.T) {
+	b := &Battle{ID: "sh", rng: NewRNG(1), cardsPlayedByUnit: map[string]int{}}
+	actor := &Unit{ID: "tank", Side: SideP1, Alive: true, HP: 50, MaxHP: 50, Element: "stone"}
+	ally := &Unit{ID: "hurt", Side: SideP1, Alive: true, HP: 20, MaxHP: 50}
+	b.Units = []*Unit{actor, ally}
+	card := content.CardDef{
+		Shield: 4, TargetRule: "ally_lowest_hp", Element: "stone",
+		Tags: []string{"shield"},
+	}
+	b.resolveCard(actor, card, []*Unit{ally})
+	if ally.Shield != 4 {
+		t.Fatalf("ally shield want 4, got %d", ally.Shield)
+	}
+	if actor.Shield != 0 {
+		t.Fatalf("caster must not keep ally shield, got %d", actor.Shield)
+	}
+	if len(b.Events) != 1 {
+		t.Fatalf("want 1 shield event, got %d %#v", len(b.Events), b.Events)
+	}
+	ev := b.Events[0]
+	if ev.Kind != "status" || ev.StatusOp != "shield" || ev.TargetID != "hurt" || ev.Amount != 4 {
+		t.Fatalf("bad shield event: %+v", ev)
+	}
+}
+
+func TestHealEventTargetID(t *testing.T) {
+	b := &Battle{ID: "heal", rng: NewRNG(1), cardsPlayedByUnit: map[string]int{}}
+	actor := &Unit{ID: "supp", Side: SideP1, Alive: true, HP: 28, MaxHP: 28}
+	ally := &Unit{ID: "hurt", Side: SideP1, Alive: true, HP: 20, MaxHP: 50}
+	b.Units = []*Unit{actor, ally}
+	b.applyOp(actor, []*Unit{ally}, map[string]any{"op": "heal", "amount": 5})
+	if ally.HP != 25 {
+		t.Fatalf("heal want HP 25, got %d", ally.HP)
+	}
+	if len(b.Events) != 1 || b.Events[0].Kind != "heal" || b.Events[0].TargetID != "hurt" || b.Events[0].Amount != 5 {
+		t.Fatalf("bad heal event: %#v", b.Events)
+	}
+}
+
+func TestBuffEmitsAtkUpEvent(t *testing.T) {
+	b := &Battle{ID: "buff", rng: NewRNG(1), cardsPlayedByUnit: map[string]int{}}
+	actor := &Unit{ID: "supp", Side: SideP1, Alive: true, HP: 28, MaxHP: 28}
+	ally := &Unit{ID: "fighter", Side: SideP1, Alive: true, HP: 40, MaxHP: 43}
+	b.Units = []*Unit{actor, ally}
+	b.applyOp(actor, []*Unit{ally}, map[string]any{"op": "buff", "stat": "atk", "amount": 2, "duration": 3})
+	if ally.AtkBuff != 2 || ally.AtkBuffDur != 3 {
+		t.Fatalf("buff state want +2/3, got %d/%d", ally.AtkBuff, ally.AtkBuffDur)
+	}
+	if len(b.Events) != 1 {
+		t.Fatalf("want 1 buff event, got %d", len(b.Events))
+	}
+	ev := b.Events[0]
+	if ev.Kind != "status" || ev.Status != "atk_up" || ev.StatusOp != "apply" || ev.TargetID != "fighter" || ev.Amount != 2 {
+		t.Fatalf("bad buff event: %+v", ev)
+	}
+}
