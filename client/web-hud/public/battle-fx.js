@@ -275,7 +275,7 @@ const ELEMENT_AURA = {
   water: "aura-water",
 };
 
-/** Keyframe + timing — breathe (transform) only on cutout (D-046). Aura = sibling glow. */
+/** Keyframe + timing — breathe (transform) and aura (filter) must share one animation list (D-046). */
 const BREATHE_SPEC = [
   { cls: "idle-breathe-1", name: "heroBreathe1", duration: "4.2s", delay: "0s" },
   { cls: "idle-breathe-2", name: "heroBreathe2", duration: "3.8s", delay: "-1.1s" },
@@ -286,12 +286,12 @@ const BREATHE_SPEC = [
 ];
 
 const AURA_SPEC = {
-  stone: { cls: "aura-stone", glow: "mf-aura-glow--stone" },
-  fire: { cls: "aura-fire", glow: "mf-aura-glow--fire" },
-  bolt: { cls: "aura-lightning", glow: "mf-aura-glow--bolt" },
-  grass: { cls: "aura-wind", glow: "mf-aura-glow--grass" },
-  ice: { cls: "aura-ice", glow: "mf-aura-glow--ice" },
-  water: { cls: "aura-water", glow: "mf-aura-glow--water" },
+  stone: { cls: "aura-stone", name: "pulseGlowStone", duration: "4s" },
+  fire: { cls: "aura-fire", name: "pulseGlowFire", duration: "3.6s" },
+  bolt: { cls: "aura-lightning", name: "pulseGlowLightning", duration: "3.4s" },
+  grass: { cls: "aura-wind", name: "pulseGlowWind", duration: "4.2s" },
+  ice: { cls: "aura-ice", name: "pulseGlowIce", duration: "3.8s" },
+  water: { cls: "aura-water", name: "pulseGlowWater", duration: "4.1s" },
 };
 
 const BREATHE = BREATHE_SPEC.map((s) => s.cls);
@@ -317,22 +317,9 @@ function viewportFor(el) {
   return frame;
 }
 
-function ensureAuraGlow(frame, glowCls) {
-  if (!frame) return;
-  let glow = frame.querySelector(":scope > .mf-aura-glow");
-  if (!glow) {
-    glow = document.createElement("div");
-    glow.className = "mf-aura-glow";
-    glow.setAttribute("aria-hidden", "true");
-    frame.appendChild(glow);
-  }
-  glow.className = `mf-aura-glow ${glowCls}`;
-  glow.hidden = false;
-}
-
+/** Remove leftover circular glow siblings from the old Android workaround. */
 function clearAuraGlow(frame) {
-  const glow = frame?.querySelector?.(":scope > .mf-aura-glow");
-  if (glow) glow.hidden = true;
+  frame?.querySelectorAll?.(":scope > .mf-aura-glow").forEach((n) => n.remove());
 }
 
 function bumpClass(el, cls, ms) {
@@ -377,7 +364,7 @@ function floatText(viewport, text, tone = "dmg") {
 
 /**
  * Ch3 red dogs + ch4 zombies: cutout already emits fire/plague.
- * Skip pulsing glow (washes soft fringe). Breathe still runs (D-046).
+ * Skip pulsing drop-shadow aura (washes soft fringe). Breathe still runs (D-046).
  */
 function monsterGlowIsBaked(unit) {
   const id = `${unit?.id || ""} ${unit?.templateId || ""}`;
@@ -385,15 +372,16 @@ function monsterGlowIsBaked(unit) {
 }
 
 /**
- * Idle breathe (+ optional elemental aura glow sibling) on a fight unit cutout.
+ * Idle breathe (+ optional elemental aura) on a fight unit cutout.
  * Locked for every live-fight mode: practice / Mythmir PvE / PvP / wire (D-046, MF-149).
- * Breathe = transform on img; aura = `.mf-aura-glow` box-shadow (no filter on cutout).
+ * One `animation` list — breathe (transform) + aura (drop-shadow filter) on the cutout.
  */
 export function decorateBattleUnitIdle(card, unit, laneIndex = 0) {
   if (!card || !unit) return;
   const img = spriteRoot(card);
   if (!img) return;
   const frame = viewportFor(card);
+  clearAuraGlow(frame);
   BREATHE.forEach((c) => img.classList.remove(c));
   Object.values(ELEMENT_AURA).forEach((c) => img.classList.remove(c));
   img.classList.remove("mf-sprite-crisp");
@@ -403,20 +391,20 @@ export function decorateBattleUnitIdle(card, unit, laneIndex = 0) {
   card.dataset.element = unit.element || "";
   if (!unit.alive) {
     img.classList.remove("mf-hero-sprite");
-    clearAuraGlow(frame);
     return;
   }
   const breathe = BREATHE_SPEC[Math.abs(laneIndex) % BREATHE_SPEC.length];
+  const anim = [
+    `${breathe.name} ${breathe.duration} ease-in-out ${breathe.delay} infinite`,
+  ];
   img.classList.add(breathe.cls, "mf-hero-sprite");
-  img.style.animation = `${breathe.name} ${breathe.duration} ease-in-out ${breathe.delay} infinite`;
-  img.style.transformOrigin = "bottom center";
   if (!monsterGlowIsBaked(unit)) {
     const aura = AURA_SPEC[unit.element] || AURA_SPEC.stone;
     img.classList.add(aura.cls);
-    ensureAuraGlow(frame, aura.glow);
-  } else {
-    clearAuraGlow(frame);
+    anim.push(`${aura.name} ${aura.duration} ease-in-out infinite`);
   }
+  img.style.animation = anim.join(", ");
+  img.style.transformOrigin = "bottom center";
 }
 
 export function findBattleUnitEl(unitId) {
