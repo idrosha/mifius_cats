@@ -21,6 +21,9 @@ const STARTERS = [
   "starter_support_water",
 ];
 const YARD_STAGE = "mythmir_1_f1"; // default first fight; campaign selects others
+/** Raid / legion hard party size (docs/raids · qa G6). */
+const RAID_PARTY_SIZE = 12;
+const minRaidPlayers = 12;
 const PRACTICE_STAGE = "practice_dummy_1";
 const TUTORIAL_BUDGET_MS = 10 * 60 * 1000;
 const CLIENT_REGION = (new URLSearchParams(location.search).get("region") || "RU").toUpperCase();
@@ -263,7 +266,7 @@ const NAV = [
       { id: "pve", key: "nav.sub.pve" },
       { id: "pvp", key: "nav.sub.pvp", gated: "pvp" },
       { id: "boss_dungeon", key: "nav.sub.boss_dungeon" },
-      { id: "boss_raid", key: "nav.sub.boss_raid", gated: true },
+      { id: "boss_raid", key: "nav.sub.boss_raid", gated: false },
       { id: "guild_battle", key: "nav.sub.guild_battle", gated: true },
     ],
   },
@@ -823,7 +826,20 @@ const state = {
   wireMode: "hub",
   loggedIn: false,
   selectedStageId: YARD_STAGE,
-  battleMode: "pve", // pve | practice | boss | guild_demo | pvp
+  battleMode: "pve", // pve | practice | boss | dungeon | guild_demo | pvp
+  dungeonCoop: null, // content/dungeons_coop_v1.json
+  dungeonRewards: null, // content/dungeon_rewards_v1.json
+  dungeonRares: null, // content/dungeon_rares.json
+  selectedDungeonId: "scarlet",
+  dungeonPath: "short", // short | long
+  dungeonFork: "left", // long F2: left | right
+  dungeonNodeIndex: 0,
+  dungeonParty: [
+    { slot: 0, name: "Вы", ready: true, local: true },
+    { slot: 1, name: "Слот 2", ready: false },
+    { slot: 2, name: "Слот 3", ready: false },
+    { slot: 3, name: "Слот 4", ready: false },
+  ],
   /** Practice dojo selected squad — templateIds, max 3; starts empty. */
   practiceSquad: [],
   practiceFilterRole: "",
@@ -866,11 +882,28 @@ const state = {
   bossWaveIndex: 0,
   campaign: null,
   bossFirst: null,
+  /** Raid legion lobby (docs/raids · content/campaign/raids_sl.json). */
+  raidsCatalog: null,
+  raidId: "myaurra",
+  raidPath: "short", // short | long — развилка маршрута
+  raidPathNodeIndex: 0,
+  raidLegionCount: 3,
+  raidAttemptsLeft: 3,
+  raidWeeklyLocked: false,
   progress: {
     pveWins: 0,
     practiceWins: 0,
     pvpWins: 0,
     clearedFights: {}, // stageId -> true
+    dungeon: {
+      keys: {},
+      firstClear: {},
+      rares: [],
+      mats: {},
+      runs: 0,
+      keysSeeded: false,
+    },
+    raidLootClaimed: false,
   },
 };
 
@@ -925,8 +958,39 @@ function showGateTip(custom) {
   }
 }
 
+function ensureDungeonProgress() {
+  if (!state.progress.dungeon || typeof state.progress.dungeon !== "object") {
+    state.progress.dungeon = {
+      keys: {},
+      firstClear: {},
+      rares: [],
+      mats: {},
+      runs: 0,
+      keysSeeded: false,
+    };
+  }
+  const d = state.progress.dungeon;
+  if (!d.keys || typeof d.keys !== "object") d.keys = {};
+  if (!d.firstClear || typeof d.firstClear !== "object") d.firstClear = {};
+  if (!Array.isArray(d.rares)) d.rares = [];
+  if (!d.mats || typeof d.mats !== "object") d.mats = {};
+  if (typeof d.runs !== "number") d.runs = 0;
+  return d;
+}
+
+function seedDungeonKeysIfNeeded() {
+  const d = ensureDungeonProgress();
+  if (d.keysSeeded || !state.dungeonCoop?.starterKeys) return;
+  for (const [id, n] of Object.entries(state.dungeonCoop.starterKeys)) {
+    if (typeof d.keys[id] !== "number") d.keys[id] = Number(n) || 0;
+  }
+  d.keysSeeded = true;
+  persistProgress();
+}
+
 function persistProgress() {
   try {
+    ensureDungeonProgress();
     localStorage.setItem("mythfel_sl_progress", JSON.stringify(state.progress));
   } catch (_) {}
 }
@@ -955,9 +1019,18 @@ function loadProgress() {
         practiceWins: parsed.practiceWins || 0,
         pvpWins: parsed.pvpWins || 0,
         clearedFights: parsed.clearedFights || {},
+        dungeon: parsed.dungeon || {
+          keys: {},
+          firstClear: {},
+          rares: [],
+          mats: {},
+          runs: 0,
+          keysSeeded: false,
+        },
       };
     }
   } catch (_) {}
+  ensureDungeonProgress();
 }
 
 /** Append seed items missing from persisted catalog (e.g. new rings). */
@@ -1127,15 +1200,20 @@ function showPassGateTip() {
 function logicalViewId() {
   if (state.battle && !state.battle.result) {
     // PvE live fight reuses practice HUD (cutouts + hand + FX). Painted #viewPveFight is stub chrome only.
-    if (state.battleMode === "practice" || state.battleMode === "pve") return "viewPracticeFight";
+    if (state.battleMode === "practice" || state.battleMode === "pve" || state.battleMode === "dungeon") {
+      return "viewPracticeFight";
+    }
     if (state.battleMode === "pvp") return "viewPvpFight";
     return "viewBattle";
   }
-  // Mid-chapter wave clear / in-flight next CreatePvE: keep fight HUD (no victory).
+  // Mid-chapter / mid-dungeon wave clear / in-flight next CreatePvE: keep fight HUD (no victory).
   if (
-    state.battleMode === "pve" &&
-    (state.pveAdvancingWave ||
-      (state.battle?.result === "p1_win" && !state.lastResult))
+    (state.battleMode === "pve" &&
+      (state.pveAdvancingWave ||
+        (state.battle?.result === "p1_win" && !state.lastResult))) ||
+    (state.battleMode === "dungeon" &&
+      (state.dungeonAdvancing ||
+        (state.battle?.result === "p1_win" && !state.lastResult)))
   ) {
     return "viewPracticeFight";
   }
@@ -1772,11 +1850,29 @@ function combatStarterIds() {
   return combat.length ? combat : STARTERS;
 }
 
-/** Active 3-cat team: practice formation if set, else profile starters (B5). */
+/**
+ * Collection preset → combat templateIds (sim front→mid→rear).
+ * Collection UI stores [тыл, центр, авангард]; battle wants [авангард, центр, тыл].
+ */
+function collectionPresetTemplateIds(pi = state.colPresetIndex || 0) {
+  if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
+  const preset = state.profile?.presets?.[pi];
+  if (!preset || !Array.isArray(preset.catIds)) return null;
+  const visual = [0, 1, 2].map((i) => collectionCatById(preset.catIds[i])).filter(Boolean);
+  if (visual.length !== 3) return null;
+  return [visual[2], visual[1], visual[0]].map((c) => c.templateId).filter(Boolean);
+}
+
+/** Active 3-cat team: PvP / practice / collection preset / starters (B5). */
 function combatSquadIds() {
   if (state.battleMode === "pvp" && Array.isArray(state.pvpSquad) && state.pvpSquad.length === 3) {
     return [...state.pvpSquad];
   }
+  if (state.battleMode === "practice" && Array.isArray(state.practiceSquad) && state.practiceSquad.length === 3) {
+    return [...state.practiceSquad];
+  }
+  const fromCol = collectionPresetTemplateIds();
+  if (fromCol && fromCol.length === 3) return fromCol;
   if (Array.isArray(state.practiceSquad) && state.practiceSquad.length === 3) {
     return [...state.practiceSquad];
   }
@@ -1814,6 +1910,492 @@ function syncPveFromStageId(stageId = state.selectedStageId) {
   return true;
 }
 
+/** Co-op dungeon catalog helpers (docs/dungeons-coop-3.md). */
+function dungeonById(id = state.selectedDungeonId) {
+  const list = state.dungeonCoop?.dungeons || [];
+  return list.find((d) => d.id === id) || list[0] || null;
+}
+
+function dungeonPathNodes(dungeonId = state.selectedDungeonId, path = state.dungeonPath, fork = state.dungeonFork) {
+  const d = dungeonById(dungeonId);
+  const route = d?.paths?.[path];
+  if (!route || !Array.isArray(route.nodes)) return [];
+  if (path !== "long" || !route.forkF2) return route.nodes.slice();
+  const side = fork === "right" ? "right" : "left";
+  const forkNodes = route.forkF2[side];
+  if (!Array.isArray(forkNodes) || !forkNodes.length) return route.nodes.slice();
+  const forkIds = new Set([...(route.forkF2.left || []), ...(route.forkF2.right || [])]);
+  const prefix = [];
+  for (const sid of route.nodes) {
+    if (forkIds.has(sid)) break;
+    prefix.push(sid);
+  }
+  return prefix.concat(forkNodes);
+}
+
+function dungeonKeyCount(id = state.selectedDungeonId) {
+  const d = ensureDungeonProgress();
+  return Number(d.keys[id] || 0);
+}
+
+async function spendDungeonKey(id = state.selectedDungeonId) {
+  const d = ensureDungeonProgress();
+  const n = Number(d.keys[id] || 0);
+  if (n <= 0) return false;
+  const userId = state.profile?.userId || state.session?.userId || "local_smoke";
+  try {
+    const { data } = await api("/api/dev/dungeon/keys/spend", {
+      method: "POST",
+      body: JSON.stringify({ userId, dungeonId: id }),
+    });
+    if (data?.ok && data.keys) {
+      d.keys = { ...data.keys };
+      persistProgress();
+      return true;
+    }
+  } catch (_) {
+    /* local fallback */
+  }
+  d.keys[id] = n - 1;
+  persistProgress();
+  return true;
+}
+
+async function syncDungeonStateFromServer() {
+  try {
+    const userId = state.profile?.userId || state.session?.userId || "local_smoke";
+    const { data } = await api(`/api/dev/dungeon/state?userId=${encodeURIComponent(userId)}`);
+    if (!data?.keys) return false;
+    const d = ensureDungeonProgress();
+    d.keys = { ...data.keys };
+    d.firstClear = { ...(data.firstClear || {}) };
+    d.rares = Array.isArray(data.rares) ? data.rares.slice() : d.rares;
+    d.mats = { ...(data.mats || {}) };
+    d.runs = Number(data.runs || 0);
+    d.keysSeeded = true;
+    if (typeof data.fish === "number") {
+      if (state.profile) state.profile.fish = data.fish;
+      state.wallet.gold = data.fish;
+    }
+    if (data.party?.members) {
+      state.dungeonParty = data.party.members.map((m, i) => ({
+        slot: m.slot ?? i,
+        name: m.name || m.userId,
+        ready: !!m.ready,
+        bot: !!m.bot,
+        local: i === 0,
+      }));
+      state.dungeonPartyCode = data.party.code;
+    }
+    persistProgress();
+    renderCurrency();
+    renderDungeonLobby();
+    return true;
+  } catch (_) {
+    return false;
+  }
+}
+
+async function buyDungeonKey(id = state.selectedDungeonId) {
+  const dung = dungeonById(id);
+  if (!dung) return false;
+  const cost = Number(dung.keyFishCost) || 80;
+  const userId = state.profile?.userId || state.session?.userId || "local_smoke";
+  try {
+    const { data } = await api("/api/dev/dungeon/keys/buy", {
+      method: "POST",
+      body: JSON.stringify({ userId, dungeonId: id }),
+    });
+    if (data?.ok) {
+      const d = ensureDungeonProgress();
+      d.keys = { ...data.keys };
+      if (typeof data.fish === "number") {
+        if (state.profile) state.profile.fish = data.fish;
+        state.wallet.gold = data.fish;
+      }
+      persistProgress();
+      renderCurrency();
+      renderDungeonLobby();
+      toast(`Ключ +1 · ${dung.title_ru} (−${cost} рыбы · server)`);
+      return true;
+    }
+  } catch (_) {
+    /* local fallback */
+  }
+  const fish = state.profile?.fish ?? state.wallet?.gold ?? 0;
+  if (fish < cost) {
+    toast(`Нужно ${cost} рыбы на ключ`);
+    return false;
+  }
+  if (state.profile && typeof state.profile.fish === "number") {
+    state.profile.fish -= cost;
+    state.wallet.gold = state.profile.fish;
+  } else {
+    state.wallet.gold = Math.max(0, (state.wallet.gold || 0) - cost);
+  }
+  const d = ensureDungeonProgress();
+  d.keys[id] = Number(d.keys[id] || 0) + 1;
+  persistProgress();
+  renderCurrency();
+  renderDungeonLobby();
+  toast(`Ключ +1 · ${dung.title_ru} (−${cost} рыбы)`);
+  return true;
+}
+
+function grantDungeonFish(amount) {
+  const n = Math.max(0, Number(amount) || 0);
+  if (!n) return;
+  if (state.profile && typeof state.profile.fish === "number") {
+    state.profile.fish += n;
+    state.wallet.gold = state.profile.fish;
+  } else {
+    state.wallet.gold = (state.wallet.gold || 0) + n;
+  }
+  renderCurrency();
+}
+
+function grantDungeonMat(matId, qty = 1) {
+  const d = ensureDungeonProgress();
+  d.mats[matId] = Number(d.mats[matId] || 0) + qty;
+  const barn = (state.barnMats || []).find((m) => m.id === matId);
+  if (barn) barn.qty = Number(barn.qty || 0) + qty;
+  else {
+    if (!Array.isArray(state.barnMats)) state.barnMats = [];
+    state.barnMats.push({
+      id: matId,
+      name: matId,
+      kind: "dungeon",
+      rarity: "rare",
+      qty,
+      tag: "Данж",
+      desc: "Материал кооп-данжа",
+    });
+  }
+  persistGearStub();
+}
+
+function upsertDungeonRareGear(rare) {
+  if (!rare?.id) return;
+  const def = (state.dungeonRares?.items || []).find((x) => x.id === rare.id) || rare;
+  const existing = (state.gearCatalog || []).find((g) => g.id === def.id);
+  if (existing) {
+    existing.qty = Number(existing.qty || 1) + 1;
+    return existing;
+  }
+  const item = {
+    id: def.id,
+    slot: def.slot || "ring",
+    name: def.title_ru || def.id,
+    atk: def.atk || 0,
+    hp: def.hp || 0,
+    def: def.def || 0,
+    spd: def.spd || 0,
+    crit: def.crit || 0,
+    rank: 3,
+    rarity: def.rarity || "rare",
+    enhance: 0,
+    set: "dungeon_rare",
+    roles: null,
+    qty: 1,
+    pveOnly: true,
+    effect: def.effect_ru || "",
+    iconSrc: "/barn-icons/fish.png",
+  };
+  state.gearCatalog.push(item);
+  persistGearStub();
+  return item;
+}
+
+function grantDungeonBossLoot() {
+  const dung = dungeonById();
+  if (!dung) return;
+  const prog = ensureDungeonProgress();
+  const path = state.dungeonPath === "long" ? "long" : "short";
+  const bossTable = state.dungeonRewards?.bossLoot?.[path] || { fish: 80, rareChance: 0.55 };
+  const first = !prog.firstClear[dung.id];
+  grantDungeonFish(bossTable.fish || 80);
+
+  if (path === "long") {
+    const mats = state.dungeonRewards?.matsByDungeon?.[dung.id]?.long || dung.paths?.long?.uniqueMats || [];
+    for (const mat of mats) grantDungeonMat(mat, 1);
+  }
+
+  const rares = dung.rareItems || [];
+  let awarded = null;
+  if (rares.length) {
+    if (first && state.dungeonRewards?.firstClear?.guaranteeRare) {
+      awarded = rares[0];
+      prog.firstClear[dung.id] = true;
+      grantDungeonFish(state.dungeonRewards?.firstClear?.fish || 150);
+    } else {
+      let chance = Number(bossTable.rareChance) || 0.55;
+      if (path === "long") chance += Number(bossTable.pityBonus) || 0;
+      if (Math.random() <= chance) {
+        awarded = rares[Math.floor(Math.random() * rares.length)];
+      }
+    }
+  }
+  if (awarded) {
+    upsertDungeonRareGear(awarded);
+    prog.rares.push({ id: awarded.id, dungeonId: dung.id, at: Date.now(), path });
+    toast(`Редмет: ${awarded.title_ru || awarded.id}${first ? " · first-clear" : ""}`);
+  } else {
+    toast(`Босс сражён · +${bossTable.fish || 80} рыбы (редмет не выпал)`);
+  }
+  prog.runs = Number(prog.runs || 0) + 1;
+  persistProgress();
+  const userId = state.profile?.userId || state.session?.userId || "local_smoke";
+  const mats =
+    path === "long"
+      ? state.dungeonRewards?.matsByDungeon?.[dung.id]?.long || dung.paths?.long?.uniqueMats || []
+      : [];
+  api("/api/dev/dungeon/clear", {
+    method: "POST",
+    body: JSON.stringify({
+      userId,
+      dungeonId: dung.id,
+      rareId: awarded?.id || null,
+      mats,
+      fish: bossTable.fish || 80,
+    }),
+  }).catch(() => {});
+  renderDungeonLobby();
+}
+
+function grantDungeonNodeLoot() {
+  const path = state.dungeonPath === "long" ? "long" : "short";
+  const table = state.dungeonRewards?.nodeLoot?.[path] || { fish: 25 };
+  grantDungeonFish(table.fish || 25);
+}
+
+async function createDungeonParty() {
+  const userId = state.profile?.userId || state.session?.userId || "local_smoke";
+  try {
+    const { data } = await api("/api/dev/dungeon/party/create", {
+      method: "POST",
+      body: JSON.stringify({
+        userId,
+        name: "Вы",
+        dungeonId: state.selectedDungeonId,
+        path: state.dungeonPath,
+        fork: state.dungeonFork,
+      }),
+    });
+    if (data?.ok && data.party) {
+      state.dungeonPartyCode = data.party.code;
+      state.dungeonParty = data.party.members.map((m, i) => ({
+        slot: m.slot ?? i,
+        name: m.name || m.userId,
+        ready: !!m.ready,
+        bot: !!m.bot,
+        local: true,
+      }));
+      renderDungeonLobby();
+      toast(`Лобби создано · код ${data.party.code}`);
+      return;
+    }
+  } catch (err) {
+    toast(`Пати API: ${err.message || "offline"}`);
+  }
+}
+
+async function fillDungeonPartyBots() {
+  const userId = state.profile?.userId || state.session?.userId || "local_smoke";
+  try {
+    const { data } = await api("/api/dev/dungeon/party/fill-bots", {
+      method: "POST",
+      body: JSON.stringify({
+        userId,
+        name: "Вы",
+        dungeonId: state.selectedDungeonId,
+        path: state.dungeonPath,
+        fork: state.dungeonFork,
+      }),
+    });
+    if (data?.ok && data.party?.members) {
+      state.dungeonPartyCode = data.party.code;
+      state.dungeonParty = data.party.members.map((m, i) => ({
+        slot: m.slot ?? i,
+        name: m.name || m.userId,
+        ready: !!m.ready,
+        bot: !!m.bot,
+        local: m.userId === userId,
+      }));
+      renderDungeonLobby();
+      toast(`Пати ${data.party.readyCount}/4 · код ${data.party.code}`);
+      return;
+    }
+  } catch (_) {
+    /* local fallback */
+  }
+  state.dungeonParty = [
+    { slot: 0, name: "Вы", ready: true, local: true },
+    { slot: 1, name: "Бот·Танк", ready: true, bot: true },
+    { slot: 2, name: "Бот·DPS", ready: true, bot: true },
+    { slot: 3, name: "Бот·Хил", ready: true, bot: true },
+  ];
+  renderDungeonLobby();
+  toast("Пати 4/4 (локальные боты · бой всё ещё ваш 3v3)");
+}
+
+function selectDungeon(id, path = state.dungeonPath, fork = state.dungeonFork) {
+  const d = dungeonById(id);
+  if (!d) {
+    toast("Данж не найден в catalog");
+    return;
+  }
+  state.selectedDungeonId = d.id;
+  state.dungeonPath = path === "long" ? "long" : "short";
+  state.dungeonFork = fork === "right" ? "right" : "left";
+  state.dungeonNodeIndex = 0;
+  const nodes = dungeonPathNodes();
+  state.selectedStageId = nodes[0] || state.selectedStageId;
+  renderDungeonLobby();
+}
+
+function renderDungeonLobby() {
+  const root = $("viewBossDungeon");
+  if (!root || !state.dungeonCoop) return;
+  seedDungeonKeysIfNeeded();
+  const d = dungeonById();
+  if (!d) return;
+  const nodes = dungeonPathNodes();
+  const path = d.paths?.[state.dungeonPath];
+  root.querySelectorAll(".dungeon-pick[data-dungeon]").forEach((el) => {
+    const id = el.getAttribute("data-dungeon");
+    el.classList.toggle("is-on", id === d.id);
+  });
+  root.querySelectorAll("[data-dungeon-path]").forEach((el) => {
+    el.classList.toggle("is-on", el.getAttribute("data-dungeon-path") === state.dungeonPath);
+  });
+  root.querySelectorAll("[data-dungeon-fork]").forEach((el) => {
+    el.classList.toggle("is-on", el.getAttribute("data-dungeon-fork") === state.dungeonFork);
+    el.classList.toggle("hidden", state.dungeonPath !== "long" || !path?.forkF2);
+  });
+  const forkWrap = root.querySelector("[data-dungeon-fork-wrap]");
+  if (forkWrap) forkWrap.classList.toggle("hidden", state.dungeonPath !== "long" || !path?.forkF2);
+  if (path?.forkF2) {
+    const leftBtn = root.querySelector('[data-dungeon-fork="left"]');
+    const rightBtn = root.querySelector('[data-dungeon-fork="right"]');
+    if (leftBtn) leftBtn.textContent = path.forkF2.left_ru || "Налево";
+    if (rightBtn) rightBtn.textContent = path.forkF2.right_ru || "Направо";
+  }
+  const title = root.querySelector("[data-dungeon-active-title]");
+  if (title) title.textContent = d.title_ru || d.id;
+  const sub = root.querySelector("[data-dungeon-active-sub]");
+  if (sub) {
+    const tmax =
+      state.dungeonPath === "short"
+        ? state.dungeonCoop.timing?.shortMaxMin
+        : state.dungeonCoop.timing?.longMaxMin;
+    const forkHint =
+      state.dungeonPath === "long" && path?.forkF2
+        ? ` · F2 ${state.dungeonFork === "right" ? path.forkF2.right_ru || "право" : path.forkF2.left_ru || "лево"}`
+        : "";
+    sub.textContent = `${path?.label_ru || state.dungeonPath}${forkHint} · ${nodes.length} узлов · ≤${tmax || "?"} мин · 3v3`;
+  }
+  const timeEl = root.querySelector("[data-dungeon-time]");
+  if (timeEl) {
+    timeEl.textContent =
+      state.dungeonPath === "short"
+        ? `≤${state.dungeonCoop.timing?.shortMaxMin || 10} мин`
+        : `≤${state.dungeonCoop.timing?.longMaxMin || 15} мин`;
+  }
+  const keysEl = root.querySelector("[data-dungeon-keys]");
+  if (keysEl) keysEl.textContent = String(dungeonKeyCount(d.id));
+  const runsEl = root.querySelector("[data-dungeon-runs]");
+  if (runsEl) runsEl.textContent = String(ensureDungeonProgress().runs || 0);
+  const raresEl = root.querySelector("[data-dungeon-rares-count]");
+  if (raresEl) raresEl.textContent = String((ensureDungeonProgress().rares || []).length);
+  const fcEl = root.querySelector("[data-dungeon-first-clear]");
+  if (fcEl) {
+    const done = !!ensureDungeonProgress().firstClear[d.id];
+    fcEl.textContent = done ? "First-clear ✓" : "First-clear бонус";
+    fcEl.classList.toggle("text-secondary", done);
+  }
+  const partyBox = root.querySelector("[data-dungeon-party]");
+  if (partyBox) {
+    partyBox.innerHTML = "";
+    for (const p of state.dungeonParty || []) {
+      const row = document.createElement("div");
+      row.className =
+        "rounded-md border px-2 py-1 text-[10px] flex justify-between " +
+        (p.ready ? "border-primary/40 bg-primary/10" : "border-outline-variant/30 bg-[#1a1613]");
+      row.innerHTML = `<span>${p.name}</span><b>${p.ready ? "ready" : "…"}</b>`;
+      partyBox.appendChild(row);
+    }
+  }
+  const readyN = (state.dungeonParty || []).filter((p) => p.ready).length;
+  const partyHint = root.querySelector("[data-dungeon-party-hint]");
+  if (partyHint) {
+    partyHint.textContent =
+      readyN < 4
+        ? `Пати ${readyN}/4 · соло нежелателен`
+        : "Пати 4/4 · бой ядра 3v3";
+  }
+}
+
+async function startDungeonRun() {
+  const nodes = dungeonPathNodes();
+  if (!nodes.length) {
+    toast("Нет узлов пути — проверьте dungeons_coop_v1.json");
+    return;
+  }
+  const dung = dungeonById();
+  if (dungeonKeyCount(dung?.id) <= 0) {
+    toast("Нет ключа — купите за рыбу или получите starter keys");
+    return;
+  }
+  if (!(await spendDungeonKey(dung.id))) {
+    toast("Не удалось списать ключ");
+    return;
+  }
+  const readyN = (state.dungeonParty || []).filter((p) => p.ready).length;
+  if (readyN < 4) {
+    toast(state.dungeonCoop?.party?.soloWarning_ru || "Соло нежелателен");
+  }
+  state.battleMode = "dungeon";
+  state.dungeonNodeIndex = 0;
+  state.selectedStageId = nodes[0];
+  state.battle = null;
+  state.lastResult = null;
+  renderDungeonLobby();
+  toast(`${dung?.title_ru || "Данж"} · ${state.dungeonPath === "long" ? "длинный" : "короткий"} · ключ −1`);
+  await startYard(false);
+}
+
+async function advanceDungeonNodeAfterWin() {
+  const nodes = dungeonPathNodes();
+  const idx = Math.max(0, Number(state.dungeonNodeIndex) || 0);
+  grantDungeonNodeLoot();
+  if (idx >= nodes.length - 1) {
+    state.dungeonAdvancing = false;
+    grantDungeonBossLoot();
+    return false;
+  }
+  state.dungeonAdvancing = true;
+  state.dungeonNodeIndex = idx + 1;
+  state.selectedStageId = nodes[state.dungeonNodeIndex];
+  state.battle = null;
+  state.lastResult = null;
+  toast(`Узел ${state.dungeonNodeIndex + 1}/${nodes.length} · +рыба`);
+  try {
+    const diff = await createPvE({
+      autoPlay: false,
+      stageId: state.selectedStageId,
+      carryAlive: null,
+    });
+    await applyDiff(diff, `CreatePvE dungeon ${state.selectedStageId}`);
+    return true;
+  } catch (err) {
+    log(`dungeon advance fail: ${err.message}`);
+    alert(err.message);
+    return false;
+  } finally {
+    state.dungeonAdvancing = false;
+  }
+}
+
 /**
  * Resolve stage + player team for the active battle mode.
  * Prevents practice dummies / stale mythmir waves / wrong-chapter soldiers leaking across modes.
@@ -1833,6 +2415,12 @@ function resolveBattlePlan(mode = state.battleMode) {
     const idx = Math.max(0, Number(state.bossWaveIndex) || 0);
     const stageId = waves[idx]?.stageId || state.selectedStageId || "boss_first_w1";
     return { mode: "boss", stageId, team: combatSquadIds(), carryAlive: null };
+  }
+  if (m === "dungeon") {
+    const nodes = dungeonPathNodes();
+    const idx = Math.max(0, Math.min(nodes.length - 1, Number(state.dungeonNodeIndex) || 0));
+    const stageId = nodes[idx] || state.selectedStageId;
+    return { mode: "dungeon", stageId, team: combatSquadIds(), carryAlive: null };
   }
   if (m === "pvp") {
     return { mode: "pvp", stageId: null, team: pvpSquadIds(), carryAlive: null };
@@ -2291,6 +2879,7 @@ function renderYard() {
   renderMythmirMissions();
   renderUnlockProgress();
   renderPveYardChapter();
+  renderPveYardSquad();
   const banner = $("tutorialBanner");
   if (!banner) return;
   if (state.tutorial) {
@@ -2309,6 +2898,166 @@ function renderYard() {
   } else {
     banner.classList.add("hidden");
   }
+}
+
+/** Visual L→R lanes on PvE yard: тыл · центр · авангард (collection slot order). */
+const PVE_YARD_LANES = [
+  { key: "rear", label: "Тыл", badge: "ХИЛ", tone: "secondary" },
+  { key: "center", label: "Центр", badge: "ДПС", tone: "tertiary" },
+  { key: "vanguard", label: "Авангард", badge: "ТАНК", tone: "primary" },
+];
+
+function pveYardActiveCats() {
+  if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
+  const pi = state.colPresetIndex || 0;
+  const preset = state.profile?.presets?.[pi];
+  const ids = Array.isArray(preset?.catIds) ? preset.catIds : [];
+  const cats = [0, 1, 2].map((i) => collectionCatById(ids[i]) || null);
+  if (cats.filter(Boolean).length === 3) return cats;
+  // Fallback display: starters in visual order тыл · центр · авангард
+  const starters = combatStarterIds();
+  const visualTids = [starters[2] || starters[0], starters[1] || starters[0], starters[0]].filter(Boolean);
+  return [0, 1, 2].map((i) => {
+    if (cats[i]) return cats[i];
+    const tid = visualTids[i] || STARTERS[Math.min(i, STARTERS.length - 1)];
+    const fromProfile = (state.profile?.cats || []).find((c) => c.templateId === tid);
+    return fromProfile || { templateId: tid, level: 1 };
+  });
+}
+
+function renderPveYardSquad() {
+  const host = $("pveYardSquadSlots");
+  if (!host) return;
+  const cats = pveYardActiveCats();
+  const roleBadge = (role) => {
+    if (role === "tank") return "ТАНК";
+    if (role === "support") return "ХИЛ";
+    return "ДПС";
+  };
+  const toneCls = {
+    secondary: {
+      card: "border-secondary/40 hover:border-secondary/60",
+      label: "text-secondary",
+      art: "border-secondary/40",
+      badge: "bg-secondary text-on-secondary",
+    },
+    tertiary: {
+      card: "border-tertiary/40 hover:border-tertiary/60",
+      label: "text-tertiary",
+      art: "border-tertiary/40",
+      badge: "bg-tertiary text-on-tertiary",
+    },
+    primary: {
+      card: "border-primary/40 hover:border-primary/60",
+      label: "text-primary",
+      art: "border-primary/40",
+      badge: "bg-primary text-on-primary",
+    },
+  };
+  host.innerHTML = PVE_YARD_LANES.map((lane, i) => {
+    const c = cats[i];
+    const role = c ? homeCatRole(c) : "";
+    const art = c ? catHeroArt(c.templateId) || "/stitch-assets/cat-heroes/fighter-a.webp?v=opt1" : "";
+    const name = c ? catSheetName(c) : "Пусто";
+    const lvl = c?.level != null ? c.level : "—";
+    const stats = c ? statsForCat(c) : null;
+    const hp = stats ? formatSheetNum(stats.hp) : "—";
+    const atk = stats ? formatSheetNum(stats.atk) : "—";
+    const tc = toneCls[lane.tone] || toneCls.primary;
+    const badge = role ? roleBadge(role) : lane.badge;
+    if (!c) {
+      return `<div class="bg-surface-container rounded-xl p-2.5 border border-dashed border-outline-variant/50 flex flex-col justify-center items-center min-h-[12rem] text-on-surface-variant">
+        <span class="text-[11px] font-label-sm font-bold uppercase tracking-wider">${lane.label}</span>
+        <span class="material-symbols-outlined text-3xl mt-2">add</span>
+        <span class="text-[11px] mt-1">Выберите команду</span>
+      </div>`;
+    }
+    return `<div class="bg-surface-container rounded-xl p-2.5 border ${tc.card} flex flex-col justify-between transition-all shadow-md group relative overflow-hidden">
+      <div class="flex items-center justify-between mb-1.5 z-10 relative">
+        <span class="text-[11px] font-label-sm ${tc.label} font-bold uppercase tracking-wider">${lane.label}</span>
+        <span class="text-[11px] font-stat-numeral text-primary font-bold bg-primary/10 px-1.5 py-0.5 rounded">Ур. ${lvl}</span>
+      </div>
+      <div class="pve-yard-hero-art w-full h-44 rounded-lg overflow-hidden relative bg-surface-container-highest border ${tc.art} shadow-inner flex items-center justify-center">
+        <img class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" alt="${name.replace(/"/g, "&quot;")}" src="${art}"/>
+        <div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent opacity-80 pointer-events-none"></div>
+        <span class="absolute bottom-1.5 left-1.5 ${tc.badge} text-[10px] font-bold px-1.5 py-0.5 rounded leading-tight shadow-sm">${badge}</span>
+      </div>
+      <div class="flex flex-col min-w-0 mt-2 z-10 relative">
+        <span class="font-label-md text-[13px] text-on-surface font-bold truncate leading-tight">${name}</span>
+        <div class="flex items-center justify-between gap-1 mt-1.5">
+          <span class="text-secondary text-[11px] font-stat-numeral flex items-center gap-0.5 font-bold leading-none"><span class="material-symbols-outlined text-[13px]">favorite</span>${hp}</span>
+          <span class="text-primary text-[11px] font-stat-numeral flex items-center gap-0.5 font-bold leading-none"><span class="material-symbols-outlined text-[13px]">swords</span>${atk}</span>
+        </div>
+      </div>
+    </div>`;
+  }).join("");
+}
+
+function closePveYardTeamPicker() {
+  const picker = $("pveYardTeamPicker");
+  if (!picker) return;
+  picker.classList.add("hidden");
+  picker.setAttribute("aria-hidden", "true");
+}
+
+function openPveYardTeamPicker() {
+  const picker = $("pveYardTeamPicker");
+  if (!picker) return;
+  if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
+  renderPveYardTeamPicker();
+  picker.classList.remove("hidden");
+  picker.setAttribute("aria-hidden", "false");
+}
+
+function renderPveYardTeamPicker() {
+  const list = $("pveYardTeamPickerList");
+  if (!list) return;
+  if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
+  const active = state.colPresetIndex || 0;
+  const fallbackNames = ["Основной", "Второй эшелон", "Резерв"];
+  const lanes = ["Тыл", "Центр", "Авангард"];
+  list.innerHTML = [0, 1, 2]
+    .map((pi) => {
+      const preset = state.profile?.presets?.[pi] || { name: fallbackNames[pi], catIds: [] };
+      const slotCats = [0, 1, 2].map((i) => collectionCatById(preset.catIds?.[i]) || null);
+      const filled = slotCats.filter(Boolean).length;
+      const on = pi === active;
+      const title = preset.name || fallbackNames[pi];
+      const slots = slotCats
+        .map((c, i) => {
+          if (!c) {
+            return `<div class="pve-yard-team-card__slot is-empty">${lanes[i]}</div>`;
+          }
+          const art = catHeroArt(c.templateId) || "/stitch-assets/cat-heroes/fighter-a.webp?v=opt1";
+          return `<div class="pve-yard-team-card__slot"><img alt="" src="${art}"/><span>${catSheetName(c)}</span></div>`;
+        })
+        .join("");
+      return `<button type="button" class="pve-yard-team-card${on ? " is-on" : ""}" data-yard-team-pick="${pi}">
+        <header><b>Команда ${pi + 1} · ${title}</b>${on ? "<i>Активна</i>" : `<span class="text-[10px] text-outline">${filled}/3</span>`}</header>
+        <div class="pve-yard-team-card__slots">${slots}</div>
+        <footer>${filled === 3 ? "Нажмите, чтобы выбрать для ПВЕ" : "Неполный отряд — соберите в Коллекции"}</footer>
+      </button>`;
+    })
+    .join("");
+}
+
+function applyPveYardTeamPreset(pi) {
+  const idx = Math.max(0, Math.min(2, Number(pi) || 0));
+  if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
+  const preset = state.profile?.presets?.[idx];
+  const filled = (preset?.catIds || []).filter(Boolean).length;
+  if (filled < 3) {
+    toast("В этом отряде меньше 3 котиков — доберите в Коллекции");
+    return false;
+  }
+  state.colPresetIndex = idx;
+  if (typeof persistCollectionStub === "function") persistCollectionStub();
+  renderPveYardSquad();
+  renderPveYardTeamPicker();
+  closePveYardTeamPicker();
+  const name = preset?.name || `Команда ${idx + 1}`;
+  toast(`Отряд «${name}» выбран для ПВЕ`);
+  return true;
 }
 
 /** Painted PvE campaign hub (viewYard) — D-025: no menu chrome; CTAs only. */
@@ -2344,9 +3093,26 @@ function bindYardForm() {
   const team = $("btnYardTeamPreset");
   if (team && !team.dataset.bound) {
     team.dataset.bound = "1";
-    team.addEventListener("click", () => {
-      toast(t("yard.team.tip", "Смена отряда · открой Расстановку"));
-      navigate("formation");
+    team.addEventListener("click", () => openPveYardTeamPicker());
+  }
+  const picker = $("pveYardTeamPicker");
+  if (picker && !picker.dataset.bound) {
+    picker.dataset.bound = "1";
+    picker.addEventListener("click", (ev) => {
+      if (ev.target.closest("[data-yard-team-close]")) {
+        ev.preventDefault();
+        closePveYardTeamPicker();
+        return;
+      }
+      const pick = ev.target.closest("[data-yard-team-pick]");
+      if (pick && picker.contains(pick)) {
+        ev.preventDefault();
+        applyPveYardTeamPreset(pick.getAttribute("data-yard-team-pick"));
+      }
+    });
+    document.addEventListener("keydown", (ev) => {
+      if (ev.key !== "Escape") return;
+      if (!picker.classList.contains("hidden")) closePveYardTeamPicker();
     });
   }
   const diffN = $("btnYardDiffNormal");
@@ -2432,6 +3198,137 @@ function renderMythmirMissions() {
       box.appendChild(row);
     }
   }
+}
+
+function raidDef(raidId = state.raidId) {
+  const list = state.raidsCatalog?.raids || [];
+  return list.find((r) => r.raidId === raidId) || list[0] || null;
+}
+
+function raidPathDef(raidId = state.raidId, pathKey = state.raidPath) {
+  const raid = raidDef(raidId);
+  return raid?.paths?.[pathKey] || raid?.paths?.short || null;
+}
+
+function raidCurrentStageId() {
+  const path = raidPathDef();
+  const nodes = path?.nodes || [];
+  const i = Math.max(0, Math.min(nodes.length - 1, state.raidPathNodeIndex | 0));
+  return nodes[i] || raidDef()?.bossStageId || "raid_myaurra_boss";
+}
+
+function syncRaidLimitsFromLiveOps() {
+  const lim = state.liveops?.limits || {};
+  if (Number.isFinite(Number(lim.raid_attempts_weekly))) {
+    state.raidAttemptsLeft = Number(lim.raid_attempts_weekly);
+  }
+  if (typeof lim.raid_weekly_lock === "boolean") {
+    state.raidWeeklyLocked = !!lim.raid_weekly_lock && !!state.progress?.raidLootClaimed;
+  }
+}
+
+/** Painted raid lobby: выбор рейда / короткий|длинный путь / hard-12. */
+function renderRaidPath() {
+  syncRaidLimitsFromLiveOps();
+  const root = $("viewBossRaid");
+  if (!root) return;
+  let panel = $("raidPathPanel");
+  if (!panel) {
+    panel = document.createElement("div");
+    panel.id = "raidPathPanel";
+    panel.className = "raid-path-panel";
+    const host =
+      root.querySelector(".mode-grid") ||
+      root.querySelector("main") ||
+      root;
+    host.prepend(panel);
+  }
+  const raids = state.raidsCatalog?.raids || [];
+  const raid = raidDef();
+  const path = raidPathDef();
+  const nodes = path?.nodes || [];
+  const eta = path?.etaMin ? `${path.etaMin[0]}–${path.etaMin[1]} мин` : "—";
+  const filled = state.raidLegionCount | 0;
+  const ready = filled >= minRaidPlayers && !state.raidWeeklyLocked && state.raidAttemptsLeft > 0;
+  panel.innerHTML = `
+    <div class="raid-path-head">
+      <strong>Карта путей · легион ${RAID_PARTY_SIZE}</strong>
+      <span class="meta">попытки ${state.raidAttemptsLeft} · профиль босса: ${path?.bossProfile || "—"} · ${eta}</span>
+    </div>
+    <div class="raid-path-raids" role="tablist">
+      ${raids
+        .map(
+          (r) =>
+            `<button type="button" class="raid-pick${r.raidId === state.raidId ? " is-on" : ""}" data-raid-id="${r.raidId}">${r.title_ru}</button>`,
+        )
+        .join("")}
+    </div>
+    <div class="raid-path-forks">
+      <button type="button" class="raid-path-btn${state.raidPath === "short" ? " is-on" : ""}" data-raid-path="short">Короткий</button>
+      <button type="button" class="raid-path-btn${state.raidPath === "long" ? " is-on" : ""}" data-raid-path="long">Длинный</button>
+    </div>
+    <ol class="raid-path-nodes">
+      ${nodes
+        .map((sid, i) => {
+          const cur = i === state.raidPathNodeIndex ? " is-cur" : "";
+          const done = i < state.raidPathNodeIndex ? " is-done" : "";
+          return `<li class="raid-node${cur}${done}" data-raid-node="${i}">${i + 1}. ${sid}</li>`;
+        })
+        .join("")}
+    </ol>
+    <div class="raid-path-foot">
+      <span>Состав: <b id="raidLegionCountLabel">${filled}/${RAID_PARTY_SIZE}</b>${ready ? " · готов" : " · нужен полный легион"}</span>
+      <span class="meta">${raid?.title_ru || ""} · стаки босса ${path?.bossStacks ?? "—"}</span>
+    </div>
+  `;
+  const countEl = root.querySelector(".dojo-server b");
+  // Update legion chip if present in header (3rd b often legion)
+  root.querySelectorAll(".dojo-server span").forEach((span) => {
+    if ((span.textContent || "").includes("Легион")) {
+      const b = span.querySelector("b");
+      if (b) b.textContent = `${filled}/${RAID_PARTY_SIZE}`;
+    }
+    if ((span.textContent || "").includes("Попытки")) {
+      const b = span.querySelector("b");
+      if (b) b.textContent = `${state.raidAttemptsLeft}/${state.liveops?.limits?.raid_attempts_weekly ?? 3}`;
+    }
+  });
+  const readyNote = root.querySelector(".flex.items-center.justify-between.px-1 span.font-bold.text-\\[12px\\]");
+  void readyNote;
+  root.querySelectorAll("aside .text-\\[10px\\].text-on-surface-variant").forEach((el) => {
+    if ((el.textContent || "").includes("нужно") || (el.textContent || "").includes("кота")) {
+      el.textContent = `нужно ровно ${minRaidPlayers} игроков`;
+    }
+  });
+  void countEl;
+}
+
+/** Start next raid node via CreatePvE (3v3 wave stub until full legion sim). */
+async function viewRaidFight({ autoPlay = false } = {}) {
+  if ((state.raidLegionCount | 0) < minRaidPlayers) {
+    showGateTip(
+      t(
+        "raid.gate.party",
+        `Рейд только на ${minRaidPlayers}: сейчас ${state.raidLegionCount}/${RAID_PARTY_SIZE}. Нажмите «Пригласить», чтобы добрать легион (stub).`,
+      ),
+    );
+    return false;
+  }
+  if (state.raidWeeklyLocked) {
+    showGateTip(t("raid.gate.weekly", "Weekly lock рейдового лута — ждите сброса."));
+    return false;
+  }
+  if (state.raidAttemptsLeft <= 0) {
+    showGateTip(t("raid.gate.attempts", "Попытки рейда на неделю закончились."));
+    return false;
+  }
+  const stageId = raidCurrentStageId();
+  state.battleMode = "boss";
+  state.selectedStageId = stageId;
+  state.raidPathNodeIndex = state.raidPathNodeIndex | 0;
+  toast(`Рейд · ${state.raidPath} · ${stageId}`);
+  await startYard(autoPlay);
+  return true;
 }
 
 function renderBossFirst() {
@@ -3830,6 +4727,25 @@ const MONSTER_BATTLE_BY_FACTION = {
     support: ["/stitch-assets/monsters/battle/ghost-support-cutout-faceleft.webp?v=faceleft2"],
     pitboss: ["/stitch-assets/monsters/battle/ghost-pitboss-cutout-faceleft.webp?v=faceleft2"],
   },
+  // Raid factions (docs/raids) — PNG cutouts 2026-11-22
+  solar_lions: {
+    tank: ["/stitch-assets/monsters/battle/solar-lion-tank-cutout.png?v=raid1"],
+    fighter: ["/stitch-assets/monsters/battle/solar-lion-fighter-cutout.png?v=raid1"],
+    support: ["/stitch-assets/monsters/battle/solar-lion-fighter-cutout.png?v=raid1"],
+    pitboss: ["/stitch-assets/monsters/battle/myaurra-pitboss-cutout.png?v=raid1"],
+  },
+  deep_lynxes: {
+    tank: ["/stitch-assets/monsters/battle/deep-lynx-tank-cutout.png?v=raid1"],
+    fighter: ["/stitch-assets/monsters/battle/deep-lynx-tank-cutout.png?v=raid1"],
+    support: ["/stitch-assets/monsters/battle/deep-lynx-support-cutout.png?v=raid1"],
+    pitboss: ["/stitch-assets/monsters/battle/talass-pitboss-cutout.png?v=raid1"],
+  },
+  kitsune_ash: {
+    tank: ["/stitch-assets/monsters/battle/kitsune-fighter-cutout.png?v=raid1"],
+    fighter: ["/stitch-assets/monsters/battle/kitsune-fighter-cutout.png?v=raid1"],
+    support: ["/stitch-assets/monsters/battle/kitsune-support-cutout.png?v=raid1"],
+    pitboss: ["/stitch-assets/monsters/battle/vulcan-pitboss-cutout.png?v=raid1"],
+  },
 };
 
 const MONSTER_FACTION_BY_CHAPTER = ["dogs", "wolves", "red_dogs", "zombies", "ghosts"];
@@ -3841,6 +4757,30 @@ function monsterFactionFromTid(tid) {
   if (s.includes("bot_redd") || s.includes("pitboss_redd")) return "red_dogs";
   if (s.includes("bot_zomb") || s.includes("pitboss_zomb")) return "zombies";
   if (s.includes("bot_ghost") || s.includes("pitboss_ghost")) return "ghosts";
+  if (
+    s.includes("bot_solar") ||
+    s.includes("pitboss_myaurra") ||
+    s.includes("pitboss_solar") ||
+    s.includes("myaurra")
+  ) {
+    return "solar_lions";
+  }
+  if (
+    s.includes("bot_lynx") ||
+    s.includes("pitboss_talass") ||
+    s.includes("pitboss_lynx") ||
+    s.includes("talass")
+  ) {
+    return "deep_lynxes";
+  }
+  if (
+    s.includes("bot_kitsune") ||
+    s.includes("pitboss_vulcan") ||
+    s.includes("pitboss_kitsune") ||
+    s.includes("vulcan")
+  ) {
+    return "kitsune_ash";
+  }
   const ch = Math.max(1, Math.min(5, Number(state.pveChapter) || 1));
   return MONSTER_FACTION_BY_CHAPTER[ch - 1] || "dogs";
 }
@@ -3852,6 +4792,9 @@ const MONSTER_SPECIES_RU = {
   red_dogs: "пёс",
   zombies: "зомби",
   ghosts: "призрак",
+  solar_lions: "лев",
+  deep_lynxes: "рысь",
+  kitsune_ash: "кицунэ",
 };
 
 /** Fatality line over a dead unit: манекен / species / котик. */
@@ -3880,9 +4823,29 @@ function hashPickArt(key, pool) {
   return pool[(h >>> 0) % pool.length];
 }
 
+/** Coop-dungeon boss cutout aliases (unique stage ids → named files). */
+const DUNGEON_BOSS_BATTLE_ART = {
+  dungeon_scarlet: ["/stitch-assets/monsters/battle/dungeon-scarlet-boss-cutout-faceleft.webp?v=dung1"],
+  dungeon_howl: ["/stitch-assets/monsters/battle/dungeon-howl-boss-cutout-faceleft.webp?v=dung1"],
+  dungeon_whisper: [
+    "/stitch-assets/monsters/battle/dungeon-whisper-boss-cutout-faceleft.webp?v=dung1",
+    "/stitch-assets/monsters/battle/dungeon-whisper-echo-boss-cutout-faceleft.webp?v=dung1",
+  ],
+};
+
+function dungeonBossArtPool(tid) {
+  const s = String(tid || "");
+  if (s.includes("dungeon_scarlet")) return DUNGEON_BOSS_BATTLE_ART.dungeon_scarlet;
+  if (s.includes("dungeon_howl")) return DUNGEON_BOSS_BATTLE_ART.dungeon_howl;
+  if (s.includes("dungeon_whisper")) return DUNGEON_BOSS_BATTLE_ART.dungeon_whisper;
+  return null;
+}
+
 function monsterBattleArt(unit) {
   const role = String(unit?.role || "").toLowerCase();
   const tid = unitTemplateId(unit);
+  const dungeonPool = dungeonBossArtPool(tid);
+  if (dungeonPool?.length) return hashPickArt(tid || unit?.id || role, dungeonPool);
   const faction = monsterFactionFromTid(tid);
   const byFaction = MONSTER_BATTLE_BY_FACTION[faction];
   const isPitboss = String(tid || "").includes("pitboss");
@@ -3942,6 +4905,23 @@ const MONSTER_NATIVE_FACE_LEFT = new Set([
   "redd-support-cutout",
   "redd-pitboss-cutout",
   "zombie-pitboss-cutout",
+  "dungeon-scarlet-boss-cutout",
+  "dungeon-scarlet-boss-cutout-faceleft",
+  "dungeon-howl-boss-cutout",
+  "dungeon-howl-boss-cutout-faceleft",
+  "dungeon-whisper-boss-cutout",
+  "dungeon-whisper-boss-cutout-faceleft",
+  "dungeon-whisper-echo-boss-cutout-faceleft",
+  // Raid cutouts (authored left / three-quarter left · 2026-11-22)
+  "myaurra-pitboss-cutout",
+  "talass-pitboss-cutout",
+  "vulcan-pitboss-cutout",
+  "solar-lion-tank-cutout",
+  "solar-lion-fighter-cutout",
+  "deep-lynx-tank-cutout",
+  "deep-lynx-support-cutout",
+  "kitsune-fighter-cutout",
+  "kitsune-support-cutout",
   // Flopped rebakes (*-faceleft.webp)
   "tank-b-faceleft",
   "tank-d-faceleft",
@@ -9274,9 +10254,14 @@ async function applyDiff(diff, note = "") {
     diff.result === "p1_win" &&
     state.battleMode === "pve" &&
     pveFightNum(state.selectedStageId) < 3;
+  const midDungeonWin =
+    !!diff?.result &&
+    diff.result === "p1_win" &&
+    state.battleMode === "dungeon" &&
+    Number(state.dungeonNodeIndex) < dungeonPathNodes().length - 1;
   if (diff.result) {
-    // Mid-chapter wave wins skip victory view — lastResult stays null until pitboss.
-    if (!midChapterPveWin) {
+    // Mid-chapter / mid-dungeon wins skip victory view until final boss node.
+    if (!midChapterPveWin && !midDungeonWin) {
       state.lastResult = { battleId: diff.battleId, result: diff.result };
     }
     if (state.battleMode === "pve") {
@@ -9289,7 +10274,7 @@ async function applyDiff(diff, note = "") {
         state.progress.practiceWins += 1;
       } else if (state.battleMode === "pvp") {
         state.progress.pvpWins = (state.progress.pvpWins || 0) + 1;
-      } else if (state.battleMode === "boss") {
+      } else if (state.battleMode === "boss" || state.battleMode === "dungeon") {
         state.progress.pveWins += 1;
         state.progress.clearedFights[state.selectedStageId] = true;
       } else {
@@ -9314,6 +10299,16 @@ async function applyDiff(diff, note = "") {
   if (midChapterPveWin) {
     state.pveAdvancingWave = true;
     await advancePveWaveAfterWin();
+  } else if (midDungeonWin) {
+    state.dungeonAdvancing = true;
+    await advanceDungeonNodeAfterWin();
+  } else if (
+    diff?.result === "p1_win" &&
+    state.battleMode === "dungeon" &&
+    Number(state.dungeonNodeIndex) >= dungeonPathNodes().length - 1
+  ) {
+    grantDungeonNodeLoot();
+    grantDungeonBossLoot();
   }
 }
 
@@ -9324,7 +10319,7 @@ async function createPvE({ autoPlay = false, seed = 0, stageId = null, team = nu
   if (parseMythmirStageId(sid)) {
     state.selectedStageId = sid;
     syncPveFromStageId(sid);
-  } else if (plan.mode === "practice" || plan.mode === "boss") {
+  } else if (plan.mode === "practice" || plan.mode === "boss" || plan.mode === "dungeon") {
     state.selectedStageId = sid;
   }
   const squad = Array.isArray(team) && team.length === 3 ? team : plan.team;
@@ -9435,7 +10430,7 @@ async function startYard(autoPlay = false) {
   try {
     if (!state.battleMode) state.battleMode = "pve";
     const plan = resolveBattlePlan(state.battleMode);
-    if (plan.mode === "pve" || plan.mode === "boss") {
+    if (plan.mode === "pve" || plan.mode === "boss" || plan.mode === "dungeon") {
       if (!spendBowlStub()) return;
     }
     if (plan.mode === "practice" && (!Array.isArray(plan.team) || plan.team.length !== 3)) {
@@ -10393,6 +11388,10 @@ function renderAll() {
   showView(viewId);
   bindStitchNav($(viewId));
 
+  if (viewId === "viewBossDungeon") {
+    renderDungeonLobby();
+  }
+
   if (viewId === "viewPracticeFight" && state.battle && !state.battle.result) {
     // C3: stitch fight is SoT paint — skip dual wire renderBattle.
     renderPracticeFight();
@@ -10499,6 +11498,7 @@ function renderAll() {
       bindBattleModeLobbies();
       break;
     case "boss_raid":
+      renderRaidPath();
       bindBattleModeLobbies();
       break;
     case "pvp":
@@ -11965,8 +12965,22 @@ function bindBattleModeLobbies() {
     root.addEventListener("click", (ev) => {
       const pick = ev.target.closest(".dungeon-pick[data-dungeon]");
       if (pick && root.contains(pick) && !pick.classList.contains("is-locked")) {
-        root.querySelectorAll(".dungeon-pick").forEach((el) => el.classList.toggle("is-on", el === pick));
-        toast(`Данж: ${pick.querySelector("header span")?.textContent?.trim() || pick.getAttribute("data-dungeon")}`);
+        const id = pick.getAttribute("data-dungeon");
+        if (id === "loot") return;
+        selectDungeon(id, state.dungeonPath);
+        toast(`Данж: ${dungeonById()?.title_ru || id}`);
+        return;
+      }
+      const pathBtn = ev.target.closest("[data-dungeon-path]");
+      if (pathBtn && root.contains(pathBtn)) {
+        selectDungeon(state.selectedDungeonId, pathBtn.getAttribute("data-dungeon-path"), state.dungeonFork);
+        toast(state.dungeonPath === "long" ? "Длинный путь" : "Короткий путь ≤10 мин");
+        return;
+      }
+      const forkBtn = ev.target.closest("[data-dungeon-fork]");
+      if (forkBtn && root.contains(forkBtn)) {
+        selectDungeon(state.selectedDungeonId, "long", forkBtn.getAttribute("data-dungeon-fork"));
+        toast(`Развилка F2: ${forkBtn.textContent.trim()}`);
         return;
       }
       const filter = ev.target.closest("[data-dungeon-filter]");
@@ -11982,11 +12996,65 @@ function bindBattleModeLobbies() {
         toast(`Формат GvG: ${n}v${n}`);
         return;
       }
+      if (id === "viewBossRaid" || root.id === "viewBossRaid") {
+        const raidPick = ev.target.closest("[data-raid-id]");
+        if (raidPick && root.contains(raidPick)) {
+          state.raidId = raidPick.getAttribute("data-raid-id") || state.raidId;
+          state.raidPathNodeIndex = 0;
+          renderRaidPath();
+          toast(raidDef()?.title_ru || state.raidId);
+          return;
+        }
+        const pathPick = ev.target.closest("[data-raid-path]");
+        if (pathPick && root.contains(pathPick)) {
+          state.raidPath = pathPick.getAttribute("data-raid-path") === "long" ? "long" : "short";
+          state.raidPathNodeIndex = 0;
+          renderRaidPath();
+          toast(state.raidPath === "long" ? "Длинный путь рейда" : "Короткий путь рейда");
+          return;
+        }
+        const nodePick = ev.target.closest("[data-raid-node]");
+        if (nodePick && root.contains(nodePick)) {
+          state.raidPathNodeIndex = Number(nodePick.getAttribute("data-raid-node")) || 0;
+          renderRaidPath();
+          return;
+        }
+      }
       const actBtn = ev.target.closest("[data-hud-action]");
       if (!actBtn || !root.contains(actBtn)) return;
       const act = actBtn.getAttribute("data-hud-action");
       ev.preventDefault();
+      if (act === "dungeon-start") {
+        startDungeonRun();
+        return;
+      }
+      if (act === "dungeon-buy-key") {
+        buyDungeonKey(state.selectedDungeonId);
+        return;
+      }
+      if (act === "dungeon-fill-party") {
+        fillDungeonPartyBots();
+        return;
+      }
+      if (act === "dungeon-party-create") {
+        createDungeonParty();
+        return;
+      }
+      if (act === "raid-start") {
+        viewRaidFight({ autoPlay: false });
+        return;
+      }
       if (act === "dungeon-formation" || act === "raid-formation" || act === "gvg-formation") {
+        if (id === "viewBossRaid" || root.id === "viewBossRaid") {
+          if (actBtn.id === "btn-deploy-raid") {
+            viewRaidFight({ autoPlay: false });
+            return;
+          }
+        }
+        if (id === "viewBossDungeon" || root.id === "viewBossDungeon") {
+          // Keep dungeon mode; formation then CTA can call dungeon-start.
+          state.battleMode = "dungeon";
+        }
         navigate("formation", { primary: "combat" });
         return;
       }
@@ -11995,7 +13063,13 @@ function bindBattleModeLobbies() {
         return;
       }
       if (act === "raid-invite") {
-        toast("Приглашение в легион: скоро");
+        state.raidLegionCount = Math.min(RAID_PARTY_SIZE, (state.raidLegionCount | 0) + 3);
+        if (state.raidLegionCount < minRaidPlayers) {
+          toast(`Легион ${state.raidLegionCount}/${RAID_PARTY_SIZE} · ещё приглашения`);
+        } else {
+          toast(`Легион полный ${RAID_PARTY_SIZE}/${RAID_PARTY_SIZE}`);
+        }
+        renderRaidPath();
         return;
       }
       if (act === "gvg-search") {
@@ -12504,6 +13578,44 @@ async function loadCampaign() {
     state.bossFirst = data;
   } catch (err) {
     state.bossFirst = null;
+  }
+  try {
+    const { data } = await api("/content/dungeons_coop_v1.json");
+    state.dungeonCoop = data;
+    if (!state.selectedDungeonId && data?.dungeons?.[0]?.id) {
+      state.selectedDungeonId = data.dungeons[0].id;
+    }
+    seedDungeonKeysIfNeeded();
+  } catch (err) {
+    console.warn("dungeon coop catalog", err);
+    state.dungeonCoop = null;
+  }
+  try {
+    const { data } = await api("/content/dungeon_rewards_v1.json");
+    state.dungeonRewards = data;
+  } catch (err) {
+    state.dungeonRewards = null;
+  }
+  try {
+    const { data } = await api("/content/dungeon_rares.json");
+    state.dungeonRares = data;
+  } catch (err) {
+    state.dungeonRares = null;
+  }
+  await syncDungeonStateFromServer();
+  try {
+    const { data } = await api("/content/raids_sl.json");
+    state.raidsCatalog = data;
+    if (data?.partySize) {
+      /* RAID_PARTY_SIZE const is source of truth; catalog mirrors it */
+    }
+    if (data?.raids?.[0]?.raidId && !data.raids.some((r) => r.raidId === state.raidId)) {
+      state.raidId = data.raids[0].raidId;
+    }
+    syncRaidLimitsFromLiveOps();
+  } catch (err) {
+    console.warn("raids catalog", err);
+    state.raidsCatalog = null;
   }
 }
 

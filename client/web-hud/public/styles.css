@@ -5116,6 +5116,78 @@ body:has(#viewGuildHub:not(.hidden)) #wireDock { display: none !important; }
 .raid-rage {
   box-shadow: 0 0 10px rgba(255, 180, 166, 0.45);
 }
+#raidPathPanel.raid-path-panel {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.55rem 0.65rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(157, 143, 123, 0.4);
+  background: #161310;
+  margin-bottom: 0.35rem;
+}
+.raid-path-head {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.35rem;
+  font-size: 12px;
+}
+.raid-path-raids,
+.raid-path-forks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.raid-pick,
+.raid-path-btn {
+  border: 1px solid rgba(157, 143, 123, 0.45);
+  background: #1a1613;
+  color: #eae1db;
+  border-radius: 0.5rem;
+  padding: 0.35rem 0.55rem;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.raid-pick.is-on,
+.raid-path-btn.is-on {
+  border-color: rgba(253, 186, 69, 0.55);
+  color: #fdba45;
+  box-shadow: 0 0 0 1px rgba(253, 186, 69, 0.25);
+}
+.raid-path-nodes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  font-size: 10px;
+}
+.raid-node {
+  border: 1px solid rgba(80, 69, 53, 0.55);
+  border-radius: 0.4rem;
+  padding: 0.25rem 0.45rem;
+  background: #110d0b;
+  color: #9d8f7b;
+  cursor: pointer;
+}
+.raid-node.is-cur {
+  border-color: rgba(253, 186, 69, 0.5);
+  color: #fdba45;
+}
+.raid-node.is-done {
+  color: #89d98c;
+}
+.raid-path-foot {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.35rem;
+  font-size: 11px;
+}
 .gvg-size.is-on {
   box-shadow: 0 0 0 1px rgba(253, 186, 69, 0.4), 0 3px 12px rgba(217, 155, 38, 0.14);
 }
@@ -6783,6 +6855,7 @@ body.mythfel-shell > #viewYard.stitch-view:not(.hidden) {
 }
 #viewYard .pve-yard,
 #viewYard .pve-yard-hub {
+  position: relative;
   flex: 1 1 auto;
   min-height: 0;
   height: 100%;
@@ -6861,6 +6934,181 @@ body.mythfel-shell > #viewYard.stitch-view:not(.hidden) {
 }
 #viewYard .pve-yard-node:focus-visible {
   filter: drop-shadow(0 0 6px rgba(253, 186, 69, 0.7));
+}
+/* In-page team picker (collection presets) — stay on PvE yard */
+#viewYard .pve-yard-team-picker {
+  position: absolute;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+#viewYard .pve-yard-team-picker.hidden {
+  display: none !important;
+}
+#viewYard .pve-yard-team-picker__backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  background: rgba(8, 6, 4, 0.72);
+  backdrop-filter: blur(2px);
+}
+#viewYard .pve-yard-team-picker__panel {
+  position: relative;
+  z-index: 1;
+  width: min(52rem, 96%);
+  max-height: min(78%, 36rem);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 0.9rem 1rem 1rem;
+  border-radius: 0.9rem;
+  border: 1px solid rgba(253, 186, 69, 0.35);
+  background: linear-gradient(165deg, #241e18 0%, #161310 55%, #12100d 100%);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.55);
+}
+#viewYard .pve-yard-team-picker__head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+#viewYard .pve-yard-team-picker__eyebrow {
+  margin: 0;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #fdba45;
+  font-weight: 700;
+}
+#viewYard .pve-yard-team-picker__head h2 {
+  margin: 0.15rem 0 0;
+  font-size: 1.15rem;
+  color: #f3e7d3;
+  font-weight: 800;
+}
+#viewYard .pve-yard-team-picker__close {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.55rem;
+  border: 1px solid rgba(80, 69, 53, 0.75);
+  background: #231f1c;
+  color: #d5c4af;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+#viewYard .pve-yard-team-picker__close:hover {
+  color: #fdba45;
+  border-color: rgba(253, 186, 69, 0.55);
+}
+#viewYard .pve-yard-team-picker__hint {
+  margin: 0;
+  font-size: 12px;
+  color: #9d8f7b;
+}
+#viewYard .pve-yard-team-picker__list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.65rem;
+  overflow: auto;
+  min-height: 0;
+  padding-bottom: 0.15rem;
+}
+#viewYard .pve-yard-team-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  padding: 0.65rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(80, 69, 53, 0.7);
+  background: #1a1613;
+  cursor: pointer;
+  text-align: left;
+  color: inherit;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+#viewYard .pve-yard-team-card:hover {
+  border-color: rgba(253, 186, 69, 0.45);
+}
+#viewYard .pve-yard-team-card.is-on {
+  border-color: rgba(253, 186, 69, 0.75);
+  box-shadow: 0 0 0 1px rgba(253, 186, 69, 0.25), 0 8px 22px rgba(0, 0, 0, 0.35);
+}
+#viewYard .pve-yard-team-card header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.35rem;
+}
+#viewYard .pve-yard-team-card header b {
+  font-size: 12px;
+  color: #f3e7d3;
+}
+#viewYard .pve-yard-team-card header i {
+  font-style: normal;
+  font-size: 10px;
+  font-weight: 700;
+  color: #89d98c;
+}
+#viewYard .pve-yard-team-card .pve-yard-team-card__slots {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+#viewYard .pve-yard-team-card .pve-yard-team-card__slot {
+  min-height: 5.5rem;
+  border-radius: 0.5rem;
+  border: 1px solid rgba(80, 69, 53, 0.55);
+  background: #12100d;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  position: relative;
+}
+#viewYard .pve-yard-team-card .pve-yard-team-card__slot img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+#viewYard .pve-yard-team-card .pve-yard-team-card__slot span {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  text-align: center;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 0.2rem 0.15rem;
+  background: rgba(0, 0, 0, 0.65);
+  color: #f3e7d3;
+}
+#viewYard .pve-yard-team-card .pve-yard-team-card__slot.is-empty {
+  color: #6f6456;
+  font-size: 10px;
+  font-weight: 700;
+  align-items: center;
+  justify-content: center;
+}
+#viewYard .pve-yard-team-card footer {
+  font-size: 11px;
+  color: #9d8f7b;
+}
+@media (max-width: 900px) {
+  #viewYard .pve-yard-team-picker__list {
+    grid-template-columns: 1fr;
+  }
 }
 @media (min-width: 900px) and (max-height: 820px) {
   #viewYard .pve-yard-map { max-height: 42%; min-height: 11rem; }
