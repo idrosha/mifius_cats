@@ -6141,7 +6141,7 @@ body:has(#viewCollection:not(.hidden)) #wireDock { display: none !important; }
 }
 .roster-keys b { color: #fdba45; font-weight: 700; }
 
-/* Battle pass — hide wire dock; don't crush dual-track into overlaps */
+/* Battle pass — hide wire dock; single viewport, dual-track rows locked */
 body:has(#viewPass:not(.hidden)) #wireDock { display: none !important; }
 body:has(#viewPass:not(.hidden)) #app {
   height: 100dvh !important;
@@ -6152,24 +6152,141 @@ body:has(#viewPass:not(.hidden)) #app {
   background: #161310;
   color: #eae1db;
   overflow: hidden !important;
+  height: 100% !important;
+  max-height: 100% !important;
 }
 #viewPass > header { display: none !important; }
 #viewPass > main {
   flex: 1 1 auto !important;
   min-height: 0 !important;
   height: 100% !important;
+  max-height: 100% !important;
   width: 100% !important;
-  padding-top: 0.35rem !important;
-  padding-bottom: 0.35rem !important;
-  overflow: auto !important;
+  padding-top: 0.2rem !important;
+  padding-bottom: 0.2rem !important;
+  overflow: hidden !important;
   background: #161310;
+  display: flex !important;
+  flex-direction: column !important;
 }
 #viewPass > main > .flex.flex-col {
-  min-height: min(100%, 720px);
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  overflow: hidden !important;
 }
 #viewPass .min-h-\[620px\] {
   min-height: 0 !important;
-  flex: 1 1 auto;
+  flex: 1 1 auto !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  overflow: hidden !important;
+  gap: 0.35rem !important;
+  padding: 0.4rem 0.65rem !important;
+  justify-content: flex-start !important;
+}
+#viewPass .min-h-\[620px\] > .w-full.flex.items-center.justify-between {
+  flex: 0 0 auto;
+  padding: 0.45rem 0.65rem !important;
+}
+#viewPass .min-h-\[620px\] > .relative.w-full.flex-1 {
+  flex: 1 1 0 !important;
+  min-height: 0 !important;
+  margin-top: 0.25rem !important;
+  margin-bottom: 0.25rem !important;
+  padding: 0.45rem 0.55rem !important;
+}
+#viewPass .min-h-\[620px\] > .w-full.flex.flex-col.gap-space-sm {
+  flex: 0 1 auto;
+  min-height: 0;
+  gap: 0.35rem !important;
+  margin: 0 !important;
+  overflow: hidden;
+}
+#viewPass .min-h-\[620px\] > .w-full.flex.flex-col.gap-space-sm > .w-full {
+  padding: 0.4rem 0.55rem !important;
+  gap: 0.3rem !important;
+}
+#viewPass .pass-season-card {
+  min-height: 0 !important;
+  padding: 0.45rem 0.55rem !important;
+}
+#viewPass .pass-season-card .font-headline-md {
+  font-size: 0.95rem !important;
+  line-height: 1.2 !important;
+}
+#viewPass .min-h-\[620px\] > .w-full.flex.flex-col.gap-space-sm .font-headline-md.text-\[20px\] {
+  font-size: 0.95rem !important;
+  line-height: 1.2 !important;
+}
+#viewPass .min-h-\[620px\] > .w-full.flex.flex-col.gap-space-sm .font-body-sm.text-\[13px\] {
+  font-size: 0.7rem !important;
+  line-height: 1.2 !important;
+}
+#viewPass .min-h-\[620px\] > .w-full.flex.flex-col.gap-space-sm img.w-16.h-16 {
+  width: 2.75rem !important;
+  height: 2.75rem !important;
+}
+#viewPass .min-h-\[620px\] > .w-full.flex.items-center.justify-between.gap-space-md {
+  flex: 0 0 auto;
+  padding: 0.4rem 0.55rem !important;
+}
+#viewPass .pass-archips-art {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.42;
+  transition: opacity 0.2s ease;
+  background-image: url("/stitch-assets/modes/raid-lair-bg.jpg");
+}
+#viewPass .pass-archips-boss {
+  position: absolute;
+  right: -0.35rem;
+  bottom: -0.15rem;
+  height: 92%;
+  width: auto;
+  max-width: 48%;
+  object-fit: contain;
+  object-position: bottom right;
+  pointer-events: none;
+  opacity: 0.92;
+  filter: drop-shadow(0 8px 18px rgba(0, 0, 0, 0.75));
+  z-index: 5;
+}
+#viewPass .group:hover .pass-archips-art {
+  opacity: 0.55;
+}
+#viewPass .pass-dual-rail,
+#viewPass .pass-track-col {
+  display: grid !important;
+  grid-template-rows: 6.5rem 2.4rem 8.25rem;
+  align-items: stretch;
+  justify-items: stretch;
+  gap: 0.35rem;
+  height: auto !important;
+  min-height: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  margin: 0 !important;
+}
+#viewPass .pass-dual-rail {
+  width: 8.5rem;
+  flex: 0 0 8.5rem;
+  align-self: start;
+}
+#viewPass .pass-dual-rail > .pass-rail-free,
+#viewPass .pass-dual-rail > .pass-rail-elite,
+#viewPass .pass-dual-rail > .pass-rail-days {
+  height: 100% !important;
+  min-height: 0 !important;
+  margin: 0 !important;
+}
+#viewPass .pass-dual-rail > .pass-rail-days {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 #viewPass .pass-track-wrap {
   position: relative;
@@ -6178,6 +6295,7 @@ body:has(#viewPass:not(.hidden)) #app {
   display: flex;
   align-items: stretch;
   padding: 0 1.1rem;
+  align-self: start;
 }
 #viewPass .pass-track-scroll {
   width: 100%;
@@ -6186,11 +6304,11 @@ body:has(#viewPass:not(.hidden)) #app {
   scroll-behavior: smooth;
   scrollbar-width: thin;
   scrollbar-color: #d99b26 #1f1b18;
-  padding: 0.25rem 0.35rem 0.5rem;
+  padding: 0 0.35rem 0.35rem;
   -webkit-overflow-scrolling: touch;
 }
 #viewPass .pass-track-scroll::-webkit-scrollbar {
-  height: 8px;
+  height: 6px;
 }
 #viewPass .pass-track-scroll::-webkit-scrollbar-thumb {
   background: #d99b26;
@@ -6199,16 +6317,37 @@ body:has(#viewPass:not(.hidden)) #app {
 #viewPass .pass-track-levels {
   display: flex;
   flex-direction: row;
-  align-items: stretch;
-  gap: 0.75rem;
+  align-items: start;
+  gap: 0.65rem;
   width: max-content;
-  min-height: 22rem;
-  padding-bottom: 0.25rem;
+  min-height: 0;
+  padding-bottom: 0.15rem;
 }
 #viewPass .pass-track-col {
-  flex: 0 0 7.5rem;
-  width: 7.5rem;
-  min-width: 7.5rem;
+  flex: 0 0 7rem;
+  width: 7rem;
+  min-width: 7rem;
+}
+#viewPass .pass-track-col > [data-pass-track],
+#viewPass .pass-track-col > .pass-day-node {
+  height: 100%;
+  min-height: 0;
+  margin: 0 !important;
+}
+#viewPass .pass-track-col > [data-pass-track="free"] {
+  height: 100% !important;
+  min-height: 0 !important;
+}
+#viewPass .pass-track-col > [data-pass-track="elite"] {
+  height: 100% !important;
+  min-height: 0 !important;
+}
+#viewPass .pass-day-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1rem;
 }
 #viewPass .pass-scroll-btn {
   position: absolute;
@@ -6704,7 +6843,7 @@ body:has(#viewBreeding:not(.hidden)) #app { height: 100dvh !important; max-heigh
   .mythfel-primary button { padding: 0.28rem 0.5rem; font-size: 11px; }
   .mythfel-brand-text span { display: none; }
   .mythfel-nav-wallet { gap: 0.3rem; font-size: 10px; }
-  #viewPass .w-36.flex-shrink-0 { width: 6.5rem; }
+  #viewPass .pass-dual-rail { width: 6.5rem; flex-basis: 6.5rem; }
   #viewHome #homeGearOverlay .home-equip-ico {
     width: 5.5rem; height: 5.5rem; min-width: 5.5rem; min-height: 5.5rem; flex-basis: 5.5rem;
   }

@@ -8660,19 +8660,19 @@ function passTrackCardHtml(track, day, reward, { current = false } = {}) {
     ? `<span class="absolute top-0.5 left-0.5 bg-primary text-on-primary text-[8px] font-bold px-1 rounded shadow">${reward.tag}</span>`
     : "";
   const cardClass = elite
-    ? `w-full min-h-[144px] bg-gradient-to-b from-primary-container/20 via-surface-container-lowest/95 to-surface-container-lowest border ${
+    ? `w-full h-full bg-gradient-to-b from-primary-container/20 via-surface-container-lowest/95 to-surface-container-lowest border ${
         current ? "border-2 border-primary ring-2 ring-primary/60 shadow-[0_0_24px_rgba(253,186,69,0.5)]" : "border-primary/40 shadow-[0_4px_16px_rgba(217,155,38,0.2)]"
-      } rounded-xl p-space-sm flex flex-col items-center justify-between transition-all ${locked && !claimed ? "opacity-75" : ""}`
-    : `w-full h-28 bg-surface-container-lowest/90 border ${
+      } rounded-xl p-1.5 flex flex-col items-center justify-between transition-all ${locked && !claimed ? "opacity-75" : ""}`
+    : `w-full h-full bg-surface-container-lowest/90 border ${
         current ? "border-2 border-primary ring-2 ring-primary/40 shadow-xl" : "border-outline-variant/30"
-      } rounded-xl p-space-xs flex flex-col items-center justify-between transition-opacity ${locked && !claimed ? "opacity-75" : ""}`;
+      } rounded-xl p-1 flex flex-col items-center justify-between transition-opacity ${locked && !claimed ? "opacity-75" : ""}`;
   return `<div class="${cardClass}" data-pass-track="${track}" data-pass-day="${day}">
-    <div class="w-16 h-16 rounded-lg overflow-hidden border ${elite ? "border-primary/40 ring-1 ring-primary/20" : "border-outline-variant/50"} shadow-inner bg-surface-container-high relative flex-shrink-0">
-      <img src="${reward.img}" alt="${reward.name}" class="w-full h-full object-cover" loading="lazy" width="64" height="64">
+    <div class="w-14 h-14 rounded-lg overflow-hidden border ${elite ? "border-primary/40 ring-1 ring-primary/20" : "border-outline-variant/50"} shadow-inner bg-surface-container-high relative flex-shrink-0">
+      <img src="${reward.img}" alt="${reward.name}" class="w-full h-full object-cover" loading="lazy" width="56" height="56">
       ${tag}
     </div>
-    <div class="w-full flex flex-col items-center mt-1 min-w-0">
-      <span class="font-label-sm text-[11px] ${elite ? "text-primary-fixed" : "text-on-surface"} font-bold text-center leading-tight truncate max-w-[110px]">${reward.name}</span>
+    <div class="w-full flex flex-col items-center mt-0.5 min-w-0">
+      <span class="font-label-sm text-[10px] ${elite ? "text-primary-fixed" : "text-on-surface"} font-bold text-center leading-tight truncate max-w-[100px]">${reward.name}</span>
       ${passRewardStatusHtml(track, day)}
     </div>
   </div>`;
@@ -8687,20 +8687,20 @@ function renderPassTrack() {
     const current = row.day === lvl;
     const done = row.day < lvl;
     const midClass = current
-      ? "w-10 h-10 rounded-full bg-primary text-surface-container-lowest font-stat-numeral text-[16px] font-bold flex items-center justify-center shadow-[0_0_16px_rgba(253,186,69,0.9)] ring-2 ring-primary-fixed border border-primary"
+      ? "w-8 h-8 rounded-full bg-primary text-surface-container-lowest font-stat-numeral text-[14px] font-bold flex items-center justify-center shadow-[0_0_16px_rgba(253,186,69,0.9)] ring-2 ring-primary-fixed border border-primary"
       : done
-        ? "w-9 h-9 rounded-full bg-secondary text-on-secondary font-stat-numeral text-label-md flex items-center justify-center shadow-md font-bold"
-        : "w-9 h-9 rounded-full bg-surface-container-highest text-on-surface-variant font-stat-numeral text-label-md flex items-center justify-center font-bold";
+        ? "w-7 h-7 rounded-full bg-secondary text-on-secondary font-stat-numeral text-label-md flex items-center justify-center shadow-md font-bold"
+        : "w-7 h-7 rounded-full bg-surface-container-highest text-on-surface-variant font-stat-numeral text-label-md flex items-center justify-center font-bold";
     const colScale = current || row.day === PASS_SEASON_DAYS ? "scale-[1.03] relative z-20" : "";
     const finale =
       row.day === PASS_SEASON_DAYS
-        ? `<span class="font-label-sm text-[8px] text-primary-fixed font-bold uppercase tracking-wider -mt-1 bg-surface-container-lowest px-1 rounded shadow">ФИНАЛ</span>`
+        ? `<span class="font-label-sm text-[7px] text-primary-fixed font-bold uppercase tracking-wider bg-surface-container-lowest px-1 rounded shadow leading-none">ФИНАЛ</span>`
         : current
-          ? `<span class="font-label-sm text-[9px] text-primary font-bold uppercase tracking-wider -mt-1 bg-surface-container-lowest/90 px-1 rounded shadow">ТЕКУЩИЙ</span>`
+          ? `<span class="font-label-sm text-[8px] text-primary font-bold uppercase tracking-wider bg-surface-container-lowest/90 px-1 rounded shadow leading-none">ТЕКУЩИЙ</span>`
           : "";
-    return `<div class="pass-track-col flex flex-col items-center justify-between h-full ${colScale}" data-pass-col="${row.day}">
+    return `<div class="pass-track-col ${colScale}" data-pass-col="${row.day}">
       ${passTrackCardHtml("free", row.day, row.free, { current })}
-      <div class="my-1.5 flex flex-col items-center">
+      <div class="pass-day-node">
         <div class="${midClass}">${row.day}</div>
         ${finale}
       </div>
@@ -8741,7 +8741,12 @@ function bindPassInteractions() {
         return;
       }
       const tab = seasonGo.getAttribute("data-pass-go");
-      if (tab) navigate(tab, { primary: "combat" });
+      const PASS_SEASON_TABS = new Set(["boss_dungeon", "boss_raid", "raid_battle"]);
+      if (!tab || !PASS_SEASON_TABS.has(tab)) {
+        toast("Маршрут сезона недоступен");
+        return;
+      }
+      navigate(tab, { primary: "combat" });
     }
   });
 
