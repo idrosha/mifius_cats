@@ -48,4 +48,4 @@ DESIGN: `design/stitch-ref/home-keeper/sklad/DESIGN.md` → **Warehouse · Farm 
 
 Paths in HUD: `/barn-icons/<file>.png` (served from this folder). HUD thumbs are **256×256**; full 1024 masters stay in project media (`warehouse-icons-v2/`, `warehouse-farm-tools/`).
 
-**SL note (MF-153):** assets + DESIGN OK; do **not** ship live farm/nursery gameplay UI unless Andrew asks.
+**SL / smoke (MF-153):** assets wired into HUD stub — Склад tabs Сырьё/Зелья, Рынок buy → `barnMats`, Двор plant/harvest, Крафт recipes. Not server SoT; no Unity/nursery live loop.

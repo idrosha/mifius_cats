@@ -779,7 +779,13 @@ window.CODEX_TOPICS = [
     lead: "Усадьба Хранителя: сажаешь, рубишь, копаешь и ловишь. Есть дневной минимум при визите — бесконечно фармить free-аккаунтом нельзя. Pass ACTIVE включает autofarm.",
     source: "wiki §2 · FULL-SPEC §4.4",
     blocks: [
-      { type: "media", label: "Карта Двора", caption: "Зоны усадьбы — арт позже" },
+      {
+        type: "media",
+        label: "Карта Двора",
+        caption: "Зоны усадьбы",
+        src: "/stitch-ref/64d5/farm_map.png",
+        height: "10rem",
+      },
       {
         type: "table",
         title: "Дневной минимум",
@@ -806,7 +812,22 @@ window.CODEX_TOPICS = [
     ],
     side: [
       { type: "note", text: "Не путать с Мифмиром (`yard` = PvE-карта). Двор = `farm`." },
-      { type: "media", label: "Иконки ресурсов", caption: "Пустой блок" },
+      {
+        type: "media",
+        label: "Иконки ресурсов",
+        caption: "/barn-icons",
+        icons: [
+          { src: "/barn-icons/wood.png", label: "Дерево" },
+          { src: "/barn-icons/iron.png", label: "Железо" },
+          { src: "/barn-icons/stone.png", label: "Камень" },
+          { src: "/barn-icons/veggies.png", label: "Овощи" },
+          { src: "/barn-icons/fruit.png", label: "Фрукты" },
+          { src: "/barn-icons/herbs.png", label: "Травы" },
+          { src: "/barn-icons/fish.png", label: "Рыба" },
+          { src: "/barn-icons/seeds.png", label: "Семена" },
+          { src: "/barn-icons/milk.png", label: "Молоко" },
+        ],
+      },
     ],
   },
   {
@@ -821,7 +842,17 @@ window.CODEX_TOPICS = [
     lead: "Рецепты покупаются/открываются на Рынке. Алхимия варит зелья из трав, овощей и фруктов. Кузница жрёт дерево, железо и scrap. Успех даёт отдельные XP: craft_xp и alchemy_xp (не rank XP боя).",
     source: "wiki §6 · §8.3",
     blocks: [
-      { type: "media", label: "Алтарь / горн", caption: "Цех крафта — арт позже" },
+      {
+        type: "media",
+        label: "Алтарь / горн",
+        caption: "Зелья smoke",
+        icons: [
+          { src: "/barn-icons/potion-nature.png", label: "Жизнь" },
+          { src: "/barn-icons/potion-mana.png", label: "Очищение" },
+          { src: "/barn-icons/potion-ember.png", label: "Мята / жар" },
+          { src: "/barn-icons/potions.png", label: "Полка" },
+        ],
+      },
       {
         type: "table",
         title: "Алхимия → зелья",
@@ -874,7 +905,19 @@ window.CODEX_TOPICS = [
           "Рецепты — Рынок.",
         ],
       },
-      { type: "media", label: "Иконки рецептов", caption: "Пустой блок" },
+      {
+        type: "media",
+        label: "Иконки рецептов",
+        caption: "Реагенты",
+        icons: [
+          { src: "/barn-icons/herbs.png", label: "Травы" },
+          { src: "/barn-icons/fruit.png", label: "Фрукты" },
+          { src: "/barn-icons/veggies.png", label: "Овощи" },
+          { src: "/barn-icons/fish.png", label: "Рыба" },
+          { src: "/barn-icons/wood.png", label: "Дерево" },
+          { src: "/barn-icons/iron.png", label: "Железо" },
+        ],
+      },
     ],
   },
   {
@@ -926,7 +969,17 @@ window.CODEX_TOPICS = [
     lead: "Зелья варятся алхимией, продаются на Рынке/Аукционе и ставятся в loadout до боя. В одном бою — не больше одной штуки каждого potionId.",
     source: "wiki §4 · §6 · shops-channels",
     blocks: [
-      { type: "media", label: "Полка зелий", caption: "Иконки банок — позже" },
+      {
+        type: "media",
+        label: "Полка зелий",
+        caption: "/barn-icons",
+        icons: [
+          { src: "/barn-icons/potion-mana.png", label: "Мана" },
+          { src: "/barn-icons/potion-nature.png", label: "Природа" },
+          { src: "/barn-icons/potion-ember.png", label: "Жар" },
+          { src: "/barn-icons/potions.png", label: "Набор" },
+        ],
+      },
       {
         type: "table",
         title: "Базовые рецепты → эффект",
@@ -1111,7 +1164,19 @@ window.CODEX_TOPICS = [
     lead: "Повседневный расход двора и сбыт крафта по серверной цене. Не путать с аукционом игроков.",
     source: "wiki §8.1–§8.2",
     blocks: [
-      { type: "media", label: "Прилавки рынка", caption: "Пустой блок" },
+      {
+        type: "media",
+        label: "Прилавки рынка",
+        caption: "Tools + seeds",
+        icons: [
+          { src: "/barn-icons/tool-shovel.png", label: "Лопата" },
+          { src: "/barn-icons/tool-axe.png", label: "Топор" },
+          { src: "/barn-icons/tool-pick.png", label: "Кирка" },
+          { src: "/barn-icons/tool-rod.png", label: "Удочка" },
+          { src: "/barn-icons/seeds.png", label: "Семена" },
+          { src: "/barn-icons/herbs.png", label: "Травы" },
+        ],
+      },
       {
         type: "table",
         title: "Купить (fish)",
