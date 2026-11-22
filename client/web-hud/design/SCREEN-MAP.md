@@ -55,8 +55,10 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | `shop` | `shop.html` | 17eb `_2` | Магазин · донат / пасс / ингредиенты / 12 котов / серая броня |
 | `market` | `market.html` | 17eb `_3` | Рынок · инструменты / семена / скупка |
 | `auction` | `auction.html` | 17eb `_4` | Аукцион · лоты игроков |
-| `rating_players` | `rating_players.html` | 17eb `_5` | Рейтинг · игроки (одна компоновка ×2) |
-| `rating_guilds` | `rating_guilds.html` | 17eb `_5` | Рейтинг · гильдии (та же компоновка) |
+| `rating_players` | `rating_players.html` | 17eb `_5` + dense hall | Рейтинг · игроки (Колизей / MMR) |
+| `rating_dungeon` | `rating_dungeon.html` | 17eb layout × dungeon | Рейтинг · данжи (скорость / ★) |
+| `rating_raid` | `rating_raid.html` | 17eb layout × raid | Рейтинг · рейд (урон / вклад) |
+| `rating_guilds` | `rating_guilds.html` | 17eb `_5` + dense hall | Рейтинг · гильдии (слава / осады) |
 
 ## Art-only (not separate routes)
 
@@ -102,7 +104,7 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 - `formation` inline before fights — **not** a Бои subtab.
 - Home: no on-screen portals (chrome `#appNav` only).
 - Friends: `chat_friends` = Список друзей; `chat_global` = Чаты (dense tavern layout). `chat_guild` stays under Гильдии.
-- Ratings: one Stitch layout wired to players + guilds subtabs.
+- Ratings: dense 16:9 hall ×4 — players / dungeon / raid / guilds (shared chrome + mode chips).
 - Trade hub mock is art-only; primary Торговля opens first subtab (`tavern`).
 
 ## Layout rule (all forms)

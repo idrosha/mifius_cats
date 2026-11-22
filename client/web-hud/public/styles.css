@@ -4356,7 +4356,11 @@ body:has(#viewPractice > .dojo-load:not([hidden])) #app {
 #viewGuild > .guild-hall,
 #viewGuildMembers > .guild-hall,
 #viewGuildTech > .guild-hall,
-#viewGuildTreasury > .guild-hall {
+#viewGuildTreasury > .guild-hall,
+#viewRatingPlayers > .rating-hall,
+#viewRatingDungeon > .rating-hall,
+#viewRatingRaid > .rating-hall,
+#viewRatingGuilds > .rating-hall {
   flex: 1 1 auto !important;
   min-height: 0 !important;
   height: 100% !important;
@@ -4374,7 +4378,11 @@ body:has(#viewPractice > .dojo-load:not([hidden])) #app {
 #viewGuild .mode-grid,
 #viewGuildMembers .mode-grid,
 #viewGuildTech .mode-grid,
-#viewGuildTreasury .mode-grid {
+#viewGuildTreasury .mode-grid,
+#viewRatingPlayers .mode-grid,
+#viewRatingDungeon .mode-grid,
+#viewRatingRaid .mode-grid,
+#viewRatingGuilds .mode-grid {
   flex: 1 1 auto;
   min-height: 0;
 }
@@ -4567,7 +4575,11 @@ body:has(#viewGuildHub:not(.hidden)) #wireDock { display: none !important; }
   #viewGuildMembers .dojo-top,
   #viewGuildTech .dojo-top,
   #viewGuildTreasury .dojo-top,
-  #viewGuildHub .dojo-top {
+  #viewGuildHub .dojo-top,
+  #viewRatingPlayers .dojo-top,
+  #viewRatingDungeon .dojo-top,
+  #viewRatingRaid .dojo-top,
+  #viewRatingGuilds .dojo-top {
     flex-wrap: wrap;
   }
   #viewBossDungeon .dojo-mode,

@@ -56,19 +56,25 @@ const SCREENS = [
   { id: "practice", file: "practice.html", view: "viewPractice" },
   // Dojo sparring fight form (Stitch battle HUD; no top nav during fight)
   { id: "practice_fight", file: "practice_fight.html", view: "viewPracticeFight" },
+  { id: "guild_hub", file: "guild_hub.html", view: "viewGuildHub" },
   { id: "guild", file: "guild.html", view: "viewGuild" },
+  { id: "guild_members", file: "guild_members.html", view: "viewGuildMembers" },
+  { id: "guild_tech", file: "guild_tech.html", view: "viewGuildTech" },
+  { id: "guild_treasury", file: "guild_treasury.html", view: "viewGuildTreasury" },
   // Pack ba17 — battle pass + chats (one layout ×3 channels)
   { id: "pass", file: "pass.html", view: "viewPass" },
   { id: "chat_global", file: "chat_global.html", view: "viewChatGlobal" },
   { id: "chat_guild", file: "chat_guild.html", view: "viewChatGuild" },
   { id: "chat_friends", file: "chat_friends.html", view: "viewChatFriends" },
-  // Pack 17eb — trade menus + ratings (ratings share one layout ×2)
+  // Pack 17eb — trade menus + ratings ×4 (players / dungeon / raid / guilds)
   { id: "trade_hub", file: "trade_hub.html", view: "viewTradeHub" },
   { id: "tavern", file: "tavern.html", view: "viewTavern" },
   { id: "shop", file: "shop.html", view: "viewShop" },
   { id: "market", file: "market.html", view: "viewMarket" },
   { id: "auction", file: "auction.html", view: "viewAuction" },
   { id: "rating_players", file: "rating_players.html", view: "viewRatingPlayers" },
+  { id: "rating_dungeon", file: "rating_dungeon.html", view: "viewRatingDungeon" },
+  { id: "rating_raid", file: "rating_raid.html", view: "viewRatingRaid" },
   { id: "rating_guilds", file: "rating_guilds.html", view: "viewRatingGuilds" },
   // Working transition forms (HUD-owned; not raw Stitch packs)
   { id: "result_lose", file: "result_lose.html", view: "viewResultLose" },

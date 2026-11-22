@@ -1,0 +1,199 @@
+﻿<section id="viewRatingRaid" class="stitch-view mythfel-form hidden" data-stitch="rating_raid" data-layout="landscape">
+<main class="rating-hall flex flex-col flex-1 min-h-0 h-full w-full overflow-hidden gap-2 p-2 bg-[#100e0c]" data-purpose="rating-raid">
+<header class="flex flex-col gap-1 flex-shrink-0 min-w-0">
+<div class="dojo-top w-full">
+<div class="dojo-crumb"><strong>Рейтинги</strong><span>›</span><em>Рейд · легион 8–12</em><span class="dojo-chip">Сезон IV</span></div>
+<p class="dojo-mode">Урон · вклад · клиры босса · роли в легионе</p>
+</div>
+<nav class="flex items-center justify-between gap-2 flex-shrink-0" aria-label="Разделы рейтингов">
+<div class="flex items-center gap-1 bg-[#1f1b18] p-0.5 rounded-lg border border-outline-variant/40 flex-1 min-w-0">
+<button type="button" class="mode-chip flex-1 py-1 px-2 rounded-md text-[11px] font-bold" data-path="rating_players">Игроки</button>
+<button type="button" class="mode-chip flex-1 py-1 px-2 rounded-md text-[11px] font-bold" data-path="rating_dungeon">Данжи</button>
+<button type="button" class="mode-chip is-on flex-1 py-1 px-2 rounded-md text-[11px] font-bold" data-path="rating_raid">Рейд</button>
+<button type="button" class="mode-chip flex-1 py-1 px-2 rounded-md text-[11px] font-bold" data-path="rating_guilds">Гильдии</button>
+</div>
+<div class="hidden md:flex items-center gap-1 text-[10px] text-on-surface-variant whitespace-nowrap flex-shrink-0 pr-0.5">
+<span class="material-symbols-outlined text-error text-[14px]">swords</span>
+<span class="text-on-surface font-bold">Ваш #22</span><span class="text-outline">·</span><span class="text-primary font-bold">1.84M урон</span><span class="text-outline">·</span><span class="text-secondary font-bold">14 клиров</span>
+</div>
+</nav>
+</header>
+
+<div class="mode-grid grid grid-cols-12 gap-2 flex-1 min-h-0 overflow-hidden">
+
+<aside class="col-span-12 lg:col-span-3 flex flex-col h-full min-h-0 gap-2 overflow-hidden">
+<div class="flex flex-col flex-shrink-0 bg-[#161310] rounded-xl border border-outline-variant/40 p-2 shadow-2xl">
+<div class="flex items-center justify-between pb-1.5 px-1 border-b border-outline-variant/30">
+<div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-error text-[18px]">local_fire_department</span><span class="font-bold text-[12px]">Ваш рейд</span></div>
+<span class="text-[10px] text-error font-bold">Пёс Легиона</span>
+</div>
+<div class="grid grid-cols-3 gap-1.5 pt-1.5">
+<div class="bg-[#1a1613] rounded-lg p-1.5 text-center border border-outline-variant/25"><span class="text-[9px] text-outline block">Ранг</span><b class="text-primary text-[16px]">#22</b></div>
+<div class="bg-[#1a1613] rounded-lg p-1.5 text-center border border-outline-variant/25"><span class="text-[9px] text-outline block">Урон</span><b class="text-primary text-[13px]">1.84M</b></div>
+<div class="bg-[#1a1613] rounded-lg p-1.5 text-center border border-outline-variant/25"><span class="text-[9px] text-outline block">Клиры</span><b class="text-secondary text-[14px]">14</b></div>
+</div>
+<div class="mt-1.5 rounded-lg bg-[#1a1613] border border-error/30 px-2 py-1.5">
+<div class="flex justify-between text-[10px] text-on-surface-variant"><span>До топ-10</span><b class="text-error">+0.42M</b></div>
+<div class="h-1.5 mt-1 rounded-full bg-black/50 overflow-hidden"><i class="block h-full w-[64%] bg-error rounded-full"></i></div>
+</div>
+</div>
+
+<div class="flex flex-col flex-1 min-h-0 bg-[#161310] rounded-xl border border-outline-variant/40 p-2 overflow-hidden gap-1.5">
+<span class="text-[10px] text-outline uppercase font-bold tracking-wide px-0.5">Метрика / роль</span>
+<div class="grid grid-cols-2 gap-1">
+<button type="button" class="py-1.5 rounded-md bg-primary-container text-on-primary-container text-[10px] font-bold border border-primary/40">Урон</button>
+<button type="button" class="py-1.5 rounded-md bg-[#1a1613] text-on-surface-variant text-[10px] border border-outline-variant/30">Вклад</button>
+<button type="button" class="py-1.5 rounded-md bg-[#1a1613] text-on-surface-variant text-[10px] border border-outline-variant/30">Танк</button>
+<button type="button" class="py-1.5 rounded-md bg-[#1a1613] text-on-surface-variant text-[10px] border border-outline-variant/30">Хил</button>
+</div>
+<span class="text-[10px] text-outline uppercase font-bold tracking-wide px-0.5 pt-0.5">Размер легиона</span>
+<div class="flex gap-1 bg-[#1a1613] p-0.5 rounded-lg border border-outline-variant/25">
+<button type="button" class="flex-1 py-1 rounded text-[10px] text-on-surface-variant">8</button>
+<button type="button" class="flex-1 py-1 rounded text-[10px] font-bold bg-primary/20 text-primary">12</button>
+<button type="button" class="flex-1 py-1 rounded text-[10px] text-on-surface-variant">Любой</button>
+</div>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-outline text-[16px]">search</span>
+<input class="w-full pl-8 pr-2 py-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/30 text-[11px] text-on-surface placeholder:text-outline focus:outline-none focus:border-primary/50" placeholder="Игрок или гильдия…" type="search"/>
+</div>
+<div class="rounded-lg bg-[#1a1613] border border-error/30 px-2 py-1.5 text-[10px] text-on-surface-variant leading-snug">
+<span class="text-error font-bold flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">groups</span>Легион 8–12</span>
+Рейд — PvE на босса, не GvG. Урон считается за лучший клир сезона.
+</div>
+<div class="mt-auto rounded-xl bg-[#1a1613] border border-outline-variant/30 p-2 flex flex-col gap-1.5">
+<div class="flex items-center justify-between text-[10px]"><span class="text-outline">Роль сезона</span><b class="text-on-surface">ДД · центр</b></div>
+<button type="button" class="w-full py-1.5 rounded-lg bg-primary text-on-primary text-[11px] font-bold flex items-center justify-center gap-1" data-path="boss_raid"><span class="material-symbols-outlined text-[15px]">swords</span>В рейд</button>
+</div>
+</div>
+</aside>
+
+<div class="col-span-12 lg:col-span-5 flex flex-col h-full min-h-0 bg-[#161310] rounded-xl border border-outline-variant/40 p-2 overflow-hidden">
+<div class="flex items-center justify-between pb-1.5 flex-shrink-0 border-b border-outline-variant/25">
+<div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-error text-[18px]">monitoring</span><span class="font-bold text-[12px]">Топ урона · Пёс Легиона</span></div>
+<span class="text-[10px] text-outline">обн. 8 мин назад</span>
+</div>
+<div class="grid grid-cols-12 px-2 py-1 text-[9px] text-outline uppercase tracking-wide flex-shrink-0">
+<div class="col-span-1 text-center">#</div><div class="col-span-4">Игрок</div><div class="col-span-2 text-right">Урон</div><div class="col-span-2 text-right">Вклад</div><div class="col-span-1 text-center">Роль</div><div class="col-span-2 text-center">Клиры</div>
+</div>
+<div class="flex-1 min-h-0 flex flex-col gap-1 overflow-y-auto py-0.5">
+
+<div class="grid grid-cols-12 items-center px-2 py-1.5 rounded-lg bg-[#2e2926] border border-error/40 ring-1 ring-error/15">
+<div class="col-span-1 flex justify-center"><span class="w-6 h-6 rounded-md bg-primary text-on-primary text-[11px] font-extrabold flex items-center justify-center">1</span></div>
+<div class="col-span-4 flex items-center gap-1.5 min-w-0"><span class="w-7 h-7 rounded-md bg-error/15 border border-error/40 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-error text-[15px]">whatshot</span></span><div class="min-w-0"><b class="text-[11px] text-primary truncate block">Барсик-Громовержец</b><p class="text-[9px] text-on-surface-variant truncate">Кузница Очага</p></div></div>
+<div class="col-span-2 text-right"><b class="text-[11px] text-error">2.91M</b></div>
+<div class="col-span-2 text-right"><b class="text-[11px] text-secondary">18%</b></div>
+<div class="col-span-1 text-center"><span class="text-[9px] text-tertiary font-bold">ДД</span></div>
+<div class="col-span-2 text-center"><span class="text-[9px] text-primary font-bold">28</span></div>
+</div>
+
+<div class="grid grid-cols-12 items-center px-2 py-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/25">
+<div class="col-span-1 flex justify-center"><span class="w-6 h-6 rounded-md bg-[#3d3835] text-[11px] font-extrabold flex items-center justify-center">2</span></div>
+<div class="col-span-4 flex items-center gap-1.5 min-w-0"><span class="w-7 h-7 rounded-md bg-primary/15 border border-primary/35 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary text-[15px]">cruelty_free</span></span><div class="min-w-0"><b class="text-[11px] truncate block">Мурр-Оплот</b><p class="text-[9px] text-on-surface-variant truncate">Орден Тенистых Лап</p></div></div>
+<div class="col-span-2 text-right"><b class="text-[11px] text-error">2.74M</b></div>
+<div class="col-span-2 text-right"><b class="text-[11px] text-secondary">16%</b></div>
+<div class="col-span-1 text-center"><span class="text-[9px] text-primary font-bold">Танк</span></div>
+<div class="col-span-2 text-center"><span class="text-[9px] text-primary font-bold">31</span></div>
+</div>
+
+<div class="grid grid-cols-12 items-center px-2 py-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/25">
+<div class="col-span-1 flex justify-center"><span class="w-6 h-6 rounded-md bg-[#393430] text-on-surface-variant text-[11px] font-extrabold flex items-center justify-center">3</span></div>
+<div class="col-span-4 flex items-center gap-1.5 min-w-0"><span class="w-7 h-7 rounded-md bg-secondary/15 border border-secondary/35 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-secondary text-[15px]">favorite</span></span><div class="min-w-0"><b class="text-[11px] truncate block">Снежная Мурка</b><p class="text-[9px] text-on-surface-variant truncate">Хранители Очага</p></div></div>
+<div class="col-span-2 text-right"><b class="text-[11px] text-error">2.51M</b></div>
+<div class="col-span-2 text-right"><b class="text-[11px] text-secondary">14%</b></div>
+<div class="col-span-1 text-center"><span class="text-[9px] text-secondary font-bold">Хил</span></div>
+<div class="col-span-2 text-center"><span class="text-[9px] text-primary font-bold">26</span></div>
+</div>
+
+<div class="grid grid-cols-12 items-center px-2 py-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/25">
+<div class="col-span-1 text-center text-[11px] text-outline font-bold">4</div>
+<div class="col-span-4 flex items-center gap-1.5 min-w-0"><span class="w-7 h-7 rounded-md bg-[#393430] flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-outline text-[15px]">cruelty_free</span></span><div class="min-w-0"><b class="text-[11px] truncate block">Клык_Ярости</b><p class="text-[9px] text-outline truncate">Северные Барсы</p></div></div>
+<div class="col-span-2 text-right"><b class="text-[11px]">2.38M</b></div>
+<div class="col-span-2 text-right"><b class="text-[11px]">13%</b></div>
+<div class="col-span-1 text-center"><span class="text-[9px] text-tertiary font-bold">ДД</span></div>
+<div class="col-span-2 text-center"><span class="text-[9px] font-bold">22</span></div>
+</div>
+
+<div class="grid grid-cols-12 items-center px-2 py-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/25">
+<div class="col-span-1 text-center text-[11px] text-outline font-bold">5</div>
+<div class="col-span-4 flex items-center gap-1.5 min-w-0"><span class="w-7 h-7 rounded-md bg-[#393430] flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-outline text-[15px]">cruelty_free</span></span><div class="min-w-0"><b class="text-[11px] truncate block">Астральная Лапка</b><p class="text-[9px] text-outline truncate">Лунная Стая</p></div></div>
+<div class="col-span-2 text-right"><b class="text-[11px]">2.21M</b></div>
+<div class="col-span-2 text-right"><b class="text-[11px]">12%</b></div>
+<div class="col-span-1 text-center"><span class="text-[9px] text-tertiary font-bold">ДД</span></div>
+<div class="col-span-2 text-center"><span class="text-[9px] font-bold">19</span></div>
+</div>
+
+<div class="grid grid-cols-12 items-center px-2 py-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/25">
+<div class="col-span-1 text-center text-[11px] text-outline font-bold">6</div>
+<div class="col-span-4 flex items-center gap-1.5 min-w-0"><span class="w-7 h-7 rounded-md bg-[#393430] flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-outline text-[15px]">cruelty_free</span></span><div class="min-w-0"><b class="text-[11px] truncate block">Громохвост</b><p class="text-[9px] text-outline truncate">Орден Тенистых Лап</p></div></div>
+<div class="col-span-2 text-right"><b class="text-[11px]">2.09M</b></div>
+<div class="col-span-2 text-right"><b class="text-[11px]">11%</b></div>
+<div class="col-span-1 text-center"><span class="text-[9px] text-primary font-bold">Танк</span></div>
+<div class="col-span-2 text-center"><span class="text-[9px] font-bold">17</span></div>
+</div>
+
+<div class="grid grid-cols-12 items-center px-2 py-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/25">
+<div class="col-span-1 text-center text-[11px] text-outline font-bold">7</div>
+<div class="col-span-4 flex items-center gap-1.5 min-w-0"><span class="w-7 h-7 rounded-md bg-[#393430] flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-outline text-[15px]">cruelty_free</span></span><div class="min-w-0"><b class="text-[11px] truncate block">Рыжехвост</b><p class="text-[9px] text-outline truncate">Орден Тенистых Лап</p></div></div>
+<div class="col-span-2 text-right"><b class="text-[11px]">1.97M</b></div>
+<div class="col-span-2 text-right"><b class="text-[11px]">10%</b></div>
+<div class="col-span-1 text-center"><span class="text-[9px] text-tertiary font-bold">ДД</span></div>
+<div class="col-span-2 text-center"><span class="text-[9px] font-bold">15</span></div>
+</div>
+
+<div class="flex items-center justify-center py-0.5 text-[10px] text-outline tracking-widest">• • •</div>
+
+<div class="grid grid-cols-12 items-center px-2 py-1.5 rounded-lg bg-[#2e2926] border border-primary/40">
+<div class="col-span-1 flex justify-center"><span class="w-6 h-6 rounded-md bg-primary-container text-on-primary-container text-[10px] font-extrabold flex items-center justify-center">22</span></div>
+<div class="col-span-4 flex items-center gap-1.5 min-w-0"><span class="w-7 h-7 rounded-md bg-primary/20 border border-primary/40 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary text-[15px]">cruelty_free</span></span><div class="min-w-0"><b class="text-[11px] text-primary truncate block">Хранитель Очага <span class="text-[8px]">ВЫ</span></b><p class="text-[9px] text-on-surface-variant truncate">Орден · ДД центр</p></div></div>
+<div class="col-span-2 text-right"><b class="text-[11px] text-primary">1.84M</b></div>
+<div class="col-span-2 text-right"><b class="text-[11px] text-secondary">9%</b></div>
+<div class="col-span-1 text-center"><span class="text-[9px] text-tertiary font-bold">ДД</span></div>
+<div class="col-span-2 text-center"><span class="text-[9px] text-primary font-bold">14</span></div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1 text-[10px] text-outline flex-shrink-0 border-t border-outline-variant/25"><span>Показано 8 из 100</span><span class="text-error font-bold">Легион 12 · сезон</span></div>
+</div>
+
+<aside class="col-span-12 lg:col-span-4 flex flex-col h-full min-h-0 gap-2 overflow-hidden">
+<div class="flex items-center justify-between flex-shrink-0 px-0.5">
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-error text-[18px]">pets</span><span class="font-bold text-[12px]">Босс недели</span></div>
+<span class="text-[9px] px-1.5 py-0.5 rounded-full bg-error/15 text-error border border-error/30 font-bold">Пёс Легиона</span>
+</div>
+<div class="bg-[#161310] rounded-xl border border-outline-variant/40 p-2 flex-shrink-0 flex gap-2">
+<span class="w-16 h-16 rounded-xl bg-error/15 border-2 border-error/40 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-error text-[28px]">cruelty_free</span></span>
+<div class="min-w-0 flex-1">
+<b class="text-[12px] text-primary block">Пёс Легиона · Ур. 55</b>
+<p class="text-[10px] text-on-surface-variant mt-0.5">HP 12.4M · фазы 3 · AoE когти</p>
+<div class="flex flex-wrap gap-1 mt-1">
+<span class="text-[8px] px-1.5 py-0.5 rounded bg-[#393430] text-tertiary">Огонь</span>
+<span class="text-[8px] px-1.5 py-0.5 rounded bg-[#393430] text-secondary">Земля</span>
+<span class="text-[8px] px-1.5 py-0.5 rounded bg-error/20 text-error font-bold">Берсерк 8:00</span>
+</div>
+</div>
+</div>
+<div class="bg-[#161310] rounded-xl border border-outline-variant/40 p-2 flex-shrink-0">
+<div class="flex justify-between text-[10px] mb-1.5"><span class="text-outline uppercase font-bold">Состав легиона</span><span class="text-primary font-bold">12 / 12</span></div>
+<div class="grid grid-cols-3 gap-1 text-center">
+<div class="bg-[#1a1613] rounded-lg p-1.5 border border-outline-variant/20"><span class="text-[9px] text-outline block">Танки</span><b class="text-primary text-[14px]">2</b></div>
+<div class="bg-[#1a1613] rounded-lg p-1.5 border border-outline-variant/20"><span class="text-[9px] text-outline block">ДД</span><b class="text-tertiary text-[14px]">7</b></div>
+<div class="bg-[#1a1613] rounded-lg p-1.5 border border-outline-variant/20"><span class="text-[9px] text-outline block">Хилы</span><b class="text-secondary text-[14px]">3</b></div>
+</div>
+</div>
+<div class="flex-1 min-h-0 bg-[#161310] rounded-xl border border-outline-variant/40 p-2 flex flex-col gap-1.5 overflow-hidden">
+<div class="flex justify-between text-[10px] flex-shrink-0"><span class="text-outline uppercase font-bold">Награды топ-10</span><span class="text-primary font-bold">сезон</span></div>
+<div class="flex-1 min-h-0 grid grid-cols-2 gap-1">
+<div class="bg-[#1a1613] rounded-lg p-1.5 border border-outline-variant/20 flex flex-col justify-center"><span class="text-[9px] text-outline">Самоцветы</span><b class="text-primary text-[13px]">2 000</b></div>
+<div class="bg-[#1a1613] rounded-lg p-1.5 border border-outline-variant/20 flex flex-col justify-center"><span class="text-[9px] text-outline">Трофей</span><b class="text-error text-[12px]">Клык</b></div>
+<div class="bg-[#1a1613] rounded-lg p-1.5 border border-outline-variant/20 flex flex-col justify-center"><span class="text-[9px] text-outline">Титул</span><b class="text-secondary text-[12px]">Легионер</b></div>
+<div class="bg-[#1a1613] rounded-lg p-1.5 border border-outline-variant/20 flex flex-col justify-center"><span class="text-[9px] text-outline">До топа</span><b class="text-error text-[12px]">+0.42M</b></div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-1.5 flex-shrink-0">
+<button type="button" class="py-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/30 text-[10px] font-bold flex items-center justify-center gap-1" data-path="guild"><span class="material-symbols-outlined text-primary text-[14px]">group</span>Сбор</button>
+<button type="button" class="py-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/30 text-[10px] font-bold flex items-center justify-center gap-1"><span class="material-symbols-outlined text-outline text-[14px]">description</span>Метрики</button>
+</div>
+<button type="button" class="w-full py-2 rounded-xl border border-primary/45 text-primary text-[11px] font-bold flex-shrink-0" data-path="boss_raid">Открыть рейд</button>
+</aside>
+</div>
+</main>
+</section>

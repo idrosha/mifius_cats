@@ -12,6 +12,8 @@ import {
   skipCombatFx,
   SoundFX,
 } from "./battle-fx.js";
+/** Side-effect: fills window.CODEX_TOPICS / CODEX_FILTERS (survives stitch HTML rebakes). */
+import "./codex-topics.js";
 
 const STARTERS = [
   "starter_tank_stone",
@@ -66,6 +68,14 @@ const PATH_TO_TAB = {
   "rejting-gildiy": "rating_guilds",
   "rating-guilds": "rating_guilds",
   "rating-players": "rating_players",
+  rating_players: "rating_players",
+  rating_dungeon: "rating_dungeon",
+  rating_raid: "rating_raid",
+  rating_guilds: "rating_guilds",
+  "rating-dungeon": "rating_dungeon",
+  "rating-raid": "rating_raid",
+  "rejting-danzhey": "rating_dungeon",
+  "rejting-reyda": "rating_raid",
   "pvp-арена": "pvp",
   "pvp-arena": "pvp",
   "arena-bitv": "pvp",
@@ -113,6 +123,7 @@ const PATH_TO_TAB = {
   dungeons: "boss_dungeon",
   "dungeons-and-raids": "boss_dungeon",
   "danzhi-i-reydy": "boss_dungeon",
+  boss_dungeon: "boss_dungeon",
   рейтинги: "rating_players",
   leaderboards: "rating_players",
   rejtingi: "rating_players",
@@ -273,10 +284,10 @@ const NAV = [
     label: "Рейтинги",
     route: "rating_players",
     tabs: [
-      { id: "rating_players", key: "nav.sub.rating_players" },
-      { id: "rating_dungeon", key: "nav.sub.rating_dungeon" },
-      { id: "rating_raid", key: "nav.sub.rating_raid" },
-      { id: "rating_guilds", key: "nav.sub.rating_guilds" },
+      { id: "rating_players", key: "nav.sub.rating_players", label: "Игроки" },
+      { id: "rating_dungeon", key: "nav.sub.rating_dungeon", label: "Данжи" },
+      { id: "rating_raid", key: "nav.sub.rating_raid", label: "Рейд" },
+      { id: "rating_guilds", key: "nav.sub.rating_guilds", label: "Гильдии" },
     ],
   },
   {
@@ -1049,8 +1060,8 @@ function logicalViewId() {
     chat_guild: "viewChatGuild",
     chat_friends: "viewChatFriends",
     rating_players: "viewRatingPlayers",
-    rating_dungeon: "viewRatingPlayers",
-    rating_raid: "viewRatingPlayers",
+    rating_dungeon: "viewRatingDungeon",
+    rating_raid: "viewRatingRaid",
     rating_guilds: "viewRatingGuilds",
   };
   return map[state.tab] || "viewHub";
@@ -1078,6 +1089,8 @@ function wireModeFor(viewId) {
     viewChatGuild: "chat_guild",
     viewChatFriends: "chat_friends",
     viewRatingPlayers: "rating_players",
+    viewRatingDungeon: "rating_dungeon",
+    viewRatingRaid: "rating_raid",
     viewRatingGuilds: "rating_guilds",
   };
   if (special[viewId]) return special[viewId];
@@ -1553,7 +1566,7 @@ function fillNav(primaryEl, subEl, activeGroup, battleActive, activeClass) {
   for (const tab of activeGroup.tabs) {
     const b = document.createElement("button");
     b.type = "button";
-    b.textContent = t(tab.key, tab.id);
+    b.textContent = t(tab.key, tab.label || tab.id);
     b.dataset.tab = tab.id;
     if (tab.stub) b.classList.add("stub");
     if (tab.soon) b.classList.add("soon");
@@ -1812,6 +1825,8 @@ const SOFT_NAV_LEGACY = [
     ["выставить лот", () => navigate("auction")],
     ["рейтинг гильдий", () => navigate("rating_guilds")],
     ["рейтинг игроков", () => navigate("rating_players")],
+    ["рейтинг данж", () => navigate("rating_dungeon")],
+    ["рейтинг рейд", () => navigate("rating_raid")],
     ["лавка славы", () => navigate("shop")],
     ["лавка", () => navigate("shop")],
     ["маркет", () => navigate("market")],
@@ -2823,6 +2838,84 @@ function codexTopics() {
 
 function codexFilters() {
   return window.CODEX_FILTERS || [];
+}
+
+/**
+ * Stitch rebakes can wipe #codexSearch / #codexTopicList / #codexDetailHost.
+ * Re-attach mounts from the painted База знаний column so every topic opens.
+ */
+function ensureCodexMounts(root) {
+  if (!root || root.dataset.kbMounts === "1") return;
+  const grid = root.querySelector(".grid.grid-cols-12");
+  if (!grid) return;
+
+  const asides = [...grid.querySelectorAll(":scope > aside")];
+  const leftAside =
+    asides.find((a) => (a.textContent || "").includes("База Знаний")) || asides[0];
+  if (!leftAside) return;
+
+  const search =
+    leftAside.querySelector("#codexSearch") ||
+    leftAside.querySelector('input[placeholder*="Кодекс"], input[type="search"], input[type="text"]');
+  if (search) {
+    search.id = "codexSearch";
+    search.type = "search";
+    search.setAttribute("autocomplete", "off");
+  }
+
+  let filters = leftAside.querySelector("#codexFilters");
+  if (!filters) {
+    filters =
+      leftAside.querySelector(".overflow-x-auto") ||
+      leftAside.querySelector('[role="tablist"]');
+  }
+  if (filters) {
+    filters.id = "codexFilters";
+    filters.setAttribute("role", "tablist");
+    filters.setAttribute("aria-label", "Фильтры кодекса");
+    filters.innerHTML = "";
+  }
+
+  let body = leftAside.querySelector(":scope > .flex.flex-col.gap-1");
+  if (!body) {
+    body = [...leftAside.children].find(
+      (el) => el !== leftAside.firstElementChild && el.classList?.contains("flex"),
+    );
+  }
+  if (body) {
+    let progress =
+      body.querySelector("#codexProgress") ||
+      [...body.children].find((el) => (el.textContent || "").includes("Прогресс Кодекса"));
+    if (progress) progress.id = "codexProgress";
+
+    let topicList = body.querySelector("#codexTopicList");
+    if (!topicList) {
+      topicList = document.createElement("div");
+      topicList.id = "codexTopicList";
+      topicList.className = "flex flex-col gap-1 flex-1 min-h-0 overflow-auto py-1";
+      [...body.children].forEach((ch) => {
+        if (ch !== progress) ch.remove();
+      });
+      body.insertBefore(topicList, progress || null);
+    }
+  }
+
+  let host = root.querySelector("#codexDetailHost");
+  if (!host) {
+    const col2 = grid.querySelector(":scope > section");
+    const col3 = asides.find((a) => a !== leftAside);
+    if (col2 && col3) {
+      host = document.createElement("div");
+      host.id = "codexDetailHost";
+      host.className = "contents";
+      host.dataset.armorDefault = "1";
+      grid.insertBefore(host, col2);
+      host.appendChild(col2);
+      host.appendChild(col3);
+    }
+  }
+
+  root.dataset.kbMounts = "1";
 }
 
 function codexEsc(s) {
