@@ -49,7 +49,7 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | `guild_treasury` | `guild_treasury.html` | 18c7 `guild_treasury` | Казна и задания · подношения + поручения |
 | `pass` | `pass.html` | pass-hearth (Downloads боевой пропуск) | Боевой пасс · сезон / dual-track / claim |
 | `chat_global` | `chat_global.html` | ba17 chat + guild-shell | Друзья › Чаты · каналы / лента / инспектор |
-| `chat_guild` | `chat_guild.html` | ba17 root | Чаты гильдии · wireframe (под Гильдии) |
+| `chat_guild` | `chat_guild.html` | ba17 chat + guild-shell | Гильдии › Чат · каналы ордена / лента / инспектор |
 | `chat_friends` | `chat_friends.html` | guild_members pattern | Друзья › Список друзей · ростер + досье |
 | `tavern` | `tavern.html` | 17eb `pve` | Таверна · молоко со льдом + PvE бафф-напитки |
 | `shop` | `shop.html` | 17eb `_2` | Магазин · донат / пасс / ингредиенты / 12 котов / серая броня |
@@ -103,7 +103,7 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 - Primary **Дом Хранителя**; sub `home` = **Персонаж** (cat + equip + inventory).
 - `formation` inline before fights — **not** a Бои subtab.
 - Home: no on-screen portals (chrome `#appNav` only).
-- Friends: `chat_friends` = Список друзей; `chat_global` = Чаты (dense tavern layout). `chat_guild` stays under Гильдии.
+- Friends: `chat_friends` = Список друзей; `chat_global` = Чаты (dense tavern layout). `chat_guild` = dense guild chat under Гильдии.
 - Ratings: dense 16:9 hall ×4 — players / dungeon / raid / guilds (shared chrome + mode chips).
 - Trade hub mock is art-only; primary Торговля opens first subtab (`tavern`).
 
