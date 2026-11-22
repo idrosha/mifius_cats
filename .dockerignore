@@ -14,4 +14,12 @@ liveops/soft-launch
 client/unity
 client/web-hud/node_modules
 client/web-hud/stitch-src
+client/web-hud/design
 client/web-hud/scripts
+# Local rebake / prototype dumps — not needed at runtime (Amvera RAM).
+client/web-hud/public/stitch-assets/monsters/battle/_pre_face_left
+client/web-hud/public/stitch-assets/monsters/battle/_pre_opaque
+client/web-hud/public/stitch-assets/monsters/prototypes
+client/web-hud/public/_tmp_stitch_pvp
+**/*-opaque.webp
+**/_src/**
