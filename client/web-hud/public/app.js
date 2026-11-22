@@ -682,6 +682,17 @@ const state = {
   /** Practice load overlay progress (0–100) + timer handle. */
   practiceLoadPct: 0,
   practiceLoadTimer: null,
+  /** PvP arena: preset id, active 3-cat squad (front→mid→rear), MM stub foe. */
+  pvpArenaMode: "ranked",
+  pvpArenaSquadId: "1",
+  pvpSquad: ["shop_tank_stone_a", "shop_fighter_fire_a", "shop_support_water_a"],
+  pvpOpponentTeam: null,
+  pvpOpponentName: "",
+  pvpSearching: false,
+  pvpSearchTimer: null,
+  pvpLoadPct: 0,
+  pvpLoadTimer: null,
+  pvpStarting: false,
   /** PvE campaign (MF-151): chapter 1–5, stage entrance|tunnel|boss. */
   pveChapter: 1,
   pveStage: "entrance",
@@ -1584,11 +1595,22 @@ function combatStarterIds() {
 
 /** Active 3-cat team: practice formation if set, else profile starters (B5). */
 function combatSquadIds() {
+  if (state.battleMode === "pvp" && Array.isArray(state.pvpSquad) && state.pvpSquad.length === 3) {
+    return [...state.pvpSquad];
+  }
   if (Array.isArray(state.practiceSquad) && state.practiceSquad.length === 3) {
     return [...state.practiceSquad];
   }
   const starters = combatStarterIds();
   return starters.length === 3 ? [...starters] : [...STARTERS];
+}
+
+/** PvP lobby squad (front tank → mid DPS → rear support). */
+function pvpSquadIds() {
+  if (Array.isArray(state.pvpSquad) && state.pvpSquad.length === 3) {
+    return [...state.pvpSquad];
+  }
+  return ["shop_tank_stone_a", "shop_fighter_fire_a", "shop_support_water_a"];
 }
 
 /** mythmir_{ch}_f{1|2|3} → { chapter, stage: entrance|tunnel|boss } or null. */
@@ -1634,7 +1656,7 @@ function resolveBattlePlan(mode = state.battleMode) {
     return { mode: "boss", stageId, team: combatSquadIds(), carryAlive: null };
   }
   if (m === "pvp") {
-    return { mode: "pvp", stageId: null, team: combatSquadIds(), carryAlive: null };
+    return { mode: "pvp", stageId: null, team: pvpSquadIds(), carryAlive: null };
   }
   // PvE / guild_demo / default → Mythmir chapter wave
   const ch = Math.max(1, Math.min(5, Number(state.pveChapter) || 1));
@@ -6191,6 +6213,32 @@ function renderPvpVictory() {
     const when = turn ? ` за ${ruRounds(turn)}` : "";
     $("colLead").textContent = `Арена рукоплещет отряду Хранителя. Все три мифических кота выстояли${when}.`;
   }
+  const list = $("viewPvpVictory")?.querySelector(".col-cats");
+  if (list) {
+    const squad = pvpSquadIds();
+    const visual = PRACTICE_VISUAL_LANES.map((i) => squad[i]).filter(Boolean);
+    const chips = { tank: "is-storm", fighter: "is-fire", assassin: "is-storm", ranger: "is-fire", mage: "is-fire", support: "is-water" };
+    list.innerHTML = visual
+      .map((tid, idx) => {
+        const hero = practiceHeroByTemplate(tid);
+        const role = hero?.role || starterMeta(tid).role;
+        const el = practiceElementOf(hero || { templateId: tid }) || starterMeta(tid).element;
+        const name = hero?.name || catSheetName({ templateId: tid });
+        const art = catHeroArt(tid) || "/stitch-assets/cat-heroes/fighter-a.webp?v=opt1";
+        const mvp = idx === 1 ? ` class="is-mvp"` : "";
+        const badge = idx === 1 ? `<span class="col-badge">MVP матча</span>` : "";
+        return `<li${mvp}>
+${badge}
+<span class="col-chip ${chips[role] || "is-fire"}">${CAT_ELEMENT_RU[el] || el} · ${hero?.roleRu || CAT_ROLE_RU[role] || role}</span>
+<figure><img alt="" src="${art}"/></figure>
+<div>
+<b>${name}</b>
+<small>${hero?.roleRu || CAT_ROLE_RU[role] || role}</small>
+</div>
+</li>`;
+      })
+      .join("");
+  }
   bindPvpVictory();
 }
 
@@ -6218,11 +6266,13 @@ function bindPvpVictory() {
       state.battle = null;
       state.lastResult = null;
       state.battleMode = "";
+      state.pvpOpponentTeam = null;
       if (act === "again") {
-        pvpStart();
+        navigate("pvp", { primary: "combat" });
+        window.setTimeout(() => startPvpSearch(), 80);
         return;
       }
-      navigate("pvp");
+      navigate("pvp", { primary: "combat" });
     },
     true,
   );
@@ -6247,7 +6297,7 @@ function renderResult() {
   const r = state.lastResult;
   const win = r?.result === "p1_win";
   const modeRu =
-    { practice: "Тренировка", pve: "Мифмир", pvp: "PvP smoke", boss: "Босс" }[state.battleMode] ||
+    { practice: "Тренировка", pve: "Мифмир", pvp: "PvP арена", boss: "Босс" }[state.battleMode] ||
     state.battleMode ||
     "бой";
   $("resultEyebrow").textContent = t("result.eyebrow", "Итог боя");
@@ -6257,8 +6307,13 @@ function renderResult() {
   $("resultLead").textContent = `${r?.battleId || "?"} · ${r?.result || "?"} · ${modeRu}`;
   const loseLead = $("resultLoseLead");
   if (loseLead && !win) {
-    loseLead.textContent = `${modeRu}: ${r?.result || "поражение"}. Пересобери строй, зайди в таверну за молоком и попробуй снова.`;
+    loseLead.textContent =
+      state.battleMode === "pvp"
+        ? `Арена: поражение против «${state.pvpOpponentName || "соперника"}». Вернись в лобби или сразу начни новый поиск.`
+        : `${modeRu}: ${r?.result || "поражение"}. Пересобери строй, зайди в таверну за молоком и попробуй снова.`;
   }
+  const pvpLobbyBtn = document.querySelector('#viewResultLose [data-hud-action="result-pvp-lobby"]');
+  if (pvpLobbyBtn) pvpLobbyBtn.hidden = state.battleMode !== "pvp";
   // Wire painted/lose CTAs once
   document.querySelectorAll("[data-hud-action]").forEach((btn) => {
     if (btn.dataset.bound) return;
@@ -6269,13 +6324,27 @@ function renderResult() {
       state.battle = null;
       state.lastResult = null;
       if (act === "result-retry") {
-        if (mode === "pvp") pvpStart();
-        else if (mode === "practice") startPractice(false);
+        if (mode === "pvp") {
+          state.battleMode = "";
+          state.pvpOpponentTeam = null;
+          navigate("pvp", { primary: "combat" });
+          window.setTimeout(() => startPvpSearch(), 80);
+        } else if (mode === "practice") startPractice(false);
         else startYard(false);
       } else if (act === "result-formation") navigate("formation");
       else if (act === "result-tavern") navigate("tavern");
-      else if (act === "result-hub") navigate("hub");
-      else if (act === "result-yard") navigate(mode === "practice" ? "practice" : "yard");
+      else if (act === "result-hub") {
+        state.battleMode = "";
+        navigate("hub");
+      } else if (act === "result-yard") {
+        state.battleMode = "";
+        state.pvpOpponentTeam = null;
+        navigate(mode === "pvp" ? "pvp" : mode === "practice" ? "practice" : "yard");
+      } else if (act === "result-pvp-lobby") {
+        state.battleMode = "";
+        state.pvpOpponentTeam = null;
+        navigate("pvp", { primary: "combat" });
+      }
     });
   });
 }
@@ -7295,6 +7364,11 @@ function prefetchSquadCardArt(templateIds) {
 }
 
 function combatSquadForPrefetch() {
+  if (state.battleMode === "pvp" || state.tab === "pvp_load" || state.tab === "pvp") {
+    const mine = pvpSquadIds();
+    const foe = Array.isArray(state.pvpOpponentTeam) ? state.pvpOpponentTeam : [];
+    return [...mine, ...foe];
+  }
   if (Array.isArray(state.practiceSquad) && state.practiceSquad.length) {
     return state.practiceSquad;
   }
@@ -7701,6 +7775,11 @@ function renderPvpFight() {
   }
   const energyMax = Math.max(energyTurnCap(diff.turn, true), energy);
   if ($("pvEnergy")) $("pvEnergy").textContent = `Энергия ${energy}/${energyMax}`;
+  const root = $("viewPvpFight");
+  const allyTitle = root?.querySelector(".pv-side.is-ally h2");
+  const foeTitle = root?.querySelector(".pv-side.is-enemy h2");
+  if (allyTitle) allyTitle.textContent = `Отряд «${pvpActiveSquadName()}»`;
+  if (foeTitle) foeTitle.textContent = state.pvpOpponentName || "Свора гладиаторов";
   const allies = (diff.units || []).filter((u) => u.side === 0).sort((a, b) => a.lane - b.lane);
   const enemies = (diff.units || []).filter((u) => u.side === 1).sort((a, b) => a.lane - b.lane);
   const allyBox = $("pvAllies");
@@ -7722,7 +7801,7 @@ function renderPvpFight() {
   if (hand) {
     hand.classList.add("mf-attack-hand");
     hand.innerHTML = "";
-    const cards = diff.hand || [];
+    const cards = sortHandByVisualLanes(diff.hand || [], allies);
     if ($("pvOrbs")) {
       $("pvOrbs").textContent = mine || diff.result ? `${cards.length} карт` : "6 обложек";
     }
@@ -7741,6 +7820,7 @@ function renderPvpFight() {
       b.innerHTML = `<b class="mf-atk-card__meta">Колода</b><span class="mf-atk-card__sub">ждёт раздачу</span>`;
       hand.appendChild(b);
     } else {
+      if (diff.seq === 0 || diff.seq === 1) verifyPvpHandCards(diff);
       for (const c of cards) {
         hand.appendChild(makeAttackHandButton(c, diff, "mf-atk-card"));
       }
@@ -7768,10 +7848,11 @@ function leavePvpFight() {
   state.battle = null;
   state.lastResult = null;
   state.battleMode = "";
+  state.pvpOpponentTeam = null;
   state.oppThrowPlaying = false;
   state.actionBusy = false;
   hideOppThrow();
-  navigate("pvp");
+  navigate("pvp", { primary: "combat" });
 }
 
 function bindPvpFight() {
@@ -8213,13 +8294,16 @@ async function pvpAuto() {
   }
   try {
     state.battleMode = "pvp";
-    const team = resolveBattlePlan("pvp").team;
+    ensurePvpSquad();
+    const team1 = [...state.pvpSquad];
+    const team2 = rollPvpOpponentTeam(team1);
+    state.pvpOpponentTeam = team2;
     const { data } = await api("/api/battle/v1/CreatePvP", {
       method: "POST",
       body: JSON.stringify({
         matchId: `web_${Date.now()}`,
-        team1: team,
-        team2: team,
+        team1,
+        team2,
         seed: 20261104,
         autoPlay: true,
       }),
@@ -8758,12 +8842,103 @@ function renderPveFight() {
   }
 }
 
-/** Open ranked duel load sheet, then CreatePvP from «В бой». */
+/** Arena presets: sim order front(tank) → mid(DPS) → rear(support). */
+const PVP_ARENA_SQUADS = {
+  "1": {
+    name: "Мурр-Оплот",
+    team: ["shop_tank_stone_a", "shop_fighter_fire_a", "shop_support_water_a"],
+  },
+  "2": {
+    name: "Теневой Клык",
+    team: ["shop_tank_stone_b", "shop_assassin_bolt_a", "shop_support_water_b"],
+  },
+  "3": {
+    name: "Ледяной Строй",
+    team: ["shop_tank_stone_b", "shop_mage_ice_b", "shop_support_water_a"],
+  },
+};
+const PVP_DPS_ROLES = new Set(["fighter", "assassin", "ranger", "mage"]);
+const PVP_FOE_NAMES = ["Свора Гладиаторов", "Клык Арены", "Тень Колизея", "Рёв Трибун", "Лапы Судьбы"];
+
+function pickRandomItem(list) {
+  if (!list?.length) return null;
+  return list[Math.floor(Math.random() * list.length)];
+}
+
+/** MM stub: random tank + DPS + support from all shop cats. */
+function rollPvpOpponentTeam(excludeIds = []) {
+  const exclude = new Set(excludeIds || []);
+  const pool = Object.values(PRACTICE_HEROES);
+  const byRole = (pred) => {
+    const all = pool.filter(pred);
+    const fresh = all.filter((h) => !exclude.has(h.templateId));
+    return fresh.length ? fresh : all;
+  };
+  const tank = pickRandomItem(byRole((h) => h.role === "tank"));
+  const dps = pickRandomItem(byRole((h) => PVP_DPS_ROLES.has(h.role)));
+  const support = pickRandomItem(byRole((h) => h.role === "support"));
+  return [tank, dps, support].map((h) => h?.templateId).filter(Boolean);
+}
+
+function ensurePvpSquad() {
+  const preset = PVP_ARENA_SQUADS[state.pvpArenaSquadId] || PVP_ARENA_SQUADS["1"];
+  if (!Array.isArray(state.pvpSquad) || state.pvpSquad.length !== 3) {
+    state.pvpSquad = [...preset.team];
+  }
+  return state.pvpSquad;
+}
+
+function applyPvpArenaSquad(id) {
+  const preset = PVP_ARENA_SQUADS[id];
+  if (!preset) return;
+  state.pvpArenaSquadId = id;
+  state.pvpSquad = [...preset.team];
+  state.pvpOpponentTeam = null;
+  state.pvpOpponentName = "";
+}
+
+function pvpRosterEntry(templateId) {
+  const hero = practiceHeroByTemplate(templateId);
+  const meta = starterMeta(templateId);
+  const role = hero?.role || meta.role || "?";
+  const el = practiceElementOf(hero || { templateId }) || meta.element || "";
+  const roleRu = hero?.roleRu || CAT_ROLE_RU[role] || role;
+  const elRu = CAT_ELEMENT_RU[el] || el;
+  return {
+    templateId,
+    name: hero?.short || hero?.name || catSheetName({ templateId }),
+    role: elRu ? `${roleRu} · ${elRu}` : roleRu,
+    roleKey: role,
+    hp: `${hero?.hp || 30} HP`,
+    art: catHeroArt(templateId) || "/stitch-assets/cat-heroes/fighter-a.webp?v=opt1",
+    bm: hero?.bm || 4500,
+  };
+}
+
+/** Visual L→R тыл · центр · авангард from sim [front, mid, rear]. */
+function pvpVisualRoster(teamIds) {
+  const ids = Array.isArray(teamIds) ? teamIds : [];
+  return PRACTICE_VISUAL_LANES.map((i) => ids[i])
+    .filter(Boolean)
+    .map(pvpRosterEntry);
+}
+
+function pvpActiveSquadName() {
+  return PVP_ARENA_SQUADS[state.pvpArenaSquadId]?.name || "Мурр-Оплот";
+}
+
+/** Open ranked duel load sheet after MM stub finds a foe. */
 function openPvpLoad() {
   if (!pvpUnlocked()) {
     showGateTip(t("gate.tip.pvp", "PvP откроется после 3 побед в Мифмире или тренировке"));
     return;
   }
+  ensurePvpSquad();
+  if (!Array.isArray(state.pvpOpponentTeam) || state.pvpOpponentTeam.length !== 3) {
+    state.pvpOpponentTeam = rollPvpOpponentTeam(state.pvpSquad);
+    state.pvpOpponentName = pickRandomItem(PVP_FOE_NAMES) || "Свора Гладиаторов";
+  }
+  state.pvpStarting = false;
   navigate("pvp_load", { primary: "combat" });
 }
 
@@ -8802,53 +8977,18 @@ ${img}
 </figure>`;
 }
 
-function pvpLoadDefaultRosters() {
-  // Visual L→R тыл · центр · авангард (D-034 paint); art from CAT_HERO_ART.
-  const ally = [
-    {
-      templateId: "shop_support_water_a",
-      name: "Мурка",
-      role: "Саппорт · Вода",
-      hp: "28 HP",
-    },
-    {
-      templateId: "shop_fighter_fire_a",
-      name: "Рыжик",
-      role: "Боец · Огонь",
-      hp: "43 HP",
-    },
-    {
-      templateId: "shop_tank_stone_a",
-      name: "Барсик",
-      role: "Танк · Камень",
-      hp: "50 HP",
-    },
-  ];
-  const foe = [
-    {
-      templateId: "shop_mage_fire_a",
-      name: "Игниус",
-      role: "Маг · Огонь",
-      hp: "30 HP",
-    },
-    {
-      templateId: "shop_assassin_bolt_a",
-      name: "Тень",
-      role: "Ассасин · Молния",
-      hp: "38 HP",
-    },
-    {
-      templateId: "shop_tank_stone_b",
-      name: "Титан",
-      role: "Танк · Камень",
-      hp: "48 HP",
-    },
-  ];
-  const withArt = (row) => ({
-    ...row,
-    art: catHeroArt(row.templateId) || "/stitch-assets/cat-heroes/fighter-a.webp?v=opt1",
-  });
-  return { ally: ally.map(withArt), foe: foe.map(withArt) };
+function pvpLoadRosters() {
+  ensurePvpSquad();
+  if (!Array.isArray(state.pvpOpponentTeam) || state.pvpOpponentTeam.length !== 3) {
+    state.pvpOpponentTeam = rollPvpOpponentTeam(state.pvpSquad);
+  }
+  if (!state.pvpOpponentName) {
+    state.pvpOpponentName = pickRandomItem(PVP_FOE_NAMES) || "Свора Гладиаторов";
+  }
+  return {
+    ally: pvpVisualRoster(state.pvpSquad),
+    foe: pvpVisualRoster(state.pvpOpponentTeam),
+  };
 }
 
 function renderPvpLoad() {
@@ -8856,7 +8996,7 @@ function renderPvpLoad() {
   const enemy = $("pvpLoadEnemyList");
   const allyFigs = $("pvpLoadAllyFigures");
   const enemyFigs = $("pvpLoadEnemyFigures");
-  const { ally: allyRoster, foe: foeRoster } = pvpLoadDefaultRosters();
+  const { ally: allyRoster, foe: foeRoster } = pvpLoadRosters();
   const nameRow = (c) => `<li>
     <b>${c.name}</b>
     <small>${c.role}</small>
@@ -8874,6 +9014,15 @@ function renderPvpLoad() {
       .map((c) => battleLoadFigureHtml({ art: c.art, name: c.name, role: c.role, side: "enemy" }))
       .join("");
   }
+  const allyHead = $("pvpLoadAlly")?.querySelector("header div strong");
+  const foeHead = $("pvpLoadEnemy")?.querySelector("header div strong");
+  if (allyHead) allyHead.textContent = `«${pvpActiveSquadName()}»`;
+  if (foeHead) foeHead.textContent = `«${state.pvpOpponentName || "Свора Гладиаторов"}»`;
+  const allyBm = $("pvpLoadAlly")?.querySelector("header > b");
+  const foeBm = $("pvpLoadEnemy")?.querySelector("header > b");
+  const sumBm = (rows) => rows.reduce((n, c) => n + (c.bm || 0), 0);
+  if (allyBm) allyBm.textContent = `Мощь: ${formatSheetNum(sumBm(allyRoster))}`;
+  if (foeBm) foeBm.textContent = `Мощь: ${formatSheetNum(sumBm(foeRoster))}`;
   bindPvpLoad();
   if (!state.pvpLoadTimer) startPvpLoadSync();
 }
@@ -8881,6 +9030,9 @@ function renderPvpLoad() {
 function startPvpLoadSync() {
   clearInterval(state.pvpLoadTimer);
   setPvpLoadProgress(0);
+  state.battleMode = "pvp";
+  preloadScreenBgs("pvpLoad", "arenaInterior");
+  prefetchSquadCardArt(combatSquadForPrefetch());
   let pct = 0;
   state.pvpLoadTimer = setInterval(() => {
     if (state.tab !== "pvp_load") {
@@ -8894,6 +9046,7 @@ function startPvpLoadSync() {
       clearInterval(state.pvpLoadTimer);
       state.pvpLoadTimer = null;
       toast("Арена готова · синхронизация колод 100%");
+      pvpStart();
     }
   }, 120);
 }
@@ -8906,7 +9059,9 @@ function bindPvpLoad() {
   $("pvpLoadBack")?.addEventListener("click", () => {
     clearInterval(state.pvpLoadTimer);
     state.pvpLoadTimer = null;
-    navigate("battle_hub", { primary: "combat" });
+    state.pvpStarting = false;
+    state.pvpOpponentTeam = null;
+    navigate("pvp", { primary: "combat" });
   });
   document.addEventListener("keydown", (ev) => {
     if (state.tab !== "pvp_load") return;
@@ -8921,13 +9076,32 @@ function bindPvpLoad() {
   });
 }
 
+/** Hand cards must belong to that unit's N=6 deck (shop template). */
+function verifyPvpHandCards(diff) {
+  if (!diff?.hand?.length) return true;
+  let ok = true;
+  for (const c of diff.hand) {
+    const tid = unitTemplateId(c.unitId);
+    const shop = deckShopTemplate(tid);
+    const stem = String(c.cardId || "").replace(/^card_/, "");
+    if (shop && stem && !stem.startsWith(shop)) {
+      ok = false;
+      log(`PvP card mismatch: ${c.cardId} ∉ deck ${shop} (${tid})`, "pvp");
+    }
+  }
+  if (ok) log(`PvP hand ok · ${diff.hand.length} карт под героев`, "pvp");
+  return ok;
+}
+
 /** Interactive PvP (same core; P2 = scripted AI until live MM — B1/B2 smoke). */
 async function pvpStart() {
+  if (state.pvpStarting) return;
   if (!pvpUnlocked()) {
     showGateTip(t("gate.tip.pvp", "PvP откроется после 3 побед в Мифмире или тренировке"));
     return;
   }
   if (!spendTicketStub()) return;
+  state.pvpStarting = true;
   if (state.tab === "pvp_load" && (state.pvpLoadPct || 0) < 100) {
     setPvpLoadProgress(100);
     clearInterval(state.pvpLoadTimer);
@@ -8937,7 +9111,13 @@ async function pvpStart() {
     clearInterval(state.pvpLoadTimer);
     state.pvpLoadTimer = null;
     state.battleMode = "pvp";
-    const team = resolveBattlePlan("pvp").team;
+    ensurePvpSquad();
+    const team1 = [...state.pvpSquad];
+    const team2 =
+      Array.isArray(state.pvpOpponentTeam) && state.pvpOpponentTeam.length === 3
+        ? [...state.pvpOpponentTeam]
+        : rollPvpOpponentTeam(team1);
+    state.pvpOpponentTeam = team2;
     toast(
       t(
         "pvp.smoke.ai",
@@ -8948,16 +9128,19 @@ async function pvpStart() {
       method: "POST",
       body: JSON.stringify({
         matchId: `web_${Date.now()}`,
-        team1: team,
-        team2: team,
+        team1,
+        team2,
         seed: Date.now() % 1e9,
         autoPlay: false,
       }),
     });
+    verifyPvpHandCards(data);
     await applyDiff(data, "CreatePvP");
   } catch (err) {
     log(`PvP fail: ${err.message}`, "pvp");
     alert(err.message);
+  } finally {
+    state.pvpStarting = false;
   }
 }
 
@@ -9087,6 +9270,7 @@ function renderAll() {
       if ($("pvpTitle")) $("pvpTitle").textContent = t("hub.tab.pvp");
       renderUnlockProgress();
       bindPvpArena();
+      renderPvpArena();
       break;
     case "collection":
       if ($("colEyebrow")) $("colEyebrow").textContent = t("hub.tab.collection");
@@ -10310,56 +10494,218 @@ function nudgeDojoNeedSquad() {
   window.setTimeout(() => grid.classList.remove("dojo-need-squad"), 450);
 }
 
+function clearPvpSearchTimer() {
+  if (state.pvpSearchTimer) {
+    clearTimeout(state.pvpSearchTimer);
+    state.pvpSearchTimer = null;
+  }
+  state.pvpSearching = false;
+  const cta = $("btnArenaSearch");
+  if (cta) {
+    cta.classList.remove("is-searching");
+    cta.disabled = false;
+  }
+}
+
+function renderPvpArenaActiveTeam() {
+  const box = $("arenaActiveTeam");
+  if (!box) return;
+  ensurePvpSquad();
+  const rows = state.pvpSquad.map(pvpRosterEntry);
+  const tone = {
+    tank: {
+      card: "border-primary/40",
+      badge: "bg-primary/15 text-primary border-primary/35",
+      bar: "bg-primary",
+      bm: "text-primary",
+    },
+    fighter: {
+      card: "border-tertiary/40",
+      badge: "bg-tertiary/15 text-tertiary border-tertiary/35",
+      bar: "bg-tertiary",
+      bm: "text-tertiary",
+    },
+    assassin: {
+      card: "border-primary/40",
+      badge: "bg-primary/15 text-primary border-primary/35",
+      bar: "bg-primary",
+      bm: "text-primary",
+    },
+    ranger: {
+      card: "border-secondary/40",
+      badge: "bg-secondary/15 text-secondary border-secondary/35",
+      bar: "bg-secondary",
+      bm: "text-secondary",
+    },
+    mage: {
+      card: "border-tertiary/40",
+      badge: "bg-tertiary/15 text-tertiary border-tertiary/35",
+      bar: "bg-tertiary",
+      bm: "text-tertiary",
+    },
+    support: {
+      card: "border-secondary/40",
+      badge: "bg-secondary/15 text-secondary border-secondary/35",
+      bar: "bg-secondary",
+      bm: "text-secondary",
+    },
+  };
+  box.innerHTML = rows
+    .map((c) => {
+      const t = tone[c.roleKey] || tone.tank;
+      return `<article class="relative flex gap-2 rounded-lg border ${t.card} bg-[#1a1613] overflow-hidden min-h-[4.6rem] flex-shrink-0">
+<img alt="${c.name}" class="w-14 self-stretch object-cover object-top" src="${c.art}"/>
+<div class="flex-1 min-w-0 py-1.5 pr-2 flex flex-col justify-between">
+<div class="flex items-center justify-between gap-1">
+<span class="font-bold text-[12px] text-white truncate">${c.name}</span>
+<span class="text-[9px] px-1.5 py-0.5 rounded border font-bold ${t.badge}">${(c.role.split(" · ")[0] || c.role).toUpperCase()}</span>
+</div>
+<div class="flex items-center gap-2 text-[10px] text-outline"><span>${c.role}</span></div>
+<div class="h-1.5 rounded-full bg-black/50 overflow-hidden"><i class="block h-full w-[80%] ${t.bar} rounded-full"></i></div>
+<div class="flex justify-between text-[10px]"><span class="text-on-surface-variant">${c.hp}</span><span class="${t.bm} font-bold">${formatSheetNum(c.bm)} БМ</span></div>
+</div>
+</article>`;
+    })
+    .join("");
+}
+
+function renderPvpArenaOppPreview(mode = "idle") {
+  const box = $("arenaOppPreview");
+  if (!box) return;
+  const labels = ["Танк", "ДПС", "Саппорт"];
+  const team =
+    mode === "found" && Array.isArray(state.pvpOpponentTeam) ? state.pvpOpponentTeam.map(pvpRosterEntry) : null;
+  box.innerHTML = [0, 1, 2]
+    .map((i) => {
+      if (mode === "searching") {
+        return `<div class="rounded-lg border border-dashed border-primary/40 bg-[#1a1613]/80 h-20 flex flex-col items-center justify-center gap-0.5 text-primary animate-pulse" data-opp-slot="${i}">
+<span class="material-symbols-outlined text-[20px]">hourglass_top</span>
+<span class="text-[9px] font-bold">${labels[i]}…</span>
+</div>`;
+      }
+      if (team?.[i]) {
+        const c = team[i];
+        return `<div class="rounded-lg border border-secondary/40 bg-[#1a1613] h-20 overflow-hidden flex flex-col items-center justify-end relative" data-opp-slot="${i}">
+<img alt="${c.name}" class="absolute inset-0 w-full h-full object-cover object-top opacity-90" src="${c.art}"/>
+<span class="relative z-10 w-full text-center text-[9px] font-bold bg-black/65 text-white py-0.5">${c.name}</span>
+</div>`;
+      }
+      return `<div class="rounded-lg border border-dashed border-outline-variant/50 bg-[#1a1613]/80 h-20 flex flex-col items-center justify-center gap-0.5 text-outline" data-opp-slot="${i}">
+<span class="material-symbols-outlined text-[20px]">person_search</span>
+<span class="text-[9px] font-bold">${labels[i]}</span>
+</div>`;
+    })
+    .join("");
+}
+
+function renderPvpArena() {
+  const root = $("viewPvp");
+  if (!root) return;
+  ensurePvpSquad();
+  const id = state.pvpArenaSquadId || "1";
+  root.querySelectorAll("[data-arena-squad]").forEach((card) => {
+    const on = card.getAttribute("data-arena-squad") === id;
+    card.classList.toggle("is-on", on);
+    const badge = card.querySelector("header i");
+    if (on) {
+      if (!badge) {
+        const mark = document.createElement("i");
+        mark.className = "text-[9px] text-secondary not-italic font-bold";
+        mark.textContent = "Активен";
+        card.querySelector("header")?.appendChild(mark);
+      } else {
+        badge.textContent = "Активен";
+      }
+    } else if (badge) {
+      badge.remove();
+    }
+    const preset = PVP_ARENA_SQUADS[card.getAttribute("data-arena-squad")];
+    if (preset) {
+      const imgs = card.querySelectorAll("img");
+      preset.team.forEach((tid, i) => {
+        if (imgs[i]) imgs[i].src = catHeroArt(tid) || imgs[i].src;
+      });
+      const title = card.querySelector("p");
+      if (title) title.textContent = preset.name;
+    }
+  });
+  root.querySelectorAll("[data-arena-mode]").forEach((btn) => {
+    const on = btn.getAttribute("data-arena-mode") === (state.pvpArenaMode || "ranked");
+    btn.classList.toggle("is-on", on);
+    btn.setAttribute("aria-selected", on ? "true" : "false");
+  });
+  renderPvpArenaActiveTeam();
+  if (state.pvpSearching) renderPvpArenaOppPreview("searching");
+  else if (state.pvpOpponentTeam?.length === 3) renderPvpArenaOppPreview("found");
+  else renderPvpArenaOppPreview("idle");
+  const status = $("arenaSearchStatus");
+  if (status && !state.pvpSearching) {
+    status.textContent = state.pvpOpponentTeam?.length === 3 ? "Соперник найден" : "Готов к поиску";
+  }
+}
+
+function startPvpSearch() {
+  if (!pvpUnlocked()) {
+    showGateTip(t("gate.tip.pvp", "PvP откроется после 3 побед в Мифмире или тренировке"));
+    return;
+  }
+  if (state.pvpSearching) return;
+  ensurePvpSquad();
+  clearPvpSearchTimer();
+  state.pvpSearching = true;
+  state.pvpOpponentTeam = null;
+  state.pvpOpponentName = "";
+  const cta = $("btnArenaSearch");
+  const status = $("arenaSearchStatus");
+  if (cta) {
+    cta.classList.add("is-searching");
+    cta.disabled = true;
+  }
+  if (status) status.textContent = "Поиск соперника…";
+  renderPvpArenaOppPreview("searching");
+  toast("Поиск по рангу + БМ…");
+  const delay = 1200 + Math.floor(Math.random() * 1400);
+  state.pvpSearchTimer = setTimeout(() => {
+    state.pvpSearchTimer = null;
+    state.pvpSearching = false;
+    state.pvpOpponentTeam = rollPvpOpponentTeam(state.pvpSquad);
+    state.pvpOpponentName = pickRandomItem(PVP_FOE_NAMES) || "Свора Гладиаторов";
+    if (cta) {
+      cta.classList.remove("is-searching");
+      cta.disabled = false;
+    }
+    if (status) status.textContent = "Соперник найден";
+    renderPvpArenaOppPreview("found");
+    const names = state.pvpOpponentTeam.map((id) => pvpRosterEntry(id).name).join(" · ");
+    toast(`Найден отряд: ${names}`);
+    window.setTimeout(() => openPvpLoad(), 450);
+  }, delay);
+}
+
 /** PvP Arena lobby: team presets, mode tabs, find-match → load sheet. */
 function bindPvpArena() {
   const root = $("viewPvp");
   if (!root) return;
+  renderPvpArena();
   if (root.dataset.arenaBound === "1") return;
   root.dataset.arenaBound = "1";
-
-  const selectSquad = (id) => {
-    root.querySelectorAll("[data-arena-squad]").forEach((card) => {
-      const on = card.getAttribute("data-arena-squad") === id;
-      card.classList.toggle("is-on", on);
-      const badge = card.querySelector("header i");
-      if (on) {
-        if (!badge) {
-          const mark = document.createElement("i");
-          mark.className = "text-[9px] text-secondary not-italic font-bold";
-          mark.textContent = "Активен";
-          card.querySelector("header")?.appendChild(mark);
-        } else {
-          badge.textContent = "Активен";
-        }
-      } else if (badge) {
-        badge.remove();
-      }
-    });
-  };
-
-  const setMode = (mode) => {
-    root.querySelectorAll("[data-arena-mode]").forEach((btn) => {
-      const on = btn.getAttribute("data-arena-mode") === mode;
-      btn.classList.toggle("is-on", on);
-      btn.setAttribute("aria-selected", on ? "true" : "false");
-    });
-    state.pvpArenaMode = mode;
-  };
 
   root.addEventListener("click", (ev) => {
     const squad = ev.target.closest("[data-arena-squad]");
     if (squad && root.contains(squad)) {
       ev.preventDefault();
       const id = squad.getAttribute("data-arena-squad");
-      selectSquad(id);
-      toast(`Отряд №${id} выбран для арены`);
+      applyPvpArenaSquad(id);
+      renderPvpArena();
+      toast(`Отряд «${pvpActiveSquadName()}» выбран для арены`);
       return;
     }
     const modeBtn = ev.target.closest("[data-arena-mode]");
     if (modeBtn && root.contains(modeBtn)) {
       ev.preventDefault();
       const mode = modeBtn.getAttribute("data-arena-mode");
-      setMode(mode);
+      state.pvpArenaMode = mode;
+      renderPvpArena();
       const labels = { ranked: "Рейтинг", casual: "Свободный", gauntlet: "Гонтлет" };
       toast(`Режим: ${labels[mode] || mode}`);
       return;
@@ -10381,12 +10727,7 @@ function bindPvpArena() {
     const act = actBtn.getAttribute("data-hud-action");
     ev.preventDefault();
     if (act === "pvp-search") {
-      const cta = $("btnArenaSearch");
-      const status = $("arenaSearchStatus");
-      if (cta) cta.classList.add("is-searching");
-      if (status) status.textContent = "Поиск соперника…";
-      toast("Поиск по рангу + БМ…");
-      openPvpLoad();
+      startPvpSearch();
       return;
     }
     if (act === "pvp-formation") {
@@ -10793,7 +11134,7 @@ function wireButtons() {
     if (state.farmBag.length) sellFarmLoot("auction");
     else showGateTip(t("auction.list.tip", "Нет лута — собери во дворе или подними ранг"));
   });
-  $("btnPvpStart")?.addEventListener("click", () => openPvpLoad());
+  $("btnPvpStart")?.addEventListener("click", () => startPvpSearch());
   $("btnMarketToShop").addEventListener("click", () => navigate("shop"));
   $("btnMarketToAuction")?.addEventListener("click", () => navigate("auction"));
   $("btnAuctionToMarket")?.addEventListener("click", () => navigate("market"));
