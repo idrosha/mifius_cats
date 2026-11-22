@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html class="dark" lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PvP бой 3v3 — Мифиус</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{primary:"#fdba45","primary-container":"#d99b26","on-primary":"#432c00",secondary:"#89d98c",surface:"#161310","on-surface":"#eae1db",outline:"#9d8f7b",background:"#161310",error:"#ffb4ab","error-container":"#93000a",tertiary:"#ffb4a6"}}}};</script>
+</head>
+<body>
+<!-- Immersive PvP 3v3 fight · Stitch pvp_3v3 · live units/hand via renderPvpFight -->
+<main class="pv-fight mythfel-form-body" data-purpose="pvp-fight">
+<img class="pv-bg" alt="" src="/stitch-assets/pvp-battles/fight-bg.png"/>
+<div class="pv-shade"></div>
+<div class="pv-ui">
+<header class="pv-top">
+<div class="pv-top-left">
+<span class="pv-live-dot" aria-hidden="true"></span>
+<p id="pvRound">Раунд 1 · Ход игрока</p>
+<p id="pvEnergy">Энергия 0</p>
+</div>
+<div class="pv-clash" aria-hidden="true"><b>Ближний стык</b><span>Дистанция боя</span></div>
+<button type="button" id="pvSurrender">Сдаться</button>
+</header>
+<div class="pv-field">
+<section class="pv-side is-ally">
+<h2>Отряд Мурр-Оплота</h2>
+<ul class="pv-units" id="pvAllies"></ul>
+</section>
+<section class="pv-side is-enemy">
+<h2>Свора гладиаторов</h2>
+<ul class="pv-units pv-foes" id="pvEnemies"></ul>
+</section>
+</div>
+<footer class="pv-foot">
+<div class="pv-act">
+<p id="pvOrbs">0 карт</p>
+<button type="button" class="pv-keep" id="pvKeep" title="Удержать карту (§3.4)">Keep</button>
+<button type="button" class="pv-end" id="pvEndTurn">Завершить ход</button>
+</div>
+<ul class="pv-hand" id="pvHand"></ul>
+</footer>
+</div>
+</main>
+</body>
+</html>

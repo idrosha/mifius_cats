@@ -1,20 +1,24 @@
-<section id="viewPvpFight" class="stitch-view mythfel-form hidden" data-stitch="pvp_fight" data-layout="landscape">
-<div class="pv-fight">
-<img class="pv-bg" alt="" src="/stitch-ref/e608/arena_interior.webp?v=opt1"/>
+﻿<section id="viewPvpFight" class="stitch-view mythfel-form hidden" data-stitch="pvp_fight" data-layout="landscape">
+<!-- Immersive PvP 3v3 fight · Stitch pvp_3v3 · live units/hand via renderPvpFight -->
+<main class="pv-fight mythfel-form-body" data-purpose="pvp-fight">
+<img class="pv-bg" alt="" src="/stitch-assets/pvp-battles/fight-bg.png"/>
 <div class="pv-shade"></div>
 <div class="pv-ui">
 <header class="pv-top">
+<div class="pv-top-left">
+<span class="pv-live-dot" aria-hidden="true"></span>
 <p id="pvRound">Раунд 1 · Ход игрока</p>
 <p id="pvEnergy">Энергия 0</p>
+</div>
+<div class="pv-clash" aria-hidden="true"><b>Ближний стык</b><span>Дистанция боя</span></div>
 <button type="button" id="pvSurrender">Сдаться</button>
 </header>
 <div class="pv-field">
-<section class="pv-side">
+<section class="pv-side is-ally">
 <h2>Отряд Мурр-Оплота</h2>
 <ul class="pv-units" id="pvAllies"></ul>
 </section>
-<div class="pv-clash" aria-hidden="true"><b>Ближний стык</b><span>Дистанция боя</span></div>
-<section class="pv-side">
+<section class="pv-side is-enemy">
 <h2>Свора гладиаторов</h2>
 <ul class="pv-units pv-foes" id="pvEnemies"></ul>
 </section>
@@ -28,5 +32,5 @@
 <ul class="pv-hand" id="pvHand"></ul>
 </footer>
 </div>
-</div>
+</main>
 </section>

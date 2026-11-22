@@ -46,6 +46,9 @@ const SCREENS = [
   { id: "pve_fight", file: "pve_fight.html", view: "viewPveFight" },
   // PvP ranked duel load — full-body cats on arena (MF-148)
   { id: "pvp_load", file: "pvp_load.html", view: "viewPvpLoad" },
+  // PvP live 3v3 fight + coliseum victory (Stitch pvp packs)
+  { id: "pvp_fight", file: "pvp_fight.html", view: "viewPvpFight" },
+  { id: "pvp_victory", file: "pvp_victory.html", view: "viewPvpVictory" },
   { id: "guild_battle", file: "guild_battle.html", view: "viewGuildBattle" },
   // Live Бои hub (/fronts) — battle frontiers map
   { id: "battle_hub", file: "battle_hub.html", view: "viewBattleHub" },

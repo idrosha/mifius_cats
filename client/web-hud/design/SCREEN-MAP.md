@@ -36,6 +36,9 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | `boss_dungeon` | `boss_dungeon.html` | 4da7 `3` | Данжи start · 3 волны |
 | `boss_raid` | `boss_raid.html` | 4da7 `12` | Рейд / легион 12 start |
 | `pvp` | `pvp.html` | 4da7 `pvp` | PvP Арена start · подбор |
+| `pvp_load` | `pvp_load.html` | stitch pvp_versus_3v3 + MF-148 figures | Загрузка рейтинговой дуэли 3v3 · `/pvp-load` |
+| `pvp_fight` | `pvp_fight.html` | stitch `бой 3на3` / pvp_3v3 | Live PvP 3v3 · cutouts + hand · `#pv*` binds |
+| `pvp_victory` | `pvp_victory.html` | stitch victory tavern | Славная победа в Колизее · `data-col` CTAs |
 | `guild_battle` | `guild_battle.html` | 4da7 root | Война гильдий lobby / башни |
 | `practice` | `practice.html` | practice-dojo-gold + practice-empty-squad | Тренировка lobby · ростер 12 + matchup dummies + отряд L→R **тыл · центр · танк** (танк справа); empty slots = stitch tips |
 | `practice_fight` | `practice_fight.html` | Stitch dojo battle HUD v2 + dummy art | Бой в додзё · dummy cards 2∶3 + VS + 6-card hand · без меню · только Выход (`#pfBack`) |
@@ -69,6 +72,7 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | Arena / victory hall / poster BGs | `stitch-ref/e608/arena_*.png`, `victory_hall.png`, `battle_poster.png` |
 | Dungeon / raid / pvp / guild lobby | `stitch-ref/4da7/*.png` |
 | Guild fight HTML+PNG | `stitch-ref/4da7/guild_fight.*` (GvG fight art; live fight uses shared `battle`) |
+| PvP load/fight/victory etalons | `stitch-ref/pvp-battles/{pvp-load,pvp-fight,pvp-victory,arena-*}.png` |
 | Guild members / tech / treasury | `stitch-ref/18c7/guild_{members,tech,treasury}.{html,png}` (+ art PNGs) |
 | Practice fight screenshot | `stitch-ref/18c7/practice.png` |
 | Practice lobby gold + dummy masters | `stitch-ref/practice-dojo-gold/` (lobby PNG + oak/berserk/totem) |

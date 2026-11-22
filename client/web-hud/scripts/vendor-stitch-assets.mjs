@@ -114,6 +114,21 @@ const SCREEN_FALLBACKS = {
   "boss_dungeon.html": ["/stitch-ref/4da7/boss_dungeon.png", "/stitch-ref/e608/arena_dojo.png", "/stitch-ref/64d5/cat_portrait.png"],
   "boss_raid.html": ["/stitch-ref/4da7/boss_raid.png", "/stitch-ref/e608/battle_poster.png", "/stitch-ref/64d5/cat_portrait.png"],
   "pvp.html": ["/stitch-ref/4da7/pvp.png", "/stitch-ref/e608/arena_dojo.png", "/stitch-ref/64d5/cat_portrait.png"],
+  "pvp_load.html": [
+    "/stitch-ref/pvp-battles/pvp-load.png",
+    "/stitch-ref/pvp-battles/arena-ground.png",
+    "/stitch-ref/battles-trade-guild-etalons/07-pvp-vs-loading.png",
+  ],
+  "pvp_fight.html": [
+    "/stitch-ref/pvp-battles/arena-colosseum.png",
+    "/stitch-ref/pvp-battles/pvp-fight.png",
+    "/stitch-ref/e608/arena_interior.png",
+  ],
+  "pvp_victory.html": [
+    "/stitch-ref/pvp-battles/pvp-victory.png",
+    "/stitch-ref/e608/victory_hall.png",
+    "/stitch-assets/cat-heroes/tank-a.webp",
+  ],
   "guild_battle.html": ["/stitch-ref/4da7/guild_battle.png", "/stitch-ref/4da7/guild_fight.png", "/stitch-ref/64d5/cat_portrait.png"],
   "practice.html": ["/stitch-ref/18c7/practice.png", "/stitch-ref/e608/arena_dojo.png", "/stitch-ref/64d5/cat_portrait.png"],
   "practice_fight.html": [

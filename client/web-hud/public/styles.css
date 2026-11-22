@@ -3314,6 +3314,7 @@ body:has(#viewVictoryHall:not(.hidden)) #app { height: 100dvh !important; max-he
 }
 /* PvP coliseum win — only a ranked victory, not the dojo or Mythmir hall */
 body:has(#viewPvpVictory:not(.hidden)) #appNav,
+body:has(#viewPvpVictory:not(.hidden)) #appSubTabs,
 body:has(#viewPvpVictory:not(.hidden)) #wireDock { display: none !important; }
 body:has(#viewPvpVictory:not(.hidden)) #app { height: 100dvh !important; max-height: 100dvh !important; }
 #viewPvpVictory { background: #100e0c; color: #eae1db; }
@@ -3592,6 +3593,7 @@ body:has(#viewPvpLoad:not(.hidden)) #app { height: 100dvh !important; max-height
 
 /* PvP fight — only while an arena battle is on screen */
 body:has(#viewPvpFight:not(.hidden)) #appNav,
+body:has(#viewPvpFight:not(.hidden)) #appSubTabs,
 body:has(#viewPvpFight:not(.hidden)) #wireDock { display: none !important; }
 body:has(#viewPvpFight:not(.hidden)) #app { height: 100dvh !important; max-height: 100dvh !important; }
 #viewPvpFight { background: #100e0c; color: #eae1db; }
@@ -3600,11 +3602,19 @@ body:has(#viewPvpFight:not(.hidden)) #app { height: 100dvh !important; max-heigh
 .pv-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,6,4,.78), rgba(8,6,4,.35) 28%, rgba(8,6,4,.82)); }
 .pv-ui { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; padding: 0.45rem 0.7rem 0.4rem; }
 .pv-top { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; }
+.pv-top-left { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
+.pv-live-dot {
+  display: inline-block; width: 0.55rem; height: 0.55rem; border-radius: 999px;
+  background: #fdba45; box-shadow: 0 0 8px rgba(253,186,69,.7);
+  animation: mf-pvp-pulse 1.4s ease-in-out infinite;
+}
+@keyframes mf-pvp-pulse { 0%,100% { opacity: 1; } 50% { opacity: .45; } }
 #pvRound { margin: 0; font-family: Rubik, sans-serif; font-size: 18px; color: #fdba45; letter-spacing: 0.04em; text-transform: uppercase; }
 #pvEnergy { margin: 0; color: #89d98c; font-size: 13px; }
 #pvSurrender { border: 1px solid rgba(255,180,166,.45); background: #1a1613; color: #ffb4a6; border-radius: 999px; padding: 0.28rem 0.7rem; cursor: pointer; }
-.pv-field { flex: 1 1 auto; min-height: 0; display: flex; align-items: center; gap: 0.7rem; }
+.pv-field { flex: 1 1 auto; min-height: 0; display: flex; align-items: flex-end; justify-content: space-between; gap: 0.7rem; }
 .pv-side { flex: 1 1 0; min-width: 0; }
+.pv-side.is-enemy h2 { color: #ffb4a6; text-align: right; }
 .pv-side h2 { margin: 0 0 0.35rem; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: #fdba45; }
 .pv-units { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.4rem; }
 .pv-units li { flex: 1 1 0; min-width: 0; background: rgba(16,14,12,.88); border: 1px solid rgba(80,69,53,.8); border-radius: 0.55rem; overflow: visible; }
