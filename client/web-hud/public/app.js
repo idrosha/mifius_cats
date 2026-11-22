@@ -993,6 +993,8 @@ function logicalViewId() {
     pve_fight: "viewPveFight",
     pve_victory: "viewPveVictory",
     pvp_load: "viewPvpLoad",
+    pvp_fight: "viewPvpFight",
+    pvp_victory: "viewPvpVictory",
     collection: "viewCollection",
     trade_hub: "viewTradeHub",
     shop: "viewShop",
@@ -1099,9 +1101,9 @@ function showView(id) {
     preloadScreenBgs("dojo", "pveVictory", "victoryHall");
     prefetchSquadCardArt(combatSquadForPrefetch());
   } else if (id === "viewPvpLoad") preloadScreenBgs("pvpLoad", "arenaInterior");
-  else if (id === "viewPvpFight") preloadScreenBgs("arenaInterior", "victoryHall");
+  else if (id === "viewPvpFight") preloadScreenBgs("arenaInterior", "pvpVictory");
   else if (id === "viewPveVictory" || id === "viewVictoryHall" || id === "viewPvpVictory") {
-    preloadScreenBgs("pveVictory", "victoryHall", "yard");
+    preloadScreenBgs("pveVictory", "victoryHall", "pvpVictory", "yard");
   }
   state.wireMode = wireModeFor(id);
   updateWireDock();
@@ -1832,8 +1834,14 @@ function bindStitchNav(root) {
   root.addEventListener("click", (e) => {
     const a = e.target.closest("a[data-path], a[href='#']");
     if (!a || !root.contains(a)) return;
-    // Shared fillNav owns the real menu. Old stitch data-path / hash links stay closed.
     e.preventDefault();
+    // D-029: Stitch header chrome never navigates — only #appNav / #appSubTabs.
+    // In-content CTAs live under <main> (trade hub cards, etc.).
+    if (a.closest("header") && !a.closest("main")) return;
+    const raw = (a.getAttribute("data-path") || "").trim();
+    if (!raw) return;
+    const tab = PATH_TO_TAB[raw] || PATH_TO_TAB[raw.toLowerCase()];
+    if (tab) navigate(tab);
   });
 }
 
@@ -2491,15 +2499,24 @@ function fillDrinkHosts(hosts) {
   }
 }
 
+/** Painted trade screens are live in HUD; remaining map pins stay tip-only. */
+const TRADE_ZONE_OPEN = new Set(["tavern", "shop", "market", "auction"]);
 const TRADE_ZONE_TIP = {
-  tavern: "Таверна: портал пока закрыт (SL)",
-  shop: "Лавка Чудес: портал пока закрыт (SL)",
-  market: "Рынок сырья: портал пока закрыт (SL)",
-  auction: "Аукцион: портал пока закрыт (SL)",
+  farm: "Угодья: портал пока закрыт (SL)",
+  pass: "Боевой пасс: открой из верхнего меню",
 };
 
 function tradeTip(zone) {
   toast(TRADE_ZONE_TIP[zone] || "Зона площади: скоро");
+}
+
+function openTradeZone(zone) {
+  if (TRADE_ZONE_OPEN.has(zone)) {
+    navigate(zone);
+    return true;
+  }
+  tradeTip(zone);
+  return false;
 }
 
 function setTradeZoneOpen(root, zone) {
@@ -2612,7 +2629,7 @@ function renderTradeHub() {
         const zone = go.getAttribute("data-trade-go");
         state.tradePinned = zone;
         setTradeZoneOpen(root, zone);
-        tradeTip(zone);
+        openTradeZone(zone);
         return;
       }
       if (!e.target.closest(".trade-zone")) {
@@ -7254,10 +7271,11 @@ const SCREEN_BG = {
   yard: `/stitch-assets/yard/meowkara-mines-bg.webp?v=${STITCH_ASSET_V}`,
   dojo: `/stitch-ref/e608/arena_dojo.webp?v=${STITCH_ASSET_V}`,
   dojoLoad: `/stitch-assets/dojo/practice-load-arena.webp?v=${STITCH_ASSET_V}`,
-  pvpLoad: `/stitch-assets/pvp-load-arena.webp?v=${STITCH_ASSET_V}`,
+  pvpLoad: `/stitch-assets/pvp-battles/load-bg.png?v=${STITCH_ASSET_V}`,
   pveVictory: `/stitch-assets/pve-victory/bg.webp?v=${STITCH_ASSET_V}`,
   victoryHall: `/stitch-ref/e608/victory_hall.webp?v=${STITCH_ASSET_V}`,
-  arenaInterior: `/stitch-ref/e608/arena_interior.webp?v=${STITCH_ASSET_V}`,
+  arenaInterior: `/stitch-assets/pvp-battles/fight-bg.png?v=${STITCH_ASSET_V}`,
+  pvpVictory: `/stitch-assets/pvp-battles/victory-hall.jpg?v=${STITCH_ASSET_V}`,
 };
 
 function preloadScreenBgs(...keys) {
