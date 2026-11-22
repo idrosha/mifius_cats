@@ -926,6 +926,9 @@ function mergeBarnMatsSeed() {
     if (have.has(seed.id)) continue;
     state.barnMats.push(JSON.parse(JSON.stringify(seed)));
   }
+  for (const m of state.barnMats) {
+    if (m.kind === "tool" || String(m.id || "").startsWith("tool_")) ensureToolDurability(m);
+  }
 }
 
 function loadGearStub() {

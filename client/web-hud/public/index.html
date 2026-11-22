@@ -3843,6 +3843,10 @@
 <span class="material-symbols-outlined">person_add</span>
 <span>Найм фермера</span>
 </button>
+<button type="button" class="farm-action-btn" data-farm-action="fire" id="farm-action-fire">
+<span class="material-symbols-outlined">person_remove</span>
+<span>Снять фермера</span>
+</button>
 <button type="button" class="farm-action-btn" data-farm-action="plant" id="farm-action-plant">
 <span class="material-symbols-outlined">yard</span>
 <span>Посадка</span>
@@ -5561,12 +5565,12 @@
 </section>
 </div>
 <footer class="pv-foot">
+<ul class="pv-hand" id="pvHand"></ul>
 <div class="pv-act">
 <p id="pvOrbs">0 карт</p>
 <button type="button" class="pv-keep" id="pvKeep" title="Удержать карту (§3.4)">Keep</button>
 <button type="button" class="pv-end" id="pvEndTurn">Завершить ход</button>
 </div>
-<ul class="pv-hand" id="pvHand"></ul>
 </footer>
 </div>
 </main>
