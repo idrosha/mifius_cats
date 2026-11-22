@@ -50,9 +50,18 @@ const PATH_TO_TAB = {
   "khab-torgovli-glavnaya": "trade_hub",
   "khab-torgovli-karta": "trade_hub",
   "tavern-bar": "tavern",
+  "trade-tavern-bar": "tavern",
   "shop-donate": "shop",
+  "trade-shop": "shop",
   "market-resources": "market",
+  "trade-market": "market",
   "player-auctions": "auction",
+  "trade-auction": "auction",
+  "character-home": "home",
+  equipment: "gear",
+  farmlands: "farm",
+  "pve-expedition": "yard",
+  "arena-battles": "battle_hub",
   "rejting-igrokov-sezon-4": "rating_players",
   "rejting-gildiy": "rating_guilds",
   "rating-guilds": "rating_guilds",
@@ -2371,12 +2380,17 @@ function renderShop() {
 }
 
 function renderMarket() {
-  $("marketEyebrow").textContent = t("hub.tab.market", "Рынок");
-  $("marketTitle").textContent = t("market.title", "Рынок Усадьбы");
-  $("marketLead").textContent = t(
-    "market.lead",
-    "Семена · инструменты · ингредиенты/ресурсы · quick sell. Аукцион — отдельно.",
-  );
+  const eyebrow = $("marketEyebrow");
+  if (eyebrow) eyebrow.textContent = t("hub.tab.market", "Рынок");
+  const title = $("marketTitle");
+  if (title) title.textContent = t("market.title", "Рынок Усадьбы");
+  const lead = $("marketLead");
+  if (lead) {
+    lead.textContent = t(
+      "market.lead",
+      "Семена · инструменты · ингредиенты/ресурсы · quick sell. Аукцион — отдельно.",
+    );
+  }
   const list = $("marketList");
   if (list) {
     list.innerHTML = "";
@@ -2616,12 +2630,17 @@ function renderTradeHub() {
 }
 
 function renderTavern() {
-  $("tavernEyebrow").textContent = t("hub.tab.tavern", "Таверна");
-  $("tavernTitle").textContent = t("tavern.title", "Таверна «Усатый Хмель»");
-  $("tavernLead").textContent = t(
-    "tavern.lead_milk",
-    "Молоко на льду = HP после боя. Бафф-молоко — только PvE/данжи. Зелья → рынок/аукцион.",
-  );
+  const eyebrow = $("tavernEyebrow");
+  if (eyebrow) eyebrow.textContent = t("hub.tab.tavern", "Таверна");
+  const title = $("tavernTitle");
+  if (title) title.textContent = t("tavern.title", "Таверна «Усатый Хмель»");
+  const lead = $("tavernLead");
+  if (lead) {
+    lead.textContent = t(
+      "tavern.lead_milk",
+      "Молоко на льду = HP после боя. Бафф-молоко — только PvE/данжи. Зелья → рынок/аукцион.",
+    );
+  }
   const banner = $("tavernMilkBanner");
   if (banner) {
     banner.innerHTML = `<strong class="text-primary">${t("tavern.milk_bar", "Молочный бар")}</strong>
@@ -3363,57 +3382,49 @@ const MONSTER_BATTLE_BY_ROLE = {
  */
 const MONSTER_BATTLE_BY_FACTION = {
   dogs: {
-    tank: ["/stitch-assets/monsters/battle/tank-b.webp"],
+    // *-faceleft = flopped toward cats (board-right faces left). Native-left originals unchanged.
+    tank: ["/stitch-assets/monsters/battle/tank-b-faceleft.webp?v=faceleft2"],
     // Grey dual-club fighter-h (обычный пёс). Do NOT use fighter-b — that dual-axe red plate
     // is the ch3 red-dog look (Andrew: ch1 showed «красный пёс»).
-    // ?v= busts Amvera/browser max-age=300 after in-place facing rebakes (D-040).
-    fighter: ["/stitch-assets/monsters/battle/fighter-h.webp?v=d047face"],
+    fighter: ["/stitch-assets/monsters/battle/fighter-h.webp?v=faceleft2"],
     // Ch1 dog archers: grey canine only. Never ranger-b (frost wolf = ch2 Ледяные Пещеры).
-    ranger: ["/stitch-assets/monsters/battle/ranger-a.webp?v=d051dog"],
-    support: ["/stitch-assets/monsters/battle/support-a.webp"],
-    pitboss: ["/stitch-assets/monsters/battle/tank-d.webp"],
+    ranger: ["/stitch-assets/monsters/battle/ranger-a-faceleft.webp?v=faceleft2"],
+    // No dog support in PvE roster (Andrew plan).
+    pitboss: ["/stitch-assets/monsters/battle/tank-d-faceleft.webp?v=faceleft2"],
   },
   wolves: {
-    // Ch2 RGBA cutouts (new filenames bust 7d immutable cache of black-plate RGB).
-    tank: ["/stitch-assets/monsters/battle/wolf-tank-cutout.webp"],
-    fighter: ["/stitch-assets/monsters/battle/wolf-fighter-cutout.webp"],
-    // Frost/ice wolf archers for Ледяные Пещеры (not grey dog ranger-a alone).
-    ranger: [
-      "/stitch-assets/monsters/battle/ranger-b.webp?v=d051wolf",
-      "/stitch-assets/monsters/battle/ranger-a.webp?v=d051wolf",
-    ],
-    support: ["/stitch-assets/monsters/battle/wolf-support-cutout.webp?v=d040ch2s"],
-    pitboss: ["/stitch-assets/monsters/battle/wolf-pitboss-cutout.webp"],
+    tank: ["/stitch-assets/monsters/battle/wolf-tank-cutout-faceleft.webp?v=faceleft2"],
+    // Andrew: no separate «Волк-клык»; ice archer cutout is Волк-лучник (ranger only).
+    ranger: ["/stitch-assets/monsters/battle/wolf-fighter-cutout-faceleft.webp?v=faceleft2"],
+    // Original already faces left; faceleft rebake faced right.
+    support: ["/stitch-assets/monsters/battle/wolf-support-cutout.webp?v=faceleft2"],
+    pitboss: ["/stitch-assets/monsters/battle/wolf-pitboss-cutout.webp?v=faceleft2"],
   },
   red_dogs: {
-    // Ch3 refs: shield tank / dual-axe fighter / flaming-sickle support; flaming-sword pitboss.
-    // ?v= after in-place facing rebakes (Amvera/browser max-age=300).
-    tank: ["/stitch-assets/monsters/battle/redd-tank-cutout.webp?v=opaque1"],
-    fighter: ["/stitch-assets/monsters/battle/redd-fighter-cutout.webp?v=opaque1"],
-    assassin: [
-      "/stitch-assets/monsters/battle/assassin-a.webp",
-      "/stitch-assets/monsters/battle/assassin-b.webp",
-    ],
-    support: ["/stitch-assets/monsters/battle/redd-support-cutout.webp?v=opaque1"],
-    pitboss: ["/stitch-assets/monsters/battle/redd-pitboss-cutout.webp?v=opaque1"],
+    // Ch3: tank/fighter need faceleft; support+pitboss originals already face left.
+    tank: ["/stitch-assets/monsters/battle/redd-tank-cutout-faceleft.webp?v=faceleft2"],
+    fighter: ["/stitch-assets/monsters/battle/redd-fighter-cutout-faceleft.webp?v=faceleft2"],
+    // Andrew: drop Алый убийца; Пёс-искромёт art = assassin role.
+    assassin: ["/stitch-assets/monsters/battle/redd-support-cutout.webp?v=faceleft2"],
+    pitboss: ["/stitch-assets/monsters/battle/redd-pitboss-cutout.webp?v=faceleft2"],
   },
   zombies: {
-    // Ch4: fighter_a vs fighter_b (butcher) via dual pool hash; assassins + scythe pitboss.
-    tank: ["/stitch-assets/monsters/battle/zombie-tank-cutout.webp?v=opaque1"],
+    // Ch4: butcher fighter + poison assassin + scythe pitboss (faceleft toward cats).
+    tank: ["/stitch-assets/monsters/battle/zombie-tank-cutout-faceleft.webp?v=faceleft2"],
     fighter: [
-      "/stitch-assets/monsters/battle/zombie-fighter-cutout.webp?v=opaque1",
-      "/stitch-assets/monsters/battle/zombie-tank-cutout.webp?v=opaque1",
+      "/stitch-assets/monsters/battle/zombie-fighter-cutout-faceleft.webp?v=faceleft2",
+      "/stitch-assets/monsters/battle/zombie-tank-cutout-faceleft.webp?v=faceleft2",
     ],
-    assassin: ["/stitch-assets/monsters/battle/zombie-support-cutout.webp?v=opaque1"],
-    support: ["/stitch-assets/monsters/battle/zombie-support-cutout.webp?v=opaque1"],
-    pitboss: ["/stitch-assets/monsters/battle/zombie-pitboss-cutout.webp?v=opaque1"],
+    assassin: ["/stitch-assets/monsters/battle/zombie-support-cutout-faceleft.webp?v=faceleft2"],
+    support: ["/stitch-assets/monsters/battle/zombie-support-cutout-faceleft.webp?v=faceleft2"],
+    pitboss: ["/stitch-assets/monsters/battle/zombie-pitboss-cutout-faceleft.webp?v=faceleft2"],
   },
   ghosts: {
-    // Ch5 refs: shield+flail / scimitar cape / shaman staff; banner-sword pitboss.
-    tank: ["/stitch-assets/monsters/battle/ghost-tank-cutout.webp"],
-    fighter: ["/stitch-assets/monsters/battle/ghost-fighter-cutout.webp"],
-    support: ["/stitch-assets/monsters/battle/ghost-support-cutout.webp"],
-    pitboss: ["/stitch-assets/monsters/battle/ghost-pitboss-cutout.webp"],
+    // Ch5: shield+flail / scimitar cape / shaman staff; banner-sword pitboss.
+    tank: ["/stitch-assets/monsters/battle/ghost-tank-cutout-faceleft.webp?v=faceleft2"],
+    fighter: ["/stitch-assets/monsters/battle/ghost-fighter-cutout-faceleft.webp?v=faceleft2"],
+    support: ["/stitch-assets/monsters/battle/ghost-support-cutout-faceleft.webp?v=faceleft2"],
+    pitboss: ["/stitch-assets/monsters/battle/ghost-pitboss-cutout-faceleft.webp?v=faceleft2"],
   },
 };
 
@@ -3508,17 +3519,40 @@ const DUMMY_NATIVE_FACE_LEFT = new Set([
   "dummy-oak-knight",
   "dummy-stone-totem",
 ]);
-/** Authored-left monster cutouts. Default native = RIGHT → flip for board-right. */
+/**
+ * Authored-left monster cutouts. Default native = RIGHT → flip for board-right (face left).
+ * 2026-11-22: roster faces left toward cats. Native-left originals + *-faceleft rebakes
+ * (flopped right-authored files) — all listed so CSS does not flip them away from center.
+ */
 const MONSTER_NATIVE_FACE_LEFT = new Set([
+  // Originals already facing left
   "assassin-b",
+  "fighter-a",
   "fighter-f",
-  // ch3/ch4/wolf cutouts authored toward left (do not flip away from center)
-  "redd-tank-cutout",
-  "redd-fighter-cutout",
+  "fighter-h",
+  "ranger-b",
+  "support-a",
+  "wolf-support-cutout",
+  "wolf-pitboss-cutout",
   "redd-support-cutout",
   "redd-pitboss-cutout",
-  "wolf-support-cutout",
-  "zombie-pitboss-cutout",
+  // Flopped rebakes (*-faceleft.webp)
+  "tank-b-faceleft",
+  "tank-d-faceleft",
+  "ranger-a-faceleft",
+  "wolf-fighter-cutout-faceleft",
+  "wolf-tank-cutout-faceleft",
+  "redd-fighter-cutout-faceleft",
+  "redd-tank-cutout-faceleft",
+  "assassin-a-faceleft",
+  "zombie-fighter-cutout-faceleft",
+  "zombie-tank-cutout-faceleft",
+  "zombie-support-cutout-faceleft",
+  "zombie-pitboss-cutout-faceleft",
+  "ghost-tank-cutout-faceleft",
+  "ghost-fighter-cutout-faceleft",
+  "ghost-support-cutout-faceleft",
+  "ghost-pitboss-cutout-faceleft",
 ]);
 
 function artSlugFromSrc(src) {
@@ -7176,12 +7210,11 @@ function pveBotDisplayName(templateId, role) {
     ["bot_dog_ranger", "Пёс-лучник"],
     ["bot_dog_tank", "Пёс-щитоносец"],
     ["bot_dog_fighter", "Пёс-задира"],
-    ["bot_dog_support", "Пёс-завывала"],
     ["bot_wolf_ranger", "Волк-лучник"],
     ["bot_wolf_tank", "Северный страж"],
-    ["bot_wolf_fighter", "Волк-клык"],
+    ["bot_wolf_fighter", "Волк-лучник"],
     ["bot_wolf_support", "Шаман инея"],
-    ["bot_redd_assassin", "Алый убийца"],
+    ["bot_redd_assassin", "Пёс-искромёт"],
     ["bot_redd_tank", "Алый щитоносец"],
     ["bot_redd_fighter", "Пёс-углежуй"],
     ["bot_redd_support", "Пёс-искромёт"],
@@ -8250,8 +8283,8 @@ const PVE_LOAD_CHAPTERS = {
       entrance: {
         art: "/stitch-assets/pve-fight/ch2-entrance.webp",
         enemyTitle: "СТАЯ · ВОЛНА 1/3 (СОЛДАТЫ)",
-        enemies: ["Волк-клык", "Шаман инея", "Волк-лучник"],
-        tip: "Этап 1/3 · Боец · хил · лучник",
+        enemies: ["Волк-лучник", "Шаман инея", "Волк-лучник"],
+        tip: "Этап 1/3 · Лучник · хил · лучник",
       },
       tunnel: {
         art: "/stitch-assets/pve-fight/ch2-tunnel.webp",
@@ -8294,7 +8327,7 @@ const PVE_LOAD_CHAPTERS = {
       tunnel: {
         art: "/stitch-assets/pve-fight/ch5-tunnel.webp",
         enemyTitle: "СТАЯ · ВОЛНА 2/3 (СОЛДАТЫ)",
-        enemies: ["Алый убийца", "Алый щитоносец", "Алый убийца"],
+        enemies: ["Пёс-искромёт", "Алый щитоносец", "Пёс-искромёт"],
         tip: "Этап 2/3 · Убийца · танк · убийца",
       },
       boss: {
@@ -9032,9 +9065,10 @@ function renderAll() {
     case "boss_raid":
       break;
     case "pvp":
-      $("pvpEyebrow").textContent = t("hub.tab.pvp");
-      $("pvpTitle").textContent = t("hub.tab.pvp");
+      if ($("pvpEyebrow")) $("pvpEyebrow").textContent = t("hub.tab.pvp");
+      if ($("pvpTitle")) $("pvpTitle").textContent = t("hub.tab.pvp");
       renderUnlockProgress();
+      bindPvpArena();
       break;
     case "collection":
       if ($("colEyebrow")) $("colEyebrow").textContent = t("hub.tab.collection");
@@ -9874,7 +9908,7 @@ function bindBattleHub() {
         return;
       }
       if (tab === "pvp") {
-        openPvpLoad();
+        navigate("pvp", { primary: "combat" });
         return;
       }
       if (tab === "practice" || tab === "yard" || tab === "boss_dungeon") {
@@ -10256,6 +10290,95 @@ function nudgeDojoNeedSquad() {
   void grid.offsetWidth;
   grid.classList.add("dojo-need-squad");
   window.setTimeout(() => grid.classList.remove("dojo-need-squad"), 450);
+}
+
+/** PvP Arena lobby: team presets, mode tabs, find-match → load sheet. */
+function bindPvpArena() {
+  const root = $("viewPvp");
+  if (!root) return;
+  if (root.dataset.arenaBound === "1") return;
+  root.dataset.arenaBound = "1";
+
+  const selectSquad = (id) => {
+    root.querySelectorAll("[data-arena-squad]").forEach((card) => {
+      const on = card.getAttribute("data-arena-squad") === id;
+      card.classList.toggle("is-on", on);
+      const badge = card.querySelector("header i");
+      if (on) {
+        if (!badge) {
+          const mark = document.createElement("i");
+          mark.className = "text-[9px] text-secondary not-italic font-bold";
+          mark.textContent = "Активен";
+          card.querySelector("header")?.appendChild(mark);
+        } else {
+          badge.textContent = "Активен";
+        }
+      } else if (badge) {
+        badge.remove();
+      }
+    });
+  };
+
+  const setMode = (mode) => {
+    root.querySelectorAll("[data-arena-mode]").forEach((btn) => {
+      const on = btn.getAttribute("data-arena-mode") === mode;
+      btn.classList.toggle("is-on", on);
+      btn.setAttribute("aria-selected", on ? "true" : "false");
+    });
+    state.pvpArenaMode = mode;
+  };
+
+  root.addEventListener("click", (ev) => {
+    const squad = ev.target.closest("[data-arena-squad]");
+    if (squad && root.contains(squad)) {
+      ev.preventDefault();
+      const id = squad.getAttribute("data-arena-squad");
+      selectSquad(id);
+      toast(`Отряд №${id} выбран для арены`);
+      return;
+    }
+    const modeBtn = ev.target.closest("[data-arena-mode]");
+    if (modeBtn && root.contains(modeBtn)) {
+      ev.preventDefault();
+      const mode = modeBtn.getAttribute("data-arena-mode");
+      setMode(mode);
+      const labels = { ranked: "Рейтинг", casual: "Свободный", gauntlet: "Гонтлет" };
+      toast(`Режим: ${labels[mode] || mode}`);
+      return;
+    }
+    const arenaTip = ev.target.closest("[data-arena]");
+    if (arenaTip && root.contains(arenaTip)) {
+      const tip = arenaTip.getAttribute("data-arena");
+      if (tip === "tactics") {
+        toast("Тактика защиты: скоро");
+        return;
+      }
+      if (tip === "rewards") {
+        toast("Сезонные награды арены: скоро");
+        return;
+      }
+    }
+    const actBtn = ev.target.closest("[data-hud-action]");
+    if (!actBtn || !root.contains(actBtn)) return;
+    const act = actBtn.getAttribute("data-hud-action");
+    ev.preventDefault();
+    if (act === "pvp-search") {
+      const cta = $("btnArenaSearch");
+      const status = $("arenaSearchStatus");
+      if (cta) cta.classList.add("is-searching");
+      if (status) status.textContent = "Поиск соперника…";
+      toast("Поиск по рангу + БМ…");
+      openPvpLoad();
+      return;
+    }
+    if (act === "pvp-formation") {
+      navigate("formation", { primary: "combat" });
+      return;
+    }
+    if (act === "pvp-rating") {
+      navigate("rating_players");
+    }
+  });
 }
 
 function bindPracticeFightCtas() {

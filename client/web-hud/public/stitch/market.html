@@ -1,46 +1,418 @@
 <section id="viewMarket" class="stitch-view mythfel-form hidden" data-stitch="market" data-layout="landscape">
-<main class="wf" data-purpose="wireframe" data-screen="Рынок" >
-<header class="wf-head">
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_4px_16px_rgba(0,0,0,0.65)]"><div class="h-20 w-full px-gutter flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-md shrink-0"><div class="flex flex-col"><div class="flex items-center gap-space-xs"><span class="font-headline-md text-headline-md tracking-wider text-primary uppercase">Мифиус</span><span class="font-label-sm text-label-sm px-space-xs py-0.5 rounded bg-surface-container-high text-primary-fixed-dim uppercase tracking-widest">Tavern v1.4</span></div><span class="font-label-sm text-label-sm tracking-widest text-outline uppercase">Мифические котики</span></div><div class="flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-surface-container-low"><span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span><span class="font-stat-numeral text-label-sm text-secondary-fixed">24 ms</span></div></div><nav class="hidden xl:flex items-center gap-space-xs overflow-x-auto py-1" data-active-classes="bg-primary-container text-on-primary-container font-bold rounded-lg shadow-[0_0_12px_rgba(217,155,38,0.35)]"><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0" data-path="main-hub" href="#">Главный Хаб</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0" data-path="character-home" href="#">Персонаж / Дом</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0" data-path="equipment" href="#">Экипировка</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0" data-path="inventory" href="#">Инвентарь</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0" data-path="farmlands" href="#">Угодья / Ферма</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0" data-path="crafting" href="#">Крафт</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0" data-path="pve-expedition" href="#">Поход (PvE)</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0" data-path="arena-battles" href="#">Бои</a><a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0" data-path="trade-tavern-bar" href="#">Торговля</a></nav><div class="flex items-center gap-space-md shrink-0"><div class="hidden md:flex items-center gap-space-sm bg-surface-container-low px-space-md py-1.5 rounded-xl"><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-primary text-[18px]">monetization_on</span><span class="font-stat-numeral text-label-md text-primary-fixed">148,250</span></div><span class="text-outline-variant">|</span><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-secondary text-[18px]">set_meal</span><span class="font-stat-numeral text-label-md text-secondary-fixed">920</span></div><span class="text-outline-variant">|</span><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-tertiary text-[18px]">bolt</span><span class="font-stat-numeral text-label-md text-on-surface">85/100</span></div><span class="text-outline-variant">|</span><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-primary-fixed-dim text-[18px]">diamond</span><span class="font-stat-numeral text-label-md text-primary-fixed-dim">385</span></div></div><div class="flex items-center gap-space-sm bg-surface-container px-space-sm py-1 rounded-xl"><div class="text-right hidden sm:block"><div class="font-label-md text-label-md text-on-surface leading-tight">Хранитель Мяурицио</div><div class="font-label-sm text-label-sm text-primary">Ур. 48 • Клан Когтя</div></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></div><div class="bg-surface-container-low/95 px-gutter py-1.5 flex items-center justify-between"><div class="flex items-center gap-space-md"><span class="font-label-sm text-label-sm uppercase tracking-widest text-outline flex items-center gap-1"><span class="material-symbols-outlined text-[14px] text-primary">storefront</span> Торговый Квартал:</span><nav class="flex items-center gap-space-xs" data-active-classes="bg-surface-container-highest text-primary font-bold rounded-lg shadow-inner"><a class="px-space-md py-1 rounded-lg font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" data-path="trade-tavern-bar" href="#">Таверна (Бар)</a><a class="px-space-md py-1 rounded-lg font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" data-path="trade-shop" href="#">Магазин</a><a aria-current="page" class="px-space-md py-1 transition-all bg-surface-container-highest text-primary font-bold rounded-lg shadow-inner" data-path="trade-market" href="#">Рынок</a><a class="px-space-md py-1 rounded-lg font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" data-path="trade-auction" href="#">Аукцион</a></nav></div><div class="hidden lg:flex items-center gap-space-sm text-outline-variant font-label-sm text-label-sm"><span class="inline-block w-2 h-2 rounded-full bg-primary-container"></span><span>Текущий курс: 1 Самоцвет = 450 Золота</span></div></div></header><main class="w-full pb-16 bg-surface min-h-[calc(100vh-4rem)] flex flex-col" style="padding-top: 7.75rem; padding-bottom: 3.5rem;"><div class="flex flex-col w-full">
+<div class="w-full px-gutter md:px-margin-tablet py-space-sm flex flex-col gap-space-md">
+<!-- Top Market Status Banner (Tactile Hearthstone / Tavern styling) -->
+<div class="w-full bg-surface-container-low rounded-xl p-space-md shadow-md flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md">
+<div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-primary shadow-inner">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings: &quot;FILL&quot; 1;">storefront</span>
+</div>
 <div>
-<p class="wf-eyebrow">Торговля · ресурсы</p>
-<h1>Рынок</h1>
-<p>Семена для Двора, Лопата / топор / Кирка, скупка добычи.</p>
+<div class="flex items-center gap-space-xs">
+<h1 class="font-headline-md text-headline-md text-on-surface">Рыночная Площадь: Орудия и Сырьё</h1>
+<span class="px-space-xs py-0.5 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase tracking-wider">День Торговли</span>
 </div>
-<div class="wf-tags"><span class="wf-tag">landscape 16:9</span><span class="wf-tag">блоки без картинок</span><span class="wf-tag">без подвала</span></div>
-</header>
-<div class="wf-body grid-cols-1 lg:grid-cols-12">
-<section class="wf-block lg:col-span-5"><h2>Инструменты и семена</h2><p class="hint">Покупка.</p><div class="wf-grid"><div class="wf-row"><span>Лопата</span><span>120 fish</span></div>
-<div class="wf-row"><span>Топор</span><span>120 fish</span></div>
-<div class="wf-row"><span>Кирка</span><span>120 fish</span></div>
-<div class="wf-row"><span>Семена для Двора</span><span>40 fish</span></div></div></section>
-<section class="wf-block lg:col-span-7"><h2>Быстрая скупка</h2><p class="hint">Выбор лута на продажу.</p><div class="wf-grid" style="grid-template-columns:repeat(2,1fr)">
-<div class="wf-row" id="loot-item-1">Травы ×12</div>
-<div class="wf-row" id="loot-item-2">Древесина ×40</div>
-<div class="wf-row" id="loot-item-3">Камень ×20</div>
-<div class="wf-row" id="loot-item-4">Руда ×8</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Снабжение экспедиций, семена для Усадьбы и мгновенный сбыт экспедиционной добычи</p>
 </div>
-<div class="wf-row"><span>Выбрано</span><span id="selected-count-label">0</span></div>
-<div class="wf-row"><span>Выручка</span><span id="total-revenue-label">0</span></div>
-<div class="wf-row"><span>Кошелёк</span><span id="player-wallet-display">3 420</span></div>
-<button type="button" class="wf-cta" id="quick-sell-btn">Скупка</button>
-<div id="market-toast" class="wf-row" hidden><span id="market-toast-icon"></span><span id="market-toast-text"></span></div></section>
 </div>
-<section class="wf-block" aria-hidden="true" data-purpose="wireframe-pad"><h2>Плотность сетки</h2><p class="hint">Служебные ряды, чтобы форма была заполнена без подвала и дыр.</p><div class="wf-grid"><div class="wf-row" data-pad="Рынок-0"><span>Слот макета 1</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Рынок-1"><span>Слот макета 2</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Рынок-2"><span>Слот макета 3</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Рынок-3"><span>Слот макета 4</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Рынок-4"><span>Слот макета 5</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Рынок-5"><span>Слот макета 6</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Рынок-6"><span>Слот макета 7</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Рынок-7"><span>Слот макета 8</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Рынок-8"><span>Слот макета 9</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Рынок-9"><span>Слот макета 10</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Рынок-10"><span>Слот макета 11</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Рынок-11"><span>Слот макета 12</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Рынок-12"><span>Слот макета 13</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Рынок-13"><span>Слот макета 14</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Рынок-14"><span>Слот макета 15</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Рынок-15"><span>Слот макета 16</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Рынок-16"><span>Слот макета 17</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Рынок-17"><span>Слот макета 18</span><span class="hint">блок заполнения · без пустот</span></div></div></section></main>
+<!-- Quick Wallet & Market Multiplier Indicator -->
+<div class="flex items-center gap-space-md flex-wrap">
+<div class="flex items-center gap-space-sm bg-surface-container px-space-md py-1.5 rounded-lg shadow-sm">
+<div class="flex flex-col text-right">
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Казна Котика</span>
+<div class="flex items-center gap-1 justify-end">
+<span class="material-symbols-outlined text-primary text-[18px]">monetization_on</span>
+<span class="font-stat-numeral text-label-lg text-primary-fixed" id="current-gold">148,250</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant">Зл.</span>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-space-sm bg-surface-container-highest px-space-md py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-secondary text-[20px]">trending_up</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-secondary-fixed">Спрос на древесину +15%</span>
+<span class="font-body-sm text-body-sm text-outline">Скупщик гильдии плотников</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Main Edge-to-Edge 2-Column Split Grid -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md w-full items-stretch">
+<!-- ================= LEFT COLUMN: BUY (6 cols) ================= -->
+<div class="lg:col-span-6 flex flex-col h-full">
+<div class="bg-surface-container-low rounded-xl p-space-md shadow-md flex flex-col justify-between h-full gap-space-md">
+<div class="flex flex-col gap-space-md">
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-primary shadow-sm"></span>
+<h2 class="font-headline-md text-headline-md text-primary-fixed">Лавка Инструментов и Семян Усадьбы</h2>
+</div>
+<span class="font-label-sm text-label-sm text-outline uppercase tracking-wider">Раздел: Покупка</span>
+</div>
+<!-- Section 1: Mining & Gathering Tools -->
+<div class="flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[20px]">construction</span>
+<span class="font-label-lg text-label-lg text-on-surface">Инструменты добытчика</span>
+</div>
+<span class="font-label-sm text-label-sm text-outline">4 предмета в наличии</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-space-sm">
+<!-- Item 1: Кирка -->
+<div class="bg-surface-container rounded-xl p-space-md flex flex-col justify-between shadow-sm hover:bg-surface-container-high transition-colors group">
+<div class="flex items-start gap-space-sm">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center shrink-0 shadow-inner text-primary group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[28px]">hardware</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-label-lg text-on-surface truncate">Кованая Кирка Рудокопа</span>
+<span class="font-body-sm text-body-sm text-secondary font-bold mt-0.5">+25% к добыче руды и камня</span>
+<span class="font-body-sm text-body-sm text-outline truncate">Прочность: 350/350</span>
+</div>
+</div>
+<div class="flex items-center justify-between mt-space-md pt-space-xs bg-surface-container-low/95 rounded-lg px-space-sm py-1.5">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[18px]">monetization_on</span>
+<span class="font-stat-numeral text-label-lg text-primary-fixed">1,200</span>
+</div>
+<button class="px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md hover:brightness-110 active:scale-95 transition-all shadow-sm" type="button">
+Купить
+</button>
+</div>
+</div>
+<!-- Item 2: Топор -->
+<div class="bg-surface-container rounded-xl p-space-md flex flex-col justify-between shadow-sm hover:bg-surface-container-high transition-colors group">
+<div class="flex items-start gap-space-sm">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center shrink-0 shadow-inner text-primary group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[28px]">carpenter</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-label-lg text-on-surface truncate">Тяжёлый Топор Дровосека</span>
+<span class="font-body-sm text-body-sm text-secondary font-bold mt-0.5">+30% к распилу дубовых брёвен</span>
+<span class="font-body-sm text-body-sm text-outline truncate">Прочность: 280/280</span>
+</div>
+</div>
+<div class="flex items-center justify-between mt-space-md pt-space-xs bg-surface-container-low/95 rounded-lg px-space-sm py-1.5">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[18px]">monetization_on</span>
+<span class="font-stat-numeral text-label-lg text-primary-fixed">1,100</span>
+</div>
+<button class="px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md hover:brightness-110 active:scale-95 transition-all shadow-sm" type="button">
+Купить
+</button>
+</div>
+</div>
+<!-- Item 3: Лопата -->
+<div class="bg-surface-container rounded-xl p-space-md flex flex-col justify-between shadow-sm hover:bg-surface-container-high transition-colors group">
+<div class="flex items-start gap-space-sm">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center shrink-0 shadow-inner text-primary group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[28px]">yard</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-label-lg text-on-surface truncate">Садовая Лопата Травника</span>
+<span class="font-body-sm text-body-sm text-secondary font-bold mt-0.5">+20% к сбору мяты и трав</span>
+<span class="font-body-sm text-body-sm text-outline truncate">Прочность: 400/400</span>
+</div>
+</div>
+<div class="flex items-center justify-between mt-space-md pt-space-xs bg-surface-container-low/95 rounded-lg px-space-sm py-1.5">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[18px]">monetization_on</span>
+<span class="font-stat-numeral text-label-lg text-primary-fixed">850</span>
+</div>
+<button class="px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md hover:brightness-110 active:scale-95 transition-all shadow-sm" type="button">
+Купить
+</button>
+</div>
+</div>
+<!-- Item 4: Удочка -->
+<div class="bg-surface-container rounded-xl p-space-md flex flex-col justify-between shadow-sm hover:bg-surface-container-high transition-colors group">
+<div class="flex items-start gap-space-sm">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center shrink-0 shadow-inner text-primary group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[28px]">phishing</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-label-lg text-on-surface truncate">Магическая Удочка Рыбака</span>
+<span class="font-body-sm text-body-sm text-secondary font-bold mt-0.5">Шанс вылова Золотой рыбки +18%</span>
+<span class="font-body-sm text-body-sm text-outline truncate">Прочность: 220/220</span>
+</div>
+</div>
+<div class="flex items-center justify-between mt-space-md pt-space-xs bg-surface-container-low/95 rounded-lg px-space-sm py-1.5">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[18px]">monetization_on</span>
+<span class="font-stat-numeral text-label-lg text-primary-fixed">1,800</span>
+</div>
+<button class="px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md hover:brightness-110 active:scale-95 transition-all shadow-sm" type="button">
+Купить
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Section 2: Farm Seeds -->
+<div class="flex flex-col gap-space-sm pt-space-xs">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-secondary text-[20px]">potted_plant</span>
+<span class="font-label-lg text-label-lg text-on-surface">Семена для фермы</span>
+</div>
+<span class="font-label-sm text-label-sm text-secondary-fixed">Урожай x1.5 в сезон туманов</span>
+</div>
+<!-- Seed Hero Showcase Banner -->
+<div class="relative w-full rounded-xl overflow-hidden bg-surface-container shadow-md flex items-stretch">
+<div class="w-32 sm:w-36 shrink-0 bg-surface-container-highest relative overflow-hidden">
+<img alt="Семена для Двора" class="w-full h-full object-cover object-center" src="/stitch-ref/17eb/market.png">
+<div class="absolute inset-0 bg-gradient-to-r from-transparent to-surface-container"></div>
+</div>
+<div class="p-space-md flex flex-col justify-center flex-1 min-w-0">
+<div class="flex items-center gap-space-xs">
+<span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm font-bold">Особый сбор</span>
+<span class="font-label-sm text-label-sm text-outline">Хит рассады</span>
+</div>
+<h3 class="font-headline-md text-headline-md text-primary-fixed mt-1">Семена для Двора и Плантаций</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant line-clamp-2 mt-0.5">Отборные пахучие зёрна и корневища, взращиваемые на плодородном пепле Кошачьих холмов.</p>
+</div>
+</div>
+<!-- Seed Packets List -->
+<div class="flex flex-col gap-space-xs">
+<!-- Seed 1 -->
+<div class="flex items-center justify-between bg-surface-container px-space-md py-space-sm rounded-xl hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-11 h-11 rounded-lg bg-surface-container-highest flex items-center justify-center text-secondary shrink-0 shadow-inner">
+<span class="material-symbols-outlined text-[24px]">spa</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-label-lg text-on-surface truncate">Семена Кошачьей Мяты (10 шт.)</span>
+<span class="font-body-sm text-body-sm text-outline truncate">Созревание: 45 минут • +40 к бодрости питомца</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md shrink-0">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[18px]">monetization_on</span>
+<span class="font-stat-numeral text-label-lg text-primary-fixed">450</span>
+</div>
+<button class="px-space-md py-1.5 rounded-lg bg-surface-container-highest text-on-surface font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-all shadow-sm" type="button">
+В корзину
+</button>
+</div>
+</div>
+<!-- Seed 2 -->
+<div class="flex items-center justify-between bg-surface-container px-space-md py-space-sm rounded-xl hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-11 h-11 rounded-lg bg-surface-container-highest flex items-center justify-center text-secondary shrink-0 shadow-inner">
+<span class="material-symbols-outlined text-[24px]">eco</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-label-lg text-on-surface truncate">Семена Морозной Свеклы и Тыкв (10 шт.)</span>
+<span class="font-body-sm text-body-sm text-outline truncate">Созревание: 2 часа • Ингредиент для крепких настоев</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md shrink-0">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[18px]">monetization_on</span>
+<span class="font-stat-numeral text-label-lg text-primary-fixed">600</span>
+</div>
+<button class="px-space-md py-1.5 rounded-lg bg-surface-container-highest text-on-surface font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-all shadow-sm" type="button">
+В корзину
+</button>
+</div>
+</div>
+<!-- Seed 3 -->
+<div class="flex items-center justify-between bg-surface-container px-space-md py-space-sm rounded-xl hover:bg-surface-container-high transition-colors">
+<div class="flex items-center gap-space-sm min-w-0">
+<div class="w-11 h-11 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary shrink-0 shadow-inner">
+<span class="material-symbols-outlined text-[24px]">park</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-label-lg text-on-surface truncate">Саженцы Золотой Яблони (5 шт.)</span>
+<span class="font-body-sm text-body-sm text-outline truncate">Многолетний сбор • Дает редкие плоды исцеления</span>
+</div>
+</div>
+<div class="flex items-center gap-space-md shrink-0">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary text-[18px]">monetization_on</span>
+<span class="font-stat-numeral text-label-lg text-primary-fixed">1,200</span>
+</div>
+<button class="px-space-md py-1.5 rounded-lg bg-surface-container-highest text-on-surface font-label-md text-label-md hover:bg-primary-container hover:text-on-primary-container transition-all shadow-sm" type="button">
+В корзину
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom CTA: One-click bundle purchase -->
+<div class="mt-space-xs pt-space-sm">
+<button class="w-full py-space-md px-space-lg rounded-xl bg-surface-container-high hover:bg-surface-container-highest text-primary font-label-lg text-label-lg flex items-center justify-center gap-space-sm shadow-md active:scale-[0.99] transition-all" type="button">
+<span class="material-symbols-outlined text-[22px]">bolt</span>
+<span>Купить инструменты в один клик (Все 4 шт. со скидкой 10% — 4,455 Зл.)</span>
+</button>
+</div>
+</div>
+</div>
+<!-- ================= RIGHT COLUMN: QUICK-SELL LOOT (6 cols) ================= -->
+<div class="lg:col-span-6 flex flex-col h-full">
+<div class="bg-surface-container-low rounded-xl p-space-md shadow-md flex flex-col justify-between h-full gap-space-md">
+<div class="flex flex-col gap-space-md">
+<!-- Column Header -->
+<div class="flex items-center justify-between pb-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary shadow-sm"></span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Скупка Добычи и Сбыт Ресурсов</h2>
+</div>
+<span class="font-label-sm text-label-sm text-secondary-fixed uppercase tracking-wider">Быстрая продажа</span>
+</div>
+<!-- Quick Filter Buttons -->
+<div class="flex items-center gap-space-sm flex-wrap">
+<button class="px-space-md py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-colors shadow-sm" id="btn-quick-junk" type="button">
+<span class="material-symbols-outlined text-outline text-[18px]">auto_delete</span>
+<span>Продать весь серый хлам</span>
+</button>
+<button class="px-space-md py-1.5 rounded-lg bg-surface-container hover:bg-surface-container-high text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-colors shadow-sm" id="btn-quick-excess" type="button">
+<span class="material-symbols-outlined text-outline text-[18px]">inventory</span>
+<span>Выбрать излишки склада</span>
+</button>
+<span class="ml-auto font-body-sm text-body-sm text-outline hidden sm:inline">Склад: 1,490/2,000</span>
+</div>
+<!-- Loot Checklist with Selected Counts & Revenue -->
+<div class="flex flex-col gap-space-sm">
+<!-- Item 1: Свежая Рыба -->
+<label class="sell-row flex items-center justify-between p-space-md bg-surface-container rounded-xl hover:bg-surface-container-high transition-colors cursor-pointer select-none">
+<div class="flex items-center gap-space-md min-w-0">
+<input checked="" class="sell-checkbox w-5 h-5 rounded accent-primary bg-surface-container-highest cursor-pointer shrink-0" data-amount="100" data-revenue="3000" type="checkbox">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-secondary shrink-0 shadow-inner">
+<span class="material-symbols-outlined text-[26px]">set_meal</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-label-lg text-on-surface truncate">Свежая Рыба (Улов озера)</span>
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm text-outline mt-0.5">
+<span>Доступно: 420 шт.</span>
+<span>•</span>
+<span class="text-secondary-fixed font-bold">Выбрано 100 шт.</span>
+</div>
+</div>
+</div>
+<div class="text-right shrink-0">
+<div class="font-stat-numeral text-headline-md text-primary">+3,000</div>
+<span class="font-body-sm text-body-sm text-outline">Золота</span>
+</div>
+</label>
+<!-- Item 2: Дубовые брёвна -->
+<label class="sell-row flex items-center justify-between p-space-md bg-surface-container rounded-xl hover:bg-surface-container-high transition-colors cursor-pointer select-none">
+<div class="flex items-center gap-space-md min-w-0">
+<input checked="" class="sell-checkbox w-5 h-5 rounded accent-primary bg-surface-container-highest cursor-pointer shrink-0" data-amount="50" data-revenue="1750" type="checkbox">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary shrink-0 shadow-inner">
+<span class="material-symbols-outlined text-[26px]">forest</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-label-lg text-on-surface truncate">Дубовые брёвна (Строевой лес)</span>
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm text-outline mt-0.5">
+<span>Доступно: 210 шт.</span>
+<span>•</span>
+<span class="text-secondary-fixed font-bold">Выбрано 50 шт.</span>
+</div>
+</div>
+</div>
+<div class="text-right shrink-0">
+<div class="font-stat-numeral text-headline-md text-primary">+1,750</div>
+<span class="font-body-sm text-body-sm text-outline">Золота</span>
+</div>
+</label>
+<!-- Item 3: Серый Гранит -->
+<label class="sell-row flex items-center justify-between p-space-md bg-surface-container rounded-xl hover:bg-surface-container-high transition-colors cursor-pointer select-none opacity-70">
+<div class="flex items-center gap-space-md min-w-0">
+<input class="sell-checkbox w-5 h-5 rounded accent-primary bg-surface-container-highest cursor-pointer shrink-0" data-amount="0" data-revenue="0" type="checkbox">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-outline shrink-0 shadow-inner">
+<span class="material-symbols-outlined text-[26px]">landscape</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-label-lg text-on-surface truncate">Серый Гранит (Рудный булыжник)</span>
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm text-outline mt-0.5">
+<span>Доступно: 480 шт.</span>
+<span>•</span>
+<span class="text-on-surface-variant">Выбрано 0 шт.</span>
+</div>
+</div>
+</div>
+<div class="text-right shrink-0">
+<div class="font-stat-numeral text-headline-md text-outline">0</div>
+<span class="font-body-sm text-body-sm text-outline">Золота</span>
+</div>
+</label><label class="sell-row flex items-center justify-between p-space-md bg-surface-container rounded-xl hover:bg-surface-container-high transition-colors cursor-pointer select-none"><div class="flex items-center gap-space-md min-w-0"><input checked="" class="sell-checkbox w-5 h-5 rounded accent-primary bg-surface-container-highest cursor-pointer shrink-0" data-amount="80" data-revenue="2400" type="checkbox"><div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary shrink-0 shadow-inner"><span class="material-symbols-outlined text-[26px]">diamond</span></div><div class="flex flex-col min-w-0"><span class="font-label-lg text-label-lg text-on-surface truncate">Тёмное Железо (Руда Шахт)</span><div class="flex items-center gap-space-xs font-body-sm text-body-sm text-outline mt-0.5"><span>Доступно: 320 шт.</span><span>•</span><span class="text-secondary-fixed font-bold">Выбрано 80 шт.</span></div></div></div><div class="text-right shrink-0"><div class="font-stat-numeral text-headline-md text-primary">+2,400</div><span class="font-body-sm text-body-sm text-outline">Золота</span></div></label>
+<!-- Item 4: Чистая Вода Родника -->
+<label class="sell-row flex items-center justify-between p-space-md bg-surface-container rounded-xl hover:bg-surface-container-high transition-colors cursor-pointer select-none">
+<div class="flex items-center gap-space-md min-w-0">
+<input checked="" class="sell-checkbox w-5 h-5 rounded accent-primary bg-surface-container-highest cursor-pointer shrink-0" data-amount="100" data-revenue="2000" type="checkbox">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-secondary-fixed shrink-0 shadow-inner">
+<span class="material-symbols-outlined text-[26px]">water_drop</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-label-lg text-on-surface truncate">Чистая Вода Родника (Колбы)</span>
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm text-outline mt-0.5">
+<span>Доступно: 380 шт.</span>
+<span>•</span>
+<span class="text-secondary-fixed font-bold">Выбрано 100 шт.</span>
+</div>
+</div>
+</div>
+<div class="text-right shrink-0">
+<div class="font-stat-numeral text-headline-md text-primary">+2,000</div>
+<span class="font-body-sm text-body-sm text-outline">Золота</span>
+</div>
+</label>
+<!-- Item 5: Трофеи с монстров -->
+<label class="sell-row flex items-center justify-between p-space-md bg-surface-container rounded-xl hover:bg-surface-container-high transition-colors cursor-pointer select-none">
+<div class="flex items-center gap-space-md min-w-0">
+<input checked="" class="sell-checkbox w-5 h-5 rounded accent-primary bg-surface-container-highest cursor-pointer shrink-0" data-amount="0" data-revenue="5400" type="checkbox">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-tertiary shrink-0 shadow-inner">
+<span class="material-symbols-outlined text-[26px]">pets</span>
+</div>
+<div class="flex flex-col min-w-0">
+<span class="font-label-lg text-label-lg text-on-surface truncate">Трофеи с монстров (Клыки, Шкуры псов)</span>
+<div class="flex items-center gap-space-xs font-body-sm text-body-sm text-outline mt-0.5">
+<span class="text-tertiary-fixed-dim font-bold">Экспедиционный лут</span>
+<span>•</span>
+<span class="text-secondary-fixed font-bold">Выбрано всё</span>
+</div>
+</div>
+</div>
+<div class="text-right shrink-0">
+<div class="font-stat-numeral text-headline-md text-primary">+5,400</div>
+<span class="font-body-sm text-body-sm text-outline">Золота</span>
+</div>
+</label>
+</div>
+</div>
+<div class="flex flex-col gap-space-md pt-space-xs">
+<!-- Financial Summary Card -->
+<div class="bg-surface-container-highest/90 rounded-xl p-space-md shadow-inner flex flex-col gap-space-sm">
+<div class="flex items-center justify-between">
+<span class="font-body-md text-body-md text-on-surface-variant">Выбрано предметов:</span>
+<span class="font-stat-numeral text-headline-md text-on-surface" id="selected-count-label">580 шт.</span>
+</div>
+<div class="flex items-center justify-between pt-space-xs">
+<span class="font-label-lg text-label-lg text-on-surface">Итоговая выручка к зачислению:</span>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[24px]">monetization_on</span>
+<span class="font-stat-numeral text-headline-lg text-primary-fixed" id="total-revenue-label">+18,800 Золота</span>
+</div>
+</div>
+<!-- Tax / Guild cut notes -->
+<div class="flex items-center justify-between text-outline font-label-sm text-label-sm pt-1">
+<span>Комиссия гильдии таверны: 0% (Привилегия Клана Когтя)</span>
+<span class="text-secondary font-bold">Мгновенный расчёт</span>
+</div>
+</div>
+<!-- Primary Gold CTA Action Button -->
+<button class="w-full py-space-md px-space-lg rounded-xl bg-gradient-to-r from-primary via-primary-fixed-dim to-primary-container text-on-primary font-headline-md text-headline-md tracking-wide uppercase shadow-lg shadow-primary-container/30 hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-space-sm h-12" id="sell-submit-btn" type="button">
+<span class="material-symbols-outlined text-[26px]">payments</span>
+<span>ПРОДАТЬ ВЫБРАННОЕ [ПРОБЕЛ]</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main><footer class="fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest/95 backdrop-blur-md"></footer>
 </section>

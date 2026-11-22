@@ -1961,18 +1961,39 @@ body.mythfel-farm #app {
 .stitch-view > main.pt-16,
 .stitch-view > main.pt-20,
 .stitch-view > main.pt-28,
+.stitch-view > main.pt-32,
 .stitch-view > main[class*="pt-16"],
 .stitch-view > main[class*="pt-20"],
-.stitch-view > main[class*="pt-28"] {
+.stitch-view > main[class*="pt-28"],
+.stitch-view > main[class*="pt-32"] {
   padding-top: 0.75rem !important;
 }
 .stitch-view > main.pb-14,
 .stitch-view > main.pb-12,
 .stitch-view > main.pb-10,
+.stitch-view > main.pb-16,
 .stitch-view > main[class*="pb-14"],
 .stitch-view > main[class*="pb-12"],
-.stitch-view > main[class*="pb-10"] {
+.stitch-view > main[class*="pb-10"],
+.stitch-view > main[class*="pb-16"] {
   padding-bottom: 0.75rem !important;
+}
+
+/* Painted trade screens (tavern / market / auction) — chrome-kill + fill under #appNav */
+#viewTavern > main,
+#viewMarket > main,
+#viewAuction > main {
+  padding-top: 0.75rem !important;
+  padding-bottom: 0.75rem !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  overflow: auto !important;
+}
+body:has(#viewTavern:not(.hidden)) #wireDock,
+body:has(#viewMarket:not(.hidden)) #wireDock,
+body:has(#viewAuction:not(.hidden)) #wireDock {
+  display: none !important;
 }
 
 /* Live character desk (/hero). Exact Stitch character-stitch-v1; shared fillNav stays. */
@@ -4246,6 +4267,71 @@ body:has(#viewPractice > .dojo-load:not([hidden])) #app {
   object-position: center bottom !important;
   background: transparent !important;
 }
+/* PvP Arena lobby (Axie-style: team → search → ladder/history) */
+#viewPvp > .arena-hall {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.4rem 0.55rem 0.35rem !important;
+  background: #100e0c;
+  overflow: hidden;
+}
+#viewPvp .arena-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+#viewPvp .arena-squad.is-on {
+  box-shadow: 0 0 0 1px rgba(253, 186, 69, 0.45), 0 4px 14px rgba(217, 155, 38, 0.18);
+}
+#viewPvp .arena-mode {
+  background: transparent;
+  color: #d5c4af;
+  border: 1px solid transparent;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+#viewPvp .arena-mode:hover {
+  background: #1f1b18;
+  color: #eae1db;
+}
+#viewPvp .arena-mode.is-on {
+  background: linear-gradient(180deg, rgba(217, 155, 38, 0.28), rgba(217, 155, 38, 0.12));
+  color: #fdba45;
+  border-color: rgba(253, 186, 69, 0.45);
+}
+#viewPvp .arena-search-cta {
+  animation: dojo-cta-pulse 1.8s ease-in-out infinite;
+}
+#viewPvp .arena-search-cta.is-searching {
+  animation: none;
+  filter: saturate(0.85);
+}
+@media (prefers-reduced-motion: reduce) {
+  #viewPvp .arena-search-cta { animation: none !important; }
+}
+@media (max-width: 1023px) {
+  #viewPvp .arena-grid {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0.45rem;
+    overflow-y: auto !important;
+  }
+  #viewPvp .arena-grid > * {
+    flex: 0 0 auto;
+    min-height: auto;
+  }
+  #viewPvp .dojo-top {
+    flex-wrap: wrap;
+  }
+  #viewPvp .dojo-mode {
+    order: 3;
+    flex-basis: 100%;
+  }
+}
+
 .dojo-top, .dojo-foot {
   display: flex;
   align-items: center;
