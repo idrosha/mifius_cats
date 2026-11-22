@@ -3386,7 +3386,7 @@ const MONSTER_BATTLE_BY_FACTION = {
     tank: ["/stitch-assets/monsters/battle/tank-b-faceleft.webp?v=faceleft2"],
     // Grey dual-club fighter-h (обычный пёс). Do NOT use fighter-b — that dual-axe red plate
     // is the ch3 red-dog look (Andrew: ch1 showed «красный пёс»).
-    fighter: ["/stitch-assets/monsters/battle/fighter-h.webp?v=faceleft2"],
+    fighter: ["/stitch-assets/monsters/battle/fighter-h-faceleft.webp?v=faceleft3"],
     // Ch1 dog archers: grey canine only. Never ranger-b (frost wolf = ch2 Ледяные Пещеры).
     ranger: ["/stitch-assets/monsters/battle/ranger-a-faceleft.webp?v=faceleft2"],
     // No dog support in PvE roster (Andrew plan).
@@ -3401,15 +3401,15 @@ const MONSTER_BATTLE_BY_FACTION = {
     pitboss: ["/stitch-assets/monsters/battle/wolf-pitboss-cutout.webp?v=faceleft2"],
   },
   red_dogs: {
-    // Ch3: tank/fighter need faceleft; support+pitboss originals already face left.
-    tank: ["/stitch-assets/monsters/battle/redd-tank-cutout-faceleft.webp?v=faceleft2"],
-    fighter: ["/stitch-assets/monsters/battle/redd-fighter-cutout-faceleft.webp?v=faceleft2"],
+    // Ch3: all four use left-facing authored files (no faceleft for tank/fighter — rebakes faced wrong).
+    tank: ["/stitch-assets/monsters/battle/redd-tank-cutout.webp?v=faceleft3"],
+    fighter: ["/stitch-assets/monsters/battle/redd-fighter-cutout.webp?v=faceleft3"],
     // Andrew: drop Алый убийца; Пёс-искромёт art = assassin role.
     assassin: ["/stitch-assets/monsters/battle/redd-support-cutout.webp?v=faceleft2"],
     pitboss: ["/stitch-assets/monsters/battle/redd-pitboss-cutout.webp?v=faceleft2"],
   },
   zombies: {
-    // Ch4: butcher fighter + poison assassin + scythe pitboss (faceleft toward cats).
+    // Ch4: butcher fighter + poison assassin; pitboss original (faceleft rebake faced wrong).
     tank: ["/stitch-assets/monsters/battle/zombie-tank-cutout-faceleft.webp?v=faceleft2"],
     fighter: [
       "/stitch-assets/monsters/battle/zombie-fighter-cutout-faceleft.webp?v=faceleft2",
@@ -3417,7 +3417,7 @@ const MONSTER_BATTLE_BY_FACTION = {
     ],
     assassin: ["/stitch-assets/monsters/battle/zombie-support-cutout-faceleft.webp?v=faceleft2"],
     support: ["/stitch-assets/monsters/battle/zombie-support-cutout-faceleft.webp?v=faceleft2"],
-    pitboss: ["/stitch-assets/monsters/battle/zombie-pitboss-cutout-faceleft.webp?v=faceleft2"],
+    pitboss: ["/stitch-assets/monsters/battle/zombie-pitboss-cutout.webp?v=faceleft3"],
   },
   ghosts: {
     // Ch5: shield+flail / scimitar cape / shaman staff; banner-sword pitboss.
@@ -3529,26 +3529,26 @@ const MONSTER_NATIVE_FACE_LEFT = new Set([
   "assassin-b",
   "fighter-a",
   "fighter-f",
-  "fighter-h",
   "ranger-b",
   "support-a",
   "wolf-support-cutout",
   "wolf-pitboss-cutout",
+  "redd-fighter-cutout",
+  "redd-tank-cutout",
   "redd-support-cutout",
   "redd-pitboss-cutout",
+  "zombie-pitboss-cutout",
   // Flopped rebakes (*-faceleft.webp)
   "tank-b-faceleft",
   "tank-d-faceleft",
+  "fighter-h-faceleft",
   "ranger-a-faceleft",
   "wolf-fighter-cutout-faceleft",
   "wolf-tank-cutout-faceleft",
-  "redd-fighter-cutout-faceleft",
-  "redd-tank-cutout-faceleft",
   "assassin-a-faceleft",
   "zombie-fighter-cutout-faceleft",
   "zombie-tank-cutout-faceleft",
   "zombie-support-cutout-faceleft",
-  "zombie-pitboss-cutout-faceleft",
   "ghost-tank-cutout-faceleft",
   "ghost-fighter-cutout-faceleft",
   "ghost-support-cutout-faceleft",

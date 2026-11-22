@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <title>PvE soldiers preview (откат — исходные cutouts)</title>
+  <style>
+    :root {
+      --bg: #1a1410;
+      --panel: #241c16;
+      --ink: #f3e6d4;
+      --muted: #a8947c;
+      --cave: linear-gradient(160deg, #3a5a6e 0%, #1e3344 45%, #0f1a22 100%);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      padding: 1.25rem 1.5rem 3rem;
+    }
+    h1 { font-size: 1.25rem; margin: 0 0 0.35rem; }
+    .lead { color: var(--muted); margin: 0 0 1.25rem; font-size: 0.9rem; max-width: 52rem; }
+    section { margin-bottom: 1.75rem; }
+    section h2 {
+      font-size: 0.95rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--muted);
+      border-bottom: 1px solid #3a2f26;
+      padding-bottom: 0.4rem;
+      margin: 0 0 0.85rem;
+    }
+    .row { display: flex; flex-wrap: wrap; gap: 0.85rem; }
+    figure {
+      margin: 0;
+      width: 11.5rem;
+      background: var(--panel);
+      border: 1px solid #3a2f26;
+      border-radius: 0.65rem;
+      overflow: hidden;
+    }
+    .well {
+      height: 14rem;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background-image:
+        linear-gradient(180deg, rgba(8,12,16,0.15), rgba(8,12,16,0.55)),
+        radial-gradient(ellipse at 50% 20%, #4a7a94 0%, transparent 55%),
+        var(--cave);
+      padding: 0.5rem;
+    }
+    .well img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      object-position: center bottom;
+    }
+    figcaption {
+      padding: 0.45rem 0.55rem 0.55rem;
+      font-size: 0.72rem;
+      line-height: 1.35;
+    }
+    figcaption b { display: block; font-size: 0.8rem; margin-bottom: 0.15rem; }
+    figcaption code { color: var(--muted); font-size: 0.65rem; word-break: break-all; }
+  </style>
+</head>
+<body>
+  <h1>PvE солдаты — исходные cutouts (opaque2 отменён)</h1>
+  <p class="lead">Как в <code>MONSTER_BATTLE_BY_FACTION</code> сейчас, без *-opaque.webp.</p>
+
+  <section><h2>Ch1 · Псы</h2><div class="row" id="dogs"></div></section>
+  <section><h2>Ch2 · Ледяные волки</h2><div class="row" id="wolves"></div></section>
+  <section><h2>Ch3 · Алые псы</h2><div class="row" id="red_dogs"></div></section>
+  <section><h2>Ch4 · Зомби</h2><div class="row" id="zombies"></div></section>
+  <section><h2>Ch5 · Призраки</h2><div class="row" id="ghosts"></div></section>
+
+  <script>
+    const factions = {
+      dogs: [
+        ["Танк", "Пёс-щитоносец", "../battle/tank-b-faceleft.webp"],
+        ["Воин", "Пёс-задира", "../battle/fighter-h-faceleft.webp"],
+        ["Рейнджер", "Пёс-лучник", "../battle/ranger-a-faceleft.webp"],
+        ["Босс", "Барон Гав", "../battle/tank-d-faceleft.webp"],
+      ],
+      wolves: [
+        ["Танк", "Северный страж", "../battle/wolf-tank-cutout-faceleft.webp"],
+        ["Рейнджер", "Волк-лучник", "../battle/wolf-fighter-cutout-faceleft.webp"],
+        ["Саппорт", "Шаман инея", "../battle/wolf-support-cutout.webp"],
+        ["Босс", "Лютый Клык", "../battle/wolf-pitboss-cutout.webp"],
+      ],
+      red_dogs: [
+        ["Танк", "Алый щитоносец", "../battle/redd-tank-cutout.webp"],
+        ["Воин", "Пёс-углежуй", "../battle/redd-fighter-cutout.webp"],
+        ["Убийца", "Пёс-искромёт", "../battle/redd-support-cutout.webp"],
+        ["Босс", "Алый Вожак", "../battle/redd-pitboss-cutout.webp"],
+      ],
+      zombies: [
+        ["Танк", "Гнилой страж", "../battle/zombie-tank-cutout-faceleft.webp"],
+        ["Воин", "Трупный мясник", "../battle/zombie-fighter-cutout-faceleft.webp"],
+        ["Убийца", "Ядовитый коготь", "../battle/zombie-support-cutout-faceleft.webp"],
+        ["Босс", "Некропёс Мор", "../battle/zombie-pitboss-cutout.webp"],
+      ],
+      ghosts: [
+        ["Танк", "Могильный страж", "../battle/ghost-tank-cutout-faceleft.webp"],
+        ["Воин", "Клинок душ", "../battle/ghost-fighter-cutout-faceleft.webp"],
+        ["Саппорт", "Блуждающий огонёк", "../battle/ghost-support-cutout-faceleft.webp"],
+        ["Босс", "Фантом Гул", "../battle/ghost-pitboss-cutout-faceleft.webp"],
+      ],
+    };
+
+    function card([role, name, src]) {
+      const fig = document.createElement("figure");
+      fig.innerHTML = `
+        <div class="well"><img src="${src}?v=faceleft2" alt="${name}" loading="eager" /></div>
+        <figcaption>
+          <b>${name}</b>
+          ${role}
+          <div><code>${src.split("/").pop()}</code></div>
+        </figcaption>`;
+      return fig;
+    }
+
+    for (const [id, list] of Object.entries(factions)) {
+      const root = document.getElementById(id);
+      list.forEach((item) => root.appendChild(card(item)));
+    }
+  </script>
+</body>
+</html>

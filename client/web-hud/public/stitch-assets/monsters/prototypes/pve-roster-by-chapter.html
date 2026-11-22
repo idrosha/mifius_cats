@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PvE · солдаты и боссы по главам</title>
+  <style>
+    :root {
+      --bg: #12100e;
+      --panel: #1c1713;
+      --ink: #f3e6d4;
+      --muted: #a8947c;
+      --line: #3a2f26;
+      --boss: #c45c3a;
+      --wave: #6b8f71;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      padding: 1.25rem 1.5rem 3rem;
+    }
+    h1 { font-size: 1.35rem; margin: 0 0 0.25rem; }
+    .lead { color: var(--muted); margin: 0 0 1.5rem; font-size: 0.9rem; }
+    section { display: block; margin-bottom: 2rem; }
+    section h2 {
+      font-size: 1.05rem;
+      margin: 0 0 0.35rem;
+      color: var(--ink);
+    }
+    section .meta {
+      color: var(--muted);
+      font-size: 0.8rem;
+      margin: 0 0 0.85rem;
+    }
+    .waves {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin: 0 0 0.9rem;
+    }
+    .waves span {
+      font-size: 0.72rem;
+      padding: 0.25rem 0.55rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      background: #161210;
+    }
+    .waves span b { color: var(--wave); font-weight: 600; }
+    .row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(10.5rem, 1fr));
+      gap: 0.75rem;
+    }
+    figure {
+      margin: 0;
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 0.65rem;
+      overflow: hidden;
+    }
+    figure.is-boss { border-color: rgba(196, 92, 58, 0.75); }
+    .well {
+      height: 13.5rem;
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+      background:
+        linear-gradient(180deg, rgba(8,12,16,0.1), rgba(8,12,16,0.55)),
+        radial-gradient(ellipse at 50% 18%, #3d5566 0%, transparent 55%),
+        linear-gradient(160deg, #2a3d4a, #101820);
+      padding: 0.45rem;
+    }
+    .well img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      object-position: center bottom;
+    }
+    figcaption {
+      padding: 0.45rem 0.55rem 0.6rem;
+      font-size: 0.72rem;
+      line-height: 1.35;
+    }
+    figcaption b { display: block; font-size: 0.84rem; margin-bottom: 0.12rem; }
+    figcaption .role { color: var(--muted); }
+    figcaption .tag {
+      display: inline-block;
+      margin-top: 0.3rem;
+      font-size: 0.65rem;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--boss);
+    }
+    figcaption .pool {
+      display: inline-block;
+      margin-top: 0.3rem;
+      font-size: 0.65rem;
+      color: #8a7a68;
+    }
+  </style>
+</head>
+<body>
+  <h1>PvE Mythmir — солдаты и боссы по главам</h1>
+  <p class="lead">Ростер после правок Andrew: без dog-support; ch2 только Волк-лучник (ranger); ch3 Пёс-искромёт = assassin.</p>
+  <div id="root"></div>
+  <script>
+    const chapters = [
+      {
+        id: 1,
+        title: "Железная Цитадель",
+        faction: "Обычные псы",
+        waves: [
+          "В1: Пёс-задира ×3",
+          "В2: Пёс-щитоносец + Пёс-лучник ×2",
+          "В3: Барон Гав (соло)",
+        ],
+        units: [
+          ["Пёс-задира", "воин", "fighter-h-faceleft.webp", false, true],
+          ["Пёс-щитоносец", "танк", "tank-b-faceleft.webp", false, true],
+          ["Пёс-лучник", "рейнджер", "ranger-a-faceleft.webp", false, true],
+          ["Барон Гав", "питбосс", "tank-d-faceleft.webp", true, true],
+        ],
+      },
+      {
+        id: 2,
+        title: "Ледяные Пещеры",
+        faction: "Северные волки",
+        waves: [
+          "В1: Волк-лучник · Шаман инея · Волк-лучник",
+          "В2: Волк-лучник ×3",
+          "В3: Шаман · Лютый Клык · Шаман",
+        ],
+        units: [
+          ["Волк-лучник", "рейнджер", "wolf-fighter-cutout-faceleft.webp", false, true],
+          ["Северный страж", "танк", "wolf-tank-cutout-faceleft.webp", false, false],
+          ["Шаман инея", "саппорт", "wolf-support-cutout.webp", false, true],
+          ["Лютый Клык", "питбосс", "wolf-pitboss-cutout.webp", true, true],
+        ],
+      },
+      {
+        id: 3,
+        title: "Алая Псарня",
+        faction: "Красные псы",
+        waves: [
+          "В1: Пёс-углежуй · Алый щитоносец · Пёс-углежуй",
+          "В2: Пёс-искромёт · Алый щитоносец · Пёс-искромёт",
+          "В3: Щитоносец · Алый Вожак · Щитоносец",
+        ],
+        units: [
+          ["Пёс-углежуй", "воин", "redd-fighter-cutout.webp", false, true],
+          ["Алый щитоносец", "танк", "redd-tank-cutout.webp", false, true],
+          ["Пёс-искромёт", "убийца", "redd-support-cutout.webp", false, true],
+          ["Алый Вожак", "питбосс", "redd-pitboss-cutout.webp", true, true],
+        ],
+      },
+      {
+        id: 4,
+        title: "Чумные Склепы",
+        faction: "Зомби",
+        waves: [
+          "В1: Трупный мясник · Ядовитый коготь · Трупный мясник",
+          "В2: Трупный мясник · Ядовитый коготь · Трупный мясник",
+          "В3: Ядовитый коготь · Некропёс Мор · Ядовитый коготь",
+        ],
+        units: [
+          ["Трупный мясник", "воин", "zombie-fighter-cutout-faceleft.webp", false, true],
+          ["Гнилой страж", "танк", "zombie-tank-cutout-faceleft.webp", false, false],
+          ["Ядовитый коготь", "убийца", "zombie-support-cutout-faceleft.webp", false, true],
+          ["Некропёс Мор", "питбосс", "zombie-pitboss-cutout.webp", true, true],
+        ],
+      },
+      {
+        id: 5,
+        title: "Призрачный Чертог",
+        faction: "Призраки",
+        waves: [
+          "В1: Могильный страж · Клинок душ · Блуждающий огонёк",
+          "В2: Клинок душ · Блуждающий огонёк · Клинок душ",
+          "В3: Могильный страж · Фантом Гул · Блуждающий огонёк",
+        ],
+        units: [
+          ["Могильный страж", "танк", "ghost-tank-cutout-faceleft.webp", false, true],
+          ["Клинок душ", "воин", "ghost-fighter-cutout-faceleft.webp", false, true],
+          ["Блуждающий огонёк", "саппорт", "ghost-support-cutout-faceleft.webp", false, true],
+          ["Фантом Гул", "питбосс", "ghost-pitboss-cutout-faceleft.webp", true, true],
+        ],
+      },
+    ];
+
+    const root = document.getElementById("root");
+    for (const ch of chapters) {
+      const sec = document.createElement("section");
+      sec.innerHTML = `
+        <h2>Глава ${ch.id} · ${ch.title}</h2>
+        <p class="meta">Фракция: ${ch.faction}</p>
+        <div class="waves">${ch.waves.map((w) => `<span><b>${w.split(":")[0]}</b>:${w.slice(w.indexOf(":") + 1)}</span>`).join("")}</div>
+        <div class="row"></div>`;
+      const row = sec.querySelector(".row");
+      for (const [name, role, file, isBoss, inWave] of ch.units) {
+        const fig = document.createElement("figure");
+        if (isBoss) fig.classList.add("is-boss");
+        fig.innerHTML = `
+          <div class="well"><img src="../battle/${file}" alt="${name}" loading="eager" /></div>
+          <figcaption>
+            <b>${name}</b>
+            <div class="role">${role}</div>
+            ${isBoss ? '<div class="tag">босс</div>' : ""}
+            ${!inWave ? '<div class="pool">в пуле арта · не в текущих волнах</div>' : ""}
+          </figcaption>`;
+        row.appendChild(fig);
+      }
+      root.appendChild(sec);
+    }
+  </script>
+</body>
+</html>

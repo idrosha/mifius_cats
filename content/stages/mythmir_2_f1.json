@@ -79,11 +79,11 @@
                           "element":  "ice",
                           "level":  2,
                           "meta":  {
-                                       "display_ru":  "Волк-боец",
+                                       "display_ru":  "Волк-лучник",
                                        "faction":  "wolves",
                                        "isPitboss":  false
                                    },
-                          "role":  "fighter",
+                          "role":  "ranger",
                           "templateId":  "bot_wolf_fighter_m2f1"
                       },
                       {
@@ -270,12 +270,12 @@
     "meta":  {
                  "faction":  "wolves",
                  "fightIndex":  1,
-                 "fight_ru":  "Боец · хил · лучник",
+                 "fight_ru":  "Лучник · хил · лучник",
                  "location_ru":  "Ледяные Пещеры",
                  "stageIndex":  2,
                  "tactic_ru":  "Хил всегда 1E на heal; лучник center+taunt.",
                  "title_ru":  "Ледяные Пещеры",
-                 "waveTheme":  "fighter_heal_ranger"
+                 "waveTheme":  "ranger_heal_ranger"
              },
     "name_key":  "stage.mythmir_2_f1",
     "stageId":  "mythmir_2_f1"
