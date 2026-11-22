@@ -1,39 +1,188 @@
 <section id="viewGuild" class="stitch-view mythfel-form hidden" data-stitch="guild" data-layout="landscape">
-<main class="wf" data-purpose="wireframe" data-screen="Зал Гильдии" >
-<header class="wf-head">
-<div>
-<p class="wf-eyebrow">Гильдии · главная</p>
-<h1>Зал Гильдии</h1>
-<p>Состав, вклад, статус клана, цели сезона. Орден Хранителей.</p>
+<main class="guild-hall mode-hall" data-purpose="guild-hall">
+<header class="dojo-top flex-col !items-stretch gap-0">
+<div class="flex items-center gap-2 flex-wrap w-full min-w-0">
+<div class="dojo-crumb">
+<strong>Гильдии</strong><span>›</span><em>Зал гильдии</em><span class="dojo-chip">Орден</span>
 </div>
-<div class="wf-tags"><span class="wf-tag">landscape 16:9</span><span class="wf-tag">блоки без картинок</span><span class="wf-tag">без подвала</span></div>
+<p class="dojo-mode flex-1 min-w-0">Орден Тенистых Лап · рейтинг 4929 · сезон IV · очаг и осада</p>
+<div class="dojo-server flex-shrink-0">
+<span>Осада: <b class="text-primary">20:00 МСК</b></span>
+<span>Казна нед.: <b class="text-secondary">1 850</b></span>
+</div>
+</div>
+<div class="flex items-center justify-between gap-2 flex-wrap w-full border-t border-outline-variant/25 pt-1">
+<nav class="flex items-center gap-1" aria-label="Разделы гильдии" role="tablist">
+<a aria-current="page" class="mode-chip is-on px-2.5 py-1 rounded-lg text-[11px] font-bold" data-path="guild" href="#">Зал</a>
+<a class="mode-chip px-2.5 py-1 rounded-lg text-[11px] font-bold" data-path="guild_members" href="#">Участники</a>
+<a class="mode-chip px-2.5 py-1 rounded-lg text-[11px] font-bold" data-path="guild_tech" href="#">Технологии</a>
+<a class="mode-chip px-2.5 py-1 rounded-lg text-[11px] font-bold" data-path="guild_treasury" href="#">Казна</a>
+</nav>
+<span class="text-[10px] text-primary font-bold whitespace-nowrap">Лапка Очага · Топ-12 · Ур. 14</span>
+</div>
 </header>
-<div class="wf-body grid-cols-1 lg:grid-cols-12">
-<section class="wf-block lg:col-span-4"><h2>Орден</h2><p class="hint">Название / ранг / цели сезона.</p><div class="wf-grid"><div class="wf-row"><span>Название</span><span>Лапка Очага</span></div>
-<div class="wf-row"><span>Ранг гильдии</span><span>III</span></div>
-<div class="wf-row"><span>Цель сезона</span><span>башни ×3</span></div></div></section>
-<section class="wf-block lg:col-span-5"><h2>Состав</h2><p class="hint">Участники и вклад.</p><div class="wf-grid"><div class="wf-row"><span>Хранитель A</span><span>вклад 1200</span></div>
-<div class="wf-row"><span>Хранитель B</span><span>вклад 800</span></div>
-<div class="wf-row"><span>Хранитель C</span><span>вклад 400</span></div>
-<div class="wf-row"><span>Слот</span><span>свободен</span></div></div></section>
-<section class="wf-block lg:col-span-3"><h2>Действия</h2><p class="hint">Тех / казна / бой гильдий.</p><div class="wf-tags" style="flex-direction:column;align-items:stretch"><button type="button" class="wf-cta ghost" data-hud-action="guild-tech">Технологии</button><button type="button" class="wf-cta ghost" data-hud-action="guild-treasury">Казна</button><button type="button" class="wf-cta" data-hud-action="guild-war">Бой гильдий</button></div></section>
+
+<div class="mode-grid grid grid-cols-12 gap-2 flex-1 min-h-0 overflow-hidden">
+
+<aside class="col-span-12 lg:col-span-3 flex flex-col h-full min-h-0 gap-2 overflow-hidden">
+<div class="flex flex-col flex-shrink-0 bg-[#161310] rounded-xl border border-outline-variant/40 p-2 shadow-2xl">
+<div class="flex items-start gap-2 pb-2 border-b border-outline-variant/30">
+<div class="w-12 h-12 rounded-xl bg-primary/15 border border-primary/45 flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-primary text-[28px]" style="font-variation-settings:'FILL' 1">shield</span>
 </div>
-<section class="wf-block" aria-hidden="true" data-purpose="wireframe-pad"><h2>Плотность сетки</h2><p class="hint">Служебные ряды, чтобы форма была заполнена без подвала и дыр.</p><div class="wf-grid"><div class="wf-row" data-pad="Зал Гильдии-0"><span>Слот макета 1</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Зал Гильдии-1"><span>Слот макета 2</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Зал Гильдии-2"><span>Слот макета 3</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Зал Гильдии-3"><span>Слот макета 4</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Зал Гильдии-4"><span>Слот макета 5</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Зал Гильдии-5"><span>Слот макета 6</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Зал Гильдии-6"><span>Слот макета 7</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Зал Гильдии-7"><span>Слот макета 8</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Зал Гильдии-8"><span>Слот макета 9</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Зал Гильдии-9"><span>Слот макета 10</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Зал Гильдии-10"><span>Слот макета 11</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Зал Гильдии-11"><span>Слот макета 12</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Зал Гильдии-12"><span>Слот макета 13</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Зал Гильдии-13"><span>Слот макета 14</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Зал Гильдии-14"><span>Слот макета 15</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Зал Гильдии-15"><span>Слот макета 16</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Зал Гильдии-16"><span>Слот макета 17</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Зал Гильдии-17"><span>Слот макета 18</span><span class="hint">блок заполнения · без пустот</span></div></div></section></main>
+<div class="min-w-0 flex-1">
+<p class="text-[9px] text-outline uppercase font-bold tracking-wide">Орден Тенистых Лап</p>
+<strong class="block text-[14px] text-primary font-extrabold truncate">Лапка Очага</strong>
+<div class="flex flex-wrap items-center gap-1.5 mt-0.5 text-[10px]">
+<span class="text-on-surface-variant">Рейтинг <b class="text-primary">4929</b></span>
+<span class="text-outline">·</span>
+<span>Топ-<b class="text-secondary">12</b></span>
+<span class="text-outline">·</span>
+<span><b>28</b>/30</span>
+</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-1.5 pt-1.5 text-[10px]">
+<div class="rounded-lg bg-[#1a1613] border border-outline-variant/30 px-2 py-1.5 col-span-2 flex justify-between"><span class="text-outline">БМ ордена</span><b class="text-primary">1 480 500</b></div>
+<div class="rounded-lg bg-[#1a1613] border border-secondary/35 px-2 py-1.5">
+<p class="text-[9px] text-outline uppercase font-bold">Цитадель</p>
+<p class="font-bold mt-0.5">«Врата Когтя»</p>
+<p class="text-secondary font-bold">+15% ATK</p>
+</div>
+<div class="rounded-lg bg-[#1a1613] border border-primary/35 px-2 py-1.5">
+<p class="text-[9px] text-outline uppercase font-bold">Аура</p>
+<p class="font-bold mt-0.5">«Очаг Братства»</p>
+<p class="text-primary text-[9px] leading-tight">+15% золото · +20% XP</p>
+</div>
+</div>
+</div>
+
+<div class="flex flex-col flex-1 min-h-0 bg-[#161310] rounded-xl border border-outline-variant/40 p-2 shadow-2xl overflow-hidden">
+<div class="flex items-center gap-1.5 pb-1.5 px-1 border-b border-outline-variant/30 flex-shrink-0">
+<span class="material-symbols-outlined text-primary text-[16px]">history_edu</span>
+<span class="font-bold text-[12px]">Указ лидера</span>
+</div>
+<div class="flex-1 min-h-0 overflow-y-auto py-1.5">
+<div class="rounded-lg bg-[#1a1613] border border-primary/25 px-2.5 py-2 text-[10px] text-on-surface-variant leading-relaxed">
+<p class="text-[9px] text-primary font-bold uppercase tracking-wide mb-1">Пергамент осады</p>
+<p>Сегодня в <b class="text-on-surface">20:00 МСК</b> — общий штурм врат. Собрать отряды 3v3, фокус на башню «Восток». Офицеры: подтвердить готовность в чате до 19:45.</p>
+<div class="flex items-center gap-1.5 mt-2 text-[9px] text-outline">
+<span class="w-6 h-6 rounded-full bg-primary-container/30 border border-primary/40 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-[14px] text-primary">military_tech</span></span>
+<span>Мурграм · Верховный Хранитель</span>
+</div>
+</div>
+</div>
+<div class="flex flex-col gap-1.5 pt-1.5 flex-shrink-0">
+<button type="button" class="py-1.5 rounded-lg border border-primary/50 text-primary text-[11px] font-bold hover:bg-primary/10" data-path="guild_members">Совет офицеров</button>
+<button type="button" class="py-1.5 rounded-lg border border-tertiary/45 text-tertiary text-[11px] font-bold hover:bg-tertiary/10">Покинуть орден</button>
+</div>
+</div>
+</aside>
+
+<div class="col-span-12 lg:col-span-5 flex flex-col h-full min-h-0 gap-2 overflow-hidden">
+<div class="relative flex-[0.95] min-h-0 rounded-xl overflow-hidden border border-outline-variant/40 shadow-2xl">
+<img class="absolute inset-0 w-full h-full object-cover" alt="" src="/stitch-ref/18c7/guild_interior_art.png"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[#100e0c] via-[#100e0c]/55 to-[#100e0c]/25"></div>
+<div class="relative z-10 flex flex-col justify-end h-full p-2.5">
+<div class="bg-surface-container-lowest/88 backdrop-blur-md rounded-lg border border-primary/35 px-3 py-2">
+<p class="text-[10px] text-outline uppercase tracking-wider font-bold">Зал ордена</p>
+<strong class="text-[15px] text-primary font-extrabold leading-tight">Святилище Лап и Стали — Зал Очага</strong>
+</div>
+</div>
+</div>
+
+<div class="flex flex-col flex-1 min-h-0 gap-1.5 overflow-hidden">
+<div class="relative flex-1 min-h-0 rounded-xl overflow-hidden border border-primary/50 shadow-[0_0_16px_rgba(253,186,69,0.15)] ring-1 ring-primary/25">
+<img class="absolute inset-0 w-full h-full object-cover opacity-40" alt="" src="/stitch-assets/modes/guild-siege-bg.jpg"/>
+<div class="absolute inset-0 bg-gradient-to-r from-[#100e0c]/95 via-[#100e0c]/80 to-[#100e0c]/70"></div>
+<div class="relative z-10 h-full flex flex-col justify-between p-2.5 gap-1.5">
+<div class="flex items-start justify-between gap-2">
+<div>
+<span class="text-[9px] font-bold text-primary animate-pulse uppercase tracking-wide">● Штурм</span>
+<strong class="block text-[13px] text-on-surface mt-0.5">Врата Когтя — осада активна</strong>
+<p class="text-[10px] text-on-surface-variant">HP врат <b class="text-primary">45%</b> · до конца <b>2ч 18м</b></p>
+</div>
+<span class="material-symbols-outlined text-primary text-[26px]">castle</span>
+</div>
+<div class="h-1.5 rounded-full bg-black/50 overflow-hidden"><i class="block h-full w-[45%] bg-primary rounded-full"></i></div>
+<button type="button" class="mode-cta w-full py-2 rounded-lg bg-gradient-to-r from-[#d99b26] via-[#fdba45] to-[#ffdeae] text-[#432c00] font-extrabold text-[12px] uppercase tracking-wide flex items-center justify-center gap-1.5" data-path="guild_battle">
+<span class="material-symbols-outlined text-[18px]">swords</span>Штурмовать врата
+</button>
+</div>
+</div>
+
+<div class="grid grid-cols-2 gap-1.5 flex-shrink-0 min-h-[5.5rem]">
+<div class="rounded-xl border border-tertiary/40 bg-[#161310] p-2 flex flex-col justify-between gap-1">
+<div class="flex items-start justify-between gap-1">
+<div class="min-w-0">
+<p class="text-[9px] text-tertiary font-bold uppercase">Рейд</p>
+<strong class="text-[11px] block truncate">Генерал Дог</strong>
+<p class="text-[9px] text-on-surface-variant">Ур. 75 · HP <b class="text-tertiary">88%</b></p>
+</div>
+<span class="w-8 h-8 rounded-lg bg-tertiary/15 border border-tertiary/35 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-tertiary text-[18px]">skull</span></span>
+</div>
+<button type="button" class="py-1 rounded-lg border border-tertiary/50 text-tertiary text-[10px] font-bold hover:bg-tertiary/10" data-path="boss_raid">В рейд</button>
+</div>
+<div class="rounded-xl border border-secondary/35 bg-[#161310] p-2 flex flex-col justify-between gap-1">
+<div class="flex items-start justify-between gap-1">
+<div class="min-w-0">
+<p class="text-[9px] text-secondary font-bold uppercase">Ритуал очага</p>
+<strong class="text-[11px] block">Дрова × 12</strong>
+<p class="text-[9px] text-on-surface-variant">Бафф братства +1ч</p>
+</div>
+<span class="w-8 h-8 rounded-lg bg-secondary/15 border border-secondary/35 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-secondary text-[18px]">local_fire_department</span></span>
+</div>
+<button type="button" class="py-1 rounded-lg border border-secondary/50 text-secondary text-[10px] font-bold hover:bg-secondary/10">Подбросить дров</button>
+</div>
+</div>
+</div>
+</div>
+
+<aside class="col-span-12 lg:col-span-4 flex flex-col h-full min-h-0 gap-2 overflow-hidden">
+<div class="flex flex-col flex-1 min-h-0 bg-[#161310] rounded-xl border border-outline-variant/40 p-2 shadow-2xl overflow-hidden">
+<div class="flex items-center justify-between pb-1.5 px-1 border-b border-outline-variant/30 flex-shrink-0">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[18px]">campaign</span>
+<span class="font-bold text-[12px]">Журнал событий</span>
+</div>
+<span class="text-[10px] text-secondary font-bold">● live</span>
+</div>
+<ul class="flex-1 min-h-0 overflow-y-auto flex flex-col gap-1 py-1.5 text-[10px]">
+<li class="rounded-lg bg-[#1a1613] border border-secondary/30 px-2 py-1.5 flex items-start gap-2">
+<span class="w-6 h-6 rounded-full bg-secondary/15 border border-secondary/35 flex items-center justify-center shrink-0 mt-0.5"><span class="material-symbols-outlined text-[13px] text-secondary">swords</span></span>
+<div class="min-w-0"><b class="text-secondary">Рыжик</b> захватил аванпост · <span class="text-outline">2 мин</span></div>
+</li>
+<li class="rounded-lg bg-[#1a1613] border border-primary/30 px-2 py-1.5 flex items-start gap-2">
+<span class="w-6 h-6 rounded-full bg-primary/15 border border-primary/35 flex items-center justify-center shrink-0 mt-0.5"><span class="material-symbols-outlined text-[13px] text-primary">payments</span></span>
+<div class="min-w-0">Взнос в казну <b class="text-primary">+120</b> · <span class="text-outline">14 мин</span></div>
+</li>
+<li class="rounded-lg bg-[#1a1613] border border-outline-variant/30 px-2 py-1.5 flex items-start gap-2">
+<span class="w-6 h-6 rounded-full bg-surface-container-high border border-outline-variant/40 flex items-center justify-center shrink-0 mt-0.5"><span class="material-symbols-outlined text-[13px] text-outline">science</span></span>
+<div class="min-w-0">Исследование «Когти стали» — 68% · <span class="text-outline">41 мин</span></div>
+</li>
+<li class="rounded-lg bg-[#1a1613] border border-tertiary/30 px-2 py-1.5 flex items-start gap-2">
+<span class="w-6 h-6 rounded-full bg-tertiary/15 border border-tertiary/35 flex items-center justify-center shrink-0 mt-0.5"><span class="material-symbols-outlined text-[13px] text-tertiary">fort</span></span>
+<div class="min-w-0"><b class="text-tertiary">Клыки Ночи</b> атаковали юг · <span class="text-outline">1ч</span></div>
+</li>
+</ul>
+</div>
+
+<div class="flex flex-col flex-shrink-0 bg-[#161310] rounded-xl border border-outline-variant/40 p-2 shadow-2xl gap-1.5">
+<div class="flex items-center justify-between text-[11px]">
+<span class="text-outline">Фонд недели</span><b class="text-primary text-[14px]">1 850</b>
+</div>
+<div>
+<div class="flex items-center justify-between text-[10px] mb-1">
+<span class="text-on-surface-variant">Недельный сундук</span><b>840 / 1 000</b>
+</div>
+<div class="h-2 rounded-full bg-black/50 overflow-hidden border border-outline-variant/30"><i class="block h-full w-[84%] bg-gradient-to-r from-primary-container to-primary rounded-full"></i></div>
+</div>
+<button type="button" class="w-full py-2 rounded-xl bg-gradient-to-r from-[#d99b26] via-[#fdba45] to-[#ffdeae] text-[#432c00] font-extrabold text-[12px] uppercase tracking-wide flex items-center justify-center gap-1.5 hover:brightness-105">
+<span class="material-symbols-outlined text-[18px]">redeem</span>Забрать награду клана
+</button>
+</div>
+</aside>
+
+</div>
+</main>
 </section>

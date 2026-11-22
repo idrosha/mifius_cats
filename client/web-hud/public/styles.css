@@ -2574,6 +2574,11 @@ body:has(#viewCraft:not(.hidden)) #app {
   gap: 0.45rem;
 }
 #viewHome .mythfel-hud-panel { display: none !important; }
+#viewGuild .mythfel-hud-panel,
+#viewGuildHub .mythfel-hud-panel,
+#viewGuildMembers .mythfel-hud-panel,
+#viewGuildTech .mythfel-hud-panel,
+#viewGuildTreasury .mythfel-hud-panel { display: none !important; }
 .stitch-view { position: relative; }
 .mythfel-panel-head {
   display: flex;
@@ -4345,7 +4350,11 @@ body:has(#viewPractice > .dojo-load:not([hidden])) #app {
 /* Shared battle-mode lobbies: dungeon / raid / guild war — dense 16:9, no wire pads */
 #viewBossDungeon > .mode-hall,
 #viewBossRaid > .mode-hall,
-#viewGuildBattle > .mode-hall {
+#viewGuildBattle > .mode-hall,
+#viewGuild > .guild-hall,
+#viewGuildMembers > .guild-hall,
+#viewGuildTech > .guild-hall,
+#viewGuildTreasury > .guild-hall {
   flex: 1 1 auto !important;
   min-height: 0 !important;
   height: 100% !important;
@@ -4359,9 +4368,127 @@ body:has(#viewPractice > .dojo-load:not([hidden])) #app {
 }
 #viewBossDungeon .mode-grid,
 #viewBossRaid .mode-grid,
-#viewGuildBattle .mode-grid {
+#viewGuildBattle .mode-grid,
+#viewGuild .mode-grid,
+#viewGuildMembers .mode-grid,
+#viewGuildTech .mode-grid,
+#viewGuildTreasury .mode-grid {
   flex: 1 1 auto;
   min-height: 0;
+}
+/* Guild plaza hub — reuse battle-front map language */
+body:has(#viewGuildHub:not(.hidden)) #wireDock { display: none !important; }
+#viewGuildHub { background: #100e0c; color: #eae1db; }
+#viewGuildHub > main.front-hall,
+#viewGuildHub > main.guild-plaza {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.4rem 0.55rem 0.35rem !important;
+  background: #100e0c;
+  overflow: hidden;
+}
+#viewGuildHub .front-map {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid rgba(80, 69, 53, 0.55);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.55);
+}
+#viewGuildHub .front-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+#viewGuildHub .front-veil {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(180deg, rgba(16, 14, 12, 0.45), rgba(16, 14, 12, 0.72) 55%, rgba(16, 14, 12, 0.88));
+  pointer-events: none;
+}
+#viewGuildHub .front-zones { position: absolute; inset: 0; z-index: 2; pointer-events: none; }
+#viewGuildHub .front-zone {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-width: min(18rem, 42%);
+}
+#viewGuildHub .front-zone > * { pointer-events: auto; }
+#viewGuildHub .front-zone.is-tl { top: 10%; left: 6%; align-items: flex-start; }
+#viewGuildHub .front-zone.is-tc { top: 8%; left: 50%; transform: translateX(-50%); align-items: center; }
+#viewGuildHub .front-zone.is-tr { top: 10%; right: 5%; align-items: flex-end; }
+#viewGuildHub .front-zone.is-bl { bottom: 12%; left: 5%; align-items: flex-start; }
+#viewGuildHub .front-zone.is-bc { bottom: 10%; left: 50%; transform: translateX(-50%); align-items: center; }
+#viewGuildHub .front-zone.is-br { bottom: 12%; right: 4%; align-items: flex-end; }
+#viewGuildHub .front-pin {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.4rem 0.55rem 0.4rem 0.4rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(253, 186, 69, 0.35);
+  background: rgba(22, 19, 16, 0.9);
+  color: #eae1db;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
+}
+#viewGuildHub .front-pin:hover {
+  border-color: rgba(253, 186, 69, 0.7);
+  box-shadow: 0 0 0 1px rgba(253, 186, 69, 0.25), 0 8px 22px rgba(0, 0, 0, 0.5);
+}
+#viewGuildHub .front-pin-ico {
+  width: 1.85rem;
+  height: 1.85rem;
+  border-radius: 0.55rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(180deg, #fdba45, #d99b26);
+  color: #1a1308;
+  font-size: 18px;
+}
+#viewGuildHub .front-pin.is-hot .front-pin-ico { background: linear-gradient(180deg, #ff8f7a, #b33a2d); color: #fff4f1; }
+#viewGuildHub .front-pin.is-gold .front-pin-ico { background: linear-gradient(180deg, #ffe08a, #d99b26); }
+#viewGuildHub .front-pin-text { display: flex; flex-direction: column; align-items: flex-start; line-height: 1.1; min-width: 0; }
+#viewGuildHub .front-pin-text b { font-size: 10px; letter-spacing: 0.06em; font-weight: 800; color: #f3e6d2; }
+#viewGuildHub .front-pin-text em { font-style: normal; font-size: 10px; color: #fdba45; font-weight: 700; }
+#viewGuildHub .front-card {
+  display: none;
+  padding: 0.65rem 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(80, 69, 53, 0.55);
+  background: rgba(22, 19, 16, 0.94);
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+}
+#viewGuildHub .front-zone:hover .front-card,
+#viewGuildHub .front-zone:focus-within .front-card { display: block; }
+#viewGuildHub .front-card small { display: block; font-size: 9px; letter-spacing: 0.08em; color: #fdba45; font-weight: 800; }
+#viewGuildHub .front-card h3 { margin: 0.2rem 0 0.35rem; font-size: 13px; color: #eae1db; font-family: Rubik, sans-serif; }
+#viewGuildHub .front-card p { margin: 0; font-size: 11px; color: #d5c4af; }
+#viewGuildHub .front-meta { display: flex; flex-wrap: wrap; gap: 0.35rem; margin: 0.45rem 0; font-size: 10px; color: #9d8f7b; }
+#viewGuildHub .front-meta .is-ok { color: #89d98c; }
+#viewGuildHub .front-card button {
+  margin-top: 0.25rem;
+  width: 100%;
+  border: 0;
+  border-radius: 0.45rem;
+  padding: 0.4rem 0.55rem;
+  background: #d99b26;
+  color: #1a1308;
+  font-weight: 800;
+  font-size: 11px;
+  cursor: pointer;
 }
 .dojo-chip.is-hot {
   background: rgba(255, 180, 166, 0.18);
@@ -4411,7 +4538,11 @@ body:has(#viewPractice > .dojo-load:not([hidden])) #app {
 @media (max-width: 1023px) {
   #viewBossDungeon .mode-grid,
   #viewBossRaid .mode-grid,
-  #viewGuildBattle .mode-grid {
+  #viewGuildBattle .mode-grid,
+  #viewGuild .mode-grid,
+  #viewGuildMembers .mode-grid,
+  #viewGuildTech .mode-grid,
+  #viewGuildTreasury .mode-grid {
     display: flex !important;
     flex-direction: column;
     gap: 0.45rem;
@@ -4419,18 +4550,32 @@ body:has(#viewPractice > .dojo-load:not([hidden])) #app {
   }
   #viewBossDungeon .mode-grid > *,
   #viewBossRaid .mode-grid > *,
-  #viewGuildBattle .mode-grid > * {
+  #viewGuildBattle .mode-grid > *,
+  #viewGuild .mode-grid > *,
+  #viewGuildMembers .mode-grid > *,
+  #viewGuildTech .mode-grid > *,
+  #viewGuildTreasury .mode-grid > * {
     flex: 0 0 auto;
     min-height: auto;
   }
   #viewBossDungeon .dojo-top,
   #viewBossRaid .dojo-top,
-  #viewGuildBattle .dojo-top {
+  #viewGuildBattle .dojo-top,
+  #viewGuild .dojo-top,
+  #viewGuildMembers .dojo-top,
+  #viewGuildTech .dojo-top,
+  #viewGuildTreasury .dojo-top,
+  #viewGuildHub .dojo-top {
     flex-wrap: wrap;
   }
   #viewBossDungeon .dojo-mode,
   #viewBossRaid .dojo-mode,
-  #viewGuildBattle .dojo-mode {
+  #viewGuildBattle .dojo-mode,
+  #viewGuild .dojo-mode,
+  #viewGuildMembers .dojo-mode,
+  #viewGuildTech .dojo-mode,
+  #viewGuildTreasury .dojo-mode,
+  #viewGuildHub .dojo-mode {
     order: 3;
     flex-basis: 100%;
   }

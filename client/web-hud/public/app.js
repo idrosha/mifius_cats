@@ -83,6 +83,10 @@ const PATH_TO_TAB = {
   "guild-war": "guild_battle",
   "voyna-gildiy": "guild_battle",
   gvg: "guild_battle",
+  guild_battle: "guild_battle",
+  boss_raid: "boss_raid",
+  chat_guild: "chat_guild",
+  yard: "yard",
   бой: "yard",
   boi: "yard",
   battles: "battle_hub",
@@ -129,9 +133,14 @@ const PATH_TO_TAB = {
   trenirovka: "practice",
   "trenirovka-dodzyo": "practice",
   "zal-gildii": "guild",
-  "uchastniki-i-sostav": "guild",
-  "razvitie-i-tehnologii": "guild",
-  "kazna-i-zadaniya": "guild",
+  guild: "guild",
+  guild_hub: "guild_hub",
+  guild_members: "guild_members",
+  guild_tech: "guild_tech",
+  guild_treasury: "guild_treasury",
+  "uchastniki-i-sostav": "guild_members",
+  "razvitie-i-tehnologii": "guild_tech",
+  "kazna-i-zadaniya": "guild_treasury",
   "mifmir-pve": "yard",
   "pve-load": "pve_load",
   "загрузка-pve": "pve_load",
@@ -321,7 +330,14 @@ function findNavForTab(tabId) {
   if (tabId === "knowledge" || KNOWLEDGE_TABS.some((t) => t.id === tabId)) {
     return NAV.find((g) => g.id === "knowledge") || null;
   }
-  if (tabId === "soon_clan") return NAV.find((g) => g.id === "guilds") || null;
+  if (
+    tabId === "soon_clan" ||
+    tabId === "guild_members" ||
+    tabId === "guild_tech" ||
+    tabId === "guild_treasury"
+  ) {
+    return NAV.find((g) => g.id === "guilds") || null;
+  }
   if (
     tabId === "yard" ||
     tabId === "battle_hub" ||
@@ -1024,7 +1040,10 @@ function logicalViewId() {
     soon_clan: "viewSoonClan",
     auction: "viewAuction",
     guild: "viewGuild",
-    guild_hub: "viewGuild",
+    guild_hub: "viewGuildHub",
+    guild_members: "viewGuildMembers",
+    guild_tech: "viewGuildTech",
+    guild_treasury: "viewGuildTreasury",
     guild_battle: "viewGuildBattle",
     chat_global: "viewChatGlobal",
     chat_guild: "viewChatGuild",
@@ -1540,7 +1559,11 @@ function fillNav(primaryEl, subEl, activeGroup, battleActive, activeClass) {
     if (tab.soon) b.classList.add("soon");
     if (tab.gated) b.classList.add("gated");
     if (tab.id === "pvp" && !pvpUnlocked()) b.classList.add("locked");
-    const tabOn = state.tab === tab.id || (tab.id === "pve" && state.tab === "yard");
+    const tabOn =
+      state.tab === tab.id ||
+      (tab.id === "pve" && state.tab === "yard") ||
+      (tab.id === "guild" &&
+        (state.tab === "guild_members" || state.tab === "guild_tech" || state.tab === "guild_treasury"));
     b.classList.toggle(activeClass, !battleActive && tabOn);
     b.addEventListener("click", () => {
       navigate(tab.id, { soon: tab.soon || null, primary: activeGroup.id });
@@ -1854,11 +1877,11 @@ function bindStitchNav(root) {
   if (!root || root.dataset.navBound === "1") return;
   root.dataset.navBound = "1";
   root.addEventListener("click", (e) => {
-    const a = e.target.closest("a[data-path], a[href='#']");
+    const a = e.target.closest("a[data-path], a[href='#'], button[data-path], [data-path].front-pin");
     if (!a || !root.contains(a)) return;
     e.preventDefault();
     // D-029: Stitch header chrome never navigates — only #appNav / #appSubTabs.
-    // In-content CTAs live under <main> (trade hub cards, etc.).
+    // In-content CTAs live under <main> (trade hub cards, guild subnav, etc.).
     if (a.closest("header") && !a.closest("main")) return;
     const raw = (a.getAttribute("data-path") || "").trim();
     if (!raw) return;
@@ -9315,7 +9338,12 @@ function renderAll() {
       renderFarm();
       break;
     case "guild":
+    case "guild_hub":
+    case "guild_members":
+    case "guild_tech":
+    case "guild_treasury":
       renderGuild();
+      bindGuildHalls();
       break;
     case "guild_battle":
       renderGuild();
@@ -10683,6 +10711,38 @@ function startPvpSearch() {
     toast(`Найден отряд: ${names}`);
     window.setTimeout(() => openPvpLoad(), 450);
   }, delay);
+}
+
+/** Painted guild hall / hub / members / tech / treasury — local CTAs + tips. */
+function bindGuildHalls() {
+  const ids = ["viewGuild", "viewGuildHub", "viewGuildMembers", "viewGuildTech", "viewGuildTreasury"];
+  for (const id of ids) {
+    const root = $(id);
+    if (!root || root.dataset.guildHallBound === "1") continue;
+    root.dataset.guildHallBound = "1";
+    root.addEventListener("click", (ev) => {
+      const tip = ev.target.closest("[data-hud-action]");
+      if (tip && root.contains(tip)) {
+        const act = tip.getAttribute("data-hud-action");
+        ev.preventDefault();
+        if (act === "guild-claim" || act === "guild-donate" || act === "guild-research") {
+          toast("Скоро · награда / вклад ордена");
+          return;
+        }
+        if (act === "guild-officers") {
+          toast("Совет офицеров: скоро");
+          return;
+        }
+        if (act === "guild-leave") {
+          toast("Покинуть орден: скоро");
+          return;
+        }
+        if (act === "guild-hearth") {
+          toast("Дрова для очага: скоро");
+        }
+      }
+    });
+  }
 }
 
 /** Dense painted lobbies: dungeon / raid / guild war CTAs + local selection. */

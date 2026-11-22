@@ -1,24 +1,7 @@
-<!DOCTYPE html>
-<html class="dark" lang="ru">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Славная победа PvE — Мифиус</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{primary:"#fdba45","primary-container":"#d99b26","on-primary":"#432c00",secondary:"#89d98c",surface:"#161310","on-surface":"#eae1db",outline:"#9d8f7b",background:"#161310"}}}};</script>
-<style>
-/* MF-151 PvE victory design source — live CSS in public/styles.css */
-html,body{margin:0;height:100%;background:#110d0b;color:#eae1db}
-.pve-vic{position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:space-between}
-.pve-vic-backdrop{position:absolute;inset:0;z-index:0}
-.pve-vic-bg{width:100%;height:100%;object-fit:cover}
-.pve-vic-title{font-size:2rem;font-weight:800;color:#fdba45;text-align:center;text-transform:uppercase}
-/* expedition victory: squad cards + loot strip + next-level CTA */
-</style>
-</head>
-<body><main class="pve-vic mythfel-form-body" data-purpose="pve-victory">
+<section id="viewPveVictory" class="stitch-view mythfel-form hidden" data-stitch="pve_victory" data-layout="landscape">
+<main class="pve-vic mythfel-form-body" data-purpose="pve-victory">
   <div class="pve-vic-backdrop" aria-hidden="true">
-    <img class="pve-vic-bg" alt="" src="/stitch-assets/pve-victory/bg.webp?v=opt1"/>
+    <img class="pve-vic-bg" alt="" src="/stitch-assets/pve-victory/bg.png"/>
     <div class="pve-vic-shade"></div>
   </div>
 
@@ -52,7 +35,7 @@ html,body{margin:0;height:100%;background:#110d0b;color:#eae1db}
         <em class="is-heal">Хил</em>
       </div>
       <div class="pve-vic-art">
-        <img alt="Мурка" src="/stitch-assets/cat-heroes/support-a.webp?v=opt1"/>
+        <img alt="Мурка" src="/stitch-assets/cat-heroes/support-a.png"/>
         <b id="pveVicName3">Мурка Родник</b>
       </div>
       <div class="pve-vic-stats">
@@ -69,7 +52,7 @@ html,body{margin:0;height:100%;background:#110d0b;color:#eae1db}
         <em class="is-dps">Крит DPS</em>
       </div>
       <div class="pve-vic-art">
-        <img alt="Рыжик" src="/stitch-assets/cat-heroes/fighter-a.webp?v=opt1"/>
+        <img alt="Рыжик" src="/stitch-assets/cat-heroes/fighter-a.png"/>
         <b id="pveVicName2">Рыжик Когти</b>
       </div>
       <div class="pve-vic-stats">
@@ -87,7 +70,7 @@ html,body{margin:0;height:100%;background:#110d0b;color:#eae1db}
         <em class="is-tank">Таунт</em>
       </div>
       <div class="pve-vic-art">
-        <img alt="Барсик" src="/stitch-assets/cat-heroes/tank-a.webp?v=opt1"/>
+        <img alt="Барсик" src="/stitch-assets/cat-heroes/tank-a.png"/>
         <b id="pveVicName1">Барсик Щит</b>
       </div>
       <div class="pve-vic-stats">
@@ -122,8 +105,8 @@ html,body{margin:0;height:100%;background:#110d0b;color:#eae1db}
     <div class="pve-vic-actions">
       <button type="button" class="pve-vic-btn" id="pveVicAgain"><span class="material-symbols-outlined">replay</span> <span>[R] ПОВТОРИТЬ</span></button>
       <button type="button" class="pve-vic-btn" id="pveVicHub"><span class="material-symbols-outlined">meeting_room</span> <span>[ESC] В ХАБ</span></button>
-      <button type="button" class="pve-vic-next" id="pveVicNext">В МИФМИР <kbd>[ПРОБЕЛ]</kbd> <span class="material-symbols-outlined">arrow_forward</span></button>
+      <button type="button" class="pve-vic-next" id="pveVicNext">СЛЕДУЮЩИЙ УРОВЕНЬ <kbd>[ПРОБЕЛ]</kbd> <span class="material-symbols-outlined">arrow_forward</span></button>
     </div>
   </footer>
-</main></body>
-</html>
+</main>
+</section>

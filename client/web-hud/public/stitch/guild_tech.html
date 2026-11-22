@@ -1,0 +1,137 @@
+<section id="viewGuildTech" class="stitch-view mythfel-form hidden" data-stitch="guild_tech" data-layout="landscape" data-purpose="guild-tech">
+<main class="guild-hall flex flex-col flex-1 min-h-0 h-full w-full overflow-hidden gap-2 p-2 bg-[#100e0c]">
+<header class="flex flex-col gap-1 flex-shrink-0 min-w-0">
+<div class="dojo-top w-full">
+<div class="dojo-crumb"><strong>Гильдии</strong><span>›</span><em>Развитие и технологии</em><span class="dojo-chip">Алтарь</span></div>
+<p class="dojo-mode">Алтарь знаний · ветви мудрости · древо навыков · клановые баффы</p>
+</div>
+<nav class="flex items-center justify-between gap-2 flex-shrink-0" aria-label="Разделы гильдии">
+<div class="flex items-center gap-1 bg-[#1f1b18] p-0.5 rounded-lg border border-outline-variant/40 flex-1 min-w-0">
+<button type="button" class="mode-chip flex-1 py-1 px-2 rounded-md text-[11px] font-bold" data-path="guild">Зал</button>
+<button type="button" class="mode-chip flex-1 py-1 px-2 rounded-md text-[11px] font-bold" data-path="guild_members">Участники</button>
+<button type="button" class="mode-chip is-on flex-1 py-1 px-2 rounded-md text-[11px] font-bold" data-path="guild_tech">Технологии</button>
+<button type="button" class="mode-chip flex-1 py-1 px-2 rounded-md text-[11px] font-bold" data-path="guild_treasury">Казна</button>
+</div>
+<div class="hidden md:flex items-center gap-1 text-[10px] text-on-surface-variant whitespace-nowrap flex-shrink-0 pr-0.5">
+<span class="material-symbols-outlined text-primary text-[14px]">shield</span>
+<span class="text-on-surface font-bold">Лапка Очага</span><span class="text-outline">·</span><span class="text-primary font-bold">Топ-12</span><span class="text-outline">·</span><span class="text-secondary font-bold">Ур. 14</span>
+</div>
+</nav>
+</header>
+
+<div class="mode-grid grid grid-cols-12 gap-2 flex-1 min-h-0 overflow-hidden">
+
+<aside class="col-span-12 lg:col-span-3 flex flex-col h-full min-h-0 gap-2 overflow-hidden">
+<div class="bg-[#161310] rounded-xl border border-outline-variant/40 p-2 flex-shrink-0">
+<div class="flex items-center justify-between mb-1.5">
+<div class="flex items-center gap-1.5"><span class="w-8 h-8 rounded-lg bg-[#2e2926] border border-outline-variant/30 flex items-center justify-center"><span class="material-symbols-outlined text-primary text-[18px]">auto_stories</span></span>
+<div><b class="text-[12px] block">Алтарь знаний</b><span class="text-[10px] text-primary">Очаг Муррлин</span></div></div>
+<span class="text-[10px] px-2 py-0.5 rounded-full bg-primary-container text-on-primary-container font-bold">Ур. 8</span>
+</div>
+<div class="bg-[#1a1613] rounded-lg p-2 border border-outline-variant/25">
+<div class="flex justify-between text-[10px] text-on-surface-variant"><span>Очки исследований</span><b class="text-primary">1 450 / 2 000</b></div>
+<div class="h-1.5 mt-1 rounded-full bg-black/50 overflow-hidden"><i class="block h-full w-[72.5%] bg-gradient-to-r from-primary-container to-primary rounded-full"></i></div>
+<div class="flex justify-between text-[10px] mt-1"><span class="text-secondary font-bold">+45 / час</span><span class="text-outline">72.5% ёмкости</span></div>
+</div>
+</div>
+<div class="flex-1 min-h-0 bg-[#161310] rounded-xl border border-outline-variant/40 p-2 flex flex-col overflow-hidden">
+<div class="flex items-center justify-between pb-1 border-b border-outline-variant/25 flex-shrink-0"><span class="text-[11px] font-bold flex items-center gap-1"><span class="material-symbols-outlined text-primary text-[15px]">account_tree</span>Ветви мудрости</span><span class="text-[10px] text-outline">4 школы</span></div>
+<div class="flex-1 min-h-0 flex flex-col gap-1 py-1 overflow-y-auto">
+<button type="button" class="text-left p-1.5 rounded-lg bg-[#393430] border border-primary/40 p-2">
+<div class="flex justify-between items-center"><span class="text-[11px] font-bold text-primary flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">swords</span>Боевой оскал</span><b class="text-[10px] text-primary">6/10</b></div>
+<p class="text-[10px] text-on-surface-variant mt-0.5 line-clamp-1">Бонусы к атаке и криту</p>
+<div class="h-1 mt-1 rounded-full bg-black/40"><i class="block h-full w-[60%] bg-primary rounded-full"></i></div>
+</button>
+<button type="button" class="text-left p-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/25">
+<div class="flex justify-between"><span class="text-[11px] font-bold flex items-center gap-1"><span class="material-symbols-outlined text-secondary text-[14px]">shield</span>Несокрушимый оплот</span><b class="text-[10px] text-secondary">8/10</b></div>
+<p class="text-[10px] text-on-surface-variant line-clamp-1">Броня и стойкость строя</p>
+<div class="h-1 mt-1 rounded-full bg-black/40"><i class="block h-full w-[80%] bg-secondary rounded-full"></i></div>
+</button>
+<button type="button" class="text-left p-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/25">
+<div class="flex justify-between"><span class="text-[11px] font-bold flex items-center gap-1"><span class="material-symbols-outlined text-primary text-[14px]">agriculture</span>Сытое поместье</span><b class="text-[10px] text-primary">5/10</b></div>
+<p class="text-[10px] text-on-surface-variant line-clamp-1">Ресурсы двора и золото</p>
+<div class="h-1 mt-1 rounded-full bg-black/40"><i class="block h-full w-[50%] bg-primary rounded-full"></i></div>
+</button>
+<button type="button" class="text-left p-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/25">
+<div class="flex justify-between"><span class="text-[11px] font-bold flex items-center gap-1"><span class="material-symbols-outlined text-tertiary text-[14px]">science</span>Алхимия очага</span><b class="text-[10px] text-tertiary">4/10</b></div>
+<p class="text-[10px] text-on-surface-variant line-clamp-1">Зелья и эликсиры</p>
+<div class="h-1 mt-1 rounded-full bg-black/40"><i class="block h-full w-[40%] bg-tertiary rounded-full"></i></div>
+</button>
+</div>
+<div class="flex items-center gap-1.5 mt-1 p-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/25 flex-shrink-0">
+<span class="w-8 h-8 rounded-full bg-primary/15 border border-primary/35 flex items-center justify-center"><span class="material-symbols-outlined text-primary text-[16px]">pets</span></span>
+<div class="min-w-0"><b class="text-[10px] text-primary">Архивариус Пушик</b><p class="text-[10px] text-on-surface-variant truncate">«Клан крепнет от каждой строки рукописей!»</p></div>
+</div>
+</div>
+</aside>
+
+<div class="col-span-12 lg:col-span-6 flex flex-col h-full min-h-0 bg-[#161310] rounded-xl border border-outline-variant/40 overflow-hidden">
+<div class="flex items-center justify-between p-2 border-b border-outline-variant/25 flex-shrink-0">
+<span class="text-[12px] font-bold flex items-center gap-1"><span class="material-symbols-outlined text-primary text-[17px]">flare</span>Древо навыков очага</span>
+<span class="text-[10px] px-1.5 py-0.5 rounded bg-primary/15 text-primary border border-primary/30 font-bold">Эра пламени</span>
+</div>
+<div class="relative flex-1 min-h-0 p-2 flex flex-col gap-2 overflow-hidden">
+<img class="absolute inset-0 w-full h-full object-cover opacity-20 pointer-events-none" alt="" src="/stitch-ref/18c7/guild_tech_art.png"/>
+<div class="absolute inset-0 bg-gradient-to-t from-[#110d0b] via-[#110d0b]/75 to-[#110d0b]/85 pointer-events-none"></div>
+<div class="relative z-10 grid grid-cols-3 gap-1.5 flex-shrink-0">
+<div class="rounded-lg bg-[#2e2926]/90 border border-secondary/35 p-2 backdrop-blur-sm"><div class="flex justify-between items-start"><span class="w-7 h-7 rounded-lg bg-primary-container flex items-center justify-center"><span class="material-symbols-outlined text-[14px] text-on-primary-container">sports_martial_arts</span></span><span class="text-[9px] text-secondary font-bold">Изучено</span></div><b class="text-[10px] block mt-1">Заточка когтей II</b><p class="text-[9px] text-on-surface-variant">+6% урон</p></div>
+<div class="rounded-lg bg-[#2e2926]/90 border border-secondary/35 p-2 backdrop-blur-sm"><div class="flex justify-between items-start"><span class="w-7 h-7 rounded-lg bg-primary-container flex items-center justify-center"><span class="material-symbols-outlined text-[14px] text-on-primary-container">shield</span></span><span class="text-[9px] text-secondary font-bold">Изучено</span></div><b class="text-[10px] block mt-1">Стальные латы III</b><p class="text-[9px] text-on-surface-variant">+8% броня</p></div>
+<div class="rounded-lg bg-[#2e2926]/90 border border-secondary/35 p-2 backdrop-blur-sm"><div class="flex justify-between items-start"><span class="w-7 h-7 rounded-lg bg-primary-container flex items-center justify-center"><span class="material-symbols-outlined text-[14px] text-on-primary-container">fireplace</span></span><span class="text-[9px] text-secondary font-bold">Изучено</span></div><b class="text-[10px] block mt-1">Тёплый очаг</b><p class="text-[9px] text-on-surface-variant">+10% энергия</p></div>
+</div>
+<div class="relative z-10 grid grid-cols-12 gap-1.5 items-stretch flex-1 min-h-0 py-0.5">
+<div class="col-span-7 rounded-xl bg-[#2e2926]/95 border-2 border-primary p-2 shadow-[0_0_16px_rgba(253,186,69,0.2)] flex flex-col justify-between">
+<div class="flex items-start justify-between gap-1"><div class="flex items-center gap-1.5"><span class="w-8 h-8 rounded-lg bg-primary text-on-primary flex items-center justify-center"><span class="material-symbols-outlined text-[18px]">bolt</span></span>
+<div><b class="text-[11px] text-primary block">Громовой резонанс IV</b><span class="text-[9px] text-primary font-bold flex items-center gap-0.5"><span class="material-symbols-outlined text-[10px]">sync</span>В исследовании 72%</span></div></div>
+<span class="text-[10px] px-1.5 py-0.5 rounded bg-black/40 border border-outline-variant/40 font-bold">02:40:15</span></div>
+<p class="text-[10px] text-on-surface-variant my-1">+12% электроурон в осадах для всех членов клана.</p>
+<div class="h-1.5 rounded-full bg-black/50 overflow-hidden"><i class="block h-full w-[72%] bg-gradient-to-r from-primary-container to-primary animate-pulse rounded-full"></i></div>
+</div>
+<div class="col-span-5 rounded-lg bg-[#1a1613]/95 border border-secondary/40 p-2 flex flex-col justify-between">
+<div class="flex justify-between items-start"><span class="w-7 h-7 rounded-lg bg-secondary/15 flex items-center justify-center"><span class="material-symbols-outlined text-secondary text-[16px]">spa</span></span><span class="text-[9px] text-secondary font-bold px-1 rounded bg-secondary/15">Доступно</span></div>
+<b class="text-[10px]">Дар кошачьей мяты</b>
+<p class="text-[9px] text-on-surface-variant">+15% хил союзникам</p>
+<p class="text-[9px] text-outline mt-auto">800 свитков</p>
+</div>
+</div>
+<div class="relative z-10 flex-shrink-0 rounded-lg bg-[#1a1613]/90 border border-outline-variant/30 px-2 py-1.5 flex items-center justify-between gap-2">
+<div class="flex items-center gap-1.5 min-w-0"><span class="w-7 h-7 rounded-lg bg-[#393430] flex items-center justify-center"><span class="material-symbols-outlined text-outline text-[16px]">lock</span></span>
+<div class="min-w-0"><b class="text-[10px] text-on-surface-variant truncate">Мифическое единство</b><p class="text-[9px] text-outline truncate">4-й слот синергии · требует алтарь 10</p></div></div>
+<span class="text-[9px] px-1.5 py-0.5 rounded bg-error-container/80 text-on-error-container font-bold whitespace-nowrap">Закрыто</span>
+</div>
+<div class="relative z-10 flex items-center gap-3 text-[9px] text-on-surface-variant flex-shrink-0 pt-0.5 border-t border-outline-variant/25">
+<span><i class="inline-block w-1.5 h-1.5 rounded-full bg-secondary mr-0.5"></i>Изучено</span><span><i class="inline-block w-1.5 h-1.5 rounded-full bg-primary mr-0.5"></i>Исследование</span><span><i class="inline-block w-1.5 h-1.5 rounded-full bg-secondary mr-0.5 opacity-70"></i>Доступно</span><span><i class="inline-block w-1.5 h-1.5 rounded-full bg-outline mr-0.5"></i>Закрыто</span>
+</div>
+</div>
+</div>
+
+<aside class="col-span-12 lg:col-span-3 flex flex-col h-full min-h-0 gap-2 overflow-hidden">
+<div class="bg-[#161310] rounded-xl border border-outline-variant/40 p-2 flex-shrink-0">
+<div class="flex justify-between items-center pb-1 border-b border-outline-variant/25"><span class="text-[9px] text-primary uppercase font-bold">Выбранный навык</span><span class="text-[9px] px-1.5 py-0.5 rounded bg-primary-container text-on-primary-container font-bold">В процессе</span></div>
+<div class="flex items-center gap-2 mt-1"><span class="w-10 h-10 rounded-xl bg-[#2e2926] border border-primary/40 flex items-center justify-center"><span class="material-symbols-outlined text-primary text-[22px]">bolt</span></span>
+<div><b class="text-[11px]">Громовой резонанс IV</b><span class="text-[10px] text-primary block">Ветка: Боевой оскал</span></div></div>
+<p class="text-[10px] text-on-surface-variant mt-1.5 leading-snug">+12% электроурон и +4% цепная молния в GvG и осадах.</p>
+<div class="mt-1.5 space-y-1">
+<div class="flex justify-between text-[10px]"><span class="text-outline">Прогресс углей</span><b class="text-secondary">240 / 300</b></div>
+<div class="flex justify-between text-[10px] bg-[#1a1613] rounded px-1.5 py-1 border border-outline-variant/20"><span class="flex items-center gap-1"><span class="material-symbols-outlined text-primary text-[14px]">monetization_on</span>Золото казны</span><b class="text-secondary">50k ✓</b></div>
+<div class="flex justify-between text-[10px] bg-[#1a1613] rounded px-1.5 py-1 border border-outline-variant/20"><span class="flex items-center gap-1"><span class="material-symbols-outlined text-tertiary text-[14px]">local_fire_department</span>Рунические угли</span><b class="text-tertiary">240/300</b></div>
+</div>
+<div class="flex flex-col gap-1 mt-1.5">
+<button type="button" class="w-full py-1.5 rounded-lg bg-primary text-on-primary text-[11px] font-bold flex items-center justify-center gap-1"><span class="material-symbols-outlined text-[15px]">add_circle</span>Внести 50 углей</button>
+<button type="button" class="w-full py-1 rounded-lg bg-[#1a1613] border border-primary/30 text-primary text-[11px] font-bold flex items-center justify-center gap-1"><span class="material-symbols-outlined text-[14px]">bolt</span>Ускорить (45 💎)</button>
+<button type="button" class="w-full py-1 rounded-lg border border-outline-variant/40 text-[10px] text-on-surface-variant font-bold" data-path="guild_treasury">В казну</button>
+</div>
+</div>
+<div class="flex-1 min-h-0 bg-[#161310] rounded-xl border border-outline-variant/40 p-2 flex flex-col overflow-hidden">
+<div class="flex justify-between items-center pb-1 border-b border-outline-variant/25 flex-shrink-0"><span class="text-[11px] font-bold flex items-center gap-1"><span class="material-symbols-outlined text-secondary text-[15px]">verified</span>Активные баффы</span><span class="text-[9px] px-1.5 rounded-full bg-secondary/15 text-secondary font-bold">5</span></div>
+<ul class="flex-1 min-h-0 overflow-y-auto flex flex-col gap-1 py-1 text-[10px]">
+<li class="flex justify-between gap-1 p-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/20"><span class="flex items-center gap-1 min-w-0"><span class="material-symbols-outlined text-primary text-[14px]">swords</span><span class="truncate"><b>Заточка когтей II</b> · +6% физ. урон</span></span><b class="text-secondary">пост.</b></li>
+<li class="flex justify-between gap-1 p-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/20"><span class="flex items-center gap-1 min-w-0"><span class="material-symbols-outlined text-secondary text-[14px]">shield</span><span class="truncate"><b>Стальные латы III</b> · +8% броня</span></span><b class="text-secondary">пост.</b></li>
+<li class="flex justify-between gap-1 p-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/20"><span class="flex items-center gap-1 min-w-0"><span class="material-symbols-outlined text-primary text-[14px]">bolt</span><span class="truncate"><b>Тёплый очаг</b> · +10% энергия</span></span><b class="text-secondary">пост.</b></li>
+<li class="flex justify-between gap-1 p-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/20"><span class="flex items-center gap-1 min-w-0"><span class="material-symbols-outlined text-tertiary text-[14px]">set_meal</span><span class="truncate"><b>Щедрый улов</b> · +5% рыба</span></span><b class="text-secondary">пост.</b></li>
+<li class="flex justify-between gap-1 p-1.5 rounded-lg bg-[#1a1613] border border-primary/25"><span class="flex items-center gap-1 min-w-0"><span class="material-symbols-outlined text-primary text-[14px]">speed</span><span class="truncate"><b>Резонанс (част.)</b> · +4% молния</span></span><b class="text-primary">72%</b></li>
+</ul>
+</div>
+</aside>
+</div>
+</main>
+</section>

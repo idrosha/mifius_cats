@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html class="dark" lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta content="web_standard" name="shell-type"/>
+<title>Хаб ордена — Мифиус</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@500;600;700;800&amp;family=Rubik:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{primary:"#fdba45","primary-container":"#d99b26",secondary:"#89d98c",tertiary:"#ffb4a6",surface:"#161310","on-surface":"#eae1db","on-surface-variant":"#d5c4af",outline:"#9d8f7b","outline-variant":"#504535","surface-container-lowest":"#110d0b","surface-container-low":"#1f1b18",background:"#161310"}}}};</script>
+<style>
+@layer base{html,body{margin:0;padding:0;height:100%;overflow:hidden;}body{overscroll-behavior:none;background:#100e0c;color:#eae1db;}}
+.guild-plaza{flex:1 1 auto;min-height:0;height:100%;display:flex;flex-direction:column;gap:.35rem;padding:.4rem .55rem .3rem;background:#100e0c;overflow:hidden;}
+.dojo-top{display:flex;align-items:center;gap:.65rem;flex-shrink:0;min-width:0;}
+.dojo-crumb{display:flex;align-items:center;gap:.35rem;font-family:Rubik,sans-serif;font-size:13px;white-space:nowrap;}
+.dojo-crumb strong{color:#fdba45;}.dojo-crumb em{font-style:normal;color:#eae1db;}
+.dojo-chip{font-size:10px;padding:.05rem .35rem;border-radius:999px;background:#2e2926;color:#fdba45;}
+.dojo-mode,.dojo-server{font-size:11px;color:#d5c4af;margin:0;}
+.dojo-server{display:flex;gap:.55rem;flex-wrap:wrap;}
+.mode-chip{background:transparent;color:#d5c4af;border:1px solid transparent;cursor:pointer;text-decoration:none;}
+.mode-chip.is-on{background:linear-gradient(180deg,rgba(217,155,38,.28),rgba(217,155,38,.12));color:#fdba45;border-color:rgba(253,186,69,.45);}
+.front-map{position:relative;flex:1 1 auto;min-height:0;border-radius:.7rem;overflow:hidden;border:1px solid rgba(80,69,53,.7);}
+.front-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;}
+.front-veil{position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(10,8,7,.42),rgba(10,8,7,.15) 40%,rgba(10,8,7,.48));}
+.front-zones{position:absolute;inset:0;z-index:2;pointer-events:none;}
+.front-zone{position:absolute;width:min(17rem,32%);display:flex;flex-direction:column;gap:.35rem;pointer-events:none;}
+.front-zone>*{pointer-events:auto;}
+.front-zone.is-tl{top:9%;left:6%;align-items:flex-start;}
+.front-zone.is-tc{top:5%;left:50%;transform:translateX(-50%);align-items:center;}
+.front-zone.is-tr{top:9%;right:5%;align-items:flex-end;}
+.front-zone.is-bl{bottom:12%;left:5%;align-items:flex-start;}
+.front-zone.is-bc{bottom:8%;left:50%;transform:translateX(-50%);align-items:center;}
+.front-zone.is-br{bottom:11%;right:4%;align-items:flex-end;}
+.front-pin{display:inline-flex;align-items:center;gap:.4rem;position:relative;border:1px solid rgba(253,186,69,.55);border-radius:999px;background:rgba(20,17,14,.88);color:#f3e6d2;padding:.28rem .65rem .28rem .28rem;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.45);backdrop-filter:blur(4px);}
+.front-pin.is-gold{border-color:#d99b26;box-shadow:0 0 0 1px rgba(253,186,69,.35),0 8px 20px rgba(0,0,0,.5);}
+.front-pin.is-hot{border-color:#ffb4a6;animation:hub-pulse 1.6s ease-in-out infinite;}
+@keyframes hub-pulse{0%,100%{box-shadow:0 0 0 1px rgba(255,180,166,.35),0 6px 18px rgba(0,0,0,.45);}50%{box-shadow:0 0 0 2px rgba(255,180,166,.55),0 0 16px rgba(255,180,166,.25);}}
+.front-pin-ico{width:1.7rem;height:1.7rem;border-radius:999px;display:grid;place-items:center;background:#2e2926;color:#fdba45;font-size:18px;}
+.front-pin-text{display:flex;flex-direction:column;line-height:1.05;font-family:Rubik,sans-serif;}
+.front-pin-text b{font-size:11px;letter-spacing:.04em;}
+.front-pin-text em{font-size:9px;font-style:normal;color:#d5c4af;}
+.front-pin-hot{font-size:8px;font-weight:800;color:#660700;background:#ffb4a6;border-radius:4px;padding:.05rem .25rem;margin-left:.15rem;}
+.front-card{display:none!important;}
+</style>
+</head>
+<body>
+<main class="front-hall guild-plaza" data-purpose="guild-plaza-hub">
+<header class="dojo-top flex-col !items-stretch gap-0 flex-shrink-0">
+<div class="flex items-center flex-wrap gap-2 w-full min-w-0">
+<div class="dojo-crumb">
+<strong>Гильдии</strong><span>›</span><em>Хаб ордена</em>
+</div>
+<span class="text-[10px] text-[#1a1308] bg-primary rounded-full px-2 py-0.5 font-extrabold">СЕЗОН IV</span>
+<p class="dojo-mode flex-1 min-w-0">Орден <b class="text-primary">Лапка Очага</b> · рейтинг 4929 · <em class="text-secondary not-italic font-bold">Готовность 86%</em></p>
+<div class="dojo-server flex-shrink-0">
+<span>Осада: <b class="text-primary">активна</b></span>
+<span>Участники: <b>28/30</b></span>
+</div>
+</div>
+<div class="flex items-center justify-between gap-2 flex-wrap w-full border-t border-outline-variant/25 pt-1">
+<nav class="flex items-center gap-1" aria-label="Разделы гильдии" role="tablist">
+<a class="mode-chip px-2.5 py-1 rounded-lg text-[11px] font-bold" data-path="guild" href="#">Зал</a>
+<a class="mode-chip px-2.5 py-1 rounded-lg text-[11px] font-bold" data-path="guild_members" href="#">Участники</a>
+<a class="mode-chip px-2.5 py-1 rounded-lg text-[11px] font-bold" data-path="guild_tech" href="#">Технологии</a>
+<a class="mode-chip px-2.5 py-1 rounded-lg text-[11px] font-bold" data-path="guild_treasury" href="#">Казна</a>
+</nav>
+<span class="text-[10px] text-primary font-bold whitespace-nowrap">Лапка Очага · Топ-12 · Ур. 14</span>
+</div>
+</header>
+
+<div class="front-map flex-1 min-h-0">
+<img class="front-bg" alt="" src="/stitch-ref/18c7/guild_interior_art.png"/>
+<div class="front-veil" aria-hidden="true"></div>
+<div class="absolute left-1/2 top-[46%] -translate-x-1/2 -translate-y-1/2 z-[3] pointer-events-none text-center">
+<div class="px-4 py-1.5 rounded-full bg-surface-container-lowest/85 border border-primary/45 backdrop-blur-sm shadow-[0_0_18px_rgba(253,186,69,0.3)]">
+<div class="text-[11px] tracking-[0.14em] text-primary font-extrabold uppercase">Площадь Ордена</div>
+<div class="text-[9px] text-on-surface-variant">Орден Тенистых Лап · 6 путей</div>
+</div>
+</div>
+
+<div class="front-zones" id="guildHubCards">
+<div class="front-zone is-tl"><button type="button" class="front-pin is-gold" data-path="guild"><span class="front-pin-ico material-symbols-outlined">fireplace</span><span class="front-pin-text"><b>ЗАЛ</b><em>Очаг</em></span></button></div>
+<div class="front-zone is-tc"><button type="button" class="front-pin" data-path="guild_members"><span class="front-pin-ico material-symbols-outlined">groups</span><span class="front-pin-text"><b>СОСТАВ</b><em>28/30</em></span></button></div>
+<div class="front-zone is-tr"><button type="button" class="front-pin" data-path="guild_tech"><span class="front-pin-ico material-symbols-outlined">science</span><span class="front-pin-text"><b>ТЕХ</b><em>68%</em></span></button></div>
+<div class="front-zone is-bl"><button type="button" class="front-pin" data-path="guild_treasury"><span class="front-pin-ico material-symbols-outlined">account_balance</span><span class="front-pin-text"><b>КАЗНА</b><em>1 850</em></span></button></div>
+<div class="front-zone is-bc"><button type="button" class="front-pin" data-path="chat_guild"><span class="front-pin-ico material-symbols-outlined">forum</span><span class="front-pin-text"><b>ЧАТ</b><em>+12</em></span></button></div>
+<div class="front-zone is-br"><button type="button" class="front-pin is-hot" data-path="guild_battle"><span class="front-pin-ico material-symbols-outlined">swords</span><span class="front-pin-text"><b>ОСАДА</b><em>HP 45%</em></span><span class="front-pin-hot">ШТУРМ</span></button></div>
+</div>
+</div>
+</main>
+</body>
+</html>

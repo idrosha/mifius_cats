@@ -1,0 +1,124 @@
+<section id="viewGuildHub" class="stitch-view mythfel-form hidden" data-stitch="guild_hub" data-layout="landscape">
+<main class="front-hall guild-plaza" data-purpose="guild-plaza-hub">
+<header class="dojo-top flex-col !items-stretch gap-0 flex-shrink-0">
+<div class="flex items-center flex-wrap gap-2 w-full min-w-0">
+<div class="dojo-crumb">
+<strong>Гильдии</strong><span>›</span><em>Хаб ордена</em>
+</div>
+<span class="text-[10px] letter-spacing-[0.08em] text-[#1a1308] bg-primary rounded-full px-2 py-0.5 font-extrabold">СЕЗОН IV</span>
+<p class="dojo-mode flex-1 min-w-0">Орден <b class="text-primary">Лапка Очага</b> · рейтинг 4929 · <em class="text-secondary not-italic font-bold">Готовность 86%</em></p>
+<div class="dojo-server flex-shrink-0">
+<span>Осада: <b class="text-primary">активна</b></span>
+<span>Участники: <b>28/30</b></span>
+</div>
+</div>
+<div class="flex items-center justify-between gap-2 flex-wrap w-full border-t border-outline-variant/25 pt-1">
+<nav class="flex items-center gap-1" aria-label="Разделы гильдии" role="tablist">
+<a class="mode-chip px-2.5 py-1 rounded-lg text-[11px] font-bold" data-path="guild" href="#">Зал</a>
+<a class="mode-chip px-2.5 py-1 rounded-lg text-[11px] font-bold" data-path="guild_members" href="#">Участники</a>
+<a class="mode-chip px-2.5 py-1 rounded-lg text-[11px] font-bold" data-path="guild_tech" href="#">Технологии</a>
+<a class="mode-chip px-2.5 py-1 rounded-lg text-[11px] font-bold" data-path="guild_treasury" href="#">Казна</a>
+</nav>
+<span class="text-[10px] text-primary font-bold whitespace-nowrap">Лапка Очага · Топ-12 · Ур. 14</span>
+</div>
+</header>
+
+<div class="front-map flex-1 min-h-0">
+<img class="front-bg" alt="" src="/stitch-ref/18c7/guild_interior_art.png"/>
+<div class="front-veil" aria-hidden="true"></div>
+<div class="absolute left-1/2 top-[46%] -translate-x-1/2 -translate-y-1/2 z-[3] pointer-events-none text-center">
+<div class="px-4 py-1.5 rounded-full bg-surface-container-lowest/85 border border-primary/45 backdrop-blur-sm shadow-[0_0_18px_rgba(253,186,69,0.3)]">
+<div class="text-[11px] tracking-[0.14em] text-primary font-extrabold uppercase">Площадь Ордена</div>
+<div class="text-[9px] text-on-surface-variant">Орден Тенистых Лап · 6 путей</div>
+</div>
+</div>
+
+<div class="front-zones" id="guildHubCards">
+<div class="front-zone is-tl" data-mode="guild">
+<button type="button" class="front-pin is-gold" data-path="guild" aria-label="Зал гильдии">
+<span class="front-pin-ico material-symbols-outlined" aria-hidden="true">fireplace</span>
+<span class="front-pin-text"><b>ЗАЛ</b><em>Очаг</em></span>
+</button>
+<article class="front-card" hidden>
+<small>ГЛАВНАЯ · ЗАЛ ГИЛЬДИИ</small>
+<h3>Зал гильдии</h3>
+<p>Святилище Лап и Стали, осада, рейд и ритуалы братства.</p>
+<div class="front-meta"><span class="is-ok">● Очаг горит</span><span>Казна 1 850</span></div>
+<button type="button" data-path="guild">В зал ордена →</button>
+</article>
+</div>
+
+<div class="front-zone is-tc" data-mode="guild_members">
+<button type="button" class="front-pin" data-path="guild_members" aria-label="Участники">
+<span class="front-pin-ico material-symbols-outlined" aria-hidden="true">groups</span>
+<span class="front-pin-text"><b>СОСТАВ</b><em>28/30</em></span>
+</button>
+<article class="front-card" hidden>
+<small>УЧАСТНИКИ · РОСТЕР</small>
+<h3>Участники ордена</h3>
+<p>Офицеры, вклад, роли в осаде и рейде, приглашения.</p>
+<div class="front-meta"><span class="is-ok">● 28 онлайн</span><span>БМ 1.48M</span></div>
+<button type="button" data-path="guild_members">К ростеру →</button>
+</article>
+</div>
+
+<div class="front-zone is-tr" data-mode="guild_tech">
+<button type="button" class="front-pin" data-path="guild_tech" aria-label="Технологии">
+<span class="front-pin-ico material-symbols-outlined" aria-hidden="true">science</span>
+<span class="front-pin-text"><b>ТЕХ</b><em>68%</em></span>
+</button>
+<article class="front-card" hidden>
+<small>ТЕХНОЛОГИИ · ИССЛЕДОВАНИЯ</small>
+<h3>Технологии гильдии</h3>
+<p>Древо «Когти стали», ауры цитадели и баффы очага.</p>
+<div class="front-meta"><span class="is-warn">● «Когти стали» 68%</span><span>очки науки 420</span></div>
+<button type="button" data-path="guild_tech">В лабораторию →</button>
+</article>
+</div>
+
+<div class="front-zone is-bl" data-mode="guild_treasury">
+<button type="button" class="front-pin" data-path="guild_treasury" aria-label="Казна">
+<span class="front-pin-ico material-symbols-outlined" aria-hidden="true">account_balance</span>
+<span class="front-pin-text"><b>КАЗНА</b><em>1 850</em></span>
+</button>
+<article class="front-card" hidden>
+<small>КАЗНА · ВЗНОСЫ</small>
+<h3>Казна ордена</h3>
+<p>Фонд недели, сундуки, вклады и награды клана.</p>
+<div class="front-meta"><span class="is-ok">● Сундук 84%</span><span>840/1 000</span></div>
+<button type="button" data-path="guild_treasury">В казну →</button>
+</article>
+</div>
+
+<div class="front-zone is-bc" data-mode="chat_guild">
+<button type="button" class="front-pin" data-path="chat_guild" aria-label="Чат гильдии">
+<span class="front-pin-ico material-symbols-outlined" aria-hidden="true">forum</span>
+<span class="front-pin-text"><b>ЧАТ</b><em>+12</em></span>
+</button>
+<article class="front-card" hidden>
+<small>ЧАТ · ОРДЕН</small>
+<h3>Чат гильдии</h3>
+<p>Связь офицеров, созыв на осаду 20:00, объявления.</p>
+<div class="front-meta"><span class="is-ok">● 12 новых</span><span>офицерский канал</span></div>
+<button type="button" data-path="chat_guild">Открыть чат →</button>
+</article>
+</div>
+
+<div class="front-zone is-br is-boss" data-mode="guild_battle">
+<button type="button" class="front-pin is-hot" data-path="guild_battle" aria-label="Война гильдий">
+<span class="front-pin-ico material-symbols-outlined" aria-hidden="true">swords</span>
+<span class="front-pin-text"><b>ОСАДА</b><em>HP 45%</em></span>
+<span class="front-pin-hot">ШТУРМ</span>
+</button>
+<article class="front-card is-boss" hidden>
+<small>ВОЙНА ГИЛЬДИЙ · ОСАДА</small>
+<h3>Война гильдий</h3>
+<p>Штурм «Врат Когтя», башни 3v3, клановые трофеи сезона IV.</p>
+<div class="front-meta"><span class="is-hot">● Осада активна</span><span>Врата 45%</span><em>2ч 18м</em></div>
+<button type="button" data-path="guild_battle">На штурм →</button>
+</article>
+</div>
+</div>
+</div>
+</main>
+</section>
