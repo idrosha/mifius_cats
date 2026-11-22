@@ -51,7 +51,7 @@ func (b *Battle) playCard(a Action) error {
 	if card.Cost > ps.Energy {
 		return fmt.Errorf("not enough energy: need %d have %d", card.Cost, ps.Energy)
 	}
-	if actorClawBlocksRuffle(u, card.Tags) {
+	if ClawBlocksRuffle(u, card.Tags) {
 		return fmt.Errorf("claw_mode: no ruffle this turn")
 	}
 
@@ -84,8 +84,9 @@ func needsTarget(rule string) bool {
 	}
 }
 
-func actorClawBlocksRuffle(u *Unit, tags []string) bool {
-	if !u.hasStatus("claw_mode") {
+// ClawBlocksRuffle — §3.4: during claw_mode, cards tagged ruffle are illegal this turn.
+func ClawBlocksRuffle(u *Unit, tags []string) bool {
+	if u == nil || !u.hasStatus("claw_mode") {
 		return false
 	}
 	for _, t := range tags {

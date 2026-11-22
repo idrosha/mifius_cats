@@ -145,13 +145,14 @@ func FromBattle(b *sim.Battle) Diff {
 		for hi, cardIdx := range u.Hand {
 			card := u.Deck[cardIdx]
 			kept := hi < len(u.KeepMask) && u.KeepMask[hi]
+			playable := !stunned && card.Cost <= energy && !sim.ClawBlocksRuffle(u, card.Tags)
 			d.Hand = append(d.Hand, HandCard{
 				UnitID:     u.ID,
 				HandIndex:  hi,
 				CardID:     card.CardID,
 				NameKey:    card.NameKey,
 				Cost:       card.Cost,
-				Playable:   !stunned && card.Cost <= energy,
+				Playable:   playable,
 				Kept:       kept,
 				TargetRule: card.TargetRule,
 				Tags:       append([]string(nil), card.Tags...),

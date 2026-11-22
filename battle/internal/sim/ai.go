@@ -81,7 +81,7 @@ func pitbossCanAffordAttack(b *Battle, side Side, energy int, skip map[string]bo
 			if card.Atk <= 0 || card.Cost > energy {
 				continue
 			}
-			if actorClawBlocksRuffle(u, card.Tags) {
+			if ClawBlocksRuffle(u, card.Tags) {
 				continue
 			}
 			targets := b.SelectTargets(u, card.TargetRule, "", hasTag(card.Tags, "ambush"))
@@ -134,7 +134,7 @@ func (b *Battle) chooseActionSkipping(skip map[string]bool) Action {
 			if card.Cost > ps.Energy {
 				continue
 			}
-			if actorClawBlocksRuffle(u, card.Tags) {
+			if ClawBlocksRuffle(u, card.Tags) {
 				continue
 			}
 			targets := b.SelectTargets(u, card.TargetRule, "", hasTag(card.Tags, "ambush"))

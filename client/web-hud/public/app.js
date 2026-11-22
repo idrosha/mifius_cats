@@ -8017,10 +8017,17 @@ async function submitAction(action) {
     hideOppThrow();
     log(`reject ${err.status || ""}: ${err.message}`);
     const msg = String(err.message || "reject");
+    const clawRuffle = /claw_mode:\s*no ruffle/i.test(msg);
     toast(
       state.locale === "ru"
-        ? `Не удалось: ${msg}`.slice(0, 120)
-        : `Rejected: ${msg}`.slice(0, 120),
+        ? (clawRuffle
+            ? "Режим когтей: карты со «Взъерошить» нельзя в этот ход"
+            : `Не удалось: ${msg}`
+          ).slice(0, 120)
+        : (clawRuffle
+            ? "Claw Mode: ruffle cards blocked this turn"
+            : `Rejected: ${msg}`
+          ).slice(0, 120),
     );
     // Soft resync — re-render last known state so UI is not stuck disabled.
     if (state.battle) {
