@@ -2606,6 +2606,10 @@ function buyMarketItem(item) {
   state.wallet.gold -= price;
   const mat = barnMatAdd(matId, qty);
   if (mat && (item.kind === "tool" || String(matId).startsWith("tool_"))) {
+    const seed = BARN_MATS_SEED.find((m) => m.id === matId);
+    if (seed?.name) mat.name = seed.name;
+    if (seed?.iconSrc) mat.iconSrc = seed.iconSrc;
+    mat.kind = "tool";
     ensureToolDurability(mat);
     mat.durability = mat.durabilityMax || TOOL_DURABILITY_MAX;
     persistGearStub();
@@ -5528,11 +5532,17 @@ function farmToolWorking(toolId) {
   return (mat.durability || 0) > 0;
 }
 
+function farmToolDisplayName(toolId, mat = null) {
+  const seed = BARN_MATS_SEED.find((m) => m.id === toolId);
+  const stock = MARKET_STOCK.find((s) => s.matId === toolId || s.id === toolId);
+  return seed?.name || stock?.name || mat?.name || toolId;
+}
+
 function farmRequireTool(zoneId, { silent = false } = {}) {
   const toolId = farmZoneToolId(zoneId);
   if (!toolId) return { ok: true, toolId: null };
   const mat = barnMatGet(toolId);
-  const name = mat?.name || MARKET_STOCK.find((s) => s.matId === toolId)?.name || toolId;
+  const name = farmToolDisplayName(toolId, mat);
   if (!mat || (mat.qty || 0) <= 0) {
     if (!silent) toast(`Нужна «${name}» на складе — купи на Рынке и выдай фермеру`);
     return { ok: false, toolId, name };
