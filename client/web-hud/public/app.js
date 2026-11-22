@@ -24,6 +24,27 @@ const YARD_STAGE = "mythmir_1_f1"; // default first fight; campaign selects othe
 /** Raid / legion hard party size (docs/raids · qa G6). */
 const RAID_PARTY_SIZE = 12;
 const minRaidPlayers = 12;
+/** Таймер хода в бою — ровно 1 минута (docs/raids/COMPOSITION.md). */
+const BATTLE_TURN_TIMER_SEC = 60;
+/** Канон состава легиона 12: 3T / 3S / 6DPS. */
+const RAID_COMP = {
+  tank: 3,
+  support: 3,
+  dps: 6,
+  tankSubs: { aggro: 2, armorBreak: 1 },
+  supportSubs: { heal: 2, buffer: 1 },
+  dpsSubs: { ranged: 3, melee: 3 }, // mage|ranger · assassin|fighter
+};
+/**
+ * Построение от тыла к фронту (4×3):
+ * row3 supports → row2 ranged DPS → row1 melee DPS → row0 tanks.
+ */
+const RAID_FORMATION_ROWS = [
+  { row: 3, lane: "rear", roles: ["support", "support", "support"], label_ru: "Тыл · саппорты" },
+  { row: 2, lane: "ranged", roles: ["mage|ranger", "mage|ranger", "mage|ranger"], label_ru: "Даль · маги/лучники" },
+  { row: 1, lane: "melee", roles: ["assassin|fighter", "assassin|fighter", "assassin|fighter"], label_ru: "Мили · убийцы/воины" },
+  { row: 0, lane: "front", roles: ["tank", "tank", "tank"], label_ru: "Фронт · танки" },
+];
 const PRACTICE_STAGE = "practice_dummy_1";
 const TUTORIAL_BUDGET_MS = 10 * 60 * 1000;
 const CLIENT_REGION = (new URLSearchParams(location.search).get("region") || "RU").toUpperCase();
@@ -665,6 +686,87 @@ const PASS_REWARDS = [
   { lvl: 4, free: "pass.reward.ticket", gold: "pass.reward.armor_piece" },
 ];
 
+const PASS_SEASON_DAYS = 30;
+const PASS_XP_PER_LEVEL = 3000;
+const PASS_ICON = {
+  gold: "/stitch-ref/pass-hearth/icon-1.png",
+  fish: "/stitch-assets/barn-icons/fish.png",
+  herbs: "/stitch-assets/barn-icons/herbs.png",
+  veggies: "/stitch-assets/barn-icons/veggies.png",
+  fruit: "/stitch-assets/barn-icons/fruit.png",
+  milk: "/stitch-assets/barn-icons/milk.png",
+  potions: "/stitch-assets/barn-icons/potions.png",
+  ring: "/stitch-assets/barn-icons/ring.png",
+  chest: "/stitch-assets/barn-icons/chest.png",
+  seeds: "/stitch-assets/barn-icons/seeds.png",
+  wood: "/stitch-assets/barn-icons/wood.png",
+  iron: "/stitch-assets/barn-icons/iron.png",
+  stone: "/stitch-assets/barn-icons/stone.png",
+  scroll: "/stitch-assets/hero-icons/deck_1.png",
+  tome: "/stitch-assets/hero-icons/deck_3.png",
+  amulet: "/stitch-assets/hero-icons/slot_amulet.png",
+  collar: "/stitch-assets/barn-icons/collar.png",
+  cloak: "/stitch-assets/kb-v3/items/item-1.png",
+  belt: "/stitch-assets/kb-v3/items/item-2.png",
+  helm: "/stitch-assets/kb-v3/items/item-3.png",
+  boots: "/stitch-assets/kb-v3/items/item-4.png",
+  panzer: "/stitch-assets/kb-v3/items/item-5.png",
+  gloves: "/stitch-assets/kb-v3/items/item-6.png",
+  dragonSet: "/stitch-assets/kb-v3/armor/r6-dragon.png",
+  sunBars: "/stitch-assets/monsters/battle/solar-lion-fighter-cutout.png",
+  freeBox: "/stitch-ref/pass-hearth/icon-2.png",
+};
+
+/** Season III «Лапы Судьбы» — 30 дней, free + elite tracks. */
+const PASS_SEASON_TRACK = (() => {
+  const freePool = [
+    { name: "500 Золота", img: PASS_ICON.gold },
+    { name: "Рыбка ×50", img: PASS_ICON.fish },
+    { name: "Мята ×8", img: PASS_ICON.herbs },
+    { name: "Корм ×30", img: PASS_ICON.veggies },
+    { name: "Семена ×20", img: PASS_ICON.seeds },
+    { name: "Рыбка ×100", img: PASS_ICON.fish },
+    { name: "1,000 Золота", img: PASS_ICON.gold },
+    { name: "Фрукты ×25", img: PASS_ICON.fruit },
+    { name: "Дуб ×40", img: PASS_ICON.wood },
+    { name: "Руда ×15", img: PASS_ICON.iron },
+  ];
+  const elitePool = [
+    { name: "Сливки ×3", img: PASS_ICON.milk },
+    { name: "Свиток Призыва", img: PASS_ICON.scroll },
+    { name: "Астрал-Амулет", img: PASS_ICON.amulet },
+    { name: "Набор Зелий", img: PASS_ICON.potions },
+    { name: "Перстень Света", img: PASS_ICON.ring },
+    { name: "Сундук Лапы", img: PASS_ICON.chest },
+    { name: "Ошейник Удачи", img: PASS_ICON.collar },
+    { name: "Фолиант Опыта", img: PASS_ICON.tome },
+  ];
+  const specialElite = {
+    10: { name: "Багровый Плащ", img: PASS_ICON.cloak, tag: "ЭПИК" },
+    15: { name: "Пояс Дракона", img: PASS_ICON.belt, tag: "ЭПИК" },
+    20: { name: "Шлем Архипса", img: PASS_ICON.helm, tag: "ЭПИК" },
+    24: { name: "Сапоги Когтя", img: PASS_ICON.boots, tag: "ЭПИК" },
+    25: { name: "Перчатки Дракона", img: PASS_ICON.gloves, tag: "ЭПИК" },
+    28: { name: "Панцирь Дракона", img: PASS_ICON.panzer, tag: "МИФИК" },
+    30: { name: "«Барс Солнца»", img: PASS_ICON.sunBars, tag: "ФИНАЛ" },
+  };
+  const specialFree = {
+    10: { name: "2,500 Золота", img: PASS_ICON.gold },
+    20: { name: "Фолиант Опыта", img: PASS_ICON.tome },
+    28: { name: "5,000 Золота", img: PASS_ICON.gold },
+    30: { name: "10,000 Золота", img: PASS_ICON.gold },
+  };
+  const rows = [];
+  for (let day = 1; day <= PASS_SEASON_DAYS; day++) {
+    rows.push({
+      day,
+      free: specialFree[day] || freePool[(day - 1) % freePool.length],
+      elite: specialElite[day] || elitePool[(day - 1) % elitePool.length],
+    });
+  }
+  return rows;
+})();
+
 const state = {
   locale: "ru",
   loc: {},
@@ -708,6 +810,10 @@ const state = {
   codexRankFocus: 6,
   guildBattleSize: 3,
   passActiveStub: false,
+  passLevel: 14,
+  passXp: 1800,
+  passClaimed: { free: {}, elite: {} },
+  passTrackCentered: false,
   autofarm: {
     autofarm_crops: false,
     autofarm_alchemy: false,
@@ -834,6 +940,8 @@ const state = {
   dungeonPath: "short", // short | long
   dungeonFork: "left", // long F2: left | right
   dungeonNodeIndex: 0,
+  dungeonPartyCode: null,
+  dungeonPartyPollTimer: null,
   dungeonParty: [
     { slot: 0, name: "Вы", ready: true, local: true },
     { slot: 1, name: "Слот 2", ready: false },
@@ -887,9 +995,20 @@ const state = {
   raidId: "myaurra",
   raidPath: "short", // short | long — развилка маршрута
   raidPathNodeIndex: 0,
-  raidLegionCount: 3,
+  raidLegionCount: 0,
+  /** 12-slot legion roster: { row, col, role, sub, templateId, name_ru } */
+  raidLegion: [],
   raidAttemptsLeft: 3,
   raidWeeklyLocked: false,
+  /** When «Строй» from raid → viewFormation shows 12-cat legion editor. */
+  formationMode: "",
+  /** Preview 4×3 board before CreatePvE (final fight art comes later). */
+  raidBattlePreview: false,
+  raidLastLoot: null,
+  /** Live turn countdown (BATTLE_TURN_TIMER_SEC). */
+  battleTurnLeft: BATTLE_TURN_TIMER_SEC,
+  battleTurnTimer: null,
+  battleTurnKey: "",
   progress: {
     pveWins: 0,
     practiceWins: 0,
@@ -1200,12 +1319,18 @@ function showPassGateTip() {
 function logicalViewId() {
   if (state.battle && !state.battle.result) {
     // PvE live fight reuses practice HUD (cutouts + hand + FX). Painted #viewPveFight is stub chrome only.
-    if (state.battleMode === "practice" || state.battleMode === "pve" || state.battleMode === "dungeon") {
+    if (
+      state.battleMode === "practice" ||
+      state.battleMode === "pve" ||
+      state.battleMode === "dungeon" ||
+      state.battleMode === "boss"
+    ) {
       return "viewPracticeFight";
     }
     if (state.battleMode === "pvp") return "viewPvpFight";
     return "viewBattle";
   }
+  if (state.raidBattlePreview) return "viewRaidBattle";
   // Mid-chapter / mid-dungeon wave clear / in-flight next CreatePvE: keep fight HUD (no victory).
   if (
     (state.battleMode === "pve" &&
@@ -1227,6 +1352,9 @@ function logicalViewId() {
     if (state.lastResult.result === "p1_win" && state.battleMode === "pvp") {
       return "viewPvpVictory";
     }
+    if (state.lastResult.result === "p1_win" && state.battleMode === "boss") {
+      return "viewResultWin";
+    }
     return state.lastResult.result === "p1_win" ? "viewResultWin" : "viewResultLose";
   }
   if (state.soon === "clan_boss" && (state.tab === "guild" || state.tab === "clans")) {
@@ -1246,6 +1374,7 @@ function logicalViewId() {
     formation: "viewFormation",
     boss_dungeon: "viewBossDungeon",
     boss_raid: "viewBossRaid",
+    raid_battle: "viewRaidBattle",
     battle: "viewBattle",
     pvp: "viewPvp",
     pve_load: "viewPveLoad",
@@ -2168,6 +2297,49 @@ function grantDungeonNodeLoot() {
   grantDungeonFish(table.fish || 25);
 }
 
+function applyDungeonPartySnapshot(party, userId) {
+  if (!party?.members) return;
+  state.dungeonPartyCode = party.code;
+  state.dungeonParty = party.members.map((m, i) => ({
+    slot: m.slot ?? i,
+    name: m.name || m.userId,
+    ready: !!m.ready,
+    bot: !!m.bot,
+    local: m.userId === userId,
+  }));
+  if (party.dungeonId) state.selectedDungeonId = party.dungeonId;
+  if (party.path) state.dungeonPath = party.path === "long" ? "long" : "short";
+  if (party.fork) state.dungeonFork = party.fork === "right" ? "right" : "left";
+  renderDungeonLobby();
+}
+
+function stopDungeonPartyPoll() {
+  if (state.dungeonPartyPollTimer) {
+    clearInterval(state.dungeonPartyPollTimer);
+    state.dungeonPartyPollTimer = null;
+  }
+}
+
+function startDungeonPartyPoll() {
+  stopDungeonPartyPoll();
+  if (!state.dungeonPartyCode) return;
+  state.dungeonPartyPollTimer = setInterval(() => {
+    pollDungeonParty().catch(() => {});
+  }, 2500);
+}
+
+async function pollDungeonParty() {
+  const code = state.dungeonPartyCode;
+  if (!code) return;
+  const userId = state.profile?.userId || state.session?.userId || "local_smoke";
+  try {
+    const { data } = await api(`/api/dev/dungeon/party?code=${encodeURIComponent(code)}`);
+    if (data?.ok && data.party) applyDungeonPartySnapshot(data.party, userId);
+  } catch (_) {
+    /* ignore */
+  }
+}
+
 async function createDungeonParty() {
   const userId = state.profile?.userId || state.session?.userId || "local_smoke";
   try {
@@ -2182,20 +2354,70 @@ async function createDungeonParty() {
       }),
     });
     if (data?.ok && data.party) {
-      state.dungeonPartyCode = data.party.code;
-      state.dungeonParty = data.party.members.map((m, i) => ({
-        slot: m.slot ?? i,
-        name: m.name || m.userId,
-        ready: !!m.ready,
-        bot: !!m.bot,
-        local: true,
-      }));
-      renderDungeonLobby();
+      applyDungeonPartySnapshot(data.party, userId);
+      startDungeonPartyPoll();
       toast(`Лобби создано · код ${data.party.code}`);
       return;
     }
   } catch (err) {
     toast(`Пати API: ${err.message || "offline"}`);
+  }
+}
+
+async function joinDungeonParty() {
+  const root = $("viewBossDungeon");
+  const input = root?.querySelector("[data-dungeon-party-join-input]");
+  const code = String(input?.value || state.dungeonPartyCode || "")
+    .trim()
+    .toUpperCase();
+  if (!code) {
+    toast("Введите код пати");
+    return;
+  }
+  const userId = state.profile?.userId || state.session?.userId || `guest_${Date.now().toString(36)}`;
+  try {
+    const { data } = await api("/api/dev/dungeon/party/join", {
+      method: "POST",
+      body: JSON.stringify({ userId, code, name: "Игрок" }),
+    });
+    if (data?.ok && data.party) {
+      applyDungeonPartySnapshot(data.party, userId);
+      startDungeonPartyPoll();
+      toast(`Вы в пати ${data.party.code} · ${data.party.readyCount}/${data.party.size}`);
+      return;
+    }
+    toast(data?.error || "Не удалось войти");
+  } catch (err) {
+    toast(`Join: ${err.message || "offline"}`);
+  }
+}
+
+async function toggleDungeonPartyReady() {
+  const userId = state.profile?.userId || state.session?.userId || "local_smoke";
+  if (!state.dungeonPartyCode) {
+    toast("Сначала создайте или войдите в пати");
+    return;
+  }
+  const me = (state.dungeonParty || []).find((p) => p.local);
+  const nextReady = !(me?.ready);
+  try {
+    const { data } = await api("/api/dev/dungeon/party/ready", {
+      method: "POST",
+      body: JSON.stringify({
+        userId,
+        code: state.dungeonPartyCode,
+        ready: nextReady,
+        dungeonId: state.selectedDungeonId,
+        path: state.dungeonPath,
+        fork: state.dungeonFork,
+      }),
+    });
+    if (data?.ok && data.party) {
+      applyDungeonPartySnapshot(data.party, userId);
+      toast(nextReady ? "Ready ✓" : "Ready снято");
+    }
+  } catch (err) {
+    toast(`Ready: ${err.message || "offline"}`);
   }
 }
 
@@ -2213,15 +2435,8 @@ async function fillDungeonPartyBots() {
       }),
     });
     if (data?.ok && data.party?.members) {
-      state.dungeonPartyCode = data.party.code;
-      state.dungeonParty = data.party.members.map((m, i) => ({
-        slot: m.slot ?? i,
-        name: m.name || m.userId,
-        ready: !!m.ready,
-        bot: !!m.bot,
-        local: m.userId === userId,
-      }));
-      renderDungeonLobby();
+      applyDungeonPartySnapshot(data.party, userId);
+      startDungeonPartyPoll();
       toast(`Пати ${data.party.readyCount}/4 · код ${data.party.code}`);
       return;
     }
@@ -2325,13 +2540,24 @@ function renderDungeonLobby() {
       partyBox.appendChild(row);
     }
   }
+  const codeEl = root.querySelector("[data-dungeon-party-code]");
+  if (codeEl) {
+    if (state.dungeonPartyCode) {
+      codeEl.textContent = `Код: ${state.dungeonPartyCode}`;
+      codeEl.classList.remove("hidden");
+    } else {
+      codeEl.textContent = "";
+      codeEl.classList.add("hidden");
+    }
+  }
   const readyN = (state.dungeonParty || []).filter((p) => p.ready).length;
+  const sizeN = (state.dungeonParty || []).length;
   const partyHint = root.querySelector("[data-dungeon-party-hint]");
   if (partyHint) {
     partyHint.textContent =
       readyN < 4
-        ? `Пати ${readyN}/4 · соло нежелателен`
-        : "Пати 4/4 · бой ядра 3v3";
+        ? `Пати ${readyN}/${Math.max(4, sizeN)} ready · соло нежелателен`
+        : "Пати 4/4 ready · бой ядра 3v3";
   }
 }
 
@@ -2346,13 +2572,18 @@ async function startDungeonRun() {
     toast("Нет ключа — купите за рыбу или получите starter keys");
     return;
   }
+  const readyN = (state.dungeonParty || []).filter((p) => p.ready).length;
+  const sizeN = (state.dungeonParty || []).length;
+  if (sizeN < 4 || readyN < 4) {
+    toast(
+      state.dungeonCoop?.party?.soloWarning_ru ||
+        `Пати ${readyN}/${Math.max(4, sizeN)} ready · нажмите «Добор ботов» или Ready 4/4`,
+    );
+    return;
+  }
   if (!(await spendDungeonKey(dung.id))) {
     toast("Не удалось списать ключ");
     return;
-  }
-  const readyN = (state.dungeonParty || []).filter((p) => p.ready).length;
-  if (readyN < 4) {
-    toast(state.dungeonCoop?.party?.soloWarning_ru || "Соло нежелателен");
   }
   state.battleMode = "dungeon";
   state.dungeonNodeIndex = 0;
@@ -2360,7 +2591,7 @@ async function startDungeonRun() {
   state.battle = null;
   state.lastResult = null;
   renderDungeonLobby();
-  toast(`${dung?.title_ru || "Данж"} · ${state.dungeonPath === "long" ? "длинный" : "короткий"} · ключ −1`);
+  toast(`${dung?.title_ru || "Данж"} · ${state.dungeonPath === "long" ? "длинный" : "короткий"} · ключ −1 · пати 4/4`);
   await startYard(false);
 }
 
@@ -2411,6 +2642,22 @@ function resolveBattlePlan(mode = state.battleMode) {
     };
   }
   if (m === "boss") {
+    // Legion raid path takes priority over legacy boss_first waves.
+    const raidStage = raidCurrentStageId();
+    const usingRaid =
+      !!raidDef() &&
+      (state.formationMode === "raid" ||
+        !!state.raidBattlePreview ||
+        String(state.selectedStageId || "").startsWith("raid_") ||
+        String(raidStage || "").startsWith("raid_"));
+    if (usingRaid) {
+      return {
+        mode: "boss",
+        stageId: raidStage || state.selectedStageId,
+        team: raidCombatWingIds(),
+        carryAlive: null,
+      };
+    }
     const waves = state.bossFirst?.waves || [];
     const idx = Math.max(0, Number(state.bossWaveIndex) || 0);
     const stageId = waves[idx]?.stageId || state.selectedStageId || "boss_first_w1";
@@ -3218,7 +3465,7 @@ function raidCurrentStageId() {
 }
 
 function syncRaidLimitsFromLiveOps() {
-  const lim = state.liveops?.limits || {};
+  const lim = state.liveOps?.limits || state.liveops?.limits || {};
   if (Number.isFinite(Number(lim.raid_attempts_weekly))) {
     state.raidAttemptsLeft = Number(lim.raid_attempts_weekly);
   }
@@ -3227,9 +3474,257 @@ function syncRaidLimitsFromLiveOps() {
   }
 }
 
+/** Canonical 12-cat fill: 2 aggro tanks + 1 pierce; 2 heal + 1 buffer; 3 ranged + 3 melee DPS. */
+function buildRaidLegionRoster() {
+  const plan = [
+    // row 3 rear — supports (L→R)
+    { row: 3, col: 0, role: "support", sub: "heal", templateId: "shop_support_water_a", name_ru: "Хил A" },
+    { row: 3, col: 1, role: "support", sub: "heal", templateId: "shop_support_water_a", name_ru: "Хил A′" },
+    { row: 3, col: 2, role: "support", sub: "buffer", templateId: "shop_support_water_b", name_ru: "Баффер B" },
+    // row 2 ranged DPS
+    { row: 2, col: 0, role: "mage", sub: "ranged", templateId: "shop_mage_fire_a", name_ru: "Маг A" },
+    { row: 2, col: 1, role: "ranger", sub: "ranged", templateId: "shop_ranger_grass_a", name_ru: "Лучник A" },
+    { row: 2, col: 2, role: "mage", sub: "ranged", templateId: "shop_mage_ice_b", name_ru: "Маг B" },
+    // row 1 melee DPS
+    { row: 1, col: 0, role: "assassin", sub: "melee", templateId: "shop_assassin_bolt_a", name_ru: "Убийца A" },
+    { row: 1, col: 1, role: "fighter", sub: "melee", templateId: "shop_fighter_fire_a", name_ru: "Воин A" },
+    { row: 1, col: 2, role: "assassin", sub: "melee", templateId: "shop_assassin_bolt_b", name_ru: "Убийца B" },
+    // row 0 front — tanks
+    { row: 0, col: 0, role: "tank", sub: "aggro", templateId: "shop_tank_stone_a", name_ru: "Танк-агр A" },
+    { row: 0, col: 1, role: "tank", sub: "aggro", templateId: "shop_tank_stone_a", name_ru: "Танк-агр A′" },
+    { row: 0, col: 2, role: "tank", sub: "armorBreak", templateId: "shop_tank_stone_b", name_ru: "Танк-пробой B" },
+  ];
+  return plan.map((s, i) => ({ ...s, slot: i, filled: true }));
+}
+
+function raidCompCounts(roster = state.raidLegion) {
+  const list = Array.isArray(roster) ? roster.filter((s) => s?.filled) : [];
+  const roleOf = (s) => {
+    if (s.role === "tank") return "tank";
+    if (s.role === "support") return "support";
+    return "dps";
+  };
+  const tanks = list.filter((s) => roleOf(s) === "tank");
+  const supports = list.filter((s) => roleOf(s) === "support");
+  const dps = list.filter((s) => roleOf(s) === "dps");
+  return {
+    tank: tanks.length,
+    support: supports.length,
+    dps: dps.length,
+    aggro: tanks.filter((s) => s.sub === "aggro").length,
+    armorBreak: tanks.filter((s) => s.sub === "armorBreak").length,
+    heal: supports.filter((s) => s.sub === "heal").length,
+    buffer: supports.filter((s) => s.sub === "buffer").length,
+    ranged: dps.filter((s) => s.sub === "ranged").length,
+    melee: dps.filter((s) => s.sub === "melee").length,
+    total: list.length,
+  };
+}
+
+function validateRaidComposition(roster = state.raidLegion) {
+  const c = raidCompCounts(roster);
+  const ok =
+    c.total === RAID_PARTY_SIZE &&
+    c.tank === RAID_COMP.tank &&
+    c.support === RAID_COMP.support &&
+    c.dps === RAID_COMP.dps &&
+    c.aggro >= RAID_COMP.tankSubs.aggro &&
+    c.armorBreak >= RAID_COMP.tankSubs.armorBreak &&
+    c.heal >= RAID_COMP.supportSubs.heal &&
+    c.buffer >= RAID_COMP.supportSubs.buffer &&
+    c.ranged >= RAID_COMP.dpsSubs.ranged &&
+    c.melee >= RAID_COMP.dpsSubs.melee;
+  return { ok, counts: c };
+}
+
+/** Active 3v3 wing from legion until full-12 sim exists: tank-aggro · melee DPS · heal. */
+function raidCombatWingIds(roster = state.raidLegion) {
+  const list = (Array.isArray(roster) ? roster : []).filter((s) => s?.filled && s.templateId);
+  const pick = (pred) => list.find(pred)?.templateId;
+  const tank = pick((s) => s.role === "tank" && s.sub === "aggro") || pick((s) => s.role === "tank");
+  const dps =
+    pick((s) => s.sub === "melee") ||
+    pick((s) => s.sub === "ranged") ||
+    pick((s) => !["tank", "support"].includes(s.role));
+  const support = pick((s) => s.role === "support" && s.sub === "heal") || pick((s) => s.role === "support");
+  const wing = [tank, dps, support].filter(Boolean);
+  return wing.length === 3 ? wing : combatSquadIds();
+}
+
+/** Snapshot for battle design handoff (rows · slots · timer · stage). */
+function raidFormationSnapshot() {
+  ensureRaidLegion();
+  return {
+    version: 1,
+    partySize: RAID_PARTY_SIZE,
+    turnSec: battleTurnTimerSec(),
+    raidId: state.raidId,
+    path: state.raidPath,
+    stageId: raidCurrentStageId(),
+    nodeIndex: state.raidPathNodeIndex | 0,
+    rows: RAID_FORMATION_ROWS.map((r) => ({
+      row: r.row,
+      lane: r.lane,
+      label_ru: r.label_ru,
+      slots: [0, 1, 2].map((col) => {
+        const s = state.raidLegion.find((x) => x.row === r.row && x.col === col);
+        if (!s?.filled) return { col, empty: true };
+        return {
+          col,
+          role: s.role,
+          sub: s.sub,
+          templateId: s.templateId,
+          name_ru: s.name_ru,
+          art: (typeof CAT_HERO_ART !== "undefined" && CAT_HERO_ART[s.templateId]) || "",
+        };
+      }),
+    })),
+    comp: raidCompCounts(),
+    wing3v3: raidCombatWingIds(),
+  };
+}
+
+const RAID_BOSS_UI = {
+  myaurra: {
+    art: "/stitch-assets/monsters/battle/myaurra-pitboss-cutout.png?v=raid1",
+    place_ru: "Небесный Двор",
+    mech_ru: "Удар стаи",
+    phase_ru: "Пса-Бури",
+  },
+  talass: {
+    art: "/stitch-assets/monsters/battle/talass-pitboss-cutout.png?v=raid1",
+    place_ru: "Бездна Усов",
+    mech_ru: "Шёпот глубин",
+    phase_ru: "Прилив",
+  },
+  vulcan: {
+    art: "/stitch-assets/monsters/battle/vulcan-pitboss-cutout.png?v=raid1",
+    place_ru: "Пепельный Трон",
+    mech_ru: "Девять хвостов",
+    phase_ru: "Пепел",
+  },
+};
+
+function paintRaidLobbyBoss() {
+  const root = $("viewBossRaid");
+  if (!root) return;
+  const raid = raidDef();
+  const ui = RAID_BOSS_UI[raid?.raidId] || RAID_BOSS_UI.myaurra;
+  const title = root.querySelector("[data-raid-boss-title]");
+  if (title) title.textContent = raid?.title_ru || "Рейд";
+  const place = root.querySelector("[data-raid-boss-place]");
+  if (place) place.textContent = ui.place_ru;
+  const img = root.querySelector("[data-raid-boss-art]");
+  if (img && ui.art) {
+    img.src = ui.art;
+    img.alt = raid?.title_ru || "Босс";
+  }
+  const mech = root.querySelector("[data-raid-boss-mech]");
+  if (mech) mech.textContent = ui.mech_ru;
+  const rageTip = root.querySelector("[data-raid-rage-tip]");
+  if (rageTip) {
+    rageTip.textContent = `При 100% — фаза «${ui.phase_ru}». Держите 2 хила и танков на фронте.`;
+  }
+  root.querySelectorAll(".flex.items-center.justify-between.px-1 span").forEach((el) => {
+    if ((el.textContent || "").includes("нужно")) {
+      el.textContent = `нужно ровно ${RAID_PARTY_SIZE}`;
+    }
+  });
+}
+
+function ensureRaidLegion() {
+  if (!Array.isArray(state.raidLegion) || state.raidLegion.length !== RAID_PARTY_SIZE) {
+    state.raidLegion = buildRaidLegionRoster().map((s) => ({ ...s, filled: false }));
+    state.raidLegionCount = 0;
+  }
+}
+
+function fillRaidLegionSlots(n = RAID_PARTY_SIZE) {
+  ensureRaidLegion();
+  const full = buildRaidLegionRoster();
+  const target = Math.max(0, Math.min(RAID_PARTY_SIZE, n | 0));
+  // Fill in formation order: front tanks → melee → ranged → supports (or reverse from empty?)
+  // Product: fill by rows front→rear so tanks arrive first visually when inviting.
+  const order = [...full].sort((a, b) => a.row - b.row || a.col - b.col);
+  state.raidLegion = full.map((slot) => {
+    const idx = order.findIndex((o) => o.row === slot.row && o.col === slot.col);
+    return { ...slot, filled: idx >= 0 && idx < target };
+  });
+  state.raidLegionCount = state.raidLegion.filter((s) => s.filled).length;
+  return state.raidLegionCount;
+}
+
+function renderRaidLegionBoard() {
+  const root = $("viewBossRaid");
+  if (!root) return;
+  ensureRaidLegion();
+  let board = root.querySelector("[data-raid-legion-board]");
+  if (!board) {
+    const old = root.querySelector('[aria-label="12 слотов рейда"]');
+    if (old) {
+      old.setAttribute("data-raid-legion-board", "1");
+      old.className = "flex flex-col gap-1.5 flex-1 min-h-0 overflow-y-auto py-1.5";
+      board = old;
+    }
+  }
+  if (!board) return;
+  const artFor = (tid) =>
+    (typeof CAT_HERO_ART !== "undefined" && CAT_HERO_ART[tid]) ||
+    `/stitch-assets/cat-heroes/tank-a.webp?v=opt1`;
+  const subRu = {
+    aggro: "агр",
+    armorBreak: "пробитие",
+    heal: "хил",
+    buffer: "бафф",
+    ranged: "даль",
+    melee: "мили",
+  };
+  // Paint rear→front (supports on top of board, tanks at bottom toward enemy)
+  const rows = [...RAID_FORMATION_ROWS];
+  board.innerHTML = rows
+    .map((rowDef) => {
+      const slots = [0, 1, 2].map((col) => {
+        const s = state.raidLegion.find((x) => x.row === rowDef.row && x.col === col);
+        if (!s?.filled) {
+          return `<article class="raid-slot rounded-lg border border-dashed border-outline-variant/50 bg-[#14110f] p-1.5 flex flex-col items-center justify-center gap-0.5 min-h-[4.8rem] text-outline">
+            <span class="material-symbols-outlined text-[20px]">add</span>
+            <span class="text-[9px] font-bold">${rowDef.label_ru.split("·")[0].trim()}</span>
+          </article>`;
+        }
+        const tone =
+          s.role === "tank" ? "border-primary/50" : s.role === "support" ? "border-secondary/45" : "border-tertiary/45";
+        return `<article class="raid-slot is-filled rounded-lg border ${tone} bg-[#1a1613] p-1.5 flex flex-col gap-0.5 min-h-[4.8rem]">
+          <img alt="" class="w-full h-9 object-cover object-top rounded-md" src="${artFor(s.templateId)}"/>
+          <span class="text-[10px] font-bold truncate">${s.name_ru}</span>
+          <span class="text-[9px] text-on-surface-variant">${subRu[s.sub] || s.role}</span>
+        </article>`;
+      });
+      return `<div class="flex flex-col gap-0.5">
+        <div class="text-[9px] text-outline font-bold uppercase tracking-wide px-0.5">${rowDef.label_ru}</div>
+        <div class="grid grid-cols-3 gap-1.5">${slots.join("")}</div>
+      </div>`;
+    })
+    .join("");
+  const c = raidCompCounts();
+  const chips = root.querySelector("[data-raid-role-chips]");
+  if (chips) {
+    chips.innerHTML = `
+      <span class="px-1.5 py-0.5 rounded bg-primary/15 text-primary border border-primary/30 font-bold">Танк ${c.tank}/${RAID_COMP.tank} · агр ${c.aggro}/${RAID_COMP.tankSubs.aggro} · пробитие ${c.armorBreak}/${RAID_COMP.tankSubs.armorBreak}</span>
+      <span class="px-1.5 py-0.5 rounded bg-secondary/15 text-secondary border border-secondary/30 font-bold">Сап ${c.support}/${RAID_COMP.support} · хил ${c.heal}/${RAID_COMP.supportSubs.heal} · бафф ${c.buffer}/${RAID_COMP.supportSubs.buffer}</span>
+      <span class="px-1.5 py-0.5 rounded bg-tertiary/15 text-tertiary border border-tertiary/30 font-bold">DPS ${c.dps}/${RAID_COMP.dps} · даль ${c.ranged} · мили ${c.melee}</span>
+      <span class="px-1.5 py-0.5 rounded bg-surface-container text-on-surface-variant border border-outline-variant/30 font-bold">Ход ${formatBattleTimer(battleTurnTimerSec())}</span>
+    `;
+  }
+  const sizeChip = root.querySelector("[data-raid-size-chip]");
+  if (sizeChip) sizeChip.textContent = `${c.total}/${RAID_PARTY_SIZE}`;
+  const readyChip = root.querySelector("[data-raid-ready-chip]");
+  if (readyChip) readyChip.textContent = `${c.total}/${RAID_PARTY_SIZE}`;
+}
+
 /** Painted raid lobby: выбор рейда / короткий|длинный путь / hard-12. */
 function renderRaidPath() {
   syncRaidLimitsFromLiveOps();
+  ensureRaidLegion();
   const root = $("viewBossRaid");
   if (!root) return;
   let panel = $("raidPathPanel");
@@ -3249,12 +3744,20 @@ function renderRaidPath() {
   const nodes = path?.nodes || [];
   const eta = path?.etaMin ? `${path.etaMin[0]}–${path.etaMin[1]} мин` : "—";
   const filled = state.raidLegionCount | 0;
-  const ready = filled >= minRaidPlayers && !state.raidWeeklyLocked && state.raidAttemptsLeft > 0;
+  const comp = validateRaidComposition();
+  const ready =
+    filled >= minRaidPlayers &&
+    comp.ok &&
+    !state.raidWeeklyLocked &&
+    state.raidAttemptsLeft > 0;
+  renderRaidLegionBoard();
+  paintRaidLobbyBoss();
   panel.innerHTML = `
     <div class="raid-path-head">
       <strong>Карта путей · легион ${RAID_PARTY_SIZE}</strong>
-      <span class="meta">попытки ${state.raidAttemptsLeft} · профиль босса: ${path?.bossProfile || "—"} · ${eta}</span>
+      <span class="meta">попытки ${state.raidAttemptsLeft} · профиль босса: ${path?.bossProfile || "—"} · ${eta} · ход ${formatBattleTimer(battleTurnTimerSec())}</span>
     </div>
+    <div class="raid-comp meta">Состав: ${RAID_COMP.tank}T (${RAID_COMP.tankSubs.aggro} агр + ${RAID_COMP.tankSubs.armorBreak} пробитие) · ${RAID_COMP.support}S (${RAID_COMP.supportSubs.heal} хил + ${RAID_COMP.supportSubs.buffer} бафф) · ${RAID_COMP.dps} DPS · строй: сап → маги/лучники → убийцы/воины → танки</div>
     <div class="raid-path-raids" role="tablist">
       ${raids
         .map(
@@ -3295,21 +3798,87 @@ function renderRaidPath() {
   });
   const readyNote = root.querySelector(".flex.items-center.justify-between.px-1 span.font-bold.text-\\[12px\\]");
   void readyNote;
-  root.querySelectorAll("aside .text-\\[10px\\].text-on-surface-variant").forEach((el) => {
+  root.querySelectorAll("aside .text-\\[10px\\].text-on-surface-variant, .flex.items-center.justify-between.px-1 span").forEach((el) => {
     if ((el.textContent || "").includes("нужно") || (el.textContent || "").includes("кота")) {
-      el.textContent = `нужно ровно ${minRaidPlayers} игроков`;
+      el.textContent = `нужно ровно ${minRaidPlayers}`;
     }
   });
   void countEl;
 }
 
-/** Start next raid node via CreatePvE (3v3 wave stub until full legion sim). */
-async function viewRaidFight({ autoPlay = false } = {}) {
+function raidPathIsBossNode(stageId = raidCurrentStageId()) {
+  return /_boss$/i.test(String(stageId || "")) || String(stageId) === raidDef()?.bossStageId;
+}
+
+function grantRaidLootStub() {
+  const raid = raidDef();
+  const path = raidPathDef();
+  const loot = {
+    raidId: raid?.raidId || state.raidId,
+    path: state.raidPath,
+    pathOnly: path?.pathOnlyLoot || [],
+    rares: [
+      { id: `${raid?.raidId || "raid"}_rare_1`, label_ru: "Рейдовый редмет · слот 1" },
+      { id: `${raid?.raidId || "raid"}_rare_2`, label_ru: "Рейдовый редмет · слот 2" },
+    ],
+    fish: state.raidPath === "long" ? 220 : 140,
+    claimedAt: Date.now(),
+  };
+  state.raidLastLoot = loot;
+  state.progress.raidLootClaimed = true;
+  const lim = state.liveOps?.limits || state.liveops?.limits || {};
+  if (lim.raid_weekly_lock !== false) {
+    state.raidWeeklyLocked = true;
+  }
+  state.raidAttemptsLeft = Math.max(0, (state.raidAttemptsLeft | 0) - 1);
+  persistProgress();
+  toast(
+    `Лут рейда: +${loot.fish} рыбок` +
+      (loot.pathOnly.length ? ` · path-only: ${loot.pathOnly.join(", ")}` : "") +
+      " · weekly lock",
+  );
+  return loot;
+}
+
+async function advanceRaidNodeAfterWin() {
+  const path = raidPathDef();
+  const nodes = path?.nodes || [];
+  const i = state.raidPathNodeIndex | 0;
+  if (i >= nodes.length - 1) {
+    grantRaidLootStub();
+    state.raidBattlePreview = false;
+    return false;
+  }
+  state.raidPathNodeIndex = i + 1;
+  state.selectedStageId = nodes[state.raidPathNodeIndex];
+  state.battle = null;
+  state.lastResult = null;
+  state.raidBattlePreview = true;
+  state.formationMode = "raid";
+  navigate("raid_battle", { primary: "combat" });
+  renderRaidBattleStub();
+  toast(`Узел ${state.raidPathNodeIndex + 1}/${nodes.length} · строй 12 · ${state.selectedStageId}`);
+  return true;
+}
+
+/** Validate legion → show 4×3 preview (design placeholder) before sim fight. */
+function viewRaidFight({ autoPlay = false } = {}) {
+  ensureRaidLegion();
   if ((state.raidLegionCount | 0) < minRaidPlayers) {
     showGateTip(
       t(
         "raid.gate.party",
-        `Рейд только на ${minRaidPlayers}: сейчас ${state.raidLegionCount}/${RAID_PARTY_SIZE}. Нажмите «Пригласить», чтобы добрать легион (stub).`,
+        `Рейд только на ${minRaidPlayers}: сейчас ${state.raidLegionCount}/${RAID_PARTY_SIZE}. Нажмите «Пригласить», чтобы добрать легион.`,
+      ),
+    );
+    return false;
+  }
+  const comp = validateRaidComposition();
+  if (!comp.ok) {
+    showGateTip(
+      t(
+        "raid.gate.comp",
+        `Состав: нужно ${RAID_COMP.tank}T (2 агр + 1 пробитие), ${RAID_COMP.support}S (2 хил + 1 бафф), ${RAID_COMP.dps} DPS. Сейчас T${comp.counts.tank}/S${comp.counts.support}/D${comp.counts.dps}.`,
       ),
     );
     return false;
@@ -3325,10 +3894,73 @@ async function viewRaidFight({ autoPlay = false } = {}) {
   const stageId = raidCurrentStageId();
   state.battleMode = "boss";
   state.selectedStageId = stageId;
-  state.raidPathNodeIndex = state.raidPathNodeIndex | 0;
-  toast(`Рейд · ${state.raidPath} · ${stageId}`);
-  await startYard(autoPlay);
+  state.formationMode = "raid";
+  state.raidBattlePreview = true;
+  state._raidAutoPlay = !!autoPlay;
+  navigate("raid_battle", { primary: "combat" });
+  renderRaidBattleStub();
+  toast(`Строй 12 готов · ${state.raidPath} · ${stageId}`);
   return true;
+}
+
+/** Actually start CreatePvE for current raid node (3v3 stub until full 12 sim). */
+async function startRaidNodeFight({ autoPlay = false } = {}) {
+  state.raidBattlePreview = false;
+  state.battleMode = "boss";
+  state.selectedStageId = raidCurrentStageId();
+  await startYard(autoPlay || !!state._raidAutoPlay);
+  state._raidAutoPlay = false;
+}
+
+function renderRaidBattleStub() {
+  ensureRaidLegion();
+  const root = $("viewRaidBattle");
+  if (!root) return;
+  const snap = raidFormationSnapshot();
+  const board = root.querySelector("[data-raid-battle-board]");
+  const meta = root.querySelector("[data-raid-battle-meta]");
+  const stageId = snap.stageId;
+  const raid = raidDef();
+  const path = raidPathDef();
+  const nodes = path?.nodes || [];
+  if (meta) {
+    meta.textContent = `${raid?.title_ru || "Рейд"} · ${state.raidPath} · узел ${(snap.nodeIndex | 0) + 1}/${nodes.length || "?"} · ${stageId} · ход ${formatBattleTimer(snap.turnSec)}`;
+  }
+  root.dataset.raidFormationJson = JSON.stringify(snap);
+  const wingEl = root.querySelector("[data-raid-battle-wing]");
+  if (wingEl) {
+    wingEl.textContent = `Крыло 3v3 (stub): ${snap.wing3v3.join(" · ")}`;
+  }
+  if (!board) return;
+  const artFor = (tid) =>
+    (typeof CAT_HERO_ART !== "undefined" && CAT_HERO_ART[tid]) ||
+    `/stitch-assets/cat-heroes/tank-a.webp?v=opt1`;
+  board.innerHTML = [...RAID_FORMATION_ROWS]
+    .map((rowDef) => {
+      const cells = [0, 1, 2]
+        .map((col) => {
+          const s = state.raidLegion.find((x) => x.row === rowDef.row && x.col === col && x.filled);
+          if (!s) {
+            return `<div class="raid-battle-slot is-empty" data-row="${rowDef.row}" data-col="${col}"><span>${rowDef.lane}</span></div>`;
+          }
+          return `<div class="raid-battle-slot" data-row="${rowDef.row}" data-col="${col}" data-role="${s.role}" data-sub="${s.sub}" data-template="${s.templateId}">
+            <img alt="" src="${artFor(s.templateId)}"/>
+            <b>${s.name_ru}</b>
+            <em>${s.sub}</em>
+          </div>`;
+        })
+        .join("");
+      return `<div class="raid-battle-row" data-row="${rowDef.row}" data-lane="${rowDef.lane}">
+        <div class="raid-battle-row-label">${rowDef.label_ru}</div>
+        <div class="raid-battle-row-slots">${cells}</div>
+      </div>`;
+    })
+    .join("");
+  const note = root.querySelector("[data-raid-battle-note]");
+  if (note) {
+    note.textContent =
+      "Доска 4×3 готова под твой дизайн боя · данные в #viewRaidBattle[data-raid-formation-json] и mythfelRaidFormation(). «В бой» — узел через крыло 3v3.";
+  }
 }
 
 function renderBossFirst() {
@@ -3356,7 +3988,100 @@ function renderBossFirst() {
   });
 }
 
+function renderRaidFormationEditor() {
+  ensureRaidLegion();
+  $("formEyebrow").textContent = t("raid.form.eyebrow", "Рейд · легион 12");
+  $("formTitle").textContent = t("raid.form.title", "Строй легиона 4×3");
+  $("formLead").textContent = t(
+    "raid.form.lead",
+    "Тыл саппорты → даль (маги/лучники) → мили (убийцы/воины) → фронт танки (2 агр + 1 пробитие).",
+  );
+  const lanes = $("formationLanes");
+  if (!lanes) return;
+  const v = validateRaidComposition();
+  const artFor = (tid) =>
+    (typeof CAT_HERO_ART !== "undefined" && CAT_HERO_ART[tid]) ||
+    `/stitch-assets/cat-heroes/tank-a.webp?v=opt1`;
+  lanes.innerHTML = "";
+  const tip = document.createElement("p");
+  tip.className = "meta formation-tip";
+  tip.id = "formationRoleTip";
+  tip.textContent = v.ok
+    ? `Состав OK · ${RAID_PARTY_SIZE}/12 · ход ${formatBattleTimer(battleTurnTimerSec())}`
+    : `Нужно: 3T (2 агр+1 пробитие), 3S (2 хил+1 бафф), 6 DPS · сейчас T${v.counts.tank}/S${v.counts.support}/D${v.counts.dps}`;
+  lanes.appendChild(tip);
+  const board = document.createElement("div");
+  board.className = "raid-form-board";
+  board.innerHTML = [...RAID_FORMATION_ROWS]
+    .map((rowDef) => {
+      const slots = [0, 1, 2]
+        .map((col) => {
+          const s = state.raidLegion.find((x) => x.row === rowDef.row && x.col === col);
+          const filled = !!s?.filled;
+          return `<button type="button" class="raid-form-slot${filled ? " is-on" : ""}" data-raid-form-row="${rowDef.row}" data-raid-form-col="${col}">
+            ${
+              filled
+                ? `<img alt="" src="${artFor(s.templateId)}"/><b>${s.name_ru}</b><em>${s.sub}</em>`
+                : `<span class="material-symbols-outlined">add</span><em>${rowDef.label_ru}</em>`
+            }
+          </button>`;
+        })
+        .join("");
+      return `<div class="raid-form-row"><div class="raid-form-row-label">${rowDef.label_ru}</div><div class="raid-form-row-slots">${slots}</div></div>`;
+    })
+    .join("");
+  lanes.appendChild(board);
+  const actions = document.createElement("div");
+  actions.className = "raid-form-actions";
+  actions.innerHTML = `
+    <button type="button" class="wire-btn" data-raid-form-fill="12">Заполнить 12 (канон)</button>
+    <button type="button" class="wire-btn" data-raid-form-fill="0">Очистить</button>
+    <button type="button" class="wire-btn" data-hud-action="raid-form-back">К лобби рейда</button>
+    <button type="button" class="wire-btn primary" data-hud-action="raid-form-go"${v.ok ? "" : " disabled"}>К доске боя</button>
+  `;
+  lanes.appendChild(actions);
+  if (!lanes.dataset.raidFormBound) {
+    lanes.dataset.raidFormBound = "1";
+    lanes.addEventListener("click", (ev) => {
+      const fill = ev.target.closest("[data-raid-form-fill]");
+      if (fill) {
+        fillRaidLegionSlots(Number(fill.getAttribute("data-raid-form-fill")) || 0);
+        renderRaidFormationEditor();
+        return;
+      }
+      if (ev.target.closest("[data-hud-action='raid-form-back']")) {
+        state.formationMode = "";
+        navigate("boss_raid", { primary: "combat" });
+        return;
+      }
+      if (ev.target.closest("[data-hud-action='raid-form-go']")) {
+        viewRaidFight({ autoPlay: false });
+        return;
+      }
+      const slot = ev.target.closest("[data-raid-form-row]");
+      if (!slot) return;
+      const row = Number(slot.getAttribute("data-raid-form-row"));
+      const col = Number(slot.getAttribute("data-raid-form-col"));
+      const full = buildRaidLegionRoster();
+      const proto = full.find((x) => x.row === row && x.col === col);
+      const cur = state.raidLegion.find((x) => x.row === row && x.col === col);
+      if (!proto || !cur) return;
+      Object.assign(cur, proto, { filled: !cur.filled });
+      state.raidLegionCount = state.raidLegion.filter((s) => s.filled).length;
+      renderRaidFormationEditor();
+    });
+  }
+  const tray = $("formationPotions");
+  if (tray) {
+    tray.innerHTML = `<p class="meta">Рейд: зелья легиона · Soon. Таймер хода ${formatBattleTimer(battleTurnTimerSec())}.</p>`;
+  }
+}
+
 function renderFormation() {
+  if (state.formationMode === "raid" || state.battleMode === "boss") {
+    renderRaidFormationEditor();
+    return;
+  }
   $("formEyebrow").textContent = t("hub.tab.formation", "Расстановка");
   $("formTitle").textContent = t("formation.title", "Строй отряда 3v3");
   $("formLead").textContent = t(
@@ -3366,6 +4091,7 @@ function renderFormation() {
   const lanes = $("formationLanes");
   if (!lanes) return;
   lanes.innerHTML = "";
+  delete lanes.dataset.raidFormBound;
   const tip = document.createElement("p");
   tip.className = "meta formation-tip";
   tip.id = "formationRoleTip";
@@ -4102,6 +4828,7 @@ function codexBlockHtml(block) {
     const h = block.height || "7rem";
     const icons = block.icons || [];
     const src = block.src;
+    const cover = block.fit === "cover";
     if (src || icons.length) {
       const grid =
         icons.length > 0
@@ -4116,7 +4843,9 @@ function codexBlockHtml(block) {
                   </div>`,
               )
               .join("")}</div>`
-          : `<img alt="${codexEsc(block.label || "")}" class="w-full h-full object-contain p-2" src="${codexEsc(src)}" style="max-height:12rem"/>`;
+          : cover
+            ? `<div class="w-full overflow-hidden bg-surface-container-lowest" style="height:${codexEsc(h)}"><img alt="${codexEsc(block.label || "")}" class="w-full h-full object-cover object-top" src="${codexEsc(src)}"/></div>`
+            : `<img alt="${codexEsc(block.label || "")}" class="w-full h-full object-contain p-2" src="${codexEsc(src)}" style="max-height:14rem"/>`;
       return `<div class="rounded-xl border border-outline-variant/50 bg-surface-container-lowest/50 flex flex-col items-stretch gap-1 overflow-hidden" style="min-height:${codexEsc(h)}">
         <div class="px-space-sm pt-space-xs flex items-center justify-between gap-2">
           <span class="font-label-sm text-[10px] text-outline uppercase tracking-wider">${codexEsc(block.label || "Иллюстрация")}</span>
@@ -4131,13 +4860,45 @@ function codexBlockHtml(block) {
       <span class="font-body-sm text-[11px] text-on-surface-variant max-w-[20rem]">${codexEsc(block.caption || "Пустой блок под картинку — арт добавим позже")}</span>
     </div>`;
   }
+  if (block.type === "go") {
+    return codexGoHtml(block.links || []);
+  }
   return "";
+}
+
+/** CTA buttons from a knowledge article into live game screens. */
+function codexGoHtml(links) {
+  if (!Array.isArray(links) || !links.length) return "";
+  const btns = links
+    .map((l) => {
+      if (!l || !l.tab) return "";
+      const soon = l.soon ? ` data-kb-soon="${codexEsc(l.soon)}"` : "";
+      const primary = l.primary ? ` data-kb-primary="${codexEsc(l.primary)}"` : "";
+      return `<button type="button" data-kb-go="${codexEsc(l.tab)}"${soon}${primary} class="px-3 py-2 rounded-lg bg-primary text-on-primary font-label-md text-[12px] font-bold hover:brightness-110 transition-all cursor-pointer flex items-center gap-1.5 shadow-[0_2px_8px_rgba(253,186,69,0.25)]">
+        <span class="material-symbols-outlined text-[16px]">${codexEsc(l.icon || "arrow_forward")}</span>
+        <span>${codexEsc(l.label || l.tab)}</span>
+      </button>`;
+    })
+    .filter(Boolean)
+    .join("");
+  if (!btns) return "";
+  return `<div class="bg-surface-container-low/95 rounded-xl p-space-md shadow-xl flex flex-col gap-space-xs border border-primary/25">
+    <span class="font-label-sm text-label-sm text-primary uppercase tracking-wider font-bold">Открыть в игре</span>
+    <div class="flex flex-wrap gap-2">${btns}</div>
+  </div>`;
 }
 
 function codexRenderArticle(topic) {
   const blocks = (topic.blocks || []).map(codexBlockHtml).join("");
-  const side = (topic.side || []).map(codexBlockHtml).join("") ||
-    `<div class="bg-surface-container-low/95 rounded-xl p-space-md shadow-xl text-[12px] text-on-surface-variant">Источник: ${codexEsc(topic.source || "wiki")}</div>`;
+  const goSide = codexGoHtml(topic.go || []);
+  const sideBlocks = (topic.side || []).map(codexBlockHtml).join("");
+  const side =
+    sideBlocks || goSide
+      ? `${sideBlocks}${goSide}`
+      : `<div class="bg-surface-container-low/95 rounded-xl p-space-md shadow-xl text-[12px] text-on-surface-variant">Источник: ${codexEsc(topic.source || "wiki")}</div>`;
+  const leadExtra = topic.detail
+    ? `<p class="font-body-sm text-[13px] text-on-surface-variant/90 leading-relaxed z-10">${codexEsc(topic.detail)}</p>`
+    : "";
   return `
 <section class="col-span-12 lg:col-span-5 flex flex-col gap-space-sm bg-surface-container/90 rounded-2xl p-space-md shadow-2xl relative overflow-hidden min-h-0 h-full max-h-full">
   <div class="absolute -top-20 -left-20 w-80 h-80 rounded-full bg-primary/10 blur-3xl pointer-events-none"></div>
@@ -4151,16 +4912,13 @@ function codexRenderArticle(topic) {
     </div>
     <span class="px-space-xs py-1 rounded bg-surface-container-highest text-primary font-label-sm text-[10px] whitespace-nowrap">${codexEsc(topic.tag || "")}</span>
   </div>
-  <p class="font-body-md text-body-md text-on-surface-variant leading-relaxed z-10">${codexEsc(topic.lead || "")}</p>
+  <p class="font-body-md text-body-md text-on-surface leading-relaxed z-10">${codexEsc(topic.lead || "")}</p>
+  ${leadExtra}
   <div class="flex flex-col gap-space-sm z-10 overflow-auto flex-1 min-h-0">${blocks}</div>
   <div class="text-[10px] text-outline z-10 pt-1">Источник: ${codexEsc(topic.source || "")}</div>
 </section>
 <aside class="col-span-12 lg:col-span-4 flex flex-col justify-between gap-space-sm min-h-0 overflow-auto h-full max-h-full">
   ${side}
-  <div class="bg-surface-container-lowest/80 p-space-sm rounded-xl border border-surface-container-highest flex items-center justify-between gap-2">
-    <span class="font-label-sm text-[11px] text-on-surface-variant">Плейсхолдер арта</span>
-    <span class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center text-primary"><span class="material-symbols-outlined">${codexEsc(topic.icon || "image")}</span></span>
-  </div>
 </aside>`;
 }
 
@@ -4302,6 +5060,14 @@ function renderCodex() {
   if (host) {
     if (topic.mode === "arsenal" && window.__codexArmorHTML) {
       host.innerHTML = window.__codexArmorHTML;
+      const goHtml = codexGoHtml(topic.go || []);
+      if (goHtml) {
+        const strip = document.createElement("div");
+        strip.className =
+          "col-span-12 flex flex-col gap-space-sm px-space-md pb-space-md";
+        strip.innerHTML = goHtml;
+        host.appendChild(strip);
+      }
     } else {
       host.innerHTML = codexRenderArticle(topic);
     }
@@ -4310,6 +5076,17 @@ function renderCodex() {
   if (root.dataset.kbWired !== "1") {
     root.dataset.kbWired = "1";
     root.addEventListener("click", (e) => {
+      const goBtn = e.target.closest("[data-kb-go]");
+      if (goBtn && root.contains(goBtn)) {
+        e.preventDefault();
+        const tab = goBtn.getAttribute("data-kb-go");
+        if (!tab) return;
+        navigate(tab, {
+          soon: goBtn.getAttribute("data-kb-soon") || null,
+          primary: goBtn.getAttribute("data-kb-primary") || null,
+        });
+        return;
+      }
       const btn = e.target.closest("button");
       if (!btn || !root.contains(btn)) return;
       const label = (btn.textContent || "").replace(/\s+/g, " ").trim().toLowerCase();
@@ -7219,7 +7996,248 @@ function renderFarm() {
   syncFarmHud();
 }
 
+function ensurePassClaimState() {
+  if (!state.passClaimed || typeof state.passClaimed !== "object") {
+    state.passClaimed = { free: {}, elite: {} };
+  }
+  if (!state.passClaimed.free) state.passClaimed.free = {};
+  if (!state.passClaimed.elite) state.passClaimed.elite = {};
+  if (!Number.isFinite(state.passLevel)) state.passLevel = 1;
+  if (!Number.isFinite(state.passXp)) state.passXp = 0;
+  state.passLevel = Math.max(1, Math.min(PASS_SEASON_DAYS, state.passLevel));
+  state.passXp = Math.max(0, Math.min(PASS_XP_PER_LEVEL - 1, state.passXp));
+}
+
+function passRewardClaimed(track, day) {
+  ensurePassClaimState();
+  return !!state.passClaimed[track]?.[day];
+}
+
+function passCanClaim(track, day) {
+  ensurePassClaimState();
+  if (day > state.passLevel) return false;
+  if (passRewardClaimed(track, day)) return false;
+  if (track === "elite" && !passActive()) return false;
+  return true;
+}
+
+function passClaimReward(track, day, { silent = false } = {}) {
+  ensurePassClaimState();
+  const row = PASS_SEASON_TRACK.find((r) => r.day === day);
+  if (!row) return false;
+  if (day > state.passLevel) {
+    if (!silent) toast(`День ${day} ещё закрыт`);
+    return false;
+  }
+  if (track === "elite" && !passActive()) {
+    if (!silent) showPassGateTip();
+    return false;
+  }
+  if (passRewardClaimed(track, day)) {
+    if (!silent) toast("Уже получено");
+    return false;
+  }
+  state.passClaimed[track][day] = true;
+  const reward = track === "free" ? row.free : row.elite;
+  if (!silent) {
+    toast(
+      track === "elite"
+        ? `Элита · день ${day}: ${reward.name}`
+        : `Обычный · день ${day}: ${reward.name}`,
+    );
+  }
+  return true;
+}
+
+function passClaimAllAvailable() {
+  let n = 0;
+  for (const row of PASS_SEASON_TRACK) {
+    if (passCanClaim("free", row.day) && passClaimReward("free", row.day, { silent: true })) n += 1;
+    if (passCanClaim("elite", row.day) && passClaimReward("elite", row.day, { silent: true })) n += 1;
+  }
+  if (n === 0) {
+    toast(
+      passActive()
+        ? "Нет доступных наград"
+        : "Свободный трек пуст · элита требует боевой пасс",
+    );
+  } else {
+    toast(`Получено наград: ${n}`);
+  }
+  renderPass();
+}
+
+function passBuyLevels(count = 5) {
+  ensurePassClaimState();
+  const before = state.passLevel;
+  state.passLevel = Math.min(PASS_SEASON_DAYS, state.passLevel + count);
+  state.passXp = 0;
+  const gained = state.passLevel - before;
+  toast(gained > 0 ? `+${gained} ур. пропуска → день ${state.passLevel}` : "Уже максимум сезона");
+  state.passTrackCentered = false;
+  renderPass();
+}
+
+function passRewardStatusHtml(track, day) {
+  if (passRewardClaimed(track, day)) {
+    return `<span class="font-label-sm text-[10px] text-secondary flex items-center gap-0.5"><span class="material-symbols-outlined text-[13px]">check_circle</span>Получено</span>`;
+  }
+  if (day > state.passLevel) {
+    return `<span class="font-label-sm text-[10px] text-outline flex items-center gap-0.5"><span class="material-symbols-outlined text-[13px]">lock</span>Заперто</span>`;
+  }
+  if (track === "elite" && !passActive()) {
+    return `<span class="font-label-sm text-[10px] text-outline flex items-center gap-0.5"><span class="material-symbols-outlined text-[13px]">lock</span>Нужен пасс</span>`;
+  }
+  return `<button type="button" class="claim-btn pass-claim-btn w-full bg-gradient-to-r from-primary via-primary-container to-primary text-on-primary font-label-sm text-[10px] py-0.5 rounded shadow hover:brightness-110 active:scale-95 transition-transform font-bold uppercase mt-0.5" data-pass-claim="${track}" data-pass-day="${day}">Забрать</button>`;
+}
+
+function passTrackCardHtml(track, day, reward, { current = false } = {}) {
+  const claimed = passRewardClaimed(track, day);
+  const locked = day > state.passLevel || (track === "elite" && !passActive() && !claimed);
+  const elite = track === "elite";
+  const tag = reward.tag
+    ? `<span class="absolute top-0.5 left-0.5 bg-primary text-on-primary text-[8px] font-bold px-1 rounded shadow">${reward.tag}</span>`
+    : "";
+  const cardClass = elite
+    ? `w-full min-h-[144px] bg-gradient-to-b from-primary-container/20 via-surface-container-lowest/95 to-surface-container-lowest border ${
+        current ? "border-2 border-primary ring-2 ring-primary/60 shadow-[0_0_24px_rgba(253,186,69,0.5)]" : "border-primary/40 shadow-[0_4px_16px_rgba(217,155,38,0.2)]"
+      } rounded-xl p-space-sm flex flex-col items-center justify-between transition-all ${locked && !claimed ? "opacity-75" : ""}`
+    : `w-full h-28 bg-surface-container-lowest/90 border ${
+        current ? "border-2 border-primary ring-2 ring-primary/40 shadow-xl" : "border-outline-variant/30"
+      } rounded-xl p-space-xs flex flex-col items-center justify-between transition-opacity ${locked && !claimed ? "opacity-75" : ""}`;
+  return `<div class="${cardClass}" data-pass-track="${track}" data-pass-day="${day}">
+    <div class="w-16 h-16 rounded-lg overflow-hidden border ${elite ? "border-primary/40 ring-1 ring-primary/20" : "border-outline-variant/50"} shadow-inner bg-surface-container-high relative flex-shrink-0">
+      <img src="${reward.img}" alt="${reward.name}" class="w-full h-full object-cover" loading="lazy" width="64" height="64">
+      ${tag}
+    </div>
+    <div class="w-full flex flex-col items-center mt-1 min-w-0">
+      <span class="font-label-sm text-[11px] ${elite ? "text-primary-fixed" : "text-on-surface"} font-bold text-center leading-tight truncate max-w-[110px]">${reward.name}</span>
+      ${passRewardStatusHtml(track, day)}
+    </div>
+  </div>`;
+}
+
+function renderPassTrack() {
+  const host = $("passTrackLevels");
+  if (!host) return;
+  ensurePassClaimState();
+  const lvl = state.passLevel;
+  host.innerHTML = PASS_SEASON_TRACK.map((row) => {
+    const current = row.day === lvl;
+    const done = row.day < lvl;
+    const midClass = current
+      ? "w-10 h-10 rounded-full bg-primary text-surface-container-lowest font-stat-numeral text-[16px] font-bold flex items-center justify-center shadow-[0_0_16px_rgba(253,186,69,0.9)] ring-2 ring-primary-fixed border border-primary"
+      : done
+        ? "w-9 h-9 rounded-full bg-secondary text-on-secondary font-stat-numeral text-label-md flex items-center justify-center shadow-md font-bold"
+        : "w-9 h-9 rounded-full bg-surface-container-highest text-on-surface-variant font-stat-numeral text-label-md flex items-center justify-center font-bold";
+    const colScale = current || row.day === PASS_SEASON_DAYS ? "scale-[1.03] relative z-20" : "";
+    const finale =
+      row.day === PASS_SEASON_DAYS
+        ? `<span class="font-label-sm text-[8px] text-primary-fixed font-bold uppercase tracking-wider -mt-1 bg-surface-container-lowest px-1 rounded shadow">ФИНАЛ</span>`
+        : current
+          ? `<span class="font-label-sm text-[9px] text-primary font-bold uppercase tracking-wider -mt-1 bg-surface-container-lowest/90 px-1 rounded shadow">ТЕКУЩИЙ</span>`
+          : "";
+    return `<div class="pass-track-col flex flex-col items-center justify-between h-full ${colScale}" data-pass-col="${row.day}">
+      ${passTrackCardHtml("free", row.day, row.free, { current })}
+      <div class="my-1.5 flex flex-col items-center">
+        <div class="${midClass}">${row.day}</div>
+        ${finale}
+      </div>
+      ${passTrackCardHtml("elite", row.day, row.elite, { current })}
+    </div>`;
+  }).join("");
+}
+
+function bindPassInteractions() {
+  const root = $("viewPass");
+  if (!root || root.dataset.passBound === "1") return;
+  root.dataset.passBound = "1";
+
+  root.addEventListener("click", (ev) => {
+    const claim = ev.target.closest("[data-pass-claim]");
+    if (claim && root.contains(claim)) {
+      ev.preventDefault();
+      const track = claim.getAttribute("data-pass-claim");
+      const day = Number(claim.getAttribute("data-pass-day"));
+      if (track && day) {
+        passClaimReward(track, day);
+        renderPass();
+      }
+      return;
+    }
+
+    const seasonGo = ev.target.closest(".pass-season-go");
+    if (seasonGo && root.contains(seasonGo)) {
+      ev.preventDefault();
+      const minLvl = Number(seasonGo.getAttribute("data-pass-min-level") || 0);
+      const needsElite = seasonGo.getAttribute("data-pass-gate") === "elite";
+      if (needsElite && !passActive()) {
+        showPassGateTip();
+        return;
+      }
+      if (minLvl && state.passLevel < minLvl) {
+        toast(`Нужен уровень пропуска ${minLvl}+`);
+        return;
+      }
+      const tab = seasonGo.getAttribute("data-pass-go");
+      if (tab) navigate(tab, { primary: "combat" });
+    }
+  });
+
+  const scroll = $("passTrackScroll");
+  const left = $("passScrollLeft");
+  const right = $("passScrollRight");
+  if (left && scroll) {
+    left.addEventListener("click", () => scroll.scrollBy({ left: -320, behavior: "smooth" }));
+  }
+  if (right && scroll) {
+    right.addEventListener("click", () => scroll.scrollBy({ left: 320, behavior: "smooth" }));
+  }
+
+  const claimAll = $("claimAllBtn");
+  if (claimAll) {
+    claimAll.addEventListener("click", (ev) => {
+      ev.preventDefault();
+      passClaimAllAvailable();
+    });
+  }
+
+  const buy = $("buyLevelsBtn");
+  if (buy) {
+    buy.addEventListener("click", (ev) => {
+      ev.preventDefault();
+      passBuyLevels(5);
+    });
+  }
+
+  const stubBtn = $("btnPassActiveStub");
+  if (stubBtn) {
+    stubBtn.addEventListener("click", () => {
+      state.passActiveStub = !state.passActiveStub;
+      toast(
+        state.passActiveStub
+          ? t("pass.active.stub.on", "Элитный пасс ACTIVE")
+          : t("pass.active.stub.off", "Элитный пасс выключен"),
+      );
+      renderPass();
+      renderFarm();
+    });
+  }
+}
+
+function centerPassTrackOnCurrent() {
+  const scroll = $("passTrackScroll");
+  const col = scroll?.querySelector(`[data-pass-col="${state.passLevel}"]`);
+  if (!scroll || !col) return;
+  const left = col.offsetLeft - scroll.clientWidth / 2 + col.offsetWidth / 2;
+  scroll.scrollTo({ left: Math.max(0, left), behavior: state.passTrackCentered ? "auto" : "smooth" });
+  state.passTrackCentered = true;
+}
+
 function renderPass() {
+  ensurePassClaimState();
+  bindPassInteractions();
+
   // Painted Stitch form has no wireframe hosts — skip when absent.
   const eyebrow = $("passEyebrow");
   if (eyebrow) eyebrow.textContent = t("hub.tab.pass", "Пасс");
@@ -7262,25 +8280,27 @@ function renderPass() {
   }
   renderAutofarmToggles("passAutofarmList");
 
-  const stubBtn = $("btnPassActiveStub");
-  if (stubBtn && !stubBtn.dataset.mythfelBound) {
-    stubBtn.dataset.mythfelBound = "1";
-    stubBtn.addEventListener("click", () => {
-      state.passActiveStub = !state.passActiveStub;
-      toast(
-        state.passActiveStub
-          ? t("pass.active.stub.on", "Stub: пасс ACTIVE")
-          : t("pass.active.stub.off", "Stub: пасс inactive"),
-      );
-      renderPass();
-      renderFarm();
-    });
+  const badge = $("passCurrentLevelBadge");
+  if (badge) badge.textContent = `УР. ${state.passLevel}`;
+  const xpLabel = $("passXpLabel");
+  if (xpLabel) {
+    xpLabel.textContent = `${state.passXp.toLocaleString("ru-RU")} / ${PASS_XP_PER_LEVEL.toLocaleString("ru-RU")} XP`;
   }
-  if (stubBtn) {
-    stubBtn.textContent = state.passActiveStub
-      ? t("pass.active.stub.toggle_off", "Stub: выключить ACTIVE")
-      : t("pass.active.stub.toggle_on", "Stub: пасс ACTIVE");
+  const xpBar = $("passXpBar");
+  if (xpBar) {
+    xpBar.style.width = `${Math.round((state.passXp / PASS_XP_PER_LEVEL) * 1000) / 10}%`;
   }
+  const eliteLabel = $("passEliteStatusLabel");
+  if (eliteLabel) eliteLabel.textContent = passActive() ? "АКТИВЕН" : "ВЫКЛ";
+  const booster = $("passBoosterState");
+  if (booster) booster.textContent = passActive() ? "АКТИВЕН" : "НЕТ";
+  const range = $("passLevelRange");
+  if (range) range.textContent = `1 — ${PASS_SEASON_DAYS}`;
+  const bossHint = $("passBossLevelHint");
+  if (bossHint) bossHint.textContent = `Ур. 28+ (Ваш Ур: ${state.passLevel})`;
+
+  renderPassTrack();
+  requestAnimationFrame(() => centerPassTrackOnCurrent());
 }
 
 function breedingGateTip() {
@@ -9433,6 +10453,67 @@ function preloadPveFightAssets(chapter = state.pveChapter) {
   prefetchSquadCardArt(squad);
 }
 
+function battleTurnTimerSec() {
+  // Always at least 1 minute (product lock). LiveOps may raise, never lower below 60.
+  const n = Number(state.liveOps?.limits?.battle_turn_sec ?? state.liveops?.limits?.battle_turn_sec);
+  const fromOps = Number.isFinite(n) && n > 0 ? Math.floor(n) : BATTLE_TURN_TIMER_SEC;
+  return Math.max(BATTLE_TURN_TIMER_SEC, fromOps);
+}
+
+function formatBattleTimer(sec) {
+  const s = Math.max(0, Math.floor(sec || 0));
+  const mm = Math.floor(s / 60);
+  const ss = String(s % 60).padStart(2, "0");
+  return `${mm}:${ss}`;
+}
+
+function paintBattleTurnTimer(sec = state.battleTurnLeft) {
+  const label = formatBattleTimer(sec);
+  const el = $("battle-timer");
+  if (el) el.textContent = label;
+  const pve = $("pveFightTimer");
+  if (pve) pve.textContent = label;
+}
+
+function clearBattleTurnTimer() {
+  if (state.battleTurnTimer) {
+    clearInterval(state.battleTurnTimer);
+    state.battleTurnTimer = null;
+  }
+}
+
+/** Player-turn countdown → 1:00; on 0 auto endTurn. */
+function syncBattleTurnTimer({ mine = false, turn = 0, battleId = "" } = {}) {
+  paintBattleTurnTimer(state.battleTurnLeft);
+  if (!mine || state.battle?.result) {
+    clearBattleTurnTimer();
+    state.battleTurnKey = "";
+    return;
+  }
+  const key = `${battleId || state.battle?.battleId || "b"}:${turn || state.battle?.turn || 0}`;
+  if (state.battleTurnKey === key && state.battleTurnTimer) {
+    paintBattleTurnTimer(state.battleTurnLeft);
+    return;
+  }
+  clearBattleTurnTimer();
+  state.battleTurnKey = key;
+  state.battleTurnLeft = battleTurnTimerSec();
+  paintBattleTurnTimer(state.battleTurnLeft);
+  state.battleTurnTimer = setInterval(() => {
+    if (!state.battle || state.battle.result || state.battle.active !== 0) {
+      clearBattleTurnTimer();
+      return;
+    }
+    state.battleTurnLeft = Math.max(0, (state.battleTurnLeft | 0) - 1);
+    paintBattleTurnTimer(state.battleTurnLeft);
+    if (state.battleTurnLeft <= 0) {
+      clearBattleTurnTimer();
+      toast(t("battle.turn.timeout", "Время хода вышло · ход передан"));
+      submitAction({ kind: "endTurn" });
+    }
+  }, 1000);
+}
+
 function applyPracticeFightBackdrop() {
   const bg = document.querySelector("#viewPracticeFight .pf-arena > .absolute.inset-0.bg-cover");
   if (!bg) return;
@@ -9473,10 +10554,17 @@ function renderPracticeFight() {
       const data = pveChapterData(state.pveChapter);
       const waveN = pveFightNum(state.selectedStageId);
       $("pfEnergy").textContent = `МИФМИР · ${data.title || "Глава"} · Волна ${waveN}/3 · Энергия ${energy}`;
+    } else if (state.battleMode === "boss") {
+      $("pfEnergy").textContent = `РЕЙД · ход ${formatBattleTimer(battleTurnTimerSec())} · Энергия ${energy}`;
     } else {
       $("pfEnergy").textContent = `ДОДЗЁ СПАРРИНГ · Энергия хода ${energy}`;
     }
   }
+  syncBattleTurnTimer({
+    mine,
+    turn: diff.turn || 1,
+    battleId: diff.battleId || "",
+  });
   const waveStrip = $("pfPveWaveStrip");
   if (waveStrip) {
     waveStrip.classList.toggle("hidden", !isPve);
@@ -10259,9 +11347,14 @@ async function applyDiff(diff, note = "") {
     diff.result === "p1_win" &&
     state.battleMode === "dungeon" &&
     Number(state.dungeonNodeIndex) < dungeonPathNodes().length - 1;
+  const midRaidWin =
+    !!diff?.result &&
+    diff.result === "p1_win" &&
+    state.battleMode === "boss" &&
+    !raidPathIsBossNode(state.selectedStageId);
   if (diff.result) {
-    // Mid-chapter / mid-dungeon wins skip victory view until final boss node.
-    if (!midChapterPveWin && !midDungeonWin) {
+    // Mid-chapter / mid-dungeon / mid-raid wins skip victory view until final boss node.
+    if (!midChapterPveWin && !midDungeonWin && !midRaidWin) {
       state.lastResult = { battleId: diff.battleId, result: diff.result };
     }
     if (state.battleMode === "pve") {
@@ -10302,6 +11395,8 @@ async function applyDiff(diff, note = "") {
   } else if (midDungeonWin) {
     state.dungeonAdvancing = true;
     await advanceDungeonNodeAfterWin();
+  } else if (midRaidWin) {
+    await advanceRaidNodeAfterWin();
   } else if (
     diff?.result === "p1_win" &&
     state.battleMode === "dungeon" &&
@@ -10309,6 +11404,12 @@ async function applyDiff(diff, note = "") {
   ) {
     grantDungeonNodeLoot();
     grantDungeonBossLoot();
+  } else if (
+    diff?.result === "p1_win" &&
+    state.battleMode === "boss" &&
+    raidPathIsBossNode(state.selectedStageId)
+  ) {
+    grantRaidLootStub();
   }
 }
 
@@ -11498,8 +12599,14 @@ function renderAll() {
       bindBattleModeLobbies();
       break;
     case "boss_raid":
+      state.raidBattlePreview = false;
       renderRaidPath();
       bindBattleModeLobbies();
+      break;
+    case "raid_battle":
+      state.raidBattlePreview = true;
+      renderRaidBattleStub();
+      bindRaidBattleStub();
       break;
     case "pvp":
       if ($("pvpEyebrow")) $("pvpEyebrow").textContent = t("hub.tab.pvp");
@@ -12956,6 +14063,33 @@ function bindGuildHalls() {
   }
 }
 
+function bindRaidBattleStub() {
+  const root = $("viewRaidBattle");
+  if (!root || root.dataset.raidBattleBound === "1") return;
+  root.dataset.raidBattleBound = "1";
+  root.addEventListener("click", (ev) => {
+    const btn = ev.target.closest("[data-hud-action]");
+    if (!btn || !root.contains(btn)) return;
+    const act = btn.getAttribute("data-hud-action");
+    ev.preventDefault();
+    if (act === "raid-battle-start") {
+      startRaidNodeFight({ autoPlay: false });
+      return;
+    }
+    if (act === "raid-battle-back") {
+      state.raidBattlePreview = false;
+      navigate("boss_raid", { primary: "combat" });
+      return;
+    }
+    if (act === "raid-battle-form") {
+      state.raidBattlePreview = false;
+      state.formationMode = "raid";
+      state.battleMode = "boss";
+      navigate("formation", { primary: "combat" });
+    }
+  });
+}
+
 /** Dense painted lobbies: dungeon / raid / guild war CTAs + local selection. */
 function bindBattleModeLobbies() {
   for (const id of ["viewBossDungeon", "viewBossRaid", "viewGuildBattle"]) {
@@ -13040,6 +14174,14 @@ function bindBattleModeLobbies() {
         createDungeonParty();
         return;
       }
+      if (act === "dungeon-party-join") {
+        joinDungeonParty();
+        return;
+      }
+      if (act === "dungeon-party-ready") {
+        toggleDungeonPartyReady();
+        return;
+      }
       if (act === "raid-start") {
         viewRaidFight({ autoPlay: false });
         return;
@@ -13050,10 +14192,16 @@ function bindBattleModeLobbies() {
             viewRaidFight({ autoPlay: false });
             return;
           }
+          state.battleMode = "boss";
+          state.formationMode = "raid";
+          ensureRaidLegion();
+          navigate("formation", { primary: "combat" });
+          return;
         }
         if (id === "viewBossDungeon" || root.id === "viewBossDungeon") {
           // Keep dungeon mode; formation then CTA can call dungeon-start.
           state.battleMode = "dungeon";
+          state.formationMode = "";
         }
         navigate("formation", { primary: "combat" });
         return;
@@ -13063,11 +14211,17 @@ function bindBattleModeLobbies() {
         return;
       }
       if (act === "raid-invite") {
-        state.raidLegionCount = Math.min(RAID_PARTY_SIZE, (state.raidLegionCount | 0) + 3);
+        const next = Math.min(RAID_PARTY_SIZE, (state.raidLegionCount | 0) + 3);
+        fillRaidLegionSlots(next);
         if (state.raidLegionCount < minRaidPlayers) {
-          toast(`Легион ${state.raidLegionCount}/${RAID_PARTY_SIZE} · ещё приглашения`);
+          toast(`Легион ${state.raidLegionCount}/${RAID_PARTY_SIZE} · строй сап→даль→мили→танк`);
         } else {
-          toast(`Легион полный ${RAID_PARTY_SIZE}/${RAID_PARTY_SIZE}`);
+          const v = validateRaidComposition();
+          toast(
+            v.ok
+              ? `Легион полный · 2 агр + 1 пробитие · 2 хил + 1 бафф · 6 DPS`
+              : `Легион ${state.raidLegionCount}/${RAID_PARTY_SIZE} · состав неполный`,
+          );
         }
         renderRaidPath();
         return;
@@ -13663,6 +14817,14 @@ async function main() {
   window.mythfelStartPractice = startPractice;
   window.mythfelSoundFX = SoundFX;
   window.mythfelUnitFatalityLabel = unitFatalityLabel;
+  /** Design handoff: 4×3 legion snapshot (rows/slots/timer/stage/wing3v3). */
+  window.mythfelRaidFormation = raidFormationSnapshot;
+  window.mythfelViewRaidBattle = () => {
+    state.raidBattlePreview = true;
+    navigate("raid_battle", { primary: "combat" });
+    renderRaidBattleStub();
+    return raidFormationSnapshot();
+  };
   /** QA: CreatePvE for stage + mode, then paint live fight HUD. */
   window.mythfelDebugStartStage = async (stageId, mode = "pve") => {
     state.battle = null;

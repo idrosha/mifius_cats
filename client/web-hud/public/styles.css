@@ -5188,6 +5188,101 @@ body:has(#viewGuildHub:not(.hidden)) #wireDock { display: none !important; }
   gap: 0.35rem;
   font-size: 11px;
 }
+.raid-comp {
+  font-size: 10px;
+  color: #9d8f7b;
+  line-height: 1.35;
+}
+.raid-form-board,
+.raid-battle-board {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+  width: 100%;
+}
+.raid-form-row,
+.raid-battle-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.raid-form-row-label,
+.raid-battle-row-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: #9d8f7b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.raid-form-row-slots,
+.raid-battle-row-slots {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.4rem;
+}
+.raid-form-slot,
+.raid-battle-slot {
+  border: 1px solid rgba(157, 143, 123, 0.4);
+  border-radius: 0.55rem;
+  background: #1a1613;
+  min-height: 4.5rem;
+  padding: 0.35rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.15rem;
+  color: #eae1db;
+  text-align: center;
+}
+.raid-form-slot img,
+.raid-battle-slot img {
+  width: 100%;
+  height: 2.4rem;
+  object-fit: cover;
+  object-position: top;
+  border-radius: 0.35rem;
+}
+.raid-form-slot b,
+.raid-battle-slot b {
+  font-size: 10px;
+  line-height: 1.2;
+}
+.raid-form-slot em,
+.raid-battle-slot em {
+  font-size: 9px;
+  color: #9d8f7b;
+  font-style: normal;
+}
+.raid-form-slot.is-on {
+  border-color: rgba(253, 186, 69, 0.5);
+}
+.raid-form-actions,
+.raid-battle-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.55rem;
+}
+#viewRaidBattle .raid-battle-body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 0.75rem;
+  min-height: 0;
+  flex: 1;
+}
+#viewRaidBattle .raid-battle-note {
+  margin: 0;
+  font-size: 12px;
+  color: #d5c4af;
+}
+#viewRaidBattle .raid-battle-hall {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+}
 .gvg-size.is-on {
   box-shadow: 0 0 0 1px rgba(253, 186, 69, 0.4), 0 3px 12px rgba(217, 155, 38, 0.14);
 }
@@ -5869,11 +5964,75 @@ body:has(#viewPass:not(.hidden)) #app {
   min-height: 0 !important;
   flex: 1 1 auto;
 }
-#viewPass .grid.grid-cols-8 {
-  align-items: stretch;
-}
-#viewPass .grid.grid-cols-8 > .flex.flex-col {
+#viewPass .pass-track-wrap {
+  position: relative;
   min-width: 0;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: stretch;
+  padding: 0 1.1rem;
+}
+#viewPass .pass-track-scroll {
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #d99b26 #1f1b18;
+  padding: 0.25rem 0.35rem 0.5rem;
+  -webkit-overflow-scrolling: touch;
+}
+#viewPass .pass-track-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+#viewPass .pass-track-scroll::-webkit-scrollbar-thumb {
+  background: #d99b26;
+  border-radius: 999px;
+}
+#viewPass .pass-track-levels {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 0.75rem;
+  width: max-content;
+  min-height: 22rem;
+  padding-bottom: 0.25rem;
+}
+#viewPass .pass-track-col {
+  flex: 0 0 7.5rem;
+  width: 7.5rem;
+  min-width: 7.5rem;
+}
+#viewPass .pass-scroll-btn {
+  position: absolute;
+  top: 50%;
+  z-index: 30;
+  transform: translateY(-50%);
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 999px;
+  border: 1px solid rgba(217, 155, 38, 0.55);
+  background: rgba(31, 27, 24, 0.92);
+  color: #fdba45;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
+  cursor: pointer;
+}
+#viewPass .pass-scroll-btn:hover {
+  background: #2e2926;
+  filter: brightness(1.1);
+}
+#viewPass .pass-scroll-btn:active {
+  transform: translateY(-50%) scale(0.95);
+}
+#viewPass .pass-scroll-left { left: 0.15rem; }
+#viewPass .pass-scroll-right { right: 0.15rem; }
+#viewPass .pass-track-col img,
+#viewPass .pass-track-col .w-16 {
+  display: block;
+  object-fit: cover;
 }
 #viewPass .w-16.h-16,
 #viewPass .w-14.h-14 {
