@@ -1645,8 +1645,15 @@ function resolveBattlePlan(mode = state.battleMode) {
   };
 }
 
-/** SL stub spend — HUD/profile only until economy-service (D1). */
+/**
+ * SL stub spend — HUD/profile only until economy-service (D1).
+ * DEV: bowl gate off — PvE entry does not consume/block on bowls.
+ * Flip FREE_PVE_BOWLS to false when daily limits return.
+ */
+const FREE_PVE_BOWLS = true;
+
 function spendBowlStub() {
+  if (FREE_PVE_BOWLS) return true;
   if (state.profile && typeof state.profile.bowls === "number") {
     if (state.profile.bowls <= 0) {
       toast(t("limits.bowl.empty", "Миски на сегодня кончились (stub)"));
