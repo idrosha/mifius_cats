@@ -3023,6 +3023,7 @@ function codexRenderArticle(topic) {
 function renderCodex() {
   const root = $("viewCodex");
   if (!root || root.classList.contains("hidden")) return;
+  ensureCodexMounts(root);
   const topics = codexTopics();
   if (!topics.length) return;
   const main = root.querySelector("main");
