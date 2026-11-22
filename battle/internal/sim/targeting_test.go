@@ -106,6 +106,47 @@ func TestSelectTargets_RandomEnemyIgnoresTaunt(t *testing.T) {
 	}
 }
 
+func TestSelectTargets_AllEnemiesRespectsTaunt(t *testing.T) {
+	b, actor := baseBattleThreeRoles()
+	for _, u := range b.Units {
+		if u.ID == "e_tank" {
+			u.addStatus("taunt", 1, 2)
+		}
+	}
+	got := b.SelectTargets(actor, "all_enemies", "", false)
+	if len(got) != 1 || got[0].ID != "e_tank" {
+		t.Fatalf("all_enemies+taunt must collapse onto tank, got %#v", ids(got))
+	}
+}
+
+func TestSelectTargets_FreeTargetExplicitRespectsTaunt(t *testing.T) {
+	b, _ := baseBattleThreeRoles()
+	ranger := &Unit{ID: "p_ranger", Side: SideP1, Lane: 2, Role: "ranger", HP: 35, MaxHP: 35, Alive: true}
+	b.Units = append(b.Units, ranger)
+	for _, u := range b.Units {
+		if u.ID == "e_tank" {
+			u.addStatus("taunt", 1, 2)
+		}
+	}
+	got := b.SelectTargets(ranger, "nearest", "e_support", false)
+	if len(got) != 1 || got[0].ID != "e_tank" {
+		t.Fatalf("free-target named support under taunt must redirect to tank, got %#v", ids(got))
+	}
+}
+
+func TestSelectTargets_MeleeBacklineExplicitRespectsTaunt(t *testing.T) {
+	b, actor := baseBattleThreeRoles()
+	for _, u := range b.Units {
+		if u.ID == "e_tank" {
+			u.addStatus("taunt", 1, 2)
+		}
+	}
+	got := b.SelectTargets(actor, "backline", "e_support", false)
+	if len(got) != 1 || got[0].ID != "e_tank" {
+		t.Fatalf("melee named backline under taunt must redirect to tank, got %#v", ids(got))
+	}
+}
+
 func TestSelectTargets_MeleeExplicitDeepPickRejected(t *testing.T) {
 	b, actor := baseBattleThreeRoles()
 	// Fighter naming rear support on nearest = illegal (§3.4).

@@ -167,36 +167,36 @@ def ch2():
     el, fac = "ice", "wolves"
 
     fighter = unit(
-        "bot_wolf_fighter_m2f1", "fighter", el, 2, 40, 6, 4, 2,
+        "bot_wolf_fighter_m2f1", "fighter", el, 2, 36, 5, 4, 2,
         deck4([
-            card("card_wolf_claw_m2f1", "card.bot_wolf_claw", el, 1, atk=7, tags=["attack"]),
-            card("card_wolf_claw2_m2f1", "card.bot_wolf_claw", el, 1, atk=7, tags=["attack"]),
-            card("card_wolf_claw3_m2f1", "card.bot_wolf_claw", el, 1, atk=8, tags=["attack"]),
-            card("card_wolf_claw4_m2f1", "card.bot_wolf_claw", el, 1, atk=8, tags=["attack"]),
+            card("card_wolf_claw_m2f1", "card.bot_wolf_claw", el, 1, atk=5, tags=["attack"]),
+            card("card_wolf_claw2_m2f1", "card.bot_wolf_claw", el, 1, atk=5, tags=["attack"]),
+            card("card_wolf_claw3_m2f1", "card.bot_wolf_claw", el, 1, atk=6, tags=["attack"]),
+            card("card_wolf_claw4_m2f1", "card.bot_wolf_claw", el, 1, atk=5, tags=["attack"]),
         ]),
         "Волк-боец", fac,
     )
     heal = unit(
-        "bot_wolf_support_m2f1", "support", el, 2, 34, 3, 3, 2,
+        "bot_wolf_support_m2f1", "support", el, 2, 30, 3, 3, 2,
         deck4([
             card("card_wolf_sip_m2f1", "card.bot_wolf_sip", el, 1, tags=["heal"], rule="ally_lowest_hp",
-                 ops=[{"op": "heal", "amount": 9}]),
+                 ops=[{"op": "heal", "amount": 5}]),
             card("card_wolf_sip2_m2f1", "card.bot_wolf_sip", el, 1, tags=["heal"], rule="ally_lowest_hp",
-                 ops=[{"op": "heal", "amount": 9}]),
+                 ops=[{"op": "heal", "amount": 5}]),
             card("card_wolf_sip3_m2f1", "card.bot_wolf_sip", el, 1, tags=["heal"], rule="ally_lowest_hp",
-                 ops=[{"op": "heal", "amount": 10}]),
+                 ops=[{"op": "heal", "amount": 6}]),
             card("card_wolf_sip4_m2f1", "card.bot_wolf_sip", el, 1, tags=["heal"], rule="ally_lowest_hp",
-                 ops=[{"op": "heal", "amount": 9}]),
+                 ops=[{"op": "heal", "amount": 5}]),
         ]),
         "Волк-хил", fac,
     )
     ranger = unit(
-        "bot_wolf_ranger_m2f1", "ranger", el, 2, 36, 6, 5, 2,
+        "bot_wolf_ranger_m2f1", "ranger", el, 2, 32, 5, 5, 2,
         deck4([
-            card("card_wolf_shot_m2f1", "card.bot_wolf_shot", el, 1, atk=8, rule="center", tags=["attack"]),
-            card("card_wolf_shot2_m2f1", "card.bot_wolf_shot", el, 1, atk=8, rule="center", tags=["attack"]),
-            card("card_wolf_shot3_m2f1", "card.bot_wolf_shot", el, 1, atk=9, rule="center", tags=["attack"]),
-            card("card_wolf_shot4_m2f1", "card.bot_wolf_shot", el, 1, atk=8, rule="center", tags=["attack"]),
+            card("card_wolf_shot_m2f1", "card.bot_wolf_shot", el, 1, atk=6, rule="center", tags=["attack"]),
+            card("card_wolf_shot2_m2f1", "card.bot_wolf_shot", el, 1, atk=6, rule="center", tags=["attack"]),
+            card("card_wolf_shot3_m2f1", "card.bot_wolf_shot", el, 1, atk=7, rule="center", tags=["attack"]),
+            card("card_wolf_shot4_m2f1", "card.bot_wolf_shot", el, 1, atk=6, rule="center", tags=["attack"]),
         ]),
         "Волк-лучник", fac,
     )
@@ -218,14 +218,14 @@ def ch2():
             "Волк-лучник", fac,
         )
 
-    def wolf_ranger_f2(tid, hp=29):
+    def wolf_ranger_f2(tid, hp=26):
         return unit(
-            tid, "ranger", el, 2, hp, 6, 5, 2,
+            tid, "ranger", el, 2, hp, 5, 5, 2,
             deck4([
-                card(f"{tid}_1", "card.bot_wolf_shot", el, 1, atk=6, rule="center", tags=["attack"]),
-                card(f"{tid}_2", "card.bot_wolf_shot", el, 1, atk=6, rule="center", tags=["attack"]),
-                card(f"{tid}_3", "card.bot_wolf_shot", el, 1, atk=7, rule="center", tags=["attack"]),
-                card(f"{tid}_4", "card.bot_wolf_shot", el, 1, atk=6, rule="center", tags=["attack"]),
+                card(f"{tid}_1", "card.bot_wolf_shot", el, 1, atk=5, rule="center", tags=["attack"]),
+                card(f"{tid}_2", "card.bot_wolf_shot", el, 1, atk=5, rule="center", tags=["attack"]),
+                card(f"{tid}_3", "card.bot_wolf_shot", el, 1, atk=6, rule="center", tags=["attack"]),
+                card(f"{tid}_4", "card.bot_wolf_shot", el, 1, atk=5, rule="center", tags=["attack"]),
             ]),
             "Волк-лучник", fac,
         )
@@ -239,31 +239,31 @@ def ch2():
 
     def wolf_heal(tid):
         return unit(
-            tid, "support", el, 2, 28, 3, 3, 2,
+            tid, "support", el, 2, 26, 3, 3, 2,
             deck4([
                 card(f"{tid}_h1", "card.bot_wolf_sip", el, 1, tags=["heal"], rule="ally_lowest_hp",
-                     ops=[{"op": "heal", "amount": 7}]),
+                     ops=[{"op": "heal", "amount": 4}]),
                 card(f"{tid}_h2", "card.bot_wolf_sip", el, 1, tags=["heal"], rule="ally_lowest_hp",
-                     ops=[{"op": "heal", "amount": 7}]),
+                     ops=[{"op": "heal", "amount": 4}]),
                 card(f"{tid}_h3", "card.bot_wolf_sip", el, 1, tags=["heal"], rule="ally_lowest_hp",
-                     ops=[{"op": "heal", "amount": 8}]),
+                     ops=[{"op": "heal", "amount": 5}]),
                 card(f"{tid}_h4", "card.bot_wolf_sip", el, 1, tags=["heal"], rule="ally_lowest_hp",
-                     ops=[{"op": "heal", "amount": 7}]),
+                     ops=[{"op": "heal", "amount": 4}]),
             ]),
             "Волк-хил", fac,
         )
 
     boss = unit(
-        "bot_pitboss_wolf_alpha_m2f3", "fighter", el, 2, 54, 6, 5, 3,
+        "bot_pitboss_wolf_alpha_m2f3", "fighter", el, 2, 48, 5, 5, 3,
         deck4([
             # backline leaps respect taunt; freeze-on-taunt is sim-side
-            card("card_wolf_bite_m2f3", "card.bot_wolf_leap", el, 1, atk=6, rule="backline",
+            card("card_wolf_bite_m2f3", "card.bot_wolf_leap", el, 1, atk=5, rule="backline",
                  tags=["attack", "backline"]),
-            card("card_wolf_bite2_m2f3", "card.bot_wolf_leap", el, 1, atk=6, rule="backline",
+            card("card_wolf_bite2_m2f3", "card.bot_wolf_leap", el, 1, atk=5, rule="backline",
                  tags=["attack", "backline"]),
-            card("card_wolf_bite3_m2f3", "card.bot_wolf_pounce", el, 1, atk=7, rule="backline",
+            card("card_wolf_bite3_m2f3", "card.bot_wolf_pounce", el, 1, atk=6, rule="backline",
                  tags=["attack", "backline", "crit"]),
-            card("card_wolf_rend_m2f3", "card.bot_wolf_rend", el, 1, atk=5, rule="nearest", tags=["attack"],
+            card("card_wolf_rend_m2f3", "card.bot_wolf_rend", el, 1, atk=4, rule="nearest", tags=["attack"],
                  ops=[{"op": "apply_status", "status": "bleed", "stacks": 2, "duration": 2}]),
         ]),
         "Лютый Клык", fac, pitboss=True,
@@ -280,27 +280,27 @@ def ch2():
 def ch3():
     el, fac = "fire", "red_dogs"
 
-    def fighter(tid, hp=40):
+    def fighter(tid, hp=36):
         return unit(
-            tid, "fighter", el, 3, hp, 6, 4, 2,
+            tid, "fighter", el, 3, hp, 5, 4, 2,
             deck4([
-                card(f"{tid}_1", "card.bot_redd_claw", el, 1, atk=6, tags=["attack"]),
-                card(f"{tid}_2", "card.bot_redd_claw", el, 1, atk=6, tags=["attack"]),
-                card(f"{tid}_3", "card.bot_redd_claw", el, 1, atk=7, tags=["attack"]),
-                card(f"{tid}_4", "card.bot_redd_claw", el, 1, atk=6, tags=["attack"]),
+                card(f"{tid}_1", "card.bot_redd_claw", el, 1, atk=5, tags=["attack"]),
+                card(f"{tid}_2", "card.bot_redd_claw", el, 1, atk=5, tags=["attack"]),
+                card(f"{tid}_3", "card.bot_redd_claw", el, 1, atk=6, tags=["attack"]),
+                card(f"{tid}_4", "card.bot_redd_claw", el, 1, atk=5, tags=["attack"]),
             ]),
             "Алый боец", fac,
         )
 
     tank = unit(
-        "bot_redd_tank_m3f1", "tank", el, 3, 46, 4, 2, 1,
+        "bot_redd_tank_m3f1", "tank", el, 3, 42, 4, 2, 1,
         deck4([
-            card("card_redd_taunt_m3f1", "card.bot_redd_roar", el, 1, shield=8, tags=["shield"],
+            card("card_redd_taunt_m3f1", "card.bot_redd_roar", el, 1, shield=7, tags=["shield"],
                  ops=[{"op": "apply_status", "status": "taunt", "stacks": 1, "duration": 2}]),
-            card("card_redd_taunt2_m3f1", "card.bot_redd_roar", el, 1, shield=7, tags=["shield"],
+            card("card_redd_taunt2_m3f1", "card.bot_redd_roar", el, 1, shield=6, tags=["shield"],
                  ops=[{"op": "apply_status", "status": "taunt", "stacks": 1, "duration": 2}]),
-            card("card_redd_bash_m3f1", "card.bot_redd_bite", el, 1, atk=5, tags=["attack"]),
-            card("card_redd_bash2_m3f1", "card.bot_redd_bite", el, 1, atk=5, tags=["attack"]),
+            card("card_redd_bash_m3f1", "card.bot_redd_bite", el, 1, atk=4, tags=["attack"]),
+            card("card_redd_bash2_m3f1", "card.bot_redd_bite", el, 1, atk=4, tags=["attack"]),
         ]),
         "Алый щитоносец", fac,
     )
@@ -313,25 +313,25 @@ def ch3():
 
     def assassin(tid):
         return unit(
-            tid, "assassin", el, 3, 46, 7, 6, 2,
+            tid, "assassin", el, 3, 40, 6, 6, 2,
             deck4([
-                card(f"{tid}_1", "card.bot_redd_stab", el, 1, atk=8, rule="backline", tags=["attack", "backline"]),
-                card(f"{tid}_2", "card.bot_redd_stab", el, 1, atk=8, rule="backline", tags=["attack", "backline"]),
-                card(f"{tid}_3", "card.bot_redd_stab", el, 1, atk=9, rule="center", tags=["attack"]),
-                card(f"{tid}_4", "card.bot_redd_stab", el, 1, atk=9, rule="backline", tags=["attack", "backline"]),
+                card(f"{tid}_1", "card.bot_redd_stab", el, 1, atk=6, rule="backline", tags=["attack", "backline"]),
+                card(f"{tid}_2", "card.bot_redd_stab", el, 1, atk=6, rule="backline", tags=["attack", "backline"]),
+                card(f"{tid}_3", "card.bot_redd_stab", el, 1, atk=7, rule="center", tags=["attack"]),
+                card(f"{tid}_4", "card.bot_redd_stab", el, 1, atk=6, rule="backline", tags=["attack", "backline"]),
             ]),
             "Алый убийца", fac,
         )
 
     tank2 = unit(
-        "bot_redd_tank_m3f2", "tank", el, 3, 54, 5, 2, 1,
+        "bot_redd_tank_m3f2", "tank", el, 3, 48, 4, 2, 1,
         deck4([
-            card("card_redd_taunt_m3f2", "card.bot_redd_roar", el, 1, shield=8, tags=["shield"],
+            card("card_redd_taunt_m3f2", "card.bot_redd_roar", el, 1, shield=7, tags=["shield"],
                  ops=[{"op": "apply_status", "status": "taunt", "stacks": 1, "duration": 2}]),
-            card("card_redd_taunt2_m3f2", "card.bot_redd_roar", el, 1, shield=7, tags=["shield"],
+            card("card_redd_taunt2_m3f2", "card.bot_redd_roar", el, 1, shield=6, tags=["shield"],
                  ops=[{"op": "apply_status", "status": "taunt", "stacks": 1, "duration": 2}]),
-            card("card_redd_bash_m3f2", "card.bot_redd_bite", el, 1, atk=5, tags=["attack"]),
-            card("card_redd_bash2_m3f2", "card.bot_redd_bite", el, 1, atk=5, tags=["attack"]),
+            card("card_redd_bash_m3f2", "card.bot_redd_bite", el, 1, atk=4, tags=["attack"]),
+            card("card_redd_bash2_m3f2", "card.bot_redd_bite", el, 1, atk=4, tags=["attack"]),
         ]),
         "Алый щитоносец", fac,
     )
@@ -344,30 +344,30 @@ def ch3():
 
     def flank_tank(tid):
         return unit(
-            tid, "tank", el, 3, 48, 3, 2, 1,
+            tid, "tank", el, 3, 42, 3, 2, 1,
             deck4([
-                card(f"{tid}_t1", "card.bot_redd_roar", el, 1, shield=8, tags=["shield"],
+                card(f"{tid}_t1", "card.bot_redd_roar", el, 1, shield=7, tags=["shield"],
                      ops=[{"op": "apply_status", "status": "taunt", "stacks": 1, "duration": 2}]),
-                card(f"{tid}_t2", "card.bot_redd_roar", el, 1, shield=7, tags=["shield"],
+                card(f"{tid}_t2", "card.bot_redd_roar", el, 1, shield=6, tags=["shield"],
                      ops=[{"op": "apply_status", "status": "taunt", "stacks": 1, "duration": 2}]),
-                card(f"{tid}_b1", "card.bot_redd_bite", el, 1, atk=5, tags=["attack"]),
-                card(f"{tid}_b2", "card.bot_redd_bite", el, 1, atk=5, tags=["attack"]),
+                card(f"{tid}_b1", "card.bot_redd_bite", el, 1, atk=4, tags=["attack"]),
+                card(f"{tid}_b2", "card.bot_redd_bite", el, 1, atk=4, tags=["attack"]),
             ]),
             "Алый щитоносец", fac,
         )
 
     boss = unit(
-        "bot_pitboss_redd_alpha_m3f3", "fighter", el, 3, 46, 5, 4, 3,
+        "bot_pitboss_redd_alpha_m3f3", "fighter", el, 3, 42, 5, 4, 3,
         deck4([
-            # mass cost 2 = one AoE hit with bleed
-            card("card_redd_cleave_m3f3", "card.bot_redd_cleave", el, 2, atk=6, rule="all_enemies",
+            # mass cost 2 = one AoE hit with bleed; under taunt collapses onto tank
+            card("card_redd_cleave_m3f3", "card.bot_redd_cleave", el, 2, atk=5, rule="all_enemies",
                  tags=["attack", "aoe"],
-                 ops=[{"op": "apply_status", "status": "bleed", "stacks": 2, "duration": 2}]),
-            card("card_redd_cleave2_m3f3", "card.bot_redd_cleave", el, 2, atk=6, rule="all_enemies",
+                 ops=[{"op": "apply_status", "status": "bleed", "stacks": 1, "duration": 2}]),
+            card("card_redd_cleave2_m3f3", "card.bot_redd_cleave", el, 2, atk=5, rule="all_enemies",
                  tags=["attack", "aoe"],
-                 ops=[{"op": "apply_status", "status": "bleed", "stacks": 2, "duration": 2}]),
-            card("card_redd_slash_m3f3", "card.bot_redd_claw", el, 1, atk=5, tags=["attack"]),
-            card("card_redd_slash2_m3f3", "card.bot_redd_claw", el, 1, atk=5, tags=["attack"]),
+                 ops=[{"op": "apply_status", "status": "bleed", "stacks": 1, "duration": 2}]),
+            card("card_redd_slash_m3f3", "card.bot_redd_claw", el, 1, atk=4, tags=["attack"]),
+            card("card_redd_slash2_m3f3", "card.bot_redd_claw", el, 1, atk=4, tags=["attack"]),
         ]),
         "Алый Вожак", fac, pitboss=True,
     )
@@ -413,13 +413,14 @@ def ch4():
         return unit(
             tid, "assassin", el, 4, hp, 5, 6, 2,
             deck4([
-                card(f"{tid}_1", "card.bot_zomb_stab", el, 1, atk=6, rule="backline", tags=["attack", "backline", "poison"],
+                # backline/center respect taunt — no random_enemy bypass on soldier swings
+                card(f"{tid}_1", "card.bot_zomb_stab", el, 1, atk=5, rule="backline", tags=["attack", "backline", "poison"],
                      ops=[{"op": "apply_status", "status": "poison", "stacks": 1, "duration": 0}]),
-                card(f"{tid}_2", "card.bot_zomb_stab", el, 1, atk=6, rule="center", tags=["attack", "poison"],
+                card(f"{tid}_2", "card.bot_zomb_stab", el, 1, atk=5, rule="center", tags=["attack", "poison"],
                      ops=[{"op": "apply_status", "status": "poison", "stacks": 1, "duration": 0}]),
-                card(f"{tid}_3", "card.bot_zomb_stab", el, 1, atk=7, rule="backline", tags=["attack", "backline", "poison"],
+                card(f"{tid}_3", "card.bot_zomb_stab", el, 1, atk=6, rule="backline", tags=["attack", "backline", "poison"],
                      ops=[{"op": "apply_status", "status": "poison", "stacks": 1, "duration": 0}]),
-                card(f"{tid}_4", "card.bot_zomb_stab", el, 1, atk=6, rule="random_enemy", tags=["attack", "poison"],
+                card(f"{tid}_4", "card.bot_zomb_stab", el, 1, atk=5, rule="nearest", tags=["attack", "poison"],
                      ops=[{"op": "apply_status", "status": "poison", "stacks": 1, "duration": 0}]),
             ]),
             "Трупный мясник", fac,
@@ -449,22 +450,23 @@ def ch4():
                  ops=[{"op": "apply_status", "status": "poison", "stacks": 1, "duration": 0}]),
             card("card_zomb_bolt_m4f3", "card.bot_zomb_bolt", el, 1, atk=4, tags=["attack"]),
             card("card_zomb_heal_m4f3", "card.bot_zomb_heal", el, 1, tags=["heal"], rule="ally_lowest_hp",
-                 ops=[{"op": "heal", "amount": 6}]),
+                 ops=[{"op": "heal", "amount": 4}]),
         ]),
         "Некропёс Мор", fac, pitboss=True,
     )
 
     def f3_assassin(tid):
         return unit(
-            tid, "assassin", el, 4, 24, 5, 6, 2,
+            tid, "assassin", el, 4, 22, 5, 6, 2,
             deck4([
-                card(f"{tid}_1", "card.bot_zomb_stab", el, 1, atk=5, rule="random_enemy", tags=["attack", "poison"],
+                # taunt-respecting rules; one random kept for poison-spread flavor (D-043)
+                card(f"{tid}_1", "card.bot_zomb_stab", el, 1, atk=4, rule="backline", tags=["attack", "backline", "poison"],
                      ops=[{"op": "apply_status", "status": "poison", "stacks": 1, "duration": 0}]),
-                card(f"{tid}_2", "card.bot_zomb_stab", el, 1, atk=5, rule="random_enemy", tags=["attack", "poison"],
+                card(f"{tid}_2", "card.bot_zomb_stab", el, 1, atk=4, rule="nearest", tags=["attack", "poison"],
                      ops=[{"op": "apply_status", "status": "poison", "stacks": 1, "duration": 0}]),
-                card(f"{tid}_3", "card.bot_zomb_stab", el, 1, atk=6, rule="random_enemy", tags=["attack", "poison"],
+                card(f"{tid}_3", "card.bot_zomb_stab", el, 1, atk=5, rule="backline", tags=["attack", "backline", "poison"],
                      ops=[{"op": "apply_status", "status": "poison", "stacks": 1, "duration": 0}]),
-                card(f"{tid}_4", "card.bot_zomb_stab", el, 1, atk=5, rule="random_enemy", tags=["attack", "poison"],
+                card(f"{tid}_4", "card.bot_zomb_stab", el, 1, atk=4, rule="random_enemy", tags=["attack", "poison"],
                      ops=[{"op": "apply_status", "status": "poison", "stacks": 1, "duration": 0}]),
             ]),
             "Трупный мясник", fac,
@@ -482,78 +484,78 @@ def ch4():
 def ch5():
     el, fac = "bolt", "ghosts"
 
-    def tank(tid, hp=48):
+    def tank(tid, hp=44):
         return unit(
             tid, "tank", el, 5, hp, 3, 2, 1,
             deck4([
-                card(f"{tid}_t1", "card.bot_ghost_ward", el, 1, shield=7, tags=["shield"],
+                card(f"{tid}_t1", "card.bot_ghost_ward", el, 1, shield=6, tags=["shield"],
                      ops=[{"op": "apply_status", "status": "taunt", "stacks": 1, "duration": 2}]),
-                card(f"{tid}_t2", "card.bot_ghost_ward", el, 1, shield=6, tags=["shield"],
+                card(f"{tid}_t2", "card.bot_ghost_ward", el, 1, shield=5, tags=["shield"],
                      ops=[{"op": "apply_status", "status": "taunt", "stacks": 1, "duration": 2}]),
-                card(f"{tid}_b1", "card.bot_ghost_bash", el, 1, atk=5, tags=["attack"]),
-                card(f"{tid}_b2", "card.bot_ghost_bash", el, 1, atk=5, tags=["attack"]),
+                card(f"{tid}_b1", "card.bot_ghost_bash", el, 1, atk=4, tags=["attack"]),
+                card(f"{tid}_b2", "card.bot_ghost_bash", el, 1, atk=4, tags=["attack"]),
             ]),
             "Могильный страж", fac,
         )
 
-    def fighter(tid, hp=42):
+    def fighter(tid, hp=38):
         return unit(
-            tid, "fighter", el, 5, hp, 6, 4, 2,
+            tid, "fighter", el, 5, hp, 5, 4, 2,
             deck4([
-                card(f"{tid}_1", "card.bot_ghost_slash", el, 1, atk=7, tags=["attack"]),
-                card(f"{tid}_2", "card.bot_ghost_slash", el, 1, atk=7, tags=["attack"]),
-                card(f"{tid}_3", "card.bot_ghost_slash", el, 1, atk=8, tags=["attack"]),
-                card(f"{tid}_4", "card.bot_ghost_slash", el, 1, atk=7, tags=["attack"]),
+                card(f"{tid}_1", "card.bot_ghost_slash", el, 1, atk=5, tags=["attack"]),
+                card(f"{tid}_2", "card.bot_ghost_slash", el, 1, atk=5, tags=["attack"]),
+                card(f"{tid}_3", "card.bot_ghost_slash", el, 1, atk=6, tags=["attack"]),
+                card(f"{tid}_4", "card.bot_ghost_slash", el, 1, atk=5, tags=["attack"]),
             ]),
             "Призрак-боец", fac,
         )
 
-    def heal(tid, hp=32):
+    def heal(tid, hp=28):
         return unit(
             tid, "support", el, 5, hp, 3, 3, 2,
             deck4([
                 card(f"{tid}_h1", "card.bot_ghost_sip", el, 1, tags=["heal"], rule="ally_lowest_hp",
-                     ops=[{"op": "heal", "amount": 7}]),
+                     ops=[{"op": "heal", "amount": 4}]),
                 card(f"{tid}_h2", "card.bot_ghost_sip", el, 1, tags=["heal"], rule="ally_lowest_hp",
-                     ops=[{"op": "heal", "amount": 7}]),
+                     ops=[{"op": "heal", "amount": 4}]),
                 card(f"{tid}_h3", "card.bot_ghost_sip", el, 1, tags=["heal"], rule="ally_lowest_hp",
-                     ops=[{"op": "heal", "amount": 8}]),
+                     ops=[{"op": "heal", "amount": 5}]),
                 card(f"{tid}_h4", "card.bot_ghost_sip", el, 1, tags=["heal"], rule="ally_lowest_hp",
-                     ops=[{"op": "heal", "amount": 7}]),
+                     ops=[{"op": "heal", "amount": 4}]),
             ]),
             "Призрак-хил", fac,
         )
 
     write(stage(
         "mythmir_5_f1", 5, 1,
-        [tank("bot_ghost_tank_m5f1", hp=52), fighter("bot_ghost_fighter_m5f1", hp=46), heal("bot_ghost_support_m5f1", hp=36)],
+        [tank("bot_ghost_tank_m5f1", hp=46), fighter("bot_ghost_fighter_m5f1", hp=40), heal("bot_ghost_support_m5f1", hp=30)],
         "Призрачный Чертог", "Танк · боец · хил", fac, "tank_fighter_heal", "Призрачный Чертог",
         "Dodge 1/4 у призраков.",
     ))
     write(stage(
         "mythmir_5_f2", 5, 1,
-        [fighter("bot_ghost_fighter_m5f2_a", hp=44), heal("bot_ghost_support_m5f2", hp=34), fighter("bot_ghost_fighter_m5f2_b", hp=44)],
+        [fighter("bot_ghost_fighter_m5f2_a", hp=38), heal("bot_ghost_support_m5f2", hp=28), fighter("bot_ghost_fighter_m5f2_b", hp=38)],
         "Призрачный Чертог", "Боец · хил · боец", fac, "fighter_heal_fighter", "Призрачный Чертог",
         "Dodge 1/4.",
     ))
 
     boss = unit(
-        "bot_pitboss_ghost_gul_m5f3", "fighter", el, 5, 58, 6, 4, 3,
+        "bot_pitboss_ghost_gul_m5f3", "fighter", el, 5, 50, 5, 4, 3,
         deck4([
-            # backline slashes respect taunt; mass cost2
-            card("card_ghost_slash_m5f3", "card.bot_ghost_slash", el, 1, atk=7, rule="backline",
+            # backline slashes respect taunt; mass cost2 collapses onto taunt
+            card("card_ghost_slash_m5f3", "card.bot_ghost_slash", el, 1, atk=5, rule="backline",
                  tags=["attack", "backline"]),
-            card("card_ghost_slash2_m5f3", "card.bot_ghost_slash", el, 1, atk=7, rule="backline",
+            card("card_ghost_slash2_m5f3", "card.bot_ghost_slash", el, 1, atk=5, rule="backline",
                  tags=["attack", "backline"]),
-            card("card_ghost_cleave_m5f3", "card.bot_ghost_cleave", el, 2, atk=6, rule="all_enemies",
+            card("card_ghost_cleave_m5f3", "card.bot_ghost_cleave", el, 2, atk=5, rule="all_enemies",
                  tags=["attack", "aoe"]),
-            card("card_ghost_center_m5f3", "card.bot_ghost_slash", el, 1, atk=7, rule="nearest", tags=["attack"]),
+            card("card_ghost_center_m5f3", "card.bot_ghost_slash", el, 1, atk=5, rule="nearest", tags=["attack"]),
         ]),
         "Фантом Гул", fac, pitboss=True,
     )
     write(stage(
         "mythmir_5_f3", 5, 1,
-        [tank("bot_ghost_tank_m5f3", hp=46), boss, heal("bot_ghost_support_m5f3", hp=30)],
+        [tank("bot_ghost_tank_m5f3", hp=42), boss, heal("bot_ghost_support_m5f3", hp=26)],
         "Призрачный Чертог", "Танк · босс · хил", fac, "tank_boss_heal", "Призрачный Чертог",
         "Босс backline+taunt; масс cost2; dodge.",
     ))

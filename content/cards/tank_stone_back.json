@@ -10,6 +10,6 @@
   "targetRule": "nearest",
   "tags": ["shield", "taunt", "attack"],
   "effectOps": [
-    { "op": "apply_status", "status": "taunt", "stacks": 1, "duration": 1 }
+    { "op": "apply_status", "status": "taunt", "stacks": 1, "duration": 2 }
   ]
 }

@@ -7,6 +7,10 @@ import "sort"
 // then role rank; backline redirects to rear (support first).
 // Free-target roles (ranger/mage/support) may pass explicitID for any living enemy.
 // taunt/stealth/ambush override.
+//
+// Taunt (except random_enemy): forces enemy-targeting onto living taunters —
+// including free-target explicitID, melee named backline, and all_enemies (AoE
+// collapses onto taunters so mass hits cannot splash past a taunting tank).
 
 // freeTargetRole — §3.4: ranger/mage/support may name any living unit via explicitID.
 func freeTargetRole(role string) bool {
@@ -18,7 +22,17 @@ func freeTargetRole(role string) bool {
 	}
 }
 
-// allowAmbush: card tag `ambush` bypasses stealth (§3.4 / FULL-SPEC).
+// enemyRuleRespectsTaunt — D-043: only random_enemy ignores taunt (poison spread).
+func enemyRuleRespectsTaunt(rule string) bool {
+	switch rule {
+	case "random_enemy", "self", "ally_lowest_hp", "ally_all":
+		return false
+	default:
+		return true
+	}
+}
+
+// SelectTargets resolves legal targets for a card.
 func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string, allowAmbush bool) []*Unit {
 	var wantExplicit *Unit
 	if explicitID != "" {
@@ -32,10 +46,15 @@ func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string, allo
 					if t.Side == actor.Side {
 						return []*Unit{t}
 					}
-				default:
-					// Enemy single-target (nearest / lowest_hp / backline / …).
+				case "random_enemy":
+					// Named pick allowed; taunt does not redirect (D-043).
 					if t.Side != actor.Side {
 						return []*Unit{t}
+					}
+				default:
+					// Enemy single-target — remember name; taunt may redirect below.
+					if t.Side != actor.Side {
+						wantExplicit = t
 					}
 				}
 			} else {
@@ -49,9 +68,16 @@ func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string, allo
 						return []*Unit{t}
 					}
 					// wrong side → auto missing-HP pick
-				case "backline", "random_enemy":
-					return []*Unit{t}
-				default: // nearest / lowest_hp / ""
+				case "random_enemy":
+					if t.Side != actor.Side {
+						return []*Unit{t}
+					}
+				case "backline":
+					// Named backline still subject to taunt (no early bypass).
+					if t.Side != actor.Side {
+						wantExplicit = t
+					}
+				default: // nearest / lowest_hp / center / ""
 					wantExplicit = t
 				}
 			}
@@ -87,6 +113,7 @@ func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string, allo
 		out = allies
 	case "all_enemies":
 		out = enemies
+		out = applyTaunt(out, enemies)
 	case "lowest_hp":
 		// Enemy hunter mark: absolute current HP (wiki / D-035 «наименьшим HP»).
 		// Distinct from ally_lowest_hp (missing). Taunt/stealth/ambush still apply.
@@ -186,8 +213,27 @@ func (b *Battle) SelectTargets(actor *Unit, rule string, explicitID string, allo
 		out = []*Unit{cands[0]}
 	}
 
-	// Melee named a nearest/lowest_hp target that is not the legal auto pick → reject.
-	if wantExplicit != nil {
+	// Free-target / named backline: prefer explicit when still legal under taunt.
+	if wantExplicit != nil && enemyRuleRespectsTaunt(rule) && rule != "all_enemies" {
+		taunters := livingTaunters(enemies)
+		if len(taunters) == 0 {
+			// No taunt — free-target may keep named enemy; melee nearest still validated below.
+			if freeTargetRole(actor.Role) || rule == "backline" {
+				return []*Unit{wantExplicit}
+			}
+		} else {
+			for _, tn := range taunters {
+				if tn.ID == wantExplicit.ID {
+					return []*Unit{wantExplicit}
+				}
+			}
+			// Named non-taunter while taunt is up → forced onto auto taunt pick.
+			return out
+		}
+	}
+
+	// Melee named a nearest/lowest_hp/center target that is not the legal auto pick → reject.
+	if wantExplicit != nil && !freeTargetRole(actor.Role) && rule != "backline" {
 		if len(out) != 1 || out[0].ID != wantExplicit.ID {
 			return nil
 		}
@@ -243,13 +289,18 @@ func filterStealth(enemies []*Unit, allowAmbush bool) []*Unit {
 	return out
 }
 
-func applyTaunt(cands, allEnemies []*Unit) []*Unit {
+func livingTaunters(allEnemies []*Unit) []*Unit {
 	var taunters []*Unit
 	for _, e := range allEnemies {
 		if e.hasStatus("taunt") {
 			taunters = append(taunters, e)
 		}
 	}
+	return taunters
+}
+
+func applyTaunt(cands, allEnemies []*Unit) []*Unit {
+	taunters := livingTaunters(allEnemies)
 	if len(taunters) == 0 {
 		return cands
 	}

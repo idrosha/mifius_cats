@@ -1,280 +1,296 @@
 {
-  "bowlCost": 1,
-  "chapter": 4,
-  "enemyTeam": [
-    {
-      "baseStats": {
-        "atk": 5,
-        "charm": 1,
-        "hp": 26,
-        "skill": 1,
-        "spd": 3
-      },
-      "deck": [
-        {
-          "atk": 5,
-          "cardId": "bot_zomb_fighter_m4f1_a_1",
-          "cost": 1,
-          "effectOps": [],
-          "element": "grass",
-          "hits": 1,
-          "name_key": "card.bot_zomb_bash",
-          "shield": 0,
-          "tags": [
-            "attack"
-          ],
-          "targetRule": "nearest"
-        },
-        {
-          "atk": 5,
-          "cardId": "bot_zomb_fighter_m4f1_a_2",
-          "cost": 1,
-          "effectOps": [],
-          "element": "grass",
-          "hits": 1,
-          "name_key": "card.bot_zomb_bash",
-          "shield": 0,
-          "tags": [
-            "attack"
-          ],
-          "targetRule": "nearest"
-        },
-        {
-          "atk": 6,
-          "cardId": "bot_zomb_fighter_m4f1_a_3",
-          "cost": 1,
-          "effectOps": [],
-          "element": "grass",
-          "hits": 1,
-          "name_key": "card.bot_zomb_bash",
-          "shield": 0,
-          "tags": [
-            "attack"
-          ],
-          "targetRule": "nearest"
-        },
-        {
-          "atk": 5,
-          "cardId": "bot_zomb_fighter_m4f1_a_4",
-          "cost": 1,
-          "effectOps": [],
-          "element": "grass",
-          "hits": 1,
-          "name_key": "card.bot_zomb_bash",
-          "shield": 0,
-          "tags": [
-            "attack"
-          ],
-          "targetRule": "nearest"
-        }
-      ],
-      "element": "grass",
-      "level": 4,
-      "meta": {
-        "display_ru": "Зомби-боец",
-        "faction": "zombies",
-        "isPitboss": false
-      },
-      "role": "fighter",
-      "templateId": "bot_zomb_fighter_m4f1_a"
-    },
-    {
-      "baseStats": {
-        "atk": 5,
-        "charm": 1,
-        "hp": 24,
-        "skill": 2,
-        "spd": 6
-      },
-      "deck": [
-        {
-          "atk": 6,
-          "cardId": "bot_zomb_assassin_m4f1_1",
-          "cost": 1,
-          "effectOps": [
-            {
-              "duration": 0,
-              "op": "apply_status",
-              "stacks": 1,
-              "status": "poison"
-            }
-          ],
-          "element": "grass",
-          "hits": 1,
-          "name_key": "card.bot_zomb_stab",
-          "shield": 0,
-          "tags": [
-            "attack",
-            "backline",
-            "poison"
-          ],
-          "targetRule": "backline"
-        },
-        {
-          "atk": 6,
-          "cardId": "bot_zomb_assassin_m4f1_2",
-          "cost": 1,
-          "effectOps": [
-            {
-              "duration": 0,
-              "op": "apply_status",
-              "stacks": 1,
-              "status": "poison"
-            }
-          ],
-          "element": "grass",
-          "hits": 1,
-          "name_key": "card.bot_zomb_stab",
-          "shield": 0,
-          "tags": [
-            "attack",
-            "poison"
-          ],
-          "targetRule": "center"
-        },
-        {
-          "atk": 7,
-          "cardId": "bot_zomb_assassin_m4f1_3",
-          "cost": 1,
-          "effectOps": [
-            {
-              "duration": 0,
-              "op": "apply_status",
-              "stacks": 1,
-              "status": "poison"
-            }
-          ],
-          "element": "grass",
-          "hits": 1,
-          "name_key": "card.bot_zomb_stab",
-          "shield": 0,
-          "tags": [
-            "attack",
-            "backline",
-            "poison"
-          ],
-          "targetRule": "backline"
-        },
-        {
-          "atk": 6,
-          "cardId": "bot_zomb_assassin_m4f1_4",
-          "cost": 1,
-          "effectOps": [
-            {
-              "duration": 0,
-              "op": "apply_status",
-              "stacks": 1,
-              "status": "poison"
-            }
-          ],
-          "element": "grass",
-          "hits": 1,
-          "name_key": "card.bot_zomb_stab",
-          "shield": 0,
-          "tags": [
-            "attack",
-            "poison"
-          ],
-          "targetRule": "random_enemy"
-        }
-      ],
-      "element": "grass",
-      "level": 4,
-      "meta": {
-        "display_ru": "Трупный мясник",
-        "faction": "zombies",
-        "isPitboss": false
-      },
-      "role": "assassin",
-      "templateId": "bot_zomb_assassin_m4f1"
-    },
-    {
-      "baseStats": {
-        "atk": 5,
-        "charm": 1,
-        "hp": 26,
-        "skill": 1,
-        "spd": 3
-      },
-      "deck": [
-        {
-          "atk": 5,
-          "cardId": "bot_zomb_fighter_m4f1_b_1",
-          "cost": 1,
-          "effectOps": [],
-          "element": "grass",
-          "hits": 1,
-          "name_key": "card.bot_zomb_bash",
-          "shield": 0,
-          "tags": [
-            "attack"
-          ],
-          "targetRule": "nearest"
-        },
-        {
-          "atk": 5,
-          "cardId": "bot_zomb_fighter_m4f1_b_2",
-          "cost": 1,
-          "effectOps": [],
-          "element": "grass",
-          "hits": 1,
-          "name_key": "card.bot_zomb_bash",
-          "shield": 0,
-          "tags": [
-            "attack"
-          ],
-          "targetRule": "nearest"
-        },
-        {
-          "atk": 6,
-          "cardId": "bot_zomb_fighter_m4f1_b_3",
-          "cost": 1,
-          "effectOps": [],
-          "element": "grass",
-          "hits": 1,
-          "name_key": "card.bot_zomb_bash",
-          "shield": 0,
-          "tags": [
-            "attack"
-          ],
-          "targetRule": "nearest"
-        },
-        {
-          "atk": 5,
-          "cardId": "bot_zomb_fighter_m4f1_b_4",
-          "cost": 1,
-          "effectOps": [],
-          "element": "grass",
-          "hits": 1,
-          "name_key": "card.bot_zomb_bash",
-          "shield": 0,
-          "tags": [
-            "attack"
-          ],
-          "targetRule": "nearest"
-        }
-      ],
-      "element": "grass",
-      "level": 4,
-      "meta": {
-        "display_ru": "Зомби-боец",
-        "faction": "zombies",
-        "isPitboss": false
-      },
-      "role": "fighter",
-      "templateId": "bot_zomb_fighter_m4f1_b"
-    }
-  ],
-  "meta": {
-    "faction": "zombies",
-    "fightIndex": 1,
-    "fight_ru": "Боец · убийца · боец",
-    "location_ru": "Чумные Склепы",
-    "stageIndex": 4,
-    "tactic_ru": "Бойцы nearest; убийца center/тыл; thorns poison.",
-    "title_ru": "Чумные Склепы",
-    "waveTheme": "fighter_assassin_fighter"
-  },
-  "name_key": "stage.mythmir_4_f1",
-  "stageId": "mythmir_4_f1"
+    "bowlCost":  1,
+    "chapter":  4,
+    "enemyTeam":  [
+                      {
+                          "baseStats":  {
+                                            "atk":  5,
+                                            "charm":  1,
+                                            "hp":  26,
+                                            "skill":  1,
+                                            "spd":  3
+                                        },
+                          "deck":  [
+                                       {
+                                           "atk":  5,
+                                           "cardId":  "bot_zomb_fighter_m4f1_a_1",
+                                           "cost":  1,
+                                           "effectOps":  [
+
+                                                         ],
+                                           "element":  "grass",
+                                           "hits":  1,
+                                           "name_key":  "card.bot_zomb_bash",
+                                           "shield":  0,
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "targetRule":  "nearest"
+                                       },
+                                       {
+                                           "atk":  5,
+                                           "cardId":  "bot_zomb_fighter_m4f1_a_2",
+                                           "cost":  1,
+                                           "effectOps":  [
+
+                                                         ],
+                                           "element":  "grass",
+                                           "hits":  1,
+                                           "name_key":  "card.bot_zomb_bash",
+                                           "shield":  0,
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "targetRule":  "nearest"
+                                       },
+                                       {
+                                           "atk":  6,
+                                           "cardId":  "bot_zomb_fighter_m4f1_a_3",
+                                           "cost":  1,
+                                           "effectOps":  [
+
+                                                         ],
+                                           "element":  "grass",
+                                           "hits":  1,
+                                           "name_key":  "card.bot_zomb_bash",
+                                           "shield":  0,
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "targetRule":  "nearest"
+                                       },
+                                       {
+                                           "atk":  5,
+                                           "cardId":  "bot_zomb_fighter_m4f1_a_4",
+                                           "cost":  1,
+                                           "effectOps":  [
+
+                                                         ],
+                                           "element":  "grass",
+                                           "hits":  1,
+                                           "name_key":  "card.bot_zomb_bash",
+                                           "shield":  0,
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "targetRule":  "nearest"
+                                       }
+                                   ],
+                          "element":  "grass",
+                          "level":  4,
+                          "meta":  {
+                                       "display_ru":  "Зомби-боец",
+                                       "faction":  "zombies",
+                                       "isPitboss":  false
+                                   },
+                          "role":  "fighter",
+                          "templateId":  "bot_zomb_fighter_m4f1_a"
+                      },
+                      {
+                          "baseStats":  {
+                                            "atk":  5,
+                                            "charm":  1,
+                                            "hp":  24,
+                                            "skill":  2,
+                                            "spd":  6
+                                        },
+                          "deck":  [
+                                       {
+                                           "atk":  5,
+                                           "cardId":  "bot_zomb_assassin_m4f1_1",
+                                           "cost":  1,
+                                           "effectOps":  [
+                                                             {
+                                                                 "duration":  0,
+                                                                 "op":  "apply_status",
+                                                                 "stacks":  1,
+                                                                 "status":  "poison"
+                                                             }
+                                                         ],
+                                           "element":  "grass",
+                                           "hits":  1,
+                                           "name_key":  "card.bot_zomb_stab",
+                                           "shield":  0,
+                                           "tags":  [
+                                                        "attack",
+                                                        "backline",
+                                                        "poison"
+                                                    ],
+                                           "targetRule":  "backline"
+                                       },
+                                       {
+                                           "atk":  5,
+                                           "cardId":  "bot_zomb_assassin_m4f1_2",
+                                           "cost":  1,
+                                           "effectOps":  [
+                                                             {
+                                                                 "duration":  0,
+                                                                 "op":  "apply_status",
+                                                                 "stacks":  1,
+                                                                 "status":  "poison"
+                                                             }
+                                                         ],
+                                           "element":  "grass",
+                                           "hits":  1,
+                                           "name_key":  "card.bot_zomb_stab",
+                                           "shield":  0,
+                                           "tags":  [
+                                                        "attack",
+                                                        "poison"
+                                                    ],
+                                           "targetRule":  "center"
+                                       },
+                                       {
+                                           "atk":  6,
+                                           "cardId":  "bot_zomb_assassin_m4f1_3",
+                                           "cost":  1,
+                                           "effectOps":  [
+                                                             {
+                                                                 "duration":  0,
+                                                                 "op":  "apply_status",
+                                                                 "stacks":  1,
+                                                                 "status":  "poison"
+                                                             }
+                                                         ],
+                                           "element":  "grass",
+                                           "hits":  1,
+                                           "name_key":  "card.bot_zomb_stab",
+                                           "shield":  0,
+                                           "tags":  [
+                                                        "attack",
+                                                        "backline",
+                                                        "poison"
+                                                    ],
+                                           "targetRule":  "backline"
+                                       },
+                                       {
+                                           "atk":  5,
+                                           "cardId":  "bot_zomb_assassin_m4f1_4",
+                                           "cost":  1,
+                                           "effectOps":  [
+                                                             {
+                                                                 "duration":  0,
+                                                                 "op":  "apply_status",
+                                                                 "stacks":  1,
+                                                                 "status":  "poison"
+                                                             }
+                                                         ],
+                                           "element":  "grass",
+                                           "hits":  1,
+                                           "name_key":  "card.bot_zomb_stab",
+                                           "shield":  0,
+                                           "tags":  [
+                                                        "attack",
+                                                        "poison"
+                                                    ],
+                                           "targetRule":  "nearest"
+                                       }
+                                   ],
+                          "element":  "grass",
+                          "level":  4,
+                          "meta":  {
+                                       "display_ru":  "Трупный мясник",
+                                       "faction":  "zombies",
+                                       "isPitboss":  false
+                                   },
+                          "role":  "assassin",
+                          "templateId":  "bot_zomb_assassin_m4f1"
+                      },
+                      {
+                          "baseStats":  {
+                                            "atk":  5,
+                                            "charm":  1,
+                                            "hp":  26,
+                                            "skill":  1,
+                                            "spd":  3
+                                        },
+                          "deck":  [
+                                       {
+                                           "atk":  5,
+                                           "cardId":  "bot_zomb_fighter_m4f1_b_1",
+                                           "cost":  1,
+                                           "effectOps":  [
+
+                                                         ],
+                                           "element":  "grass",
+                                           "hits":  1,
+                                           "name_key":  "card.bot_zomb_bash",
+                                           "shield":  0,
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "targetRule":  "nearest"
+                                       },
+                                       {
+                                           "atk":  5,
+                                           "cardId":  "bot_zomb_fighter_m4f1_b_2",
+                                           "cost":  1,
+                                           "effectOps":  [
+
+                                                         ],
+                                           "element":  "grass",
+                                           "hits":  1,
+                                           "name_key":  "card.bot_zomb_bash",
+                                           "shield":  0,
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "targetRule":  "nearest"
+                                       },
+                                       {
+                                           "atk":  6,
+                                           "cardId":  "bot_zomb_fighter_m4f1_b_3",
+                                           "cost":  1,
+                                           "effectOps":  [
+
+                                                         ],
+                                           "element":  "grass",
+                                           "hits":  1,
+                                           "name_key":  "card.bot_zomb_bash",
+                                           "shield":  0,
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "targetRule":  "nearest"
+                                       },
+                                       {
+                                           "atk":  5,
+                                           "cardId":  "bot_zomb_fighter_m4f1_b_4",
+                                           "cost":  1,
+                                           "effectOps":  [
+
+                                                         ],
+                                           "element":  "grass",
+                                           "hits":  1,
+                                           "name_key":  "card.bot_zomb_bash",
+                                           "shield":  0,
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "targetRule":  "nearest"
+                                       }
+                                   ],
+                          "element":  "grass",
+                          "level":  4,
+                          "meta":  {
+                                       "display_ru":  "Зомби-боец",
+                                       "faction":  "zombies",
+                                       "isPitboss":  false
+                                   },
+                          "role":  "fighter",
+                          "templateId":  "bot_zomb_fighter_m4f1_b"
+                      }
+                  ],
+    "meta":  {
+                 "faction":  "zombies",
+                 "fightIndex":  1,
+                 "fight_ru":  "Боец · убийца · боец",
+                 "location_ru":  "Чумные Склепы",
+                 "stageIndex":  4,
+                 "tactic_ru":  "Бойцы nearest; убийца center/тыл; thorns poison.",
+                 "title_ru":  "Чумные Склепы",
+                 "waveTheme":  "fighter_assassin_fighter"
+             },
+    "name_key":  "stage.mythmir_4_f1",
+    "stageId":  "mythmir_4_f1"
 }

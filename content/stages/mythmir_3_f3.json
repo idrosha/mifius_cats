@@ -1,290 +1,302 @@
 {
-  "stageId": "mythmir_3_f3",
-  "chapter": 3,
-  "name_key": "stage.mythmir_3_f3",
-  "bowlCost": 1,
-  "enemyTeam": [
-    {
-      "templateId": "bot_redd_tank_m3f3_a",
-      "role": "tank",
-      "element": "fire",
-      "level": 3,
-      "baseStats": {
-        "hp": 48,
-        "atk": 3,
-        "spd": 2,
-        "skill": 1,
-        "charm": 1
-      },
-      "deck": [
-        {
-          "cardId": "bot_redd_tank_m3f3_a_t1",
-          "name_key": "card.bot_redd_roar",
-          "element": "fire",
-          "cost": 1,
-          "atk": 0,
-          "shield": 8,
-          "hits": 0,
-          "targetRule": "nearest",
-          "tags": [
-            "shield"
-          ],
-          "effectOps": [
-            {
-              "op": "apply_status",
-              "status": "taunt",
-              "stacks": 1,
-              "duration": 2
-            }
-          ]
-        },
-        {
-          "cardId": "bot_redd_tank_m3f3_a_t2",
-          "name_key": "card.bot_redd_roar",
-          "element": "fire",
-          "cost": 1,
-          "atk": 0,
-          "shield": 7,
-          "hits": 0,
-          "targetRule": "nearest",
-          "tags": [
-            "shield"
-          ],
-          "effectOps": [
-            {
-              "op": "apply_status",
-              "status": "taunt",
-              "stacks": 1,
-              "duration": 2
-            }
-          ]
-        },
-        {
-          "cardId": "bot_redd_tank_m3f3_a_b1",
-          "name_key": "card.bot_redd_bite",
-          "element": "fire",
-          "cost": 1,
-          "atk": 5,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack"
-          ],
-          "effectOps": []
-        },
-        {
-          "cardId": "bot_redd_tank_m3f3_a_b2",
-          "name_key": "card.bot_redd_bite",
-          "element": "fire",
-          "cost": 1,
-          "atk": 5,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack"
-          ],
-          "effectOps": []
-        }
-      ],
-      "meta": {
-        "display_ru": "Алый щитоносец",
-        "faction": "red_dogs",
-        "isPitboss": false
-      }
-    },
-    {
-      "templateId": "bot_pitboss_redd_alpha_m3f3",
-      "role": "fighter",
-      "element": "fire",
-      "level": 3,
-      "baseStats": {
-        "hp": 46,
-        "atk": 5,
-        "spd": 4,
-        "skill": 3,
-        "charm": 1
-      },
-      "deck": [
-        {
-          "cardId": "card_redd_cleave_m3f3",
-          "name_key": "card.bot_redd_cleave",
-          "element": "fire",
-          "cost": 2,
-          "atk": 6,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "all_enemies",
-          "tags": [
-            "attack",
-            "aoe"
-          ],
-          "effectOps": [
-            {
-              "op": "apply_status",
-              "status": "bleed",
-              "stacks": 2,
-              "duration": 2
-            }
-          ]
-        },
-        {
-          "cardId": "card_redd_cleave2_m3f3",
-          "name_key": "card.bot_redd_cleave",
-          "element": "fire",
-          "cost": 2,
-          "atk": 6,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "all_enemies",
-          "tags": [
-            "attack",
-            "aoe"
-          ],
-          "effectOps": [
-            {
-              "op": "apply_status",
-              "status": "bleed",
-              "stacks": 2,
-              "duration": 2
-            }
-          ]
-        },
-        {
-          "cardId": "card_redd_slash_m3f3",
-          "name_key": "card.bot_redd_claw",
-          "element": "fire",
-          "cost": 1,
-          "atk": 5,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack"
-          ],
-          "effectOps": []
-        },
-        {
-          "cardId": "card_redd_slash2_m3f3",
-          "name_key": "card.bot_redd_claw",
-          "element": "fire",
-          "cost": 1,
-          "atk": 5,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack"
-          ],
-          "effectOps": []
-        }
-      ],
-      "meta": {
-        "display_ru": "Алый Вожак",
-        "faction": "red_dogs",
-        "isPitboss": true
-      }
-    },
-    {
-      "templateId": "bot_redd_tank_m3f3_b",
-      "role": "tank",
-      "element": "fire",
-      "level": 3,
-      "baseStats": {
-        "hp": 48,
-        "atk": 3,
-        "spd": 2,
-        "skill": 1,
-        "charm": 1
-      },
-      "deck": [
-        {
-          "cardId": "bot_redd_tank_m3f3_b_t1",
-          "name_key": "card.bot_redd_roar",
-          "element": "fire",
-          "cost": 1,
-          "atk": 0,
-          "shield": 8,
-          "hits": 0,
-          "targetRule": "nearest",
-          "tags": [
-            "shield"
-          ],
-          "effectOps": [
-            {
-              "op": "apply_status",
-              "status": "taunt",
-              "stacks": 1,
-              "duration": 2
-            }
-          ]
-        },
-        {
-          "cardId": "bot_redd_tank_m3f3_b_t2",
-          "name_key": "card.bot_redd_roar",
-          "element": "fire",
-          "cost": 1,
-          "atk": 0,
-          "shield": 7,
-          "hits": 0,
-          "targetRule": "nearest",
-          "tags": [
-            "shield"
-          ],
-          "effectOps": [
-            {
-              "op": "apply_status",
-              "status": "taunt",
-              "stacks": 1,
-              "duration": 2
-            }
-          ]
-        },
-        {
-          "cardId": "bot_redd_tank_m3f3_b_b1",
-          "name_key": "card.bot_redd_bite",
-          "element": "fire",
-          "cost": 1,
-          "atk": 5,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack"
-          ],
-          "effectOps": []
-        },
-        {
-          "cardId": "bot_redd_tank_m3f3_b_b2",
-          "name_key": "card.bot_redd_bite",
-          "element": "fire",
-          "cost": 1,
-          "atk": 5,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack"
-          ],
-          "effectOps": []
-        }
-      ],
-      "meta": {
-        "display_ru": "Алый щитоносец",
-        "faction": "red_dogs",
-        "isPitboss": false
-      }
-    }
-  ],
-  "meta": {
-    "stageIndex": 3,
-    "fightIndex": 3,
-    "title_ru": "Алая Псарня",
-    "fight_ru": "Танк · босс · танк",
-    "faction": "red_dogs",
-    "waveTheme": "boss_between_tanks",
-    "location_ru": "Алая Псарня",
-    "tactic_ru": "Босс масс cost2 + bleed; танки taunt."
-  }
+    "stageId":  "mythmir_3_f3",
+    "chapter":  3,
+    "name_key":  "stage.mythmir_3_f3",
+    "bowlCost":  1,
+    "enemyTeam":  [
+                      {
+                          "templateId":  "bot_redd_tank_m3f3_a",
+                          "role":  "tank",
+                          "element":  "fire",
+                          "level":  3,
+                          "baseStats":  {
+                                            "hp":  42,
+                                            "atk":  3,
+                                            "spd":  2,
+                                            "skill":  1,
+                                            "charm":  1
+                                        },
+                          "deck":  [
+                                       {
+                                           "cardId":  "bot_redd_tank_m3f3_a_t1",
+                                           "name_key":  "card.bot_redd_roar",
+                                           "element":  "fire",
+                                           "cost":  1,
+                                           "atk":  0,
+                                           "shield":  7,
+                                           "hits":  0,
+                                           "targetRule":  "nearest",
+                                           "tags":  [
+                                                        "shield"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "op":  "apply_status",
+                                                                 "status":  "taunt",
+                                                                 "stacks":  1,
+                                                                 "duration":  2
+                                                             }
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "bot_redd_tank_m3f3_a_t2",
+                                           "name_key":  "card.bot_redd_roar",
+                                           "element":  "fire",
+                                           "cost":  1,
+                                           "atk":  0,
+                                           "shield":  6,
+                                           "hits":  0,
+                                           "targetRule":  "nearest",
+                                           "tags":  [
+                                                        "shield"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "op":  "apply_status",
+                                                                 "status":  "taunt",
+                                                                 "stacks":  1,
+                                                                 "duration":  2
+                                                             }
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "bot_redd_tank_m3f3_a_b1",
+                                           "name_key":  "card.bot_redd_bite",
+                                           "element":  "fire",
+                                           "cost":  1,
+                                           "atk":  4,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "nearest",
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "effectOps":  [
+
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "bot_redd_tank_m3f3_a_b2",
+                                           "name_key":  "card.bot_redd_bite",
+                                           "element":  "fire",
+                                           "cost":  1,
+                                           "atk":  4,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "nearest",
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "effectOps":  [
+
+                                                         ]
+                                       }
+                                   ],
+                          "meta":  {
+                                       "display_ru":  "Алый щитоносец",
+                                       "faction":  "red_dogs",
+                                       "isPitboss":  false
+                                   }
+                      },
+                      {
+                          "templateId":  "bot_pitboss_redd_alpha_m3f3",
+                          "role":  "fighter",
+                          "element":  "fire",
+                          "level":  3,
+                          "baseStats":  {
+                                            "hp":  42,
+                                            "atk":  5,
+                                            "spd":  4,
+                                            "skill":  3,
+                                            "charm":  1
+                                        },
+                          "deck":  [
+                                       {
+                                           "cardId":  "card_redd_cleave_m3f3",
+                                           "name_key":  "card.bot_redd_cleave",
+                                           "element":  "fire",
+                                           "cost":  2,
+                                           "atk":  5,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "all_enemies",
+                                           "tags":  [
+                                                        "attack",
+                                                        "aoe"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "op":  "apply_status",
+                                                                 "status":  "bleed",
+                                                                 "stacks":  1,
+                                                                 "duration":  2
+                                                             }
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "card_redd_cleave2_m3f3",
+                                           "name_key":  "card.bot_redd_cleave",
+                                           "element":  "fire",
+                                           "cost":  2,
+                                           "atk":  5,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "all_enemies",
+                                           "tags":  [
+                                                        "attack",
+                                                        "aoe"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "op":  "apply_status",
+                                                                 "status":  "bleed",
+                                                                 "stacks":  1,
+                                                                 "duration":  2
+                                                             }
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "card_redd_slash_m3f3",
+                                           "name_key":  "card.bot_redd_claw",
+                                           "element":  "fire",
+                                           "cost":  1,
+                                           "atk":  4,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "nearest",
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "effectOps":  [
+
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "card_redd_slash2_m3f3",
+                                           "name_key":  "card.bot_redd_claw",
+                                           "element":  "fire",
+                                           "cost":  1,
+                                           "atk":  4,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "nearest",
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "effectOps":  [
+
+                                                         ]
+                                       }
+                                   ],
+                          "meta":  {
+                                       "display_ru":  "Алый Вожак",
+                                       "faction":  "red_dogs",
+                                       "isPitboss":  true
+                                   }
+                      },
+                      {
+                          "templateId":  "bot_redd_tank_m3f3_b",
+                          "role":  "tank",
+                          "element":  "fire",
+                          "level":  3,
+                          "baseStats":  {
+                                            "hp":  42,
+                                            "atk":  3,
+                                            "spd":  2,
+                                            "skill":  1,
+                                            "charm":  1
+                                        },
+                          "deck":  [
+                                       {
+                                           "cardId":  "bot_redd_tank_m3f3_b_t1",
+                                           "name_key":  "card.bot_redd_roar",
+                                           "element":  "fire",
+                                           "cost":  1,
+                                           "atk":  0,
+                                           "shield":  7,
+                                           "hits":  0,
+                                           "targetRule":  "nearest",
+                                           "tags":  [
+                                                        "shield"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "op":  "apply_status",
+                                                                 "status":  "taunt",
+                                                                 "stacks":  1,
+                                                                 "duration":  2
+                                                             }
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "bot_redd_tank_m3f3_b_t2",
+                                           "name_key":  "card.bot_redd_roar",
+                                           "element":  "fire",
+                                           "cost":  1,
+                                           "atk":  0,
+                                           "shield":  6,
+                                           "hits":  0,
+                                           "targetRule":  "nearest",
+                                           "tags":  [
+                                                        "shield"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "op":  "apply_status",
+                                                                 "status":  "taunt",
+                                                                 "stacks":  1,
+                                                                 "duration":  2
+                                                             }
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "bot_redd_tank_m3f3_b_b1",
+                                           "name_key":  "card.bot_redd_bite",
+                                           "element":  "fire",
+                                           "cost":  1,
+                                           "atk":  4,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "nearest",
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "effectOps":  [
+
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "bot_redd_tank_m3f3_b_b2",
+                                           "name_key":  "card.bot_redd_bite",
+                                           "element":  "fire",
+                                           "cost":  1,
+                                           "atk":  4,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "nearest",
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "effectOps":  [
+
+                                                         ]
+                                       }
+                                   ],
+                          "meta":  {
+                                       "display_ru":  "Алый щитоносец",
+                                       "faction":  "red_dogs",
+                                       "isPitboss":  false
+                                   }
+                      }
+                  ],
+    "meta":  {
+                 "stageIndex":  3,
+                 "fightIndex":  3,
+                 "title_ru":  "Алая Псарня",
+                 "fight_ru":  "Танк · босс · танк",
+                 "faction":  "red_dogs",
+                 "waveTheme":  "boss_between_tanks",
+                 "location_ru":  "Алая Псарня",
+                 "tactic_ru":  "Босс масс cost2 + bleed; танки taunt."
+             }
 }

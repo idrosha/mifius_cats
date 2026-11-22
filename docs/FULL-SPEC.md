@@ -185,7 +185,8 @@ Unused energy не переносится. Unused cards не переносят�
   - `lowest_hp` (враг): **absolute current HP** asc (wiki / D-035 «наименьшим HP»); stealth/taunt/ambush как у nearest. Не %HP и не missing.  
   - `random_enemy` (LOCKED `D-043`): seeded pick среди живых врагов (после stealth-filter); **taunt не редиректит** — нужен для spread DoT (яд убийц).  
   - Теги урона: `crit` → **×2** dmg (player wiki / MF-59; было ×1.5 SL stub); `pierce` / статус `fragile` → урон игнорит shield. Freeze = `stun` 1 ход. AoE вторичные цели = **50%** hit. Life drain / in-fight HP refresh запрещены (короткий PvP). Свод чисел: `docs/game-wiki.md`.  
-  - Overrides: `taunt` принуждает цель (кроме `random_enemy`); `stealth` скрывает от обычного таргета; `ambush` (тег карты) обходит stealth.
+  - Overrides: `taunt` принуждает цель (кроме `random_enemy`); в т.ч. `all_enemies`/AoE схлопывается на таунтеров (без splash мимо танка), free-target `explicitID` и melee named `backline` тоже редиректятся; `stealth` скрывает от обычного таргета; `ambush` (тег карты) обходит stealth.
+  - Taunt duration: карты танка должны давать **duration ≥ 2** — тик в конце хода кастера иначе снимает duration=1 до хода врага.
   - **UX атаки в тыл (LOCKED):** когда дроп/добор даёт карту с доступом к дальним/тыловым врагам (`targetRule: backline`, тег `backline` / тыл / rear / support targeting — лучники, маги, ассасины с прыжком/ударом и т.п.), игрок **обязан вытянуть карту из руки и навести её на выбранного героя**; без вытягивания и прицела карта в тыл не играет. Обычные `nearest` удары бьют фронт; строй prefs: танк → боец → стрелок → саппорт. Player wiki: `docs/game-wiki.md` §4.1.
 - **Potions:** loadout pre-match, ≤1 per potionId.
 

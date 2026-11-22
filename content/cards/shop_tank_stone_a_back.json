@@ -14,7 +14,7 @@
       "op": "apply_status",
       "status": "taunt",
       "stacks": 1,
-      "duration": 1
+      "duration": 2
     }
   ],
   "cardId": "card_shop_tank_stone_a_back",

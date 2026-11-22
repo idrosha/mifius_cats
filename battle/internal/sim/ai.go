@@ -174,13 +174,15 @@ func (b *Battle) chooseActionSkipping(skip map[string]bool) Action {
 				}
 			} else if u.Role == "support" && isHealCard(card) && allyNeedsHeal(b, side) {
 				// Heal with leftover E after boss, but never starve a living pitboss attack.
+				// Soften overheal: small chips don't dump all E into heal (lets REF burn healers).
 				miss := maxAllyMissingHP(b, side)
 				starve := healWouldStarvePitboss(b, side, ps.Energy, card.Cost, skip)
-				chipSoft := b.StageID == "mythmir_2_f3" && miss < 12
+				healAmt := healAmount(card)
+				chipSoft := miss < max(healAmt+2, 8)
 				if starve || chipSoft {
-					p = 55 + healAmount(card) // below pitboss (~220) and soldier attacks (~100+)
+					p = 55 + healAmt // below pitboss (~220) and soldier attacks (~100+)
 				} else {
-					p = 180 + healAmount(card)
+					p = 160 + healAmt
 				}
 			} else if card.Shield > 0 {
 				p = 50 + card.Shield

@@ -1,297 +1,303 @@
 {
-  "stageId": "mythmir_2_f3",
-  "chapter": 2,
-  "name_key": "stage.mythmir_2_f3",
-  "bowlCost": 1,
-  "enemyTeam": [
-    {
-      "templateId": "bot_wolf_support_m2f3_a",
-      "role": "support",
-      "element": "ice",
-      "level": 2,
-      "baseStats": {
-        "hp": 28,
-        "atk": 3,
-        "spd": 3,
-        "skill": 2,
-        "charm": 1
-      },
-      "deck": [
-        {
-          "cardId": "bot_wolf_support_m2f3_a_h1",
-          "name_key": "card.bot_wolf_sip",
-          "element": "ice",
-          "cost": 1,
-          "atk": 0,
-          "shield": 0,
-          "hits": 0,
-          "targetRule": "ally_lowest_hp",
-          "tags": [
-            "heal"
-          ],
-          "effectOps": [
-            {
-              "op": "heal",
-              "amount": 7
-            }
-          ]
-        },
-        {
-          "cardId": "bot_wolf_support_m2f3_a_h2",
-          "name_key": "card.bot_wolf_sip",
-          "element": "ice",
-          "cost": 1,
-          "atk": 0,
-          "shield": 0,
-          "hits": 0,
-          "targetRule": "ally_lowest_hp",
-          "tags": [
-            "heal"
-          ],
-          "effectOps": [
-            {
-              "op": "heal",
-              "amount": 7
-            }
-          ]
-        },
-        {
-          "cardId": "bot_wolf_support_m2f3_a_h3",
-          "name_key": "card.bot_wolf_sip",
-          "element": "ice",
-          "cost": 1,
-          "atk": 0,
-          "shield": 0,
-          "hits": 0,
-          "targetRule": "ally_lowest_hp",
-          "tags": [
-            "heal"
-          ],
-          "effectOps": [
-            {
-              "op": "heal",
-              "amount": 8
-            }
-          ]
-        },
-        {
-          "cardId": "bot_wolf_support_m2f3_a_h4",
-          "name_key": "card.bot_wolf_sip",
-          "element": "ice",
-          "cost": 1,
-          "atk": 0,
-          "shield": 0,
-          "hits": 0,
-          "targetRule": "ally_lowest_hp",
-          "tags": [
-            "heal"
-          ],
-          "effectOps": [
-            {
-              "op": "heal",
-              "amount": 7
-            }
-          ]
-        }
-      ],
-      "meta": {
-        "display_ru": "Волк-хил",
-        "faction": "wolves",
-        "isPitboss": false
-      }
-    },
-    {
-      "templateId": "bot_pitboss_wolf_alpha_m2f3",
-      "role": "fighter",
-      "element": "ice",
-      "level": 2,
-      "baseStats": {
-        "hp": 54,
-        "atk": 6,
-        "spd": 5,
-        "skill": 3,
-        "charm": 1
-      },
-      "deck": [
-        {
-          "cardId": "card_wolf_bite_m2f3",
-          "name_key": "card.bot_wolf_leap",
-          "element": "ice",
-          "cost": 1,
-          "atk": 6,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "backline",
-          "tags": [
-            "attack",
-            "backline"
-          ],
-          "effectOps": []
-        },
-        {
-          "cardId": "card_wolf_bite2_m2f3",
-          "name_key": "card.bot_wolf_leap",
-          "element": "ice",
-          "cost": 1,
-          "atk": 6,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "backline",
-          "tags": [
-            "attack",
-            "backline"
-          ],
-          "effectOps": []
-        },
-        {
-          "cardId": "card_wolf_bite3_m2f3",
-          "name_key": "card.bot_wolf_pounce",
-          "element": "ice",
-          "cost": 1,
-          "atk": 7,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "backline",
-          "tags": [
-            "attack",
-            "backline",
-            "crit"
-          ],
-          "effectOps": []
-        },
-        {
-          "cardId": "card_wolf_rend_m2f3",
-          "name_key": "card.bot_wolf_rend",
-          "element": "ice",
-          "cost": 1,
-          "atk": 5,
-          "shield": 0,
-          "hits": 1,
-          "targetRule": "nearest",
-          "tags": [
-            "attack"
-          ],
-          "effectOps": [
-            {
-              "op": "apply_status",
-              "status": "bleed",
-              "stacks": 2,
-              "duration": 2
-            }
-          ]
-        }
-      ],
-      "meta": {
-        "display_ru": "Лютый Клык",
-        "faction": "wolves",
-        "isPitboss": true
-      }
-    },
-    {
-      "templateId": "bot_wolf_support_m2f3_b",
-      "role": "support",
-      "element": "ice",
-      "level": 2,
-      "baseStats": {
-        "hp": 28,
-        "atk": 3,
-        "spd": 3,
-        "skill": 2,
-        "charm": 1
-      },
-      "deck": [
-        {
-          "cardId": "bot_wolf_support_m2f3_b_h1",
-          "name_key": "card.bot_wolf_sip",
-          "element": "ice",
-          "cost": 1,
-          "atk": 0,
-          "shield": 0,
-          "hits": 0,
-          "targetRule": "ally_lowest_hp",
-          "tags": [
-            "heal"
-          ],
-          "effectOps": [
-            {
-              "op": "heal",
-              "amount": 7
-            }
-          ]
-        },
-        {
-          "cardId": "bot_wolf_support_m2f3_b_h2",
-          "name_key": "card.bot_wolf_sip",
-          "element": "ice",
-          "cost": 1,
-          "atk": 0,
-          "shield": 0,
-          "hits": 0,
-          "targetRule": "ally_lowest_hp",
-          "tags": [
-            "heal"
-          ],
-          "effectOps": [
-            {
-              "op": "heal",
-              "amount": 7
-            }
-          ]
-        },
-        {
-          "cardId": "bot_wolf_support_m2f3_b_h3",
-          "name_key": "card.bot_wolf_sip",
-          "element": "ice",
-          "cost": 1,
-          "atk": 0,
-          "shield": 0,
-          "hits": 0,
-          "targetRule": "ally_lowest_hp",
-          "tags": [
-            "heal"
-          ],
-          "effectOps": [
-            {
-              "op": "heal",
-              "amount": 8
-            }
-          ]
-        },
-        {
-          "cardId": "bot_wolf_support_m2f3_b_h4",
-          "name_key": "card.bot_wolf_sip",
-          "element": "ice",
-          "cost": 1,
-          "atk": 0,
-          "shield": 0,
-          "hits": 0,
-          "targetRule": "ally_lowest_hp",
-          "tags": [
-            "heal"
-          ],
-          "effectOps": [
-            {
-              "op": "heal",
-              "amount": 7
-            }
-          ]
-        }
-      ],
-      "meta": {
-        "display_ru": "Волк-хил",
-        "faction": "wolves",
-        "isPitboss": false
-      }
-    }
-  ],
-  "meta": {
-    "stageIndex": 2,
-    "fightIndex": 3,
-    "title_ru": "Ледяные Пещеры",
-    "fight_ru": "Хил · босс · хил",
-    "faction": "wolves",
-    "waveTheme": "heal_boss_heal",
-    "location_ru": "Ледяные Пещеры",
-    "tactic_ru": "Хилы хилят leftover E; босс 1E backline+taunt→stun."
-  }
+    "stageId":  "mythmir_2_f3",
+    "chapter":  2,
+    "name_key":  "stage.mythmir_2_f3",
+    "bowlCost":  1,
+    "enemyTeam":  [
+                      {
+                          "templateId":  "bot_wolf_support_m2f3_a",
+                          "role":  "support",
+                          "element":  "ice",
+                          "level":  2,
+                          "baseStats":  {
+                                            "hp":  26,
+                                            "atk":  3,
+                                            "spd":  3,
+                                            "skill":  2,
+                                            "charm":  1
+                                        },
+                          "deck":  [
+                                       {
+                                           "cardId":  "bot_wolf_support_m2f3_a_h1",
+                                           "name_key":  "card.bot_wolf_sip",
+                                           "element":  "ice",
+                                           "cost":  1,
+                                           "atk":  0,
+                                           "shield":  0,
+                                           "hits":  0,
+                                           "targetRule":  "ally_lowest_hp",
+                                           "tags":  [
+                                                        "heal"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "op":  "heal",
+                                                                 "amount":  4
+                                                             }
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "bot_wolf_support_m2f3_a_h2",
+                                           "name_key":  "card.bot_wolf_sip",
+                                           "element":  "ice",
+                                           "cost":  1,
+                                           "atk":  0,
+                                           "shield":  0,
+                                           "hits":  0,
+                                           "targetRule":  "ally_lowest_hp",
+                                           "tags":  [
+                                                        "heal"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "op":  "heal",
+                                                                 "amount":  4
+                                                             }
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "bot_wolf_support_m2f3_a_h3",
+                                           "name_key":  "card.bot_wolf_sip",
+                                           "element":  "ice",
+                                           "cost":  1,
+                                           "atk":  0,
+                                           "shield":  0,
+                                           "hits":  0,
+                                           "targetRule":  "ally_lowest_hp",
+                                           "tags":  [
+                                                        "heal"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "op":  "heal",
+                                                                 "amount":  5
+                                                             }
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "bot_wolf_support_m2f3_a_h4",
+                                           "name_key":  "card.bot_wolf_sip",
+                                           "element":  "ice",
+                                           "cost":  1,
+                                           "atk":  0,
+                                           "shield":  0,
+                                           "hits":  0,
+                                           "targetRule":  "ally_lowest_hp",
+                                           "tags":  [
+                                                        "heal"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "op":  "heal",
+                                                                 "amount":  4
+                                                             }
+                                                         ]
+                                       }
+                                   ],
+                          "meta":  {
+                                       "display_ru":  "Волк-хил",
+                                       "faction":  "wolves",
+                                       "isPitboss":  false
+                                   }
+                      },
+                      {
+                          "templateId":  "bot_pitboss_wolf_alpha_m2f3",
+                          "role":  "fighter",
+                          "element":  "ice",
+                          "level":  2,
+                          "baseStats":  {
+                                            "hp":  48,
+                                            "atk":  5,
+                                            "spd":  5,
+                                            "skill":  3,
+                                            "charm":  1
+                                        },
+                          "deck":  [
+                                       {
+                                           "cardId":  "card_wolf_bite_m2f3",
+                                           "name_key":  "card.bot_wolf_leap",
+                                           "element":  "ice",
+                                           "cost":  1,
+                                           "atk":  5,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "backline",
+                                           "tags":  [
+                                                        "attack",
+                                                        "backline"
+                                                    ],
+                                           "effectOps":  [
+
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "card_wolf_bite2_m2f3",
+                                           "name_key":  "card.bot_wolf_leap",
+                                           "element":  "ice",
+                                           "cost":  1,
+                                           "atk":  5,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "backline",
+                                           "tags":  [
+                                                        "attack",
+                                                        "backline"
+                                                    ],
+                                           "effectOps":  [
+
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "card_wolf_bite3_m2f3",
+                                           "name_key":  "card.bot_wolf_pounce",
+                                           "element":  "ice",
+                                           "cost":  1,
+                                           "atk":  6,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "backline",
+                                           "tags":  [
+                                                        "attack",
+                                                        "backline",
+                                                        "crit"
+                                                    ],
+                                           "effectOps":  [
+
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "card_wolf_rend_m2f3",
+                                           "name_key":  "card.bot_wolf_rend",
+                                           "element":  "ice",
+                                           "cost":  1,
+                                           "atk":  4,
+                                           "shield":  0,
+                                           "hits":  1,
+                                           "targetRule":  "nearest",
+                                           "tags":  [
+                                                        "attack"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "op":  "apply_status",
+                                                                 "status":  "bleed",
+                                                                 "stacks":  2,
+                                                                 "duration":  2
+                                                             }
+                                                         ]
+                                       }
+                                   ],
+                          "meta":  {
+                                       "display_ru":  "Лютый Клык",
+                                       "faction":  "wolves",
+                                       "isPitboss":  true
+                                   }
+                      },
+                      {
+                          "templateId":  "bot_wolf_support_m2f3_b",
+                          "role":  "support",
+                          "element":  "ice",
+                          "level":  2,
+                          "baseStats":  {
+                                            "hp":  26,
+                                            "atk":  3,
+                                            "spd":  3,
+                                            "skill":  2,
+                                            "charm":  1
+                                        },
+                          "deck":  [
+                                       {
+                                           "cardId":  "bot_wolf_support_m2f3_b_h1",
+                                           "name_key":  "card.bot_wolf_sip",
+                                           "element":  "ice",
+                                           "cost":  1,
+                                           "atk":  0,
+                                           "shield":  0,
+                                           "hits":  0,
+                                           "targetRule":  "ally_lowest_hp",
+                                           "tags":  [
+                                                        "heal"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "op":  "heal",
+                                                                 "amount":  4
+                                                             }
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "bot_wolf_support_m2f3_b_h2",
+                                           "name_key":  "card.bot_wolf_sip",
+                                           "element":  "ice",
+                                           "cost":  1,
+                                           "atk":  0,
+                                           "shield":  0,
+                                           "hits":  0,
+                                           "targetRule":  "ally_lowest_hp",
+                                           "tags":  [
+                                                        "heal"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "op":  "heal",
+                                                                 "amount":  4
+                                                             }
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "bot_wolf_support_m2f3_b_h3",
+                                           "name_key":  "card.bot_wolf_sip",
+                                           "element":  "ice",
+                                           "cost":  1,
+                                           "atk":  0,
+                                           "shield":  0,
+                                           "hits":  0,
+                                           "targetRule":  "ally_lowest_hp",
+                                           "tags":  [
+                                                        "heal"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "op":  "heal",
+                                                                 "amount":  5
+                                                             }
+                                                         ]
+                                       },
+                                       {
+                                           "cardId":  "bot_wolf_support_m2f3_b_h4",
+                                           "name_key":  "card.bot_wolf_sip",
+                                           "element":  "ice",
+                                           "cost":  1,
+                                           "atk":  0,
+                                           "shield":  0,
+                                           "hits":  0,
+                                           "targetRule":  "ally_lowest_hp",
+                                           "tags":  [
+                                                        "heal"
+                                                    ],
+                                           "effectOps":  [
+                                                             {
+                                                                 "op":  "heal",
+                                                                 "amount":  4
+                                                             }
+                                                         ]
+                                       }
+                                   ],
+                          "meta":  {
+                                       "display_ru":  "Волк-хил",
+                                       "faction":  "wolves",
+                                       "isPitboss":  false
+                                   }
+                      }
+                  ],
+    "meta":  {
+                 "stageIndex":  2,
+                 "fightIndex":  3,
+                 "title_ru":  "Ледяные Пещеры",
+                 "fight_ru":  "Хил · босс · хил",
+                 "faction":  "wolves",
+                 "waveTheme":  "heal_boss_heal",
+                 "location_ru":  "Ледяные Пещеры",
+                 "tactic_ru":  "Хилы хилят leftover E; босс 1E backline+taunt→stun."
+             }
 }
