@@ -880,8 +880,13 @@ body.mythfel-login .mythfel-logout {
   width: calc(11.5rem * var(--mf-role-w, 1)) !important;
 }
 #viewPvpFight .mf-battle-unit--cutout .mf-unit-frame {
-  width: calc(7.25rem * var(--mf-role-w, 1));
-  height: calc(9.5rem * var(--mf-role-h, 1));
+  width: 100%;
+  height: calc(11.5rem * var(--mf-role-h, 1));
+}
+@media (min-width: 1024px) {
+  #viewPvpFight .mf-battle-unit--cutout .mf-unit-frame {
+    height: calc(12.75rem * var(--mf-role-h, 1));
+  }
 }
 #viewBattle .unit.mf-battle-unit--cutout .mf-unit-frame {
   width: calc(7.25rem * var(--mf-role-w, 1));
@@ -2444,58 +2449,130 @@ body:has(#viewGear:not(.hidden)) #app {
   #viewGear .barn-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
   #viewGear .barn-advisor { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
-/* Codex / База знаний — exact Stitch v3 (no custom dual layout) */
+/* Codex / База знаний — viewport-locked 3-col; left list scrolls; no empty подвал */
 body:has(#viewCodex:not(.hidden)) #wireDock { display: none !important; }
 body:has(#viewCodex:not(.hidden)) #app {
+  height: 100dvh !important;
+  max-height: 100dvh !important;
   min-height: 0 !important;
   overflow: hidden !important;
 }
 #viewCodex {
   background: #161310;
   color: #eae1db;
-  overflow: auto;
+  overflow: hidden !important;
 }
 #codexDetailHost.contents,
 #codexDetailHost {
   display: contents;
 }
-/* Article sheets: keep 3-col Stitch frame in viewport; scroll inside columns */
-#viewCodex > main > div.grid.grid-cols-12 {
-  min-height: 0 !important;
-  height: 100% !important;
-  max-height: calc(100vh - 5.5rem) !important;
-  align-items: stretch !important;
-}
-#viewCodex > main > div.grid.grid-cols-12 > aside.col-span-12,
-#viewCodex #codexDetailHost > section,
-#viewCodex #codexDetailHost > aside {
-  min-height: 0 !important;
-  max-height: 100% !important;
-  overflow: auto !important;
-}
-
-
-/* Soft-launch kills Stitch chrome header/footer; keep main Stitch structure */
 #viewCodex > footer {
   display: none !important;
 }
 #viewCodex > main {
   flex: 1 1 auto !important;
   min-height: 0 !important;
-  height: auto !important;
-  overflow: auto !important;
+  height: 100% !important;
+  width: 100% !important;
+  padding-top: 0.35rem !important;
+  padding-bottom: 0.35rem !important;
+  display: flex !important;
+  flex-direction: column;
+  overflow: hidden !important;
   max-width: none !important;
+  background: #161310;
 }
-/* Mannequin stage: keep Stitch layout, flex under soft-launch appNav so CTA + P.1–P.8 stay visible */
+#viewCodex > main > .flex.flex-col {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  overflow: hidden !important;
+}
+/* Stage wrapper: kill min-h + justify-between that open an empty basement */
+#viewCodex > main [class*="max-w-[1920px]"],
+#viewCodex > main [class*="min-h-[calc(100vh"] {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  max-height: 100% !important;
+  justify-content: flex-start !important;
+  overflow: hidden !important;
+  gap: 0.5rem !important;
+}
+/* Hotkeys / version strip under the 3-col grid — empty подвал */
+#viewCodex .grid.grid-cols-12 + .w-full {
+  display: none !important;
+}
+#viewCodex .grid.grid-cols-12 {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: auto !important;
+  max-height: none !important;
+  overflow: hidden !important;
+  align-items: stretch !important;
+  align-content: stretch !important;
+}
+/* Left catalog: page-height column, scroll only the topic list */
+#viewCodex .grid.grid-cols-12 > aside.col-span-12 {
+  min-height: 0 !important;
+  max-height: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  justify-content: flex-start !important;
+}
+#viewCodex .grid.grid-cols-12 > aside.col-span-12 > .flex.flex-col.gap-space-xs {
+  flex-shrink: 0 !important;
+}
+#viewCodex .grid.grid-cols-12 > aside.col-span-12 > .flex.flex-col.gap-1 {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow: hidden !important;
+  justify-content: flex-start !important;
+}
+#viewCodex #codexTopicList {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  overflow-x: hidden !important;
+  overflow-y: auto !important;
+}
+#viewCodex #codexProgress {
+  flex-shrink: 0 !important;
+}
+/* Center + right: stay in viewport; right may scroll if dense */
+#viewCodex #codexDetailHost > section {
+  min-height: 0 !important;
+  max-height: 100% !important;
+  height: 100% !important;
+  overflow: hidden !important;
+  justify-content: flex-start !important;
+}
+#viewCodex #codexDetailHost > aside {
+  min-height: 0 !important;
+  max-height: 100% !important;
+  height: 100% !important;
+  overflow: auto !important;
+}
+#viewCodex #codexDetailHost > section > .flex-shrink-0,
+#viewCodex #codexDetailHost > section > .grid.grid-cols-4,
+#viewCodex #codexDetailHost > section > .flex.items-center.gap-space-sm {
+  flex-shrink: 0 !important;
+}
+/* Mannequin: fill leftover center height; show class set head-to-toe */
 #viewCodex .min-h-\[560px\],
 #viewCodex [class*="min-h-[560px]"] {
-  min-height: clamp(280px, 42vh, 560px) !important;
+  min-height: 0 !important;
+  flex: 1 1 auto !important;
   height: auto !important;
-  max-height: 52vh;
+  max-height: none !important;
 }
 #viewCodex #mannequin-armor-img {
-  object-fit: cover;
-  object-position: center;
+  object-fit: contain !important;
+  object-position: center center !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 100% !important;
 }
 
 /* Craft workshop — 3 equal-height columns, recipe list not stretched */
@@ -3598,55 +3675,348 @@ body:has(#viewPvpLoad:not(.hidden)) #app { height: 100dvh !important; max-height
 #viewPvpLoad .pvp-load-go { border: 0; background: #d99b26; color: #1a1308; }
 #viewPvpLoad .pvp-load-back { border: 1px solid rgba(80,69,53,0.8); background: #1a1613; color: #eae1db; }
 
-/* PvP fight — only while an arena battle is on screen */
+/* PvP fight — immersive coliseum board (no chrome / no 16:9 letterbox) */
+body:has(#viewPvpFight:not(.hidden)) {
+  --mythfel-chrome-stack: 0px;
+  overflow: hidden;
+  height: 100dvh;
+  max-height: 100dvh;
+  background: #100e0c;
+}
 body:has(#viewPvpFight:not(.hidden)) #appNav,
 body:has(#viewPvpFight:not(.hidden)) #appSubTabs,
 body:has(#viewPvpFight:not(.hidden)) #wireDock { display: none !important; }
-body:has(#viewPvpFight:not(.hidden)) #app { height: 100dvh !important; max-height: 100dvh !important; }
-#viewPvpFight { background: #100e0c; color: #eae1db; }
-#viewPvpFight > .pv-fight { position: relative; flex: 1 1 auto; min-height: 0; overflow: hidden; }
-.pv-bg { position: absolute; left: 0; right: 0; top: -14%; width: 100% !important; height: 128% !important; max-width: none !important; object-fit: cover !important; object-position: center 78% !important; }
-.pv-shade { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(8,6,4,.78), rgba(8,6,4,.35) 28%, rgba(8,6,4,.82)); }
-.pv-ui { position: relative; z-index: 1; height: 100%; display: flex; flex-direction: column; padding: 0.45rem 0.7rem 0.4rem; }
-.pv-top { display: flex; align-items: center; justify-content: space-between; gap: 0.6rem; }
-.pv-top-left { display: flex; flex-direction: column; gap: 0.1rem; min-width: 0; }
+body:has(#viewPvpFight:not(.hidden)) #app {
+  height: 100dvh !important;
+  max-height: 100dvh !important;
+  width: 100vw !important;
+  max-width: 100vw !important;
+  aspect-ratio: auto !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  overflow: hidden !important;
+}
+#viewPvpFight {
+  background: #100e0c;
+  color: #eae1db;
+  overflow: hidden;
+  height: 100% !important;
+  max-height: 100% !important;
+  width: 100% !important;
+  display: flex;
+  flex-direction: column;
+}
+#viewPvpFight > .pv-fight {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  height: 100%;
+  max-height: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.pv-bg {
+  position: absolute;
+  inset: 0;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  object-fit: cover !important;
+  object-position: center 62% !important;
+}
+/* Arena readability without crushing the hand console */
+.pv-shade {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(8, 6, 4, 0.72) 0%, rgba(8, 6, 4, 0.22) 34%, rgba(8, 6, 4, 0.08) 58%, rgba(8, 6, 4, 0.55) 100%),
+    radial-gradient(ellipse 70% 55% at 50% 42%, transparent 0%, rgba(8, 6, 4, 0.35) 100%);
+}
+.pv-ui {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0.55rem 0.85rem 0;
+  gap: 0.35rem;
+}
+.pv-top {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.45rem 0.7rem;
+  border-radius: 0.85rem;
+  background: rgba(16, 14, 12, 0.78);
+  border: 1px solid rgba(80, 69, 53, 0.55);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+.pv-top-left {
+  flex: 1 1 0;
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-width: 0;
+}
+.pv-top-copy { display: flex; flex-direction: column; gap: 0.08rem; min-width: 0; }
 .pv-live-dot {
-  display: inline-block; width: 0.55rem; height: 0.55rem; border-radius: 999px;
-  background: #fdba45; box-shadow: 0 0 8px rgba(253,186,69,.7);
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.55rem;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: #fdba45;
+  box-shadow: 0 0 8px rgba(253, 186, 69, 0.7);
   animation: mf-pvp-pulse 1.4s ease-in-out infinite;
 }
-@keyframes mf-pvp-pulse { 0%,100% { opacity: 1; } 50% { opacity: .45; } }
-#pvRound { margin: 0; font-family: Rubik, sans-serif; font-size: 18px; color: #fdba45; letter-spacing: 0.04em; text-transform: uppercase; }
+@keyframes mf-pvp-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.45; } }
+#pvRound {
+  margin: 0;
+  font-family: Rubik, sans-serif;
+  font-size: clamp(14px, 1.35vw, 18px);
+  color: #fdba45;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 #pvEnergy { margin: 0; color: #89d98c; font-size: 13px; }
-#pvSurrender { border: 1px solid rgba(255,180,166,.45); background: #1a1613; color: #ffb4a6; border-radius: 999px; padding: 0.28rem 0.7rem; cursor: pointer; }
-.pv-field { flex: 1 1 auto; min-height: 0; display: flex; align-items: flex-end; justify-content: space-between; gap: 0.7rem; }
-.pv-side { flex: 1 1 0; min-width: 0; }
-.pv-side.is-enemy h2 { color: #ffb4a6; text-align: right; }
-.pv-side h2 { margin: 0 0 0.35rem; font-size: 13px; letter-spacing: 0.06em; text-transform: uppercase; color: #fdba45; }
-.pv-units { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.4rem; }
-.pv-units li { flex: 1 1 0; min-width: 0; background: rgba(16,14,12,.88); border: 1px solid rgba(80,69,53,.8); border-radius: 0.55rem; overflow: visible; }
-.pv-foes li { border-color: rgba(255,130,108,.45); }
+#pvSurrender {
+  flex: 0 0 auto;
+  border: 1px solid rgba(255, 180, 166, 0.45);
+  background: rgba(26, 22, 19, 0.92);
+  color: #ffb4a6;
+  border-radius: 0.65rem;
+  padding: 0.4rem 0.85rem;
+  cursor: pointer;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+.pv-clash {
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 16rem;
+  text-align: center;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  background: rgba(22, 19, 16, 0.88);
+  border: 1px solid rgba(253, 186, 69, 0.28);
+}
+.pv-clash b,
+.pv-clash span { display: block; }
+.pv-clash b { color: #fdba45; font-size: 13px; letter-spacing: 0.04em; text-transform: uppercase; }
+.pv-clash span { color: #d5c4af; font-size: 11px; }
+.pv-field {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(0.75rem, 2.2vw, 2rem);
+  padding: 0.35rem 0.25rem 0.15rem;
+  max-width: 1680px;
+  width: 100%;
+  margin: 0 auto;
+}
+.pv-side {
+  flex: 0 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.45rem;
+}
+.pv-side.is-ally { align-items: flex-end; }
+.pv-side.is-enemy { align-items: flex-start; }
+.pv-side h2 {
+  margin: 0;
+  max-width: 100%;
+  padding: 0.28rem 0.7rem;
+  border-radius: 999px;
+  font-size: 12px;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #fdba45;
+  background: rgba(16, 14, 12, 0.78);
+  border: 1px solid rgba(253, 186, 69, 0.28);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pv-side.is-enemy h2 {
+  color: #ffb4a6;
+  border-color: rgba(255, 130, 108, 0.35);
+}
+.pv-vs {
+  flex: 0 0 auto;
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.1rem;
+  height: 3.1rem;
+  border-radius: 999px;
+  background: linear-gradient(180deg, #fdba45, #d99b26);
+  color: #1a1308;
+  font-family: Rubik, sans-serif;
+  font-weight: 900;
+  font-size: 0.85rem;
+  letter-spacing: 0.06em;
+  box-shadow: 0 0 22px rgba(253, 186, 69, 0.45);
+}
+.pv-units {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  gap: 0.65rem;
+}
+.pv-units li {
+  flex: 0 0 auto;
+  width: calc(8.6rem * var(--mf-role-w, 1));
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+.pv-foes li { border-color: transparent; }
+@media (min-width: 1024px) {
+  .pv-units { gap: 0.85rem; }
+  .pv-units li { width: calc(9.6rem * var(--mf-role-w, 1)); }
+}
 /* Status chips sit top-right of portrait — do not clip (D-032 HUD). */
 .pv-units figure.mf-unit-frame,
-.pv-units figure { margin: 0; height: auto; min-height: 7.2rem; overflow: visible; position: relative; }
+.pv-units figure {
+  margin: 0;
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+  position: relative;
+}
 .pv-units .mf-battle-cutout,
-.pv-units img.mf-battle-cutout { width: 100% !important; height: 100% !important; max-width: none !important; object-fit: contain !important; object-position: center bottom; }
-.pv-units > li > div { padding: 0.3rem 0.4rem 0.4rem; }
-.pv-units b { display: block; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.pv-units img.mf-battle-cutout {
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  object-fit: contain !important;
+  object-position: center bottom;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.55));
+}
+.pv-units > li > div {
+  width: 100%;
+  padding: 0.35rem 0.45rem 0.4rem;
+  border-radius: 0.65rem;
+  background: rgba(16, 14, 12, 0.82);
+  border: 1px solid rgba(80, 69, 53, 0.65);
+  backdrop-filter: blur(4px);
+}
+.pv-foes > li > div { border-color: rgba(255, 130, 108, 0.4); }
+.pv-units b {
+  display: block;
+  font-size: 12px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .pv-units small { display: block; color: #d5c4af; font-size: 10px; }
-.pv-units em { display: block; font-style: normal; color: #89d98c; font-size: 12px; }
-.pv-units i { display: block; height: 0.28rem; margin-top: 0.2rem; border-radius: 999px; background: #2a2420; }
-.pv-units i::before { content: ""; display: block; height: 100%; width: var(--hp, 0%); border-radius: inherit; background: #89d98c; }
-.pv-foes i::before { background: #ff826c; }
-.pv-clash { flex: 0 0 7rem; text-align: center; }
-.pv-clash b, .pv-clash span { display: block; }
-.pv-clash b { color: #fdba45; font-size: 13px; }
-.pv-clash span { color: #d5c4af; font-size: 11px; }
-.pv-foot { display: flex; align-items: stretch; gap: 0.55rem; min-height: var(--mf-hand-h, 24rem); }
-.pv-act { flex: 0 0 11rem; display: flex; flex-direction: column; justify-content: flex-end; gap: 0.3rem; }
+.pv-units em { display: block; font-style: normal; color: #89d98c; font-size: 12px; margin-top: 0.1rem; }
+.pv-foes em { color: #ffb4a6; }
+.pv-units .mf-bars { margin-top: 0.2rem; }
+.pv-foot {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: stretch;
+  gap: 0.7rem;
+  min-height: 0;
+  padding: 0.55rem 0.65rem 0.65rem;
+  margin: 0 -0.85rem;
+  background: linear-gradient(180deg, rgba(16, 14, 12, 0.55), rgba(16, 14, 12, 0.94));
+  border-top: 1px solid rgba(80, 69, 53, 0.55);
+  box-shadow: 0 -10px 28px rgba(0, 0, 0, 0.55);
+}
+.pv-act {
+  flex: 0 0 11.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.35rem;
+}
 #pvOrbs { margin: 0; font-size: 12px; color: #d5c4af; }
-.pv-end { border: 0; background: #e0a322; color: #1a1308; font-weight: 800; border-radius: 999px; padding: 0.55rem 0.7rem; cursor: pointer; }
+.pv-keep {
+  border: 1px solid rgba(80, 69, 53, 0.85);
+  background: rgba(26, 22, 19, 0.95);
+  color: #eae1db;
+  border-radius: 0.65rem;
+  padding: 0.45rem 0.7rem;
+  cursor: pointer;
+  font-weight: 700;
+}
+.pv-keep:disabled,
 .pv-end:disabled { opacity: 0.45; cursor: default; }
+.pv-end {
+  border: 0;
+  background: linear-gradient(180deg, #fdba45, #e0a322);
+  color: #1a1308;
+  font-weight: 800;
+  border-radius: 0.75rem;
+  padding: 0.7rem 0.75rem;
+  cursor: pointer;
+  box-shadow: 0 6px 16px rgba(224, 163, 34, 0.35);
+}
+#viewPvpFight .pv-hand {
+  --mf-hand-h: 17.5rem;
+  justify-content: flex-start;
+  gap: 0.45rem;
+  padding: 0.15rem 0.15rem 0.1rem;
+}
+@media (min-width: 1100px) {
+  #viewPvpFight .pv-hand { --mf-hand-h: 19rem; }
+}
+#viewPvpFight .pv-hand > .mf-atk-card {
+  width: calc(var(--mf-hand-h) * 2 / 3);
+}
+#viewPvpFight .pv-hand > .mf-atk-card:disabled {
+  opacity: 0.62;
+  filter: saturate(0.85);
+}
+#viewPvpFight .pv-units {
+  flex-wrap: nowrap;
+}
+/* Phone landscape: keep immersive stage + shrink board/hand */
+@media (max-height: 500px) and (orientation: landscape) {
+  body:has(#viewPvpFight:not(.hidden)) #app {
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+  }
+  .pv-ui { padding: 0.35rem 0.55rem 0; gap: 0.2rem; }
+  .pv-top { padding: 0.28rem 0.55rem; }
+  #pvRound { font-size: 13px; }
+  .pv-clash { padding: 0.22rem 0.55rem; }
+  .pv-vs { width: 2.4rem; height: 2.4rem; font-size: 0.72rem; }
+  .pv-units { gap: 0.4rem; }
+  .pv-units li { width: calc(6.4rem * var(--mf-role-w, 1)); }
+  #viewPvpFight .mf-battle-unit--cutout .mf-unit-frame {
+    height: calc(8.2rem * var(--mf-role-h, 1)) !important;
+  }
+  .pv-foot { padding: 0.35rem 0.45rem 0.4rem; margin: 0 -0.55rem; }
+  .pv-act { flex-basis: 9.5rem; }
+  #viewPvpFight .pv-hand { --mf-hand-h: 12.25rem; }
+}
 /* Shared battle hand — cards fill console height (2:3), full art so text reads */
 .mf-attack-hand,
 .pv-hand,
