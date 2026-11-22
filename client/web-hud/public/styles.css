@@ -1979,8 +1979,9 @@ body.mythfel-farm #app {
   padding-bottom: 0.75rem !important;
 }
 
-/* Painted trade screens (tavern / market / auction) — chrome-kill + fill under #appNav */
+/* Painted trade screens (tavern / shop / market / auction) — chrome-kill + fill under #appNav */
 #viewTavern > main,
+#viewShop > main,
 #viewMarket > main,
 #viewAuction > main {
   padding-top: 0.75rem !important;
@@ -1991,6 +1992,7 @@ body.mythfel-farm #app {
   overflow: auto !important;
 }
 body:has(#viewTavern:not(.hidden)) #wireDock,
+body:has(#viewShop:not(.hidden)) #wireDock,
 body:has(#viewMarket:not(.hidden)) #wireDock,
 body:has(#viewAuction:not(.hidden)) #wireDock {
   display: none !important;
