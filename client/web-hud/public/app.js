@@ -859,6 +859,10 @@ const state = {
   actionBusy: false,
   /** Space must be pressed twice within window to end turn (accidental-tap guard). */
   endTurnArmed: false,
+  /** In-fight PvP auto-battle toggle (client AI loop while player's turn). */
+  pvpAutoBattle: false,
+  /** Local fight potion tray qty (HUD smoke — Phase 1 sim rejects ActionPotion). */
+  pvpFightPots: { heal: 2, mana: 1, cleanse: 2 },
   bossWaveIndex: 0,
   campaign: null,
   bossFirst: null,
@@ -8802,6 +8806,78 @@ function pvpUnitCard(u, foe, cleansedIds = []) {
   return li;
 }
 
+const PVP_FIGHT_POT_META = {
+  heal: {
+    potionId: "stone_skin",
+    name: "Целебный отвар",
+    fx: "+350 HP союзникам (stub)",
+    qtyId: "pvPotHealQty",
+    btnId: "pvPotHeal",
+  },
+  mana: {
+    potionId: "spark_claw",
+    name: "Эликсир маны",
+    fx: "+1 AP (stub)",
+    qtyId: "pvPotManaQty",
+    btnId: "pvPotMana",
+  },
+  cleanse: {
+    potionId: "cleanse",
+    name: "Солнечный настой",
+    fx: "Очищение DoT (stub)",
+    qtyId: "pvPotCleanseQty",
+    btnId: "pvPotCleanse",
+  },
+};
+
+function resetPvpFightPots() {
+  state.pvpFightPots = { heal: 2, mana: 1, cleanse: 2 };
+}
+
+function syncPvpAutoBattleUi() {
+  const btn = $("pvAutoBattle");
+  const status = $("pvAutoStatus");
+  if (!btn) return;
+  const on = !!state.pvpAutoBattle;
+  btn.classList.toggle("is-on", on);
+  btn.setAttribute("aria-pressed", on ? "true" : "false");
+  if (status) status.textContent = on ? "ВКЛ" : "ВЫКЛ";
+}
+
+function renderPvpApPips(energy, energyMax) {
+  const pips = $("pvApPips");
+  const num = $("pvApNum");
+  const row = $("pvApRow");
+  if (num) num.textContent = String(energy);
+  if (row) {
+    const em = row.querySelector(".pv-ap-num em");
+    if (em) em.textContent = `/${energyMax} AP`;
+  }
+  if (!pips) return;
+  const max = Math.max(1, Math.min(6, energyMax || 4));
+  pips.innerHTML = "";
+  for (let i = 0; i < max; i++) {
+    const pip = document.createElement("i");
+    pip.className = i < energy ? "is-on" : "";
+    pip.textContent = "⚡";
+    pips.appendChild(pip);
+  }
+}
+
+function renderPvpFightPots(mine) {
+  if (!state.pvpFightPots) resetPvpFightPots();
+  for (const [key, meta] of Object.entries(PVP_FIGHT_POT_META)) {
+    const qty = Math.max(0, Number(state.pvpFightPots[key]) || 0);
+    const qtyEl = $(meta.qtyId);
+    const btn = $(meta.btnId);
+    if (qtyEl) qtyEl.textContent = String(qty);
+    if (btn) {
+      btn.classList.toggle("is-empty", qty <= 0);
+      btn.disabled = !mine || qty <= 0 || !!state.battle?.result || state.oppThrowPlaying || state.actionBusy;
+    }
+  }
+}
+
 function renderPvpFight() {
   const diff = state.battle;
   if (!diff) return;
@@ -8814,6 +8890,7 @@ function renderPvpFight() {
   }
   const energyMax = Math.max(energyTurnCap(diff.turn, true), energy);
   if ($("pvEnergy")) $("pvEnergy").textContent = `Энергия ${energy}/${energyMax}`;
+  renderPvpApPips(energy, energyMax);
   const root = $("viewPvpFight");
   const allyTitle = root?.querySelector(".pv-side.is-ally h2");
   const foeTitle = root?.querySelector(".pv-side.is-enemy h2");
@@ -8836,11 +8913,12 @@ function renderPvpFight() {
     enemies.forEach((u) => foeBox.appendChild(pvpUnitCard(u, true, clearedByUnit[u.id] || [])));
   }
   syncOppThrowFromBattle(diff);
+  let cards = [];
   const hand = $("pvHand");
   if (hand) {
     hand.classList.add("mf-attack-hand");
     hand.innerHTML = "";
-    const cards = sortHandByVisualLanes(diff.hand || [], allies);
+    cards = sortHandByVisualLanes(diff.hand || [], allies);
     if ($("pvOrbs")) {
       $("pvOrbs").textContent = mine || diff.result ? `${cards.length} карт` : "6 обложек";
     }
@@ -8869,7 +8947,7 @@ function renderPvpFight() {
   if (keepBtn) {
     const kc = diff.p1?.keepCost ?? 1;
     keepBtn.disabled =
-      !diff.canKeep || !!diff.result || !mine || state.oppThrowPlaying || state.actionBusy;
+      !diff.canKeep || !!diff.result || !mine || state.oppThrowPlaying || state.actionBusy || state.pvpAutoBattle;
     keepBtn.textContent = state.selectedKeep?.mode ? "Keep: клик по карте" : `Keep (${kc})`;
   }
   const end = $("pvEndTurn");
@@ -8879,11 +8957,114 @@ function renderPvpFight() {
       !!diff.result ||
       diff.active !== 0 ||
       state.oppThrowPlaying ||
-      state.actionBusy;
+      state.actionBusy ||
+      state.pvpAutoBattle;
+    const sub = $("pvEndSub");
+    if (sub) {
+      const playable = cards.filter((c) => c.playable).length;
+      sub.textContent = mine
+        ? `В РУКЕ: ${cards.length} · ${playable} ход. · ${energy}/${energyMax} AP`
+        : diff.result
+          ? String(diff.result)
+          : "ход соперника…";
+    }
+  }
+  const autoBtn = $("pvAutoBattle");
+  if (autoBtn) {
+    autoBtn.disabled = !!diff.result || state.oppThrowPlaying;
+    syncPvpAutoBattleUi();
+  }
+  renderPvpFightPots(mine && !state.pvpAutoBattle);
+  if (state.pvpAutoBattle && mine && !diff.result && !state.actionBusy && !state.oppThrowPlaying) {
+    queuePvpAutoBattleStep();
+  }
+  if (diff.result && state.pvpAutoBattle) setPvpAutoBattle(false, { silent: true });
+}
+
+function setPvpAutoBattle(on, { silent = false } = {}) {
+  const next = !!on;
+  const changed = state.pvpAutoBattle !== next;
+  state.pvpAutoBattle = next;
+  syncPvpAutoBattleUi();
+  if (!changed) return;
+  if (state.pvpAutoBattle) {
+    if (!silent) toast(state.locale === "ru" ? "Авто-бой включён" : "Auto-battle ON");
+    queuePvpAutoBattleStep();
+  } else if (!silent) {
+    toast(state.locale === "ru" ? "Авто-бой выключен" : "Auto-battle OFF");
   }
 }
 
+function togglePvpAutoBattle() {
+  if (state.battle?.result) return;
+  setPvpAutoBattle(!state.pvpAutoBattle);
+}
+
+let _pvpAutoStepTimer = 0;
+function queuePvpAutoBattleStep() {
+  clearTimeout(_pvpAutoStepTimer);
+  _pvpAutoStepTimer = setTimeout(() => {
+    void runPvpAutoBattleStep();
+  }, 220);
+}
+
+async function runPvpAutoBattleStep() {
+  if (!state.pvpAutoBattle) return;
+  if (logicalViewId() !== "viewPvpFight") {
+    setPvpAutoBattle(false, { silent: true });
+    return;
+  }
+  const diff = state.battle;
+  if (!diff || diff.result) {
+    setPvpAutoBattle(false, { silent: true });
+    return;
+  }
+  if (state.actionBusy || state.oppThrowPlaying || diff.active !== 0) {
+    queuePvpAutoBattleStep();
+    return;
+  }
+  const allies = (diff.units || []).filter((u) => u.side === 0);
+  const cards = sortHandByVisualLanes(diff.hand || [], allies)
+    .filter((c) => c.playable && !unitCrowdControlled(diff, c.unitId))
+    .sort((a, b) => (a.cost ?? 1) - (b.cost ?? 1));
+  if (cards.length) {
+    const c = cards[0];
+    await submitAction({ kind: "playCard", unitId: c.unitId, handIndex: c.handIndex, targetId: "" });
+    if (state.pvpAutoBattle) queuePvpAutoBattleStep();
+    return;
+  }
+  if (diff.canEndTurn) {
+    await submitAction({ kind: "endTurn" });
+    if (state.pvpAutoBattle) queuePvpAutoBattleStep();
+    return;
+  }
+  if (state.pvpAutoBattle) queuePvpAutoBattleStep();
+}
+
+async function usePvpFightPotion(slotKey) {
+  const meta = PVP_FIGHT_POT_META[slotKey];
+  if (!meta || !state.battle || state.battle.result) return;
+  if (state.battle.active !== 0 || state.actionBusy || state.oppThrowPlaying || state.pvpAutoBattle) return;
+  if (!state.pvpFightPots) resetPvpFightPots();
+  const qty = Math.max(0, Number(state.pvpFightPots[slotKey]) || 0);
+  if (qty <= 0) {
+    toast(state.locale === "ru" ? "Баночка пуста" : "Potion empty");
+    return;
+  }
+  // Phase 1 sim rejects ActionPotion — apply local tray smoke so the HUD tray works.
+  state.pvpFightPots[slotKey] = qty - 1;
+  renderPvpFightPots(true);
+  toast(
+    state.locale === "ru"
+      ? `${meta.name}: ${meta.fx}`
+      : `${meta.name}: ${meta.fx}`,
+  );
+  log(`pvp potion ${slotKey} → ${state.pvpFightPots[slotKey]} left (HUD stub)`, "pvp");
+}
+
 function leavePvpFight() {
+  state.pvpAutoBattle = false;
+  clearTimeout(_pvpAutoStepTimer);
   state.battle = null;
   state.lastResult = null;
   state.battleMode = "";
@@ -8899,8 +9080,20 @@ function bindPvpFight() {
   if (!root || root.dataset.bound === "1") return;
   root.dataset.bound = "1";
   root.addEventListener("click", (ev) => {
-    const id = ev.target.closest("button")?.id;
+    const btn = ev.target.closest("button");
+    if (!btn) return;
+    const id = btn.id;
+    const potKey = btn.getAttribute("data-pv-pot");
+    if (potKey) {
+      void usePvpFightPotion(potKey);
+      return;
+    }
+    if (id === "pvAutoBattle") {
+      togglePvpAutoBattle();
+      return;
+    }
     if (id === "pvKeep") {
+      if (state.pvpAutoBattle) return;
       if (!state.battle?.canKeep || state.battle?.result) return;
       state.selectedKeep = { mode: true };
       toast(state.locale === "ru" ? "Keep: клик по карте в руке" : "Keep: click a hand card");
@@ -8908,10 +9101,15 @@ function bindPvpFight() {
       return;
     }
     if (id === "pvEndTurn") {
+      if (state.pvpAutoBattle) return;
       state.selectedKeep = null;
       submitAction({ kind: "endTurn" });
+      return;
     }
-    if (id === "pvSurrender") submitAction({ kind: "surrender" });
+    if (id === "pvSurrender") {
+      setPvpAutoBattle(false);
+      submitAction({ kind: "surrender" });
+    }
   });
   document.addEventListener("keydown", (ev) => {
     if (logicalViewId() !== "viewPvpFight") return;
@@ -8923,12 +9121,14 @@ function bindPvpFight() {
     }
     if (ev.code === "Space") {
       ev.preventDefault();
+      if (state.pvpAutoBattle) return;
       requestEndTurn();
       return;
     }
     const digit = /^Digit([1-6])$/.exec(ev.code);
     if (digit) {
       ev.preventDefault();
+      if (state.pvpAutoBattle) return;
       playHandCardByHotkey(Number(digit[1]) - 1);
     }
   });
@@ -10167,6 +10367,8 @@ async function pvpStart() {
       }),
     });
     verifyPvpHandCards(data);
+    state.pvpAutoBattle = false;
+    resetPvpFightPots();
     await applyDiff(data, "CreatePvP");
   } catch (err) {
     log(`PvP fail: ${err.message}`, "pvp");

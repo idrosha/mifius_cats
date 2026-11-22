@@ -3947,7 +3947,7 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   box-shadow: 0 -10px 28px rgba(0, 0, 0, 0.55);
 }
 .pv-act {
-  flex: 0 0 11.5rem;
+  flex: 0 0 13.5rem;
   order: 2;
   display: flex;
   flex-direction: column;
@@ -3957,26 +3957,231 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   margin-left: auto;
 }
 #pvOrbs { margin: 0; font-size: 12px; color: #d5c4af; }
+.pv-ap {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.45rem;
+  padding: 0.4rem 0.55rem;
+  border-radius: 0.75rem;
+  background: rgba(36, 30, 24, 0.92);
+  border: 1px solid rgba(253, 186, 69, 0.45);
+  box-shadow: inset 0 1px 0 rgba(255, 222, 174, 0.08);
+}
+.pv-ap-num {
+  display: flex;
+  align-items: baseline;
+  gap: 0.15rem;
+  line-height: 1;
+}
+.pv-ap-num b {
+  font-size: 1.15rem;
+  font-weight: 900;
+  color: #fdba45;
+}
+.pv-ap-num em {
+  font-style: normal;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #9d8f7b;
+  letter-spacing: 0.04em;
+}
+.pv-ap-pips {
+  display: flex;
+  align-items: center;
+  gap: 0.28rem;
+}
+.pv-ap-pips i {
+  width: 0.85rem;
+  height: 0.85rem;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-style: normal;
+  font-size: 0.55rem;
+  border: 1px solid rgba(80, 69, 53, 0.85);
+  background: rgba(26, 22, 19, 0.95);
+  color: #9d8f7b;
+}
+.pv-ap-pips i.is-on {
+  background: linear-gradient(180deg, #fdba45, #d99b26);
+  border-color: #ffdeae;
+  color: #432c00;
+  box-shadow: 0 0 8px rgba(253, 186, 69, 0.55);
+}
 .pv-keep {
   border: 1px solid rgba(80, 69, 53, 0.85);
   background: rgba(26, 22, 19, 0.95);
   color: #eae1db;
   border-radius: 0.65rem;
-  padding: 0.45rem 0.7rem;
+  padding: 0.35rem 0.55rem;
   cursor: pointer;
   font-weight: 700;
+  font-size: 0.78rem;
 }
 .pv-keep:disabled,
-.pv-end:disabled { opacity: 0.45; cursor: default; }
+.pv-end:disabled,
+.pv-auto:disabled,
+.pv-pot:disabled { opacity: 0.45; cursor: default; }
 .pv-end {
   border: 0;
-  background: linear-gradient(180deg, #fdba45, #e0a322);
+  background: linear-gradient(180deg, #fdba45, #d99b26 55%, #b87f14);
   color: #1a1308;
   font-weight: 800;
   border-radius: 0.75rem;
-  padding: 0.7rem 0.75rem;
+  padding: 0.55rem 0.7rem;
   cursor: pointer;
   box-shadow: 0 6px 16px rgba(224, 163, 34, 0.35);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.12rem;
+  line-height: 1.15;
+}
+.pv-end-label {
+  font-size: 0.92rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.pv-end-sub {
+  font-size: 0.68rem;
+  font-weight: 700;
+  opacity: 0.9;
+}
+.pv-auto {
+  border: 1px solid rgba(80, 69, 53, 0.75);
+  background: rgba(36, 30, 24, 0.95);
+  color: #d5c4af;
+  border-radius: 0.65rem;
+  padding: 0.35rem 0.55rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.45rem;
+  font-weight: 700;
+  font-size: 0.72rem;
+}
+.pv-auto-left {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+.pv-auto-left .material-symbols-outlined {
+  font-size: 0.95rem;
+  color: #9d8f7b;
+}
+.pv-auto-right {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.pv-auto-right em {
+  font-style: normal;
+  font-size: 0.62rem;
+  letter-spacing: 0.06em;
+  color: #9d8f7b;
+}
+.pv-auto-track {
+  width: 1.85rem;
+  height: 0.95rem;
+  border-radius: 999px;
+  background: rgba(16, 14, 12, 0.95);
+  border: 1px solid rgba(80, 69, 53, 0.7);
+  display: inline-flex;
+  align-items: center;
+  padding: 0.1rem;
+  box-sizing: border-box;
+}
+.pv-auto-knob {
+  width: 0.7rem;
+  height: 0.7rem;
+  border-radius: 999px;
+  background: #9d8f7b;
+  display: block;
+  transition: transform 0.18s ease, background 0.18s ease;
+  transform: translateX(0);
+}
+.pv-auto.is-on {
+  border-color: rgba(137, 217, 140, 0.55);
+  background: rgba(24, 42, 28, 0.92);
+  color: #89d98c;
+}
+.pv-auto.is-on .pv-auto-left .material-symbols-outlined,
+.pv-auto.is-on .pv-auto-right em { color: #89d98c; }
+.pv-auto.is-on .pv-auto-track {
+  background: rgba(137, 217, 140, 0.28);
+  border-color: rgba(137, 217, 140, 0.55);
+}
+.pv-auto.is-on .pv-auto-knob {
+  background: #89d98c;
+  transform: translateX(0.75rem);
+}
+.pv-pots {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 0.35rem;
+}
+.pv-pot {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 0;
+  height: 2.35rem;
+  border-radius: 0.65rem;
+  border: 1px solid rgba(80, 69, 53, 0.75);
+  background: rgba(36, 30, 24, 0.95);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem;
+}
+.pv-pot img {
+  width: 1.55rem;
+  height: 1.55rem;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
+}
+.pv-pot-qty {
+  position: absolute;
+  top: -0.35rem;
+  right: -0.25rem;
+  min-width: 1rem;
+  height: 1rem;
+  padding: 0 0.22rem;
+  border-radius: 999px;
+  font-size: 0.58rem;
+  font-weight: 800;
+  line-height: 1rem;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
+}
+.pv-pot.is-heal {
+  border-color: rgba(137, 217, 140, 0.45);
+}
+.pv-pot.is-heal .pv-pot-qty {
+  background: #89d98c;
+  color: #0f1a12;
+}
+.pv-pot.is-mana {
+  border-color: rgba(103, 213, 232, 0.5);
+}
+.pv-pot.is-mana .pv-pot-qty {
+  background: #67d5e8;
+  color: #102028;
+}
+.pv-pot.is-sun {
+  border-color: rgba(253, 186, 69, 0.5);
+}
+.pv-pot.is-sun .pv-pot-qty {
+  background: #fdba45;
+  color: #2a1a00;
+}
+.pv-pot.is-empty {
+  opacity: 0.4;
+  filter: grayscale(0.35);
 }
 #viewPvpFight .pv-hand {
   --mf-hand-h: 17.5rem;
@@ -4016,7 +4221,11 @@ body:has(#viewPvpFight:not(.hidden)) #app {
     height: calc(8.2rem * var(--mf-role-h, 1)) !important;
   }
   .pv-foot { padding: 0.35rem 0.45rem 0.4rem; margin: 0 -0.55rem; }
-  .pv-act { flex-basis: 9.5rem; }
+  .pv-act { flex-basis: 11.25rem; }
+  .pv-end { padding: 0.4rem 0.55rem; }
+  .pv-end-label { font-size: 0.8rem; }
+  .pv-pot { height: 2rem; }
+  .pv-pot img { width: 1.3rem; height: 1.3rem; }
   #viewPvpFight .pv-hand { --mf-hand-h: 12.25rem; }
 }
 /* Shared battle hand — cards fill console height (2:3), full art so text reads */

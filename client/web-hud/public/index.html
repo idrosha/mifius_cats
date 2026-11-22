@@ -5539,9 +5539,31 @@
 <footer class="pv-foot">
 <ul class="pv-hand" id="pvHand"></ul>
 <div class="pv-act">
-<p id="pvOrbs">0 карт</p>
+<div class="pv-ap" id="pvApRow">
+<span class="pv-ap-num"><b id="pvApNum">0</b><em>/4 AP</em></span>
+<div class="pv-ap-pips" id="pvApPips" aria-hidden="true"></div>
+</div>
 <button type="button" class="pv-keep" id="pvKeep" title="Удержать карту (§3.4)">Keep</button>
-<button type="button" class="pv-end" id="pvEndTurn">Завершить ход</button>
+<button type="button" class="pv-end" id="pvEndTurn">
+<span class="pv-end-label">ХОД ГОТОВ</span>
+<span class="pv-end-sub" id="pvEndSub">0 карт · 0 AP</span>
+</button>
+<button type="button" class="pv-auto" id="pvAutoBattle" aria-pressed="false" title="Авто-бой">
+<span class="pv-auto-left"><span class="material-symbols-outlined">smart_toy</span> Авто-бой</span>
+<span class="pv-auto-right"><em id="pvAutoStatus">ВЫКЛ</em><i class="pv-auto-track" id="pvAutoTrack"><i class="pv-auto-knob"></i></i></span>
+</button>
+<div class="pv-pots" id="pvPots" role="group" aria-label="Зелья в бою">
+<button type="button" class="pv-pot is-heal" data-pv-pot="heal" id="pvPotHeal" title="Целебный отвар (+350 HP)">
+<img alt="" src="/barn-icons/potion-nature.png"/><span class="pv-pot-qty" id="pvPotHealQty">2</span>
+</button>
+<button type="button" class="pv-pot is-mana" data-pv-pot="mana" id="pvPotMana" title="Эликсир маны (+1 AP)">
+<img alt="" src="/barn-icons/potion-mana.png"/><span class="pv-pot-qty" id="pvPotManaQty">1</span>
+</button>
+<button type="button" class="pv-pot is-sun" data-pv-pot="cleanse" id="pvPotCleanse" title="Солнечный настой (Очищение)">
+<img alt="" src="/barn-icons/potion-ember.png"/><span class="pv-pot-qty" id="pvPotCleanseQty">2</span>
+</button>
+</div>
+<p class="sr-only" id="pvOrbs">0 карт</p>
 </div>
 </footer>
 </div>
