@@ -469,10 +469,10 @@ const BARN_MATS_SEED = [
   { id: "fish", name: "Связка рыбы", kind: "farm", rarity: "common", qty: 8, tag: "Заводя", desc: "Сытость и крафт.", iconSrc: "/barn-icons/fish.png" },
   { id: "milk", name: "Молоко Очага", kind: "farm", rarity: "rare", qty: 4, tag: "Таверна", desc: "Post-fight HP (не ranked buff).", iconSrc: "/barn-icons/milk.png" },
   { id: "bait", name: "Наживка", kind: "farm", rarity: "common", qty: 8, tag: "Заводя", desc: "5 забросов на рыбную заводя.", iconSrc: "/barn-icons/fish.png" },
-  { id: "tool_shovel", name: "Лопата", kind: "tool", rarity: "common", qty: 1, tag: "Инструмент", desc: "Грядки / сад · износ ~7д.", iconSrc: "/barn-icons/tool-shovel.png" },
-  { id: "tool_axe", name: "Топор", kind: "tool", rarity: "common", qty: 1, tag: "Инструмент", desc: "Лесопилка · износ ~7д.", iconSrc: "/barn-icons/tool-axe.png" },
-  { id: "tool_pick", name: "Кирка", kind: "tool", rarity: "common", qty: 1, tag: "Инструмент", desc: "Рудник / карьер · износ ~7д.", iconSrc: "/barn-icons/tool-pick.png" },
-  { id: "tool_rod", name: "Удочка", kind: "tool", rarity: "common", qty: 1, tag: "Инструмент", desc: "Рыбная заводя (+ наживка).", iconSrc: "/barn-icons/tool-rod.png" },
+  { id: "tool_shovel", name: "Лопата", kind: "tool", rarity: "common", qty: 1, tag: "Инструмент", desc: "Грядки / сад · износ ~7д.", iconSrc: "/barn-icons/tool-shovel.png", durability: 7, durabilityMax: 7 },
+  { id: "tool_axe", name: "Топор", kind: "tool", rarity: "common", qty: 1, tag: "Инструмент", desc: "Лесопилка · износ ~7д.", iconSrc: "/barn-icons/tool-axe.png", durability: 7, durabilityMax: 7 },
+  { id: "tool_pick", name: "Кирка", kind: "tool", rarity: "common", qty: 1, tag: "Инструмент", desc: "Рудник / карьер · износ ~7д.", iconSrc: "/barn-icons/tool-pick.png", durability: 7, durabilityMax: 7 },
+  { id: "tool_rod", name: "Удочка", kind: "tool", rarity: "common", qty: 1, tag: "Инструмент", desc: "Рыбная заводя (+ наживка).", iconSrc: "/barn-icons/tool-rod.png", durability: 7, durabilityMax: 7 },
   { id: "potion_mana", name: "Эликсир маны", kind: "potion", rarity: "rare", qty: 1, tag: "Алхимия", desc: "Мана / вода · smoke stub.", iconSrc: "/barn-icons/potion-mana.png" },
   { id: "potion_nature", name: "Эликсир природы", kind: "potion", rarity: "rare", qty: 1, tag: "Алхимия", desc: "Природа / рост · smoke stub.", iconSrc: "/barn-icons/potion-nature.png" },
   { id: "potion_ember", name: "Эликсир жара", kind: "potion", rarity: "rare", qty: 0, tag: "Алхимия", desc: "Огонь / жар · smoke stub.", iconSrc: "/barn-icons/potion-ember.png" },
@@ -527,6 +527,52 @@ const FARM_ZONE_LOOT = {
   stone: "stone",
   forge: "iron",
   alchemist: "herbs",
+};
+
+/** Wiki §2 daily mins — qty per successful harvest action. */
+const FARM_HARVEST_QTY = {
+  wood: 3,
+  iron: 2,
+  stone: 2,
+  veggies: 1,
+  fruit: 1,
+  herbs: 1,
+  fish: 3,
+};
+
+/** Zone → required tool (null = craft post, no field tool). */
+const FARM_ZONE_TOOL = {
+  wheat: "tool_shovel",
+  herbs: "tool_shovel",
+  garden: "tool_shovel",
+  orchard: "tool_shovel",
+  fishing: "tool_rod",
+  wood: "tool_axe",
+  mine: "tool_pick",
+  stone: "tool_pick",
+  forge: null,
+  alchemist: null,
+};
+
+const TOOL_DURABILITY_MAX = 7;
+const FARM_TOOL_IDS = ["tool_shovel", "tool_axe", "tool_pick", "tool_rod"];
+
+/** Stitch map pin → zone id(s). Matched by pin card text. */
+const FARM_MAP_PIN_MATCHERS = [
+  { zoneIds: ["mine"], re: /Железная Штольня/i, filter: "mines" },
+  { zoneIds: ["stone"], re: /Каменоломня/i, filter: "mines" },
+  { zoneIds: ["wood"], re: /Дубовая Лесопилка/i, filter: "mines" },
+  { zoneIds: ["forge", "alchemist"], re: /Мастерские Очага|Дом Хранителя/i, filter: "craft" },
+  { zoneIds: ["wheat", "herbs", "garden", "orchard"], re: /Сады, Овощи/i, filter: "crops" },
+  { zoneIds: ["fishing"], re: /Рыбацкий Стан/i, filter: "fish" },
+];
+
+const FARM_STOCK_CAPS = {
+  cropBundle: 500,
+  wood: 2500,
+  stone: 1500,
+  iron: 1000,
+  fish: 4000,
 };
 
 const MARKET_STOCK = [
@@ -2559,6 +2605,11 @@ function buyMarketItem(item) {
   }
   state.wallet.gold -= price;
   const mat = barnMatAdd(matId, qty);
+  if (mat && (item.kind === "tool" || String(matId).startsWith("tool_"))) {
+    ensureToolDurability(mat);
+    mat.durability = mat.durabilityMax || TOOL_DURABILITY_MAX;
+    persistGearStub();
+  }
   renderCurrency();
   toast(`Куплено: ${mat?.name || item.name} ×${qty} → склад`);
   renderMarket();
@@ -3029,6 +3080,9 @@ function ensureCodexMounts(root) {
     filters.innerHTML = "";
   }
 
+  leftAside.classList.add("min-h-0", "overflow-hidden");
+  leftAside.style.justifyContent = "flex-start";
+
   let body = leftAside.querySelector(":scope > .flex.flex-col.gap-1");
   if (!body) {
     body = [...leftAside.children].find(
@@ -3036,20 +3090,28 @@ function ensureCodexMounts(root) {
     );
   }
   if (body) {
+    body.classList.add("flex-1", "min-h-0", "overflow-hidden");
+    body.style.justifyContent = "flex-start";
+
     let progress =
       body.querySelector("#codexProgress") ||
       [...body.children].find((el) => (el.textContent || "").includes("Прогресс Кодекса"));
-    if (progress) progress.id = "codexProgress";
+    if (progress) {
+      progress.id = "codexProgress";
+      progress.classList.add("flex-shrink-0");
+    }
 
     let topicList = body.querySelector("#codexTopicList");
     if (!topicList) {
       topicList = document.createElement("div");
       topicList.id = "codexTopicList";
-      topicList.className = "flex flex-col gap-1 flex-1 min-h-0 overflow-auto py-1";
+      topicList.className = "flex flex-col gap-1 flex-1 min-h-0 overflow-y-auto overflow-x-hidden py-1";
       [...body.children].forEach((ch) => {
         if (ch !== progress) ch.remove();
       });
       body.insertBefore(topicList, progress || null);
+    } else {
+      topicList.classList.add("flex-1", "min-h-0", "overflow-y-auto", "overflow-x-hidden");
     }
   }
 
@@ -5424,30 +5486,145 @@ function farmCatCandidates() {
   return (state.profile?.cats || []).filter((c) => c.role === "farm" || c.origin === "farm");
 }
 
+function farmEnsureZone(zoneId) {
+  if (!state.farmState[zoneId]) {
+    state.farmState[zoneId] = { farmer: null, planted: false, ready: false, crop: null };
+  }
+  return state.farmState[zoneId];
+}
+
+function farmHiredCount() {
+  return FARM_ZONES.filter((z) => state.farmState[z.id]?.farmer).length;
+}
+
+function farmReadyZones(zoneIds = null) {
+  const ids = zoneIds || FARM_ZONES.map((z) => z.id);
+  return ids
+    .map((id) => FARM_ZONES.find((z) => z.id === id))
+    .filter((z) => z && state.farmState[z.id]?.ready);
+}
+
+function farmHarvestQtyFor(matId) {
+  return FARM_HARVEST_QTY[matId] || 1;
+}
+
+function farmZoneToolId(zoneId) {
+  return Object.prototype.hasOwnProperty.call(FARM_ZONE_TOOL, zoneId) ? FARM_ZONE_TOOL[zoneId] : "tool_shovel";
+}
+
+function ensureToolDurability(mat) {
+  if (!mat || (mat.kind !== "tool" && !String(mat.id || "").startsWith("tool_"))) return mat;
+  const max = mat.durabilityMax || TOOL_DURABILITY_MAX;
+  mat.durabilityMax = max;
+  if (typeof mat.durability !== "number" || mat.durability < 0) mat.durability = max;
+  return mat;
+}
+
+function farmToolWorking(toolId) {
+  if (!toolId) return true;
+  const mat = barnMatGet(toolId);
+  if (!mat || (mat.qty || 0) <= 0) return false;
+  ensureToolDurability(mat);
+  return (mat.durability || 0) > 0;
+}
+
+function farmRequireTool(zoneId, { silent = false } = {}) {
+  const toolId = farmZoneToolId(zoneId);
+  if (!toolId) return { ok: true, toolId: null };
+  const mat = barnMatGet(toolId);
+  const name = mat?.name || MARKET_STOCK.find((s) => s.matId === toolId)?.name || toolId;
+  if (!mat || (mat.qty || 0) <= 0) {
+    if (!silent) toast(`Нужна «${name}» на складе — купи на Рынке и выдай фермеру`);
+    return { ok: false, toolId, name };
+  }
+  ensureToolDurability(mat);
+  if ((mat.durability || 0) <= 0) {
+    if (!silent) {
+      toast(`«${name}» сломана (износ 0/${mat.durabilityMax || TOOL_DURABILITY_MAX}) — почини или купи новую`);
+    }
+    return { ok: false, toolId, name, broken: true };
+  }
+  return { ok: true, toolId, name, mat };
+}
+
+function farmWearTool(toolId) {
+  if (!toolId) return { worn: false };
+  const mat = barnMatGet(toolId);
+  if (!mat || (mat.qty || 0) <= 0) return { worn: false };
+  ensureToolDurability(mat);
+  mat.durability = Math.max(0, (mat.durability || 0) - 1);
+  let broke = false;
+  if (mat.durability <= 0) {
+    mat.qty = Math.max(0, (mat.qty || 1) - 1);
+    broke = true;
+    if (mat.qty > 0) mat.durability = mat.durabilityMax || TOOL_DURABILITY_MAX;
+    else mat.durability = 0;
+  }
+  persistGearStub();
+  return {
+    worn: true,
+    broke,
+    left: mat.durability,
+    max: mat.durabilityMax || TOOL_DURABILITY_MAX,
+    name: mat.name,
+  };
+}
+
 function hireFarmer(zoneId) {
   const z = FARM_ZONES.find((x) => x.id === zoneId);
-  if (!z) return;
-  const fs = state.farmState[zoneId] || (state.farmState[zoneId] = { farmer: null, planted: false, ready: false, crop: null });
+  if (!z) return false;
+  const fs = farmEnsureZone(zoneId);
   if (fs.farmer) {
     toast("Фермер уже на зоне");
-    return;
+    return false;
   }
   const cost = 25;
   if ((state.wallet.gold || 0) < cost) {
     toast("Недостаточно рыбок (нужно 25)");
-    return;
+    return false;
   }
   const farmCats = farmCatCandidates();
   const cat = farmCats[0] || (state.profile?.cats || [])[0];
   if (!cat) {
     toast("Нет кота для найма");
-    return;
+    return false;
+  }
+  const toolCheck = farmRequireTool(zoneId, { silent: true });
+  if (!toolCheck.ok) {
+    toast(`Без «${toolCheck.name}» фермер на «${z.label}» работать не будет — купи на Рынке`);
   }
   state.wallet.gold -= cost;
   fs.farmer = cat.catId;
   toast(`Фермер нанят на «${z.label}» (−${cost} 🐟)`);
   renderCurrency();
   renderFarm();
+  return true;
+}
+
+function fireFarmer(zoneId) {
+  const z = FARM_ZONES.find((x) => x.id === zoneId);
+  if (!z) return false;
+  const fs = state.farmState[zoneId];
+  if (!fs?.farmer) {
+    toast("На зоне нет фермера");
+    return false;
+  }
+  fs.farmer = null;
+  fs.planted = false;
+  fs.ready = false;
+  fs.crop = null;
+  toast(`Фермер снят с «${z.label}»`);
+  renderFarm();
+  return true;
+}
+
+function fireAnyFarmer() {
+  const occupied = [...FARM_ZONES].reverse().find((z) => state.farmState[z.id]?.farmer);
+  if (!occupied) {
+    toast("Нет фермеров на постах");
+    return false;
+  }
+  return fireFarmer(occupied.id);
 }
 
 function farmZoneNeedsSeeds(z) {
@@ -5460,87 +5637,160 @@ function farmZoneNeedsBait(z) {
 
 function plantZone(zoneId) {
   const z = FARM_ZONES.find((x) => x.id === zoneId);
-  const fs = state.farmState[zoneId];
-  if (!z || !fs) return;
+  const fs = farmEnsureZone(zoneId);
+  if (!z || !fs) return false;
   if (!fs.farmer) {
     toast("Сначала найми фермера на зону");
-    return;
+    return false;
   }
   if (fs.planted && !fs.ready) {
     toast("Уже посажено — жди / собери");
-    return;
+    return false;
   }
+  if (fs.ready) {
+    toast("Урожай готов — сначала собери");
+    return false;
+  }
+  const tool = farmRequireTool(zoneId);
+  if (!tool.ok) return false;
   if (farmZoneNeedsSeeds(z)) {
     if (!barnMatSpend("seeds", 1)) {
       toast("Нужны семена на складе (купи на Рынке)");
-      return;
+      return false;
     }
   } else if (farmZoneNeedsBait(z)) {
     if (!barnMatSpend("bait", 1)) {
       toast("Нужна наживка на складе (Рынок)");
-      return;
+      return false;
     }
   }
-  // gather / craft zones: only farmer required
   fs.planted = true;
-  fs.ready = true; // local smoke: instant ready
+  fs.ready = true;
   fs.crop = FARM_ZONE_LOOT[z.id] || "veggies";
   const costHint = farmZoneNeedsSeeds(z)
     ? "−1 семена"
     : farmZoneNeedsBait(z)
       ? "−1 наживка"
       : "сбор";
-  toast(`Посажено на «${z.label}» (${costHint}) · готово к сбору`);
+  const toolHint =
+    tool.name && tool.mat
+      ? ` · ${tool.name} ${tool.mat.durability}/${tool.mat.durabilityMax || TOOL_DURABILITY_MAX}`
+      : "";
+  toast(`Посажено на «${z.label}» (${costHint}) · готово к сбору${toolHint}`);
   renderFarm();
   if (!$("viewGear")?.classList.contains("hidden")) renderBarn();
+  return true;
 }
 
 function pushFarmLootToBarn(zoneId, cropId) {
   const z = FARM_ZONES.find((x) => x.id === zoneId);
   const matId = cropId || FARM_ZONE_LOOT[zoneId] || "veggies";
-  const mat = barnMatAdd(matId, 1);
+  const qty = farmHarvestQtyFor(matId);
+  const mat = barnMatAdd(matId, qty);
+  const unitBid = z?.id === "fishing" ? 18 : 12;
   const loot = {
-    id: `farm_${zoneId}_${Date.now()}`,
+    id: `farm_${zoneId}_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
     name: mat?.name || matId,
     matId,
     kind: z?.id === "fishing" ? "fish" : "crop",
-    bid: z?.id === "fishing" ? 18 : 12,
-    qty: 1,
+    bid: unitBid * qty,
+    qty,
   };
   state.farmBag.push(loot);
-  return mat;
+  return { mat, qty, matId };
 }
 
-function harvestZone(zoneId) {
+function harvestZone(zoneId, { quiet = false } = {}) {
   const z = FARM_ZONES.find((x) => x.id === zoneId);
   const fs = state.farmState[zoneId];
   if (!z || !fs?.ready) {
-    toast("Нечего собирать");
-    return;
+    if (!quiet) toast("Нечего собирать");
+    return null;
   }
-  const mat = pushFarmLootToBarn(zoneId, fs.crop);
+  const tool = farmRequireTool(zoneId);
+  if (!tool.ok) return null;
+  const { mat, qty } = pushFarmLootToBarn(zoneId, fs.crop);
+  const wear = farmWearTool(tool.toolId);
   fs.planted = false;
   fs.ready = false;
-  toast(`Собрано: ${mat?.name || fs.crop} ×1 → склад`);
+  if (!quiet) {
+    const wearHint = wear.broke
+      ? ` · ${wear.name} сломалась!`
+      : wear.worn
+        ? ` · ${wear.name} ${wear.left}/${wear.max}`
+        : "";
+    toast(`Собрано: ${mat?.name || fs.crop} ×${qty} → склад${wearHint}`);
+  }
   renderFarm();
   if (!$("viewGear")?.classList.contains("hidden")) renderBarn();
+  return { mat, qty };
+}
+
+function harvestZonesList(zoneIds, { label = null } = {}) {
+  const ready = farmReadyZones(zoneIds);
+  if (!ready.length) {
+    toast("Нечего собирать");
+    return 0;
+  }
+  let totalUnits = 0;
+  let harvested = 0;
+  for (const z of ready) {
+    const tool = farmRequireTool(z.id, { silent: harvested > 0 });
+    if (!tool.ok) {
+      if (harvested === 0) return 0;
+      break;
+    }
+    const fs = state.farmState[z.id];
+    const { qty } = pushFarmLootToBarn(z.id, fs.crop);
+    farmWearTool(tool.toolId);
+    fs.planted = false;
+    fs.ready = false;
+    totalUnits += qty;
+    harvested += 1;
+  }
+  if (!harvested) return 0;
+  toast(
+    label
+      ? `${label}: ${harvested} зон · ${totalUnits} ед. → склад`
+      : `Собрано с ${harvested} зон · ${totalUnits} ед. → склад`,
+  );
+  renderFarm();
+  if (!$("viewGear")?.classList.contains("hidden")) renderBarn();
+  return harvested;
 }
 
 function harvestAllReadyZones() {
-  const ready = FARM_ZONES.filter((z) => state.farmState[z.id]?.ready);
+  const ready = farmReadyZones();
   if (!ready.length) {
     toast("Нет готовых зон — посади урожай");
+    return 0;
+  }
+  return harvestZonesList(
+    ready.map((z) => z.id),
+    { label: "Сбор со всех узлов" },
+  );
+}
+
+function interactFarmPin(zoneIds) {
+  const ids = zoneIds || [];
+  if (!ids.length) return;
+  const ready = farmReadyZones(ids);
+  if (ready.length) {
+    if (ids.length === 1) harvestZone(ids[0]);
+    else harvestZonesList(ids);
     return;
   }
-  for (const z of ready) {
-    const fs = state.farmState[z.id];
-    pushFarmLootToBarn(z.id, fs.crop);
-    fs.planted = false;
-    fs.ready = false;
+  const plantable = ids.find((id) => state.farmState[id]?.farmer && !state.farmState[id]?.ready);
+  if (plantable) {
+    plantZone(plantable);
+    return;
   }
-  toast(`Сбор со всех узлов · ${ready.length} зон → склад`);
-  renderFarm();
-  if (!$("viewGear")?.classList.contains("hidden")) renderBarn();
+  const empty = ids.find((id) => !state.farmState[id]?.farmer);
+  if (empty) {
+    hireFarmer(empty);
+    return;
+  }
+  toast("Зоны заняты — собери урожай или сними фермера");
 }
 
 function distributeYardWorkers() {
@@ -5549,25 +5799,43 @@ function distributeYardWorkers() {
     toast("Авто-распределение · все посты заняты");
     return;
   }
-  // Hire first empty post (stub — full auto-assign later)
   hireFarmer(empty[0].id);
-  toast(`Авто-распределение · слот «${empty[0].label}»${empty.length > 1 ? ` · ещё пусто: ${empty.length - 1}` : ""}`);
+  toast(
+    `Авто-распределение · слот «${empty[0].label}»${empty.length > 1 ? ` · ещё пусто: ${empty.length - 1}` : ""}`,
+  );
 }
 
 function repairYardConsumables() {
-  const tools = ["tool_shovel", "tool_axe", "tool_pick", "tool_rod"].filter((id) => barnMatQty(id) > 0);
+  const tools = FARM_TOOL_IDS.map((id) => barnMatGet(id)).filter((m) => m && (m.qty || 0) > 0);
   if (!tools.length) {
     toast("Нет инструментов на складе — купи на Рынке");
     return;
   }
-  if (barnMatQty("iron") >= 1 && barnMatQty("wood") >= 1) {
-    barnMatSpend("iron", 1);
-    barnMatSpend("wood", 1);
-    toast(`Починка: ${tools.map((id) => barnMatGet(id)?.name || id).join(", ")} (−1 железо, −1 дерево)`);
-  } else {
-    toast(`Инструменты на складе: ${tools.length}. Для ремонта нужно железо×1 + дерево×1`);
+  const needRepair = tools.filter((m) => {
+    ensureToolDurability(m);
+    return (m.durability || 0) < (m.durabilityMax || TOOL_DURABILITY_MAX);
+  });
+  if (!needRepair.length) {
+    toast("Все инструменты целы");
+    return;
   }
+  if (barnMatQty("iron") < 1 || barnMatQty("wood") < 1) {
+    toast(
+      `Для ремонта нужно железо×1 + дерево×1 (износ: ${needRepair
+        .map((m) => `${m.name} ${m.durability}/${m.durabilityMax}`)
+        .join(", ")})`,
+    );
+    return;
+  }
+  barnMatSpend("iron", 1);
+  barnMatSpend("wood", 1);
+  for (const m of needRepair) {
+    m.durability = m.durabilityMax || TOOL_DURABILITY_MAX;
+  }
+  persistGearStub();
+  toast(`Починка: ${needRepair.map((m) => m.name).join(", ")} (−1 железо, −1 дерево)`);
   if (!$("viewGear")?.classList.contains("hidden")) renderBarn();
+  renderFarm();
 }
 
 function toggleYardAutofarm() {
@@ -5604,6 +5872,9 @@ function bindFarmSideActions() {
       switch (action) {
         case "hire":
           hireFarmer(empty.id);
+          break;
+        case "fire":
+          fireAnyFarmer();
           break;
         case "plant":
           if (!state.farmState[plantable.id]?.farmer) hireFarmer(plantable.id);
@@ -5662,6 +5933,205 @@ function bindFarmSideActions() {
   }
 }
 
+function bindFarmMapPins() {
+  const root = $("viewSoonFarm");
+  if (!root || root.dataset.farmPinsBound === "1") return;
+  root.dataset.farmPinsBound = "1";
+
+  const pins = [...root.querySelectorAll(".group.cursor-pointer")];
+  for (const pin of pins) {
+    const text = pin.textContent || "";
+    if (/СКОРО|Коровник/i.test(text) && /lock|cottage/i.test(pin.innerHTML || "")) {
+      pin.dataset.farmSoon = "1";
+      continue;
+    }
+    const hit = FARM_MAP_PIN_MATCHERS.find((m) => m.re.test(text));
+    if (!hit) continue;
+    pin.dataset.farmZones = hit.zoneIds.join(",");
+    pin.dataset.farmFilter = hit.filter || "all";
+    for (const btn of pin.querySelectorAll("button")) {
+      const bt = btn.textContent || "";
+      if (/Собрать/i.test(bt)) {
+        btn.dataset.farmCollect = "1";
+        btn.dataset.farmZones = hit.zoneIds.join(",");
+      } else if (/Войти в цех/i.test(bt)) {
+        btn.dataset.farmCraft = "1";
+      }
+    }
+  }
+
+  root.addEventListener(
+    "click",
+    (ev) => {
+      const soon = ev.target.closest?.("[data-farm-soon]");
+      if (soon) {
+        ev.preventDefault();
+        toast("Коровник · Скоро");
+        return;
+      }
+      const craftBtn = ev.target.closest?.("[data-farm-craft]");
+      if (craftBtn) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        navigate("craft");
+        return;
+      }
+      const collectBtn = ev.target.closest?.("[data-farm-collect]");
+      if (collectBtn) {
+        ev.preventDefault();
+        ev.stopPropagation();
+        const ids = (collectBtn.dataset.farmZones || "").split(",").filter(Boolean);
+        if (ids.length === 1) harvestZone(ids[0]);
+        else harvestZonesList(ids);
+        return;
+      }
+      const pin = ev.target.closest?.("[data-farm-zones]");
+      if (pin && root.contains(pin)) {
+        ev.preventDefault();
+        const ids = (pin.dataset.farmZones || "").split(",").filter(Boolean);
+        interactFarmPin(ids);
+      }
+    },
+    true,
+  );
+
+  const filterHost =
+    [...root.querySelectorAll("button")].find((b) => /Все секторы/i.test(b.textContent || ""))?.parentElement ||
+    null;
+  if (filterHost && filterHost.dataset.farmFilterBound !== "1") {
+    filterHost.dataset.farmFilterBound = "1";
+    filterHost.addEventListener("click", (ev) => {
+      const btn = ev.target.closest?.("button");
+      if (!btn || !filterHost.contains(btn)) return;
+      ev.preventDefault();
+      const label = btn.textContent || "";
+      let filter = "all";
+      if (/Лес и Шахты/i.test(label)) filter = "mines";
+      else if (/Сады/i.test(label)) filter = "crops";
+      else if (/Рыбалка/i.test(label)) filter = "fish";
+      else if (/Мастерские/i.test(label)) filter = "craft";
+      else if (/Коровник/i.test(label)) {
+        toast("Коровник · Скоро");
+        return;
+      }
+      for (const b of filterHost.querySelectorAll("button")) {
+        const active = b === btn;
+        if (/Коровник/i.test(b.textContent || "")) continue;
+        b.classList.toggle("bg-primary", active);
+        b.classList.toggle("text-on-primary", active);
+        b.classList.toggle("font-bold", active);
+        b.classList.toggle("shadow-sm", active);
+        b.classList.toggle("bg-surface-container-high", !active);
+        b.classList.toggle("text-on-surface-variant", !active);
+      }
+      for (const pin of root.querySelectorAll("[data-farm-zones], [data-farm-soon]")) {
+        const pinFilter = pin.dataset.farmFilter || (pin.dataset.farmSoon ? "soon" : "all");
+        const show = filter === "all" || pinFilter === filter;
+        pin.style.display = show ? "" : "none";
+      }
+    });
+  }
+}
+
+function syncFarmHud() {
+  const root = $("viewSoonFarm");
+  if (!root) return;
+  const wood = barnMatQty("wood");
+  const stone = barnMatQty("stone");
+  const iron = barnMatQty("iron");
+  const fish = barnMatQty("fish");
+  const crops = barnMatQty("veggies") + barnMatQty("herbs") + barnMatQty("fruit");
+  const hired = farmHiredCount();
+  const readyN = farmReadyZones().length;
+  const readyUnits = farmReadyZones().reduce((sum, z) => {
+    const matId = state.farmState[z.id]?.crop || FARM_ZONE_LOOT[z.id] || "veggies";
+    return sum + farmHarvestQtyFor(matId);
+  }, 0);
+
+  const fmt = (n) => Number(n || 0).toLocaleString("ru-RU");
+  const pct = (n, cap) => Math.max(0, Math.min(100, Math.round(((n || 0) / cap) * 100)));
+
+  const patchBadge = (re, text) => {
+    for (const el of root.querySelectorAll(".font-bold")) {
+      if (re.test(el.textContent || "") && (el.textContent || "").length < 48) {
+        el.textContent = text;
+      }
+    }
+  };
+  patchBadge(/\/\s*1k\s*руды/i, `${fmt(iron)} / 1k руды`);
+  patchBadge(/\/\s*1\.5k/i, `${fmt(stone)} / 1.5k`);
+  patchBadge(/\/\s*2\.5k/i, `${fmt(wood)} / 2.5k`);
+  patchBadge(/рыбки/i, `${fmt(fish)} рыбки 🐟`);
+
+  const strip = root.querySelector(".farm-thin-strip");
+  if (strip) {
+    const map = [
+      [/Травы/i, `Травы ${pct(crops, FARM_STOCK_CAPS.cropBundle)}%`],
+      [/Дерево/i, `Дерево ${pct(wood, FARM_STOCK_CAPS.wood)}%`],
+      [/Камень/i, `Камень ${pct(stone, FARM_STOCK_CAPS.stone)}%`],
+      [/Руда/i, `Руда ${pct(iron, FARM_STOCK_CAPS.iron)}%`],
+      [/Рыба/i, `Рыба ${pct(fish, FARM_STOCK_CAPS.fish)}%`],
+    ];
+    for (const span of strip.querySelectorAll("span.inline-flex")) {
+      for (const [re, label] of map) {
+        if (!re.test(span.textContent || "")) continue;
+        const icon = span.querySelector(".material-symbols-outlined");
+        span.textContent = "";
+        if (icon) span.appendChild(icon);
+        span.appendChild(document.createTextNode(` ${label}`));
+        break;
+      }
+    }
+  }
+
+  const topCollect = $("btn-collect-all");
+  if (topCollect) {
+    const label = topCollect.querySelector("span:last-child") || topCollect;
+    label.textContent = readyN > 0 ? `Собрать со всех узлов (+${fmt(readyUnits)} ед.)` : "Собрать со всех узлов";
+  }
+
+  for (const el of root.querySelectorAll(".font-stat-numeral, strong")) {
+    const parent = el.parentElement?.textContent || "";
+    if (/Котики на сменах|на постах/i.test(parent) && /^\d+\s*\/\s*\d+/.test((el.textContent || "").trim())) {
+      el.textContent = `${hired} / ${FARM_ZONES.length}`;
+    }
+  }
+  for (const el of root.querySelectorAll("span, div")) {
+    if (/Готово к сбору:/i.test(el.textContent || "") && (el.textContent || "").length < 60 && el.children.length <= 2) {
+      el.innerHTML = `Готово к сбору: <strong class="text-secondary font-bold">${readyN} зон</strong>`;
+    }
+  }
+
+  const barnHud = [...root.querySelectorAll("div")].find(
+    (el) =>
+      el.children.length > 2 &&
+      /Амбар Усадьбы/i.test(el.textContent || "") &&
+      (el.textContent || "").length < 420,
+  );
+  if (barnHud) {
+    const rows = [
+      [/Травы/i, `${fmt(crops)}`],
+      [/Древесина/i, `${fmt(wood)}`],
+      [/Камень/i, `${fmt(stone)}`],
+      [/Сталь|Руда/i, `${fmt(iron)}`],
+      [/Рыбка/i, `${fmt(fish)}`],
+    ];
+    for (const row of barnHud.querySelectorAll(".flex.items-center.justify-between")) {
+      const label = row.textContent || "";
+      for (const [re, val] of rows) {
+        if (!re.test(label)) continue;
+        const bold = row.querySelector(".font-bold");
+        if (!bold) continue;
+        const rate = bold.querySelector("span");
+        bold.textContent = "";
+        bold.appendChild(document.createTextNode(`${val} `));
+        if (rate) bold.appendChild(rate);
+        break;
+      }
+    }
+  }
+}
+
 function sellFarmLoot(channel = "market") {
   if (!state.farmBag.length) {
     toast("Сумка двора пуста — посади и собери");
@@ -5680,7 +6150,7 @@ function sellFarmLoot(channel = "market") {
     renderAuction();
   } else {
     state.wallet.gold = (state.wallet.gold || 0) + price;
-    toast(`Продано на рынке: ${item.name} +${price} 🐟`);
+    toast(`Продано на рынке: ${item.name}${item.qty > 1 ? ` ×${item.qty}` : ""} +${price} 🐟`);
     renderCurrency();
     renderMarket();
   }
@@ -5688,7 +6158,6 @@ function sellFarmLoot(channel = "market") {
 }
 
 function renderFarm() {
-  // QA: no floating «Двор · live stub» overlay — resource UI is the bottom panel only
   document.getElementById("farmLivePanel")?.remove();
 
   const zones = $("farmZonesList");
@@ -5696,14 +6165,23 @@ function renderFarm() {
     zones.innerHTML = "";
     for (const z of FARM_ZONES) {
       const fs = state.farmState[z.id] || {};
+      const toolId = farmZoneToolId(z.id);
+      const toolOk = farmToolWorking(toolId);
       const btn = document.createElement("button");
       btn.type = "button";
       btn.className = "wire-btn";
-      btn.innerHTML = `<strong>${z.label}</strong><div class="meta">${z.kind} · ${fs.farmer ? "фермер" : "без фермера"}${fs.ready ? " · ready" : ""}</div>`;
+      const toolHint = toolId ? (toolOk ? " · tool OK" : " · нет tool") : "";
+      btn.innerHTML = `<strong>${z.label}</strong><div class="meta">${z.kind} · ${
+        fs.farmer ? "фермер" : "без фермера"
+      }${fs.ready ? " · ready" : ""}${toolHint}</div>`;
       btn.addEventListener("click", () => {
         if (!fs.farmer) hireFarmer(z.id);
         else if (!fs.ready) plantZone(z.id);
         else harvestZone(z.id);
+      });
+      btn.addEventListener("contextmenu", (ev) => {
+        ev.preventDefault();
+        if (fs.farmer) fireFarmer(z.id);
       });
       zones.appendChild(btn);
     }
@@ -5743,6 +6221,8 @@ function renderFarm() {
     );
   }
   bindFarmSideActions();
+  bindFarmMapPins();
+  syncFarmHud();
 }
 
 function renderPass() {
