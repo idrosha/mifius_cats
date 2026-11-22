@@ -1,11 +1,12 @@
 # Amvera: web-hud + battle/devapi in one image (training needs CreatePvE).
 # Docs: https://docs.amvera.ru/applications/configuration/docker.html
-FROM golang:1.22-bookworm AS battle
+# Alpine keeps Amvera build RAM lower (trial OOM → edge 502/503/404).
+FROM golang:1.22-alpine AS battle
 WORKDIR /src
 COPY battle/ ./
-RUN CGO_ENABLED=0 go build -o /mythfel-devapi ./cmd/devapi
+RUN CGO_ENABLED=0 go build -ldflags="-s -w" -o /mythfel-devapi ./cmd/devapi
 
-FROM node:20-bookworm-slim
+FROM node:20-alpine
 WORKDIR /app
 
 COPY --from=battle /mythfel-devapi /usr/local/bin/mythfel-devapi
