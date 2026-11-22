@@ -2,7 +2,7 @@
  * Soft-launch База знаний — data-driven Codex list + detail sheets.
  * Sources: docs/game-wiki.md, FULL-SPEC §4 modes, shops-channels, armor-ranks-pass,
  * formation-targeting, mythic-breeding, starter-pack, class-variants-balance, nav-ia.
- * Media blocks = empty art slots (fill later). Numbers from wiki unless noted LiveOps.
+ * Media = stitch-ref / barn-icons / cat-heroes. go[] → navigate() into live HUD.
  */
 window.CODEX_FILTERS = [
   { id: "all", label: "Все" },
@@ -21,9 +21,13 @@ window.CODEX_TOPICS = [
     tag: "Экипировка",
     status: "Изучается",
     title: "Классовые сеты и ранги брони",
-    blurb: "Тиры Р.1–Р.8 и бонусы",
+    blurb: "Тиры Р.1–Р.8 и бонусы сета",
     mode: "arsenal",
     source: "wiki §8.5 · Stitch v3",
+    go: [
+      { tab: "gear", label: "Открыть экипировку", icon: "checkroom", primary: "character" },
+      { tab: "pass", label: "Боевой пасс", icon: "card_membership", primary: "pass" },
+    ],
   },
   {
     id: "armor_ranks",
@@ -31,13 +35,27 @@ window.CODEX_TOPICS = [
     icon: "workspace_premium",
     tag: "Броня",
     title: "Броня R1–R8 (unlock)",
-    blurb: "Grey → mythic",
+    blurb: "Редкость открывается рангом, не уровнем кота",
     mode: "article",
     headline: "Ранги брони R1–R8",
-    lead: "Редкость экипа открывается рангом игрока, а не уровнем кота. В Магазине soft-launch — только серая броня R1. Всё выше: боксы пасса, PvE/craft, аукцион.",
+    lead: "Редкость экипа привязана к рангу игрока (R1–R8), а не к уровню кота. На soft-launch в Магазине продаётся только серая броня R1. Всё выше — из боксов пасса, PvE/крафта и аукциона.",
+    detail:
+      "Каждый новый ранг поднимает все статы на +10 и primary класса на +20. С пассом high ranks ~1 год; без пасса примерно вдвое дольше. Yarn не покупает ранг — пасс даёт темп и pity, но не прыжок сразу в mythic.",
     source: "wiki §8.5 · armor-ranks-pass.md",
+    go: [
+      { tab: "gear", label: "Экипировка героя", icon: "checkroom", primary: "character" },
+      { tab: "pass", label: "К пассу и боксам", icon: "card_membership", primary: "pass" },
+      { tab: "shop", label: "Магазин (серая R1)", icon: "shopping_bag", primary: "trade" },
+    ],
     blocks: [
-      { type: "media", label: "Линейка брони", caption: "Слоты R1…R8 — арт позже" },
+      {
+        type: "media",
+        label: "Экип в Доме Хранителя",
+        caption: "Слоты и сеты",
+        src: "/stitch-ref/0268/gear.png",
+        fit: "cover",
+        height: "11rem",
+      },
       {
         type: "table",
         title: "Что открывается",
@@ -56,6 +74,7 @@ window.CODEX_TOPICS = [
           "С пассом high ranks ~1 год; без пасса ≈ в 2 раза медленнее.",
           "Yarn не покупает ранг — пасс даёт темп и pity, не прыжок в mythic.",
           "На soft-launch gear за battle_coin ограничен до blue.",
+          "PRIMARY: танк HP/charm · боец/ассасин/стрелок ATK/SPD · маг Skill/ATK · саппорт Skill/charm.",
         ],
       },
     ],
@@ -69,10 +88,18 @@ window.CODEX_TOPICS = [
         ],
       },
       {
-        type: "note",
-        text: "PRIMARY: танк HP/charm · боец/ассасин/стрелок ATK/SPD · маг Skill/ATK · саппорт Skill/charm.",
+        type: "media",
+        label: "Слоты брони",
+        caption: "/barn-icons",
+        icons: [
+          { src: "/barn-icons/helmet.png", label: "Шлем" },
+          { src: "/barn-icons/chest.png", label: "Доспех" },
+          { src: "/barn-icons/boots.png", label: "Лапы" },
+          { src: "/barn-icons/collar.png", label: "Ошейник" },
+          { src: "/barn-icons/ring.png", label: "Кольцо" },
+          { src: "/barn-icons/guard.png", label: "Щит" },
+        ],
       },
-      { type: "media", label: "Иконка ранга", caption: "Пустой слот арта" },
     ],
   },
   {
@@ -81,20 +108,34 @@ window.CODEX_TOPICS = [
     icon: "card_membership",
     tag: "Пасс",
     title: "Боевой пасс и боксы",
-    blurb: "×2 XP · pity · autofarm",
+    blurb: "×2 XP · pity · autofarm двора",
     mode: "article",
     headline: "Боевой пасс",
-    lead: "Пасс ускоряет прогресс: ×2 rank XP, ×2 миски/билеты, автосбор на Дворе. Не даёт мгновенный мифик-ранг.",
+    lead: "Пасс ускоряет сезон: ×2 rank XP, ×2 миски и билеты, автосбор на Дворе. Это удобство и темп — не мгновенный мифик-ранг и не P2W-сила в ranked.",
+    detail:
+      "ACTIVE открывает гарантии боксов по unlocked rarity и autofarm семян/bait/tools. Анти-P2W: soft-cap rarity, зелья ≤1/id, молоко запрещено в ranked Колизее.",
     source: "armor-ranks-pass.md · wiki §8.5",
+    go: [
+      { tab: "pass", label: "Открыть боевой пасс", icon: "card_membership", primary: "pass" },
+      { tab: "shop", label: "Купить сезон / fish packs", icon: "shopping_bag", primary: "trade" },
+    ],
     blocks: [
-      { type: "media", label: "Трек пасса", caption: "Свободный / премиум трек — арт позже" },
+      {
+        type: "media",
+        label: "Святилище пасса",
+        caption: "Трек наград",
+        src: "/stitch-ref/ba17/pass_sanctum.png",
+        fit: "cover",
+        height: "11rem",
+      },
       {
         type: "rules",
         title: "Что даёт ACTIVE",
         items: [
           "×2 rank XP (high ranks ~1 год вместо ~2).",
           "Гарантии боксов: R1×6, green+blue×3, выше×1 на unlocked rank.",
-          "Autofarm: семена/bait/tools с Рынка; авто-алхимия и авто-кузня — удобство, не сила в ranked.",
+          "Autofarm: семена/bait/tools с Рынка; авто-алхимия и авто-кузня — QoL, не сила в ranked.",
+          "×2 дневных bowls (PvE) и tickets (PvP).",
         ],
       },
       {
@@ -107,6 +148,15 @@ window.CODEX_TOPICS = [
       },
     ],
     side: [
+      {
+        type: "media",
+        label: "Иконки трека",
+        caption: "pass-hearth",
+        icons: [
+          { src: "/stitch-ref/pass-hearth/icon-1.png", label: "Свободный" },
+          { src: "/stitch-ref/pass-hearth/icon-2.png", label: "Премиум" },
+        ],
+      },
       {
         type: "note",
         text: "Анти-P2W: soft-cap rarity, зелья ≤1/id, молоко запрещено в ranked Колизее.",
@@ -121,13 +171,38 @@ window.CODEX_TOPICS = [
     icon: "auto_awesome",
     tag: "Герои",
     title: "Скиллы и пассивы 12 героев",
-    blurb: "6 классов × 2 варианта",
+    blurb: "6 классов × 2 варианта A/B",
     mode: "article",
     headline: "12 архетипов котиков",
-    lead: "У каждого героя глаза и уши дают пассивы, а морда / убор / спина / хвост — 4 карты колоды. Ниже — кто чем играет и чем отличается вариант A от B.",
+    lead: "У каждого героя глаза и уши дают пассивы, а морда / убор / спина / хвост — 4 карты колоды. Вариант A и B внутри класса играют по-разному: щит vs пробой, dual vs two-hand, heal vs buff.",
+    detail:
+      "Мифик из питомника берёт 4 сильнейшие карты родителей и хвостовой пассив по доминирующей роли. Tie ролей: tank > fighter > assassin > ranger > mage > support.",
     source: "wiki §1 · class-variants-balance.md",
+    go: [
+      { tab: "heroes", label: "Кодекс героев", icon: "menu_book", primary: "knowledge" },
+      { tab: "home", label: "Персонаж / карточки", icon: "person", primary: "character" },
+      { tab: "collection", label: "Коллекция", icon: "grid_view", primary: "character" },
+    ],
     blocks: [
-      { type: "media", label: "Ростер 12 героев", caption: "Портретная сетка — арт позже" },
+      {
+        type: "media",
+        label: "Ростер 12 героев",
+        caption: "Портреты soft-launch",
+        icons: [
+          { src: "/stitch-assets/cat-heroes/tank-a.webp", label: "Танк A" },
+          { src: "/stitch-assets/cat-heroes/tank-b.webp", label: "Танк B" },
+          { src: "/stitch-assets/cat-heroes/fighter-a.webp", label: "Боец A" },
+          { src: "/stitch-assets/cat-heroes/fighter-b.webp", label: "Боец B" },
+          { src: "/stitch-assets/cat-heroes/assassin-a.webp", label: "Ассасин A" },
+          { src: "/stitch-assets/cat-heroes/assassin-b.webp", label: "Ассасин B" },
+          { src: "/stitch-assets/cat-heroes/ranger-a.webp", label: "Стрелок A" },
+          { src: "/stitch-assets/cat-heroes/ranger-b.webp", label: "Стрелок B" },
+          { src: "/stitch-assets/cat-heroes/mage-a.webp", label: "Маг A" },
+          { src: "/stitch-assets/cat-heroes/mage-b.webp", label: "Маг B" },
+          { src: "/stitch-assets/cat-heroes/support-a.webp", label: "Саппорт A" },
+          { src: "/stitch-assets/cat-heroes/support-b.webp", label: "Саппорт B" },
+        ],
+      },
       {
         type: "table",
         title: "Герои и стиль",
@@ -175,7 +250,7 @@ window.CODEX_TOPICS = [
       },
       {
         type: "note",
-        text: "Смерть: затемнение + fatality по типу — котик / манекен / пёс·волк·зомби·призрак «… отдыхает». Cleanse: все видят снятые дебаффы. D-032 · D-041 · FULL-SPEC §3.5.",
+        text: "Смерть: затемнение + fatality по типу — котик / манекен / пёс·волк·зомби·призрак «… отдыхает». Cleanse: все видят снятые дебаффы.",
       },
     ],
   },
@@ -185,13 +260,26 @@ window.CODEX_TOPICS = [
     icon: "monitor_heart",
     tag: "Статы",
     title: "HP по классам",
-    blurb: "Танк 50 HP база",
+    blurb: "Танк 50 HP — якорь баланса",
     mode: "article",
     headline: "База HP ур.1 без брони",
-    lead: "Танк — якорь 50 HP. Остальные классы ниже по лестнице. Вариант B внутри класса ±5% HP (LiveOps).",
+    lead: "Танк — якорь 50 HP. Остальные классы ниже по лестнице. Вариант B внутри класса может отличаться на ±5% HP (LiveOps).",
+    detail:
+      "Экип добавляет DEF/HP от брони и ATK от оружия (+2…+4). Рост статов от ранга калибруется под якорь 50, чтобы танк всегда оставался «толще» тыла.",
     source: "wiki §3 · D-024",
+    go: [
+      { tab: "heroes", label: "Смотреть героев", icon: "pets", primary: "knowledge" },
+      { tab: "formation", label: "Собрать строй", icon: "groups", primary: "combat" },
+    ],
     blocks: [
-      { type: "media", label: "Сравнение HP", caption: "Диаграмма классов — позже" },
+      {
+        type: "media",
+        label: "Герои — витрина",
+        caption: "Сравнение ролей",
+        src: "/stitch-ref/64d5/heroes.png",
+        fit: "cover",
+        height: "10rem",
+      },
       {
         type: "table",
         title: "Base HP",
@@ -207,7 +295,10 @@ window.CODEX_TOPICS = [
       },
     ],
     side: [
-      { type: "note", text: "Экип: броня → DEF/HP, оружие → ATK (+2…+4). Рост от ранга — LiveOps-ретьюн под якорь 50." },
+      {
+        type: "note",
+        text: "Экип: броня → DEF/HP, оружие → ATK (+2…+4). Рост от ранга — LiveOps-ретьюн под якорь 50.",
+      },
     ],
   },
   {
@@ -216,12 +307,26 @@ window.CODEX_TOPICS = [
     icon: "trending_up",
     tag: "Ранги",
     title: "Уровни и статы рангов",
-    blurb: "R1→R8 = сила",
+    blurb: "Уровень кота ≠ ранг экипа",
     mode: "article",
     headline: "Уровень кота ≠ ранг экипа",
-    lead: "Уровень кота качается отдельно. Редкость брони и оружия привязана к рангу игрока R1–R8.",
+    lead: "Уровень кота качается отдельно (опыт боёв). Редкость брони и оружия привязана к рангу игрока R1–R8 — это другой трек прогресса.",
+    detail:
+      "За каждый ранг: +10 ко всем статам и +20 к primary класса. Primary: танк — HP/charm; боец/ассасин/стрелок — ATK/SPD; маг — Skill/ATK; саппорт — Skill/charm.",
     source: "wiki §5",
+    go: [
+      { tab: "pass", label: "Качать ранг в пассе", icon: "card_membership", primary: "pass" },
+      { tab: "gear", label: "Смотреть экип", icon: "checkroom", primary: "character" },
+    ],
     blocks: [
+      {
+        type: "media",
+        label: "Трек пасса / ранг",
+        caption: "Прогресс сезона",
+        src: "/stitch-ref/batch3-etalons/09-battle-pass.png",
+        fit: "cover",
+        height: "10rem",
+      },
       {
         type: "stats",
         title: "За каждый ранг",
@@ -241,7 +346,6 @@ window.CODEX_TOPICS = [
           ["support", "Skill, charm"],
         ],
       },
-      { type: "media", label: "Рост статов", caption: "График R1→R8 — позже" },
     ],
     side: [{ type: "note", text: "Unlock rarity grey→mythic — docs/armor-ranks-pass.md." }],
   },
@@ -251,13 +355,26 @@ window.CODEX_TOPICS = [
     icon: "local_fire_department",
     tag: "Стихии",
     title: "Стихийный резонанс",
-    blurb: "Огонь · лёд · земля…",
+    blurb: "Огонь · лёд · земля · вода…",
     mode: "article",
     headline: "Стихии архетипов",
-    lead: "У каждого архетипа свой стихийный фокус. Полный сет усиливает классовые навыки; точные числа синергий — LiveOps.",
+    lead: "У каждого архетипа свой стихийный фокус. Полный сет усиливает классовые навыки; точные числа синергий крутит LiveOps, имена и триггеры зафиксированы вики.",
+    detail:
+      "В UI стихии окрашены токенами: молния, огонь, вода, природа, земля, лёд. Примеры: маг A — огонь AoE + vuln; маг B — лёд stun; танк-страж — земля+огонь (меньше DoT, выше stun resist).",
     source: "wiki §1 · DESIGN elemental tokens",
+    go: [
+      { tab: "heroes", label: "Герои по стихиям", icon: "auto_awesome", primary: "knowledge" },
+      { tab: "gear", label: "Классовые сеты", icon: "shield", primary: "character" },
+    ],
     blocks: [
-      { type: "media", label: "Колесо стихий", caption: "Пустой блок под арт" },
+      {
+        type: "media",
+        label: "Боевой постер",
+        caption: "Стихийный бой",
+        src: "/stitch-ref/e608/battle_poster.png",
+        fit: "cover",
+        height: "10rem",
+      },
       {
         type: "table",
         title: "Токены UI",
@@ -291,13 +408,26 @@ window.CODEX_TOPICS = [
     icon: "groups",
     tag: "Бой",
     title: "Правила боевого строя 3v3",
-    blurb: "Танк → боец → тыл",
+    blurb: "Танк впереди · саппорт/маг сзади",
     mode: "article",
     headline: "Строй и таргет",
-    lead: "Одно ядро на PvP и PvE. Строй решает: танк впереди, саппорт/маг сзади. Обычные удары бьют фронт; карты в тыл нужно вытянуть из руки и навести на героя.",
+    lead: "Одно ядро на PvP и PvE. Строй решает: танк впереди, саппорт и маг сзади. Обычные удары бьют фронт; карты в тыл нужно вытянуть из руки и навести на героя.",
+    detail:
+      "Lane 0 = фронт, lane 2 = тыл. Рекомендация: танк → боец → стрелок/саппорт. Не ставь саппорта, стрелка или мага вперёд — они ломаются первыми. Melee бьёт ближайший фронт; ranger/mage/support выбирают слот свободно.",
     source: "formation-targeting.md · wiki §4 · FULL-SPEC §2.1 / §3.4",
+    go: [
+      { tab: "formation", label: "Открыть расстановку", icon: "groups", primary: "combat" },
+      { tab: "practice", label: "Потренировать строй", icon: "fitness_center", primary: "combat" },
+    ],
     blocks: [
-      { type: "media", label: "Схема 3v3", caption: "Lane 0 фронт → lane 2 тыл — арт позже" },
+      {
+        type: "media",
+        label: "Экран строя",
+        caption: "3 слота отряда",
+        src: "/stitch-ref/e608/formation.png",
+        fit: "cover",
+        height: "11rem",
+      },
       {
         type: "rules",
         title: "Как ставить",
@@ -341,13 +471,27 @@ window.CODEX_TOPICS = [
     icon: "swords",
     tag: "Бой",
     title: "Атака и боевое ядро",
-    blurb: "Crit ×2 · тыл = прицел",
+    blurb: "Crit ×2 · тыл = прицел картой",
     mode: "article",
     headline: "Боевое ядро",
-    lead: "Все режимы ниже используют одно ядро карт. Различаются только цель (бот/игрок), размер отряда, билеты и награды — не формулы урона.",
+    lead: "Все режимы используют одно ядро карт. Различаются только цель (бот/игрок), размер отряда, билеты и награды — не формулы урона.",
+    detail:
+      "Crit даёт ×2 к hit. AoE вторичные цели получают ~50% hit основной. Life drain в бою запрещён. Зелья — не больше 1 штуки каждого potionId. После боя HP чинит только молоко на льду в Таверне.",
     source: "wiki §4 · FULL-SPEC §3",
+    go: [
+      { tab: "battle_hub", label: "Меню боёв", icon: "sports_esports", primary: "combat" },
+      { tab: "practice", label: "Тренировка", icon: "fitness_center", primary: "combat" },
+      { tab: "tavern", label: "Таверна (молоко HP)", icon: "water_drop", primary: "trade" },
+    ],
     blocks: [
-      { type: "media", label: "HUD боя", caption: "Рука, энергия, строй — арт позже" },
+      {
+        type: "media",
+        label: "HUD боя",
+        caption: "Рука, энергия, строй",
+        src: "/stitch-ref/battles-trade-guild-etalons/05-battle-ui.png",
+        fit: "cover",
+        height: "11rem",
+      },
       {
         type: "stats",
         title: "Числа вики",
@@ -389,26 +533,40 @@ window.CODEX_TOPICS = [
           "Иконки баффов/дебаффов + число ходов — видны всем.",
           "Щит танка — синяя шкала у HP; в PvP враг шкалу не видит.",
           "Stun/sleep → карты юнита неактивны.",
-          "Смерть → «котик / манекен / {вид} отдыхает» (D-041).",
+          "Смерть → «котик / манекен / {вид} отдыхает».",
         ],
       },
     ],
   },
 
-  /* ─── Режимы боёв (полный список) ─── */
+  /* ─── Режимы боёв ─── */
   {
     id: "modes_overview",
     filter: "combat",
     icon: "sports_esports",
     tag: "Режимы",
     title: "Все режимы боёв",
-    blurb: "Тренировка → осада",
+    blurb: "Тренировка → Мифмир → PvP → данж → рейд → осада",
     mode: "article",
     headline: "Куда идти драться",
-    lead: "В меню «Бои» шесть направлений. Ниже — коротко что это и что даёт; детали в отдельных главах Кодекса.",
+    lead: "В меню «Бои» шесть направлений. Ниже — что это даёт; детали — в отдельных главах Кодекса. Free: 3 PvE bowls и 5 PvP tickets в день (пасс ×2).",
+    detail:
+      "Дуэли и Колизей открываются после 3 побед в Мифмире или тренировке. Клан-босс (1 кот с участника) — отдельно от осады и на SL во вкладке «Скоро».",
     source: "nav-ia · FULL-SPEC §4 · wiki §8.7–§9",
+    go: [
+      { tab: "battle_hub", label: "Открыть меню боёв", icon: "sports_esports", primary: "combat" },
+      { tab: "practice", label: "Тренировка", icon: "fitness_center", primary: "combat" },
+      { tab: "pvp", label: "PvP / Колизей", icon: "sports_kabaddi", primary: "combat" },
+    ],
     blocks: [
-      { type: "media", label: "Меню Бои", caption: "Скрин подвкладок — позже" },
+      {
+        type: "media",
+        label: "Хаб боёв",
+        caption: "Порталы режимов",
+        src: "/stitch-ref/0268/hub-portals-etalon.png",
+        fit: "cover",
+        height: "11rem",
+      },
       {
         type: "table",
         title: "Карта режимов",
@@ -444,20 +602,33 @@ window.CODEX_TOPICS = [
     icon: "fitness_center",
     tag: "Тренировка",
     title: "Тренировка (додзё)",
-    blurb: "Без ranked-риска",
+    blurb: "Безопасно учить строй и карты",
     mode: "article",
     headline: "Тренировочный лагерь",
-    lead: "Безопасный бой против манекенов: учишь строй, карты и прицел в тыл. Рейтинг и ranked-баффы не тратятся.",
+    lead: "Безопасный бой против манекенов: учишь строй, карты и прицел в тыл. Рейтинг и ranked-баффы не тратятся — идеально перед Колизеем.",
+    detail:
+      "Каждая победа в тренировке считается в gate: после 3 побед (Мифмир или practice) открываются дуэли. Награды soft минимальны — режим для учёбы.",
     source: "FULL-SPEC §4.2 · nav-ia practice",
+    go: [
+      { tab: "practice", label: "Войти в додзё", icon: "fitness_center", primary: "combat" },
+      { tab: "formation", label: "Настроить строй", icon: "groups", primary: "combat" },
+    ],
     blocks: [
-      { type: "media", label: "Додзё", caption: "Экран тренировки — арт позже" },
+      {
+        type: "media",
+        label: "Додзё",
+        caption: "Лобби тренировки",
+        src: "/stitch-ref/practice-dojo-gold/practice-lobby.png",
+        fit: "cover",
+        height: "11rem",
+      },
       {
         type: "rules",
         title: "Зачем заходить",
         items: [
           "Отработать строй танк→боец→тыл без потери билетов Колизея.",
           "Проверить новые карты и зелья до ranked.",
-          "Каждая победа в тренировке считается в gate: после 3 побед (Мифмир или practice) открываются дуэли.",
+          "Каждая победа в тренировке считается в gate: после 3 побед открываются дуэли.",
         ],
       },
       {
@@ -471,8 +642,17 @@ window.CODEX_TOPICS = [
       },
     ],
     side: [
+      {
+        type: "media",
+        label: "Манекены",
+        caption: "Дубовый · Берсерк · Тотем",
+        icons: [
+          { src: "/stitch-ref/practice-dojo-gold/dummy-oak-knight.png", label: "Дубовый" },
+          { src: "/stitch-ref/practice-dojo-gold/dummy-straw-berserk.png", label: "Берсерк" },
+          { src: "/stitch-ref/practice-dojo-gold/dummy-stone-totem.png", label: "Тотем" },
+        ],
+      },
       { type: "note", text: "Route `practice`. Fight HUD общий с остальными режимами." },
-      { type: "media", label: "Манекены", caption: "Пустой блок" },
     ],
   },
   {
@@ -481,13 +661,27 @@ window.CODEX_TOPICS = [
     icon: "map",
     tag: "Мифмир",
     title: "Мифмир — карта PvE",
-    blurb: "5 глав × 3 уровня · 1 bowl",
+    blurb: "5 глав × 3 уровня · 1 миска за узел",
     mode: "article",
     headline: "Мифмир (PvE)",
-    lead: "Кампания: карта + список миссий. Soft-launch: 5 глав × 3 уровня (солдаты → солдаты → питбосс+солдаты). 1 миска (bowl) за уровень.",
+    lead: "Кампания: карта + список миссий. Soft-launch: 5 глав × 3 уровня (солдаты → солдаты → питбосс+солдаты). За уровень тратится 1 миска (bowl).",
+    detail:
+      "Между уровнями главы живые коты восстанавливают HP; мёртвые не воскресают. Пройти можно на стартерах танк·DPS·саппорт без шмоток. После боя — усталость: молоко в Таверне. Не путать с Двором усадьбы (`farm`).",
     source: "FULL-SPEC §4.1 · wiki §4.2 · D-039",
+    go: [
+      { tab: "yard", label: "Открыть карту Мифмира", icon: "map", primary: "combat" },
+      { tab: "battle_hub", label: "Хаб боёв", icon: "sports_esports", primary: "combat" },
+      { tab: "tavern", label: "Восстановить HP", icon: "water_drop", primary: "trade" },
+    ],
     blocks: [
-      { type: "media", label: "Карта Мифмира", caption: "Узлы кампании" },
+      {
+        type: "media",
+        label: "Карта Мифмира",
+        caption: "Узлы кампании",
+        src: "/stitch-ref/battles-trade-guild-etalons/06-yard-mythmir.png",
+        fit: "cover",
+        height: "11rem",
+      },
       {
         type: "table",
         title: "Главы (LOCKED D-039)",
@@ -531,6 +725,14 @@ window.CODEX_TOPICS = [
           ["С пассом", "6 / день"],
         ],
       },
+      {
+        type: "media",
+        label: "Локация",
+        caption: "Meowkara Mines",
+        src: "/stitch-ref/pve-yard/meowkara-mines-bg.png",
+        fit: "cover",
+        height: "7rem",
+      },
       { type: "note", text: "Route `yard`. Не путать с Двором усадьбы (`farm`)." },
     ],
   },
@@ -540,13 +742,27 @@ window.CODEX_TOPICS = [
     icon: "sports_kabaddi",
     tag: "PvP",
     title: "PvP 3v3: дуэль и Колизей",
-    blurb: "Unranked + rating",
+    blurb: "Unranked дуэль + ranked арена",
     mode: "article",
     headline: "PvP 3v3",
     lead: "Два слоя одного 3v3: быстрая дуэль без сезонного рейтинга и Колизей (Арена) с отдельным rating на каждый ранг брони R1–R8.",
+    detail:
+      "Unlock после 3 побед в Мифмире или тренировке. 1 билет за бой. В ranked запрещены бафф-молоко и life drain. Победа +10 / поражение −3 rating. Кросс-плей: mobile / web / Steam — общий пул.",
     source: "FULL-SPEC §4.2–§4.3 · wiki §9 · §8.7",
+    go: [
+      { tab: "pvp", label: "Открыть PvP / Колизей", icon: "sports_kabaddi", primary: "combat" },
+      { tab: "formation", label: "Собрать отряд", icon: "groups", primary: "combat" },
+      { tab: "rating_players", label: "Рейтинг игроков", icon: "leaderboard", primary: "ratings" },
+    ],
     blocks: [
-      { type: "media", label: "Арена", caption: "Лобби PvP — арт позже" },
+      {
+        type: "media",
+        label: "Арена Колизея",
+        caption: "Лобби PvP",
+        src: "/stitch-ref/battles-trade-guild-etalons/09-pvp-arena.png",
+        fit: "cover",
+        height: "11rem",
+      },
       {
         type: "table",
         title: "Дуэль (unranked)",
@@ -591,6 +807,14 @@ window.CODEX_TOPICS = [
           ["С пассом", "10"],
         ],
       },
+      {
+        type: "media",
+        label: "Загрузка дуэли",
+        caption: "VS screen",
+        src: "/stitch-ref/pvp-battles/pvp-load.png",
+        fit: "cover",
+        height: "7rem",
+      },
       { type: "note", text: "Soft decay рейтинга между сезонами. Анти-P2W: soft-cap rarity, potions cap." },
     ],
   },
@@ -600,13 +824,27 @@ window.CODEX_TOPICS = [
     icon: "fort",
     tag: "Данжи",
     title: "Данжи на боссов",
-    blurb: "3 волны · first-clear",
+    blurb: "3 волны · first-clear бонус",
     mode: "article",
     headline: "Данжи",
     lead: "Подземелье с тремя волнами: сначала пачка (~6), затем крупнее (~10), финал — босс+4. Ядро боя остаётся 3v3; UI показывает волны.",
+    detail:
+      "Разрешено бафф-молоко из Таверны (это не ranked). First-clear даёт повышенную награду один раз; повторы — меньший earn. Зелья ≤1 на potionId, как везде.",
     source: "FULL-SPEC §4.1 · wiki §8.7 · nav boss_dungeon",
+    go: [
+      { tab: "boss_dungeon", label: "Войти в данж", icon: "fort", primary: "combat" },
+      { tab: "formation", label: "Собрать строй", icon: "groups", primary: "combat" },
+      { tab: "rating_dungeon", label: "Рейтинг данжей", icon: "timer", primary: "ratings" },
+    ],
     blocks: [
-      { type: "media", label: "Вход в данж", caption: "Экран start — арт позже" },
+      {
+        type: "media",
+        label: "Вход в данж",
+        caption: "Крипта босса",
+        src: "/stitch-ref/battles-trade-guild-etalons/13-boss-dungeon.png",
+        fit: "cover",
+        height: "11rem",
+      },
       {
         type: "rules",
         title: "Как пройти",
@@ -628,8 +866,15 @@ window.CODEX_TOPICS = [
       },
     ],
     side: [
+      {
+        type: "media",
+        label: "Альтернативный вход",
+        caption: "Арт данжа",
+        src: "/stitch-assets/modes/dungeon-crypt-bg.jpg",
+        fit: "cover",
+        height: "7rem",
+      },
       { type: "note", text: "Route `boss_dungeon`. Повторы после first-clear — меньший earn (LiveOps)." },
-      { type: "media", label: "Босс волны 3", caption: "Пустой блок" },
     ],
   },
   {
@@ -642,9 +887,22 @@ window.CODEX_TOPICS = [
     mode: "article",
     headline: "Рейд и легион",
     lead: "Крупный PvE: в бой выходят 8–12 котов на босса (не обычный строй 3v3). На soft-launch — экран + tip; полный ММ и награды включаются LiveOps-флагом.",
+    detail:
+      "Не путать с клан-боссом (1 кот с участника, shared HP) и с осадой гильдий (GvG). Day-1 CTA «Вступить в рейд» может вести в tip «Подними ранг».",
     source: "FULL-SPEC §4.1 / §4.4 · nav boss_raid",
+    go: [
+      { tab: "boss_raid", label: "Открыть рейд", icon: "groups_3", primary: "combat" },
+      { tab: "rating_raid", label: "Рейтинг рейда", icon: "leaderboard", primary: "ratings" },
+    ],
     blocks: [
-      { type: "media", label: "Легион 12", caption: "Слот-сетка рейда — арт позже" },
+      {
+        type: "media",
+        label: "Легион 12",
+        caption: "Логово рейда",
+        src: "/stitch-ref/battles-trade-guild-etalons/11-boss-raid.png",
+        fit: "cover",
+        height: "11rem",
+      },
       {
         type: "rules",
         title: "Чем отличается от данжа",
@@ -665,6 +923,14 @@ window.CODEX_TOPICS = [
       },
     ],
     side: [
+      {
+        type: "media",
+        label: "Фон логова",
+        caption: "raid-lair",
+        src: "/stitch-assets/modes/raid-lair-bg.jpg",
+        fit: "cover",
+        height: "7rem",
+      },
       { type: "note", text: "Route `boss_raid`. Ядро карт то же; размер борда — расширение battle-core post-SL." },
     ],
   },
@@ -674,13 +940,27 @@ window.CODEX_TOPICS = [
     icon: "castle",
     tag: "Осада",
     title: "Осада гильдий (GvG)",
-    blurb: "Гильдия vs гильдия",
+    blurb: "Гильдия vs гильдия · soft only",
     mode: "article",
     headline: "Бой гильдий / осада",
-    lead: "Гильдия выставляет от 3 до 12 котов против другой гильдии. Soft currency only. На soft-launch: зал + лобби + tip; полный ММ 4–12 — после ранга / LiveOps flag.",
+    lead: "Гильдия выставляет от 3 до 12 котов против другой гильдии. Только soft currency. На soft-launch: зал + лобби + tip; полный ММ 4–12 — после ранга / LiveOps flag.",
+    detail:
+      "Размер 3 переиспользует симулятор 3v3; 4–12 — расширение ядра. Не путать с клан-боссом и с рейдом (PvE на босса). Рейтинг гильдий виден на доске day-1.",
     source: "FULL-SPEC §4.5 · nav guild_battle",
+    go: [
+      { tab: "guild_battle", label: "Бой гильдий", icon: "castle", primary: "combat" },
+      { tab: "guild", label: "Зал гильдии", icon: "groups", primary: "guilds" },
+      { tab: "rating_guilds", label: "Рейтинг гильдий", icon: "emoji_events", primary: "ratings" },
+    ],
     blocks: [
-      { type: "media", label: "Осада врат", caption: "GvG lobby / fight art — позже" },
+      {
+        type: "media",
+        label: "Осада врат",
+        caption: "GvG lobby",
+        src: "/stitch-ref/battles-trade-guild-etalons/10-guild-battle.png",
+        fit: "cover",
+        height: "11rem",
+      },
       {
         type: "rules",
         title: "Правила",
@@ -695,14 +975,21 @@ window.CODEX_TOPICS = [
         type: "rules",
         title: "Не путать",
         items: [
-          "Клан-босс (§4.4): 1 кот с участника, общее HP босса — отдельный режим «Скоро».",
+          "Клан-босс: 1 кот с участника, общее HP босса — отдельный режим «Скоро».",
           "Рейд / легион: PvE на босса, не гильдия vs гильдия.",
         ],
       },
     ],
     side: [
+      {
+        type: "media",
+        label: "Бой у врат",
+        caption: "guild fight",
+        src: "/stitch-ref/4da7/guild_fight.png",
+        fit: "cover",
+        height: "7rem",
+      },
       { type: "note", text: "Навигация: Гильдии → Бой гильдий (`guild_battle`). Чат гильдии рядом." },
-      { type: "media", label: "Герб гильдии", caption: "Пустой блок" },
     ],
   },
   {
@@ -715,9 +1002,24 @@ window.CODEX_TOPICS = [
     mode: "article",
     headline: "Рейтинговые доски",
     lead: "Четыре доски сезона: Колизей (MMR), данжи (скорость/★), рейд (урон/вклад) и гильдии (слава/осады). PvP ladder разделён по armor rank R1–R8.",
+    detail:
+      "Сезон арены ~28 дней; между сезонами действует soft decay. Смотри доски во вкладке «Рейтинги» верхнего меню.",
     source: "wiki §9 · prefs nav",
+    go: [
+      { tab: "rating_players", label: "Рейтинг игроков", icon: "person", primary: "ratings" },
+      { tab: "rating_dungeon", label: "Рейтинг данжей", icon: "fort", primary: "ratings" },
+      { tab: "rating_raid", label: "Рейтинг рейда", icon: "groups_3", primary: "ratings" },
+      { tab: "rating_guilds", label: "Рейтинг гильдий", icon: "castle", primary: "ratings" },
+    ],
     blocks: [
-      { type: "media", label: "Таблица рейтинга", caption: "Dense hall UI · 16:9" },
+      {
+        type: "media",
+        label: "Таблица рейтинга",
+        caption: "Зал славы",
+        src: "/stitch-ref/batch3-etalons/08-ratings.png",
+        fit: "cover",
+        height: "11rem",
+      },
       {
         type: "rules",
         title: "Что видно",
@@ -729,7 +1031,17 @@ window.CODEX_TOPICS = [
         ],
       },
     ],
-    side: [{ type: "note", text: "Сезон арены ~28 дней; soft decay между сезонами." }],
+    side: [
+      {
+        type: "media",
+        label: "Рейтинг игроков",
+        caption: "UI",
+        src: "/stitch-ref/17eb/rating_players.png",
+        fit: "cover",
+        height: "7rem",
+      },
+      { type: "note", text: "Сезон арены ~28 дней; soft decay между сезонами." },
+    ],
   },
   {
     id: "tickets_energy",
@@ -737,12 +1049,28 @@ window.CODEX_TOPICS = [
     icon: "confirmation_number",
     tag: "Билеты",
     title: "Билеты, миски и энергия",
-    blurb: "Bowls · tickets",
+    blurb: "Bowls на PvE · tickets на PvP",
     mode: "article",
     headline: "Доступ к боям",
     lead: "Миски тратятся на PvE (Мифмир). Билеты — на PvP. Пасс удваивает дневной запас. Энергия Хранителя на UI — stub, числа LiveOps.",
+    detail:
+      "Стартовый грант: 3 bowls и 5 tickets. PvP открывается после 3 побед в Мифмире или тренировке. Gated экраны показывают tip «Подними ранг в боях».",
     source: "wiki §9 · §8.7 · FULL-SPEC §5",
+    go: [
+      { tab: "battle_hub", label: "Меню боёв", icon: "sports_esports", primary: "combat" },
+      { tab: "pass", label: "Удвоить лимиты пассом", icon: "card_membership", primary: "pass" },
+      { tab: "yard", label: "Потратить миску (PvE)", icon: "map", primary: "combat" },
+      { tab: "pvp", label: "Потратить билет (PvP)", icon: "confirmation_number", primary: "combat" },
+    ],
     blocks: [
+      {
+        type: "media",
+        label: "Хаб боёв",
+        caption: "Лимиты на экране",
+        src: "/stitch-ref/0268/hub.png",
+        fit: "cover",
+        height: "10rem",
+      },
       {
         type: "table",
         title: "Дневные лимиты",
@@ -761,9 +1089,20 @@ window.CODEX_TOPICS = [
           "Gated экраны → tip «Подними ранг в боях».",
         ],
       },
-      { type: "media", label: "Иконки валют боя", caption: "Пустой блок" },
     ],
-    side: [{ type: "note", text: "Стартовый грант: bowls 3, tickets 5." }],
+    side: [
+      {
+        type: "media",
+        label: "Валюты боя",
+        caption: "fish · scrap",
+        icons: [
+          { src: "/barn-icons/fish.png", label: "Fish" },
+          { src: "/barn-icons/seal-paw.png", label: "Медаль" },
+          { src: "/barn-icons/iron.png", label: "Scrap≈" },
+        ],
+      },
+      { type: "note", text: "Стартовый грант: bowls 3, tickets 5." },
+    ],
   },
 
   /* ─── Усадьба / крафт ─── */
@@ -773,18 +1112,26 @@ window.CODEX_TOPICS = [
     icon: "agriculture",
     tag: "Двор",
     title: "Двор: добыча ресурсов",
-    blurb: "Дневные минимумы сбора",
+    blurb: "Грядки · лес · рудник · рыбалка",
     mode: "article",
     headline: "Двор (route farm)",
     lead: "Усадьба Хранителя: сажаешь, рубишь, копаешь и ловишь. Есть дневной минимум при визите — бесконечно фармить free-аккаунтом нельзя. Pass ACTIVE включает autofarm.",
+    detail:
+      "Инструменты изнашиваются ~7 дней → ремонт на Рынке или scrap. Несобранный урожай портится ~2 дня. Не путать с Мифмиром (`yard` = PvE-карта).",
     source: "wiki §2 · FULL-SPEC §4.4",
+    go: [
+      { tab: "farm", label: "Открыть Двор", icon: "agriculture", primary: "character", soon: "farm" },
+      { tab: "market", label: "Купить семена / tools", icon: "store", primary: "trade" },
+      { tab: "craft", label: "Скрафтить из mats", icon: "science", primary: "character" },
+    ],
     blocks: [
       {
         type: "media",
         label: "Карта Двора",
         caption: "Зоны усадьбы",
         src: "/stitch-ref/64d5/farm_map.png",
-        height: "10rem",
+        fit: "cover",
+        height: "11rem",
       },
       {
         type: "table",
@@ -836,16 +1183,31 @@ window.CODEX_TOPICS = [
     icon: "science",
     tag: "Крафт",
     title: "Алхимия и крафт",
-    blurb: "Из чего → что получится",
+    blurb: "Из трав и руды → зелья и mats",
     mode: "article",
     headline: "Что крафтить и из чего",
-    lead: "Рецепты покупаются/открываются на Рынке. Алхимия варит зелья из трав, овощей и фруктов. Кузница жрёт дерево, железо и scrap. Успех даёт отдельные XP: craft_xp и alchemy_xp (не rank XP боя).",
+    lead: "Рецепты покупаются/открываются на Рынке. Алхимия варит зелья из трав, овощей и фруктов. Кузница жрёт дерево, железо и scrap. Успех даёт craft_xp и alchemy_xp (не rank XP боя).",
+    detail:
+      "В бою нельзя взять больше 1 штуки одного potionId. Зелья продаются на Рынке и Аукционе — не в Таверне. Pass autofarm — QoL, не ranked power.",
     source: "wiki §6 · §8.3",
+    go: [
+      { tab: "craft", label: "Открыть крафт", icon: "science", primary: "character" },
+      { tab: "market", label: "Купить рецепты", icon: "store", primary: "trade" },
+      { tab: "farm", label: "Собрать mats на Дворе", icon: "agriculture", primary: "character", soon: "farm" },
+    ],
     blocks: [
       {
         type: "media",
-        label: "Алтарь / горн",
-        caption: "Зелья smoke",
+        label: "Мастерская крафта",
+        caption: "Алхимия + кузня",
+        src: "/stitch-ref/home-keeper/craft/screen.png",
+        fit: "cover",
+        height: "11rem",
+      },
+      {
+        type: "media",
+        label: "Зелья smoke",
+        caption: "Иконки",
         icons: [
           { src: "/barn-icons/potion-nature.png", label: "Жизнь" },
           { src: "/barn-icons/potion-mana.png", label: "Очищение" },
@@ -882,16 +1244,6 @@ window.CODEX_TOPICS = [
           ["Рецепт green+", "×1.5 к XP"],
         ],
       },
-      {
-        type: "rules",
-        title: "Важно",
-        items: [
-          "Зелья продаются на Рынке и Аукционе — не в Таверне.",
-          "В бою нельзя взять больше 1 штуки одного potionId.",
-          "Pass autofarm_alchemy / autofarm_blacksmith — QoL, не ranked power.",
-          "Шансы крит-крафта / фейла — LiveOps; вики гарантирует XP только за успех.",
-        ],
-      },
     ],
     side: [
       {
@@ -907,16 +1259,11 @@ window.CODEX_TOPICS = [
       },
       {
         type: "media",
-        label: "Иконки рецептов",
-        caption: "Реагенты",
-        icons: [
-          { src: "/barn-icons/herbs.png", label: "Травы" },
-          { src: "/barn-icons/fruit.png", label: "Фрукты" },
-          { src: "/barn-icons/veggies.png", label: "Овощи" },
-          { src: "/barn-icons/fish.png", label: "Рыба" },
-          { src: "/barn-icons/wood.png", label: "Дерево" },
-          { src: "/barn-icons/iron.png", label: "Железо" },
-        ],
+        label: "Арт горна",
+        caption: "craft art",
+        src: "/stitch-ref/home-keeper/craft/art-1.png",
+        fit: "cover",
+        height: "6rem",
       },
     ],
   },
@@ -926,13 +1273,27 @@ window.CODEX_TOPICS = [
     icon: "hardware",
     tag: "Кузница",
     title: "Кузница: заточка",
-    blurb: "Заточка и гарантии",
+    blurb: "Ремонт tools · mats · заточка позже",
     mode: "article",
     headline: "Оружейная усадьбы",
     lead: "В кузне Дома Хранителя чинят tools, куют mats и (позже) точат экип. Крафт даёт craft_xp. Гарантии силы — через ранг и пасс-боксы, не через yarn-skip.",
+    detail:
+      "Ремонт tools: kit с Рынка (40 fish) или железо+дерево. Износ полного tool ~7 дней активного сбора. Нельзя купить mythic-ранг за yarn.",
     source: "wiki §6 · armor-ranks-pass",
+    go: [
+      { tab: "craft", label: "Открыть кузню / крафт", icon: "hardware", primary: "character" },
+      { tab: "gear", label: "Экипировка", icon: "checkroom", primary: "character" },
+      { tab: "market", label: "Купить repair kit", icon: "store", primary: "trade" },
+    ],
     blocks: [
-      { type: "media", label: "Кузня", caption: "Интерьер горна — позже" },
+      {
+        type: "media",
+        label: "Кузня",
+        caption: "Горн усадьбы",
+        src: "/stitch-ref/home-keeper/craft/art-3.png",
+        fit: "cover",
+        height: "10rem",
+      },
       {
         type: "rules",
         title: "Day-1 понятно",
@@ -954,6 +1315,17 @@ window.CODEX_TOPICS = [
       },
     ],
     side: [
+      {
+        type: "media",
+        label: "Tools",
+        caption: "Рынок",
+        icons: [
+          { src: "/barn-icons/tool-shovel.png", label: "Лопата" },
+          { src: "/barn-icons/tool-axe.png", label: "Топор" },
+          { src: "/barn-icons/tool-pick.png", label: "Кирка" },
+          { src: "/barn-icons/dagger.png", label: "Клинок" },
+        ],
+      },
       { type: "note", text: "Числа шансов заточки — LiveOps; каналы LOCKED вики." },
     ],
   },
@@ -963,11 +1335,18 @@ window.CODEX_TOPICS = [
     icon: "medication",
     tag: "Зелья",
     title: "Зелья в бою",
-    blurb: "≤1 / potionId",
+    blurb: "≤1 / potionId · варка или рынок",
     mode: "article",
     headline: "Боевые зелья",
     lead: "Зелья варятся алхимией, продаются на Рынке/Аукционе и ставятся в loadout до боя. В одном бою — не больше одной штуки каждого potionId.",
+    detail:
+      "В Таверне зелий нет — там только молоко. Common зелье ~40 fish на Рынке. Жизнь / очищение / мятный — базовый набор day-1.",
     source: "wiki §4 · §6 · shops-channels",
+    go: [
+      { tab: "craft", label: "Сварить зелье", icon: "science", primary: "character" },
+      { tab: "market", label: "Купить на Рынке", icon: "store", primary: "trade" },
+      { tab: "auction", label: "Лоты игроков", icon: "gavel", primary: "trade" },
+    ],
     blocks: [
       {
         type: "media",
@@ -979,6 +1358,14 @@ window.CODEX_TOPICS = [
           { src: "/barn-icons/potion-ember.png", label: "Жар" },
           { src: "/barn-icons/potions.png", label: "Набор" },
         ],
+      },
+      {
+        type: "media",
+        label: "Рынок зелий",
+        caption: "NPC + craft sell",
+        src: "/stitch-ref/battles-trade-guild-etalons/18-market-potions.png",
+        fit: "cover",
+        height: "9rem",
       },
       {
         type: "table",
@@ -1015,13 +1402,27 @@ window.CODEX_TOPICS = [
     icon: "pets",
     tag: "Питомник",
     title: "Скрещивание: мифики",
-    blurb: "Обычные → мифики",
+    blurb: "Обычные → мифики · малый шанс",
     mode: "article",
     headline: "Питомник",
     lead: "Главная цель игры: из обычных котов получить мифика. Шанс малый. У мифика ровно 4 сильнейшие карты из пула родителей (до 8) плюс хвостовой пассив.",
+    detail:
+      "Нужны 2 родителя + набор ингредиентов (~200–400 fish equiv.). Талисман удачи (yarn IAP) даёт +20% на одну попытку. На SL: форма + tip; live nursery = Phase 6. Не crypto/NFT.",
     source: "wiki §7 · mythic-breeding.md",
+    go: [
+      { tab: "breeding", label: "Открыть питомник", icon: "pets", primary: "character" },
+      { tab: "collection", label: "Выбрать родителей", icon: "grid_view", primary: "character" },
+      { tab: "shop", label: "Купить breeding mats", icon: "shopping_bag", primary: "trade" },
+    ],
     blocks: [
-      { type: "media", label: "Питомник", caption: "Форма скрещивания — арт позже" },
+      {
+        type: "media",
+        label: "Питомник",
+        caption: "Алтарь скрещивания",
+        src: "/stitch-ref/home-keeper/breeding/screen.png",
+        fit: "cover",
+        height: "11rem",
+      },
       {
         type: "stats",
         title: "Правила попытки",
@@ -1044,10 +1445,17 @@ window.CODEX_TOPICS = [
     ],
     side: [
       {
+        type: "media",
+        label: "Алтарь",
+        caption: "breeding altar",
+        src: "/stitch-ref/home-keeper/breeding/altar.png",
+        fit: "cover",
+        height: "7rem",
+      },
+      {
         type: "note",
         text: "SL: форма + tip; live nursery = Phase 6. Без безлимитного free breed. Не crypto/NFT.",
       },
-      { type: "media", label: "Мифик-портрет", caption: "Пустой блок" },
     ],
   },
   {
@@ -1056,13 +1464,27 @@ window.CODEX_TOPICS = [
     icon: "menu_book",
     tag: "Коллекция",
     title: "Коллекция питомцев",
-    blurb: "12 ordinary · мифики",
+    blurb: "12 ordinary · мифики из питомника",
     mode: "article",
     headline: "Коллекция",
     lead: "В Доме Хранителя хранится коллекция котов. 12 ordinary доступны в Магазине; мифики появляются только из питомника.",
+    detail:
+      "Стартовый грант: танк + боец + саппорт (equal decks). Ещё ordinary — Магазин за 800–950 fish. Навигация Дома: Двор → Крафт → Персонаж → Экип → Коллекция → Скрещивание.",
     source: "prefs · wiki §7",
+    go: [
+      { tab: "collection", label: "Открыть коллекцию", icon: "grid_view", primary: "character" },
+      { tab: "shop", label: "Купить ordinary", icon: "shopping_bag", primary: "trade" },
+      { tab: "breeding", label: "Скрестить мифика", icon: "pets", primary: "character" },
+    ],
     blocks: [
-      { type: "media", label: "Витрина коллекции", caption: "Сетка котов — позже" },
+      {
+        type: "media",
+        label: "Витрина коллекции",
+        caption: "Сетка котов",
+        src: "/stitch-ref/home-keeper/collection/screen.png",
+        fit: "cover",
+        height: "11rem",
+      },
       {
         type: "rules",
         title: "Day-1",
@@ -1075,6 +1497,14 @@ window.CODEX_TOPICS = [
       },
     ],
     side: [
+      {
+        type: "media",
+        label: "Портрет",
+        caption: "Кот-герой",
+        src: "/stitch-ref/64d5/cat_portrait.png",
+        fit: "cover",
+        height: "7rem",
+      },
       {
         type: "note",
         text: "Навигация Дома: Двор → Крафт → Персонаж → Экип → Коллекция → Скрещивание.",
@@ -1089,13 +1519,29 @@ window.CODEX_TOPICS = [
     icon: "storefront",
     tag: "Торговля",
     title: "Площадь торговли",
-    blurb: "4 канала без пересечения",
+    blurb: "4 канала без пересечения ассортимента",
     mode: "article",
     headline: "Куда идти за покупками",
-    lead: "Четыре канала LOCKED и не пересекаются. Зашёл не туда — не найдёшь нужный товар.",
+    lead: "Четыре канала LOCKED и не пересекаются. Зашёл не туда — не найдёшь нужный товар. Площадь — хаб: отсюда двери в Таверну, Магазин, Рынок и Аукцион.",
+    detail:
+      "Зелья → рынок/аукцион. Молоко → таверна. Семена и лопаты → рынок. Пасс и коты → магазин.",
     source: "shops-channels.md · prefs",
+    go: [
+      { tab: "trade_hub", label: "Открыть площадь", icon: "storefront", primary: "trade" },
+      { tab: "shop", label: "Магазин", icon: "shopping_bag", primary: "trade" },
+      { tab: "market", label: "Рынок", icon: "store", primary: "trade" },
+      { tab: "tavern", label: "Таверна", icon: "water_drop", primary: "trade" },
+      { tab: "auction", label: "Аукцион", icon: "gavel", primary: "trade" },
+    ],
     blocks: [
-      { type: "media", label: "Площадь", caption: "Двери зданий — арт позже" },
+      {
+        type: "media",
+        label: "Площадь торговли",
+        caption: "Карта дверей",
+        src: "/stitch-ref/batch3-etalons/02-trade-hub-map.png",
+        fit: "cover",
+        height: "11rem",
+      },
       {
         type: "table",
         title: "Кто что продаёт",
@@ -1127,13 +1573,26 @@ window.CODEX_TOPICS = [
     icon: "shopping_bag",
     tag: "Магазин",
     title: "Магазин soft-launch",
-    blurb: "Common cats · grey R1",
+    blurb: "Коты · серая R1 · пасс · IAP",
     mode: "article",
     headline: "Официальная витрина",
-    lead: "IAP и фиксированные soft-SKU. Сервер проверяет покупки. Soft = fish; premium = yarn.",
+    lead: "IAP и фиксированные soft-SKU. Сервер проверяет покупки. Soft = fish; premium = yarn. Здесь же gear за battle_coin / medals с боёв.",
+    detail:
+      "12 ordinary котов по 800–950 fish, серая броня R1 150–250 fish/slot, breeding mats 60–120 fish, пасс и fish packs за yarn.",
     source: "shops-channels §1 · wiki §8.4",
+    go: [
+      { tab: "shop", label: "Открыть магазин", icon: "shopping_bag", primary: "trade" },
+      { tab: "pass", label: "Сезон пасса", icon: "card_membership", primary: "pass" },
+    ],
     blocks: [
-      { type: "media", label: "Витрина магазина", caption: "Пустой блок" },
+      {
+        type: "media",
+        label: "Витрина магазина",
+        caption: "IAP + soft SKU",
+        src: "/stitch-ref/batch3-etalons/04-shop-iap.png",
+        fit: "cover",
+        height: "11rem",
+      },
       {
         type: "table",
         title: "Что купить",
@@ -1149,6 +1608,14 @@ window.CODEX_TOPICS = [
       },
     ],
     side: [
+      {
+        type: "media",
+        label: "Лавка",
+        caption: "etalon",
+        src: "/stitch-ref/battles-trade-guild-etalons/15-shop-lavka.png",
+        fit: "cover",
+        height: "7rem",
+      },
       { type: "note", text: "battle_coin / medals с боёв → полезный gear в этом же магазине." },
     ],
   },
@@ -1158,16 +1625,31 @@ window.CODEX_TOPICS = [
     icon: "store",
     tag: "Рынок",
     title: "Рынок: семена и сбыт",
-    blurb: "Buy / quick sell",
+    blurb: "Tools · семена · quick sell · рецепты",
     mode: "article",
     headline: "Рынок NPC",
-    lead: "Повседневный расход двора и сбыт крафта по серверной цене. Не путать с аукционом игроков.",
+    lead: "Повседневный расход двора и сбыт крафта по серверной цене. Не путать с аукционом игроков — здесь фиксированные цены NPC.",
+    detail:
+      "Купи семена, лопату, топор, кирку, bait и repair kit. Продай лишние mats quick sell. Здесь же рецепты крафта.",
     source: "wiki §8.1–§8.2",
+    go: [
+      { tab: "market", label: "Открыть рынок", icon: "store", primary: "trade" },
+      { tab: "farm", label: "Потратить на Дворе", icon: "agriculture", primary: "character", soon: "farm" },
+      { tab: "craft", label: "Скрафтить", icon: "science", primary: "character" },
+    ],
     blocks: [
       {
         type: "media",
         label: "Прилавки рынка",
-        caption: "Tools + seeds",
+        caption: "Семена и tools",
+        src: "/stitch-ref/batch3-etalons/06-market-seeds-tools.png",
+        fit: "cover",
+        height: "11rem",
+      },
+      {
+        type: "media",
+        label: "Tools + seeds",
+        caption: "Иконки",
         icons: [
           { src: "/barn-icons/tool-shovel.png", label: "Лопата" },
           { src: "/barn-icons/tool-axe.png", label: "Топор" },
@@ -1216,13 +1698,26 @@ window.CODEX_TOPICS = [
     icon: "gavel",
     tag: "Аукцион",
     title: "Аукцион игроков",
-    blurb: "Своя цена · tax",
+    blurb: "Своя цена · listing tax",
     mode: "article",
     headline: "Player lots",
     lead: "Игроки выставляют лоты по своей цене. Комиссия листинга — soft sink. Без крипты и реальных денег.",
+    detail:
+      "Можно выставить котов, оружие/броню, ингредиенты скрещивания и сваренные зелья. Не дублирует NPC-рынок с фикс-ценой.",
     source: "shops-channels · wiki §10.2",
+    go: [
+      { tab: "auction", label: "Открыть аукцион", icon: "gavel", primary: "trade" },
+      { tab: "trade_hub", label: "Назад на площадь", icon: "storefront", primary: "trade" },
+    ],
     blocks: [
-      { type: "media", label: "Зал аукциона", caption: "Пустой блок" },
+      {
+        type: "media",
+        label: "Зал аукциона",
+        caption: "Лоты игроков",
+        src: "/stitch-ref/batch3-etalons/07-auction.png",
+        fit: "cover",
+        height: "11rem",
+      },
       {
         type: "rules",
         title: "Что можно выставить",
@@ -1243,7 +1738,17 @@ window.CODEX_TOPICS = [
         ],
       },
     ],
-    side: [{ type: "note", text: "Дверь с площади торговли → аукцион." }],
+    side: [
+      {
+        type: "media",
+        label: "UI аукциона",
+        caption: "painted",
+        src: "/stitch-ref/trade-painted/auction-screen.png",
+        fit: "cover",
+        height: "7rem",
+      },
+      { type: "note", text: "Дверь с площади торговли → аукцион." },
+    ],
   },
   {
     id: "tavern_milk",
@@ -1251,13 +1756,27 @@ window.CODEX_TOPICS = [
     icon: "water_drop",
     tag: "Таверна",
     title: "Таверна и молоко",
-    blurb: "Лёд = HP · баффы PvE",
+    blurb: "Лёд = HP · баффы только PvE",
     mode: "article",
     headline: "Молочный бар",
     lead: "В Таверне только молоко. Зелья ищи у крафтеров. Молоко на льду чинит HP после боя; остальные сорта — баффы до PvE и данжей.",
+    detail:
+      "Бафф-молоко запрещено в ranked Колизее — сервер отклонит loadout. Не заменяет боевые зелья в loadout.",
     source: "prefs · shops-channels §2 · wiki §4",
+    go: [
+      { tab: "tavern", label: "Войти в таверну", icon: "water_drop", primary: "trade" },
+      { tab: "yard", label: "В Мифмир после хила", icon: "map", primary: "combat" },
+      { tab: "boss_dungeon", label: "В данж с баффом", icon: "fort", primary: "combat" },
+    ],
     blocks: [
-      { type: "media", label: "Бар Таверны", caption: "Пустой блок" },
+      {
+        type: "media",
+        label: "Бар Таверны",
+        caption: "Молочный прилавок",
+        src: "/stitch-ref/batch3-etalons/05-tavern-bar.png",
+        fit: "cover",
+        height: "11rem",
+      },
       {
         type: "table",
         title: "Виды молока",
@@ -1279,7 +1798,23 @@ window.CODEX_TOPICS = [
         ],
       },
     ],
-    side: [{ type: "note", text: "UI: двери площади → таверна." }],
+    side: [
+      {
+        type: "media",
+        label: "Арт бара",
+        caption: "tavern painted",
+        src: "/stitch-ref/trade-painted/tavern-banner.png",
+        fit: "cover",
+        height: "7rem",
+      },
+      {
+        type: "media",
+        label: "Молоко",
+        caption: "icon",
+        icons: [{ src: "/barn-icons/milk.png", label: "Milk" }],
+      },
+      { type: "note", text: "UI: двери площади → таверна." },
+    ],
   },
   {
     id: "mifius_coin",
@@ -1287,13 +1822,29 @@ window.CODEX_TOPICS = [
     icon: "monetization_on",
     tag: "Валюта",
     title: "Монета «Мифиус»",
-    blurb: "Soft currency · не crypto",
+    blurb: "Soft fish · не crypto / не NFT",
     mode: "article",
     headline: "Мем-коин = soft",
-    lead: "«Мифиус» — бренд-имя soft currency (fish / alias mifius). Это не blockchain, не NFT и не токен.",
+    lead: "«Мифиус» — бренд-имя soft currency (fish / alias mifius). Это не blockchain, не NFT и не токен. Зарабатывается геймплеем и тратится в soft-каналах.",
+    detail:
+      "Earn: победы, двор, крафт, пасс free track, first-clear. Spend: рынок, магазин soft SKU, listing fee, repair, breeding mats. Premium yarn остаётся отдельно (IAP).",
     source: "wiki §10 · prefs",
+    go: [
+      { tab: "shop", label: "Потратить в магазине", icon: "shopping_bag", primary: "trade" },
+      { tab: "market", label: "Потратить на рынке", icon: "store", primary: "trade" },
+      { tab: "yard", label: "Заработать в PvE", icon: "map", primary: "combat" },
+    ],
     blocks: [
-      { type: "media", label: "Монета", caption: "Арт монеты — позже" },
+      {
+        type: "media",
+        label: "Монета / fish",
+        caption: "Soft currency icon",
+        icons: [
+          { src: "/barn-icons/fish.png", label: "Fish / Мифиус" },
+          { src: "/barn-icons/seal-paw.png", label: "Медаль" },
+          { src: "/barn-icons/seal-warehouse.png", label: "Склад" },
+        ],
+      },
       {
         type: "rules",
         title: "Как заработать",
@@ -1336,10 +1887,27 @@ window.CODEX_TOPICS = [
     blurb: "fish · yarn · scrap · medals",
     mode: "article",
     headline: "Кошелёк",
-    lead: "Четыре слоя валют. Soft fish («Мифиус»), premium yarn, боевые medals/battle_coin и scrap для крафта.",
+    lead: "Четыре слоя валют. Soft fish («Мифиус»), premium yarn, боевые medals/battle_coin и scrap для крафта. Крипта и NFT запрещены брендом.",
+    detail:
+      "fish — earn/spend soft. yarn — только IAP. battle_coin/medals с боёв → gear в магазине. scrap — craft / repair.",
     source: "wiki §8 intro · shops-channels",
+    go: [
+      { tab: "shop", label: "Магазин (fish / yarn)", icon: "shopping_bag", primary: "trade" },
+      { tab: "craft", label: "Потратить scrap", icon: "science", primary: "character" },
+      { tab: "battle_hub", label: "Фармить medals", icon: "sports_esports", primary: "combat" },
+    ],
     blocks: [
-      { type: "media", label: "Иконки валют", caption: "Пустой блок" },
+      {
+        type: "media",
+        label: "Иконки валют",
+        caption: "Кошелёк day-1",
+        icons: [
+          { src: "/barn-icons/fish.png", label: "Fish" },
+          { src: "/barn-icons/seal-paw.png", label: "Medals" },
+          { src: "/barn-icons/iron.png", label: "Scrap" },
+          { src: "/barn-icons/stone.png", label: "Mats" },
+        ],
+      },
       {
         type: "stats",
         title: "Слои",
@@ -1351,7 +1919,17 @@ window.CODEX_TOPICS = [
         ],
       },
     ],
-    side: [{ type: "note", text: "Крипта и NFT запрещены брендом и prefs." }],
+    side: [
+      {
+        type: "media",
+        label: "Лавка",
+        caption: "Где тратить",
+        src: "/stitch-ref/17eb/shop.png",
+        fit: "cover",
+        height: "7rem",
+      },
+      { type: "note", text: "Крипта и NFT запрещены брендом и prefs." },
+    ],
   },
   {
     id: "starter",
@@ -1359,13 +1937,30 @@ window.CODEX_TOPICS = [
     icon: "flag",
     tag: "Старт",
     title: "Стартовый грант",
-    blurb: "Танк+боец+саппорт",
+    blurb: "Танк + боец + саппорт · equal decks",
     mode: "article",
     headline: "Стартовый набор",
     lead: "Все новые аккаунты получают одинаковый кит карт (equal decks) — fair PvP с первой минуты. Экипа нет: его докупают или открывают рангом.",
+    detail:
+      "В гранте: 3 кота, ×1 зелье, 1 фермерский кот, 200 fish, 20 scrap, 3 bowls, 5 tickets. Экипа нет — серую R1 бери в Магазине.",
     source: "starter-pack.md · wiki §8.8",
+    go: [
+      { tab: "home", label: "Дом Хранителя", icon: "home", primary: "character" },
+      { tab: "collection", label: "Смотреть котов", icon: "grid_view", primary: "character" },
+      { tab: "shop", label: "Докупить экип / котов", icon: "shopping_bag", primary: "trade" },
+      { tab: "practice", label: "Первый бой в додзё", icon: "fitness_center", primary: "combat" },
+    ],
     blocks: [
-      { type: "media", label: "Стартовая тройка", caption: "Танк+боец+саппорт — арт позже" },
+      {
+        type: "media",
+        label: "Стартовая тройка",
+        caption: "Танк · боец · саппорт",
+        icons: [
+          { src: "/stitch-assets/cat-heroes/tank-a.webp", label: "Танк" },
+          { src: "/stitch-assets/cat-heroes/fighter-a.webp", label: "Боец" },
+          { src: "/stitch-assets/cat-heroes/support-a.webp", label: "Саппорт" },
+        ],
+      },
       {
         type: "stats",
         title: "Состав гранта",
@@ -1380,7 +1975,17 @@ window.CODEX_TOPICS = [
         ],
       },
     ],
-    side: [{ type: "note", text: "GrantStarterKit smoke: `/api/dev/starter` на HUD." }],
+    side: [
+      {
+        type: "media",
+        label: "Дом",
+        caption: "Персонаж",
+        src: "/stitch-ref/home-keeper/personazh/screen.png",
+        fit: "cover",
+        height: "7rem",
+      },
+      { type: "note", text: "GrantStarterKit smoke: `/api/dev/starter` на HUD." },
+    ],
   },
   {
     id: "crossplay",
@@ -1388,12 +1993,26 @@ window.CODEX_TOPICS = [
     icon: "devices",
     tag: "Платформы",
     title: "Кроссплатформа",
-    blurb: "Общий ММ",
+    blurb: "Общий ММ mobile · web · Steam",
     mode: "article",
     headline: "Mobile · web · Steam",
-    lead: "Общий матчмейкинг: игроки с разных клиентов попадают в один пул. Steam — целевая PC-платформа.",
+    lead: "Общий матчмейкинг: игроки с разных клиентов попадают в один пул. Steam — целевая PC-платформа. Нет раздельных PvP-пулов по платформе.",
+    detail:
+      "Сейчас приоритет — широкая веб-версия HUD. Mobile/tablet shells — после готовности wide web. Эта База знаний сверстана под widescreen Stitch.",
     source: "prefs · wiki §9",
+    go: [
+      { tab: "pvp", label: "В общий пул PvP", icon: "sports_kabaddi", primary: "combat" },
+      { tab: "hub", label: "Главный хаб", icon: "home" },
+    ],
     blocks: [
+      {
+        type: "media",
+        label: "Хаб",
+        caption: "Единый клиент day-1",
+        src: "/stitch-ref/0268/hub.png",
+        fit: "cover",
+        height: "10rem",
+      },
       {
         type: "rules",
         title: "Soft-launch клиент",
@@ -1403,7 +2022,6 @@ window.CODEX_TOPICS = [
           "Нет раздельных PvP-пулов по платформе.",
         ],
       },
-      { type: "media", label: "Устройства", caption: "Пустой блок" },
     ],
     side: [{ type: "note", text: "Эта База знаний — widescreen Stitch." }],
   },
@@ -1413,21 +2031,36 @@ window.CODEX_TOPICS = [
     icon: "explore",
     tag: "Навигация",
     title: "Экраны day-1",
-    blurb: "Хаб и вкладки",
+    blurb: "Верхнее меню и подвкладки",
     mode: "article",
     headline: "Навигация soft-launch",
-    lead: "Верхнее меню: основные вкладки и подвкладки. Все формы day-1 на месте; закрытый контент показывает tip.",
+    lead: "Верхнее меню: основные вкладки и подвкладки. Все формы day-1 на месте; закрытый контент показывает tip «Подними ранг».",
+    detail:
+      "Порядок primary: Пасс → Дом Хранителя → Торговля → Бои → Гильдии → Рейтинги → Друзья → База знаний. Адрес этой страницы: /codex.",
     source: "prefs · nav-ia",
+    go: [
+      { tab: "hub", label: "Главный хаб", icon: "dashboard" },
+      { tab: "home", label: "Дом Хранителя", icon: "home", primary: "character" },
+      { tab: "battle_hub", label: "Бои", icon: "sports_esports", primary: "combat" },
+      { tab: "trade_hub", label: "Торговля", icon: "storefront", primary: "trade" },
+    ],
     blocks: [
-      { type: "media", label: "Схема меню", caption: "Пустой блок" },
+      {
+        type: "media",
+        label: "Схема меню / хаб",
+        caption: "Порталы day-1",
+        src: "/stitch-ref/0268/hub-portals-etalon.png",
+        fit: "cover",
+        height: "11rem",
+      },
       {
         type: "rules",
         title: "Группы",
         items: [
-          "Дом Хранителя: Двор, Крафт, Персонаж, Экип, Коллекция, Скрещивание, База знаний.",
-          "Бои: Мифмир, Тренировка, PvP, Данжи, Рейд.",
+          "Дом Хранителя: Двор, Крафт, Персонаж, Экип, Коллекция, Скрещивание.",
+          "Бои: Мифмир, Тренировка, PvP, Данжи, Рейд, Осада.",
           "Торговля: Таверна, Магазин, Рынок, Аукцион.",
-          "Гильдии · Чаты · Пасс · Рейтинги.",
+          "Гильдии · Чаты · Пасс · Рейтинги · База знаний.",
         ],
       },
     ],
@@ -1439,12 +2072,27 @@ window.CODEX_TOPICS = [
     icon: "menu_book",
     tag: "Вики",
     title: "Полная вики правил",
-    blurb: "SSOT player-facing",
+    blurb: "SSOT чисел и петель для игрока",
     mode: "article",
     headline: "Игровая вики Мифиус",
-    lead: "Единый свод чисел и петель для игрока. SSOT боя и скоупа: docs/FULL-SPEC.md. Крипта и NFT запрещены.",
+    lead: "Единый свод чисел и петель для игрока. SSOT боя и скоупа: docs/FULL-SPEC.md. Крипта и NFT запрещены. Эта База знаний — игровая выжимка вики.",
+    detail:
+      "Ниже — оглавление wiki §1–§10. Связанные доки: shops-channels, armor-ranks-pass, formation-targeting, mythic-breeding, starter-pack, class-variants-balance.",
     source: "docs/game-wiki.md",
+    go: [
+      { tab: "codex", label: "Остаться в Кодексе", icon: "menu_book", primary: "knowledge" },
+      { tab: "heroes", label: "Кодекс героев", icon: "pets", primary: "knowledge" },
+      { tab: "battle_hub", label: "Перейти к боям", icon: "sports_esports", primary: "combat" },
+    ],
     blocks: [
+      {
+        type: "media",
+        label: "Обложка / логин",
+        caption: "Мир Мифиус",
+        src: "/stitch-ref/1b5c/login-hero.png",
+        fit: "cover",
+        height: "10rem",
+      },
       {
         type: "table",
         title: "Оглавление вики",
@@ -1462,7 +2110,6 @@ window.CODEX_TOPICS = [
           ["10", "Монета «Мифиус»"],
         ],
       },
-      { type: "media", label: "Обложка кодекса", caption: "Пустой блок" },
     ],
     side: [
       {

@@ -2460,11 +2460,14 @@ function selectDungeon(id, path = state.dungeonPath, fork = state.dungeonFork) {
     return;
   }
   state.selectedDungeonId = d.id;
-  state.dungeonPath = path === "long" ? "long" : "short";
+  // Path is chosen in-battle by vote; keep provisional short for entry node only.
+  state.dungeonPath = "short";
+  state.dungeonPathLocked = false;
+  state.dungeonPathVoteOpen = false;
   state.dungeonFork = fork === "right" ? "right" : "left";
   state.dungeonNodeIndex = 0;
-  const nodes = dungeonPathNodes();
-  state.selectedStageId = nodes[0] || state.selectedStageId;
+  state.selectedStageId = dungeonEntryStageId(d.id) || state.selectedStageId;
+  void path;
   renderDungeonLobby();
 }
 
@@ -4995,7 +4998,8 @@ function renderCodex() {
       ])
       .filter(Boolean)
       .join(" ");
-    const hay = [t.title, t.blurb, t.tag, t.headline, t.lead, t.source, blockText]
+    const goText = (t.go || []).map((g) => [g.label, g.tab].filter(Boolean).join(" ")).join(" ");
+    const hay = [t.title, t.blurb, t.tag, t.headline, t.lead, t.detail, t.source, blockText, goText]
       .filter(Boolean)
       .join(" ")
       .toLowerCase();
