@@ -9262,8 +9262,10 @@ function renderAll() {
       break;
     case "boss_dungeon":
       renderBossFirst();
+      bindBattleModeLobbies();
       break;
     case "boss_raid":
+      bindBattleModeLobbies();
       break;
     case "pvp":
       if ($("pvpEyebrow")) $("pvpEyebrow").textContent = t("hub.tab.pvp");
@@ -9317,6 +9319,7 @@ function renderAll() {
       break;
     case "guild_battle":
       renderGuild();
+      bindBattleModeLobbies();
       break;
     case "soon_clan":
       renderClanPanel();
@@ -10680,6 +10683,59 @@ function startPvpSearch() {
     toast(`Найден отряд: ${names}`);
     window.setTimeout(() => openPvpLoad(), 450);
   }, delay);
+}
+
+/** Dense painted lobbies: dungeon / raid / guild war CTAs + local selection. */
+function bindBattleModeLobbies() {
+  for (const id of ["viewBossDungeon", "viewBossRaid", "viewGuildBattle"]) {
+    const root = $(id);
+    if (!root || root.dataset.modeLobbyBound === "1") continue;
+    root.dataset.modeLobbyBound = "1";
+    root.addEventListener("click", (ev) => {
+      const pick = ev.target.closest(".dungeon-pick[data-dungeon]");
+      if (pick && root.contains(pick) && !pick.classList.contains("is-locked")) {
+        root.querySelectorAll(".dungeon-pick").forEach((el) => el.classList.toggle("is-on", el === pick));
+        toast(`Данж: ${pick.querySelector("header span")?.textContent?.trim() || pick.getAttribute("data-dungeon")}`);
+        return;
+      }
+      const filter = ev.target.closest("[data-dungeon-filter]");
+      if (filter && root.contains(filter)) {
+        root.querySelectorAll("[data-dungeon-filter]").forEach((el) => el.classList.toggle("is-on", el === filter));
+        return;
+      }
+      const sizeBtn = ev.target.closest("[data-gvg-size]");
+      if (sizeBtn && root.contains(sizeBtn)) {
+        const n = Number(sizeBtn.getAttribute("data-gvg-size")) || 3;
+        state.guildBattleSize = n;
+        root.querySelectorAll("[data-gvg-size]").forEach((el) => el.classList.toggle("is-on", el === sizeBtn));
+        toast(`Формат GvG: ${n}v${n}`);
+        return;
+      }
+      const actBtn = ev.target.closest("[data-hud-action]");
+      if (!actBtn || !root.contains(actBtn)) return;
+      const act = actBtn.getAttribute("data-hud-action");
+      ev.preventDefault();
+      if (act === "dungeon-formation" || act === "raid-formation" || act === "gvg-formation") {
+        navigate("formation", { primary: "combat" });
+        return;
+      }
+      if (act === "dungeon-raid") {
+        navigate("boss_raid", { primary: "combat" });
+        return;
+      }
+      if (act === "raid-invite") {
+        toast("Приглашение в легион: скоро");
+        return;
+      }
+      if (act === "gvg-search") {
+        startGuildBattle();
+        return;
+      }
+      if (act === "gvg-hub") {
+        navigate("hub");
+      }
+    });
+  }
 }
 
 /** PvP Arena lobby: team presets, mode tabs, find-match → load sheet. */

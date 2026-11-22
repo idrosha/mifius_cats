@@ -4342,6 +4342,100 @@ body:has(#viewPractice > .dojo-load:not([hidden])) #app {
   }
 }
 
+/* Shared battle-mode lobbies: dungeon / raid / guild war — dense 16:9, no wire pads */
+#viewBossDungeon > .mode-hall,
+#viewBossRaid > .mode-hall,
+#viewGuildBattle > .mode-hall {
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  height: 100% !important;
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0.4rem 0.55rem 0.35rem !important;
+  background: #100e0c;
+  overflow: hidden;
+}
+#viewBossDungeon .mode-grid,
+#viewBossRaid .mode-grid,
+#viewGuildBattle .mode-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.dojo-chip.is-hot {
+  background: rgba(255, 180, 166, 0.18);
+  color: #ffb4a6;
+  border: 1px solid rgba(255, 180, 166, 0.4);
+}
+.mode-chip {
+  background: transparent;
+  color: #d5c4af;
+  border: 1px solid transparent;
+  transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.mode-chip:hover {
+  background: #1f1b18;
+  color: #eae1db;
+}
+.mode-chip.is-on {
+  background: linear-gradient(180deg, rgba(217, 155, 38, 0.28), rgba(217, 155, 38, 0.12));
+  color: #fdba45;
+  border-color: rgba(253, 186, 69, 0.45);
+}
+.dungeon-pick.is-on {
+  box-shadow: 0 0 0 1px rgba(253, 186, 69, 0.4), 0 4px 14px rgba(217, 155, 38, 0.16);
+}
+.dungeon-pick.is-locked {
+  cursor: not-allowed;
+}
+.mode-cta {
+  animation: dojo-cta-pulse 1.8s ease-in-out infinite;
+}
+.raid-slot.is-filled {
+  box-shadow: inset 0 0 0 1px rgba(253, 186, 69, 0.18);
+}
+.raid-rage {
+  box-shadow: 0 0 10px rgba(255, 180, 166, 0.45);
+}
+.gvg-size.is-on {
+  box-shadow: 0 0 0 1px rgba(253, 186, 69, 0.4), 0 3px 12px rgba(217, 155, 38, 0.14);
+}
+.gvg-tower.is-hot {
+  box-shadow: 0 0 16px rgba(253, 186, 69, 0.22);
+}
+@media (prefers-reduced-motion: reduce) {
+  .mode-cta { animation: none !important; }
+  .gvg-tower.is-hot .animate-pulse { animation: none !important; }
+}
+@media (max-width: 1023px) {
+  #viewBossDungeon .mode-grid,
+  #viewBossRaid .mode-grid,
+  #viewGuildBattle .mode-grid {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0.45rem;
+    overflow-y: auto !important;
+  }
+  #viewBossDungeon .mode-grid > *,
+  #viewBossRaid .mode-grid > *,
+  #viewGuildBattle .mode-grid > * {
+    flex: 0 0 auto;
+    min-height: auto;
+  }
+  #viewBossDungeon .dojo-top,
+  #viewBossRaid .dojo-top,
+  #viewGuildBattle .dojo-top {
+    flex-wrap: wrap;
+  }
+  #viewBossDungeon .dojo-mode,
+  #viewBossRaid .dojo-mode,
+  #viewGuildBattle .dojo-mode {
+    order: 3;
+    flex-basis: 100%;
+  }
+}
+
 .dojo-top, .dojo-foot {
   display: flex;
   align-items: center;
