@@ -1,52 +1,750 @@
-<!DOCTYPE html>
-<html class="dark" lang="ru">
-<head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Магазин — Мифиус · wireframe</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{surface:"#161310","on-surface":"#eae1db","surface-container":"#231f1c","surface-container-high":"#2e2926","surface-container-low":"#1f1b18",primary:"#fdba45","on-primary":"#281900",outline:"#9d8f7b","outline-variant":"#504535","on-surface-variant":"#d5c4af"}}}}}</script>
-<style>
-html,body{margin:0;padding:0;height:100%;background:#161310;color:#eae1db;font-family:system-ui,sans-serif}
-.wf{display:flex;flex-direction:column;height:100%;min-height:100%;gap:0;padding:0;box-sizing:border-box}
-.wf-head{display:flex;align-items:flex-end;justify-content:space-between;gap:.75rem;padding:.75rem 1rem;border-bottom:1px solid #504535;background:#1f1b18;flex:0 0 auto}
-.wf-head h1{margin:0;font-size:1.35rem;font-weight:800;color:#fdba45}
-.wf-head p{margin:.15rem 0 0;font-size:.8rem;color:#d5c4af}
-.wf-eyebrow{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:#fdba45;font-weight:700}
-.wf-body{flex:1 1 auto;min-height:0;display:grid;gap:.6rem;padding:.6rem;box-sizing:border-box}
-.wf-block{border:1px solid #504535;background:#231f1c;border-radius:.5rem;padding:.65rem .75rem;display:flex;flex-direction:column;gap:.4rem;min-height:0}
-.wf-block h2{margin:0;font-size:.8rem;font-weight:700;color:#fdba45;text-transform:uppercase;letter-spacing:.06em}
-.wf-block .hint{font-size:.7rem;color:#9d8f7b}
-.wf-row{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.35rem .45rem;border:1px solid #393430;border-radius:.35rem;background:#1f1b18;font-size:.78rem}
-.wf-grid{display:grid;gap:.4rem;min-height:0;overflow:auto;flex:1}
-.wf-cta{display:inline-flex;align-items:center;justify-content:center;gap:.35rem;padding:.45rem .8rem;border-radius:.4rem;border:1px solid #fdba45;background:#d99b26;color:#1a1308;font-weight:800;font-size:.8rem;cursor:pointer}
-.wf-cta.ghost{background:transparent;color:#fdba45}
-.wf-cta.muted{border-color:#504535;background:#2e2926;color:#eae1db}
-.wf-tags{display:flex;flex-wrap:wrap;gap:.35rem}
-.wf-tag{font-size:.65rem;padding:.15rem .4rem;border:1px solid #504535;border-radius:.25rem;color:#d5c4af}
-.wf-fill{flex:1;min-height:0}
-</style>
-</head>
-<body>
-
-<main class="wf" data-purpose="wireframe" data-screen="Магазин" >
-<header class="wf-head">
-<div>
-<p class="wf-eyebrow">Торговля · лавка</p>
-<h1>Магазин</h1>
-<p>Донат, Боевой Пасс, монеты, ингредиенты, 12 котов, Серая Броня, Ларец / Семя Стихий.</p>
+<!DOCTYPE html><html class="dark" lang="ru"><head><meta charset="utf-8"><meta content="width=device-width, initial-scale=1.0" name="viewport"><meta content="web_standard" name="shell-type"><title>Магазин — Мифиус: Мифические котики</title><link href="https://fonts.googleapis.com" rel="preconnect"><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"><link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@500;600&amp;family=Rubik:wght@600;700;800&amp;display=swap" rel="stylesheet"><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{"surface-container-high":"#2e2926","secondary":"#89d98c","background":"#161310","error-container":"#93000a","on-tertiary-fixed-variant":"#8d1607","on-secondary-container":"#82d186","surface-container-low":"#1f1b18","surface":"#161310","on-primary-container":"#523700","on-surface":"#eae1db","surface-bright":"#3d3835","tertiary-fixed-dim":"#ffb4a6","tertiary-fixed":"#ffdad4","on-tertiary-fixed":"#3f0300","surface-container":"#231f1c","on-tertiary-container":"#7c0a00","on-primary-fixed-variant":"#604100","inverse-on-surface":"#342f2c","on-background":"#eae1db","surface-dim":"#161310","primary-container":"#d99b26","secondary-fixed":"#a4f6a6","inverse-surface":"#eae1db","on-error-container":"#ffdad6","secondary-fixed-dim":"#89d98c","primary-fixed-dim":"#fdba45","on-error":"#690005","surface-container-highest":"#393430","tertiary":"#ffb4a6","outline-variant":"#504535","on-secondary-fixed-variant":"#00531b","tertiary-container":"#ff826c","on-secondary":"#003910","primary":"#fdba45","on-secondary-fixed":"#002106","surface-tint":"#fdba45","on-primary-fixed":"#281900","surface-container-lowest":"#110d0b","secondary-container":"#005b1e","on-primary":"#432c00","primary-fixed":"#ffdeae","on-surface-variant":"#d5c4af","surface-variant":"#393430","outline":"#9d8f7b","error":"#ffb4ab","inverse-primary":"#7f5700","on-tertiary":"#660700"},borderRadius:{DEFAULT:"0.25rem",lg:"0.5rem",xl:"0.75rem",full:"9999px"},spacing:{"gutter-tablet":"1rem","space-xs":"0.25rem","margin":"1rem","space-lg":"1rem","space-sm":"0.5rem","gutter":"0.75rem","space-xl":"1.5rem","margin-tablet":"1.5rem","space-md":"0.75rem"},fontFamily:{"body-md":["Nunito Sans"],"stat-numeral":["Rubik"],"headline-lg":["Rubik"],"headline-xl":["Rubik"],"headline-lg-mobile":["Rubik"],"body-lg":["Nunito Sans"],"label-lg":["Rubik"],"label-sm":["Rubik"],"body-sm":["Nunito Sans"],"headline-md":["Rubik"],"label-md":["Rubik"],"headline-xl-mobile":["Rubik"]},fontSize:{"body-md":["14px",{lineHeight:"20px",fontWeight:"500"}],"stat-numeral":["20px",{lineHeight:"20px",fontWeight:"800"}],"headline-lg":["26px",{lineHeight:"32px",fontWeight:"700"}],"headline-xl":["36px",{lineHeight:"44px",fontWeight:"800"}],"headline-lg-mobile":["22px",{lineHeight:"28px",fontWeight:"700"}],"body-lg":["16px",{lineHeight:"22px",fontWeight:"600"}],"label-lg":["14px",{lineHeight:"18px",fontWeight:"700"}],"label-sm":["10px",{lineHeight:"12px",fontWeight:"700"}],"body-sm":["12px",{lineHeight:"16px",fontWeight:"500"}],"headline-md":["18px",{lineHeight:"24px",fontWeight:"600"}],"label-md":["12px",{lineHeight:"16px",fontWeight:"600"}],"headline-xl-mobile":["28px",{lineHeight:"34px",fontWeight:"800"}]}}}};</script></head>
+<body class="bg-surface font-body-md text-on-surface antialiased selection:bg-primary selection:text-on-primary min-h-screen">
+<header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_4px_16px_rgba(0,0,0,0.65)]">
+<div class="h-20 w-full px-gutter flex items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md shrink-0">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="font-headline-md text-headline-md tracking-wider text-primary uppercase">Мифиус</span>
+<span class="font-label-sm text-label-sm px-space-xs py-0.5 rounded bg-surface-container-high text-primary-fixed-dim uppercase tracking-widest">Tavern v1.4</span>
 </div>
-<div class="wf-tags"><span class="wf-tag">landscape 16:9</span><span class="wf-tag">блоки без картинок</span><span class="wf-tag">без подвала</span></div>
+<span class="font-label-sm text-label-sm tracking-widest text-outline uppercase">Мифические котики</span>
+</div>
+<div class="flex items-center gap-space-xs px-space-sm py-1 rounded-full bg-surface-container-low">
+<span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
+<span class="font-stat-numeral text-label-sm text-secondary-fixed">24 ms</span>
+</div>
+</div>
+<nav class="hidden xl:flex items-center gap-space-xs overflow-x-auto py-1" data-active-classes="bg-primary-container text-on-primary-container font-bold rounded-lg shadow-[0_0_12px_rgba(217,155,38,0.35)]">
+<a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0" data-path="main-hub" href="#">Главный Хаб</a>
+<a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0" data-path="character-home" href="#">Персонаж / Дом</a>
+<a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0" data-path="equipment" href="#">Экипировка</a>
+<a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0" data-path="inventory" href="#">Инвентарь</a>
+<a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0" data-path="farmlands" href="#">Угодья / Ферма</a>
+<a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0" data-path="crafting" href="#">Крафт</a>
+<a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0" data-path="pve-expedition" href="#">Поход (PvE)</a>
+<a class="px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-all shrink-0" data-path="arena-battles" href="#">Бои</a>
+<a aria-current="page" class="px-space-md py-1.5 transition-all shrink-0 bg-primary-container text-on-primary-container font-bold rounded-lg shadow-[0_0_12px_rgba(217,155,38,0.35)]" data-path="trade-tavern-bar" href="#">Торговля</a>
+</nav>
+<div class="flex items-center gap-space-md shrink-0">
+<div class="hidden md:flex items-center gap-space-sm bg-surface-container-low px-space-md py-1.5 rounded-xl">
+<div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-primary text-[18px]">monetization_on</span><span class="font-stat-numeral text-label-md text-primary-fixed">148,250</span></div>
+<span class="text-outline-variant">|</span>
+<div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-secondary text-[18px]">set_meal</span><span class="font-stat-numeral text-label-md text-secondary-fixed">920</span></div>
+<span class="text-outline-variant">|</span>
+<div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-tertiary text-[18px]">bolt</span><span class="font-stat-numeral text-label-md text-on-surface">85/100</span></div>
+<span class="text-outline-variant">|</span>
+<div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-primary-fixed-dim text-[18px]">diamond</span><span class="font-stat-numeral text-label-md text-primary-fixed-dim">385</span></div>
+</div>
+<div class="flex items-center gap-space-sm bg-surface-container px-space-sm py-1 rounded-xl">
+<div class="text-right hidden sm:block">
+<div class="font-label-md text-label-md text-on-surface leading-tight">Хранитель Мяурицио</div>
+<div class="font-label-sm text-label-sm text-primary">Ур. 48 • Клан Когтя</div>
+</div>
+<div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low/95 px-gutter py-1.5 flex items-center justify-between">
+<div class="flex items-center gap-space-md">
+<span class="font-label-sm text-label-sm uppercase tracking-widest text-outline flex items-center gap-1"><span class="material-symbols-outlined text-[14px] text-primary">storefront</span> Торговый Квартал:</span>
+<nav class="flex items-center gap-space-xs" data-active-classes="bg-surface-container-highest text-primary font-bold rounded-lg shadow-inner">
+<a class="px-space-md py-1 rounded-lg font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" data-path="trade-tavern-bar" href="#">Таверна (Бар)</a>
+<a aria-current="page" class="px-space-md py-1 transition-all bg-surface-container-highest text-primary font-bold rounded-lg shadow-inner" data-path="trade-shop" href="#">Магазин</a>
+<a class="px-space-md py-1 rounded-lg font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" data-path="trade-market" href="#">Рынок</a>
+<a class="px-space-md py-1 rounded-lg font-label-sm text-label-sm text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all" data-path="trade-auction" href="#">Аукцион</a>
+</nav>
+</div>
+<div class="hidden lg:flex items-center gap-space-sm text-outline-variant font-label-sm text-label-sm">
+<span class="inline-block w-2 h-2 rounded-full bg-primary-container"></span>
+<span>Донат-витрина · оплата пряжей</span>
+</div>
+</div>
 </header>
-<div class="wf-body grid-cols-1 lg:grid-cols-12">
-<section class="wf-block lg:col-span-3"><h2>Кошелёк</h2><p class="hint">Battle coins.</p><div class="wf-grid"><div class="wf-row"><span>Battle coins</span><span><span id="battle-coin-balance">1 240</span></span></div>
-<div class="wf-row"><span>Таймер витрины</span><span><span id="shop-timer">04:12:09</span></span></div>
-<div class="wf-row"><span>Выбрано</span><span><span id="selected-count">0</span></span></div>
-<div class="wf-row"><span>Сумма</span><span><span id="total-bm-price">0</span></span></div></div><button type="button" class="wf-cta" id="buy-all-btn">Купить выбранное</button></section>
-<section class="wf-block lg:col-span-9"><h2>Витрина</h2><p class="hint">Каталог без картинок — ячейки с названиями.</p><div id="shop-catalog-grid" class="wf-grid" style="grid-template-columns:repeat(3,1fr)"><div class="wf-row" style="flex-direction:column;min-height:4rem"><span>Ларец обычный</span><span class="hint">цена BM</span></div><div class="wf-row" style="flex-direction:column;min-height:4rem"><span>Ларец редкий</span><span class="hint">цена BM</span></div><div class="wf-row" style="flex-direction:column;min-height:4rem"><span>Семя Стихий</span><span class="hint">цена BM</span></div><div class="wf-row" style="flex-direction:column;min-height:4rem"><span>Боевой Пасс</span><span class="hint">цена BM</span></div><div class="wf-row" style="flex-direction:column;min-height:4rem"><span>Серая Броня</span><span class="hint">цена BM</span></div><div class="wf-row" style="flex-direction:column;min-height:4rem"><span>Кот · танк A</span><span class="hint">цена BM</span></div><div class="wf-row" style="flex-direction:column;min-height:4rem"><span>Кот · танк B</span><span class="hint">цена BM</span></div><div class="wf-row" style="flex-direction:column;min-height:4rem"><span>Кот · боец A</span><span class="hint">цена BM</span></div><div class="wf-row" style="flex-direction:column;min-height:4rem"><span>Кот · боец B</span><span class="hint">цена BM</span></div><div class="wf-row" style="flex-direction:column;min-height:4rem"><span>Кот · стрелок A</span><span class="hint">цена BM</span></div><div class="wf-row" style="flex-direction:column;min-height:4rem"><span>Кот · стрелок B</span><span class="hint">цена BM</span></div><div class="wf-row" style="flex-direction:column;min-height:4rem"><span>Кот · саппорт A</span><span class="hint">цена BM</span></div></div></section>
-<div id="toast" class="wf-block lg:col-span-12" hidden><span id="toast-icon"></span><strong id="toast-title"></strong><span id="toast-desc"></span></div>
+
+<main class="w-full pb-16 bg-surface min-h-[calc(100vh-4rem)] flex flex-col" style="padding-top: 7.75rem; padding-bottom: 3.5rem;">
+<div class="w-full px-gutter md:px-margin-tablet py-space-sm flex flex-col gap-space-md">
+
+<!-- Banner -->
+<div class="relative w-full rounded-xl overflow-hidden bg-surface-container-low shadow-md">
+<div class="absolute inset-0 bg-cover bg-center opacity-40" style="background-image:url('/stitch-assets/c98beea773d6.jpg')"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-surface-container-lowest via-surface-container-low/90 to-primary/10"></div>
+<div class="relative z-10 p-space-md flex flex-wrap items-center justify-between gap-space-md">
+<div class="flex items-center gap-space-md min-w-0">
+<div class="w-14 h-14 rounded-xl bg-gradient-to-b from-primary-container to-surface-container-lowest flex items-center justify-center shadow-md ring-1 ring-primary/40">
+<span class="material-symbols-outlined text-primary text-[32px]" style="font-variation-settings:'FILL' 1">storefront</span>
+</div>
+<div class="min-w-0">
+<div class="flex items-center gap-space-xs flex-wrap">
+<h1 class="font-headline-md text-headline-md text-primary tracking-wide">Лавка Доната «Пряжа Судьбы»</h1>
+<span class="px-space-xs py-0.5 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase tracking-wider">Сезон III</span>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Герои, сеты брони и оружия, боевой пасс, амулет скрещивания, ларцы и пакеты пряжи</p>
+</div>
+</div>
+<div class="flex items-center gap-space-sm flex-wrap">
+<div class="flex items-center gap-space-sm bg-surface-container-lowest/90 px-space-md py-1.5 rounded-lg shadow-inner">
+<span class="material-symbols-outlined text-primary-fixed-dim text-[22px]">diamond</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-outline uppercase">Пряжа</span>
+<span class="font-stat-numeral text-label-lg text-primary-fixed" id="yarn-balance">385</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm bg-surface-container-lowest/90 px-space-md py-1.5 rounded-lg shadow-inner">
+<span class="material-symbols-outlined text-secondary text-[22px]">military_tech</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-outline uppercase">Battle coins</span>
+<span class="font-stat-numeral text-label-lg text-secondary-fixed" id="battle-coin-balance">1 240</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm bg-surface-container-highest px-space-md py-1.5 rounded-lg">
+<span class="material-symbols-outlined text-tertiary text-[20px]">timer</span>
+<div class="flex flex-col">
+<span class="font-label-sm text-label-sm text-outline uppercase">Обновление</span>
+<span class="font-stat-numeral text-label-md text-on-surface" id="shop-timer">04:12:09</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<!-- Category tabs + cart bar -->
+<div class="w-full bg-surface-container-low rounded-xl p-space-sm shadow-md flex flex-wrap items-center justify-between gap-space-sm">
+<nav class="flex items-center gap-1 overflow-x-auto" id="shop-category-nav" data-active-classes="bg-primary-container text-on-primary-container shadow-[0_0_12px_rgba(217,155,38,0.3)]">
+<button type="button" data-shop-cat="featured" class="shop-cat-btn px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md whitespace-nowrap shadow-[0_0_12px_rgba(217,155,38,0.3)]">Избранное</button>
+<button type="button" data-shop-cat="heroes" class="shop-cat-btn px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface whitespace-nowrap transition-all">Герои</button>
+<button type="button" data-shop-cat="armor" class="shop-cat-btn px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface whitespace-nowrap transition-all">Броня</button>
+<button type="button" data-shop-cat="weapons" class="shop-cat-btn px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface whitespace-nowrap transition-all">Оружие</button>
+<button type="button" data-shop-cat="pass" class="shop-cat-btn px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface whitespace-nowrap transition-all">Боевой пасс</button>
+<button type="button" data-shop-cat="breed" class="shop-cat-btn px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface whitespace-nowrap transition-all">Скрещивание</button>
+<button type="button" data-shop-cat="chests" class="shop-cat-btn px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface whitespace-nowrap transition-all">Ларцы</button>
+<button type="button" data-shop-cat="packs" class="shop-cat-btn px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface whitespace-nowrap transition-all">Пакеты</button>
+</nav>
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center gap-space-xs bg-surface-container px-space-sm py-1 rounded-lg">
+<span class="font-label-sm text-label-sm text-outline">Выбрано</span>
+<span class="font-stat-numeral text-label-md text-primary" id="selected-count">0</span>
+<span class="text-outline-variant">·</span>
+<span class="material-symbols-outlined text-primary-fixed-dim text-[16px]">diamond</span>
+<span class="font-stat-numeral text-label-md text-primary-fixed" id="total-bm-price">0</span>
+</div>
+<button type="button" id="buy-all-btn" class="px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md hover:brightness-110 active:scale-95 transition-all shadow-sm flex items-center gap-1">
+<span class="material-symbols-outlined text-[18px]">shopping_bag</span>
+Купить выбранное
+</button>
+</div>
+</div>
+
+<!-- Catalog -->
+<div id="shop-catalog-grid" class="flex flex-col gap-space-md">
+
+<!-- ===== FEATURED ===== -->
+<section data-shop-section="featured" class="shop-section flex flex-col gap-space-md">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md">
+<!-- Battle Pass hero card -->
+<article class="lg:col-span-5 relative rounded-xl overflow-hidden bg-surface-container-low shadow-md border border-primary/30 group" data-sku="pass_buy" data-price="499">
+<div class="absolute inset-0 bg-cover bg-center opacity-35 group-hover:scale-105 transition-transform duration-500" style="background-image:url('/stitch-assets/c98beea773d6.jpg')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-low/80 to-primary/20"></div>
+<div class="relative z-10 p-space-md flex flex-col h-full min-h-[220px] justify-between gap-space-md">
+<div class="flex items-start justify-between gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded-xl bg-gradient-to-b from-primary-container to-surface-container-lowest flex items-center justify-center shadow-md">
+<span class="material-symbols-outlined text-primary text-[28px]" style="font-variation-settings:'FILL' 1">shield_with_heart</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-primary uppercase tracking-wider">Сезон III · Лапы Судьбы</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Боевой Пасс</h2>
+</div>
+</div>
+<label class="flex items-center gap-1 cursor-pointer bg-surface-container-lowest/80 px-2 py-1 rounded-lg">
+<input type="checkbox" class="shop-select accent-primary" data-price="499">
+<span class="font-label-sm text-label-sm text-on-surface-variant">В корзину</span>
+</label>
+</div>
+<ul class="font-body-sm text-body-sm text-on-surface-variant space-y-1">
+<li class="flex items-center gap-1.5"><span class="material-symbols-outlined text-secondary text-[16px]">bolt</span>×2 XP и автоферма сезона</li>
+<li class="flex items-center gap-1.5"><span class="material-symbols-outlined text-primary text-[16px]">military_tech</span>Эксклюзивные награды R1–R8</li>
+<li class="flex items-center gap-1.5"><span class="material-symbols-outlined text-tertiary text-[16px]">auto_awesome</span>Элитный трек + бустер</li>
+</ul>
+<div class="flex items-center justify-between gap-space-sm">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary-fixed-dim text-[20px]">diamond</span>
+<span class="font-stat-numeral text-headline-md text-primary-fixed">499</span>
+<span class="font-label-sm text-label-sm text-outline">пряжа</span>
+</div>
+<button type="button" class="px-space-md py-2 rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md hover:brightness-110 active:scale-95 transition-all shadow-sm">Купить пасс</button>
+</div>
+</div>
+</article>
+
+<!-- Breeding amulet -->
+<article class="lg:col-span-4 relative rounded-xl overflow-hidden bg-surface-container-low shadow-md border border-tertiary/25 group" data-sku="talisman_mythic_luck" data-price="199">
+<div class="absolute inset-0 bg-gradient-to-br from-tertiary/15 via-transparent to-primary/10"></div>
+<div class="relative z-10 p-space-md flex flex-col h-full min-h-[220px] justify-between gap-space-md">
+<div class="flex items-start justify-between">
+<div class="flex items-center gap-space-sm">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center shadow-inner text-tertiary group-hover:scale-105 transition-transform">
+<span class="material-symbols-outlined text-[28px]" style="font-variation-settings:'FILL' 1">workspace_premium</span>
+</div>
+<div>
+<span class="font-label-sm text-label-sm text-tertiary uppercase tracking-wider">Скрещивание</span>
+<h2 class="font-headline-md text-headline-md text-on-surface">Амулет Мифической Удачи</h2>
+</div>
+</div>
+<label class="flex items-center gap-1 cursor-pointer bg-surface-container px-2 py-1 rounded-lg">
+<input type="checkbox" class="shop-select accent-primary" data-price="199">
+<span class="font-label-sm text-label-sm text-on-surface-variant">В корзину</span>
+</label>
+</div>
+<p class="font-body-sm text-body-sm text-on-surface-variant">+20% шанс мифического котёнка за одну попытку. Расходуется при старте скрещивания.</p>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-1">
+<span class="material-symbols-outlined text-primary-fixed-dim text-[20px]">diamond</span>
+<span class="font-stat-numeral text-headline-md text-primary-fixed">199</span>
+</div>
+<button type="button" class="px-space-md py-2 rounded-lg bg-tertiary-container text-on-tertiary-container font-label-md text-label-md hover:brightness-110 active:scale-95 transition-all">Купить амулет</button>
+</div>
+</div>
+</article>
+
+<!-- Yarn packs mini -->
+<div class="lg:col-span-3 flex flex-col gap-space-sm">
+<article class="flex-1 bg-surface-container-low rounded-xl p-space-md shadow-md flex flex-col justify-between gap-space-sm border border-primary/15" data-sku="iap_yarn_s" data-price="99">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[22px]">diamond</span></div>
+<div><div class="font-label-lg text-label-lg text-on-surface">Пряжа S</div><div class="font-body-sm text-body-sm text-outline">+120 пряжи</div></div>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-stat-numeral text-label-md text-primary-fixed">99 ₽</span>
+<button type="button" class="px-space-sm py-1 rounded-lg bg-primary-container text-on-primary-container font-label-sm text-label-sm">Купить</button>
+</div>
+</article>
+<article class="flex-1 bg-surface-container-low rounded-xl p-space-md shadow-md flex flex-col justify-between gap-space-sm border border-primary/25" data-sku="iap_yarn_m" data-price="299">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-surface-container-highest flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[22px]" style="font-variation-settings:'FILL' 1">diamond</span></div>
+<div><div class="font-label-lg text-label-lg text-on-surface">Пряжа M</div><div class="font-body-sm text-body-sm text-secondary font-bold">+400 · бонус +40</div></div>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-stat-numeral text-label-md text-primary-fixed">299 ₽</span>
+<button type="button" class="px-space-sm py-1 rounded-lg bg-primary-container text-on-primary-container font-label-sm text-label-sm">Купить</button>
+</div>
+</article>
+<article class="flex-1 bg-surface-container-low rounded-xl p-space-md shadow-md flex flex-col justify-between gap-space-sm border border-primary/40" data-sku="iap_yarn_l" data-price="799">
+<div class="flex items-center gap-space-sm">
+<div class="w-10 h-10 rounded-lg bg-gradient-to-b from-primary-container to-surface-container-highest flex items-center justify-center text-on-primary-container"><span class="material-symbols-outlined text-[22px]" style="font-variation-settings:'FILL' 1">diamond</span></div>
+<div><div class="font-label-lg text-label-lg text-on-surface">Пряжа L</div><div class="font-body-sm text-body-sm text-secondary font-bold">+1 200 · бонус +200</div></div>
+</div>
+<div class="flex items-center justify-between">
+<span class="font-stat-numeral text-label-md text-primary-fixed">799 ₽</span>
+<button type="button" class="px-space-sm py-1 rounded-lg bg-primary-container text-on-primary-container font-label-sm text-label-sm">Купить</button>
+</div>
+</article>
+</div>
+</div>
+</section>
+
+<!-- ===== HEROES ===== -->
+<section data-shop-section="heroes" class="shop-section bg-surface-container-low rounded-xl p-space-md shadow-md flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[22px]">pets</span>
+<h2 class="font-headline-md text-headline-md text-primary-fixed">Герои-котики · 12 common</h2>
+</div>
+<span class="font-label-sm text-label-sm text-outline uppercase">6 ролей × 2 варианта</span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-space-sm">
+<!-- tank a -->
+<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-sm shadow-sm hover:bg-surface-container-high transition-colors group" data-sku="shop_tank_stone_a" data-price="80">
+<div class="relative aspect-square rounded-lg overflow-hidden bg-surface-container-highest shadow-inner">
+<img src="/stitch-assets/c5013858c6b2.jpg" alt="Танк A Щит-утёс" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-surface-container-lowest/90 font-label-sm text-[10px] text-outline uppercase">Танк</span>
+<span class="absolute bottom-1 right-1 px-1 rounded bg-surface-container-lowest/90 font-stat-numeral text-[10px] text-primary">A</span>
+</div>
+<div class="font-label-md text-label-md text-on-surface truncate">Щит-утёс</div>
+<div class="font-body-sm text-body-sm text-outline">Камень · HP 50</div>
+<div class="flex items-center justify-between pt-1 border-t border-surface-container-highest">
+<label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="80"><span class="font-label-sm text-label-sm text-outline">+</span></label>
+<div class="flex items-center gap-0.5"><span class="material-symbols-outlined text-primary-fixed-dim text-[14px]">diamond</span><span class="font-stat-numeral text-label-md text-primary-fixed">80</span></div>
+</div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-sm shadow-sm hover:bg-surface-container-high transition-colors group" data-sku="shop_tank_stone_b" data-price="85">
+<div class="relative aspect-square rounded-lg overflow-hidden bg-surface-container-highest shadow-inner flex items-center justify-center">
+<span class="material-symbols-outlined text-outline text-[48px] group-hover:text-primary transition-colors" style="font-variation-settings:'FILL' 1">shield</span>
+<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-surface-container-lowest/90 font-label-sm text-[10px] text-outline uppercase">Танк</span>
+<span class="absolute bottom-1 right-1 px-1 rounded bg-surface-container-lowest/90 font-stat-numeral text-[10px] text-primary">B</span>
+</div>
+<div class="font-label-md text-label-md text-on-surface truncate">Пробой</div>
+<div class="font-body-sm text-body-sm text-outline">Камень · ATK 6</div>
+<div class="flex items-center justify-between pt-1 border-t border-surface-container-highest">
+<label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="85"><span class="font-label-sm text-label-sm text-outline">+</span></label>
+<div class="flex items-center gap-0.5"><span class="material-symbols-outlined text-primary-fixed-dim text-[14px]">diamond</span><span class="font-stat-numeral text-label-md text-primary-fixed">85</span></div>
+</div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-sm shadow-sm hover:bg-surface-container-high transition-colors group" data-sku="shop_fighter_fire_a" data-price="90">
+<div class="relative aspect-square rounded-lg overflow-hidden bg-surface-container-highest shadow-inner">
+<img src="/stitch-assets/1d1da803da81.jpg" alt="Боец A" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-error-container/80 font-label-sm text-[10px] text-on-error-container uppercase">Боец</span>
+<span class="absolute bottom-1 right-1 px-1 rounded bg-surface-container-lowest/90 font-stat-numeral text-[10px] text-primary">A</span>
+</div>
+<div class="font-label-md text-label-md text-on-surface truncate">Парные когти</div>
+<div class="font-body-sm text-body-sm text-outline">Огонь · SPD 7</div>
+<div class="flex items-center justify-between pt-1 border-t border-surface-container-highest">
+<label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="90"><span class="font-label-sm text-label-sm text-outline">+</span></label>
+<div class="flex items-center gap-0.5"><span class="material-symbols-outlined text-primary-fixed-dim text-[14px]">diamond</span><span class="font-stat-numeral text-label-md text-primary-fixed">90</span></div>
+</div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-sm shadow-sm hover:bg-surface-container-high transition-colors group" data-sku="shop_fighter_fire_b" data-price="95">
+<div class="relative aspect-square rounded-lg overflow-hidden bg-surface-container-highest shadow-inner flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary text-[48px] group-hover:scale-110 transition-transform" style="font-variation-settings:'FILL' 1">swords</span>
+<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-error-container/80 font-label-sm text-[10px] text-on-error-container uppercase">Боец</span>
+<span class="absolute bottom-1 right-1 px-1 rounded bg-surface-container-lowest/90 font-stat-numeral text-[10px] text-primary">B</span>
+</div>
+<div class="font-label-md text-label-md text-on-surface truncate">Двуручный</div>
+<div class="font-body-sm text-body-sm text-outline">Огонь · ATK 10</div>
+<div class="flex items-center justify-between pt-1 border-t border-surface-container-highest">
+<label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="95"><span class="font-label-sm text-label-sm text-outline">+</span></label>
+<div class="flex items-center gap-0.5"><span class="material-symbols-outlined text-primary-fixed-dim text-[14px]">diamond</span><span class="font-stat-numeral text-label-md text-primary-fixed">95</span></div>
+</div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-sm shadow-sm hover:bg-surface-container-high transition-colors group" data-sku="shop_assassin_bolt_a" data-price="90">
+<div class="relative aspect-square rounded-lg overflow-hidden bg-surface-container-highest shadow-inner flex items-center justify-center">
+<span class="material-symbols-outlined text-primary-fixed-dim text-[48px]" style="font-variation-settings:'FILL' 1">flash_on</span>
+<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-surface-container-highest font-label-sm text-[10px] text-primary uppercase">Ассасин</span>
+<span class="absolute bottom-1 right-1 px-1 rounded bg-surface-container-lowest/90 font-stat-numeral text-[10px] text-primary">A</span>
+</div>
+<div class="font-label-md text-label-md text-on-surface truncate">Тень</div>
+<div class="font-body-sm text-body-sm text-outline">Молния · SPD 9</div>
+<div class="flex items-center justify-between pt-1 border-t border-surface-container-highest">
+<label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="90"><span class="font-label-sm text-label-sm text-outline">+</span></label>
+<div class="flex items-center gap-0.5"><span class="material-symbols-outlined text-primary-fixed-dim text-[14px]">diamond</span><span class="font-stat-numeral text-label-md text-primary-fixed">90</span></div>
+</div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-sm shadow-sm hover:bg-surface-container-high transition-colors group" data-sku="shop_assassin_bolt_b" data-price="90">
+<div class="relative aspect-square rounded-lg overflow-hidden bg-surface-container-highest shadow-inner flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[48px]" style="font-variation-settings:'FILL' 1">visibility_off</span>
+<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-surface-container-highest font-label-sm text-[10px] text-primary uppercase">Ассасин</span>
+<span class="absolute bottom-1 right-1 px-1 rounded bg-surface-container-lowest/90 font-stat-numeral text-[10px] text-primary">B</span>
+</div>
+<div class="font-label-md text-label-md text-on-surface truncate">Охотник тыла</div>
+<div class="font-body-sm text-body-sm text-outline">Молния · crit</div>
+<div class="flex items-center justify-between pt-1 border-t border-surface-container-highest">
+<label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="90"><span class="font-label-sm text-label-sm text-outline">+</span></label>
+<div class="flex items-center gap-0.5"><span class="material-symbols-outlined text-primary-fixed-dim text-[14px]">diamond</span><span class="font-stat-numeral text-label-md text-primary-fixed">90</span></div>
+</div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-sm shadow-sm hover:bg-surface-container-high transition-colors group" data-sku="shop_ranger_grass_a" data-price="85">
+<div class="relative aspect-square rounded-lg overflow-hidden bg-surface-container-highest shadow-inner flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-[48px]" style="font-variation-settings:'FILL' 1">archery</span>
+<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-secondary-container font-label-sm text-[10px] text-on-secondary-container uppercase">Стрелок</span>
+<span class="absolute bottom-1 right-1 px-1 rounded bg-surface-container-lowest/90 font-stat-numeral text-[10px] text-primary">A</span>
+</div>
+<div class="font-label-md text-label-md text-on-surface truncate">Охотник</div>
+<div class="font-body-sm text-body-sm text-outline">Трава · лук</div>
+<div class="flex items-center justify-between pt-1 border-t border-surface-container-highest">
+<label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="85"><span class="font-label-sm text-label-sm text-outline">+</span></label>
+<div class="flex items-center gap-0.5"><span class="material-symbols-outlined text-primary-fixed-dim text-[14px]">diamond</span><span class="font-stat-numeral text-label-md text-primary-fixed">85</span></div>
+</div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-sm shadow-sm hover:bg-surface-container-high transition-colors group" data-sku="shop_ranger_grass_b" data-price="88">
+<div class="relative aspect-square rounded-lg overflow-hidden bg-surface-container-highest shadow-inner flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary-fixed text-[48px]" style="font-variation-settings:'FILL' 1">target</span>
+<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-secondary-container font-label-sm text-[10px] text-on-secondary-container uppercase">Стрелок</span>
+<span class="absolute bottom-1 right-1 px-1 rounded bg-surface-container-lowest/90 font-stat-numeral text-[10px] text-primary">B</span>
+</div>
+<div class="font-label-md text-label-md text-on-surface truncate">Град стрел</div>
+<div class="font-body-sm text-body-sm text-outline">Трава · AoE</div>
+<div class="flex items-center justify-between pt-1 border-t border-surface-container-highest">
+<label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="88"><span class="font-label-sm text-label-sm text-outline">+</span></label>
+<div class="flex items-center gap-0.5"><span class="material-symbols-outlined text-primary-fixed-dim text-[14px]">diamond</span><span class="font-stat-numeral text-label-md text-primary-fixed">88</span></div>
+</div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-sm shadow-sm hover:bg-surface-container-high transition-colors group" data-sku="shop_mage_fire_a" data-price="92">
+<div class="relative aspect-square rounded-lg overflow-hidden bg-surface-container-highest shadow-inner flex items-center justify-center">
+<span class="material-symbols-outlined text-tertiary text-[48px]" style="font-variation-settings:'FILL' 1">local_fire_department</span>
+<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-tertiary-container/80 font-label-sm text-[10px] text-on-tertiary-container uppercase">Маг</span>
+<span class="absolute bottom-1 right-1 px-1 rounded bg-surface-container-lowest/90 font-stat-numeral text-[10px] text-primary">A</span>
+</div>
+<div class="font-label-md text-label-md text-on-surface truncate">Огонь</div>
+<div class="font-body-sm text-body-sm text-outline">Skill 8</div>
+<div class="flex items-center justify-between pt-1 border-t border-surface-container-highest">
+<label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="92"><span class="font-label-sm text-label-sm text-outline">+</span></label>
+<div class="flex items-center gap-0.5"><span class="material-symbols-outlined text-primary-fixed-dim text-[14px]">diamond</span><span class="font-stat-numeral text-label-md text-primary-fixed">92</span></div>
+</div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-sm shadow-sm hover:bg-surface-container-high transition-colors group" data-sku="shop_mage_ice_b" data-price="92">
+<div class="relative aspect-square rounded-lg overflow-hidden bg-surface-container-highest shadow-inner flex items-center justify-center">
+<span class="material-symbols-outlined text-[48px] text-[#9ec9e8]" style="font-variation-settings:'FILL' 1">ac_unit</span>
+<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-surface-container-highest font-label-sm text-[10px] text-on-surface uppercase">Маг</span>
+<span class="absolute bottom-1 right-1 px-1 rounded bg-surface-container-lowest/90 font-stat-numeral text-[10px] text-primary">B</span>
+</div>
+<div class="font-label-md text-label-md text-on-surface truncate">Лёд</div>
+<div class="font-body-sm text-body-sm text-outline">Skill 8</div>
+<div class="flex items-center justify-between pt-1 border-t border-surface-container-highest">
+<label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="92"><span class="font-label-sm text-label-sm text-outline">+</span></label>
+<div class="flex items-center gap-0.5"><span class="material-symbols-outlined text-primary-fixed-dim text-[14px]">diamond</span><span class="font-stat-numeral text-label-md text-primary-fixed">92</span></div>
+</div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-sm shadow-sm hover:bg-surface-container-high transition-colors group" data-sku="shop_support_water_a" data-price="88">
+<div class="relative aspect-square rounded-lg overflow-hidden bg-surface-container-highest shadow-inner flex items-center justify-center">
+<span class="material-symbols-outlined text-[#7ec8e3] text-[48px]" style="font-variation-settings:'FILL' 1">water_drop</span>
+<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-secondary-container/60 font-label-sm text-[10px] text-on-secondary-container uppercase">Саппорт</span>
+<span class="absolute bottom-1 right-1 px-1 rounded bg-surface-container-lowest/90 font-stat-numeral text-[10px] text-primary">A</span>
+</div>
+<div class="font-label-md text-label-md text-on-surface truncate">Чистый родник</div>
+<div class="font-body-sm text-body-sm text-outline">Вода · heal</div>
+<div class="flex items-center justify-between pt-1 border-t border-surface-container-highest">
+<label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="88"><span class="font-label-sm text-label-sm text-outline">+</span></label>
+<div class="flex items-center gap-0.5"><span class="material-symbols-outlined text-primary-fixed-dim text-[14px]">diamond</span><span class="font-stat-numeral text-label-md text-primary-fixed">88</span></div>
+</div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-sm shadow-sm hover:bg-surface-container-high transition-colors group" data-sku="shop_support_water_b" data-price="90">
+<div class="relative aspect-square rounded-lg overflow-hidden bg-surface-container-highest shadow-inner flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[48px]" style="font-variation-settings:'FILL' 1">sunny</span>
+<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-secondary-container/60 font-label-sm text-[10px] text-on-secondary-container uppercase">Саппорт</span>
+<span class="absolute bottom-1 right-1 px-1 rounded bg-surface-container-lowest/90 font-stat-numeral text-[10px] text-primary">B</span>
+</div>
+<div class="font-label-md text-label-md text-on-surface truncate">Прилив силы</div>
+<div class="font-body-sm text-body-sm text-outline">Вода · buff</div>
+<div class="flex items-center justify-between pt-1 border-t border-surface-container-highest">
+<label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="90"><span class="font-label-sm text-label-sm text-outline">+</span></label>
+<div class="flex items-center gap-0.5"><span class="material-symbols-outlined text-primary-fixed-dim text-[14px]">diamond</span><span class="font-stat-numeral text-label-md text-primary-fixed">90</span></div>
+</div>
+</article>
+</div>
+</section>
+
+<!-- ===== ARMOR SETS ===== -->
+<section data-shop-section="armor" class="shop-section bg-surface-container-low rounded-xl p-space-md shadow-md flex flex-col gap-space-md">
+<div class="flex items-center justify-between flex-wrap gap-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[22px]">shield</span>
+<h2 class="font-headline-md text-headline-md text-primary-fixed">Сеты брони · все ранги</h2>
+</div>
+<span class="font-label-sm text-label-sm text-outline">Полный комплект: шлем · кираса · плащ · пояс · сапоги · кольцо</span>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-space-sm">
+<article class="bg-surface-container rounded-xl p-space-md flex gap-space-md shadow-sm hover:bg-surface-container-high transition-colors group" data-sku="set_grey" data-price="150">
+<img src="/gear-sets/thumbs/grey-armor.png" alt="Серая кираса" class="w-16 h-16 rounded-lg object-contain bg-surface-container-highest p-1 shrink-0 group-hover:scale-105 transition-transform">
+<div class="flex-1 min-w-0 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-1.5"><span class="font-label-lg text-label-lg text-on-surface">Серый сет Льва</span><span class="px-1 rounded bg-surface-container-highest font-label-sm text-[10px] text-outline">R1</span></div>
+<div class="font-body-sm text-body-sm text-outline">Common · стартовый комплект</div>
+</div>
+<div class="flex items-center justify-between mt-2">
+<label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="150"><span class="font-label-sm text-label-sm text-outline">Комплект</span></label>
+<div class="flex items-center gap-0.5"><span class="material-symbols-outlined text-primary-fixed-dim text-[16px]">diamond</span><span class="font-stat-numeral text-label-lg text-primary-fixed">150</span></div>
+</div>
+</div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-md flex gap-space-md shadow-sm hover:bg-surface-container-high transition-colors group" data-sku="set_green" data-price="320">
+<img src="/gear-sets/thumbs/green-armor.png" alt="Зелёная броня" class="w-16 h-16 rounded-lg object-contain bg-surface-container-highest p-1 shrink-0 group-hover:scale-105 transition-transform">
+<div class="flex-1 min-w-0 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-1.5"><span class="font-label-lg text-label-lg text-on-surface">Зелёный сет Рыси</span><span class="px-1 rounded bg-secondary-container font-label-sm text-[10px] text-on-secondary-container">R2</span></div>
+<div class="font-body-sm text-body-sm text-outline">Rare · листва и скорость</div>
+</div>
+<div class="flex items-center justify-between mt-2">
+<label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="320"><span class="font-label-sm text-label-sm text-outline">Комплект</span></label>
+<div class="flex items-center gap-0.5"><span class="material-symbols-outlined text-primary-fixed-dim text-[16px]">diamond</span><span class="font-stat-numeral text-label-lg text-primary-fixed">320</span></div>
+</div>
+</div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-md flex gap-space-md shadow-sm hover:bg-surface-container-high transition-colors group" data-sku="set_turquoise" data-price="480">
+<img src="/gear-sets/thumbs/turquoise-armor.png" alt="Бирюзовая мантия" class="w-16 h-16 rounded-lg object-contain bg-surface-container-highest p-1 shrink-0 group-hover:scale-105 transition-transform">
+<div class="flex-1 min-w-0 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-1.5"><span class="font-label-lg text-label-lg text-on-surface">Бирюзовый сет</span><span class="px-1 rounded bg-secondary-container font-label-sm text-[10px] text-on-secondary-container">R3</span></div>
+<div class="font-body-sm text-body-sm text-outline">Rare · саппорт / вода</div>
+</div>
+<div class="flex items-center justify-between mt-2">
+<label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="480"><span class="font-label-sm text-label-sm text-outline">Комплект</span></label>
+<div class="flex items-center gap-0.5"><span class="material-symbols-outlined text-primary-fixed-dim text-[16px]">diamond</span><span class="font-stat-numeral text-label-lg text-primary-fixed">480</span></div>
+</div>
+</div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-md flex gap-space-md shadow-sm hover:bg-surface-container-high transition-colors group border border-primary/20" data-sku="set_yellow" data-price="720">
+<img src="/gear-sets/thumbs/yellow-armor.png" alt="Жёлтая кираса" class="w-16 h-16 rounded-lg object-contain bg-surface-container-highest p-1 shrink-0 group-hover:scale-105 transition-transform">
+<div class="flex-1 min-w-0 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-1.5"><span class="font-label-lg text-label-lg text-on-surface">Жёлтый сет Солнца</span><span class="px-1 rounded bg-primary-container font-label-sm text-[10px] text-on-primary-container">R4</span></div>
+<div class="font-body-sm text-body-sm text-outline">Epic · маг / солнце</div>
+</div>
+<div class="flex items-center justify-between mt-2">
+<label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="720"><span class="font-label-sm text-label-sm text-outline">Комплект</span></label>
+<div class="flex items-center gap-0.5"><span class="material-symbols-outlined text-primary-fixed-dim text-[16px]">diamond</span><span class="font-stat-numeral text-label-lg text-primary-fixed">720</span></div>
+</div>
+</div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-md flex gap-space-md shadow-sm hover:bg-surface-container-high transition-colors group border border-primary/30" data-sku="set_purple" data-price="980">
+<img src="/gear-sets/thumbs/purple-armor.png" alt="Фиолетовая кираса" class="w-16 h-16 rounded-lg object-contain bg-surface-container-highest p-1 shrink-0 group-hover:scale-105 transition-transform">
+<div class="flex-1 min-w-0 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-1.5"><span class="font-label-lg text-label-lg text-on-surface">Фиолетовый сет Пантеры</span><span class="px-1 rounded bg-primary-container font-label-sm text-[10px] text-on-primary-container">R5</span></div>
+<div class="font-body-sm text-body-sm text-outline">Epic · ассасин / крит</div>
+</div>
+<div class="flex items-center justify-between mt-2">
+<label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="980"><span class="font-label-sm text-label-sm text-outline">Комплект</span></label>
+<div class="flex items-center gap-0.5"><span class="material-symbols-outlined text-primary-fixed-dim text-[16px]">diamond</span><span class="font-stat-numeral text-label-lg text-primary-fixed">980</span></div>
+</div>
+</div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-md flex gap-space-md shadow-sm hover:bg-surface-container-high transition-colors group border border-tertiary/40" data-sku="set_red" data-price="1 450">
+<img src="/gear-sets/thumbs/red-armor.png" alt="Красная кираса" class="w-16 h-16 rounded-lg object-contain bg-surface-container-highest p-1 shrink-0 group-hover:scale-105 transition-transform">
+<div class="flex-1 min-w-0 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-1.5"><span class="font-label-lg text-label-lg text-on-surface">Красный сет Дракона</span><span class="px-1 rounded bg-error-container font-label-sm text-[10px] text-on-error-container">R6</span></div>
+<div class="font-body-sm text-body-sm text-outline">Legendary · боец / танк</div>
+</div>
+<div class="flex items-center justify-between mt-2">
+<label class="flex items-center gap-1 cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="1450"><span class="font-label-sm text-label-sm text-outline">Комплект</span></label>
+<div class="flex items-center gap-0.5"><span class="material-symbols-outlined text-primary-fixed-dim text-[16px]">diamond</span><span class="font-stat-numeral text-label-lg text-primary-fixed">1 450</span></div>
+</div>
+</div>
+</article>
+</div>
+</section>
+
+<!-- ===== WEAPONS ===== -->
+<section data-shop-section="weapons" class="shop-section bg-surface-container-low rounded-xl p-space-md shadow-md flex flex-col gap-space-md">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[22px]">swords</span>
+<h2 class="font-headline-md text-headline-md text-primary-fixed">Оружие и классовые сеты</h2>
+</div>
+<span class="font-label-sm text-label-sm text-outline uppercase">По ролям</span>
+</div>
+<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-space-sm">
+<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-xs shadow-sm hover:bg-surface-container-high transition-colors" data-sku="tank_mace" data-price="210">
+<img src="/gear-sets/thumbs/tank-mace.png" alt="Булава Стража" class="w-full aspect-square object-contain bg-surface-container-highest rounded-lg p-2">
+<div class="font-label-md text-label-md text-on-surface truncate">Булава Стража</div>
+<div class="font-body-sm text-body-sm text-outline">Танк · 2H</div>
+<div class="flex items-center justify-between mt-1"><label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="210"></label><span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>210</span></div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-xs shadow-sm hover:bg-surface-container-high transition-colors" data-sku="tank_spear" data-price="210">
+<img src="/gear-sets/thumbs/tank-spear.png" alt="Копьё Стража" class="w-full aspect-square object-contain bg-surface-container-highest rounded-lg p-2">
+<div class="font-label-md text-label-md text-on-surface truncate">Копьё Стража</div>
+<div class="font-body-sm text-body-sm text-outline">Танк · SPD</div>
+<div class="flex items-center justify-between mt-1"><label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="210"></label><span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>210</span></div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-xs shadow-sm hover:bg-surface-container-high transition-colors" data-sku="tank_shield_large" data-price="240">
+<img src="/gear-sets/thumbs/tank-shield-large.png" alt="Большой щит" class="w-full aspect-square object-contain bg-surface-container-highest rounded-lg p-2">
+<div class="font-label-md text-label-md text-on-surface truncate">Большой щит Льва</div>
+<div class="font-body-sm text-body-sm text-outline">Танк · DEF</div>
+<div class="flex items-center justify-between mt-1"><label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="240"></label><span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>240</span></div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-xs shadow-sm hover:bg-surface-container-high transition-colors" data-sku="fighter_greatsword" data-price="380">
+<img src="/gear-sets/thumbs/fighter-greatsword.png" alt="Двуручный меч" class="w-full aspect-square object-contain bg-surface-container-highest rounded-lg p-2">
+<div class="font-label-md text-label-md text-on-surface truncate">Меч Тигра</div>
+<div class="font-body-sm text-body-sm text-outline">Боец · Legendary</div>
+<div class="flex items-center justify-between mt-1"><label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="380"></label><span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>380</span></div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-xs shadow-sm hover:bg-surface-container-high transition-colors" data-sku="fighter_axe_a" data-price="340">
+<img src="/gear-sets/thumbs/fighter-axe-a.png" alt="Топор бойца" class="w-full aspect-square object-contain bg-surface-container-highest rounded-lg p-2">
+<div class="font-label-md text-label-md text-on-surface truncate">Топор Бойца A</div>
+<div class="font-body-sm text-body-sm text-outline">Боец · парный</div>
+<div class="flex items-center justify-between mt-1"><label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="340"></label><span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>340</span></div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-xs shadow-sm hover:bg-surface-container-high transition-colors" data-sku="assassin_dagger_a" data-price="300">
+<img src="/gear-sets/thumbs/assassin-dagger-a.png" alt="Кинжал" class="w-full aspect-square object-contain bg-surface-container-highest rounded-lg p-2">
+<div class="font-label-md text-label-md text-on-surface truncate">Кинжал Убийцы</div>
+<div class="font-body-sm text-body-sm text-outline">Ассасин · crit</div>
+<div class="flex items-center justify-between mt-1"><label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="300"></label><span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>300</span></div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-xs shadow-sm hover:bg-surface-container-high transition-colors" data-sku="green_bow" data-price="220">
+<img src="/gear-sets/thumbs/green-bow.png" alt="Лук Рыси" class="w-full aspect-square object-contain bg-surface-container-highest rounded-lg p-2">
+<div class="font-label-md text-label-md text-on-surface truncate">Лук Рыси</div>
+<div class="font-body-sm text-body-sm text-outline">Стрелок</div>
+<div class="flex items-center justify-between mt-1"><label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="220"></label><span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>220</span></div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-xs shadow-sm hover:bg-surface-container-high transition-colors" data-sku="green_crossbow" data-price="220">
+<img src="/gear-sets/thumbs/green-crossbow.png" alt="Арбалет" class="w-full aspect-square object-contain bg-surface-container-highest rounded-lg p-2">
+<div class="font-label-md text-label-md text-on-surface truncate">Зелёный арбалет</div>
+<div class="font-body-sm text-body-sm text-outline">Стрелок</div>
+<div class="flex items-center justify-between mt-1"><label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="220"></label><span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>220</span></div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-xs shadow-sm hover:bg-surface-container-high transition-colors" data-sku="yellow_staff" data-price="280">
+<img src="/gear-sets/thumbs/yellow-staff.png" alt="Посох Солнца" class="w-full aspect-square object-contain bg-surface-container-highest rounded-lg p-2">
+<div class="font-label-md text-label-md text-on-surface truncate">Посох Солнца</div>
+<div class="font-body-sm text-body-sm text-outline">Маг · 2H</div>
+<div class="flex items-center justify-between mt-1"><label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="280"></label><span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>280</span></div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-xs shadow-sm hover:bg-surface-container-high transition-colors" data-sku="yellow_wand" data-price="240">
+<img src="/gear-sets/thumbs/yellow-wand.png" alt="Жезл Солнца" class="w-full aspect-square object-contain bg-surface-container-highest rounded-lg p-2">
+<div class="font-label-md text-label-md text-on-surface truncate">Жезл Солнца</div>
+<div class="font-body-sm text-body-sm text-outline">Маг · 1H</div>
+<div class="flex items-center justify-between mt-1"><label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="240"></label><span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>240</span></div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-xs shadow-sm hover:bg-surface-container-high transition-colors" data-sku="turquoise_staff" data-price="240">
+<img src="/gear-sets/thumbs/turquoise-staff.png" alt="Бирюзовый посох" class="w-full aspect-square object-contain bg-surface-container-highest rounded-lg p-2">
+<div class="font-label-md text-label-md text-on-surface truncate">Бирюзовый посох</div>
+<div class="font-body-sm text-body-sm text-outline">Саппорт</div>
+<div class="flex items-center justify-between mt-1"><label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="240"></label><span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>240</span></div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-xs shadow-sm hover:bg-surface-container-high transition-colors" data-sku="support_scroll" data-price="180">
+<img src="/gear-sets/thumbs/support-scroll.png" alt="Свиток" class="w-full aspect-square object-contain bg-surface-container-highest rounded-lg p-2">
+<div class="font-label-md text-label-md text-on-surface truncate">Свиток Поддержки</div>
+<div class="font-body-sm text-body-sm text-outline">Саппорт · offhand</div>
+<div class="flex items-center justify-between mt-1"><label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="180"></label><span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>180</span></div>
+</article>
+</div>
+</section>
+
+<!-- ===== BREED ===== -->
+<section data-shop-section="breed" class="shop-section bg-surface-container-low rounded-xl p-space-md shadow-md flex flex-col gap-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-tertiary text-[22px]">favorite</span>
+<h2 class="font-headline-md text-headline-md text-primary-fixed">Скрещивание · реагенты</h2>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-space-sm">
+<article class="bg-surface-container rounded-xl p-space-md flex flex-col gap-space-sm border border-tertiary/30" data-sku="talisman_mythic_luck" data-price="199">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-tertiary"><span class="material-symbols-outlined text-[28px]" style="font-variation-settings:'FILL' 1">workspace_premium</span></div>
+<div class="font-label-lg text-label-lg text-on-surface">Амулет удачи</div>
+<div class="font-body-sm text-body-sm text-tertiary font-bold">+20% mythic</div>
+<div class="flex items-center justify-between mt-auto"><label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="199"></label><span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>199</span></div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-md flex flex-col gap-space-sm" data-sku="breed_milk_essence" data-price="60">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[28px]">water_full</span></div>
+<div class="font-label-lg text-label-lg text-on-surface">Эссенция молока</div>
+<div class="font-body-sm text-body-sm text-outline">Реагент питомника</div>
+<div class="flex items-center justify-between mt-auto"><label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="60"></label><span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>60</span></div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-md flex flex-col gap-space-sm" data-sku="breed_moon_whisker" data-price="80">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary-fixed"><span class="material-symbols-outlined text-[28px]">nightlight</span></div>
+<div class="font-label-lg text-label-lg text-on-surface">Лунный ус</div>
+<div class="font-body-sm text-body-sm text-outline">Реагент питомника</div>
+<div class="flex items-center justify-between mt-auto"><label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="80"></label><span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>80</span></div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-md flex flex-col gap-space-sm" data-sku="breed_stone_purr" data-price="70">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-outline"><span class="material-symbols-outlined text-[28px]">landscape</span></div>
+<div class="font-label-lg text-label-lg text-on-surface">Каменный мур</div>
+<div class="font-body-sm text-body-sm text-outline">Реагент питомника</div>
+<div class="flex items-center justify-between mt-auto"><label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="70"></label><span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>70</span></div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-md flex flex-col gap-space-sm" data-sku="breed_spark_pollen" data-price="75">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[28px]">emoji_nature</span></div>
+<div class="font-label-lg text-label-lg text-on-surface">Искрящая пыльца</div>
+<div class="font-body-sm text-body-sm text-outline">Реагент питомника</div>
+<div class="flex items-center justify-between mt-auto"><label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="75"></label><span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>75</span></div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-md flex flex-col gap-space-sm" data-sku="breed_tide_scale" data-price="85">
+<div class="w-12 h-12 rounded-xl bg-surface-container-highest flex items-center justify-center text-[#7ec8e3]"><span class="material-symbols-outlined text-[28px]">waves</span></div>
+<div class="font-label-lg text-label-lg text-on-surface">Чешуя прилива</div>
+<div class="font-body-sm text-body-sm text-outline">Реагент питомника</div>
+<div class="flex items-center justify-between mt-auto"><label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="85"></label><span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>85</span></div>
+</article>
+</div>
+</section>
+
+<!-- ===== CHESTS ===== -->
+<section data-shop-section="chests" class="shop-section bg-surface-container-low rounded-xl p-space-md shadow-md flex flex-col gap-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[22px]">inventory_2</span>
+<h2 class="font-headline-md text-headline-md text-primary-fixed">Ларцы и семена стихий</h2>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-sm">
+<article class="bg-surface-container rounded-xl p-space-md flex items-center gap-space-md shadow-sm hover:bg-surface-container-high transition-colors" data-sku="chest_common" data-price="40">
+<img src="/stitch-assets/kb-gear-chest.png" alt="Ларец обычный" class="w-14 h-14 object-contain shrink-0">
+<div class="flex-1 min-w-0">
+<div class="font-label-lg text-label-lg text-on-surface">Ларец обычный</div>
+<div class="font-body-sm text-body-sm text-outline">Скрап · grey piece</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="40"></label>
+<span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>40</span>
+</div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-md flex items-center gap-space-md shadow-sm hover:bg-surface-container-high transition-colors border border-primary/25" data-sku="chest_rare" data-price="120">
+<img src="/stitch-assets/kb-gear-chest.png" alt="Ларец редкий" class="w-14 h-14 object-contain shrink-0 brightness-110">
+<div class="flex-1 min-w-0">
+<div class="font-label-lg text-label-lg text-on-surface">Ларец редкий</div>
+<div class="font-body-sm text-body-sm text-secondary font-bold">Green–blue piece</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="120"></label>
+<span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>120</span>
+</div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-md flex items-center gap-space-md shadow-sm hover:bg-surface-container-high transition-colors" data-sku="seed_elements" data-price="55">
+<div class="w-14 h-14 rounded-xl bg-surface-container-highest flex items-center justify-center text-secondary shrink-0"><span class="material-symbols-outlined text-[32px]" style="font-variation-settings:'FILL' 1">spa</span></div>
+<div class="flex-1 min-w-0">
+<div class="font-label-lg text-label-lg text-on-surface">Семя Стихий</div>
+<div class="font-body-sm text-body-sm text-outline">Случайный элемент ×3</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="55"></label>
+<span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>55</span>
+</div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-md flex items-center gap-space-md shadow-sm hover:bg-surface-container-high transition-colors" data-sku="energy_refill" data-price="35">
+<div class="w-14 h-14 rounded-xl bg-surface-container-highest flex items-center justify-center text-tertiary shrink-0"><span class="material-symbols-outlined text-[32px]" style="font-variation-settings:'FILL' 1">bolt</span></div>
+<div class="flex-1 min-w-0">
+<div class="font-label-lg text-label-lg text-on-surface">Полная энергия</div>
+<div class="font-body-sm text-body-sm text-outline">Мгновенно 100/100</div>
+</div>
+<div class="flex flex-col items-end gap-1">
+<label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="35"></label>
+<span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>35</span>
+</div>
+</article>
+</div>
+</section>
+
+<!-- ===== PACKS ===== -->
+<section data-shop-section="packs" class="shop-section bg-surface-container-low rounded-xl p-space-md shadow-md flex flex-col gap-space-md">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[22px]">set_meal</span>
+<h2 class="font-headline-md text-headline-md text-primary-fixed">Пакеты валюты · пряжа → рыбки</h2>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-space-sm">
+<article class="bg-surface-container rounded-xl p-space-md flex flex-col gap-space-sm" data-sku="fish_pack_s" data-price="50">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[28px]">set_meal</span>
+<div><div class="font-label-lg text-label-lg text-on-surface">Пак рыбок S</div><div class="font-body-sm text-body-sm text-outline">+500 рыбок</div></div>
+</div>
+<div class="flex items-center justify-between"><label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="50"></label><span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>50</span></div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-md flex flex-col gap-space-sm border border-secondary/30" data-sku="fish_pack_m" data-price="180">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[28px]" style="font-variation-settings:'FILL' 1">set_meal</span>
+<div><div class="font-label-lg text-label-lg text-on-surface">Пак рыбок M</div><div class="font-body-sm text-body-sm text-secondary font-bold">+2 000 · бонус 10%</div></div>
+</div>
+<div class="flex items-center justify-between"><label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="180"></label><span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>180</span></div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-md flex flex-col gap-space-sm" data-sku="pass_levels_5" data-price="120">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[28px]">add_circle</span>
+<div><div class="font-label-lg text-label-lg text-on-surface">+5 уровней пасса</div><div class="font-body-sm text-body-sm text-outline">Мгновенный прогресс</div></div>
+</div>
+<div class="flex items-center justify-between"><label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="120"></label><span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>120</span></div>
+</article>
+<article class="bg-surface-container rounded-xl p-space-md flex flex-col gap-space-sm" data-sku="rename_token" data-price="25">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary-fixed text-[28px]">edit</span>
+<div><div class="font-label-lg text-label-lg text-on-surface">Жетон переименования</div><div class="font-body-sm text-body-sm text-outline">Котик или отряд</div></div>
+</div>
+<div class="flex items-center justify-between"><label class="cursor-pointer"><input type="checkbox" class="shop-select accent-primary" data-price="25"></label><span class="font-stat-numeral text-label-md text-primary-fixed flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">diamond</span>25</span></div>
+</article>
+</div>
+</section>
+
+</div>
+
+<div id="toast" class="fixed bottom-6 right-6 z-50 bg-surface-container-high border border-primary/40 rounded-xl px-space-md py-space-sm shadow-xl flex items-center gap-space-sm max-w-sm" hidden>
+<span id="toast-icon" class="material-symbols-outlined text-primary text-[22px]">check_circle</span>
+<div><strong id="toast-title" class="font-label-md text-label-md text-on-surface block"></strong><span id="toast-desc" class="font-body-sm text-body-sm text-on-surface-variant"></span></div>
+</div>
+
 </div>
 </main>
 
+<style>
+@keyframes shopPulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(253, 186, 69, 0.25); }
+  50% { box-shadow: 0 0 16px 2px rgba(253, 186, 69, 0.35); }
+}
+[data-sku="pass_buy"] { animation: shopPulseGlow 3.2s ease-in-out infinite; }
+.shop-section[hidden] { display: none !important; }
+</style>
 </body>
 </html>
