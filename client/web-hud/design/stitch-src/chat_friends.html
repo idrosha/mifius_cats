@@ -3,73 +3,226 @@
 <head>
 <meta charset="utf-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Чат друзей — Мифиус · wireframe</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{surface:"#161310","on-surface":"#eae1db","surface-container":"#231f1c","surface-container-high":"#2e2926","surface-container-low":"#1f1b18",primary:"#fdba45","on-primary":"#281900",outline:"#9d8f7b","outline-variant":"#504535","on-surface-variant":"#d5c4af"}}}}}</script>
+<meta content="web_standard" name="shell-type"/>
+<title>Список друзей — Мифиус</title>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@500;600;700;800&amp;family=Rubik:wght@600;700;800&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">tailwind.config={darkMode:"class",theme:{extend:{colors:{primary:"#fdba45","primary-container":"#d99b26","on-primary":"#432c00","on-primary-container":"#523700",secondary:"#89d98c","on-secondary":"#003910",tertiary:"#ffb4a6","on-tertiary":"#660700",surface:"#161310","on-surface":"#eae1db","on-surface-variant":"#d5c4af",outline:"#9d8f7b","outline-variant":"#504535","surface-container-lowest":"#110d0b","surface-container-low":"#1f1b18","surface-container":"#231f1c","surface-container-high":"#2e2926","surface-container-highest":"#393430",background:"#161310",error:"#ffb4ab"}}}};</script>
 <style>
-html,body{margin:0;padding:0;height:100%;background:#161310;color:#eae1db;font-family:system-ui,sans-serif}
-.wf{display:flex;flex-direction:column;height:100%;min-height:100%;gap:0;padding:0;box-sizing:border-box}
-.wf-head{display:flex;align-items:flex-end;justify-content:space-between;gap:.75rem;padding:.75rem 1rem;border-bottom:1px solid #504535;background:#1f1b18;flex:0 0 auto}
-.wf-head h1{margin:0;font-size:1.35rem;font-weight:800;color:#fdba45}
-.wf-head p{margin:.15rem 0 0;font-size:.8rem;color:#d5c4af}
-.wf-eyebrow{font-size:.65rem;letter-spacing:.14em;text-transform:uppercase;color:#fdba45;font-weight:700}
-.wf-body{flex:1 1 auto;min-height:0;display:grid;gap:.6rem;padding:.6rem;box-sizing:border-box}
-.wf-block{border:1px solid #504535;background:#231f1c;border-radius:.5rem;padding:.65rem .75rem;display:flex;flex-direction:column;gap:.4rem;min-height:0}
-.wf-block h2{margin:0;font-size:.8rem;font-weight:700;color:#fdba45;text-transform:uppercase;letter-spacing:.06em}
-.wf-block .hint{font-size:.7rem;color:#9d8f7b}
-.wf-row{display:flex;align-items:center;justify-content:space-between;gap:.5rem;padding:.35rem .45rem;border:1px solid #393430;border-radius:.35rem;background:#1f1b18;font-size:.78rem}
-.wf-grid{display:grid;gap:.4rem;min-height:0;overflow:auto;flex:1}
-.wf-cta{display:inline-flex;align-items:center;justify-content:center;gap:.35rem;padding:.45rem .8rem;border-radius:.4rem;border:1px solid #fdba45;background:#d99b26;color:#1a1308;font-weight:800;font-size:.8rem;cursor:pointer}
-.wf-cta.ghost{background:transparent;color:#fdba45}
-.wf-cta.muted{border-color:#504535;background:#2e2926;color:#eae1db}
-.wf-tags{display:flex;flex-wrap:wrap;gap:.35rem}
-.wf-tag{font-size:.65rem;padding:.15rem .4rem;border:1px solid #504535;border-radius:.25rem;color:#d5c4af}
-.wf-fill{flex:1;min-height:0}
+.dojo-top{display:flex;align-items:center;gap:.65rem;flex-shrink:0;min-width:0;}
+.dojo-crumb{display:flex;align-items:center;gap:.35rem;font-family:Rubik,sans-serif;font-size:13px;white-space:nowrap;}
+.dojo-crumb strong{color:#fdba45;}.dojo-crumb em{font-style:normal;color:#eae1db;}
+.dojo-chip{font-size:10px;padding:.05rem .35rem;border-radius:999px;background:#2e2926;color:#fdba45;}
+.dojo-mode{font-size:11px;color:#d5c4af;margin:0;}
+.mode-chip{background:transparent;color:#d5c4af;border:1px solid transparent;cursor:pointer;text-decoration:none;}
+.mode-chip.is-on{background:linear-gradient(180deg,rgba(217,155,38,.28),rgba(217,155,38,.12));color:#fdba45;border-color:rgba(253,186,69,.45);}
 </style>
 </head>
-<body>
-
-<main class="wf" data-purpose="wireframe" data-screen="Чат друзей" >
-<header class="wf-head">
-<div>
-<p class="wf-eyebrow">Чаты</p>
-<h1>Чат друзей</h1>
-<p>Чаты · друзья · та же компоновка</p>
+<body class="bg-[#120f0d] h-screen overflow-hidden flex flex-col text-on-surface select-none">
+<main class="friends-hall flex flex-col flex-1 min-h-0 h-full w-full overflow-hidden gap-2 p-2 bg-[#100e0c]" data-purpose="friends-list">
+<header class="flex flex-col gap-1 flex-shrink-0 min-w-0">
+<div class="dojo-top w-full">
+<div class="dojo-crumb"><strong>Друзья</strong><span>›</span><em>Список друзей</em><span class="dojo-chip">Круг</span></div>
+<p class="dojo-mode">Онлайн · заявки · досье · ЛС · приглашения в отряд</p>
 </div>
-<div class="wf-tags"><span class="wf-tag">landscape 16:9</span><span class="wf-tag">блоки без картинок</span><span class="wf-tag">без подвала</span></div>
+<nav class="flex items-center justify-between gap-2 flex-shrink-0" aria-label="Разделы друзей">
+<div class="flex items-center gap-1 bg-[#1f1b18] p-0.5 rounded-lg border border-outline-variant/40 flex-1 min-w-0">
+<button type="button" class="mode-chip is-on flex-1 py-1 px-2 rounded-md text-[11px] font-bold" data-path="chat_friends">Список</button>
+<button type="button" class="mode-chip flex-1 py-1 px-2 rounded-md text-[11px] font-bold" data-path="chat_global">Чаты</button>
+</div>
+<div class="hidden md:flex items-center gap-1 text-[10px] text-on-surface-variant whitespace-nowrap flex-shrink-0 pr-0.5">
+<span class="material-symbols-outlined text-secondary text-[14px]">circle</span>
+<span class="text-on-surface font-bold">12 онлайн</span><span class="text-outline">·</span><span class="text-primary font-bold">24 в круге</span><span class="text-outline">·</span><span class="text-tertiary font-bold">3 заявки</span>
+</div>
+</nav>
 </header>
-<div class="wf-body grid-cols-1 lg:grid-cols-12">
-<section class="wf-block lg:col-span-8"><h2>Лента</h2><p class="hint">Сообщения канала.</p><div id="chatStream" class="wf-grid wf-fill"><div class="wf-grid"><div class="wf-row"><span>МуррКотик</span><span>привет, очаг</span></div>
-<div class="wf-row"><span>Хранитель_7</span><span>кто в данж?</span></div>
-<div class="wf-row"><span>Система</span><span>сезон IV активен</span></div>
-<div class="wf-row"><span>Лапка</span><span>пати +1 саппорт</span></div></div></div>
-<form id="chatForm" class="wf-tags" style="margin-top:.4rem"><input id="chatInput" class="wf-row wf-fill" placeholder="Сообщение…" /><button type="submit" class="wf-cta">Отправить</button><button type="button" class="wf-cta muted" id="rollDiceBtn">🎲</button></form></section>
-<section class="wf-block lg:col-span-4"><h2>Карточка игрока</h2><p class="hint">Inspector.</p><div id="inspectorPanel" class="wf-grid">
-<div class="wf-row"><span>Имя</span><span id="inspectorName">МуррКотик</span></div>
-<div class="wf-row"><span>Уровень</span><span id="inspectorLevel">24</span></div>
-<div class="wf-row"><span>BM</span><span id="inspectorBm">14.2k</span></div>
-<div class="wf-row"><span>Статус</span><span id="inspectorStatus">в таверне</span></div>
-<div class="wf-row hint" id="inspectorIcon">[аватар-блок]</div>
-</div></section>
-</div>
-<section class="wf-block" aria-hidden="true" data-purpose="wireframe-pad"><h2>Плотность сетки</h2><p class="hint">Служебные ряды, чтобы форма была заполнена без подвала и дыр.</p><div class="wf-grid"><div class="wf-row" data-pad="Чат друзей-0"><span>Слот макета 1</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Чат друзей-1"><span>Слот макета 2</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Чат друзей-2"><span>Слот макета 3</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Чат друзей-3"><span>Слот макета 4</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Чат друзей-4"><span>Слот макета 5</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Чат друзей-5"><span>Слот макета 6</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Чат друзей-6"><span>Слот макета 7</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Чат друзей-7"><span>Слот макета 8</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Чат друзей-8"><span>Слот макета 9</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Чат друзей-9"><span>Слот макета 10</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Чат друзей-10"><span>Слот макета 11</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Чат друзей-11"><span>Слот макета 12</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Чат друзей-12"><span>Слот макета 13</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Чат друзей-13"><span>Слот макета 14</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Чат друзей-14"><span>Слот макета 15</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Чат друзей-15"><span>Слот макета 16</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Чат друзей-16"><span>Слот макета 17</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Чат друзей-17"><span>Слот макета 18</span><span class="hint">блок заполнения · без пустот</span></div></div></section></main>
 
+<div class="mode-grid grid grid-cols-12 gap-2 flex-1 min-h-0 overflow-hidden">
+
+<aside class="col-span-12 lg:col-span-3 flex flex-col h-full min-h-0 gap-2 overflow-hidden">
+<div class="flex flex-col flex-shrink-0 bg-[#161310] rounded-xl border border-outline-variant/40 p-2 shadow-2xl">
+<div class="flex items-center justify-between pb-1.5 px-1 border-b border-outline-variant/30">
+<div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-primary text-[18px]">diversity_3</span><span class="font-bold text-[12px]">Круг друзей</span></div>
+<span class="text-[10px] text-primary font-bold">Сезон IV</span>
+</div>
+<div class="grid grid-cols-3 gap-1.5 pt-1.5">
+<div class="bg-[#1a1613] rounded-lg p-1.5 text-center border border-outline-variant/25"><span class="text-[9px] text-outline block">Друзья</span><b class="text-primary text-[16px]">24</b></div>
+<div class="bg-[#1a1613] rounded-lg p-1.5 text-center border border-outline-variant/25"><span class="text-[9px] text-outline block">Онлайн</span><b class="text-secondary text-[16px]">12</b></div>
+<div class="bg-[#1a1613] rounded-lg p-1.5 text-center border border-outline-variant/25"><span class="text-[9px] text-outline block">Заявки</span><b class="text-tertiary text-[16px]">3</b></div>
+</div>
+<div class="mt-1.5 relative">
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-outline text-[16px]">search</span>
+<input class="w-full pl-8 pr-2 py-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/30 text-[11px] text-on-surface placeholder:text-outline focus:outline-none focus:border-primary/50" placeholder="Имя хранителя…" type="search"/>
+</div>
+</div>
+
+<div class="flex flex-col flex-1 min-h-0 bg-[#161310] rounded-xl border border-outline-variant/40 p-2 overflow-hidden gap-1.5">
+<span class="text-[10px] text-outline uppercase font-bold tracking-wide px-0.5">Фильтр</span>
+<div class="grid grid-cols-2 gap-1">
+<button type="button" class="py-1.5 rounded-md bg-primary-container text-on-primary-container text-[10px] font-bold border border-primary/40">Все (24)</button>
+<button type="button" class="py-1.5 rounded-md bg-[#1a1613] text-on-surface-variant text-[10px] border border-outline-variant/30">Онлайн (12)</button>
+<button type="button" class="py-1.5 rounded-md bg-[#1a1613] text-on-surface-variant text-[10px] border border-outline-variant/30">В бою (4)</button>
+<button type="button" class="py-1.5 rounded-md bg-[#1a1613] text-tertiary text-[10px] border border-tertiary/35">Заявки (3)</button>
+</div>
+<span class="text-[10px] text-outline uppercase font-bold tracking-wide px-0.5 pt-0.5">Сортировка</span>
+<div class="flex gap-1 bg-[#1a1613] p-0.5 rounded-lg border border-outline-variant/25">
+<button type="button" class="flex-1 py-1 rounded text-[10px] font-bold bg-primary/20 text-primary">Онлайн</button>
+<button type="button" class="flex-1 py-1 rounded text-[10px] text-on-surface-variant">По БМ</button>
+<button type="button" class="flex-1 py-1 rounded text-[10px] text-on-surface-variant">Имя</button>
+</div>
+<div class="rounded-lg bg-[#1a1613] border border-primary/25 px-2 py-1.5 text-[10px] text-on-surface-variant leading-snug">
+<span class="text-primary font-bold flex items-center gap-1"><span class="material-symbols-outlined text-[13px]">campaign</span>Подсказка очага</span>
+Друзья в онлайне получают <b class="text-secondary">+5% XP</b> в совместных данжах.
+</div>
+<div class="mt-auto rounded-xl bg-[#1a1613] border border-outline-variant/30 p-2 flex flex-col gap-1.5">
+<div class="flex items-center justify-between"><span class="text-[11px] font-bold flex items-center gap-1"><span class="material-symbols-outlined text-tertiary text-[16px]">person_add</span>Входящие</span><span class="text-[9px] px-1.5 py-0.5 rounded-full bg-tertiary/30 text-tertiary font-bold">3</span></div>
+<div class="flex items-center gap-1.5 text-[10px]"><span class="w-6 h-6 rounded-md bg-primary/15 border border-primary/35 flex items-center justify-center shrink-0"><span class="material-symbols-outlined text-primary text-[14px]">pets</span></span><span class="truncate">Лапка_Новичок · 38.2k</span></div>
+<button type="button" class="w-full py-1.5 rounded-lg bg-primary text-on-primary text-[11px] font-bold flex items-center justify-center gap-1"><span class="material-symbols-outlined text-[15px]">person_add</span>Добавить друга</button>
+</div>
+</div>
+</aside>
+
+<div class="col-span-12 lg:col-span-5 flex flex-col h-full min-h-0 bg-[#161310] rounded-xl border border-outline-variant/40 p-2 overflow-hidden">
+<div class="flex items-center justify-between pb-1.5 flex-shrink-0 border-b border-outline-variant/25">
+<div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-primary text-[18px]">format_list_bulleted</span><span class="font-bold text-[12px]">Реестр друзей</span></div>
+<span class="text-[10px] text-secondary font-bold">12 в сети · 4 в бою</span>
+</div>
+<div class="grid grid-cols-12 px-2 py-1 text-[9px] text-outline uppercase tracking-wide flex-shrink-0"><div class="col-span-6">Хранитель</div><div class="col-span-3 text-right">БМ</div><div class="col-span-2 text-right">Статус</div><div class="col-span-1"></div></div>
+<div class="flex-1 min-h-0 flex flex-col gap-1 overflow-y-auto py-0.5" id="friends-list">
+
+<div class="friend-card grid grid-cols-12 items-center px-2 py-1.5 rounded-lg bg-[#2e2926] border border-primary/50 ring-1 ring-primary/20">
+<div class="col-span-6 flex items-center gap-1.5 min-w-0">
+<span class="relative w-8 h-8 rounded-lg bg-primary/20 border border-primary/50 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-primary text-[16px]">cruelty_free</span><i class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-error ring-1 ring-[#161310]"></i></span>
+<div class="min-w-0"><b class="text-[11px] text-primary truncate block">Мурр-Оплот</b><p class="text-[9px] text-on-surface-variant truncate">Лапка Очага · <span class="text-error">в осаде</span></p></div>
+</div>
+<div class="col-span-3 text-right"><b class="text-[11px] text-primary">62 400</b></div>
+<div class="col-span-2 text-right"><span class="text-[9px] text-error font-bold">Бой</span></div>
+<div class="col-span-1 flex justify-center"><span class="material-symbols-outlined text-[14px] text-outline">more_vert</span></div>
+</div>
+
+<div class="friend-card grid grid-cols-12 items-center px-2 py-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/25">
+<div class="col-span-6 flex items-center gap-1.5 min-w-0">
+<span class="relative w-8 h-8 rounded-lg bg-tertiary/15 border border-tertiary/40 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-tertiary text-[16px]">bolt</span><i class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-secondary ring-1 ring-[#161310]"></i></span>
+<div class="min-w-0"><b class="text-[11px] truncate block">Барсик-Громовержец</b><p class="text-[9px] text-on-surface-variant truncate">Кузница Очага</p></div>
+</div>
+<div class="col-span-3 text-right"><b class="text-[11px]">51 800</b></div>
+<div class="col-span-2 text-right"><span class="text-[9px] text-secondary font-bold">Онлайн</span></div>
+<div class="col-span-1 flex justify-center"><span class="material-symbols-outlined text-[14px] text-outline">more_vert</span></div>
+</div>
+
+<div class="friend-card grid grid-cols-12 items-center px-2 py-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/25">
+<div class="col-span-6 flex items-center gap-1.5 min-w-0">
+<span class="relative w-8 h-8 rounded-lg bg-primary/15 border border-primary/35 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-primary text-[16px]">stream_apps</span><i class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-secondary ring-1 ring-[#161310]"></i></span>
+<div class="min-w-0"><b class="text-[11px] truncate block">Рыжехвост</b><p class="text-[9px] text-on-surface-variant truncate">Рынок · торгует</p></div>
+</div>
+<div class="col-span-3 text-right"><b class="text-[11px]">47 200</b></div>
+<div class="col-span-2 text-right"><span class="text-[9px] text-secondary font-bold">Онлайн</span></div>
+<div class="col-span-1 flex justify-center"><span class="material-symbols-outlined text-[14px] text-outline">more_vert</span></div>
+</div>
+
+<div class="friend-card grid grid-cols-12 items-center px-2 py-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/25">
+<div class="col-span-6 flex items-center gap-1.5 min-w-0">
+<span class="relative w-8 h-8 rounded-lg bg-secondary/15 border border-secondary/40 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-secondary text-[16px]">water_drop</span><i class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-tertiary ring-1 ring-[#161310]"></i></span>
+<div class="min-w-0"><b class="text-[11px] truncate block">Мурка-Речная</b><p class="text-[9px] text-tertiary truncate">Данж · волна 2</p></div>
+</div>
+<div class="col-span-3 text-right"><b class="text-[11px]">48 900</b></div>
+<div class="col-span-2 text-right"><span class="text-[9px] text-tertiary font-bold">Данж</span></div>
+<div class="col-span-1 flex justify-center"><span class="material-symbols-outlined text-[14px] text-outline">more_vert</span></div>
+</div>
+
+<div class="friend-card grid grid-cols-12 items-center px-2 py-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/25">
+<div class="col-span-6 flex items-center gap-1.5 min-w-0">
+<span class="relative w-8 h-8 rounded-lg bg-primary/15 border border-primary/30 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-primary text-[16px]">auto_awesome</span><i class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-secondary ring-1 ring-[#161310]"></i></span>
+<div class="min-w-0"><b class="text-[11px] truncate block">Кото-Маг</b><p class="text-[9px] text-secondary truncate">LFG · Гроты</p></div>
+</div>
+<div class="col-span-3 text-right"><b class="text-[11px]">54 200</b></div>
+<div class="col-span-2 text-right"><span class="text-[9px] text-secondary font-bold">Онлайн</span></div>
+<div class="col-span-1 flex justify-center"><span class="material-symbols-outlined text-[14px] text-outline">more_vert</span></div>
+</div>
+
+<div class="friend-card grid grid-cols-12 items-center px-2 py-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/25">
+<div class="col-span-6 flex items-center gap-1.5 min-w-0">
+<span class="relative w-8 h-8 rounded-lg bg-secondary/10 border border-secondary/30 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-secondary text-[16px]">shield</span></span>
+<div class="min-w-0"><b class="text-[11px] truncate block">Светохвост</b><p class="text-[9px] text-outline truncate">Двор · 8м назад</p></div>
+</div>
+<div class="col-span-3 text-right"><b class="text-[11px]">49 600</b></div>
+<div class="col-span-2 text-right"><span class="text-[9px] text-outline font-bold">Офф</span></div>
+<div class="col-span-1 flex justify-center"><span class="material-symbols-outlined text-[14px] text-outline">more_vert</span></div>
+</div>
+
+<div class="friend-card grid grid-cols-12 items-center px-2 py-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/25">
+<div class="col-span-6 flex items-center gap-1.5 min-w-0">
+<span class="relative w-8 h-8 rounded-lg bg-[#393430] border border-outline-variant/50 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-outline text-[16px]">nightlight</span><i class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-secondary ring-1 ring-[#161310]"></i></span>
+<div class="min-w-0"><b class="text-[11px] truncate block">Теневой Коготь</b><p class="text-[9px] text-on-surface-variant truncate">Таверна · у бара</p></div>
+</div>
+<div class="col-span-3 text-right"><b class="text-[11px]">45 200</b></div>
+<div class="col-span-2 text-right"><span class="text-[9px] text-secondary font-bold">Онлайн</span></div>
+<div class="col-span-1 flex justify-center"><span class="material-symbols-outlined text-[14px] text-outline">more_vert</span></div>
+</div>
+
+<div class="friend-card grid grid-cols-12 items-center px-2 py-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/25">
+<div class="col-span-6 flex items-center gap-1.5 min-w-0">
+<span class="relative w-8 h-8 rounded-lg bg-primary-container/20 border border-primary/30 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-primary text-[16px]">local_fire_department</span></span>
+<div class="min-w-0"><b class="text-[11px] truncate block">Рыжик-Огнегрив</b><p class="text-[9px] text-outline truncate">15м назад</p></div>
+</div>
+<div class="col-span-3 text-right"><b class="text-[11px]">49 100</b></div>
+<div class="col-span-2 text-right"><span class="text-[9px] text-outline font-bold">Офф</span></div>
+<div class="col-span-1 flex justify-center"><span class="material-symbols-outlined text-[14px] text-outline">more_vert</span></div>
+</div>
+
+<div class="friend-card grid grid-cols-12 items-center px-2 py-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/25">
+<div class="col-span-6 flex items-center gap-1.5 min-w-0">
+<span class="relative w-8 h-8 rounded-lg bg-tertiary/10 border border-tertiary/35 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-tertiary text-[16px]">star</span></span>
+<div class="min-w-0"><b class="text-[11px] truncate block">Звездочёт</b><p class="text-[9px] text-outline truncate">2ч назад</p></div>
+</div>
+<div class="col-span-3 text-right"><b class="text-[11px]">42 100</b></div>
+<div class="col-span-2 text-right"><span class="text-[9px] text-outline font-bold">Офф</span></div>
+<div class="col-span-1 flex justify-center"><span class="material-symbols-outlined text-[14px] text-outline">more_vert</span></div>
+</div>
+</div>
+<div class="flex items-center justify-between pt-1 text-[10px] text-outline flex-shrink-0 border-t border-outline-variant/25"><span>Показано 9 из 24</span><span class="text-primary font-bold">Непрочитанных ЛС: 2</span></div>
+</div>
+
+<aside class="col-span-12 lg:col-span-4 flex flex-col h-full min-h-0 gap-2 overflow-hidden">
+<div class="flex items-center justify-between flex-shrink-0 px-0.5">
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-primary text-[18px]">badge</span><span class="font-bold text-[12px]">Досье друга</span></div>
+<span class="text-[9px] px-1.5 py-0.5 rounded-full bg-error/15 text-error border border-error/30 font-bold">В бою на осаде</span>
+</div>
+<div class="flex gap-2 bg-[#161310] rounded-xl border border-outline-variant/40 p-2 flex-shrink-0">
+<span class="w-16 h-16 rounded-xl bg-primary/20 border-2 border-primary/50 flex items-center justify-center flex-shrink-0 relative"><span class="material-symbols-outlined text-primary text-[28px]">cruelty_free</span><i class="absolute top-1 left-1 text-[8px] bg-black/70 px-1 rounded text-primary font-bold">60</i></span>
+<div class="min-w-0 flex-1">
+<div class="flex items-center gap-1"><b class="text-primary text-[13px] truncate">«Мурр-Оплот»</b><span class="material-symbols-outlined text-primary text-[14px]">verified</span></div>
+<div class="flex flex-wrap gap-1 mt-0.5"><span class="text-[9px] px-1.5 py-0.5 rounded bg-primary-container text-on-primary-container font-bold">Друг с 12 дня</span><span class="text-[9px] px-1.5 py-0.5 rounded bg-[#393430] text-secondary border border-outline-variant/30">Лапка Очага</span></div>
+<p class="text-[10px] text-on-surface-variant mt-1">БМ: <b class="text-primary">62 400</b> · Ур. 60</p>
+</div>
+</div>
+<div class="bg-[#161310] rounded-xl border border-outline-variant/40 p-2 flex-shrink-0">
+<div class="flex justify-between text-[10px] mb-1"><span class="text-outline uppercase font-bold">Боевая тройка</span><span class="text-primary font-bold">Синергия +3</span></div>
+<div class="grid grid-cols-3 gap-1">
+<div class="bg-[#1a1613] rounded-lg p-1.5 text-center border border-outline-variant/25"><span class="w-9 h-9 mx-auto rounded-lg bg-secondary/15 border border-secondary/35 flex items-center justify-center"><span class="material-symbols-outlined text-secondary text-[16px]">landscape</span></span><b class="text-[10px] block mt-0.5 truncate">Камнелап</b><span class="text-[9px] text-outline">Ур.60</span></div>
+<div class="bg-[#1a1613] rounded-lg p-1.5 text-center border border-outline-variant/25"><span class="w-9 h-9 mx-auto rounded-lg bg-primary/15 border border-primary/35 flex items-center justify-center"><span class="material-symbols-outlined text-primary text-[16px]">light_mode</span></span><b class="text-[10px] block mt-0.5 truncate">Светохвост</b><span class="text-[9px] text-outline">Ур.58</span></div>
+<div class="bg-[#1a1613] rounded-lg p-1.5 text-center border border-outline-variant/25"><span class="w-9 h-9 mx-auto rounded-lg bg-tertiary/15 border border-tertiary/35 flex items-center justify-center"><span class="material-symbols-outlined text-tertiary text-[16px]">whatshot</span></span><b class="text-[10px] block mt-0.5 truncate">Когтевей</b><span class="text-[9px] text-outline">Ур.59</span></div>
+</div>
+</div>
+<div class="flex-1 min-h-0 bg-[#161310] rounded-xl border border-outline-variant/40 p-2 flex flex-col gap-1.5 overflow-hidden">
+<div class="flex justify-between text-[10px] flex-shrink-0"><span class="text-outline uppercase font-bold">Совместные походы</span><span class="text-secondary font-bold">Эта неделя</span></div>
+<div class="grid grid-cols-3 gap-1 flex-1 min-h-0">
+<div class="bg-[#1a1613] rounded-lg p-1.5 text-center border border-outline-variant/20 flex flex-col justify-center"><span class="text-[9px] text-outline">Данжи</span><b class="text-primary text-[13px]">7</b></div>
+<div class="bg-[#1a1613] rounded-lg p-1.5 text-center border border-outline-variant/20 flex flex-col justify-center"><span class="text-[9px] text-outline">PvP</span><b class="text-primary text-[13px]">3</b></div>
+<div class="bg-[#1a1613] rounded-lg p-1.5 text-center border border-outline-variant/20 flex flex-col justify-center"><span class="text-[9px] text-outline">Осада</span><b class="text-secondary text-[13px]">2</b></div>
+</div>
+<p class="text-[9px] text-on-surface-variant leading-snug flex-shrink-0">Последнее ЛС: <b class="text-on-surface">«Сбор у врат в 19:50»</b> · 14:22</p>
+</div>
+<div class="grid grid-cols-2 gap-1.5 flex-shrink-0">
+<button type="button" class="py-1.5 rounded-lg bg-primary text-on-primary text-[10px] font-bold flex items-center justify-center gap-1" data-path="chat_global"><span class="material-symbols-outlined text-[14px]">mail</span>Написать ЛС</button>
+<button type="button" class="py-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/30 text-[10px] font-bold flex items-center justify-center gap-1"><span class="material-symbols-outlined text-secondary text-[14px]">group_add</span>В отряд</button>
+<button type="button" class="py-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/30 text-[10px] font-bold flex items-center justify-center gap-1"><span class="material-symbols-outlined text-tertiary text-[14px]">swords</span>Дуэль</button>
+<button type="button" class="py-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/30 text-error text-[10px] font-bold flex items-center justify-center gap-1"><span class="material-symbols-outlined text-[14px]">person_remove</span>Удалить</button>
+</div>
+<button type="button" class="w-full py-2 rounded-xl border border-primary/45 text-primary text-[11px] font-bold flex-shrink-0" data-path="chat_global">Открыть чаты</button>
+</aside>
+</div>
+</main>
 </body>
 </html>

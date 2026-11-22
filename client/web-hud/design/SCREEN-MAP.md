@@ -42,11 +42,15 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | `guild_battle` | `guild_battle.html` | 4da7 root | Война гильдий lobby / башни |
 | `practice` | `practice.html` | practice-dojo-gold + practice-empty-squad | Тренировка lobby · ростер 12 + matchup dummies + отряд L→R **тыл · центр · танк** (танк справа); empty slots = stitch tips |
 | `practice_fight` | `practice_fight.html` | Stitch dojo battle HUD v2 + dummy art | Бой в додзё · dummy cards 2∶3 + VS + 6-card hand · без меню · только Выход (`#pfBack`) |
-| `guild` | `guild.html` | 18c7 `_1` | Зал гильдии (главная) |
+| `guild_hub` | `guild_hub.html` | 18c7 interior + battle-front map | Хаб ордена · 6 пинов (зал / участники / тех / казна / чат / война) |
+| `guild` | `guild.html` | 18c7 + batch3 hall | Зал гильдии (главная) · орден / осада / рейд / очаг |
+| `guild_members` | `guild_members.html` | 18c7 `guild_members` | Участники и состав · реестр + досье |
+| `guild_tech` | `guild_tech.html` | 18c7 `guild_tech` | Развитие и технологии · алтарь + древо |
+| `guild_treasury` | `guild_treasury.html` | 18c7 `guild_treasury` | Казна и задания · подношения + поручения |
 | `pass` | `pass.html` | pass-hearth (Downloads боевой пропуск) | Боевой пасс · сезон / dual-track / claim |
-| `chat_global` | `chat_global.html` | ba17 root | Чаты · одна компоновка (общий) |
-| `chat_guild` | `chat_guild.html` | ba17 root | Чаты · та же компоновка (гильдия) |
-| `chat_friends` | `chat_friends.html` | ba17 root | Чаты · та же компоновка (друзья) |
+| `chat_global` | `chat_global.html` | ba17 chat + guild-shell | Друзья › Чаты · каналы / лента / инспектор |
+| `chat_guild` | `chat_guild.html` | ba17 root | Чаты гильдии · wireframe (под Гильдии) |
+| `chat_friends` | `chat_friends.html` | guild_members pattern | Друзья › Список друзей · ростер + досье |
 | `tavern` | `tavern.html` | 17eb `pve` | Таверна · молоко со льдом + PvE бафф-напитки |
 | `shop` | `shop.html` | 17eb `_2` | Магазин · донат / пасс / ингредиенты / 12 котов / серая броня |
 | `market` | `market.html` | 17eb `_3` | Рынок · инструменты / семена / скупка |
@@ -73,7 +77,7 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | Dungeon / raid / pvp / guild lobby | `stitch-ref/4da7/*.png` |
 | Guild fight HTML+PNG | `stitch-ref/4da7/guild_fight.*` (GvG fight art; live fight uses shared `battle`) |
 | PvP load/fight/victory etalons | `stitch-ref/pvp-battles/{pvp-load,pvp-fight,pvp-victory,arena-*}.png` |
-| Guild members / tech / treasury | `stitch-ref/18c7/guild_{members,tech,treasury}.{html,png}` (+ art PNGs) |
+| Guild members / tech / treasury etalon plates | `stitch-ref/18c7/guild_{members,tech,treasury}.{html,png}` (+ art PNGs) — live routes wired 2026-11-22 |
 | Practice fight screenshot | `stitch-ref/18c7/practice.png` |
 | Practice lobby gold + dummy masters | `stitch-ref/practice-dojo-gold/` (lobby PNG + oak/berserk/totem) |
 | Pass / chat screenshots | `stitch-ref/ba17/pass.png`, `chat.png` |
@@ -97,7 +101,7 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 - Primary **Дом Хранителя**; sub `home` = **Персонаж** (cat + equip + inventory).
 - `formation` inline before fights — **not** a Бои subtab.
 - Home: no on-screen portals (chrome `#appNav` only).
-- Chats: one Stitch layout wired to all three channel subtabs.
+- Friends: `chat_friends` = Список друзей; `chat_global` = Чаты (dense tavern layout). `chat_guild` stays under Гильдии.
 - Ratings: one Stitch layout wired to players + guilds subtabs.
 - Trade hub mock is art-only; primary Торговля opens first subtab (`tavern`).
 
