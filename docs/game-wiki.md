@@ -71,11 +71,11 @@
 | 1 | **Танк A** «Щит-утёс» | tank · hard-def | **Каменный взор** — self shield 6 | **Уши валуна** — ally shield 4 | shield + taunt + bash/poke (`D-035`) |
 | 2 | **Танк B** «Пробой» | tank · pierce | **Трещина взора** — atk 5 pierce · fragile 1 | **Чуткость бреши** — atk 5 pierce | pierce/fragile; backline pierce cost 1 (`D-035`) |
 | 3 | **Боец A** «Парные когти» | fighter · dual+crit | **Искрящий взгляд** — atk 3 ×2 · bleed 2 | **Боевой слух** — atk 4 crit · bleed 1 · ruffle | dual wield + crit; cost 1–2 |
-| 4 | **Боец B** «Двуручный» | fighter · two-hand | **Яростный взор** — atk 8 · bleed 2 (cost 2) | **Рёв стали** — atk 5 · fragile 1 · bleed 1 | heavy single (7–11); 1 backline smash |
+| 4 | **Боец B** «Двуручный» | fighter · two-hand | **Яростный взор** — atk 8 · bleed 2 | **Рёв стали** — atk 5 · fragile 1 · bleed 1 | heavy single (7–11); 1 backline smash; Молот жара cost 2 |
 | 5 | **Ассасин A** «Тень» | assassin · stealth+crit | **Глаза мглы** — atk 3 · stun 1 | **Шёпот ветра** — atk 4 · poison 2 | crit + stealth evade |
 | 6 | **Ассасин B** «Охотник тыла» | assassin · backline | **Прицел в спину** — backline atk 4 crit · poison 2 | **Слух поддержки** — backline atk 3 · stun 1 | all backline + crit |
 | 7 | **Стрелок A** «Охотник» | ranger · lowest_hp | **Глаз добычи** — lowest_hp atk 4 ambush · weak 1 | **Уши засады** — nearest atk 4 ambush · bleed 2 | hunter any-target + crit |
-| 8 | **Стрелок B** «Град стрел» | ranger · AoE | **Широкий взор** — all_enemies atk 2 · weak 1 (cost 2) | **Дальний слух** — lowest_hp atk 4 · bleed 1 | heavy arrows `all_enemies` cost 2 |
+| 8 | **Стрелок B** «Град стрел» | ranger · AoE | **Широкий взор** — all_enemies atk 2 · weak 1 | **Дальний слух** — lowest_hp atk 4 · bleed 1 | heavy arrows `all_enemies` (art gem 1) |
 | 9 | **Маг A** «Огонь» | mage · fire AoE | **Пламенный зрачок** — atk 4 · vuln 1 | **Треск искр** — atk 3 crit · weak 1 | fire AoE + crit + debuff |
 | 10 | **Маг B** «Лёд» | mage · ice control | **Ледяной взор** — atk 3 · stun 1 (cost 2) | **Холодный слух** — atk 3 · weak 2 | ice AoE; freeze=`stun`1 + weak |
 | 11 | **Саппорт A** «Чистый родник» | support · heal/cleanse | **Целительный взгляд** — heal 5 ally_lowest_hp | **Уши очищения** — heal 3 · cleanse | heal + cleanse + 1 smite (`D-035`) |
@@ -198,7 +198,7 @@ Playable SoT = content (`D-035`); арт может показывать ста�
 | muzzle | Парный укус | 1 | 3 ×2 · крит · взъерошить |
 | headwear | Искры-когти | 1 | 3 ×2 · взъерошить |
 | back | Критовсечь | 1 | 4 nearest · крит · взъерошить |
-| tail | Двойной хлыст | 2 | 3 ×2 тыл · крит |
+| tail | Двойной хлыст | 1 | 3 ×2 тыл · крит |
 
 ![Искрящий взгляд](attack-cards/03-fighter-a-parnye-kogti/attack_shop_fighter_fire_a_eyes.png)
 
@@ -216,12 +216,12 @@ Playable SoT = content (`D-035`); арт может показывать ста�
 
 | Part | Карта | cost | Эффект на арте |
 |---|---|---|---|
-| eyes | Яростный взор | 2 | 8 nearest · кровотечение 2 · Порез |
+| eyes | Яростный взор | 1 | 8 nearest · кровотечение 2 · Порез |
 | ears | Рёв стали | 1 | 5 nearest · хрупкость 1 · кровотечение 1 · Увечье/Порез |
-| muzzle | Двуручный удар | 2 | 9 nearest · взъерошить *(batch 4)* |
+| muzzle | Двуручный удар | 1 | 9 nearest · взъерошить *(batch 4)* |
 | headwear | Тяжёлый оскал | 1 | 7 nearest · взъерошить ×2 *(batch 4)* |
 | back | Молот жара | 2 | 11 nearest *(batch 4)* |
-| tail | Тяжёлый хлыст | 2 | 8 тыл · взъерошить *(batch 4)* |
+| tail | Тяжёлый хлыст | 1 | 8 тыл · взъерошить *(batch 4)* |
 
 ![Яростный взор](attack-cards/04-fighter-b-dvuruchnyy/attack_shop_fighter_fire_b_eyes.png)
 
@@ -308,12 +308,12 @@ Playable SoT = content (`D-035`); арт может показывать ста�
 
 | Part | Карта | cost | Эффект на арте |
 |---|---|---|---|
-| eyes | Широкий взор | 2 | 2 всем · слабость 1 · AoE *(batch 2)* |
+| eyes | Широкий взор | 1 | 2 всем · слабость 1 · AoE *(batch 2)* |
 | ears | Дальний слух | 1 | 4 lowest_hp · кровотечение 1 · Порез *(batch 2)* |
-| muzzle | Град стрел | 2 | 4 всем · засада · AoE |
-| headwear | Тяжёлые стрелы | 2 | 3 всем · AoE |
+| muzzle | Град стрел | 1 | 4 всем · засада · AoE |
+| headwear | Тяжёлые стрелы | 1 | 3 всем · AoE |
 | back | Метка слабого | 1 | 5 lowest_hp · засада |
-| tail | Залп по площади | 2 | 4 всем · засада · тыл |
+| tail | Залп по площади | 1 | 4 всем · засада · тыл |
 
 ![Широкий взор](attack-cards/08-ranger-b-grad-strel/attack_shop_ranger_grass_b_eyes.png)
 
@@ -333,9 +333,9 @@ Playable SoT = content (`D-035`); арт может показывать ста�
 |---|---|---|---|
 | eyes | Пламенный зрачок | 1 | 4 nearest · уязвимость 1 |
 | ears | Треск искр | 1 | 5 nearest · крит · слабость 1 |
-| muzzle | Огненный круг | 2 | 3 всем · слабость 1 · AoE *(batch 5)* |
+| muzzle | Огненный круг | 1 | 3 всем · слабость 1 · AoE *(batch 5)* |
 | headwear | Искра-крит | 1 | 4 nearest · крит |
-| back | Волна жара | 2 | 3 всем · крит · AoE |
+| back | Волна жара | 1 | 3 всем · крит · AoE |
 | tail | Ожог тыла | 1 | 5 тыл · уязвимость 1 |
 
 ![Пламенный зрачок](attack-cards/09-mage-a-ogon/attack_shop_mage_fire_a_eyes.png)
@@ -356,10 +356,10 @@ Playable SoT = content (`D-035`); арт может показывать ста�
 |---|---|---|---|
 | eyes | Ледяной взор | 2 | 5 nearest · стан 1 *(batch 3)* |
 | ears | Холодный слух | 1 | 5 nearest · слабость 2 *(batch 3)* |
-| muzzle | Ледяная буря | 2 | 3 всем · AoE |
+| muzzle | Ледяная буря | 1 | 3 всем · AoE |
 | headwear | Морозный укус | 1 | 4 nearest · стан 1 |
-| back | Холодный фронт | 2 | 3 всем · AoE |
-| tail | Заморозка тыла | 2 | 4 тыл · слабость 1 |
+| back | Холодный фронт | 1 | 3 всем · AoE |
+| tail | Заморозка тыла | 1 | 4 тыл · слабость 1 |
 
 ![Ледяной взор](attack-cards/10-mage-b-led/attack_shop_mage_ice_b_eyes.png)
 

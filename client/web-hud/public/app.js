@@ -6323,25 +6323,12 @@ const STARTER_DECK_TEMPLATE = {
   starter_fighter_fire: "shop_fighter_fire_a",
   starter_support_water: "shop_support_water_a",
 };
-/** cost≠1 overrides from content/cards (default 1). */
+/** cost≠1 overrides from content/cards (default 1). Art gem = playable cost. */
 const ATTACK_CARD_COST2 = new Set([
   "card_shop_assassin_bolt_a_tail",
   "card_shop_assassin_bolt_b_tail",
-  "card_shop_fighter_fire_a_tail",
   "card_shop_fighter_fire_b_back",
-  "card_shop_fighter_fire_b_eyes",
-  "card_shop_fighter_fire_b_muzzle",
-  "card_shop_fighter_fire_b_tail",
-  "card_shop_mage_fire_a_back",
-  "card_shop_mage_fire_a_muzzle",
-  "card_shop_mage_ice_b_back",
   "card_shop_mage_ice_b_eyes",
-  "card_shop_mage_ice_b_muzzle",
-  "card_shop_mage_ice_b_tail",
-  "card_shop_ranger_grass_b_eyes",
-  "card_shop_ranger_grass_b_headwear",
-  "card_shop_ranger_grass_b_muzzle",
-  "card_shop_ranger_grass_b_tail",
   "card_shop_support_water_a_back",
   "card_shop_support_water_b_back",
 ]);

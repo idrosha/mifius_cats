@@ -7,29 +7,15 @@ import (
 	"github.com/idrosha/mir_games/battle/internal/content"
 )
 
-// Wiki / D-035 cost snapshot for shop 12-hero kits (playable SoT = content JSON).
-// Cost 2 is intentional for heavy AoE / two-hand / finish tails listed here;
-// everything else in shop_* must be cost 1 (incl. tank B backline pierce tail).
+// Art-gem cost snapshot for shop 12-hero kits (playable SoT = content JSON).
+// Cost 2 only where the plate gem still shows 2; replaced plates with gem 1 are cost 1.
 var wikiShopCost2 = map[string]bool{
-	"card_shop_fighter_fire_a_tail":     true,
-	"card_shop_fighter_fire_b_eyes":     true,
-	"card_shop_fighter_fire_b_muzzle":   true,
-	"card_shop_fighter_fire_b_back":     true,
-	"card_shop_fighter_fire_b_tail":     true,
-	"card_shop_assassin_bolt_a_tail":    true,
-	"card_shop_assassin_bolt_b_tail":    true,
-	"card_shop_ranger_grass_b_eyes":     true,
-	"card_shop_ranger_grass_b_muzzle":   true,
-	"card_shop_ranger_grass_b_headwear": true,
-	"card_shop_ranger_grass_b_tail":     true,
-	"card_shop_mage_fire_a_muzzle":      true,
-	"card_shop_mage_fire_a_back":        true,
-	"card_shop_mage_ice_b_eyes":         true,
-	"card_shop_mage_ice_b_muzzle":       true,
-	"card_shop_mage_ice_b_back":         true,
-	"card_shop_mage_ice_b_tail":         true,
-	"card_shop_support_water_a_back":    true,
-	"card_shop_support_water_b_back":    true,
+	"card_shop_fighter_fire_b_back":  true,
+	"card_shop_assassin_bolt_a_tail": true,
+	"card_shop_assassin_bolt_b_tail": true,
+	"card_shop_mage_ice_b_eyes":      true,
+	"card_shop_support_water_a_back": true,
+	"card_shop_support_water_b_back": true,
 }
 
 func TestShopCardCosts_MatchWikiSnapshot(t *testing.T) {

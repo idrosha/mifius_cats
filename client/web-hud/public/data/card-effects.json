@@ -270,7 +270,7 @@
       "Крит",
       "Взъерошить"
     ],
-    "cost": 2
+    "cost": 1
   },
   "card_shop_fighter_fire_b_back": {
     "name_key": "card.shop_fighter_fire_b_back",
@@ -300,7 +300,7 @@
       "Атака",
       "Кровотечение"
     ],
-    "cost": 2
+    "cost": 1
   },
   "card_shop_fighter_fire_b_headwear": {
     "name_key": "card.shop_fighter_fire_b_headwear",
@@ -320,7 +320,7 @@
       "Атака",
       "Взъерошить"
     ],
-    "cost": 2
+    "cost": 1
   },
   "card_shop_fighter_fire_b_tail": {
     "name_key": "card.shop_fighter_fire_b_tail",
@@ -331,7 +331,7 @@
       "Тыл",
       "Взъерошить"
     ],
-    "cost": 2
+    "cost": 1
   },
   "card_shop_mage_fire_a_back": {
     "name_key": "card.shop_mage_fire_a_back",
@@ -342,7 +342,7 @@
       "Крит",
       "AoE"
     ],
-    "cost": 2
+    "cost": 1
   },
   "card_shop_mage_fire_a_ears": {
     "name_key": "card.shop_mage_fire_a_ears",
@@ -385,7 +385,7 @@
       "AoE",
       "Слабость"
     ],
-    "cost": 2
+    "cost": 1
   },
   "card_shop_mage_fire_a_tail": {
     "name_key": "card.shop_mage_fire_a_tail",
@@ -406,7 +406,7 @@
       "Атака",
       "AoE"
     ],
-    "cost": 2
+    "cost": 1
   },
   "card_shop_mage_ice_b_ears": {
     "name_key": "card.shop_mage_ice_b_ears",
@@ -446,7 +446,7 @@
       "Атака",
       "AoE"
     ],
-    "cost": 2
+    "cost": 1
   },
   "card_shop_mage_ice_b_tail": {
     "name_key": "card.shop_mage_ice_b_tail",
@@ -457,7 +457,7 @@
       "Тыл",
       "Слабость"
     ],
-    "cost": 2
+    "cost": 1
   },
   "card_shop_ranger_grass_a_back": {
     "name_key": "card.shop_ranger_grass_a_back",
@@ -552,7 +552,7 @@
       "AoE",
       "Слабость"
     ],
-    "cost": 2
+    "cost": 1
   },
   "card_shop_ranger_grass_b_headwear": {
     "name_key": "card.shop_ranger_grass_b_headwear",
@@ -562,7 +562,7 @@
       "Атака",
       "AoE"
     ],
-    "cost": 2
+    "cost": 1
   },
   "card_shop_ranger_grass_b_muzzle": {
     "name_key": "card.shop_ranger_grass_b_muzzle",
@@ -573,7 +573,7 @@
       "AoE",
       "Засада"
     ],
-    "cost": 2
+    "cost": 1
   },
   "card_shop_ranger_grass_b_tail": {
     "name_key": "card.shop_ranger_grass_b_tail",
@@ -585,7 +585,7 @@
       "AoE",
       "Засада"
     ],
-    "cost": 2
+    "cost": 1
   },
   "card_shop_support_water_a_back": {
     "name_key": "card.shop_support_water_a_back",
