@@ -1,5 +1,6 @@
 <section id="viewPvpLoad" class="stitch-view mythfel-form hidden" data-stitch="pvp_load" data-layout="landscape">
-<!-- Live PvP ranked duel load. Address: /pvp-load. Soft exits closed; shared fillNav only. MF-148 full-body cats. -->
+<!-- Live PvP ranked duel load. Address: /pvp-load. Soft exits closed; shared fillNav only.
+     Stitch etalon pvp_versus_3v3 / pvp-load.png: cinematic stage + bottom card roster (D-037 framed portraits). -->
 <main class="pvp-load mythfel-form-body" data-purpose="pvp-load" data-purpose-route="pvp-load">
 <div class="pvp-load-stage">
 <img class="pvp-load-art" alt="" src="/stitch-assets/pvp-battles/load-bg.jpg"/>
@@ -8,12 +9,18 @@
 <p class="pvp-load-kicker">⚔ Загрузка PvP боя · Рейтинговая дуэль 3v3 ⚔</p>
 <p class="pvp-load-sync-line"><span class="pvp-load-dot"></span> Синхронизация арены и подбор колод…</p>
 </header>
-<!-- MF-148: full-body heroes on arena (no card plates). -->
-<div class="battle-load-roster" data-purpose="load-roster">
-<div class="battle-load-side is-ally" id="pvpLoadAllyFigures"></div>
-<div class="battle-load-vs-gap" aria-hidden="true"><span>VS</span></div>
-<div class="battle-load-side is-enemy" id="pvpLoadEnemyFigures"></div>
-</div>
+<aside class="pvp-load-banner is-ally" id="pvpLoadAllyBanner">
+<span class="pvp-load-banner-label">Союзный отряд</span>
+<strong id="pvpLoadAllyName">«Мурр-Оплот»</strong>
+<em id="pvpLoadAllyBm">18 450 БМ</em>
+<small>Хранитель: Миурицио</small>
+</aside>
+<aside class="pvp-load-banner is-enemy" id="pvpLoadEnemyBanner">
+<span class="pvp-load-banner-label">Соперник</span>
+<strong id="pvpLoadEnemyName">«Свора Гладиаторов»</strong>
+<em id="pvpLoadEnemyBm">17 980 БМ</em>
+<small>Хранитель: Клык</small>
+</aside>
 <div class="pvp-load-vs">
 <span class="pvp-load-vs-mark">VS</span>
 <div>
@@ -23,36 +30,24 @@
 <span class="pvp-load-arena-pct">Арена: <b id="pvpLoadArenaPct">0%</b></span>
 </div>
 </div>
-<div class="pvp-load-teams pvp-load-teams--meta">
+<div class="pvp-load-teams">
 <section class="pvp-load-team is-ally" id="pvpLoadAlly">
 <header>
-<span class="pvp-load-badge">Вы</span>
-<div>
-<strong>«Мурр-Оплот»</strong>
-<em>Союзный отряд</em>
-</div>
-<b>Мощь: 18 450</b>
+<span class="pvp-load-build-label"><i></i>Сборка команды</span>
+<span class="pvp-load-syn is-ally">Плазма &amp; Пар (+25% урона)</span>
 </header>
-<ul id="pvpLoadAllyList" class="pvp-load-names"></ul>
-<footer>
-<span>Синергия: Плазма &amp; Пар (+25% урона)</span>
-<em>Хранитель: Миурицио</em>
-</footer>
+<ul id="pvpLoadAllyList"></ul>
 </section>
+<div class="pvp-load-mid" aria-hidden="true">
+<span>3×3</span>
+<b>Арена</b>
+</div>
 <section class="pvp-load-team is-enemy" id="pvpLoadEnemy">
 <header>
-<span class="pvp-load-badge">Враг</span>
-<div>
-<strong>«Свора Гладиаторов»</strong>
-<em>Соперники</em>
-</div>
-<b>Мощь: 17 980</b>
+<span class="pvp-load-syn is-enemy">Кровавый Шторм (+15% крита)</span>
+<span class="pvp-load-build-label"><i></i>Сборка врага</span>
 </header>
-<ul id="pvpLoadEnemyList" class="pvp-load-names"></ul>
-<footer>
-<em>Хранитель: Клык</em>
-<span>Синергия: Кровавый Шторм (+15% крита)</span>
-</footer>
+<ul id="pvpLoadEnemyList"></ul>
 </section>
 </div>
 <footer class="pvp-load-foot">

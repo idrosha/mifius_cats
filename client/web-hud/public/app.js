@@ -9943,12 +9943,17 @@ function pvpRosterEntry(templateId) {
   const el = practiceElementOf(hero || { templateId }) || meta.element || "";
   const roleRu = hero?.roleRu || CAT_ROLE_RU[role] || role;
   const elRu = CAT_ELEMENT_RU[el] || el;
+  const hp = Number(hero?.hp) || 30;
   return {
     templateId,
     name: hero?.short || hero?.name || catSheetName({ templateId }),
+    fullName: hero?.name || catSheetName({ templateId }),
     role: elRu ? `${roleRu} · ${elRu}` : roleRu,
+    roleRu,
     roleKey: role,
-    hp: `${hero?.hp || 30} HP`,
+    lvl: hero?.lvl || 1,
+    hp,
+    hpLabel: `${hp} HP`,
     art: catHeroArt(templateId) || "/stitch-assets/cat-heroes/fighter-a.webp?v=opt1",
     bm: hero?.bm || 4500,
   };
@@ -9999,23 +10004,6 @@ function desiredFaceFromArtSrc(src) {
   return "right";
 }
 
-/** MF-148: full-body load sprite (transparent art, no card plate). */
-function battleLoadFigureHtml({ art, name, role, side }) {
-  const safeName = String(name || "").replace(/"/g, "&quot;");
-  const safeRole = String(role || "");
-  const src = art || "";
-  // D-047: load roster uses column side (ally left → face right; enemy right → face left).
-  const face = side === "enemy" ? "left" : "right";
-  const img = spriteFaceHtml(`<img alt="${safeName}" src="${src}"/>`, {
-    artSrc: src,
-    desiredFace: face,
-  });
-  return `<figure class="battle-load-figure is-${side === "enemy" ? "enemy" : "ally"}">
-${img}
-<figcaption><b>${safeName}</b>${safeRole ? `<small>${safeRole}</small>` : ""}</figcaption>
-</figure>`;
-}
-
 function pvpLoadRosters() {
   ensurePvpSquad();
   if (!Array.isArray(state.pvpOpponentTeam) || state.pvpOpponentTeam.length !== 3) {
@@ -10030,42 +10018,47 @@ function pvpLoadRosters() {
   };
 }
 
+/** Stitch pvp_versus_3v3 card plate (framed portrait + role + HP). D-037: load uses studio art. */
+function pvpLoadCardHtml(c) {
+  const safeName = String(c.fullName || c.name || "").replace(/"/g, "&quot;");
+  const role = String(c.roleRu || c.role || "").replace(/</g, "");
+  const src = c.art || "";
+  const lvl = c.lvl || 1;
+  const hp = Number(c.hp) || 0;
+  return `<li>
+<figure>
+<img alt="${safeName}" src="${src}"/>
+<span class="pvp-load-role">${role}</span>
+<span class="pvp-load-lvl">${lvl}</span>
+</figure>
+<b title="${safeName}">${c.name || safeName}</b>
+<div class="pvp-load-hp"><span>HP</span><em>${formatSheetNum(hp)}</em></div>
+<div class="pvp-load-hp-bar" aria-hidden="true"><i></i></div>
+</li>`;
+}
+
 function renderPvpLoad() {
   const ally = $("pvpLoadAllyList");
   const enemy = $("pvpLoadEnemyList");
-  const allyFigs = $("pvpLoadAllyFigures");
-  const enemyFigs = $("pvpLoadEnemyFigures");
   const { ally: allyRoster, foe: foeRoster } = pvpLoadRosters();
-  const nameRow = (c) => `<li>
-    <b>${c.name}</b>
-    <small>${c.role}</small>
-    <em class="hp">${c.hp}</em>
-  </li>`;
-  if (ally) ally.innerHTML = allyRoster.map(nameRow).join("");
-  if (enemy) enemy.innerHTML = foeRoster.map(nameRow).join("");
-  if (allyFigs) {
-    allyFigs.innerHTML = allyRoster
-      .map((c) => battleLoadFigureHtml({ art: c.art, name: c.name, role: c.role, side: "ally" }))
-      .join("");
-  }
-  if (enemyFigs) {
-    enemyFigs.innerHTML = foeRoster
-      .map((c) => battleLoadFigureHtml({ art: c.art, name: c.name, role: c.role, side: "enemy" }))
-      .join("");
-  }
-  const allyHead = $("pvpLoadAlly")?.querySelector("header div strong");
-  const foeHead = $("pvpLoadEnemy")?.querySelector("header div strong");
-  if (allyHead) allyHead.textContent = `«${pvpActiveSquadName()}»`;
-  if (foeHead) foeHead.textContent = `«${state.pvpOpponentName || "Свора Гладиаторов"}»`;
-  const allyBm = $("pvpLoadAlly")?.querySelector("header > b");
-  const foeBm = $("pvpLoadEnemy")?.querySelector("header > b");
+  if (ally) ally.innerHTML = allyRoster.map(pvpLoadCardHtml).join("");
+  if (enemy) enemy.innerHTML = foeRoster.map(pvpLoadCardHtml).join("");
   const sumBm = (rows) => rows.reduce((n, c) => n + (c.bm || 0), 0);
-  if (allyBm) allyBm.textContent = `Мощь: ${formatSheetNum(sumBm(allyRoster))}`;
-  if (foeBm) foeBm.textContent = `Мощь: ${formatSheetNum(sumBm(foeRoster))}`;
+  const allyName = `«${pvpActiveSquadName()}»`;
+  const foeName = `«${state.pvpOpponentName || "Свора Гладиаторов"}»`;
+  const allyBmTxt = `${formatSheetNum(sumBm(allyRoster))} БМ`;
+  const foeBmTxt = `${formatSheetNum(sumBm(foeRoster))} БМ`;
+  const setText = (id, text) => {
+    const el = $(id);
+    if (el) el.textContent = text;
+  };
+  setText("pvpLoadAllyName", allyName);
+  setText("pvpLoadEnemyName", foeName);
+  setText("pvpLoadAllyBm", allyBmTxt);
+  setText("pvpLoadEnemyBm", foeBmTxt);
   bindPvpLoad();
   if (!state.pvpLoadTimer) startPvpLoadSync();
 }
-
 function startPvpLoadSync() {
   clearInterval(state.pvpLoadTimer);
   setPvpLoadProgress(0);
