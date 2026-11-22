@@ -7271,10 +7271,10 @@ const SCREEN_BG = {
   yard: `/stitch-assets/yard/meowkara-mines-bg.webp?v=${STITCH_ASSET_V}`,
   dojo: `/stitch-ref/e608/arena_dojo.webp?v=${STITCH_ASSET_V}`,
   dojoLoad: `/stitch-assets/dojo/practice-load-arena.webp?v=${STITCH_ASSET_V}`,
-  pvpLoad: `/stitch-assets/pvp-battles/load-bg.png?v=${STITCH_ASSET_V}`,
+  pvpLoad: `/stitch-assets/pvp-battles/load-bg.jpg?v=${STITCH_ASSET_V}`,
   pveVictory: `/stitch-assets/pve-victory/bg.webp?v=${STITCH_ASSET_V}`,
   victoryHall: `/stitch-ref/e608/victory_hall.webp?v=${STITCH_ASSET_V}`,
-  arenaInterior: `/stitch-assets/pvp-battles/fight-bg.png?v=${STITCH_ASSET_V}`,
+  arenaInterior: `/stitch-assets/pvp-battles/fight-bg.jpg?v=${STITCH_ASSET_V}`,
   pvpVictory: `/stitch-assets/pvp-battles/victory-hall.jpg?v=${STITCH_ASSET_V}`,
 };
 
