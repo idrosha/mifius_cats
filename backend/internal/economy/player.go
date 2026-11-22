@@ -20,6 +20,14 @@ type Player struct {
 	// LastRefillUTCDate — последний UTC-день рефилла ("2006-01-02"). Не в §7.5 списке,
 	// но нужен для §8.3 daily refill без выдуманной TZ-логики (§16: UTC).
 	LastRefillUTCDate string
+
+	// Кооп-данжи (docs/dungeons-coop-3.md) — server SoT stub; HUD may mirror.
+	DungeonKeys        map[string]int  // dungeonId → keys
+	DungeonKeysSeeded  bool
+	DungeonFirstClear  map[string]bool
+	DungeonRares       []string
+	DungeonMats        map[string]int
+	DungeonRuns        int
 }
 
 // CatInstance — FULL-SPEC §7.1 (хранилище; сборка боя — вне этого пакета).

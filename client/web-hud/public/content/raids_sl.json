@@ -1,0 +1,79 @@
+{
+  "version": 1,
+  "partySize": 12,
+  "minRaidPlayers": 12,
+  "raids": [
+    {
+      "raidId": "myaurra",
+      "title_ru": "Небесный Двор Мяурры",
+      "faction": "solar_lions",
+      "bossStageId": "raid_myaurra_boss",
+      "bossTemplateId": "bot_pitboss_myaurra",
+      "paths": {
+        "short": {
+          "label_ru": "Короткий · Золотой Коридор",
+          "etaMin": [18, 22],
+          "bossProfile": "hard",
+          "bossStacks": 2,
+          "nodes": ["raid_myaurra_a", "raid_myaurra_b", "raid_myaurra_boss"]
+        },
+        "long": {
+          "label_ru": "Длинный · Архив + Башни",
+          "etaMin": [26, 30],
+          "bossProfile": "normal",
+          "bossStacks": 0,
+          "nodes": ["raid_myaurra_a", "raid_myaurra_c", "raid_myaurra_boss"],
+          "pathOnlyLoot": ["seal_pride_cleared"]
+        }
+      }
+    },
+    {
+      "raidId": "talass",
+      "title_ru": "Бездна Шепчущих Усов",
+      "faction": "deep_lynxes",
+      "bossStageId": "raid_talass_boss",
+      "bossTemplateId": "bot_pitboss_talass",
+      "paths": {
+        "short": {
+          "label_ru": "Короткий · Прямой Разлом",
+          "etaMin": [17, 21],
+          "bossProfile": "hard",
+          "bossStacks": 2,
+          "nodes": ["raid_talass_a", "raid_talass_b", "raid_talass_boss"]
+        },
+        "long": {
+          "label_ru": "Длинный · Шлюзы + Маяки",
+          "etaMin": [25, 30],
+          "bossProfile": "normal",
+          "bossStacks": 0,
+          "nodes": ["raid_talass_a", "raid_talass_c", "raid_talass_boss"],
+          "pathOnlyLoot": ["beacon_shard"]
+        }
+      }
+    },
+    {
+      "raidId": "vulcan",
+      "title_ru": "Пепельный Трон Девяти Хвостов",
+      "faction": "kitsune_ash",
+      "bossStageId": "raid_vulcan_boss",
+      "bossTemplateId": "bot_pitboss_vulcan",
+      "paths": {
+        "short": {
+          "label_ru": "Короткий · Зеркальный Коридор",
+          "etaMin": [19, 22],
+          "bossProfile": "hard",
+          "bossStacks": 2,
+          "nodes": ["raid_vulcan_a", "raid_vulcan_b", "raid_vulcan_boss"]
+        },
+        "long": {
+          "label_ru": "Длинный · Галерея Хвостов",
+          "etaMin": [27, 30],
+          "bossProfile": "normal",
+          "bossStacks": 0,
+          "nodes": ["raid_vulcan_a", "raid_vulcan_c", "raid_vulcan_boss"],
+          "pathOnlyLoot": ["ash_eight_masks"]
+        }
+      }
+    }
+  ]
+}

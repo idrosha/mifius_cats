@@ -366,6 +366,25 @@
         "pve_fatigue_stub": {
           "type": "boolean",
           "description": "§4.1 / D-039 SL stub: tip + timer only, do not hard-block CreatePvE"
+        },
+        "raid_attempts_weekly": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Raid/legion boss attempts per week (docs/raids)"
+        },
+        "raid_weekly_lock": {
+          "type": "boolean",
+          "description": "Weekly lock on raid boss loot after claim"
+        },
+        "raid_soft_wipe_cap": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Soft wipe cap before temporary raid lock (minutes handled client/LiveOps)"
+        },
+        "battle_turn_sec": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Player turn countdown seconds in fight HUD (LOCKED 60 · docs/raids/COMPOSITION.md)"
         }
       }
     },

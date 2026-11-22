@@ -139,6 +139,7 @@ const STITCH_SRC = [
   "result_win.html",
   "boss_dungeon.html",
   "boss_raid.html",
+  "raid_battle.html",
   "pvp.html",
   "pvp_load.html",
   "pvp_fight.html",
@@ -697,6 +698,51 @@ for (const id of ["equip_cards", "result_lose", "soon_clan"]) {
       !new RegExp(`data-stitch="${id}"[^>]*data-placeholder="1"`).test(html),
   );
 }
+
+ok("raid battle turn 60s", js.includes("BATTLE_TURN_TIMER_SEC = 60"));
+ok(
+  "raid comp 3T/3S/6DPS with subs",
+  js.includes("tankSubs: { aggro: 2, armorBreak: 1 }") &&
+    js.includes("supportSubs: { heal: 2, buffer: 1 }") &&
+    js.includes("function buildRaidLegionRoster") &&
+    js.includes("function validateRaidComposition") &&
+    js.includes("c.ranged >= RAID_COMP.dpsSubs.ranged") &&
+    js.includes("function raidFormationSnapshot") &&
+    js.includes("function raidCombatWingIds"),
+);
+ok(
+  "raid formation 4×3 rear→front",
+  js.includes("Тыл · саппорты") &&
+    js.includes("Даль · маги/лучники") &&
+    js.includes("Мили · убийцы/воины") &&
+    js.includes("Фронт · танки") &&
+    html.includes('data-raid-legion-board="1"') &&
+    html.includes("data-raid-role-chips") &&
+    html.includes('id="viewRaidBattle"') &&
+    html.includes("data-raid-battle-board") &&
+    html.includes("ЛЕГИОН 12 КОТИКОВ") &&
+    js.includes("function renderRaidBattleStub") &&
+    js.includes("РЯД 4: САППОРТ"),
+);
+ok(
+  "raid_battle stitch vendored",
+  fs.existsSync(path.join(DESIGN, "stitch-src", "raid_battle.html")) &&
+    !/lh3\.googleusercontent\.com/.test(
+      fs.readFileSync(path.join(DESIGN, "stitch-src", "raid_battle.html"), "utf8"),
+    ),
+);
+ok("raid lobby no stale Tank 1/2", !html.includes("Танк 1/2") && !html.includes("ДД 1/7"));
+ok("raid lobby needs 12", html.includes("нужно ровно 12"));
+ok("dungeon solo test stub", js.includes("function enableDungeonSoloTestStub") && js.includes("dungeonSoloStub"));
+ok("dungeon party ready helper", js.includes("function dungeonPartyReadyForStart"));
+ok(
+  "path vote in battle not lobby",
+  js.includes("function openRaidPathVote") &&
+    js.includes("function resolveRaidPathVote") &&
+    js.includes("function openDungeonPathVote") &&
+    html.includes("data-dungeon-path-hint") &&
+    !html.includes('data-dungeon-path="short"'),
+);
 
 let httpOk = false;
 try {

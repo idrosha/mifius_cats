@@ -8,6 +8,7 @@ import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { handleDungeonDevApi } from "./dungeon-dev-api.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC = path.join(__dirname, "public");
@@ -298,6 +299,10 @@ const server = http.createServer(async (req, res) => {
     send(res, 200, grantStarterKit(userId, { testRoster }), {
       "Content-Type": "application/json; charset=utf-8",
     });
+    return;
+  }
+
+  if (await handleDungeonDevApi(req, res, send, REPO)) {
     return;
   }
 

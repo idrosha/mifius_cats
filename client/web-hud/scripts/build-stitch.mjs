@@ -39,6 +39,8 @@ const SCREENS = [
   { id: "pve_victory", file: "pve_victory.html", view: "viewPveVictory" },
   { id: "boss_dungeon", file: "boss_dungeon.html", view: "viewBossDungeon" },
   { id: "boss_raid", file: "boss_raid.html", view: "viewBossRaid" },
+  // Raid legion-12 in-battle formation (Stitch mythfel mobile pack)
+  { id: "raid_battle", file: "raid_battle.html", view: "viewRaidBattle" },
   { id: "pvp", file: "pvp.html", view: "viewPvp" },
   // PvE campaign battle load — chapter-dependent backdrop (MF-151)
   { id: "pve_load", file: "pve_load.html", view: "viewPveLoad" },

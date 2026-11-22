@@ -128,7 +128,11 @@
     "pass_multiplier": 2,
     "pve_unlock_n": 3,
     "pve_fatigue_sec": 420,
-    "pve_fatigue_stub": true
+    "pve_fatigue_stub": true,
+    "raid_attempts_weekly": 3,
+    "raid_weekly_lock": true,
+    "raid_soft_wipe_cap": 5,
+    "battle_turn_sec": 60
   },
   "pity": {
     "soft": 50,

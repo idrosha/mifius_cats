@@ -1,0 +1,543 @@
+<section id="viewRaidBattle" class="stitch-view mythfel-form hidden" data-stitch="raid_battle" data-layout="landscape" data-purpose="raid-battle-12">
+<!-- Stitch: legion 12 formation fight · no site #appNav chrome (D-025) -->
+<main class="w-full bg-surface relative overflow-hidden raid-battle-12-stage" data-raid-battle-root="1">
+<!-- BATTLEFIELD VIEWPORT (FULL-BLEED CINEMATIC 16:9 CAVERN ARENA) -->
+<div class="relative w-full min-h-[calc(100vh-4rem)] flex flex-col justify-between bg-surface-container-lowest overflow-hidden">
+<!-- BACKGROUND CAVERN ARTWORK WITH ATMOSPHERIC VIGNETTE & RUNES -->
+<div class="absolute inset-0 z-0 bg-cover bg-center pointer-events-none" style="background-image: url(&quot;/stitch-assets/monsters/battle/myaurra-pitboss-cutout.png?v=raid1);">
+<div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/40 to-surface-container-lowest/90"></div>
+<div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-surface/60 to-surface-container-lowest/95"></div>
+<!-- Ambient Torch & Rune Light Spots -->
+<div class="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-primary/10 blur-3xl"></div>
+<div class="absolute top-1/3 right-1/4 w-80 h-80 rounded-full bg-tertiary-container/15 blur-3xl"></div>
+</div>
+<!-- TOP BATTLE HUD (TACTICAL BOSS BAR & COMBAT CONTROLS) -->
+<header class="relative z-20 w-full px-margin md:px-margin-tablet pt-space-md pb-space-xs flex flex-col md:flex-row items-center justify-between gap-space-sm bg-gradient-to-b from-surface-container-lowest via-surface-container-lowest/85 to-transparent">
+<!-- Left: Dungeon Sector / Round Indicator -->
+<div class="flex items-center gap-space-md w-full md:w-auto justify-between md:justify-start">
+<div class="flex flex-col">
+<div class="flex items-center gap-space-xs">
+<span class="inline-flex items-center justify-center w-2 h-2 rounded-full bg-tertiary animate-pulse"></span>
+<span class="font-label-sm text-label-sm uppercase tracking-wider text-primary" data-raid-battle-sector="1">КАТАКОМБЫ ПСОВ · ФИНАЛ</span>
+</div>
+<div class="flex items-center gap-space-xs mt-0.5">
+<span class="font-headline-md text-headline-md text-on-surface" data-raid-battle-round="1">РАУНД 2</span>
+<span class="font-body-sm text-body-sm text-on-surface-variant font-bold" data-raid-battle-phase="1">/ ХОД ИГРОКА</span>
+</div>
+</div>
+<!-- Turn countdown timer badge -->
+<div class="flex items-center gap-space-xs px-space-md py-1 rounded-full bg-surface-container-high shadow-md">
+<span class="material-symbols-outlined text-primary text-[18px]">hourglass_top</span>
+<span class="font-stat-numeral text-stat-numeral text-primary" id="raidBattleTimer" data-raid-battle-timer="1">1:00</span>
+</div>
+</div>
+<!-- Center: Massive Boss Tactical Tracker -->
+<div class="flex flex-col items-center max-w-xl w-full px-space-sm">
+<div class="flex items-center justify-between w-full mb-1">
+<div class="flex items-center gap-space-xs">
+<div class="w-7 h-7 rounded-lg overflow-hidden bg-surface-container-highest shadow-inner flex items-center justify-center">
+<img alt="Мяурра Триумфальная" class="w-full h-full object-cover" src="/stitch-assets/monsters/battle/myaurra-pitboss-cutout.png?v=raid1">
+</div>
+<div class="flex flex-col">
+<span class="font-label-lg text-label-lg text-tertiary leading-tight" data-raid-battle-boss-name="1">МЯУРРА ТРИУМФАЛЬНАЯ</span>
+<span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-wider" data-raid-battle-boss-sub="1">Пит-Босс Уровня 5 · Невосприимчив к стану</span>
+</div>
+</div>
+<div class="flex items-center gap-space-sm">
+<div class="flex items-center gap-0.5 px-space-xs py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-label-sm">
+<span class="material-symbols-outlined text-[14px]">shield</span> 3,500
+            </div>
+<span class="font-stat-numeral text-stat-numeral text-on-surface" data-raid-battle-boss-hp="1">145,000 <span class="font-body-sm text-body-sm text-on-surface-variant font-normal">/ 180,000</span></span>
+</div>
+</div>
+<!-- Boss HP Bar with Enrage Timer -->
+<div class="relative w-full h-3.5 bg-surface-container-highest rounded-full overflow-hidden shadow-inner">
+<div class="absolute inset-0 bg-gradient-to-r from-tertiary-container via-tertiary to-primary-container h-full rounded-full transition-all duration-500" data-raid-battle-boss-bar="1" style="width: 80.5%;"></div>
+<div class="absolute inset-0 bg-repeat-x opacity-20" style="background-image: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.5) 10px, rgba(0,0,0,0.5) 20px);"></div>
+</div>
+<div class="flex items-center justify-between w-full mt-1">
+<span class="font-label-sm text-label-sm text-tertiary-fixed flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">local_fire_department</span> <span data-raid-battle-rage="1">Ярость босса через: 3 хода</span>
+          </span>
+<span class="font-label-sm text-label-sm text-on-surface-variant">Цель захвачена всеми котиками</span>
+</div>
+</div>
+<!-- Right: Combat Tactical Controls -->
+<div class="flex items-center gap-space-xs">
+<button class="px-space-md py-1 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-md text-label-md transition-colors flex items-center gap-1 shadow-sm" id="speed-btn">
+<span class="material-symbols-outlined text-primary text-[16px]">fast_forward</span>
+<span id="speed-val">2X</span>
+</button>
+<button class="px-space-md py-1 rounded-lg bg-primary-container text-on-primary font-label-md text-label-md flex items-center gap-1 shadow-sm" id="auto-btn">
+<span class="material-symbols-outlined text-[16px]">smart_toy</span>
+<span>АВТО [ВКЛ]</span>
+</button>
+<button class="w-8 h-8 rounded-lg bg-surface-container-high flex items-center justify-center text-on-surface hover:text-primary transition-colors">
+<span class="material-symbols-outlined text-[18px]">volume_up</span>
+</button>
+<button class="px-space-md py-1 rounded-lg bg-surface-container hover:bg-error-container hover:text-on-error-container text-on-surface-variant font-label-md text-label-md transition-colors" data-hud-action="raid-battle-back">
+          К лобби
+        </button>
+<button class="px-space-md py-1 rounded-lg bg-surface-container-high hover:bg-surface-bright text-on-surface font-label-md text-label-md transition-colors shadow-sm" data-hud-action="raid-battle-form">Строй</button>
+</div>
+</header>
+<!-- CENTER COMBAT ARENA: 12-FELINE LEGION (LEFT) VS APEX BOSS & GUARDS (RIGHT) -->
+<main class="relative z-10 flex-1 w-full px-margin md:px-margin-tablet py-space-xs flex flex-col lg:flex-row items-center justify-between gap-space-md">
+<!-- LEFT FORMATION: 12 FELINE LEGION (STRICT ORDER: 4 RANKS) -->
+<div class="flex-1 w-full lg:max-w-[62%] flex flex-col gap-1.5">
+<!-- ROW HEADER OVERVIEW TABS -->
+<div class="flex items-center justify-between px-space-xs text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-space-md">
+<span class="text-primary font-bold">ЛЕГИОН 12 КОТИКОВ</span>
+<span class="hidden sm:inline">РЯД 4: ТЫЛ → РЯД 3: ДАЛЬНИЙ БОЙ → РЯД 2: ШТУРМ → РЯД 1: АВАНГАРД</span>
+</div>
+<span class="text-secondary font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">shield</span> Общий щит: 1,850
+          </span>
+</div>
+<!-- 4-ROW TACTICAL GRID (STAGGERED COMPACT BATTLE CARDS) -->
+<div class="grid grid-cols-4 gap-1.5 sm:gap-2" data-raid-battle-board="1" id="raidBattleLegionGrid">
+<p class="sr-only" data-raid-battle-meta="1"></p>
+<p class="sr-only" data-raid-battle-note="1"></p>
+<p class="sr-only" data-raid-battle-wing="1"></p>
+<img class="hidden" alt="" data-raid-battle-boss-icon="1" src="/stitch-assets/monsters/battle/myaurra-pitboss-cutout.png?v=raid1"/>
+<!-- ============================================== -->
+<!-- РЯД 4: ТЫЛ / САППОРТЫ (3 КОТИКА)                -->
+<!-- ============================================== -->
+<div class="flex flex-col gap-1.5">
+<div class="px-space-xs py-0.5 rounded bg-surface-container-high/90 text-center font-label-sm text-label-sm text-secondary-fixed">
+              РЯД 4: САППОРТ
+            </div>
+<!-- Саппорт 1: Мурка Родник -->
+<div class="relative bg-surface-container/95 rounded-xl p-1.5 shadow-md flex flex-col justify-between h-32 hover:scale-[1.02] transition-transform cursor-pointer group">
+<div class="absolute -top-1 -left-1 px-1.5 py-0.2 rounded-full bg-secondary-container text-on-secondary font-label-sm text-[9px] uppercase font-bold z-10">Саппорт</div>
+<div class="relative w-full h-16 rounded-lg bg-surface-container-lowest overflow-hidden flex items-end justify-center">
+<img alt="Мурка Родник" class="h-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform" src="/stitch-assets/monsters/battle/myaurra-pitboss-cutout.png?v=raid1">
+<div class="absolute top-1 right-1 px-1 rounded bg-secondary-container text-on-secondary font-label-sm text-[8px] leading-tight">+200 Хил</div>
+</div>
+<div class="flex flex-col mt-1">
+<span class="font-label-md text-[11px] font-bold text-on-surface truncate leading-tight">Мурка Родник</span>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden mt-1">
+<div class="bg-secondary h-full rounded-full" style="width: 92%;"></div>
+</div>
+<div class="flex items-center justify-between text-[9px] font-label-sm text-on-surface-variant mt-0.5">
+<span class="text-secondary font-bold">2,480 HP</span>
+<span class="text-primary-fixed">Мана 100%</span>
+</div>
+</div>
+</div>
+<!-- Саппорт 2: Аурелия Прилив Сил -->
+<div class="relative bg-surface-container/95 rounded-xl p-1.5 shadow-md flex flex-col justify-between h-32 hover:scale-[1.02] transition-transform cursor-pointer group">
+<div class="absolute -top-1 -left-1 px-1.5 py-0.2 rounded-full bg-secondary-container text-on-secondary font-label-sm text-[9px] uppercase font-bold z-10">Буфер</div>
+<div class="relative w-full h-16 rounded-lg bg-surface-container-lowest overflow-hidden flex items-end justify-center">
+<img alt="Аурелия Прилив Сил" class="h-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform" src="/stitch-assets/cat-heroes/mage-a.webp?v=opt1">
+<div class="absolute top-1 right-1 px-1 rounded bg-primary-container text-on-primary font-label-sm text-[8px] leading-tight">+15% Атк</div>
+</div>
+<div class="flex flex-col mt-1">
+<span class="font-label-md text-[11px] font-bold text-on-surface truncate leading-tight">Аурелия Сил</span>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden mt-1">
+<div class="bg-secondary h-full rounded-full" style="width: 85%;"></div>
+</div>
+<div class="flex items-center justify-between text-[9px] font-label-sm text-on-surface-variant mt-0.5">
+<span class="text-secondary font-bold">2,150 HP</span>
+<span class="text-primary-fixed">Бафф Готов</span>
+</div>
+</div>
+</div>
+<!-- Саппорт 3: Каменный Тотем -->
+<div class="relative bg-surface-container/95 rounded-xl p-1.5 shadow-md flex flex-col justify-between h-32 hover:scale-[1.02] transition-transform cursor-pointer group">
+<div class="absolute -top-1 -left-1 px-1.5 py-0.2 rounded-full bg-secondary-container text-on-secondary font-label-sm text-[9px] uppercase font-bold z-10">Тотем</div>
+<div class="relative w-full h-16 rounded-lg bg-surface-container-lowest overflow-hidden flex items-end justify-center">
+<img alt="Каменный Тотем" class="h-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform" src="/stitch-assets/cat-heroes/mage-b.webp?v=opt1">
+<div class="absolute top-1 right-1 px-1 rounded bg-secondary-container text-on-secondary font-label-sm text-[8px] leading-tight">Аура Регена</div>
+</div>
+<div class="flex flex-col mt-1">
+<span class="font-label-md text-[11px] font-bold text-on-surface truncate leading-tight">Каменный Тотем</span>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden mt-1">
+<div class="bg-secondary h-full rounded-full" style="width: 100%;"></div>
+</div>
+<div class="flex items-center justify-between text-[9px] font-label-sm text-on-surface-variant mt-0.5">
+<span class="text-secondary font-bold">3,600 HP</span>
+<span class="text-secondary-fixed">Стойкость</span>
+</div>
+</div>
+</div>
+</div>
+<!-- ============================================== -->
+<!-- РЯД 3: ДАЛЬНИЙ БОЙ / МАГИ И СТРЕЛКИ (3 КОТИКА)  -->
+<!-- ============================================== -->
+<div class="flex flex-col gap-1.5">
+<div class="px-space-xs py-0.5 rounded bg-surface-container-high/90 text-center font-label-sm text-label-sm text-primary">
+              РЯД 3: МАГИ/ЛУК
+            </div>
+<!-- Маг 1: Игниус Пламя -->
+<div class="relative bg-surface-container/95 rounded-xl p-1.5 shadow-md flex flex-col justify-between h-32 hover:scale-[1.02] transition-transform cursor-pointer group">
+<div class="absolute -top-1 -left-1 px-1.5 py-0.2 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-[9px] uppercase font-bold z-10">Маг Огня</div>
+<div class="relative w-full h-16 rounded-lg bg-surface-container-lowest overflow-hidden flex items-end justify-center">
+<img alt="Игниус Пламя" class="h-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform" src="/stitch-assets/cat-heroes/assassin-a.webp?v=opt1">
+<div class="absolute top-1 right-1 px-1 rounded bg-tertiary-container text-on-tertiary font-label-sm text-[8px] leading-tight">Горение +3</div>
+</div>
+<div class="flex flex-col mt-1">
+<span class="font-label-md text-[11px] font-bold text-on-surface truncate leading-tight">Игниус Пламя</span>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden mt-1">
+<div class="bg-secondary h-full rounded-full" style="width: 78%;"></div>
+</div>
+<div class="flex items-center justify-between text-[9px] font-label-sm text-on-surface-variant mt-0.5">
+<span class="text-secondary font-bold">2,200 HP</span>
+<span class="text-tertiary font-bold">АОЕ 1,400</span>
+</div>
+</div>
+</div>
+<!-- Маг 2: Фростия Лёд -->
+<div class="relative bg-surface-container/95 rounded-xl p-1.5 shadow-md flex flex-col justify-between h-32 hover:scale-[1.02] transition-transform cursor-pointer group">
+<div class="absolute -top-1 -left-1 px-1.5 py-0.2 rounded-full bg-surface-container-highest text-primary font-label-sm text-[9px] uppercase font-bold z-10">Маг Льда</div>
+<div class="relative w-full h-16 rounded-lg bg-surface-container-lowest overflow-hidden flex items-end justify-center">
+<img alt="Фростия Лёд" class="h-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform" src="/stitch-assets/cat-heroes/fighter-a.webp?v=opt1">
+<div class="absolute top-1 right-1 px-1 rounded bg-surface-container-highest text-primary font-label-sm text-[8px] leading-tight">Замедление</div>
+</div>
+<div class="flex flex-col mt-1">
+<span class="font-label-md text-[11px] font-bold text-on-surface truncate leading-tight">Фростия Лёд</span>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden mt-1">
+<div class="bg-secondary h-full rounded-full" style="width: 88%;"></div>
+</div>
+<div class="flex items-center justify-between text-[9px] font-label-sm text-on-surface-variant mt-0.5">
+<span class="text-secondary font-bold">2,350 HP</span>
+<span class="text-primary font-bold">Заморозка</span>
+</div>
+</div>
+</div>
+<!-- Стрелок: Лео Град Стрел -->
+<div class="relative bg-surface-container/95 rounded-xl p-1.5 shadow-md flex flex-col justify-between h-32 hover:scale-[1.02] transition-transform cursor-pointer group">
+<div class="absolute -top-1 -left-1 px-1.5 py-0.2 rounded-full bg-primary-container text-on-primary font-label-sm text-[9px] uppercase font-bold z-10">Снайпер</div>
+<div class="relative w-full h-16 rounded-lg bg-surface-container-lowest overflow-hidden flex items-end justify-center">
+<img alt="Лео Град Стрел" class="h-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform" src="/stitch-assets/cat-heroes/tank-a.webp?v=opt1">
+<div class="absolute top-1 right-1 px-1 rounded bg-primary-container text-on-primary font-label-sm text-[8px] leading-tight">Крит +25%</div>
+</div>
+<div class="flex flex-col mt-1">
+<span class="font-label-md text-[11px] font-bold text-on-surface truncate leading-tight">Лео Стрелок</span>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden mt-1">
+<div class="bg-secondary h-full rounded-full" style="width: 90%;"></div>
+</div>
+<div class="flex items-center justify-between text-[9px] font-label-sm text-on-surface-variant mt-0.5">
+<span class="text-secondary font-bold">2,600 HP</span>
+<span class="text-primary-fixed">Дальнобой</span>
+</div>
+</div>
+</div>
+</div>
+<!-- ============================================== -->
+<!-- РЯД 2: ШТУРМ / БОЙЦЫ И АССАСИНЫ (3 КОТИКА)     -->
+<!-- ============================================== -->
+<div class="flex flex-col gap-1.5">
+<div class="px-space-xs py-0.5 rounded bg-surface-container-high/90 text-center font-label-sm text-label-sm text-tertiary">
+              РЯД 2: ШТУРМ
+            </div>
+<!-- Боец 1: Рыжик Парные Когти -->
+<div class="relative bg-surface-container/95 rounded-xl p-1.5 shadow-md flex flex-col justify-between h-32 hover:scale-[1.02] transition-transform cursor-pointer group">
+<div class="absolute -top-1 -left-1 px-1.5 py-0.2 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-[9px] uppercase font-bold z-10">Берсерк</div>
+<div class="relative w-full h-16 rounded-lg bg-surface-container-lowest overflow-hidden flex items-end justify-center">
+<img alt="Рыжик Парные Когти" class="h-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform" src="/stitch-assets/cat-heroes/tank-b.webp?v=opt1">
+<div class="absolute top-1 right-1 px-1 rounded bg-tertiary-container text-on-tertiary font-label-sm text-[8px] leading-tight">Ярость x2</div>
+</div>
+<div class="flex flex-col mt-1">
+<span class="font-label-md text-[11px] font-bold text-on-surface truncate leading-tight">Рыжик Когти</span>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden mt-1">
+<div class="bg-secondary h-full rounded-full" style="width: 70%;"></div>
+</div>
+<div class="flex items-center justify-between text-[9px] font-label-sm text-on-surface-variant mt-0.5">
+<span class="text-secondary font-bold">3,120 HP</span>
+<span class="text-tertiary font-bold">Серия 2x</span>
+</div>
+</div>
+</div>
+<!-- Боец 2: Гром Двуручник -->
+<div class="relative bg-surface-container/95 rounded-xl p-1.5 shadow-md flex flex-col justify-between h-32 hover:scale-[1.02] transition-transform cursor-pointer group">
+<div class="absolute -top-1 -left-1 px-1.5 py-0.2 rounded-full bg-tertiary-container text-on-tertiary font-label-sm text-[9px] uppercase font-bold z-10">Тяжеловес</div>
+<div class="relative w-full h-16 rounded-lg bg-surface-container-lowest overflow-hidden flex items-end justify-center">
+<img alt="Гром Двуручник" class="h-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform" src="/stitch-assets/cat-heroes/support-a.webp?v=opt1">
+<div class="absolute top-1 right-1 px-1 rounded bg-primary-container text-on-primary font-label-sm text-[8px] leading-tight">Пробой</div>
+</div>
+<div class="flex flex-col mt-1">
+<span class="font-label-md text-[11px] font-bold text-on-surface truncate leading-tight">Гром Клинок</span>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden mt-1">
+<div class="bg-secondary h-full rounded-full" style="width: 82%;"></div>
+</div>
+<div class="flex items-center justify-between text-[9px] font-label-sm text-on-surface-variant mt-0.5">
+<span class="text-secondary font-bold">4,100 HP</span>
+<span class="text-primary font-bold">Урон 1,850</span>
+</div>
+</div>
+</div>
+<!-- Ассасин: Тень -->
+<div class="relative bg-surface-container/95 rounded-xl p-1.5 shadow-md flex flex-col justify-between h-32 hover:scale-[1.02] transition-transform cursor-pointer group">
+<div class="absolute -top-1 -left-1 px-1.5 py-0.2 rounded-full bg-surface-container-highest text-tertiary font-label-sm text-[9px] uppercase font-bold z-10">Убийца</div>
+<div class="relative w-full h-16 rounded-lg bg-surface-container-lowest overflow-hidden flex items-end justify-center">
+<img alt="Тень Ассасин" class="h-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform" src="/stitch-assets/cat-heroes/support-b.webp?v=opt1">
+<div class="absolute top-1 right-1 px-1 rounded bg-surface-bright text-primary font-label-sm text-[8px] leading-tight">Скрытность</div>
+</div>
+<div class="flex flex-col mt-1">
+<span class="font-label-md text-[11px] font-bold text-on-surface truncate leading-tight">Тень Ассасин</span>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden mt-1">
+<div class="bg-secondary h-full rounded-full" style="width: 95%;"></div>
+</div>
+<div class="flex items-center justify-between text-[9px] font-label-sm text-on-surface-variant mt-0.5">
+<span class="text-secondary font-bold">2,750 HP</span>
+<span class="text-tertiary font-bold">Крит x3.0</span>
+</div>
+</div>
+</div>
+</div>
+<!-- ============================================== -->
+<!-- РЯД 1: АВАНГАРД / ТАНКИ (3 КОТИКА ВПЕРЕДИ)       -->
+<!-- ============================================== -->
+<div class="flex flex-col gap-1.5">
+<div class="px-space-xs py-0.5 rounded bg-primary-container text-center font-label-sm text-label-sm text-on-primary font-bold">
+              РЯД 1: ТАНКИ
+            </div>
+<!-- Танк 1: Барсик Щит-утёс -->
+<div class="relative bg-surface-container/95 rounded-xl p-1.5 shadow-md flex flex-col justify-between h-32 hover:scale-[1.02] transition-transform cursor-pointer group border-primary/40">
+<div class="absolute -top-1 -left-1 px-1.5 py-0.2 rounded-full bg-primary text-on-primary font-label-sm text-[9px] uppercase font-bold z-10">Главный Танк</div>
+<div class="relative w-full h-16 rounded-lg bg-surface-container-lowest overflow-hidden flex items-end justify-center">
+<img alt="Барсик Щит-утёс" class="h-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform" src="/stitch-assets/cat-heroes/mage-a.webp?v=opt1">
+<div class="absolute top-1 right-1 px-1 rounded bg-primary text-on-primary font-label-sm text-[8px] leading-tight">ТАУНТ</div>
+</div>
+<div class="flex flex-col mt-1">
+<span class="font-label-md text-[11px] font-bold text-primary truncate leading-tight">Барсик Щит</span>
+<!-- Double Bar: Shield + HP -->
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden mt-0.5">
+<div class="bg-primary h-full rounded-full" style="width: 100%;"></div>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden mt-0.5">
+<div class="bg-secondary h-full rounded-full" style="width: 95%;"></div>
+</div>
+<div class="flex items-center justify-between text-[9px] font-label-sm mt-0.5">
+<span class="text-primary font-bold">Щит 1,200</span>
+<span class="text-secondary font-bold">7,850 HP</span>
+</div>
+</div>
+</div>
+<!-- Танк 2: Титан Пробой -->
+<div class="relative bg-surface-container/95 rounded-xl p-1.5 shadow-md flex flex-col justify-between h-32 hover:scale-[1.02] transition-transform cursor-pointer group">
+<div class="absolute -top-1 -left-1 px-1.5 py-0.2 rounded-full bg-primary-container text-on-primary font-label-sm text-[9px] uppercase font-bold z-10">Оф-Танк</div>
+<div class="relative w-full h-16 rounded-lg bg-surface-container-lowest overflow-hidden flex items-end justify-center">
+<img alt="Титан Пробой" class="h-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform" src="/stitch-assets/cat-heroes/mage-b.webp?v=opt1">
+<div class="absolute top-1 right-1 px-1 rounded bg-surface-bright text-on-surface font-label-sm text-[8px] leading-tight">Броня +40%</div>
+</div>
+<div class="flex flex-col mt-1">
+<span class="font-label-md text-[11px] font-bold text-on-surface truncate leading-tight">Титан Пробой</span>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden mt-0.5">
+<div class="bg-primary h-full rounded-full" style="width: 60%;"></div>
+</div>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden mt-0.5">
+<div class="bg-secondary h-full rounded-full" style="width: 88%;"></div>
+</div>
+<div class="flex items-center justify-between text-[9px] font-label-sm mt-0.5">
+<span class="text-primary font-bold">Щит 650</span>
+<span class="text-secondary font-bold">6,900 HP</span>
+</div>
+</div>
+</div>
+<!-- Танк 3: Дубовый Страж -->
+<div class="relative bg-surface-container/95 rounded-xl p-1.5 shadow-md flex flex-col justify-between h-32 hover:scale-[1.02] transition-transform cursor-pointer group">
+<div class="absolute -top-1 -left-1 px-1.5 py-0.2 rounded-full bg-primary-container text-on-primary font-label-sm text-[9px] uppercase font-bold z-10">Древо-Танк</div>
+<div class="relative w-full h-16 rounded-lg bg-surface-container-lowest overflow-hidden flex items-end justify-center">
+<img alt="Дубовый Страж" class="h-full object-contain filter drop-shadow-md group-hover:scale-105 transition-transform" src="/stitch-assets/cat-heroes/assassin-a.webp?v=opt1">
+<div class="absolute top-1 right-1 px-1 rounded bg-secondary-container text-on-secondary font-label-sm text-[8px] leading-tight">Шипы 15%</div>
+</div>
+<div class="flex flex-col mt-1">
+<span class="font-label-md text-[11px] font-bold text-on-surface truncate leading-tight">Дубовый Страж</span>
+<div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden mt-1">
+<div class="bg-secondary h-full rounded-full" style="width: 91%;"></div>
+</div>
+<div class="flex items-center justify-between text-[9px] font-label-sm text-on-surface-variant mt-0.5">
+<span class="text-secondary font-bold">8,400 HP</span>
+<span class="text-secondary-fixed">Возврат 250</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- VERSUS BADGE / CLASH ENERGY IN BETWEEN -->
+<div class="hidden lg:flex flex-col items-center justify-center px-1">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest shadow-xl flex items-center justify-center border-primary/30">
+<span class="font-headline-md text-headline-md text-primary font-bold">VS</span>
+</div>
+<div class="w-0.5 h-36 bg-gradient-to-b from-transparent via-primary/40 to-transparent mt-2"></div>
+</div>
+<!-- RIGHT SIDE: DUNGEON BOSS (GENERAL DOG) & 2 ELITE GUARDS -->
+<div class="w-full lg:max-w-[34%] flex items-end justify-center relative">
+<!-- Guard 1: Чумной Пёс (Left flank) -->
+<div class="relative z-10 -mr-6 flex flex-col items-center group cursor-pointer">
+<div class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-[10px] uppercase mb-1 shadow">
+            Чумной Мясник
+          </div>
+<div class="w-28 sm:w-36 h-48 sm:h-56 relative flex items-end justify-center overflow-hidden">
+<img alt="Чумной Пёс" class="h-full object-contain filter drop-shadow-2xl group-hover:scale-105 transition-transform" src="/stitch-assets/cat-heroes/fighter-a.webp?v=opt1">
+</div>
+<!-- Minion HP -->
+<div class="w-24 bg-surface-container-highest rounded-full h-1.5 overflow-hidden mt-1 shadow-inner">
+<div class="bg-tertiary h-full rounded-full" style="width: 65%;"></div>
+</div>
+<span class="font-label-sm text-[10px] text-tertiary mt-0.5">24,500 HP</span>
+</div>
+<!-- Colossal Apex Pit Boss: Мяурра (Center Stage) -->
+<div class="relative z-20 flex flex-col items-center group cursor-pointer scale-105 sm:scale-110">
+<!-- Boss Aura Glow -->
+<div class="absolute -inset-4 bg-tertiary-container/20 rounded-full blur-2xl pointer-events-none"></div>
+<div class="px-space-md py-0.5 rounded-full bg-tertiary-container text-on-tertiary font-label-md text-label-md uppercase tracking-wider mb-1 shadow-lg font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">swords</span> ВЕРХОВНЫЙ ПИТ-БОСС
+          </div>
+<div class="w-44 sm:w-60 h-64 sm:h-80 relative flex items-end justify-center overflow-hidden">
+<img alt="Мяурра Архипёс" data-raid-enemy-boss="1" class="h-full object-contain filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.85)] group-hover:scale-105 transition-transform duration-300" src="/stitch-assets/monsters/battle/myaurra-pitboss-cutout.png?v=raid1" data-raid-enemy-boss="1">
+</div>
+<!-- Boss Quick Status Chips -->
+<div class="flex items-center gap-1 mt-1 z-10">
+<span class="px-space-xs py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-[10px]">Броня: 3.5k</span>
+<span class="px-space-xs py-0.5 rounded bg-tertiary-container text-on-tertiary font-label-sm text-[10px]">Пламенный Меч</span>
+<span class="px-space-xs py-0.5 rounded bg-surface-container-high text-secondary font-label-sm text-[10px]">Атака: Танк</span>
+</div>
+</div>
+<!-- Guard 2: Spectral Ghost Dog (Right flank) -->
+<div class="relative z-10 -ml-6 flex flex-col items-center group cursor-pointer">
+<div class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-[10px] uppercase mb-1 shadow">
+            Призрак-Шаман
+          </div>
+<div class="w-28 sm:w-36 h-48 sm:h-56 relative flex items-end justify-center overflow-hidden">
+<img alt="Призрачный Пёс" class="h-full object-contain filter drop-shadow-2xl group-hover:scale-105 transition-transform" src="/stitch-assets/monsters/battle/myaurra-pitboss-cutout.png?v=raid1">
+</div>
+<!-- Minion HP -->
+<div class="w-24 bg-surface-container-highest rounded-full h-1.5 overflow-hidden mt-1 shadow-inner">
+<div class="bg-tertiary h-full rounded-full" style="width: 82%;"></div>
+</div>
+<span class="font-label-sm text-[10px] text-tertiary mt-0.5">31,000 HP</span>
+</div>
+</div>
+</main>
+<!-- BOTTOM COMBAT DOCK (ENERGY CRYSTALS, HAND OF 6 CARDS, END TURN TRIGGER) -->
+<footer class="relative z-30 w-full px-margin md:px-margin-tablet py-space-sm bg-surface-container-low/95 backdrop-blur-xl shadow-[0_-8px_24px_rgba(0,0,0,0.75)]">
+<div class="w-full flex flex-col xl:flex-row items-center justify-between gap-space-md">
+<!-- LEFT: ENERGY CRYSTALS RESERVOIR & BATTLE BAG DECK STATS -->
+
+<!-- CENTER: HAND OF 6 PLAYABLE ACTION CARDS (STAGGERED TAVERN BATTLE DECK) -->
+<div class="flex items-end justify-center gap-2 overflow-x-auto py-1 max-w-full" id="cards-hand">
+<!-- Card 1: Каменный оскал (Танк, 1 AP) -->
+<div class="battle-card relative w-28 sm:w-32 h-44 rounded-xl bg-surface-container cursor-pointer transition-all duration-200 hover:-translate-y-4 hover:shadow-[0_12px_24px_rgba(253,186,69,0.3)] shadow-lg flex flex-col justify-between p-1.5 select-none" data-cost="1" data-selected="false">
+<div class="flex items-center justify-between w-full">
+<div class="w-6 h-6 rounded-md bg-primary-container text-on-primary flex items-center justify-center font-stat-numeral text-stat-numeral shadow">1</div>
+<span class="font-label-sm text-[9px] uppercase px-1 rounded bg-surface-container-high text-primary font-bold">Танк</span>
+</div>
+<div class="relative w-full h-20 rounded-lg overflow-hidden bg-surface-container-lowest my-1">
+<img alt="Каменный оскал" class="w-full h-full object-cover" src="/stitch-assets/monsters/battle/myaurra-pitboss-cutout.png?v=raid1">
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold truncate leading-tight">Каменный оскал</span>
+<p class="font-body-sm text-[10px] text-on-surface-variant leading-tight line-clamp-2 mt-0.5">
+<span class="text-primary font-bold">Щит +650</span> на Барсика. Агрит босса.
+              </p>
+</div>
+</div>
+<!-- Card 2: Двуручный удар (Боец, 2 AP) -->
+<div class="battle-card relative w-28 sm:w-32 h-44 rounded-xl bg-surface-container cursor-pointer transition-all duration-200 hover:-translate-y-4 hover:shadow-[0_12px_24px_rgba(253,186,69,0.3)] shadow-lg flex flex-col justify-between p-1.5 select-none" data-cost="2" data-selected="true" style="transform: translateY(-12px); box-shadow: 0 0 16px rgba(217, 155, 38, 0.45);">
+<div class="flex items-center justify-between w-full">
+<div class="w-6 h-6 rounded-md bg-primary-container text-on-primary flex items-center justify-center font-stat-numeral text-stat-numeral shadow">2</div>
+<span class="font-label-sm text-[9px] uppercase px-1 rounded bg-surface-container-high text-tertiary font-bold">Боец</span>
+</div>
+<div class="relative w-full h-20 rounded-lg overflow-hidden bg-surface-container-lowest my-1">
+<img alt="Двуручный удар" class="w-full h-full object-cover" src="/stitch-assets/cat-heroes/tank-a.webp?v=opt1">
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-primary font-bold truncate leading-tight">Двуручный удар</span>
+<p class="font-body-sm text-[10px] text-on-surface-variant leading-tight line-clamp-2 mt-0.5">
+<span class="text-tertiary font-bold">1,850 урона</span>. Пробивает 40% брони.
+              </p>
+</div>
+</div>
+<!-- Card 3: Двойной хлыст (Ассасин, 1 AP) -->
+<div class="battle-card relative w-28 sm:w-32 h-44 rounded-xl bg-surface-container cursor-pointer transition-all duration-200 hover:-translate-y-4 hover:shadow-[0_12px_24px_rgba(253,186,69,0.3)] shadow-lg flex flex-col justify-between p-1.5 select-none" data-cost="1" data-selected="true" style="transform: translateY(-12px); box-shadow: 0 0 16px rgba(217, 155, 38, 0.45);">
+<div class="flex items-center justify-between w-full">
+<div class="w-6 h-6 rounded-md bg-primary-container text-on-primary flex items-center justify-center font-stat-numeral text-stat-numeral shadow">1</div>
+<span class="font-label-sm text-[9px] uppercase px-1 rounded bg-surface-container-high text-tertiary font-bold">Штурм</span>
+</div>
+<div class="relative w-full h-20 rounded-lg overflow-hidden bg-surface-container-lowest my-1">
+<img alt="Двойной хлыст" class="w-full h-full object-cover" src="/stitch-assets/cat-heroes/tank-a.webp?v=opt1">
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-primary font-bold truncate leading-tight">Двойной хлыст</span>
+<p class="font-body-sm text-[10px] text-on-surface-variant leading-tight line-clamp-2 mt-0.5">
+                2 удара по <span class="text-tertiary font-bold">620</span>. Накладывает Кровоток.
+              </p>
+</div>
+</div>
+<!-- Card 4: Огненный круг (Маг, 2 AP) -->
+<div class="battle-card relative w-28 sm:w-32 h-44 rounded-xl bg-surface-container cursor-pointer transition-all duration-200 hover:-translate-y-4 hover:shadow-[0_12px_24px_rgba(253,186,69,0.3)] shadow-lg flex flex-col justify-between p-1.5 select-none" data-cost="2" data-selected="false">
+<div class="flex items-center justify-between w-full">
+<div class="w-6 h-6 rounded-md bg-primary-container text-on-primary flex items-center justify-center font-stat-numeral text-stat-numeral shadow">2</div>
+<span class="font-label-sm text-[9px] uppercase px-1 rounded bg-surface-container-high text-tertiary-fixed-dim font-bold">Маг</span>
+</div>
+<div class="relative w-full h-20 rounded-lg overflow-hidden bg-surface-container-lowest my-1">
+<img alt="Огненный круг" class="w-full h-full object-cover" src="/stitch-assets/cat-heroes/tank-a.webp?v=opt1">
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold truncate leading-tight">Огненный круг</span>
+<p class="font-body-sm text-[10px] text-on-surface-variant leading-tight line-clamp-2 mt-0.5">
+                АОЕ <span class="text-tertiary font-bold">1,100 урона</span> всем 3 врагам.
+              </p>
+</div>
+</div>
+<!-- Card 5: Град стрел (Стрелок, 1 AP) -->
+<div class="battle-card relative w-28 sm:w-32 h-44 rounded-xl bg-surface-container cursor-pointer transition-all duration-200 hover:-translate-y-4 hover:shadow-[0_12px_24px_rgba(253,186,69,0.3)] shadow-lg flex flex-col justify-between p-1.5 select-none" data-cost="1" data-selected="false">
+<div class="flex items-center justify-between w-full">
+<div class="w-6 h-6 rounded-md bg-primary-container text-on-primary flex items-center justify-center font-stat-numeral text-stat-numeral shadow">1</div>
+<span class="font-label-sm text-[9px] uppercase px-1 rounded bg-surface-container-high text-primary-fixed-dim font-bold">Лук</span>
+</div>
+<div class="relative w-full h-20 rounded-lg overflow-hidden bg-surface-container-lowest my-1">
+<img alt="Град стрел" class="w-full h-full object-cover" src="/stitch-assets/cat-heroes/tank-a.webp?v=opt1">
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold truncate leading-tight">Град стрел</span>
+<p class="font-body-sm text-[10px] text-on-surface-variant leading-tight line-clamp-2 mt-0.5">
+                4 стрелы по <span class="text-primary font-bold">380</span> урона случайно.
+              </p>
+</div>
+</div>
+<!-- Card 6: Капля жизни (Саппорт, 1 AP) -->
+<div class="battle-card relative w-28 sm:w-32 h-44 rounded-xl bg-surface-container cursor-pointer transition-all duration-200 hover:-translate-y-4 hover:shadow-[0_12px_24px_rgba(253,186,69,0.3)] shadow-lg flex flex-col justify-between p-1.5 select-none" data-cost="1" data-selected="false">
+<div class="flex items-center justify-between w-full">
+<div class="w-6 h-6 rounded-md bg-primary-container text-on-primary flex items-center justify-center font-stat-numeral text-stat-numeral shadow">1</div>
+<span class="font-label-sm text-[9px] uppercase px-1 rounded bg-surface-container-high text-secondary font-bold">Саппорт</span>
+</div>
+<div class="relative w-full h-20 rounded-lg overflow-hidden bg-surface-container-lowest my-1">
+<img alt="Капля жизни" class="w-full h-full object-cover" src="/stitch-assets/cat-heroes/tank-a.webp?v=opt1">
+</div>
+<div class="flex flex-col">
+<span class="font-label-md text-label-md text-on-surface font-bold truncate leading-tight">Капля жизни</span>
+<p class="font-body-sm text-[10px] text-on-surface-variant leading-tight line-clamp-2 mt-0.5">
+<span class="text-secondary font-bold">Лечение +1,200 HP</span> раненому союзнику.
+              </p>
+</div>
+</div>
+</div>
+<!-- RIGHT: GLEAMING GOLDEN ACTION TRIGGER BUTTON -->
+<div class="flex flex-col items-center xl:items-end w-full xl:w-auto">
+<button class="w-full xl:w-64 py-space-md px-space-lg rounded-2xl bg-gradient-to-r from-primary via-primary-container to-primary-fixed-dim text-on-primary font-label-lg text-label-lg font-bold shadow-[0_6px_20px_rgba(253,186,69,0.45)] hover:shadow-[0_8px_28px_rgba(253,186,69,0.65)] hover:scale-[1.02] active:scale-[0.98] transition-all flex flex-col items-center justify-center" id="raidEndTurnBtn" data-hud-action="raid-battle-start">
+<span class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[20px]">check_circle</span>
+<span>ЗАВЕРШИТЬ ХОД</span>
+</span>
+<span class="font-label-sm text-[10px] text-on-primary-container font-semibold mt-0.5">
+              ВЫБРАНО: 2 КАРТЫ · 3 AP [ПРОБЕЛ]
+            </span>
+</button>
+<div class="flex items-center gap-space-sm mt-1.5 text-on-surface-variant font-label-sm text-[11px]">
+<span>Горячие клавиши: [1-6] Карты · [Space] Ход</span>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<!-- INTERACTIVE CLIENT-SIDE BATTLE MICRO-INTERACTIONS -->
+
+</div>
+</main>
+</section>

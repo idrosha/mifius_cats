@@ -40,6 +40,7 @@ func GrantStarterKit(p *Player) error {
 	p.Medals = 0
 	p.Bowls = 3
 	p.PvPTickets = 5
+	_ = SeedDungeonKeys(p)
 
 	cats := make([]CatInstance, 0, 4)
 	for i, t := range CombatStarterTemplates {

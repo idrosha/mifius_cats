@@ -615,6 +615,30 @@
     "ru": "Данж",
     "en": "Dungeon"
   },
+  "dungeon.path.short": {
+    "ru": "Короткий ≤10",
+    "en": "Short ≤10"
+  },
+  "dungeon.path.long": {
+    "ru": "Длинный ≤15",
+    "en": "Long ≤15"
+  },
+  "dungeon.start": {
+    "ru": "В путь · 3v3",
+    "en": "Enter · 3v3"
+  },
+  "dungeon.buy_key": {
+    "ru": "Купить ключ за рыбу",
+    "en": "Buy key for fish"
+  },
+  "dungeon.fill_party": {
+    "ru": "Заполнить ботами",
+    "en": "Fill with bots"
+  },
+  "dungeon.solo_warn": {
+    "ru": "Соло нежелателен: сложность под пати 4",
+    "en": "Solo not recommended: tuned for party of 4"
+  },
   "nav.sub.boss_raid": {
     "ru": "Рейд",
     "en": "Raid"

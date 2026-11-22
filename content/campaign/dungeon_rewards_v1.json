@@ -1,0 +1,21 @@
+{
+  "version": 1,
+  "nodeLoot": {
+    "short": { "fish": 25, "xp": 40, "scrap": 2 },
+    "long": { "fish": 45, "xp": 70, "scrap": 5 }
+  },
+  "bossLoot": {
+    "short": { "fish": 80, "xp": 120, "scrap": 8, "chestTier": 1, "rareChance": 0.55 },
+    "long": { "fish": 140, "xp": 200, "scrap": 14, "chestTier": 2, "rareChance": 0.85, "pityBonus": 0.15 }
+  },
+  "firstClear": {
+    "fish": 150,
+    "guaranteeRare": true,
+    "chooseRare": true
+  },
+  "matsByDungeon": {
+    "scarlet": { "long": ["collar_fragment", "arena_elixir"] },
+    "howl": { "long": ["moon_shard"] },
+    "whisper": { "long": ["antidote_flask", "plague_vial"] }
+  }
+}

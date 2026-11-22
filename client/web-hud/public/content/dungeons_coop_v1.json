@@ -1,0 +1,245 @@
+{
+    "version":  3,
+    "title_ru":  "Кооп-данжи v3",
+    "party":  {
+                  "players":  4,
+                  "catsPerPlayer":  3,
+                  "combat":  "3v3",
+                  "maxPlayers":  4,
+                  "soloAllowed":  true,
+                  "soloWarning_ru":  "Соло нежелателен: сложность под пати 4"
+              },
+    "starterKeys":  {
+                        "scarlet":  3,
+                        "howl":  2,
+                        "whisper":  2
+                    },
+    "timing":  {
+                   "shortMaxMin":  10,
+                   "longMaxMin":  15,
+                   "shortTargetMin":  [
+                                          8,
+                                          10
+                                      ],
+                   "longTargetMin":  [
+                                         13,
+                                         15
+                                     ],
+                   "minDeltaMin":  4
+               },
+    "dungeons":  [
+                     {
+                         "id":  "scarlet",
+                         "title_ru":  "Псарня Алых Колец",
+                         "faction":  "red_dogs",
+                         "boss_ru":  "Вожак Ринг-Клык",
+                         "keyId":  "dungeon_key_scarlet",
+                         "keyFishCost":  80,
+                         "hudPick":  "scarlet",
+                         "paths":  {
+                                       "short":  {
+                                                     "label_ru":  "Короткий · boss-rush",
+                                                     "nodes":  [
+                                                                   "dungeon_scarlet_short_1",
+                                                                   "dungeon_scarlet_short_2",
+                                                                   "dungeon_scarlet_boss"
+                                                               ],
+                                                     "chestTier":  1,
+                                                     "lootMult":  0.55,
+                                                     "bossDebuff":  null
+                                                 },
+                                       "long":  {
+                                                    "label_ru":  "Длинный · полный клир",
+                                                    "nodes":  [
+                                                                  "dungeon_scarlet_long_1",
+                                                                  "dungeon_scarlet_long_2",
+                                                                  "dungeon_scarlet_long_3a",
+                                                                  "dungeon_scarlet_boss_long"
+                                                              ],
+                                                    "forkF2":  {
+                                                                   "left":  [
+                                                                                "dungeon_scarlet_long_3a",
+                                                                                "dungeon_scarlet_boss_long"
+                                                                            ],
+                                                                   "right":  [
+                                                                                 "dungeon_scarlet_long_3b",
+                                                                                 "dungeon_scarlet_boss_long"
+                                                                             ],
+                                                                   "left_ru":  "Кольцо крови",
+                                                                   "right_ru":  "Кузня ошейников"
+                                                               },
+                                                    "chestTier":  2,
+                                                    "lootMult":  1.0,
+                                                    "uniqueMats":  [
+                                                                       "collar_fragment",
+                                                                       "arena_elixir"
+                                                                   ]
+                                                }
+                                   },
+                         "rareItems":  [
+                                           {
+                                               "id":  "rare_scarlet_belt",
+                                               "slot":  "belt",
+                                               "title_ru":  "Пояс Алого Кольца",
+                                               "effect_ru":  "1/бой: при taunt союзника +shield 8"
+                                           },
+                                           {
+                                               "id":  "rare_scarlet_fang",
+                                               "slot":  "weapon",
+                                               "title_ru":  "Клык Ринг-Клыка",
+                                               "effect_ru":  "Криты вешают bleed +1"
+                                           },
+                                           {
+                                               "id":  "rare_scarlet_collar",
+                                               "slot":  "helm",
+                                               "title_ru":  "Ошейник Чемпиона",
+                                               "effect_ru":  "После mass-урона по вам: heal 4 lowest ally (1/2 хода)"
+                                           }
+                                       ],
+                         "cutLosses_ru":  "Нет фрагмента ошейника/эликсира; −~40% fish/xp; сундук T1 без pity"
+                     },
+                     {
+                         "id":  "howl",
+                         "title_ru":  "Ледник Воющих",
+                         "faction":  "wolves",
+                         "boss_ru":  "Мать Стаи Снежногрив",
+                         "keyId":  "dungeon_key_howl",
+                         "keyFishCost":  90,
+                         "hudPick":  "howl",
+                         "paths":  {
+                                       "short":  {
+                                                     "label_ru":  "Короткий · boss-rush",
+                                                     "nodes":  [
+                                                                   "dungeon_howl_short_1",
+                                                                   "dungeon_howl_short_2",
+                                                                   "dungeon_howl_boss"
+                                                               ],
+                                                     "chestTier":  1,
+                                                     "lootMult":  0.55,
+                                                     "bossDebuff":  null
+                                                 },
+                                       "long":  {
+                                                    "label_ru":  "Длинный · полный клир",
+                                                    "nodes":  [
+                                                                  "dungeon_howl_long_1",
+                                                                  "dungeon_howl_long_2",
+                                                                  "dungeon_howl_long_3a",
+                                                                  "dungeon_howl_long_4",
+                                                                  "dungeon_howl_boss_long"
+                                                              ],
+                                                    "forkF2":  {
+                                                                   "left":  [
+                                                                                "dungeon_howl_long_3a",
+                                                                                "dungeon_howl_boss_long"
+                                                                            ],
+                                                                   "right":  [
+                                                                                 "dungeon_howl_long_3b",
+                                                                                 "dungeon_howl_long_4",
+                                                                                 "dungeon_howl_boss_long"
+                                                                             ],
+                                                                   "left_ru":  "Ритуал луны",
+                                                                   "right_ru":  "Питомник + мост"
+                                                               },
+                                                    "chestTier":  2,
+                                                    "lootMult":  1.0,
+                                                    "bossDebuff":  "totem_atk_minus_15",
+                                                    "uniqueMats":  [
+                                                                       "moon_shard"
+                                                                   ]
+                                                }
+                                   },
+                         "rareItems":  [
+                                           {
+                                               "id":  "rare_howl_mane",
+                                               "slot":  "cloak",
+                                               "title_ru":  "Грива Снежногрив",
+                                               "effect_ru":  "После stun: mint 1 (1/бой)"
+                                           },
+                                           {
+                                               "id":  "rare_howl_amulet",
+                                               "slot":  "ring",
+                                               "title_ru":  "Амулет Воя",
+                                               "effect_ru":  "Heal саппорта +2 в PvE/данжах"
+                                           },
+                                           {
+                                               "id":  "rare_howl_fang",
+                                               "slot":  "weapon",
+                                               "title_ru":  "Клык Матери",
+                                               "effect_ru":  "Удар в backline → weak 1"
+                                           }
+                                       ],
+                         "cutLosses_ru":  "Нет тотем-баффа/−15% ATK босса; нет лунных осколков; сундук T1"
+                     },
+                     {
+                         "id":  "whisper",
+                         "title_ru":  "Склеп Шепчущих",
+                         "faction":  "zombies",
+                         "boss_ru":  "Некроарх Мор-Эхо",
+                         "keyId":  "dungeon_key_whisper",
+                         "keyFishCost":  110,
+                         "hudPick":  "whisper",
+                         "paths":  {
+                                       "short":  {
+                                                     "label_ru":  "Короткий · boss-rush",
+                                                     "nodes":  [
+                                                                   "dungeon_whisper_short_1",
+                                                                   "dungeon_whisper_short_2",
+                                                                   "dungeon_whisper_boss"
+                                                               ],
+                                                     "chestTier":  1,
+                                                     "lootMult":  0.5,
+                                                     "bossDebuff":  null
+                                                 },
+                                       "long":  {
+                                                    "label_ru":  "Длинный · полный клир",
+                                                    "nodes":  [
+                                                                  "dungeon_whisper_long_1",
+                                                                  "dungeon_whisper_long_2",
+                                                                  "dungeon_whisper_long_3a",
+                                                                  "dungeon_whisper_boss_long"
+                                                              ],
+                                                    "forkF2":  {
+                                                                   "left":  [
+                                                                                "dungeon_whisper_long_3a",
+                                                                                "dungeon_whisper_boss_long"
+                                                                            ],
+                                                                   "right":  [
+                                                                                 "dungeon_whisper_long_3b",
+                                                                                 "dungeon_whisper_boss_long"
+                                                                             ],
+                                                                   "left_ru":  "Зеркальный шёпот",
+                                                                   "right_ru":  "Костница"
+                                                               },
+                                                    "chestTier":  2,
+                                                    "lootMult":  1.0,
+                                                    "bossDebuff":  "echo_dodge_25_to_10",
+                                                    "uniqueMats":  [
+                                                                       "antidote_flask",
+                                                                       "plague_vial"
+                                                                   ]
+                                                }
+                                   },
+                         "rareItems":  [
+                                           {
+                                               "id":  "rare_whisper_shroud",
+                                               "slot":  "cloak",
+                                               "title_ru":  "Саван Мор-Эхо",
+                                               "effect_ru":  "30% шанс не получить стак poison (1/ход)"
+                                           },
+                                           {
+                                               "id":  "rare_whisper_ring",
+                                               "slot":  "ring",
+                                               "title_ru":  "Кольцо Шепота",
+                                               "effect_ru":  "Cleanse дополнительно −1 poison stack"
+                                           },
+                                           {
+                                               "id":  "rare_whisper_mask",
+                                               "slot":  "helm",
+                                               "title_ru":  "Маска Эха",
+                                               "effect_ru":  "+15% hit vs dodge/призраки (PvE/данж)"
+                                           }
+                                       ],
+                         "cutLosses_ru":  "Нет фляги/колб; dodge босса 25%; −~50% узлового лута; сундук T1"
+                     }
+                 ]
+}

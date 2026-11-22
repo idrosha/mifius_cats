@@ -5193,12 +5193,127 @@ body:has(#viewGuildHub:not(.hidden)) #wireDock { display: none !important; }
   color: #9d8f7b;
   line-height: 1.35;
 }
-.raid-form-board,
-.raid-battle-board {
+.raid-path-vote-hint {
+  margin: 0;
+  font-size: 11px;
+  line-height: 1.4;
+}
+#viewRaidBattle [data-raid-battle-root],
+#viewRaidBattle .raid-battle-12-stage {
+  position: relative;
+}
+/* In-fight path vote overlay (after entry squad win) */
+#viewRaidBattle .raid-path-vote {
+  position: absolute;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(10, 8, 6, 0.72);
+  backdrop-filter: blur(4px);
+}
+#viewRaidBattle .raid-path-vote.hidden {
+  display: none;
+}
+#viewRaidBattle .raid-path-vote-card {
+  width: min(34rem, 100%);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem 1.1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(253, 186, 69, 0.45);
+  background: linear-gradient(165deg, #1c1712 0%, #12100d 100%);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+}
+#viewRaidBattle .raid-path-vote-card > header {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.65rem;
+}
+#viewRaidBattle .raid-path-vote-card > header strong {
+  display: block;
+  font-size: 1rem;
+  color: #fdba45;
+}
+#viewRaidBattle .raid-path-vote-card > header p {
+  margin: 0.2rem 0 0;
+  font-size: 11px;
+  color: #9d8f7b;
+  line-height: 1.35;
+}
+#viewRaidBattle .raid-path-vote-opts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem;
+}
+#viewRaidBattle .raid-path-vote-opt {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  text-align: left;
+  padding: 0.7rem 0.75rem;
+  border-radius: 0.75rem;
+  border: 1px solid rgba(157, 143, 123, 0.4);
+  background: #161310;
+  color: #eae1db;
+  cursor: pointer;
+}
+#viewRaidBattle .raid-path-vote-opt b {
+  font-size: 13px;
+  color: #fdba45;
+}
+#viewRaidBattle .raid-path-vote-opt span {
+  font-size: 11px;
+  line-height: 1.3;
+}
+#viewRaidBattle .raid-path-vote-opt em,
+#viewRaidBattle .raid-path-vote-tally {
+  font-size: 10px;
+  font-style: normal;
+  color: #9d8f7b;
+}
+#viewRaidBattle .raid-path-vote-opt.is-on {
+  border-color: rgba(253, 186, 69, 0.7);
+  box-shadow: 0 0 0 1px rgba(253, 186, 69, 0.35), inset 0 0 18px rgba(253, 186, 69, 0.08);
+}
+#viewRaidBattle .raid-path-vote-bar {
+  height: 0.4rem;
+  border-radius: 999px;
+  background: #2a241c;
+  overflow: hidden;
+}
+#viewRaidBattle .raid-path-vote-bar > i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #d99b26, #fdba45);
+}
+#viewRaidBattle .raid-path-vote-card > footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+@media (max-width: 640px) {
+  #viewRaidBattle .raid-path-vote-opts {
+    grid-template-columns: 1fr;
+  }
+}
+.raid-form-board {
   display: flex;
   flex-direction: column;
   gap: 0.55rem;
   width: 100%;
+}
+/* Stitch raid battle: 4 columns (тыл→даль→штурм→танки), painted by JS */
+#viewRaidBattle [data-raid-battle-board] {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 0.4rem 0.55rem;
+  width: 100%;
+  align-content: start;
 }
 .raid-form-row,
 .raid-battle-row {
@@ -5264,24 +5379,116 @@ body:has(#viewGuildHub:not(.hidden)) #wireDock { display: none !important; }
   gap: 0.45rem;
   margin-top: 0.55rem;
 }
-#viewRaidBattle .raid-battle-body {
-  display: flex;
-  flex-direction: column;
-  gap: 0.65rem;
-  padding: 0.75rem;
-  min-height: 0;
-  flex: 1;
-}
-#viewRaidBattle .raid-battle-note {
-  margin: 0;
-  font-size: 12px;
-  color: #d5c4af;
-}
-#viewRaidBattle .raid-battle-hall {
+#viewRaidBattle {
   display: flex;
   flex-direction: column;
   height: 100%;
   min-height: 0;
+}
+#viewRaidBattle > .relative {
+  flex: 1;
+  min-height: 0;
+}
+#viewRaidBattle [data-raid-battle-note] {
+  margin: 0;
+}
+.raid-path-vote-hint {
+  margin: 0.35rem 0 0;
+  font-size: 11px;
+  line-height: 1.35;
+}
+.raid-path-vote {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: rgba(17, 13, 11, 0.72);
+  backdrop-filter: blur(6px);
+}
+.raid-path-vote.hidden {
+  display: none;
+}
+.raid-path-vote-card {
+  width: min(36rem, 100%);
+  background: #1f1b18;
+  border: 1px solid rgba(253, 186, 69, 0.35);
+  border-radius: 1rem;
+  padding: 1rem 1.1rem;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.55);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+.raid-path-vote-card header {
+  display: flex;
+  gap: 0.65rem;
+  align-items: flex-start;
+}
+.raid-path-vote-card header strong {
+  display: block;
+  font-size: 15px;
+  color: #fdba45;
+}
+.raid-path-vote-card header p {
+  margin: 0.15rem 0 0;
+  font-size: 11px;
+  color: #d5c4af;
+}
+.raid-path-vote-opts {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.55rem;
+}
+.raid-path-vote-opt {
+  text-align: left;
+  border: 1px solid rgba(157, 143, 123, 0.35);
+  background: #161310;
+  border-radius: 0.75rem;
+  padding: 0.7rem 0.75rem;
+  color: #eae1db;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  cursor: pointer;
+}
+.raid-path-vote-opt.is-on {
+  border-color: rgba(253, 186, 69, 0.7);
+  box-shadow: 0 0 0 1px rgba(253, 186, 69, 0.35);
+}
+.raid-path-vote-opt b {
+  font-size: 13px;
+  color: #fdba45;
+}
+.raid-path-vote-opt span,
+.raid-path-vote-opt em {
+  font-size: 11px;
+  color: #d5c4af;
+  font-style: normal;
+}
+.raid-path-vote-tally {
+  margin-top: 0.35rem;
+  font-size: 12px;
+  color: #89d98c;
+}
+.raid-path-vote-bar {
+  height: 0.45rem;
+  border-radius: 999px;
+  background: #393430;
+  overflow: hidden;
+}
+.raid-path-vote-bar i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #fdba45, #d99b26);
+}
+.raid-path-vote-card footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  justify-content: flex-end;
 }
 .gvg-size.is-on {
   box-shadow: 0 0 0 1px rgba(253, 186, 69, 0.4), 0 3px 12px rgba(217, 155, 38, 0.14);
