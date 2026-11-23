@@ -33,8 +33,9 @@ const YARD_STAGE = "mythmir_1_f1"; // default first fight; campaign selects othe
 /** Raid / legion hard party size (docs/raids · qa G6). */
 const RAID_PARTY_SIZE = 12;
 const minRaidPlayers = 12;
-/** Таймер хода в бою — ровно 1 минута (docs/raids/COMPOSITION.md). */
+/** Таймер хода: PvE/PvP — 30 с; рейд/данж/практика и пр. — 60 с (docs/raids/COMPOSITION.md). */
 const BATTLE_TURN_TIMER_SEC = 60;
+const BATTLE_TURN_TIMER_PVE_PVP_SEC = 30;
 /** Канон состава легиона 12: 3T / 3S / 6DPS. */
 const RAID_COMP = {
   tank: 3,
@@ -1299,7 +1300,7 @@ const state = {
   /** Solo QA stub: one player owns all 12 legion slots for full raid smoke. */
   raidSoloStub: false,
   raidLastLoot: null,
-  /** Live turn countdown (BATTLE_TURN_TIMER_SEC). */
+  /** Live turn countdown (mode-aware via battleTurnTimerSec). */
   battleTurnLeft: BATTLE_TURN_TIMER_SEC,
   battleTurnTimer: null,
   battleTurnKey: "",
@@ -9399,24 +9400,27 @@ function renderHome() {
   const art = catHeroArt(cat.templateId);
   const name = catSheetName(cat);
   const title = $("homeHeroTitle");
-  if (title) {
-    title.textContent = `ЭКИПИРОВКА ГЕРОЯ: ${name.toUpperCase()}`;
-    let laneBar = $("homeEquipLaneBar");
+  if (title) title.textContent = `ЭКИПИРОВКА ГЕРОЯ: ${name.toUpperCase()}`;
+  {
+    const oldTop = $("homeEquipLaneBar");
+    if (oldTop && !$("btn-upgrade")?.parentElement?.contains(oldTop)) oldTop.remove();
     const forgeRow = $("btn-upgrade")?.parentElement;
-    if (laneBar && forgeRow?.contains(laneBar)) laneBar.remove();
-    laneBar = $("homeEquipLaneBar");
-    if (!laneBar && title.parentElement) {
-      laneBar = document.createElement("div");
-      laneBar.id = "homeEquipLaneBar";
-      laneBar.className = "flex gap-2 mt-2";
-      title.parentElement.insertBefore(laneBar, title.nextSibling);
-    }
-    if (laneBar) {
+    if (forgeRow) {
+      let laneBar = $("homeEquipLaneBar");
+      if (!laneBar) {
+        laneBar = document.createElement("div");
+        laneBar.id = "homeEquipLaneBar";
+        laneBar.className = "home-equip-lane flex items-center gap-1 shrink-0";
+        forgeRow.insertBefore(laneBar, forgeRow.firstChild);
+      } else if (!forgeRow.contains(laneBar)) {
+        forgeRow.insertBefore(laneBar, forgeRow.firstChild);
+      }
       const lane = state.equipLane || "pve";
-      laneBar.innerHTML = `
-        <button type="button" data-equip-lane="pve" class="mission-fight ${lane === "pve" ? "is-active" : ""}" style="padding:0.35rem 0.7rem">PvE · данжи/рейды</button>
-        <button type="button" data-equip-lane="pvp" class="mission-fight ${lane === "pvp" ? "is-active" : ""}" style="padding:0.35rem 0.7rem">PvP · магазин</button>
-        <span class="meta" style="align-self:center;font-size:11px;opacity:.75">HP врагов фиксировано · выше броня/оружие = проще</span>`;
+      const chip = (id, label) => {
+        const on = lane === id;
+        return `<button type="button" data-equip-lane="${id}" class="px-2 py-1 rounded font-headline text-[10px] font-black border transition-all ${on ? "bg-primary text-on-primary border-primary shadow" : "bg-surface-container-high text-on-surface-variant border-outline-variant/30 hover:text-on-surface"}">${label}</button>`;
+      };
+      laneBar.innerHTML = `${chip("pve", "PvE · данжи/рейды")} ${chip("pvp", "PvP · магазин")}`;
       laneBar.querySelectorAll("[data-equip-lane]").forEach((btn) => {
         btn.addEventListener("click", () => setEquipLane(btn.getAttribute("data-equip-lane")));
       });
@@ -13524,7 +13528,10 @@ function preloadPveFightAssets(chapter = state.pveChapter) {
 }
 
 function battleTurnTimerSec() {
-  // Always at least 1 minute (product lock). LiveOps may raise, never lower below 60.
+  const mode = String(state.battleMode || "");
+  // PvE / PvP: fixed 30s (do not let global LiveOps 60 floor raise them).
+  if (mode === "pve" || mode === "pvp") return BATTLE_TURN_TIMER_PVE_PVP_SEC;
+  // Raid / dungeon / practice / guild / other: 1 min; LiveOps may raise, never lower below 60.
   const n = Number(state.liveOps?.limits?.battle_turn_sec ?? state.liveops?.limits?.battle_turn_sec);
   const fromOps = Number.isFinite(n) && n > 0 ? Math.floor(n) : BATTLE_TURN_TIMER_SEC;
   return Math.max(BATTLE_TURN_TIMER_SEC, fromOps);
@@ -13557,7 +13564,7 @@ function clearBattleTurnTimer() {
   }
 }
 
-/** Player-turn countdown → 1:00; on 0 auto endTurn. */
+/** Player-turn countdown (30s PvE/PvP, 60s otherwise); on 0 auto endTurn. */
 function syncBattleTurnTimer({ mine = false, turn = 0, battleId = "" } = {}) {
   paintBattleTurnTimer(state.battleTurnLeft);
   if (!mine || state.battle?.result) {
