@@ -2386,46 +2386,20 @@ function gearDollLayers(catId, lane = "pve") {
 }
 
 function gearDollHtml(catId, lane = "pve") {
-  const layers = gearDollLayers(catId, lane);
-  if (!layers.length) return "";
-  return `<span class="gear-doll is-flipped" data-lane="${lane}" aria-hidden="true">${layers
-    .map((l) => `<img class="gear-doll-layer" data-doll-slot="${l.slot}" alt="" src="${l.src}" draggable="false"/>`)
-    .join("")}</span>`;
+  // Gear-set / weapon PNGs are tavern plates with opaque backgrounds — stacking them
+  // on hero cutouts creates the "extra items" clutter on roster / yard / collection.
+  // Loadout stays in side slots; do not paint doll layers onto portraits.
+  void catId;
+  void lane;
+  return "";
 }
 
 function mountGearDoll(host, catId, lane = "pve", desiredFace = "right") {
   if (!host) return;
-  const layers = gearDollLayers(catId, lane);
-  let stack = host.querySelector(":scope > .gear-doll");
-  if (!layers.length) {
-    if (stack) stack.remove();
-    return;
-  }
-  const key = `${desiredFace}|${layers.map((l) => `${l.slot}:${l.src}`).join("|")}`;
-  if (stack && stack.dataset.key === key) return;
-  if (!stack) {
-    stack = document.createElement("span");
-    stack.className = "gear-doll";
-    stack.setAttribute("aria-hidden", "true");
-    host.appendChild(stack);
-  }
-  const parentFlipped = !!(
-    host.classList?.contains("is-flipped") || host.closest?.(".mf-sprite-face.is-flipped")
-  );
-  stack.classList.toggle("is-flipped", desiredFace !== "left" && !parentFlipped);
-  stack.dataset.lane = lane;
-  stack.dataset.key = key;
-  stack.replaceChildren(
-    ...layers.map((l) => {
-      const img = document.createElement("img");
-      img.className = "gear-doll-layer";
-      img.dataset.dollSlot = l.slot;
-      img.alt = "";
-      img.draggable = false;
-      img.src = l.src;
-      return img;
-    }),
-  );
+  void catId;
+  void lane;
+  void desiredFace;
+  host.querySelector(":scope > .gear-doll")?.remove();
 }
 
 /** Starter PvE grey — one armor copy for onboarding; higher sets only from drops/pass. */
@@ -4520,9 +4494,8 @@ function renderPveYardSquad() {
         <span class="text-[11px] font-label-sm ${tc.label} font-bold uppercase tracking-wider">${lane.label}</span>
         <span class="text-[11px] font-stat-numeral text-primary font-bold bg-primary/10 px-1.5 py-0.5 rounded">Ур. ${lvl}</span>
       </div>
-      <div class="pve-yard-hero-art gear-doll-host w-full h-44 rounded-lg overflow-hidden relative bg-surface-container-highest border ${tc.art} shadow-inner flex items-center justify-center">
+      <div class="pve-yard-hero-art w-full h-44 rounded-lg overflow-hidden relative bg-surface-container-highest border ${tc.art} shadow-inner flex items-center justify-center">
         <img class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" alt="${name.replace(/"/g, "&quot;")}" src="${art}"/>
-        ${gearDollHtml(c.catId, "pve")}
         <div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent opacity-80 pointer-events-none"></div>
         <span class="absolute bottom-1.5 left-1.5 ${tc.badge} text-[10px] font-bold px-1.5 py-0.5 rounded leading-tight shadow-sm">${badge}</span>
       </div>
@@ -5711,14 +5684,11 @@ function renderFormation() {
     const m = starterMeta(id);
     const d = document.createElement("div");
     d.className = "lane-card";
-    const cat = (state.profile?.cats || []).find((c) => c.templateId === id);
     const art = catHeroArt(id);
-    const doll = cat ? gearDollHtml(cat.catId, state.equipLane || "pve") : "";
     d.innerHTML = `
       <div class="lane-label">${labels[i]}</div>
-      <div class="gear-doll-host formation-doll">
+      <div class="formation-doll">
         ${art ? `<img alt="" class="formation-doll-art" src="${art}"/>` : ""}
-        ${doll}
       </div>
       <h3>${id}</h3>
       <div class="meta">${m.role} · ${m.element}</div>
@@ -9353,11 +9323,10 @@ function renderHomeRoster(cat) {
       const role = CAT_ROLE_RU[c.role || m.role] || c.role || "—";
       const el = CAT_ELEMENT_RU[c.element || m.element] || c.element || m.element || "—";
       const art = catHeroArt(c.templateId);
-      const doll = gearDollHtml(c.catId, state.equipLane || "pve");
       const s = statsForCat(c);
       const power = sheetPower(s);
       return `<button type="button" data-home-cat="${c.catId}" class="home-roster-row p-2 rounded-xl flex items-center gap-2 shrink-0 text-left border transition-colors ${on ? "bg-surface-container-highest border-primary/50 shadow" : "bg-surface-container-lowest/40 border-outline-variant/40 hover:border-primary/40"}">
-        ${art ? `<span class="gear-doll-host">${doll}<img alt="" src="${art}" class="home-roster-avatar w-12 h-12 object-contain object-top rounded bg-surface-container-lowest shrink-0"/></span>` : `<span class="material-symbols-outlined text-primary">pets</span>`}
+        ${art ? `<img alt="" src="${art}" class="home-roster-avatar w-12 h-12 object-contain object-top rounded bg-surface-container-lowest shrink-0"/>` : `<span class="material-symbols-outlined text-primary">pets</span>`}
         <span class="home-roster-meta flex flex-col min-w-0 flex-1 gap-0.5">
           <span class="font-label-sm text-label-sm text-on-surface truncate font-bold">${name}</span>
           <span class="text-[10px] text-on-surface-variant truncate">${role} · ${el}</span>
@@ -16041,7 +16010,7 @@ function renderCollectionRosterCards(cats) {
       return `<button type="button" draggable="true" data-col-cat="${c.catId}" class="col-roster-card relative rounded-lg flex items-center gap-2 h-[88px] px-2 text-left border transition-colors cursor-grab active:cursor-grabbing ${
         on ? "is-picked bg-surface-container-highest border-primary/60" : "bg-surface-container-lowest/50 border-surface-container-highest/30 hover:border-primary/40"
       }">
-        ${art ? `<span class="gear-doll-host">${gearDollHtml(c.catId, state.equipLane || "pve")}<img alt="" src="${art}" draggable="false" class="w-14 h-14 object-cover object-top rounded shrink-0 pointer-events-none"/></span>` : `<span class="material-symbols-outlined text-primary text-[28px]">pets</span>`}
+        ${art ? `<img alt="" src="${art}" draggable="false" class="w-14 h-14 object-cover object-top rounded shrink-0 pointer-events-none"/>` : `<span class="material-symbols-outlined text-primary text-[28px]">pets</span>`}
         <span class="flex flex-col min-w-0 gap-0.5">
           <span class="font-label-sm text-label-sm text-on-surface font-bold truncate">${name}</span>
           <span class="text-[10px] text-on-surface-variant truncate">${role}${el ? ` · ${el}` : ""}</span>

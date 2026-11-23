@@ -850,7 +850,8 @@ body.mythfel-login .mythfel-logout {
   background: transparent !important;
   border-radius: 0 !important;
 }
-/* Opaque gear-set plates must not sit on live RGBA cutouts. */
+/* Opaque gear-set plates must not sit on hero cutouts / roster thumbs. */
+.gear-doll,
 #viewPracticeFight .mf-battle-unit--cutout .gear-doll,
 #viewPvpFight .mf-battle-unit--cutout .gear-doll,
 #viewBattle .mf-battle-unit--cutout .gear-doll,
