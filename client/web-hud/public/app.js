@@ -12939,7 +12939,7 @@ const ATTACK_CARD_ART_ALIAS = {
 };
 
 /** Bust Amvera/browser max-age after in-place rebakes. */
-const STITCH_ASSET_V = "elven18w";
+const STITCH_ASSET_V = "nomf1";
 
 function attackCardArtUrl(cardId) {
   if (!cardId) return "";
