@@ -3,7 +3,7 @@
  * Canon: docs/stitch-prompts-pve-pvp-gear-sets.md · gear-sets/README.md
  * Owned qty starts at 0 — drops / battle pass / shop grant copies (gear is scarce / CP key).
  */
-export const GEAR_STUB_VERSION = 4;
+export const GEAR_STUB_VERSION = 5;
 /** Soft cap for identical stack size (18 combat heroes). */
 export const GEAR_HERO_STOCK = 18;
 
