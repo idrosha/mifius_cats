@@ -1,0 +1,162 @@
+/**
+ * Rebake cat-heroes/battle/*.webp: white-studio plates → true RGBA cutouts.
+ * Flood-fill from edges so white fur/armor inside the subject is preserved.
+ *
+ * Usage: node scripts/rebake-cat-battle-cutouts.mjs
+ */
+import fs from "fs";
+import path from "path";
+import { fileURLToPath } from "url";
+import sharp from "sharp";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const BATTLE = path.resolve(__dirname, "../public/stitch-assets/cat-heroes/battle");
+const BACKUP = path.join(BATTLE, "_pre_rgba");
+
+const WHITE_MIN = 232;
+const WHITE_SOFT = 210;
+
+function isStudioWhite(r, g, b) {
+  return r >= WHITE_MIN && g >= WHITE_MIN && b >= WHITE_MIN;
+}
+
+function softAlpha(r, g, b) {
+  const m = Math.min(r, g, b);
+  if (m >= WHITE_MIN) return 0;
+  if (m <= WHITE_SOFT) return 255;
+  const t = (m - WHITE_SOFT) / (WHITE_MIN - WHITE_SOFT);
+  return Math.round(255 * (1 - t));
+}
+
+function floodMask(data, W, H) {
+  const bg = new Uint8Array(W * H);
+  const stack = [];
+  const visit = (x, y) => {
+    const i = y * W + x;
+    if (bg[i]) return;
+    const o = i * 4;
+    if (!isStudioWhite(data[o], data[o + 1], data[o + 2])) return;
+    bg[i] = 1;
+    stack.push(i);
+  };
+  for (let x = 0; x < W; x++) {
+    visit(x, 0);
+    visit(x, H - 1);
+  }
+  for (let y = 0; y < H; y++) {
+    visit(0, y);
+    visit(W - 1, y);
+  }
+  while (stack.length) {
+    const i = stack.pop();
+    const x = i % W;
+    const y = (i / W) | 0;
+    if (x > 0) visit(x - 1, y);
+    if (x < W - 1) visit(x + 1, y);
+    if (y > 0) visit(x, y - 1);
+    if (y < H - 1) visit(x, y + 1);
+  }
+  return bg;
+}
+
+async function rebakeOne(file) {
+  const src = path.join(BATTLE, file);
+  fs.mkdirSync(BACKUP, { recursive: true });
+  const bak = path.join(BACKUP, file);
+  // Prefer existing opaque backup; else snapshot current before rewrite.
+  if (!fs.existsSync(bak)) fs.copyFileSync(src, bak);
+
+  const { data, info } = await sharp(bak)
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  const { width: W, height: H } = info;
+  const bg = floodMask(data, W, H);
+
+  let cleared = 0;
+  let soft = 0;
+  const out = Buffer.alloc(W * H * 4);
+  for (let i = 0; i < W * H; i++) {
+    const o = i * 4;
+    let r = data[o];
+    let g = data[o + 1];
+    let b = data[o + 2];
+    if (bg[i]) {
+      out[o] = 0;
+      out[o + 1] = 0;
+      out[o + 2] = 0;
+      out[o + 3] = 0;
+      cleared++;
+      continue;
+    }
+    const x = i % W;
+    const y = (i / W) | 0;
+    let touch = 0;
+    if (x > 0 && bg[i - 1]) touch++;
+    if (x < W - 1 && bg[i + 1]) touch++;
+    if (y > 0 && bg[i - W]) touch++;
+    if (y < H - 1 && bg[i + W]) touch++;
+    let a = 255;
+    const m = Math.min(r, g, b);
+    if (touch && m > WHITE_SOFT) {
+      const t = Math.min(1, (m - WHITE_SOFT) / (WHITE_MIN - WHITE_SOFT));
+      a = Math.round(255 * (1 - t * 0.9));
+      const lift = t * 0.55;
+      const boost = 1 + t * 0.35;
+      r = Math.min(255, Math.max(0, Math.round((r - 255 * lift) * boost)));
+      g = Math.min(255, Math.max(0, Math.round((g - 255 * lift) * boost)));
+      b = Math.min(255, Math.max(0, Math.round((b - 255 * lift) * boost)));
+      soft++;
+    } else if (touch) {
+      const aSoft = softAlpha(r, g, b);
+      if (aSoft < 255) {
+        a = aSoft;
+        soft++;
+      }
+    }
+    out[o] = r;
+    out[o + 1] = g;
+    out[o + 2] = b;
+    out[o + 3] = a;
+  }
+
+  const tmp = src.replace(/\.webp$/i, ".rgba-tmp.webp");
+  await sharp(out, { raw: { width: W, height: H, channels: 4 } })
+    .webp({ quality: 92, alphaQuality: 100, effort: 6, smartSubsample: true })
+    .toFile(tmp);
+  try {
+    fs.renameSync(tmp, src);
+  } catch {
+    fs.copyFileSync(tmp, src);
+    fs.unlinkSync(tmp);
+  }
+
+  const corner = [0, W - 1, (H - 1) * W, H * W - 1].map((i) => out[i * 4 + 3]);
+  const transPct = ((100 * cleared) / (W * H)).toFixed(1);
+  console.log(`${file}: cleared=${cleared} (${transPct}%) soft=${soft} cornerA=${corner.join(",")}`);
+  return { file, cleared, soft, corner };
+}
+
+async function main() {
+  const files = fs
+    .readdirSync(BATTLE)
+    .filter((f) => /\.webp$/i.test(f) && !f.startsWith("_") && !f.includes("tmp"));
+  if (!files.length) {
+    console.error("No battle webp files found");
+    process.exit(1);
+  }
+  console.log(`Rebaking ${files.length} cat battle cutouts → RGBA`);
+  const report = [];
+  for (const f of files) report.push(await rebakeOne(f));
+  const bad = report.filter((r) => r.corner.some((a) => a > 0) || r.cleared < 1000);
+  if (bad.length) {
+    console.error("VERIFY FAIL:", bad.map((b) => b.file).join(", "));
+    process.exit(2);
+  }
+  console.log("OK: all corners transparent, backgrounds cleared.");
+}
+
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});
