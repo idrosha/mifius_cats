@@ -828,15 +828,19 @@ body.mythfel-login .mythfel-logout {
 /* Drop Stitch plate chrome so full-body cutouts read as sprites, not cards. */
 #viewPracticeFight .mf-battle-unit--cutout .relative.w-full,
 #viewPracticeFight .mf-battle-unit--cutout .mf-unit-frame,
-#viewPvpFight .mf-battle-unit--cutout .mf-unit-frame {
+#viewPvpFight .mf-battle-unit--cutout .mf-unit-frame,
+#viewPvpFight .mf-battle-unit--cutout .relative.w-full {
   overflow: visible !important;
   background: transparent !important;
+  background-image: none !important;
   box-shadow: none !important;
   border-color: transparent !important;
 }
 #viewPracticeFight .mf-battle-unit--cutout > div.w-full,
-#viewPracticeFight .pf-dummy-card.mf-battle-unit--cutout > div.w-full {
+#viewPracticeFight .pf-dummy-card.mf-battle-unit--cutout > div.w-full,
+#viewPvpFight .mf-battle-unit--cutout > div.w-full {
   background: transparent !important;
+  background-image: none !important;
   border-color: transparent !important;
   box-shadow: none !important;
 }

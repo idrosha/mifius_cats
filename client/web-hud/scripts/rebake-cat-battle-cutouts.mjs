@@ -1,6 +1,8 @@
 /**
  * Rebake cat-heroes/battle/*.webp: white-studio plates → true RGBA cutouts.
- * Flood-fill from edges so white fur/armor inside the subject is preserved.
+ * 1) Flood-fill studio white from edges (preserve white fur sealed by non-white outline).
+ * 2) Punch flat near-white interior holes (leftover studio BG between limbs / in gaps).
+ * 3) Soften / decontaminate fringe so white halos don't read as plates in fight HUD.
  *
  * Usage: node scripts/rebake-cat-battle-cutouts.mjs
  */
@@ -15,6 +17,10 @@ const BACKUP = path.join(BATTLE, "_pre_rgba");
 
 const WHITE_MIN = 232;
 const WHITE_SOFT = 210;
+/** Interior hole: flat studio remnant (not textured fur). */
+const HOLE_MEAN_MIN = 242;
+const HOLE_VAR_MAX = 45;
+const HOLE_MIN_PX = 60;
 
 function isStudioWhite(r, g, b) {
   return r >= WHITE_MIN && g >= WHITE_MIN && b >= WHITE_MIN;
@@ -59,6 +65,66 @@ function floodMask(data, W, H) {
   return bg;
 }
 
+/** Clear sealed flat-white blobs (studio BG trapped between limbs). */
+function clearFlatInteriorHoles(data, W, H, bg) {
+  const seen = new Uint8Array(W * H);
+  let cleared = 0;
+  let blobs = 0;
+  const nearWhite = (o) => {
+    const a = data[o + 3];
+    if (a <= 40) return false;
+    return data[o] >= 228 && data[o + 1] >= 228 && data[o + 2] >= 228;
+  };
+
+  for (let i = 0; i < W * H; i++) {
+    if (seen[i] || bg[i] || !nearWhite(i * 4)) continue;
+    const q = [i];
+    const members = [];
+    seen[i] = 1;
+    let edge = false;
+    let sum = 0;
+    let sum2 = 0;
+    while (q.length) {
+      const p = q.pop();
+      members.push(p);
+      const x = p % W;
+      const y = (p / W) | 0;
+      if (x === 0 || y === 0 || x === W - 1 || y === H - 1) edge = true;
+      const o = p * 4;
+      const v = data[o];
+      sum += v;
+      sum2 += v * v;
+      for (const [nx, ny] of [
+        [x - 1, y],
+        [x + 1, y],
+        [x, y - 1],
+        [x, y + 1],
+      ]) {
+        if (nx < 0 || ny < 0 || nx >= W || ny >= H) continue;
+        const ni = ny * W + nx;
+        if (seen[ni] || bg[ni] || !nearWhite(ni * 4)) continue;
+        seen[ni] = 1;
+        q.push(ni);
+      }
+    }
+    const n = members.length;
+    const mean = sum / n;
+    const vr = sum2 / n - mean * mean;
+    if (edge || n < HOLE_MIN_PX || mean < HOLE_MEAN_MIN || vr > HOLE_VAR_MAX) continue;
+    blobs++;
+    for (const p of members) {
+      bg[p] = 1;
+      const o = p * 4;
+      data[o] = 0;
+      data[o + 1] = 0;
+      data[o + 2] = 0;
+      data[o + 3] = 0;
+      cleared++;
+    }
+  }
+  return { cleared, blobs };
+}
+
 async function rebakeOne(file) {
   const src = path.join(BATTLE, file);
   fs.mkdirSync(BACKUP, { recursive: true });
@@ -72,6 +138,7 @@ async function rebakeOne(file) {
     .toBuffer({ resolveWithObject: true });
   const { width: W, height: H } = info;
   const bg = floodMask(data, W, H);
+  const holes = clearFlatInteriorHoles(data, W, H, bg);
 
   let cleared = 0;
   let soft = 0;
@@ -96,13 +163,20 @@ async function rebakeOne(file) {
     if (x < W - 1 && bg[i + 1]) touch++;
     if (y > 0 && bg[i - W]) touch++;
     if (y < H - 1 && bg[i + W]) touch++;
+    // Second-ring fringe: also soften if diagonal/near bg.
+    let near = touch;
+    if (x > 0 && y > 0 && bg[i - W - 1]) near++;
+    if (x < W - 1 && y > 0 && bg[i - W + 1]) near++;
+    if (x > 0 && y < H - 1 && bg[i + W - 1]) near++;
+    if (x < W - 1 && y < H - 1 && bg[i + W + 1]) near++;
     let a = 255;
     const m = Math.min(r, g, b);
-    if (touch && m > WHITE_SOFT) {
+    if ((touch || near) && m > WHITE_SOFT) {
       const t = Math.min(1, (m - WHITE_SOFT) / (WHITE_MIN - WHITE_SOFT));
-      a = Math.round(255 * (1 - t * 0.9));
-      const lift = t * 0.55;
-      const boost = 1 + t * 0.35;
+      const strength = touch ? 0.95 : 0.7;
+      a = Math.round(255 * (1 - t * strength));
+      const lift = t * (touch ? 0.65 : 0.45);
+      const boost = 1 + t * 0.4;
       r = Math.min(255, Math.max(0, Math.round((r - 255 * lift) * boost)));
       g = Math.min(255, Math.max(0, Math.round((g - 255 * lift) * boost)));
       b = Math.min(255, Math.max(0, Math.round((b - 255 * lift) * boost)));
@@ -133,8 +207,10 @@ async function rebakeOne(file) {
 
   const corner = [0, W - 1, (H - 1) * W, H * W - 1].map((i) => out[i * 4 + 3]);
   const transPct = ((100 * cleared) / (W * H)).toFixed(1);
-  console.log(`${file}: cleared=${cleared} (${transPct}%) soft=${soft} cornerA=${corner.join(",")}`);
-  return { file, cleared, soft, corner };
+  console.log(
+    `${file}: cleared=${cleared} (${transPct}%) holes=${holes.blobs}/${holes.cleared}px soft=${soft} cornerA=${corner.join(",")}`,
+  );
+  return { file, cleared, soft, corner, holes };
 }
 
 async function main() {
@@ -145,10 +221,15 @@ async function main() {
     console.error("No battle webp files found");
     process.exit(1);
   }
-  console.log(`Rebaking ${files.length} cat battle cutouts → RGBA`);
+  console.log(`Rebaking ${files.length} cat battle cutouts → RGBA (holes+fringe)`);
   const report = [];
   for (const f of files) report.push(await rebakeOne(f));
   const bad = report.filter((r) => r.corner.some((a) => a > 0) || r.cleared < 1000);
+  const reportPath = path.join(__dirname, "rebake-cat-battle-cutouts.report.json");
+  fs.writeFileSync(
+    reportPath,
+    JSON.stringify({ at: new Date().toISOString(), report }, null, 2),
+  );
   if (bad.length) {
     console.error("VERIFY FAIL:", bad.map((b) => b.file).join(", "));
     process.exit(2);
