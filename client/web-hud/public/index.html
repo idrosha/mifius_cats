@@ -733,22 +733,22 @@
 <span>Склад Усадьбы</span>
 </div>
 <div class="h-4 w-px bg-surface-container-highest"></div>
-<button class="px-space-md py-1 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all flex items-center gap-1">
+<button type="button" data-barn-nav="home" data-path="personazh" class="px-space-md py-1 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all flex items-center gap-1">
 <span class="material-symbols-outlined text-[16px]">groups</span> Персонаж / Ростер
       </button>
-<button class="px-space-md py-1 rounded-lg bg-primary text-on-primary font-label-md text-label-md transition-all shadow-sm flex items-center gap-1">
+<button type="button" data-barn-nav="gear" data-path="sklad" class="px-space-md py-1 rounded-lg bg-primary text-on-primary font-label-md text-label-md transition-all shadow-sm flex items-center gap-1">
 <span class="material-symbols-outlined text-[16px]">inventory_2</span> Склад
       </button>
-<button class="px-space-md py-1 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all flex items-center gap-1">
+<button type="button" data-barn-nav="collection" data-path="kollektsiya-pitomtsev" class="px-space-md py-1 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all flex items-center gap-1">
 <span class="material-symbols-outlined text-[16px]">pets</span> Коллекция питомцев
       </button>
-<button class="px-space-md py-1 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all flex items-center gap-1">
+<button type="button" data-barn-nav="armor_sets" data-path="sety-broni" class="px-space-md py-1 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all flex items-center gap-1">
 <span class="material-symbols-outlined text-[16px]">shield</span> Сеты брони
       </button>
-<button class="px-space-md py-1 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all flex items-center gap-1">
+<button type="button" data-barn-nav="craft" data-path="kraft" class="px-space-md py-1 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all flex items-center gap-1">
 <span class="material-symbols-outlined text-[16px]">auto_fix_high</span> Крафт и Алхимия
       </button>
-<button class="px-space-md py-1 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all flex items-center gap-1">
+<button type="button" data-barn-nav="breeding" data-path="skreshchivanie" class="px-space-md py-1 rounded-lg bg-surface-container text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-all flex items-center gap-1">
 <span class="material-symbols-outlined text-[16px]">egg</span> Скрещивание
       </button>
 </div>
@@ -2161,10 +2161,25 @@
 <div id="craftCategoryTabs" class="flex items-center gap-space-xs overflow-x-auto py-1 w-full"><button id="tab-all" data-category="all" class="craft-cat-tab px-space-md py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface transition-colors whitespace-nowrap">Все рецепты</button><button id="tab-alchemy" data-category="alchemy" class="craft-cat-tab px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md shadow-sm whitespace-nowrap flex items-center gap-1.5 font-bold"><span class="material-symbols-outlined text-[16px]">science</span>Алхимия и Зелья (Активно)</button><button id="tab-forge" data-category="forge" class="craft-cat-tab px-space-md py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface transition-colors whitespace-nowrap flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px]">hardware</span>Кузница и Оружие</button><button id="tab-scrolls" data-category="scrolls" class="craft-cat-tab px-space-md py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface transition-colors whitespace-nowrap flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px]">auto_stories</span>Боевые Свитки</button><button id="tab-runes" data-category="runes" class="craft-cat-tab px-space-md py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface transition-colors whitespace-nowrap flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px]">diamond</span>Инкрустация Рун</button><button id="tab-farm" data-category="farm" class="craft-cat-tab px-space-md py-1.5 rounded-lg bg-surface-container text-on-surface-variant font-label-md text-label-md hover:bg-surface-container-high hover:text-on-surface transition-colors whitespace-nowrap flex items-center gap-1.5"><span class="material-symbols-outlined text-[16px]">agriculture</span>Все для фермы</button></div>
 </div>
 <!-- Primary 3-Column Crafting Studio Arena -->
-<div class="craft-studio w-full px-space-lg py-space-md grid grid-cols-1 lg:grid-cols-12 gap-space-md flex-1 items-stretch">
-<!-- LEFT COLUMN: Recipe Codex Tray (28%) -->
-<div class="lg:col-span-3 flex flex-col justify-between gap-space-sm bg-surface-container-low p-space-md rounded-xl shadow-lg border border-outline-variant/30 flex-1 h-full">
-<!-- Top Header Section -->
+<div class="craft-studio w-full px-space-lg py-space-md grid grid-cols-1 lg:grid-cols-12 gap-space-md flex-1 items-stretch min-h-0">
+<!-- LEFT COLUMN: Banner + Recipe Codex (28%) -->
+<div class="lg:col-span-3 flex flex-col gap-space-sm flex-1 h-full min-h-0">
+<div id="craftBannerCard" class="craft-banner relative w-full h-44 shrink-0 rounded-xl overflow-hidden bg-surface-container-lowest shadow-2xl flex flex-col justify-end p-space-md border border-outline-variant/30">
+<div class="absolute inset-0 bg-cover bg-center" data-alt="Workshop interior alchemy hearth" id="craftBannerBg" data-mf-bg="/stitch-ref/home-keeper/craft/art-4.png"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/70 to-transparent"></div>
+<div class="relative z-10 flex flex-col gap-1.5 w-full min-w-0">
+<div class="flex items-center justify-between gap-2 flex-wrap">
+<span id="craftBannerTag" class="px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase font-bold tracking-wider">Алхимический Горн</span>
+<div class="flex flex-col items-end shrink-0 px-2 py-0.5 rounded-lg bg-surface-container-lowest/80 border border-outline-variant/30 backdrop-blur-sm">
+<span id="craftBannerTime" class="font-stat-numeral text-[18px] text-primary leading-none">02:00</span>
+<span class="font-label-sm text-[10px] text-on-surface-variant">Время варки</span>
+</div>
+</div>
+<h1 id="craftBannerTitle" class="font-headline-md text-[18px] text-on-surface drop-shadow-md leading-tight line-clamp-2">Эликсир Громового Рывка</h1>
+<p id="craftBannerBlurb" class="font-body-sm text-[12px] text-on-surface-variant line-clamp-2">В бою: <span class="text-primary font-bold">+25% к скорости атаки</span>.</p>
+</div>
+</div>
+<div class="flex flex-col justify-between gap-space-sm bg-surface-container-low p-space-md rounded-xl shadow-lg border border-outline-variant/30 flex-1 min-h-0">
 <div class="flex flex-col gap-space-xs shrink-0">
 <div class="flex items-center justify-between pb-space-xs border-b border-outline-variant/20">
 <div class="flex items-center gap-1.5">
@@ -2173,31 +2188,20 @@
 </div>
 <span id="recipe-count-badge" class="font-label-sm text-label-sm text-on-surface-variant">· Доступно: 8</span>
 </div>
-<!-- Category Filter Pills Bar -->
-
 </div>
-<!-- Extended Scrollable Recipe List -->
-<div id="craftRecipeList" class="craft-recipe-list flex flex-col gap-2 overflow-y-auto flex-1 pr-1"></div>
-<!-- Quick Left-Column Actions (Pinned to Bottom) -->
+<div id="craftRecipeList" class="craft-recipe-list flex flex-col gap-2 overflow-y-auto flex-1 min-h-0 pr-1"></div>
 <div class="mt-auto pt-space-sm flex flex-col gap-space-xs shrink-0 border-t border-outline-variant/20">
-
 <button class="w-full py-1.5 rounded-lg bg-transparent text-primary hover:text-primary-fixed-dim font-label-sm text-label-sm flex items-center justify-center gap-1">
 <span class="material-symbols-outlined text-[16px]">menu_book</span>
       Изучить рецепты в Кодексе
     </button>
 </div>
 </div>
-<!-- CENTER COLUMN: Master Crafting Altar & Workbench (44%) -->
-<div class="lg:col-span-6 flex flex-col gap-space-md flex-1 h-full">
-<!-- Visual Altar / Laboratory Banner -->
-<div class="relative w-full h-60 md:h-64 rounded-xl overflow-hidden bg-surface-container-lowest shadow-2xl flex flex-col justify-end p-space-lg">
-<div class="absolute inset-0 bg-cover bg-center" data-alt="Workshop interior: «Алхимия и Зелья» (Alchemy &amp; Potion Brewing Hearth). An ancient mystical stone alchemy table with glowing glass flasks, bubbling emerald, violet and azure elixirs, swirling sparks of magic, runic carvings on dark granite stone, dried herbs hanging above, warm golden hearth fire blazing in the background." id="craftBannerBg" data-mf-bg="/stitch-ref/home-keeper/craft/art-4.png"></div>
-<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/50 to-transparent"></div>
-<!-- Ambient Rune Overlay Badge -->
-<div class="relative z-10 flex flex-col sm:flex-row items-center sm:items-end justify-between text-center sm:text-left gap-space-sm w-full"><div class="flex flex-col items-center sm:items-start"><div class="flex items-center gap-2"><span id="craftBannerTag" class="px-2 py-0.5 rounded bg-primary-container text-on-primary-container font-label-sm text-label-sm uppercase font-bold tracking-wider">Алхимический Горн</span><span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-label-sm">Резонанс 100%</span></div><h1 id="craftBannerTitle" class="font-headline-lg text-headline-lg text-on-surface mt-1 drop-shadow-md">Эликсир Громового Рывка</h1><p id="craftBannerBlurb" class="font-body-md text-body-md text-on-surface-variant max-w-md">В бою: <span class="text-primary font-bold">+25% к скорости атаки</span> и активация эффекта <span class="text-secondary font-bold">Цепная Молния</span> на первые 3 хода.</p></div><div class="flex flex-col items-center sm:items-end shrink-0 px-space-sm py-1 rounded-lg bg-surface-container-lowest/80 border border-outline-variant/30 backdrop-blur-sm"><span id="craftBannerTime" class="font-stat-numeral text-stat-numeral text-primary leading-none">02:00</span><span class="font-label-sm text-label-sm text-on-surface-variant">Время варки</span></div></div>
 </div>
+<!-- CENTER COLUMN: Craft Matrix (44%) -->
+<div class="lg:col-span-6 flex flex-col gap-space-md flex-1 h-full min-h-0">
 <!-- Workbench Craft Matrix Panel -->
-<div class="p-space-md md:p-space-lg rounded-xl bg-surface-container-low border border-primary/30 shadow-[0_8px_30px_rgba(0,0,0,0.7)] flex flex-col gap-space-md relative overflow-hidden backdrop-blur-md">
+<div class="craft-matrix p-space-md md:p-space-lg rounded-xl bg-surface-container-low border border-primary/30 shadow-[0_8px_30px_rgba(0,0,0,0.7)] flex flex-col gap-space-md relative overflow-hidden backdrop-blur-md flex-1 min-h-0 h-full justify-between">
 <div class="absolute -top-12 -right-12 w-40 h-40 bg-primary/10 rounded-full blur-2xl pointer-events-none"></div>
 <div class="absolute -bottom-10 -left-10 w-36 h-36 bg-tertiary-container/10 rounded-full blur-2xl pointer-events-none"></div>
 <!-- Top Runic Resonance & Recipe Specs Strip -->
@@ -2265,7 +2269,7 @@
 <!-- MODULE 1: Auto-craft & Production Queue Panel -->
 </div>
 <!-- RIGHT COLUMN: Stockpile & Quick Guide (28%) -->
-<div class="lg:col-span-3 flex flex-col gap-2 h-full justify-start">
+<div class="lg:col-span-3 flex flex-col gap-2 h-full min-h-0 justify-stretch">
 <!-- Warehouse Stockpile Tray -->
 <div class="p-space-md rounded-xl bg-surface-container-low shadow-lg flex flex-col gap-space-sm border border-outline-variant/20 shrink-0">
 <div class="flex items-center justify-between pb-space-xs border-b border-outline-variant/20">
@@ -9132,11 +9136,11 @@
 </div>
 <!-- Menu Drink Items Stack -->
 <div class="flex flex-col gap-space-sm">
-<!-- ITEM 1: FEATURED MILK DRINK (using /stitch-ref/17eb/tavern.png) -->
+<!-- ITEM 1: FEATURED MILK DRINK -->
 <div class="bg-surface-container-low hover:bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-xs shadow-md transition-all relative overflow-hidden group">
 <div class="flex items-start gap-space-md">
 <div class="relative w-24 h-24 rounded-lg overflow-hidden bg-surface-container-lowest shrink-0 shadow-inner">
-<img alt="Парное Молоко со льдом" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"  decoding="async" loading="lazy" data-mf-src="/stitch-ref/17eb/tavern.png" src="">
+<img alt="Парное Молоко со льдом" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"  decoding="async" loading="lazy" data-mf-src="/stitch-assets/tavern/milk-on-ice.jpg" src="">
 <span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-primary text-on-primary font-stat-numeral text-label-sm shadow">
                   ХИТ
                 </span>
@@ -9394,7 +9398,7 @@
 <div class="flex flex-col gap-space-xs text-body-sm">
 <!-- Handbook Item 1 -->
 <div class="bg-surface-container p-space-xs rounded-lg flex items-start gap-2 hover:bg-surface-container-high transition-colors">
-<span class="text-base shrink-0 mt-0.5">🥛</span>
+<img alt="" class="w-5 h-5 rounded object-cover shrink-0 mt-0.5" decoding="async" loading="lazy" data-mf-src="/stitch-assets/tavern/milk-on-ice.jpg" src="">
 <div class="min-w-0 flex-1">
 <div class="font-label-sm text-label-sm text-primary flex items-center justify-between">
 <span>Парное Молоко со льдом</span>
@@ -9752,11 +9756,11 @@
 <div class="flex items-center justify-between shrink-0">
 <div class="flex items-center gap-space-sm">
 <span class="material-symbols-outlined text-primary text-[22px]">pets</span>
-<h2 class="font-headline-md text-headline-md text-primary-fixed">Герои-котики · 12 common</h2>
+<h2 class="font-headline-md text-headline-md text-primary-fixed">Герои-котики · 18 common</h2>
 </div>
-<span class="font-label-sm text-label-sm text-outline uppercase">6 ролей × 2 варианта</span>
+<span class="font-label-sm text-label-sm text-outline uppercase">по стихиям · огонь / вода / ветер</span>
 </div>
-<div class="shop-section-body grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-space-sm">
+<div class="shop-section-body shop-heroes-by-element flex flex-col gap-space-md">
 <!-- tank a -->
 <article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-sm shadow-sm hover:bg-surface-container-high transition-colors group" data-sku="shop_tank_stone_a" data-price="80">
 <div class="relative aspect-square rounded-lg overflow-hidden bg-surface-container-highest shadow-inner">

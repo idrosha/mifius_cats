@@ -850,6 +850,13 @@ body.mythfel-login .mythfel-logout {
   background: transparent !important;
   border-radius: 0 !important;
 }
+/* Opaque gear-set plates must not sit on live RGBA cutouts. */
+#viewPracticeFight .mf-battle-unit--cutout .gear-doll,
+#viewPvpFight .mf-battle-unit--cutout .gear-doll,
+#viewBattle .mf-battle-unit--cutout .gear-doll,
+#viewRaidBattle .mf-battle-unit--cutout .gear-doll {
+  display: none !important;
+}
 
 /**
  * D-048: live-cutout silhouette by role + overall bump (practice / Mythmir / PvP / yard).
@@ -2133,6 +2140,16 @@ body:has(#viewAuction:not(.hidden)) #wireDock {
   overflow: auto;
   overscroll-behavior: contain;
   padding-right: 0.15rem;
+  -webkit-overflow-scrolling: touch;
+}
+#viewShop .shop-heroes-by-element {
+  display: flex !important;
+  flex-direction: column;
+  gap: 0.75rem;
+  align-content: start;
+}
+#viewShop .shop-element-group {
+  flex: 0 0 auto;
 }
 @keyframes shopPulseGlow {
   0%, 100% { box-shadow: 0 0 0 0 rgba(253, 186, 69, 0.25); }
@@ -2838,15 +2855,28 @@ body:has(#viewCraft:not(.hidden)) #app {
   min-height: 0 !important;
   align-items: stretch !important;
   overflow: hidden !important;
+  grid-template-rows: minmax(0, 1fr);
 }
 #viewCraft .craft-studio > [class*="col-span"] {
   min-height: 0;
+  height: 100%;
   align-self: stretch;
+  display: flex;
+  flex-direction: column;
+}
+#viewCraft .craft-banner {
+  flex: 0 0 auto;
+}
+#viewCraft .craft-matrix {
+  flex: 1 1 auto;
+  min-height: 0;
 }
 #viewCraft .craft-recipe-list {
   justify-content: flex-start !important;
   gap: 0.5rem !important;
+  min-height: 0;
 }
+
 #viewCraft .craft-recipe-list .recipe-card {
   flex: 0 0 auto;
 }
@@ -6805,7 +6835,7 @@ body:has(#viewPass:not(.hidden)) #app {
   flex: 0 0 auto;
 }
 #viewCraft #craft-hearth-buff {
-  margin-top: 0.25rem;
+  margin-top: auto;
 }
 #viewCraft .craft-recipe-list .recipe-card img {
   object-fit: contain;
@@ -6815,9 +6845,14 @@ body:has(#viewPass:not(.hidden)) #app {
   background-size: cover;
   background-position: center;
 }
+#viewCraft #craftBannerCard {
+  min-height: 10.5rem;
+}
 #viewCraft .craft-studio > [class*="col-span"] {
   min-height: 0;
+  height: 100%;
 }
+
 
 /* Live manor nursery — only viewBreeding (D-030 stub; chrome = #appNav) */
 body:has(#viewBreeding:not(.hidden)) #wireDock { display: none !important; }
