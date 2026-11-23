@@ -139,22 +139,29 @@ async function proxy(req, res, targetBase, stripPrefix) {
 
 /**
  * Soft-launch **test** roster for Web HUD smoke (not production NewPlayer §5.1).
- * = §5.1 starters (3) + all 12 shop common variants (2×6 classes) + 1 farm
- * → 16 cats. Production GrantStarterKit stays 3 combat + farm (equal decks).
+ * = §5.1 starters (3) + elven-18 shop commons (6 roles × fire/water/wind) + 1 farm
+ * → 22 cats. Production GrantStarterKit stays 3 combat + farm (equal decks).
+ * Canon: content/cats/elven_18.json · shop_common.json · CAT_HERO_ART.
  */
 const SHOP_COMMON_COMBAT = [
-  { templateId: "shop_tank_stone_a", role: "tank", element: "stone", variant: "a" },
-  { templateId: "shop_tank_stone_b", role: "tank", element: "stone", variant: "b" },
-  { templateId: "shop_fighter_fire_a", role: "fighter", element: "fire", variant: "a" },
-  { templateId: "shop_fighter_fire_b", role: "fighter", element: "fire", variant: "b" },
-  { templateId: "shop_assassin_bolt_a", role: "assassin", element: "bolt", variant: "a" },
-  { templateId: "shop_assassin_bolt_b", role: "assassin", element: "bolt", variant: "b" },
-  { templateId: "shop_ranger_grass_a", role: "ranger", element: "grass", variant: "a" },
-  { templateId: "shop_ranger_grass_b", role: "ranger", element: "grass", variant: "b" },
-  { templateId: "shop_mage_fire_a", role: "mage", element: "fire", variant: "a" },
-  { templateId: "shop_mage_ice_b", role: "mage", element: "ice", variant: "b" },
-  { templateId: "shop_support_water_a", role: "support", element: "water", variant: "a" },
-  { templateId: "shop_support_water_b", role: "support", element: "water", variant: "b" },
+  { templateId: "shop_tank_fire", role: "tank", element: "fire" },
+  { templateId: "shop_tank_water", role: "tank", element: "water" },
+  { templateId: "shop_tank_wind", role: "tank", element: "wind" },
+  { templateId: "shop_fighter_fire", role: "fighter", element: "fire" },
+  { templateId: "shop_fighter_water", role: "fighter", element: "water" },
+  { templateId: "shop_fighter_wind", role: "fighter", element: "wind" },
+  { templateId: "shop_assassin_fire", role: "assassin", element: "fire" },
+  { templateId: "shop_assassin_water", role: "assassin", element: "water" },
+  { templateId: "shop_assassin_wind", role: "assassin", element: "wind" },
+  { templateId: "shop_ranger_fire", role: "ranger", element: "fire" },
+  { templateId: "shop_ranger_water", role: "ranger", element: "water" },
+  { templateId: "shop_ranger_wind", role: "ranger", element: "wind" },
+  { templateId: "shop_mage_fire", role: "mage", element: "fire" },
+  { templateId: "shop_mage_water", role: "mage", element: "water" },
+  { templateId: "shop_mage_wind", role: "mage", element: "wind" },
+  { templateId: "shop_support_fire", role: "support", element: "fire" },
+  { templateId: "shop_support_water", role: "support", element: "water" },
+  { templateId: "shop_support_wind", role: "support", element: "wind" },
 ];
 
 function grantStarterKit(userId = "local_smoke", { testRoster = true } = {}) {
@@ -284,7 +291,7 @@ const server = http.createServer(async (req, res) => {
     const chunks = [];
     for await (const chunk of req) chunks.push(chunk);
     let userId = "local_smoke";
-    // Soft-launch Web HUD default: full test roster (16 = 3 starters + 12 shop + farm). Pass testRoster:false for pure §5.1.
+    // Soft-launch Web HUD default: full test roster (22 = 3 starters + 18 shop + farm). Pass testRoster:false for pure §5.1.
     let testRoster = u.searchParams.get("testRoster") !== "0";
     try {
       const body = Buffer.concat(chunks).toString("utf8");

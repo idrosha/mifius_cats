@@ -1,10 +1,10 @@
 {
   "stub": true,
   "note": "D-031 HUD stub; cats from grant/profile; 3 editable squads local; presets cap 5 until SavePreset RPC",
-  "slotCap": 15,
+  "slotCap": 24,
   "presetSlots": 5,
   "squadsEditable": 3,
-  "rosterMode": "shop_x12",
+  "rosterMode": "elven_x18",
   "activePresetIndex": 0,
   "presets": [
     { "name": "starter", "catIds": [] },
