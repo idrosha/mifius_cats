@@ -82,6 +82,38 @@ html, body {
   overflow: hidden;
 }
 
+/* Shared tavern hearth backdrop (cat-heroes cutouts pages) */
+.stitch-view.mf-has-tavern-bg {
+  position: relative;
+  isolation: isolate;
+}
+.mf-tavern-page-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.mf-tavern-page-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(22, 19, 16, 0.78) 0%, rgba(22, 19, 16, 0.42) 42%, rgba(22, 19, 16, 0.88) 100%),
+    radial-gradient(ellipse at 72% 58%, rgba(253, 186, 69, 0.14), transparent 58%);
+}
+.stitch-view.mf-has-tavern-bg > *:not(.mf-tavern-page-bg) {
+  z-index: 1;
+}
+.stitch-view.mf-has-tavern-bg > main.bg-background,
+.stitch-view.mf-has-tavern-bg > main.bg-surface,
+.stitch-view.mf-has-tavern-bg > main.bg-surface-dim,
+.stitch-view.mf-has-tavern-bg > main.wf {
+  background-color: rgba(22, 19, 16, 0.42) !important;
+}
+
 .stitch-view.hidden,
 .mythfel-form.hidden,
 .hud-view.hidden {
@@ -2001,6 +2033,61 @@ body:has(#viewShop:not(.hidden)) #wireDock,
 body:has(#viewMarket:not(.hidden)) #wireDock,
 body:has(#viewAuction:not(.hidden)) #wireDock {
   display: none !important;
+}
+
+/* Shop: one viewport page — banner/tabs fixed, catalog scrolls inside */
+#viewShop > main {
+  overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+#viewShop .shop-stage {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  overflow: hidden;
+}
+#viewShop .shop-banner,
+#viewShop .shop-toolbar {
+  flex: 0 0 auto;
+}
+#viewShop #shop-catalog-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+#viewShop .shop-section {
+  min-height: 0;
+}
+#viewShop .shop-section:not([hidden]) {
+  display: flex !important;
+  flex-direction: column;
+  flex: 1 1 auto;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+}
+#viewShop .shop-section[hidden] {
+  display: none !important;
+}
+#viewShop .shop-section-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding-right: 0.15rem;
+}
+@keyframes shopPulseGlow {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(253, 186, 69, 0.25); }
+  50% { box-shadow: 0 0 16px 2px rgba(253, 186, 69, 0.35); }
+}
+#viewShop [data-sku="pass_buy"] {
+  animation: shopPulseGlow 3.2s ease-in-out infinite;
 }
 
 /* Live character desk (/hero). Exact Stitch character-stitch-v1; shared fillNav stays. */

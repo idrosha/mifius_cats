@@ -5370,6 +5370,72 @@ function renderFormation() {
   }
 }
 
+const SHOP_CAT_ACTIVE =
+  "shop-cat-btn px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md whitespace-nowrap shadow-[0_0_12px_rgba(217,155,38,0.3)]";
+const SHOP_CAT_IDLE =
+  "shop-cat-btn px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface whitespace-nowrap transition-all";
+
+function shopParsePrice(el) {
+  if (!el) return 0;
+  const raw = el.getAttribute?.("data-price") ?? el.dataset?.price ?? "0";
+  return Number(String(raw).replace(/[^\d.]/g, "")) || 0;
+}
+
+function sortShopSectionCards(section) {
+  if (!section) return;
+  const id = section.getAttribute("data-shop-section") || "";
+  // Featured / pass use asymmetric hero layout — keep authored order.
+  if (id === "featured" || id === "pass") return;
+  const grids = section.querySelectorAll(".grid, .shop-section-body");
+  for (const grid of grids) {
+    const cards = [...grid.children].filter((n) => n.matches?.("article[data-sku], article[data-price]"));
+    if (cards.length < 2) continue;
+    cards.sort((a, b) => {
+      const pa = shopParsePrice(a);
+      const pb = shopParsePrice(b);
+      if (pa !== pb) return pa - pb;
+      const na = (a.querySelector(".font-label-md, .font-label-lg, h2, h3")?.textContent || "").trim();
+      const nb = (b.querySelector(".font-label-md, .font-label-lg, h2, h3")?.textContent || "").trim();
+      return na.localeCompare(nb, "ru");
+    });
+    for (const card of cards) grid.appendChild(card);
+  }
+}
+
+function updateShopCartBar() {
+  const root = $("viewShop");
+  if (!root) return;
+  const checks = [...root.querySelectorAll(".shop-select:checked")];
+  let total = 0;
+  for (const box of checks) total += shopParsePrice(box);
+  const countEl = $("selected-count");
+  const totalEl = $("total-bm-price");
+  if (countEl) countEl.textContent = String(checks.length);
+  if (totalEl) totalEl.textContent = String(total);
+}
+
+function setShopCategory(cat) {
+  const root = $("viewShop");
+  if (!root) return;
+  const active = cat || root.dataset.shopCat || "featured";
+  root.dataset.shopCat = active;
+  for (const btn of root.querySelectorAll("[data-shop-cat]")) {
+    const on = btn.getAttribute("data-shop-cat") === active;
+    btn.className = on ? SHOP_CAT_ACTIVE : SHOP_CAT_IDLE;
+  }
+  for (const section of root.querySelectorAll("[data-shop-section]")) {
+    const id = section.getAttribute("data-shop-section");
+    section.hidden = id !== active;
+  }
+  const catalog = $("shop-catalog-grid");
+  if (catalog) catalog.scrollTop = 0;
+  const shown = root.querySelector(`[data-shop-section="${active}"]`);
+  if (shown) {
+    const body = shown.querySelector(".shop-section-body");
+    if (body) body.scrollTop = 0;
+  }
+}
+
 function bindShopPassBuyOnce() {
   const root = $("viewShop");
   if (!root || root.dataset.passBuyBound === "1") return;
@@ -5384,6 +5450,46 @@ function bindShopPassBuyOnce() {
   });
 }
 
+function bindShopCatalogOnce() {
+  const root = $("viewShop");
+  if (!root || root.dataset.shopCatalogBound === "1") return;
+  root.dataset.shopCatalogBound = "1";
+
+  for (const section of root.querySelectorAll("[data-shop-section]")) {
+    sortShopSectionCards(section);
+  }
+
+  root.querySelector("#shop-category-nav")?.addEventListener("click", (ev) => {
+    const btn = ev.target.closest("[data-shop-cat]");
+    if (!btn || !root.contains(btn)) return;
+    ev.preventDefault();
+    setShopCategory(btn.getAttribute("data-shop-cat"));
+  });
+
+  root.addEventListener("change", (ev) => {
+    if (ev.target?.classList?.contains("shop-select")) updateShopCartBar();
+  });
+
+  $("buy-all-btn")?.addEventListener("click", () => {
+    const checks = [...root.querySelectorAll(".shop-select:checked")];
+    if (!checks.length) {
+      toast(state.locale === "ru" ? "Ничего не выбрано" : "Nothing selected");
+      return;
+    }
+    const total = checks.reduce((sum, box) => sum + shopParsePrice(box), 0);
+    toast(
+      state.locale === "ru"
+        ? `Корзина: ${checks.length} шт. · ${total} пряжи (stub)`
+        : `Cart: ${checks.length} · ${total} yarn (stub)`,
+    );
+    for (const box of checks) box.checked = false;
+    updateShopCartBar();
+  });
+
+  setShopCategory(root.dataset.shopCat || "featured");
+  updateShopCartBar();
+}
+
 function renderShop() {
   $("shopEyebrow").textContent = t("hub.tab.shop");
   $("shopTitle").textContent = t("hub.tab.shop");
@@ -5392,6 +5498,9 @@ function renderShop() {
     "IAP · пасс (сет+герой) · рыбки · breeding · PvP броня · PvE сеты — редкий дроп данжей/рейдов",
   );
   bindShopPassBuyOnce();
+  bindShopCatalogOnce();
+  setShopCategory($("viewShop")?.dataset.shopCat || "featured");
+  updateShopCartBar();
   const passCard = $("viewShop")?.querySelector('[data-sku="pass_buy"]');
   if (passCard) {
     const ul = passCard.querySelector("ul");
@@ -6341,6 +6450,8 @@ function renderCodex() {
   if (host) {
     if (topic.mode === "arsenal" && window.__codexArmorHTML) {
       host.innerHTML = window.__codexArmorHTML;
+      // Restored markup may still carry data-mf-src (empty src) after topic switches.
+      hydrateViewImages(host);
       const goHtml = codexGoHtml(topic.go || []);
       if (goHtml) {
         const strip = document.createElement("div");
@@ -6349,6 +6460,7 @@ function renderCodex() {
         strip.innerHTML = goHtml;
         host.appendChild(strip);
       }
+      inspectTier(state.codexRankFocus || 6);
     } else {
       host.innerHTML = codexRenderArticle(topic);
     }
@@ -7124,6 +7236,7 @@ const CAT_ELEMENT_RU = {
   stone: "Камень",
   fire: "Огонь",
   water: "Вода",
+  wind: "Ветер",
   bolt: "Молния",
   grass: "Трава",
   ice: "Лёд",
@@ -7132,6 +7245,7 @@ const CAT_ELEMENT_GEN = {
   stone: "камня",
   fire: "огня",
   water: "воды",
+  wind: "ветра",
   bolt: "молнии",
   grass: "травы",
   ice: "льда",
@@ -7916,7 +8030,7 @@ const HOME_SLOT_VISUAL = ["weapon", "cloak", "belt", "ring", "helm", "armor", "s
 
 const HOME_SLOT_LABEL = {};
 
-/** Home sheet = knowledge base 12 (shop ×6×2). Starters are combat twins, not extra roster rows. */
+/** Home / collection roster = elven-18 shop commons. Starters are combat twins, not extra rows. */
 function homeRosterCats() {
   const all = (state.profile?.cats || []).filter((c) => c.role !== "farm");
   const shop = all.filter((c) => String(c.templateId || "").startsWith("shop_"));
@@ -8463,13 +8577,91 @@ function syncHomeSheetStats(cat) {
 }
 
 
-function bindHeroesCodex() {
+/** Codex heroes grid — elven 18 from HERO_CHEST_POOL (not stale stitch 12×a/b cards). */
+function renderHeroesCodex() {
   const root = $("viewHeroes");
-  if (!root || root.dataset.heroesBound === "1") return;
-  root.dataset.heroesBound = "1";
-  const cards = root.querySelectorAll(".archetype-card");
-  const filters = root.querySelectorAll(".filter-btn");
+  if (!root || root.classList.contains("hidden")) return;
+  const grid = root.querySelector("#archetypes-grid");
+  if (!grid) return;
+
+  const pool = HERO_CHEST_POOL;
+  const roleCounts = {};
+  for (const tid of pool) {
+    const role = starterMeta(tid)?.role || String(tid).split("_")[1] || "";
+    roleCounts[role] = (roleCounts[role] || 0) + 1;
+  }
+  const n = pool.length;
+
+  const openStat = [...root.querySelectorAll(".font-stat-numeral")].find((el) =>
+    /\d+\s*\/\s*\d+/.test(el.textContent || ""),
+  );
+  if (openStat && /Открыто героев/i.test(openStat.previousElementSibling?.textContent || openStat.parentElement?.textContent || "")) {
+    openStat.textContent = `${n} / ${n} (100%)`;
+  }
+  const lead = root.querySelector("header p.font-body-sm");
+  if (lead && /Архетип/i.test(lead.textContent || "")) {
+    lead.textContent = `${n} героев: 6 классов × огонь / вода / ветер · пассивки, синергии и роль в отряде`;
+  }
+  const badge = [...root.querySelectorAll("span")].find((el) => /Том I/i.test(el.textContent || ""));
+  if (badge) badge.textContent = `Том I • ${n} героев`;
+
+  const filters = root.querySelectorAll("#role-filters .filter-btn, .filter-btn");
+  const filterLabels = {
+    all: `Все архетипы (${n})`,
+    tank: `Танки (${roleCounts.tank || 0})`,
+    fighter: `Бойцы (${roleCounts.fighter || 0})`,
+    assassin: `Ассасины (${roleCounts.assassin || 0})`,
+    ranger: `Стрелки (${roleCounts.ranger || 0})`,
+    archer: `Стрелки (${roleCounts.ranger || 0})`,
+    mage: `Маги (${roleCounts.mage || 0})`,
+    support: `Поддержка (${roleCounts.support || 0})`,
+  };
+  filters.forEach((btn) => {
+    let role = btn.getAttribute("data-filter") || "all";
+    if (role === "archer") {
+      role = "ranger";
+      btn.setAttribute("data-filter", "ranger");
+    }
+    if (filterLabels[role]) btn.textContent = filterLabels[role];
+  });
+
+  const activeFilter = state.heroesRoleFilter || "all";
+  grid.innerHTML = pool
+    .map((tid, i) => {
+      const meta = starterMeta(tid) || {};
+      const role = meta.role || String(tid).split("_")[1] || "";
+      const el = meta.element || String(tid).split("_")[2] || "";
+      const name = CAT_SHEET_NAMES[tid] || tid;
+      const art = catHeroArt(tid) || "";
+      const blurb = CAT_HERO_BLURB[tid] || `${CAT_ROLE_RU[role] || role} · ${CAT_ELEMENT_RU[el] || el}`;
+      const on = (state.heroesFocusId || pool[0]) === tid;
+      return `<article class="archetype-card cursor-pointer rounded-lg p-space-sm transition-all duration-200 ${
+        on ? "bg-surface-container-highest shadow-md" : "bg-surface-container-low hover:bg-surface-container-high shadow"
+      } relative group flex flex-col justify-between" data-id="${tid}" data-template="${tid}" data-role="${role}"${
+        on ? ' style="box-shadow: 0 0 12px rgba(217, 155, 38, 0.4);"' : ""
+      }>
+        <div class="flex items-start gap-space-sm">
+          <div class="w-12 h-12 rounded-lg bg-surface-container-lowest shrink-0 overflow-hidden relative shadow-inner">
+            ${art ? `<img class="w-full h-full object-cover object-top" alt="${name}" src="${art}" decoding="async" loading="lazy"/>` : `<span class="material-symbols-outlined text-primary absolute inset-0 m-auto text-[22px] w-fit h-fit">pets</span>`}
+            <span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-primary flex items-center justify-center text-[9px] text-on-primary font-bold">${i + 1}</span>
+          </div>
+          <div class="flex flex-col min-w-0 flex-1">
+            <div class="flex items-center justify-between gap-1">
+              <span class="font-label-sm text-label-sm ${on ? "text-primary" : "text-on-surface-variant"} uppercase tracking-wider">${CAT_ROLE_RU[role] || role}</span>
+              <span class="px-1.5 py-0.5 rounded bg-surface-container-highest text-secondary font-label-sm text-label-sm">${CAT_ELEMENT_RU[el] || el}</span>
+            </div>
+            <h2 class="font-headline-md text-body-lg text-on-surface truncate group-hover:text-primary">${name}</h2>
+            <p class="font-body-sm text-body-sm text-on-surface-variant truncate">${blurb}</p>
+          </div>
+        </div>
+      </article>`;
+    })
+    .join("");
+
+  const focusTpl = state.heroesFocusId && pool.includes(state.heroesFocusId) ? state.heroesFocusId : pool[0];
+  state.heroesFocusId = focusTpl;
   const focusCard = (card) => {
+    const cards = grid.querySelectorAll(".archetype-card");
     cards.forEach((c) => {
       c.classList.remove("bg-surface-container-highest");
       c.classList.add("bg-surface-container-low");
@@ -8478,9 +8670,9 @@ function bindHeroesCodex() {
     card.classList.add("bg-surface-container-highest");
     card.classList.remove("bg-surface-container-low");
     card.style.boxShadow = "0 0 12px rgba(217, 155, 38, 0.4)";
-    const tpl = card.getAttribute("data-template");
-    const id = card.getAttribute("data-id") || "";
-    const title = card.querySelector("h2")?.textContent?.trim() || id;
+    const tpl = card.getAttribute("data-template") || "";
+    state.heroesFocusId = tpl;
+    const title = card.querySelector("h2")?.textContent?.trim() || tpl;
     const art = tpl ? catHeroArt(tpl) : null;
     const artEl = $("heroInspectorArt");
     const nameEl = $("heroInspectorName");
@@ -8491,36 +8683,55 @@ function bindHeroesCodex() {
       artEl.alt = title;
     }
     if (nameEl) nameEl.textContent = title;
-    if (blurbEl) {
-      blurbEl.textContent =
-        (tpl && CAT_HERO_BLURB[tpl]) ||
-        card.querySelector("p")?.textContent?.trim() ||
-        "";
-    }
+    if (blurbEl) blurbEl.textContent = (tpl && CAT_HERO_BLURB[tpl]) || card.querySelector("p")?.textContent?.trim() || "";
     if (classEl) {
       const role = card.getAttribute("data-role") || "";
-      classEl.textContent = `Архи-Класс: ${title} (${role || "—"}) · ${tpl || "портрет скоро"}`;
+      classEl.textContent = `Архи-Класс: ${title} (${CAT_ROLE_RU[role] || role || "—"}) · ${tpl || "—"}`;
     }
   };
-  filters.forEach((btn) => {
-    btn.addEventListener("click", () => {
-      filters.forEach((b) => {
-        b.classList.remove("bg-primary-container", "text-on-primary-container");
-        b.classList.add("bg-surface-container", "text-on-surface-variant");
-      });
-      btn.classList.add("bg-primary-container", "text-on-primary-container");
-      btn.classList.remove("bg-surface-container", "text-on-surface-variant");
-      const role = btn.getAttribute("data-filter");
-      cards.forEach((card) => {
-        card.style.display = role === "all" || card.getAttribute("data-role") === role ? "flex" : "none";
-      });
+
+  const applyFilter = (role) => {
+    state.heroesRoleFilter = role || "all";
+    const want = state.heroesRoleFilter;
+    grid.querySelectorAll(".archetype-card").forEach((card) => {
+      const r = card.getAttribute("data-role");
+      card.style.display = want === "all" || r === want ? "flex" : "none";
     });
-  });
-  cards.forEach((card) => {
-    card.addEventListener("click", () => focusCard(card));
-  });
-  const initial = root.querySelector('.archetype-card[data-id="tank-a"]') || cards[0];
+    filters.forEach((b) => {
+      const on = (b.getAttribute("data-filter") || "all") === want;
+      b.classList.toggle("bg-primary-container", on);
+      b.classList.toggle("text-on-primary-container", on);
+      b.classList.toggle("bg-surface-container", !on);
+      b.classList.toggle("text-on-surface-variant", !on);
+    });
+  };
+
+  if (root.dataset.heroesBound !== "1") {
+    root.dataset.heroesBound = "1";
+    root.addEventListener("click", (ev) => {
+      const btn = ev.target.closest(".filter-btn");
+      if (btn && root.contains(btn)) {
+        ev.preventDefault();
+        applyFilter(btn.getAttribute("data-filter") || "all");
+        return;
+      }
+      const card = ev.target.closest(".archetype-card");
+      if (card && grid.contains(card)) {
+        ev.preventDefault();
+        focusCard(card);
+      }
+    });
+  }
+
+  applyFilter(activeFilter);
+  const initial =
+    grid.querySelector(`.archetype-card[data-template="${focusTpl}"]`) ||
+    grid.querySelector(".archetype-card");
   if (initial) focusCard(initial);
+}
+
+function bindHeroesCodex() {
+  renderHeroesCodex();
 }
 
 
@@ -14072,7 +14283,7 @@ function renderAll() {
       if ($("colTitle")) $("colTitle").textContent = t("hub.tab.collection");
       {
         const n = collectionRosterCats().length;
-        const cap = state.collectionStub?.slotCap || 15;
+        const cap = state.collectionStub?.slotCap || 24;
         if ($("colLead")) {
           $("colLead").textContent =
             state.locale === "ru"
@@ -14159,7 +14370,7 @@ function collectionEnsurePresets() {
     state.profile.presets[0] = p0;
   }
   if (!Array.isArray(p0.catIds)) p0.catIds = [];
-  // Map starters → shop twins so slots match D-027 roster (shop×12).
+  // Map starters → shop twins so slots match elven-18 roster.
   p0.catIds = p0.catIds.map((id) => twinId(id)).filter(Boolean);
   const uniq = [];
   for (const id of p0.catIds) if (!uniq.includes(id)) uniq.push(id);
@@ -14214,7 +14425,7 @@ async function bootCollectionStub() {
       const res = await fetch("/collection-stub.json", { cache: "no-store" });
       if (res.ok) state.collectionStub = await res.json();
     } catch {
-      state.collectionStub = { stub: true, slotCap: 15, presetSlots: 5 };
+      state.collectionStub = { stub: true, slotCap: 24, presetSlots: 5 };
     }
   }
   loadCollectionPresetsLocal();
@@ -14289,6 +14500,7 @@ function collectionElementIcon(el) {
       bolt: "bolt",
       fire: "local_fire_department",
       water: "water_drop",
+      wind: "air",
       grass: "eco",
       stone: "landscape",
       ice: "ac_unit",
@@ -14298,7 +14510,7 @@ function collectionElementIcon(el) {
 
 function renderCollectionSummary(root, cats, shown) {
   const badge = $("colOpenBadge") || root.querySelector("#colOpenBadge");
-  const cap = state.collectionStub?.slotCap || 15;
+  const cap = state.collectionStub?.slotCap || 24;
   if (badge) badge.textContent = `Открыто ${cats.length} / ${cap}`;
   const titleRoster = [...root.querySelectorAll("span")].find((el) => /Боевой Ростер/i.test(el.textContent || ""));
   if (titleRoster) titleRoster.textContent = `Боевой Ростер (${shown.length})`;
@@ -14336,7 +14548,7 @@ function renderCollectionSummary(root, cats, shown) {
       if (!el) continue;
       counts[el] = (counts[el] || 0) + 1;
     }
-    const order = ["bolt", "fire", "water", "grass", "stone", "ice"];
+    const order = ["fire", "water", "wind"];
     counters.innerHTML = order
       .map((el) => {
         const n = counts[el] || 0;
