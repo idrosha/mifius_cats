@@ -7340,7 +7340,7 @@ const CAT_SHEET_NAMES = {
 
 /**
  * Full-body lobby portraits — elven 18 (6 roles × fire/water/wind).
- * Studio cutout + shared tavern hearth (`bg/tavern-shared.jpg`). Breed map: fire→fire, water→ice, wind→stone.
+ * Studio cutout + shared tavern hearth (`bg/tavern-shared.webp`). Breed map: fire→fire, water→ice, wind→stone.
  */
 const CAT_HERO_ART = {
   shop_tank_fire: "/stitch-assets/cat-heroes/tank-fire.webp?v=gear18c",

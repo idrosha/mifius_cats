@@ -1,8 +1,9 @@
 /**
  * Optimize stitch-assets for soft-launch HUD:
  * - Opaque full-bleed BGs → WebP (no alpha), originals → _src/
- * - Attack-card webp → resize to UI×2, recompress
- * - Optional cat-hero lobby PNGs → WebP (alpha kept)
+ * - Attack-card JPG/WebP → resize to UI×2, WebP recompress
+ * - Cat-hero lobby/battle JPG/PNG → WebP
+ * - Rewrites public HTML/JS/CSS refs to sibling .webp
  *
  * Usage: node scripts/optimize-stitch-assets.mjs
  */
@@ -22,8 +23,11 @@ const CARD_WEBP_QUALITY = 78;
 const BG_WEBP_QUALITY = 82;
 const HERO_WEBP_QUALITY = 85;
 const HERO_MAX_LONG = 1024;
+const TAVERN_BG_MAX_LONG = 1600;
 
 const report = [];
+/** @type {{ from: string, to: string }[]} */
+const rewrites = [];
 
 function ensureDir(d) {
   fs.mkdirSync(d, { recursive: true });
@@ -143,34 +147,144 @@ async function recompressCard(absWebp) {
   return row;
 }
 
-async function convertHeroPng(absPng) {
-  if (!fs.existsSync(absPng)) return null;
-  const before = fs.statSync(absPng).size;
-  const meta = await sharp(absPng).metadata();
+function relPub(abs) {
+  return path.relative(PUBLIC, abs).replace(/\\/g, "/");
+}
+
+function registerRewrite(absIn, absOut) {
+  rewrites.push({ from: `/${relPub(absIn)}`, to: `/${relPub(absOut)}` });
+}
+
+async function convertRasterToWebp(absIn, {
+  quality,
+  alpha = false,
+  maxLong,
+  kind = "raster",
+} = {}) {
+  if (!fs.existsSync(absIn)) return null;
+  const ext = path.extname(absIn).toLowerCase();
+  if (ext === ".webp") return null;
+  const outWebp = absIn.replace(/\.(png|jpe?g)$/i, ".webp");
+  const before = fs.statSync(absIn).size;
+  const input = fs.readFileSync(absIn);
+  const meta = await sharp(input, { failOn: "none" }).metadata();
   const long = Math.max(meta.width || 0, meta.height || 0);
-  let pipeline = sharp(absPng).rotate();
-  if (long > HERO_MAX_LONG) {
+  let pipeline = sharp(input, { failOn: "none" }).rotate();
+  if (maxLong && long > maxLong) {
     const landscape = (meta.width || 0) >= (meta.height || 0);
     pipeline = landscape
-      ? pipeline.resize({ width: HERO_MAX_LONG, withoutEnlargement: true })
-      : pipeline.resize({ height: HERO_MAX_LONG, withoutEnlargement: true });
+      ? pipeline.resize({ width: maxLong, withoutEnlargement: true })
+      : pipeline.resize({ height: maxLong, withoutEnlargement: true });
   }
-  const outWebp = absPng.replace(/\.png$/i, ".webp");
-  await pipeline
-    .webp({ quality: HERO_WEBP_QUALITY, alphaQuality: 90, effort: 6 })
-    .toFile(outWebp);
+  const buf = await pipeline
+    .webp({
+      quality,
+      alphaQuality: alpha ? 90 : 0,
+      effort: 6,
+      smartSubsample: true,
+    })
+    .toBuffer();
+  await writeFileRetry(outWebp, buf);
   const after = fs.statSync(outWebp).size;
-  const src = await moveToSrc(absPng);
+  const src = await moveToSrc(absIn);
+  registerRewrite(absIn, outWebp);
   const row = {
-    kind: "hero",
-    file: path.relative(PUBLIC, outWebp).replace(/\\/g, "/"),
+    kind,
+    file: relPub(outWebp),
     wh: `${meta.width}x${meta.height}`,
     beforeKb: kb(before),
     afterKb: kb(after),
-    src: path.relative(PUBLIC, src).replace(/\\/g, "/"),
+    src: relPub(src),
   };
   report.push(row);
   return row;
+}
+
+async function convertHeroRaster(absIn) {
+  return convertRasterToWebp(absIn, {
+    quality: HERO_WEBP_QUALITY,
+    alpha: /\.png$/i.test(absIn),
+    maxLong: HERO_MAX_LONG,
+    kind: "hero",
+  });
+}
+
+async function convertCardJpg(absJpg) {
+  if (!fs.existsSync(absJpg)) return null;
+  const before = fs.statSync(absJpg).size;
+  const input = fs.readFileSync(absJpg);
+  const meta = await sharp(input, { failOn: "none" }).metadata();
+  const long = Math.max(meta.width || 0, meta.height || 0);
+  let pipeline = sharp(input, { failOn: "none" }).rotate();
+  if (long > CARD_MAX_LONG) {
+    const landscape = (meta.width || 0) >= (meta.height || 0);
+    pipeline = landscape
+      ? pipeline.resize({ width: CARD_MAX_LONG, withoutEnlargement: true })
+      : pipeline.resize({ height: CARD_MAX_LONG, withoutEnlargement: true });
+  }
+  const outWebp = absJpg.replace(/\.jpe?g$/i, ".webp");
+  const buf = await pipeline
+    .webp({ quality: CARD_WEBP_QUALITY, alphaQuality: 0, effort: 6, smartSubsample: true })
+    .toBuffer();
+  await writeFileRetry(outWebp, buf);
+  const after = fs.statSync(outWebp).size;
+  const src = await moveToSrc(absJpg);
+  registerRewrite(absJpg, outWebp);
+  const whAfter =
+    long > CARD_MAX_LONG
+      ? meta.width >= meta.height
+        ? `${CARD_MAX_LONG}x${Math.round((meta.height * CARD_MAX_LONG) / meta.width)}`
+        : `${Math.round((meta.width * CARD_MAX_LONG) / meta.height)}x${CARD_MAX_LONG}`
+      : `${meta.width}x${meta.height}`;
+  const row = {
+    kind: "card-jpg",
+    file: relPub(outWebp),
+    whBefore: `${meta.width}x${meta.height}`,
+    whAfter,
+    beforeKb: kb(before),
+    afterKb: kb(after),
+    src: relPub(src),
+  };
+  report.push(row);
+  return row;
+}
+
+function rewritePublicTree() {
+  const targets = [];
+  for (const name of ["index.html", "app.js", "styles.css", "codex-topics.js"]) {
+    const f = path.join(PUBLIC, name);
+    if (fs.existsSync(f)) targets.push(f);
+  }
+  for (const f of walk(path.join(PUBLIC, "stitch"), (p, name) => /\.(html|js|css)$/i.test(name))) {
+    targets.push(f);
+  }
+  const pairs = [...rewrites].sort((a, b) => b.from.length - a.from.length);
+  const seen = new Set();
+  const uniq = [];
+  for (const r of pairs) {
+    const k = `${r.from}=>${r.to}`;
+    if (seen.has(k)) continue;
+    seen.add(k);
+    uniq.push(r);
+  }
+  let filesTouched = 0;
+  let replacements = 0;
+  for (const file of targets) {
+    let text = fs.readFileSync(file, "utf8");
+    let changed = false;
+    for (const { from, to } of uniq) {
+      if (!text.includes(from)) continue;
+      const n = text.split(from).length - 1;
+      text = text.split(from).join(to);
+      replacements += n;
+      changed = true;
+    }
+    if (changed) {
+      fs.writeFileSync(file, text);
+      filesTouched += 1;
+    }
+  }
+  console.log(`rewrote ${replacements} refs in ${filesTouched} files`);
 }
 
 function walk(dir, pred) {
@@ -207,7 +321,22 @@ async function main() {
     if (r) console.log(`${r.beforeKb}→${r.afterKb} KB  ${r.file}`);
   }
 
-  console.log("=== attack cards ===");
+  console.log("=== attack cards JPG → WebP ===");
+  const cardJpgs = walk(path.join(ASSETS, "attack-cards"), (p, name) =>
+    /\.jpe?g$/i.test(name) && !p.includes(`${path.sep}illust${path.sep}`) && !p.includes(`${path.sep}chrome${path.sep}`)
+  );
+  let jpgBefore = 0;
+  let jpgAfter = 0;
+  for (const f of cardJpgs) {
+    const r = await convertCardJpg(f);
+    if (!r) continue;
+    jpgBefore += r.beforeKb;
+    jpgAfter += r.afterKb;
+    console.log(`${r.beforeKb}→${r.afterKb} KB  ${r.file}`);
+  }
+  console.log(`card jpg: ${cardJpgs.length} files, ${jpgBefore}→${jpgAfter} KB`);
+
+  console.log("=== attack cards WebP recompress ===");
   const cards = walk(path.join(ASSETS, "attack-cards"), (p, name) =>
     name.endsWith(".webp") && !p.includes(`${path.sep}illust${path.sep}`)
   );
@@ -218,16 +347,30 @@ async function main() {
     cardBefore += r.beforeKb;
     cardAfter += r.afterKb;
   }
-  console.log(`cards: ${cards.length} files, ${cardBefore}→${cardAfter} KB`);
+  console.log(`cards webp: ${cards.length} files, ${cardBefore}→${cardAfter} KB`);
 
-  console.log("=== cat-heroes lobby PNG ===");
+  console.log("=== cat-heroes JPG/PNG → WebP ===");
   const heroes = walk(path.join(ASSETS, "cat-heroes"), (p, name) => {
-    if (!name.endsWith(".png")) return false;
-    // skip already-webp battle dir and nested
-    return path.dirname(p) === path.join(ASSETS, "cat-heroes");
+    if (!/\.(png|jpe?g)$/i.test(name)) return false;
+    // Tavern BGs use a separate opaque pass below.
+    if (p.includes(`${path.sep}bg${path.sep}`)) return false;
+    return true;
   });
   for (const f of heroes) {
-    const r = await convertHeroPng(f);
+    const r = await convertHeroRaster(f);
+    if (r) console.log(`${r.beforeKb}→${r.afterKb} KB  ${r.file}`);
+  }
+
+  console.log("=== tavern shared BGs ===");
+  for (const name of ["tavern-shared.jpg", "tavern-shared-wide.jpg"]) {
+    const f = path.join(ASSETS, "cat-heroes", "bg", name);
+    if (!fs.existsSync(f)) continue;
+    const r = await convertRasterToWebp(f, {
+      quality: BG_WEBP_QUALITY,
+      alpha: false,
+      maxLong: TAVERN_BG_MAX_LONG,
+      kind: "tavern-bg",
+    });
     if (r) console.log(`${r.beforeKb}→${r.afterKb} KB  ${r.file}`);
   }
 
@@ -254,6 +397,7 @@ async function main() {
     await pipeline.webp({ quality: HERO_WEBP_QUALITY, alphaQuality: 90, effort: 6 }).toFile(out);
     const after = fs.statSync(out).size;
     await moveToSrc(f);
+    registerRewrite(f, out);
     const row = {
       kind: "dummy",
       file: path.relative(PUBLIC, out).replace(/\\/g, "/"),
@@ -264,14 +408,17 @@ async function main() {
     console.log(`${row.beforeKb}→${row.afterKb} KB  ${row.file}`);
   }
 
+  console.log("=== rewrite refs ===");
+  rewritePublicTree();
+
   const summaryPath = path.join(__dirname, "optimize-stitch-assets.report.json");
-  fs.writeFileSync(summaryPath, JSON.stringify(report, null, 2));
+  fs.writeFileSync(summaryPath, JSON.stringify({ report, rewrites }, null, 2));
   console.log(`\nreport → ${summaryPath}`);
 
-  const bgs = report.filter((r) => r.kind === "bg");
-  const bgBefore = bgs.reduce((s, r) => s + r.beforeKb, 0);
-  const bgAfter = bgs.reduce((s, r) => s + r.afterKb, 0);
-  console.log(`\nBG total: ${bgBefore} → ${bgAfter} KB (×${(bgBefore / Math.max(bgAfter, 1)).toFixed(1)})`);
+  const done = report.filter((r) => r.beforeKb != null && r.afterKb != null);
+  const before = done.reduce((s, r) => s + r.beforeKb, 0);
+  const after = done.reduce((s, r) => s + r.afterKb, 0);
+  console.log(`\nconverted ${done.length} files: ${before} → ${after} KB (×${(before / Math.max(after, 1)).toFixed(1)})`);
 }
 
 main().catch((err) => {
