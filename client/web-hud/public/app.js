@@ -4556,15 +4556,13 @@ function renderPveYardTeamPicker() {
   if (!list) return;
   if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
   const active = state.colPresetIndex || 0;
-  const fallbackNames = ["Основной", "Второй эшелон", "Резерв"];
   const lanes = ["Тыл", "Центр", "Авангард"];
-  list.innerHTML = [0, 1, 2]
-    .map((pi) => {
-      const preset = state.profile?.presets?.[pi] || { name: fallbackNames[pi], catIds: [] };
+  list.innerHTML = Array.from({ length: COL_SQUADS }, (_, pi) => {
+      const preset = state.profile?.presets?.[pi] || { name: COL_SQUAD_NAMES[pi], catIds: [] };
       const slotCats = [0, 1, 2].map((i) => collectionCatById(preset.catIds?.[i]) || null);
       const filled = slotCats.filter(Boolean).length;
       const on = pi === active;
-      const title = preset.name || fallbackNames[pi];
+      const title = preset.name || COL_SQUAD_NAMES[pi];
       const slots = slotCats
         .map((c, i) => {
           if (!c) {
@@ -4575,16 +4573,15 @@ function renderPveYardTeamPicker() {
         })
         .join("");
       return `<button type="button" class="pve-yard-team-card${on ? " is-on" : ""}" data-yard-team-pick="${pi}">
-        <header><b>Команда ${pi + 1} · ${title}</b>${on ? "<i>Активна</i>" : `<span class="text-[10px] text-outline">${filled}/3</span>`}</header>
+        <header><b>${title}</b>${on ? "<i>Активна</i>" : `<span class="text-[10px] text-outline">${filled}/3</span>`}</header>
         <div class="pve-yard-team-card__slots">${slots}</div>
-        <footer>${filled === 3 ? "Нажмите, чтобы выбрать для ПВЕ" : "Неполный отряд — соберите в Коллекции"}</footer>
+        <footer>${filled === 3 ? "Нажмите, чтобы выбрать" : "Неполный отряд — соберите в Коллекции"}</footer>
       </button>`;
-    })
-    .join("");
+    }).join("");
 }
 
 function applyPveYardTeamPreset(pi) {
-  const idx = Math.max(0, Math.min(2, Number(pi) || 0));
+  const idx = Math.max(0, Math.min(COL_SQUADS - 1, Number(pi) || 0));
   if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
   const preset = state.profile?.presets?.[idx];
   const filled = (preset?.catIds || []).filter(Boolean).length;
@@ -15584,8 +15581,10 @@ function renderAll() {
 }
 
 /** D-031 collection HUD stub — roster from profile, local preset persist. */
-/** SL editable squads (of presets[5] cap). */
-const COL_SQUADS = 3;
+/** SL editable squads: PvE + PvP (of presets[5] cap). */
+const COL_SQUADS = 2;
+const COL_SQUAD_NAMES = ["PvE", "PvP"];
+const COL_SQUAD_OLD_NAMES = ["Основной", "Второй эшелон", "Резерв"];
 
 function collectionRosterCats() {
   return homeRosterCats();
@@ -15627,10 +15626,17 @@ function collectionEnsurePresets() {
   while (state.profile.presets.length < 5) {
     state.profile.presets.push({ name: `preset_${state.profile.presets.length + 1}`, catIds: [] });
   }
-  const squadNames = ["Основной", "Второй эшелон", "Резерв"];
   for (let pi = 0; pi < COL_SQUADS; pi++) {
     const p = state.profile.presets[pi];
-    if (!p.name || p.name === "starter" || /^preset_/.test(p.name)) p.name = squadNames[pi];
+    const legacy = COL_SQUAD_OLD_NAMES[pi];
+    if (
+      !p.name ||
+      p.name === "starter" ||
+      /^preset_/.test(p.name) ||
+      (legacy && p.name === legacy)
+    ) {
+      p.name = COL_SQUAD_NAMES[pi];
+    }
     if (!Array.isArray(p.catIds)) p.catIds = [];
   }
 }
@@ -15652,7 +15658,9 @@ function loadCollectionPresetsLocal() {
     const raw = localStorage.getItem("mythfel_sl_collection");
     if (!raw) return;
     const data = JSON.parse(raw);
-    if (typeof data.activePresetIndex === "number") state.colPresetIndex = data.activePresetIndex;
+    if (typeof data.activePresetIndex === "number") {
+      state.colPresetIndex = Math.max(0, Math.min(COL_SQUADS - 1, data.activePresetIndex));
+    }
     if (Array.isArray(data.presets) && state.profile) {
       state.profile.presets = data.presets;
     }
@@ -15715,11 +15723,13 @@ function ensureCollectionDom(root) {
     [...right.querySelectorAll(":scope > div")].find(
       (d) => /\bflex-1\b/.test(d.className) && /overflow-y-auto/.test(d.className),
     );
-  if (teamsHost) teamsHost.id = "colTeams";
-  else if (right) {
+  if (teamsHost) {
+    teamsHost.id = "colTeams";
+    teamsHost.classList.add("collection-teams");
+  } else if (right) {
     const box = document.createElement("div");
     box.id = "colTeams";
-    box.className = "flex flex-col gap-space-sm flex-1 min-h-0 overflow-y-auto";
+    box.className = "collection-teams flex flex-col gap-space-sm flex-1 min-h-0 overflow-y-auto";
     right.appendChild(box);
   }
 
@@ -15838,7 +15848,7 @@ function renderCollectionRosterCards(cats) {
     for (const id of state.profile?.presets?.[pi]?.catIds || []) {
       if (!id) continue;
       if (!squadMarks[id]) squadMarks[id] = [];
-      squadMarks[id].push(pi + 1);
+      squadMarks[id].push(COL_SQUAD_NAMES[pi] || `К${pi + 1}`);
     }
   }
   const sel = state.colSelectedId;
@@ -15854,7 +15864,7 @@ function renderCollectionRosterCards(cats) {
       const art = catHeroArt(c.templateId);
       const on = c.catId === sel;
       const marks = squadMarks[c.catId];
-      const markLabel = marks ? `К${marks.join("·")}` : "";
+      const markLabel = marks ? marks.join(" · ") : "";
       return `<button type="button" draggable="true" data-col-cat="${c.catId}" class="col-roster-card relative rounded-lg flex items-center gap-2 h-[88px] px-2 text-left border transition-colors cursor-grab active:cursor-grabbing ${
         on ? "is-picked bg-surface-container-highest border-primary/60" : "bg-surface-container-lowest/50 border-surface-container-highest/30 hover:border-primary/40"
       }">
@@ -15953,36 +15963,52 @@ function renderCollectionTeams(cats) {
     { key: "vanguard", label: "3. Авангард", tip: "Танк / блок" },
   ];
 
+  const headerTitle = host.closest("section")?.querySelector("h2");
+  if (headerTitle) {
+    headerTitle.textContent = "Боевые Связки · PvE и PvP (2 команды)";
+  }
+  const headerSub = headerTitle?.parentElement?.querySelector("p");
+  if (headerSub) {
+    headerSub.textContent = "Два отряда 3v3: PvE (Мифмир / данжи) и PvP (Колизей) · Тыл · DPS · Танк";
+  }
+
   const slotHtml = (pi, i, slotCats) => {
     const c = slotCats[i];
     const lane = lanes[i];
+    const base =
+      "col-slot flex flex-col items-stretch justify-start gap-0.5 p-1.5 rounded-lg cursor-pointer transition-colors h-full min-h-[7.5rem]";
     if (!c) {
-      return `<button type="button" data-col-preset="${pi}" data-col-slot="${i}" data-col-drop="1" class="col-slot bg-surface-container-lowest/40 rounded-lg p-1.5 border border-dashed border-outline-variant/40 flex flex-col items-center justify-center min-h-[100px] cursor-pointer text-outline-variant hover:border-primary/50 transition-colors">
-        <span class="material-symbols-outlined text-2xl">add</span>
-        <span class="font-label-sm text-[10px] mt-0.5">${lane.label}</span>
+      return `<button type="button" data-col-preset="${pi}" data-col-slot="${i}" data-col-drop="1" class="${base} is-empty bg-surface-container-lowest/40 border border-dashed border-outline-variant/40 text-outline-variant hover:border-primary/50">
+        <span class="text-[9px] font-bold uppercase self-start opacity-70">${lane.label}</span>
+        <span class="flex-1 flex flex-col items-center justify-center gap-0.5 min-h-0">
+          <span class="material-symbols-outlined text-2xl">add</span>
+          <span class="font-label-sm text-[10px]">${lane.tip}</span>
+        </span>
       </button>`;
     }
     const art = catHeroArt(c.templateId);
     const name = catSheetName(c);
     const role = CAT_ROLE_RU[homeCatRole(c)] || "";
-    return `<button type="button" draggable="true" data-col-preset="${pi}" data-col-slot="${i}" data-col-slot-cat="${c.catId}" data-col-drop="1" class="col-slot bg-surface-container-high/60 rounded-lg p-1.5 border border-primary/30 flex flex-col items-center gap-0.5 min-h-[100px] cursor-grab active:cursor-grabbing hover:border-primary/60 transition-colors">
+    return `<button type="button" draggable="true" data-col-preset="${pi}" data-col-slot="${i}" data-col-slot-cat="${c.catId}" data-col-drop="1" class="${base} is-filled bg-surface-container-high/60 border border-primary/30 cursor-grab active:cursor-grabbing hover:border-primary/60">
       <span class="text-[9px] font-bold text-primary uppercase self-start">${lane.label}</span>
-      ${art ? `<img alt="" src="${art}" draggable="false" class="h-16 w-auto object-contain pointer-events-none"/>` : `<span class="material-symbols-outlined text-3xl text-primary">pets</span>`}
-      <span class="font-label-sm text-[11px] text-on-surface font-bold text-center leading-tight">${name}</span>
-      <span class="text-[9px] text-on-surface-variant">${role}</span>
+      <span class="flex-1 flex flex-col items-center justify-center gap-0.5 min-h-0">
+        ${art ? `<img alt="" src="${art}" draggable="false" class="h-14 w-auto max-h-[56px] object-contain pointer-events-none"/>` : `<span class="material-symbols-outlined text-3xl text-primary">pets</span>`}
+        <span class="font-label-sm text-[11px] text-on-surface font-bold text-center leading-tight line-clamp-2">${name}</span>
+        <span class="text-[9px] text-on-surface-variant">${role}</span>
+      </span>
     </button>`;
   };
 
   const teamCard = (pi) => {
-    const preset = state.profile.presets[pi] || { name: `squad_${pi + 1}`, catIds: [] };
+    const preset = state.profile.presets[pi] || { name: COL_SQUAD_NAMES[pi], catIds: [] };
     const slotCats = [0, 1, 2].map((i) => collectionCatById(preset.catIds?.[i]) || null);
     const filled = slotCats.filter(Boolean).length;
     const on = pi === active;
-    const names = ["Основной", "Второй эшелон", "Резерв"];
-    const title = preset.name || names[pi];
-    return `<div class="bg-surface-container rounded-lg p-space-sm border ${on ? "border-primary/50 shadow-[0_4px_14px_rgba(0,0,0,0.5)]" : "border-surface-container-highest/60"} flex flex-col gap-1.5" data-col-team="${pi}">
+    const title = preset.name || COL_SQUAD_NAMES[pi];
+    const modeTag = COL_SQUAD_NAMES[pi];
+    return `<div class="col-team bg-surface-container rounded-lg p-space-sm border ${on ? "border-primary/50 shadow-[0_4px_14px_rgba(0,0,0,0.5)]" : "border-surface-container-highest/60"} flex flex-col gap-1.5" data-col-team="${pi}">
       <div class="flex items-center justify-between gap-2 flex-wrap">
-        <button type="button" data-col-preset-select="${pi}" class="px-2 py-0.5 rounded ${on ? "bg-primary-container/30 text-primary" : "bg-surface-container-highest text-on-surface-variant"} font-stat-numeral text-[10px] font-bold uppercase cursor-pointer">Команда ${pi + 1}${on ? " · правка" : ""}</button>
+        <button type="button" data-col-preset-select="${pi}" class="px-2 py-0.5 rounded ${on ? "bg-primary-container/30 text-primary" : "bg-surface-container-highest text-on-surface-variant"} font-stat-numeral text-[10px] font-bold uppercase cursor-pointer">${modeTag}${on ? " · правка" : ""}</button>
         <span class="text-[11px] text-on-surface-variant">${filled}/3</span>
       </div>
       <label class="flex items-center gap-1.5 min-w-0">
@@ -15991,21 +16017,22 @@ function renderCollectionTeams(cats) {
           class="flex-1 min-w-0 bg-surface-container-lowest rounded-lg px-2 py-1 font-label-md text-[13px] ${on ? "text-primary" : "text-on-surface"} font-bold border border-surface-container-highest/60 focus:outline-none focus:ring-1 focus:ring-primary"
           placeholder="Название отряда" />
       </label>
-      <div class="grid grid-cols-3 gap-1.5">${slotHtml(pi, 0, slotCats)}${slotHtml(pi, 1, slotCats)}${slotHtml(pi, 2, slotCats)}</div>
+      <div class="col-team-slots grid grid-cols-3 gap-1.5 flex-1 min-h-0 items-stretch">${slotHtml(pi, 0, slotCats)}${slotHtml(pi, 1, slotCats)}${slotHtml(pi, 2, slotCats)}</div>
     </div>`;
   };
 
+  host.classList.add("collection-teams");
   host.innerHTML = `
-    <div class="flex flex-col gap-space-sm flex-1 min-h-0 overflow-y-auto pr-1">
-      ${[0, 1, 2].map(teamCard).join("")}
+    <div class="collection-teams-list flex flex-col gap-space-sm flex-1 min-h-0 overflow-y-auto pr-1">
+      ${Array.from({ length: COL_SQUADS }, (_, pi) => teamCard(pi)).join("")}
     </div>
     <div class="flex gap-2 pt-1 border-t border-surface-container-highest/40 flex-shrink-0 flex-wrap">
-      <button type="button" data-col-act="apply" class="flex-1 py-1.5 rounded bg-primary text-on-primary font-label-sm text-[11px] font-bold">Сохранить 3 отряда</button>
+      <button type="button" data-col-act="apply" class="flex-1 py-1.5 rounded bg-primary text-on-primary font-label-sm text-[11px] font-bold">Сохранить 2 отряда</button>
       <button type="button" data-col-act="autopick" class="py-1.5 px-3 rounded bg-surface-container-high text-primary border border-primary/40 font-label-sm text-[11px] font-bold">Авто · активный</button>
-      <button type="button" data-col-act="autopick-all" class="py-1.5 px-3 rounded bg-surface-container-high text-primary border border-primary/40 font-label-sm text-[11px] font-bold">Авто · все 3</button>
+      <button type="button" data-col-act="autopick-all" class="py-1.5 px-3 rounded bg-surface-container-high text-primary border border-primary/40 font-label-sm text-[11px] font-bold">Авто · PvE+PvP</button>
       <button type="button" data-col-act="codex" class="py-1.5 px-3 rounded bg-surface-container-high text-on-surface font-label-sm text-[11px] font-bold">Кодекс</button>
     </div>
-    <p class="text-[10px] text-on-surface-variant m-0">3 отряда local stub · presets cap ${state.collectionStub?.presetSlots || 5} · не SoT боя</p>`;
+    <p class="text-[10px] text-on-surface-variant m-0">2 отряда · PvE + PvP · local stub · не SoT боя</p>`;
 }
 
 function renderCollection() {
@@ -16066,7 +16093,7 @@ function bindCollectionRoster() {
         while (preset.catIds.length < 3) preset.catIds.push(null);
         persistCollectionStub();
         renderCollection();
-        toast(`К${pi + 1}: слот очищен`);
+        toast(`${COL_SQUAD_NAMES[pi] || `К${pi + 1}`}: слот очищен`);
         return;
       }
       if (!state.colSelectedId) {
@@ -16079,7 +16106,7 @@ function bindCollectionRoster() {
       while (preset.catIds.length < 3) preset.catIds.push(null);
       persistCollectionStub();
       renderCollection();
-      toast(`К${pi + 1}: ${catSheetName(collectionCatById(state.colSelectedId) || {})}`);
+      toast(`${COL_SQUAD_NAMES[pi] || `К${pi + 1}`}: ${catSheetName(collectionCatById(state.colSelectedId) || {})}`);
       return;
     }
     const act = ev.target.closest("[data-col-act]")?.getAttribute("data-col-act");
@@ -16093,37 +16120,37 @@ function bindCollectionRoster() {
         const roster = collectionRosterCats();
         collectionEnsurePresets();
         const idx = state.colPresetIndex || 0;
-        const used = new Set();
-        for (let pi = 0; pi < COL_SQUADS; pi++) {
-          if (pi === idx) continue;
-          for (const id of state.profile.presets[pi]?.catIds || []) if (id) used.add(id);
+        // PvE / PvP — независимые составы: один котик может быть в обеих командах.
+        state.profile.presets[idx].catIds = collectionAutopickSquad(roster, new Set());
+        if (!state.profile.presets[idx].name || /^preset_|^squad_/.test(state.profile.presets[idx].name)) {
+          state.profile.presets[idx].name = COL_SQUAD_NAMES[idx];
         }
-        state.profile.presets[idx].catIds = collectionAutopickSquad(roster, used);
         persistCollectionStub();
         renderCollection();
-        toast(`Авто · команда ${idx + 1}`);
+        toast(`Авто · ${COL_SQUAD_NAMES[idx] || `команда ${idx + 1}`}`);
         return;
       }
       if (act === "autopick-all") {
         const roster = collectionRosterCats();
         collectionEnsurePresets();
-        const used = new Set();
         for (let pi = 0; pi < COL_SQUADS; pi++) {
-          const pick = collectionAutopickSquad(roster, used);
-          state.profile.presets[pi].catIds = pick;
-          for (const id of pick) used.add(id);
-          if (!state.profile.presets[pi].name || /^preset_|^squad_/.test(state.profile.presets[pi].name)) {
-            state.profile.presets[pi].name = ["Основной", "Второй эшелон", "Резерв"][pi];
+          state.profile.presets[pi].catIds = collectionAutopickSquad(roster, new Set());
+          if (
+            !state.profile.presets[pi].name ||
+            /^preset_|^squad_/.test(state.profile.presets[pi].name) ||
+            COL_SQUAD_OLD_NAMES.includes(state.profile.presets[pi].name)
+          ) {
+            state.profile.presets[pi].name = COL_SQUAD_NAMES[pi];
           }
         }
         persistCollectionStub();
         renderCollection();
-        toast("Авто · 3 отряда (local stub)");
+        toast("Авто · PvE + PvP (local stub)");
         return;
       }
       if (act === "apply") {
         persistCollectionStub();
-        toast("3 отряда сохранены (local · не SoT боя)");
+        toast("2 отряда сохранены · PvE + PvP (local · не SoT боя)");
         return;
       }
     }
@@ -16133,10 +16160,10 @@ function bindCollectionRoster() {
       root.querySelector("[data-col-act='autopick-all']")?.click();
       return;
     }
-    if (label.includes("применить все") || label.includes("применить расстановку") || label.includes("сохранить 3")) {
+    if (label.includes("применить все") || label.includes("применить расстановку") || label.includes("сохранить 2") || label.includes("сохранить 3")) {
       ev.preventDefault();
       persistCollectionStub();
-      toast("3 отряда сохранены (local · не SoT боя)");
+      toast("2 отряда сохранены · PvE + PvP (local · не SoT боя)");
       return;
     }
     if (label.includes("база знаний") || label.includes("кодекс")) {
@@ -16157,7 +16184,7 @@ function bindCollectionRoster() {
     const pi = Number(input.getAttribute("data-col-rename"));
     if (pi < 0 || pi >= COL_SQUADS) return;
     collectionEnsurePresets();
-    const name = String(input.value || "").trim().slice(0, 32) || ["Основной", "Второй эшелон", "Резерв"][pi];
+    const name = String(input.value || "").trim().slice(0, 32) || COL_SQUAD_NAMES[pi];
     state.profile.presets[pi].name = name;
     input.value = name;
     state.colPresetIndex = pi;
@@ -16237,7 +16264,7 @@ function bindCollectionRoster() {
       const slot = Number(drop.getAttribute("data-col-slot"));
       if (collectionPlaceCat(pi, slot, data.catId, data.fromPi, data.fromSlot)) {
         renderCollection();
-        toast(`DnD → К${pi + 1}`);
+        toast(`DnD → ${COL_SQUAD_NAMES[pi] || `К${pi + 1}`}`);
       }
       return;
     }
@@ -16245,7 +16272,7 @@ function bindCollectionRoster() {
       ev.preventDefault();
       collectionClearSlot(data.fromPi, data.fromSlot);
       renderCollection();
-      toast(`К${data.fromPi + 1}: убран в резерв`);
+      toast(`${COL_SQUAD_NAMES[data.fromPi] || `К${data.fromPi + 1}`}: убран в резерв`);
     }
   });
 }

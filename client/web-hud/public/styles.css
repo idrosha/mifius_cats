@@ -6320,7 +6320,8 @@ body:has(#viewCollection:not(.hidden)) #app {
 #viewCollection .collection-roster > .col-roster-card {
   flex: 0 0 auto;
 }
-#viewCollection .collection-teams {
+#viewCollection .collection-teams,
+#viewCollection #colTeams.collection-teams {
   display: flex !important;
   flex-direction: column !important;
   flex: 1 1 auto !important;
@@ -6328,12 +6329,37 @@ body:has(#viewCollection:not(.hidden)) #app {
   height: 100%;
   gap: 0.5rem !important;
 }
-#viewCollection .collection-teams .col-team {
-  flex: 1 1 0 !important;
-  min-height: 9rem;
+#viewCollection .collection-teams-list {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 0;
+  gap: 0.5rem;
 }
-#viewCollection .collection-teams .col-slot {
+#viewCollection .collection-teams .col-team,
+#viewCollection #colTeams .col-team {
+  flex: 1 1 0 !important;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+#viewCollection .collection-teams .col-team-slots,
+#viewCollection #colTeams .col-team-slots {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  flex: 1 1 auto;
+  min-height: 7.5rem;
+}
+#viewCollection .collection-teams .col-slot,
+#viewCollection #colTeams .col-slot {
+  box-sizing: border-box;
   height: 100%;
+  min-height: 7.5rem;
+  align-self: stretch;
+}
+#viewCollection #colTeams .col-slot.is-empty,
+#viewCollection #colTeams .col-slot.is-filled {
   min-height: 7.5rem;
 }
 #viewCollection .col-roster-card.is-picked {
