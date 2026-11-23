@@ -141,7 +141,7 @@ func TestDungeonCoop_ShortPath_StartersClear(t *testing.T) {
 	for _, d := range doc.Dungeons {
 		short := d.Paths["short"]
 		for i, sid := range short.Nodes {
-			b, err := mode.CreatePvE(cat, "dungeon_"+sid, sid, seed+int64(i), startersTeam, nil, []bool{true, true, true})
+			b, err := mode.CreatePvE(cat, "dungeon_"+sid, sid, seed+int64(i), startersTeam, nil, []bool{true, true, true}, nil)
 			if err != nil {
 				t.Fatalf("%s create: %v", sid, err)
 			}

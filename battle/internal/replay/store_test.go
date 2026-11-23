@@ -29,7 +29,7 @@ func finishShortPvP(t *testing.T, battleID, matchID string, seed int64) *sim.Bat
 		t.Fatal(err)
 	}
 	team := []string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}
-	b, err := mode.CreatePvP(cat, battleID, matchID, seed, team, team, nil, nil)
+	b, err := mode.CreatePvP(cat, battleID, matchID, seed, team, team, nil, nil, nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -84,7 +84,7 @@ func TestSaveFinishedPvP_RejectsPvE(t *testing.T) {
 		t.Fatal(err)
 	}
 	team := []string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}
-	b, err := mode.CreatePvE(cat, "pve1", "test_yard_1", 1, team, nil, nil)
+	b, err := mode.CreatePvE(cat, "pve1", "test_yard_1", 1, team, nil, nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}

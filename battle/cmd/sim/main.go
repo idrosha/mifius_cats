@@ -31,7 +31,7 @@ func main() {
 		os.Exit(1)
 	}
 	team := []string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}
-	b, err := mode.CreatePvE(cat, "cli", *stage, *seed, team, nil, nil)
+	b, err := mode.CreatePvE(cat, "cli", *stage, *seed, team, nil, nil, nil)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "CreatePvE: %v\n", err)
 		os.Exit(1)

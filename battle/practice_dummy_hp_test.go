@@ -25,7 +25,7 @@ func TestPracticeDummyWikiHP(t *testing.T) {
 		}
 	}
 	b, err := mode.CreatePvE(cat, "hp", "practice_dummy_1", 1,
-		[]string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}, nil, nil)
+		[]string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}, nil, nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}

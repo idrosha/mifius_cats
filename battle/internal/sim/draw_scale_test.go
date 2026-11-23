@@ -32,7 +32,7 @@ func TestDrawScalesAfterAllyDeaths(t *testing.T) {
 		t.Fatal(err)
 	}
 	// Same sim core for practice / PvE / PvP (§3); PvE setup is enough to verify D*.
-	b, err := mode.CreatePvE(cat, "draw_scale", "test_yard_1", 42, starters(), nil, nil)
+	b, err := mode.CreatePvE(cat, "draw_scale", "test_yard_1", 42, starters(), nil, nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}

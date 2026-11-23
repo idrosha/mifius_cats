@@ -19,7 +19,7 @@ func TestGolden_StartersBeatTestYard(t *testing.T) {
 		t.Fatal(err)
 	}
 	team := []string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}
-	b, err := mode.CreatePvE(cat, "golden_test_yard_1", "test_yard_1", goldenSeed, team, nil, nil)
+	b, err := mode.CreatePvE(cat, "golden_test_yard_1", "test_yard_1", goldenSeed, team, nil, nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -73,7 +73,7 @@ func TestCreatePvP_SharesCore(t *testing.T) {
 		t.Fatal(err)
 	}
 	team := []string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}
-	b, err := mode.CreatePvP(cat, "pvp1", "match1", 42, team, team, nil, nil)
+	b, err := mode.CreatePvP(cat, "pvp1", "match1", 42, team, team, nil, nil, nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -100,7 +100,7 @@ func TestDeterminism_SameSeedSameResult(t *testing.T) {
 	}
 	team := []string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}
 	run := func() (sim.Result, int) {
-		b, err := mode.CreatePvE(cat, "d", "test_yard_1", goldenSeed, team, nil, nil)
+		b, err := mode.CreatePvE(cat, "d", "test_yard_1", goldenSeed, team, nil, nil, nil)
 		if err != nil {
 			t.Fatal(err)
 		}

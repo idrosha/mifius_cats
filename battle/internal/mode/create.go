@@ -11,7 +11,9 @@ import (
 // CreatePvE — FULL-SPEC §8.2. Economy (bowl spend) is outside battle-core; here only stage+team+seed.
 // carryAlive (D-039 / §4.1): optional len=3; false = that lane stays dead across Mythmir chapter levels.
 // Living lanes always spawn at MaxHP (wave HP restore). nil / empty = all alive.
-func CreatePvE(cat *content.Catalog, battleID, stageID string, seed int64, teamTemplateIDs []string, potions []string, carryAlive []bool) (*sim.Battle, error) {
+// teamGear: optional len=3 player armor/weapon bonuses. Enemy HP is never scaled from gear —
+// dungeon/raid difficulty comes from player DEF/HP/weapon ATK against a fixed stage baseline.
+func CreatePvE(cat *content.Catalog, battleID, stageID string, seed int64, teamTemplateIDs []string, potions []string, carryAlive []bool, teamGear []sim.GearBonus) (*sim.Battle, error) {
 	stage, ok := cat.Stages[stageID]
 	if !ok {
 		return nil, fmt.Errorf("unknown stage %s", stageID)
@@ -22,7 +24,10 @@ func CreatePvE(cat *content.Catalog, battleID, stageID string, seed int64, teamT
 	if carryAlive != nil && len(carryAlive) != 3 {
 		return nil, fmt.Errorf("CreatePvE carryAlive must be len 3 or empty")
 	}
-	p1, err := spawnStarters(cat, teamTemplateIDs, "p1", carryAlive)
+	if teamGear != nil && len(teamGear) != 3 {
+		return nil, fmt.Errorf("CreatePvE teamGear must be len 3 or empty")
+	}
+	p1, err := spawnStarters(cat, teamTemplateIDs, "p1", carryAlive, teamGear)
 	if err != nil {
 		return nil, err
 	}
@@ -51,15 +56,22 @@ func CreatePvE(cat *content.Catalog, battleID, stageID string, seed int64, teamT
 }
 
 // CreatePvP — FULL-SPEC §8.2. Same combat core as PvE; both sides human-driven (no AI injection).
-func CreatePvP(cat *content.Catalog, battleID, matchID string, seed int64, team1, team2 []string, potions1, potions2 []string) (*sim.Battle, error) {
+// teamGear1/teamGear2: optional PvP-lane armor/weapons (shop gear). Same length rules as CreatePvE.
+func CreatePvP(cat *content.Catalog, battleID, matchID string, seed int64, team1, team2 []string, potions1, potions2 []string, teamGear1, teamGear2 []sim.GearBonus) (*sim.Battle, error) {
 	if len(team1) != 3 || len(team2) != 3 {
 		return nil, fmt.Errorf("CreatePvP teams must be 3v3")
 	}
-	p1, err := spawnStarters(cat, team1, "p1", nil)
+	if teamGear1 != nil && len(teamGear1) != 3 {
+		return nil, fmt.Errorf("CreatePvP teamGear1 must be len 3 or empty")
+	}
+	if teamGear2 != nil && len(teamGear2) != 3 {
+		return nil, fmt.Errorf("CreatePvP teamGear2 must be len 3 or empty")
+	}
+	p1, err := spawnStarters(cat, team1, "p1", nil, teamGear1)
 	if err != nil {
 		return nil, err
 	}
-	p2, err := spawnStarters(cat, team2, "p2", nil)
+	p2, err := spawnStarters(cat, team2, "p2", nil, teamGear2)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +87,7 @@ func CreatePvP(cat *content.Catalog, battleID, matchID string, seed int64, team1
 	})
 }
 
-func spawnStarters(cat *content.Catalog, ids []string, prefix string, carryAlive []bool) ([]sim.SpawnUnit, error) {
+func spawnStarters(cat *content.Catalog, ids []string, prefix string, carryAlive []bool, teamGear []sim.GearBonus) ([]sim.SpawnUnit, error) {
 	out := make([]sim.SpawnUnit, 0, 3)
 	for i, id := range ids {
 		t, ok := cat.Starters[id]
@@ -95,6 +107,9 @@ func spawnStarters(cat *content.Catalog, ids []string, prefix string, carryAlive
 			Template: t,
 			Deck:     deck,
 			Parts:    parts,
+		}
+		if teamGear != nil {
+			su.Gear = teamGear[i]
 		}
 		if carryAlive != nil {
 			alive := carryAlive[i]

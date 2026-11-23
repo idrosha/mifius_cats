@@ -35,17 +35,18 @@ window.CODEX_TOPICS = [
     icon: "workspace_premium",
     tag: "Броня",
     title: "Броня R1–R8 (unlock)",
-    blurb: "Редкость открывается рангом, не уровнем кота",
+    blurb: "Ранг · отдельно PvE и PvP ленты",
     mode: "article",
     headline: "Ранги брони R1–R8",
-    lead: "Редкость экипа привязана к рангу игрока (R1–R8), а не к уровню кота. На soft-launch в Магазине продаётся только серая броня R1. Всё выше — из боксов пасса, PvE/крафта и аукциона.",
+    lead: "Редкость экипа привязана к рангу игрока (R1–R8), а не к уровню кота. Магазин продаёт только PvP-ленту. PvE-сеты — дроп данжей/рейдов. Чем выше ранг брони и оружия в PvE, тем проще данж при том же HP босса.",
     detail:
       "Каждый новый ранг поднимает все статы на +10 и primary класса на +20. С пассом high ranks ~1 год; без пасса примерно вдвое дольше. Yarn не покупает ранг — пасс даёт темп и pity, но не прыжок сразу в mythic.",
-    source: "wiki §8.5 · armor-ranks-pass.md",
+    source: "wiki §8.5 · §4.3 · armor-ranks-pass.md",
     go: [
       { tab: "gear", label: "Экипировка героя", icon: "checkroom", primary: "character" },
       { tab: "pass", label: "К пассу и боксам", icon: "card_membership", primary: "pass" },
-      { tab: "shop", label: "Магазин (серая R1)", icon: "shopping_bag", primary: "trade" },
+      { tab: "shop", label: "Магазин (PvP R1)", icon: "shopping_bag", primary: "trade" },
+      { tab: "codex", label: "PvE сила и дроп", icon: "shield_moon", primary: "knowledge" },
     ],
     blocks: [
       {
@@ -496,9 +497,11 @@ window.CODEX_TOPICS = [
         type: "stats",
         title: "Числа вики",
         rows: [
-          ["Базовый hit", "~100 HP vs равный без брони"],
+          ["Базовый hit", "~5–6 vs без брони"],
           ["Crit", "×2 к hit"],
           ["AoE вторичные", "50% hit основной"],
+          ["DEF mitigation", "hit − Def/2 (мин. 1)"],
+          ["Weapon", "+GearAtk к карте"],
           ["Life drain в бою", "Запрещён"],
           ["Зелья", "≤1 / potionId на бой"],
         ],
@@ -510,6 +513,7 @@ window.CODEX_TOPICS = [
           "Карта с доступом к дальним врагам: вытянуть из руки и навести на героя.",
           "Так бьют лучники, маги, ассасины с прыжком и любые backline-карты.",
           "Без вытягивания и прицела карта в тыл не играет.",
+          "В PvE HP врагов фиксировано — сила только от твоей брони/оружия (см. «Сила в данжах»).",
         ],
       },
       {
@@ -824,16 +828,17 @@ window.CODEX_TOPICS = [
     icon: "fort",
     tag: "Данжи",
     title: "Данжи на боссов",
-    blurb: "3 волны · first-clear бонус",
+    blurb: "Фикс HP · сложность от PvE-экипа",
     mode: "article",
     headline: "Данжи",
-    lead: "Подземелье с тремя волнами: сначала пачка (~6), затем крупнее (~10), финал — босс+4. Ядро боя остаётся 3v3; UI показывает волны.",
+    lead: "Кооп-данж: личный бой 3v3, пати 4×3. HP монстров и босса одно и то же для всех — сложность зависит от вашей PvE-брони и оружия.",
     detail:
-      "Разрешено бафф-молоко из Таверны (это не ranked). First-clear даёт повышенную награду один раз; повторы — меньший earn. Зелья ≤1 на potionId, как везде.",
-    source: "FULL-SPEC §4.1 · wiki §8.7 · nav boss_dungeon",
+      "Серый PvE-сет проходит, но тяжело. Высокий ранг — заметно проще. Магазинная (PvP) броня в данж не работает. С босса падают PvE-сеты и редметы.",
+    source: "docs/dungeons-coop-3.md · wiki §4.3 · nav boss_dungeon",
     go: [
       { tab: "boss_dungeon", label: "Войти в данж", icon: "fort", primary: "combat" },
       { tab: "formation", label: "Собрать строй", icon: "groups", primary: "combat" },
+      { tab: "gear", label: "PvE экип", icon: "checkroom", primary: "character" },
       { tab: "rating_dungeon", label: "Рейтинг данжей", icon: "timer", primary: "ratings" },
     ],
     blocks: [
@@ -847,12 +852,22 @@ window.CODEX_TOPICS = [
       },
       {
         type: "rules",
-        title: "Как пройти",
+        title: "Сила и лут",
         items: [
-          "Собери строй 3v3 на экране формации.",
-          "Разрешено бафф-молоко из Таверны (это не ranked).",
-          "Зелья ≤1 на potionId, как везде.",
-          "First-clear даёт повышенную награду один раз.",
+          "HP врагов фиксировано в stage — не растёт и не падает от экипа пати.",
+          "Надень PvE-ленту: серый = трудно, но можно; red/purple = комфортнее.",
+          "С босса: кусок PvE-сета + шанс редмета (first-clear гарантия).",
+          "Бафф-молоко из Таверны разрешено (не ranked).",
+        ],
+      },
+      {
+        type: "table",
+        title: "PvE-сет с босса (SL)",
+        headers: ["Данж", "Сет"],
+        rows: [
+          ["Алое Кольцо (scarlet)", "grey R1"],
+          ["Вой (howl)", "green R2"],
+          ["Шёпот (whisper)", "blue R3"],
         ],
       },
       {
@@ -874,7 +889,7 @@ window.CODEX_TOPICS = [
         fit: "cover",
         height: "7rem",
       },
-      { type: "note", text: "Route `boss_dungeon`. Повторы после first-clear — меньший earn (LiveOps)." },
+      { type: "note", text: "Route `boss_dungeon`. PvE gear never sold in shop — wiki §4.3." },
     ],
   },
   {
@@ -883,15 +898,16 @@ window.CODEX_TOPICS = [
     icon: "groups_3",
     tag: "Рейд",
     title: "Рейд / легион 8–12",
-    blurb: "Большой отряд на босса",
+    blurb: "Фикс HP босса · PvE-лут сетов",
     mode: "article",
     headline: "Рейд и легион",
-    lead: "Крупный PvE: в бой выходят 8–12 котов на босса (не обычный строй 3v3). На soft-launch — экран + tip; полный ММ и награды включаются LiveOps-флагом.",
+    lead: "Крупный PvE на босса. HP босса единое (content baseline). Чем выше PvE-броня и оружие у отряда — тем проще прожимать фазы.",
     detail:
-      "Не путать с клан-боссом (1 кот с участника, shared HP) и с осадой гильдий (GvG). Day-1 CTA «Вступить в рейд» может вести в tip «Подними ранг».",
-    source: "FULL-SPEC §4.1 / §4.4 · nav boss_raid",
+      "Не путать с клан-боссом и осадой. Лут — PvE-сеты высокого ранга + path-only mats. Магазинная PvP-броня в рейд не идёт.",
+    source: "docs/raids · wiki §4.3 · nav boss_raid",
     go: [
       { tab: "boss_raid", label: "Открыть рейд", icon: "groups_3", primary: "combat" },
+      { tab: "gear", label: "PvE экип", icon: "checkroom", primary: "character" },
       { tab: "rating_raid", label: "Рейтинг рейда", icon: "leaderboard", primary: "ratings" },
     ],
     blocks: [
@@ -905,20 +921,29 @@ window.CODEX_TOPICS = [
       },
       {
         type: "rules",
-        title: "Чем отличается от данжа",
+        title: "Сила",
         items: [
-          "Больше котов в строю (8–12), отдельный экран.",
-          "Рассчитан на группу / гильдейский сбор.",
-          "Не путать с клан-боссом (1 кот с участника, shared HP).",
-          "Day-1: CTA «Вступить в рейд» может вести в tip «Подними ранг».",
+          "HP босса не скалируется под экип — одно число для всех.",
+          "PvE-лента экипа: DEF режет входящий, оружие ускоряет kill.",
+          "Больше котов в строю (8–12) на полном релизе; SL — узлы 3v3 + tip.",
+        ],
+      },
+      {
+        type: "table",
+        title: "PvE-сет с рейда (SL)",
+        headers: ["Рейд", "Сет"],
+        rows: [
+          ["Мяурра", "yellow R4"],
+          ["Таласс", "purple R5"],
+          ["Вулкан", "red R6"],
         ],
       },
       {
         type: "rules",
         title: "Награды",
         items: [
-          "Крупный PvE-пакет (fish / scrap / medals / mats) — числа LiveOps.",
-          "На soft-launch полноценный loot loop может быть gated.",
+          "PvE кусок сета + fish / scrap / medals / path-only mats.",
+          "Weekly lock попыток — LiveOps.",
         ],
       },
     ],
@@ -931,7 +956,7 @@ window.CODEX_TOPICS = [
         fit: "cover",
         height: "7rem",
       },
-      { type: "note", text: "Route `boss_raid`. Ядро карт то же; размер борда — расширение battle-core post-SL." },
+      { type: "note", text: "Route `boss_raid`. Shared HP UI ≠ скалирование под gear." },
     ],
   },
   {
@@ -1573,15 +1598,16 @@ window.CODEX_TOPICS = [
     icon: "shopping_bag",
     tag: "Магазин",
     title: "Магазин soft-launch",
-    blurb: "Коты · серая R1 · пасс · IAP",
+    blurb: "Коты · PvP-броня · пасс · IAP",
     mode: "article",
     headline: "Официальная витрина",
-    lead: "IAP и фиксированные soft-SKU. Сервер проверяет покупки. Soft = fish; premium = yarn. Здесь же gear за battle_coin / medals с боёв.",
+    lead: "IAP и soft-SKU. Броня в магазине — только PvP-лента (Колизей/дуэли). PvE-доспехи и оружие покупать нельзя — их выбивают в данжах и рейдах.",
     detail:
-      "12 ordinary котов по 800–950 fish, серая броня R1 150–250 fish/slot, breeding mats 60–120 fish, пасс и fish packs за yarn.",
-    source: "shops-channels §1 · wiki §8.4",
+      "12 ordinary котов 800–950 fish, PvP grey R1 150–250 fish/slot, breeding mats, пасс и fish packs за yarn. Battle_coin → PvP gear ≤ blue на SL.",
+    source: "shops-channels §1 · wiki §8.4 · §4.3",
     go: [
       { tab: "shop", label: "Открыть магазин", icon: "shopping_bag", primary: "trade" },
+      { tab: "boss_dungeon", label: "PvE шмотки в данже", icon: "fort", primary: "combat" },
       { tab: "pass", label: "Сезон пасса", icon: "card_membership", primary: "pass" },
     ],
     blocks: [
@@ -1599,11 +1625,19 @@ window.CODEX_TOPICS = [
         headers: ["SKU", "Цена", "Зачем"],
         rows: [
           ["12 common cats", "800–950 fish", "Расширить коллекцию"],
-          ["Grey armor R1", "150–250 fish / slot", "Стартовый экип"],
+          ["PvP Grey armor R1", "150–250 fish / slot", "Колизей / дуэли"],
+          ["PvP Green+ (stub)", "fish / battle_coin", "PvP power band ≤ blue"],
           ["Breeding mats", "60–120 fish", "Попытки скрещивания"],
-          ["talisman_mythic_luck", "yarn IAP", "+20% шанс мифика на 1 раз"],
           ["Pass season", "yarn IAP", "×2 XP и autofarm"],
           ["Fish packs", "yarn → fish", "Докупить soft"],
+        ],
+      },
+      {
+        type: "rules",
+        title: "Чего здесь нет",
+        items: [
+          "PvE-сеты и dungeon rares — только дроп.",
+          "Переключатель ленты экипа в Доме: PvP ≠ PvE.",
         ],
       },
     ],
@@ -1616,7 +1650,7 @@ window.CODEX_TOPICS = [
         fit: "cover",
         height: "7rem",
       },
-      { type: "note", text: "battle_coin / medals с боёв → полезный gear в этом же магазине." },
+      { type: "note", text: "wiki §4.3 · §8.4 — магазин = PvP lane only." },
     ],
   },
   {
@@ -2067,6 +2101,111 @@ window.CODEX_TOPICS = [
     side: [{ type: "note", text: "Адрес этой страницы: /codex." }],
   },
   {
+    id: "pve_power",
+    filter: "combat",
+    icon: "monitoring",
+    tag: "PvE",
+    title: "Сила в данжах и рейдах",
+    blurb: "Единое HP врагов · проще от брони",
+    mode: "article",
+    headline: "Как работает сложность PvE",
+    lead: "У монстров и боссов всегда одно и то же HP из контента. Прохождение зависит от твоей PvE-брони и оружия: серый сет — с трудом, высокий ранг — заметно легче.",
+    detail:
+      "Battle-core не умножает HP врага на силу пати. Вместо этого экип даёт игроку +HP, +DEF (hit − Def/2) и +GearAtk к картам. CreatePvE принимает teamGear с PvE-ленты.",
+    source: "wiki §4.3 · docs/pve-gear-power.md · battle/internal/sim",
+    go: [
+      { tab: "boss_dungeon", label: "Данжи", icon: "fort", primary: "combat" },
+      { tab: "boss_raid", label: "Рейды", icon: "groups_3", primary: "combat" },
+      { tab: "gear", label: "Надеть PvE экип", icon: "checkroom", primary: "character" },
+    ],
+    blocks: [
+      {
+        type: "rules",
+        title: "Правила",
+        items: [
+          "HP врагов = stage JSON, одинаково для всех.",
+          "Серый PvE-сет: данж проходим, но тяжело.",
+          "Выше DEF/оружие → меньше входящий урон и быстрее килл.",
+          "Pierce игнорирует DEF (как щит).",
+        ],
+      },
+      {
+        type: "table",
+        title: "Ориентир ощущений",
+        headers: ["Экип", "Ощущение"],
+        rows: [
+          ["Голый / почти без экипа", "Очень тяжело"],
+          ["PvE grey R1", "Проходим с трудом"],
+          ["green–yellow", "Стабильнее"],
+          ["purple–red", "Комфортный clear"],
+        ],
+      },
+      {
+        type: "stats",
+        title: "Формулы",
+        rows: [
+          ["Mitigation", "max(1, hit − Def/2)"],
+          ["Weapon", "+GearAtk к card.Atk"],
+          ["Enemy HP scale", "нет"],
+        ],
+      },
+    ],
+    side: [
+      { type: "note", text: "Мифмир питбоссы тоже на фиксированном HP — тактика + экип, не «подкрутка босса»." },
+    ],
+  },
+  {
+    id: "pve_pvp_gear",
+    filter: "gear",
+    icon: "sync_alt",
+    tag: "Экипировка",
+    title: "PvE и PvP шмотки",
+    blurb: "Две ленты · магазин ≠ данж",
+    mode: "article",
+    headline: "Две ленты экипа",
+    lead: "PvP-броня покупается в магазине. PvE-броня и оружие только выбиваются из данжей и рейдов. В Доме Хранителя — переключатель ленты и два независимых loadout.",
+    detail:
+      "Стартовый грант выдаёт PvE grey, чтобы данж был доступен сразу. Редметы боссов всегда lane:pve. PvP grey/green — витрина магазина и battle_coin.",
+    source: "wiki §4.3 · §8.4",
+    go: [
+      { tab: "gear", label: "Дом · лента экипа", icon: "checkroom", primary: "character" },
+      { tab: "shop", label: "Магазин PvP", icon: "shopping_bag", primary: "trade" },
+      { tab: "boss_dungeon", label: "Фарм PvE", icon: "fort", primary: "combat" },
+    ],
+    blocks: [
+      {
+        type: "table",
+        title: "Где взять",
+        headers: ["Лента", "Источник", "Куда"],
+        rows: [
+          ["PvP", "Магазин / battle_coin / пасс", "Колизей, дуэли"],
+          ["PvE", "Данжи, рейды, стартовый grey", "Мифмир, данж, рейд"],
+        ],
+      },
+      {
+        type: "rules",
+        title: "Запомнить",
+        items: [
+          "Нельзя купить PvE-сет в магазине.",
+          "Нельзя надеть PvP-сет в данж (другая лента).",
+          "Склады фильтруются по активной ленте.",
+        ],
+      },
+    ],
+    side: [
+      {
+        type: "stats",
+        title: "Дроп сетов",
+        rows: [
+          ["scarlet", "grey"],
+          ["howl", "green"],
+          ["whisper", "blue"],
+          ["рейды", "yellow→red"],
+        ],
+      },
+    ],
+  },
+  {
     id: "wiki_index",
     filter: "mechanics",
     icon: "menu_book",
@@ -2077,7 +2216,7 @@ window.CODEX_TOPICS = [
     headline: "Игровая вики Мифиус",
     lead: "Единый свод чисел и петель для игрока. SSOT боя и скоупа: docs/FULL-SPEC.md. Крипта и NFT запрещены. Эта База знаний — игровая выжимка вики.",
     detail:
-      "Ниже — оглавление wiki §1–§10. Связанные доки: shops-channels, armor-ranks-pass, formation-targeting, mythic-breeding, starter-pack, class-variants-balance.",
+      "Ниже — оглавление wiki §1–§10. Связанные доки: shops-channels, armor-ranks-pass, formation-targeting, mythic-breeding, starter-pack, class-variants-balance, pve-gear-power.",
     source: "docs/game-wiki.md",
     go: [
       { tab: "codex", label: "Остаться в Кодексе", icon: "menu_book", primary: "knowledge" },
@@ -2101,11 +2240,11 @@ window.CODEX_TOPICS = [
           ["1", "Скиллы 12 героев"],
           ["2", "Двор"],
           ["3", "HP по классам"],
-          ["4", "Атака и бой"],
+          ["4", "Атака и бой (+ §4.3 PvE сила)"],
           ["5", "Уровни и статы"],
           ["6", "Алхимия и крафт"],
           ["7", "Скрещивание"],
-          ["8", "Экономика"],
+          ["8", "Экономика (магазин = PvP)"],
           ["9", "PvP Колизей"],
           ["10", "Монета «Мифиус»"],
         ],
@@ -2117,7 +2256,7 @@ window.CODEX_TOPICS = [
         title: "Связанные доки",
         items: [
           "shops-channels.md · armor-ranks-pass.md · formation-targeting.md",
-          "mythic-breeding.md · starter-pack.md · class-variants-balance.md",
+          "mythic-breeding.md · starter-pack.md · pve-gear-power.md",
         ],
       },
     ],

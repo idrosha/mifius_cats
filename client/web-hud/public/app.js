@@ -14,6 +14,13 @@ import {
 } from "./battle-fx.js";
 /** Side-effect: fills window.CODEX_TOPICS / CODEX_FILTERS (survives stitch HTML rebakes). */
 import "./codex-topics.js";
+import {
+  GEAR_STUB_VERSION,
+  GEAR_HERO_STOCK,
+  PVE_SET_IDS as PVE_SET_IDS_SEED,
+  HOME_SET_RU as HOME_SET_RU_SEED,
+  buildGearCatalogSeed,
+} from "./gear-catalog-seed.js";
 
 const STARTERS = [
   "starter_tank_stone",
@@ -670,9 +677,10 @@ const SHOP_STUB_ROWS = [
   { id: "breed_spark_pollen", label: "Искрящая пыльца", detail: "nursery mat · Soon", gated: true },
   { id: "breed_tide_scale", label: "Чешуя прилива", detail: "nursery mat · Soon", gated: true },
   { id: "talisman_mythic_luck", label: "Талисман удачи (+20%)", detail: "IAP yarn · Phase 6", gated: true },
-  { id: "armor_grey_plate", label: "Стартовая броня · grey R1 plate", detail: "Rank 1", gated: false },
-  { id: "armor_grey_pendant", label: "Стартовый кулон · grey R1", detail: "Rank 1", gated: false },
-  { id: "battle_coin_gear", label: "Gear за battle coins", detail: "medals → shop", gated: true },
+  { id: "armor_grey_plate", label: "PvP броня · grey R1 plate", detail: "PvP shop · Rank 1", gated: false },
+  { id: "armor_grey_pendant", label: "PvP кулон · grey R1", detail: "PvP shop · Rank 1", gated: false },
+  { id: "pvp_set_green", label: "PvP сет · green R2", detail: "PvP shop · Rank 2", gated: false },
+  { id: "battle_coin_gear", label: "PvP gear за battle coins", detail: "medals → PvP shop", gated: true },
 ];
 
 /** Codex knowledge base — titles/bodies from docs/game-wiki.md where possible. */
@@ -822,78 +830,11 @@ const state = {
     autofarm_fish: false,
   },
   /**
-   * Local HUD gear catalog — color sets + class weapons (batches 1–5) + rings.
-   * Armor/trinket (helm/armor/cloak/belt/boots/ring): all roles. Weapons/offhand: `roles` gate.
-   * Offhand uses shield slot (2nd axe/dagger, shield, quiver, scroll, book).
-   * Mage: yellow staff / wand + book. Support: turquoise staff + scroll.
+   * Local HUD gear catalog — R1–R8 armor (PvP+PvE) + class weapons.
+   * Armor/trinket: all roles. Weapons/offhand: `roles` gate.
+   * Identical pieces stack via `qty` (GEAR_HERO_STOCK = 18).
    */
-  /**
-   * Gear stats on combat scale (tank LVL1 HP=50, card hit ≈5–6).
-   * Armor pieces → DEF + modest HP. Weapons → modest ATK (+2…+4), not card-scale spikes.
-   * Rings → modest HP/DEF (+ optional ATK/SPD/crit); all heroes (D-018 slot).
-   */
-  gearCatalog: [
-    // —— grey (R1) armor 5/5: +6 DEF · +8 HP ——
-    { id: "grey_helm", slot: "helm", name: "Серый шлем Льва", atk: 0, hp: 1, def: 1, spd: 0, crit: 0, rank: 1, rarity: "common", enhance: 0, set: "grey", roles: null, iconSrc: "/gear-sets/thumbs/grey-helm.png" },
-    { id: "grey_armor", slot: "armor", name: "Серая кираса Льва", atk: 0, hp: 3, def: 2, spd: 0, crit: 0, rank: 1, rarity: "common", enhance: 0, set: "grey", roles: null, iconSrc: "/gear-sets/thumbs/grey-armor.png" },
-    { id: "grey_cloak", slot: "cloak", name: "Серый плащ Льва", atk: 0, hp: 2, def: 1, spd: 0, crit: 0, rank: 1, rarity: "common", enhance: 0, set: "grey", roles: null, iconSrc: "/gear-sets/thumbs/grey-cloak.png" },
-    { id: "grey_belt", slot: "belt", name: "Серый пояс Льва", atk: 0, hp: 1, def: 1, spd: 0, crit: 0, rank: 1, rarity: "common", enhance: 0, set: "grey", roles: null, iconSrc: "/gear-sets/thumbs/grey-belt.png" },
-    { id: "grey_boots", slot: "boots", name: "Серые когтистые сапоги", atk: 0, hp: 1, def: 1, spd: 1, crit: 0, rank: 1, rarity: "common", enhance: 0, set: "grey", roles: null, iconSrc: "/gear-sets/thumbs/grey-boots.png" },
-    { id: "grey_ring", slot: "ring", name: "Серое кольцо Лапы", atk: 0, hp: 1, def: 1, spd: 0, crit: 0, rank: 1, rarity: "common", enhance: 0, set: "grey", roles: null, iconSrc: "/gear-sets/thumbs/grey-ring.png" },
-    // —— yellow (R4) armor 5/5: +11 DEF · +13 HP · +2 ATK ——
-    { id: "yellow_helm", slot: "helm", name: "Жёлтая шляпа Чародея", atk: 1, hp: 2, def: 2, spd: 0, crit: 0, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: null, iconSrc: "/gear-sets/thumbs/yellow-helm.png" },
-    { id: "yellow_armor", slot: "armor", name: "Жёлтая кираса Солнца", atk: 1, hp: 4, def: 3, spd: 0, crit: 0, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: null, iconSrc: "/gear-sets/thumbs/yellow-armor.png" },
-    { id: "yellow_cloak", slot: "cloak", name: "Жёлтый плащ Солнца", atk: 0, hp: 3, def: 2, spd: 0, crit: 0, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: null, iconSrc: "/gear-sets/thumbs/yellow-cloak.png" },
-    { id: "yellow_belt", slot: "belt", name: "Жёлтый пояс Льва", atk: 0, hp: 2, def: 2, spd: 0, crit: 0, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: null, iconSrc: "/gear-sets/thumbs/yellow-belt.png" },
-    { id: "yellow_boots", slot: "boots", name: "Жёлтые когтистые сапоги", atk: 0, hp: 2, def: 2, spd: 1, crit: 0, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: null, iconSrc: "/gear-sets/thumbs/yellow-boots.png" },
-    { id: "yellow_ring", slot: "ring", name: "Жёлтое кольцо Льва", atk: 1, hp: 1, def: 1, spd: 0, crit: 0, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: null, iconSrc: "/gear-sets/thumbs/yellow-ring.png" },
-    { id: "yellow_staff", slot: "weapon", name: "Жёлтый посох Солнца (2H)", atk: 3, hp: 0, def: 0, spd: 0, crit: 1, rank: 4, rarity: "epic", enhance: 8, set: "yellow", roles: ["mage"], iconSrc: "/gear-sets/thumbs/yellow-staff.png" },
-    { id: "yellow_wand", slot: "weapon", name: "Жёлтый жезл Солнца (1H)", atk: 2, hp: 0, def: 0, spd: 1, crit: 0, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: ["mage"], iconSrc: "/gear-sets/thumbs/yellow-wand.png" },
-    { id: "mage_book", slot: "shield", name: "Книга Чародея", atk: 1, hp: 1, def: 1, spd: 0, crit: 1, rank: 4, rarity: "epic", enhance: 6, set: "yellow", roles: ["mage"], iconSrc: "/gear-sets/thumbs/mage-book.png" },
-    // —— turquoise (R3) armor 5/5: +9 DEF · +11 HP · +1 ATK ——
-    { id: "turquoise_helm", slot: "helm", name: "Бирюзовая шляпа", atk: 0, hp: 2, def: 2, spd: 0, crit: 0, rank: 3, rarity: "rare", enhance: 4, set: "turquoise", roles: null, iconSrc: "/gear-sets/thumbs/turquoise-helm.png" },
-    { id: "turquoise_armor", slot: "armor", name: "Бирюзовая мантия", atk: 1, hp: 3, def: 3, spd: 0, crit: 0, rank: 3, rarity: "rare", enhance: 4, set: "turquoise", roles: null, iconSrc: "/gear-sets/thumbs/turquoise-armor.png" },
-    { id: "turquoise_cloak", slot: "cloak", name: "Бирюзовый плащ", atk: 0, hp: 2, def: 2, spd: 0, crit: 0, rank: 3, rarity: "rare", enhance: 4, set: "turquoise", roles: null, iconSrc: "/gear-sets/thumbs/turquoise-cloak.png" },
-    { id: "turquoise_belt", slot: "belt", name: "Бирюзовый пояс", atk: 0, hp: 2, def: 1, spd: 0, crit: 0, rank: 3, rarity: "rare", enhance: 4, set: "turquoise", roles: null, iconSrc: "/gear-sets/thumbs/turquoise-belt.png" },
-    { id: "turquoise_boots", slot: "boots", name: "Бирюзовые сапоги", atk: 0, hp: 2, def: 1, spd: 1, crit: 0, rank: 3, rarity: "rare", enhance: 4, set: "turquoise", roles: null, iconSrc: "/gear-sets/thumbs/turquoise-boots.png" },
-    { id: "turquoise_ring", slot: "ring", name: "Бирюзовое кольцо Рыси", atk: 0, hp: 2, def: 1, spd: 0, crit: 0, rank: 3, rarity: "rare", enhance: 4, set: "turquoise", roles: null, iconSrc: "/gear-sets/thumbs/turquoise-ring.png" },
-    { id: "turquoise_staff", slot: "weapon", name: "Бирюзовый посох", atk: 2, hp: 0, def: 0, spd: 0, crit: 0, rank: 3, rarity: "rare", enhance: 4, set: "turquoise", roles: ["support"], iconSrc: "/gear-sets/thumbs/turquoise-staff.png" },
-    // —— red (R6) armor 5/5: +14 DEF · +16 HP · +2 ATK ——
-    { id: "red_helm", slot: "helm", name: "Красный шлем Дракона", atk: 0, hp: 3, def: 3, spd: 0, crit: 0, rank: 6, rarity: "legendary", enhance: 10, set: "red", roles: null, iconSrc: "/gear-sets/thumbs/red-helm.png" },
-    { id: "red_armor", slot: "armor", name: "Красная кираса Дракона", atk: 1, hp: 5, def: 4, spd: 0, crit: 0, rank: 6, rarity: "legendary", enhance: 10, set: "red", roles: null, iconSrc: "/gear-sets/thumbs/red-armor.png" },
-    { id: "red_cloak", slot: "cloak", name: "Красный плащ Тигра", atk: 1, hp: 3, def: 3, spd: 0, crit: 0, rank: 6, rarity: "legendary", enhance: 9, set: "red", roles: null, iconSrc: "/gear-sets/thumbs/red-cloak.png" },
-    { id: "red_belt", slot: "belt", name: "Красный пояс Тигра", atk: 0, hp: 2, def: 2, spd: 0, crit: 0, rank: 6, rarity: "legendary", enhance: 9, set: "red", roles: null, iconSrc: "/gear-sets/thumbs/red-belt.png" },
-    { id: "red_boots", slot: "boots", name: "Красные шипованные сапоги", atk: 0, hp: 3, def: 2, spd: 2, crit: 0, rank: 6, rarity: "legendary", enhance: 9, set: "red", roles: null, iconSrc: "/gear-sets/thumbs/red-boots.png" },
-    { id: "red_ring", slot: "ring", name: "Красное кольцо Дракона", atk: 1, hp: 2, def: 1, spd: 0, crit: 0, rank: 6, rarity: "legendary", enhance: 9, set: "red", roles: null, iconSrc: "/gear-sets/thumbs/red-ring.png" },
-    // —— purple (R5) armor 5/5: +12 DEF · +14 HP · +2 ATK ——
-    { id: "purple_helm", slot: "helm", name: "Фиолетовый капюшон", atk: 1, hp: 2, def: 2, spd: 0, crit: 1, rank: 5, rarity: "epic", enhance: 8, set: "purple", roles: null, iconSrc: "/gear-sets/thumbs/purple-helm.png" },
-    { id: "purple_armor", slot: "armor", name: "Фиолетовая кираса Пантеры", atk: 1, hp: 4, def: 4, spd: 0, crit: 0, rank: 5, rarity: "epic", enhance: 8, set: "purple", roles: null, iconSrc: "/gear-sets/thumbs/purple-armor.png" },
-    { id: "purple_cloak", slot: "cloak", name: "Фиолетовый плащ Пантеры", atk: 0, hp: 3, def: 2, spd: 0, crit: 0, rank: 5, rarity: "epic", enhance: 8, set: "purple", roles: null, iconSrc: "/gear-sets/thumbs/purple-cloak.png" },
-    { id: "purple_belt", slot: "belt", name: "Фиолетовый пояс Пантеры", atk: 0, hp: 2, def: 2, spd: 0, crit: 1, rank: 5, rarity: "epic", enhance: 8, set: "purple", roles: null, iconSrc: "/gear-sets/thumbs/purple-belt.png" },
-    { id: "purple_boots", slot: "boots", name: "Фиолетовые когтистые сапоги", atk: 0, hp: 3, def: 2, spd: 2, crit: 1, rank: 5, rarity: "epic", enhance: 8, set: "purple", roles: null, iconSrc: "/gear-sets/thumbs/purple-boots.png" },
-    { id: "purple_ring", slot: "ring", name: "Фиолетовое кольцо Небулы", atk: 1, hp: 1, def: 1, spd: 0, crit: 1, rank: 5, rarity: "epic", enhance: 8, set: "purple", roles: null, iconSrc: "/gear-sets/thumbs/purple-ring.png" },
-    // —— green (R2) armor 5/5: +8 DEF · +10 HP · +1 ATK ——
-    { id: "green_helm", slot: "helm", name: "Зелёная шляпа Следопыта", atk: 0, hp: 2, def: 1, spd: 0, crit: 0, rank: 2, rarity: "rare", enhance: 4, set: "green", roles: null, iconSrc: "/gear-sets/thumbs/green-helm.png" },
-    { id: "green_armor", slot: "armor", name: "Зелёная чешуя Рыси", atk: 1, hp: 3, def: 3, spd: 0, crit: 0, rank: 2, rarity: "rare", enhance: 4, set: "green", roles: null, iconSrc: "/gear-sets/thumbs/green-armor.png" },
-    { id: "green_cloak", slot: "cloak", name: "Зелёный плащ листвы", atk: 0, hp: 2, def: 1, spd: 0, crit: 0, rank: 2, rarity: "rare", enhance: 4, set: "green", roles: null, iconSrc: "/gear-sets/thumbs/green-cloak.png" },
-    { id: "green_belt", slot: "belt", name: "Зелёный пояс Рыси", atk: 0, hp: 1, def: 1, spd: 0, crit: 0, rank: 2, rarity: "rare", enhance: 4, set: "green", roles: null, iconSrc: "/gear-sets/thumbs/green-belt.png" },
-    { id: "green_boots", slot: "boots", name: "Зелёные сапоги листвы", atk: 0, hp: 2, def: 2, spd: 1, crit: 0, rank: 2, rarity: "rare", enhance: 4, set: "green", roles: null, iconSrc: "/gear-sets/thumbs/green-boots.png" },
-    { id: "green_ring", slot: "ring", name: "Зелёное кольцо Рыси", atk: 0, hp: 1, def: 1, spd: 1, crit: 0, rank: 2, rarity: "rare", enhance: 4, set: "green", roles: null, iconSrc: "/gear-sets/thumbs/green-ring.png" },
-    // —— class weapons / offhands (ATK modest vs card hit ~5–6) ——
-    { id: "tank_mace", slot: "weapon", name: "Булава Стража", atk: 2, hp: 1, def: 1, spd: 0, crit: 0, rank: 4, rarity: "epic", enhance: 8, set: null, roles: ["tank"], iconSrc: "/gear-sets/thumbs/tank-mace.png" },
-    { id: "tank_spear", slot: "weapon", name: "Копьё Стража", atk: 2, hp: 0, def: 0, spd: 1, crit: 1, rank: 4, rarity: "epic", enhance: 8, set: null, roles: ["tank"], iconSrc: "/gear-sets/thumbs/tank-spear.png" },
-    { id: "tank_shield_large", slot: "shield", name: "Большой щит Льва", atk: 0, hp: 3, def: 4, spd: 0, crit: 0, rank: 4, rarity: "epic", enhance: 10, set: null, roles: ["tank"], iconSrc: "/gear-sets/thumbs/tank-shield-large.png" },
-    { id: "tank_shield_small", slot: "shield", name: "Малый щит Льва", atk: 0, hp: 2, def: 3, spd: 0, crit: 0, rank: 3, rarity: "rare", enhance: 6, set: null, roles: ["tank"], iconSrc: "/gear-sets/thumbs/tank-shield-small.png" },
-    { id: "fighter_greatsword", slot: "weapon", name: "Двуручный меч Тигра", atk: 4, hp: 0, def: 0, spd: 0, crit: 2, rank: 6, rarity: "legendary", enhance: 10, set: "red", roles: ["fighter"], iconSrc: "/gear-sets/thumbs/fighter-greatsword.png" },
-    { id: "fighter_axe_a", slot: "weapon", name: "Топор Бойца A", atk: 2, hp: 0, def: 0, spd: 0, crit: 1, rank: 6, rarity: "legendary", enhance: 8, set: "red", roles: ["fighter"], iconSrc: "/gear-sets/thumbs/fighter-axe-a.png" },
-    { id: "fighter_axe_b", slot: "shield", name: "Топор Бойца B", atk: 2, hp: 0, def: 0, spd: 0, crit: 1, rank: 6, rarity: "legendary", enhance: 8, set: "red", roles: ["fighter"], iconSrc: "/gear-sets/thumbs/fighter-axe-b.png" },
-    { id: "assassin_dagger_a", slot: "weapon", name: "Кинжал Убийцы A", atk: 2, hp: 0, def: 0, spd: 1, crit: 2, rank: 5, rarity: "epic", enhance: 8, set: "purple", roles: ["assassin"], iconSrc: "/gear-sets/thumbs/assassin-dagger-a.png" },
-    { id: "assassin_dagger_b", slot: "shield", name: "Кинжал Убийцы B", atk: 2, hp: 0, def: 0, spd: 1, crit: 2, rank: 5, rarity: "epic", enhance: 8, set: "purple", roles: ["assassin"], iconSrc: "/gear-sets/thumbs/assassin-dagger-b.png" },
-    { id: "green_bow", slot: "weapon", name: "Зелёный лук Рыси", atk: 2, hp: 0, def: 0, spd: 1, crit: 1, rank: 2, rarity: "rare", enhance: 4, set: "green", roles: ["ranger"], iconSrc: "/gear-sets/thumbs/green-bow.png" },
-    { id: "green_crossbow", slot: "weapon", name: "Зелёный арбалет", atk: 2, hp: 0, def: 0, spd: 0, crit: 1, rank: 2, rarity: "rare", enhance: 4, set: "green", roles: ["ranger"], iconSrc: "/gear-sets/thumbs/green-crossbow.png" },
-    { id: "green_arrows", slot: "shield", name: "Колчан зелёных стрел", atk: 1, hp: 0, def: 0, spd: 0, crit: 0, rank: 2, rarity: "rare", enhance: 2, set: "green", roles: ["ranger"], iconSrc: "/gear-sets/thumbs/green-arrows.png" },
-    { id: "support_scroll", slot: "shield", name: "Свиток Поддержки", atk: 0, hp: 2, def: 1, spd: 0, crit: 0, rank: 3, rarity: "rare", enhance: 4, set: "turquoise", roles: ["support"], iconSrc: "/gear-sets/thumbs/support-scroll.png" },
-  ],
+  gearCatalog: buildGearCatalogSeed(),
   /** Derived from gearCatalog + barnMats (D-028 + MF-153 smoke). */
   barnCatalog: [],
   /** Local farm/tool/potion stock — HUD smoke, not server SoT. */
@@ -902,7 +843,7 @@ const state = {
   barnRarityFilter: "all",
   barnSearch: "",
   barnFocus: null,
-  barnCapMax: 96,
+  barnCapMax: 256,
   craftRecipeId: "potion_life",
   /** Local stub persist on; set false to prefer GET /api/dev/gear (Wave B). */
   gearStubLocal: true,
@@ -918,8 +859,12 @@ const state = {
   colSelectedId: null,
   colPresetIndex: 0,
   colDrag: null,
-  /** catId → slot → item id */
+  /** Active equip lane in HUD: pve | pvp (separate loadouts). */
+  equipLane: "pve",
+  /** catId → slot → item id (legacy alias → equippedPveByCat). */
   equippedByCat: {},
+  equippedPveByCat: {},
+  equippedPvpByCat: {},
   homeBagFilter: "all",
   homeRarityFilter: "all",
   homeRoleFilter: "all",
@@ -1039,6 +984,114 @@ const state = {
 /** Seed for warehouse stub reset / API mirror (D-028). */
 const GEAR_CATALOG_SEED = JSON.parse(JSON.stringify(state.gearCatalog));
 
+/** Armor/weapon sets that drop as PvE-only copies (shop sells PvP lane only). */
+const PVE_SET_IDS = PVE_SET_IDS_SEED;
+/** Dungeon → typical PvE set rank drop (boss). Higher = easier clears vs fixed monster HP. */
+const DUNGEON_PVE_SET_DROP = {
+  scarlet: "grey",
+  howl: "green",
+  whisper: "blue",
+};
+const RAID_PVE_SET_DROP = {
+  myaurra: "yellow",
+  talass: "purple",
+  vulcan: "red",
+};
+
+function withGearLane(item, lane) {
+  const next = { ...item, lane, qty: Number(item.qty || GEAR_HERO_STOCK) };
+  if (lane === "pve") {
+    next.pveOnly = true;
+    next.id = item.id.startsWith("pve_") ? item.id : `pve_${item.id}`;
+    next.name = item.name?.startsWith("PvE ·") ? item.name : `PvE · ${item.name}`;
+  } else {
+    next.pveOnly = false;
+    if (!next.name?.startsWith("PvP ·") && !item.id.startsWith("pve_")) {
+      next.name = item.name;
+    }
+  }
+  return next;
+}
+
+function buildPveGearSeedFromPvp(pvpItems) {
+  const out = [];
+  for (const item of pvpItems) {
+    if (item.lane === "pve" || item.pveOnly) continue;
+    const isSet = item.set && PVE_SET_IDS.includes(item.set);
+    const isWeapon = item.slot === "weapon" || item.slot === "shield";
+    if (!isSet && !isWeapon) continue;
+    out.push(withGearLane(item, "pve"));
+  }
+  return out;
+}
+
+/** Normalize seed: shop/catalog defaults to PvP; dungeon rares stay PvE. Stock ×18. */
+(function seedGearLanes() {
+  for (const g of state.gearCatalog) {
+    if (g.pveOnly || g.lane === "pve") {
+      g.lane = "pve";
+      g.pveOnly = true;
+    } else {
+      g.lane = "pvp";
+      g.pveOnly = false;
+    }
+    if (g.qty == null || g.qty < GEAR_HERO_STOCK) g.qty = GEAR_HERO_STOCK;
+  }
+  const pveSeed = buildPveGearSeedFromPvp(state.gearCatalog);
+  const have = new Set(state.gearCatalog.map((g) => g.id));
+  for (const g of pveSeed) {
+    if (!have.has(g.id)) {
+      state.gearCatalog.push(g);
+      have.add(g.id);
+    }
+  }
+  GEAR_CATALOG_SEED.length = 0;
+  for (const g of state.gearCatalog) GEAR_CATALOG_SEED.push(JSON.parse(JSON.stringify(g)));
+})();
+
+function equipMapForLane(lane = state.equipLane) {
+  if (lane === "pvp") {
+    if (!state.equippedPvpByCat) state.equippedPvpByCat = {};
+    return state.equippedPvpByCat;
+  }
+  if (!state.equippedPveByCat) state.equippedPveByCat = {};
+  return state.equippedPveByCat;
+}
+
+function syncEquippedAlias() {
+  state.equippedByCat = equipMapForLane(state.equipLane || "pve");
+}
+
+function gearLaneOf(item) {
+  if (!item) return "pvp";
+  if (item.lane === "pve" || item.pveOnly) return "pve";
+  return item.lane === "pvp" ? "pvp" : "pvp";
+}
+
+/** How many copies of this gear id are currently worn (lane-scoped). */
+function gearWornCount(gearId, lane = state.equipLane || "pve") {
+  if (!gearId) return 0;
+  const map = equipMapForLane(lane);
+  let n = 0;
+  for (const eq of Object.values(map || {})) {
+    for (const id of Object.values(eq || {})) {
+      if (id === gearId) n += 1;
+    }
+  }
+  return n;
+}
+
+function gearOwnedQty(item) {
+  if (!item) return 0;
+  return Math.max(1, Number(item.qty) || GEAR_HERO_STOCK);
+}
+
+/** Free copies left in bag/barn for this stack. */
+function gearAvailableQty(item, lane = state.equipLane || "pve") {
+  if (!item) return 0;
+  return Math.max(0, gearOwnedQty(item) - gearWornCount(item.id, lane));
+}
+
 const $ = (id) => document.getElementById(id);
 
 function t(key, fallback = key) {
@@ -1126,11 +1179,16 @@ function persistProgress() {
 
 function persistGearStub() {
   try {
+    syncEquippedAlias();
     localStorage.setItem(
       "mythfel_sl_gear",
       JSON.stringify({
+        version: GEAR_STUB_VERSION,
         gearCatalog: state.gearCatalog,
+        equipLane: state.equipLane || "pve",
         equippedByCat: state.equippedByCat,
+        equippedPveByCat: state.equippedPveByCat,
+        equippedPvpByCat: state.equippedPvpByCat,
         barnCapMax: state.barnCapMax,
         barnMats: state.barnMats,
       }),
@@ -1188,15 +1246,54 @@ function loadGearStub() {
     const raw = localStorage.getItem("mythfel_sl_gear");
     if (!raw) return;
     const parsed = JSON.parse(raw);
+    const stale = Number(parsed.version || 0) < GEAR_STUB_VERSION;
+    if (stale) {
+      // Drop old turquoise / pre-R7–R8 catalogs; reseed from GEAR_CATALOG_SEED.
+      state.gearCatalog = JSON.parse(JSON.stringify(GEAR_CATALOG_SEED));
+      state.equippedPveByCat = {};
+      state.equippedPvpByCat = {};
+      state.equippedByCat = {};
+      state.barnCapMax = Math.max(256, Number(parsed.barnCapMax) || 256);
+      if (Array.isArray(parsed.barnMats) && parsed.barnMats.length) {
+        state.barnMats = parsed.barnMats;
+        mergeBarnMatsSeed();
+      }
+      syncEquippedAlias();
+      persistGearStub();
+      return;
+    }
     if (Array.isArray(parsed.gearCatalog) && parsed.gearCatalog.length) {
       state.gearCatalog = parsed.gearCatalog;
       mergeGearCatalogSeed();
+      for (const g of state.gearCatalog) {
+        if (!g.lane) g.lane = g.pveOnly ? "pve" : "pvp";
+        if (g.qty == null) g.qty = GEAR_HERO_STOCK;
+        if (g.set === "turquoise") g.set = "blue";
+        if (String(g.id || "").includes("turquoise_")) {
+          g.id = String(g.id).replace(/turquoise_/g, "blue_");
+        }
+      }
+    }
+    if (parsed.equipLane === "pve" || parsed.equipLane === "pvp") {
+      state.equipLane = parsed.equipLane;
+    }
+    if (parsed.equippedPveByCat && typeof parsed.equippedPveByCat === "object") {
+      state.equippedPveByCat = parsed.equippedPveByCat;
+    }
+    if (parsed.equippedPvpByCat && typeof parsed.equippedPvpByCat === "object") {
+      state.equippedPvpByCat = parsed.equippedPvpByCat;
     }
     if (parsed.equippedByCat && typeof parsed.equippedByCat === "object") {
-      state.equippedByCat = parsed.equippedByCat;
+      if (!Object.keys(state.equippedPveByCat || {}).length) {
+        state.equippedPveByCat = JSON.parse(JSON.stringify(parsed.equippedByCat));
+      }
+      if (!Object.keys(state.equippedPvpByCat || {}).length) {
+        state.equippedPvpByCat = JSON.parse(JSON.stringify(parsed.equippedByCat));
+      }
     }
+    syncEquippedAlias();
     if (typeof parsed.barnCapMax === "number" && parsed.barnCapMax > 0) {
-      state.barnCapMax = parsed.barnCapMax;
+      state.barnCapMax = Math.max(parsed.barnCapMax, 256);
     }
     if (Array.isArray(parsed.barnMats) && parsed.barnMats.length) {
       state.barnMats = parsed.barnMats;
@@ -1738,15 +1835,20 @@ function applyStarterGrant(profile) {
       cats.find((c) => c.role !== "farm")?.catId ||
       cats[0].catId;
   }
-  for (const c of cats) {
-    if (!state.equippedByCat[c.catId]) {
-      state.equippedByCat[c.catId] = emptyEquipSlots();
-    } else {
-      for (const slot of HOME_SLOT_ORDER) {
-        if (!(slot in state.equippedByCat[c.catId])) state.equippedByCat[c.catId][slot] = null;
+  for (const lane of ["pve", "pvp"]) {
+    const map = equipMapForLane(lane);
+    for (const c of cats) {
+      if (!map[c.catId]) {
+        map[c.catId] = emptyEquipSlots();
+      } else {
+        for (const slot of HOME_SLOT_ORDER) {
+          if (!(slot in map[c.catId])) map[c.catId][slot] = null;
+        }
       }
     }
   }
+  syncEquippedAlias();
+  ensureStarterPveGrey();
   for (const z of FARM_ZONES) {
     if (!state.farmState[z.id]) {
       state.farmState[z.id] = {
@@ -1793,20 +1895,115 @@ function baseStatsForCat(cat) {
   return { atk: raw.atk, hp: raw.hp, def: 0, spd: raw.spd, skill: raw.skill, charm: raw.charm };
 }
 
-function gearBonusForCat(catId) {
-  const eq = state.equippedByCat[catId] || {};
+function gearBonusForCat(catId, lane = state.equipLane || "pve") {
+  const eq = equipMapForLane(lane)[catId] || {};
   const bonus = { atk: 0, hp: 0, def: 0, spd: 0 };
   for (const slot of HOME_SLOT_ORDER) {
     const id = eq[slot];
     if (!id) continue;
     const item = state.gearCatalog.find((g) => g.id === id);
     if (!item) continue;
+    if (gearLaneOf(item) !== lane) continue;
     bonus.atk += item.atk || 0;
     bonus.hp += item.hp || 0;
     bonus.def += item.def || 0;
     bonus.spd += item.spd || 0;
   }
   return bonus;
+}
+
+/** Starter PvE grey — dungeon/raid only lane; shop never sells PvE. Grey clears hard, higher sets easier. */
+function ensureStarterPveGrey() {
+  const have = new Set((state.gearCatalog || []).map((g) => g.id));
+  let added = 0;
+  for (const seed of GEAR_CATALOG_SEED) {
+    if (seed.lane !== "pve" || seed.set !== "grey") continue;
+    if (have.has(seed.id)) continue;
+    state.gearCatalog.push(JSON.parse(JSON.stringify(seed)));
+    have.add(seed.id);
+    added++;
+  }
+  const cats = (state.profile?.cats || []).filter((c) => c.role !== "farm");
+  const map = equipMapForLane("pve");
+  for (const cat of cats) {
+    if (!map[cat.catId]) map[cat.catId] = emptyEquipSlots();
+    const eq = map[cat.catId];
+    const empty = HOME_SLOT_ORDER.every((s) => !eq[s]);
+    if (!empty) continue;
+    for (const slot of HOME_SLOT_ORDER) {
+      const piece = state.gearCatalog.find(
+        (g) => g.lane === "pve" && g.set === "grey" && g.slot === slot && canEquipItemForLane(cat.catId, g, "pve"),
+      );
+      if (!piece) continue;
+      eq[slot] = null;
+      if (gearAvailableQty(piece, "pve") > 0) eq[slot] = piece.id;
+    }
+  }
+  syncEquippedAlias();
+  if (added) persistGearStub();
+}
+
+function canEquipItemForLane(catOrId, item, lane) {
+  if (!item) return false;
+  if (gearLaneOf(item) !== lane) return false;
+  if (!item.roles || item.roles.length === 0) return true;
+  const role = catRoleOf(catOrId);
+  return !!role && item.roles.includes(role);
+}
+
+function setEquipLane(lane) {
+  state.equipLane = lane === "pvp" ? "pvp" : "pve";
+  syncEquippedAlias();
+  persistGearStub();
+  if (typeof renderHome === "function") {
+    try {
+      renderHome();
+    } catch (_) {}
+  }
+  toast(state.equipLane === "pvp" ? "Экип: PvP (магазин)" : "Экип: PvE (данжи/рейды)");
+}
+
+function grantShopPvpGear(offerId) {
+  const setId = offerId === "pvp_set_green" ? "green" : "grey";
+  const pieces = (state.gearCatalog || []).filter((g) => g.lane === "pvp" && g.set === setId);
+  if (!pieces.length) {
+    toast("PvP сет не найден в каталоге");
+    return;
+  }
+  toast(`Куплено PvP · ${setId} (${pieces.length} слотов) — stub`);
+  persistGearStub();
+}
+
+function grantPveSetPiece(setId, preferredSlot = null) {
+  const pool = (state.gearCatalog || []).filter((g) => g.lane === "pve" && g.set === setId);
+  if (!pool.length) return null;
+  let piece = preferredSlot ? pool.find((g) => g.slot === preferredSlot) : null;
+  if (!piece) piece = pool[Math.floor(Math.random() * pool.length)];
+  const existing = state.gearCatalog.find((g) => g.id === piece.id);
+  if (existing) existing.qty = Number(existing.qty || 1) + 1;
+  toast(`PvE дроп: ${piece.name}`);
+  persistGearStub();
+  return piece;
+}
+
+/** Team gear payload for CreatePvE / CreatePvP — len 3, matches squad template order. */
+function teamGearForTemplates(templateIds, lane = "pve") {
+  const cats = state.profile?.cats || [];
+  const used = new Set();
+  const out = [];
+  for (const tid of templateIds || []) {
+    const cat = cats.find((c) => c.templateId === tid && !used.has(c.catId));
+    if (cat) used.add(cat.catId);
+    const bonus = cat ? gearBonusForCat(cat.catId, lane) : { atk: 0, hp: 0, def: 0, spd: 0 };
+    out.push({
+      hp: bonus.hp || 0,
+      atk: bonus.atk || 0,
+      def: bonus.def || 0,
+      spd: bonus.spd || 0,
+    });
+  }
+  while (out.length < 3) out.push({ hp: 0, atk: 0, def: 0, spd: 0 });
+  return out.slice(0, 3);
 }
 
 function statsForCat(cat) {
@@ -1831,9 +2028,10 @@ function catRoleOf(catOrId) {
   return cat.role || starterMeta(cat.templateId)?.role || null;
 }
 
-/** Armor/ring (roles null/[]) → all heroes. Weapons/shield → only listed roles. */
+/** Armor/ring (roles null/[]) → all heroes. Weapons/shield → only listed roles. Lane must match equipLane. */
 function canEquipItem(catOrId, item) {
   if (!item) return false;
+  if (gearLaneOf(item) !== (state.equipLane || "pve")) return false;
   if (!item.roles || item.roles.length === 0) return true;
   const role = catRoleOf(catOrId);
   return !!role && item.roles.includes(role);
@@ -1850,20 +2048,27 @@ function equipItem(catId, itemId) {
   const item = state.gearCatalog.find((g) => g.id === itemId);
   if (!item || !catId) return;
   if (!canEquipItem(catId, item)) {
+    if (gearLaneOf(item) !== (state.equipLane || "pve")) {
+      toast(`${item.name}: слот ${gearLaneOf(item) === "pve" ? "PvE" : "PvP"} — переключи ленту экипа`);
+      return;
+    }
     equipDenyToast(item, catId);
     return;
   }
-  if (!state.equippedByCat[catId]) {
-    state.equippedByCat[catId] = emptyEquipSlots();
+  const map = equipMapForLane();
+  if (!map[catId]) map[catId] = emptyEquipSlots();
+  const eq = map[catId];
+  const prev = eq[item.slot];
+  // Free own slot first so stack availability counts correctly.
+  eq[item.slot] = null;
+  if (gearAvailableQty(item) <= 0) {
+    eq[item.slot] = prev;
+    toast(`${item.name}: нет свободных копий (×${gearOwnedQty(item)})`);
+    return;
   }
-  // Unequip same item from other cats / same slot swap
-  for (const [cid, eq] of Object.entries(state.equippedByCat)) {
-    for (const slot of Object.keys(eq)) {
-      if (eq[slot] === itemId) eq[slot] = null;
-    }
-  }
-  state.equippedByCat[catId][item.slot] = itemId;
-  toast(`${item.name} → надето`);
+  eq[item.slot] = itemId;
+  syncEquippedAlias();
+  toast(`${item.name} → надето (${state.equipLane === "pvp" ? "PvP" : "PvE"}) · остаток ×${gearAvailableQty(item)}`);
   persistGearStub();
   renderHome();
   renderEquipCards();
@@ -2246,6 +2451,7 @@ function upsertDungeonRareGear(rare) {
     roles: null,
     qty: 1,
     pveOnly: true,
+    lane: "pve",
     effect: def.effect_ru || "",
     iconSrc: "/barn-icons/fish.png",
   };
@@ -2283,6 +2489,9 @@ function grantDungeonBossLoot() {
       }
     }
   }
+  const setDrop = DUNGEON_PVE_SET_DROP[dung.id] || "grey";
+  grantPveSetPiece(setDrop);
+
   if (awarded) {
     upsertDungeonRareGear(awarded);
     prog.rares.push({ id: awarded.id, dungeonId: dung.id, at: Date.now(), path });
@@ -4275,9 +4484,13 @@ function grantRaidLootStub() {
     state.raidWeeklyLocked = true;
   }
   state.raidAttemptsLeft = Math.max(0, (state.raidAttemptsLeft | 0) - 1);
+  const setDrop = RAID_PVE_SET_DROP[raid?.raidId || state.raidId] || "yellow";
+  const piece = grantPveSetPiece(setDrop);
+  if (piece) loot.pveSetPiece = piece.id;
   persistProgress();
   toast(
     `Лут рейда: +${loot.fish} рыбок` +
+      (piece ? ` · PvE ${piece.name}` : "") +
       (loot.pathOnly.length ? ` · path-only: ${loot.pathOnly.join(", ")}` : "") +
       " · weekly lock",
   );
@@ -4716,7 +4929,7 @@ function renderShop() {
   $("shopTitle").textContent = t("hub.tab.shop");
   $("shopLead").textContent = t(
     "shop.lead_channels",
-    "IAP · пасс · рыбки · breeding · 12 common · grey armor · battle coins → gear",
+    "IAP · пасс · рыбки · breeding · 12 common · PvP броня · battle coins → PvP gear (PvE только из данжей/рейдов)",
   );
   const list = $("offerList");
   if (list) {
@@ -4727,6 +4940,7 @@ function renderShop() {
       li.style.cursor = "pointer";
       li.addEventListener("click", () => {
         if (row.gated) showGateTip();
+        else if (row.id.startsWith("armor_") || row.id.startsWith("pvp_set_")) grantShopPvpGear(row.id);
         else toast(state.locale === "ru" ? `${row.label} — stub (сервер)` : `${row.label} — stub`);
       });
       list.appendChild(li);
@@ -4748,6 +4962,7 @@ function renderShop() {
       btn.innerHTML = `<strong>${row.label}</strong><div class="meta">${row.detail || ""} · ${row.gated ? "gated" : "stub"}</div>`;
       btn.addEventListener("click", () => {
         if (row.gated) showGateTip();
+        else if (row.id.startsWith("armor_") || row.id.startsWith("pvp_set_")) grantShopPvpGear(row.id);
         else toast(state.locale === "ru" ? `${row.label} — stub` : `${row.label} — stub`);
       });
       stubHost.appendChild(btn);
@@ -6416,14 +6631,7 @@ const HOME_SLOT_RU = {
 };
 const HOME_RARITY_RU = { mythic: "Миф", epic: "Эпик", rare: "Редк", common: "Обыч" };
 /** Color armor sets: piece totals + 3-piece set bonus (flat, combat scale). */
-const HOME_SET_RU = {
-  grey: { name: "Серый Лев", need: 3, armor: "+6 DEF · +8 HP", weapon: "—", bonus: "3+: +1 DEF" },
-  green: { name: "Зелёный След", need: 3, armor: "+8 DEF · +10 HP · +1 ATK", weapon: "лук/арбалет +2 ATK", bonus: "3+: +1 ATK" },
-  turquoise: { name: "Бирюза", need: 3, armor: "+9 DEF · +11 HP · +1 ATK", weapon: "посох +2 ATK", bonus: "3+: +1 SPD" },
-  yellow: { name: "Жёлтый Лев", need: 3, armor: "+11 DEF · +13 HP · +2 ATK", weapon: "посох +3 / жезл +2 ATK", bonus: "3+: +1 ATK" },
-  purple: { name: "Фиолет", need: 3, armor: "+12 DEF · +14 HP · +2 ATK", weapon: "кинжалы +2 ATK каждый", bonus: "3+: +1 crit" },
-  red: { name: "Красный Дракон", need: 3, armor: "+14 DEF · +16 HP · +2 ATK", weapon: "меч +4 / топоры +2 ATK", bonus: "3+: +2 HP" },
-};
+const HOME_SET_RU = HOME_SET_RU_SEED;
 
 function formatGearBonuses(item) {
   if (!item) return "";
@@ -6437,8 +6645,12 @@ function formatGearBonuses(item) {
 }
 
 function armorSetTotals(setId) {
+  const lane = state.equipLane || "pve";
   const pieces = (state.gearCatalog || []).filter(
-    (g) => g.set === setId && ["helm", "armor", "cloak", "belt", "boots"].includes(g.slot),
+    (g) =>
+      g.set === setId &&
+      gearLaneOf(g) === lane &&
+      ["helm", "armor", "cloak", "belt", "boots"].includes(g.slot),
   );
   const tot = { atk: 0, def: 0, hp: 0, spd: 0 };
   for (const p of pieces) {
@@ -6474,47 +6686,51 @@ function formatSheetNum(n) {
 
 function equipBest(catId) {
   if (!catId) return;
-  if (!state.equippedByCat[catId]) {
-    state.equippedByCat[catId] = emptyEquipSlots();
-  }
+  const map = equipMapForLane();
+  if (!map[catId]) map[catId] = emptyEquipSlots();
   for (const slot of HOME_SLOT_ORDER) {
-    const best = state.gearCatalog
+    const candidates = state.gearCatalog
       .filter((item) => item.slot === slot && canEquipItem(catId, item))
-      .sort((a, b) => b.atk + b.hp + b.def + b.spd - (a.atk + a.hp + a.def + a.spd))[0];
-    if (!best) continue;
-    for (const eq of Object.values(state.equippedByCat)) {
-      for (const key of Object.keys(eq)) {
-        if (eq[key] === best.id) eq[key] = null;
-      }
-    }
-    state.equippedByCat[catId][slot] = best.id;
+      .sort((a, b) => b.atk + b.hp + b.def + b.spd - (a.atk + a.hp + a.def + a.spd));
+    const prev = map[catId][slot];
+    map[catId][slot] = null;
+    const best = candidates.find((item) => gearAvailableQty(item) > 0);
+    map[catId][slot] = best ? best.id : prev;
   }
-  toast("Лучшее надето (с учётом класса)");
+  syncEquippedAlias();
+  toast("Лучшее надето (с учётом класса · стеки)");
+  persistGearStub();
   renderAll();
 }
 
 /** Dress full color armor set (helm/armor/cloak/belt/boots). Weapons stay class-gated separately. */
 function equipArmorSet(catId, setId) {
   if (!catId || !setId) return false;
-  if (!state.equippedByCat[catId]) state.equippedByCat[catId] = emptyEquipSlots();
+  const map = equipMapForLane();
+  if (!map[catId]) map[catId] = emptyEquipSlots();
   const armorSlots = ["helm", "armor", "cloak", "belt", "boots"];
   let worn = 0;
   for (const slot of armorSlots) {
-    const piece = state.gearCatalog.find((g) => g.set === setId && g.slot === slot && canEquipItem(catId, g));
+    const piece = state.gearCatalog.find(
+      (g) => g.set === setId && g.slot === slot && canEquipItem(catId, g),
+    );
     if (!piece) continue;
-    for (const eq of Object.values(state.equippedByCat)) {
-      for (const key of Object.keys(eq)) {
-        if (eq[key] === piece.id) eq[key] = null;
-      }
+    const prev = map[catId][slot];
+    map[catId][slot] = null;
+    if (gearAvailableQty(piece) <= 0) {
+      map[catId][slot] = prev;
+      continue;
     }
-    state.equippedByCat[catId][slot] = piece.id;
+    map[catId][slot] = piece.id;
     worn += 1;
   }
+  syncEquippedAlias();
   const meta = HOME_SET_RU[setId];
   const label = meta?.name || setId;
   const tot = armorSetTotals(setId);
   const armorLine = meta?.armor || `+${tot.def} DEF · +${tot.hp} HP`;
-  toast(worn ? `${label}: ${worn}/5 · ${armorLine}` : `${label}: нет частей`);
+  toast(worn ? `${label}: ${worn}/5 · ${armorLine}` : `${label}: нет свободных частей`);
+  persistGearStub();
   renderHome();
   renderEquipCards();
   renderAll();
@@ -6626,17 +6842,23 @@ function barnMatSpend(id, qty = 1) {
 /** Rebuild barn rows from gearCatalog + barnMats (D-028 / MF-153 smoke). */
 function syncBarnFromGear() {
   ensureBarnMats();
-  const gearRows = (state.gearCatalog || []).map((g) => ({
-    id: g.id,
-    name: g.name,
-    kind: gearBarnKind(g),
-    rarity: g.rarity,
-    tag: `${g.set || "class"} · ${g.slot}`,
-    enhance: g.enhance || 0,
-    qty: 1,
-    gearId: g.id,
-    iconSrc: g.iconSrc,
-  }));
+  const gearRows = (state.gearCatalog || [])
+    .filter((g) => gearAvailableQty(g, gearLaneOf(g)) > 0 || gearWornCount(g.id, gearLaneOf(g)) > 0)
+    .map((g) => {
+      const avail = gearAvailableQty(g, gearLaneOf(g));
+      return {
+        id: g.id,
+        name: g.name,
+        kind: gearBarnKind(g),
+        rarity: g.rarity,
+        tag: `${g.set || "class"} · ${g.slot} · ${gearLaneOf(g)}`,
+        enhance: g.enhance || 0,
+        qty: avail,
+        owned: gearOwnedQty(g),
+        gearId: g.id,
+        iconSrc: g.iconSrc,
+      };
+    });
   const matRows = (state.barnMats || [])
     .filter((m) => (m.qty || 0) > 0 || m.kind === "tool")
     .map((m) => ({
@@ -6702,8 +6924,9 @@ function barnGearForItem(item) {
 
 function barnItemWorn(gearId) {
   if (!gearId) return false;
-  return Object.values(state.equippedByCat || {}).some((eq) =>
-    Object.values(eq || {}).includes(gearId),
+  const maps = [state.equippedPveByCat, state.equippedPvpByCat, state.equippedByCat];
+  return maps.some((map) =>
+    Object.values(map || {}).some((eq) => Object.values(eq || {}).includes(gearId)),
   );
 }
 
@@ -6732,13 +6955,19 @@ function setBarnInspectOpen(open) {
 /** One cell chrome for every category filter. */
 function barnItemCellHtml(item) {
   const on = item.id === state.barnFocus;
-  const worn = barnItemWorn(item.gearId || item.id);
+  const gear = barnGearForItem(item);
+  const avail = item.matId ? item.qty || 0 : gear ? gearAvailableQty(gear, gearLaneOf(gear)) : item.qty || 0;
+  const wornN = gear ? gearWornCount(gear.id, gearLaneOf(gear)) : 0;
+  const fullyWorn = gear && avail <= 0 && wornN > 0;
   const border = barnRarityBorder(item.rarity);
-  const badge = item.enhance > 0 ? `+${item.enhance}` : item.matId && item.qty > 1 ? `×${item.qty}` : "";
-  return `<button type="button" data-barn-item="${item.id}" class="rounded-xl bg-surface-container-lowest p-1 border ${border} ${on ? "ring-2 ring-primary" : "hover:border-primary/40"}${worn ? " opacity-50" : ""}" title="${item.name}${worn ? " · надето" : ""}${item.matId ? ` · ×${item.qty || 0}` : ""}">
+  const qtyBadge = avail > 1 || (gear && gearOwnedQty(gear) > 1) ? `×${avail}` : "";
+  const enhanceBadge = !qtyBadge && item.enhance > 0 ? `+${item.enhance}` : "";
+  const badge = qtyBadge || enhanceBadge;
+  return `<button type="button" data-barn-item="${item.id}" class="rounded-xl bg-surface-container-lowest p-1 border ${border} ${on ? "ring-2 ring-primary" : "hover:border-primary/40"}${fullyWorn ? " opacity-50" : ""}" title="${item.name}${wornN ? ` · надето ${wornN}` : ""}${avail ? ` · склад ×${avail}` : ""}">
     <img alt="" src="${item.iconSrc}"/>
-    ${badge ? `<span class="barn-cell-badge px-1 rounded bg-surface-container-lowest/90 font-stat-numeral text-[9px] text-primary">${badge}</span>` : ""}
-    ${worn ? `<span class="barn-cell-worn px-1 rounded bg-primary/90 text-on-primary font-label-sm text-[8px]">on</span>` : ""}
+    ${badge ? `<span class="barn-cell-badge absolute top-0.5 right-0.5 px-1 rounded bg-surface-container-lowest/90 font-stat-numeral text-[9px] text-primary font-bold">${badge}</span>` : ""}
+    ${wornN && !fullyWorn ? `<span class="barn-cell-worn px-1 rounded bg-primary/90 text-on-primary font-label-sm text-[8px]">${wornN} on</span>` : ""}
+    ${fullyWorn ? `<span class="barn-cell-worn px-1 rounded bg-primary/90 text-on-primary font-label-sm text-[8px]">on</span>` : ""}
     <span class="barn-cell-name px-0.5 py-0.5 bg-surface-container-lowest/90 font-label-sm text-[8px] text-on-surface truncate text-center">${item.name}</span>
   </button>`;
 }
@@ -7494,8 +7723,11 @@ function renderHomeBag(cat) {
   if (!grid) return;
   const filter = state.homeBagFilter || "all";
   const rarity = state.homeRarityFilter || "all";
+  const lane = state.equipLane || "pve";
   const items = state.gearCatalog.filter((item) => {
-    if (barnItemWorn(item.id)) return false; // on character: worn lives in slots only
+    if (gearLaneOf(item) !== lane) return false;
+    // Stacked: hide only when zero free copies remain.
+    if (gearAvailableQty(item, lane) <= 0) return false;
     if (filter === "weapon" && item.slot !== "weapon" && item.slot !== "shield") return false;
     if (filter === "helm" && item.slot !== "helm") return false;
     if (filter === "armor" && item.slot !== "armor" && item.slot !== "cloak") return false;
@@ -7509,17 +7741,21 @@ function renderHomeBag(cat) {
     .map((item) => {
       const tone = homeBagTone(item);
       const locked = !canEquipItem(cat, item);
+      const avail = gearAvailableQty(item, lane);
       const roleHint = item.roles?.length
         ? item.roles.map((r) => CAT_ROLE_RU[r] || r).join("/")
         : "";
-      const enhance = item.enhance
-        ? `<span class="absolute top-0.5 right-0.5 px-0.5 rounded ${tone.pill} font-stat-numeral text-[8px] leading-none font-bold">+${item.enhance}</span>`
-        : "";
+      const qtyBadge =
+        avail > 1
+          ? `<span class="absolute top-0.5 right-0.5 min-w-[14px] px-0.5 rounded ${tone.pill} font-stat-numeral text-[9px] leading-none font-bold text-center">${avail}</span>`
+          : item.enhance
+            ? `<span class="absolute top-0.5 right-0.5 px-0.5 rounded ${tone.pill} font-stat-numeral text-[8px] leading-none font-bold">+${item.enhance}</span>`
+            : "";
       const lock = locked
         ? `<span class="absolute inset-0 rounded bg-black/45 flex items-center justify-center text-[9px] font-label-sm text-on-surface uppercase tracking-wide">${roleHint || "класс"}</span>`
         : "";
       const bonuses = formatGearBonuses(item);
-      return `<div data-home-bag-item="${item.id}" role="button" tabindex="0" title="${item.name}${bonuses ? ` · ${bonuses}` : ""}${roleHint ? ` · ${roleHint}` : " · все классы"}${locked ? " · недоступно" : ""}" class="aspect-square rounded-lg bg-surface-container-high p-0.5 relative cursor-pointer border ${tone.border} ${tone.glow} hover:scale-105 transition-transform flex items-center justify-center group${locked ? " is-locked" : ""}"><img alt="${item.name}" class="w-full h-full object-cover rounded" src="${item.iconSrc}"><span class="absolute bottom-0.5 left-0.5 px-0.5 rounded bg-surface-container-lowest font-label-sm text-[7px] ${tone.tag} uppercase">${tone.label}</span>${enhance}${lock}</div>`;
+      return `<div data-home-bag-item="${item.id}" role="button" tabindex="0" title="${item.name}${bonuses ? ` · ${bonuses}` : ""} · ×${avail}${roleHint ? ` · ${roleHint}` : " · все классы"}${locked ? " · недоступно" : ""}" class="aspect-square rounded-lg bg-surface-container-high p-0.5 relative cursor-pointer border ${tone.border} ${tone.glow} hover:scale-105 transition-transform flex items-center justify-center group${locked ? " is-locked" : ""}"><img alt="${item.name}" class="w-full h-full object-cover rounded" src="${item.iconSrc}"><span class="absolute bottom-0.5 left-0.5 px-0.5 rounded bg-surface-container-lowest font-label-sm text-[7px] ${tone.tag} uppercase">${tone.label}</span>${qtyBadge}${lock}</div>`;
     })
     .join("");
   const label = [...(grid.closest(".col-span-3")?.querySelectorAll("span") || [])].find((el) =>
@@ -7527,7 +7763,7 @@ function renderHomeBag(cat) {
   );
   if (label) {
     const used = barnStockUsed();
-    const cap = state.barnCapMax || 96;
+    const cap = state.barnCapMax || 256;
     label.innerHTML = `Склад: <span class="text-primary font-stat font-bold">${used}</span>/${formatSheetNum(cap)}`;
   }
 }
@@ -7584,7 +7820,26 @@ function renderHome() {
   const art = catHeroArt(cat.templateId);
   const name = catSheetName(cat);
   const title = $("homeHeroTitle");
-  if (title) title.textContent = `ЭКИПИРОВКА ГЕРОЯ: ${name.toUpperCase()}`;
+  if (title) {
+    title.textContent = `ЭКИПИРОВКА ГЕРОЯ: ${name.toUpperCase()}`;
+    let laneBar = $("homeEquipLaneBar");
+    if (!laneBar && title.parentElement) {
+      laneBar = document.createElement("div");
+      laneBar.id = "homeEquipLaneBar";
+      laneBar.className = "flex gap-2 mt-2";
+      title.parentElement.insertBefore(laneBar, title.nextSibling);
+    }
+    if (laneBar) {
+      const lane = state.equipLane || "pve";
+      laneBar.innerHTML = `
+        <button type="button" data-equip-lane="pve" class="mission-fight ${lane === "pve" ? "is-active" : ""}" style="padding:0.35rem 0.7rem">PvE · данжи/рейды</button>
+        <button type="button" data-equip-lane="pvp" class="mission-fight ${lane === "pvp" ? "is-active" : ""}" style="padding:0.35rem 0.7rem">PvP · магазин</button>
+        <span class="meta" style="align-self:center;font-size:11px;opacity:.75">HP врагов фиксировано · выше броня/оружие = проще</span>`;
+      laneBar.querySelectorAll("[data-equip-lane]").forEach((btn) => {
+        btn.addEventListener("click", () => setEquipLane(btn.getAttribute("data-equip-lane")));
+      });
+    }
+  }
   const nameEl = $("homeHeroName");
   const metaEl = $("homeHeroMeta");
   const artEl = $("homeHeroArt");
@@ -12013,6 +12268,7 @@ async function createPvE({ autoPlay = false, seed = 0, stageId = null, team = nu
     potions: [],
     seed,
     autoPlay,
+    teamGear: teamGearForTemplates(squad, "pve"),
   };
   if (Array.isArray(carry) && carry.length === 3) body.carryAlive = carry.map(Boolean);
   const { data } = await api("/api/battle/v1/CreatePvE", {
@@ -12218,6 +12474,8 @@ async function pvpAuto() {
         team2,
         seed: 20261104,
         autoPlay: true,
+        teamGear1: teamGearForTemplates(team1, "pvp"),
+        teamGear2: teamGearForTemplates(team2, "pvp"),
       }),
     });
     log(`PvP auto ${data.battleId} → ${data.result}`, "pvp");
@@ -13037,6 +13295,8 @@ async function pvpStart() {
         team2,
         seed: Date.now() % 1e9,
         autoPlay: false,
+        teamGear1: teamGearForTemplates(team1, "pvp"),
+        teamGear2: teamGearForTemplates(team2, "pvp"),
       }),
     });
     verifyPvpHandCards(data);

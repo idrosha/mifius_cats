@@ -5,16 +5,18 @@
 **SSOT:** `content/campaign/dungeons_coop_v1.json` (v3)  
 **Лут:** `content/campaign/dungeon_rewards_v1.json`  
 **Редметы:** `content/items/dungeon_rares.json`  
-**Stages:** `content/stages/dungeon_*.json` (+ `*_boss_long` HP×1.2)
+**Stages:** `content/stages/dungeon_*.json` (+ `*_boss_long` HP×1.2)  
+**Сила:** wiki §4.3 — HP врагов **единое** (stage JSON); сложность = **PvE-броня/оружие** пати.
 
 ## Модель
 
 - Лобби: 4 игрока × 3 котика — **создать / войти по коду / ready / боты** (`/api/dev/dungeon/party/*`).
-- Боевой узел: ядро **3v3** (`CreatePvE`) — у каждого свой бой; пати = лобби+лут-контракт.
+- Боевой узел: ядро **3v3** (`CreatePvE` + `teamGear` с PvE-ленты) — у каждого свой бой; пати = лобби+лут-контракт.
+- HP монстров/боссов **не** скалируется под экип — серый сет проходит с трудом, высокий ранг проще.
 - Развилка: короткий / длинный; на длинном **F2 налево/направо**.
-- Длинный босс: отдельный stage `*_boss_long` (HP выше).
+- Длинный босс: отдельный stage `*_boss_long` (HP выше, всё ещё фиксированный baseline).
 - Вход: **ключ** (starter / buy fish / spend API).
-- Редметы: только с босса → склад + `/api/dev/dungeon/clear`.
+- Лут: **PvE-сеты** + редметы с босса → склад (`lane: pve`); в магазине PvE не купить.
 
 ## Пробелы
 

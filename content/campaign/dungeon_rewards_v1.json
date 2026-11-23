@@ -1,17 +1,24 @@
 {
-  "version": 1,
+  "version": 2,
+  "notes": "PvE gear only from dungeon/raid drops. Monster HP is fixed in stages; gear makes clears easier (wiki §4.3).",
   "nodeLoot": {
     "short": { "fish": 25, "xp": 40, "scrap": 2 },
     "long": { "fish": 45, "xp": 70, "scrap": 5 }
   },
   "bossLoot": {
-    "short": { "fish": 80, "xp": 120, "scrap": 8, "chestTier": 1, "rareChance": 0.55 },
-    "long": { "fish": 140, "xp": 200, "scrap": 14, "chestTier": 2, "rareChance": 0.85, "pityBonus": 0.15 }
+    "short": { "fish": 80, "xp": 120, "scrap": 8, "chestTier": 1, "rareChance": 0.55, "pveSetChance": 1.0 },
+    "long": { "fish": 140, "xp": 200, "scrap": 14, "chestTier": 2, "rareChance": 0.85, "pityBonus": 0.15, "pveSetChance": 1.0 }
   },
   "firstClear": {
     "fish": 150,
     "guaranteeRare": true,
-    "chooseRare": true
+    "chooseRare": true,
+    "guaranteePveSet": true
+  },
+  "pveSetByDungeon": {
+    "scarlet": "grey",
+    "howl": "green",
+    "whisper": "blue"
   },
   "matsByDungeon": {
     "scarlet": { "long": ["collar_fragment", "arena_elixir"] },

@@ -495,6 +495,40 @@ Playable SoT = content (`D-035`); арт может показывать ста�
 | Post-fight HP | Только **молоко на льду** в Таверне (не ranked-бафф) |
 | Milk pre-buff | Только PvE + данжи; **не** ranked Колизей |
 | Зелья | ≤1 / `potionId` на бой; крафтеры → рынок/аукцион |
+| Броня DEF | Смягчает входящий hit на **Def/2** (минимум 1 урона); pierce / fragile игнорируют DEF |
+| Оружие ATK | Плоский бонус к card hit (`GearAtk`), не вместо карты |
+
+### 4.3 PvE / данжи / рейды — единое HP врагов, сложность от экипа (LOCKED)
+
+**HP монстров и боссов фиксировано** в stage JSON (одинаковое для всех игроков и пати). Нет скалирования HP под «силу отряда».
+
+Сложность прохождения = **броня + оружие** игрока (и пати):
+
+| Экип | Ожидание |
+|---|---|
+| Без экипа / почти голый | Очень тяжело; Мифмир питбоссы — только тактикой |
+| **Серый сет R1 (PvE)** | Данж **проходим**, но с трудом (мало DEF/HP, слабое оружие) |
+| Green → turquoise → yellow | Заметно проще: больше DEF (меньше входящий), больше HP, выше weapon ATK |
+| Purple / red (высокий ранг) | Комфортный clear; ошибки прощаются чаще |
+
+Формула в бою (battle-core):
+
+- Враг: `MaxHP` / `HP` = content baseline (без множителей от gear).
+- Игрок: `+HP` / `+DEF` / weapon `+GearAtk` с **PvE-ленты** экипа → `CreatePvE.teamGear`.
+- Mitigation: `dealt = max(1, hit − Def/2)` до щита (если не pierce).
+
+#### Разделение шмоток PvE ↔ PvP
+
+| Лента | Источник | Где работает |
+|---|---|---|
+| **PvP** | **Магазин** (fish / battle_coin), пасс-боксы арены | Колизей / дуэли · отдельный loadout |
+| **PvE** | **Только дроп** данжей и рейдов (+ стартовый серый PvE грант) | Мифмир / данжи / рейды · отдельный loadout |
+
+Нельзя купить PvE-броню в магазине. Нельзя надеть PvP-сет в данж (и наоборот) — в Доме Хранителя переключатель ленты **PvE | PvP**.
+
+Данж-дроп сетов (ориентир SL): scarlet → grey · howl → green · whisper → turquoise.  
+Рейд: myaurra → yellow · talass → purple · vulcan → red.  
+Редметы боссов (`dungeon_rares.json`) всегда `lane: pve`.
 
 **Колода атак:** несыгранные карты в конце хода уходят в сброс; на старте хода — добор из колоды; пустая колода → сброс тасуется обратно (Keep удерживает карту в руке на свой следующий ход). Одинаково во всех режимах. FULL-SPEC §3.3.
 
@@ -644,18 +678,20 @@ Quick sell = те же ставки, без аукциона.
 | Repair shovel | железо×1 + дерево×1 | durability full |
 | Bow string (scrap gear) | scrap×10 + железо×2 | bow mat |
 
-### 8.4 Магазин — коты / броня / breeding
+### 8.4 Магазин — коты / **PvP-броня** / breeding
 
 | SKU | fish / yarn | Источник |
 |---|---|---|
 | 12 common cats | 800–950 fish | `shop-common-cats.md` |
-| Grey armor R1 | 150–250 fish / slot | только R1 в shop |
+| **PvP** Grey armor R1 | 150–250 fish / slot | только PvP-лента; для Колизея |
+| **PvP** Green+ (SL stub) | fish / battle_coin | power band ≤ blue |
 | Breeding mats | 60–120 fish | shop |
 | `talisman_mythic_luck` | **yarn** IAP pack | +20% breed |
 | Pass season | yarn IAP | ×2 XP + autofarm |
 | Fish packs | yarn → fish | shop |
 
-Battle_coin gear: power band ≤ blue на SL (`armor-ranks-pass.md`).
+**PvE-броня и оружие в магазине не продаются** — только дроп данжей/рейдов (вики §4.3).  
+Battle_coin gear: **PvP**-лента, power band ≤ blue на SL (`armor-ranks-pass.md`).
 
 ### 8.5 Броня R1–R8 (unlock)
 

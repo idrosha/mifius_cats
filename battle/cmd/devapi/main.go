@@ -71,20 +71,23 @@ type server struct {
 }
 
 type createPvEReq struct {
-	StageID    string   `json:"stageId"`
-	Team       []string `json:"team"`
-	Potions    []string `json:"potions"`
-	Seed       int64    `json:"seed"`
-	AutoPlay   bool     `json:"autoPlay"`
-	CarryAlive []bool   `json:"carryAlive"` // D-039 Mythmir wave carry; omit = all alive
+	StageID    string          `json:"stageId"`
+	Team       []string        `json:"team"`
+	Potions    []string        `json:"potions"`
+	Seed       int64           `json:"seed"`
+	AutoPlay   bool            `json:"autoPlay"`
+	CarryAlive []bool          `json:"carryAlive"` // D-039 Mythmir wave carry; omit = all alive
+	TeamGear   []sim.GearBonus `json:"teamGear"`   // len 3 armor/weapon bonuses; enemy HP stays fixed
 }
 
 type createPvPReq struct {
-	MatchID  string   `json:"matchId"`
-	Team1    []string `json:"team1"`
-	Team2    []string `json:"team2"`
-	Seed     int64    `json:"seed"`
-	AutoPlay bool     `json:"autoPlay"`
+	MatchID   string          `json:"matchId"`
+	Team1     []string        `json:"team1"`
+	Team2     []string        `json:"team2"`
+	Seed      int64           `json:"seed"`
+	AutoPlay  bool            `json:"autoPlay"`
+	TeamGear1 []sim.GearBonus `json:"teamGear1"`
+	TeamGear2 []sim.GearBonus `json:"teamGear2"`
 }
 
 type submitReq struct {
@@ -119,7 +122,7 @@ func (s *server) createPvE(w http.ResponseWriter, r *http.Request) {
 		seed = time.Now().UnixNano()
 	}
 	id := fmt.Sprintf("pve_%d", s.seq.Add(1))
-	b, err := mode.CreatePvE(s.cat, id, req.StageID, seed, req.Team, req.Potions, req.CarryAlive)
+	b, err := mode.CreatePvE(s.cat, id, req.StageID, seed, req.Team, req.Potions, req.CarryAlive, req.TeamGear)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -161,7 +164,7 @@ func (s *server) createPvP(w http.ResponseWriter, r *http.Request) {
 		seed = 20261104
 	}
 	id := fmt.Sprintf("pvp_%d", s.seq.Add(1))
-	b, err := mode.CreatePvP(s.cat, id, req.MatchID, seed, req.Team1, req.Team2, nil, nil)
+	b, err := mode.CreatePvP(s.cat, id, req.MatchID, seed, req.Team1, req.Team2, nil, nil, req.TeamGear1, req.TeamGear2)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return

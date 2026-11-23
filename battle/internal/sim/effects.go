@@ -74,8 +74,8 @@ func (b *Battle) resolveCard(actor *Unit, card content.CardDef, targets []*Unit)
 			if !t.Alive || card.Atk <= 0 {
 				continue
 			}
-			// Hit = card.Atk (+ buff). Unit.Atk is sheet/catalog only (FULL-SPEC cards SoT).
-			dmg := card.Atk + actor.AtkBuff
+			// Hit = card.Atk + gear weapon ATK (+ buff). Template Unit.Atk stays sheet/catalog.
+			dmg := card.Atk + actor.AtkBuff + actor.GearAtk
 			if b.cardsPlayedByUnit[actor.ID] >= 2 {
 				// ponytail: skill/500 under scale-50 ≈ noop; retune divisor when LiveOps sets skill curve
 				dmg += int(math.Floor(float64(dmg) * float64(actor.Skill) / 500.0))
@@ -147,6 +147,22 @@ func (b *Battle) applyHit(attacker, target *Unit, amount int, ignoreShield, crit
 		attacker.addStatus("poison", 1, 0)
 		b.emit(CombatEvent{Kind: "status", SourceID: target.ID, TargetID: attacker.ID, Status: "poison", StatusOp: "apply", Amount: 1})
 	}
+	// Tank wind reflect (elven kits): while taunted target has reflect, return ~35% of HP damage dealt.
+	if attacker != nil && attacker.Alive && hadTaunt && target.hasStatus("reflect") && hpLost > 0 {
+		stacks := target.statusStacks("reflect")
+		if stacks < 1 {
+			stacks = 1
+		}
+		pct := 0.30 + 0.05*float64(stacks-1) // 30% base, +5% per extra stack, cap ~40%
+		if pct > 0.40 {
+			pct = 0.40
+		}
+		reflected := int(math.Floor(float64(hpLost) * pct))
+		if reflected > 0 {
+			_, _, _ = b.applyDamage(target, attacker, reflected, true)
+			b.emit(CombatEvent{Kind: "hit", SourceID: target.ID, TargetID: attacker.ID, Amount: reflected, Pierce: true})
+		}
+	}
 	// Pitboss hitting a taunting tank freezes them (stun) for the next turn; support cleanse removes it.
 	if attacker != nil && isPitbossUnit(attacker) && hadTaunt && target.Alive {
 		target.addStatus("stun", 1, 1)
@@ -155,12 +171,22 @@ func (b *Battle) applyHit(attacker, target *Unit, amount int, ignoreShield, crit
 }
 
 // applyDamage mutates HP/shield; returns HP lost, shield absorbed, and whether the unit died this hit.
+// Armor DEF softens hits (Def/2, floor 1) unless pierce/fragile (ignoreShield). Enemy HP is fixed in content.
 func (b *Battle) applyDamage(attacker, target *Unit, amount int, ignoreShield bool) (hpLost, shieldAbs int, killed bool) {
 	_ = attacker
 	if amount <= 0 || !target.Alive {
 		return 0, 0, false
 	}
 	wasAlive := target.Alive
+	if !ignoreShield && target.Def > 0 {
+		mit := target.Def / 2
+		if mit > 0 {
+			amount -= mit
+			if amount < 1 {
+				amount = 1
+			}
+		}
+	}
 	if !ignoreShield && target.Shield > 0 {
 		if amount <= target.Shield {
 			target.Shield -= amount

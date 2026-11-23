@@ -49,7 +49,7 @@ func TestProbeMythmirBalanceMatrix(t *testing.T) {
 			for _, teamKey := range []string{"REF", "A_mono3", "B_no_tank", "C_no_heal"} {
 				team := probeTeams[teamKey]
 				seed := int64(20261118 + ch*10 + f)
-				b, err := mode.CreatePvE(cat, "probe_"+id+"_"+teamKey, id, seed, team, nil, []bool{true, true, true})
+				b, err := mode.CreatePvE(cat, "probe_"+id+"_"+teamKey, id, seed, team, nil, []bool{true, true, true}, nil)
 				if err != nil {
 					fmt.Fprintf(&buf, " %-22s", "create_err")
 					continue

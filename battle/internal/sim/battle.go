@@ -18,11 +18,21 @@ type CreateParams struct {
 	PotionsP2 []string
 }
 
+// GearBonus — flat loadout stats from armor/weapons (HUD sheet). Applied at spawn only.
+// Enemy stages never receive gear; their HP stays the content baseline (unified PvE HP).
+type GearBonus struct {
+	HP  int `json:"hp"`
+	Atk int `json:"atk"`
+	Def int `json:"def"`
+	Spd int `json:"spd"`
+}
+
 type SpawnUnit struct {
 	ID       string
 	Template content.CatTemplate
 	Deck     []content.CardDef
 	Parts    map[string]content.PartDef // for passiveOps
+	Gear     GearBonus                  // player loadout; zero for bots
 	// CarryAlive: nil = alive at MaxHP; false = spawn dead (Mythmir wave carry, D-039 / §4.1).
 	// true = living unit restored to MaxHP on the next chapter level.
 	CarryAlive *bool
@@ -94,6 +104,8 @@ func spawn(s SpawnUnit, side Side, lane int, rng *RNG) (*Unit, error) {
 		MaxHP:   st.HP,
 		HP:      st.HP,
 		Atk:     st.Atk,
+		Def:     0,
+		GearAtk: 0,
 		Spd:     st.Spd,
 		Skill:   st.Skill,
 		Charm:   st.Charm,
@@ -120,6 +132,21 @@ func spawn(s SpawnUnit, side Side, lane int, rng *RNG) (*Unit, error) {
 				}
 			}
 		}
+	}
+	// Armor/weapons: HP/DEF/SPD on sheet; weapon ATK feeds card hits (not template Atk).
+	// Monster HP is never scaled — difficulty comes from player gear only.
+	if s.Gear.HP != 0 {
+		u.MaxHP += s.Gear.HP
+		u.HP += s.Gear.HP
+	}
+	if s.Gear.Atk != 0 {
+		u.GearAtk += s.Gear.Atk
+	}
+	if s.Gear.Def != 0 {
+		u.Def += s.Gear.Def
+	}
+	if s.Gear.Spd != 0 {
+		u.Spd += s.Gear.Spd
 	}
 	// D-039: dead heroes stay dead across chapter levels; living enter at full MaxHP.
 	if s.CarryAlive != nil && !*s.CarryAlive {

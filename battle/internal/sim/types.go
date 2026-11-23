@@ -31,6 +31,8 @@ type Unit struct {
 	MaxHP     int              `json:"maxHp"`
 	HP        int              `json:"hp"`
 	Atk       int              `json:"atk"`
+	Def       int              `json:"def"`     // armor mitigation (PvE/PvP gear); enemies stay 0
+	GearAtk   int              `json:"gearAtk"` // weapon power added to card hits
 	Spd       int              `json:"spd"`
 	Skill     int              `json:"skill"`
 	Charm     int              `json:"charm"`

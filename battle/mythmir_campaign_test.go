@@ -134,7 +134,7 @@ func containsAll(s string, parts ...string) bool {
 func TestMythmir_CarryAlive_NoRevive(t *testing.T) {
 	cat := mythmirCatalog(t)
 	carry := []bool{true, false, true} // fighter dead after wave 1
-	b, err := mode.CreatePvE(cat, "carry", "mythmir_1_f2", 42, startersTeam, nil, carry)
+	b, err := mode.CreatePvE(cat, "carry", "mythmir_1_f2", 42, startersTeam, nil, carry, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -161,7 +161,7 @@ func TestMythmir_CarryAlive_NoRevive(t *testing.T) {
 // TestMythmir_Ch1SoloBoss_EmptyLanes — mid/back empty; boss alone front (D-051).
 func TestMythmir_Ch1SoloBoss_EmptyLanes(t *testing.T) {
 	cat := mythmirCatalog(t)
-	b, err := mode.CreatePvE(cat, "solo", "mythmir_1_f3", 7, startersTeam, nil, nil)
+	b, err := mode.CreatePvE(cat, "solo", "mythmir_1_f3", 7, startersTeam, nil, nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -214,7 +214,7 @@ func mythmirAutoPlay(t *testing.T, cat *content.Catalog, stageID string, team []
 	if _, err := fmt.Sscanf(stageID, "mythmir_%d_f%d", &ch, &f); err != nil {
 		t.Fatalf("parse %s: %v", stageID, err)
 	}
-	b, err := mode.CreatePvE(cat, "chess_"+stageID, stageID, mythmirSeed(ch, f), team, nil, []bool{true, true, true})
+	b, err := mode.CreatePvE(cat, "chess_"+stageID, stageID, mythmirSeed(ch, f), team, nil, []bool{true, true, true}, nil)
 	if err != nil {
 		t.Fatalf("%s create: %v", stageID, err)
 	}
@@ -256,7 +256,7 @@ func TestMythmir_StartersClearAllChapters(t *testing.T) {
 	for ch := 1; ch <= 5; ch++ {
 		for f := 1; f <= 3; f++ {
 			id := fmt.Sprintf("mythmir_%d_f%d", ch, f)
-			b, err := mode.CreatePvE(cat, "clear_"+id, id, int64(20261118+ch*10+f), startersTeam, nil, []bool{true, true, true})
+			b, err := mode.CreatePvE(cat, "clear_"+id, id, int64(20261118+ch*10+f), startersTeam, nil, []bool{true, true, true}, nil)
 			if err != nil {
 				t.Fatalf("%s create: %v", id, err)
 			}

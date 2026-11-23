@@ -27,7 +27,7 @@ func TestAdvancePvEBots_AfterEndTurn_ReturnsToP1(t *testing.T) {
 		t.Fatal(err)
 	}
 	team := []string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}
-	b, err := mode.CreatePvE(cat, "bot_advance", "test_yard_1", 20261104, team, nil, nil)
+	b, err := mode.CreatePvE(cat, "bot_advance", "test_yard_1", 20261104, team, nil, nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -55,7 +55,7 @@ func TestCh2Pitboss_PrefersBacklineOverChipHeal(t *testing.T) {
 		t.Fatal(err)
 	}
 	team := []string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}
-	b, err := mode.CreatePvE(cat, "ch2_leap", "mythmir_2_f3", 42, team, nil, nil)
+	b, err := mode.CreatePvE(cat, "ch2_leap", "mythmir_2_f3", 42, team, nil, nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -93,7 +93,7 @@ func TestCh2Pitboss_AttacksDespiteUrgentHeals(t *testing.T) {
 		t.Fatal(err)
 	}
 	team := []string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}
-	b, err := mode.CreatePvE(cat, "ch2_leap_urgent", "mythmir_2_f3", 99, team, nil, nil)
+	b, err := mode.CreatePvE(cat, "ch2_leap_urgent", "mythmir_2_f3", 99, team, nil, nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -130,7 +130,7 @@ func TestAdvancePvEBots_PvPSmoke_AfterEndTurn_ReturnsToP1(t *testing.T) {
 		t.Fatal(err)
 	}
 	team := []string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}
-	b, err := mode.CreatePvP(cat, "pvp_bot_advance", "m_smoke", 20261104, team, team, nil, nil)
+	b, err := mode.CreatePvP(cat, "pvp_bot_advance", "m_smoke", 20261104, team, team, nil, nil, nil, nil)
 	if err != nil {
 		t.Fatal(err)
 	}
