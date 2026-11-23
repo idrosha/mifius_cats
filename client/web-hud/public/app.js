@@ -1973,15 +1973,34 @@ function rewriteLegacyHeroArt(src) {
 function hydrateViewImages(root) {
   if (!root) return;
   root.querySelectorAll("img[data-mf-src]").forEach((img) => {
-    const src = rewriteLegacyHeroArt(img.getAttribute("data-mf-src"));
-    if (!src || img.getAttribute("src") === src) return;
+    const src = rewriteLegacyHeroArt(String(img.getAttribute("data-mf-src") || "").trim());
+    if (!src) {
+      img.removeAttribute("data-mf-src");
+      img.removeAttribute("src");
+      return;
+    }
+    if (img.getAttribute("src") === src) {
+      img.removeAttribute("data-mf-src");
+      return;
+    }
     img.decoding = "async";
+    if (!img.dataset.mfErrBound) {
+      img.dataset.mfErrBound = "1";
+      img.addEventListener("error", () => {
+        if (img.dataset.mfErrSrc === img.getAttribute("src")) return;
+        img.dataset.mfErrSrc = img.getAttribute("src") || "";
+        img.removeAttribute("src");
+      });
+    }
     img.setAttribute("src", src);
     img.removeAttribute("data-mf-src");
   });
   root.querySelectorAll("[data-mf-bg]").forEach((el) => {
-    const url = el.getAttribute("data-mf-bg");
-    if (!url) return;
+    const url = String(el.getAttribute("data-mf-bg") || "").trim();
+    if (!url) {
+      el.removeAttribute("data-mf-bg");
+      return;
+    }
     el.style.backgroundImage = `url("${url}")`;
     el.removeAttribute("data-mf-bg");
   });
