@@ -9373,29 +9373,6 @@ function renderHomeRoster(cat) {
   if (count && /Герои/i.test(count.parentElement?.textContent || "")) count.textContent = String(cats.length);
 }
 
-function renderHomeEquipLane() {
-  const old = $("homeEquipLaneBar");
-  if (old && !$("btn-upgrade")?.parentElement?.contains(old)) old.remove();
-  const forgeRow = $("btn-upgrade")?.parentElement;
-  if (!forgeRow) return;
-  let bar = $("homeEquipLaneBar");
-  if (!bar) {
-    bar = document.createElement("div");
-    bar.id = "homeEquipLaneBar";
-    bar.className = "home-equip-lane flex items-center gap-1 shrink-0";
-    forgeRow.insertBefore(bar, forgeRow.firstChild);
-  }
-  const lane = state.equipLane || "pve";
-  const btn = (id, label, tip) => {
-    const on = lane === id;
-    return `<button type="button" data-equip-lane="${id}" title="${tip}" class="px-2 py-1 rounded font-headline text-[10px] font-black border transition-all ${on ? "bg-primary text-on-primary border-primary shadow" : "bg-surface-container-high text-on-surface-variant border-outline-variant/30 hover:text-on-surface"}">${label}</button>`;
-  };
-  bar.innerHTML = `${btn("pve", "PvE", "Данжи и рейды")} ${btn("pvp", "PvP", "Магазин")}`;
-  bar.querySelectorAll("[data-equip-lane]").forEach((el) => {
-    el.addEventListener("click", () => setEquipLane(el.getAttribute("data-equip-lane")));
-  });
-}
-
 function renderHome() {
   const root = $("viewHome");
   if (!root) return;
@@ -11144,15 +11121,36 @@ function renderBreeding() {
       'Мифик (Phase 6): пул ≤12 карт родителей → <span class="text-primary font-bold">N=6</span> сильнейших. На SL награда не выдаётся.';
   }
 
+  const altarArt = host.querySelector("#breeding-altar-art");
+  if (altarArt) {
+    const altarSrc = "/stitch-assets/nursery/altar.webp";
+    altarArt.src = altarSrc;
+    altarArt.removeAttribute("data-mf-src");
+    altarArt.classList.remove("hidden");
+    altarArt.style.display = "";
+  }
+
   const reagents = host.querySelector("#reagent-slots");
   const mats = Array.isArray(stub.mats) ? stub.mats : [];
-  if (reagents && mats.length) {
-    reagents.innerHTML = mats
+  if (reagents) {
+    const list =
+      mats.length > 0
+        ? mats
+        : [
+            { id: "breed_milk_essence", name: "Эссенция молока", have: 0, need: 1, soon: true },
+            { id: "breed_moon_whisker", name: "Лунный ус", have: 0, need: 1, soon: true },
+            { id: "breed_stone_purr", name: "Каменный мур", have: 0, need: 1, soon: true },
+            { id: "breed_spark_pollen", name: "Искрящая пыльца", have: 0, need: 1, soon: true },
+            { id: "breed_tide_scale", name: "Чешуя прилива", have: 0, need: 1, soon: true },
+          ];
+    reagents.innerHTML = list
       .map((m) => {
         const qty = m.soon ? `Soon · 0/${m.need || 1}` : `${m.have || 0}/${m.need || 1}`;
-        return `<div class="flex flex-col items-center text-center group" data-item-id="${m.id}" data-ready="false" data-have="0" data-need="${m.need || 1}">
-          <div class="w-full aspect-square rounded-lg overflow-hidden bg-surface-container-high shadow-sm relative border-2 border-dashed border-outline-variant/50 flex items-center justify-center">
-            <span class="material-symbols-outlined text-outline text-[28px]">science</span>
+        const art = breedMatArt(m.id);
+        return `<div class="flex flex-col items-center text-center group" data-item-id="${m.id}" data-ready="false" data-have="${m.have || 0}" data-need="${m.need || 1}">
+          <div class="w-full aspect-square rounded-lg overflow-hidden bg-surface-container-high shadow-sm relative border-2 border-surface-container-highest group-hover:border-primary/40 transition-colors">
+            <img width="96" height="96" loading="lazy" decoding="async" alt="${m.name}" class="w-full h-full object-cover" src="${art}">
+            <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest/95 via-transparent to-transparent pointer-events-none"></div>
           </div>
           <div class="mt-1 flex flex-col items-center w-full min-w-0">
             <span class="font-label-sm text-label-sm text-on-surface font-semibold truncate w-full" data-field="name">${m.name}</span>
@@ -11180,34 +11178,91 @@ function renderBreeding() {
   const ctaLabel = stub.ctaLabel || "СКОРО · ПОДНИМИ РАНГ";
   host.querySelectorAll("#btn-start-breed, #btn-start-breed-desktop").forEach((btn) => {
     btn.dataset.canStart = "false";
+    btn.classList.remove("hidden");
+    btn.style.display = "flex";
     const lab = btn.querySelector('[data-field="label"]');
     if (lab) lab.textContent = ctaLabel;
   });
+  const ctaBar = host.querySelector("#breed-cta-bar");
+  if (ctaBar) {
+    ctaBar.classList.remove("hidden");
+    ctaBar.style.display = "";
+  }
+  const costsBlock = host.querySelector("#breed-costs")?.parentElement;
+  if (costsBlock) {
+    costsBlock.classList.remove("hidden");
+    costsBlock.style.display = "";
+  }
 
   const slotsHost = host.querySelector("#incubator-slots");
   const cribSlots = stub.incubator?.slots;
   if (slotsHost && Array.isArray(cribSlots) && cribSlots.length) {
     slotsHost.innerHTML = cribSlots
       .map((s) => {
-        const locked = s.status === "locked";
-        return `<article class="min-w-[280px] w-[280px] snap-center shrink-0 lg:min-w-0 lg:w-auto bg-surface-container-high${locked ? "/50 opacity-75" : ""} rounded-lg p-space-sm flex flex-col justify-between shadow-sm relative ${locked ? "" : "border-dashed border-2 border-surface-container-highest"}" data-crib-id="${s.id}" data-status="${s.status}">
-          <div class="flex items-center justify-between gap-1">
-            <span class="font-label-sm text-label-sm text-on-surface-variant uppercase font-bold">Колыбель #${s.id}</span>
-            <span class="font-label-sm text-label-sm text-on-surface-variant">${locked ? "Phase 6" : "Свободно"}</span>
-          </div>
-          <div class="py-space-sm flex items-center gap-3 min-w-0">
-            <div class="w-12 h-12 rounded-lg bg-surface-container-lowest flex items-center justify-center shrink-0 text-outline">
-              <span class="material-symbols-outlined text-[28px]">${locked ? "lock" : "nest_cam_wired_stand"}</span>
+        const status = s.status || "empty";
+        const locked = status === "locked";
+        const bg = breedCribBg(status);
+        const action = locked ? "unlock" : status === "ready" ? "claim" : status === "incubating" ? "boost" : "assign";
+        const actionLabel = locked
+          ? "Скоро"
+          : status === "ready"
+            ? "Забрать котёнка"
+            : status === "incubating"
+              ? "Ускорить"
+              : "Назначить";
+        const actionIcon = locked
+          ? "lock"
+          : status === "ready"
+            ? "celebration"
+            : status === "incubating"
+              ? "set_meal"
+              : "add";
+        const badge = locked ? "Phase 6" : status === "ready" ? "ГОТОВО!" : status === "incubating" ? "Созревание" : "Свободно";
+        return `<article class="breed-crib min-w-[280px] w-[280px] snap-center shrink-0 lg:min-w-0 lg:w-auto rounded-lg p-space-sm flex flex-col justify-between shadow-sm relative overflow-hidden ${locked ? "opacity-90" : ""}" data-crib-id="${s.id}" data-status="${status}">
+          <img class="breed-crib__bg" alt="" aria-hidden="true" decoding="async" src="${bg}">
+          <div class="breed-crib__veil" aria-hidden="true"></div>
+          <div class="breed-crib__content relative z-[1] flex flex-col justify-between gap-2 h-full min-h-[9.5rem]">
+            <div class="flex items-center justify-between gap-1">
+              <span class="font-label-sm text-label-sm text-primary uppercase font-bold drop-shadow">Колыбель #${s.id}</span>
+              <span class="px-2 py-0.5 rounded bg-surface-container-lowest/85 backdrop-blur-md font-label-sm text-label-sm text-on-surface-variant shrink-0">${badge}</span>
             </div>
-            <div class="min-w-0">
-              <div class="font-label-md text-label-md text-on-surface-variant font-medium truncate">${s.name || "Пусто"}</div>
-              <div class="font-body-sm text-body-sm text-outline">${s.timer || "Soon"}</div>
+            <div class="py-1 flex items-center gap-3 min-w-0">
+              <div class="w-12 h-12 rounded-lg bg-surface-container-lowest/80 backdrop-blur-md flex items-center justify-center shrink-0 text-outline border border-outline-variant/40">
+                <span class="material-symbols-outlined text-[28px]">${locked ? "lock" : status === "ready" ? "auto_awesome" : status === "incubating" ? "egg" : "nest_cam_wired_stand"}</span>
+              </div>
+              <div class="min-w-0">
+                <div class="font-label-md text-label-md text-on-surface font-medium truncate drop-shadow">${s.name || "Пусто"}</div>
+                <div class="font-body-sm text-body-sm text-on-surface-variant">${s.timer || "Soon"}</div>
+              </div>
             </div>
+            <button type="button" class="breed-crib__btn w-full py-2 px-2 rounded font-label-sm text-label-sm flex items-center justify-center gap-1.5 transition-colors ${locked ? "bg-surface-container-highest/90 text-primary" : status === "ready" ? "bg-gradient-to-b from-[#E5A835] to-[#C48419] text-[#1A1308] font-bold" : "bg-surface-container-lowest/90 hover:bg-surface-bright text-on-surface"}" data-action="${action}">
+              <span class="material-symbols-outlined text-[14px]">${actionIcon}</span>
+              <span>${actionLabel}</span>
+            </button>
           </div>
-          <button type="button" class="w-full py-1.5 px-2 bg-surface-container hover:bg-surface-bright text-on-surface-variant rounded font-label-sm text-label-sm" data-action="${locked ? "unlock" : "assign"}">${locked ? "Скоро" : "Назначить · tip"}</button>
         </article>`;
       })
       .join("");
+  } else if (slotsHost) {
+    slotsHost.querySelectorAll("article[data-crib-id]").forEach((art) => {
+      const status = art.getAttribute("data-status") || "empty";
+      if (art.querySelector(".breed-crib__bg")) return;
+      art.classList.add("breed-crib");
+      const bg = document.createElement("img");
+      bg.className = "breed-crib__bg";
+      bg.alt = "";
+      bg.setAttribute("aria-hidden", "true");
+      bg.decoding = "async";
+      bg.src = breedCribBg(status);
+      const veil = document.createElement("div");
+      veil.className = "breed-crib__veil";
+      veil.setAttribute("aria-hidden", "true");
+      art.prepend(veil);
+      art.prepend(bg);
+      art.querySelectorAll(":scope > :not(.breed-crib__bg):not(.breed-crib__veil)").forEach((el) => {
+        el.classList.add("relative", "z-[1]");
+      });
+    });
   }
   const incubSec = host.querySelector("#incubator");
   if (incubSec) {
@@ -11222,6 +11277,8 @@ function renderBreeding() {
       }
     }
   }
+
+  hydrateViewImages(host);
 }
 
 function craftRecipeById(id) {

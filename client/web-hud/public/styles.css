@@ -2285,11 +2285,12 @@ body:has(#viewHome:not(.hidden)) #app {
 #viewHome #homeGearOverlay .home-gear-col.is-left .home-equip-slot[data-home-slot="helm"]:hover {
   transform: translate(-0.15rem, 0.1rem) scale(1.05);
 }
-/* 3-col workbench dominates; battle deck hugs cards (no dead zone below) */
+/* Upper workbench can shrink; deck keeps enough height for full cards. */
 #viewHome > main > .grid.grid-cols-12,
 #viewHome > main > div.flex.flex-col > .grid.grid-cols-12 {
-  flex: 1 1 auto;
+  flex: 1 1 0;
   min-height: 0;
+  max-height: 52%;
 }
 #viewHome > main > .w-full.shrink-0 {
   flex: 0 0 auto;
@@ -2303,7 +2304,11 @@ body:has(#viewHome:not(.hidden)) #app {
   max-height: none;
   padding: 0.28rem 0.4rem !important;
   gap: 0.22rem !important;
-  overflow: hidden;
+  overflow: visible;
+}
+/* Inventory icons must not paint over the mannequin. */
+#viewHome .home-hero-center .gear-doll {
+  display: none !important;
 }
 #viewHome .home-attack-deck-panel .grid,
 #viewHome #homeDeckGrid {
@@ -2338,7 +2343,7 @@ body:has(#viewHome:not(.hidden)) #app {
 }
 #viewHome #homeDeckGrid.home-attack-deck,
 #viewHome .home-attack-deck {
-  --home-deck-h: min(38vh, 20.5rem);
+  --home-deck-h: min(44vh, 24rem);
   align-items: stretch;
   justify-items: center;
   min-width: 0;
@@ -6857,7 +6862,7 @@ body:has(#viewPass:not(.hidden)) #app {
 /* Live manor nursery — only viewBreeding (D-030 stub; chrome = #appNav) */
 body:has(#viewBreeding:not(.hidden)) #wireDock { display: none !important; }
 body:has(#viewBreeding:not(.hidden)) #app { height: 100dvh !important; max-height: 100dvh !important; overflow: hidden !important; }
-#viewBreeding { background: #100e0c; color: #eae1db; overflow: hidden !important; position: relative; }
+#viewBreeding { background: transparent; color: #eae1db; overflow: hidden !important; position: relative; }
 #viewBreeding > header,
 #viewBreeding > footer { display: none !important; }
 #viewBreeding > main {
@@ -6870,13 +6875,44 @@ body:has(#viewBreeding:not(.hidden)) #app { height: 100dvh !important; max-heigh
   display: flex !important;
   flex-direction: column;
   overflow: auto !important;
-  background: #100e0c;
+  background: rgba(16, 14, 12, 0.42) !important;
 }
 #viewBreeding #breeding-arena { min-height: 0; }
+/* Parent / altar cards: keep action row visible (do not clip CTA / Сменить). */
+#viewBreeding #parent-father,
+#viewBreeding #parent-mother,
+#viewBreeding #altar {
+  display: flex !important;
+  flex-direction: column;
+  overflow: hidden;
+  background: rgba(35, 31, 28, 0.88) !important;
+}
+#viewBreeding #parent-father > .min-w-0,
+#viewBreeding #parent-mother > .min-w-0,
+#viewBreeding #altar > .relative.min-w-0 {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+}
+#viewBreeding #parent-father > .pt-space-md,
+#viewBreeding #parent-mother > .pt-space-md,
+#viewBreeding #altar > .pt-space-sm {
+  margin-top: auto;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
+}
+#viewBreeding [data-action="swap-father"],
+#viewBreeding [data-action="swap-mother"] {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  min-height: 2.5rem;
+}
 /* Full-body parent art (Stitch square cropped heads — show whole cat). */
 #viewBreeding .breed-parent-art {
   aspect-ratio: 3 / 4;
-  min-height: 14rem;
+  min-height: 12rem;
   background: linear-gradient(180deg, #1a1613 0%, #100e0c 100%);
 }
 #viewBreeding .breed-parent-art img[data-field="portrait"] {
@@ -6884,13 +6920,75 @@ body:has(#viewBreeding:not(.hidden)) #app { height: 100dvh !important; max-heigh
   height: 100%;
   object-fit: contain;
   object-position: center bottom;
+  display: block !important;
+}
+#viewBreeding #breeding-altar-art {
+  display: block !important;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+#viewBreeding #reagent-slots img {
+  display: block !important;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+/* Incubator cradle panels with art backgrounds */
+#viewBreeding .breed-crib {
+  position: relative;
+  isolation: isolate;
+  min-height: 10.5rem;
+  border: 1px solid rgba(80, 69, 53, 0.7) !important;
+  background: #1a1613 !important;
+}
+#viewBreeding .breed-crib__bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+  pointer-events: none;
+  display: block !important;
+}
+#viewBreeding .breed-crib__veil {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(16, 14, 12, 0.35) 0%, rgba(16, 14, 12, 0.72) 55%, rgba(16, 14, 12, 0.92) 100%),
+    radial-gradient(ellipse at 50% 20%, rgba(253, 186, 69, 0.12), transparent 55%);
+}
+#viewBreeding .breed-crib__btn,
+#viewBreeding #incubator-slots button[data-action] {
+  display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  min-height: 2.25rem;
+  position: relative;
+  z-index: 2;
+}
+#viewBreeding #incubator {
+  background: rgba(35, 31, 28, 0.88) !important;
+}
+#viewBreeding #altar-metrics {
+  background: rgba(35, 31, 28, 0.88) !important;
 }
 /* CTA always in altar; sticky bar only as mobile thumb backup */
 #viewBreeding #btn-start-breed-desktop {
   display: flex !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  min-height: 3rem;
 }
 #viewBreeding #breed-cta-bar {
   z-index: 55;
+}
+#viewBreeding #breed-cta-bar #btn-start-breed {
+  display: flex !important;
 }
 #viewBreeding .breed-parent-picker {
   position: absolute; inset: 0; z-index: 60;
