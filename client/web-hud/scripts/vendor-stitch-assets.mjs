@@ -144,6 +144,7 @@ const SCREEN_FALLBACKS = {
   "chat_friends.html": ["/stitch-ref/ba17/chat.png", "/stitch-ref/0268/home.png", "/stitch-ref/64d5/cat_portrait.png"],
   "tavern.html": [
     "/stitch-ref/17eb/tavern.png",
+    "/stitch-assets/tavern/milk-on-ice.jpg",
     "/stitch-ref/trade-painted/tavern-banner.png",
     "/stitch-ref/trade-painted/tavern-art-2.png",
     "/stitch-ref/trade-painted/tavern-art-3.png",
