@@ -512,16 +512,68 @@ const BARN_MATS_SEED = [
   { id: "rune_shard", name: "Осколок руны", kind: "rune", rarity: "common", qty: 2, tag: "Заточка", desc: "Слабая руна точки · +5% шанс. Шмотка не сгорает при фейле.", iconSrc: "/stitch-assets/kb-v3/items/item-1.webp" },
   { id: "rune_mark", name: "Руна Метки", kind: "rune", rarity: "rare", qty: 1, tag: "Заточка", desc: "Средняя руна точки · +15% шанс. При провале вещь остаётся.", iconSrc: "/stitch-assets/kb-v3/items/item-2.webp" },
   { id: "rune_crest", name: "Гребень руны", kind: "rune", rarity: "epic", qty: 0, tag: "Заточка", desc: "Сильная руна точки · +28% шанс. Дроп из данжей/рейдов.", iconSrc: "/stitch-assets/kb-v3/items/item-3.webp" },
+  { id: "blade_iron", name: "Булатный клинок", kind: "craft", rarity: "rare", qty: 0, tag: "Кузница", desc: "Заготовка оружия · кузня Очага.", iconSrc: "/barn-icons/dagger.png" },
+  { id: "plate_hearth", name: "Кираса Горна", kind: "craft", rarity: "epic", qty: 0, tag: "Кузница", desc: "Доспех из кузни · smoke craft.", iconSrc: "/barn-icons/chest.png" },
+  { id: "scroll_spark", name: "Свиток Искры", kind: "scroll", rarity: "rare", qty: 0, tag: "Свитки", desc: "Боевой свиток · вспышка на 1 ход.", iconSrc: "/stitch-assets/kb-v3/items/item-4.webp" },
+  { id: "scroll_ward", name: "Свиток Оберега", kind: "scroll", rarity: "rare", qty: 0, tag: "Свитки", desc: "Боевой свиток · щит союзнику.", iconSrc: "/stitch-assets/kb-v3/items/item-5.webp" },
+  { id: "fertilizer", name: "Лунная подкормка", kind: "farm", rarity: "common", qty: 0, tag: "Ферма", desc: "Ускоряет созревание грядок.", iconSrc: "/barn-icons/seeds.png" },
 ];
 
-/** Smoke craft recipes (wiki §6 / codex alchemy_craft). */
+/** Category chrome for craft studio tabs (screen 2). */
+const CRAFT_CATEGORY_META = {
+  all: {
+    tag: "Мастерская Очага",
+    banner: "/stitch-ref/home-keeper/craft/art-4.png",
+    label: "Все рецепты",
+  },
+  alchemy: {
+    tag: "Алхимический Горн",
+    banner: "/stitch-ref/home-keeper/craft/art-4.png",
+    label: "Алхимия и Зелья",
+    activeLabel: "Алхимия и Зелья (Активно)",
+    icon: "science",
+  },
+  forge: {
+    tag: "Кузница Горна",
+    banner: "/stitch-ref/home-keeper/craft/art-5.png",
+    label: "Кузница и Оружие",
+    icon: "hardware",
+  },
+  scrolls: {
+    tag: "Скрипторий Свитков",
+    banner: "/stitch-ref/home-keeper/craft/art-2.png",
+    label: "Боевые Свитки",
+    icon: "auto_stories",
+  },
+  runes: {
+    tag: "Инкрустация Рун",
+    banner: "/stitch-ref/home-keeper/craft/art-1.png",
+    label: "Инкрустация Рун",
+    icon: "diamond",
+  },
+  farm: {
+    tag: "Садовый Стол",
+    banner: "/stitch-ref/home-keeper/craft/art-3.png",
+    label: "Все для фермы",
+    icon: "agriculture",
+  },
+};
+
+/** Smoke craft recipes (wiki §6 / §8.3 + category pages). */
 const CRAFT_RECIPES = [
   {
     id: "potion_life",
+    category: "alchemy",
     name: "Зелье жизни",
     outId: "potion_heal",
     outQty: 1,
     costGold: 50,
+    energy: 1,
+    timeSec: 30,
+    rank: "II",
+    rankLabel: "Ранг II Зелёное",
+    blurb: "В бою: восстановить HP союзнику. Зелёная баночка алхимии.",
+    action: "Сварить",
     ingredients: [
       { id: "herbs", qty: 1 },
       { id: "fruit", qty: 1 },
@@ -529,10 +581,17 @@ const CRAFT_RECIPES = [
   },
   {
     id: "potion_energy_brew",
+    category: "alchemy",
     name: "Эликсир энергии",
     outId: "potion_energy",
     outQty: 1,
     costGold: 55,
+    energy: 1,
+    timeSec: 45,
+    rank: "III",
+    rankLabel: "Ранг III Золотое",
+    blurb: "В бою: +1 энергия (AP) на ход. Золотая баночка.",
+    action: "Сварить",
     ingredients: [
       { id: "herbs", qty: 1 },
       { id: "milk", qty: 1 },
@@ -540,10 +599,17 @@ const CRAFT_RECIPES = [
   },
   {
     id: "potion_cleanse",
+    category: "alchemy",
     name: "Отвар очищения",
     outId: "potion_cleanse",
     outQty: 1,
     costGold: 40,
+    energy: 1,
+    timeSec: 40,
+    rank: "II",
+    rankLabel: "Ранг II Голубое",
+    blurb: "В бою: снять 1 дебафф с союзника.",
+    action: "Сварить",
     ingredients: [
       { id: "herbs", qty: 2 },
       { id: "veggies", qty: 1 },
@@ -551,13 +617,185 @@ const CRAFT_RECIPES = [
   },
   {
     id: "potion_mint",
+    category: "alchemy",
     name: "Мятный отвар",
     outId: "potion_ember",
     outQty: 1,
     costGold: 45,
+    energy: 1,
+    timeSec: 35,
+    rank: "II",
+    rankLabel: "Ранг II Utility",
+    blurb: "Utility / классовый бафф · не боевой слот трея.",
+    action: "Сварить",
     ingredients: [
       { id: "herbs", qty: 2 },
       { id: "fish", qty: 1 },
+    ],
+  },
+  {
+    id: "forge_blade",
+    category: "forge",
+    name: "Булатный клинок",
+    outId: "blade_iron",
+    outQty: 1,
+    costGold: 80,
+    energy: 2,
+    timeSec: 120,
+    rank: "IV",
+    rankLabel: "Ранг IV Оружие",
+    blurb: "Кузница: клинок из железа и дуба для дальнейшей сборки.",
+    action: "Ковать",
+    ingredients: [
+      { id: "iron", qty: 3 },
+      { id: "wood", qty: 2 },
+    ],
+  },
+  {
+    id: "forge_plate",
+    category: "forge",
+    name: "Кираса Горна",
+    outId: "plate_hearth",
+    outQty: 1,
+    costGold: 120,
+    energy: 2,
+    timeSec: 180,
+    rank: "V",
+    rankLabel: "Ранг V Доспех",
+    blurb: "Тяжёлая кираса из слитков и гранита Очага.",
+    action: "Ковать",
+    ingredients: [
+      { id: "iron", qty: 4 },
+      { id: "stone", qty: 3 },
+    ],
+  },
+  {
+    id: "repair_shovel",
+    category: "forge",
+    name: "Ремонт лопаты",
+    outId: "tool_shovel",
+    outQty: 0,
+    repairToolId: "tool_shovel",
+    costGold: 25,
+    energy: 1,
+    timeSec: 20,
+    rank: "I",
+    rankLabel: "Ремонт · tool",
+    blurb: "Полный ремонт лопаты: железо + дерево (wiki §8.3).",
+    action: "Чинить",
+    ingredients: [
+      { id: "iron", qty: 1 },
+      { id: "wood", qty: 1 },
+    ],
+  },
+  {
+    id: "scroll_spark_craft",
+    category: "scrolls",
+    name: "Свиток Искры",
+    outId: "scroll_spark",
+    outQty: 1,
+    costGold: 60,
+    energy: 2,
+    timeSec: 90,
+    rank: "III",
+    rankLabel: "Свиток · урон",
+    blurb: "Боевой свиток: вспышка урона в начале хода.",
+    action: "Начертать",
+    ingredients: [
+      { id: "herbs", qty: 2 },
+      { id: "wood", qty: 1 },
+      { id: "milk", qty: 1 },
+    ],
+  },
+  {
+    id: "scroll_ward_craft",
+    category: "scrolls",
+    name: "Свиток Оберега",
+    outId: "scroll_ward",
+    outQty: 1,
+    costGold: 65,
+    energy: 2,
+    timeSec: 90,
+    rank: "III",
+    rankLabel: "Свиток · щит",
+    blurb: "Боевой свиток: временный щит союзнику.",
+    action: "Начертать",
+    ingredients: [
+      { id: "herbs", qty: 1 },
+      { id: "fish", qty: 2 },
+      { id: "stone", qty: 1 },
+    ],
+  },
+  {
+    id: "rune_fuse",
+    category: "runes",
+    name: "Сплав осколка",
+    outId: "rune_shard",
+    outQty: 1,
+    costGold: 35,
+    energy: 1,
+    timeSec: 60,
+    rank: "I",
+    rankLabel: "Руна · common",
+    blurb: "Сплавить железо и гранит в осколок руны точки.",
+    action: "Инкрустировать",
+    ingredients: [
+      { id: "iron", qty: 1 },
+      { id: "stone", qty: 2 },
+    ],
+  },
+  {
+    id: "rune_mark_craft",
+    category: "runes",
+    name: "Руна Метки",
+    outId: "rune_mark",
+    outQty: 1,
+    costGold: 90,
+    energy: 2,
+    timeSec: 120,
+    rank: "III",
+    rankLabel: "Руна · rare",
+    blurb: "Два осколка + молоко Очага → Руна Метки (+15% точки).",
+    action: "Инкрустировать",
+    ingredients: [
+      { id: "rune_shard", qty: 2 },
+      { id: "milk", qty: 1 },
+    ],
+  },
+  {
+    id: "farm_fertilizer",
+    category: "farm",
+    name: "Лунная подкормка",
+    outId: "fertilizer",
+    outQty: 1,
+    costGold: 20,
+    energy: 1,
+    timeSec: 45,
+    rank: "II",
+    rankLabel: "Ферма · удобрение",
+    blurb: "Подкормка саженцев: ускоряет созревание грядок.",
+    action: "Создать",
+    ingredients: [
+      { id: "veggies", qty: 2 },
+      { id: "herbs", qty: 1 },
+    ],
+  },
+  {
+    id: "farm_bait",
+    category: "farm",
+    name: "Наживка ×3",
+    outId: "bait",
+    outQty: 3,
+    costGold: 15,
+    energy: 1,
+    timeSec: 25,
+    rank: "I",
+    rankLabel: "Ферма · рыбалка",
+    blurb: "Связка наживки для рыбной заводи (×3).",
+    action: "Создать",
+    ingredients: [
+      { id: "fish", qty: 1 },
+      { id: "veggies", qty: 1 },
     ],
   },
 ];
@@ -935,6 +1173,8 @@ const state = {
   barnFocus: null,
   barnCapMax: 256,
   craftRecipeId: "potion_life",
+  craftCategory: "alchemy",
+  craftAuto: false,
   /** Local stub persist on; set false to prefer GET /api/dev/gear (Wave B). */
   gearStubLocal: true,
   /** D-030 breeding HUD stub (GET /api/dev/breeding when loaded). */
@@ -10254,44 +10494,93 @@ function craftRecipeById(id) {
   return CRAFT_RECIPES.find((r) => r.id === id) || CRAFT_RECIPES[0];
 }
 
+function craftRecipesForCategory(cat) {
+  const c = cat || state.craftCategory || "all";
+  if (c === "all") return CRAFT_RECIPES.slice();
+  return CRAFT_RECIPES.filter((r) => r.category === c);
+}
+
+function craftFormatTime(sec) {
+  const s = Math.max(0, Number(sec) || 0);
+  const m = Math.floor(s / 60);
+  const r = s % 60;
+  return `${String(m).padStart(2, "0")}:${String(r).padStart(2, "0")}`;
+}
+
 function craftCanAfford(recipe) {
   if (!recipe) return false;
   if ((state.wallet.gold || 0) < (recipe.costGold || 0)) return false;
   return (recipe.ingredients || []).every((ing) => barnMatQty(ing.id) >= ing.qty);
 }
 
+function craftIngredientReady(recipe) {
+  if (!recipe) return { ready: 0, need: 0 };
+  const need = (recipe.ingredients || []).length;
+  const ready = (recipe.ingredients || []).filter((ing) => barnMatQty(ing.id) >= ing.qty).length;
+  return { ready, need };
+}
+
 function runCraftRecipe(recipeId) {
   const recipe = craftRecipeById(recipeId || state.craftRecipeId);
   if (!recipe) {
     toast("Рецепт не найден");
-    return;
+    return false;
   }
   if ((state.wallet.gold || 0) < (recipe.costGold || 0)) {
     toast(`Нужно ${recipe.costGold} 🐟`);
-    return;
+    return false;
   }
   for (const ing of recipe.ingredients || []) {
     if (barnMatQty(ing.id) < ing.qty) {
       toast(`Не хватает: ${barnMatGet(ing.id)?.name || ing.id} ×${ing.qty}`);
-      return;
+      return false;
     }
   }
   for (const ing of recipe.ingredients || []) barnMatSpend(ing.id, ing.qty);
   state.wallet.gold -= recipe.costGold || 0;
-  const out = barnMatAdd(recipe.outId, recipe.outQty || 1);
+
+  if (recipe.repairToolId) {
+    const tool = barnMatGet(recipe.repairToolId);
+    if (tool) {
+      const max = tool.durabilityMax || TOOL_DURABILITY_MAX;
+      tool.durability = max;
+      tool.durabilityMax = max;
+      if ((tool.qty || 0) < 1) tool.qty = 1;
+    }
+    renderCurrency();
+    toast(`Отремонтировано: ${tool?.name || recipe.name}`);
+    renderCraftStock();
+    if (!$("viewGear")?.classList.contains("hidden")) renderBarn();
+    return true;
+  }
+
+  const qty = recipe.outQty || 1;
+  const out = barnMatAdd(recipe.outId, qty);
   renderCurrency();
-  toast(`Скрафчено: ${out?.name || recipe.name} ×${recipe.outQty || 1}`);
+  toast(`Скрафчено: ${out?.name || recipe.name} ×${qty}`);
   renderCraftStock();
   if (!$("viewGear")?.classList.contains("hidden")) renderBarn();
+  return true;
+}
+
+function runCraftAutoLoop() {
+  if (!state.craftAuto) return;
+  const recipe = craftRecipeById(state.craftRecipeId);
+  if (!craftCanAfford(recipe)) {
+    state.craftAuto = false;
+    toast("Автокрафт остановлен — нет сырья или золота");
+    renderCraftStock();
+    return;
+  }
+  const ok = runCraftRecipe(state.craftRecipeId);
+  if (!ok || !state.craftAuto) return;
+  window.setTimeout(runCraftAutoLoop, 450);
 }
 
 function renderCraftReagents(root, recipe) {
-  const grid = root.querySelector(".grid.grid-cols-2.sm\\:grid-cols-4, .grid.grid-cols-2");
-  // Prefer the «Необходимые Реагенты» block
-  const label = [...root.querySelectorAll("span")].find((el) => /Необходимые Реагенты/i.test(el.textContent || ""));
   const host =
-    label?.closest(".flex.flex-col")?.querySelector(".grid") ||
-    [...root.querySelectorAll(".grid")].find((g) => /Душистая|Реагент|Мята|Рыбк/i.test(g.textContent || ""));
+    root.querySelector("#craftReagentGrid") ||
+    [...root.querySelectorAll(".grid")].find((g) => /Душистая|Реагент|Мята|Рыбк|Слот/i.test(g.textContent || ""));
   if (!host || !recipe) return;
   const slots = (recipe.ingredients || []).slice(0, 4);
   while (slots.length < 4) slots.push(null);
@@ -10299,7 +10588,7 @@ function renderCraftReagents(root, recipe) {
     .map((ing) => {
       if (!ing) {
         return `<div class="p-space-sm rounded-xl bg-surface-container border border-outline-variant/30 flex flex-col items-center text-center opacity-40">
-          <div class="w-full h-20 rounded-lg bg-surface-container-lowest flex items-center justify-center text-outline-variant"><span class="material-symbols-outlined text-3xl">add</span></div>
+          <div class="w-full h-28 rounded-lg bg-surface-container-lowest flex items-center justify-center text-outline-variant"><span class="material-symbols-outlined text-3xl">add</span></div>
           <span class="font-label-sm text-[11px] text-on-surface-variant mt-1">Слот</span>
         </div>`;
       }
@@ -10307,7 +10596,7 @@ function renderCraftReagents(root, recipe) {
       const have = barnMatQty(ing.id);
       const ok = have >= ing.qty;
       return `<div class="p-space-sm rounded-xl bg-surface-container border ${ok ? "border-secondary/40" : "border-tertiary/50"} shadow-md flex flex-col items-center text-center">
-        <div class="w-full h-20 rounded-lg bg-surface-container-lowest overflow-hidden mb-1 border border-outline-variant/30 flex items-center justify-center">
+        <div class="w-full h-28 rounded-lg bg-surface-container-lowest overflow-hidden mb-1 border border-outline-variant/30 flex items-center justify-center">
           <img alt="" class="max-h-full max-w-full object-contain p-1" src="${mat?.iconSrc || "/barn-icons/herbs.png"}"/>
         </div>
         <span class="font-label-sm text-label-sm text-on-surface line-clamp-1 font-bold">${mat?.name || ing.id}</span>
@@ -10315,14 +10604,146 @@ function renderCraftReagents(root, recipe) {
       </div>`;
     })
     .join("");
+
+  const status = [...root.querySelectorAll("span")].find((el) =>
+    /Все компоненты|Не хватает компонент/i.test(el.textContent || ""),
+  );
+  if (status) {
+    const { ready, need } = craftIngredientReady(recipe);
+    const allOk = ready >= need && need > 0;
+    status.innerHTML = allOk
+      ? `<span class="material-symbols-outlined text-[14px]">check_circle</span> Все компоненты в наличии`
+      : `<span class="material-symbols-outlined text-[14px]">warning</span> Реагенты ${ready}/${need}`;
+    status.classList.toggle("text-secondary", allOk);
+    status.classList.toggle("text-tertiary", !allOk);
+  }
 }
 
-/** Craft «Склад Сырья» — live smoke mats from barn. */
+function renderCraftRecipeList(root, recipes, selectedId) {
+  const list = root.querySelector("#craftRecipeList");
+  if (!list) return;
+  const badge = root.querySelector("#recipe-count-badge");
+  if (badge) badge.textContent = `· Доступно: ${recipes.length}`;
+
+  if (!recipes.length) {
+    list.innerHTML = `<div class="p-space-md rounded-lg border border-dashed border-outline-variant/40 text-on-surface-variant text-sm text-center">В этой категории пока нет рецептов</div>`;
+    return;
+  }
+
+  list.innerHTML = recipes
+    .map((r) => {
+      const on = r.id === selectedId;
+      const out = barnMatGet(r.outId) || BARN_MATS_SEED.find((m) => m.id === r.outId);
+      const art = out?.iconSrc || "/barn-icons/potions.png";
+      const { ready, need } = craftIngredientReady(r);
+      const readyLabel = need ? `${ready}/${need}` : "—";
+      return `<div data-craft-recipe="${r.id}" data-cat="${r.category}" class="recipe-card p-space-sm rounded-lg ${
+        on
+          ? "bg-surface-container-highest shadow-md border border-primary/60 active-recipe"
+          : "bg-surface-container hover:bg-surface-container-high shadow border border-outline-variant/20 hover:border-secondary/50"
+      } transition-all cursor-pointer relative overflow-hidden flex items-stretch gap-space-sm">
+        ${on ? '<div class="absolute left-0 top-0 bottom-0 w-1 bg-primary"></div>' : ""}
+        <div class="flex flex-col min-w-0 flex-1 justify-between py-0.5 z-10 pl-1.5">
+          <div class="flex items-start justify-between gap-1.5">
+            <span class="font-label-md text-label-md ${on ? "text-primary" : "text-on-surface"} font-bold leading-tight truncate">${r.name}</span>
+            <span class="px-2 py-0.5 rounded bg-secondary-container text-on-secondary-container font-label-sm text-[10px] shrink-0 font-bold border border-secondary/40 shadow-sm">${readyLabel}</span>
+          </div>
+          <div class="flex items-center gap-2 mt-1">
+            <span class="px-2 py-0.5 rounded bg-surface-container-high border border-outline-variant/40 text-on-surface-variant font-label-sm text-[10px] font-bold">${r.rankLabel || r.rank || ""}</span>
+            <span class="font-body-sm text-[11px] text-on-surface-variant flex items-center gap-1"><span class="material-symbols-outlined text-[13px] text-outline">schedule</span>${craftFormatTime(r.timeSec)}</span>
+          </div>
+          <div class="mt-1.5 pt-1 border-t border-outline-variant/20 flex items-center justify-between">
+            <span class="font-body-sm text-[11px] text-on-surface-variant font-medium">Расход: ${r.energy || 1} ⚡</span>
+            ${
+              on
+                ? '<span class="px-2.5 py-0.5 rounded bg-gradient-to-r from-primary to-primary-container text-on-primary font-label-sm text-[10px] font-bold shadow-sm border border-primary-fixed/40">Выбрано</span>'
+                : `<span class="px-2.5 py-0.5 rounded bg-surface-container-highest text-on-surface font-label-sm text-[10px] font-bold">${r.action || "Крафт"}</span>`
+            }
+          </div>
+        </div>
+        <div class="w-16 h-16 self-center rounded-lg bg-surface-container-lowest shrink-0 overflow-hidden border ${
+          on ? "border-primary/60 shadow-[0_0_12px_rgba(253,186,69,0.25)]" : "border-outline-variant/40"
+        } relative flex items-center justify-center">
+          <img alt="" src="${art}" class="w-full h-full object-contain p-1"/>
+          <span class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded bg-surface-container-lowest/95 text-primary text-[10px] font-bold font-stat-numeral border border-primary/40 shadow-sm leading-none">${r.rank || ""}</span>
+        </div>
+      </div>`;
+    })
+    .join("");
+}
+
+function renderCraftCategoryTabs(root) {
+  const tabs = root.querySelectorAll(".craft-cat-tab");
+  const cat = state.craftCategory || "alchemy";
+  tabs.forEach((btn) => {
+    const id = btn.getAttribute("data-category") || "all";
+    const on = id === cat;
+    const meta = CRAFT_CATEGORY_META[id];
+    btn.classList.toggle("bg-primary-container", on);
+    btn.classList.toggle("text-on-primary-container", on);
+    btn.classList.toggle("font-bold", on);
+    btn.classList.toggle("shadow-sm", on);
+    btn.classList.toggle("bg-surface-container", !on);
+    btn.classList.toggle("text-on-surface-variant", !on);
+    if (id === "alchemy" && meta) {
+      const iconHtml = `<span class="material-symbols-outlined text-[16px]">${meta.icon || "science"}</span>`;
+      const label = on ? meta.activeLabel || meta.label : meta.label;
+      btn.innerHTML = `${iconHtml}${label}`;
+      btn.classList.add("flex", "items-center", "gap-1.5", "whitespace-nowrap");
+    }
+  });
+}
+
+function renderCraftBanner(root, recipe) {
+  if (!recipe) return;
+  const cat =
+    state.craftCategory === "all"
+      ? "all"
+      : recipe.category || state.craftCategory || "alchemy";
+  const meta = CRAFT_CATEGORY_META[cat] || CRAFT_CATEGORY_META.alchemy;
+  const bg = root.querySelector("#craftBannerBg");
+  if (bg) {
+    bg.style.backgroundImage = `url("${meta.banner}")`;
+    bg.style.backgroundSize = "cover";
+    bg.style.backgroundPosition = "center";
+  }
+  const tag = root.querySelector("#craftBannerTag");
+  if (tag) tag.textContent = meta.tag || "Мастерская";
+  const title = root.querySelector("#craftBannerTitle");
+  if (title) title.textContent = recipe.name;
+  const blurb = root.querySelector("#craftBannerBlurb");
+  if (blurb) blurb.textContent = recipe.blurb || "";
+  const time = root.querySelector("#craftBannerTime");
+  if (time) time.textContent = craftFormatTime(recipe.timeSec);
+  const energy = root.querySelector("#craftStatEnergy");
+  if (energy) energy.textContent = `${recipe.energy || 1} ⚡`;
+}
+
+function renderCraftAutoButton(root) {
+  const btn = root.querySelector("#btn-craft-auto");
+  if (!btn) return;
+  const on = !!state.craftAuto;
+  btn.classList.toggle("ring-2", on);
+  btn.classList.toggle("ring-secondary", on);
+  btn.innerHTML = `<span class="material-symbols-outlined text-[20px] text-secondary ${on ? "animate-spin" : ""} group-hover:scale-105 transition-transform">autorenew</span><span class="text-[16px] text-secondary-fixed">${on ? "Стоп" : "Автокрафт"}</span>`;
+}
+
+/** Craft studio — stock, recipes, category pages, reagents. */
 function renderCraftStock() {
   const root = $("viewCraft");
   if (!root) return;
   ensureBarnMats();
-  if (!state.craftRecipeId) state.craftRecipeId = CRAFT_RECIPES[0]?.id;
+  if (!state.craftCategory) state.craftCategory = "alchemy";
+
+  let recipes = craftRecipesForCategory(state.craftCategory);
+  if (!state.craftRecipeId || !recipes.some((r) => r.id === state.craftRecipeId)) {
+    state.craftRecipeId = recipes[0]?.id || CRAFT_RECIPES[0]?.id;
+  }
+  if (!recipes.some((r) => r.id === state.craftRecipeId)) {
+    recipes = CRAFT_RECIPES.slice();
+    state.craftCategory = "all";
+    state.craftRecipeId = recipes[0]?.id;
+  }
 
   const head = [...root.querySelectorAll("span")].find((el) => /Склад Сырья/i.test(el.textContent || ""));
   const card = head?.closest(".p-space-md, .rounded-xl");
@@ -10335,7 +10756,7 @@ function renderCraftStock() {
     const list = card.querySelector(".flex.flex-col.gap-space-xs");
     if (list) {
       const rows = (state.barnMats || [])
-        .filter((m) => m.kind === "farm" || m.kind === "potion" || (m.qty || 0) > 0)
+        .filter((m) => m.kind === "farm" || m.kind === "potion" || m.kind === "craft" || m.kind === "scroll" || m.kind === "rune" || (m.qty || 0) > 0)
         .slice(0, 8)
         .map((m) => {
           const pct = Math.min(100, Math.round(((m.qty || 0) / 40) * 100));
@@ -10360,38 +10781,55 @@ function renderCraftStock() {
   }
 
   const recipe = craftRecipeById(state.craftRecipeId);
+  renderCraftCategoryTabs(root);
+  renderCraftRecipeList(root, recipes, state.craftRecipeId);
+  renderCraftBanner(root, recipe);
   renderCraftReagents(root, recipe);
+  renderCraftAutoButton(root);
 
-  let picker = root.querySelector("#craftSmokeRecipes");
-  if (!picker) {
-    picker = document.createElement("div");
-    picker.id = "craftSmokeRecipes";
-    picker.className = "flex flex-wrap gap-1.5 px-1 mb-2 relative z-10";
-    const ctaRow = root.querySelector("#btn-craft-potion")?.parentElement;
-    if (ctaRow) ctaRow.parentElement?.insertBefore(picker, ctaRow);
-    else root.appendChild(picker);
-  }
-  picker.innerHTML = CRAFT_RECIPES.map((r) => {
-    const on = r.id === state.craftRecipeId;
-    const out = barnMatGet(r.outId);
-    return `<button type="button" data-craft-recipe="${r.id}" class="px-2.5 py-1.5 rounded-lg ${on ? "bg-primary-container text-on-primary-container font-bold" : "bg-surface-container text-on-surface-variant hover:bg-surface-container-high"} font-label-sm text-[11px] flex items-center gap-1.5">
-      <img alt="" src="${out?.iconSrc || "/barn-icons/potions.png"}" class="w-5 h-5 object-contain"/>
-      ${r.name}
-    </button>`;
-  }).join("");
+  const smokePicker = root.querySelector("#craftSmokeRecipes");
+  if (smokePicker) smokePicker.remove();
 
   if (root.dataset.craftBound !== "1") {
     root.dataset.craftBound = "1";
     root.addEventListener("click", (e) => {
+      const tab = e.target.closest(".craft-cat-tab");
+      if (tab && root.contains(tab)) {
+        e.preventDefault();
+        state.craftCategory = tab.getAttribute("data-category") || "all";
+        state.craftAuto = false;
+        const next = craftRecipesForCategory(state.craftCategory);
+        state.craftRecipeId = next[0]?.id || state.craftRecipeId;
+        renderCraftStock();
+        return;
+      }
       const recipeBtn = e.target.closest("[data-craft-recipe]");
       if (recipeBtn && root.contains(recipeBtn)) {
         state.craftRecipeId = recipeBtn.getAttribute("data-craft-recipe");
+        state.craftAuto = false;
+        const picked = craftRecipeById(state.craftRecipeId);
+        if (picked?.category) state.craftCategory = picked.category;
         renderCraftStock();
+        return;
+      }
+      const autoBtn = e.target.closest("#btn-craft-auto");
+      if (autoBtn && root.contains(autoBtn)) {
+        e.preventDefault();
+        state.craftAuto = !state.craftAuto;
+        if (state.craftAuto) {
+          toast("Автокрафт включён");
+          renderCraftAutoButton(root);
+          runCraftAutoLoop();
+        } else {
+          toast("Автокрафт выключен");
+          renderCraftAutoButton(root);
+        }
         return;
       }
       const craftBtn = e.target.closest("#btn-craft-potion");
       if (craftBtn && root.contains(craftBtn)) {
         e.preventDefault();
+        state.craftAuto = false;
         runCraftRecipe(state.craftRecipeId);
       }
     });
@@ -10400,7 +10838,8 @@ function renderCraftStock() {
   const cta = root.querySelector("#btn-craft-potion");
   if (cta && recipe) {
     const ok = craftCanAfford(recipe);
-    cta.innerHTML = `<span class="material-symbols-outlined text-[24px] ${ok ? "animate-pulse" : ""} text-on-primary">local_fire_department</span><span class="tracking-wide">Скрафтить ${recipe.name} · ${recipe.costGold} 🐟</span>`;
+    const verb = recipe.action || "Скрафтить";
+    cta.innerHTML = `<span class="material-symbols-outlined text-[24px] ${ok ? "animate-pulse" : ""} text-on-primary">local_fire_department</span><span class="tracking-wide">${verb} ${recipe.name} · ${recipe.costGold} 🐟</span>`;
     cta.classList.toggle("opacity-60", !ok);
   }
 }

@@ -6516,6 +6516,28 @@ body:has(#viewPass:not(.hidden)) #app {
 #viewCraft .w-full.h-28 {
   flex-shrink: 0;
 }
+/* Unified craft studio: equal columns, hearth footer, recipe arts */
+#viewCraft #craftCategoryTabs {
+  width: 100%;
+  min-width: 0;
+}
+#viewCraft #craftCategoryTabs .craft-cat-tab {
+  flex: 0 0 auto;
+}
+#viewCraft #craft-hearth-buff {
+  margin-top: 0.25rem;
+}
+#viewCraft .craft-recipe-list .recipe-card img {
+  object-fit: contain;
+  background: rgba(17, 13, 11, 0.55);
+}
+#viewCraft #craftBannerBg {
+  background-size: cover;
+  background-position: center;
+}
+#viewCraft .craft-studio > [class*="col-span"] {
+  min-height: 0;
+}
 
 /* Live manor nursery — only viewBreeding (D-030 stub; chrome = #appNav) */
 body:has(#viewBreeding:not(.hidden)) #wireDock { display: none !important; }
