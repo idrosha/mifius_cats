@@ -1,11 +1,12 @@
 # Gear color sets (R1–R8 · PvP × PvE)
 
-Slot model: **helm · armor · cloak · belt · boots · ring**.  
-Class weapons / offhands art removed (old thumbs deleted); armor sets only for now.
+Slot model: **helm · armor · cloak · belt · boots · ring** + class **weapon** / tank **shield**.  
 
-**Lanes:** each set exists as **PvP** (shop) and **PvE** (`pve_` copies, dungeon/raid drop only).  
+**Lanes:** each set exists as **PvP** (shop) and **PvE** (`pve_` copies).  
+**Earn:** battle pass grants one full set for a cat; PvE / dungeons / raids drop pieces + runes at low chance.  
+**Enhance:** forge with runes — fail consumes rune, never burns the item.  
 **Ranks:** **R1–R8** (wiki §8.5). Art prompts: `docs/stitch-prompts-pve-pvp-gear-sets.md`.  
-**Stock (HUD stub):** `qty = 18` per piece (enough for all heroes); identical stacks share one bag/barn cell with a corner count.  
+**Stock (HUD stub):** owned `qty` starts at **0**; grants add copies (stack cap 18). Gear is the CP key.  
 Combat: monster HP is fixed; higher DEF makes PvE easier (wiki §4.3).
 
 Combat scale (tank HP=50, card hit ≈5–6): armor → flat **DEF/HP**; rings → modest HP/DEF (+ optional ATK/SPD/crit).

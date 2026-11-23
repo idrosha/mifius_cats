@@ -19,6 +19,7 @@ import {
   GEAR_HERO_STOCK,
   PVE_SET_IDS as PVE_SET_IDS_SEED,
   HOME_SET_RU as HOME_SET_RU_SEED,
+  PASS_GUARANTEED_SET_ID,
   buildGearCatalogSeed,
 } from "./gear-catalog-seed.js";
 
@@ -507,6 +508,9 @@ const BARN_MATS_SEED = [
   { id: "potion_mana", name: "Эликсир маны", kind: "potion", rarity: "rare", qty: 1, tag: "Алхимия", desc: "Мана / вода · smoke stub.", iconSrc: "/barn-icons/potion-mana.png" },
   { id: "potion_nature", name: "Эликсир природы", kind: "potion", rarity: "rare", qty: 1, tag: "Алхимия", desc: "Природа / рост · smoke stub.", iconSrc: "/barn-icons/potion-nature.png" },
   { id: "potion_ember", name: "Эликсир жара", kind: "potion", rarity: "rare", qty: 0, tag: "Алхимия", desc: "Огонь / жар · smoke stub.", iconSrc: "/barn-icons/potion-ember.png" },
+  { id: "rune_shard", name: "Осколок руны", kind: "rune", rarity: "common", qty: 2, tag: "Заточка", desc: "Слабая руна точки · +5% шанс. Шмотка не сгорает при фейле.", iconSrc: "/stitch-assets/kb-v3/items/item-1.webp" },
+  { id: "rune_mark", name: "Руна Метки", kind: "rune", rarity: "rare", qty: 1, tag: "Заточка", desc: "Средняя руна точки · +15% шанс. При провале вещь остаётся.", iconSrc: "/stitch-assets/kb-v3/items/item-2.webp" },
+  { id: "rune_crest", name: "Гребень руны", kind: "rune", rarity: "epic", qty: 0, tag: "Заточка", desc: "Сильная руна точки · +28% шанс. Дроп из данжей/рейдов.", iconSrc: "/stitch-assets/kb-v3/items/item-3.webp" },
 ];
 
 /** Smoke craft recipes (wiki §6 / codex alchemy_craft). */
@@ -668,7 +672,7 @@ const PASS_ACTIVE_TIP = "Активируй боевой пасс";
 
 const SHOP_STUB_ROWS = [
   { id: "iap_yarn", label: "IAP · пряжа / донат", detail: "yarn packs", gated: false },
-  { id: "pass_buy", label: "Боевой пасс (×2 XP)", detail: "season pass", gated: false },
+  { id: "pass_buy", label: "Боевой пасс (сет + герой)", detail: "гарант сет · финал герой", gated: false },
   { id: "fish_pack_s", label: "Пак рыбок S · 500", detail: "fish coins", gated: false },
   { id: "fish_pack_m", label: "Пак рыбок M · 2000", detail: "fish coins", gated: false },
   { id: "breed_milk_essence", label: "Эссенция молока", detail: "nursery mat · Soon", gated: true },
@@ -723,46 +727,105 @@ const PASS_ICON = {
   dragonSet: "/stitch-assets/kb-v3/armor/r6-dragon.webp",
   sunBars: "/stitch-assets/monsters/battle/solar-lion-fighter-cutout.webp",
   freeBox: "/stitch-ref/pass-hearth/icon-2.png",
+  rune: "/stitch-assets/kb-v3/items/item-2.webp",
+  set: "/gear-sets/thumbs/green-armor.png",
+  weapon: "/gear-sets/thumbs/green-armor.png",
 };
+
+/** Low-chance PvE gear / rune tables — gear is the CP key for dungeons / raids / sieges. */
+const PVE_LOOT_CHANCE = {
+  campaign: { gear: 0.07, rune: 0.2, setByChapter: { 1: "grey", 2: "green", 3: "blue", 4: "yellow", 5: "purple" } },
+  dungeonBoss: { gear: 0.12, rune: 0.32 },
+  dungeonNode: { gear: 0.03, rune: 0.12 },
+  raidBoss: { gear: 0.18, rune: 0.4 },
+  raidNode: { gear: 0.05, rune: 0.18 },
+};
+
+const RUNE_DROP_WEIGHTS = [
+  { id: "rune_shard", w: 65 },
+  { id: "rune_mark", w: 28 },
+  { id: "rune_crest", w: 7 },
+];
+
+const RUNE_ENHANCE = {
+  rune_shard: { bonus: 0.05, label: "Осколок" },
+  rune_mark: { bonus: 0.15, label: "Метка" },
+  rune_crest: { bonus: 0.28, label: "Гребень" },
+};
+
+/** Elven-18 combat heroes — season finale chest picks one you do not own. */
+const HERO_CHEST_POOL = [
+  "shop_tank_fire",
+  "shop_tank_water",
+  "shop_tank_wind",
+  "shop_fighter_fire",
+  "shop_fighter_water",
+  "shop_fighter_wind",
+  "shop_assassin_fire",
+  "shop_assassin_water",
+  "shop_assassin_wind",
+  "shop_ranger_fire",
+  "shop_ranger_water",
+  "shop_ranger_wind",
+  "shop_mage_fire",
+  "shop_mage_water",
+  "shop_mage_wind",
+  "shop_support_fire",
+  "shop_support_water",
+  "shop_support_wind",
+];
 
 /** Season III «Лапы Судьбы» — 30 дней, free + elite tracks. */
 const PASS_SEASON_TRACK = (() => {
   const freePool = [
-    { name: "500 Золота", img: PASS_ICON.gold },
-    { name: "Рыбка ×50", img: PASS_ICON.fish },
-    { name: "Мята ×8", img: PASS_ICON.herbs },
-    { name: "Корм ×30", img: PASS_ICON.veggies },
-    { name: "Семена ×20", img: PASS_ICON.seeds },
-    { name: "Рыбка ×100", img: PASS_ICON.fish },
-    { name: "1,000 Золота", img: PASS_ICON.gold },
-    { name: "Фрукты ×25", img: PASS_ICON.fruit },
-    { name: "Дуб ×40", img: PASS_ICON.wood },
-    { name: "Руда ×15", img: PASS_ICON.iron },
+    { name: "500 Золота", img: PASS_ICON.gold, grant: { type: "fish", amount: 500 } },
+    { name: "Рыбка ×50", img: PASS_ICON.fish, grant: { type: "fish", amount: 50 } },
+    { name: "Мята ×8", img: PASS_ICON.herbs, grant: { type: "mat", id: "herbs", amount: 8 } },
+    { name: "Корм ×30", img: PASS_ICON.veggies, grant: { type: "mat", id: "veggies", amount: 30 } },
+    { name: "Семена ×20", img: PASS_ICON.seeds, grant: { type: "mat", id: "seeds", amount: 20 } },
+    { name: "Рыбка ×100", img: PASS_ICON.fish, grant: { type: "fish", amount: 100 } },
+    { name: "1,000 Золота", img: PASS_ICON.gold, grant: { type: "fish", amount: 1000 } },
+    { name: "Фрукты ×25", img: PASS_ICON.fruit, grant: { type: "mat", id: "fruit", amount: 25 } },
+    { name: "Дуб ×40", img: PASS_ICON.wood, grant: { type: "mat", id: "wood", amount: 40 } },
+    { name: "Руда ×15", img: PASS_ICON.iron, grant: { type: "mat", id: "iron", amount: 15 } },
   ];
   const elitePool = [
-    { name: "Сливки ×3", img: PASS_ICON.milk },
-    { name: "Свиток Призыва", img: PASS_ICON.scroll },
-    { name: "Астрал-Амулет", img: PASS_ICON.amulet },
-    { name: "Набор Зелий", img: PASS_ICON.potions },
-    { name: "Перстень Света", img: PASS_ICON.ring },
-    { name: "Сундук Лапы", img: PASS_ICON.chest },
-    { name: "Ошейник Удачи", img: PASS_ICON.collar },
-    { name: "Фолиант Опыта", img: PASS_ICON.tome },
+    { name: "Сливки ×3", img: PASS_ICON.milk, grant: { type: "mat", id: "milk", amount: 3 } },
+    { name: "Осколок руны ×2", img: PASS_ICON.rune, grant: { type: "mat", id: "rune_shard", amount: 2 } },
+    { name: "Астрал-Амулет", img: PASS_ICON.amulet, grant: { type: "fish", amount: 200 } },
+    { name: "Набор Зелий", img: PASS_ICON.potions, grant: { type: "mat", id: "potion_nature", amount: 2 } },
+    { name: "Руна Метки", img: PASS_ICON.rune, grant: { type: "mat", id: "rune_mark", amount: 1 } },
+    { name: "Сундук Лапы", img: PASS_ICON.chest, grant: { type: "mat", id: "rune_shard", amount: 3 } },
+    { name: "Ошейник Удачи", img: PASS_ICON.collar, grant: { type: "fish", amount: 250 } },
+    { name: "Фолиант Опыта", img: PASS_ICON.tome, grant: { type: "pass_xp", amount: 1500 } },
   ];
   const specialElite = {
-    10: { name: "Багровый Плащ", img: PASS_ICON.cloak, tag: "ЭПИК" },
-    15: { name: "Пояс Дракона", img: PASS_ICON.belt, tag: "ЭПИК" },
-    20: { name: "Шлем Архипса", img: PASS_ICON.helm, tag: "ЭПИК" },
-    24: { name: "Сапоги Когтя", img: PASS_ICON.boots, tag: "ЭПИК" },
-    25: { name: "Перчатки Дракона", img: PASS_ICON.gloves, tag: "ЭПИК" },
-    28: { name: "Панцирь Дракона", img: PASS_ICON.panzer, tag: "МИФИК" },
-    30: { name: "«Барс Солнца»", img: PASS_ICON.sunBars, tag: "ФИНАЛ" },
+    1: {
+      name: "Руны точки ×3",
+      img: PASS_ICON.rune,
+      tag: "СТАРТ",
+      grant: { type: "mat", id: "rune_shard", amount: 3 },
+    },
+    10: { name: "Багровый Плащ", img: PASS_ICON.cloak, tag: "ЭПИК", grant: { type: "pve_piece", set: "blue", slot: "cloak" } },
+    15: { name: "Пояс Дракона", img: PASS_ICON.belt, tag: "ЭПИК", grant: { type: "pve_piece", set: "yellow", slot: "belt" } },
+    20: { name: "Шлем Архипса", img: PASS_ICON.helm, tag: "ЭПИК", grant: { type: "pve_piece", set: "purple", slot: "helm" } },
+    24: { name: "Сапоги Когтя", img: PASS_ICON.boots, tag: "ЭПИК", grant: { type: "pve_piece", set: "purple", slot: "boots" } },
+    25: { name: "Гребень руны ×2", img: PASS_ICON.rune, tag: "РУНЫ", grant: { type: "mat", id: "rune_crest", amount: 2 } },
+    28: { name: "Панцирь Дракона", img: PASS_ICON.panzer, tag: "МИФИК", grant: { type: "pve_piece", set: "red", slot: "armor" } },
+    30: {
+      name: "Сундук Героя +1",
+      img: PASS_ICON.sunBars,
+      tag: "ФИНАЛ",
+      grant: { type: "hero_chest" },
+    },
   };
   const specialFree = {
-    10: { name: "2,500 Золота", img: PASS_ICON.gold },
-    20: { name: "Фолиант Опыта", img: PASS_ICON.tome },
-    28: { name: "5,000 Золота", img: PASS_ICON.gold },
-    30: { name: "10,000 Золота", img: PASS_ICON.gold },
+    5: { name: "Осколок руны ×1", img: PASS_ICON.rune, grant: { type: "mat", id: "rune_shard", amount: 1 } },
+    10: { name: "2,500 Золота", img: PASS_ICON.gold, grant: { type: "fish", amount: 2500 } },
+    15: { name: "Руна Метки", img: PASS_ICON.rune, grant: { type: "mat", id: "rune_mark", amount: 1 } },
+    20: { name: "Фолиант Опыта", img: PASS_ICON.tome, grant: { type: "pass_xp", amount: 1500 } },
+    28: { name: "5,000 Золота", img: PASS_ICON.gold, grant: { type: "fish", amount: 5000 } },
+    30: { name: "10,000 Золота", img: PASS_ICON.gold, grant: { type: "fish", amount: 10000 } },
   };
   const rows = [];
   for (let day = 1; day <= PASS_SEASON_DAYS; day++) {
@@ -818,10 +881,15 @@ const state = {
   codexRankFocus: 6,
   guildBattleSize: 3,
   passActiveStub: false,
+  /** True after purchasing season battle pass (grants guaranteed gear set). */
+  passOwned: false,
+  passSetGranted: false,
   passLevel: 14,
   passXp: 1800,
   passClaimed: { free: {}, elite: {} },
   passTrackCentered: false,
+  /** Last rune id used for forge enhance. */
+  enhanceRuneId: "rune_shard",
   autofarm: {
     autofarm_crops: false,
     autofarm_alchemy: false,
@@ -999,7 +1067,13 @@ const RAID_PVE_SET_DROP = {
 };
 
 function withGearLane(item, lane) {
-  const next = { ...item, lane, qty: Number(item.qty || GEAR_HERO_STOCK) };
+  const next = {
+    ...item,
+    lane,
+    qty: 0,
+    enhance: 0,
+    enhanceCap: item.enhanceCap || Math.max(5, (item.rank || 1) * 2),
+  };
   if (lane === "pve") {
     next.pveOnly = true;
     next.id = item.id.startsWith("pve_") ? item.id : `pve_${item.id}`;
@@ -1025,7 +1099,7 @@ function buildPveGearSeedFromPvp(pvpItems) {
   return out;
 }
 
-/** Normalize seed: shop/catalog defaults to PvP; dungeon rares stay PvE. Stock ×18. */
+/** Normalize seed: shop/catalog defaults to PvP; dungeon rares stay PvE. Owned qty starts at 0. */
 (function seedGearLanes() {
   for (const g of state.gearCatalog) {
     if (g.pveOnly || g.lane === "pve") {
@@ -1035,7 +1109,9 @@ function buildPveGearSeedFromPvp(pvpItems) {
       g.lane = "pvp";
       g.pveOnly = false;
     }
-    if (g.qty == null || g.qty < GEAR_HERO_STOCK) g.qty = GEAR_HERO_STOCK;
+    if (g.qty == null || g.qty > 0) g.qty = 0;
+    if (g.enhance == null) g.enhance = 0;
+    if (g.enhanceCap == null) g.enhanceCap = Math.max(5, (g.rank || 1) * 2);
   }
   const pveSeed = buildPveGearSeedFromPvp(state.gearCatalog);
   const have = new Set(state.gearCatalog.map((g) => g.id));
@@ -1083,7 +1159,7 @@ function gearWornCount(gearId, lane = state.equipLane || "pve") {
 
 function gearOwnedQty(item) {
   if (!item) return 0;
-  return Math.max(1, Number(item.qty) || GEAR_HERO_STOCK);
+  return Math.max(0, Number(item.qty) || 0);
 }
 
 /** Free copies left in bag/barn for this stack. */
@@ -1267,7 +1343,9 @@ function loadGearStub() {
       mergeGearCatalogSeed();
       for (const g of state.gearCatalog) {
         if (!g.lane) g.lane = g.pveOnly ? "pve" : "pvp";
-        if (g.qty == null) g.qty = GEAR_HERO_STOCK;
+        if (g.qty == null) g.qty = 0;
+        if (g.enhance == null) g.enhance = 0;
+        if (g.enhanceCap == null) g.enhanceCap = Math.max(5, (g.rank || 1) * 2);
         if (g.set === "turquoise") g.set = "blue";
         if (String(g.id || "").includes("turquoise_")) {
           g.id = String(g.id).replace(/turquoise_/g, "blue_");
@@ -1901,6 +1979,15 @@ function baseStatsForCat(cat) {
   return { atk: raw.atk, hp: raw.hp, def: 0, spd: raw.spd, skill: raw.skill, charm: raw.charm };
 }
 
+function gearEnhanceFlat(item) {
+  const n = Math.max(0, Number(item?.enhance) || 0);
+  if (!n) return { atk: 0, hp: 0, def: 0, spd: 0 };
+  const per = Math.max(1, Math.ceil((item.rank || 1) / 2));
+  if (item.slot === "weapon") return { atk: n * per, hp: 0, def: 0, spd: Math.floor(n / 3) };
+  if (item.slot === "shield") return { atk: 0, hp: Math.floor(n * per * 0.5), def: n * per, spd: 0 };
+  return { atk: Math.floor(n / 4), hp: n * per, def: Math.ceil((n * per) / 2), spd: Math.floor(n / 5) };
+}
+
 function gearBonusForCat(catId, lane = state.equipLane || "pve") {
   const eq = equipMapForLane(lane)[catId] || {};
   const bonus = { atk: 0, hp: 0, def: 0, spd: 0 };
@@ -1910,24 +1997,36 @@ function gearBonusForCat(catId, lane = state.equipLane || "pve") {
     const item = state.gearCatalog.find((g) => g.id === id);
     if (!item) continue;
     if (gearLaneOf(item) !== lane) continue;
-    bonus.atk += item.atk || 0;
-    bonus.hp += item.hp || 0;
-    bonus.def += item.def || 0;
-    bonus.spd += item.spd || 0;
+    const enh = gearEnhanceFlat(item);
+    bonus.atk += (item.atk || 0) + enh.atk;
+    bonus.hp += (item.hp || 0) + enh.hp;
+    bonus.def += (item.def || 0) + enh.def;
+    bonus.spd += (item.spd || 0) + enh.spd;
   }
   return bonus;
 }
 
-/** Starter PvE grey — dungeon/raid only lane; shop never sells PvE. Grey clears hard, higher sets easier. */
+/** Starter PvE grey — one armor copy for onboarding; higher sets only from drops/pass. */
 function ensureStarterPveGrey() {
   const have = new Set((state.gearCatalog || []).map((g) => g.id));
   let added = 0;
   for (const seed of GEAR_CATALOG_SEED) {
     if (seed.lane !== "pve" || seed.set !== "grey") continue;
     if (have.has(seed.id)) continue;
-    state.gearCatalog.push(JSON.parse(JSON.stringify(seed)));
+    const copy = JSON.parse(JSON.stringify(seed));
+    copy.qty = 0;
+    copy.enhance = 0;
+    state.gearCatalog.push(copy);
     have.add(seed.id);
     added++;
+  }
+  const combatN = Math.max(
+    3,
+    (state.profile?.cats || []).filter((c) => c.role !== "farm").length,
+  );
+  for (const slot of ["helm", "armor", "cloak", "belt", "boots", "ring"]) {
+    const piece = state.gearCatalog.find((g) => g.lane === "pve" && g.set === "grey" && g.slot === slot);
+    if (piece) piece.qty = Math.max(gearOwnedQty(piece), Math.min(GEAR_HERO_STOCK, combatN));
   }
   const cats = (state.profile?.cats || []).filter((c) => c.role !== "farm");
   const map = equipMapForLane("pve");
@@ -1971,25 +2070,306 @@ function setEquipLane(lane) {
 
 function grantShopPvpGear(offerId) {
   const setId = offerId === "pvp_set_green" ? "green" : "grey";
-  const pieces = (state.gearCatalog || []).filter((g) => g.lane === "pvp" && g.set === setId);
+  const pieces = (state.gearCatalog || []).filter(
+    (g) => g.lane === "pvp" && g.set === setId && ["helm", "armor", "cloak", "belt", "boots", "ring"].includes(g.slot),
+  );
   if (!pieces.length) {
     toast("PvP сет не найден в каталоге");
     return;
   }
-  toast(`Куплено PvP · ${setId} (${pieces.length} слотов) — stub`);
+  for (const p of pieces) p.qty = Math.min(GEAR_HERO_STOCK, Number(p.qty || 0) + 1);
+  toast(`Куплено PvP · ${setId} (${pieces.length} частей)`);
   persistGearStub();
 }
 
-function grantPveSetPiece(setId, preferredSlot = null) {
+function grantPveSetPiece(setId, preferredSlot = null, { silent = false } = {}) {
   const pool = (state.gearCatalog || []).filter((g) => g.lane === "pve" && g.set === setId);
   if (!pool.length) return null;
   let piece = preferredSlot ? pool.find((g) => g.slot === preferredSlot) : null;
-  if (!piece) piece = pool[Math.floor(Math.random() * pool.length)];
+  if (!piece) {
+    const armorPool = pool.filter((g) => ["helm", "armor", "cloak", "belt", "boots", "ring", "weapon", "shield"].includes(g.slot));
+    const bag = armorPool.length ? armorPool : pool;
+    piece = bag[Math.floor(Math.random() * bag.length)];
+  }
   const existing = state.gearCatalog.find((g) => g.id === piece.id);
-  if (existing) existing.qty = Number(existing.qty || 1) + 1;
-  toast(`PvE дроп: ${piece.name}`);
+  if (existing) {
+    existing.qty = Math.min(GEAR_HERO_STOCK, Number(existing.qty || 0) + 1);
+    if (existing.enhance == null) existing.enhance = 0;
+  }
+  if (!silent) toast(`PvE дроп: ${piece.name}`);
   persistGearStub();
   return piece;
+}
+
+function pickWeightedRuneId() {
+  const total = RUNE_DROP_WEIGHTS.reduce((s, r) => s + r.w, 0);
+  let roll = Math.random() * total;
+  for (const r of RUNE_DROP_WEIGHTS) {
+    roll -= r.w;
+    if (roll <= 0) return r.id;
+  }
+  return RUNE_DROP_WEIGHTS[0].id;
+}
+
+function grantRuneDrop({ silent = false } = {}) {
+  const id = pickWeightedRuneId();
+  const mat = barnMatAdd(id, 1);
+  if (!silent) toast(`Руна: ${mat?.name || id}`);
+  return mat;
+}
+
+/** Roll scarce PvE gear + runes. Returns { gear, rune }. */
+function rollPveModeLoot(modeKey, setId) {
+  const table = PVE_LOOT_CHANCE[modeKey] || PVE_LOOT_CHANCE.campaign;
+  const out = { gear: null, rune: null };
+  if (setId && Math.random() < (table.gear || 0)) {
+    out.gear = grantPveSetPiece(setId, null, { silent: true });
+  }
+  if (Math.random() < (table.rune || 0)) {
+    out.rune = grantRuneDrop({ silent: true });
+  }
+  return out;
+}
+
+function toastPveLoot(prefix, loot) {
+  const parts = [];
+  if (loot?.gear) parts.push(loot.gear.name);
+  if (loot?.rune) parts.push(loot.rune.name || "руна");
+  if (parts.length) toast(`${prefix}: ${parts.join(" · ")}`);
+  else toast(`${prefix}: без редкого дропа`);
+}
+
+function grantFullPveSetForCat(cat, setId = PASS_GUARANTEED_SET_ID, { equip = true } = {}) {
+  if (!cat?.catId) return { pieces: [], setId };
+  const armorSlots = ["helm", "armor", "cloak", "belt", "boots", "ring"];
+  const pieces = [];
+  for (const slot of armorSlots) {
+    const piece = grantPveSetPiece(setId, slot, { silent: true });
+    if (piece) pieces.push(piece);
+  }
+  const role = catRoleOf(cat);
+  if (role) {
+    const weapon = (state.gearCatalog || []).find(
+      (g) => g.lane === "pve" && g.set === setId && g.slot === "weapon" && (g.roles || []).includes(role),
+    );
+    if (weapon) {
+      weapon.qty = Math.min(GEAR_HERO_STOCK, Number(weapon.qty || 0) + 1);
+      pieces.push(weapon);
+    }
+    if (role === "tank") {
+      const shield = (state.gearCatalog || []).find(
+        (g) => g.lane === "pve" && g.set === setId && g.slot === "shield" && (g.roles || []).includes("tank"),
+      );
+      if (shield) {
+        shield.qty = Math.min(GEAR_HERO_STOCK, Number(shield.qty || 0) + 1);
+        pieces.push(shield);
+      }
+    }
+  }
+  if (equip) {
+    const prevLane = state.equipLane;
+    state.equipLane = "pve";
+    syncEquippedAlias();
+    for (const p of pieces) {
+      if (canEquipItem(cat.catId, p)) {
+        const map = equipMapForLane("pve");
+        if (!map[cat.catId]) map[cat.catId] = emptyEquipSlots();
+        map[cat.catId][p.slot] = p.id;
+      }
+    }
+    state.equipLane = prevLane;
+    syncEquippedAlias();
+  }
+  persistGearStub();
+  return { pieces, setId };
+}
+
+function grantPassGuaranteedSet() {
+  const cats = (state.profile?.cats || []).filter((c) => c.role !== "farm");
+  const cat =
+    cats.find((c) => c.catId === state.selectedCatId) ||
+    cats.find((c) => c.templateId === "starter_fighter_fire") ||
+    cats[0];
+  if (!cat) {
+    toast("Нет котика для сета пасса");
+    return null;
+  }
+  const { pieces, setId } = grantFullPveSetForCat(cat, PASS_GUARANTEED_SET_ID, { equip: true });
+  state.passSetGranted = true;
+  state.selectedCatId = cat.catId;
+  const label = HOME_SET_RU[setId]?.name || setId;
+  toast(`Пасс: сет «${label}» + оружие → ${catSheetName(cat)} (${pieces.length} шт.)`);
+  return { cat, pieces, setId };
+}
+
+function missingHeroTemplates() {
+  const owned = new Set((state.profile?.cats || []).map((c) => c.templateId));
+  return HERO_CHEST_POOL.filter((id) => !owned.has(id));
+}
+
+function grantHeroFromChest({ silent = false } = {}) {
+  if (!state.profile) {
+    if (!silent) toast("Нет профиля — сундук героя недоступен");
+    return null;
+  }
+  const pool = missingHeroTemplates();
+  if (!pool.length) {
+    state.wallet.gems = (state.wallet.gems || 0) + 50;
+    if (state.profile) state.profile.yarn = (state.profile.yarn || 0) + 50;
+    renderCurrency();
+    if (!silent) toast("Все герои уже есть · +50 пряжи");
+    return null;
+  }
+  const templateId = pool[Math.floor(Math.random() * pool.length)];
+  const parts = String(templateId).split("_");
+  const role = parts[1] || "fighter";
+  const element = parts[2] || "fire";
+  const cat = {
+    catId: `${state.profile.userId || "local"}_pass_${Date.now().toString(36)}`,
+    templateId,
+    role,
+    element,
+    level: 1,
+    rarity: "rare",
+    origin: "pass_chest",
+    pendantId: "",
+    bowByPart: {},
+  };
+  state.profile.cats.push(cat);
+  const mapPve = equipMapForLane("pve");
+  const mapPvp = equipMapForLane("pvp");
+  mapPve[cat.catId] = emptyEquipSlots();
+  mapPvp[cat.catId] = emptyEquipSlots();
+  syncEquippedAlias();
+  if (!silent) toast(`Герой сезона: ${catSheetName(cat)} (${CAT_ROLE_RU[role] || role})`);
+  return cat;
+}
+
+function applyPassGrant(grant) {
+  if (!grant || !grant.type) return;
+  if (grant.type === "fish") {
+    grantDungeonFish(grant.amount || 0);
+    return;
+  }
+  if (grant.type === "mat") {
+    barnMatAdd(grant.id, grant.amount || 1);
+    return;
+  }
+  if (grant.type === "pass_xp") {
+    state.passXp = (state.passXp || 0) + (grant.amount || 0);
+    while (state.passXp >= PASS_XP_PER_LEVEL && state.passLevel < PASS_SEASON_DAYS) {
+      state.passXp -= PASS_XP_PER_LEVEL;
+      state.passLevel += 1;
+    }
+    return;
+  }
+  if (grant.type === "pve_piece") {
+    grantPveSetPiece(grant.set || "green", grant.slot || null, { silent: true });
+    return;
+  }
+  if (grant.type === "hero_chest") {
+    grantHeroFromChest({ silent: false });
+    return;
+  }
+  if (grant.type === "pass_set_note") {
+    if (!state.passSetGranted) grantPassGuaranteedSet();
+    return;
+  }
+}
+
+function buyBattlePass() {
+  if (state.passOwned && state.passSetGranted) {
+    state.passActiveStub = true;
+    toast("Боевой пасс уже куплен · элита ACTIVE");
+    persistPassStub();
+    renderPass();
+    return true;
+  }
+  state.passOwned = true;
+  state.passActiveStub = true;
+  if (!state.passSetGranted) grantPassGuaranteedSet();
+  persistPassStub();
+  toast("Боевой пасс куплен · ×2 XP · сет на котика · финал: Герой");
+  renderPass();
+  renderShop();
+  if (!$("viewGear")?.classList.contains("hidden")) renderBarn();
+  if (!$("viewHome")?.classList.contains("hidden")) renderHome();
+  return true;
+}
+
+function persistPassStub() {
+  try {
+    localStorage.setItem(
+      "mythfel_sl_pass",
+      JSON.stringify({
+        passOwned: !!state.passOwned,
+        passSetGranted: !!state.passSetGranted,
+        passActiveStub: !!state.passActiveStub,
+        passLevel: state.passLevel,
+        passXp: state.passXp,
+        passClaimed: state.passClaimed,
+        enhanceRuneId: state.enhanceRuneId,
+      }),
+    );
+  } catch (_) {}
+}
+
+function loadPassStub() {
+  try {
+    const raw = localStorage.getItem("mythfel_sl_pass");
+    if (!raw) return;
+    const p = JSON.parse(raw);
+    if (typeof p.passOwned === "boolean") state.passOwned = p.passOwned;
+    if (typeof p.passSetGranted === "boolean") state.passSetGranted = p.passSetGranted;
+    if (typeof p.passActiveStub === "boolean") state.passActiveStub = p.passActiveStub;
+    if (Number.isFinite(p.passLevel)) state.passLevel = p.passLevel;
+    if (Number.isFinite(p.passXp)) state.passXp = p.passXp;
+    if (p.passClaimed && typeof p.passClaimed === "object") state.passClaimed = p.passClaimed;
+    if (p.enhanceRuneId) state.enhanceRuneId = p.enhanceRuneId;
+  } catch (_) {}
+}
+
+function enhanceSuccessChance(item, runeId) {
+  const lvl = Math.max(0, Number(item?.enhance) || 0);
+  const cap = Math.max(1, Number(item?.enhanceCap) || 10);
+  if (lvl >= cap) return 0;
+  const base = 0.88 - lvl * 0.055;
+  const bonus = RUNE_ENHANCE[runeId]?.bonus || 0;
+  return Math.max(0.08, Math.min(0.95, base + bonus));
+}
+
+function tryEnhanceGear(gearId, runeId = state.enhanceRuneId) {
+  const item = (state.gearCatalog || []).find((g) => g.id === gearId);
+  if (!item) {
+    toast("Предмет не найден");
+    return false;
+  }
+  if (gearOwnedQty(item) <= 0 && gearWornCount(item.id) <= 0) {
+    toast("Нет копии для точки");
+    return false;
+  }
+  const cap = item.enhanceCap || Math.max(5, (item.rank || 1) * 2);
+  if ((item.enhance || 0) >= cap) {
+    toast(`Максимум точки +${cap}`);
+    return false;
+  }
+  const rid = runeId || "rune_shard";
+  if (barnMatQty(rid) < 1) {
+    toast(`Нужна руна: ${barnMatGet(rid)?.name || rid}`);
+    return false;
+  }
+  const chance = enhanceSuccessChance(item, rid);
+  barnMatSpend(rid, 1);
+  const ok = Math.random() < chance;
+  if (ok) {
+    item.enhance = (item.enhance || 0) + 1;
+    toast(`Заточка успех: ${item.name} +${item.enhance} (${Math.round(chance * 100)}%)`);
+  } else {
+    toast(`Заточка провал · шмотка цела · −1 руна (${Math.round(chance * 100)}%)`);
+  }
+  persistGearStub();
+  persistPassStub();
+  return ok;
 }
 
 /** Team gear payload for CreatePvE / CreatePvP — len 3, matches squad template order. */
@@ -2502,14 +2882,15 @@ function grantDungeonBossLoot() {
     }
   }
   const setDrop = DUNGEON_PVE_SET_DROP[dung.id] || "grey";
-  grantPveSetPiece(setDrop);
+  const modeLoot = rollPveModeLoot("dungeonBoss", setDrop);
+  toastPveLoot("Данж-босс", modeLoot);
 
   if (awarded) {
     upsertDungeonRareGear(awarded);
     prog.rares.push({ id: awarded.id, dungeonId: dung.id, at: Date.now(), path });
     toast(`Редмет: ${awarded.title_ru || awarded.id}${first ? " · first-clear" : ""}`);
-  } else {
-    toast(`Босс сражён · +${bossTable.fish || 80} рыбы (редмет не выпал)`);
+  } else if (!modeLoot.gear && !modeLoot.rune) {
+    toast(`Босс сражён · +${bossTable.fish || 80} рыбы`);
   }
   prog.runs = Number(prog.runs || 0) + 1;
   persistProgress();
@@ -2535,6 +2916,9 @@ function grantDungeonNodeLoot() {
   const path = state.dungeonPath === "long" ? "long" : "short";
   const table = state.dungeonRewards?.nodeLoot?.[path] || { fish: 25 };
   grantDungeonFish(table.fish || 25);
+  const setDrop = DUNGEON_PVE_SET_DROP[state.selectedDungeonId] || "grey";
+  const loot = rollPveModeLoot("dungeonNode", setDrop);
+  if (loot.gear || loot.rune) toastPveLoot("Узел данжа", loot);
 }
 
 function applyDungeonPartySnapshot(party, userId) {
@@ -4497,12 +4881,14 @@ function grantRaidLootStub() {
   }
   state.raidAttemptsLeft = Math.max(0, (state.raidAttemptsLeft | 0) - 1);
   const setDrop = RAID_PVE_SET_DROP[raid?.raidId || state.raidId] || "yellow";
-  const piece = grantPveSetPiece(setDrop);
-  if (piece) loot.pveSetPiece = piece.id;
+  const modeLoot = rollPveModeLoot("raidBoss", setDrop);
+  if (modeLoot.gear) loot.pveSetPiece = modeLoot.gear.id;
+  if (modeLoot.rune) loot.rune = modeLoot.rune.id;
   persistProgress();
   toast(
     `Лут рейда: +${loot.fish} рыбок` +
-      (piece ? ` · PvE ${piece.name}` : "") +
+      (modeLoot.gear ? ` · ${modeLoot.gear.name}` : " · сет не выпал") +
+      (modeLoot.rune ? ` · ${modeLoot.rune.name}` : "") +
       (loot.pathOnly.length ? ` · path-only: ${loot.pathOnly.join(", ")}` : "") +
       " · weekly lock",
   );
@@ -4936,13 +5322,42 @@ function renderFormation() {
   }
 }
 
+function bindShopPassBuyOnce() {
+  const root = $("viewShop");
+  if (!root || root.dataset.passBuyBound === "1") return;
+  root.dataset.passBuyBound = "1";
+  root.addEventListener("click", (ev) => {
+    const card = ev.target.closest('[data-sku="pass_buy"]');
+    if (!card || !root.contains(card)) return;
+    if (ev.target.closest("button") || ev.target.closest(".shop-select") || ev.target === card) {
+      ev.preventDefault();
+      buyBattlePass();
+    }
+  });
+}
+
 function renderShop() {
   $("shopEyebrow").textContent = t("hub.tab.shop");
   $("shopTitle").textContent = t("hub.tab.shop");
   $("shopLead").textContent = t(
     "shop.lead_channels",
-    "IAP · пасс · рыбки · breeding · 12 common · PvP броня · battle coins → PvP gear (PvE только из данжей/рейдов)",
+    "IAP · пасс (сет+герой) · рыбки · breeding · PvP броня · PvE сеты — редкий дроп данжей/рейдов",
   );
+  bindShopPassBuyOnce();
+  const passCard = $("viewShop")?.querySelector('[data-sku="pass_buy"]');
+  if (passCard) {
+    const ul = passCard.querySelector("ul");
+    if (ul) {
+      ul.innerHTML = `
+        <li class="flex items-center gap-1.5"><span class="material-symbols-outlined text-secondary text-[16px]">bolt</span>×2 XP и автоферма сезона</li>
+        <li class="flex items-center gap-1.5"><span class="material-symbols-outlined text-primary text-[16px]">shield</span>Гарант: сет брони + оружие на 1 котика</li>
+        <li class="flex items-center gap-1.5"><span class="material-symbols-outlined text-tertiary text-[16px]">pets</span>Финал сезона: +1 Герой (кого нет)</li>`;
+    }
+    const buyBtn = [...passCard.querySelectorAll("button")].find((b) => /Купить/i.test(b.textContent || ""));
+    if (buyBtn) {
+      buyBtn.textContent = state.passOwned ? "Пасс куплен · ACTIVE" : "Купить пасс";
+    }
+  }
   const list = $("offerList");
   if (list) {
     list.innerHTML = "";
@@ -4952,6 +5367,7 @@ function renderShop() {
       li.style.cursor = "pointer";
       li.addEventListener("click", () => {
         if (row.gated) showGateTip();
+        else if (row.id === "pass_buy") buyBattlePass();
         else if (row.id.startsWith("armor_") || row.id.startsWith("pvp_set_")) grantShopPvpGear(row.id);
         else toast(state.locale === "ru" ? `${row.label} — stub (сервер)` : `${row.label} — stub`);
       });
@@ -4974,6 +5390,7 @@ function renderShop() {
       btn.innerHTML = `<strong>${row.label}</strong><div class="meta">${row.detail || ""} · ${row.gated ? "gated" : "stub"}</div>`;
       btn.addEventListener("click", () => {
         if (row.gated) showGateTip();
+        else if (row.id === "pass_buy") buyBattlePass();
         else if (row.id.startsWith("armor_") || row.id.startsWith("pvp_set_")) grantShopPvpGear(row.id);
         else toast(state.locale === "ru" ? `${row.label} — stub` : `${row.label} — stub`);
       });
@@ -6669,12 +7086,18 @@ const HOME_SET_RU = HOME_SET_RU_SEED;
 
 function formatGearBonuses(item) {
   if (!item) return "";
+  const enh = gearEnhanceFlat(item);
   const parts = [];
-  if (item.atk) parts.push(`+${item.atk} ATK`);
-  if (item.def) parts.push(`+${item.def} DEF`);
-  if (item.hp) parts.push(`+${item.hp} HP`);
-  if (item.spd) parts.push(`+${item.spd} SPD`);
+  const atk = (item.atk || 0) + enh.atk;
+  const def = (item.def || 0) + enh.def;
+  const hp = (item.hp || 0) + enh.hp;
+  const spd = (item.spd || 0) + enh.spd;
+  if (atk) parts.push(`+${atk} ATK`);
+  if (def) parts.push(`+${def} DEF`);
+  if (hp) parts.push(`+${hp} HP`);
+  if (spd) parts.push(`+${spd} SPD`);
   if (item.crit) parts.push(`+${item.crit} crit`);
+  if (item.enhance) parts.push(`+${item.enhance}`);
   return parts.join(" · ");
 }
 
@@ -6823,6 +7246,7 @@ const BARN_KIND_RU = {
   farm: "Добыча / ферма",
   tool: "Инструмент",
   potion: "Зелье",
+  rune: "Руна точки",
   blueprint: "Чертёж",
 };
 
@@ -6894,7 +7318,7 @@ function syncBarnFromGear() {
       };
     });
   const matRows = (state.barnMats || [])
-    .filter((m) => (m.qty || 0) > 0 || m.kind === "tool")
+    .filter((m) => (m.qty || 0) > 0 || m.kind === "tool" || m.kind === "rune")
     .map((m) => ({
       id: `mat_${m.id}`,
       matId: m.id,
@@ -7188,6 +7612,28 @@ function bindBarnOnce(root) {
         return;
       }
       toast(item ? `${item.name}: нельзя надеть` : "Выберите предмет");
+      return;
+    }
+    const enhanceBtn = e.target.closest("[data-barn-enhance]");
+    if (enhanceBtn && root.contains(enhanceBtn)) {
+      const item = (state.barnCatalog || []).find((x) => x.id === state.barnFocus);
+      const gear = barnGearForItem(item);
+      if (!gear) {
+        toast("Выберите броню или оружие");
+        return;
+      }
+      tryEnhanceGear(gear.id, state.enhanceRuneId);
+      renderBarn();
+      if (!$("viewHome")?.classList.contains("hidden")) renderHome();
+      return;
+    }
+  });
+  root.addEventListener("change", (e) => {
+    const runeSel = e.target.closest("[data-barn-rune]");
+    if (runeSel && root.contains(runeSel)) {
+      state.enhanceRuneId = runeSel.value || "rune_shard";
+      persistPassStub();
+      renderBarn();
     }
   });
   const search = $("barnSearch");
@@ -7215,14 +7661,25 @@ function renderBarnInspector(focus) {
   const kind = BARN_KIND_RU[focus?.matKind || focus?.kind] || focus?.kind || "—";
   const enhance = focus?.enhance ? `+${focus.enhance}` : isMat ? `×${focus?.qty || 0}` : "—";
   const canEquip = !!(gear && (focus?.kind === "armor" || focus?.kind === "weapon"));
+  const canEnhance = !!(gear && (focus?.kind === "armor" || focus?.kind === "weapon"));
   const cat = homeActiveCat();
   const catName = cat ? catSheetName(cat) : "—";
   const worn = barnItemWorn(gear?.id);
+  const runeId = state.enhanceRuneId || "rune_shard";
+  const chancePct = canEnhance ? Math.round(enhanceSuccessChance(gear, runeId) * 100) : 0;
+  const runeOpts = Object.keys(RUNE_ENHANCE)
+    .map((id) => {
+      const mat = barnMatGet(id);
+      const sel = id === runeId ? "selected" : "";
+      return `<option value="${id}" ${sel}>${mat?.name || id} ×${barnMatQty(id)}</option>`;
+    })
+    .join("");
   const detail = isMat
     ? `<div class="text-[11px] text-on-surface-variant">${focus.desc || "Сырьё двора / крафт (HUD smoke)"}</div>
         <div class="text-[11px] text-on-surface-variant">На складе: <span class="text-primary font-bold">×${formatSheetNum(focus.qty || 0)}</span></div>`
     : `<div class="text-[11px] text-on-surface-variant">${gear ? `Слот: ${HOME_SLOT_RU[gear.slot] || gear.slot}${gear.roles?.length ? ` · ${gear.roles.map((r) => CAT_ROLE_RU[r] || r).join("/")}` : " · все классы"}` : "Не экипируется"}</div>
-        <div class="text-[11px] text-on-surface-variant">Герой: <span class="text-primary font-bold">${catName}</span></div>`;
+        <div class="text-[11px] text-on-surface-variant">Герой: <span class="text-primary font-bold">${catName}</span></div>
+        <div class="text-[11px] text-on-surface-variant">Заточка: <span class="text-primary font-bold">+${gear?.enhance || 0}/${gear?.enhanceCap || "—"}</span> · фейл не сжигает шмотку</div>`;
   panel.innerHTML = `
     ${closeHtml}
     <div class="flex flex-col gap-space-xs overflow-y-auto pr-0.5 flex-1 min-h-0">
@@ -7255,6 +7712,14 @@ function renderBarnInspector(focus) {
       <button type="button" data-barn-equip="1" class="py-1.5 rounded-lg ${canEquip ? "bg-primary text-on-primary" : "bg-surface-container text-on-surface-variant"} font-label-md text-label-md flex items-center justify-center gap-1 font-bold" ${canEquip ? "" : "disabled"}>
         <span class="material-symbols-outlined text-[16px]">shield_with_heart</span> ${canEquip ? `Надеть на ${catName}` : "Нельзя надеть"}
       </button>
+      ${
+        canEnhance
+          ? `<div class="flex gap-1 items-center">
+        <select data-barn-rune class="flex-1 py-1 px-1.5 rounded-lg bg-surface-container-high text-[11px] border border-outline-variant/30">${runeOpts}</select>
+        <button type="button" data-barn-enhance="1" class="py-1.5 px-2 rounded-lg bg-secondary text-on-secondary font-label-md text-[11px] font-bold whitespace-nowrap">Точить ${chancePct}%</button>
+      </div>`
+          : ""
+      }
     </div>`;
 }
 
@@ -8895,6 +9360,8 @@ function passClaimReward(track, day, { silent = false } = {}) {
   }
   state.passClaimed[track][day] = true;
   const reward = track === "free" ? row.free : row.elite;
+  applyPassGrant(reward.grant);
+  persistPassStub();
   if (!silent) {
     toast(
       track === "elite"
@@ -9074,7 +9541,13 @@ function bindPassInteractions() {
   const stubBtn = $("btnPassActiveStub");
   if (stubBtn) {
     stubBtn.addEventListener("click", () => {
+      if (!state.passOwned) {
+        buyBattlePass();
+        renderFarm();
+        return;
+      }
       state.passActiveStub = !state.passActiveStub;
+      persistPassStub();
       toast(
         state.passActiveStub
           ? t("pass.active.stub.on", "Элитный пасс ACTIVE")
@@ -9108,7 +9581,7 @@ function renderPass() {
   if (lead) {
     lead.textContent = t(
       "pass.lead",
-      "×2 XP · боксы по текущему рангу · автоферма при ACTIVE · high ranks ~1 год с пассом.",
+      "Покупка: сет брони+оружие на 1 котика · финал: +1 Герой · руны/сеты редко из PvE · точка без сжигания.",
     );
   }
   const list = $("passList");
@@ -12264,13 +12737,33 @@ async function applyDiff(diff, note = "") {
     playCombatEvents(diff);
   }
   if (midChapterPveWin) {
+    if (diff?.result === "p1_win") {
+      const ch = state.pveChapter || 1;
+      const setId = PVE_LOOT_CHANCE.campaign.setByChapter[ch] || "grey";
+      const loot = rollPveModeLoot("dungeonNode", setId);
+      if (loot.gear || loot.rune) toastPveLoot("PvE узел", loot);
+    }
     state.pveAdvancingWave = true;
     await advancePveWaveAfterWin();
   } else if (midDungeonWin) {
+    if (diff?.result === "p1_win") grantDungeonNodeLoot();
     state.dungeonAdvancing = true;
     await advanceDungeonNodeAfterWin();
   } else if (midRaidWin) {
+    if (diff?.result === "p1_win") {
+      const setDrop = RAID_PVE_SET_DROP[state.raidId] || "yellow";
+      const loot = rollPveModeLoot("raidNode", setDrop);
+      if (loot.gear || loot.rune) toastPveLoot("Рейд-узел", loot);
+    }
     await advanceRaidNodeAfterWin();
+  } else if (
+    diff?.result === "p1_win" &&
+    state.battleMode === "pve" &&
+    pveFightNum(state.selectedStageId) >= 3
+  ) {
+    const ch = state.pveChapter || 1;
+    const setId = PVE_LOOT_CHANCE.campaign.setByChapter[ch] || "grey";
+    toastPveLoot(`Мифмир гл.${ch}`, rollPveModeLoot("campaign", setId));
   } else if (
     diff?.result === "p1_win" &&
     state.battleMode === "dungeon" &&
@@ -15769,6 +16262,7 @@ async function main() {
   try {
     loadProgress();
     loadGearStub();
+    loadPassStub();
     await loadLoc();
     await bootLiveOps();
     await loadCampaign();
