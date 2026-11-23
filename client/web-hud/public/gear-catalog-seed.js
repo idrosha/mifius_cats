@@ -1,10 +1,10 @@
 /**
- * Gear catalog seed — R1–R8 armor + class weapons (PvP base; HUD clones PvE via seedGearLanes).
+ * Gear catalog seed — R1–R8 armor + stitch class weapons (PvP base; HUD clones PvE via seedGearLanes).
  * Canon: docs/stitch-prompts-pve-pvp-gear-sets.md · gear-sets/README.md
- * Owned qty starts at 0 — drops / battle pass / shop grant copies (gear is scarce / CP key).
+ * HUD smoke stocks ×GEAR_HERO_STOCK so stitch sets show on склад; live economy grants still stack here.
  */
-export const GEAR_STUB_VERSION = 5;
-/** Soft cap for identical stack size (18 combat heroes). */
+export const GEAR_STUB_VERSION = 6;
+/** Soft cap / smoke stock for identical stack size (18 combat heroes). */
 export const GEAR_HERO_STOCK = 18;
 
 const SLOTS = ["helm", "armor", "cloak", "belt", "boots", "ring"];
@@ -183,68 +183,18 @@ const SET_DEFS = {
   },
 };
 
-/** Class weapons / offhands — stats scale with set rank; art uses armor thumbs until overlays land. */
-const ROLE_WEAPON_DEFS = [
-  {
-    role: "tank",
-    slot: "weapon",
-    label: "Булава",
-    stats: { atk: 2, hp: 1, def: 1, spd: 0, crit: 0 },
-  },
-  {
-    role: "tank",
-    slot: "shield",
-    label: "Щит",
-    stats: { atk: 0, hp: 2, def: 3, spd: 0, crit: 0 },
-  },
-  {
-    role: "fighter",
-    slot: "weapon",
-    label: "Клинок",
-    stats: { atk: 3, hp: 0, def: 0, spd: 1, crit: 0 },
-  },
-  {
-    role: "assassin",
-    slot: "weapon",
-    label: "Кинжалы",
-    stats: { atk: 3, hp: 0, def: 0, spd: 2, crit: 1 },
-  },
-  {
-    role: "ranger",
-    slot: "weapon",
-    label: "Лук",
-    stats: { atk: 3, hp: 0, def: 0, spd: 1, crit: 1 },
-  },
-  {
-    role: "mage",
-    slot: "weapon",
-    label: "Посох",
-    stats: { atk: 2, hp: 1, def: 0, spd: 0, crit: 1 },
-  },
-  {
-    role: "support",
-    slot: "weapon",
-    label: "Жезл",
-    stats: { atk: 1, hp: 2, def: 1, spd: 0, crit: 0 },
-  },
-];
-
-const SET_NAME_RU = {
-  grey: "Серый",
-  green: "Зелёный",
-  blue: "Синий",
-  yellow: "Жёлтый",
-  purple: "Фиолет",
-  red: "Красный",
-  solar: "Солнечный",
-  or: "Мифик",
-};
-
 function thumbFor(setId, slot) {
-  if (slot === "weapon" || slot === "shield") {
-    return `/gear-sets/thumbs/${setId}-armor.png`;
-  }
   return `/gear-sets/thumbs/${setId}-${slot}.png`;
+}
+
+function weaponRow(row) {
+  const enhanceCap = Number(row.enhanceCap ?? row.enhance ?? 5);
+  return {
+    ...row,
+    enhance: 0,
+    enhanceCap,
+    qty: GEAR_HERO_STOCK,
+  };
 }
 
 function buildArmorPieces() {
@@ -267,7 +217,7 @@ function buildArmorPieces() {
         enhanceCap: def.enhanceCap,
         set: setId,
         roles: null,
-        qty: 0,
+        qty: GEAR_HERO_STOCK,
         iconSrc: thumbFor(setId, slot),
       });
     }
@@ -275,47 +225,296 @@ function buildArmorPieces() {
   return out;
 }
 
+/** Class weapons / offhands — stitch thumbs; stocked ×18 for склад smoke. */
 function buildWeapons() {
-  const out = [];
-  for (const [setId, def] of Object.entries(SET_DEFS)) {
-    const scale = Math.max(1, def.rank);
-    for (const w of ROLE_WEAPON_DEFS) {
-      const st = w.stats;
-      out.push({
-        id: `${setId}_${w.slot}_${w.role}`,
-        slot: w.slot,
-        name: `${SET_NAME_RU[setId] || setId} ${w.label}`,
-        atk: st.atk + Math.floor((scale - 1) / 2),
-        hp: st.hp + Math.floor((scale - 1) / 3),
-        def: st.def + Math.floor((scale - 1) / 3),
-        spd: st.spd,
-        crit: st.crit,
-        rank: def.rank,
-        rarity: def.rarity,
-        enhance: 0,
-        enhanceCap: def.enhanceCap,
-        set: setId,
-        roles: [w.role],
-        qty: 0,
-        iconSrc: thumbFor(setId, w.slot),
-      });
-    }
-  }
-  return out;
+  return [
+    weaponRow({
+      id: "yellow_staff",
+      slot: "weapon",
+      name: "Жёлтый посох Солнца (2H)",
+      atk: 3,
+      hp: 0,
+      def: 0,
+      spd: 0,
+      crit: 1,
+      rank: 4,
+      rarity: "epic",
+      enhanceCap: 8,
+      set: "yellow",
+      roles: ["mage"],
+      iconSrc: "/gear-sets/thumbs/yellow-staff.png",
+    }),
+    weaponRow({
+      id: "yellow_wand",
+      slot: "weapon",
+      name: "Жёлтый жезл Солнца (1H)",
+      atk: 2,
+      hp: 0,
+      def: 0,
+      spd: 1,
+      crit: 0,
+      rank: 4,
+      rarity: "epic",
+      enhanceCap: 6,
+      set: "yellow",
+      roles: ["mage"],
+      iconSrc: "/gear-sets/thumbs/yellow-wand.png",
+    }),
+    weaponRow({
+      id: "mage_book",
+      slot: "shield",
+      name: "Книга Чародея",
+      atk: 1,
+      hp: 1,
+      def: 1,
+      spd: 0,
+      crit: 1,
+      rank: 4,
+      rarity: "epic",
+      enhanceCap: 6,
+      set: "yellow",
+      roles: ["mage"],
+      iconSrc: "/gear-sets/thumbs/mage-book.png",
+    }),
+    weaponRow({
+      id: "blue_staff",
+      slot: "weapon",
+      name: "Синий посох Короны",
+      atk: 2,
+      hp: 0,
+      def: 0,
+      spd: 0,
+      crit: 0,
+      rank: 3,
+      rarity: "rare",
+      enhanceCap: 4,
+      set: "blue",
+      roles: ["support"],
+      iconSrc: "/gear-sets/thumbs/turquoise-staff.png",
+    }),
+    weaponRow({
+      id: "support_scroll",
+      slot: "shield",
+      name: "Свиток Поддержки",
+      atk: 0,
+      hp: 2,
+      def: 1,
+      spd: 0,
+      crit: 0,
+      rank: 3,
+      rarity: "rare",
+      enhanceCap: 4,
+      set: "blue",
+      roles: ["support"],
+      iconSrc: "/gear-sets/thumbs/support-scroll.png",
+    }),
+    weaponRow({
+      id: "tank_mace",
+      slot: "weapon",
+      name: "Булава Стража",
+      atk: 2,
+      hp: 1,
+      def: 1,
+      spd: 0,
+      crit: 0,
+      rank: 4,
+      rarity: "epic",
+      enhanceCap: 8,
+      set: null,
+      roles: ["tank"],
+      iconSrc: "/gear-sets/thumbs/tank-mace.png",
+    }),
+    weaponRow({
+      id: "tank_spear",
+      slot: "weapon",
+      name: "Копьё Стража",
+      atk: 2,
+      hp: 0,
+      def: 0,
+      spd: 1,
+      crit: 1,
+      rank: 4,
+      rarity: "epic",
+      enhanceCap: 8,
+      set: null,
+      roles: ["tank"],
+      iconSrc: "/gear-sets/thumbs/tank-spear.png",
+    }),
+    weaponRow({
+      id: "tank_shield_large",
+      slot: "shield",
+      name: "Большой щит Льва",
+      atk: 0,
+      hp: 3,
+      def: 4,
+      spd: 0,
+      crit: 0,
+      rank: 4,
+      rarity: "epic",
+      enhanceCap: 10,
+      set: null,
+      roles: ["tank"],
+      iconSrc: "/gear-sets/thumbs/tank-shield-large.png",
+    }),
+    weaponRow({
+      id: "tank_shield_small",
+      slot: "shield",
+      name: "Малый щит Льва",
+      atk: 0,
+      hp: 2,
+      def: 3,
+      spd: 0,
+      crit: 0,
+      rank: 3,
+      rarity: "rare",
+      enhanceCap: 6,
+      set: null,
+      roles: ["tank"],
+      iconSrc: "/gear-sets/thumbs/tank-shield-small.png",
+    }),
+    weaponRow({
+      id: "fighter_greatsword",
+      slot: "weapon",
+      name: "Двуручный меч Тигра",
+      atk: 4,
+      hp: 0,
+      def: 0,
+      spd: 0,
+      crit: 2,
+      rank: 6,
+      rarity: "legendary",
+      enhanceCap: 10,
+      set: "red",
+      roles: ["fighter"],
+      iconSrc: "/gear-sets/thumbs/fighter-greatsword.png",
+    }),
+    weaponRow({
+      id: "fighter_axe_a",
+      slot: "weapon",
+      name: "Топор Бойца A",
+      atk: 2,
+      hp: 0,
+      def: 0,
+      spd: 0,
+      crit: 1,
+      rank: 6,
+      rarity: "legendary",
+      enhanceCap: 8,
+      set: "red",
+      roles: ["fighter"],
+      iconSrc: "/gear-sets/thumbs/fighter-axe-a.png",
+    }),
+    weaponRow({
+      id: "fighter_axe_b",
+      slot: "shield",
+      name: "Топор Бойца B",
+      atk: 2,
+      hp: 0,
+      def: 0,
+      spd: 0,
+      crit: 1,
+      rank: 6,
+      rarity: "legendary",
+      enhanceCap: 8,
+      set: "red",
+      roles: ["fighter"],
+      iconSrc: "/gear-sets/thumbs/fighter-axe-b.png",
+    }),
+    weaponRow({
+      id: "assassin_dagger_a",
+      slot: "weapon",
+      name: "Кинжал Убийцы A",
+      atk: 2,
+      hp: 0,
+      def: 0,
+      spd: 1,
+      crit: 2,
+      rank: 5,
+      rarity: "epic",
+      enhanceCap: 8,
+      set: "purple",
+      roles: ["assassin"],
+      iconSrc: "/gear-sets/thumbs/assassin-dagger-a.png",
+    }),
+    weaponRow({
+      id: "assassin_dagger_b",
+      slot: "shield",
+      name: "Кинжал Убийцы B",
+      atk: 2,
+      hp: 0,
+      def: 0,
+      spd: 1,
+      crit: 2,
+      rank: 5,
+      rarity: "epic",
+      enhanceCap: 8,
+      set: "purple",
+      roles: ["assassin"],
+      iconSrc: "/gear-sets/thumbs/assassin-dagger-b.png",
+    }),
+    weaponRow({
+      id: "green_bow",
+      slot: "weapon",
+      name: "Зелёный лук Рыси",
+      atk: 2,
+      hp: 0,
+      def: 0,
+      spd: 1,
+      crit: 1,
+      rank: 2,
+      rarity: "rare",
+      enhanceCap: 4,
+      set: "green",
+      roles: ["ranger"],
+      iconSrc: "/gear-sets/thumbs/green-bow.png",
+    }),
+    weaponRow({
+      id: "green_crossbow",
+      slot: "weapon",
+      name: "Зелёный арбалет",
+      atk: 2,
+      hp: 0,
+      def: 0,
+      spd: 0,
+      crit: 1,
+      rank: 2,
+      rarity: "rare",
+      enhanceCap: 4,
+      set: "green",
+      roles: ["ranger"],
+      iconSrc: "/gear-sets/thumbs/green-crossbow.png",
+    }),
+    weaponRow({
+      id: "green_arrows",
+      slot: "shield",
+      name: "Колчан зелёных стрел",
+      atk: 1,
+      hp: 0,
+      def: 0,
+      spd: 0,
+      crit: 0,
+      rank: 2,
+      rarity: "rare",
+      enhanceCap: 2,
+      set: "green",
+      roles: ["ranger"],
+      iconSrc: "/gear-sets/thumbs/green-arrows.png",
+    }),
+  ];
 }
 
 export const PVE_SET_IDS = ["grey", "green", "blue", "yellow", "purple", "red", "solar", "or"];
 
 export const HOME_SET_RU = {
-  grey: { name: "Серый Лев", need: 3, armor: "+6 DEF · +8 HP", weapon: "класс", bonus: "3+: +1 DEF" },
-  green: { name: "Зелёный След", need: 3, armor: "+8 DEF · +10 HP · +1 ATK", weapon: "класс", bonus: "3+: +1 ATK" },
-  blue: { name: "Синяя Корона", need: 3, armor: "+9 DEF · +11 HP · +1 ATK", weapon: "класс", bonus: "3+: +1 SPD" },
-  turquoise: { name: "Синяя Корона", need: 3, armor: "+9 DEF · +11 HP · +1 ATK", weapon: "класс", bonus: "3+: +1 SPD" },
-  yellow: { name: "Жёлтый Лев", need: 3, armor: "+11 DEF · +13 HP · +2 ATK", weapon: "класс", bonus: "3+: +1 ATK" },
-  purple: { name: "Фиолет", need: 3, armor: "+12 DEF · +14 HP · +2 ATK", weapon: "класс", bonus: "3+: +1 crit" },
-  red: { name: "Красный Дракон", need: 3, armor: "+14 DEF · +16 HP · +2 ATK", weapon: "класс", bonus: "3+: +2 HP" },
-  solar: { name: "Солнечный Пламень", need: 3, armor: "+15 DEF · +18 HP · +3 ATK", weapon: "класс", bonus: "3+: +1 ATK" },
-  or: { name: "Мифик OR", need: 3, armor: "+17 DEF · +20 HP · +3 ATK", weapon: "класс", bonus: "3+: +2 DEF" },
+  grey: { name: "Серый Лев", need: 3, armor: "+6 DEF · +8 HP", weapon: "—", bonus: "3+: +1 DEF" },
+  green: { name: "Зелёный След", need: 3, armor: "+8 DEF · +10 HP · +1 ATK", weapon: "лук/арбалет +2 ATK", bonus: "3+: +1 ATK" },
+  blue: { name: "Синяя Корона", need: 3, armor: "+9 DEF · +11 HP · +1 ATK", weapon: "посох +2 ATK", bonus: "3+: +1 SPD" },
+  turquoise: { name: "Синяя Корона", need: 3, armor: "+9 DEF · +11 HP · +1 ATK", weapon: "посох +2 ATK", bonus: "3+: +1 SPD" },
+  yellow: { name: "Жёлтый Лев", need: 3, armor: "+11 DEF · +13 HP · +2 ATK", weapon: "посох +3 / жезл +2 ATK", bonus: "3+: +1 ATK" },
+  purple: { name: "Фиолет", need: 3, armor: "+12 DEF · +14 HP · +2 ATK", weapon: "кинжалы +2 ATK каждый", bonus: "3+: +1 crit" },
+  red: { name: "Красный Дракон", need: 3, armor: "+14 DEF · +16 HP · +2 ATK", weapon: "меч +4 / топоры +2 ATK", bonus: "3+: +2 HP" },
+  solar: { name: "Солнечный Пламень", need: 3, armor: "+15 DEF · +18 HP · +3 ATK", weapon: "—", bonus: "3+: +1 ATK" },
+  or: { name: "Мифик OR", need: 3, armor: "+17 DEF · +20 HP · +3 ATK", weapon: "—", bonus: "3+: +2 DEF" },
 };
 
 /** Season battle-pass guaranteed set for one cat (armor + class weapon). */

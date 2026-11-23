@@ -505,9 +505,10 @@ const BARN_MATS_SEED = [
   { id: "tool_axe", name: "Топор", kind: "tool", rarity: "common", qty: 1, tag: "Инструмент", desc: "Лесопилка · износ ~7д.", iconSrc: "/barn-icons/tool-axe.png", durability: 7, durabilityMax: 7 },
   { id: "tool_pick", name: "Кирка", kind: "tool", rarity: "common", qty: 1, tag: "Инструмент", desc: "Рудник / карьер · износ ~7д.", iconSrc: "/barn-icons/tool-pick.png", durability: 7, durabilityMax: 7 },
   { id: "tool_rod", name: "Удочка", kind: "tool", rarity: "common", qty: 1, tag: "Инструмент", desc: "Рыбная заводя (+ наживка).", iconSrc: "/barn-icons/tool-rod.png", durability: 7, durabilityMax: 7 },
-  { id: "potion_mana", name: "Эликсир маны", kind: "potion", rarity: "rare", qty: 1, tag: "Алхимия", desc: "Мана / вода · smoke stub.", iconSrc: "/barn-icons/potion-mana.png" },
-  { id: "potion_nature", name: "Эликсир природы", kind: "potion", rarity: "rare", qty: 1, tag: "Алхимия", desc: "Природа / рост · smoke stub.", iconSrc: "/barn-icons/potion-nature.png" },
-  { id: "potion_ember", name: "Эликсир жара", kind: "potion", rarity: "rare", qty: 0, tag: "Алхимия", desc: "Огонь / жар · smoke stub.", iconSrc: "/barn-icons/potion-ember.png" },
+  { id: "potion_heal", name: "Зелье жизни", kind: "potion", rarity: "rare", qty: 2, tag: "Бой · HP", desc: "PvE/PvP: восстановить HP союзнику. Зелёная баночка.", iconSrc: "/barn-icons/potion-nature.png" },
+  { id: "potion_energy", name: "Эликсир энергии", kind: "potion", rarity: "rare", qty: 1, tag: "Бой · энергия", desc: "PvE/PvP: +1 энергия (AP) на ход. Золотая баночка.", iconSrc: "/barn-icons/potion-energy.png" },
+  { id: "potion_cleanse", name: "Отвар очищения", kind: "potion", rarity: "rare", qty: 2, tag: "Бой · очищение", desc: "PvE/PvP: снять 1 дебафф с союзника. Голубая баночка.", iconSrc: "/barn-icons/potion-cleanse.png" },
+  { id: "potion_ember", name: "Мятный отвар", kind: "potion", rarity: "rare", qty: 0, tag: "Алхимия", desc: "Utility / классовый бафф · не боевой слот.", iconSrc: "/barn-icons/potion-ember.png" },
   { id: "rune_shard", name: "Осколок руны", kind: "rune", rarity: "common", qty: 2, tag: "Заточка", desc: "Слабая руна точки · +5% шанс. Шмотка не сгорает при фейле.", iconSrc: "/stitch-assets/kb-v3/items/item-1.webp" },
   { id: "rune_mark", name: "Руна Метки", kind: "rune", rarity: "rare", qty: 1, tag: "Заточка", desc: "Средняя руна точки · +15% шанс. При провале вещь остаётся.", iconSrc: "/stitch-assets/kb-v3/items/item-2.webp" },
   { id: "rune_crest", name: "Гребень руны", kind: "rune", rarity: "epic", qty: 0, tag: "Заточка", desc: "Сильная руна точки · +28% шанс. Дроп из данжей/рейдов.", iconSrc: "/stitch-assets/kb-v3/items/item-3.webp" },
@@ -623,7 +624,9 @@ const MARKET_STOCK = [
   { id: "res_wood", name: "Бревно", price: 8, kind: "resource", gated: false, matId: "wood", buyQty: 1, iconSrc: "/barn-icons/wood.png" },
   { id: "res_ore", name: "Руда", price: 12, kind: "resource", gated: false, matId: "iron", buyQty: 1, iconSrc: "/barn-icons/iron.png" },
   { id: "craft_herb_bundle", name: "Пучок трав (крафт)", price: 18, kind: "ingredient", gated: false, matId: "herbs", buyQty: 3, iconSrc: "/barn-icons/herbs.png" },
-  { id: "potion_stone_skin", name: "Зелье каменной шкуры", price: 45, kind: "potion", gated: false, matId: "potion_mana", buyQty: 1, iconSrc: "/barn-icons/potion-mana.png" },
+  { id: "potion_heal", name: "Зелье жизни", price: 40, kind: "potion", gated: false, matId: "potion_heal", buyQty: 1, iconSrc: "/barn-icons/potion-nature.png" },
+  { id: "potion_energy", name: "Эликсир энергии", price: 55, kind: "potion", gated: false, matId: "potion_energy", buyQty: 1, iconSrc: "/barn-icons/potion-energy.png" },
+  { id: "potion_cleanse", name: "Отвар очищения", price: 45, kind: "potion", gated: false, matId: "potion_cleanse", buyQty: 1, iconSrc: "/barn-icons/potion-cleanse.png" },
 ];
 
 /** Farm Soon zones — map pins + dock list (Phase 6 / SL stub). */
@@ -685,6 +688,9 @@ const SHOP_STUB_ROWS = [
   { id: "armor_grey_pendant", label: "PvP кулон · grey R1", detail: "PvP shop · Rank 1", gated: false },
   { id: "pvp_set_green", label: "PvP сет · green R2", detail: "PvP shop · Rank 2", gated: false },
   { id: "battle_coin_gear", label: "PvP gear за battle coins", detail: "medals → PvP shop", gated: true },
+  { id: "potion_heal_pack", label: "Зелье жизни ×3", detail: "бой · +HP · green", gated: false, matId: "potion_heal", buyQty: 3, price: 110, iconSrc: "/barn-icons/potion-nature.png" },
+  { id: "potion_energy_pack", label: "Эликсир энергии ×3", detail: "бой · +1 AP · gold", gated: false, matId: "potion_energy", buyQty: 3, price: 150, iconSrc: "/barn-icons/potion-energy.png" },
+  { id: "potion_cleanse_pack", label: "Отвар очищения ×3", detail: "бой · −1 дебафф · blue", gated: false, matId: "potion_cleanse", buyQty: 3, price: 120, iconSrc: "/barn-icons/potion-cleanse.png" },
 ];
 
 /** Codex knowledge base — titles/bodies from docs/game-wiki.md where possible. */
@@ -708,6 +714,9 @@ const PASS_ICON = {
   fruit: "/stitch-assets/barn-icons/fruit.png",
   milk: "/stitch-assets/barn-icons/milk.png",
   potions: "/stitch-assets/barn-icons/potions.png",
+  potionHeal: "/barn-icons/potion-nature.png",
+  potionEnergy: "/barn-icons/potion-energy.png",
+  potionCleanse: "/barn-icons/potion-cleanse.png",
   ring: "/stitch-assets/barn-icons/ring.png",
   chest: "/stitch-assets/barn-icons/chest.png",
   seeds: "/stitch-assets/barn-icons/seeds.png",
@@ -1070,8 +1079,8 @@ function withGearLane(item, lane) {
   const next = {
     ...item,
     lane,
-    qty: 0,
-    enhance: 0,
+    qty: Number(item.qty) > 0 ? Number(item.qty) : GEAR_HERO_STOCK,
+    enhance: item.enhance || 0,
     enhanceCap: item.enhanceCap || Math.max(5, (item.rank || 1) * 2),
   };
   if (lane === "pve") {
@@ -1099,7 +1108,7 @@ function buildPveGearSeedFromPvp(pvpItems) {
   return out;
 }
 
-/** Normalize seed: shop/catalog defaults to PvP; dungeon rares stay PvE. Owned qty starts at 0. */
+/** Normalize seed: shop/catalog defaults to PvP; dungeon rares stay PvE. Smoke stock ×18. */
 (function seedGearLanes() {
   for (const g of state.gearCatalog) {
     if (g.pveOnly || g.lane === "pve") {
@@ -1109,7 +1118,7 @@ function buildPveGearSeedFromPvp(pvpItems) {
       g.lane = "pvp";
       g.pveOnly = false;
     }
-    if (g.qty == null || g.qty > 0) g.qty = 0;
+    if (g.qty == null || g.qty < GEAR_HERO_STOCK) g.qty = GEAR_HERO_STOCK;
     if (g.enhance == null) g.enhance = 0;
     if (g.enhanceCap == null) g.enhanceCap = Math.max(5, (g.rank || 1) * 2);
   }
@@ -1343,7 +1352,7 @@ function loadGearStub() {
       mergeGearCatalogSeed();
       for (const g of state.gearCatalog) {
         if (!g.lane) g.lane = g.pveOnly ? "pve" : "pvp";
-        if (g.qty == null) g.qty = 0;
+        if (g.qty == null) g.qty = GEAR_HERO_STOCK;
         if (g.enhance == null) g.enhance = 0;
         if (g.enhanceCap == null) g.enhanceCap = Math.max(5, (g.rank || 1) * 2);
         if (g.set === "turquoise") g.set = "blue";
@@ -2014,8 +2023,8 @@ function ensureStarterPveGrey() {
     if (seed.lane !== "pve" || seed.set !== "grey") continue;
     if (have.has(seed.id)) continue;
     const copy = JSON.parse(JSON.stringify(seed));
-    copy.qty = 0;
-    copy.enhance = 0;
+    if (copy.qty == null) copy.qty = GEAR_HERO_STOCK;
+    if (copy.enhance == null) copy.enhance = 0;
     state.gearCatalog.push(copy);
     have.add(seed.id);
     added++;
@@ -2149,17 +2158,19 @@ function grantFullPveSetForCat(cat, setId = PASS_GUARANTEED_SET_ID, { equip = tr
   }
   const role = catRoleOf(cat);
   if (role) {
-    const weapon = (state.gearCatalog || []).find(
-      (g) => g.lane === "pve" && g.set === setId && g.slot === "weapon" && (g.roles || []).includes(role),
-    );
+    const pickClassPiece = (slot) => {
+      const pool = (state.gearCatalog || []).filter(
+        (g) => g.lane === "pve" && g.slot === slot && (g.roles || []).includes(role),
+      );
+      return pool.find((g) => g.set === setId) || pool.find((g) => !g.set) || pool[0] || null;
+    };
+    const weapon = pickClassPiece("weapon");
     if (weapon) {
       weapon.qty = Math.min(GEAR_HERO_STOCK, Number(weapon.qty || 0) + 1);
       pieces.push(weapon);
     }
     if (role === "tank") {
-      const shield = (state.gearCatalog || []).find(
-        (g) => g.lane === "pve" && g.set === setId && g.slot === "shield" && (g.roles || []).includes("tank"),
-      );
+      const shield = pickClassPiece("shield");
       if (shield) {
         shield.qty = Math.min(GEAR_HERO_STOCK, Number(shield.qty || 0) + 1);
         pieces.push(shield);
@@ -3144,7 +3155,7 @@ function renderDungeonSquadStrip() {
     .map((tid, i) => {
       const art =
         (typeof CAT_HERO_ART !== "undefined" && CAT_HERO_ART[tid]) ||
-        `/stitch-assets/cat-heroes/tank-fire.jpg?v=elven18`;
+        `/stitch-assets/cat-heroes/tank-fire.jpg?v=gear18b`;
       const name = String(tid).replace(/^shop_/, "").replace(/_/g, " ");
       const t = toneCls[i] || toneCls[0];
       return `<article class="relative flex gap-2 rounded-lg border ${t.border} bg-[#1a1613] overflow-hidden min-h-[4.4rem] flex-shrink-0">
@@ -4074,7 +4085,7 @@ function renderPveYardSquad() {
   host.innerHTML = PVE_YARD_LANES.map((lane, i) => {
     const c = cats[i];
     const role = c ? homeCatRole(c) : "";
-    const art = c ? catHeroArt(c.templateId) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=elven18" : "";
+    const art = c ? catHeroArt(c.templateId) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=gear18b" : "";
     const name = c ? catSheetName(c) : "Пусто";
     const lvl = c?.level != null ? c.level : "—";
     const stats = c ? statsForCat(c) : null;
@@ -4145,7 +4156,7 @@ function renderPveYardTeamPicker() {
           if (!c) {
             return `<div class="pve-yard-team-card__slot is-empty">${lanes[i]}</div>`;
           }
-          const art = catHeroArt(c.templateId) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=elven18";
+          const art = catHeroArt(c.templateId) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=gear18b";
           return `<div class="pve-yard-team-card__slot"><img alt="" src="${art}"/><span>${catSheetName(c)}</span></div>`;
         })
         .join("");
@@ -4724,7 +4735,7 @@ function renderRaidLegionBoard() {
   if (!board) return;
   const artFor = (tid) =>
     (typeof CAT_HERO_ART !== "undefined" && CAT_HERO_ART[tid]) ||
-    `/stitch-assets/cat-heroes/tank-fire.jpg?v=elven18`;
+    `/stitch-assets/cat-heroes/tank-fire.jpg?v=gear18b`;
   const subRu = {
     aggro: "агр",
     armorBreak: "пробитие",
@@ -4992,7 +5003,7 @@ function raidBattleRoleBadge(s) {
 function raidBattleCatArt(tid) {
   if (typeof CAT_HERO_BATTLE_ART !== "undefined" && CAT_HERO_BATTLE_ART[tid]) return CAT_HERO_BATTLE_ART[tid];
   if (typeof CAT_HERO_ART !== "undefined" && CAT_HERO_ART[tid]) return CAT_HERO_ART[tid];
-  return "/stitch-assets/cat-heroes/tank-fire.jpg?v=elven18";
+  return "/stitch-assets/cat-heroes/tank-fire.jpg?v=gear18b";
 }
 
 /** Stitch legion-12 battle board: columns L→R = тыл → даль → штурм → авангард. */
@@ -5179,7 +5190,7 @@ function renderRaidFormationEditor() {
   const v = validateRaidComposition();
   const artFor = (tid) =>
     (typeof CAT_HERO_ART !== "undefined" && CAT_HERO_ART[tid]) ||
-    `/stitch-assets/cat-heroes/tank-fire.jpg?v=elven18`;
+    `/stitch-assets/cat-heroes/tank-fire.jpg?v=gear18b`;
   lanes.innerHTML = "";
   const tip = document.createElement("p");
   tip.className = "meta formation-tip";
@@ -6536,52 +6547,52 @@ const CAT_SHEET_NAMES = {
  * Idle JPG from cat-heroes-v2 (breed map: fire→fire, water→ice, wind→stone). Battle: same until cutouts land.
  */
 const CAT_HERO_ART = {
-  shop_tank_fire: "/stitch-assets/cat-heroes/tank-fire.jpg?v=elven18",
-  shop_tank_water: "/stitch-assets/cat-heroes/tank-water.jpg?v=elven18",
-  shop_tank_wind: "/stitch-assets/cat-heroes/tank-wind.jpg?v=elven18",
-  shop_fighter_fire: "/stitch-assets/cat-heroes/fighter-fire.jpg?v=elven18",
-  shop_fighter_water: "/stitch-assets/cat-heroes/fighter-water.jpg?v=elven18",
-  shop_fighter_wind: "/stitch-assets/cat-heroes/fighter-wind.jpg?v=elven18",
-  shop_assassin_fire: "/stitch-assets/cat-heroes/assassin-fire.jpg?v=elven18",
-  shop_assassin_water: "/stitch-assets/cat-heroes/assassin-water.jpg?v=elven18",
-  shop_assassin_wind: "/stitch-assets/cat-heroes/assassin-wind.jpg?v=elven18",
-  shop_ranger_fire: "/stitch-assets/cat-heroes/ranger-fire.jpg?v=elven18",
-  shop_ranger_water: "/stitch-assets/cat-heroes/ranger-water.jpg?v=elven18",
-  shop_ranger_wind: "/stitch-assets/cat-heroes/ranger-wind.jpg?v=elven18",
-  shop_mage_fire: "/stitch-assets/cat-heroes/mage-fire.jpg?v=elven18",
-  shop_mage_water: "/stitch-assets/cat-heroes/mage-water.jpg?v=elven18",
-  shop_mage_wind: "/stitch-assets/cat-heroes/mage-wind.jpg?v=elven18",
-  shop_support_fire: "/stitch-assets/cat-heroes/support-fire.jpg?v=elven18",
-  shop_support_water: "/stitch-assets/cat-heroes/support-water.jpg?v=elven18",
-  shop_support_wind: "/stitch-assets/cat-heroes/support-wind.jpg?v=elven18",
-  starter_tank_stone: "/stitch-assets/cat-heroes/tank-fire.jpg?v=elven18",
-  starter_fighter_fire: "/stitch-assets/cat-heroes/fighter-fire.jpg?v=elven18",
-  starter_support_water: "/stitch-assets/cat-heroes/support-water.jpg?v=elven18",
+  shop_tank_fire: "/stitch-assets/cat-heroes/tank-fire.jpg?v=gear18b",
+  shop_tank_water: "/stitch-assets/cat-heroes/tank-water.jpg?v=gear18b",
+  shop_tank_wind: "/stitch-assets/cat-heroes/tank-wind.jpg?v=gear18b",
+  shop_fighter_fire: "/stitch-assets/cat-heroes/fighter-fire.jpg?v=gear18b",
+  shop_fighter_water: "/stitch-assets/cat-heroes/fighter-water.jpg?v=gear18b",
+  shop_fighter_wind: "/stitch-assets/cat-heroes/fighter-wind.jpg?v=gear18b",
+  shop_assassin_fire: "/stitch-assets/cat-heroes/assassin-fire.jpg?v=gear18b",
+  shop_assassin_water: "/stitch-assets/cat-heroes/assassin-water.jpg?v=gear18b",
+  shop_assassin_wind: "/stitch-assets/cat-heroes/assassin-wind.jpg?v=gear18b",
+  shop_ranger_fire: "/stitch-assets/cat-heroes/ranger-fire.jpg?v=gear18b",
+  shop_ranger_water: "/stitch-assets/cat-heroes/ranger-water.jpg?v=gear18b",
+  shop_ranger_wind: "/stitch-assets/cat-heroes/ranger-wind.jpg?v=gear18b",
+  shop_mage_fire: "/stitch-assets/cat-heroes/mage-fire.jpg?v=gear18b",
+  shop_mage_water: "/stitch-assets/cat-heroes/mage-water.jpg?v=gear18b",
+  shop_mage_wind: "/stitch-assets/cat-heroes/mage-wind.jpg?v=gear18b",
+  shop_support_fire: "/stitch-assets/cat-heroes/support-fire.jpg?v=gear18b",
+  shop_support_water: "/stitch-assets/cat-heroes/support-water.jpg?v=gear18b",
+  shop_support_wind: "/stitch-assets/cat-heroes/support-wind.jpg?v=gear18b",
+  starter_tank_stone: "/stitch-assets/cat-heroes/tank-fire.jpg?v=gear18b",
+  starter_fighter_fire: "/stitch-assets/cat-heroes/fighter-fire.jpg?v=gear18b",
+  starter_support_water: "/stitch-assets/cat-heroes/support-water.jpg?v=gear18b",
 };
 
 /** Fight board art — same idle until transparent cutouts (D-037). */
 const CAT_HERO_BATTLE_ART = {
-  shop_tank_fire: "/stitch-assets/cat-heroes/battle/tank-fire.jpg?v=elven18",
-  shop_tank_water: "/stitch-assets/cat-heroes/battle/tank-water.jpg?v=elven18",
-  shop_tank_wind: "/stitch-assets/cat-heroes/battle/tank-wind.jpg?v=elven18",
-  shop_fighter_fire: "/stitch-assets/cat-heroes/battle/fighter-fire.jpg?v=elven18",
-  shop_fighter_water: "/stitch-assets/cat-heroes/battle/fighter-water.jpg?v=elven18",
-  shop_fighter_wind: "/stitch-assets/cat-heroes/battle/fighter-wind.jpg?v=elven18",
-  shop_assassin_fire: "/stitch-assets/cat-heroes/battle/assassin-fire.jpg?v=elven18",
-  shop_assassin_water: "/stitch-assets/cat-heroes/battle/assassin-water.jpg?v=elven18",
-  shop_assassin_wind: "/stitch-assets/cat-heroes/battle/assassin-wind.jpg?v=elven18",
-  shop_ranger_fire: "/stitch-assets/cat-heroes/battle/ranger-fire.jpg?v=elven18",
-  shop_ranger_water: "/stitch-assets/cat-heroes/battle/ranger-water.jpg?v=elven18",
-  shop_ranger_wind: "/stitch-assets/cat-heroes/battle/ranger-wind.jpg?v=elven18",
-  shop_mage_fire: "/stitch-assets/cat-heroes/battle/mage-fire.jpg?v=elven18",
-  shop_mage_water: "/stitch-assets/cat-heroes/battle/mage-water.jpg?v=elven18",
-  shop_mage_wind: "/stitch-assets/cat-heroes/battle/mage-wind.jpg?v=elven18",
-  shop_support_fire: "/stitch-assets/cat-heroes/battle/support-fire.jpg?v=elven18",
-  shop_support_water: "/stitch-assets/cat-heroes/battle/support-water.jpg?v=elven18",
-  shop_support_wind: "/stitch-assets/cat-heroes/battle/support-wind.jpg?v=elven18",
-  starter_tank_stone: "/stitch-assets/cat-heroes/battle/tank-fire.jpg?v=elven18",
-  starter_fighter_fire: "/stitch-assets/cat-heroes/battle/fighter-fire.jpg?v=elven18",
-  starter_support_water: "/stitch-assets/cat-heroes/battle/support-water.jpg?v=elven18",
+  shop_tank_fire: "/stitch-assets/cat-heroes/battle/tank-fire.jpg?v=gear18b",
+  shop_tank_water: "/stitch-assets/cat-heroes/battle/tank-water.jpg?v=gear18b",
+  shop_tank_wind: "/stitch-assets/cat-heroes/battle/tank-wind.jpg?v=gear18b",
+  shop_fighter_fire: "/stitch-assets/cat-heroes/battle/fighter-fire.jpg?v=gear18b",
+  shop_fighter_water: "/stitch-assets/cat-heroes/battle/fighter-water.jpg?v=gear18b",
+  shop_fighter_wind: "/stitch-assets/cat-heroes/battle/fighter-wind.jpg?v=gear18b",
+  shop_assassin_fire: "/stitch-assets/cat-heroes/battle/assassin-fire.jpg?v=gear18b",
+  shop_assassin_water: "/stitch-assets/cat-heroes/battle/assassin-water.jpg?v=gear18b",
+  shop_assassin_wind: "/stitch-assets/cat-heroes/battle/assassin-wind.jpg?v=gear18b",
+  shop_ranger_fire: "/stitch-assets/cat-heroes/battle/ranger-fire.jpg?v=gear18b",
+  shop_ranger_water: "/stitch-assets/cat-heroes/battle/ranger-water.jpg?v=gear18b",
+  shop_ranger_wind: "/stitch-assets/cat-heroes/battle/ranger-wind.jpg?v=gear18b",
+  shop_mage_fire: "/stitch-assets/cat-heroes/battle/mage-fire.jpg?v=gear18b",
+  shop_mage_water: "/stitch-assets/cat-heroes/battle/mage-water.jpg?v=gear18b",
+  shop_mage_wind: "/stitch-assets/cat-heroes/battle/mage-wind.jpg?v=gear18b",
+  shop_support_fire: "/stitch-assets/cat-heroes/battle/support-fire.jpg?v=gear18b",
+  shop_support_water: "/stitch-assets/cat-heroes/battle/support-water.jpg?v=gear18b",
+  shop_support_wind: "/stitch-assets/cat-heroes/battle/support-wind.jpg?v=gear18b",
+  starter_tank_stone: "/stitch-assets/cat-heroes/battle/tank-fire.jpg?v=gear18b",
+  starter_fighter_fire: "/stitch-assets/cat-heroes/battle/fighter-fire.jpg?v=gear18b",
+  starter_support_water: "/stitch-assets/cat-heroes/battle/support-water.jpg?v=gear18b",
   // Practice dummies — dedicated no-bg mannequins (D-037 fight-only).
   bot_practice_tank_a: "/stitch-assets/dojo/battle/dummy-oak-knight.webp?v=dummyfix1",
   bot_practice_fighter_a: "/stitch-assets/dojo/battle/dummy-straw-berserk.webp?v=dummyfix1",
@@ -10295,7 +10306,7 @@ function victoryCatCards() {
       };
     const meta = VICTORY_SLOT_META[visualPos];
     const isMvp = !!meta?.mvp;
-    const art = catHeroArt(hero.templateId) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=elven18";
+    const art = catHeroArt(hero.templateId) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=gear18b";
     const dmg = Math.round((hero.dmg || 4) * (isMvp ? 520 : 280));
     const heal = hero.role === "support" || hero.role === "mage" ? Math.round((hero.shield || 3) * 420) : 0;
     const taken = Math.round((hero.hp || 30) * (hero.role === "tank" ? 85 : 40));
@@ -10601,7 +10612,7 @@ function renderPvpVictory() {
         const role = hero?.role || starterMeta(tid).role;
         const el = practiceElementOf(hero || { templateId: tid }) || starterMeta(tid).element;
         const name = hero?.name || catSheetName({ templateId: tid });
-        const art = catHeroArt(tid) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=elven18";
+        const art = catHeroArt(tid) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=gear18b";
         const mvp = idx === 1 ? ` class="is-mvp"` : "";
         const badge = idx === 1 ? `<span class="col-badge">MVP матча</span>` : "";
         return `<li${mvp}>
@@ -13620,7 +13631,7 @@ function pvpRosterEntry(templateId) {
     lvl: hero?.lvl || 1,
     hp,
     hpLabel: `${hp} HP`,
-    art: catHeroArt(templateId) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=elven18",
+    art: catHeroArt(templateId) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=gear18b",
     bm: hero?.bm || 4500,
   };
 }
