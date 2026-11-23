@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Idle карточки ×18 — Мифиус v2</title>
+  <style>
+    :root { --bg:#120f0c; --ink:#f3e7d3; --fire:#e67a2e; --stone:#9aa3ad; --ice:#7ec8e3; }
+    * { box-sizing: border-box; }
+    body { margin:0; font-family: Georgia, serif; background:var(--bg); color:var(--ink); }
+    header { position:sticky; top:0; z-index:2; padding:0.85rem 1.1rem; background:rgba(18,15,12,.88); backdrop-filter:blur(10px); border-bottom:1px solid rgba(243,231,211,.12); display:flex; flex-wrap:wrap; gap:.6rem; justify-content:space-between; align-items:center; }
+    h1 { margin:0; font-size:1.1rem; }
+    nav a { color:var(--ink); text-decoration:none; border:1px solid rgba(243,231,211,.25); border-radius:999px; padding:.35rem .75rem; font-size:.9rem; }
+    main { max-width:1200px; margin:0 auto; padding:1rem; }
+    section { scroll-margin-top:4rem; padding:1rem 0 2rem; border-bottom:1px solid rgba(243,231,211,.08); }
+    h2 { margin:0 0 .8rem; }
+    #fire h2 { color:var(--fire); } #stone h2 { color:var(--stone); } #ice h2 { color:var(--ice); }
+    .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.75rem; }
+    @media (max-width:800px){ .grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    figure { margin:0; background:#0b0908; border:1px solid rgba(243,231,211,.12); border-radius:12px; overflow:hidden; }
+    figure img { display:block; width:100%; height:auto; aspect-ratio:3/4; object-fit:cover; object-position:top; }
+    figcaption { padding:.45rem .6rem .55rem; font-size:.85rem; opacity:.85; }
+    .tabs { display:flex; gap:.4rem; margin-bottom:.7rem; }
+    .tabs button { background:transparent; color:var(--ink); border:1px solid rgba(243,231,211,.25); border-radius:999px; padding:.3rem .7rem; cursor:pointer; }
+    .tabs button.active { background:rgba(243,231,211,.12); }
+    .battle img { object-fit:contain; background:#000; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Idle ×18 · face left · без брони</h1>
+    <nav>
+      <a href="#fire">Огонь</a>
+      <a href="#stone">Камень</a>
+      <a href="#ice">Лёд</a>
+      <a href="screens-by-element.html">Экраны-референсы</a>
+    </nav>
+  </header>
+  <main>
+    <div class="tabs">
+      <button type="button" class="active" data-mode="idle">Portrait</button>
+      <button type="button" data-mode="battle">Battle cutout</button>
+    </div>
+    <section id="fire">
+      <h2>Fire · рыжие</h2>
+      <div class="grid" data-element="fire"></div>
+    </section>
+    <section id="stone">
+      <h2>Stone · серые</h2>
+      <div class="grid" data-element="stone"></div>
+    </section>
+    <section id="ice">
+      <h2>Ice · белые</h2>
+      <div class="grid" data-element="ice"></div>
+    </section>
+  </main>
+  <script>
+    const roles = ["tank","fighter","assassin","ranger","mage","support"];
+    const labels = { tank:"Танк", fighter:"Боец", assassin:"Убийца", ranger:"Стрелок", mage:"Маг", support:"Саппорт" };
+    let mode = "idle";
+    function render() {
+      document.querySelectorAll(".grid").forEach((grid) => {
+        const el = grid.dataset.element;
+        grid.classList.toggle("battle", mode === "battle");
+        grid.innerHTML = roles.map((role) => {
+          const src = mode === "battle"
+            ? `idle/battle/${role}-${el}.jpg`
+            : `idle/${role}-${el}.jpg`;
+          return `<figure><img src="${src}" alt="${role} ${el}" loading="lazy"/><figcaption>${labels[role]} · ${el}</figcaption></figure>`;
+        }).join("");
+      });
+    }
+    document.querySelectorAll(".tabs button").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".tabs button").forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        mode = btn.dataset.mode;
+        render();
+      });
+    });
+    render();
+  </script>
+</body>
+</html>

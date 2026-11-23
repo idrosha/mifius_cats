@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Котики v2 — 3 экрана по стихиям</title>
+  <style>
+    :root {
+      --bg: #120f0c;
+      --ink: #f3e7d3;
+      --fire: #e67a2e;
+      --stone: #9aa3ad;
+      --ice: #7ec8e3;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      background:
+        radial-gradient(1200px 600px at 20% -10%, #2a1a12 0%, transparent 60%),
+        radial-gradient(900px 500px at 90% 10%, #152028 0%, transparent 55%),
+        var(--bg);
+      color: var(--ink);
+    }
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 1.1rem;
+      backdrop-filter: blur(10px);
+      background: rgba(18, 15, 12, 0.82);
+      border-bottom: 1px solid rgba(243, 231, 211, 0.12);
+    }
+    h1 {
+      margin: 0;
+      font-size: 1.15rem;
+      letter-spacing: 0.02em;
+    }
+    nav { display: flex; gap: 0.45rem; flex-wrap: wrap; }
+    nav a {
+      color: var(--ink);
+      text-decoration: none;
+      padding: 0.45rem 0.8rem;
+      border: 1px solid rgba(243, 231, 211, 0.22);
+      border-radius: 999px;
+      font-size: 0.92rem;
+    }
+    nav a[href="#fire"] { border-color: color-mix(in srgb, var(--fire) 70%, white); }
+    nav a[href="#stone"] { border-color: color-mix(in srgb, var(--stone) 70%, white); }
+    nav a[href="#ice"] { border-color: color-mix(in srgb, var(--ice) 70%, white); }
+    main { max-width: 1280px; margin: 0 auto; padding: 1rem; }
+    section {
+      min-height: 100vh;
+      scroll-margin-top: 4rem;
+      padding: 1.2rem 0 2.4rem;
+      border-bottom: 1px solid rgba(243, 231, 211, 0.1);
+    }
+    .label {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+    }
+    .label h2 { margin: 0; font-size: 1.45rem; }
+    .label span { opacity: 0.75; font-size: 0.95rem; }
+    #fire .label h2 { color: var(--fire); }
+    #stone .label h2 { color: var(--stone); }
+    #ice .label h2 { color: var(--ice); }
+    figure {
+      margin: 0;
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid rgba(243, 231, 211, 0.14);
+      background: #0b0908;
+      box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+    }
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+    .classes {
+      margin: 0.7rem 0 0;
+      opacity: 0.8;
+      font-size: 0.92rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Мифиус — 18 героев · preview</h1>
+    <nav>
+      <a href="#fire">Огонь · рыжие</a>
+      <a href="#stone">Камень · серые</a>
+      <a href="#ice">Лёд · белые</a>
+    </nav>
+  </header>
+  <main>
+    <section id="fire">
+      <div class="label">
+        <h2>Экран 1 · Fire</h2>
+        <span>рыжие · ginger</span>
+      </div>
+      <figure>
+        <img src="SCREEN-01-fire-ginger.jpg" alt="6 рыжих героев огня" />
+      </figure>
+      <p class="classes">танк · боец · убийца · стрелок · маг · саппорт</p>
+    </section>
+    <section id="stone">
+      <div class="label">
+        <h2>Экран 2 · Stone</h2>
+        <span>британские серые · british</span>
+      </div>
+      <figure>
+        <img src="SCREEN-02-stone-british.jpg" alt="6 серых героев камня" />
+      </figure>
+      <p class="classes">танк · боец · убийца · стрелок · маг · саппорт</p>
+    </section>
+    <section id="ice">
+      <div class="label">
+        <h2>Экран 3 · Ice</h2>
+        <span>персидские белые · persian</span>
+      </div>
+      <figure>
+        <img src="SCREEN-03-ice-persian.jpg" alt="6 белых героев льда" />
+      </figure>
+      <p class="classes">танк · боец · убийца · стрелок · маг · саппорт</p>
+    </section>
+  </main>
+</body>
+</html>

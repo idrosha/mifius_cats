@@ -2760,7 +2760,7 @@ function renderDungeonSquadStrip() {
     .map((tid, i) => {
       const art =
         (typeof CAT_HERO_ART !== "undefined" && CAT_HERO_ART[tid]) ||
-        `/stitch-assets/cat-heroes/tank-a.webp?v=opt1`;
+        `/stitch-assets/cat-heroes/tank-fire.jpg?v=elven18`;
       const name = String(tid).replace(/^shop_/, "").replace(/_/g, " ");
       const t = toneCls[i] || toneCls[0];
       return `<article class="relative flex gap-2 rounded-lg border ${t.border} bg-[#1a1613] overflow-hidden min-h-[4.4rem] flex-shrink-0">
@@ -3690,7 +3690,7 @@ function renderPveYardSquad() {
   host.innerHTML = PVE_YARD_LANES.map((lane, i) => {
     const c = cats[i];
     const role = c ? homeCatRole(c) : "";
-    const art = c ? catHeroArt(c.templateId) || "/stitch-assets/cat-heroes/fighter-a.webp?v=opt1" : "";
+    const art = c ? catHeroArt(c.templateId) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=elven18" : "";
     const name = c ? catSheetName(c) : "Пусто";
     const lvl = c?.level != null ? c.level : "—";
     const stats = c ? statsForCat(c) : null;
@@ -3761,7 +3761,7 @@ function renderPveYardTeamPicker() {
           if (!c) {
             return `<div class="pve-yard-team-card__slot is-empty">${lanes[i]}</div>`;
           }
-          const art = catHeroArt(c.templateId) || "/stitch-assets/cat-heroes/fighter-a.webp?v=opt1";
+          const art = catHeroArt(c.templateId) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=elven18";
           return `<div class="pve-yard-team-card__slot"><img alt="" src="${art}"/><span>${catSheetName(c)}</span></div>`;
         })
         .join("");
@@ -4340,7 +4340,7 @@ function renderRaidLegionBoard() {
   if (!board) return;
   const artFor = (tid) =>
     (typeof CAT_HERO_ART !== "undefined" && CAT_HERO_ART[tid]) ||
-    `/stitch-assets/cat-heroes/tank-a.webp?v=opt1`;
+    `/stitch-assets/cat-heroes/tank-fire.jpg?v=elven18`;
   const subRu = {
     aggro: "агр",
     armorBreak: "пробитие",
@@ -4606,7 +4606,7 @@ function raidBattleRoleBadge(s) {
 function raidBattleCatArt(tid) {
   if (typeof CAT_HERO_BATTLE_ART !== "undefined" && CAT_HERO_BATTLE_ART[tid]) return CAT_HERO_BATTLE_ART[tid];
   if (typeof CAT_HERO_ART !== "undefined" && CAT_HERO_ART[tid]) return CAT_HERO_ART[tid];
-  return "/stitch-assets/cat-heroes/tank-a.webp?v=opt1";
+  return "/stitch-assets/cat-heroes/tank-fire.jpg?v=elven18";
 }
 
 /** Stitch legion-12 battle board: columns L→R = тыл → даль → штурм → авангард. */
@@ -4793,7 +4793,7 @@ function renderRaidFormationEditor() {
   const v = validateRaidComposition();
   const artFor = (tid) =>
     (typeof CAT_HERO_ART !== "undefined" && CAT_HERO_ART[tid]) ||
-    `/stitch-assets/cat-heroes/tank-a.webp?v=opt1`;
+    `/stitch-assets/cat-heroes/tank-fire.jpg?v=elven18`;
   lanes.innerHTML = "";
   const tip = document.createElement("p");
   tip.className = "meta formation-tip";
@@ -6115,59 +6115,57 @@ const CAT_SHEET_NAMES = {
 };
 
 /**
- * Full-body portraits — wiki §1.0 / media/cat-heroes (12/12).
- * Default path keeps studio background (forms/lobby/load). Battle cutouts: D-037.
+ * Full-body portraits — elven 18 (6 roles × fire/water/wind).
+ * Idle JPG from cat-heroes-v2 (breed map: fire→fire, water→ice, wind→stone). Battle: same until cutouts land.
  */
 const CAT_HERO_ART = {
-  shop_tank_fire: "/stitch-assets/cat-heroes/tank-a.webp?v=opt1",
-  shop_tank_water: "/stitch-assets/cat-heroes/tank-b.webp?v=opt1",
-  shop_tank_wind: "/stitch-assets/cat-heroes/tank-a.webp?v=opt1",
-  shop_fighter_fire: "/stitch-assets/cat-heroes/fighter-a.webp?v=opt1",
-  shop_fighter_water: "/stitch-assets/cat-heroes/fighter-b.webp?v=opt1",
-  shop_fighter_wind: "/stitch-assets/cat-heroes/fighter-a.webp?v=opt1",
-  shop_assassin_fire: "/stitch-assets/cat-heroes/assassin-a.webp?v=opt1",
-  shop_assassin_water: "/stitch-assets/cat-heroes/assassin-b.webp?v=opt1",
-  shop_assassin_wind: "/stitch-assets/cat-heroes/assassin-a.webp?v=opt1",
-  shop_ranger_fire: "/stitch-assets/cat-heroes/ranger-a.webp?v=opt1",
-  shop_ranger_water: "/stitch-assets/cat-heroes/ranger-b.webp?v=opt1",
-  shop_ranger_wind: "/stitch-assets/cat-heroes/ranger-a.webp?v=opt1",
-  shop_mage_fire: "/stitch-assets/cat-heroes/mage-a.webp?v=opt1",
-  shop_mage_water: "/stitch-assets/cat-heroes/mage-b.webp?v=opt1",
-  shop_mage_wind: "/stitch-assets/cat-heroes/mage-a.webp?v=opt1",
-  shop_support_fire: "/stitch-assets/cat-heroes/support-b.webp?v=opt1",
-  shop_support_water: "/stitch-assets/cat-heroes/support-a.webp?v=opt1",
-  shop_support_wind: "/stitch-assets/cat-heroes/support-b.webp?v=opt1",
-  starter_tank_stone: "/stitch-assets/cat-heroes/tank-a.webp?v=opt1",
-  starter_fighter_fire: "/stitch-assets/cat-heroes/fighter-a.webp?v=opt1",
-  starter_support_water: "/stitch-assets/cat-heroes/support-a.webp?v=opt1",
+  shop_tank_fire: "/stitch-assets/cat-heroes/tank-fire.jpg?v=elven18",
+  shop_tank_water: "/stitch-assets/cat-heroes/tank-water.jpg?v=elven18",
+  shop_tank_wind: "/stitch-assets/cat-heroes/tank-wind.jpg?v=elven18",
+  shop_fighter_fire: "/stitch-assets/cat-heroes/fighter-fire.jpg?v=elven18",
+  shop_fighter_water: "/stitch-assets/cat-heroes/fighter-water.jpg?v=elven18",
+  shop_fighter_wind: "/stitch-assets/cat-heroes/fighter-wind.jpg?v=elven18",
+  shop_assassin_fire: "/stitch-assets/cat-heroes/assassin-fire.jpg?v=elven18",
+  shop_assassin_water: "/stitch-assets/cat-heroes/assassin-water.jpg?v=elven18",
+  shop_assassin_wind: "/stitch-assets/cat-heroes/assassin-wind.jpg?v=elven18",
+  shop_ranger_fire: "/stitch-assets/cat-heroes/ranger-fire.jpg?v=elven18",
+  shop_ranger_water: "/stitch-assets/cat-heroes/ranger-water.jpg?v=elven18",
+  shop_ranger_wind: "/stitch-assets/cat-heroes/ranger-wind.jpg?v=elven18",
+  shop_mage_fire: "/stitch-assets/cat-heroes/mage-fire.jpg?v=elven18",
+  shop_mage_water: "/stitch-assets/cat-heroes/mage-water.jpg?v=elven18",
+  shop_mage_wind: "/stitch-assets/cat-heroes/mage-wind.jpg?v=elven18",
+  shop_support_fire: "/stitch-assets/cat-heroes/support-fire.jpg?v=elven18",
+  shop_support_water: "/stitch-assets/cat-heroes/support-water.jpg?v=elven18",
+  shop_support_wind: "/stitch-assets/cat-heroes/support-wind.jpg?v=elven18",
+  starter_tank_stone: "/stitch-assets/cat-heroes/tank-fire.jpg?v=elven18",
+  starter_fighter_fire: "/stitch-assets/cat-heroes/fighter-fire.jpg?v=elven18",
+  starter_support_water: "/stitch-assets/cat-heroes/support-water.jpg?v=elven18",
 };
 
-/** Transparent cutouts — ONLY live fight HUD (practice_fight / pvp_fight / battle). D-037. */
+/** Fight board art — same idle until transparent cutouts (D-037). */
 const CAT_HERO_BATTLE_ART = {
-  shop_tank_fire: "/stitch-assets/cat-heroes/battle/tank-a.webp",
-  shop_tank_water: "/stitch-assets/cat-heroes/battle/tank-b.webp",
-  shop_tank_wind: "/stitch-assets/cat-heroes/battle/tank-a.webp",
-  shop_fighter_fire: "/stitch-assets/cat-heroes/battle/fighter-a.webp",
-  shop_fighter_water: "/stitch-assets/cat-heroes/battle/fighter-b.webp",
-  shop_fighter_wind: "/stitch-assets/cat-heroes/battle/fighter-a.webp",
-  shop_assassin_fire: "/stitch-assets/cat-heroes/battle/assassin-a.webp",
-  shop_assassin_water: "/stitch-assets/cat-heroes/battle/assassin-b.webp",
-  shop_assassin_wind: "/stitch-assets/cat-heroes/battle/assassin-a.webp",
-  shop_ranger_fire: "/stitch-assets/cat-heroes/battle/ranger-a.webp",
-  shop_ranger_water: "/stitch-assets/cat-heroes/battle/ranger-b.webp",
-  shop_ranger_wind: "/stitch-assets/cat-heroes/battle/ranger-a.webp",
-  shop_mage_fire: "/stitch-assets/cat-heroes/battle/mage-a.webp",
-  shop_mage_water: "/stitch-assets/cat-heroes/battle/mage-b.webp",
-  shop_mage_wind: "/stitch-assets/cat-heroes/battle/mage-a.webp",
-  shop_support_fire: "/stitch-assets/cat-heroes/battle/support-b.webp",
-  shop_support_water: "/stitch-assets/cat-heroes/battle/support-a.webp",
-  shop_support_wind: "/stitch-assets/cat-heroes/battle/support-b.webp",
-  starter_tank_stone: "/stitch-assets/cat-heroes/battle/tank-a.webp",
-  starter_fighter_fire: "/stitch-assets/cat-heroes/battle/fighter-a.webp",
-  starter_support_water: "/stitch-assets/cat-heroes/battle/support-a.webp",
+  shop_tank_fire: "/stitch-assets/cat-heroes/battle/tank-fire.jpg?v=elven18",
+  shop_tank_water: "/stitch-assets/cat-heroes/battle/tank-water.jpg?v=elven18",
+  shop_tank_wind: "/stitch-assets/cat-heroes/battle/tank-wind.jpg?v=elven18",
+  shop_fighter_fire: "/stitch-assets/cat-heroes/battle/fighter-fire.jpg?v=elven18",
+  shop_fighter_water: "/stitch-assets/cat-heroes/battle/fighter-water.jpg?v=elven18",
+  shop_fighter_wind: "/stitch-assets/cat-heroes/battle/fighter-wind.jpg?v=elven18",
+  shop_assassin_fire: "/stitch-assets/cat-heroes/battle/assassin-fire.jpg?v=elven18",
+  shop_assassin_water: "/stitch-assets/cat-heroes/battle/assassin-water.jpg?v=elven18",
+  shop_assassin_wind: "/stitch-assets/cat-heroes/battle/assassin-wind.jpg?v=elven18",
+  shop_ranger_fire: "/stitch-assets/cat-heroes/battle/ranger-fire.jpg?v=elven18",
+  shop_ranger_water: "/stitch-assets/cat-heroes/battle/ranger-water.jpg?v=elven18",
+  shop_ranger_wind: "/stitch-assets/cat-heroes/battle/ranger-wind.jpg?v=elven18",
+  shop_mage_fire: "/stitch-assets/cat-heroes/battle/mage-fire.jpg?v=elven18",
+  shop_mage_water: "/stitch-assets/cat-heroes/battle/mage-water.jpg?v=elven18",
+  shop_mage_wind: "/stitch-assets/cat-heroes/battle/mage-wind.jpg?v=elven18",
+  shop_support_fire: "/stitch-assets/cat-heroes/battle/support-fire.jpg?v=elven18",
+  shop_support_water: "/stitch-assets/cat-heroes/battle/support-water.jpg?v=elven18",
+  shop_support_wind: "/stitch-assets/cat-heroes/battle/support-wind.jpg?v=elven18",
+  starter_tank_stone: "/stitch-assets/cat-heroes/battle/tank-fire.jpg?v=elven18",
+  starter_fighter_fire: "/stitch-assets/cat-heroes/battle/fighter-fire.jpg?v=elven18",
+  starter_support_water: "/stitch-assets/cat-heroes/battle/support-water.jpg?v=elven18",
   // Practice dummies — dedicated no-bg mannequins (D-037 fight-only).
-  // FX/SFX reuse tank / fighter / support role kits (MF-149).
-  // WebP cutouts (PNG archived under _src). ?v=dummyfix1 busts stale CDN negatives.
   bot_practice_tank_a: "/stitch-assets/dojo/battle/dummy-oak-knight.webp?v=dummyfix1",
   bot_practice_fighter_a: "/stitch-assets/dojo/battle/dummy-straw-berserk.webp?v=dummyfix1",
   bot_practice_support_a: "/stitch-assets/dojo/battle/dummy-stone-totem.webp?v=dummyfix1",
@@ -9824,7 +9822,7 @@ function victoryCatCards() {
       };
     const meta = VICTORY_SLOT_META[visualPos];
     const isMvp = !!meta?.mvp;
-    const art = catHeroArt(hero.templateId) || "/stitch-assets/cat-heroes/fighter-a.webp?v=opt1";
+    const art = catHeroArt(hero.templateId) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=elven18";
     const dmg = Math.round((hero.dmg || 4) * (isMvp ? 520 : 280));
     const heal = hero.role === "support" || hero.role === "mage" ? Math.round((hero.shield || 3) * 420) : 0;
     const taken = Math.round((hero.hp || 30) * (hero.role === "tank" ? 85 : 40));
@@ -10130,7 +10128,7 @@ function renderPvpVictory() {
         const role = hero?.role || starterMeta(tid).role;
         const el = practiceElementOf(hero || { templateId: tid }) || starterMeta(tid).element;
         const name = hero?.name || catSheetName({ templateId: tid });
-        const art = catHeroArt(tid) || "/stitch-assets/cat-heroes/fighter-a.webp?v=opt1";
+        const art = catHeroArt(tid) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=elven18";
         const mvp = idx === 1 ? ` class="is-mvp"` : "";
         const badge = idx === 1 ? `<span class="col-badge">MVP матча</span>` : "";
         return `<li${mvp}>
@@ -10361,20 +10359,20 @@ const STARTER_DECK_TEMPLATE = {
 };
 /** cost≠1 overrides from content/cards (default 1). Art gem = playable cost. */
 const ATTACK_CARD_COST2 = new Set([
-  "card_shop_fighter_waterack",
-  "card_shop_fighter_water_muzzle",
-  "card_shop_fighter_wind_back",
   "card_shop_assassin_water_back",
   "card_shop_assassin_wind_back",
-  "card_shop_ranger_water_muzzle",
-  "card_shop_ranger_water_back",
-  "card_shop_mage_fire_muzzle",
+  "card_shop_fighter_fire_back",
+  "card_shop_fighter_water_muzzle",
+  "card_shop_fighter_wind_back",
   "card_shop_mage_fire_back",
-  "card_shop_mage_water_eyes",
+  "card_shop_mage_fire_muzzle",
   "card_shop_mage_water_back",
+  "card_shop_mage_water_eyes",
   "card_shop_mage_wind_back",
+  "card_shop_ranger_water_back",
+  "card_shop_ranger_water_muzzle",
   "card_shop_support_fire_back",
-  "card_shop_support_windack",
+  "card_shop_support_water_back",
   "card_shop_support_wind_back",
 ]);
 
@@ -10735,13 +10733,13 @@ const ATTACK_CARD_ART_ALIAS = {
   card_fighter_fire_ears: "shop_fighter_fire_ears",
   card_fighter_fire_muzzle: "shop_fighter_fire_muzzle",
   card_fighter_fire_headwear: "shop_fighter_fire_headwear",
-  card_fighter_fire_back: "shop_fighter_waterack",
+  card_fighter_fire_back: "shop_fighter_fire_back",
   card_fighter_fire_tail: "shop_fighter_fire_tail",
   card_support_water_eyes: "shop_support_water_eyes",
   card_support_water_ears: "shop_support_water_ears",
   card_support_water_muzzle: "shop_support_water_muzzle",
   card_support_water_headwear: "shop_support_water_headwear",
-  card_support_water_back: "shop_support_windack",
+  card_support_water_back: "shop_support_water_back",
   card_support_water_tail: "shop_support_water_tail",
 };
 
@@ -13129,7 +13127,7 @@ function pvpRosterEntry(templateId) {
     lvl: hero?.lvl || 1,
     hp,
     hpLabel: `${hp} HP`,
-    art: catHeroArt(templateId) || "/stitch-assets/cat-heroes/fighter-a.webp?v=opt1",
+    art: catHeroArt(templateId) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=elven18",
     bm: hero?.bm || 4500,
   };
 }

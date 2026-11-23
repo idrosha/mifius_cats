@@ -1,13 +1,14 @@
 # Gear color sets (R1–R8 · PvP × PvE)
 
-Slot model: **helm · armor · cloak · belt · boots · ring** (+ class weapon/shield).
+Slot model: **helm · armor · cloak · belt · boots · ring**.  
+Class weapons / offhands art removed (old thumbs deleted); armor sets only for now.
 
 **Lanes:** each set exists as **PvP** (shop) and **PvE** (`pve_` copies, dungeon/raid drop only).  
 **Ranks:** **R1–R8** (wiki §8.5). Art prompts: `docs/stitch-prompts-pve-pvp-gear-sets.md`.  
 **Stock (HUD stub):** `qty = 18` per piece (enough for all heroes); identical stacks share one bag/barn cell with a corner count.  
-Combat: monster HP is fixed; higher DEF/weapon makes PvE easier (wiki §4.3).
+Combat: monster HP is fixed; higher DEF makes PvE easier (wiki §4.3).
 
-Combat scale (tank HP=50, card hit ≈5–6): armor → flat **DEF/HP**; weapons → modest **ATK +2…+4**; rings → modest HP/DEF (+ optional ATK/SPD/crit).
+Combat scale (tank HP=50, card hit ≈5–6): armor → flat **DEF/HP**; rings → modest HP/DEF (+ optional ATK/SPD/crit).
 
 ## Armor (5/5 totals)
 | Set | Rank | DEF | HP | ATK | 3+ set | KB ref |
@@ -37,13 +38,3 @@ Seed builder: `client/web-hud/public/gear-catalog-seed.js`.
 | or_ring | or | +1 ATK · +2 HP · +1 DEF · +1 crit |
 
 Thumbs: `thumbs/{set}-{slot}.png`. Overlays (paper-doll): `gear-sets/{pvp|pve}/{set}/{slot}.png`.
-
-## Class weapons (ATK band)
-| Class | Kit | ATK |
-|---|---|---|
-| tank | mace / spear + large or small shield | weapon +2; shields +3…+4 DEF |
-| fighter | greatsword or dual axes | +4 / +2+2 |
-| assassin | dual daggers | +2+2 |
-| ranger | bow or crossbow + arrows | +2 / +2 / +1 |
-| mage | yellow 2H staff or 1H wand + book | +3 / +2 / +1 |
-| support | blue staff + scroll | +2 / +1 DEF |

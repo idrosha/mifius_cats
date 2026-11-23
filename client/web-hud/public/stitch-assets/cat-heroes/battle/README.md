@@ -1,6 +1,4 @@
-# Battle cutouts — D-037
+﻿# Battle portraits (elven 18)
 
-Transparent PNGs for live fight HUD only (`practice_fight` / `pvp_fight` / `battle`).  
-Parent folder portraits keep studio background for all other forms.
-
-# Soft-launch: WebP cutouts (max 512w) for fight HUD perf.
+Same idle JPGs as lobby until transparent cutouts land (D-037).
+Files: `{role}-{fire|water|wind}.jpg`.

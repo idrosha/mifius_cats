@@ -304,9 +304,10 @@ $I18n = [ordered]@{}
 $KitPowers = [ordered]@{}
 
 foreach ($heroId in $Kits.Keys) {
-  $parts = $heroId -split "_"
-  $role = $parts[0]
-  $element = $parts[1]
+  # NOTE: do not use $parts — PowerShell is case-insensitive and would clobber $Parts[]
+  $heroBits = $heroId -split "_"
+  $role = $heroBits[0]
+  $element = $heroBits[1]
   $templateId = "shop_${role}_${element}"
   $kit = $Kits[$heroId]
   $kitPower = 0.0

@@ -1,6 +1,1126 @@
 ﻿[
-    "support",
-    "wind",
+    {
+        "partId":  "part_shop_tank_fire_eyes",
+        "slot":  "eyes",
+        "element":  "fire",
+        "cardId":  "card_shop_tank_fire_eyes",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_tank_fire.eyes",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_tank_fire_ears",
+        "slot":  "ears",
+        "element":  "fire",
+        "cardId":  "card_shop_tank_fire_ears",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_tank_fire.ears",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_tank_fire_muzzle",
+        "slot":  "muzzle",
+        "element":  "fire",
+        "cardId":  "card_shop_tank_fire_muzzle",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_tank_fire.muzzle",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_tank_fire_headwear",
+        "slot":  "headwear",
+        "element":  "fire",
+        "cardId":  "card_shop_tank_fire_headwear",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_tank_fire.headwear",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_tank_fire_back",
+        "slot":  "back",
+        "element":  "fire",
+        "cardId":  "card_shop_tank_fire_back",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_tank_fire.back",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_tank_fire_tail",
+        "slot":  "tail",
+        "element":  "fire",
+        "cardId":  "card_shop_tank_fire_tail",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_tank_fire.tail",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_tank_water_eyes",
+        "slot":  "eyes",
+        "element":  "water",
+        "cardId":  "card_shop_tank_water_eyes",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_tank_water.eyes",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_tank_water_ears",
+        "slot":  "ears",
+        "element":  "water",
+        "cardId":  "card_shop_tank_water_ears",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_tank_water.ears",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_tank_water_muzzle",
+        "slot":  "muzzle",
+        "element":  "water",
+        "cardId":  "card_shop_tank_water_muzzle",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_tank_water.muzzle",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_tank_water_headwear",
+        "slot":  "headwear",
+        "element":  "water",
+        "cardId":  "card_shop_tank_water_headwear",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_tank_water.headwear",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_tank_water_back",
+        "slot":  "back",
+        "element":  "water",
+        "cardId":  "card_shop_tank_water_back",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_tank_water.back",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_tank_water_tail",
+        "slot":  "tail",
+        "element":  "water",
+        "cardId":  "card_shop_tank_water_tail",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_tank_water.tail",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_tank_wind_eyes",
+        "slot":  "eyes",
+        "element":  "wind",
+        "cardId":  "card_shop_tank_wind_eyes",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_tank_wind.eyes",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_tank_wind_ears",
+        "slot":  "ears",
+        "element":  "wind",
+        "cardId":  "card_shop_tank_wind_ears",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_tank_wind.ears",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_tank_wind_muzzle",
+        "slot":  "muzzle",
+        "element":  "wind",
+        "cardId":  "card_shop_tank_wind_muzzle",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_tank_wind.muzzle",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_tank_wind_headwear",
+        "slot":  "headwear",
+        "element":  "wind",
+        "cardId":  "card_shop_tank_wind_headwear",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_tank_wind.headwear",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_tank_wind_back",
+        "slot":  "back",
+        "element":  "wind",
+        "cardId":  "card_shop_tank_wind_back",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_tank_wind.back",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_tank_wind_tail",
+        "slot":  "tail",
+        "element":  "wind",
+        "cardId":  "card_shop_tank_wind_tail",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_tank_wind.tail",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_fighter_fire_eyes",
+        "slot":  "eyes",
+        "element":  "fire",
+        "cardId":  "card_shop_fighter_fire_eyes",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_fighter_fire.eyes",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_fighter_fire_ears",
+        "slot":  "ears",
+        "element":  "fire",
+        "cardId":  "card_shop_fighter_fire_ears",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_fighter_fire.ears",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_fighter_fire_muzzle",
+        "slot":  "muzzle",
+        "element":  "fire",
+        "cardId":  "card_shop_fighter_fire_muzzle",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_fighter_fire.muzzle",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_fighter_fire_headwear",
+        "slot":  "headwear",
+        "element":  "fire",
+        "cardId":  "card_shop_fighter_fire_headwear",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_fighter_fire.headwear",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_fighter_fire_back",
+        "slot":  "back",
+        "element":  "fire",
+        "cardId":  "card_shop_fighter_fire_back",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_fighter_fire.back",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_fighter_fire_tail",
+        "slot":  "tail",
+        "element":  "fire",
+        "cardId":  "card_shop_fighter_fire_tail",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_fighter_fire.tail",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_fighter_water_eyes",
+        "slot":  "eyes",
+        "element":  "water",
+        "cardId":  "card_shop_fighter_water_eyes",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_fighter_water.eyes",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_fighter_water_ears",
+        "slot":  "ears",
+        "element":  "water",
+        "cardId":  "card_shop_fighter_water_ears",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_fighter_water.ears",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_fighter_water_muzzle",
+        "slot":  "muzzle",
+        "element":  "water",
+        "cardId":  "card_shop_fighter_water_muzzle",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_fighter_water.muzzle",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_fighter_water_headwear",
+        "slot":  "headwear",
+        "element":  "water",
+        "cardId":  "card_shop_fighter_water_headwear",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_fighter_water.headwear",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_fighter_water_back",
+        "slot":  "back",
+        "element":  "water",
+        "cardId":  "card_shop_fighter_water_back",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_fighter_water.back",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_fighter_water_tail",
+        "slot":  "tail",
+        "element":  "water",
+        "cardId":  "card_shop_fighter_water_tail",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_fighter_water.tail",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_fighter_wind_eyes",
+        "slot":  "eyes",
+        "element":  "wind",
+        "cardId":  "card_shop_fighter_wind_eyes",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_fighter_wind.eyes",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_fighter_wind_ears",
+        "slot":  "ears",
+        "element":  "wind",
+        "cardId":  "card_shop_fighter_wind_ears",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_fighter_wind.ears",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_fighter_wind_muzzle",
+        "slot":  "muzzle",
+        "element":  "wind",
+        "cardId":  "card_shop_fighter_wind_muzzle",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_fighter_wind.muzzle",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_fighter_wind_headwear",
+        "slot":  "headwear",
+        "element":  "wind",
+        "cardId":  "card_shop_fighter_wind_headwear",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_fighter_wind.headwear",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_fighter_wind_back",
+        "slot":  "back",
+        "element":  "wind",
+        "cardId":  "card_shop_fighter_wind_back",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_fighter_wind.back",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_fighter_wind_tail",
+        "slot":  "tail",
+        "element":  "wind",
+        "cardId":  "card_shop_fighter_wind_tail",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_fighter_wind.tail",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_assassin_fire_eyes",
+        "slot":  "eyes",
+        "element":  "fire",
+        "cardId":  "card_shop_assassin_fire_eyes",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_assassin_fire.eyes",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_assassin_fire_ears",
+        "slot":  "ears",
+        "element":  "fire",
+        "cardId":  "card_shop_assassin_fire_ears",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_assassin_fire.ears",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_assassin_fire_muzzle",
+        "slot":  "muzzle",
+        "element":  "fire",
+        "cardId":  "card_shop_assassin_fire_muzzle",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_assassin_fire.muzzle",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_assassin_fire_headwear",
+        "slot":  "headwear",
+        "element":  "fire",
+        "cardId":  "card_shop_assassin_fire_headwear",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_assassin_fire.headwear",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_assassin_fire_back",
+        "slot":  "back",
+        "element":  "fire",
+        "cardId":  "card_shop_assassin_fire_back",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_assassin_fire.back",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_assassin_fire_tail",
+        "slot":  "tail",
+        "element":  "fire",
+        "cardId":  "card_shop_assassin_fire_tail",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_assassin_fire.tail",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_assassin_water_eyes",
+        "slot":  "eyes",
+        "element":  "water",
+        "cardId":  "card_shop_assassin_water_eyes",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_assassin_water.eyes",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_assassin_water_ears",
+        "slot":  "ears",
+        "element":  "water",
+        "cardId":  "card_shop_assassin_water_ears",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_assassin_water.ears",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_assassin_water_muzzle",
+        "slot":  "muzzle",
+        "element":  "water",
+        "cardId":  "card_shop_assassin_water_muzzle",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_assassin_water.muzzle",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_assassin_water_headwear",
+        "slot":  "headwear",
+        "element":  "water",
+        "cardId":  "card_shop_assassin_water_headwear",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_assassin_water.headwear",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_assassin_water_back",
+        "slot":  "back",
+        "element":  "water",
+        "cardId":  "card_shop_assassin_water_back",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_assassin_water.back",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_assassin_water_tail",
+        "slot":  "tail",
+        "element":  "water",
+        "cardId":  "card_shop_assassin_water_tail",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_assassin_water.tail",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_assassin_wind_eyes",
+        "slot":  "eyes",
+        "element":  "wind",
+        "cardId":  "card_shop_assassin_wind_eyes",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_assassin_wind.eyes",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_assassin_wind_ears",
+        "slot":  "ears",
+        "element":  "wind",
+        "cardId":  "card_shop_assassin_wind_ears",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_assassin_wind.ears",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_assassin_wind_muzzle",
+        "slot":  "muzzle",
+        "element":  "wind",
+        "cardId":  "card_shop_assassin_wind_muzzle",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_assassin_wind.muzzle",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_assassin_wind_headwear",
+        "slot":  "headwear",
+        "element":  "wind",
+        "cardId":  "card_shop_assassin_wind_headwear",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_assassin_wind.headwear",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_assassin_wind_back",
+        "slot":  "back",
+        "element":  "wind",
+        "cardId":  "card_shop_assassin_wind_back",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_assassin_wind.back",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_assassin_wind_tail",
+        "slot":  "tail",
+        "element":  "wind",
+        "cardId":  "card_shop_assassin_wind_tail",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_assassin_wind.tail",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_ranger_fire_eyes",
+        "slot":  "eyes",
+        "element":  "fire",
+        "cardId":  "card_shop_ranger_fire_eyes",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_ranger_fire.eyes",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_ranger_fire_ears",
+        "slot":  "ears",
+        "element":  "fire",
+        "cardId":  "card_shop_ranger_fire_ears",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_ranger_fire.ears",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_ranger_fire_muzzle",
+        "slot":  "muzzle",
+        "element":  "fire",
+        "cardId":  "card_shop_ranger_fire_muzzle",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_ranger_fire.muzzle",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_ranger_fire_headwear",
+        "slot":  "headwear",
+        "element":  "fire",
+        "cardId":  "card_shop_ranger_fire_headwear",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_ranger_fire.headwear",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_ranger_fire_back",
+        "slot":  "back",
+        "element":  "fire",
+        "cardId":  "card_shop_ranger_fire_back",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_ranger_fire.back",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_ranger_fire_tail",
+        "slot":  "tail",
+        "element":  "fire",
+        "cardId":  "card_shop_ranger_fire_tail",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_ranger_fire.tail",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_ranger_water_eyes",
+        "slot":  "eyes",
+        "element":  "water",
+        "cardId":  "card_shop_ranger_water_eyes",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_ranger_water.eyes",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_ranger_water_ears",
+        "slot":  "ears",
+        "element":  "water",
+        "cardId":  "card_shop_ranger_water_ears",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_ranger_water.ears",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_ranger_water_muzzle",
+        "slot":  "muzzle",
+        "element":  "water",
+        "cardId":  "card_shop_ranger_water_muzzle",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_ranger_water.muzzle",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_ranger_water_headwear",
+        "slot":  "headwear",
+        "element":  "water",
+        "cardId":  "card_shop_ranger_water_headwear",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_ranger_water.headwear",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_ranger_water_back",
+        "slot":  "back",
+        "element":  "water",
+        "cardId":  "card_shop_ranger_water_back",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_ranger_water.back",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_ranger_water_tail",
+        "slot":  "tail",
+        "element":  "water",
+        "cardId":  "card_shop_ranger_water_tail",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_ranger_water.tail",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_ranger_wind_eyes",
+        "slot":  "eyes",
+        "element":  "wind",
+        "cardId":  "card_shop_ranger_wind_eyes",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_ranger_wind.eyes",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_ranger_wind_ears",
+        "slot":  "ears",
+        "element":  "wind",
+        "cardId":  "card_shop_ranger_wind_ears",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_ranger_wind.ears",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_ranger_wind_muzzle",
+        "slot":  "muzzle",
+        "element":  "wind",
+        "cardId":  "card_shop_ranger_wind_muzzle",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_ranger_wind.muzzle",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_ranger_wind_headwear",
+        "slot":  "headwear",
+        "element":  "wind",
+        "cardId":  "card_shop_ranger_wind_headwear",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_ranger_wind.headwear",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_ranger_wind_back",
+        "slot":  "back",
+        "element":  "wind",
+        "cardId":  "card_shop_ranger_wind_back",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_ranger_wind.back",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_ranger_wind_tail",
+        "slot":  "tail",
+        "element":  "wind",
+        "cardId":  "card_shop_ranger_wind_tail",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_ranger_wind.tail",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_mage_fire_eyes",
+        "slot":  "eyes",
+        "element":  "fire",
+        "cardId":  "card_shop_mage_fire_eyes",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_mage_fire.eyes",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_mage_fire_ears",
+        "slot":  "ears",
+        "element":  "fire",
+        "cardId":  "card_shop_mage_fire_ears",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_mage_fire.ears",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_mage_fire_muzzle",
+        "slot":  "muzzle",
+        "element":  "fire",
+        "cardId":  "card_shop_mage_fire_muzzle",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_mage_fire.muzzle",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_mage_fire_headwear",
+        "slot":  "headwear",
+        "element":  "fire",
+        "cardId":  "card_shop_mage_fire_headwear",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_mage_fire.headwear",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_mage_fire_back",
+        "slot":  "back",
+        "element":  "fire",
+        "cardId":  "card_shop_mage_fire_back",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_mage_fire.back",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_mage_fire_tail",
+        "slot":  "tail",
+        "element":  "fire",
+        "cardId":  "card_shop_mage_fire_tail",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_mage_fire.tail",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_mage_water_eyes",
+        "slot":  "eyes",
+        "element":  "water",
+        "cardId":  "card_shop_mage_water_eyes",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_mage_water.eyes",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_mage_water_ears",
+        "slot":  "ears",
+        "element":  "water",
+        "cardId":  "card_shop_mage_water_ears",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_mage_water.ears",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_mage_water_muzzle",
+        "slot":  "muzzle",
+        "element":  "water",
+        "cardId":  "card_shop_mage_water_muzzle",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_mage_water.muzzle",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_mage_water_headwear",
+        "slot":  "headwear",
+        "element":  "water",
+        "cardId":  "card_shop_mage_water_headwear",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_mage_water.headwear",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_mage_water_back",
+        "slot":  "back",
+        "element":  "water",
+        "cardId":  "card_shop_mage_water_back",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_mage_water.back",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_mage_water_tail",
+        "slot":  "tail",
+        "element":  "water",
+        "cardId":  "card_shop_mage_water_tail",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_mage_water.tail",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_mage_wind_eyes",
+        "slot":  "eyes",
+        "element":  "wind",
+        "cardId":  "card_shop_mage_wind_eyes",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_mage_wind.eyes",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_mage_wind_ears",
+        "slot":  "ears",
+        "element":  "wind",
+        "cardId":  "card_shop_mage_wind_ears",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_mage_wind.ears",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_mage_wind_muzzle",
+        "slot":  "muzzle",
+        "element":  "wind",
+        "cardId":  "card_shop_mage_wind_muzzle",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_mage_wind.muzzle",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_mage_wind_headwear",
+        "slot":  "headwear",
+        "element":  "wind",
+        "cardId":  "card_shop_mage_wind_headwear",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_mage_wind.headwear",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_mage_wind_back",
+        "slot":  "back",
+        "element":  "wind",
+        "cardId":  "card_shop_mage_wind_back",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_mage_wind.back",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_mage_wind_tail",
+        "slot":  "tail",
+        "element":  "wind",
+        "cardId":  "card_shop_mage_wind_tail",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_mage_wind.tail",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_support_fire_eyes",
+        "slot":  "eyes",
+        "element":  "fire",
+        "cardId":  "card_shop_support_fire_eyes",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_support_fire.eyes",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_support_fire_ears",
+        "slot":  "ears",
+        "element":  "fire",
+        "cardId":  "card_shop_support_fire_ears",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_support_fire.ears",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_support_fire_muzzle",
+        "slot":  "muzzle",
+        "element":  "fire",
+        "cardId":  "card_shop_support_fire_muzzle",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_support_fire.muzzle",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_support_fire_headwear",
+        "slot":  "headwear",
+        "element":  "fire",
+        "cardId":  "card_shop_support_fire_headwear",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_support_fire.headwear",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_support_fire_back",
+        "slot":  "back",
+        "element":  "fire",
+        "cardId":  "card_shop_support_fire_back",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_support_fire.back",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_support_fire_tail",
+        "slot":  "tail",
+        "element":  "fire",
+        "cardId":  "card_shop_support_fire_tail",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_support_fire.tail",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_support_water_eyes",
+        "slot":  "eyes",
+        "element":  "water",
+        "cardId":  "card_shop_support_water_eyes",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_support_water.eyes",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_support_water_ears",
+        "slot":  "ears",
+        "element":  "water",
+        "cardId":  "card_shop_support_water_ears",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_support_water.ears",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_support_water_muzzle",
+        "slot":  "muzzle",
+        "element":  "water",
+        "cardId":  "card_shop_support_water_muzzle",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_support_water.muzzle",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_support_water_headwear",
+        "slot":  "headwear",
+        "element":  "water",
+        "cardId":  "card_shop_support_water_headwear",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_support_water.headwear",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_support_water_back",
+        "slot":  "back",
+        "element":  "water",
+        "cardId":  "card_shop_support_water_back",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_support_water.back",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_support_water_tail",
+        "slot":  "tail",
+        "element":  "water",
+        "cardId":  "card_shop_support_water_tail",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_support_water.tail",
+        "rarity":  "common"
+    },
     {
         "partId":  "part_shop_support_wind_eyes",
         "slot":  "eyes",
