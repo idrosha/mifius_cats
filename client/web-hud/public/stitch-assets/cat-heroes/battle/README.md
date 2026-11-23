@@ -1,4 +1,5 @@
-﻿# Battle portraits (elven 18)
+﻿# Battle portraits (gear18)
 
-Same idle JPGs as lobby until transparent cutouts land (D-037).
+Ordinary cat-heroes cutouts (studio / no tavern BG).
+Map: fire→fire, ice→water, stone→wind.
 Files: `{role}-{fire|water|wind}.jpg`.

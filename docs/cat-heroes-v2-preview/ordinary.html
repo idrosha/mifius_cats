@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Обычные котики ×18</title>
+  <style>
+    body { margin:0; font-family: Georgia, serif; background:#120f0c; color:#f3e7d3; }
+    h1 { margin:1rem; font-size:1.3rem; }
+    .grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:.75rem; padding:1rem; max-width:1200px; margin:0 auto; }
+    @media (max-width:800px){ .grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    figure { margin:0; background:#0b0908; border:1px solid rgba(243,231,211,.12); border-radius:12px; overflow:hidden; }
+    img { display:block; width:100%; aspect-ratio:3/4; object-fit:cover; object-position:top; }
+    figcaption { padding:.45rem .6rem; font-size:.85rem; opacity:.85; }
+    h2 { margin:1.5rem 1rem .5rem; }
+    .fire { color:#e67a2e; } .stone { color:#9aa3ad; } .ice { color:#7ec8e3; }
+  </style>
+</head>
+<body>
+  <h1>Обычные котики ×18</h1>
+  <script>
+    const roles = ["tank","fighter","assassin","ranger","mage","support"];
+    const labels = { tank:"Танк", fighter:"Боец", assassin:"Убийца", ranger:"Стрелок", mage:"Маг", support:"Саппорт" };
+    const elements = [
+      { id:"fire", title:"Огонь · рыжие", cls:"fire" },
+      { id:"stone", title:"Камень · серые", cls:"stone" },
+      { id:"ice", title:"Лёд · белые", cls:"ice" }
+    ];
+    document.body.insertAdjacentHTML("beforeend", elements.map((el) => `
+      <h2 class="${el.cls}">${el.title}</h2>
+      <div class="grid">${roles.map((r) => `
+        <figure>
+          <img src="idle/${r}-${el.id}.jpg" alt="${r} ${el.id}" />
+          <figcaption>${labels[r]} · ${el.id}</figcaption>
+        </figure>`).join("")}</div>`).join(""));
+  </script>
+</body>
+</html>

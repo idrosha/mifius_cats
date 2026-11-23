@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Idle карточки ×18 — Мифиус v2</title>
+  <title>Idle карточки ×18 — обычные / мифические</title>
   <style>
     :root { --bg:#120f0c; --ink:#f3e7d3; --fire:#e67a2e; --stone:#9aa3ad; --ice:#7ec8e3; }
     * { box-sizing: border-box; }
@@ -20,15 +20,14 @@
     figure { margin:0; background:#0b0908; border:1px solid rgba(243,231,211,.12); border-radius:12px; overflow:hidden; }
     figure img { display:block; width:100%; height:auto; aspect-ratio:3/4; object-fit:cover; object-position:top; }
     figcaption { padding:.45rem .6rem .55rem; font-size:.85rem; opacity:.85; }
-    .tabs { display:flex; gap:.4rem; margin-bottom:.7rem; }
+    .tabs { display:flex; gap:.4rem; margin-bottom:.7rem; flex-wrap:wrap; }
     .tabs button { background:transparent; color:var(--ink); border:1px solid rgba(243,231,211,.25); border-radius:999px; padding:.3rem .7rem; cursor:pointer; }
     .tabs button.active { background:rgba(243,231,211,.12); }
-    .battle img { object-fit:contain; background:#000; }
   </style>
 </head>
 <body>
   <header>
-    <h1>Idle ×18 · face left · без брони</h1>
+    <h1>Idle ×18 · обычные / мифические</h1>
     <nav>
       <a href="#fire">Огонь</a>
       <a href="#stone">Камень</a>
@@ -38,8 +37,8 @@
   </header>
   <main>
     <div class="tabs">
-      <button type="button" class="active" data-mode="idle">Portrait</button>
-      <button type="button" data-mode="battle">Battle cutout</button>
+      <button type="button" class="active" data-mode="ordinary">Обычные</button>
+      <button type="button" data-mode="mythic">Мифические</button>
     </div>
     <section id="fire">
       <h2>Fire · рыжие</h2>
@@ -57,16 +56,16 @@
   <script>
     const roles = ["tank","fighter","assassin","ranger","mage","support"];
     const labels = { tank:"Танк", fighter:"Боец", assassin:"Убийца", ranger:"Стрелок", mage:"Маг", support:"Саппорт" };
-    let mode = "idle";
+    let mode = "ordinary";
     function render() {
       document.querySelectorAll(".grid").forEach((grid) => {
         const el = grid.dataset.element;
-        grid.classList.toggle("battle", mode === "battle");
         grid.innerHTML = roles.map((role) => {
-          const src = mode === "battle"
-            ? `idle/battle/${role}-${el}.jpg`
+          const src = mode === "mythic"
+            ? `idle/mythic/${role}-${el}.jpg`
             : `idle/${role}-${el}.jpg`;
-          return `<figure><img src="${src}" alt="${role} ${el}" loading="lazy"/><figcaption>${labels[role]} · ${el}</figcaption></figure>`;
+          const tag = mode === "mythic" ? "мифик" : "обычный";
+          return `<figure><img src="${src}" alt="${role} ${el} ${tag}" loading="lazy"/><figcaption>${labels[role]} · ${el} · ${tag}</figcaption></figure>`;
         }).join("");
       });
     }
