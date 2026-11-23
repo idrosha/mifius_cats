@@ -12939,7 +12939,7 @@ const ATTACK_CARD_ART_ALIAS = {
 };
 
 /** Bust Amvera/browser max-age after in-place rebakes. */
-const STITCH_ASSET_V = "elven18w";
+const STITCH_ASSET_V = "nomf1";
 
 function attackCardArtUrl(cardId) {
   if (!cardId) return "";
@@ -12956,7 +12956,7 @@ function attackCardArtUrl(cardId) {
   }
   const folder = ATTACK_CARD_ART_FOLDER[folderKey];
   if (!folder) return "";
-  return `/stitch-assets/attack-cards/${folder}/attack_${fileStem}.webp?v=${STITCH_ASSET_V}`;
+  return `/stitch-assets/attack-cards/${folder}/_src/attack_${fileStem}.jpg?v=${STITCH_ASSET_V}`;
 }
 
 function unitCrowdControlled(diff, unitId) {
