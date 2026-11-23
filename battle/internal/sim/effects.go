@@ -66,6 +66,10 @@ func (b *Battle) resolveCard(actor *Unit, card content.CardDef, targets []*Unit)
 	}
 	pierce := hasTag(card.Tags, "pierce")
 	crit := hasTag(card.Tags, "crit")
+	// Gear crit is a percent proc (1 point = 1%). Tagged crit cards stay a guaranteed ×2.
+	if !crit && actor != nil && actor.GearCrit > 0 && b.rng != nil && b.rng.ChancePercent(actor.GearCrit) {
+		crit = true
+	}
 	// FULL-SPEC: AoE primary = full hit; secondary targets = 50%.
 	aoe := hasTag(card.Tags, "aoe") || card.TargetRule == "all_enemies"
 	for h := 0; h < hits; h++ {

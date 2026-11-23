@@ -1,6 +1,7 @@
 package content
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 	"os"
@@ -148,5 +149,8 @@ func readJSON(path string, dst any) error {
 	if err != nil {
 		return err
 	}
+	// PowerShell UTF-8 writes a BOM. encoding/json rejects it and devapi exits,
+	// so every battle mode surfaces as upstream_unreachable.
+	b = bytes.TrimPrefix(b, []byte{0xEF, 0xBB, 0xBF})
 	return json.Unmarshal(b, dst)
 }

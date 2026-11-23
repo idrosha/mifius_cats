@@ -21,10 +21,11 @@ type CreateParams struct {
 // GearBonus — flat loadout stats from armor/weapons (HUD sheet). Applied at spawn only.
 // Enemy stages never receive gear; their HP stays the content baseline (unified PvE HP).
 type GearBonus struct {
-	HP  int `json:"hp"`
-	Atk int `json:"atk"`
-	Def int `json:"def"`
-	Spd int `json:"spd"`
+	HP   int `json:"hp"`
+	Atk  int `json:"atk"`
+	Def  int `json:"def"`
+	Spd  int `json:"spd"`
+	Crit int `json:"crit,omitempty"` // 1 point = 1% chance to crit a non-crit card
 }
 
 type SpawnUnit struct {
@@ -147,6 +148,9 @@ func spawn(s SpawnUnit, side Side, lane int, rng *RNG) (*Unit, error) {
 	}
 	if s.Gear.Spd != 0 {
 		u.Spd += s.Gear.Spd
+	}
+	if s.Gear.Crit != 0 {
+		u.GearCrit += s.Gear.Crit
 	}
 	// D-039: dead heroes stay dead across chapter levels; living enter at full MaxHP.
 	if s.CarryAlive != nil && !*s.CarryAlive {

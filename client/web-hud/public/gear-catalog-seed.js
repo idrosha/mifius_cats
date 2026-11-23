@@ -153,7 +153,7 @@ const SET_DEFS = {
     },
     stats: {
       helm: { atk: 1, hp: 3, def: 3, spd: 0, crit: 0 },
-      armor: { atk: 1, hp: 5, def: 4, spd: 0, crit: 0 },
+      armor: { atk: 1, hp: 6, def: 4, spd: 0, crit: 0 },
       cloak: { atk: 1, hp: 4, def: 3, spd: 0, crit: 0 },
       belt: { atk: 0, hp: 2, def: 2, spd: 0, crit: 0 },
       boots: { atk: 0, hp: 3, def: 3, spd: 2, crit: 0 },
@@ -174,7 +174,7 @@ const SET_DEFS = {
     },
     stats: {
       helm: { atk: 1, hp: 3, def: 3, spd: 0, crit: 0 },
-      armor: { atk: 1, hp: 6, def: 5, spd: 0, crit: 0 },
+      armor: { atk: 1, hp: 7, def: 6, spd: 0, crit: 0 },
       cloak: { atk: 1, hp: 4, def: 3, spd: 0, crit: 0 },
       belt: { atk: 0, hp: 3, def: 2, spd: 0, crit: 0 },
       boots: { atk: 0, hp: 3, def: 3, spd: 2, crit: 0 },
@@ -504,6 +504,19 @@ function buildWeapons() {
 }
 
 export const PVE_SET_IDS = ["grey", "green", "blue", "yellow", "purple", "red", "solar", "or"];
+
+/** Flat bonus once 3+ of helm/armor/cloak/belt/boots share a set. Ring does not count. */
+export const SET_BONUS_3 = {
+  grey: { def: 1 },
+  green: { atk: 1 },
+  blue: { spd: 1 },
+  turquoise: { spd: 1 },
+  yellow: { atk: 1 },
+  purple: { crit: 1 },
+  red: { hp: 2 },
+  solar: { atk: 1 },
+  or: { def: 2 },
+};
 
 export const HOME_SET_RU = {
   grey: { name: "Серый Лев", need: 3, armor: "+6 DEF · +8 HP", weapon: "—", bonus: "3+: +1 DEF" },

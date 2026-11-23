@@ -1,6 +1,10 @@
 package sim
 
-import "testing"
+import (
+	"testing"
+
+	"github.com/idrosha/mir_games/battle/internal/content"
+)
 
 func TestArmorDef_MitigatesHit(t *testing.T) {
 	b := &Battle{}
@@ -14,5 +18,17 @@ func TestArmorDef_MitigatesHit(t *testing.T) {
 	hpPierce, _, _ := b.applyDamage(nil, pierceTarget, 6, true)
 	if hpPierce != 6 {
 		t.Fatalf("pierce should ignore def: hpLost=%d want 6", hpPierce)
+	}
+}
+
+func TestGearCrit_ProcAt100(t *testing.T) {
+	b := &Battle{ID: "gear-crit", rng: NewRNG(1), cardsPlayedByUnit: map[string]int{}}
+	actor := &Unit{ID: "a", Side: SideP1, Alive: true, GearCrit: 100}
+	target := &Unit{ID: "t", Side: SideP2, Alive: true, HP: 100, MaxHP: 100}
+	b.Units = []*Unit{actor, target}
+	card := content.CardDef{Atk: 10, Hits: 1, TargetRule: "nearest"}
+	b.resolveCard(actor, card, []*Unit{target})
+	if target.HP != 80 {
+		t.Fatalf("gear crit 100%% should double: HP=%d want 80", target.HP)
 	}
 }

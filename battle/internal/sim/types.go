@@ -33,6 +33,7 @@ type Unit struct {
 	Atk       int              `json:"atk"`
 	Def       int              `json:"def"`     // armor mitigation (PvE/PvP gear); enemies stay 0
 	GearAtk   int              `json:"gearAtk"` // weapon power added to card hits
+	GearCrit  int              `json:"gearCrit,omitempty"` // gear crit rating; 1 = 1% proc
 	Spd       int              `json:"spd"`
 	Skill     int              `json:"skill"`
 	Charm     int              `json:"charm"`

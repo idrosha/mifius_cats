@@ -19,6 +19,7 @@ import {
   GEAR_HERO_STOCK,
   PVE_SET_IDS as PVE_SET_IDS_SEED,
   HOME_SET_RU as HOME_SET_RU_SEED,
+  SET_BONUS_3,
   PASS_GUARANTEED_SET_ID,
   buildGearCatalogSeed,
 } from "./gear-catalog-seed.js";
@@ -1567,10 +1568,23 @@ function loadProgress() {
 
 /** Append seed items missing from persisted catalog (e.g. new rings). */
 function mergeGearCatalogSeed() {
-  const have = new Set((state.gearCatalog || []).map((g) => g.id));
+  const byId = new Map((state.gearCatalog || []).map((g) => [g.id, g]));
   for (const seed of GEAR_CATALOG_SEED) {
-    if (have.has(seed.id)) continue;
-    state.gearCatalog.push(JSON.parse(JSON.stringify(seed)));
+    const have = byId.get(seed.id);
+    if (!have) {
+      const copy = JSON.parse(JSON.stringify(seed));
+      state.gearCatalog.push(copy);
+      byId.set(seed.id, copy);
+      continue;
+    }
+    // Canon piece stats (R7/R8 totals). Keep the player's qty and enhance.
+    have.atk = seed.atk || 0;
+    have.hp = seed.hp || 0;
+    have.def = seed.def || 0;
+    have.spd = seed.spd || 0;
+    have.crit = seed.crit || 0;
+    if (seed.set) have.set = seed.set;
+    if (seed.slot) have.slot = seed.slot;
   }
 }
 
@@ -1927,11 +1941,37 @@ function wireModeFor(viewId) {
   return viewId.replace(/^view/, "").toLowerCase();
 }
 
-/** Hydrate deferred stitch imgs/bgs only for the active view (keeps boot off heavy raster dump). */
+/** Old 12-archetype plates (tank-a … support-b) → elven-18 role×element art. */
+const LEGACY_HERO_ART = {
+  "tank-a": "tank-fire",
+  "tank-b": "tank-water",
+  "fighter-a": "fighter-fire",
+  "fighter-b": "fighter-water",
+  "assassin-a": "assassin-fire",
+  "assassin-b": "assassin-water",
+  "ranger-a": "ranger-fire",
+  "ranger-b": "ranger-water",
+  "mage-a": "mage-fire",
+  "mage-b": "mage-water",
+  "support-a": "support-water",
+  "support-b": "support-wind",
+};
+
+function rewriteLegacyHeroArt(src) {
+  if (!src || typeof src !== "string") return src;
+  const m = src.match(/\/cat-heroes\/(tank|fighter|assassin|ranger|mage|support)-([ab])\.webp/);
+  if (!m) return src;
+  const next = LEGACY_HERO_ART[`${m[1]}-${m[2]}`];
+  if (!next) return src;
+  return src
+    .replace(/\/cat-heroes\/[^/?]+\.webp/, `/cat-heroes/${next}.webp`)
+    .replace(/\?v=[^&]*/, "?v=gear18c");
+}
+
 function hydrateViewImages(root) {
   if (!root) return;
   root.querySelectorAll("img[data-mf-src]").forEach((img) => {
-    const src = img.getAttribute("data-mf-src");
+    const src = rewriteLegacyHeroArt(img.getAttribute("data-mf-src"));
     if (!src || img.getAttribute("src") === src) return;
     img.decoding = "async";
     img.setAttribute("src", src);
@@ -2281,9 +2321,13 @@ function gearEnhanceFlat(item) {
   return { atk: Math.floor(n / 4), hp: n * per, def: Math.ceil((n * per) / 2), spd: Math.floor(n / 5) };
 }
 
+const ARMOR_SET_SLOTS = ["helm", "armor", "cloak", "belt", "boots"];
+const DOLL_SLOT_ORDER = ["cloak", "boots", "armor", "belt", "helm", "ring", "weapon", "shield"];
+
 function gearBonusForCat(catId, lane = state.equipLane || "pve") {
   const eq = equipMapForLane(lane)[catId] || {};
-  const bonus = { atk: 0, hp: 0, def: 0, spd: 0 };
+  const bonus = { atk: 0, hp: 0, def: 0, spd: 0, crit: 0 };
+  const setCounts = {};
   for (const slot of HOME_SLOT_ORDER) {
     const id = eq[slot];
     if (!id) continue;
@@ -2295,8 +2339,91 @@ function gearBonusForCat(catId, lane = state.equipLane || "pve") {
     bonus.hp += (item.hp || 0) + enh.hp;
     bonus.def += (item.def || 0) + enh.def;
     bonus.spd += (item.spd || 0) + enh.spd;
+    bonus.crit += item.crit || 0;
+    if (ARMOR_SET_SLOTS.includes(slot) && item.set) {
+      setCounts[item.set] = (setCounts[item.set] || 0) + 1;
+    }
+  }
+  for (const [setId, n] of Object.entries(setCounts)) {
+    if (n < 3) continue;
+    const extra = SET_BONUS_3[setId];
+    if (!extra) continue;
+    bonus.atk += extra.atk || 0;
+    bonus.hp += extra.hp || 0;
+    bonus.def += extra.def || 0;
+    bonus.spd += extra.spd || 0;
+    bonus.crit += extra.crit || 0;
   }
   return bonus;
+}
+
+function gearDollSrc(item) {
+  if (!item?.slot) return "";
+  const lane = gearLaneOf(item);
+  if (item.set && ["helm", "armor", "cloak", "belt", "boots", "ring"].includes(item.slot)) {
+    return `/gear-sets/${lane}/${item.set}/${item.slot}.png`;
+  }
+  if (item.slot === "weapon" || item.slot === "shield") return item.iconSrc || "";
+  return "";
+}
+
+function gearDollLayers(catId, lane = "pve") {
+  if (!catId) return [];
+  const eq = equipMapForLane(lane)[catId] || {};
+  const layers = [];
+  for (const slot of DOLL_SLOT_ORDER) {
+    const id = eq[slot];
+    if (!id) continue;
+    const item = (state.gearCatalog || []).find((g) => g.id === id);
+    if (!item || gearLaneOf(item) !== lane) continue;
+    const src = gearDollSrc(item);
+    if (!src) continue;
+    layers.push({ slot, src });
+  }
+  return layers;
+}
+
+function gearDollHtml(catId, lane = "pve") {
+  const layers = gearDollLayers(catId, lane);
+  if (!layers.length) return "";
+  return `<span class="gear-doll is-flipped" data-lane="${lane}" aria-hidden="true">${layers
+    .map((l) => `<img class="gear-doll-layer" data-doll-slot="${l.slot}" alt="" src="${l.src}" draggable="false"/>`)
+    .join("")}</span>`;
+}
+
+function mountGearDoll(host, catId, lane = "pve", desiredFace = "right") {
+  if (!host) return;
+  const layers = gearDollLayers(catId, lane);
+  let stack = host.querySelector(":scope > .gear-doll");
+  if (!layers.length) {
+    if (stack) stack.remove();
+    return;
+  }
+  const key = `${desiredFace}|${layers.map((l) => `${l.slot}:${l.src}`).join("|")}`;
+  if (stack && stack.dataset.key === key) return;
+  if (!stack) {
+    stack = document.createElement("span");
+    stack.className = "gear-doll";
+    stack.setAttribute("aria-hidden", "true");
+    host.appendChild(stack);
+  }
+  const parentFlipped = !!(
+    host.classList?.contains("is-flipped") || host.closest?.(".mf-sprite-face.is-flipped")
+  );
+  stack.classList.toggle("is-flipped", desiredFace !== "left" && !parentFlipped);
+  stack.dataset.lane = lane;
+  stack.dataset.key = key;
+  stack.replaceChildren(
+    ...layers.map((l) => {
+      const img = document.createElement("img");
+      img.className = "gear-doll-layer";
+      img.dataset.dollSlot = l.slot;
+      img.alt = "";
+      img.draggable = false;
+      img.src = l.src;
+      return img;
+    }),
+  );
 }
 
 /** Starter PvE grey — one armor copy for onboarding; higher sets only from drops/pass. */
@@ -2682,9 +2809,10 @@ function teamGearForTemplates(templateIds, lane = "pve") {
       atk: bonus.atk || 0,
       def: bonus.def || 0,
       spd: bonus.spd || 0,
+      crit: bonus.crit || 0,
     });
   }
-  while (out.length < 3) out.push({ hp: 0, atk: 0, def: 0, spd: 0 });
+  while (out.length < 3) out.push({ hp: 0, atk: 0, def: 0, spd: 0, crit: 0 });
   return out.slice(0, 3);
 }
 
@@ -4390,8 +4518,9 @@ function renderPveYardSquad() {
         <span class="text-[11px] font-label-sm ${tc.label} font-bold uppercase tracking-wider">${lane.label}</span>
         <span class="text-[11px] font-stat-numeral text-primary font-bold bg-primary/10 px-1.5 py-0.5 rounded">Ур. ${lvl}</span>
       </div>
-      <div class="pve-yard-hero-art w-full h-44 rounded-lg overflow-hidden relative bg-surface-container-highest border ${tc.art} shadow-inner flex items-center justify-center">
+      <div class="pve-yard-hero-art gear-doll-host w-full h-44 rounded-lg overflow-hidden relative bg-surface-container-highest border ${tc.art} shadow-inner flex items-center justify-center">
         <img class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" alt="${name.replace(/"/g, "&quot;")}" src="${art}"/>
+        ${gearDollHtml(c.catId, "pve")}
         <div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent opacity-80 pointer-events-none"></div>
         <span class="absolute bottom-1.5 left-1.5 ${tc.badge} text-[10px] font-bold px-1.5 py-0.5 rounded leading-tight shadow-sm">${badge}</span>
       </div>
@@ -5583,8 +5712,15 @@ function renderFormation() {
     const m = starterMeta(id);
     const d = document.createElement("div");
     d.className = "lane-card";
+    const cat = (state.profile?.cats || []).find((c) => c.templateId === id);
+    const art = catHeroArt(id);
+    const doll = cat ? gearDollHtml(cat.catId, state.equipLane || "pve") : "";
     d.innerHTML = `
       <div class="lane-label">${labels[i]}</div>
+      <div class="gear-doll-host formation-doll">
+        ${art ? `<img alt="" class="formation-doll-art" src="${art}"/>` : ""}
+        ${doll}
+      </div>
       <h3>${id}</h3>
       <div class="meta">${m.role} · ${m.element}</div>
     `;
@@ -5745,6 +5881,23 @@ function grantShopHero(templateId) {
   return true;
 }
 
+/** Shop chests sell a PvP piece. PvE armor stays dungeon/raid drop only. */
+function grantShopPvpPiece(setId) {
+  const slots = ["helm", "armor", "cloak", "belt", "boots", "ring"];
+  const pool = (state.gearCatalog || []).filter(
+    (g) => g.lane === "pvp" && g.set === setId && slots.includes(g.slot),
+  );
+  if (!pool.length) {
+    toast(state.locale === "ru" ? `PvP «${setId}» нет в каталоге` : `PvP ${setId} missing`);
+    return null;
+  }
+  const piece = pool[Math.floor(Math.random() * pool.length)];
+  piece.qty = Math.min(GEAR_HERO_STOCK, Number(piece.qty || 0) + 1);
+  persistGearStub();
+  toast(state.locale === "ru" ? `PvP: ${piece.name}` : `PvP: ${piece.name}`);
+  return piece;
+}
+
 function grantShopArmorSet(setId) {
   const sid = String(setId || "").replace(/^set_/, "").replace(/^pvp_set_/, "");
   const pieces = (state.gearCatalog || []).filter(
@@ -5846,13 +5999,13 @@ function purchaseShopSku(sku, price, card) {
   }
   if (id === "chest_common") {
     if (!spendYarn(cost || 40)) return false;
-    grantPveSetPiece("grey", null, { silent: false });
+    grantShopPvpPiece("grey");
     return true;
   }
   if (id === "chest_rare") {
     if (!spendYarn(cost || 120)) return false;
     const sets = ["green", "blue"];
-    grantPveSetPiece(sets[Math.floor(Math.random() * sets.length)], null, { silent: false });
+    grantShopPvpPiece(sets[Math.floor(Math.random() * sets.length)]);
     return true;
   }
   if (id === "seed_elements") {
@@ -7995,7 +8148,8 @@ function equipArmorSet(catId, setId) {
   const label = meta?.name || setId;
   const tot = armorSetTotals(setId);
   const armorLine = meta?.armor || `+${tot.def} DEF · +${tot.hp} HP`;
-  toast(worn ? `${label}: ${worn}/5 · ${armorLine}` : `${label}: нет свободных частей`);
+  const bonusNote = worn >= 3 && meta?.bonus ? ` · ${meta.bonus}` : "";
+  toast(worn ? `${label}: ${worn}/5 · ${armorLine}${bonusNote}` : `${label}: нет свободных частей`);
   persistGearStub();
   renderHome();
   renderEquipCards();
@@ -8759,6 +8913,9 @@ function ensureHomeDom(root) {
       ),
     );
     if (filterRow) {
+      filterRow.id = "homeRoleFilters";
+      filterRow.className =
+        "home-role-filters flex flex-wrap items-center gap-1 text-[10px] font-headline font-bold pt-0.5 min-w-0 w-full";
       const active = state.homeRoleFilter || "all";
       filterRow.innerHTML = HOME_ROLE_FILTERS.map((it) => {
         const on = it.id === active;
@@ -8766,7 +8923,10 @@ function ensureHomeDom(root) {
       }).join("");
     }
   }
-  const stage = root.querySelector(".relative.w-full.h-full.flex.items-start.justify-between");
+  const stage =
+    root.querySelector(".home-hero-stage-inner") ||
+    root.querySelector(".relative.w-full.h-full.flex.items-stretch.justify-between") ||
+    root.querySelector(".relative.w-full.h-full.flex.items-start.justify-between");
   if (stage) {
     const cols = [...stage.children].filter((el) => el.classList?.contains("flex") && el.classList?.contains("flex-col"));
     const leftSlots = cols[0]?.querySelectorAll(":scope > .group.relative.cursor-pointer") || [];
@@ -8788,14 +8948,27 @@ function ensureHomeDom(root) {
       }
       ensureHomeSlotCaption(el, slot);
     });
-    const center = stage.querySelector(".relative.flex-1.h-full.flex.items-center.justify-center");
-    const artWrap = center?.querySelector(".relative.w-full.h-full.rounded-2xl");
-    if (artWrap && !artWrap.querySelector("#homeHeroArt")) {
-      const img = document.createElement("img");
-      img.id = "homeHeroArt";
-      img.className = "relative z-10 max-h-[92%] max-w-[90%] object-contain drop-shadow-2xl";
-      img.alt = "";
-      artWrap.appendChild(img);
+    const stageShell = stage.closest(".home-hero-stage") || stage.parentElement;
+    if (stageShell) stageShell.classList.add("home-hero-stage");
+    stage.classList.add("home-hero-stage-inner");
+    const center =
+      stage.querySelector(".home-hero-center") ||
+      stage.querySelector(".relative.flex-1.h-full.flex.items-center.justify-center");
+    if (center) center.classList.add("home-hero-center");
+    const artWrap =
+      center?.querySelector(".home-hero-art-wrap") ||
+      center?.querySelector(".relative.w-full.h-full.rounded-2xl");
+    if (artWrap) {
+      artWrap.classList.add("home-hero-art-wrap");
+      if (!artWrap.querySelector("#homeHeroArt")) {
+        const img = document.createElement("img");
+        img.id = "homeHeroArt";
+        img.className = "relative z-10 home-hero-art drop-shadow-2xl";
+        img.alt = "";
+        artWrap.appendChild(img);
+      } else {
+        artWrap.querySelector("#homeHeroArt")?.classList.add("home-hero-art");
+      }
     }
   }
   const title = [...root.querySelectorAll("span")].find((el) =>
@@ -8832,8 +9005,12 @@ function ensureHomeDom(root) {
     const nameSpan = deckTitle.querySelector("span");
     if (nameSpan) nameSpan.id = "homeDeckHeroName";
     const wrap = deckTitle.closest(".bg-surface-container-low");
+    if (wrap) wrap.classList.add("home-attack-deck-panel");
     const grid = wrap?.querySelector(".grid.grid-cols-6");
-    if (grid) grid.id = "homeDeckGrid";
+    if (grid) {
+      grid.id = "homeDeckGrid";
+      grid.classList.add("home-attack-deck");
+    }
     const costEl = wrap && [...wrap.querySelectorAll("span")].find((el) => /Стоимость цикла/i.test(el.textContent || ""));
     if (costEl) costEl.id = "homeDeckCycleCost";
   }
@@ -9091,15 +9268,50 @@ function renderHomeRoster(cat) {
       const name = catSheetName(c);
       const m = starterMeta(c.templateId);
       const role = CAT_ROLE_RU[c.role || m.role] || c.role || "—";
+      const el = CAT_ELEMENT_RU[c.element || m.element] || c.element || m.element || "—";
       const art = catHeroArt(c.templateId);
-      return `<button type="button" data-home-cat="${c.catId}" class="p-2 rounded-xl flex items-center gap-2 shrink-0 h-[64px] text-left border transition-colors ${on ? "bg-surface-container-highest border-primary/50 shadow" : "bg-surface-container-lowest/40 border-outline-variant/40 hover:border-primary/40"}">
-        ${art ? `<img alt="" src="${art}" class="w-10 h-10 object-cover object-top rounded"/>` : `<span class="material-symbols-outlined text-primary">pets</span>`}
-        <span class="flex flex-col min-w-0"><span class="font-label-sm text-label-sm text-on-surface truncate font-bold">${name}</span><span class="text-[10px] text-on-surface-variant truncate">${role}</span></span>
+      const doll = gearDollHtml(c.catId, state.equipLane || "pve");
+      const s = statsForCat(c);
+      const power = sheetPower(s);
+      return `<button type="button" data-home-cat="${c.catId}" class="home-roster-row p-2 rounded-xl flex items-center gap-2 shrink-0 text-left border transition-colors ${on ? "bg-surface-container-highest border-primary/50 shadow" : "bg-surface-container-lowest/40 border-outline-variant/40 hover:border-primary/40"}">
+        ${art ? `<span class="gear-doll-host">${doll}<img alt="" src="${art}" class="home-roster-avatar w-12 h-12 object-contain object-top rounded bg-surface-container-lowest shrink-0"/></span>` : `<span class="material-symbols-outlined text-primary">pets</span>`}
+        <span class="home-roster-meta flex flex-col min-w-0 flex-1 gap-0.5">
+          <span class="font-label-sm text-label-sm text-on-surface truncate font-bold">${name}</span>
+          <span class="text-[10px] text-on-surface-variant truncate">${role} · ${el}</span>
+          <span class="home-roster-stats flex items-center gap-2 text-[9px] font-stat text-on-surface-variant">
+            <span>АТК <b class="text-primary">${formatSheetNum(s.atk)}</b></span>
+            <span>HP <b class="text-secondary">${formatSheetNum(s.hp)}</b></span>
+            <span>⚡ <b class="text-primary">${formatSheetNum(power)}</b></span>
+          </span>
+        </span>
       </button>`;
     })
     .join("");
   const count = list.closest(".col-span-3")?.querySelector(".font-stat.font-bold");
   if (count && /Герои/i.test(count.parentElement?.textContent || "")) count.textContent = String(cats.length);
+}
+
+function renderHomeEquipLane() {
+  const old = $("homeEquipLaneBar");
+  if (old && !$("btn-upgrade")?.parentElement?.contains(old)) old.remove();
+  const forgeRow = $("btn-upgrade")?.parentElement;
+  if (!forgeRow) return;
+  let bar = $("homeEquipLaneBar");
+  if (!bar) {
+    bar = document.createElement("div");
+    bar.id = "homeEquipLaneBar";
+    bar.className = "home-equip-lane flex items-center gap-1 shrink-0";
+    forgeRow.insertBefore(bar, forgeRow.firstChild);
+  }
+  const lane = state.equipLane || "pve";
+  const btn = (id, label, tip) => {
+    const on = lane === id;
+    return `<button type="button" data-equip-lane="${id}" title="${tip}" class="px-2 py-1 rounded font-headline text-[10px] font-black border transition-all ${on ? "bg-primary text-on-primary border-primary shadow" : "bg-surface-container-high text-on-surface-variant border-outline-variant/30 hover:text-on-surface"}">${label}</button>`;
+  };
+  bar.innerHTML = `${btn("pve", "PvE", "Данжи и рейды")} ${btn("pvp", "PvP", "Магазин")}`;
+  bar.querySelectorAll("[data-equip-lane]").forEach((el) => {
+    el.addEventListener("click", () => setEquipLane(el.getAttribute("data-equip-lane")));
+  });
 }
 
 function renderHome() {
@@ -9128,26 +9340,8 @@ function renderHome() {
   const art = catHeroArt(cat.templateId);
   const name = catSheetName(cat);
   const title = $("homeHeroTitle");
-  if (title) {
-    title.textContent = `ЭКИПИРОВКА ГЕРОЯ: ${name.toUpperCase()}`;
-    let laneBar = $("homeEquipLaneBar");
-    if (!laneBar && title.parentElement) {
-      laneBar = document.createElement("div");
-      laneBar.id = "homeEquipLaneBar";
-      laneBar.className = "flex gap-2 mt-2";
-      title.parentElement.insertBefore(laneBar, title.nextSibling);
-    }
-    if (laneBar) {
-      const lane = state.equipLane || "pve";
-      laneBar.innerHTML = `
-        <button type="button" data-equip-lane="pve" class="mission-fight ${lane === "pve" ? "is-active" : ""}" style="padding:0.35rem 0.7rem">PvE · данжи/рейды</button>
-        <button type="button" data-equip-lane="pvp" class="mission-fight ${lane === "pvp" ? "is-active" : ""}" style="padding:0.35rem 0.7rem">PvP · магазин</button>
-        <span class="meta" style="align-self:center;font-size:11px;opacity:.75">HP врагов фиксировано · выше броня/оружие = проще</span>`;
-      laneBar.querySelectorAll("[data-equip-lane]").forEach((btn) => {
-        btn.addEventListener("click", () => setEquipLane(btn.getAttribute("data-equip-lane")));
-      });
-    }
-  }
+  if (title) title.textContent = `ЭКИПИРОВКА ГЕРОЯ: ${name.toUpperCase()}`;
+  renderHomeEquipLane();
   const nameEl = $("homeHeroName");
   const metaEl = $("homeHeroMeta");
   const artEl = $("homeHeroArt");
@@ -9161,7 +9355,8 @@ function renderHome() {
   if (artEl && art) {
     artEl.src = art;
     artEl.alt = name;
-    applySpriteFacing(artEl, { artSrc: art, desiredFace: "right" });
+    const face = applySpriteFacing(artEl, { artSrc: art, desiredFace: "right" }) || artEl.parentElement;
+    mountGearDoll(face, cat.catId, state.equipLane || "pve");
   }
   ensureHomeStitchLoadout(cat.catId);
   bindHomeEquipClicks();
@@ -9179,17 +9374,21 @@ function syncHomeSheetStats(cat) {
   const s = statsForCat(cat);
   const power = sheetPower(s);
   const map = [
-    ["АТАКА", s.atk],
-    ["ЗДОРОВЬЕ", s.hp],
-    ["ЗАЩИТА", s.def],
-    ["СКОРОСТЬ", s.spd],
+    ["АТАКА", s.atk, s.bonus.atk],
+    ["ЗДОРОВЬЕ", s.hp, s.bonus.hp],
+    ["ЗАЩИТА", s.def, s.bonus.def],
+    ["СКОРОСТЬ", s.spd, s.bonus.spd],
   ];
-  for (const [label, total] of map) {
+  for (const [label, total, plus] of map) {
     const lab = [...root.querySelectorAll("span")].find(
       (el) => el.textContent?.trim().toUpperCase() === label,
     );
     const num = lab?.parentElement?.querySelector(".font-stat, .font-stat-numeral, .font-black");
-    if (num) num.textContent = formatSheetNum(total);
+    if (!num) continue;
+    const extra = Number(plus) || 0;
+    num.innerHTML = extra
+      ? `${formatSheetNum(total)}<span class="home-gear-plus">+${extra}</span>`
+      : formatSheetNum(total);
   }
   const selected = [...root.querySelectorAll("span")].find((el) => /Выбрано:/i.test(el.textContent || ""));
   if (selected) {
@@ -9424,6 +9623,7 @@ function renderEquipCards() {
       <div>HP <strong>${s.hp}</strong> <span class="meta">(+${s.bonus.hp})</span></div>
       <div>DEF <strong>${s.def}</strong> <span class="meta">(+${s.bonus.def})</span></div>
       <div>SPD <strong>${s.spd}</strong> <span class="meta">(+${s.bonus.spd})</span></div>
+      <div>CRIT <strong>${s.bonus.crit || 0}</strong> <span class="meta">(+${s.bonus.crit || 0}%)</span></div>
       <div class="meta mt-2">Слоты: W=${eq.weapon || "—"} A=${eq.armor || "—"} H=${eq.helm || "—"} B=${eq.boots || "—"}</div>`;
   }
 }
@@ -11531,6 +11731,20 @@ function renderPveVictory() {
   setText("pveVicGold", "+2,400");
   setText("pveVicGems", "+480");
   setText("pveVicDust", "+1,200");
+  const vicSlots = document.querySelectorAll("#pveVicSlots article");
+  const vicCats = victoryCatCards();
+  vicSlots.forEach((article, i) => {
+    const card = vicCats[i];
+    if (!card) return;
+    const img = article.querySelector("img");
+    if (img && card.art) {
+      img.src = card.art;
+      img.alt = card.name;
+      img.removeAttribute("data-mf-src");
+    }
+    const nameEl = article.querySelector("b");
+    if (nameEl) nameEl.textContent = card.name;
+  });
   // Prefer chapter boss hall as backdrop when present.
   const bg = document.querySelector("#viewPveVictory .pve-vic-bg");
   const bossArt = data.stages?.boss?.art;
@@ -11870,6 +12084,19 @@ function activeCleanseFlashes(events, battleKey = "") {
   return _cleanseFlash.byUnit;
 }
 
+function mountBattleGearDoll(root, u) {
+  if (!root || !u) return;
+  const face = root.classList?.contains("mf-sprite-face")
+    ? root
+    : root.querySelector?.(".mf-sprite-face");
+  if (!face) return;
+  const tid = unitTemplateId(u);
+  const isBot = String(tid).startsWith("bot_") || String(u.id || "").startsWith("bot_");
+  const lane = state.battleMode === "pvp" ? "pvp" : "pve";
+  const cat = (state.profile?.cats || []).find((c) => c.templateId === tid && c.role !== "farm");
+  mountGearDoll(face, isBot ? null : cat?.catId, lane, desiredSpriteFace(u));
+}
+
 function unitCard(u, side) {
   const d = document.createElement("div");
   d.className = `unit ${side}${u.alive ? "" : " dead mf-unit-dead"} mf-battle-unit--cutout`;
@@ -11903,6 +12130,7 @@ function unitCard(u, side) {
   d.classList.toggle("is-stunned", !!(u.alive && (u.statuses || []).some((s) => s.id === "stun" || s.id === "sleep")));
   // MF-152: idle/aura + hit FX target via data-unit-id (same kits as cats by role).
   decorateBattleUnitIdle(d, u, u.lane ?? 0);
+  mountBattleGearDoll(d, u);
   return d;
 }
 
@@ -12065,7 +12293,7 @@ function renderHomeDeck(cat) {
   if (!cards.length) {
     grid.innerHTML = DECK_PARTS.map(
       () =>
-        `<div class="group relative rounded-lg bg-surface-container-lowest/40 border border-dashed border-outline-variant/40 aspect-[2/3] flex flex-col items-center justify-center text-outline-variant"><span class="material-symbols-outlined text-2xl">add</span><span class="text-[9px] font-label-sm mt-1">Пусто</span></div>`,
+        `<div class="group relative rounded-lg bg-surface-container-lowest/40 border border-dashed border-outline-variant/40 flex flex-col items-center justify-center text-outline-variant h-full min-h-0"><span class="material-symbols-outlined text-2xl">add</span><span class="text-[9px] font-label-sm mt-1">Пусто</span></div>`,
     ).join("");
     return;
   }
@@ -12074,13 +12302,13 @@ function renderHomeDeck(cat) {
       const title = t(c.name_key, c.stem);
       const tip = escapeCardHtml(attackCardTooltip(c.cardId, title, c.cost) + ` · ${c.part}`);
       if (c.art) {
-        return `<div class="group relative rounded-lg bg-surface-container-lowest border border-outline-variant/40 aspect-[2/3] overflow-hidden shadow mf-atk-card mf-atk-card--art mf-atk-card--fx" title="${tip}"><img alt="${title}" class="w-full h-full object-cover" src="${c.art}"/>${attackCardFxOverlayHtml(c.cardId)}</div>`;
+        return `<div class="group relative rounded-lg bg-surface-container-lowest border border-outline-variant/40 overflow-hidden shadow mf-atk-card mf-atk-card--art mf-atk-card--fx h-full min-h-0" title="${tip}"><img alt="${title}" class="w-full h-full object-contain object-top" src="${c.art}"/>${attackCardFxOverlayHtml(c.cardId)}</div>`;
       }
       const def = cardEffectDef(c.cardId);
       const effect = def?.effect_ru
         ? `<span class="text-[8px] text-on-surface-variant mt-0.5 leading-tight px-0.5">${escapeCardHtml(def.effect_ru)}</span>`
         : "";
-      return `<div class="group relative rounded-lg bg-surface-container-lowest border border-outline-variant/40 aspect-[2/3] flex flex-col items-center justify-center p-1 text-center" title="${tip}"><span class="text-[10px] font-label-sm text-on-surface">${escapeCardHtml(title)}</span><span class="text-[9px] text-on-surface-variant mt-1">${c.cost} AP · ${c.part}</span>${effect}</div>`;
+      return `<div class="group relative rounded-lg bg-surface-container-lowest border border-outline-variant/40 flex flex-col items-center justify-center p-1 text-center h-full min-h-0" title="${tip}"><span class="text-[10px] font-label-sm text-on-surface">${escapeCardHtml(title)}</span><span class="text-[9px] text-on-surface-variant mt-1">${c.cost} AP · ${c.part}</span>${effect}</div>`;
     })
     .join("");
   requestAnimationFrame(() => {
@@ -12265,7 +12493,113 @@ const PRACTICE_HEROES = {
     shield: 3,
     dmg: 3,
   },
+  vortex: {
+    templateId: "shop_tank_wind",
+    name: "Щит-вихрь",
+    short: "Вихрь",
+    role: "tank",
+    roleRu: "ТАНК",
+    roleIcon: "shield",
+    accent: "primary",
+    lvl: 1,
+    bm: 4760,
+    hp: 50,
+    shield: 7,
+    dmg: 4,
+  },
+  gale: {
+    templateId: "shop_fighter_wind",
+    name: "Ветряной размах",
+    short: "Размах",
+    role: "fighter",
+    roleRu: "БОЕЦ",
+    roleIcon: "swords",
+    accent: "tertiary",
+    lvl: 1,
+    bm: 5080,
+    hp: 42,
+    shield: 3,
+    dmg: 8,
+  },
+  venom: {
+    templateId: "shop_assassin_wind",
+    name: "Ядовитый порыв",
+    short: "Порыв",
+    role: "assassin",
+    roleRu: "АССАСИН",
+    roleIcon: "flash_on",
+    accent: "primary",
+    lvl: 1,
+    bm: 4860,
+    hp: 37,
+    shield: 2,
+    dmg: 7,
+  },
+  squall: {
+    templateId: "shop_ranger_wind",
+    name: "Метка ветра",
+    short: "Метка",
+    role: "ranger",
+    roleRu: "СТРЕЛОК",
+    roleIcon: "adjust",
+    accent: "secondary",
+    lvl: 1,
+    bm: 4920,
+    hp: 35,
+    shield: 2,
+    dmg: 7,
+  },
+  storm: {
+    templateId: "shop_mage_wind",
+    name: "Цепной порыв",
+    short: "Цепь",
+    role: "mage",
+    roleRu: "МАГ",
+    roleIcon: "auto_fix_high",
+    accent: "tertiary",
+    lvl: 1,
+    bm: 5210,
+    hp: 30,
+    shield: 2,
+    dmg: 5,
+  },
+  ember: {
+    templateId: "shop_support_fire",
+    name: "Целительный жар",
+    short: "Жар",
+    role: "support",
+    roleRu: "САППОРТ",
+    roleIcon: "healing",
+    accent: "secondary",
+    lvl: 1,
+    bm: 4710,
+    hp: 28,
+    shield: 3,
+    dmg: 3,
+  },
 };
+
+/** Dojo roster order: 6 roles × fire / water / wind. */
+const DOJO_ROSTER_KEYS = [
+  "barsik",
+  "titan",
+  "vortex",
+  "ryzhik",
+  "grom",
+  "gale",
+  "shadow",
+  "bagheera",
+  "venom",
+  "lynx",
+  "leo",
+  "squall",
+  "ignius",
+  "frostia",
+  "storm",
+  "ember",
+  "murka",
+  "aurelia",
+];
 
 /**
  * Sim / CreatePvE: index 0 = front (авангард) … 2 = rear (тыл). FULL-SPEC §2.1.
@@ -12298,7 +12632,7 @@ const PRACTICE_EMPTY_SLOT_META = [
 ];
 
 function practiceElementOf(hero) {
-  const m = String(hero?.templateId || "").match(/_(fire|water|grass|bolt|stone|ice)_/);
+  const m = String(hero?.templateId || "").match(/_(fire|water|wind|grass|bolt|stone|ice)$/);
   return m ? m[1] : "";
 }
 
@@ -12313,12 +12647,9 @@ const DOJO_FILTER_ROLES = [
 ];
 const DOJO_FILTER_ELS = [
   { id: "", label: "·" },
-  { id: "stone", label: "🪨" },
   { id: "fire", label: "🔥" },
-  { id: "bolt", label: "⚡" },
-  { id: "grass", label: "🌿" },
-  { id: "ice", label: "❄️" },
   { id: "water", label: "💧" },
+  { id: "wind", label: "💨" },
 ];
 
 function ensureDojoRosterFilters(root) {
@@ -13198,11 +13529,12 @@ function renderPracticeFight() {
       if (img) {
         img.classList.add("mf-battle-cutout");
         card.classList.add("mf-battle-unit--cutout");
-        applySpriteFacing(img, {
+        const face = applySpriteFacing(img, {
           artSrc: art || img.getAttribute("src"),
           desiredFace: boardFace,
           unit: u,
         });
+        mountBattleGearDoll(face || card, u);
       }
       if (nameEl) nameEl.textContent = display;
       // MF-171 / MF-173: drop portrait corner chips (Ур. N / Т1 / role).
@@ -13410,6 +13742,7 @@ function pvpUnitCard(u, foe, cleansedIds = []) {
   }<div><b>${name}</b><small>${element}${role ? " · " + role : ""}</small><em class="${u.alive ? "" : "mf-fatality-inline"}">${hpLine}</em><div class="mf-bars"><div class="mf-bar mf-bar--hp"><i style="width:${pct}%"></i></div>${shieldBar}</div></div>`;
   if (foe) li.dataset.foe = "1";
   decorateBattleUnitIdle(li, u, u.lane ?? 0);
+  mountBattleGearDoll(li, u);
   return li;
 }
 
@@ -15525,7 +15858,7 @@ function renderCollectionRosterCards(cats) {
       return `<button type="button" draggable="true" data-col-cat="${c.catId}" class="col-roster-card relative rounded-lg flex items-center gap-2 h-[88px] px-2 text-left border transition-colors cursor-grab active:cursor-grabbing ${
         on ? "is-picked bg-surface-container-highest border-primary/60" : "bg-surface-container-lowest/50 border-surface-container-highest/30 hover:border-primary/40"
       }">
-        ${art ? `<img alt="" src="${art}" draggable="false" class="w-14 h-14 object-cover object-top rounded shrink-0 pointer-events-none"/>` : `<span class="material-symbols-outlined text-primary text-[28px]">pets</span>`}
+        ${art ? `<span class="gear-doll-host">${gearDollHtml(c.catId, state.equipLane || "pve")}<img alt="" src="${art}" draggable="false" class="w-14 h-14 object-cover object-top rounded shrink-0 pointer-events-none"/></span>` : `<span class="material-symbols-outlined text-primary text-[28px]">pets</span>`}
         <span class="flex flex-col min-w-0 gap-0.5">
           <span class="font-label-sm text-label-sm text-on-surface font-bold truncate">${name}</span>
           <span class="text-[10px] text-on-surface-variant truncate">${role}${el ? ` · ${el}` : ""}</span>
@@ -16298,10 +16631,81 @@ ${face}
 </div>`;
 }
 
+function dojoElIcon(el) {
+  if (el === "fire") return "🔥";
+  if (el === "water") return "💧";
+  if (el === "wind") return "💨";
+  return "·";
+}
+
+function dojoRosterCardHtml(key) {
+  const hero = PRACTICE_HEROES[key];
+  if (!hero) return "";
+  const el = practiceElementOf(hero);
+  const art = catHeroArt(hero.templateId) || "";
+  const accent = hero.accent === "tertiary" ? "tertiary" : hero.accent === "secondary" ? "secondary" : "primary";
+  const base = CONTENT_CAT_BASE[hero.templateId] || {};
+  const hp = base.hp ?? hero.hp;
+  const tone =
+    accent === "tertiary"
+      ? {
+          hover: "hover:border-tertiary",
+          chip: "border-tertiary/40 text-tertiary",
+          stat: "text-tertiary",
+          btn: "text-tertiary border-tertiary/40 hover:bg-tertiary hover:text-on-tertiary",
+        }
+      : accent === "secondary"
+        ? {
+            hover: "hover:border-secondary",
+            chip: "border-secondary/40 text-secondary",
+            stat: "text-secondary",
+            btn: "text-secondary border-secondary/40 hover:bg-secondary hover:text-on-secondary",
+          }
+        : {
+            hover: "hover:border-primary",
+            chip: "border-primary/40 text-primary",
+            stat: "text-primary",
+            btn: "text-primary border-primary/40 hover:bg-primary hover:text-on-primary",
+          };
+  return `<div class="relative bg-[#1a1613] rounded-lg border border-outline-variant/40 ${tone.hover} transition-all overflow-hidden flex flex-col shadow-md group cursor-pointer h-36 dojo-roster-card" data-hero="${key}" data-role="${hero.role}" data-el="${el}" tabindex="0">
+<div class="absolute inset-0 z-0">
+<img alt="${hero.name}" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300 mf-hero-portrait" src="${art}" decoding="async">
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+</div>
+<div class="relative z-10 flex items-center justify-between p-1">
+<div class="bg-black/75 px-1.5 py-0.5 rounded border ${tone.chip} text-[9px] font-bold flex items-center gap-0.5"><span class="material-symbols-outlined text-[10px]">${hero.roleIcon}</span> ${hero.roleRu}</div>
+<div class="bg-black/75 px-1 py-0.5 rounded border border-outline-variant/40 text-[10px]">${dojoElIcon(el)}</div>
+</div>
+<div class="relative z-10 mt-auto p-1.5 flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent">
+<div class="font-bold text-[11px] text-white truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">${hero.short}</div>
+<div class="flex items-center justify-between mt-1">
+<span class="${tone.stat} font-bold text-[10px] drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]" data-dojo-bm="1">${hp} HP</span>
+<button type="button" class="bg-black/60 backdrop-blur-sm ${tone.btn} border text-[9px] font-bold px-1.5 py-0.5 rounded transition-colors shadow-sm">+ В отряд</button>
+</div>
+</div>
+</div>`;
+}
+
+/** Replace the stitch 12-archetype grid with the elven 18. */
+function renderDojoRoster(root) {
+  if (!root) return;
+  let grid = root.querySelector("[data-dojo-roster]");
+  if (!grid) {
+    grid = root.querySelector("[data-hero]")?.parentElement || null;
+    if (grid) grid.setAttribute("data-dojo-roster", "1");
+  }
+  if (!grid) return;
+  grid.innerHTML = DOJO_ROSTER_KEYS.map(dojoRosterCardHtml).join("");
+  root.querySelectorAll("span").forEach((span) => {
+    if ((span.textContent || "").includes("Архетип")) span.textContent = "(18 героев)";
+  });
+}
+
 function renderPracticeSquad() {
   const root = $("viewPractice");
   if (!root) return;
   ensurePracticeSquadState();
+  renderDojoRoster(root);
   applyDojoRosterFilter(root);
   const squad = state.practiceSquad;
   const heroes = squad.map((id) => practiceHeroByTemplate(id)).filter(Boolean);
