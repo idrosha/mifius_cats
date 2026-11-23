@@ -12343,7 +12343,7 @@ function unitCard(u, side) {
   return d;
 }
 
-/** Live effect copy + keyword icons for attack plates (covers baked placeholders). */
+/** Card effect catalog — tooltips / text fallbacks only (D-038 Rejected: no live overlay on plates). */
 let cardEffectCatalog = {};
 
 async function bootCardEffects() {
@@ -12362,48 +12362,12 @@ function cardEffectDef(cardId) {
   return cardEffectCatalog[cardId] || cardEffectCatalog[`card_${String(cardId).replace(/^card_/, "")}`] || null;
 }
 
-const ATTACK_CARD_ICON_META = [
-  { key: "buff", label: "BUFF", icon: "spa" },
-  { key: "debuff", label: "DEBUFF", icon: "skull" },
-  { key: "x2", label: "2X", icon: "filter_2" },
-  { key: "crit", label: "CRIT", icon: "flare" },
-  { key: "pierce", label: "PIERCE", icon: "keyboard_double_arrow_up" },
-  { key: "heal", label: "HEAL", icon: "favorite" },
-  { key: "shield", label: "SHIELD", icon: "shield" },
-];
-
 function escapeCardHtml(s) {
   return String(s || "")
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;");
-}
-
-/** Shrink effect copy so it stays inside the parchment slot. */
-function fitAttackCardText(root) {
-  const el = root?.querySelector?.(".mf-atk-card__effect");
-  if (!el) return;
-  let size = parseFloat(getComputedStyle(el).fontSize) || 11;
-  el.style.fontSize = `${size}px`;
-  for (let i = 0; i < 8 && el.scrollHeight > el.clientHeight + 1 && size > 6.5; i++) {
-    size -= 0.55;
-    el.style.fontSize = `${size}px`;
-  }
-}
-
-/** Parchment effect text + lit keyword icons over baked plate bottom. */
-function attackCardFxOverlayHtml(cardId) {
-  const def = cardEffectDef(cardId);
-  if (!def) return "";
-  const effect = String(def.effect_ru || "").trim();
-  if (!effect) return "";
-  const icons = def.icons || {};
-  const iconsHtml = ATTACK_CARD_ICON_META.map((m) => {
-    const on = !!icons[m.key];
-    return `<span class="mf-atk-card__icon${on ? " is-on" : ""}" data-icon="${m.key}" title="${m.label}"><span class="material-symbols-outlined" aria-hidden="true">${m.icon}</span><em>${m.label}</em></span>`;
-  }).join("");
-  return `<div class="mf-atk-card__fx" aria-hidden="true"><p class="mf-atk-card__effect">${escapeCardHtml(effect)}</p><div class="mf-atk-card__icons">${iconsHtml}</div></div>`;
 }
 
 function attackCardTooltip(cardId, title, cost) {
@@ -12511,7 +12475,7 @@ function renderHomeDeck(cat) {
       const title = t(c.name_key, c.stem);
       const tip = escapeCardHtml(attackCardTooltip(c.cardId, title, c.cost) + ` · ${c.part}`);
       if (c.art) {
-        return `<div class="group relative rounded-lg bg-surface-container-lowest border border-outline-variant/40 overflow-hidden shadow mf-atk-card mf-atk-card--art mf-atk-card--fx h-full min-h-0" title="${tip}"><img alt="${title}" class="w-full h-full object-contain object-top" src="${c.art}"/>${attackCardFxOverlayHtml(c.cardId)}</div>`;
+        return `<div class="group relative rounded-lg bg-surface-container-lowest border border-outline-variant/40 overflow-hidden shadow mf-atk-card mf-atk-card--art h-full min-h-0" title="${tip}"><img alt="${title}" class="w-full h-full object-contain object-top" src="${c.art}"/></div>`;
       }
       const def = cardEffectDef(c.cardId);
       const effect = def?.effect_ru
@@ -12520,9 +12484,6 @@ function renderHomeDeck(cat) {
       return `<div class="group relative rounded-lg bg-surface-container-lowest border border-outline-variant/40 flex flex-col items-center justify-center p-1 text-center h-full min-h-0" title="${tip}"><span class="text-[10px] font-label-sm text-on-surface">${escapeCardHtml(title)}</span><span class="text-[9px] text-on-surface-variant mt-1">${c.cost} AP · ${c.part}</span>${effect}</div>`;
     })
     .join("");
-  requestAnimationFrame(() => {
-    grid.querySelectorAll(".mf-atk-card--fx").forEach((el) => fitAttackCardText(el));
-  });
 }
 
 /** Extract cat templateId from battle unit id (`p1_0_shop_tank_fire`). */
@@ -12974,9 +12935,8 @@ function makeAttackHandButton(c, diff, classNames = "mf-atk-card") {
   const cost = c.cost ?? "?";
   const cc = unitCrowdControlled(diff, c.unitId);
   const busy = !!state.oppThrowPlaying || !!state.actionBusy;
-  const fx = attackCardFxOverlayHtml(c.cardId);
   b.className = art
-    ? `${classNames} mf-atk-card--art mf-atk-card--fx pf-card pf-card-art`
+    ? `${classNames} mf-atk-card--art pf-card pf-card-art`
     : `${classNames} mf-atk-card--text pf-card`;
   if (cc) b.classList.add("mf-atk-card--stunned");
   if (busy) b.classList.add("is-busy-wait");
@@ -12985,15 +12945,13 @@ function makeAttackHandButton(c, diff, classNames = "mf-atk-card") {
   b.dataset.targetRule = c.targetRule || "";
   b.title = cc ? `${title} · стан/сон — пропуск хода` : attackCardTooltip(c.cardId, title, cost);
   if (art) {
-    b.innerHTML = `<img alt="${title}" src="${art}" draggable="false"/>${fx}<b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
-    requestAnimationFrame(() => fitAttackCardText(b));
+    b.innerHTML = `<img alt="${title}" src="${art}" draggable="false"/><b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
     const img = b.querySelector("img");
     img?.addEventListener("error", () => {
       // Missing/broken plate → text card instead of empty black tile.
-      b.classList.remove("mf-atk-card--art", "mf-atk-card--fx", "pf-card-art");
+      b.classList.remove("mf-atk-card--art", "pf-card-art");
       b.classList.add("mf-atk-card--text");
       img.remove();
-      b.querySelector(".mf-atk-card__fx")?.remove();
       const def = cardEffectDef(c.cardId);
       const effect = def?.effect_ru ? `<span class="mf-atk-card__sub">${escapeCardHtml(def.effect_ru)}</span>` : "";
       b.innerHTML = `<b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>${effect}`;
