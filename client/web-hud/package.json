@@ -10,7 +10,10 @@
     "vendor-stitch": "node scripts/vendor-stitch-assets.mjs",
     "build-stitch": "node scripts/build-stitch.mjs",
     "verify-nav": "node scripts/verify-nav.mjs",
-    "optimize-assets": "node scripts/optimize-stitch-assets.mjs"
+    "optimize-assets": "node scripts/optimize-stitch-assets.mjs",
+    "optimize-heavy": "node scripts/optimize-heavy-rasters.mjs",
+    "rewrite-webp": "node scripts/rewrite-to-webp.mjs",
+    "defer-images": "node scripts/defer-view-images.mjs"
   },
   "engines": {
     "node": ">=20"

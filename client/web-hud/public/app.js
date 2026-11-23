@@ -706,14 +706,14 @@ const PASS_ICON = {
   tome: "/stitch-assets/hero-icons/deck_3.png",
   amulet: "/stitch-assets/hero-icons/slot_amulet.png",
   collar: "/stitch-assets/barn-icons/collar.png",
-  cloak: "/stitch-assets/kb-v3/items/item-1.png",
-  belt: "/stitch-assets/kb-v3/items/item-2.png",
-  helm: "/stitch-assets/kb-v3/items/item-3.png",
-  boots: "/stitch-assets/kb-v3/items/item-4.png",
-  panzer: "/stitch-assets/kb-v3/items/item-5.png",
-  gloves: "/stitch-assets/kb-v3/items/item-6.png",
-  dragonSet: "/stitch-assets/kb-v3/armor/r6-dragon.png",
-  sunBars: "/stitch-assets/monsters/battle/solar-lion-fighter-cutout.png",
+  cloak: "/stitch-assets/kb-v3/items/item-1.webp",
+  belt: "/stitch-assets/kb-v3/items/item-2.webp",
+  helm: "/stitch-assets/kb-v3/items/item-3.webp",
+  boots: "/stitch-assets/kb-v3/items/item-4.webp",
+  panzer: "/stitch-assets/kb-v3/items/item-5.webp",
+  gloves: "/stitch-assets/kb-v3/items/item-6.webp",
+  dragonSet: "/stitch-assets/kb-v3/armor/r6-dragon.webp",
+  sunBars: "/stitch-assets/monsters/battle/solar-lion-fighter-cutout.webp",
   freeBox: "/stitch-ref/pass-hearth/icon-2.png",
 };
 
@@ -1459,14 +1459,21 @@ function wireModeFor(viewId) {
   return viewId.replace(/^view/, "").toLowerCase();
 }
 
-/** Hydrate deferred stitch imgs only for the active view (keeps boot off ~50MB PNG dump). */
+/** Hydrate deferred stitch imgs/bgs only for the active view (keeps boot off heavy raster dump). */
 function hydrateViewImages(root) {
   if (!root) return;
   root.querySelectorAll("img[data-mf-src]").forEach((img) => {
     const src = img.getAttribute("data-mf-src");
     if (!src || img.getAttribute("src") === src) return;
+    img.decoding = "async";
     img.setAttribute("src", src);
     img.removeAttribute("data-mf-src");
+  });
+  root.querySelectorAll("[data-mf-bg]").forEach((el) => {
+    const url = el.getAttribute("data-mf-bg");
+    if (!url) return;
+    el.style.backgroundImage = `url("${url}")`;
+    el.removeAttribute("data-mf-bg");
   });
 }
 
@@ -4000,19 +4007,19 @@ function raidFormationSnapshot() {
 
 const RAID_BOSS_UI = {
   myaurra: {
-    art: "/stitch-assets/monsters/battle/myaurra-pitboss-cutout.png?v=raid1",
+    art: "/stitch-assets/monsters/battle/myaurra-pitboss-cutout.webp?v=raid1",
     place_ru: "Небесный Двор",
     mech_ru: "Удар стаи",
     phase_ru: "Пса-Бури",
   },
   talass: {
-    art: "/stitch-assets/monsters/battle/talass-pitboss-cutout.png?v=raid1",
+    art: "/stitch-assets/monsters/battle/talass-pitboss-cutout.webp?v=raid1",
     place_ru: "Бездна Усов",
     mech_ru: "Шёпот глубин",
     phase_ru: "Прилив",
   },
   vulcan: {
-    art: "/stitch-assets/monsters/battle/vulcan-pitboss-cutout.png?v=raid1",
+    art: "/stitch-assets/monsters/battle/vulcan-pitboss-cutout.webp?v=raid1",
     place_ru: "Пепельный Трон",
     mech_ru: "Девять хвостов",
     phase_ru: "Пепел",
@@ -5189,14 +5196,14 @@ function renderAuction() {
 
 
 window.KB_TIER_ARMOR = {
-  1: "/stitch-assets/kb-v3/armor/r1-steel.png",
-  2: "/stitch-assets/kb-v3/armor/r2-ranger.png",
-  3: "/stitch-assets/kb-v3/armor/r3-blue.png",
-  4: "/stitch-assets/kb-v3/armor/r4-lion.png",
-  5: "/stitch-assets/kb-v3/armor/r5-purple.png",
-  6: "/stitch-assets/kb-v3/armor/r6-dragon.png",
-  7: "/stitch-assets/kb-v3/armor/r7-solar.png",
-  8: "/stitch-assets/kb-v3/armor/r8-or-fullplate.png",
+  1: "/stitch-assets/kb-v3/armor/r1-steel.webp",
+  2: "/stitch-assets/kb-v3/armor/r2-ranger.webp",
+  3: "/stitch-assets/kb-v3/armor/r3-blue.webp",
+  4: "/stitch-assets/kb-v3/armor/r4-lion.webp",
+  5: "/stitch-assets/kb-v3/armor/r5-purple.webp",
+  6: "/stitch-assets/kb-v3/armor/r6-dragon.webp",
+  7: "/stitch-assets/kb-v3/armor/r7-solar.webp",
+  8: "/stitch-assets/kb-v3/armor/r8-or-fullplate.webp",
 };
 
 /** Stitch v3 inspectTier — swaps center mannequin armor by rank. */
@@ -5915,11 +5922,10 @@ const CAT_HERO_BATTLE_ART = {
   starter_support_water: "/stitch-assets/cat-heroes/battle/support-a.webp",
   // Practice dummies — dedicated no-bg mannequins (D-037 fight-only).
   // FX/SFX reuse tank / fighter / support role kits (MF-149).
-  // Prefer PNG cutouts: webp?v=opt1 briefly 404'd before assets landed and CDNs
-  // can negative-cache that miss; ?v=dummyfix1 busts it. WebP still available as fallback.
-  bot_practice_tank_a: "/stitch-assets/dojo/battle/dummy-oak-knight.png?v=dummyfix1",
-  bot_practice_fighter_a: "/stitch-assets/dojo/battle/dummy-straw-berserk.png?v=dummyfix1",
-  bot_practice_support_a: "/stitch-assets/dojo/battle/dummy-stone-totem.png?v=dummyfix1",
+  // WebP cutouts (PNG archived under _src). ?v=dummyfix1 busts stale CDN negatives.
+  bot_practice_tank_a: "/stitch-assets/dojo/battle/dummy-oak-knight.webp?v=dummyfix1",
+  bot_practice_fighter_a: "/stitch-assets/dojo/battle/dummy-straw-berserk.webp?v=dummyfix1",
+  bot_practice_support_a: "/stitch-assets/dojo/battle/dummy-stone-totem.webp?v=dummyfix1",
 };
 
 /** Lobby JPG + battle WebP fallbacks when primary cutout 404s. */
@@ -6067,22 +6073,22 @@ const MONSTER_BATTLE_BY_FACTION = {
   },
   // Raid factions (docs/raids) — PNG cutouts 2026-11-22
   solar_lions: {
-    tank: ["/stitch-assets/monsters/battle/solar-lion-tank-cutout.png?v=raid1"],
-    fighter: ["/stitch-assets/monsters/battle/solar-lion-fighter-cutout.png?v=raid1"],
-    support: ["/stitch-assets/monsters/battle/solar-lion-fighter-cutout.png?v=raid1"],
-    pitboss: ["/stitch-assets/monsters/battle/myaurra-pitboss-cutout.png?v=raid1"],
+    tank: ["/stitch-assets/monsters/battle/solar-lion-tank-cutout.webp?v=raid1"],
+    fighter: ["/stitch-assets/monsters/battle/solar-lion-fighter-cutout.webp?v=raid1"],
+    support: ["/stitch-assets/monsters/battle/solar-lion-fighter-cutout.webp?v=raid1"],
+    pitboss: ["/stitch-assets/monsters/battle/myaurra-pitboss-cutout.webp?v=raid1"],
   },
   deep_lynxes: {
-    tank: ["/stitch-assets/monsters/battle/deep-lynx-tank-cutout.png?v=raid1"],
-    fighter: ["/stitch-assets/monsters/battle/deep-lynx-tank-cutout.png?v=raid1"],
-    support: ["/stitch-assets/monsters/battle/deep-lynx-support-cutout.png?v=raid1"],
-    pitboss: ["/stitch-assets/monsters/battle/talass-pitboss-cutout.png?v=raid1"],
+    tank: ["/stitch-assets/monsters/battle/deep-lynx-tank-cutout.webp?v=raid1"],
+    fighter: ["/stitch-assets/monsters/battle/deep-lynx-tank-cutout.webp?v=raid1"],
+    support: ["/stitch-assets/monsters/battle/deep-lynx-support-cutout.webp?v=raid1"],
+    pitboss: ["/stitch-assets/monsters/battle/talass-pitboss-cutout.webp?v=raid1"],
   },
   kitsune_ash: {
-    tank: ["/stitch-assets/monsters/battle/kitsune-fighter-cutout.png?v=raid1"],
-    fighter: ["/stitch-assets/monsters/battle/kitsune-fighter-cutout.png?v=raid1"],
-    support: ["/stitch-assets/monsters/battle/kitsune-support-cutout.png?v=raid1"],
-    pitboss: ["/stitch-assets/monsters/battle/vulcan-pitboss-cutout.png?v=raid1"],
+    tank: ["/stitch-assets/monsters/battle/kitsune-fighter-cutout.webp?v=raid1"],
+    fighter: ["/stitch-assets/monsters/battle/kitsune-fighter-cutout.webp?v=raid1"],
+    support: ["/stitch-assets/monsters/battle/kitsune-support-cutout.webp?v=raid1"],
+    pitboss: ["/stitch-assets/monsters/battle/vulcan-pitboss-cutout.webp?v=raid1"],
   },
 };
 
@@ -10437,7 +10443,7 @@ const ATTACK_CARD_ART_ALIAS = {
 };
 
 /** Bust Amvera/browser max-age after in-place webp rebakes. */
-const STITCH_ASSET_V = "opt1";
+const STITCH_ASSET_V = "opt2";
 
 function attackCardArtUrl(cardId) {
   if (!cardId) return "";
@@ -10949,11 +10955,11 @@ const SCREEN_BG = {
   yard: `/stitch-assets/yard/meowkara-mines-bg.webp?v=${STITCH_ASSET_V}`,
   dojo: `/stitch-ref/e608/arena_dojo.webp?v=${STITCH_ASSET_V}`,
   dojoLoad: `/stitch-assets/dojo/practice-load-arena.webp?v=${STITCH_ASSET_V}`,
-  pvpLoad: `/stitch-assets/pvp-battles/load-bg.jpg?v=${STITCH_ASSET_V}`,
+  pvpLoad: `/stitch-assets/pvp-battles/load-bg.webp?v=${STITCH_ASSET_V}`,
   pveVictory: `/stitch-assets/pve-victory/bg.webp?v=${STITCH_ASSET_V}`,
   victoryHall: `/stitch-ref/e608/victory_hall.webp?v=${STITCH_ASSET_V}`,
-  arenaInterior: `/stitch-assets/pvp-battles/fight-bg.jpg?v=${STITCH_ASSET_V}`,
-  pvpVictory: `/stitch-assets/pvp-battles/victory-hall.jpg?v=${STITCH_ASSET_V}`,
+  arenaInterior: `/stitch-assets/pvp-battles/fight-bg.webp?v=${STITCH_ASSET_V}`,
+  pvpVictory: `/stitch-assets/pvp-battles/victory-hall.webp?v=${STITCH_ASSET_V}`,
 };
 
 function preloadScreenBgs(...keys) {

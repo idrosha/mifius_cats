@@ -42,3 +42,10 @@ local.properties
 # Local toolchain (portable node, asset opt staging)
 client/web-hud/.tools/
 
+# Archived originals after WebP optimize (keep local, do not ship)
+**/stitch-assets/**/_src/
+**/stitch-ref/**/_src/
+client/web-hud/public/stitch-assets/monsters/battle/_pre_*/
+client/web-hud/scripts/*.report.json
+client/web-hud/scripts/webp-rewrite.report.json
+

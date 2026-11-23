@@ -2924,7 +2924,7 @@ body:has(#viewHub:not(.hidden)) #wireDock {
   inset: 0;
   background:
     linear-gradient(180deg, rgba(10, 8, 7, 0.28), rgba(10, 8, 7, 0.48)),
-    url("/stitch-assets/login-hero.webp?v=opt1") center 38% / cover no-repeat;
+    url("/stitch-assets/login-hero.webp?v=opt2") center 38% / cover no-repeat;
   pointer-events: none;
 }
 .mythfel-hub-bar,
@@ -3081,7 +3081,7 @@ button.mythfel-hub-brand {
 .mythfel-pass-hero {
   background:
     linear-gradient(100deg, rgba(12, 10, 8, 0.9) 0%, rgba(12, 10, 8, 0.72) 46%, rgba(12, 10, 8, 0.38) 100%),
-    url("/stitch-assets/login-hero.webp?v=opt1") 70% 42% / cover no-repeat;
+    url("/stitch-assets/login-hero.webp?v=opt2") 70% 42% / cover no-repeat;
 }
 .mythfel-pass-perks { background: rgba(14, 11, 9, 0.78); backdrop-filter: blur(8px); }
 .mythfel-portal { background: rgba(14, 11, 9, 0.88); }
@@ -6239,7 +6239,7 @@ body:has(#viewPass:not(.hidden)) #app {
   background-position: center;
   opacity: 0.42;
   transition: opacity 0.2s ease;
-  background-image: url("/stitch-assets/modes/raid-lair-bg.jpg");
+  background-image: url("/stitch-assets/modes/raid-lair-bg.webp");
 }
 #viewPass .pass-archips-boss {
   position: absolute;

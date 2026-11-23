@@ -55,7 +55,8 @@ function cacheControlFor(ext) {
   // Soft-launch cutouts still iterate — keep must-revalidate. Query `?v=` on URLs
   // busts after rebakes; longer max-age cuts repeat downloads on warm sessions.
   if ([".png", ".jpg", ".jpeg", ".webp", ".gif", ".svg", ".ico"].includes(ext)) {
-    return "public, max-age=86400, must-revalidate";
+    // Query ?v= busts after rebakes; week-long warm cache speeds repeat visits.
+    return "public, max-age=604800, immutable";
   }
   if ([".woff", ".woff2"].includes(ext)) {
     return "public, max-age=604800, immutable";
