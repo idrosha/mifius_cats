@@ -1,0 +1,82 @@
+﻿{
+    "generated_at":  "2026-11-23T16:42:51.0400712+03:00",
+    "kit_count":  18,
+    "card_count":  108,
+    "kit_powers":  {
+                       "tank_fire":  42,
+                       "tank_water":  42.5,
+                       "tank_wind":  42,
+                       "fighter_fire":  42.5,
+                       "fighter_water":  42.5,
+                       "fighter_wind":  39.5,
+                       "assassin_fire":  39.5,
+                       "assassin_water":  42,
+                       "assassin_wind":  41,
+                       "ranger_fire":  39.5,
+                       "ranger_water":  39.5,
+                       "ranger_wind":  39.5,
+                       "mage_fire":  40,
+                       "mage_water":  42,
+                       "mage_wind":  40.5,
+                       "support_fire":  39.4,
+                       "support_water":  40.1,
+                       "support_wind":  40.8
+                   },
+    "kit_power_avg":  40.82,
+    "kit_power_min":  39.4,
+    "kit_power_max":  42.5,
+    "kit_band_ok_pm5":  true,
+    "team_count":  108,
+    "team_power_avg":  122.93,
+    "team_power_min":  120.9,
+    "team_power_max":  125.8,
+    "team_band_ok_pm5":  true,
+    "weakest_kits":  [
+                         "support_fire=39.4",
+                         "assassin_fire=39.5",
+                         "fighter_wind=39.5"
+                     ],
+    "strongest_kits":  [
+                           "fighter_water=42.5",
+                           "tank_water=42.5",
+                           "fighter_fire=42.5"
+                       ],
+    "sample_teams":  [
+                         {
+                             "tank":  "shop_tank_water",
+                             "dps":  "shop_mage_wind",
+                             "support":  "shop_support_wind",
+                             "team_power":  123.8
+                         },
+                         {
+                             "tank":  "shop_tank_wind",
+                             "dps":  "shop_fighter_fire",
+                             "support":  "shop_support_fire",
+                             "team_power":  123.9
+                         },
+                         {
+                             "tank":  "shop_tank_wind",
+                             "dps":  "shop_fighter_fire",
+                             "support":  "shop_support_water",
+                             "team_power":  124.6
+                         },
+                         {
+                             "tank":  "shop_tank_water",
+                             "dps":  "shop_mage_wind",
+                             "support":  "shop_support_wind",
+                             "team_power":  123.8
+                         },
+                         {
+                             "tank":  "shop_tank_wind",
+                             "dps":  "shop_fighter_fire",
+                             "support":  "shop_support_fire",
+                             "team_power":  123.9
+                         },
+                         {
+                             "tank":  "shop_tank_wind",
+                             "dps":  "shop_fighter_fire",
+                             "support":  "shop_support_water",
+                             "team_power":  124.6
+                         }
+                     ]
+}

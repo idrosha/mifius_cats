@@ -1,0 +1,19 @@
+﻿{
+    "cost":  2,
+    "atk":  3,
+    "shield":  0,
+    "hits":  1,
+    "targetRule":  "all_enemies",
+    "tags":  [
+                 "attack",
+                 "aoe",
+                 "crit"
+             ],
+    "effectOps":  [
+
+                  ],
+    "cardId":  "card_shop_mage_fire_back",
+    "name_key":  "card.shop_mage_fire_back",
+    "roleGate":  "mage",
+    "element":  "fire"
+}

@@ -1,0 +1,70 @@
+﻿[
+    "support",
+    "wind",
+    {
+        "partId":  "part_shop_support_wind_eyes",
+        "slot":  "eyes",
+        "element":  "wind",
+        "cardId":  "card_shop_support_wind_eyes",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_support_wind.eyes",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_support_wind_ears",
+        "slot":  "ears",
+        "element":  "wind",
+        "cardId":  "card_shop_support_wind_ears",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_support_wind.ears",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_support_wind_muzzle",
+        "slot":  "muzzle",
+        "element":  "wind",
+        "cardId":  "card_shop_support_wind_muzzle",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_support_wind.muzzle",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_support_wind_headwear",
+        "slot":  "headwear",
+        "element":  "wind",
+        "cardId":  "card_shop_support_wind_headwear",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_support_wind.headwear",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_support_wind_back",
+        "slot":  "back",
+        "element":  "wind",
+        "cardId":  "card_shop_support_wind_back",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_support_wind.back",
+        "rarity":  "common"
+    },
+    {
+        "partId":  "part_shop_support_wind_tail",
+        "slot":  "tail",
+        "element":  "wind",
+        "cardId":  "card_shop_support_wind_tail",
+        "passiveOps":  [
+
+                       ],
+        "artKey":  "part.shop_support_wind.tail",
+        "rarity":  "common"
+    }
+]

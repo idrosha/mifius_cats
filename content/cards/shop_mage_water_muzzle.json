@@ -1,0 +1,23 @@
+﻿{
+    "cost":  1,
+    "atk":  4,
+    "shield":  0,
+    "hits":  1,
+    "targetRule":  "nearest",
+    "tags":  [
+                 "attack",
+                 "debuff"
+             ],
+    "effectOps":  [
+                      {
+                          "op":  "apply_status",
+                          "status":  "stun",
+                          "stacks":  1,
+                          "duration":  1
+                      }
+                  ],
+    "cardId":  "card_shop_mage_water_muzzle",
+    "name_key":  "card.shop_mage_water_muzzle",
+    "roleGate":  "mage",
+    "element":  "water"
+}

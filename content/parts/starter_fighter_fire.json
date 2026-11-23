@@ -3,54 +3,54 @@
     "partId": "part_fighter_fire_eyes",
     "slot": "eyes",
     "element": "fire",
-    "cardId": "card_fighter_fire_eyes",
+    "cardId": "card_shop_fighter_fire_eyes",
     "passiveOps": [],
-    "artKey": "part.fighter_fire_eyes",
+    "artKey": "part.shop_fighter_fire.eyes",
     "rarity": "common"
   },
   {
     "partId": "part_fighter_fire_ears",
     "slot": "ears",
     "element": "fire",
-    "cardId": "card_fighter_fire_ears",
+    "cardId": "card_shop_fighter_fire_ears",
     "passiveOps": [],
-    "artKey": "part.fighter_fire_ears",
+    "artKey": "part.shop_fighter_fire.ears",
     "rarity": "common"
   },
   {
     "partId": "part_fighter_fire_muzzle",
     "slot": "muzzle",
     "element": "fire",
-    "cardId": "card_fighter_fire_muzzle",
+    "cardId": "card_shop_fighter_fire_muzzle",
     "passiveOps": [],
-    "artKey": "part.fighter_fire_muzzle",
+    "artKey": "part.shop_fighter_fire.muzzle",
     "rarity": "common"
   },
   {
     "partId": "part_fighter_fire_headwear",
     "slot": "headwear",
     "element": "fire",
-    "cardId": "card_fighter_fire_headwear",
+    "cardId": "card_shop_fighter_fire_headwear",
     "passiveOps": [],
-    "artKey": "part.fighter_fire_headwear",
+    "artKey": "part.shop_fighter_fire.headwear",
     "rarity": "common"
   },
   {
     "partId": "part_fighter_fire_back",
     "slot": "back",
     "element": "fire",
-    "cardId": "card_fighter_fire_back",
+    "cardId": "card_shop_fighter_fire_back",
     "passiveOps": [],
-    "artKey": "part.fighter_fire_back",
+    "artKey": "part.shop_fighter_fire.back",
     "rarity": "common"
   },
   {
     "partId": "part_fighter_fire_tail",
     "slot": "tail",
     "element": "fire",
-    "cardId": "card_fighter_fire_tail",
+    "cardId": "card_shop_fighter_fire_tail",
     "passiveOps": [],
-    "artKey": "part.fighter_fire_tail",
+    "artKey": "part.shop_fighter_fire.tail",
     "rarity": "common"
   }
 ]

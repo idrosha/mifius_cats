@@ -1,0 +1,20 @@
+﻿{
+    "cost":  2,
+    "atk":  0,
+    "shield":  0,
+    "hits":  0,
+    "targetRule":  "ally_all",
+    "tags":  [
+                 "heal"
+             ],
+    "effectOps":  [
+                      {
+                          "op":  "heal",
+                          "amount":  3
+                      }
+                  ],
+    "cardId":  "card_shop_support_fire_back",
+    "name_key":  "card.shop_support_fire_back",
+    "roleGate":  "support",
+    "element":  "fire"
+}

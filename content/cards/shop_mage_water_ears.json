@@ -1,0 +1,23 @@
+﻿{
+    "cost":  1,
+    "atk":  3,
+    "shield":  0,
+    "hits":  1,
+    "targetRule":  "nearest",
+    "tags":  [
+                 "attack",
+                 "debuff"
+             ],
+    "effectOps":  [
+                      {
+                          "op":  "apply_status",
+                          "status":  "weak",
+                          "stacks":  2,
+                          "duration":  2
+                      }
+                  ],
+    "cardId":  "card_shop_mage_water_ears",
+    "name_key":  "card.shop_mage_water_ears",
+    "roleGate":  "mage",
+    "element":  "water"
+}

@@ -1,0 +1,24 @@
+﻿{
+    "cost":  1,
+    "atk":  3,
+    "shield":  0,
+    "hits":  1,
+    "targetRule":  "nearest",
+    "tags":  [
+                 "attack",
+                 "crit",
+                 "debuff"
+             ],
+    "effectOps":  [
+                      {
+                          "op":  "apply_status",
+                          "status":  "weak",
+                          "stacks":  1,
+                          "duration":  2
+                      }
+                  ],
+    "cardId":  "card_shop_mage_fire_ears",
+    "name_key":  "card.shop_mage_fire_ears",
+    "roleGate":  "mage",
+    "element":  "fire"
+}

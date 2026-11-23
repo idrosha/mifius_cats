@@ -1,0 +1,23 @@
+﻿{
+    "cost":  2,
+    "atk":  3,
+    "shield":  0,
+    "hits":  2,
+    "targetRule":  "random_enemy",
+    "tags":  [
+                 "attack",
+                 "debuff"
+             ],
+    "effectOps":  [
+                      {
+                          "op":  "apply_status",
+                          "status":  "poison",
+                          "stacks":  1,
+                          "duration":  0
+                      }
+                  ],
+    "cardId":  "card_shop_assassin_wind_back",
+    "name_key":  "card.shop_assassin_wind_back",
+    "roleGate":  "assassin",
+    "element":  "wind"
+}

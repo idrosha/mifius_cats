@@ -2,55 +2,55 @@
   {
     "partId": "part_tank_stone_eyes",
     "slot": "eyes",
-    "element": "stone",
-    "cardId": "card_tank_stone_eyes",
+    "element": "fire",
+    "cardId": "card_shop_tank_fire_eyes",
     "passiveOps": [],
-    "artKey": "part.tank_stone_eyes",
+    "artKey": "part.shop_tank_fire.eyes",
     "rarity": "common"
   },
   {
     "partId": "part_tank_stone_ears",
     "slot": "ears",
-    "element": "stone",
-    "cardId": "card_tank_stone_ears",
+    "element": "fire",
+    "cardId": "card_shop_tank_fire_ears",
     "passiveOps": [],
-    "artKey": "part.tank_stone_ears",
+    "artKey": "part.shop_tank_fire.ears",
     "rarity": "common"
   },
   {
     "partId": "part_tank_stone_muzzle",
     "slot": "muzzle",
-    "element": "stone",
-    "cardId": "card_tank_stone_muzzle",
+    "element": "fire",
+    "cardId": "card_shop_tank_fire_muzzle",
     "passiveOps": [],
-    "artKey": "part.tank_stone_muzzle",
+    "artKey": "part.shop_tank_fire.muzzle",
     "rarity": "common"
   },
   {
     "partId": "part_tank_stone_headwear",
     "slot": "headwear",
-    "element": "stone",
-    "cardId": "card_tank_stone_headwear",
+    "element": "fire",
+    "cardId": "card_shop_tank_fire_headwear",
     "passiveOps": [],
-    "artKey": "part.tank_stone_headwear",
+    "artKey": "part.shop_tank_fire.headwear",
     "rarity": "common"
   },
   {
     "partId": "part_tank_stone_back",
     "slot": "back",
-    "element": "stone",
-    "cardId": "card_tank_stone_back",
+    "element": "fire",
+    "cardId": "card_shop_tank_fire_back",
     "passiveOps": [],
-    "artKey": "part.tank_stone_back",
+    "artKey": "part.shop_tank_fire.back",
     "rarity": "common"
   },
   {
     "partId": "part_tank_stone_tail",
     "slot": "tail",
-    "element": "stone",
-    "cardId": "card_tank_stone_tail",
+    "element": "fire",
+    "cardId": "card_shop_tank_fire_tail",
     "passiveOps": [],
-    "artKey": "part.tank_stone_tail",
+    "artKey": "part.shop_tank_fire.tail",
     "rarity": "common"
   }
 ]

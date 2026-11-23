@@ -1,0 +1,29 @@
+﻿{
+    "cost":  1,
+    "atk":  3,
+    "shield":  0,
+    "hits":  1,
+    "targetRule":  "nearest",
+    "tags":  [
+                 "attack",
+                 "heal",
+                 "debuff"
+             ],
+    "effectOps":  [
+                      {
+                          "op":  "heal",
+                          "amount":  3,
+                          "target":  "self"
+                      },
+                      {
+                          "op":  "apply_status",
+                          "status":  "weak",
+                          "stacks":  1,
+                          "duration":  2
+                      }
+                  ],
+    "cardId":  "card_shop_support_wind_ears",
+    "name_key":  "card.shop_support_wind_ears",
+    "roleGate":  "support",
+    "element":  "wind"
+}

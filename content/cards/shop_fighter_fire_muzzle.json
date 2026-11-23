@@ -1,0 +1,22 @@
+﻿{
+    "cost":  1,
+    "atk":  4,
+    "shield":  0,
+    "hits":  1,
+    "targetRule":  "nearest",
+    "tags":  [
+                 "attack"
+             ],
+    "effectOps":  [
+                      {
+                          "op":  "apply_status",
+                          "status":  "bleed",
+                          "stacks":  2,
+                          "duration":  2
+                      }
+                  ],
+    "cardId":  "card_shop_fighter_fire_muzzle",
+    "name_key":  "card.shop_fighter_fire_muzzle",
+    "roleGate":  "fighter",
+    "element":  "fire"
+}

@@ -3,54 +3,54 @@
     "partId": "part_support_water_eyes",
     "slot": "eyes",
     "element": "water",
-    "cardId": "card_support_water_eyes",
+    "cardId": "card_shop_support_water_eyes",
     "passiveOps": [],
-    "artKey": "part.support_water_eyes",
+    "artKey": "part.shop_support_water.eyes",
     "rarity": "common"
   },
   {
     "partId": "part_support_water_ears",
     "slot": "ears",
     "element": "water",
-    "cardId": "card_support_water_ears",
+    "cardId": "card_shop_support_water_ears",
     "passiveOps": [],
-    "artKey": "part.support_water_ears",
+    "artKey": "part.shop_support_water.ears",
     "rarity": "common"
   },
   {
     "partId": "part_support_water_muzzle",
     "slot": "muzzle",
     "element": "water",
-    "cardId": "card_support_water_muzzle",
+    "cardId": "card_shop_support_water_muzzle",
     "passiveOps": [],
-    "artKey": "part.support_water_muzzle",
+    "artKey": "part.shop_support_water.muzzle",
     "rarity": "common"
   },
   {
     "partId": "part_support_water_headwear",
     "slot": "headwear",
     "element": "water",
-    "cardId": "card_support_water_headwear",
+    "cardId": "card_shop_support_water_headwear",
     "passiveOps": [],
-    "artKey": "part.support_water_headwear",
+    "artKey": "part.shop_support_water.headwear",
     "rarity": "common"
   },
   {
     "partId": "part_support_water_back",
     "slot": "back",
     "element": "water",
-    "cardId": "card_support_water_back",
+    "cardId": "card_shop_support_water_back",
     "passiveOps": [],
-    "artKey": "part.support_water_back",
+    "artKey": "part.shop_support_water.back",
     "rarity": "common"
   },
   {
     "partId": "part_support_water_tail",
     "slot": "tail",
     "element": "water",
-    "cardId": "card_support_water_tail",
+    "cardId": "card_shop_support_water_tail",
     "passiveOps": [],
-    "artKey": "part.support_water_tail",
+    "artKey": "part.shop_support_water.tail",
     "rarity": "common"
   }
 ]

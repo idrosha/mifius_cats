@@ -1,0 +1,434 @@
+﻿{
+    "card.shop_tank_fire_eyes":  {
+                                     "ru":  "Жаркий взор",
+                                     "en":  "Ember Gaze"
+                                 },
+    "card.shop_tank_fire_ears":  {
+                                     "ru":  "Слух горна",
+                                     "en":  "Horn Hearing"
+                                 },
+    "card.shop_tank_fire_muzzle":  {
+                                       "ru":  "Оскал жара",
+                                       "en":  "Heat Snarl"
+                                   },
+    "card.shop_tank_fire_headwear":  {
+                                         "ru":  "Шлем углей",
+                                         "en":  "Cinder Helm"
+                                     },
+    "card.shop_tank_fire_back":  {
+                                     "ru":  "Удар щита-жара",
+                                     "en":  "Heat Bash"
+                                 },
+    "card.shop_tank_fire_tail":  {
+                                     "ru":  "Хлыст пламени",
+                                     "en":  "Flame Lash"
+                                 },
+    "card.shop_tank_water_eyes":  {
+                                      "ru":  "Трещина волны",
+                                      "en":  "Wave Crack"
+                                  },
+    "card.shop_tank_water_ears":  {
+                                      "ru":  "Слух бреши",
+                                      "en":  "Breach Ear"
+                                  },
+    "card.shop_tank_water_muzzle":  {
+                                        "ru":  "Клык прилива",
+                                        "en":  "Tide Fang"
+                                    },
+    "card.shop_tank_water_headwear":  {
+                                          "ru":  "Шлем пены",
+                                          "en":  "Foam Helm"
+                                      },
+    "card.shop_tank_water_back":  {
+                                      "ru":  "Таран глубины",
+                                      "en":  "Depth Ram"
+                                  },
+    "card.shop_tank_water_tail":  {
+                                      "ru":  "Хвост-пробой",
+                                      "en":  "Pierce Tail"
+                                  },
+    "card.shop_tank_wind_eyes":  {
+                                     "ru":  "Взор бури",
+                                     "en":  "Storm Gaze"
+                                 },
+    "card.shop_tank_wind_ears":  {
+                                     "ru":  "Слух отката",
+                                     "en":  "Rebound Ear"
+                                 },
+    "card.shop_tank_wind_muzzle":  {
+                                       "ru":  "Рёв ветра",
+                                       "en":  "Wind Roar"
+                                   },
+    "card.shop_tank_wind_headwear":  {
+                                         "ru":  "Корона шквала",
+                                         "en":  "Squall Crown"
+                                     },
+    "card.shop_tank_wind_back":  {
+                                     "ru":  "Щит-вихрь",
+                                     "en":  "Vortex Guard"
+                                 },
+    "card.shop_tank_wind_tail":  {
+                                     "ru":  "Ответный порыв",
+                                     "en":  "Reply Gust"
+                                 },
+    "card.shop_fighter_fire_eyes":  {
+                                        "ru":  "Искрящий взгляд",
+                                        "en":  "Spark Gaze"
+                                    },
+    "card.shop_fighter_fire_ears":  {
+                                        "ru":  "Боевой слух",
+                                        "en":  "Battle Ear"
+                                    },
+    "card.shop_fighter_fire_muzzle":  {
+                                          "ru":  "Парный укус",
+                                          "en":  "Twin Bite"
+                                      },
+    "card.shop_fighter_fire_headwear":  {
+                                            "ru":  "Корона искр",
+                                            "en":  "Spark Crown"
+                                        },
+    "card.shop_fighter_fire_back":  {
+                                        "ru":  "Двойной удар",
+                                        "en":  "Double Strike"
+                                    },
+    "card.shop_fighter_fire_tail":  {
+                                        "ru":  "Хлыст жара",
+                                        "en":  "Heat Whip"
+                                    },
+    "card.shop_fighter_water_eyes":  {
+                                         "ru":  "Тяжёлый взор",
+                                         "en":  "Heavy Gaze"
+                                     },
+    "card.shop_fighter_water_ears":  {
+                                         "ru":  "Рёв стали-воды",
+                                         "en":  "Steelwater Roar"
+                                     },
+    "card.shop_fighter_water_muzzle":  {
+                                           "ru":  "Молот прилива",
+                                           "en":  "Tide Hammer"
+                                       },
+    "card.shop_fighter_water_headwear":  {
+                                             "ru":  "Шлем вала",
+                                             "en":  "Surge Helm"
+                                         },
+    "card.shop_fighter_water_back":  {
+                                         "ru":  "Двуручный шквал",
+                                         "en":  "Twohand Squall"
+                                     },
+    "card.shop_fighter_water_tail":  {
+                                         "ru":  "Добивающий вал",
+                                         "en":  "Finishing Wave"
+                                     },
+    "card.shop_fighter_wind_eyes":  {
+                                        "ru":  "Взор порыва",
+                                        "en":  "Gust Gaze"
+                                    },
+    "card.shop_fighter_wind_ears":  {
+                                        "ru":  "Слух строя",
+                                        "en":  "Line Ear"
+                                    },
+    "card.shop_fighter_wind_muzzle":  {
+                                          "ru":  "Клык вихря",
+                                          "en":  "Vortex Fang"
+                                      },
+    "card.shop_fighter_wind_headwear":  {
+                                            "ru":  "Лента ветра",
+                                            "en":  "Wind Ribbon"
+                                        },
+    "card.shop_fighter_wind_back":  {
+                                        "ru":  "Ветряной размах",
+                                        "en":  "Wind Sweep"
+                                    },
+    "card.shop_fighter_wind_tail":  {
+                                        "ru":  "Финальный порыв",
+                                        "en":  "Final Gust"
+                                    },
+    "card.shop_assassin_fire_eyes":  {
+                                         "ru":  "Глаза мглы-жара",
+                                         "en":  "Ember Haze Eyes"
+                                     },
+    "card.shop_assassin_fire_ears":  {
+                                         "ru":  "Шёпот искр",
+                                         "en":  "Spark Whisper"
+                                     },
+    "card.shop_assassin_fire_muzzle":  {
+                                           "ru":  "Теневой укус",
+                                           "en":  "Shadow Bite"
+                                       },
+    "card.shop_assassin_fire_headwear":  {
+                                             "ru":  "Маска угля",
+                                             "en":  "Coal Mask"
+                                         },
+    "card.shop_assassin_fire_back":  {
+                                         "ru":  "Удар из тени",
+                                         "en":  "Shadow Strike"
+                                     },
+    "card.shop_assassin_fire_tail":  {
+                                         "ru":  "Исчезновение",
+                                         "en":  "Vanish"
+                                     },
+    "card.shop_assassin_water_eyes":  {
+                                          "ru":  "Прицел в спину",
+                                          "en":  "Back Aim"
+                                      },
+    "card.shop_assassin_water_ears":  {
+                                          "ru":  "Слух тыла",
+                                          "en":  "Rear Ear"
+                                      },
+    "card.shop_assassin_water_muzzle":  {
+                                            "ru":  "Укол прилива",
+                                            "en":  "Tide Stab"
+                                        },
+    "card.shop_assassin_water_headwear":  {
+                                              "ru":  "Капюшон пены",
+                                              "en":  "Foam Hood"
+                                          },
+    "card.shop_assassin_water_back":  {
+                                          "ru":  "Казнь сзади",
+                                          "en":  "Rear Execute"
+                                      },
+    "card.shop_assassin_water_tail":  {
+                                          "ru":  "Тихий разряд",
+                                          "en":  "Quiet Discharge"
+                                      },
+    "card.shop_assassin_wind_eyes":  {
+                                         "ru":  "Глаза сквозняка",
+                                         "en":  "Draft Eyes"
+                                     },
+    "card.shop_assassin_wind_ears":  {
+                                         "ru":  "Слух роя",
+                                         "en":  "Swarm Ear"
+                                     },
+    "card.shop_assassin_wind_muzzle":  {
+                                           "ru":  "Ядовитый порыв",
+                                           "en":  "Venom Gust"
+                                       },
+    "card.shop_assassin_wind_headwear":  {
+                                             "ru":  "Маска пыльцы",
+                                             "en":  "Pollen Mask"
+                                         },
+    "card.shop_assassin_wind_back":  {
+                                         "ru":  "Шквал яда",
+                                         "en":  "Poison Squall"
+                                     },
+    "card.shop_assassin_wind_tail":  {
+                                         "ru":  "Хвост-зараз",
+                                         "en":  "Plague Tail"
+                                     },
+    "card.shop_ranger_fire_eyes":  {
+                                       "ru":  "Глаз добычи",
+                                       "en":  "Prey Eye"
+                                   },
+    "card.shop_ranger_fire_ears":  {
+                                       "ru":  "Уши засады",
+                                       "en":  "Ambush Ears"
+                                   },
+    "card.shop_ranger_fire_muzzle":  {
+                                         "ru":  "Выстрел жара",
+                                         "en":  "Heat Shot"
+                                     },
+    "card.shop_ranger_fire_headwear":  {
+                                           "ru":  "Капюшон охоты",
+                                           "en":  "Hunt Hood"
+                                       },
+    "card.shop_ranger_fire_back":  {
+                                       "ru":  "Огненная стрела",
+                                       "en":  "Fire Arrow"
+                                   },
+    "card.shop_ranger_fire_tail":  {
+                                       "ru":  "Добивание",
+                                       "en":  "Finish Off"
+                                   },
+    "card.shop_ranger_water_eyes":  {
+                                        "ru":  "Широкий взор",
+                                        "en":  "Wide Gaze"
+                                    },
+    "card.shop_ranger_water_ears":  {
+                                        "ru":  "Дальний слух",
+                                        "en":  "Far Ear"
+                                    },
+    "card.shop_ranger_water_muzzle":  {
+                                          "ru":  "Град капель",
+                                          "en":  "Drop Volley"
+                                      },
+    "card.shop_ranger_water_headwear":  {
+                                            "ru":  "Обруч прилива",
+                                            "en":  "Tide Circlet"
+                                        },
+    "card.shop_ranger_water_back":  {
+                                        "ru":  "Волна стрел",
+                                        "en":  "Arrow Wave"
+                                    },
+    "card.shop_ranger_water_tail":  {
+                                        "ru":  "Стрела-якорь",
+                                        "en":  "Anchor Arrow"
+                                    },
+    "card.shop_ranger_wind_eyes":  {
+                                       "ru":  "Метка ветра",
+                                       "en":  "Wind Mark"
+                                   },
+    "card.shop_ranger_wind_ears":  {
+                                       "ru":  "Слух цели",
+                                       "en":  "Target Ear"
+                                   },
+    "card.shop_ranger_wind_muzzle":  {
+                                         "ru":  "Пронзающий свист",
+                                         "en":  "Piercing Whistle"
+                                     },
+    "card.shop_ranger_wind_headwear":  {
+                                           "ru":  "Перо следопыта",
+                                           "en":  "Tracker Feather"
+                                       },
+    "card.shop_ranger_wind_back":  {
+                                       "ru":  "Стрела-шквал",
+                                       "en":  "Squall Arrow"
+                                   },
+    "card.shop_ranger_wind_tail":  {
+                                       "ru":  "Финальный свист",
+                                       "en":  "Final Whistle"
+                                   },
+    "card.shop_mage_fire_eyes":  {
+                                     "ru":  "Пламенный зрачок",
+                                     "en":  "Flame Pupil"
+                                 },
+    "card.shop_mage_fire_ears":  {
+                                     "ru":  "Треск искр",
+                                     "en":  "Spark Crack"
+                                 },
+    "card.shop_mage_fire_muzzle":  {
+                                       "ru":  "Огненный шар",
+                                       "en":  "Fireball"
+                                   },
+    "card.shop_mage_fire_headwear":  {
+                                         "ru":  "Корона углей",
+                                         "en":  "Cinder Crown"
+                                     },
+    "card.shop_mage_fire_back":  {
+                                     "ru":  "Волна жара",
+                                     "en":  "Heat Wave"
+                                 },
+    "card.shop_mage_fire_tail":  {
+                                     "ru":  "Искра дожатия",
+                                     "en":  "Finish Spark"
+                                 },
+    "card.shop_mage_water_eyes":  {
+                                      "ru":  "Ледяной взор",
+                                      "en":  "Ice Gaze"
+                                  },
+    "card.shop_mage_water_ears":  {
+                                      "ru":  "Холодный слух",
+                                      "en":  "Cold Ear"
+                                  },
+    "card.shop_mage_water_muzzle":  {
+                                        "ru":  "Морозный укус",
+                                        "en":  "Frost Bite"
+                                    },
+    "card.shop_mage_water_headwear":  {
+                                          "ru":  "Корона льда-воды",
+                                          "en":  "Icewater Crown"
+                                      },
+    "card.shop_mage_water_back":  {
+                                      "ru":  "Буря льда",
+                                      "en":  "Ice Storm"
+                                  },
+    "card.shop_mage_water_tail":  {
+                                      "ru":  "Стылый хвост",
+                                      "en":  "Chill Tail"
+                                  },
+    "card.shop_mage_wind_eyes":  {
+                                     "ru":  "Взор молнии-ветра",
+                                     "en":  "Stormbolt Gaze"
+                                 },
+    "card.shop_mage_wind_ears":  {
+                                     "ru":  "Слух грозы",
+                                     "en":  "Thunder Ear"
+                                 },
+    "card.shop_mage_wind_muzzle":  {
+                                       "ru":  "Разряд",
+                                       "en":  "Discharge"
+                                   },
+    "card.shop_mage_wind_headwear":  {
+                                         "ru":  "Обруч шквала",
+                                         "en":  "Squall Band"
+                                     },
+    "card.shop_mage_wind_back":  {
+                                     "ru":  "Цепной порыв",
+                                     "en":  "Chain Gust"
+                                 },
+    "card.shop_mage_wind_tail":  {
+                                     "ru":  "Хвост-разряд",
+                                     "en":  "Tail Bolt"
+                                 },
+    "card.shop_support_fire_eyes":  {
+                                        "ru":  "Целительный жар",
+                                        "en":  "Healing Ember"
+                                    },
+    "card.shop_support_fire_ears":  {
+                                        "ru":  "Тёплый слух",
+                                        "en":  "Warm Ear"
+                                    },
+    "card.shop_support_fire_muzzle":  {
+                                          "ru":  "Поцелуй угля",
+                                          "en":  "Coal Kiss"
+                                      },
+    "card.shop_support_fire_headwear":  {
+                                            "ru":  "Корона заботы",
+                                            "en":  "Care Crown"
+                                        },
+    "card.shop_support_fire_back":  {
+                                        "ru":  "Волна тепла",
+                                        "en":  "Warm Wave"
+                                    },
+    "card.shop_support_fire_tail":  {
+                                        "ru":  "Праведный ожог",
+                                        "en":  "Righteous Burn"
+                                    },
+    "card.shop_support_water_eyes":  {
+                                         "ru":  "Целительный взгляд",
+                                         "en":  "Healing Gaze"
+                                     },
+    "card.shop_support_water_ears":  {
+                                         "ru":  "Уши очищения",
+                                         "en":  "Cleanse Ears"
+                                     },
+    "card.shop_support_water_muzzle":  {
+                                           "ru":  "Капля жизни",
+                                           "en":  "Life Drop"
+                                       },
+    "card.shop_support_water_headwear":  {
+                                             "ru":  "Чистый родник",
+                                             "en":  "Clear Spring"
+                                         },
+    "card.shop_support_water_back":  {
+                                         "ru":  "Волна опеки",
+                                         "en":  "Care Wave"
+                                     },
+    "card.shop_support_water_tail":  {
+                                         "ru":  "Очищающий удар",
+                                         "en":  "Cleansing Strike"
+                                     },
+    "card.shop_support_wind_eyes":  {
+                                        "ru":  "Вдохновляющий взор",
+                                        "en":  "Inspire Gaze"
+                                    },
+    "card.shop_support_wind_ears":  {
+                                        "ru":  "Шёпот ветра",
+                                        "en":  "Wind Whisper"
+                                    },
+    "card.shop_support_wind_muzzle":  {
+                                          "ru":  "Дыхание силы",
+                                          "en":  "Breath of Power"
+                                      },
+    "card.shop_support_wind_headwear":  {
+                                            "ru":  "Лента попутного",
+                                            "en":  "Tailwind Ribbon"
+                                        },
+    "card.shop_support_wind_back":  {
+                                        "ru":  "Попутный шквал",
+                                        "en":  "Tailwind Squall"
+                                    },
+    "card.shop_support_wind_tail":  {
+                                        "ru":  "Добивающий порыв",
+                                        "en":  "Finishing Gust"
+                                    }
+}

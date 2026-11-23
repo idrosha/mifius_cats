@@ -1,0 +1,22 @@
+﻿{
+    "cost":  1,
+    "atk":  0,
+    "shield":  0,
+    "hits":  0,
+    "targetRule":  "ally_lowest_hp",
+    "tags":  [
+                 "buff"
+             ],
+    "effectOps":  [
+                      {
+                          "op":  "buff",
+                          "stat":  "atk",
+                          "amount":  2,
+                          "duration":  2
+                      }
+                  ],
+    "cardId":  "card_shop_support_wind_eyes",
+    "name_key":  "card.shop_support_wind_eyes",
+    "roleGate":  "support",
+    "element":  "wind"
+}

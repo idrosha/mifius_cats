@@ -1,0 +1,25 @@
+﻿{
+    "cost":  1,
+    "atk":  0,
+    "shield":  0,
+    "hits":  0,
+    "targetRule":  "ally_lowest_hp",
+    "tags":  [
+                 "heal",
+                 "buff"
+             ],
+    "effectOps":  [
+                      {
+                          "op":  "heal",
+                          "amount":  5
+                      },
+                      {
+                          "op":  "cleanse",
+                          "amount":  1
+                      }
+                  ],
+    "cardId":  "card_shop_support_water_headwear",
+    "name_key":  "card.shop_support_water_headwear",
+    "roleGate":  "support",
+    "element":  "water"
+}

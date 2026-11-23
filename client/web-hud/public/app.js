@@ -802,9 +802,9 @@ const state = {
     { id: "lot_5", name: "potion_spark_claw", bid: 55, side: "npc", kind: "potion" },
   ],
   auctionLots: [
-    { id: "auc_1", name: "shop_tank_stone_a", bid: 900, kind: "cat" },
-    { id: "auc_2", name: "shop_fighter_fire_b", bid: 850, kind: "cat" },
-    { id: "auc_3", name: "shop_mage_ice_b", bid: 980, kind: "cat" },
+    { id: "auc_1", name: "shop_tank_fire", bid: 900, kind: "cat" },
+    { id: "auc_2", name: "shop_fighter_water", bid: 850, kind: "cat" },
+    { id: "auc_3", name: "shop_mage_water", bid: 980, kind: "cat" },
     { id: "auc_4", name: "armor_grey_plate", bid: 150, kind: "armor" },
     { id: "auc_5", name: "armor_grey_pendant", bid: 120, kind: "armor" },
     { id: "auc_6", name: "weapon_wood_claw", bid: 200, kind: "weapon" },
@@ -908,7 +908,7 @@ const state = {
   /** PvP arena: preset id, active 3-cat squad (front→mid→rear), MM stub foe. */
   pvpArenaMode: "ranked",
   pvpArenaSquadId: "1",
-  pvpSquad: ["shop_tank_stone_a", "shop_fighter_fire_a", "shop_support_water_a"],
+  pvpSquad: ["shop_tank_fire", "shop_fighter_fire", "shop_support_water"],
   pvpOpponentTeam: null,
   pvpOpponentName: "",
   pvpSearching: false,
@@ -1866,18 +1866,24 @@ const CONTENT_CAT_BASE = {
   starter_tank_stone: { atk: 4, hp: 50, spd: 3, skill: 2, charm: 4 },
   starter_fighter_fire: { atk: 8, hp: 43, spd: 6, skill: 3, charm: 3 },
   starter_support_water: { atk: 2, hp: 28, spd: 5, skill: 7, charm: 6 },
-  shop_tank_stone_a: { atk: 4, hp: 50, spd: 3, skill: 2, charm: 4 },
-  shop_tank_stone_b: { atk: 6, hp: 48, spd: 3, skill: 2, charm: 4 },
-  shop_fighter_fire_a: { atk: 8, hp: 43, spd: 7, skill: 3, charm: 3 },
-  shop_fighter_fire_b: { atk: 10, hp: 45, spd: 5, skill: 3, charm: 3 },
-  shop_assassin_bolt_a: { atk: 8, hp: 38, spd: 9, skill: 4, charm: 4 },
-  shop_assassin_bolt_b: { atk: 8, hp: 36, spd: 8, skill: 4, charm: 4 },
-  shop_ranger_grass_a: { atk: 7, hp: 35, spd: 8, skill: 4, charm: 3 },
-  shop_ranger_grass_b: { atk: 7, hp: 37, spd: 7, skill: 5, charm: 3 },
-  shop_mage_fire_a: { atk: 5, hp: 30, spd: 5, skill: 8, charm: 3 },
-  shop_mage_ice_b: { atk: 5, hp: 29, spd: 5, skill: 8, charm: 3 },
-  shop_support_water_a: { atk: 2, hp: 28, spd: 5, skill: 7, charm: 6 },
-  shop_support_water_b: { atk: 3, hp: 29, spd: 5, skill: 7, charm: 6 },
+  shop_tank_fire: { atk: 4, hp: 50, spd: 3, skill: 2, charm: 4 },
+  shop_tank_water: { atk: 6, hp: 48, spd: 3, skill: 2, charm: 4 },
+  shop_tank_wind: { atk: 4, hp: 50, spd: 4, skill: 3, charm: 4 },
+  shop_fighter_fire: { atk: 8, hp: 43, spd: 7, skill: 3, charm: 3 },
+  shop_fighter_water: { atk: 10, hp: 45, spd: 5, skill: 3, charm: 3 },
+  shop_fighter_wind: { atk: 8, hp: 42, spd: 7, skill: 4, charm: 3 },
+  shop_assassin_fire: { atk: 8, hp: 38, spd: 9, skill: 4, charm: 4 },
+  shop_assassin_water: { atk: 8, hp: 36, spd: 8, skill: 4, charm: 4 },
+  shop_assassin_wind: { atk: 7, hp: 37, spd: 9, skill: 5, charm: 4 },
+  shop_ranger_fire: { atk: 7, hp: 35, spd: 8, skill: 4, charm: 3 },
+  shop_ranger_water: { atk: 7, hp: 37, spd: 7, skill: 5, charm: 3 },
+  shop_ranger_wind: { atk: 7, hp: 35, spd: 8, skill: 5, charm: 3 },
+  shop_mage_fire: { atk: 5, hp: 30, spd: 5, skill: 8, charm: 3 },
+  shop_mage_water: { atk: 5, hp: 29, spd: 5, skill: 8, charm: 3 },
+  shop_mage_wind: { atk: 5, hp: 30, spd: 6, skill: 8, charm: 3 },
+  shop_support_fire: { atk: 3, hp: 28, spd: 5, skill: 7, charm: 6 },
+  shop_support_water: { atk: 2, hp: 28, spd: 5, skill: 7, charm: 6 },
+  shop_support_wind: { atk: 3, hp: 29, spd: 5, skill: 7, charm: 6 },
 };
 const ROLE_CAT_BASE = {
   tank: { atk: 4, hp: 50, spd: 3, skill: 2, charm: 4 },
@@ -2175,21 +2181,27 @@ function renderTabs() {
 
 function starterMeta(id) {
   const map = {
-    starter_tank_stone: { role: "tank", element: "stone", lane: "vanguard" },
+    starter_tank_stone: { role: "tank", element: "fire", lane: "vanguard" },
     starter_fighter_fire: { role: "fighter", element: "fire", lane: "center" },
     starter_support_water: { role: "support", element: "water", lane: "rear" },
-    shop_tank_stone_a: { role: "tank", element: "stone", lane: "vanguard" },
-    shop_tank_stone_b: { role: "tank", element: "stone", lane: "vanguard" },
-    shop_fighter_fire_a: { role: "fighter", element: "fire", lane: "center" },
-    shop_fighter_fire_b: { role: "fighter", element: "fire", lane: "center" },
-    shop_assassin_bolt_a: { role: "assassin", element: "bolt", lane: "center" },
-    shop_assassin_bolt_b: { role: "assassin", element: "bolt", lane: "center" },
-    shop_ranger_grass_a: { role: "ranger", element: "grass", lane: "rear" },
-    shop_ranger_grass_b: { role: "ranger", element: "grass", lane: "rear" },
-    shop_mage_fire_a: { role: "mage", element: "fire", lane: "rear" },
-    shop_mage_ice_b: { role: "mage", element: "ice", lane: "rear" },
-    shop_support_water_a: { role: "support", element: "water", lane: "rear" },
-    shop_support_water_b: { role: "support", element: "water", lane: "rear" },
+    shop_tank_fire: { role: "tank", element: "fire", lane: "vanguard" },
+    shop_tank_water: { role: "tank", element: "water", lane: "vanguard" },
+    shop_tank_wind: { role: "tank", element: "wind", lane: "vanguard" },
+    shop_fighter_fire: { role: "fighter", element: "fire", lane: "center" },
+    shop_fighter_water: { role: "fighter", element: "water", lane: "center" },
+    shop_fighter_wind: { role: "fighter", element: "wind", lane: "center" },
+    shop_assassin_fire: { role: "assassin", element: "fire", lane: "center" },
+    shop_assassin_water: { role: "assassin", element: "water", lane: "center" },
+    shop_assassin_wind: { role: "assassin", element: "wind", lane: "center" },
+    shop_ranger_fire: { role: "ranger", element: "fire", lane: "rear" },
+    shop_ranger_water: { role: "ranger", element: "water", lane: "rear" },
+    shop_ranger_wind: { role: "ranger", element: "wind", lane: "rear" },
+    shop_mage_fire: { role: "mage", element: "fire", lane: "rear" },
+    shop_mage_water: { role: "mage", element: "water", lane: "rear" },
+    shop_mage_wind: { role: "mage", element: "wind", lane: "rear" },
+    shop_support_fire: { role: "support", element: "fire", lane: "rear" },
+    shop_support_water: { role: "support", element: "water", lane: "rear" },
+    shop_support_wind: { role: "support", element: "wind", lane: "rear" },
     starter_farm_grass: { role: "farm", element: "grass", lane: "inventory" },
   };
   return map[id] || { role: "?", element: "?", lane: "?" };
@@ -2238,7 +2250,7 @@ function pvpSquadIds() {
   if (Array.isArray(state.pvpSquad) && state.pvpSquad.length === 3) {
     return [...state.pvpSquad];
   }
-  return ["shop_tank_stone_a", "shop_fighter_fire_a", "shop_support_water_a"];
+  return ["shop_tank_fire", "shop_fighter_fire", "shop_support_water"];
 }
 
 /** mythmir_{ch}_f{1|2|3} → { chapter, stage: entrance|tunnel|boss } or null. */
@@ -2686,7 +2698,7 @@ function ensureDungeonTestSquad() {
   if (Array.isArray(state.practiceSquad) && state.practiceSquad.length === 3) {
     return [...state.practiceSquad];
   }
-  const pick = ["shop_tank_stone_a", "shop_fighter_fire_a", "shop_support_water_a"];
+  const pick = ["shop_tank_fire", "shop_fighter_fire", "shop_support_water"];
   state.practiceSquad = [...pick];
   return [...pick];
 }
@@ -4108,21 +4120,21 @@ function syncRaidLimitsFromLiveOps() {
 function buildRaidLegionRoster() {
   const plan = [
     // row 3 rear — supports (L→R)
-    { row: 3, col: 0, role: "support", sub: "heal", templateId: "shop_support_water_a", name_ru: "Хил A" },
-    { row: 3, col: 1, role: "support", sub: "heal", templateId: "shop_support_water_a", name_ru: "Хил A′" },
-    { row: 3, col: 2, role: "support", sub: "buffer", templateId: "shop_support_water_b", name_ru: "Баффер B" },
+    { row: 3, col: 0, role: "support", sub: "heal", templateId: "shop_support_water", name_ru: "Хил A" },
+    { row: 3, col: 1, role: "support", sub: "heal", templateId: "shop_support_water", name_ru: "Хил A′" },
+    { row: 3, col: 2, role: "support", sub: "buffer", templateId: "shop_support_wind", name_ru: "Баффер B" },
     // row 2 ranged DPS
-    { row: 2, col: 0, role: "mage", sub: "ranged", templateId: "shop_mage_fire_a", name_ru: "Маг A" },
-    { row: 2, col: 1, role: "ranger", sub: "ranged", templateId: "shop_ranger_grass_a", name_ru: "Лучник A" },
-    { row: 2, col: 2, role: "mage", sub: "ranged", templateId: "shop_mage_ice_b", name_ru: "Маг B" },
+    { row: 2, col: 0, role: "mage", sub: "ranged", templateId: "shop_mage_fire", name_ru: "Маг A" },
+    { row: 2, col: 1, role: "ranger", sub: "ranged", templateId: "shop_ranger_fire", name_ru: "Лучник A" },
+    { row: 2, col: 2, role: "mage", sub: "ranged", templateId: "shop_mage_water", name_ru: "Маг B" },
     // row 1 melee DPS
-    { row: 1, col: 0, role: "assassin", sub: "melee", templateId: "shop_assassin_bolt_a", name_ru: "Убийца A" },
-    { row: 1, col: 1, role: "fighter", sub: "melee", templateId: "shop_fighter_fire_a", name_ru: "Воин A" },
-    { row: 1, col: 2, role: "assassin", sub: "melee", templateId: "shop_assassin_bolt_b", name_ru: "Убийца B" },
+    { row: 1, col: 0, role: "assassin", sub: "melee", templateId: "shop_assassin_fire", name_ru: "Убийца A" },
+    { row: 1, col: 1, role: "fighter", sub: "melee", templateId: "shop_fighter_fire", name_ru: "Воин A" },
+    { row: 1, col: 2, role: "assassin", sub: "melee", templateId: "shop_assassin_water", name_ru: "Убийца B" },
     // row 0 front — tanks
-    { row: 0, col: 0, role: "tank", sub: "aggro", templateId: "shop_tank_stone_a", name_ru: "Танк-агр A" },
-    { row: 0, col: 1, role: "tank", sub: "aggro", templateId: "shop_tank_stone_a", name_ru: "Танк-агр A′" },
-    { row: 0, col: 2, role: "tank", sub: "armorBreak", templateId: "shop_tank_stone_b", name_ru: "Танк-пробой B" },
+    { row: 0, col: 0, role: "tank", sub: "aggro", templateId: "shop_tank_fire", name_ru: "Танк-агр A" },
+    { row: 0, col: 1, role: "tank", sub: "aggro", templateId: "shop_tank_fire", name_ru: "Танк-агр A′" },
+    { row: 0, col: 2, role: "tank", sub: "armorBreak", templateId: "shop_tank_water", name_ru: "Танк-пробой B" },
   ];
   return plan.map((s, i) => ({ ...s, slot: i, filled: true }));
 }
@@ -6076,21 +6088,27 @@ function renderGuild() {
 
 /** Soft-launch hearth names (display only — combat stays server-side). */
 const CAT_SHEET_NAMES = {
-  starter_tank_stone: "Рыжик Каменный",
+  starter_tank_stone: "Рыжик Огненный",
   starter_fighter_fire: "Барсик Громовержец",
   starter_support_water: "Мурка Водная",
-  shop_tank_stone_a: "Щит-утёс",
-  shop_tank_stone_b: "Пробой",
-  shop_fighter_fire_a: "Парные когти",
-  shop_fighter_fire_b: "Двуручный",
-  shop_assassin_bolt_a: "Тень",
-  shop_assassin_bolt_b: "Охотник тыла",
-  shop_ranger_grass_a: "Охотник",
-  shop_ranger_grass_b: "Град стрел",
-  shop_mage_fire_a: "Огонь",
-  shop_mage_ice_b: "Лёд",
-  shop_support_water_a: "Чистый родник",
-  shop_support_water_b: "Прилив силы",
+  shop_tank_fire: "Щит-жара",
+  shop_tank_water: "Пробой-прилив",
+  shop_tank_wind: "Щит-вихрь",
+  shop_fighter_fire: "Парные когти",
+  shop_fighter_water: "Молот прилива",
+  shop_fighter_wind: "Ветряной размах",
+  shop_assassin_fire: "Тень-жар",
+  shop_assassin_water: "Охотник тыла",
+  shop_assassin_wind: "Ядовитый порыв",
+  shop_ranger_fire: "Охотник",
+  shop_ranger_water: "Град капель",
+  shop_ranger_wind: "Метка ветра",
+  shop_mage_fire: "Огненный шар",
+  shop_mage_water: "Ледяной взор",
+  shop_mage_wind: "Цепной порыв",
+  shop_support_fire: "Целительный жар",
+  shop_support_water: "Чистый родник",
+  shop_support_wind: "Попутный шквал",
   bot_practice_tank_a: "Дубовый",
   bot_practice_fighter_a: "Берсерк",
   bot_practice_support_a: "Тотем",
@@ -6101,18 +6119,24 @@ const CAT_SHEET_NAMES = {
  * Default path keeps studio background (forms/lobby/load). Battle cutouts: D-037.
  */
 const CAT_HERO_ART = {
-  shop_tank_stone_a: "/stitch-assets/cat-heroes/tank-a.webp?v=opt1",
-  shop_tank_stone_b: "/stitch-assets/cat-heroes/tank-b.webp?v=opt1",
-  shop_fighter_fire_a: "/stitch-assets/cat-heroes/fighter-a.webp?v=opt1",
-  shop_fighter_fire_b: "/stitch-assets/cat-heroes/fighter-b.webp?v=opt1",
-  shop_assassin_bolt_a: "/stitch-assets/cat-heroes/assassin-a.webp?v=opt1",
-  shop_assassin_bolt_b: "/stitch-assets/cat-heroes/assassin-b.webp?v=opt1",
-  shop_ranger_grass_a: "/stitch-assets/cat-heroes/ranger-a.webp?v=opt1",
-  shop_ranger_grass_b: "/stitch-assets/cat-heroes/ranger-b.webp?v=opt1",
-  shop_mage_fire_a: "/stitch-assets/cat-heroes/mage-a.webp?v=opt1",
-  shop_mage_ice_b: "/stitch-assets/cat-heroes/mage-b.webp?v=opt1",
-  shop_support_water_a: "/stitch-assets/cat-heroes/support-a.webp?v=opt1",
-  shop_support_water_b: "/stitch-assets/cat-heroes/support-b.webp?v=opt1",
+  shop_tank_fire: "/stitch-assets/cat-heroes/tank-a.webp?v=opt1",
+  shop_tank_water: "/stitch-assets/cat-heroes/tank-b.webp?v=opt1",
+  shop_tank_wind: "/stitch-assets/cat-heroes/tank-a.webp?v=opt1",
+  shop_fighter_fire: "/stitch-assets/cat-heroes/fighter-a.webp?v=opt1",
+  shop_fighter_water: "/stitch-assets/cat-heroes/fighter-b.webp?v=opt1",
+  shop_fighter_wind: "/stitch-assets/cat-heroes/fighter-a.webp?v=opt1",
+  shop_assassin_fire: "/stitch-assets/cat-heroes/assassin-a.webp?v=opt1",
+  shop_assassin_water: "/stitch-assets/cat-heroes/assassin-b.webp?v=opt1",
+  shop_assassin_wind: "/stitch-assets/cat-heroes/assassin-a.webp?v=opt1",
+  shop_ranger_fire: "/stitch-assets/cat-heroes/ranger-a.webp?v=opt1",
+  shop_ranger_water: "/stitch-assets/cat-heroes/ranger-b.webp?v=opt1",
+  shop_ranger_wind: "/stitch-assets/cat-heroes/ranger-a.webp?v=opt1",
+  shop_mage_fire: "/stitch-assets/cat-heroes/mage-a.webp?v=opt1",
+  shop_mage_water: "/stitch-assets/cat-heroes/mage-b.webp?v=opt1",
+  shop_mage_wind: "/stitch-assets/cat-heroes/mage-a.webp?v=opt1",
+  shop_support_fire: "/stitch-assets/cat-heroes/support-b.webp?v=opt1",
+  shop_support_water: "/stitch-assets/cat-heroes/support-a.webp?v=opt1",
+  shop_support_wind: "/stitch-assets/cat-heroes/support-b.webp?v=opt1",
   starter_tank_stone: "/stitch-assets/cat-heroes/tank-a.webp?v=opt1",
   starter_fighter_fire: "/stitch-assets/cat-heroes/fighter-a.webp?v=opt1",
   starter_support_water: "/stitch-assets/cat-heroes/support-a.webp?v=opt1",
@@ -6120,18 +6144,24 @@ const CAT_HERO_ART = {
 
 /** Transparent cutouts — ONLY live fight HUD (practice_fight / pvp_fight / battle). D-037. */
 const CAT_HERO_BATTLE_ART = {
-  shop_tank_stone_a: "/stitch-assets/cat-heroes/battle/tank-a.webp",
-  shop_tank_stone_b: "/stitch-assets/cat-heroes/battle/tank-b.webp",
-  shop_fighter_fire_a: "/stitch-assets/cat-heroes/battle/fighter-a.webp",
-  shop_fighter_fire_b: "/stitch-assets/cat-heroes/battle/fighter-b.webp",
-  shop_assassin_bolt_a: "/stitch-assets/cat-heroes/battle/assassin-a.webp",
-  shop_assassin_bolt_b: "/stitch-assets/cat-heroes/battle/assassin-b.webp",
-  shop_ranger_grass_a: "/stitch-assets/cat-heroes/battle/ranger-a.webp",
-  shop_ranger_grass_b: "/stitch-assets/cat-heroes/battle/ranger-b.webp",
-  shop_mage_fire_a: "/stitch-assets/cat-heroes/battle/mage-a.webp",
-  shop_mage_ice_b: "/stitch-assets/cat-heroes/battle/mage-b.webp",
-  shop_support_water_a: "/stitch-assets/cat-heroes/battle/support-a.webp",
-  shop_support_water_b: "/stitch-assets/cat-heroes/battle/support-b.webp",
+  shop_tank_fire: "/stitch-assets/cat-heroes/battle/tank-a.webp",
+  shop_tank_water: "/stitch-assets/cat-heroes/battle/tank-b.webp",
+  shop_tank_wind: "/stitch-assets/cat-heroes/battle/tank-a.webp",
+  shop_fighter_fire: "/stitch-assets/cat-heroes/battle/fighter-a.webp",
+  shop_fighter_water: "/stitch-assets/cat-heroes/battle/fighter-b.webp",
+  shop_fighter_wind: "/stitch-assets/cat-heroes/battle/fighter-a.webp",
+  shop_assassin_fire: "/stitch-assets/cat-heroes/battle/assassin-a.webp",
+  shop_assassin_water: "/stitch-assets/cat-heroes/battle/assassin-b.webp",
+  shop_assassin_wind: "/stitch-assets/cat-heroes/battle/assassin-a.webp",
+  shop_ranger_fire: "/stitch-assets/cat-heroes/battle/ranger-a.webp",
+  shop_ranger_water: "/stitch-assets/cat-heroes/battle/ranger-b.webp",
+  shop_ranger_wind: "/stitch-assets/cat-heroes/battle/ranger-a.webp",
+  shop_mage_fire: "/stitch-assets/cat-heroes/battle/mage-a.webp",
+  shop_mage_water: "/stitch-assets/cat-heroes/battle/mage-b.webp",
+  shop_mage_wind: "/stitch-assets/cat-heroes/battle/mage-a.webp",
+  shop_support_fire: "/stitch-assets/cat-heroes/battle/support-b.webp",
+  shop_support_water: "/stitch-assets/cat-heroes/battle/support-a.webp",
+  shop_support_wind: "/stitch-assets/cat-heroes/battle/support-b.webp",
   starter_tank_stone: "/stitch-assets/cat-heroes/battle/tank-a.webp",
   starter_fighter_fire: "/stitch-assets/cat-heroes/battle/fighter-a.webp",
   starter_support_water: "/stitch-assets/cat-heroes/battle/support-a.webp",
@@ -6179,18 +6209,24 @@ function bindBattleUnitImg(img, primarySrc, fallbackSrcs = []) {
 }
 
 const CAT_HERO_BLURB = {
-  shop_tank_stone_a: "Танк A · hard-def: щит + taunt. Карты «Каменный взор» / «Уши валуна» (N=6).",
-  shop_tank_stone_b: "Танк B · pierce/fragile. Карты «Трещина взора» / «Чуткость бреши» (N=6).",
-  shop_fighter_fire_a: "Боец A · dual + crit + ruffle. Карты «Искрящий взгляд» / «Боевой слух» (N=6).",
-  shop_fighter_fire_b: "Боец B · тяжёлые одиночные удары. Карты «Яростный взор» / «Рёв стали» (N=6).",
-  shop_assassin_bolt_a: "Ассасин A · stealth + crit. Карты «Глаза мглы» / «Шёпот ветра» (N=6).",
-  shop_assassin_bolt_b: "Ассасин B · backline + poison. Карты «Прицел в спину» / «Слух поддержки» (N=6).",
-  shop_ranger_grass_a: "Стрелок A · lowest_hp / ambush. Карты «Глаз добычи» / «Уши засады» (N=6).",
-  shop_ranger_grass_b: "Стрелок B · AoE all_enemies. Карты «Широкий взор» / «Дальний слух» (N=6).",
-  shop_mage_fire_a: "Маг A · fire AoE + vuln/weak. Карты «Пламенный зрачок» / «Треск искр» (N=6).",
-  shop_mage_ice_b: "Маг B · ice control stun/freeze. Карты «Ледяной взор» / «Холодный слух» (N=6).",
-  shop_support_water_a: "Саппорт A · heal + cleanse. Карты «Целительный взгляд» / «Уши очищения» (N=6).",
-  shop_support_water_b: "Саппорт B · heal + ATK buff. Карты «Вдохновляющий взор» / «Шёпот слабости» (N=6).",
+  shop_tank_fire: "Танк · огонь: taunt + poke. Карты «Оскал жара» / «Удар щита-жара» (N=6).",
+  shop_tank_water: "Танк · вода: pierce/fragile. Карты «Трещина волны» / «Хвост-пробой» (N=6).",
+  shop_tank_wind: "Танк · ветер: taunt + reflect. Карты «Рёв ветра» / «Щит-вихрь» (N=6).",
+  shop_fighter_fire: "Боец · огонь: burst crit. Карты «Искрящий взгляд» / «Двойной удар» (N=6).",
+  shop_fighter_water: "Боец · вода: heavy smash. Карты «Молот прилива» / «Двуручный шквал» (N=6).",
+  shop_fighter_wind: "Боец · ветер: hybrid cleave. Карты «Слух строя» / «Ветряной размах» (N=6).",
+  shop_assassin_fire: "Ассасин · огонь: stealth crit. Карты «Теневой укус» / «Удар из тени» (N=6).",
+  shop_assassin_water: "Ассасин · вода: backline execute. Карты «Прицел в спину» / «Казнь сзади» (N=6).",
+  shop_assassin_wind: "Ассасин · ветер: poison spread. Карты «Глаза сквозняка» / «Шквал яда» (N=6).",
+  shop_ranger_fire: "Стрелок · огонь: hunter lowest_hp. Карты «Глаз добычи» / «Огненная стрела» (N=6).",
+  shop_ranger_water: "Стрелок · вода: mass volley. Карты «Град капель» / «Волна стрел» (N=6).",
+  shop_ranger_wind: "Стрелок · ветер: mark + pierce. Карты «Метка ветра» / «Стрела-шквал» (N=6).",
+  shop_mage_fire: "Маг · огонь: AoE + vuln. Карты «Огненный шар» / «Волна жара» (N=6).",
+  shop_mage_water: "Маг · вода: freeze control. Карты «Ледяной взор» / «Буря льда» (N=6).",
+  shop_mage_wind: "Маг · ветер: hybrid bolt. Карты «Разряд» / «Цепной порыв» (N=6).",
+  shop_support_fire: "Саппорт · огонь: heal + smite. Карты «Целительный жар» / «Праведный ожог» (N=6).",
+  shop_support_water: "Саппорт · вода: heal + cleanse. Карты «Целительный взгляд» / «Уши очищения» (N=6).",
+  shop_support_wind: "Саппорт · ветер: heal + ATK buff. Карты «Вдохновляющий взор» / «Попутный шквал» (N=6).",
 };
 
 function catHeroArt(templateId) {
@@ -7386,7 +7422,7 @@ function homeActiveCat() {
   }
   if (!cat) {
     cat =
-      pool.find((c) => c.templateId === "shop_fighter_fire_a") ||
+      pool.find((c) => c.templateId === "shop_fighter_fire") ||
       pool.find((c) => c.templateId === "starter_fighter_fire") ||
       pool[0];
   }
@@ -10294,40 +10330,52 @@ function unitCard(u, side) {
   return d;
 }
 
-/** Attack-card art for practice/hand HUD — all 12 shop packs under stitch-assets. */
+/** Attack-card art — elven 18 heroes (role-element) under stitch-assets. */
 const ATTACK_CARD_ART_FOLDER = {
-  shop_tank_stone_a: "tank-a",
-  shop_tank_stone_b: "tank-b",
-  shop_fighter_fire_a: "fighter-a",
-  shop_fighter_fire_b: "fighter-b",
-  shop_assassin_bolt_a: "assassin-a",
-  shop_assassin_bolt_b: "assassin-b",
-  shop_ranger_grass_a: "ranger-a",
-  shop_ranger_grass_b: "ranger-b",
-  shop_mage_fire_a: "mage-a",
-  shop_mage_ice_b: "mage-b",
-  shop_support_water_a: "support-a",
-  shop_support_water_b: "support-b",
-  tank_stone: "tank-a",
-  fighter_fire: "fighter-a",
-  support_water: "support-a",
+  shop_tank_fire: "tank-fire",
+  shop_tank_water: "tank-water",
+  shop_tank_wind: "tank-wind",
+  shop_fighter_fire: "fighter-fire",
+  shop_fighter_water: "fighter-water",
+  shop_fighter_wind: "fighter-wind",
+  shop_assassin_fire: "assassin-fire",
+  shop_assassin_water: "assassin-water",
+  shop_assassin_wind: "assassin-wind",
+  shop_ranger_fire: "ranger-fire",
+  shop_ranger_water: "ranger-water",
+  shop_ranger_wind: "ranger-wind",
+  shop_mage_fire: "mage-fire",
+  shop_mage_water: "mage-water",
+  shop_mage_wind: "mage-wind",
+  shop_support_fire: "support-fire",
+  shop_support_water: "support-water",
+  shop_support_wind: "support-wind",
 };
 
 /** N=6 part order — FULL-SPEC §2.3 (eyes/ears + 4 actives). */
 const DECK_PARTS = ["eyes", "ears", "muzzle", "headwear", "back", "tail"];
 const STARTER_DECK_TEMPLATE = {
-  starter_tank_stone: "shop_tank_stone_a",
-  starter_fighter_fire: "shop_fighter_fire_a",
-  starter_support_water: "shop_support_water_a",
+  starter_tank_stone: "shop_tank_fire",
+  starter_fighter_fire: "shop_fighter_fire",
+  starter_support_water: "shop_support_water",
 };
 /** cost≠1 overrides from content/cards (default 1). Art gem = playable cost. */
 const ATTACK_CARD_COST2 = new Set([
-  "card_shop_assassin_bolt_a_tail",
-  "card_shop_assassin_bolt_b_tail",
-  "card_shop_fighter_fire_b_back",
-  "card_shop_mage_ice_b_eyes",
-  "card_shop_support_water_a_back",
-  "card_shop_support_water_b_back",
+  "card_shop_fighter_waterack",
+  "card_shop_fighter_water_muzzle",
+  "card_shop_fighter_wind_back",
+  "card_shop_assassin_water_back",
+  "card_shop_assassin_wind_back",
+  "card_shop_ranger_water_muzzle",
+  "card_shop_ranger_water_back",
+  "card_shop_mage_fire_muzzle",
+  "card_shop_mage_fire_back",
+  "card_shop_mage_water_eyes",
+  "card_shop_mage_water_back",
+  "card_shop_mage_wind_back",
+  "card_shop_support_fire_back",
+  "card_shop_support_windack",
+  "card_shop_support_wind_back",
 ]);
 
 function deckShopTemplate(templateId) {
@@ -10387,7 +10435,7 @@ function renderHomeDeck(cat) {
     .join("");
 }
 
-/** Extract cat templateId from battle unit id (`p1_0_shop_tank_stone_a`). */
+/** Extract cat templateId from battle unit id (`p1_0_shop_tank_fire`). */
 function unitTemplateId(unitOrId) {
   const id = typeof unitOrId === "string" ? unitOrId : unitOrId?.id || "";
   const m = String(id).match(/^(?:p1|p2|bot)_\d+_(.+)$/);
@@ -10397,7 +10445,7 @@ function unitTemplateId(unitOrId) {
 /** Practice lobby roster: data-hero → combat template + display meta. */
 const PRACTICE_HEROES = {
   barsik: {
-    templateId: "shop_tank_stone_a",
+    templateId: "shop_tank_fire",
     name: "Барсик Щит-утёс",
     short: "Барсик",
     role: "tank",
@@ -10411,7 +10459,7 @@ const PRACTICE_HEROES = {
     dmg: 4,
   },
   titan: {
-    templateId: "shop_tank_stone_b",
+    templateId: "shop_tank_water",
     name: "Титан Пробой",
     short: "Титан",
     role: "tank",
@@ -10425,7 +10473,7 @@ const PRACTICE_HEROES = {
     dmg: 6,
   },
   ryzhik: {
-    templateId: "shop_fighter_fire_a",
+    templateId: "shop_fighter_fire",
     name: "Рыжик Когти",
     short: "Рыжик",
     role: "fighter",
@@ -10439,7 +10487,7 @@ const PRACTICE_HEROES = {
     dmg: 8,
   },
   grom: {
-    templateId: "shop_fighter_fire_b",
+    templateId: "shop_fighter_water",
     name: "Гром Клинок",
     short: "Гром",
     role: "fighter",
@@ -10453,7 +10501,7 @@ const PRACTICE_HEROES = {
     dmg: 10,
   },
   shadow: {
-    templateId: "shop_assassin_bolt_a",
+    templateId: "shop_assassin_fire",
     name: "Тень Скрытный",
     short: "Тень",
     role: "assassin",
@@ -10467,7 +10515,7 @@ const PRACTICE_HEROES = {
     dmg: 8,
   },
   bagheera: {
-    templateId: "shop_assassin_bolt_b",
+    templateId: "shop_assassin_water",
     name: "Багира Тень",
     short: "Багира",
     role: "assassin",
@@ -10481,7 +10529,7 @@ const PRACTICE_HEROES = {
     dmg: 8,
   },
   lynx: {
-    templateId: "shop_ranger_grass_a",
+    templateId: "shop_ranger_fire",
     name: "Рыселап Лук",
     short: "Рыселап",
     role: "ranger",
@@ -10495,7 +10543,7 @@ const PRACTICE_HEROES = {
     dmg: 7,
   },
   leo: {
-    templateId: "shop_ranger_grass_b",
+    templateId: "shop_ranger_water",
     name: "Лео Лучник",
     short: "Лео",
     role: "ranger",
@@ -10509,7 +10557,7 @@ const PRACTICE_HEROES = {
     dmg: 7,
   },
   ignius: {
-    templateId: "shop_mage_fire_a",
+    templateId: "shop_mage_fire",
     name: "Игниус Пламя",
     short: "Игниус",
     role: "mage",
@@ -10523,7 +10571,7 @@ const PRACTICE_HEROES = {
     dmg: 5,
   },
   frostia: {
-    templateId: "shop_mage_ice_b",
+    templateId: "shop_mage_water",
     name: "Фростия Лёд",
     short: "Фростия",
     role: "mage",
@@ -10537,7 +10585,7 @@ const PRACTICE_HEROES = {
     dmg: 5,
   },
   murka: {
-    templateId: "shop_support_water_a",
+    templateId: "shop_support_water",
     name: "Мурка Родник",
     short: "Мурка",
     role: "support",
@@ -10551,7 +10599,7 @@ const PRACTICE_HEROES = {
     dmg: 2,
   },
   aurelia: {
-    templateId: "shop_support_water_b",
+    templateId: "shop_support_wind",
     name: "Аурелия Клирик",
     short: "Аурелия",
     role: "support",
@@ -10677,49 +10725,45 @@ function practiceHeroKeyByTemplate(templateId) {
   return Object.keys(PRACTICE_HEROES).find((k) => PRACTICE_HEROES[k].templateId === templateId) || null;
 }
 const ATTACK_CARD_ART_ALIAS = {
-  card_tank_stone_eyes: "shop_tank_stone_a_eyes",
-  card_tank_stone_ears: "shop_tank_stone_a_ears",
-  card_tank_stone_muzzle: "shop_tank_stone_a_muzzle",
-  card_tank_stone_headwear: "shop_tank_stone_a_headwear",
-  card_tank_stone_back: "shop_tank_stone_a_back",
-  card_tank_stone_tail: "shop_tank_stone_a_tail",
-  card_fighter_fire_eyes: "shop_fighter_fire_a_eyes",
-  card_fighter_fire_ears: "shop_fighter_fire_a_ears",
-  card_fighter_fire_muzzle: "shop_fighter_fire_a_muzzle",
-  card_fighter_fire_headwear: "shop_fighter_fire_a_headwear",
-  card_fighter_fire_back: "shop_fighter_fire_a_back",
-  card_fighter_fire_tail: "shop_fighter_fire_a_tail",
-  card_support_water_eyes: "shop_support_water_a_eyes",
-  card_support_water_ears: "shop_support_water_a_ears",
-  card_support_water_muzzle: "shop_support_water_a_muzzle",
-  card_support_water_headwear: "shop_support_water_a_headwear",
-  card_support_water_back: "shop_support_water_a_back",
-  card_support_water_tail: "shop_support_water_a_tail",
+  card_tank_stone_eyes: "shop_tank_fire_eyes",
+  card_tank_stone_ears: "shop_tank_fire_ears",
+  card_tank_stone_muzzle: "shop_tank_fire_muzzle",
+  card_tank_stone_headwear: "shop_tank_fire_headwear",
+  card_tank_stone_back: "shop_tank_fire_back",
+  card_tank_stone_tail: "shop_tank_fire_tail",
+  card_fighter_fire_eyes: "shop_fighter_fire_eyes",
+  card_fighter_fire_ears: "shop_fighter_fire_ears",
+  card_fighter_fire_muzzle: "shop_fighter_fire_muzzle",
+  card_fighter_fire_headwear: "shop_fighter_fire_headwear",
+  card_fighter_fire_back: "shop_fighter_waterack",
+  card_fighter_fire_tail: "shop_fighter_fire_tail",
+  card_support_water_eyes: "shop_support_water_eyes",
+  card_support_water_ears: "shop_support_water_ears",
+  card_support_water_muzzle: "shop_support_water_muzzle",
+  card_support_water_headwear: "shop_support_water_headwear",
+  card_support_water_back: "shop_support_windack",
+  card_support_water_tail: "shop_support_water_tail",
 };
 
-/** Bust Amvera/browser max-age after in-place webp rebakes. */
-const STITCH_ASSET_V = "opt2";
+/** Bust Amvera/browser max-age after in-place rebakes. */
+const STITCH_ASSET_V = "elven18";
 
 function attackCardArtUrl(cardId) {
   if (!cardId) return "";
   const raw = ATTACK_CARD_ART_ALIAS[cardId] || String(cardId).replace(/^card_/, "");
-  // shop_tank_stone_a_muzzle → shop_tank_stone_a | muzzle
-  // tank_stone_muzzle (after alias) already shop_*
+  // shop_tank_fire_muzzle → shop_tank_fire | muzzle
   let folderKey = "";
   let fileStem = raw;
   if (raw.startsWith("shop_")) {
-    const m = raw.match(/^(shop_[a-z]+_[a-z]+_[ab])_(.+)$/);
+    const m = raw.match(/^(shop_[a-z]+_[a-z]+)_(eyes|ears|muzzle|headwear|back|tail)$/);
     if (m) {
       folderKey = m[1];
       fileStem = raw;
     }
-  } else {
-    const m = raw.match(/^([a-z]+_[a-z]+)_(.+)$/);
-    if (m) folderKey = m[1];
   }
   const folder = ATTACK_CARD_ART_FOLDER[folderKey];
   if (!folder) return "";
-  return `/stitch-assets/attack-cards/${folder}/attack_${fileStem}.webp?v=${STITCH_ASSET_V}`;
+  return `/stitch-assets/attack-cards/${folder}/attack_${fileStem}.jpg?v=${STITCH_ASSET_V}`;
 }
 
 function unitCrowdControlled(diff, unitId) {
@@ -13016,15 +13060,15 @@ function renderPveFight() {
 const PVP_ARENA_SQUADS = {
   "1": {
     name: "Мурр-Оплот",
-    team: ["shop_tank_stone_a", "shop_fighter_fire_a", "shop_support_water_a"],
+    team: ["shop_tank_fire", "shop_fighter_fire", "shop_support_water"],
   },
   "2": {
     name: "Теневой Клык",
-    team: ["shop_tank_stone_b", "shop_assassin_bolt_a", "shop_support_water_b"],
+    team: ["shop_tank_water", "shop_assassin_fire", "shop_support_wind"],
   },
   "3": {
     name: "Ледяной Строй",
-    team: ["shop_tank_stone_b", "shop_mage_ice_b", "shop_support_water_a"],
+    team: ["shop_tank_water", "shop_mage_water", "shop_support_water"],
   },
 };
 const PVP_DPS_ROLES = new Set(["fighter", "assassin", "ranger", "mage"]);
@@ -15249,9 +15293,9 @@ function bindPracticeFightCtas() {
       }
       if (dojo === "autopick") {
         state.practiceSquad = [
-          "shop_tank_stone_a",
-          "shop_fighter_fire_a",
-          "shop_support_water_a",
+          "shop_tank_fire",
+          "shop_fighter_fire",
+          "shop_support_water",
         ];
         renderPracticeSquad();
         toast("Авто-подбор 3v3 · Барсик · Рыжик · Мурка");
@@ -15692,9 +15736,9 @@ async function main() {
     }
     if (mode === "practice") {
       state.practiceSquad = [
-        "shop_tank_stone_a",
-        "shop_fighter_fire_a",
-        "shop_support_water_a",
+        "shop_tank_fire",
+        "shop_fighter_fire",
+        "shop_support_water",
       ];
     }
     await startYard(false);

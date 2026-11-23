@@ -1,0 +1,17 @@
+﻿{
+    "cost":  1,
+    "atk":  0,
+    "shield":  5,
+    "hits":  0,
+    "targetRule":  "self",
+    "tags":  [
+                 "shield"
+             ],
+    "effectOps":  [
+
+                  ],
+    "cardId":  "card_shop_tank_fire_eyes",
+    "name_key":  "card.shop_tank_fire_eyes",
+    "roleGate":  "tank",
+    "element":  "fire"
+}

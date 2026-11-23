@@ -1,0 +1,22 @@
+﻿{
+    "cost":  1,
+    "atk":  5,
+    "shield":  0,
+    "hits":  1,
+    "targetRule":  "nearest",
+    "tags":  [
+                 "attack",
+                 "heal"
+             ],
+    "effectOps":  [
+                      {
+                          "op":  "heal",
+                          "amount":  4,
+                          "target":  "self"
+                      }
+                  ],
+    "cardId":  "card_shop_support_fire_tail",
+    "name_key":  "card.shop_support_fire_tail",
+    "roleGate":  "support",
+    "element":  "fire"
+}

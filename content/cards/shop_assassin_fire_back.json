@@ -1,0 +1,23 @@
+﻿{
+    "cost":  1,
+    "atk":  6,
+    "shield":  0,
+    "hits":  1,
+    "targetRule":  "nearest",
+    "tags":  [
+                 "attack",
+                 "crit"
+             ],
+    "effectOps":  [
+                      {
+                          "op":  "apply_status",
+                          "status":  "stealth",
+                          "stacks":  1,
+                          "duration":  1
+                      }
+                  ],
+    "cardId":  "card_shop_assassin_fire_back",
+    "name_key":  "card.shop_assassin_fire_back",
+    "roleGate":  "assassin",
+    "element":  "fire"
+}

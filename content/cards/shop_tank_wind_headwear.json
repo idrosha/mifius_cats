@@ -1,0 +1,23 @@
+﻿{
+    "cost":  1,
+    "atk":  0,
+    "shield":  4,
+    "hits":  0,
+    "targetRule":  "self",
+    "tags":  [
+                 "shield",
+                 "buff"
+             ],
+    "effectOps":  [
+                      {
+                          "op":  "apply_status",
+                          "status":  "reflect",
+                          "stacks":  1,
+                          "duration":  2
+                      }
+                  ],
+    "cardId":  "card_shop_tank_wind_headwear",
+    "name_key":  "card.shop_tank_wind_headwear",
+    "roleGate":  "tank",
+    "element":  "wind"
+}

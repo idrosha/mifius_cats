@@ -1,6 +1,8 @@
-# Elven attack-card chrome (element pack)
+# Elven attack-card chrome (element pack) — LIVE
 
-Empty reusable frames — art window is flat mid-grey for later illustration compose.
+Filled cards (108) ship under `../{role}-{element}/attack_shop_{role}_{element}_{part}.jpg`.
+
+Empty reusable frames (compose / retakes):
 
 | Element | Asset |
 |---------|-------|
@@ -8,5 +10,5 @@ Empty reusable frames — art window is flat mid-grey for later illustration com
 | Water | `card_frame_water.jpg` |
 | Wind | `card_frame_wind.jpg` |
 
-Same locked elven ornament layout across variants; metal/accent tint differs by element.
-Do not replace D-045 `../attack_card_chrome.jpg` without an explicit compose switch.
+D-045 tavern chrome (`../attack_card_chrome.webp`) kept for card-back / legacy UI only.
+Filled elven cards already bake chrome + art + RU text.

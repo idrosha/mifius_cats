@@ -1,0 +1,17 @@
+﻿{
+    "cost":  2,
+    "atk":  8,
+    "shield":  0,
+    "hits":  1,
+    "targetRule":  "nearest",
+    "tags":  [
+                 "attack"
+             ],
+    "effectOps":  [
+
+                  ],
+    "cardId":  "card_shop_fighter_water_muzzle",
+    "name_key":  "card.shop_fighter_water_muzzle",
+    "roleGate":  "fighter",
+    "element":  "water"
+}

@@ -1,290 +1,434 @@
-[
-  {
-    "templateId": "shop_tank_stone_a",
-    "role": "tank",
-    "element": "stone",
-    "level": 1,
-    "baseStats": {
-      "hp": 50,
-      "atk": 4,
-      "spd": 3,
-      "skill": 2,
-      "charm": 4
+﻿[
+    {
+        "templateId":  "shop_tank_fire",
+        "role":  "tank",
+        "element":  "fire",
+        "level":  1,
+        "baseStats":  {
+                          "hp":  50,
+                          "atk":  4,
+                          "spd":  3,
+                          "skill":  2,
+                          "charm":  4
+                      },
+        "parts":  {
+                      "eyes":  "part_shop_tank_fire_eyes",
+                      "ears":  "part_shop_tank_fire_ears",
+                      "muzzle":  "part_shop_tank_fire_muzzle",
+                      "headwear":  "part_shop_tank_fire_headwear",
+                      "back":  "part_shop_tank_fire_back",
+                      "tail":  "part_shop_tank_fire_tail"
+                  },
+        "rarity":  "common",
+        "origin":  "shop",
+        "archetype":  "tank_fire"
     },
-    "parts": {
-      "eyes": "part_shop_tank_stone_a_eyes",
-      "ears": "part_shop_tank_stone_a_ears",
-      "muzzle": "part_shop_tank_stone_a_muzzle",
-      "headwear": "part_shop_tank_stone_a_headwear",
-      "back": "part_shop_tank_stone_a_back",
-      "tail": "part_shop_tank_stone_a_tail"
+    {
+        "templateId":  "shop_tank_water",
+        "role":  "tank",
+        "element":  "water",
+        "level":  1,
+        "baseStats":  {
+                          "hp":  48,
+                          "atk":  6,
+                          "spd":  3,
+                          "skill":  2,
+                          "charm":  4
+                      },
+        "parts":  {
+                      "eyes":  "part_shop_tank_water_eyes",
+                      "ears":  "part_shop_tank_water_ears",
+                      "muzzle":  "part_shop_tank_water_muzzle",
+                      "headwear":  "part_shop_tank_water_headwear",
+                      "back":  "part_shop_tank_water_back",
+                      "tail":  "part_shop_tank_water_tail"
+                  },
+        "rarity":  "common",
+        "origin":  "shop",
+        "archetype":  "tank_water"
     },
-    "rarity": "common",
-    "origin": "shop",
-    "variant": "a"
-  },
-  {
-    "templateId": "shop_tank_stone_b",
-    "role": "tank",
-    "element": "stone",
-    "level": 1,
-    "baseStats": {
-      "hp": 48,
-      "atk": 6,
-      "spd": 3,
-      "skill": 2,
-      "charm": 4
+    {
+        "templateId":  "shop_tank_wind",
+        "role":  "tank",
+        "element":  "wind",
+        "level":  1,
+        "baseStats":  {
+                          "hp":  50,
+                          "atk":  4,
+                          "spd":  4,
+                          "skill":  3,
+                          "charm":  4
+                      },
+        "parts":  {
+                      "eyes":  "part_shop_tank_wind_eyes",
+                      "ears":  "part_shop_tank_wind_ears",
+                      "muzzle":  "part_shop_tank_wind_muzzle",
+                      "headwear":  "part_shop_tank_wind_headwear",
+                      "back":  "part_shop_tank_wind_back",
+                      "tail":  "part_shop_tank_wind_tail"
+                  },
+        "rarity":  "common",
+        "origin":  "shop",
+        "archetype":  "tank_wind"
     },
-    "parts": {
-      "eyes": "part_shop_tank_stone_b_eyes",
-      "ears": "part_shop_tank_stone_b_ears",
-      "muzzle": "part_shop_tank_stone_b_muzzle",
-      "headwear": "part_shop_tank_stone_b_headwear",
-      "back": "part_shop_tank_stone_b_back",
-      "tail": "part_shop_tank_stone_b_tail"
+    {
+        "templateId":  "shop_fighter_fire",
+        "role":  "fighter",
+        "element":  "fire",
+        "level":  1,
+        "baseStats":  {
+                          "hp":  43,
+                          "atk":  8,
+                          "spd":  7,
+                          "skill":  3,
+                          "charm":  3
+                      },
+        "parts":  {
+                      "eyes":  "part_shop_fighter_fire_eyes",
+                      "ears":  "part_shop_fighter_fire_ears",
+                      "muzzle":  "part_shop_fighter_fire_muzzle",
+                      "headwear":  "part_shop_fighter_fire_headwear",
+                      "back":  "part_shop_fighter_fire_back",
+                      "tail":  "part_shop_fighter_fire_tail"
+                  },
+        "rarity":  "common",
+        "origin":  "shop",
+        "archetype":  "fighter_fire"
     },
-    "rarity": "common",
-    "origin": "shop",
-    "variant": "b"
-  },
-  {
-    "templateId": "shop_fighter_fire_a",
-    "role": "fighter",
-    "element": "fire",
-    "level": 1,
-    "baseStats": {
-      "hp": 43,
-      "atk": 8,
-      "spd": 7,
-      "skill": 3,
-      "charm": 3
+    {
+        "templateId":  "shop_fighter_water",
+        "role":  "fighter",
+        "element":  "water",
+        "level":  1,
+        "baseStats":  {
+                          "hp":  45,
+                          "atk":  10,
+                          "spd":  5,
+                          "skill":  3,
+                          "charm":  3
+                      },
+        "parts":  {
+                      "eyes":  "part_shop_fighter_water_eyes",
+                      "ears":  "part_shop_fighter_water_ears",
+                      "muzzle":  "part_shop_fighter_water_muzzle",
+                      "headwear":  "part_shop_fighter_water_headwear",
+                      "back":  "part_shop_fighter_water_back",
+                      "tail":  "part_shop_fighter_water_tail"
+                  },
+        "rarity":  "common",
+        "origin":  "shop",
+        "archetype":  "fighter_water"
     },
-    "parts": {
-      "eyes": "part_shop_fighter_fire_a_eyes",
-      "ears": "part_shop_fighter_fire_a_ears",
-      "muzzle": "part_shop_fighter_fire_a_muzzle",
-      "headwear": "part_shop_fighter_fire_a_headwear",
-      "back": "part_shop_fighter_fire_a_back",
-      "tail": "part_shop_fighter_fire_a_tail"
+    {
+        "templateId":  "shop_fighter_wind",
+        "role":  "fighter",
+        "element":  "wind",
+        "level":  1,
+        "baseStats":  {
+                          "hp":  42,
+                          "atk":  8,
+                          "spd":  7,
+                          "skill":  4,
+                          "charm":  3
+                      },
+        "parts":  {
+                      "eyes":  "part_shop_fighter_wind_eyes",
+                      "ears":  "part_shop_fighter_wind_ears",
+                      "muzzle":  "part_shop_fighter_wind_muzzle",
+                      "headwear":  "part_shop_fighter_wind_headwear",
+                      "back":  "part_shop_fighter_wind_back",
+                      "tail":  "part_shop_fighter_wind_tail"
+                  },
+        "rarity":  "common",
+        "origin":  "shop",
+        "archetype":  "fighter_wind"
     },
-    "rarity": "common",
-    "origin": "shop",
-    "variant": "a"
-  },
-  {
-    "templateId": "shop_fighter_fire_b",
-    "role": "fighter",
-    "element": "fire",
-    "level": 1,
-    "baseStats": {
-      "hp": 45,
-      "atk": 10,
-      "spd": 5,
-      "skill": 3,
-      "charm": 3
+    {
+        "templateId":  "shop_assassin_fire",
+        "role":  "assassin",
+        "element":  "fire",
+        "level":  1,
+        "baseStats":  {
+                          "hp":  38,
+                          "atk":  8,
+                          "spd":  9,
+                          "skill":  4,
+                          "charm":  4
+                      },
+        "parts":  {
+                      "eyes":  "part_shop_assassin_fire_eyes",
+                      "ears":  "part_shop_assassin_fire_ears",
+                      "muzzle":  "part_shop_assassin_fire_muzzle",
+                      "headwear":  "part_shop_assassin_fire_headwear",
+                      "back":  "part_shop_assassin_fire_back",
+                      "tail":  "part_shop_assassin_fire_tail"
+                  },
+        "rarity":  "common",
+        "origin":  "shop",
+        "archetype":  "assassin_fire"
     },
-    "parts": {
-      "eyes": "part_shop_fighter_fire_b_eyes",
-      "ears": "part_shop_fighter_fire_b_ears",
-      "muzzle": "part_shop_fighter_fire_b_muzzle",
-      "headwear": "part_shop_fighter_fire_b_headwear",
-      "back": "part_shop_fighter_fire_b_back",
-      "tail": "part_shop_fighter_fire_b_tail"
+    {
+        "templateId":  "shop_assassin_water",
+        "role":  "assassin",
+        "element":  "water",
+        "level":  1,
+        "baseStats":  {
+                          "hp":  36,
+                          "atk":  8,
+                          "spd":  8,
+                          "skill":  4,
+                          "charm":  4
+                      },
+        "parts":  {
+                      "eyes":  "part_shop_assassin_water_eyes",
+                      "ears":  "part_shop_assassin_water_ears",
+                      "muzzle":  "part_shop_assassin_water_muzzle",
+                      "headwear":  "part_shop_assassin_water_headwear",
+                      "back":  "part_shop_assassin_water_back",
+                      "tail":  "part_shop_assassin_water_tail"
+                  },
+        "rarity":  "common",
+        "origin":  "shop",
+        "archetype":  "assassin_water"
     },
-    "rarity": "common",
-    "origin": "shop",
-    "variant": "b"
-  },
-  {
-    "templateId": "shop_assassin_bolt_a",
-    "role": "assassin",
-    "element": "bolt",
-    "level": 1,
-    "baseStats": {
-      "hp": 38,
-      "atk": 8,
-      "spd": 9,
-      "skill": 4,
-      "charm": 4
+    {
+        "templateId":  "shop_assassin_wind",
+        "role":  "assassin",
+        "element":  "wind",
+        "level":  1,
+        "baseStats":  {
+                          "hp":  37,
+                          "atk":  7,
+                          "spd":  9,
+                          "skill":  5,
+                          "charm":  4
+                      },
+        "parts":  {
+                      "eyes":  "part_shop_assassin_wind_eyes",
+                      "ears":  "part_shop_assassin_wind_ears",
+                      "muzzle":  "part_shop_assassin_wind_muzzle",
+                      "headwear":  "part_shop_assassin_wind_headwear",
+                      "back":  "part_shop_assassin_wind_back",
+                      "tail":  "part_shop_assassin_wind_tail"
+                  },
+        "rarity":  "common",
+        "origin":  "shop",
+        "archetype":  "assassin_wind"
     },
-    "parts": {
-      "eyes": "part_shop_assassin_bolt_a_eyes",
-      "ears": "part_shop_assassin_bolt_a_ears",
-      "muzzle": "part_shop_assassin_bolt_a_muzzle",
-      "headwear": "part_shop_assassin_bolt_a_headwear",
-      "back": "part_shop_assassin_bolt_a_back",
-      "tail": "part_shop_assassin_bolt_a_tail"
+    {
+        "templateId":  "shop_ranger_fire",
+        "role":  "ranger",
+        "element":  "fire",
+        "level":  1,
+        "baseStats":  {
+                          "hp":  35,
+                          "atk":  7,
+                          "spd":  8,
+                          "skill":  4,
+                          "charm":  3
+                      },
+        "parts":  {
+                      "eyes":  "part_shop_ranger_fire_eyes",
+                      "ears":  "part_shop_ranger_fire_ears",
+                      "muzzle":  "part_shop_ranger_fire_muzzle",
+                      "headwear":  "part_shop_ranger_fire_headwear",
+                      "back":  "part_shop_ranger_fire_back",
+                      "tail":  "part_shop_ranger_fire_tail"
+                  },
+        "rarity":  "common",
+        "origin":  "shop",
+        "archetype":  "ranger_fire"
     },
-    "rarity": "common",
-    "origin": "shop",
-    "variant": "a"
-  },
-  {
-    "templateId": "shop_assassin_bolt_b",
-    "role": "assassin",
-    "element": "bolt",
-    "level": 1,
-    "baseStats": {
-      "hp": 36,
-      "atk": 8,
-      "spd": 8,
-      "skill": 4,
-      "charm": 4
+    {
+        "templateId":  "shop_ranger_water",
+        "role":  "ranger",
+        "element":  "water",
+        "level":  1,
+        "baseStats":  {
+                          "hp":  37,
+                          "atk":  7,
+                          "spd":  7,
+                          "skill":  5,
+                          "charm":  3
+                      },
+        "parts":  {
+                      "eyes":  "part_shop_ranger_water_eyes",
+                      "ears":  "part_shop_ranger_water_ears",
+                      "muzzle":  "part_shop_ranger_water_muzzle",
+                      "headwear":  "part_shop_ranger_water_headwear",
+                      "back":  "part_shop_ranger_water_back",
+                      "tail":  "part_shop_ranger_water_tail"
+                  },
+        "rarity":  "common",
+        "origin":  "shop",
+        "archetype":  "ranger_water"
     },
-    "parts": {
-      "eyes": "part_shop_assassin_bolt_b_eyes",
-      "ears": "part_shop_assassin_bolt_b_ears",
-      "muzzle": "part_shop_assassin_bolt_b_muzzle",
-      "headwear": "part_shop_assassin_bolt_b_headwear",
-      "back": "part_shop_assassin_bolt_b_back",
-      "tail": "part_shop_assassin_bolt_b_tail"
+    {
+        "templateId":  "shop_ranger_wind",
+        "role":  "ranger",
+        "element":  "wind",
+        "level":  1,
+        "baseStats":  {
+                          "hp":  35,
+                          "atk":  7,
+                          "spd":  8,
+                          "skill":  5,
+                          "charm":  3
+                      },
+        "parts":  {
+                      "eyes":  "part_shop_ranger_wind_eyes",
+                      "ears":  "part_shop_ranger_wind_ears",
+                      "muzzle":  "part_shop_ranger_wind_muzzle",
+                      "headwear":  "part_shop_ranger_wind_headwear",
+                      "back":  "part_shop_ranger_wind_back",
+                      "tail":  "part_shop_ranger_wind_tail"
+                  },
+        "rarity":  "common",
+        "origin":  "shop",
+        "archetype":  "ranger_wind"
     },
-    "rarity": "common",
-    "origin": "shop",
-    "variant": "b"
-  },
-  {
-    "templateId": "shop_ranger_grass_a",
-    "role": "ranger",
-    "element": "grass",
-    "level": 1,
-    "baseStats": {
-      "hp": 35,
-      "atk": 7,
-      "spd": 8,
-      "skill": 4,
-      "charm": 3
+    {
+        "templateId":  "shop_mage_fire",
+        "role":  "mage",
+        "element":  "fire",
+        "level":  1,
+        "baseStats":  {
+                          "hp":  30,
+                          "atk":  5,
+                          "spd":  5,
+                          "skill":  8,
+                          "charm":  3
+                      },
+        "parts":  {
+                      "eyes":  "part_shop_mage_fire_eyes",
+                      "ears":  "part_shop_mage_fire_ears",
+                      "muzzle":  "part_shop_mage_fire_muzzle",
+                      "headwear":  "part_shop_mage_fire_headwear",
+                      "back":  "part_shop_mage_fire_back",
+                      "tail":  "part_shop_mage_fire_tail"
+                  },
+        "rarity":  "common",
+        "origin":  "shop",
+        "archetype":  "mage_fire"
     },
-    "parts": {
-      "eyes": "part_shop_ranger_grass_a_eyes",
-      "ears": "part_shop_ranger_grass_a_ears",
-      "muzzle": "part_shop_ranger_grass_a_muzzle",
-      "headwear": "part_shop_ranger_grass_a_headwear",
-      "back": "part_shop_ranger_grass_a_back",
-      "tail": "part_shop_ranger_grass_a_tail"
+    {
+        "templateId":  "shop_mage_water",
+        "role":  "mage",
+        "element":  "water",
+        "level":  1,
+        "baseStats":  {
+                          "hp":  29,
+                          "atk":  5,
+                          "spd":  5,
+                          "skill":  8,
+                          "charm":  3
+                      },
+        "parts":  {
+                      "eyes":  "part_shop_mage_water_eyes",
+                      "ears":  "part_shop_mage_water_ears",
+                      "muzzle":  "part_shop_mage_water_muzzle",
+                      "headwear":  "part_shop_mage_water_headwear",
+                      "back":  "part_shop_mage_water_back",
+                      "tail":  "part_shop_mage_water_tail"
+                  },
+        "rarity":  "common",
+        "origin":  "shop",
+        "archetype":  "mage_water"
     },
-    "rarity": "common",
-    "origin": "shop",
-    "variant": "a"
-  },
-  {
-    "templateId": "shop_ranger_grass_b",
-    "role": "ranger",
-    "element": "grass",
-    "level": 1,
-    "baseStats": {
-      "hp": 37,
-      "atk": 7,
-      "spd": 7,
-      "skill": 5,
-      "charm": 3
+    {
+        "templateId":  "shop_mage_wind",
+        "role":  "mage",
+        "element":  "wind",
+        "level":  1,
+        "baseStats":  {
+                          "hp":  30,
+                          "atk":  5,
+                          "spd":  6,
+                          "skill":  8,
+                          "charm":  3
+                      },
+        "parts":  {
+                      "eyes":  "part_shop_mage_wind_eyes",
+                      "ears":  "part_shop_mage_wind_ears",
+                      "muzzle":  "part_shop_mage_wind_muzzle",
+                      "headwear":  "part_shop_mage_wind_headwear",
+                      "back":  "part_shop_mage_wind_back",
+                      "tail":  "part_shop_mage_wind_tail"
+                  },
+        "rarity":  "common",
+        "origin":  "shop",
+        "archetype":  "mage_wind"
     },
-    "parts": {
-      "eyes": "part_shop_ranger_grass_b_eyes",
-      "ears": "part_shop_ranger_grass_b_ears",
-      "muzzle": "part_shop_ranger_grass_b_muzzle",
-      "headwear": "part_shop_ranger_grass_b_headwear",
-      "back": "part_shop_ranger_grass_b_back",
-      "tail": "part_shop_ranger_grass_b_tail"
+    {
+        "templateId":  "shop_support_fire",
+        "role":  "support",
+        "element":  "fire",
+        "level":  1,
+        "baseStats":  {
+                          "hp":  28,
+                          "atk":  3,
+                          "spd":  5,
+                          "skill":  7,
+                          "charm":  6
+                      },
+        "parts":  {
+                      "eyes":  "part_shop_support_fire_eyes",
+                      "ears":  "part_shop_support_fire_ears",
+                      "muzzle":  "part_shop_support_fire_muzzle",
+                      "headwear":  "part_shop_support_fire_headwear",
+                      "back":  "part_shop_support_fire_back",
+                      "tail":  "part_shop_support_fire_tail"
+                  },
+        "rarity":  "common",
+        "origin":  "shop",
+        "archetype":  "support_fire"
     },
-    "rarity": "common",
-    "origin": "shop",
-    "variant": "b"
-  },
-  {
-    "templateId": "shop_mage_fire_a",
-    "role": "mage",
-    "element": "fire",
-    "level": 1,
-    "baseStats": {
-      "hp": 30,
-      "atk": 5,
-      "spd": 5,
-      "skill": 8,
-      "charm": 3
+    {
+        "templateId":  "shop_support_water",
+        "role":  "support",
+        "element":  "water",
+        "level":  1,
+        "baseStats":  {
+                          "hp":  28,
+                          "atk":  2,
+                          "spd":  5,
+                          "skill":  7,
+                          "charm":  6
+                      },
+        "parts":  {
+                      "eyes":  "part_shop_support_water_eyes",
+                      "ears":  "part_shop_support_water_ears",
+                      "muzzle":  "part_shop_support_water_muzzle",
+                      "headwear":  "part_shop_support_water_headwear",
+                      "back":  "part_shop_support_water_back",
+                      "tail":  "part_shop_support_water_tail"
+                  },
+        "rarity":  "common",
+        "origin":  "shop",
+        "archetype":  "support_water"
     },
-    "parts": {
-      "eyes": "part_shop_mage_fire_a_eyes",
-      "ears": "part_shop_mage_fire_a_ears",
-      "muzzle": "part_shop_mage_fire_a_muzzle",
-      "headwear": "part_shop_mage_fire_a_headwear",
-      "back": "part_shop_mage_fire_a_back",
-      "tail": "part_shop_mage_fire_a_tail"
-    },
-    "rarity": "common",
-    "origin": "shop",
-    "variant": "a"
-  },
-  {
-    "templateId": "shop_mage_ice_b",
-    "role": "mage",
-    "element": "ice",
-    "level": 1,
-    "baseStats": {
-      "hp": 29,
-      "atk": 5,
-      "spd": 5,
-      "skill": 8,
-      "charm": 3
-    },
-    "parts": {
-      "eyes": "part_shop_mage_ice_b_eyes",
-      "ears": "part_shop_mage_ice_b_ears",
-      "muzzle": "part_shop_mage_ice_b_muzzle",
-      "headwear": "part_shop_mage_ice_b_headwear",
-      "back": "part_shop_mage_ice_b_back",
-      "tail": "part_shop_mage_ice_b_tail"
-    },
-    "rarity": "common",
-    "origin": "shop",
-    "variant": "b"
-  },
-  {
-    "templateId": "shop_support_water_a",
-    "role": "support",
-    "element": "water",
-    "level": 1,
-    "baseStats": {
-      "hp": 28,
-      "atk": 2,
-      "spd": 5,
-      "skill": 7,
-      "charm": 6
-    },
-    "parts": {
-      "eyes": "part_shop_support_water_a_eyes",
-      "ears": "part_shop_support_water_a_ears",
-      "muzzle": "part_shop_support_water_a_muzzle",
-      "headwear": "part_shop_support_water_a_headwear",
-      "back": "part_shop_support_water_a_back",
-      "tail": "part_shop_support_water_a_tail"
-    },
-    "rarity": "common",
-    "origin": "shop",
-    "variant": "a"
-  },
-  {
-    "templateId": "shop_support_water_b",
-    "role": "support",
-    "element": "water",
-    "level": 1,
-    "baseStats": {
-      "hp": 29,
-      "atk": 3,
-      "spd": 5,
-      "skill": 7,
-      "charm": 6
-    },
-    "parts": {
-      "eyes": "part_shop_support_water_b_eyes",
-      "ears": "part_shop_support_water_b_ears",
-      "muzzle": "part_shop_support_water_b_muzzle",
-      "headwear": "part_shop_support_water_b_headwear",
-      "back": "part_shop_support_water_b_back",
-      "tail": "part_shop_support_water_b_tail"
-    },
-    "rarity": "common",
-    "origin": "shop",
-    "variant": "b"
-  }
+    {
+        "templateId":  "shop_support_wind",
+        "role":  "support",
+        "element":  "wind",
+        "level":  1,
+        "baseStats":  {
+                          "hp":  29,
+                          "atk":  3,
+                          "spd":  5,
+                          "skill":  7,
+                          "charm":  6
+                      },
+        "parts":  {
+                      "eyes":  "part_shop_support_wind_eyes",
+                      "ears":  "part_shop_support_wind_ears",
+                      "muzzle":  "part_shop_support_wind_muzzle",
+                      "headwear":  "part_shop_support_wind_headwear",
+                      "back":  "part_shop_support_wind_back",
+                      "tail":  "part_shop_support_wind_tail"
+                  },
+        "rarity":  "common",
+        "origin":  "shop",
+        "archetype":  "support_wind"
+    }
 ]

@@ -1,0 +1,21 @@
+﻿{
+    "cost":  1,
+    "atk":  0,
+    "shield":  4,
+    "hits":  0,
+    "targetRule":  "ally_lowest_hp",
+    "tags":  [
+                 "heal",
+                 "shield"
+             ],
+    "effectOps":  [
+                      {
+                          "op":  "heal",
+                          "amount":  5
+                      }
+                  ],
+    "cardId":  "card_shop_support_wind_muzzle",
+    "name_key":  "card.shop_support_wind_muzzle",
+    "roleGate":  "support",
+    "element":  "wind"
+}
