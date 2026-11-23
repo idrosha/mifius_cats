@@ -4169,7 +4169,8 @@
 </div>
 </main>
 </section>
-<section id="viewFormation" class="stitch-view mythfel-form hidden" data-stitch="formation" data-layout="landscape">
+<section id="viewFormation" class="stitch-view mythfel-form hidden mf-has-tavern-bg" data-stitch="formation" data-layout="landscape">
+<div class="mf-tavern-page-bg" data-mf-bg="/stitch-assets/cat-heroes/bg/tavern-shared-wide.jpg?v=1" aria-hidden="true"></div>
 <main class="wf" data-purpose="wireframe" data-screen="Строй отряда" >
 <header class="wf-head">
 <div>
@@ -9475,7 +9476,8 @@
 </div>
 </div></main><footer class="fixed bottom-0 left-0 right-0 z-40 bg-surface-container-lowest/95 backdrop-blur-md"><div class="h-12 w-full px-gutter flex items-center justify-between"><div class="flex items-center gap-space-lg overflow-x-auto py-1"><div class="flex items-center gap-1.5 shrink-0"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high font-stat-numeral text-label-sm text-primary">ESC</kbd><span class="font-body-sm text-body-sm text-on-surface-variant">Назад в Хаб</span></div><div class="flex items-center gap-1.5 shrink-0"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high font-stat-numeral text-label-sm text-primary">TAB</kbd><span class="font-body-sm text-body-sm text-on-surface-variant">Сменить лавку</span></div><div class="flex items-center gap-1.5 shrink-0"><kbd class="px-1.5 py-0.5 rounded bg-surface-container-high font-stat-numeral text-label-sm text-primary">1-4</kbd><span class="font-body-sm text-body-sm text-on-surface-variant">Вкладки торговли</span></div><div class="flex items-center gap-1.5 shrink-0"><kbd class="px-2 py-0.5 rounded bg-surface-container-high font-stat-numeral text-label-sm text-primary">ПРОБЕЛ</kbd><span class="font-body-sm text-body-sm text-on-surface-variant">Подтвердить</span></div></div><div class="hidden sm:flex items-center gap-space-md shrink-0"><span class="font-label-sm text-label-sm text-outline">Режим боя: Готов</span><div class="flex items-center gap-1"><span class="material-symbols-outlined text-[16px] text-secondary">volume_up</span><span class="material-symbols-outlined text-[16px] text-outline hover:text-on-surface cursor-pointer">settings</span><span class="material-symbols-outlined text-[16px] text-outline hover:text-on-surface cursor-pointer">fullscreen</span></div></div></div></footer>
 </section>
-<section id="viewShop" class="stitch-view mythfel-form hidden" data-stitch="shop" data-layout="landscape">
+<section id="viewShop" class="stitch-view mythfel-form hidden mf-has-tavern-bg" data-stitch="shop" data-layout="landscape">
+<div class="mf-tavern-page-bg" data-mf-bg="/stitch-assets/cat-heroes/bg/tavern-shared-wide.jpg?v=1" aria-hidden="true"></div>
 <header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-lowest/95 backdrop-blur-md shadow-[0_4px_16px_rgba(0,0,0,0.65)]">
 <div class="h-20 w-full px-gutter flex items-center justify-between gap-space-md">
 <div class="flex items-center gap-space-md shrink-0">
@@ -9584,7 +9586,7 @@
 </div>
 </div>
 
-<!-- Category tabs + cart bar -->
+<!-- Category tabs -->
 <div class="shop-toolbar w-full bg-surface-container-low rounded-xl p-space-sm shadow-md flex flex-wrap items-center justify-between gap-space-sm">
 <nav class="flex items-center gap-1 overflow-x-auto" id="shop-category-nav" data-active-classes="bg-primary-container text-on-primary-container shadow-[0_0_12px_rgba(217,155,38,0.3)]">
 <button type="button" data-shop-cat="featured" class="shop-cat-btn px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md whitespace-nowrap shadow-[0_0_12px_rgba(217,155,38,0.3)]">Избранное</button>
@@ -9596,19 +9598,6 @@
 <button type="button" data-shop-cat="chests" class="shop-cat-btn px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface whitespace-nowrap transition-all">Ларцы</button>
 <button type="button" data-shop-cat="packs" class="shop-cat-btn px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface whitespace-nowrap transition-all">Пакеты</button>
 </nav>
-<div class="flex items-center gap-space-sm">
-<div class="flex items-center gap-space-xs bg-surface-container px-space-sm py-1 rounded-lg">
-<span class="font-label-sm text-label-sm text-outline">Выбрано</span>
-<span class="font-stat-numeral text-label-md text-primary" id="selected-count">0</span>
-<span class="text-outline-variant">·</span>
-<span class="material-symbols-outlined text-primary-fixed-dim text-[16px]">diamond</span>
-<span class="font-stat-numeral text-label-md text-primary-fixed" id="total-bm-price">0</span>
-</div>
-<button type="button" id="buy-all-btn" class="px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md hover:brightness-110 active:scale-95 transition-all shadow-sm flex items-center gap-1">
-<span class="material-symbols-outlined text-[18px]">shopping_bag</span>
-Купить выбранное
-</button>
-</div>
 </div>
 
 <!-- Catalog -->
@@ -10268,11 +10257,6 @@
 </div>
 </section>
 
-</div>
-
-<div id="toast" class="fixed bottom-6 right-6 z-50 bg-surface-container-high border border-primary/40 rounded-xl px-space-md py-space-sm shadow-xl flex items-center gap-space-sm max-w-sm" hidden>
-<span id="toast-icon" class="material-symbols-outlined text-primary text-[22px]">check_circle</span>
-<div><strong id="toast-title" class="font-label-md text-label-md text-on-surface block"></strong><span id="toast-desc" class="font-body-sm text-body-sm text-on-surface-variant"></span></div>
 </div>
 
 </div>

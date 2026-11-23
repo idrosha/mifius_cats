@@ -2089,6 +2089,27 @@ body:has(#viewAuction:not(.hidden)) #wireDock {
 #viewShop [data-sku="pass_buy"] {
   animation: shopPulseGlow 3.2s ease-in-out infinite;
 }
+/* Cart multi-select long bar removed from all shop tabs */
+#viewShop .shop-select,
+#viewShop #buy-all-btn,
+#viewShop #selected-count,
+#viewShop #total-bm-price {
+  display: none !important;
+}
+#viewShop label:has(> .shop-select) {
+  display: none !important;
+}
+/* Kill stitch-embedded duplicate #toast (long gold bar + check_circle) on all painted views */
+.stitch-view #toast:not(body > #toast),
+.shop-stage > #toast,
+#viewShop #toast,
+#viewTavern #toast,
+#viewMarket #toast,
+#viewAuction #toast {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
 
 /* Live character desk (/hero). Exact Stitch character-stitch-v1; shared fillNav stays. */
 body:has(#viewHome:not(.hidden)) #wireDock { display: none !important; }
@@ -4425,6 +4446,118 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   overflow: hidden;
   clip: rect(0, 0, 0, 0);
   border: 0;
+}
+
+/* Live effect strip over baked parchment + keyword legend (damage / buff / debuff). */
+.mf-atk-card.mf-atk-card--fx {
+  isolation: isolate;
+  container-type: inline-size;
+}
+.mf-atk-card__fx {
+  position: absolute;
+  left: 6.5%;
+  right: 6.5%;
+  bottom: 1.6%;
+  height: 24.5%;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.15rem;
+  padding: 0.55rem 0.3rem 0.22rem;
+  border-radius: 0.3rem;
+  background:
+    linear-gradient(
+      180deg,
+      rgba(20, 17, 14, 0) 0%,
+      rgba(20, 17, 14, 0.92) 12%,
+      rgba(18, 15, 13, 0.97) 28%,
+      rgba(16, 14, 12, 0.98) 100%
+    );
+  pointer-events: none;
+  box-sizing: border-box;
+}
+.mf-atk-card__effect {
+  margin: 0;
+  padding: 0 0.12rem;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f3e7d6;
+  font-family: "Cinzel", "Segoe UI", serif;
+  font-size: clamp(0.46rem, 3.9cqw, 0.7rem);
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.01em;
+  text-align: center;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.85);
+  overflow: hidden;
+}
+.mf-atk-card__icons {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 0.08rem;
+  padding: 0.05rem 0.05rem 0;
+}
+.mf-atk-card__icon {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.05rem;
+  opacity: 0.28;
+  filter: grayscale(0.85) brightness(0.75);
+  transition: opacity 0.15s ease, filter 0.15s ease;
+}
+.mf-atk-card__icon .material-symbols-outlined {
+  font-size: clamp(0.7rem, 6.2cqw, 1.05rem);
+  line-height: 1;
+  color: #9aa7a8;
+  font-variation-settings: "FILL" 1, "wght" 500, "GRAD" 0, "opsz" 20;
+}
+.mf-atk-card__icon em {
+  font-style: normal;
+  font-size: clamp(0.32rem, 2.6cqw, 0.48rem);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  color: #8b9698;
+  line-height: 1;
+}
+.mf-atk-card__icon.is-on {
+  opacity: 1;
+  filter: none;
+}
+.mf-atk-card__icon.is-on .material-symbols-outlined {
+  color: #7fd4c8;
+  text-shadow: 0 0 6px rgba(90, 210, 190, 0.55);
+}
+.mf-atk-card__icon.is-on[data-icon="debuff"] .material-symbols-outlined {
+  color: #e07a7a;
+  text-shadow: 0 0 6px rgba(220, 90, 90, 0.45);
+}
+.mf-atk-card__icon.is-on[data-icon="heal"] .material-symbols-outlined {
+  color: #8fdf9a;
+  text-shadow: 0 0 6px rgba(110, 210, 120, 0.45);
+}
+.mf-atk-card__icon.is-on[data-icon="buff"] .material-symbols-outlined,
+.mf-atk-card__icon.is-on[data-icon="shield"] .material-symbols-outlined {
+  color: #7ec8ff;
+  text-shadow: 0 0 6px rgba(90, 180, 255, 0.4);
+}
+.mf-atk-card__icon.is-on[data-icon="crit"] .material-symbols-outlined,
+.mf-atk-card__icon.is-on[data-icon="x2"] .material-symbols-outlined,
+.mf-atk-card__icon.is-on[data-icon="pierce"] .material-symbols-outlined {
+  color: #fdba45;
+  text-shadow: 0 0 6px rgba(253, 186, 69, 0.45);
+}
+.mf-atk-card__icon.is-on em {
+  color: #d8ece8;
+}
+.mf-atk-card__icon.is-on[data-icon="debuff"] em {
+  color: #f0c0c0;
 }
 
 .mf-atk-card.mf-atk-card--text {

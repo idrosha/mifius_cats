@@ -517,6 +517,13 @@ const BARN_MATS_SEED = [
   { id: "scroll_spark", name: "Свиток Искры", kind: "scroll", rarity: "rare", qty: 0, tag: "Свитки", desc: "Боевой свиток · вспышка на 1 ход.", iconSrc: "/stitch-assets/kb-v3/items/item-4.webp" },
   { id: "scroll_ward", name: "Свиток Оберега", kind: "scroll", rarity: "rare", qty: 0, tag: "Свитки", desc: "Боевой свиток · щит союзнику.", iconSrc: "/stitch-assets/kb-v3/items/item-5.webp" },
   { id: "fertilizer", name: "Лунная подкормка", kind: "farm", rarity: "common", qty: 0, tag: "Ферма", desc: "Ускоряет созревание грядок.", iconSrc: "/barn-icons/seeds.png" },
+  { id: "breed_milk_essence", name: "Эссенция молока", kind: "breed", rarity: "rare", qty: 0, tag: "Питомник", desc: "Реагент скрещивания.", iconSrc: "/barn-icons/milk.png" },
+  { id: "breed_moon_whisker", name: "Лунный ус", kind: "breed", rarity: "rare", qty: 0, tag: "Питомник", desc: "Реагент скрещивания.", iconSrc: "/stitch-assets/kb-v3/items/item-2.webp" },
+  { id: "breed_stone_purr", name: "Каменный мур", kind: "breed", rarity: "rare", qty: 0, tag: "Питомник", desc: "Реагент скрещивания.", iconSrc: "/barn-icons/stone.png" },
+  { id: "breed_spark_pollen", name: "Искрящая пыльца", kind: "breed", rarity: "rare", qty: 0, tag: "Питомник", desc: "Реагент скрещивания.", iconSrc: "/barn-icons/herbs.png" },
+  { id: "breed_tide_scale", name: "Чешуя прилива", kind: "breed", rarity: "rare", qty: 0, tag: "Питомник", desc: "Реагент скрещивания.", iconSrc: "/barn-icons/fish.png" },
+  { id: "talisman_mythic_luck", name: "Амулет удачи", kind: "breed", rarity: "epic", qty: 0, tag: "Питомник", desc: "+20% mythic при скрещивании.", iconSrc: "/stitch-assets/kb-v3/items/item-3.webp" },
+  { id: "rename_token", name: "Жетон переименования", kind: "consumable", rarity: "rare", qty: 0, tag: "Утилита", desc: "Сменить имя котика или отряда.", iconSrc: "/stitch-assets/kb-v3/items/item-4.webp" },
 ];
 
 /** Category chrome for craft studio tabs (screen 2). */
@@ -2355,17 +2362,18 @@ function setEquipLane(lane) {
 }
 
 function grantShopPvpGear(offerId) {
-  const setId = offerId === "pvp_set_green" ? "green" : "grey";
-  const pieces = (state.gearCatalog || []).filter(
-    (g) => g.lane === "pvp" && g.set === setId && ["helm", "armor", "cloak", "belt", "boots", "ring"].includes(g.slot),
-  );
-  if (!pieces.length) {
-    toast("PvP сет не найден в каталоге");
-    return;
-  }
-  for (const p of pieces) p.qty = Math.min(GEAR_HERO_STOCK, Number(p.qty || 0) + 1);
-  toast(`Куплено PvP · ${setId} (${pieces.length} частей)`);
-  persistGearStub();
+  const raw = String(offerId || "");
+  let setId = "grey";
+  if (raw.startsWith("set_")) setId = raw.slice(4);
+  else if (raw.startsWith("pvp_set_")) setId = raw.slice(8);
+  else if (/\bgreen\b|_green|green_/.test(raw)) setId = "green";
+  else if (/blue|turquoise/.test(raw)) setId = "blue";
+  else if (/yellow/.test(raw)) setId = "yellow";
+  else if (/purple/.test(raw)) setId = "purple";
+  else if (/_red|red_|\bred\b/.test(raw)) setId = "red";
+  else if (/solar/.test(raw)) setId = "solar";
+  else if (/^or$|_or$|set_or|pvp_set_or/.test(raw)) setId = "or";
+  return grantShopArmorSet(setId);
 }
 
 function grantPveSetPiece(setId, preferredSlot = null, { silent = false } = {}) {
@@ -3432,7 +3440,7 @@ function renderDungeonSquadStrip() {
     .map((tid, i) => {
       const art =
         (typeof CAT_HERO_ART !== "undefined" && CAT_HERO_ART[tid]) ||
-        `/stitch-assets/cat-heroes/tank-fire.jpg?v=gear18b`;
+        `/stitch-assets/cat-heroes/tank-fire.jpg?v=gear18c`;
       const name = String(tid).replace(/^shop_/, "").replace(/_/g, " ");
       const t = toneCls[i] || toneCls[0];
       return `<article class="relative flex gap-2 rounded-lg border ${t.border} bg-[#1a1613] overflow-hidden min-h-[4.4rem] flex-shrink-0">
@@ -4362,7 +4370,7 @@ function renderPveYardSquad() {
   host.innerHTML = PVE_YARD_LANES.map((lane, i) => {
     const c = cats[i];
     const role = c ? homeCatRole(c) : "";
-    const art = c ? catHeroArt(c.templateId) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=gear18b" : "";
+    const art = c ? catHeroArt(c.templateId) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=gear18c" : "";
     const name = c ? catSheetName(c) : "Пусто";
     const lvl = c?.level != null ? c.level : "—";
     const stats = c ? statsForCat(c) : null;
@@ -4433,7 +4441,7 @@ function renderPveYardTeamPicker() {
           if (!c) {
             return `<div class="pve-yard-team-card__slot is-empty">${lanes[i]}</div>`;
           }
-          const art = catHeroArt(c.templateId) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=gear18b";
+          const art = catHeroArt(c.templateId) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=gear18c";
           return `<div class="pve-yard-team-card__slot"><img alt="" src="${art}"/><span>${catSheetName(c)}</span></div>`;
         })
         .join("");
@@ -5012,7 +5020,7 @@ function renderRaidLegionBoard() {
   if (!board) return;
   const artFor = (tid) =>
     (typeof CAT_HERO_ART !== "undefined" && CAT_HERO_ART[tid]) ||
-    `/stitch-assets/cat-heroes/tank-fire.jpg?v=gear18b`;
+    `/stitch-assets/cat-heroes/tank-fire.jpg?v=gear18c`;
   const subRu = {
     aggro: "агр",
     armorBreak: "пробитие",
@@ -5280,7 +5288,7 @@ function raidBattleRoleBadge(s) {
 function raidBattleCatArt(tid) {
   if (typeof CAT_HERO_BATTLE_ART !== "undefined" && CAT_HERO_BATTLE_ART[tid]) return CAT_HERO_BATTLE_ART[tid];
   if (typeof CAT_HERO_ART !== "undefined" && CAT_HERO_ART[tid]) return CAT_HERO_ART[tid];
-  return "/stitch-assets/cat-heroes/tank-fire.jpg?v=gear18b";
+  return "/stitch-assets/cat-heroes/tank-fire.jpg?v=gear18c";
 }
 
 /** Stitch legion-12 battle board: columns L→R = тыл → даль → штурм → авангард. */
@@ -5467,7 +5475,7 @@ function renderRaidFormationEditor() {
   const v = validateRaidComposition();
   const artFor = (tid) =>
     (typeof CAT_HERO_ART !== "undefined" && CAT_HERO_ART[tid]) ||
-    `/stitch-assets/cat-heroes/tank-fire.jpg?v=gear18b`;
+    `/stitch-assets/cat-heroes/tank-fire.jpg?v=gear18c`;
   lanes.innerHTML = "";
   const tip = document.createElement("p");
   tip.className = "meta formation-tip";
@@ -5643,15 +5651,402 @@ function sortShopSectionCards(section) {
 }
 
 function updateShopCartBar() {
-  const root = $("viewShop");
+  /* Cart multi-select removed — long checkbox bar no longer used. */
+}
+
+const SHOP_ARMOR_SET_META = {
+  grey: { name: "Серый сет Льва", rank: "R1", price: 150, blurb: "Common · стартовый комплект", thumb: "/gear-sets/thumbs/grey-armor.png" },
+  green: { name: "Зелёный сет Рыси", rank: "R2", price: 320, blurb: "Rare · листва и скорость", thumb: "/gear-sets/thumbs/green-armor.png" },
+  blue: { name: "Синий сет Короны", rank: "R3", price: 480, blurb: "Rare · королевский синий", thumb: "/gear-sets/thumbs/blue-armor.png" },
+  yellow: { name: "Жёлтый сет Солнца", rank: "R4", price: 720, blurb: "Epic · маг / солнце", thumb: "/gear-sets/thumbs/yellow-armor.png" },
+  purple: { name: "Фиолетовый сет Пантеры", rank: "R5", price: 980, blurb: "Epic · ассасин / крит", thumb: "/gear-sets/thumbs/purple-armor.png" },
+  red: { name: "Красный сет Дракона", rank: "R6", price: 1450, blurb: "Legendary · боец / танк", thumb: "/gear-sets/thumbs/red-armor.png" },
+  solar: { name: "Солнечный сет Пламени", rank: "R7", price: 2100, blurb: "Legendary · R7", thumb: "/gear-sets/thumbs/solar-armor.png" },
+  or: { name: "Мифик сет OR", rank: "R8", price: 3200, blurb: "Mythic · финал сезона", thumb: "/gear-sets/thumbs/or-armor.png" },
+};
+
+const SHOP_HERO_PRICE = {
+  tank: 80,
+  fighter: 90,
+  assassin: 90,
+  ranger: 85,
+  mage: 92,
+  support: 88,
+};
+
+function yarnBalance() {
+  if (state.profile && Number.isFinite(state.profile.yarn)) return Number(state.profile.yarn) || 0;
+  return Number(state.wallet?.gems) || 0;
+}
+
+function syncShopYarnUi() {
+  const y = yarnBalance();
+  const el = $("yarn-balance");
+  if (el) el.textContent = String(y);
+  const nav = $("navGems") || $("curGems");
+  if (nav) nav.textContent = String(y);
+}
+
+function spendYarn(amount) {
+  const cost = Math.max(0, Math.floor(Number(amount) || 0));
+  if (!cost) return true;
+  const have = yarnBalance();
+  if (have < cost) {
+    toast(state.locale === "ru" ? `Недостаточно пряжи (нужно ${cost})` : `Need ${cost} yarn`);
+    return false;
+  }
+  const next = have - cost;
+  if (state.profile) state.profile.yarn = next;
+  state.wallet.gems = next;
+  renderCurrency();
+  syncShopYarnUi();
+  return true;
+}
+
+function grantShopHero(templateId) {
+  if (!state.profile) {
+    toast(state.locale === "ru" ? "Нет профиля" : "No profile");
+    return false;
+  }
+  if (!HERO_CHEST_POOL.includes(templateId)) {
+    toast(state.locale === "ru" ? "Неизвестный герой" : "Unknown hero");
+    return false;
+  }
+  const owned = (state.profile.cats || []).some((c) => c.templateId === templateId);
+  if (owned) {
+    toast(state.locale === "ru" ? "Герой уже куплен" : "Hero already owned");
+    return false;
+  }
+  const parts = String(templateId).split("_");
+  const role = parts[1] || "fighter";
+  const element = parts[2] || "fire";
+  const cat = {
+    catId: `${state.profile.userId || "local"}_shop_${Date.now().toString(36)}`,
+    templateId,
+    role,
+    element,
+    level: 1,
+    rarity: "common",
+    origin: "shop",
+    pendantId: "",
+    bowByPart: {},
+  };
+  state.profile.cats.push(cat);
+  const mapPve = equipMapForLane("pve");
+  const mapPvp = equipMapForLane("pvp");
+  mapPve[cat.catId] = emptyEquipSlots();
+  mapPvp[cat.catId] = emptyEquipSlots();
+  syncEquippedAlias();
+  toast(
+    state.locale === "ru"
+      ? `Куплено: ${catSheetName(cat)} (${CAT_ROLE_RU[role] || role})`
+      : `Bought: ${catSheetName(cat)}`,
+  );
+  return true;
+}
+
+function grantShopArmorSet(setId) {
+  const sid = String(setId || "").replace(/^set_/, "").replace(/^pvp_set_/, "");
+  const pieces = (state.gearCatalog || []).filter(
+    (g) =>
+      g.lane === "pvp" &&
+      g.set === sid &&
+      ["helm", "armor", "cloak", "belt", "boots", "ring"].includes(g.slot),
+  );
+  if (!pieces.length) {
+    toast(state.locale === "ru" ? `Сет «${sid}» не найден` : `Set ${sid} missing`);
+    return false;
+  }
+  for (const p of pieces) p.qty = Math.min(GEAR_HERO_STOCK, Number(p.qty || 0) + 1);
+  persistGearStub();
+  const label = SHOP_ARMOR_SET_META[sid]?.name || HOME_SET_RU[sid]?.name || sid;
+  toast(state.locale === "ru" ? `Куплено: ${label} (${pieces.length} частей)` : `Bought set ${label}`);
+  return true;
+}
+
+function grantShopWeapon(sku) {
+  const id = String(sku || "");
+  let item = (state.gearCatalog || []).find((g) => g.id === id);
+  if (!item) item = (state.gearCatalog || []).find((g) => g.id === `pvp_${id}` || g.id === `pve_${id}`);
+  if (!item) {
+    toast(state.locale === "ru" ? "Оружие не найдено в каталоге" : "Weapon not in catalog");
+    return false;
+  }
+  item.qty = Math.min(GEAR_HERO_STOCK, Number(item.qty || 0) + 1);
+  persistGearStub();
+  toast(state.locale === "ru" ? `Куплено: ${item.name || id}` : `Bought: ${item.name || id}`);
+  return true;
+}
+
+function grantShopMatBySku(sku, qty = 1) {
+  let mat = barnMatAdd(sku, qty);
+  if (!mat) {
+    ensureBarnMats();
+    mat = {
+      id: sku,
+      name: sku,
+      kind: "consumable",
+      rarity: "rare",
+      qty: Math.max(1, Number(qty) || 1),
+      tag: "Магазин",
+      desc: "Куплено в лавке",
+      iconSrc: "/stitch-assets/kb-v3/items/item-1.webp",
+    };
+    state.barnMats.push(mat);
+    persistGearStub();
+  }
+  toast(state.locale === "ru" ? `Куплено: ${mat.name || sku} ×${qty}` : `Bought: ${sku} ×${qty}`);
+  return true;
+}
+
+function purchaseShopSku(sku, price, card) {
+  const id = String(sku || "");
+  const cost = shopParsePrice(card) || Number(price) || 0;
+
+  if (id === "pass_buy") {
+    if (state.passOwned && state.passSetGranted) {
+      buyBattlePass();
+      return true;
+    }
+    if (!spendYarn(cost || 499)) return false;
+    return buyBattlePass();
+  }
+  if (id === "pass_levels_5") {
+    if (!spendYarn(cost || 120)) return false;
+    state.passLevel = Math.min(PASS_SEASON_DAYS, (state.passLevel || 1) + 5);
+    persistPassStub();
+    toast(state.locale === "ru" ? "+5 уровней пасса" : "+5 pass levels");
+    renderPass();
+    return true;
+  }
+  if (id.startsWith("shop_") && HERO_CHEST_POOL.includes(id)) {
+    if ((state.profile?.cats || []).some((c) => c.templateId === id)) {
+      toast(state.locale === "ru" ? "Герой уже куплен" : "Already owned");
+      return false;
+    }
+    if (!spendYarn(cost)) return false;
+    return grantShopHero(id);
+  }
+  if (id.startsWith("set_") || id.startsWith("pvp_set_") || id.startsWith("armor_")) {
+    const setId =
+      id.startsWith("set_") ? id.slice(4) : id.startsWith("pvp_set_") ? id.slice(8) : id.includes("green") ? "green" : "grey";
+    if (!spendYarn(cost || SHOP_ARMOR_SET_META[setId]?.price || 0)) return false;
+    return grantShopArmorSet(setId);
+  }
+  if (
+    /^(tank_|fighter_|assassin_|green_|yellow_|blue_|support_)/.test(id) ||
+    ["tank_mace", "tank_spear", "tank_shield_large", "fighter_greatsword", "fighter_axe_a", "assassin_dagger_a", "green_bow", "green_crossbow", "yellow_staff", "yellow_wand", "blue_staff", "support_scroll"].includes(id)
+  ) {
+    if (!spendYarn(cost)) return false;
+    return grantShopWeapon(id);
+  }
+  if (id === "talisman_mythic_luck" || id.startsWith("breed_")) {
+    if (!spendYarn(cost)) return false;
+    return grantShopMatBySku(id, 1);
+  }
+  if (id === "chest_common") {
+    if (!spendYarn(cost || 40)) return false;
+    grantPveSetPiece("grey", null, { silent: false });
+    return true;
+  }
+  if (id === "chest_rare") {
+    if (!spendYarn(cost || 120)) return false;
+    const sets = ["green", "blue"];
+    grantPveSetPiece(sets[Math.floor(Math.random() * sets.length)], null, { silent: false });
+    return true;
+  }
+  if (id === "seed_elements") {
+    if (!spendYarn(cost || 55)) return false;
+    barnMatAdd("seeds", 3);
+    toast(state.locale === "ru" ? "Семя Стихий ×3 → склад" : "Element seeds ×3");
+    return true;
+  }
+  if (id === "energy_refill") {
+    if (!spendYarn(cost || 35)) return false;
+    if (state.profile) state.profile.pvpTickets = 5;
+    state.wallet.energy = "5/5";
+    renderCurrency();
+    toast(state.locale === "ru" ? "Энергия восстановлена" : "Energy refilled");
+    return true;
+  }
+  if (id === "fish_pack_s") {
+    if (!spendYarn(cost || 50)) return false;
+    if (state.profile) state.profile.fish = (state.profile.fish || 0) + 500;
+    state.wallet.gold = (state.wallet.gold || 0) + 500;
+    renderCurrency();
+    toast(state.locale === "ru" ? "+500 рыбок" : "+500 fish");
+    return true;
+  }
+  if (id === "fish_pack_m") {
+    if (!spendYarn(cost || 180)) return false;
+    if (state.profile) state.profile.fish = (state.profile.fish || 0) + 2000;
+    state.wallet.gold = (state.wallet.gold || 0) + 2000;
+    renderCurrency();
+    toast(state.locale === "ru" ? "+2000 рыбок" : "+2000 fish");
+    return true;
+  }
+  if (id === "rename_token") {
+    if (!spendYarn(cost || 25)) return false;
+    return grantShopMatBySku("rename_token", 1);
+  }
+  if (id === "iap_yarn_s" || id === "iap_yarn_m" || id === "iap_yarn_l" || id === "iap_yarn") {
+    const add = id.endsWith("_l") ? 1200 : id.endsWith("_m") ? 400 : 120;
+    const bonus = id.endsWith("_l") ? 200 : id.endsWith("_m") ? 40 : 0;
+    const gained = add + bonus;
+    if (state.profile) state.profile.yarn = yarnBalance() + gained;
+    state.wallet.gems = yarnBalance();
+    renderCurrency();
+    syncShopYarnUi();
+    toast(state.locale === "ru" ? `+${gained} пряжи` : `+${gained} yarn`);
+    return true;
+  }
+  toast(state.locale === "ru" ? `SKU «${id}» пока без выдачи` : `SKU ${id} not wired`);
+  return false;
+}
+
+function stripShopCartUi(root) {
   if (!root) return;
-  const checks = [...root.querySelectorAll(".shop-select:checked")];
-  let total = 0;
-  for (const box of checks) total += shopParsePrice(box);
-  const countEl = $("selected-count");
-  const totalEl = $("total-bm-price");
-  if (countEl) countEl.textContent = String(checks.length);
-  if (totalEl) totalEl.textContent = String(total);
+  for (const box of root.querySelectorAll(".shop-select")) {
+    const label = box.closest("label");
+    if (label) label.remove();
+    else box.remove();
+  }
+  for (const el of root.querySelectorAll("#selected-count, #total-bm-price, #buy-all-btn")) {
+    el.closest(".flex.items-center")?.remove();
+    el.remove();
+  }
+}
+
+function shopBuyBtnHtml(price) {
+  const p = Number(price) || 0;
+  return `<button type="button" class="shop-buy-btn px-space-sm py-1 rounded-lg bg-primary-container text-on-primary-container font-label-sm text-label-sm hover:brightness-110 active:scale-95 transition-all flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">shopping_bag</span>Купить${p ? ` · ${p}` : ""}</button>`;
+}
+
+function ensureShopCardBuyButton(card) {
+  if (!card || card.querySelector(".shop-buy-btn")) return;
+  const price = shopParsePrice(card);
+  const existing = [...card.querySelectorAll("button")].find((b) => /Купить|Пасс|амулет/i.test(b.textContent || ""));
+  if (existing) {
+    existing.classList.add("shop-buy-btn");
+    return;
+  }
+  const emptyRow = [...card.querySelectorAll(".flex.items-center.justify-between, .flex.flex-col.items-end")].find(
+    (row) => !row.querySelector("button"),
+  );
+  if (emptyRow) {
+    emptyRow.insertAdjacentHTML("beforeend", shopBuyBtnHtml(price));
+    return;
+  }
+  const foot = card.querySelector(".flex.items-center.justify-between") || card;
+  foot.insertAdjacentHTML("beforeend", shopBuyBtnHtml(price));
+}
+
+function fillShopCardArt(card) {
+  if (!card) return;
+  const sku = card.getAttribute("data-sku") || "";
+  let art = "";
+  if (HERO_CHEST_POOL.includes(sku)) art = catHeroArt(sku) || "";
+  else if (sku.startsWith("set_")) {
+    const sid = sku.slice(4);
+    art = SHOP_ARMOR_SET_META[sid]?.thumb || `/gear-sets/thumbs/${sid}-armor.png`;
+  } else {
+    const gear = (state.gearCatalog || []).find((g) => g.id === sku);
+    if (gear?.iconSrc) art = gear.iconSrc;
+  }
+  if (!art) return;
+  let img = card.querySelector("img");
+  if (!img) {
+    const host =
+      card.querySelector(".aspect-square, .relative.aspect-square, .w-16, .w-14, .w-12") ||
+      card.querySelector(".rounded-lg.overflow-hidden, .rounded-xl");
+    if (host) {
+      host.querySelectorAll("span.material-symbols-outlined").forEach((s) => s.remove());
+      host.classList.remove("flex", "items-center", "justify-center");
+      img = document.createElement("img");
+      img.alt = card.querySelector(".font-label-md, .font-label-lg, h2, h3")?.textContent?.trim() || sku;
+      img.className = "w-full h-full object-cover object-top";
+      img.decoding = "async";
+      img.loading = "lazy";
+      host.prepend(img);
+    }
+  }
+  if (img) {
+    img.src = art;
+    img.removeAttribute("data-mf-src");
+    img.classList.add("object-cover");
+  }
+}
+
+function renderShopHeroesGrid() {
+  const section = $("viewShop")?.querySelector('[data-shop-section="heroes"]');
+  if (!section) return;
+  const body = section.querySelector(".shop-section-body");
+  if (!body) return;
+  const title = section.querySelector("h2");
+  if (title) title.textContent = "Герои-котики · 18 common";
+  const sub = section.querySelector(".font-label-sm.text-outline");
+  if (sub) sub.textContent = "6 ролей × огонь / вода / ветер";
+  body.innerHTML = HERO_CHEST_POOL.map((tid) => {
+    const meta = starterMeta(tid) || {};
+    const role = meta.role || String(tid).split("_")[1] || "";
+    const el = meta.element || String(tid).split("_")[2] || "";
+    const name = CAT_SHEET_NAMES[tid] || tid;
+    const art = catHeroArt(tid) || "";
+    const price = SHOP_HERO_PRICE[role] || 90;
+    const owned = (state.profile?.cats || []).some((c) => c.templateId === tid);
+    return `<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-sm shadow-sm hover:bg-surface-container-high transition-colors group" data-sku="${tid}" data-price="${price}">
+<div class="relative aspect-square rounded-lg overflow-hidden bg-surface-container-highest shadow-inner">
+${art ? `<img alt="${name}" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" decoding="async" loading="lazy" src="${art}">` : `<span class="material-symbols-outlined text-outline text-[48px] absolute inset-0 m-auto w-fit h-fit">pets</span>`}
+<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-surface-container-lowest/90 font-label-sm text-[10px] text-outline uppercase">${CAT_ROLE_RU[role] || role}</span>
+<span class="absolute bottom-1 right-1 px-1 rounded bg-surface-container-lowest/90 font-stat-numeral text-[10px] text-primary">${CAT_ELEMENT_RU[el] || el}</span>
+</div>
+<div class="font-label-md text-label-md text-on-surface truncate">${name}</div>
+<div class="font-body-sm text-body-sm text-outline">${CAT_ELEMENT_RU[el] || el} · ${CAT_ROLE_RU[role] || role}</div>
+<div class="flex items-center justify-between pt-1 border-t border-surface-container-highest gap-1">
+<div class="flex items-center gap-0.5"><span class="material-symbols-outlined text-primary-fixed-dim text-[14px]">diamond</span><span class="font-stat-numeral text-label-md text-primary-fixed">${price}</span></div>
+${owned ? `<span class="font-label-sm text-label-sm text-secondary">Куплено</span>` : shopBuyBtnHtml(price)}
+</div>
+</article>`;
+  }).join("");
+}
+
+function renderShopArmorGrid() {
+  const section = $("viewShop")?.querySelector('[data-shop-section="armor"]');
+  if (!section) return;
+  const body = section.querySelector(".shop-section-body");
+  if (!body) return;
+  body.innerHTML = Object.entries(SHOP_ARMOR_SET_META)
+    .map(([sid, meta]) => {
+      const border =
+        sid === "red" ? "border border-tertiary/40" : ["yellow", "purple", "solar", "or"].includes(sid) ? "border border-primary/25" : "";
+      return `<article class="bg-surface-container rounded-xl p-space-md flex gap-space-md shadow-sm hover:bg-surface-container-high transition-colors group ${border}" data-sku="set_${sid}" data-price="${meta.price}">
+<img alt="${meta.name}" class="w-16 h-16 rounded-lg object-contain bg-surface-container-highest p-1 shrink-0 group-hover:scale-105 transition-transform" decoding="async" loading="lazy" src="${meta.thumb}">
+<div class="flex-1 min-w-0 flex flex-col justify-between">
+<div>
+<div class="flex items-center gap-1.5"><span class="font-label-lg text-label-lg text-on-surface">${meta.name}</span><span class="px-1 rounded bg-surface-container-highest font-label-sm text-[10px] text-outline">${meta.rank}</span></div>
+<div class="font-body-sm text-body-sm text-outline">${meta.blurb}</div>
+</div>
+<div class="flex items-center justify-between mt-2 gap-2">
+<div class="flex items-center gap-0.5"><span class="material-symbols-outlined text-primary-fixed-dim text-[16px]">diamond</span><span class="font-stat-numeral text-label-lg text-primary-fixed">${meta.price}</span></div>
+${shopBuyBtnHtml(meta.price)}
+</div>
+</div>
+</article>`;
+    })
+    .join("");
+}
+
+function hydrateShopOfferUi(root) {
+  if (!root) return;
+  stripShopCartUi(root);
+  renderShopHeroesGrid();
+  renderShopArmorGrid();
+  for (const card of root.querySelectorAll("article[data-sku]")) {
+    fillShopCardArt(card);
+    ensureShopCardBuyButton(card);
+  }
+  hydrateViewImages(root);
+  syncShopYarnUi();
 }
 
 function setShopCategory(cat) {
@@ -5681,11 +6076,20 @@ function bindShopPassBuyOnce() {
   if (!root || root.dataset.passBuyBound === "1") return;
   root.dataset.passBuyBound = "1";
   root.addEventListener("click", (ev) => {
-    const card = ev.target.closest('[data-sku="pass_buy"]');
+    const buyBtn = ev.target.closest(".shop-buy-btn, button");
+    const card = ev.target.closest("article[data-sku]");
     if (!card || !root.contains(card)) return;
-    if (ev.target.closest("button") || ev.target.closest(".shop-select") || ev.target === card) {
+    const sku = card.getAttribute("data-sku") || "";
+    if (buyBtn && card.contains(buyBtn)) {
       ev.preventDefault();
-      buyBattlePass();
+      purchaseShopSku(sku, shopParsePrice(card), card);
+      hydrateShopOfferUi(root);
+      return;
+    }
+    if (sku === "pass_buy" && (buyBtn || ev.target === card)) {
+      ev.preventDefault();
+      purchaseShopSku("pass_buy", shopParsePrice(card), card);
+      hydrateShopOfferUi(root);
     }
   });
 }
@@ -5695,7 +6099,9 @@ function bindShopCatalogOnce() {
   if (!root || root.dataset.shopCatalogBound === "1") return;
   root.dataset.shopCatalogBound = "1";
 
+  hydrateShopOfferUi(root);
   for (const section of root.querySelectorAll("[data-shop-section]")) {
+    if (section.getAttribute("data-shop-section") === "heroes" || section.getAttribute("data-shop-section") === "armor") continue;
     sortShopSectionCards(section);
   }
 
@@ -5706,28 +6112,7 @@ function bindShopCatalogOnce() {
     setShopCategory(btn.getAttribute("data-shop-cat"));
   });
 
-  root.addEventListener("change", (ev) => {
-    if (ev.target?.classList?.contains("shop-select")) updateShopCartBar();
-  });
-
-  $("buy-all-btn")?.addEventListener("click", () => {
-    const checks = [...root.querySelectorAll(".shop-select:checked")];
-    if (!checks.length) {
-      toast(state.locale === "ru" ? "Ничего не выбрано" : "Nothing selected");
-      return;
-    }
-    const total = checks.reduce((sum, box) => sum + shopParsePrice(box), 0);
-    toast(
-      state.locale === "ru"
-        ? `Корзина: ${checks.length} шт. · ${total} пряжи (stub)`
-        : `Cart: ${checks.length} · ${total} yarn (stub)`,
-    );
-    for (const box of checks) box.checked = false;
-    updateShopCartBar();
-  });
-
   setShopCategory(root.dataset.shopCat || "featured");
-  updateShopCartBar();
 }
 
 function renderShop() {
@@ -5739,8 +6124,8 @@ function renderShop() {
   );
   bindShopPassBuyOnce();
   bindShopCatalogOnce();
+  hydrateShopOfferUi($("viewShop"));
   setShopCategory($("viewShop")?.dataset.shopCat || "featured");
-  updateShopCartBar();
   const passCard = $("viewShop")?.querySelector('[data-sku="pass_buy"]');
   if (passCard) {
     const ul = passCard.querySelector("ul");
@@ -5750,8 +6135,9 @@ function renderShop() {
         <li class="flex items-center gap-1.5"><span class="material-symbols-outlined text-primary text-[16px]">shield</span>Гарант: сет брони + оружие на 1 котика</li>
         <li class="flex items-center gap-1.5"><span class="material-symbols-outlined text-tertiary text-[16px]">pets</span>Финал сезона: +1 Герой (кого нет)</li>`;
     }
-    const buyBtn = [...passCard.querySelectorAll("button")].find((b) => /Купить/i.test(b.textContent || ""));
+    const buyBtn = [...passCard.querySelectorAll("button")].find((b) => /Купить|Пасс/i.test(b.textContent || ""));
     if (buyBtn) {
+      buyBtn.classList.add("shop-buy-btn");
       buyBtn.textContent = state.passOwned ? "Пасс куплен · ACTIVE" : "Купить пасс";
     }
   }
@@ -6953,56 +7339,56 @@ const CAT_SHEET_NAMES = {
 };
 
 /**
- * Full-body portraits — elven 18 (6 roles × fire/water/wind).
- * Idle JPG from cat-heroes-v2 (breed map: fire→fire, water→ice, wind→stone). Battle: same until cutouts land.
+ * Full-body lobby portraits — elven 18 (6 roles × fire/water/wind).
+ * Studio cutout + shared tavern hearth (`bg/tavern-shared.jpg`). Breed map: fire→fire, water→ice, wind→stone.
  */
 const CAT_HERO_ART = {
-  shop_tank_fire: "/stitch-assets/cat-heroes/tank-fire.jpg?v=gear18b",
-  shop_tank_water: "/stitch-assets/cat-heroes/tank-water.jpg?v=gear18b",
-  shop_tank_wind: "/stitch-assets/cat-heroes/tank-wind.jpg?v=gear18b",
-  shop_fighter_fire: "/stitch-assets/cat-heroes/fighter-fire.jpg?v=gear18b",
-  shop_fighter_water: "/stitch-assets/cat-heroes/fighter-water.jpg?v=gear18b",
-  shop_fighter_wind: "/stitch-assets/cat-heroes/fighter-wind.jpg?v=gear18b",
-  shop_assassin_fire: "/stitch-assets/cat-heroes/assassin-fire.jpg?v=gear18b",
-  shop_assassin_water: "/stitch-assets/cat-heroes/assassin-water.jpg?v=gear18b",
-  shop_assassin_wind: "/stitch-assets/cat-heroes/assassin-wind.jpg?v=gear18b",
-  shop_ranger_fire: "/stitch-assets/cat-heroes/ranger-fire.jpg?v=gear18b",
-  shop_ranger_water: "/stitch-assets/cat-heroes/ranger-water.jpg?v=gear18b",
-  shop_ranger_wind: "/stitch-assets/cat-heroes/ranger-wind.jpg?v=gear18b",
-  shop_mage_fire: "/stitch-assets/cat-heroes/mage-fire.jpg?v=gear18b",
-  shop_mage_water: "/stitch-assets/cat-heroes/mage-water.jpg?v=gear18b",
-  shop_mage_wind: "/stitch-assets/cat-heroes/mage-wind.jpg?v=gear18b",
-  shop_support_fire: "/stitch-assets/cat-heroes/support-fire.jpg?v=gear18b",
-  shop_support_water: "/stitch-assets/cat-heroes/support-water.jpg?v=gear18b",
-  shop_support_wind: "/stitch-assets/cat-heroes/support-wind.jpg?v=gear18b",
-  starter_tank_stone: "/stitch-assets/cat-heroes/tank-fire.jpg?v=gear18b",
-  starter_fighter_fire: "/stitch-assets/cat-heroes/fighter-fire.jpg?v=gear18b",
-  starter_support_water: "/stitch-assets/cat-heroes/support-water.jpg?v=gear18b",
+  shop_tank_fire: "/stitch-assets/cat-heroes/tank-fire.jpg?v=gear18c",
+  shop_tank_water: "/stitch-assets/cat-heroes/tank-water.jpg?v=gear18c",
+  shop_tank_wind: "/stitch-assets/cat-heroes/tank-wind.jpg?v=gear18c",
+  shop_fighter_fire: "/stitch-assets/cat-heroes/fighter-fire.jpg?v=gear18c",
+  shop_fighter_water: "/stitch-assets/cat-heroes/fighter-water.jpg?v=gear18c",
+  shop_fighter_wind: "/stitch-assets/cat-heroes/fighter-wind.jpg?v=gear18c",
+  shop_assassin_fire: "/stitch-assets/cat-heroes/assassin-fire.jpg?v=gear18c",
+  shop_assassin_water: "/stitch-assets/cat-heroes/assassin-water.jpg?v=gear18c",
+  shop_assassin_wind: "/stitch-assets/cat-heroes/assassin-wind.jpg?v=gear18c",
+  shop_ranger_fire: "/stitch-assets/cat-heroes/ranger-fire.jpg?v=gear18c",
+  shop_ranger_water: "/stitch-assets/cat-heroes/ranger-water.jpg?v=gear18c",
+  shop_ranger_wind: "/stitch-assets/cat-heroes/ranger-wind.jpg?v=gear18c",
+  shop_mage_fire: "/stitch-assets/cat-heroes/mage-fire.jpg?v=gear18c",
+  shop_mage_water: "/stitch-assets/cat-heroes/mage-water.jpg?v=gear18c",
+  shop_mage_wind: "/stitch-assets/cat-heroes/mage-wind.jpg?v=gear18c",
+  shop_support_fire: "/stitch-assets/cat-heroes/support-fire.jpg?v=gear18c",
+  shop_support_water: "/stitch-assets/cat-heroes/support-water.jpg?v=gear18c",
+  shop_support_wind: "/stitch-assets/cat-heroes/support-wind.jpg?v=gear18c",
+  starter_tank_stone: "/stitch-assets/cat-heroes/tank-fire.jpg?v=gear18c",
+  starter_fighter_fire: "/stitch-assets/cat-heroes/fighter-fire.jpg?v=gear18c",
+  starter_support_water: "/stitch-assets/cat-heroes/support-water.jpg?v=gear18c",
 };
 
-/** Fight board art — same idle until transparent cutouts (D-037). */
+/** Fight board art — studio cutouts without tavern (D-037; RGBA later). */
 const CAT_HERO_BATTLE_ART = {
-  shop_tank_fire: "/stitch-assets/cat-heroes/battle/tank-fire.jpg?v=gear18b",
-  shop_tank_water: "/stitch-assets/cat-heroes/battle/tank-water.jpg?v=gear18b",
-  shop_tank_wind: "/stitch-assets/cat-heroes/battle/tank-wind.jpg?v=gear18b",
-  shop_fighter_fire: "/stitch-assets/cat-heroes/battle/fighter-fire.jpg?v=gear18b",
-  shop_fighter_water: "/stitch-assets/cat-heroes/battle/fighter-water.jpg?v=gear18b",
-  shop_fighter_wind: "/stitch-assets/cat-heroes/battle/fighter-wind.jpg?v=gear18b",
-  shop_assassin_fire: "/stitch-assets/cat-heroes/battle/assassin-fire.jpg?v=gear18b",
-  shop_assassin_water: "/stitch-assets/cat-heroes/battle/assassin-water.jpg?v=gear18b",
-  shop_assassin_wind: "/stitch-assets/cat-heroes/battle/assassin-wind.jpg?v=gear18b",
-  shop_ranger_fire: "/stitch-assets/cat-heroes/battle/ranger-fire.jpg?v=gear18b",
-  shop_ranger_water: "/stitch-assets/cat-heroes/battle/ranger-water.jpg?v=gear18b",
-  shop_ranger_wind: "/stitch-assets/cat-heroes/battle/ranger-wind.jpg?v=gear18b",
-  shop_mage_fire: "/stitch-assets/cat-heroes/battle/mage-fire.jpg?v=gear18b",
-  shop_mage_water: "/stitch-assets/cat-heroes/battle/mage-water.jpg?v=gear18b",
-  shop_mage_wind: "/stitch-assets/cat-heroes/battle/mage-wind.jpg?v=gear18b",
-  shop_support_fire: "/stitch-assets/cat-heroes/battle/support-fire.jpg?v=gear18b",
-  shop_support_water: "/stitch-assets/cat-heroes/battle/support-water.jpg?v=gear18b",
-  shop_support_wind: "/stitch-assets/cat-heroes/battle/support-wind.jpg?v=gear18b",
-  starter_tank_stone: "/stitch-assets/cat-heroes/battle/tank-fire.jpg?v=gear18b",
-  starter_fighter_fire: "/stitch-assets/cat-heroes/battle/fighter-fire.jpg?v=gear18b",
-  starter_support_water: "/stitch-assets/cat-heroes/battle/support-water.jpg?v=gear18b",
+  shop_tank_fire: "/stitch-assets/cat-heroes/battle/tank-fire.jpg?v=gear18c",
+  shop_tank_water: "/stitch-assets/cat-heroes/battle/tank-water.jpg?v=gear18c",
+  shop_tank_wind: "/stitch-assets/cat-heroes/battle/tank-wind.jpg?v=gear18c",
+  shop_fighter_fire: "/stitch-assets/cat-heroes/battle/fighter-fire.jpg?v=gear18c",
+  shop_fighter_water: "/stitch-assets/cat-heroes/battle/fighter-water.jpg?v=gear18c",
+  shop_fighter_wind: "/stitch-assets/cat-heroes/battle/fighter-wind.jpg?v=gear18c",
+  shop_assassin_fire: "/stitch-assets/cat-heroes/battle/assassin-fire.jpg?v=gear18c",
+  shop_assassin_water: "/stitch-assets/cat-heroes/battle/assassin-water.jpg?v=gear18c",
+  shop_assassin_wind: "/stitch-assets/cat-heroes/battle/assassin-wind.jpg?v=gear18c",
+  shop_ranger_fire: "/stitch-assets/cat-heroes/battle/ranger-fire.jpg?v=gear18c",
+  shop_ranger_water: "/stitch-assets/cat-heroes/battle/ranger-water.jpg?v=gear18c",
+  shop_ranger_wind: "/stitch-assets/cat-heroes/battle/ranger-wind.jpg?v=gear18c",
+  shop_mage_fire: "/stitch-assets/cat-heroes/battle/mage-fire.jpg?v=gear18c",
+  shop_mage_water: "/stitch-assets/cat-heroes/battle/mage-water.jpg?v=gear18c",
+  shop_mage_wind: "/stitch-assets/cat-heroes/battle/mage-wind.jpg?v=gear18c",
+  shop_support_fire: "/stitch-assets/cat-heroes/battle/support-fire.jpg?v=gear18c",
+  shop_support_water: "/stitch-assets/cat-heroes/battle/support-water.jpg?v=gear18c",
+  shop_support_wind: "/stitch-assets/cat-heroes/battle/support-wind.jpg?v=gear18c",
+  starter_tank_stone: "/stitch-assets/cat-heroes/battle/tank-fire.jpg?v=gear18c",
+  starter_fighter_fire: "/stitch-assets/cat-heroes/battle/fighter-fire.jpg?v=gear18c",
+  starter_support_water: "/stitch-assets/cat-heroes/battle/support-water.jpg?v=gear18c",
   // Practice dummies — dedicated no-bg mannequins (D-037 fight-only).
   bot_practice_tank_a: "/stitch-assets/dojo/battle/dummy-oak-knight.webp?v=dummyfix1",
   bot_practice_fighter_a: "/stitch-assets/dojo/battle/dummy-straw-berserk.webp?v=dummyfix1",
@@ -8707,7 +9093,7 @@ function renderHomeRoster(cat) {
       const role = CAT_ROLE_RU[c.role || m.role] || c.role || "—";
       const art = catHeroArt(c.templateId);
       return `<button type="button" data-home-cat="${c.catId}" class="p-2 rounded-xl flex items-center gap-2 shrink-0 h-[64px] text-left border transition-colors ${on ? "bg-surface-container-highest border-primary/50 shadow" : "bg-surface-container-lowest/40 border-outline-variant/40 hover:border-primary/40"}">
-        ${art ? `<img alt="" src="${art}" class="w-10 h-10 object-contain rounded"/>` : `<span class="material-symbols-outlined text-primary">pets</span>`}
+        ${art ? `<img alt="" src="${art}" class="w-10 h-10 object-cover object-top rounded"/>` : `<span class="material-symbols-outlined text-primary">pets</span>`}
         <span class="flex flex-col min-w-0"><span class="font-label-sm text-label-sm text-on-surface truncate font-bold">${name}</span><span class="text-[10px] text-on-surface-variant truncate">${role}</span></span>
       </button>`;
     })
@@ -11014,7 +11400,7 @@ function victoryCatCards() {
       };
     const meta = VICTORY_SLOT_META[visualPos];
     const isMvp = !!meta?.mvp;
-    const art = catHeroArt(hero.templateId) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=gear18b";
+    const art = catHeroArt(hero.templateId) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=gear18c";
     const dmg = Math.round((hero.dmg || 4) * (isMvp ? 520 : 280));
     const heal = hero.role === "support" || hero.role === "mage" ? Math.round((hero.shield || 3) * 420) : 0;
     const taken = Math.round((hero.hp || 30) * (hero.role === "tank" ? 85 : 40));
@@ -11320,7 +11706,7 @@ function renderPvpVictory() {
         const role = hero?.role || starterMeta(tid).role;
         const el = practiceElementOf(hero || { templateId: tid }) || starterMeta(tid).element;
         const name = hero?.name || catSheetName({ templateId: tid });
-        const art = catHeroArt(tid) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=gear18b";
+        const art = catHeroArt(tid) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=gear18c";
         const mvp = idx === 1 ? ` class="is-mvp"` : "";
         const badge = idx === 1 ? `<span class="col-badge">MVP матча</span>` : "";
         return `<li${mvp}>
@@ -11520,6 +11906,75 @@ function unitCard(u, side) {
   return d;
 }
 
+/** Live effect copy + keyword icons for attack plates (covers baked placeholders). */
+let cardEffectCatalog = {};
+
+async function bootCardEffects() {
+  try {
+    const res = await fetch("/data/card-effects.json", { cache: "no-store" });
+    if (!res.ok) throw new Error(`card-effects ${res.status}`);
+    cardEffectCatalog = (await res.json()) || {};
+  } catch (err) {
+    console.warn("card-effects catalog", err);
+    cardEffectCatalog = {};
+  }
+}
+
+function cardEffectDef(cardId) {
+  if (!cardId) return null;
+  return cardEffectCatalog[cardId] || cardEffectCatalog[`card_${String(cardId).replace(/^card_/, "")}`] || null;
+}
+
+const ATTACK_CARD_ICON_META = [
+  { key: "buff", label: "BUFF", icon: "spa" },
+  { key: "debuff", label: "DEBUFF", icon: "skull" },
+  { key: "x2", label: "2X", icon: "filter_2" },
+  { key: "crit", label: "CRIT", icon: "flare" },
+  { key: "pierce", label: "PIERCE", icon: "keyboard_double_arrow_up" },
+  { key: "heal", label: "HEAL", icon: "favorite" },
+  { key: "shield", label: "SHIELD", icon: "shield" },
+];
+
+function escapeCardHtml(s) {
+  return String(s || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/** Shrink effect copy so it stays inside the parchment slot. */
+function fitAttackCardText(root) {
+  const el = root?.querySelector?.(".mf-atk-card__effect");
+  if (!el) return;
+  let size = parseFloat(getComputedStyle(el).fontSize) || 11;
+  el.style.fontSize = `${size}px`;
+  for (let i = 0; i < 8 && el.scrollHeight > el.clientHeight + 1 && size > 6.5; i++) {
+    size -= 0.55;
+    el.style.fontSize = `${size}px`;
+  }
+}
+
+/** Parchment effect text + lit keyword icons over baked plate bottom. */
+function attackCardFxOverlayHtml(cardId) {
+  const def = cardEffectDef(cardId);
+  if (!def) return "";
+  const effect = String(def.effect_ru || "").trim();
+  if (!effect) return "";
+  const icons = def.icons || {};
+  const iconsHtml = ATTACK_CARD_ICON_META.map((m) => {
+    const on = !!icons[m.key];
+    return `<span class="mf-atk-card__icon${on ? " is-on" : ""}" data-icon="${m.key}" title="${m.label}"><span class="material-symbols-outlined" aria-hidden="true">${m.icon}</span><em>${m.label}</em></span>`;
+  }).join("");
+  return `<div class="mf-atk-card__fx" aria-hidden="true"><p class="mf-atk-card__effect">${escapeCardHtml(effect)}</p><div class="mf-atk-card__icons">${iconsHtml}</div></div>`;
+}
+
+function attackCardTooltip(cardId, title, cost) {
+  const def = cardEffectDef(cardId);
+  const effect = def?.effect_ru ? ` · ${def.effect_ru}` : "";
+  return `${title} · ${cost} AP${effect}`;
+}
+
 /** Attack-card art — elven 18 heroes (role-element) under stitch-assets. */
 const ATTACK_CARD_ART_FOLDER = {
   shop_tank_fire: "tank-fire",
@@ -11617,12 +12072,20 @@ function renderHomeDeck(cat) {
   grid.innerHTML = cards
     .map((c) => {
       const title = t(c.name_key, c.stem);
+      const tip = escapeCardHtml(attackCardTooltip(c.cardId, title, c.cost) + ` · ${c.part}`);
       if (c.art) {
-        return `<div class="group relative rounded-lg bg-surface-container-lowest border border-outline-variant/40 aspect-[2/3] overflow-hidden shadow mf-atk-card mf-atk-card--art" title="${title} · ${c.cost} AP · ${c.part}"><img alt="${title}" class="w-full h-full object-cover" src="${c.art}"/></div>`;
+        return `<div class="group relative rounded-lg bg-surface-container-lowest border border-outline-variant/40 aspect-[2/3] overflow-hidden shadow mf-atk-card mf-atk-card--art mf-atk-card--fx" title="${tip}"><img alt="${title}" class="w-full h-full object-cover" src="${c.art}"/>${attackCardFxOverlayHtml(c.cardId)}</div>`;
       }
-      return `<div class="group relative rounded-lg bg-surface-container-lowest border border-outline-variant/40 aspect-[2/3] flex flex-col items-center justify-center p-1 text-center" title="${title}"><span class="text-[10px] font-label-sm text-on-surface">${title}</span><span class="text-[9px] text-on-surface-variant mt-1">${c.cost} AP · ${c.part}</span></div>`;
+      const def = cardEffectDef(c.cardId);
+      const effect = def?.effect_ru
+        ? `<span class="text-[8px] text-on-surface-variant mt-0.5 leading-tight px-0.5">${escapeCardHtml(def.effect_ru)}</span>`
+        : "";
+      return `<div class="group relative rounded-lg bg-surface-container-lowest border border-outline-variant/40 aspect-[2/3] flex flex-col items-center justify-center p-1 text-center" title="${tip}"><span class="text-[10px] font-label-sm text-on-surface">${escapeCardHtml(title)}</span><span class="text-[9px] text-on-surface-variant mt-1">${c.cost} AP · ${c.part}</span>${effect}</div>`;
     })
     .join("");
+  requestAnimationFrame(() => {
+    grid.querySelectorAll(".mf-atk-card--fx").forEach((el) => fitAttackCardText(el));
+  });
 }
 
 /** Extract cat templateId from battle unit id (`p1_0_shop_tank_fire`). */
@@ -11971,24 +12434,34 @@ function makeAttackHandButton(c, diff, classNames = "mf-atk-card") {
   const cost = c.cost ?? "?";
   const cc = unitCrowdControlled(diff, c.unitId);
   const busy = !!state.oppThrowPlaying || !!state.actionBusy;
-  b.className = art ? `${classNames} mf-atk-card--art pf-card pf-card-art` : `${classNames} mf-atk-card--text pf-card`;
+  const fx = attackCardFxOverlayHtml(c.cardId);
+  b.className = art
+    ? `${classNames} mf-atk-card--art mf-atk-card--fx pf-card pf-card-art`
+    : `${classNames} mf-atk-card--text pf-card`;
   if (cc) b.classList.add("mf-atk-card--stunned");
   if (busy) b.classList.add("is-busy-wait");
   b.disabled = !c.playable || cc || !!diff.result || diff.active !== 0 || busy;
   b.dataset.cardId = c.cardId || "";
   b.dataset.targetRule = c.targetRule || "";
-  b.title = cc ? `${title} · стан/сон — пропуск хода` : `${title} · ${cost} AP`;
+  b.title = cc ? `${title} · стан/сон — пропуск хода` : attackCardTooltip(c.cardId, title, cost);
   if (art) {
-    b.innerHTML = `<img alt="${title}" src="${art}" draggable="false"/><b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
+    b.innerHTML = `<img alt="${title}" src="${art}" draggable="false"/>${fx}<b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
+    requestAnimationFrame(() => fitAttackCardText(b));
     const img = b.querySelector("img");
     img?.addEventListener("error", () => {
       // Missing/broken plate → text card instead of empty black tile.
-      b.classList.remove("mf-atk-card--art", "pf-card-art");
+      b.classList.remove("mf-atk-card--art", "mf-atk-card--fx", "pf-card-art");
       b.classList.add("mf-atk-card--text");
       img.remove();
+      b.querySelector(".mf-atk-card__fx")?.remove();
+      const def = cardEffectDef(c.cardId);
+      const effect = def?.effect_ru ? `<span class="mf-atk-card__sub">${escapeCardHtml(def.effect_ru)}</span>` : "";
+      b.innerHTML = `<b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>${effect}`;
     });
   } else {
-    b.innerHTML = `<b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
+    const def = cardEffectDef(c.cardId);
+    const effect = def?.effect_ru ? `<span class="mf-atk-card__sub">${escapeCardHtml(def.effect_ru)}</span>` : "";
+    b.innerHTML = `<b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>${effect}`;
   }
 
   b.addEventListener("click", () => {
@@ -14350,7 +14823,7 @@ function pvpRosterEntry(templateId) {
     lvl: hero?.lvl || 1,
     hp,
     hpLabel: `${hp} HP`,
-    art: catHeroArt(templateId) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=gear18b",
+    art: catHeroArt(templateId) || "/stitch-assets/cat-heroes/fighter-fire.jpg?v=gear18c",
     bm: hero?.bm || 4500,
   };
 }
@@ -15052,7 +15525,7 @@ function renderCollectionRosterCards(cats) {
       return `<button type="button" draggable="true" data-col-cat="${c.catId}" class="col-roster-card relative rounded-lg flex items-center gap-2 h-[88px] px-2 text-left border transition-colors cursor-grab active:cursor-grabbing ${
         on ? "is-picked bg-surface-container-highest border-primary/60" : "bg-surface-container-lowest/50 border-surface-container-highest/30 hover:border-primary/40"
       }">
-        ${art ? `<img alt="" src="${art}" draggable="false" class="w-14 h-14 object-contain rounded shrink-0 pointer-events-none"/>` : `<span class="material-symbols-outlined text-primary text-[28px]">pets</span>`}
+        ${art ? `<img alt="" src="${art}" draggable="false" class="w-14 h-14 object-cover object-top rounded shrink-0 pointer-events-none"/>` : `<span class="material-symbols-outlined text-primary text-[28px]">pets</span>`}
         <span class="flex flex-col min-w-0 gap-0.5">
           <span class="font-label-sm text-label-sm text-on-surface font-bold truncate">${name}</span>
           <span class="text-[10px] text-on-surface-variant truncate">${role}${el ? ` · ${el}` : ""}</span>
@@ -17001,6 +17474,7 @@ async function main() {
     await bootGearCatalog();
     await bootBreedingStub();
     await bootCollectionStub();
+    await bootCardEffects();
     const battleOk = await checkBattle();
     const bp = $("battlePill");
     if (bp) {
