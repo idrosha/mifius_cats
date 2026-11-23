@@ -1,942 +1,2464 @@
 {
-  "card_fighter_fire_back": {
-    "name_key": "card.fighter_fire_back",
-    "title_ru": "Пламенный удар",
-    "effect_ru": "Наносит 12 урона ближайшему врагу.",
-    "chips": [
-      "Атака"
-    ],
-    "cost": 1
-  },
-  "card_fighter_fire_ears": {
-    "name_key": "card.fighter_fire_ears",
-    "title_ru": "Боевой слух",
-    "effect_ru": "Наносит 4 урона ближайшему врагу. Кровотечение.",
-    "chips": [
-      "Атака",
-      "Крит",
-      "Кровотечение"
-    ],
-    "cost": 1
-  },
-  "card_fighter_fire_eyes": {
-    "name_key": "card.fighter_fire_eyes",
-    "title_ru": "Искрящий взгляд",
-    "effect_ru": "Наносит 3 урона ×2 ближайшему врагу. Кровотечение.",
-    "chips": [
-      "Атака",
-      "Кровотечение"
-    ],
-    "cost": 1
-  },
-  "card_fighter_fire_headwear": {
-    "name_key": "card.fighter_fire_headwear",
-    "title_ru": "Искры на ушах",
-    "effect_ru": "Наносит 6 урона ближайшему врагу.",
-    "chips": [
-      "Атака",
-      "Взъерошить"
-    ],
-    "cost": 1
-  },
-  "card_fighter_fire_muzzle": {
-    "name_key": "card.fighter_fire_muzzle",
-    "title_ru": "Огненный укус",
-    "effect_ru": "Наносит 8 урона ближайшему врагу.",
-    "chips": [
-      "Атака"
-    ],
-    "cost": 1
-  },
-  "card_fighter_fire_tail": {
-    "name_key": "card.fighter_fire_tail",
-    "title_ru": "Хлыст жара",
-    "effect_ru": "Наносит 7 урона ×2 врагу в тылу.",
-    "chips": [
-      "Атака",
-      "Тыл",
-      "Взъерошить"
-    ],
-    "cost": 2
-  },
-  "card_mage_bolt_tail": {
-    "name_key": "card.mage_bolt_tail",
-    "title_ru": "Хвост-разряд",
-    "effect_ru": "Наносит 6 урона врагу в тылу. Слабость.",
-    "chips": [
-      "Атака",
-      "Тыл",
-      "Слабость"
-    ],
-    "cost": 2
-  },
-  "card_ranger_grass_muzzle": {
-    "name_key": "card.ranger_grass_muzzle",
-    "title_ru": "Засадный укус",
-    "effect_ru": "Наносит 7 урона врагу в тылу.",
-    "chips": [
-      "Атака",
-      "Тыл",
-      "Засада"
-    ],
-    "cost": 1
-  },
-  "card_shop_assassin_bolt_a_back": {
-    "name_key": "card.shop_assassin_bolt_a_back",
-    "title_ru": "Крит из тени",
-    "effect_ru": "Наносит 6 урона ближайшему врагу.",
-    "chips": [
-      "Атака",
-      "Крит"
-    ],
-    "cost": 1
-  },
-  "card_shop_assassin_bolt_a_ears": {
-    "name_key": "card.shop_assassin_bolt_a_ears",
-    "title_ru": "Шёпот ветра",
-    "effect_ru": "Наносит 4 урона ближайшему врагу. Яд.",
-    "chips": [
-      "Атака",
-      "Яд"
-    ],
-    "cost": 1
-  },
-  "card_shop_assassin_bolt_a_eyes": {
-    "name_key": "card.shop_assassin_bolt_a_eyes",
-    "title_ru": "Глаза мглы",
-    "effect_ru": "Наносит 3 урона ближайшему врагу. Стан.",
-    "chips": [
-      "Атака",
-      "Стан"
-    ],
-    "cost": 1
-  },
-  "card_shop_assassin_bolt_a_headwear": {
-    "name_key": "card.shop_assassin_bolt_a_headwear",
-    "title_ru": "Ускользнуть",
-    "effect_ru": "Стелс.",
-    "chips": [
-      "Стелс"
-    ],
-    "cost": 1
-  },
-  "card_shop_assassin_bolt_a_muzzle": {
-    "name_key": "card.shop_assassin_bolt_a_muzzle",
-    "title_ru": "Теневой укус",
-    "effect_ru": "Наносит 5 урона ближайшему врагу.",
-    "chips": [
-      "Атака",
-      "Крит"
-    ],
-    "cost": 1
-  },
-  "card_shop_assassin_bolt_a_tail": {
-    "name_key": "card.shop_assassin_bolt_a_tail",
-    "title_ru": "Исчезновение",
-    "effect_ru": "Наносит 5 урона ближайшему врагу. Стелс.",
-    "chips": [
-      "Атака",
-      "Крит",
-      "Стелс"
-    ],
-    "cost": 2
-  },
-  "card_shop_assassin_bolt_b_back": {
-    "name_key": "card.shop_assassin_bolt_b_back",
-    "title_ru": "Пронзить тыл",
-    "effect_ru": "Наносит 6 урона врагу в тылу.",
-    "chips": [
-      "Атака",
-      "Тыл"
-    ],
-    "cost": 1
-  },
-  "card_shop_assassin_bolt_b_ears": {
-    "name_key": "card.shop_assassin_bolt_b_ears",
-    "title_ru": "Слух поддержки",
-    "effect_ru": "Наносит 3 урона врагу в тылу. Стан.",
-    "chips": [
-      "Атака",
-      "Тыл",
-      "Стан"
-    ],
-    "cost": 1
-  },
-  "card_shop_assassin_bolt_b_eyes": {
-    "name_key": "card.shop_assassin_bolt_b_eyes",
-    "title_ru": "Прицел в спину",
-    "effect_ru": "Наносит 4 урона врагу в тылу. Яд.",
-    "chips": [
-      "Атака",
-      "Тыл",
-      "Крит",
-      "Яд"
-    ],
-    "cost": 1
-  },
-  "card_shop_assassin_bolt_b_headwear": {
-    "name_key": "card.shop_assassin_bolt_b_headwear",
-    "title_ru": "Тихий разряд",
-    "effect_ru": "Наносит 4 урона врагу в тылу.",
-    "chips": [
-      "Атака",
-      "Тыл",
-      "Крит"
-    ],
-    "cost": 1
-  },
-  "card_shop_assassin_bolt_b_muzzle": {
-    "name_key": "card.shop_assassin_bolt_b_muzzle",
-    "title_ru": "Укол в тыл",
-    "effect_ru": "Наносит 5 урона врагу в тылу.",
-    "chips": [
-      "Атака",
-      "Тыл",
-      "Крит"
-    ],
-    "cost": 1
-  },
-  "card_shop_assassin_bolt_b_tail": {
-    "name_key": "card.shop_assassin_bolt_b_tail",
-    "title_ru": "Казнь сзади",
-    "effect_ru": "Наносит 7 урона врагу в тылу.",
-    "chips": [
-      "Атака",
-      "Тыл",
-      "Крит"
-    ],
-    "cost": 2
-  },
-  "card_shop_fighter_fire_a_back": {
-    "name_key": "card.shop_fighter_fire_a_back",
-    "title_ru": "Критовсечь",
-    "effect_ru": "Наносит 4 урона ближайшему врагу.",
-    "chips": [
-      "Атака",
-      "Крит",
-      "Взъерошить"
-    ],
-    "cost": 1
-  },
-  "card_shop_fighter_fire_a_ears": {
-    "name_key": "card.shop_fighter_fire_a_ears",
-    "title_ru": "Боевой слух",
-    "effect_ru": "Наносит 4 урона ближайшему врагу. Кровотечение.",
-    "chips": [
-      "Атака",
-      "Крит",
-      "Кровотечение"
-    ],
-    "cost": 1
-  },
-  "card_shop_fighter_fire_a_eyes": {
-    "name_key": "card.shop_fighter_fire_a_eyes",
-    "title_ru": "Искрящий взгляд",
-    "effect_ru": "Наносит 3 урона ×2 ближайшему врагу. Кровотечение.",
-    "chips": [
-      "Атака",
-      "Кровотечение"
-    ],
-    "cost": 1
-  },
-  "card_shop_fighter_fire_a_headwear": {
-    "name_key": "card.shop_fighter_fire_a_headwear",
-    "title_ru": "Искры-когти",
-    "effect_ru": "Наносит 3 урона ×2 ближайшему врагу.",
-    "chips": [
-      "Атака",
-      "Взъерошить"
-    ],
-    "cost": 1
-  },
-  "card_shop_fighter_fire_a_muzzle": {
-    "name_key": "card.shop_fighter_fire_a_muzzle",
-    "title_ru": "Парный укус",
-    "effect_ru": "Наносит 3 урона ×2 ближайшему врагу.",
-    "chips": [
-      "Атака",
-      "Крит",
-      "Взъерошить"
-    ],
-    "cost": 1
-  },
-  "card_shop_fighter_fire_a_tail": {
-    "name_key": "card.shop_fighter_fire_a_tail",
-    "title_ru": "Двойной хлыст",
-    "effect_ru": "Наносит 3 урона ×2 врагу в тылу.",
-    "chips": [
-      "Атака",
-      "Тыл",
-      "Крит",
-      "Взъерошить"
-    ],
-    "cost": 1
-  },
-  "card_shop_fighter_fire_b_back": {
-    "name_key": "card.shop_fighter_fire_b_back",
-    "title_ru": "Молот жара",
-    "effect_ru": "Наносит 11 урона ближайшему врагу.",
-    "chips": [
-      "Атака"
-    ],
-    "cost": 2
-  },
-  "card_shop_fighter_fire_b_ears": {
-    "name_key": "card.shop_fighter_fire_b_ears",
-    "title_ru": "Рёв стали",
-    "effect_ru": "Наносит 5 урона ближайшему врагу. Хрупкость. Кровотечение.",
-    "chips": [
-      "Атака",
-      "Хрупкость",
-      "Кровотечение"
-    ],
-    "cost": 1
-  },
-  "card_shop_fighter_fire_b_eyes": {
-    "name_key": "card.shop_fighter_fire_b_eyes",
-    "title_ru": "Яростный взор",
-    "effect_ru": "Наносит 8 урона ближайшему врагу. Кровотечение.",
-    "chips": [
-      "Атака",
-      "Кровотечение"
-    ],
-    "cost": 1
-  },
-  "card_shop_fighter_fire_b_headwear": {
-    "name_key": "card.shop_fighter_fire_b_headwear",
-    "title_ru": "Тяжёлый оскал",
-    "effect_ru": "Наносит 7 урона ближайшему врагу.",
-    "chips": [
-      "Атака",
-      "Взъерошить"
-    ],
-    "cost": 1
-  },
-  "card_shop_fighter_fire_b_muzzle": {
-    "name_key": "card.shop_fighter_fire_b_muzzle",
-    "title_ru": "Двуручный удар",
-    "effect_ru": "Наносит 9 урона ближайшему врагу.",
-    "chips": [
-      "Атака",
-      "Взъерошить"
-    ],
-    "cost": 1
-  },
-  "card_shop_fighter_fire_b_tail": {
-    "name_key": "card.shop_fighter_fire_b_tail",
-    "title_ru": "Тяжёлый хлыст",
-    "effect_ru": "Наносит 8 урона врагу в тылу.",
-    "chips": [
-      "Атака",
-      "Тыл",
-      "Взъерошить"
-    ],
-    "cost": 1
-  },
-  "card_shop_mage_fire_a_back": {
-    "name_key": "card.shop_mage_fire_a_back",
-    "title_ru": "Волна жара",
-    "effect_ru": "Наносит 3 урона всем врагам.",
-    "chips": [
-      "Атака",
-      "Крит",
-      "AoE"
-    ],
-    "cost": 1
-  },
-  "card_shop_mage_fire_a_ears": {
-    "name_key": "card.shop_mage_fire_a_ears",
-    "title_ru": "Треск искр",
-    "effect_ru": "Наносит 3 урона ближайшему врагу. Слабость.",
-    "chips": [
-      "Атака",
-      "Крит",
-      "Слабость"
-    ],
-    "cost": 1
-  },
-  "card_shop_mage_fire_a_eyes": {
-    "name_key": "card.shop_mage_fire_a_eyes",
-    "title_ru": "Пламенный зрачок",
-    "effect_ru": "Наносит 4 урона ближайшему врагу. Уязвимость.",
-    "chips": [
-      "Атака",
-      "Уязвимость"
-    ],
-    "cost": 1
-  },
-  "card_shop_mage_fire_a_headwear": {
-    "name_key": "card.shop_mage_fire_a_headwear",
-    "title_ru": "Искра-крит",
-    "effect_ru": "Наносит 4 урона ближайшему врагу.",
-    "chips": [
-      "Атака",
-      "Крит"
-    ],
-    "cost": 1
-  },
-  "card_shop_mage_fire_a_muzzle": {
-    "name_key": "card.shop_mage_fire_a_muzzle",
-    "title_ru": "Огненный круг",
-    "effect_ru": "Наносит 3 урона всем врагам. Слабость.",
-    "chips": [
-      "Атака",
-      "Крит",
-      "AoE",
-      "Слабость"
-    ],
-    "cost": 1
-  },
-  "card_shop_mage_fire_a_tail": {
-    "name_key": "card.shop_mage_fire_a_tail",
-    "title_ru": "Ожог тыла",
-    "effect_ru": "Наносит 5 урона врагу в тылу. Уязвимость.",
-    "chips": [
-      "Атака",
-      "Тыл",
-      "Уязвимость"
-    ],
-    "cost": 1
-  },
-  "card_shop_mage_ice_b_back": {
-    "name_key": "card.shop_mage_ice_b_back",
-    "title_ru": "Холодный фронт",
-    "effect_ru": "Наносит 3 урона всем врагам.",
-    "chips": [
-      "Атака",
-      "AoE"
-    ],
-    "cost": 1
-  },
-  "card_shop_mage_ice_b_ears": {
-    "name_key": "card.shop_mage_ice_b_ears",
-    "title_ru": "Холодный слух",
-    "effect_ru": "Наносит 3 урона ближайшему врагу. Слабость ×2.",
-    "chips": [
-      "Атака",
-      "Слабость"
-    ],
-    "cost": 1
-  },
-  "card_shop_mage_ice_b_eyes": {
-    "name_key": "card.shop_mage_ice_b_eyes",
-    "title_ru": "Ледяной взор",
-    "effect_ru": "Наносит 3 урона ближайшему врагу. Стан.",
-    "chips": [
-      "Атака",
-      "Стан"
-    ],
-    "cost": 2
-  },
-  "card_shop_mage_ice_b_headwear": {
-    "name_key": "card.shop_mage_ice_b_headwear",
-    "title_ru": "Морозный укус",
-    "effect_ru": "Наносит 4 урона ближайшему врагу. Стан.",
-    "chips": [
-      "Атака",
-      "Стан"
-    ],
-    "cost": 1
-  },
-  "card_shop_mage_ice_b_muzzle": {
-    "name_key": "card.shop_mage_ice_b_muzzle",
-    "title_ru": "Ледяная буря",
-    "effect_ru": "Наносит 3 урона всем врагам.",
-    "chips": [
-      "Атака",
-      "AoE"
-    ],
-    "cost": 1
-  },
-  "card_shop_mage_ice_b_tail": {
-    "name_key": "card.shop_mage_ice_b_tail",
-    "title_ru": "Заморозка тыла",
-    "effect_ru": "Наносит 4 урона врагу в тылу. Слабость.",
-    "chips": [
-      "Атака",
-      "Тыл",
-      "Слабость"
-    ],
-    "cost": 1
-  },
-  "card_shop_ranger_grass_a_back": {
-    "name_key": "card.shop_ranger_grass_a_back",
-    "title_ru": "Стрела в тыл",
-    "effect_ru": "Наносит 5 урона врагу в тылу.",
-    "chips": [
-      "Атака",
-      "Тыл"
-    ],
-    "cost": 1
-  },
-  "card_shop_ranger_grass_a_ears": {
-    "name_key": "card.shop_ranger_grass_a_ears",
-    "title_ru": "Уши засады",
-    "effect_ru": "Наносит 4 урона ближайшему врагу. Кровотечение.",
-    "chips": [
-      "Атака",
-      "Засада",
-      "Кровотечение"
-    ],
-    "cost": 1
-  },
-  "card_shop_ranger_grass_a_eyes": {
-    "name_key": "card.shop_ranger_grass_a_eyes",
-    "title_ru": "Глаз добычи",
-    "effect_ru": "Наносит 4 урона врагу с наименьшим HP. Слабость.",
-    "chips": [
-      "Атака",
-      "Засада",
-      "Слабость"
-    ],
-    "cost": 1
-  },
-  "card_shop_ranger_grass_a_headwear": {
-    "name_key": "card.shop_ranger_grass_a_headwear",
-    "title_ru": "Прицельный укус",
-    "effect_ru": "Наносит 5 урона врагу с наименьшим HP.",
-    "chips": [
-      "Атака",
-      "Засада"
-    ],
-    "cost": 1
-  },
-  "card_shop_ranger_grass_a_muzzle": {
-    "name_key": "card.shop_ranger_grass_a_muzzle",
-    "title_ru": "Метка охотника",
-    "effect_ru": "Наносит 6 урона врагу с наименьшим HP.",
-    "chips": [
-      "Атака",
-      "Крит",
-      "Засада"
-    ],
-    "cost": 1
-  },
-  "card_shop_ranger_grass_a_tail": {
-    "name_key": "card.shop_ranger_grass_a_tail",
-    "title_ru": "Крит-засада",
-    "effect_ru": "Наносит 6 урона ближайшему врагу.",
-    "chips": [
-      "Атака",
-      "Крит",
-      "Засада"
-    ],
-    "cost": 1
-  },
-  "card_shop_ranger_grass_b_back": {
-    "name_key": "card.shop_ranger_grass_b_back",
-    "title_ru": "Метка слабого",
-    "effect_ru": "Наносит 5 урона врагу с наименьшим HP.",
-    "chips": [
-      "Атака",
-      "Засада"
-    ],
-    "cost": 1
-  },
-  "card_shop_ranger_grass_b_ears": {
-    "name_key": "card.shop_ranger_grass_b_ears",
-    "title_ru": "Дальний слух",
-    "effect_ru": "Наносит 4 урона врагу с наименьшим HP. Кровотечение.",
-    "chips": [
-      "Атака",
-      "Кровотечение"
-    ],
-    "cost": 1
-  },
-  "card_shop_ranger_grass_b_eyes": {
-    "name_key": "card.shop_ranger_grass_b_eyes",
-    "title_ru": "Широкий взор",
-    "effect_ru": "Наносит 2 урона всем врагам. Слабость.",
-    "chips": [
-      "Атака",
-      "AoE",
-      "Слабость"
-    ],
-    "cost": 1
-  },
-  "card_shop_ranger_grass_b_headwear": {
-    "name_key": "card.shop_ranger_grass_b_headwear",
-    "title_ru": "Тяжёлые стрелы",
-    "effect_ru": "Наносит 3 урона всем врагам.",
-    "chips": [
-      "Атака",
-      "AoE"
-    ],
-    "cost": 1
-  },
-  "card_shop_ranger_grass_b_muzzle": {
-    "name_key": "card.shop_ranger_grass_b_muzzle",
-    "title_ru": "Град стрел",
-    "effect_ru": "Наносит 4 урона всем врагам.",
-    "chips": [
-      "Атака",
-      "AoE",
-      "Засада"
-    ],
-    "cost": 1
-  },
-  "card_shop_ranger_grass_b_tail": {
-    "name_key": "card.shop_ranger_grass_b_tail",
-    "title_ru": "Залп по площади",
-    "effect_ru": "Наносит 4 урона всем врагам.",
-    "chips": [
-      "Атака",
-      "Тыл",
-      "AoE",
-      "Засада"
-    ],
-    "cost": 1
-  },
-  "card_shop_support_water_a_back": {
-    "name_key": "card.shop_support_water_a_back",
-    "title_ru": "Волна опеки",
-    "effect_ru": "Восстанавливает 2 HP всем союзникам.",
-    "chips": [
-      "Хил"
-    ],
-    "cost": 2
-  },
-  "card_shop_support_water_a_ears": {
-    "name_key": "card.shop_support_water_a_ears",
-    "title_ru": "Уши очищения",
-    "effect_ru": "Восстанавливает 3 HP слабейшему союзнику. Снимает 2 дебаффа.",
-    "chips": [
-      "Хил",
-      "Очищение"
-    ],
-    "cost": 1
-  },
-  "card_shop_support_water_a_eyes": {
-    "name_key": "card.shop_support_water_a_eyes",
-    "title_ru": "Целительный взгляд",
-    "effect_ru": "Восстанавливает 5 HP слабейшему союзнику.",
-    "chips": [
-      "Хил"
-    ],
-    "cost": 1
-  },
-  "card_shop_support_water_a_headwear": {
-    "name_key": "card.shop_support_water_a_headwear",
-    "title_ru": "Чистый родник",
-    "effect_ru": "Восстанавливает 4 HP слабейшему союзнику. Снимает 1 дебафф.",
-    "chips": [
-      "Хил",
-      "Очищение"
-    ],
-    "cost": 1
-  },
-  "card_shop_support_water_a_muzzle": {
-    "name_key": "card.shop_support_water_a_muzzle",
-    "title_ru": "Капля жизни",
-    "effect_ru": "Восстанавливает 4 HP слабейшему союзнику.",
-    "chips": [
-      "Хил"
-    ],
-    "cost": 1
-  },
-  "card_shop_support_water_a_tail": {
-    "name_key": "card.shop_support_water_a_tail",
-    "title_ru": "Очищение",
-    "effect_ru": "Наносит 4 урона ближайшему врагу. Восстанавливает 2 HP себе.",
-    "chips": [
-      "Атака",
-      "Хил"
-    ],
-    "cost": 1
-  },
-  "card_shop_support_water_b_back": {
-    "name_key": "card.shop_support_water_b_back",
-    "title_ru": "Прилив силы",
-    "effect_ru": "Даёт 2 щита всем союзникам. Восстанавливает 2 HP всем союзникам. Бафф ATK +1 (1 ход.).",
-    "chips": [
-      "Хил",
-      "Бафф"
-    ],
-    "cost": 2
-  },
-  "card_shop_support_water_b_ears": {
-    "name_key": "card.shop_support_water_b_ears",
-    "title_ru": "Шёпот слабости",
-    "effect_ru": "Наносит 3 урона ближайшему врагу. Слабость ×2.",
-    "chips": [
-      "Атака",
-      "Слабость"
-    ],
-    "cost": 1
-  },
-  "card_shop_support_water_b_eyes": {
-    "name_key": "card.shop_support_water_b_eyes",
-    "title_ru": "Вдохновляющий взор",
-    "effect_ru": "Бафф ATK +2 (3 ход.).",
-    "chips": [
-      "Бафф"
-    ],
-    "cost": 1
-  },
-  "card_shop_support_water_b_headwear": {
-    "name_key": "card.shop_support_water_b_headwear",
-    "title_ru": "Боевой настрой",
-    "effect_ru": "Бафф ATK +2 (2 ход.).",
-    "chips": [
-      "Бафф"
-    ],
-    "cost": 1
-  },
-  "card_shop_support_water_b_muzzle": {
-    "name_key": "card.shop_support_water_b_muzzle",
-    "title_ru": "Лёгкий хил",
-    "effect_ru": "Восстанавливает 3 HP слабейшему союзнику.",
-    "chips": [
-      "Хил"
-    ],
-    "cost": 1
-  },
-  "card_shop_support_water_b_tail": {
-    "name_key": "card.shop_support_water_b_tail",
-    "title_ru": "Ослабить врага",
-    "effect_ru": "Наносит 5 урона врагу с наименьшим HP. Слабость.",
-    "chips": [
-      "Атака",
-      "Слабость"
-    ],
-    "cost": 1
-  },
-  "card_shop_tank_stone_a_back": {
-    "name_key": "card.shop_tank_stone_a_back",
-    "title_ru": "Щит-валун",
-    "effect_ru": "Наносит 4 урона ближайшему врагу. Даёт 5 щита себе. Таунт.",
-    "chips": [
-      "Атака",
-      "Щит",
-      "Таунт"
-    ],
-    "cost": 1
-  },
-  "card_shop_tank_stone_a_ears": {
-    "name_key": "card.shop_tank_stone_a_ears",
-    "title_ru": "Уши валуна",
-    "effect_ru": "Даёт 4 щита слабейшему союзнику. Таунт.",
-    "chips": [
-      "Щит",
-      "Таунт"
-    ],
-    "cost": 1
-  },
-  "card_shop_tank_stone_a_eyes": {
-    "name_key": "card.shop_tank_stone_a_eyes",
-    "title_ru": "Каменный взор",
-    "effect_ru": "Даёт 6 щита себе.",
-    "chips": [
-      "Щит"
-    ],
-    "cost": 1
-  },
-  "card_shop_tank_stone_a_headwear": {
-    "name_key": "card.shop_tank_stone_a_headwear",
-    "title_ru": "Галька-шлем",
-    "effect_ru": "Даёт 8 щита себе.",
-    "chips": [
-      "Щит"
-    ],
-    "cost": 1
-  },
-  "card_shop_tank_stone_a_muzzle": {
-    "name_key": "card.shop_tank_stone_a_muzzle",
-    "title_ru": "Каменный оскал",
-    "effect_ru": "Даёт 8 щита себе. Таунт.",
-    "chips": [
-      "Щит",
-      "Таунт"
-    ],
-    "cost": 1
-  },
-  "card_shop_tank_stone_a_tail": {
-    "name_key": "card.shop_tank_stone_a_tail",
-    "title_ru": "Хвост-утёс",
-    "effect_ru": "Наносит 6 урона ближайшему врагу. Хрупкость. Таунт.",
-    "chips": [
-      "Атака",
-      "Таунт",
-      "Хрупкость"
-    ],
-    "cost": 1
-  },
-  "card_shop_tank_stone_b_back": {
-    "name_key": "card.shop_tank_stone_b_back",
-    "title_ru": "Бронелом",
-    "effect_ru": "Наносит 7 урона ближайшему врагу. Пробой.",
-    "chips": [
-      "Пробой"
-    ],
-    "cost": 1
-  },
-  "card_shop_tank_stone_b_ears": {
-    "name_key": "card.shop_tank_stone_b_ears",
-    "title_ru": "Чуткость бреши",
-    "effect_ru": "Наносит 5 урона ближайшему врагу. Пробой.",
-    "chips": [
-      "Пробой"
-    ],
-    "cost": 1
-  },
-  "card_shop_tank_stone_b_eyes": {
-    "name_key": "card.shop_tank_stone_b_eyes",
-    "title_ru": "Трещина взора",
-    "effect_ru": "Наносит 5 урона ближайшему врагу. Пробой. Хрупкость.",
-    "chips": [
-      "Пробой",
-      "Хрупкость"
-    ],
-    "cost": 1
-  },
-  "card_shop_tank_stone_b_headwear": {
-    "name_key": "card.shop_tank_stone_b_headwear",
-    "title_ru": "Щит-осколок",
-    "effect_ru": "Даёт 5 щита себе. Таунт.",
-    "chips": [
-      "Щит",
-      "Таунт"
-    ],
-    "cost": 1
-  },
-  "card_shop_tank_stone_b_muzzle": {
-    "name_key": "card.shop_tank_stone_b_muzzle",
-    "title_ru": "Пробой когтем",
-    "effect_ru": "Наносит 5 урона ближайшему врагу. Пробой. Хрупкость.",
-    "chips": [
-      "Пробой",
-      "Хрупкость"
-    ],
-    "cost": 1
-  },
-  "card_shop_tank_stone_b_tail": {
-    "name_key": "card.shop_tank_stone_b_tail",
-    "title_ru": "Хвост-пробой",
-    "effect_ru": "Наносит 5 урона врагу в тылу. Пробой. Хрупкость.",
-    "chips": [
-      "Пробой",
-      "Тыл",
-      "Хрупкость"
-    ],
-    "cost": 1
-  },
-  "card_support_water_back": {
-    "name_key": "card.support_water_back",
-    "title_ru": "Волна опеки",
-    "effect_ru": "Даёт 4 щита всем союзникам. Бафф ATK +2 (2 ход.).",
-    "chips": [
-      "Щит",
-      "Бафф"
-    ],
-    "cost": 2
-  },
-  "card_support_water_ears": {
-    "name_key": "card.support_water_ears",
-    "title_ru": "Уши очищения",
-    "effect_ru": "Восстанавливает 3 HP слабейшему союзнику. Снимает 2 дебаффа.",
-    "chips": [
-      "Хил",
-      "Очищение"
-    ],
-    "cost": 1
-  },
-  "card_support_water_eyes": {
-    "name_key": "card.support_water_eyes",
-    "title_ru": "Целительный взгляд",
-    "effect_ru": "Восстанавливает 6 HP слабейшему союзнику.",
-    "chips": [
-      "Хил"
-    ],
-    "cost": 1
-  },
-  "card_support_water_headwear": {
-    "name_key": "card.support_water_headwear",
-    "title_ru": "Чистый родник",
-    "effect_ru": "Восстанавливает 6 HP слабейшему союзнику. Снимает 1 дебафф.",
-    "chips": [
-      "Хил",
-      "Очищение"
-    ],
-    "cost": 1
-  },
-  "card_support_water_muzzle": {
-    "name_key": "card.support_water_muzzle",
-    "title_ru": "Капля жизни",
-    "effect_ru": "Восстанавливает 10 HP слабейшему союзнику.",
-    "chips": [
-      "Хил"
-    ],
-    "cost": 1
-  },
-  "card_support_water_tail": {
-    "name_key": "card.support_water_tail",
-    "title_ru": "Мягкий всплеск",
-    "effect_ru": "Наносит 3 урона врагу в тылу. Восстанавливает 4 HP себе.",
-    "chips": [
-      "Атака",
-      "Хил",
-      "Тыл"
-    ],
-    "cost": 1
-  },
-  "card_tank_stone_back": {
-    "name_key": "card.tank_stone_back",
-    "title_ru": "Щит-валун",
-    "effect_ru": "Наносит 4 урона ближайшему врагу. Даёт 6 щита себе. Таунт.",
-    "chips": [
-      "Атака",
-      "Щит",
-      "Таунт"
-    ],
-    "cost": 1
-  },
-  "card_tank_stone_ears": {
-    "name_key": "card.tank_stone_ears",
-    "title_ru": "Уши валуна",
-    "effect_ru": "Даёт 5 щита слабейшему союзнику. Таунт.",
-    "chips": [
-      "Щит",
-      "Таунт"
-    ],
-    "cost": 1
-  },
-  "card_tank_stone_eyes": {
-    "name_key": "card.tank_stone_eyes",
-    "title_ru": "Каменный взор",
-    "effect_ru": "Даёт 7 щита себе.",
-    "chips": [
-      "Щит"
-    ],
-    "cost": 1
-  },
-  "card_tank_stone_headwear": {
-    "name_key": "card.tank_stone_headwear",
-    "title_ru": "Галька-шлем",
-    "effect_ru": "Даёт 10 щита себе.",
-    "chips": [
-      "Щит"
-    ],
-    "cost": 1
-  },
-  "card_tank_stone_muzzle": {
-    "name_key": "card.tank_stone_muzzle",
-    "title_ru": "Каменный оскал",
-    "effect_ru": "Даёт 8 щита себе. Таунт.",
-    "chips": [
-      "Щит",
-      "Таунт"
-    ],
-    "cost": 1
-  },
-  "card_tank_stone_tail": {
-    "name_key": "card.tank_stone_tail",
-    "title_ru": "Хвост-утёс",
-    "effect_ru": "Наносит 5 урона врагу в тылу. Таунт.",
-    "chips": [
-      "Атака",
-      "Таунт",
-      "Тыл"
-    ],
-    "cost": 1
-  }
+    "card_mage_bolt_tail":  {
+                                "name_key":  "card.mage_bolt_tail",
+                                "title_ru":  "Хвост-разряд",
+                                "effect_ru":  "Наносит 6 урона врагу в тылу. Слабость.",
+                                "chips":  [
+                                              "Атака",
+                                              "Тыл",
+                                              "Слабость"
+                                          ],
+                                "icons":  {
+                                              "buff":  false,
+                                              "debuff":  true,
+                                              "x2":  false,
+                                              "crit":  false,
+                                              "pierce":  false,
+                                              "heal":  false,
+                                              "shield":  false
+                                          },
+                                "cost":  2,
+                                "atk":  6,
+                                "hits":  1,
+                                "shield":  0
+                            },
+    "card_ranger_grass_muzzle":  {
+                                     "name_key":  "card.ranger_grass_muzzle",
+                                     "title_ru":  "Засадный укус",
+                                     "effect_ru":  "Наносит 7 урона врагу в тылу.",
+                                     "chips":  [
+                                                   "Атака",
+                                                   "Тыл",
+                                                   "Засада"
+                                               ],
+                                     "icons":  {
+                                                   "buff":  false,
+                                                   "debuff":  false,
+                                                   "x2":  false,
+                                                   "crit":  false,
+                                                   "pierce":  false,
+                                                   "heal":  false,
+                                                   "shield":  false
+                                               },
+                                     "cost":  1,
+                                     "atk":  7,
+                                     "hits":  1,
+                                     "shield":  0
+                                 },
+    "card_shop_assassin_fire_back":  {
+                                         "name_key":  "card.shop_assassin_fire_back",
+                                         "title_ru":  "Удар из тени",
+                                         "effect_ru":  "Наносит 6 урона ближайшему врагу. Стелс.",
+                                         "chips":  [
+                                                       "Атака",
+                                                       "Крит",
+                                                       "Стелс"
+                                                   ],
+                                         "icons":  {
+                                                       "buff":  true,
+                                                       "debuff":  false,
+                                                       "x2":  false,
+                                                       "crit":  true,
+                                                       "pierce":  false,
+                                                       "heal":  false,
+                                                       "shield":  false
+                                                   },
+                                         "cost":  1,
+                                         "atk":  6,
+                                         "hits":  1,
+                                         "shield":  0
+                                     },
+    "card_shop_assassin_fire_ears":  {
+                                         "name_key":  "card.shop_assassin_fire_ears",
+                                         "title_ru":  "Шёпот искр",
+                                         "effect_ru":  "Наносит 4 урона ближайшему врагу. Яд.",
+                                         "chips":  [
+                                                       "Атака",
+                                                       "Дебафф",
+                                                       "Яд"
+                                                   ],
+                                         "icons":  {
+                                                       "buff":  false,
+                                                       "debuff":  true,
+                                                       "x2":  false,
+                                                       "crit":  false,
+                                                       "pierce":  false,
+                                                       "heal":  false,
+                                                       "shield":  false
+                                                   },
+                                         "cost":  1,
+                                         "atk":  4,
+                                         "hits":  1,
+                                         "shield":  0
+                                     },
+    "card_shop_assassin_fire_eyes":  {
+                                         "name_key":  "card.shop_assassin_fire_eyes",
+                                         "title_ru":  "Глаза мглы-жара",
+                                         "effect_ru":  "Наносит 3 урона ближайшему врагу. Стан.",
+                                         "chips":  [
+                                                       "Атака",
+                                                       "Дебафф",
+                                                       "Стан"
+                                                   ],
+                                         "icons":  {
+                                                       "buff":  false,
+                                                       "debuff":  true,
+                                                       "x2":  false,
+                                                       "crit":  false,
+                                                       "pierce":  false,
+                                                       "heal":  false,
+                                                       "shield":  false
+                                                   },
+                                         "cost":  1,
+                                         "atk":  3,
+                                         "hits":  1,
+                                         "shield":  0
+                                     },
+    "card_shop_assassin_fire_headwear":  {
+                                             "name_key":  "card.shop_assassin_fire_headwear",
+                                             "title_ru":  "Маска угля",
+                                             "effect_ru":  "Наносит 4 урона ближайшему врагу. Стелс.",
+                                             "chips":  [
+                                                           "Атака",
+                                                           "Бафф",
+                                                           "Стелс"
+                                                       ],
+                                             "icons":  {
+                                                           "buff":  true,
+                                                           "debuff":  false,
+                                                           "x2":  false,
+                                                           "crit":  false,
+                                                           "pierce":  false,
+                                                           "heal":  false,
+                                                           "shield":  false
+                                                       },
+                                             "cost":  1,
+                                             "atk":  4,
+                                             "hits":  1,
+                                             "shield":  0
+                                         },
+    "card_shop_assassin_fire_muzzle":  {
+                                           "name_key":  "card.shop_assassin_fire_muzzle",
+                                           "title_ru":  "Теневой укус",
+                                           "effect_ru":  "Наносит 5 урона ближайшему врагу.",
+                                           "chips":  [
+                                                         "Атака",
+                                                         "Крит"
+                                                     ],
+                                           "icons":  {
+                                                         "buff":  false,
+                                                         "debuff":  false,
+                                                         "x2":  false,
+                                                         "crit":  true,
+                                                         "pierce":  false,
+                                                         "heal":  false,
+                                                         "shield":  false
+                                                     },
+                                           "cost":  1,
+                                           "atk":  5,
+                                           "hits":  1,
+                                           "shield":  0
+                                       },
+    "card_shop_assassin_fire_tail":  {
+                                         "name_key":  "card.shop_assassin_fire_tail",
+                                         "title_ru":  "Исчезновение",
+                                         "effect_ru":  "Наносит 4 урона ближайшему врагу. Стелс.",
+                                         "chips":  [
+                                                       "Атака",
+                                                       "Бафф",
+                                                       "Стелс"
+                                                   ],
+                                         "icons":  {
+                                                       "buff":  true,
+                                                       "debuff":  false,
+                                                       "x2":  false,
+                                                       "crit":  false,
+                                                       "pierce":  false,
+                                                       "heal":  false,
+                                                       "shield":  false
+                                                   },
+                                         "cost":  1,
+                                         "atk":  4,
+                                         "hits":  1,
+                                         "shield":  0
+                                     },
+    "card_shop_assassin_water_back":  {
+                                          "name_key":  "card.shop_assassin_water_back",
+                                          "title_ru":  "Казнь сзади",
+                                          "effect_ru":  "Наносит 6 урона врагу в тылу.",
+                                          "chips":  [
+                                                        "Атака",
+                                                        "Тыл",
+                                                        "Крит"
+                                                    ],
+                                          "icons":  {
+                                                        "buff":  false,
+                                                        "debuff":  false,
+                                                        "x2":  false,
+                                                        "crit":  true,
+                                                        "pierce":  false,
+                                                        "heal":  false,
+                                                        "shield":  false
+                                                    },
+                                          "cost":  2,
+                                          "atk":  6,
+                                          "hits":  1,
+                                          "shield":  0
+                                      },
+    "card_shop_assassin_water_ears":  {
+                                          "name_key":  "card.shop_assassin_water_ears",
+                                          "title_ru":  "Слух тыла",
+                                          "effect_ru":  "Наносит 3 урона врагу в тылу. Стан.",
+                                          "chips":  [
+                                                        "Атака",
+                                                        "Дебафф",
+                                                        "Тыл",
+                                                        "Стан"
+                                                    ],
+                                          "icons":  {
+                                                        "buff":  false,
+                                                        "debuff":  true,
+                                                        "x2":  false,
+                                                        "crit":  false,
+                                                        "pierce":  false,
+                                                        "heal":  false,
+                                                        "shield":  false
+                                                    },
+                                          "cost":  1,
+                                          "atk":  3,
+                                          "hits":  1,
+                                          "shield":  0
+                                      },
+    "card_shop_assassin_water_eyes":  {
+                                          "name_key":  "card.shop_assassin_water_eyes",
+                                          "title_ru":  "Прицел в спину",
+                                          "effect_ru":  "Наносит 4 урона врагу в тылу. Яд.",
+                                          "chips":  [
+                                                        "Атака",
+                                                        "Тыл",
+                                                        "Крит",
+                                                        "Яд"
+                                                    ],
+                                          "icons":  {
+                                                        "buff":  false,
+                                                        "debuff":  true,
+                                                        "x2":  false,
+                                                        "crit":  true,
+                                                        "pierce":  false,
+                                                        "heal":  false,
+                                                        "shield":  false
+                                                    },
+                                          "cost":  1,
+                                          "atk":  4,
+                                          "hits":  1,
+                                          "shield":  0
+                                      },
+    "card_shop_assassin_water_headwear":  {
+                                              "name_key":  "card.shop_assassin_water_headwear",
+                                              "title_ru":  "Капюшон пены",
+                                              "effect_ru":  "Наносит 4 урона врагу в тылу.",
+                                              "chips":  [
+                                                            "Атака",
+                                                            "Тыл",
+                                                            "Крит"
+                                                        ],
+                                              "icons":  {
+                                                            "buff":  false,
+                                                            "debuff":  false,
+                                                            "x2":  false,
+                                                            "crit":  true,
+                                                            "pierce":  false,
+                                                            "heal":  false,
+                                                            "shield":  false
+                                                        },
+                                              "cost":  1,
+                                              "atk":  4,
+                                              "hits":  1,
+                                              "shield":  0
+                                          },
+    "card_shop_assassin_water_muzzle":  {
+                                            "name_key":  "card.shop_assassin_water_muzzle",
+                                            "title_ru":  "Укол прилива",
+                                            "effect_ru":  "Наносит 5 урона врагу в тылу. Яд.",
+                                            "chips":  [
+                                                          "Атака",
+                                                          "Дебафф",
+                                                          "Тыл",
+                                                          "Яд"
+                                                      ],
+                                            "icons":  {
+                                                          "buff":  false,
+                                                          "debuff":  true,
+                                                          "x2":  false,
+                                                          "crit":  false,
+                                                          "pierce":  false,
+                                                          "heal":  false,
+                                                          "shield":  false
+                                                      },
+                                            "cost":  1,
+                                            "atk":  5,
+                                            "hits":  1,
+                                            "shield":  0
+                                        },
+    "card_shop_assassin_water_tail":  {
+                                          "name_key":  "card.shop_assassin_water_tail",
+                                          "title_ru":  "Тихий разряд",
+                                          "effect_ru":  "Наносит 4 урона врагу в тылу. Яд.",
+                                          "chips":  [
+                                                        "Атака",
+                                                        "Дебафф",
+                                                        "Тыл",
+                                                        "Яд"
+                                                    ],
+                                          "icons":  {
+                                                        "buff":  false,
+                                                        "debuff":  true,
+                                                        "x2":  false,
+                                                        "crit":  false,
+                                                        "pierce":  false,
+                                                        "heal":  false,
+                                                        "shield":  false
+                                                    },
+                                          "cost":  1,
+                                          "atk":  4,
+                                          "hits":  1,
+                                          "shield":  0
+                                      },
+    "card_shop_assassin_wind_back":  {
+                                         "name_key":  "card.shop_assassin_wind_back",
+                                         "title_ru":  "Шквал яда",
+                                         "effect_ru":  "Наносит 3 урона ×2 случайному врагу. Яд.",
+                                         "chips":  [
+                                                       "Атака",
+                                                       "Дебафф",
+                                                       "Яд"
+                                                   ],
+                                         "icons":  {
+                                                       "buff":  false,
+                                                       "debuff":  true,
+                                                       "x2":  true,
+                                                       "crit":  false,
+                                                       "pierce":  false,
+                                                       "heal":  false,
+                                                       "shield":  false
+                                                   },
+                                         "cost":  2,
+                                         "atk":  3,
+                                         "hits":  2,
+                                         "shield":  0
+                                     },
+    "card_shop_assassin_wind_ears":  {
+                                         "name_key":  "card.shop_assassin_wind_ears",
+                                         "title_ru":  "Слух роя",
+                                         "effect_ru":  "Наносит 4 урона случайному врагу. Яд.",
+                                         "chips":  [
+                                                       "Атака",
+                                                       "Дебафф",
+                                                       "Яд"
+                                                   ],
+                                         "icons":  {
+                                                       "buff":  false,
+                                                       "debuff":  true,
+                                                       "x2":  false,
+                                                       "crit":  false,
+                                                       "pierce":  false,
+                                                       "heal":  false,
+                                                       "shield":  false
+                                                   },
+                                         "cost":  1,
+                                         "atk":  4,
+                                         "hits":  1,
+                                         "shield":  0
+                                     },
+    "card_shop_assassin_wind_eyes":  {
+                                         "name_key":  "card.shop_assassin_wind_eyes",
+                                         "title_ru":  "Глаза сквозняка",
+                                         "effect_ru":  "Наносит 4 урона случайному врагу. Яд.",
+                                         "chips":  [
+                                                       "Атака",
+                                                       "Дебафф",
+                                                       "Яд"
+                                                   ],
+                                         "icons":  {
+                                                       "buff":  false,
+                                                       "debuff":  true,
+                                                       "x2":  false,
+                                                       "crit":  false,
+                                                       "pierce":  false,
+                                                       "heal":  false,
+                                                       "shield":  false
+                                                   },
+                                         "cost":  1,
+                                         "atk":  4,
+                                         "hits":  1,
+                                         "shield":  0
+                                     },
+    "card_shop_assassin_wind_headwear":  {
+                                             "name_key":  "card.shop_assassin_wind_headwear",
+                                             "title_ru":  "Маска пыльцы",
+                                             "effect_ru":  "Наносит 2 урона случайному врагу. Яд.",
+                                             "chips":  [
+                                                           "Атака",
+                                                           "Дебафф",
+                                                           "Яд"
+                                                       ],
+                                             "icons":  {
+                                                           "buff":  false,
+                                                           "debuff":  true,
+                                                           "x2":  false,
+                                                           "crit":  false,
+                                                           "pierce":  false,
+                                                           "heal":  false,
+                                                           "shield":  false
+                                                       },
+                                             "cost":  1,
+                                             "atk":  2,
+                                             "hits":  1,
+                                             "shield":  0
+                                         },
+    "card_shop_assassin_wind_muzzle":  {
+                                           "name_key":  "card.shop_assassin_wind_muzzle",
+                                           "title_ru":  "Ядовитый порыв",
+                                           "effect_ru":  "Наносит 5 урона ближайшему врагу. Яд.",
+                                           "chips":  [
+                                                         "Атака",
+                                                         "Дебафф",
+                                                         "Яд"
+                                                     ],
+                                           "icons":  {
+                                                         "buff":  false,
+                                                         "debuff":  true,
+                                                         "x2":  false,
+                                                         "crit":  false,
+                                                         "pierce":  false,
+                                                         "heal":  false,
+                                                         "shield":  false
+                                                     },
+                                           "cost":  1,
+                                           "atk":  5,
+                                           "hits":  1,
+                                           "shield":  0
+                                       },
+    "card_shop_assassin_wind_tail":  {
+                                         "name_key":  "card.shop_assassin_wind_tail",
+                                         "title_ru":  "Хвост-зараз",
+                                         "effect_ru":  "Наносит 5 урона случайному врагу. Яд.",
+                                         "chips":  [
+                                                       "Атака",
+                                                       "Дебафф",
+                                                       "Яд"
+                                                   ],
+                                         "icons":  {
+                                                       "buff":  false,
+                                                       "debuff":  true,
+                                                       "x2":  false,
+                                                       "crit":  false,
+                                                       "pierce":  false,
+                                                       "heal":  false,
+                                                       "shield":  false
+                                                   },
+                                         "cost":  1,
+                                         "atk":  5,
+                                         "hits":  1,
+                                         "shield":  0
+                                     },
+    "card_shop_fighter_fire_back":  {
+                                        "name_key":  "card.shop_fighter_fire_back",
+                                        "title_ru":  "Двойной удар",
+                                        "effect_ru":  "Наносит 4 урона ×2 ближайшему врагу.",
+                                        "chips":  [
+                                                      "Атака",
+                                                      "Крит"
+                                                  ],
+                                        "icons":  {
+                                                      "buff":  false,
+                                                      "debuff":  false,
+                                                      "x2":  true,
+                                                      "crit":  true,
+                                                      "pierce":  false,
+                                                      "heal":  false,
+                                                      "shield":  false
+                                                  },
+                                        "cost":  2,
+                                        "atk":  4,
+                                        "hits":  2,
+                                        "shield":  0
+                                    },
+    "card_shop_fighter_fire_ears":  {
+                                        "name_key":  "card.shop_fighter_fire_ears",
+                                        "title_ru":  "Боевой слух",
+                                        "effect_ru":  "Наносит 4 урона ближайшему врагу.",
+                                        "chips":  [
+                                                      "Атака",
+                                                      "Крит",
+                                                      "Взъерошить"
+                                                  ],
+                                        "icons":  {
+                                                      "buff":  true,
+                                                      "debuff":  false,
+                                                      "x2":  false,
+                                                      "crit":  true,
+                                                      "pierce":  false,
+                                                      "heal":  false,
+                                                      "shield":  false
+                                                  },
+                                        "cost":  1,
+                                        "atk":  4,
+                                        "hits":  1,
+                                        "shield":  0
+                                    },
+    "card_shop_fighter_fire_eyes":  {
+                                        "name_key":  "card.shop_fighter_fire_eyes",
+                                        "title_ru":  "Искрящий взгляд",
+                                        "effect_ru":  "Наносит 3 урона ×2 ближайшему врагу. Кровотечение.",
+                                        "chips":  [
+                                                      "Атака",
+                                                      "Кровотечение"
+                                                  ],
+                                        "icons":  {
+                                                      "buff":  false,
+                                                      "debuff":  true,
+                                                      "x2":  true,
+                                                      "crit":  false,
+                                                      "pierce":  false,
+                                                      "heal":  false,
+                                                      "shield":  false
+                                                  },
+                                        "cost":  1,
+                                        "atk":  3,
+                                        "hits":  2,
+                                        "shield":  0
+                                    },
+    "card_shop_fighter_fire_headwear":  {
+                                            "name_key":  "card.shop_fighter_fire_headwear",
+                                            "title_ru":  "Корона искр",
+                                            "effect_ru":  "Наносит 5 урона ближайшему врагу.",
+                                            "chips":  [
+                                                          "Атака",
+                                                          "Крит"
+                                                      ],
+                                            "icons":  {
+                                                          "buff":  false,
+                                                          "debuff":  false,
+                                                          "x2":  false,
+                                                          "crit":  true,
+                                                          "pierce":  false,
+                                                          "heal":  false,
+                                                          "shield":  false
+                                                      },
+                                            "cost":  1,
+                                            "atk":  5,
+                                            "hits":  1,
+                                            "shield":  0
+                                        },
+    "card_shop_fighter_fire_muzzle":  {
+                                          "name_key":  "card.shop_fighter_fire_muzzle",
+                                          "title_ru":  "Парный укус",
+                                          "effect_ru":  "Наносит 4 урона ближайшему врагу. Кровотечение.",
+                                          "chips":  [
+                                                        "Атака",
+                                                        "Кровотечение"
+                                                    ],
+                                          "icons":  {
+                                                        "buff":  false,
+                                                        "debuff":  true,
+                                                        "x2":  false,
+                                                        "crit":  false,
+                                                        "pierce":  false,
+                                                        "heal":  false,
+                                                        "shield":  false
+                                                    },
+                                          "cost":  1,
+                                          "atk":  4,
+                                          "hits":  1,
+                                          "shield":  0
+                                      },
+    "card_shop_fighter_fire_tail":  {
+                                        "name_key":  "card.shop_fighter_fire_tail",
+                                        "title_ru":  "Хлыст жара",
+                                        "effect_ru":  "Наносит 6 урона ближайшему врагу. Кровотечение.",
+                                        "chips":  [
+                                                      "Атака",
+                                                      "Кровотечение"
+                                                  ],
+                                        "icons":  {
+                                                      "buff":  false,
+                                                      "debuff":  true,
+                                                      "x2":  false,
+                                                      "crit":  false,
+                                                      "pierce":  false,
+                                                      "heal":  false,
+                                                      "shield":  false
+                                                  },
+                                        "cost":  1,
+                                        "atk":  6,
+                                        "hits":  1,
+                                        "shield":  0
+                                    },
+    "card_shop_fighter_water_back":  {
+                                         "name_key":  "card.shop_fighter_water_back",
+                                         "title_ru":  "Двуручный шквал",
+                                         "effect_ru":  "Наносит 6 урона ближайшему врагу. Хрупкость.",
+                                         "chips":  [
+                                                       "Атака",
+                                                       "Хрупкость"
+                                                   ],
+                                         "icons":  {
+                                                       "buff":  false,
+                                                       "debuff":  true,
+                                                       "x2":  false,
+                                                       "crit":  false,
+                                                       "pierce":  false,
+                                                       "heal":  false,
+                                                       "shield":  false
+                                                   },
+                                         "cost":  1,
+                                         "atk":  6,
+                                         "hits":  1,
+                                         "shield":  0
+                                     },
+    "card_shop_fighter_water_ears":  {
+                                         "name_key":  "card.shop_fighter_water_ears",
+                                         "title_ru":  "Рёв стали-воды",
+                                         "effect_ru":  "Наносит 5 урона ближайшему врагу. Хрупкость.",
+                                         "chips":  [
+                                                       "Атака",
+                                                       "Хрупкость"
+                                                   ],
+                                         "icons":  {
+                                                       "buff":  false,
+                                                       "debuff":  true,
+                                                       "x2":  false,
+                                                       "crit":  false,
+                                                       "pierce":  false,
+                                                       "heal":  false,
+                                                       "shield":  false
+                                                   },
+                                         "cost":  1,
+                                         "atk":  5,
+                                         "hits":  1,
+                                         "shield":  0
+                                     },
+    "card_shop_fighter_water_eyes":  {
+                                         "name_key":  "card.shop_fighter_water_eyes",
+                                         "title_ru":  "Тяжёлый взор",
+                                         "effect_ru":  "Наносит 6 урона ближайшему врагу. Кровотечение.",
+                                         "chips":  [
+                                                       "Атака",
+                                                       "Кровотечение"
+                                                   ],
+                                         "icons":  {
+                                                       "buff":  false,
+                                                       "debuff":  true,
+                                                       "x2":  false,
+                                                       "crit":  false,
+                                                       "pierce":  false,
+                                                       "heal":  false,
+                                                       "shield":  false
+                                                   },
+                                         "cost":  1,
+                                         "atk":  6,
+                                         "hits":  1,
+                                         "shield":  0
+                                     },
+    "card_shop_fighter_water_headwear":  {
+                                             "name_key":  "card.shop_fighter_water_headwear",
+                                             "title_ru":  "Шлем вала",
+                                             "effect_ru":  "Наносит 5 урона ближайшему врагу. Кровотечение.",
+                                             "chips":  [
+                                                           "Атака",
+                                                           "Кровотечение"
+                                                       ],
+                                             "icons":  {
+                                                           "buff":  false,
+                                                           "debuff":  true,
+                                                           "x2":  false,
+                                                           "crit":  false,
+                                                           "pierce":  false,
+                                                           "heal":  false,
+                                                           "shield":  false
+                                                       },
+                                             "cost":  1,
+                                             "atk":  5,
+                                             "hits":  1,
+                                             "shield":  0
+                                         },
+    "card_shop_fighter_water_muzzle":  {
+                                           "name_key":  "card.shop_fighter_water_muzzle",
+                                           "title_ru":  "Молот прилива",
+                                           "effect_ru":  "Наносит 8 урона ближайшему врагу.",
+                                           "chips":  [
+                                                         "Атака"
+                                                     ],
+                                           "icons":  {
+                                                         "buff":  false,
+                                                         "debuff":  false,
+                                                         "x2":  false,
+                                                         "crit":  false,
+                                                         "pierce":  false,
+                                                         "heal":  false,
+                                                         "shield":  false
+                                                     },
+                                           "cost":  2,
+                                           "atk":  8,
+                                           "hits":  1,
+                                           "shield":  0
+                                       },
+    "card_shop_fighter_water_tail":  {
+                                         "name_key":  "card.shop_fighter_water_tail",
+                                         "title_ru":  "Добивающий вал",
+                                         "effect_ru":  "Наносит 5 урона врагу в тылу.",
+                                         "chips":  [
+                                                       "Атака",
+                                                       "Тыл"
+                                                   ],
+                                         "icons":  {
+                                                       "buff":  false,
+                                                       "debuff":  false,
+                                                       "x2":  false,
+                                                       "crit":  false,
+                                                       "pierce":  false,
+                                                       "heal":  false,
+                                                       "shield":  false
+                                                   },
+                                         "cost":  1,
+                                         "atk":  5,
+                                         "hits":  1,
+                                         "shield":  0
+                                     },
+    "card_shop_fighter_wind_back":  {
+                                        "name_key":  "card.shop_fighter_wind_back",
+                                        "title_ru":  "Ветряной размах",
+                                        "effect_ru":  "Наносит 3 урона всем врагам.",
+                                        "chips":  [
+                                                      "Атака",
+                                                      "AoE"
+                                                  ],
+                                        "icons":  {
+                                                      "buff":  false,
+                                                      "debuff":  false,
+                                                      "x2":  false,
+                                                      "crit":  false,
+                                                      "pierce":  false,
+                                                      "heal":  false,
+                                                      "shield":  false
+                                                  },
+                                        "cost":  2,
+                                        "atk":  3,
+                                        "hits":  1,
+                                        "shield":  0
+                                    },
+    "card_shop_fighter_wind_ears":  {
+                                        "name_key":  "card.shop_fighter_wind_ears",
+                                        "title_ru":  "Слух строя",
+                                        "effect_ru":  "Наносит 3 урона всем врагам.",
+                                        "chips":  [
+                                                      "Атака",
+                                                      "AoE"
+                                                  ],
+                                        "icons":  {
+                                                      "buff":  false,
+                                                      "debuff":  false,
+                                                      "x2":  false,
+                                                      "crit":  false,
+                                                      "pierce":  false,
+                                                      "heal":  false,
+                                                      "shield":  false
+                                                  },
+                                        "cost":  1,
+                                        "atk":  3,
+                                        "hits":  1,
+                                        "shield":  0
+                                    },
+    "card_shop_fighter_wind_eyes":  {
+                                        "name_key":  "card.shop_fighter_wind_eyes",
+                                        "title_ru":  "Взор порыва",
+                                        "effect_ru":  "Наносит 5 урона ближайшему врагу.",
+                                        "chips":  [
+                                                      "Атака"
+                                                  ],
+                                        "icons":  {
+                                                      "buff":  false,
+                                                      "debuff":  false,
+                                                      "x2":  false,
+                                                      "crit":  false,
+                                                      "pierce":  false,
+                                                      "heal":  false,
+                                                      "shield":  false
+                                                  },
+                                        "cost":  1,
+                                        "atk":  5,
+                                        "hits":  1,
+                                        "shield":  0
+                                    },
+    "card_shop_fighter_wind_headwear":  {
+                                            "name_key":  "card.shop_fighter_wind_headwear",
+                                            "title_ru":  "Лента ветра",
+                                            "effect_ru":  "Наносит 5 урона ближайшему врагу. Слабость.",
+                                            "chips":  [
+                                                          "Атака",
+                                                          "Дебафф",
+                                                          "Слабость"
+                                                      ],
+                                            "icons":  {
+                                                          "buff":  false,
+                                                          "debuff":  true,
+                                                          "x2":  false,
+                                                          "crit":  false,
+                                                          "pierce":  false,
+                                                          "heal":  false,
+                                                          "shield":  false
+                                                      },
+                                            "cost":  1,
+                                            "atk":  5,
+                                            "hits":  1,
+                                            "shield":  0
+                                        },
+    "card_shop_fighter_wind_muzzle":  {
+                                          "name_key":  "card.shop_fighter_wind_muzzle",
+                                          "title_ru":  "Клык вихря",
+                                          "effect_ru":  "Наносит 6 урона ближайшему врагу.",
+                                          "chips":  [
+                                                        "Атака"
+                                                    ],
+                                          "icons":  {
+                                                        "buff":  false,
+                                                        "debuff":  false,
+                                                        "x2":  false,
+                                                        "crit":  false,
+                                                        "pierce":  false,
+                                                        "heal":  false,
+                                                        "shield":  false
+                                                    },
+                                          "cost":  1,
+                                          "atk":  6,
+                                          "hits":  1,
+                                          "shield":  0
+                                      },
+    "card_shop_fighter_wind_tail":  {
+                                        "name_key":  "card.shop_fighter_wind_tail",
+                                        "title_ru":  "Финальный порыв",
+                                        "effect_ru":  "Наносит 7 урона врагу с наименьшим HP.",
+                                        "chips":  [
+                                                      "Атака"
+                                                  ],
+                                        "icons":  {
+                                                      "buff":  false,
+                                                      "debuff":  false,
+                                                      "x2":  false,
+                                                      "crit":  false,
+                                                      "pierce":  false,
+                                                      "heal":  false,
+                                                      "shield":  false
+                                                  },
+                                        "cost":  1,
+                                        "atk":  7,
+                                        "hits":  1,
+                                        "shield":  0
+                                    },
+    "card_shop_mage_fire_back":  {
+                                     "name_key":  "card.shop_mage_fire_back",
+                                     "title_ru":  "Волна жара",
+                                     "effect_ru":  "Наносит 3 урона всем врагам.",
+                                     "chips":  [
+                                                   "Атака",
+                                                   "Крит",
+                                                   "AoE"
+                                               ],
+                                     "icons":  {
+                                                   "buff":  false,
+                                                   "debuff":  false,
+                                                   "x2":  false,
+                                                   "crit":  true,
+                                                   "pierce":  false,
+                                                   "heal":  false,
+                                                   "shield":  false
+                                               },
+                                     "cost":  2,
+                                     "atk":  3,
+                                     "hits":  1,
+                                     "shield":  0
+                                 },
+    "card_shop_mage_fire_ears":  {
+                                     "name_key":  "card.shop_mage_fire_ears",
+                                     "title_ru":  "Треск искр",
+                                     "effect_ru":  "Наносит 3 урона ближайшему врагу. Слабость.",
+                                     "chips":  [
+                                                   "Атака",
+                                                   "Дебафф",
+                                                   "Крит",
+                                                   "Слабость"
+                                               ],
+                                     "icons":  {
+                                                   "buff":  false,
+                                                   "debuff":  true,
+                                                   "x2":  false,
+                                                   "crit":  true,
+                                                   "pierce":  false,
+                                                   "heal":  false,
+                                                   "shield":  false
+                                               },
+                                     "cost":  1,
+                                     "atk":  3,
+                                     "hits":  1,
+                                     "shield":  0
+                                 },
+    "card_shop_mage_fire_eyes":  {
+                                     "name_key":  "card.shop_mage_fire_eyes",
+                                     "title_ru":  "Пламенный зрачок",
+                                     "effect_ru":  "Наносит 4 урона ближайшему врагу. Уязвимость.",
+                                     "chips":  [
+                                                   "Атака",
+                                                   "Дебафф",
+                                                   "Уязвимость"
+                                               ],
+                                     "icons":  {
+                                                   "buff":  false,
+                                                   "debuff":  true,
+                                                   "x2":  false,
+                                                   "crit":  false,
+                                                   "pierce":  false,
+                                                   "heal":  false,
+                                                   "shield":  false
+                                               },
+                                     "cost":  1,
+                                     "atk":  4,
+                                     "hits":  1,
+                                     "shield":  0
+                                 },
+    "card_shop_mage_fire_headwear":  {
+                                         "name_key":  "card.shop_mage_fire_headwear",
+                                         "title_ru":  "Корона углей",
+                                         "effect_ru":  "Наносит 4 урона ближайшему врагу. Слабость.",
+                                         "chips":  [
+                                                       "Атака",
+                                                       "Дебафф",
+                                                       "Слабость"
+                                                   ],
+                                         "icons":  {
+                                                       "buff":  false,
+                                                       "debuff":  true,
+                                                       "x2":  false,
+                                                       "crit":  false,
+                                                       "pierce":  false,
+                                                       "heal":  false,
+                                                       "shield":  false
+                                                   },
+                                         "cost":  1,
+                                         "atk":  4,
+                                         "hits":  1,
+                                         "shield":  0
+                                     },
+    "card_shop_mage_fire_muzzle":  {
+                                       "name_key":  "card.shop_mage_fire_muzzle",
+                                       "title_ru":  "Огненный шар",
+                                       "effect_ru":  "Наносит 3 урона всем врагам. Уязвимость.",
+                                       "chips":  [
+                                                     "Атака",
+                                                     "Дебафф",
+                                                     "AoE",
+                                                     "Уязвимость"
+                                                 ],
+                                       "icons":  {
+                                                     "buff":  false,
+                                                     "debuff":  true,
+                                                     "x2":  false,
+                                                     "crit":  false,
+                                                     "pierce":  false,
+                                                     "heal":  false,
+                                                     "shield":  false
+                                                 },
+                                       "cost":  2,
+                                       "atk":  3,
+                                       "hits":  1,
+                                       "shield":  0
+                                   },
+    "card_shop_mage_fire_tail":  {
+                                     "name_key":  "card.shop_mage_fire_tail",
+                                     "title_ru":  "Искра дожатия",
+                                     "effect_ru":  "Наносит 5 урона ближайшему врагу.",
+                                     "chips":  [
+                                                   "Атака"
+                                               ],
+                                     "icons":  {
+                                                   "buff":  false,
+                                                   "debuff":  false,
+                                                   "x2":  false,
+                                                   "crit":  false,
+                                                   "pierce":  false,
+                                                   "heal":  false,
+                                                   "shield":  false
+                                               },
+                                     "cost":  1,
+                                     "atk":  5,
+                                     "hits":  1,
+                                     "shield":  0
+                                 },
+    "card_shop_mage_water_back":  {
+                                      "name_key":  "card.shop_mage_water_back",
+                                      "title_ru":  "Буря льда",
+                                      "effect_ru":  "Наносит 2 урона всем врагам. Стан.",
+                                      "chips":  [
+                                                    "Атака",
+                                                    "Дебафф",
+                                                    "AoE",
+                                                    "Стан"
+                                                ],
+                                      "icons":  {
+                                                    "buff":  false,
+                                                    "debuff":  true,
+                                                    "x2":  false,
+                                                    "crit":  false,
+                                                    "pierce":  false,
+                                                    "heal":  false,
+                                                    "shield":  false
+                                                },
+                                      "cost":  2,
+                                      "atk":  2,
+                                      "hits":  1,
+                                      "shield":  0
+                                  },
+    "card_shop_mage_water_ears":  {
+                                      "name_key":  "card.shop_mage_water_ears",
+                                      "title_ru":  "Холодный слух",
+                                      "effect_ru":  "Наносит 3 урона ближайшему врагу. Слабость ×2.",
+                                      "chips":  [
+                                                    "Атака",
+                                                    "Дебафф",
+                                                    "Слабость"
+                                                ],
+                                      "icons":  {
+                                                    "buff":  false,
+                                                    "debuff":  true,
+                                                    "x2":  false,
+                                                    "crit":  false,
+                                                    "pierce":  false,
+                                                    "heal":  false,
+                                                    "shield":  false
+                                                },
+                                      "cost":  1,
+                                      "atk":  3,
+                                      "hits":  1,
+                                      "shield":  0
+                                  },
+    "card_shop_mage_water_eyes":  {
+                                      "name_key":  "card.shop_mage_water_eyes",
+                                      "title_ru":  "Ледяной взор",
+                                      "effect_ru":  "Наносит 2 урона ближайшему врагу. Стан.",
+                                      "chips":  [
+                                                    "Атака",
+                                                    "Дебафф",
+                                                    "Стан"
+                                                ],
+                                      "icons":  {
+                                                    "buff":  false,
+                                                    "debuff":  true,
+                                                    "x2":  false,
+                                                    "crit":  false,
+                                                    "pierce":  false,
+                                                    "heal":  false,
+                                                    "shield":  false
+                                                },
+                                      "cost":  2,
+                                      "atk":  2,
+                                      "hits":  1,
+                                      "shield":  0
+                                  },
+    "card_shop_mage_water_headwear":  {
+                                          "name_key":  "card.shop_mage_water_headwear",
+                                          "title_ru":  "Корона льда-воды",
+                                          "effect_ru":  "Наносит 2 урона всем врагам. Слабость.",
+                                          "chips":  [
+                                                        "Атака",
+                                                        "Дебафф",
+                                                        "AoE",
+                                                        "Слабость"
+                                                    ],
+                                          "icons":  {
+                                                        "buff":  false,
+                                                        "debuff":  true,
+                                                        "x2":  false,
+                                                        "crit":  false,
+                                                        "pierce":  false,
+                                                        "heal":  false,
+                                                        "shield":  false
+                                                    },
+                                          "cost":  1,
+                                          "atk":  2,
+                                          "hits":  1,
+                                          "shield":  0
+                                      },
+    "card_shop_mage_water_muzzle":  {
+                                        "name_key":  "card.shop_mage_water_muzzle",
+                                        "title_ru":  "Морозный укус",
+                                        "effect_ru":  "Наносит 4 урона ближайшему врагу. Стан.",
+                                        "chips":  [
+                                                      "Атака",
+                                                      "Дебафф",
+                                                      "Стан"
+                                                  ],
+                                        "icons":  {
+                                                      "buff":  false,
+                                                      "debuff":  true,
+                                                      "x2":  false,
+                                                      "crit":  false,
+                                                      "pierce":  false,
+                                                      "heal":  false,
+                                                      "shield":  false
+                                                  },
+                                        "cost":  1,
+                                        "atk":  4,
+                                        "hits":  1,
+                                        "shield":  0
+                                    },
+    "card_shop_mage_water_tail":  {
+                                      "name_key":  "card.shop_mage_water_tail",
+                                      "title_ru":  "Стылый хвост",
+                                      "effect_ru":  "Наносит 4 урона ближайшему врагу. Слабость.",
+                                      "chips":  [
+                                                    "Атака",
+                                                    "Дебафф",
+                                                    "Слабость"
+                                                ],
+                                      "icons":  {
+                                                    "buff":  false,
+                                                    "debuff":  true,
+                                                    "x2":  false,
+                                                    "crit":  false,
+                                                    "pierce":  false,
+                                                    "heal":  false,
+                                                    "shield":  false
+                                                },
+                                      "cost":  1,
+                                      "atk":  4,
+                                      "hits":  1,
+                                      "shield":  0
+                                  },
+    "card_shop_mage_wind_back":  {
+                                     "name_key":  "card.shop_mage_wind_back",
+                                     "title_ru":  "Цепной порыв",
+                                     "effect_ru":  "Наносит 5 урона всем врагам.",
+                                     "chips":  [
+                                                   "Атака",
+                                                   "AoE"
+                                               ],
+                                     "icons":  {
+                                                   "buff":  false,
+                                                   "debuff":  false,
+                                                   "x2":  false,
+                                                   "crit":  false,
+                                                   "pierce":  false,
+                                                   "heal":  false,
+                                                   "shield":  false
+                                               },
+                                     "cost":  2,
+                                     "atk":  5,
+                                     "hits":  1,
+                                     "shield":  0
+                                 },
+    "card_shop_mage_wind_ears":  {
+                                     "name_key":  "card.shop_mage_wind_ears",
+                                     "title_ru":  "Слух грозы",
+                                     "effect_ru":  "Наносит 3 урона ближайшему врагу. Стан.",
+                                     "chips":  [
+                                                   "Атака",
+                                                   "Дебафф",
+                                                   "Стан"
+                                               ],
+                                     "icons":  {
+                                                   "buff":  false,
+                                                   "debuff":  true,
+                                                   "x2":  false,
+                                                   "crit":  false,
+                                                   "pierce":  false,
+                                                   "heal":  false,
+                                                   "shield":  false
+                                               },
+                                     "cost":  1,
+                                     "atk":  3,
+                                     "hits":  1,
+                                     "shield":  0
+                                 },
+    "card_shop_mage_wind_eyes":  {
+                                     "name_key":  "card.shop_mage_wind_eyes",
+                                     "title_ru":  "Взор молнии-ветра",
+                                     "effect_ru":  "Наносит 4 урона ближайшему врагу. Слабость.",
+                                     "chips":  [
+                                                   "Атака",
+                                                   "Дебафф",
+                                                   "Слабость"
+                                               ],
+                                     "icons":  {
+                                                   "buff":  false,
+                                                   "debuff":  true,
+                                                   "x2":  false,
+                                                   "crit":  false,
+                                                   "pierce":  false,
+                                                   "heal":  false,
+                                                   "shield":  false
+                                               },
+                                     "cost":  1,
+                                     "atk":  4,
+                                     "hits":  1,
+                                     "shield":  0
+                                 },
+    "card_shop_mage_wind_headwear":  {
+                                         "name_key":  "card.shop_mage_wind_headwear",
+                                         "title_ru":  "Обруч шквала",
+                                         "effect_ru":  "Наносит 2 урона всем врагам.",
+                                         "chips":  [
+                                                       "Атака",
+                                                       "AoE"
+                                                   ],
+                                         "icons":  {
+                                                       "buff":  false,
+                                                       "debuff":  false,
+                                                       "x2":  false,
+                                                       "crit":  false,
+                                                       "pierce":  false,
+                                                       "heal":  false,
+                                                       "shield":  false
+                                                   },
+                                         "cost":  1,
+                                         "atk":  2,
+                                         "hits":  1,
+                                         "shield":  0
+                                     },
+    "card_shop_mage_wind_muzzle":  {
+                                       "name_key":  "card.shop_mage_wind_muzzle",
+                                       "title_ru":  "Разряд",
+                                       "effect_ru":  "Наносит 5 урона ближайшему врагу.",
+                                       "chips":  [
+                                                     "Атака"
+                                                 ],
+                                       "icons":  {
+                                                     "buff":  false,
+                                                     "debuff":  false,
+                                                     "x2":  false,
+                                                     "crit":  false,
+                                                     "pierce":  false,
+                                                     "heal":  false,
+                                                     "shield":  false
+                                                 },
+                                       "cost":  1,
+                                       "atk":  5,
+                                       "hits":  1,
+                                       "shield":  0
+                                   },
+    "card_shop_mage_wind_tail":  {
+                                     "name_key":  "card.shop_mage_wind_tail",
+                                     "title_ru":  "Хвост-разряд",
+                                     "effect_ru":  "Наносит 4 урона врагу в тылу. Слабость.",
+                                     "chips":  [
+                                                   "Атака",
+                                                   "Дебафф",
+                                                   "Тыл",
+                                                   "Слабость"
+                                               ],
+                                     "icons":  {
+                                                   "buff":  false,
+                                                   "debuff":  true,
+                                                   "x2":  false,
+                                                   "crit":  false,
+                                                   "pierce":  false,
+                                                   "heal":  false,
+                                                   "shield":  false
+                                               },
+                                     "cost":  1,
+                                     "atk":  4,
+                                     "hits":  1,
+                                     "shield":  0
+                                 },
+    "card_shop_ranger_fire_back":  {
+                                       "name_key":  "card.shop_ranger_fire_back",
+                                       "title_ru":  "Огненная стрела",
+                                       "effect_ru":  "Наносит 6 урона врагу с наименьшим HP.",
+                                       "chips":  [
+                                                     "Атака",
+                                                     "Засада"
+                                                 ],
+                                       "icons":  {
+                                                     "buff":  false,
+                                                     "debuff":  false,
+                                                     "x2":  false,
+                                                     "crit":  false,
+                                                     "pierce":  false,
+                                                     "heal":  false,
+                                                     "shield":  false
+                                                 },
+                                       "cost":  1,
+                                       "atk":  6,
+                                       "hits":  1,
+                                       "shield":  0
+                                   },
+    "card_shop_ranger_fire_ears":  {
+                                       "name_key":  "card.shop_ranger_fire_ears",
+                                       "title_ru":  "Уши засады",
+                                       "effect_ru":  "Наносит 5 урона ближайшему врагу. Кровотечение.",
+                                       "chips":  [
+                                                     "Атака",
+                                                     "Засада",
+                                                     "Кровотечение"
+                                                 ],
+                                       "icons":  {
+                                                     "buff":  false,
+                                                     "debuff":  true,
+                                                     "x2":  false,
+                                                     "crit":  false,
+                                                     "pierce":  false,
+                                                     "heal":  false,
+                                                     "shield":  false
+                                                 },
+                                       "cost":  1,
+                                       "atk":  5,
+                                       "hits":  1,
+                                       "shield":  0
+                                   },
+    "card_shop_ranger_fire_eyes":  {
+                                       "name_key":  "card.shop_ranger_fire_eyes",
+                                       "title_ru":  "Глаз добычи",
+                                       "effect_ru":  "Наносит 5 урона врагу с наименьшим HP. Слабость.",
+                                       "chips":  [
+                                                     "Атака",
+                                                     "Дебафф",
+                                                     "Засада",
+                                                     "Слабость"
+                                                 ],
+                                       "icons":  {
+                                                     "buff":  false,
+                                                     "debuff":  true,
+                                                     "x2":  false,
+                                                     "crit":  false,
+                                                     "pierce":  false,
+                                                     "heal":  false,
+                                                     "shield":  false
+                                                 },
+                                       "cost":  1,
+                                       "atk":  5,
+                                       "hits":  1,
+                                       "shield":  0
+                                   },
+    "card_shop_ranger_fire_headwear":  {
+                                           "name_key":  "card.shop_ranger_fire_headwear",
+                                           "title_ru":  "Капюшон охоты",
+                                           "effect_ru":  "Наносит 5 урона врагу с наименьшим HP.",
+                                           "chips":  [
+                                                         "Атака",
+                                                         "Крит"
+                                                     ],
+                                           "icons":  {
+                                                         "buff":  false,
+                                                         "debuff":  false,
+                                                         "x2":  false,
+                                                         "crit":  true,
+                                                         "pierce":  false,
+                                                         "heal":  false,
+                                                         "shield":  false
+                                                     },
+                                           "cost":  1,
+                                           "atk":  5,
+                                           "hits":  1,
+                                           "shield":  0
+                                       },
+    "card_shop_ranger_fire_muzzle":  {
+                                         "name_key":  "card.shop_ranger_fire_muzzle",
+                                         "title_ru":  "Выстрел жара",
+                                         "effect_ru":  "Наносит 6 урона врагу с наименьшим HP.",
+                                         "chips":  [
+                                                       "Атака",
+                                                       "Засада"
+                                                   ],
+                                         "icons":  {
+                                                       "buff":  false,
+                                                       "debuff":  false,
+                                                       "x2":  false,
+                                                       "crit":  false,
+                                                       "pierce":  false,
+                                                       "heal":  false,
+                                                       "shield":  false
+                                                   },
+                                         "cost":  1,
+                                         "atk":  6,
+                                         "hits":  1,
+                                         "shield":  0
+                                     },
+    "card_shop_ranger_fire_tail":  {
+                                       "name_key":  "card.shop_ranger_fire_tail",
+                                       "title_ru":  "Добивание",
+                                       "effect_ru":  "Наносит 5 урона врагу с наименьшим HP. Слабость.",
+                                       "chips":  [
+                                                     "Атака",
+                                                     "Дебафф",
+                                                     "Слабость"
+                                                 ],
+                                       "icons":  {
+                                                     "buff":  false,
+                                                     "debuff":  true,
+                                                     "x2":  false,
+                                                     "crit":  false,
+                                                     "pierce":  false,
+                                                     "heal":  false,
+                                                     "shield":  false
+                                                 },
+                                       "cost":  1,
+                                       "atk":  5,
+                                       "hits":  1,
+                                       "shield":  0
+                                   },
+    "card_shop_ranger_water_back":  {
+                                        "name_key":  "card.shop_ranger_water_back",
+                                        "title_ru":  "Волна стрел",
+                                        "effect_ru":  "Наносит 3 урона всем врагам. Слабость.",
+                                        "chips":  [
+                                                      "Атака",
+                                                      "Дебафф",
+                                                      "AoE",
+                                                      "Слабость"
+                                                  ],
+                                        "icons":  {
+                                                      "buff":  false,
+                                                      "debuff":  true,
+                                                      "x2":  false,
+                                                      "crit":  false,
+                                                      "pierce":  false,
+                                                      "heal":  false,
+                                                      "shield":  false
+                                                  },
+                                        "cost":  2,
+                                        "atk":  3,
+                                        "hits":  1,
+                                        "shield":  0
+                                    },
+    "card_shop_ranger_water_ears":  {
+                                        "name_key":  "card.shop_ranger_water_ears",
+                                        "title_ru":  "Дальний слух",
+                                        "effect_ru":  "Наносит 4 урона врагу с наименьшим HP.",
+                                        "chips":  [
+                                                      "Атака"
+                                                  ],
+                                        "icons":  {
+                                                      "buff":  false,
+                                                      "debuff":  false,
+                                                      "x2":  false,
+                                                      "crit":  false,
+                                                      "pierce":  false,
+                                                      "heal":  false,
+                                                      "shield":  false
+                                                  },
+                                        "cost":  1,
+                                        "atk":  4,
+                                        "hits":  1,
+                                        "shield":  0
+                                    },
+    "card_shop_ranger_water_eyes":  {
+                                        "name_key":  "card.shop_ranger_water_eyes",
+                                        "title_ru":  "Широкий взор",
+                                        "effect_ru":  "Наносит 2 урона всем врагам. Слабость.",
+                                        "chips":  [
+                                                      "Атака",
+                                                      "Дебафф",
+                                                      "AoE",
+                                                      "Слабость"
+                                                  ],
+                                        "icons":  {
+                                                      "buff":  false,
+                                                      "debuff":  true,
+                                                      "x2":  false,
+                                                      "crit":  false,
+                                                      "pierce":  false,
+                                                      "heal":  false,
+                                                      "shield":  false
+                                                  },
+                                        "cost":  1,
+                                        "atk":  2,
+                                        "hits":  1,
+                                        "shield":  0
+                                    },
+    "card_shop_ranger_water_headwear":  {
+                                            "name_key":  "card.shop_ranger_water_headwear",
+                                            "title_ru":  "Обруч прилива",
+                                            "effect_ru":  "Наносит 2 урона всем врагам. Кровотечение.",
+                                            "chips":  [
+                                                          "Атака",
+                                                          "AoE",
+                                                          "Кровотечение"
+                                                      ],
+                                            "icons":  {
+                                                          "buff":  false,
+                                                          "debuff":  true,
+                                                          "x2":  false,
+                                                          "crit":  false,
+                                                          "pierce":  false,
+                                                          "heal":  false,
+                                                          "shield":  false
+                                                      },
+                                            "cost":  1,
+                                            "atk":  2,
+                                            "hits":  1,
+                                            "shield":  0
+                                        },
+    "card_shop_ranger_water_muzzle":  {
+                                          "name_key":  "card.shop_ranger_water_muzzle",
+                                          "title_ru":  "Град капель",
+                                          "effect_ru":  "Наносит 3 урона всем врагам.",
+                                          "chips":  [
+                                                        "Атака",
+                                                        "AoE"
+                                                    ],
+                                          "icons":  {
+                                                        "buff":  false,
+                                                        "debuff":  false,
+                                                        "x2":  false,
+                                                        "crit":  false,
+                                                        "pierce":  false,
+                                                        "heal":  false,
+                                                        "shield":  false
+                                                    },
+                                          "cost":  2,
+                                          "atk":  3,
+                                          "hits":  1,
+                                          "shield":  0
+                                      },
+    "card_shop_ranger_water_tail":  {
+                                        "name_key":  "card.shop_ranger_water_tail",
+                                        "title_ru":  "Стрела-якорь",
+                                        "effect_ru":  "Наносит 5 урона ближайшему врагу.",
+                                        "chips":  [
+                                                      "Атака"
+                                                  ],
+                                        "icons":  {
+                                                      "buff":  false,
+                                                      "debuff":  false,
+                                                      "x2":  false,
+                                                      "crit":  false,
+                                                      "pierce":  false,
+                                                      "heal":  false,
+                                                      "shield":  false
+                                                  },
+                                        "cost":  1,
+                                        "atk":  5,
+                                        "hits":  1,
+                                        "shield":  0
+                                    },
+    "card_shop_ranger_wind_back":  {
+                                       "name_key":  "card.shop_ranger_wind_back",
+                                       "title_ru":  "Стрела-шквал",
+                                       "effect_ru":  "Наносит 5 урона врагу в тылу. Пробой. Уязвимость.",
+                                       "chips":  [
+                                                     "Пробой",
+                                                     "Дебафф",
+                                                     "Тыл",
+                                                     "Уязвимость"
+                                                 ],
+                                       "icons":  {
+                                                     "buff":  false,
+                                                     "debuff":  true,
+                                                     "x2":  false,
+                                                     "crit":  false,
+                                                     "pierce":  true,
+                                                     "heal":  false,
+                                                     "shield":  false
+                                                 },
+                                       "cost":  1,
+                                       "atk":  5,
+                                       "hits":  1,
+                                       "shield":  0
+                                   },
+    "card_shop_ranger_wind_ears":  {
+                                       "name_key":  "card.shop_ranger_wind_ears",
+                                       "title_ru":  "Слух цели",
+                                       "effect_ru":  "Наносит 5 урона врагу с наименьшим HP.",
+                                       "chips":  [
+                                                     "Атака",
+                                                     "Засада"
+                                                 ],
+                                       "icons":  {
+                                                     "buff":  false,
+                                                     "debuff":  false,
+                                                     "x2":  false,
+                                                     "crit":  false,
+                                                     "pierce":  false,
+                                                     "heal":  false,
+                                                     "shield":  false
+                                                 },
+                                       "cost":  1,
+                                       "atk":  5,
+                                       "hits":  1,
+                                       "shield":  0
+                                   },
+    "card_shop_ranger_wind_eyes":  {
+                                       "name_key":  "card.shop_ranger_wind_eyes",
+                                       "title_ru":  "Метка ветра",
+                                       "effect_ru":  "Наносит 4 урона ближайшему врагу. Уязвимость.",
+                                       "chips":  [
+                                                     "Атака",
+                                                     "Дебафф",
+                                                     "Уязвимость"
+                                                 ],
+                                       "icons":  {
+                                                     "buff":  false,
+                                                     "debuff":  true,
+                                                     "x2":  false,
+                                                     "crit":  false,
+                                                     "pierce":  false,
+                                                     "heal":  false,
+                                                     "shield":  false
+                                                 },
+                                       "cost":  1,
+                                       "atk":  4,
+                                       "hits":  1,
+                                       "shield":  0
+                                   },
+    "card_shop_ranger_wind_headwear":  {
+                                           "name_key":  "card.shop_ranger_wind_headwear",
+                                           "title_ru":  "Перо следопыта",
+                                           "effect_ru":  "Наносит 5 урона врагу в тылу. Пробой.",
+                                           "chips":  [
+                                                         "Пробой",
+                                                         "Тыл"
+                                                     ],
+                                           "icons":  {
+                                                         "buff":  false,
+                                                         "debuff":  false,
+                                                         "x2":  false,
+                                                         "crit":  false,
+                                                         "pierce":  true,
+                                                         "heal":  false,
+                                                         "shield":  false
+                                                     },
+                                           "cost":  1,
+                                           "atk":  5,
+                                           "hits":  1,
+                                           "shield":  0
+                                       },
+    "card_shop_ranger_wind_muzzle":  {
+                                         "name_key":  "card.shop_ranger_wind_muzzle",
+                                         "title_ru":  "Пронзающий свист",
+                                         "effect_ru":  "Наносит 5 урона ближайшему врагу. Пробой.",
+                                         "chips":  [
+                                                       "Пробой"
+                                                   ],
+                                         "icons":  {
+                                                       "buff":  false,
+                                                       "debuff":  false,
+                                                       "x2":  false,
+                                                       "crit":  false,
+                                                       "pierce":  true,
+                                                       "heal":  false,
+                                                       "shield":  false
+                                                   },
+                                         "cost":  1,
+                                         "atk":  5,
+                                         "hits":  1,
+                                         "shield":  0
+                                     },
+    "card_shop_ranger_wind_tail":  {
+                                       "name_key":  "card.shop_ranger_wind_tail",
+                                       "title_ru":  "Финальный свист",
+                                       "effect_ru":  "Наносит 6 урона врагу с наименьшим HP. Пробой.",
+                                       "chips":  [
+                                                     "Пробой"
+                                                 ],
+                                       "icons":  {
+                                                     "buff":  false,
+                                                     "debuff":  false,
+                                                     "x2":  false,
+                                                     "crit":  false,
+                                                     "pierce":  true,
+                                                     "heal":  false,
+                                                     "shield":  false
+                                                 },
+                                       "cost":  1,
+                                       "atk":  6,
+                                       "hits":  1,
+                                       "shield":  0
+                                   },
+    "card_shop_support_fire_back":  {
+                                        "name_key":  "card.shop_support_fire_back",
+                                        "title_ru":  "Волна тепла",
+                                        "effect_ru":  "Восстанавливает 3 HP всем союзникам.",
+                                        "chips":  [
+                                                      "Хил"
+                                                  ],
+                                        "icons":  {
+                                                      "buff":  false,
+                                                      "debuff":  false,
+                                                      "x2":  false,
+                                                      "crit":  false,
+                                                      "pierce":  false,
+                                                      "heal":  true,
+                                                      "shield":  false
+                                                  },
+                                        "cost":  2,
+                                        "atk":  0,
+                                        "hits":  0,
+                                        "shield":  0
+                                    },
+    "card_shop_support_fire_ears":  {
+                                        "name_key":  "card.shop_support_fire_ears",
+                                        "title_ru":  "Тёплый слух",
+                                        "effect_ru":  "Восстанавливает 6 HP слабейшему союзнику.",
+                                        "chips":  [
+                                                      "Хил"
+                                                  ],
+                                        "icons":  {
+                                                      "buff":  false,
+                                                      "debuff":  false,
+                                                      "x2":  false,
+                                                      "crit":  false,
+                                                      "pierce":  false,
+                                                      "heal":  true,
+                                                      "shield":  false
+                                                  },
+                                        "cost":  1,
+                                        "atk":  0,
+                                        "hits":  0,
+                                        "shield":  0
+                                    },
+    "card_shop_support_fire_eyes":  {
+                                        "name_key":  "card.shop_support_fire_eyes",
+                                        "title_ru":  "Целительный жар",
+                                        "effect_ru":  "Восстанавливает 7 HP слабейшему союзнику.",
+                                        "chips":  [
+                                                      "Хил"
+                                                  ],
+                                        "icons":  {
+                                                      "buff":  false,
+                                                      "debuff":  false,
+                                                      "x2":  false,
+                                                      "crit":  false,
+                                                      "pierce":  false,
+                                                      "heal":  true,
+                                                      "shield":  false
+                                                  },
+                                        "cost":  1,
+                                        "atk":  0,
+                                        "hits":  0,
+                                        "shield":  0
+                                    },
+    "card_shop_support_fire_headwear":  {
+                                            "name_key":  "card.shop_support_fire_headwear",
+                                            "title_ru":  "Корона заботы",
+                                            "effect_ru":  "Восстанавливает 5 HP слабейшему союзнику. Снимает 1 дебафф.",
+                                            "chips":  [
+                                                          "Хил",
+                                                          "Очищение",
+                                                          "Бафф"
+                                                      ],
+                                            "icons":  {
+                                                          "buff":  true,
+                                                          "debuff":  false,
+                                                          "x2":  false,
+                                                          "crit":  false,
+                                                          "pierce":  false,
+                                                          "heal":  true,
+                                                          "shield":  false
+                                                      },
+                                            "cost":  1,
+                                            "atk":  0,
+                                            "hits":  0,
+                                            "shield":  0
+                                        },
+    "card_shop_support_fire_muzzle":  {
+                                          "name_key":  "card.shop_support_fire_muzzle",
+                                          "title_ru":  "Поцелуй угля",
+                                          "effect_ru":  "Восстанавливает 5 HP слабейшему союзнику.",
+                                          "chips":  [
+                                                        "Хил"
+                                                    ],
+                                          "icons":  {
+                                                        "buff":  false,
+                                                        "debuff":  false,
+                                                        "x2":  false,
+                                                        "crit":  false,
+                                                        "pierce":  false,
+                                                        "heal":  true,
+                                                        "shield":  false
+                                                    },
+                                          "cost":  1,
+                                          "atk":  0,
+                                          "hits":  0,
+                                          "shield":  0
+                                      },
+    "card_shop_support_fire_tail":  {
+                                        "name_key":  "card.shop_support_fire_tail",
+                                        "title_ru":  "Праведный ожог",
+                                        "effect_ru":  "Наносит 5 урона ближайшему врагу. Восстанавливает 4 HP себе.",
+                                        "chips":  [
+                                                      "Атака",
+                                                      "Хил"
+                                                  ],
+                                        "icons":  {
+                                                      "buff":  false,
+                                                      "debuff":  false,
+                                                      "x2":  false,
+                                                      "crit":  false,
+                                                      "pierce":  false,
+                                                      "heal":  true,
+                                                      "shield":  false
+                                                  },
+                                        "cost":  1,
+                                        "atk":  5,
+                                        "hits":  1,
+                                        "shield":  0
+                                    },
+    "card_shop_support_water_back":  {
+                                         "name_key":  "card.shop_support_water_back",
+                                         "title_ru":  "Волна опеки",
+                                         "effect_ru":  "Восстанавливает 3 HP всем союзникам. Снимает 1 дебафф.",
+                                         "chips":  [
+                                                       "Хил",
+                                                       "Очищение",
+                                                       "Бафф"
+                                                   ],
+                                         "icons":  {
+                                                       "buff":  true,
+                                                       "debuff":  false,
+                                                       "x2":  false,
+                                                       "crit":  false,
+                                                       "pierce":  false,
+                                                       "heal":  true,
+                                                       "shield":  false
+                                                   },
+                                         "cost":  2,
+                                         "atk":  0,
+                                         "hits":  0,
+                                         "shield":  0
+                                     },
+    "card_shop_support_water_ears":  {
+                                         "name_key":  "card.shop_support_water_ears",
+                                         "title_ru":  "Уши очищения",
+                                         "effect_ru":  "Восстанавливает 4 HP слабейшему союзнику. Снимает 1 дебафф.",
+                                         "chips":  [
+                                                       "Хил",
+                                                       "Очищение",
+                                                       "Бафф"
+                                                   ],
+                                         "icons":  {
+                                                       "buff":  true,
+                                                       "debuff":  false,
+                                                       "x2":  false,
+                                                       "crit":  false,
+                                                       "pierce":  false,
+                                                       "heal":  true,
+                                                       "shield":  false
+                                                   },
+                                         "cost":  1,
+                                         "atk":  0,
+                                         "hits":  0,
+                                         "shield":  0
+                                     },
+    "card_shop_support_water_eyes":  {
+                                         "name_key":  "card.shop_support_water_eyes",
+                                         "title_ru":  "Целительный взгляд",
+                                         "effect_ru":  "Восстанавливает 6 HP слабейшему союзнику.",
+                                         "chips":  [
+                                                       "Хил"
+                                                   ],
+                                         "icons":  {
+                                                       "buff":  false,
+                                                       "debuff":  false,
+                                                       "x2":  false,
+                                                       "crit":  false,
+                                                       "pierce":  false,
+                                                       "heal":  true,
+                                                       "shield":  false
+                                                   },
+                                         "cost":  1,
+                                         "atk":  0,
+                                         "hits":  0,
+                                         "shield":  0
+                                     },
+    "card_shop_support_water_headwear":  {
+                                             "name_key":  "card.shop_support_water_headwear",
+                                             "title_ru":  "Чистый родник",
+                                             "effect_ru":  "Восстанавливает 5 HP слабейшему союзнику. Снимает 1 дебафф.",
+                                             "chips":  [
+                                                           "Хил",
+                                                           "Очищение",
+                                                           "Бафф"
+                                                       ],
+                                             "icons":  {
+                                                           "buff":  true,
+                                                           "debuff":  false,
+                                                           "x2":  false,
+                                                           "crit":  false,
+                                                           "pierce":  false,
+                                                           "heal":  true,
+                                                           "shield":  false
+                                                       },
+                                             "cost":  1,
+                                             "atk":  0,
+                                             "hits":  0,
+                                             "shield":  0
+                                         },
+    "card_shop_support_water_muzzle":  {
+                                           "name_key":  "card.shop_support_water_muzzle",
+                                           "title_ru":  "Капля жизни",
+                                           "effect_ru":  "Восстанавливает 5 HP слабейшему союзнику.",
+                                           "chips":  [
+                                                         "Хил"
+                                                     ],
+                                           "icons":  {
+                                                         "buff":  false,
+                                                         "debuff":  false,
+                                                         "x2":  false,
+                                                         "crit":  false,
+                                                         "pierce":  false,
+                                                         "heal":  true,
+                                                         "shield":  false
+                                                     },
+                                           "cost":  1,
+                                           "atk":  0,
+                                           "hits":  0,
+                                           "shield":  0
+                                       },
+    "card_shop_support_water_tail":  {
+                                         "name_key":  "card.shop_support_water_tail",
+                                         "title_ru":  "Очищающий удар",
+                                         "effect_ru":  "Наносит 4 урона ближайшему врагу. Снимает 1 дебафф.",
+                                         "chips":  [
+                                                       "Атака",
+                                                       "Очищение",
+                                                       "Бафф"
+                                                   ],
+                                         "icons":  {
+                                                       "buff":  true,
+                                                       "debuff":  false,
+                                                       "x2":  false,
+                                                       "crit":  false,
+                                                       "pierce":  false,
+                                                       "heal":  false,
+                                                       "shield":  false
+                                                   },
+                                         "cost":  1,
+                                         "atk":  4,
+                                         "hits":  1,
+                                         "shield":  0
+                                     },
+    "card_shop_support_wind_back":  {
+                                        "name_key":  "card.shop_support_wind_back",
+                                        "title_ru":  "Попутный шквал",
+                                        "effect_ru":  "Восстанавливает 3 HP всем союзникам. Бафф ATK +1 (2 ход.).",
+                                        "chips":  [
+                                                      "Хил",
+                                                      "Бафф"
+                                                  ],
+                                        "icons":  {
+                                                      "buff":  true,
+                                                      "debuff":  false,
+                                                      "x2":  false,
+                                                      "crit":  false,
+                                                      "pierce":  false,
+                                                      "heal":  true,
+                                                      "shield":  false
+                                                  },
+                                        "cost":  2,
+                                        "atk":  0,
+                                        "hits":  0,
+                                        "shield":  0
+                                    },
+    "card_shop_support_wind_ears":  {
+                                        "name_key":  "card.shop_support_wind_ears",
+                                        "title_ru":  "Шёпот ветра",
+                                        "effect_ru":  "Наносит 3 урона ближайшему врагу. Восстанавливает 3 HP себе. Слабость.",
+                                        "chips":  [
+                                                      "Атака",
+                                                      "Хил",
+                                                      "Дебафф",
+                                                      "Слабость"
+                                                  ],
+                                        "icons":  {
+                                                      "buff":  false,
+                                                      "debuff":  true,
+                                                      "x2":  false,
+                                                      "crit":  false,
+                                                      "pierce":  false,
+                                                      "heal":  true,
+                                                      "shield":  false
+                                                  },
+                                        "cost":  1,
+                                        "atk":  3,
+                                        "hits":  1,
+                                        "shield":  0
+                                    },
+    "card_shop_support_wind_eyes":  {
+                                        "name_key":  "card.shop_support_wind_eyes",
+                                        "title_ru":  "Вдохновляющий взор",
+                                        "effect_ru":  "Бафф ATK +2 (2 ход.).",
+                                        "chips":  [
+                                                      "Бафф"
+                                                  ],
+                                        "icons":  {
+                                                      "buff":  true,
+                                                      "debuff":  false,
+                                                      "x2":  false,
+                                                      "crit":  false,
+                                                      "pierce":  false,
+                                                      "heal":  false,
+                                                      "shield":  false
+                                                  },
+                                        "cost":  1,
+                                        "atk":  0,
+                                        "hits":  0,
+                                        "shield":  0
+                                    },
+    "card_shop_support_wind_headwear":  {
+                                            "name_key":  "card.shop_support_wind_headwear",
+                                            "title_ru":  "Лента попутного",
+                                            "effect_ru":  "Восстанавливает 5 HP слабейшему союзнику.",
+                                            "chips":  [
+                                                          "Хил"
+                                                      ],
+                                            "icons":  {
+                                                          "buff":  false,
+                                                          "debuff":  false,
+                                                          "x2":  false,
+                                                          "crit":  false,
+                                                          "pierce":  false,
+                                                          "heal":  true,
+                                                          "shield":  false
+                                                      },
+                                            "cost":  1,
+                                            "atk":  0,
+                                            "hits":  0,
+                                            "shield":  0
+                                        },
+    "card_shop_support_wind_muzzle":  {
+                                          "name_key":  "card.shop_support_wind_muzzle",
+                                          "title_ru":  "Дыхание силы",
+                                          "effect_ru":  "Даёт 4 щита слабейшему союзнику. Восстанавливает 5 HP слабейшему союзнику.",
+                                          "chips":  [
+                                                        "Щит",
+                                                        "Хил"
+                                                    ],
+                                          "icons":  {
+                                                        "buff":  false,
+                                                        "debuff":  false,
+                                                        "x2":  false,
+                                                        "crit":  false,
+                                                        "pierce":  false,
+                                                        "heal":  true,
+                                                        "shield":  true
+                                                    },
+                                          "cost":  1,
+                                          "atk":  0,
+                                          "hits":  0,
+                                          "shield":  4
+                                      },
+    "card_shop_support_wind_tail":  {
+                                        "name_key":  "card.shop_support_wind_tail",
+                                        "title_ru":  "Добивающий порыв",
+                                        "effect_ru":  "Наносит 5 урона врагу с наименьшим HP. Слабость.",
+                                        "chips":  [
+                                                      "Атака",
+                                                      "Дебафф",
+                                                      "Слабость"
+                                                  ],
+                                        "icons":  {
+                                                      "buff":  false,
+                                                      "debuff":  true,
+                                                      "x2":  false,
+                                                      "crit":  false,
+                                                      "pierce":  false,
+                                                      "heal":  false,
+                                                      "shield":  false
+                                                  },
+                                        "cost":  1,
+                                        "atk":  5,
+                                        "hits":  1,
+                                        "shield":  0
+                                    },
+    "card_shop_tank_fire_back":  {
+                                     "name_key":  "card.shop_tank_fire_back",
+                                     "title_ru":  "Удар щита-жара",
+                                     "effect_ru":  "Наносит 4 урона ближайшему врагу. Даёт 2 щита себе. Таунт.",
+                                     "chips":  [
+                                                   "Атака",
+                                                   "Щит",
+                                                   "Таунт"
+                                               ],
+                                     "icons":  {
+                                                   "buff":  true,
+                                                   "debuff":  false,
+                                                   "x2":  false,
+                                                   "crit":  false,
+                                                   "pierce":  false,
+                                                   "heal":  false,
+                                                   "shield":  true
+                                               },
+                                     "cost":  1,
+                                     "atk":  4,
+                                     "hits":  1,
+                                     "shield":  2
+                                 },
+    "card_shop_tank_fire_ears":  {
+                                     "name_key":  "card.shop_tank_fire_ears",
+                                     "title_ru":  "Слух горна",
+                                     "effect_ru":  "Даёт 3 щита слабейшему союзнику.",
+                                     "chips":  [
+                                                   "Щит"
+                                               ],
+                                     "icons":  {
+                                                   "buff":  false,
+                                                   "debuff":  false,
+                                                   "x2":  false,
+                                                   "crit":  false,
+                                                   "pierce":  false,
+                                                   "heal":  false,
+                                                   "shield":  true
+                                               },
+                                     "cost":  1,
+                                     "atk":  0,
+                                     "hits":  0,
+                                     "shield":  3
+                                 },
+    "card_shop_tank_fire_eyes":  {
+                                     "name_key":  "card.shop_tank_fire_eyes",
+                                     "title_ru":  "Жаркий взор",
+                                     "effect_ru":  "Даёт 5 щита себе.",
+                                     "chips":  [
+                                                   "Щит"
+                                               ],
+                                     "icons":  {
+                                                   "buff":  false,
+                                                   "debuff":  false,
+                                                   "x2":  false,
+                                                   "crit":  false,
+                                                   "pierce":  false,
+                                                   "heal":  false,
+                                                   "shield":  true
+                                               },
+                                     "cost":  1,
+                                     "atk":  0,
+                                     "hits":  0,
+                                     "shield":  5
+                                 },
+    "card_shop_tank_fire_headwear":  {
+                                         "name_key":  "card.shop_tank_fire_headwear",
+                                         "title_ru":  "Шлем углей",
+                                         "effect_ru":  "Даёт 5 щита себе.",
+                                         "chips":  [
+                                                       "Щит"
+                                                   ],
+                                         "icons":  {
+                                                       "buff":  false,
+                                                       "debuff":  false,
+                                                       "x2":  false,
+                                                       "crit":  false,
+                                                       "pierce":  false,
+                                                       "heal":  false,
+                                                       "shield":  true
+                                                   },
+                                         "cost":  1,
+                                         "atk":  0,
+                                         "hits":  0,
+                                         "shield":  5
+                                     },
+    "card_shop_tank_fire_muzzle":  {
+                                       "name_key":  "card.shop_tank_fire_muzzle",
+                                       "title_ru":  "Оскал жара",
+                                       "effect_ru":  "Даёт 6 щита себе. Таунт.",
+                                       "chips":  [
+                                                     "Щит",
+                                                     "Таунт"
+                                                 ],
+                                       "icons":  {
+                                                     "buff":  true,
+                                                     "debuff":  false,
+                                                     "x2":  false,
+                                                     "crit":  false,
+                                                     "pierce":  false,
+                                                     "heal":  false,
+                                                     "shield":  true
+                                                 },
+                                       "cost":  1,
+                                       "atk":  0,
+                                       "hits":  0,
+                                       "shield":  6
+                                   },
+    "card_shop_tank_fire_tail":  {
+                                     "name_key":  "card.shop_tank_fire_tail",
+                                     "title_ru":  "Хлыст пламени",
+                                     "effect_ru":  "Наносит 5 урона ближайшему врагу.",
+                                     "chips":  [
+                                                   "Атака"
+                                               ],
+                                     "icons":  {
+                                                   "buff":  false,
+                                                   "debuff":  false,
+                                                   "x2":  false,
+                                                   "crit":  false,
+                                                   "pierce":  false,
+                                                   "heal":  false,
+                                                   "shield":  false
+                                               },
+                                     "cost":  1,
+                                     "atk":  5,
+                                     "hits":  1,
+                                     "shield":  0
+                                 },
+    "card_shop_tank_water_back":  {
+                                      "name_key":  "card.shop_tank_water_back",
+                                      "title_ru":  "Таран глубины",
+                                      "effect_ru":  "Наносит 5 урона ближайшему врагу. Пробой.",
+                                      "chips":  [
+                                                    "Пробой"
+                                                ],
+                                      "icons":  {
+                                                    "buff":  false,
+                                                    "debuff":  false,
+                                                    "x2":  false,
+                                                    "crit":  false,
+                                                    "pierce":  true,
+                                                    "heal":  false,
+                                                    "shield":  false
+                                                },
+                                      "cost":  1,
+                                      "atk":  5,
+                                      "hits":  1,
+                                      "shield":  0
+                                  },
+    "card_shop_tank_water_ears":  {
+                                      "name_key":  "card.shop_tank_water_ears",
+                                      "title_ru":  "Слух бреши",
+                                      "effect_ru":  "Наносит 4 урона ближайшему врагу. Пробой.",
+                                      "chips":  [
+                                                    "Пробой"
+                                                ],
+                                      "icons":  {
+                                                    "buff":  false,
+                                                    "debuff":  false,
+                                                    "x2":  false,
+                                                    "crit":  false,
+                                                    "pierce":  true,
+                                                    "heal":  false,
+                                                    "shield":  false
+                                                },
+                                      "cost":  1,
+                                      "atk":  4,
+                                      "hits":  1,
+                                      "shield":  0
+                                  },
+    "card_shop_tank_water_eyes":  {
+                                      "name_key":  "card.shop_tank_water_eyes",
+                                      "title_ru":  "Трещина волны",
+                                      "effect_ru":  "Наносит 3 урона ближайшему врагу. Пробой. Хрупкость.",
+                                      "chips":  [
+                                                    "Пробой",
+                                                    "Хрупкость"
+                                                ],
+                                      "icons":  {
+                                                    "buff":  false,
+                                                    "debuff":  true,
+                                                    "x2":  false,
+                                                    "crit":  false,
+                                                    "pierce":  true,
+                                                    "heal":  false,
+                                                    "shield":  false
+                                                },
+                                      "cost":  1,
+                                      "atk":  3,
+                                      "hits":  1,
+                                      "shield":  0
+                                  },
+    "card_shop_tank_water_headwear":  {
+                                          "name_key":  "card.shop_tank_water_headwear",
+                                          "title_ru":  "Шлем пены",
+                                          "effect_ru":  "Даёт 5 щита себе. Таунт.",
+                                          "chips":  [
+                                                        "Щит",
+                                                        "Таунт"
+                                                    ],
+                                          "icons":  {
+                                                        "buff":  true,
+                                                        "debuff":  false,
+                                                        "x2":  false,
+                                                        "crit":  false,
+                                                        "pierce":  false,
+                                                        "heal":  false,
+                                                        "shield":  true
+                                                    },
+                                          "cost":  1,
+                                          "atk":  0,
+                                          "hits":  0,
+                                          "shield":  5
+                                      },
+    "card_shop_tank_water_muzzle":  {
+                                        "name_key":  "card.shop_tank_water_muzzle",
+                                        "title_ru":  "Клык прилива",
+                                        "effect_ru":  "Наносит 4 урона ближайшему врагу. Пробой. Хрупкость.",
+                                        "chips":  [
+                                                      "Пробой",
+                                                      "Хрупкость"
+                                                  ],
+                                        "icons":  {
+                                                      "buff":  false,
+                                                      "debuff":  true,
+                                                      "x2":  false,
+                                                      "crit":  false,
+                                                      "pierce":  true,
+                                                      "heal":  false,
+                                                      "shield":  false
+                                                  },
+                                        "cost":  1,
+                                        "atk":  4,
+                                        "hits":  1,
+                                        "shield":  0
+                                    },
+    "card_shop_tank_water_tail":  {
+                                      "name_key":  "card.shop_tank_water_tail",
+                                      "title_ru":  "Хвост-пробой",
+                                      "effect_ru":  "Наносит 4 урона врагу в тылу. Пробой. Хрупкость.",
+                                      "chips":  [
+                                                    "Пробой",
+                                                    "Тыл",
+                                                    "Хрупкость"
+                                                ],
+                                      "icons":  {
+                                                    "buff":  false,
+                                                    "debuff":  true,
+                                                    "x2":  false,
+                                                    "crit":  false,
+                                                    "pierce":  true,
+                                                    "heal":  false,
+                                                    "shield":  false
+                                                },
+                                      "cost":  1,
+                                      "atk":  4,
+                                      "hits":  1,
+                                      "shield":  0
+                                  },
+    "card_shop_tank_wind_back":  {
+                                     "name_key":  "card.shop_tank_wind_back",
+                                     "title_ru":  "Щит-вихрь",
+                                     "effect_ru":  "Даёт 3 щита себе. Таунт.",
+                                     "chips":  [
+                                                   "Щит",
+                                                   "Таунт",
+                                                   "Бафф"
+                                               ],
+                                     "icons":  {
+                                                   "buff":  true,
+                                                   "debuff":  false,
+                                                   "x2":  false,
+                                                   "crit":  false,
+                                                   "pierce":  false,
+                                                   "heal":  false,
+                                                   "shield":  true
+                                               },
+                                     "cost":  1,
+                                     "atk":  0,
+                                     "hits":  0,
+                                     "shield":  3
+                                 },
+    "card_shop_tank_wind_ears":  {
+                                     "name_key":  "card.shop_tank_wind_ears",
+                                     "title_ru":  "Слух отката",
+                                     "effect_ru":  "Даёт 3 щита слабейшему союзнику.",
+                                     "chips":  [
+                                                   "Щит"
+                                               ],
+                                     "icons":  {
+                                                   "buff":  false,
+                                                   "debuff":  false,
+                                                   "x2":  false,
+                                                   "crit":  false,
+                                                   "pierce":  false,
+                                                   "heal":  false,
+                                                   "shield":  true
+                                               },
+                                     "cost":  1,
+                                     "atk":  0,
+                                     "hits":  0,
+                                     "shield":  3
+                                 },
+    "card_shop_tank_wind_eyes":  {
+                                     "name_key":  "card.shop_tank_wind_eyes",
+                                     "title_ru":  "Взор бури",
+                                     "effect_ru":  "Даёт 4 щита себе.",
+                                     "chips":  [
+                                                   "Щит",
+                                                   "Бафф"
+                                               ],
+                                     "icons":  {
+                                                   "buff":  true,
+                                                   "debuff":  false,
+                                                   "x2":  false,
+                                                   "crit":  false,
+                                                   "pierce":  false,
+                                                   "heal":  false,
+                                                   "shield":  true
+                                               },
+                                     "cost":  1,
+                                     "atk":  0,
+                                     "hits":  0,
+                                     "shield":  4
+                                 },
+    "card_shop_tank_wind_headwear":  {
+                                         "name_key":  "card.shop_tank_wind_headwear",
+                                         "title_ru":  "Корона шквала",
+                                         "effect_ru":  "Даёт 4 щита себе.",
+                                         "chips":  [
+                                                       "Щит",
+                                                       "Бафф"
+                                                   ],
+                                         "icons":  {
+                                                       "buff":  true,
+                                                       "debuff":  false,
+                                                       "x2":  false,
+                                                       "crit":  false,
+                                                       "pierce":  false,
+                                                       "heal":  false,
+                                                       "shield":  true
+                                                   },
+                                         "cost":  1,
+                                         "atk":  0,
+                                         "hits":  0,
+                                         "shield":  4
+                                     },
+    "card_shop_tank_wind_muzzle":  {
+                                       "name_key":  "card.shop_tank_wind_muzzle",
+                                       "title_ru":  "Рёв ветра",
+                                       "effect_ru":  "Даёт 5 щита себе. Таунт.",
+                                       "chips":  [
+                                                     "Щит",
+                                                     "Таунт"
+                                                 ],
+                                       "icons":  {
+                                                     "buff":  true,
+                                                     "debuff":  false,
+                                                     "x2":  false,
+                                                     "crit":  false,
+                                                     "pierce":  false,
+                                                     "heal":  false,
+                                                     "shield":  true
+                                                 },
+                                       "cost":  1,
+                                       "atk":  0,
+                                       "hits":  0,
+                                       "shield":  5
+                                   },
+    "card_shop_tank_wind_tail":  {
+                                     "name_key":  "card.shop_tank_wind_tail",
+                                     "title_ru":  "Ответный порыв",
+                                     "effect_ru":  "Наносит 3 урона ближайшему врагу.",
+                                     "chips":  [
+                                                   "Атака",
+                                                   "Бафф"
+                                               ],
+                                     "icons":  {
+                                                   "buff":  true,
+                                                   "debuff":  false,
+                                                   "x2":  false,
+                                                   "crit":  false,
+                                                   "pierce":  false,
+                                                   "heal":  false,
+                                                   "shield":  false
+                                               },
+                                     "cost":  1,
+                                     "atk":  3,
+                                     "hits":  1,
+                                     "shield":  0
+                                 }
 }
