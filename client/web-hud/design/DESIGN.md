@@ -245,5 +245,5 @@ Masters for Склад (`gear`) farm/Soon shelf + Market tool SKUs. Live paths: 
 |---|---|
 | **Tools** | `tool-shovel.png` · `tool-axe.png` · `tool-pick.png` · `tool-rod.png` |
 | **Resources** | `wood` · `iron` · `stone` · `veggies` · `fruit` · `herbs` · `fish` · `seeds` · `milk` |
-| **Alchemy Soon** | `potion-mana` · `potion-nature` · `potion-ember` (+ row `potions.png`) |
+| **Combat potions** | `potion-nature` (HP) · `potion-energy` (+1 AP) · `potion-cleanse` (−debuff) · utility `potion-ember` (+ row `potions.png`) |
 | **Chrome** | `seal-paw.png` · `seal-warehouse.png` |

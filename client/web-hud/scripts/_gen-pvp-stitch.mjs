@@ -152,11 +152,11 @@ const fightHtml = `<!DOCTYPE html>
 <button type="button" class="pv-pot is-heal" data-pv-pot="heal" id="pvPotHeal" title="Целебный отвар (+350 HP)">
 <img alt="" src="/barn-icons/potion-nature.png"/><span class="pv-pot-qty" id="pvPotHealQty">2</span>
 </button>
-<button type="button" class="pv-pot is-mana" data-pv-pot="mana" id="pvPotMana" title="Эликсир маны (+1 AP)">
-<img alt="" src="/barn-icons/potion-mana.png"/><span class="pv-pot-qty" id="pvPotManaQty">1</span>
+<button type="button" class="pv-pot is-energy" data-pv-pot="energy" id="pvPotEnergy" title="Эликсир энергии (+1 AP)">
+<img alt="" src="/barn-icons/potion-energy.png"/><span class="pv-pot-qty" id="pvPotEnergyQty">1</span>
 </button>
-<button type="button" class="pv-pot is-sun" data-pv-pot="cleanse" id="pvPotCleanse" title="Солнечный настой (Очищение)">
-<img alt="" src="/barn-icons/potion-ember.png"/><span class="pv-pot-qty" id="pvPotCleanseQty">2</span>
+<button type="button" class="pv-pot is-cleanse" data-pv-pot="cleanse" id="pvPotCleanse" title="Отвар очищения (−1 дебафф)">
+<img alt="" src="/barn-icons/potion-cleanse.png"/><span class="pv-pot-qty" id="pvPotCleanseQty">2</span>
 </button>
 </div>
 <p class="sr-only" id="pvOrbs">0 карт</p>

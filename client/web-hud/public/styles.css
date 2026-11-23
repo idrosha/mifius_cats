@@ -4165,19 +4165,34 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   background: #89d98c;
   color: #0f1a12;
 }
-.pv-pot.is-mana {
+.pv-pot.is-energy {
+  border-color: rgba(253, 186, 69, 0.5);
+}
+.pv-pot.is-energy .pv-pot-qty {
+  background: #fdba45;
+  color: #2a1a00;
+}
+.pv-pot.is-cleanse {
   border-color: rgba(103, 213, 232, 0.5);
 }
-.pv-pot.is-mana .pv-pot-qty {
+.pv-pot.is-cleanse .pv-pot-qty {
   background: #67d5e8;
   color: #102028;
 }
-.pv-pot.is-sun {
+/* legacy class aliases */
+.pv-pot.is-mana {
   border-color: rgba(253, 186, 69, 0.5);
 }
-.pv-pot.is-sun .pv-pot-qty {
+.pv-pot.is-mana .pv-pot-qty {
   background: #fdba45;
   color: #2a1a00;
+}
+.pv-pot.is-sun {
+  border-color: rgba(103, 213, 232, 0.5);
+}
+.pv-pot.is-sun .pv-pot-qty {
+  background: #67d5e8;
+  color: #102028;
 }
 .pv-pot.is-empty {
   opacity: 0.4;

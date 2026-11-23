@@ -43,7 +43,11 @@ DESIGN: `design/stitch-ref/home-keeper/sklad/DESIGN.md` → **Warehouse · Farm 
 | File | Use |
 |---|---|
 | `potions.png` | Эликсиры category row |
-| `potion-mana.png` / `potion-nature.png` / `potion-ember.png` | Split bottles Phase 6 |
+| `potion-nature.png` | Зелье жизни (HP, зелёная) · `potion_heal` |
+| `potion-energy.png` | Эликсир энергии (+1 AP, золотая) · `potion_energy` |
+| `potion-cleanse.png` | Отвар очищения (−1 дебафф, голубая) · `potion_cleanse` (ex `potion-mana`) |
+| `potion-ember.png` | Мятный отвар (utility) |
+| `potion-mana.png` | legacy alias → тот же арт, что `potion-cleanse.png` |
 | `seal-paw.png` / `seal-warehouse.png` | Inspect / capacity chrome |
 
 Paths in HUD: `/barn-icons/<file>.png` (served from this folder). HUD thumbs are **256×256**; full 1024 masters stay in project media (`warehouse-icons-v2/`, `warehouse-farm-tools/`).

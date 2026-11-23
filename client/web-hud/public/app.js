@@ -519,7 +519,7 @@ const CRAFT_RECIPES = [
   {
     id: "potion_life",
     name: "Зелье жизни",
-    outId: "potion_nature",
+    outId: "potion_heal",
     outQty: 1,
     costGold: 50,
     ingredients: [
@@ -528,9 +528,20 @@ const CRAFT_RECIPES = [
     ],
   },
   {
+    id: "potion_energy_brew",
+    name: "Эликсир энергии",
+    outId: "potion_energy",
+    outQty: 1,
+    costGold: 55,
+    ingredients: [
+      { id: "herbs", qty: 1 },
+      { id: "milk", qty: 1 },
+    ],
+  },
+  {
     id: "potion_cleanse",
     name: "Отвар очищения",
-    outId: "potion_mana",
+    outId: "potion_cleanse",
     outQty: 1,
     costGold: 40,
     ingredients: [
@@ -802,7 +813,9 @@ const PASS_SEASON_TRACK = (() => {
     { name: "Сливки ×3", img: PASS_ICON.milk, grant: { type: "mat", id: "milk", amount: 3 } },
     { name: "Осколок руны ×2", img: PASS_ICON.rune, grant: { type: "mat", id: "rune_shard", amount: 2 } },
     { name: "Астрал-Амулет", img: PASS_ICON.amulet, grant: { type: "fish", amount: 200 } },
-    { name: "Набор Зелий", img: PASS_ICON.potions, grant: { type: "mat", id: "potion_nature", amount: 2 } },
+    { name: "Зелье жизни ×2", img: PASS_ICON.potionHeal, grant: { type: "mat", id: "potion_heal", amount: 2 } },
+    { name: "Эликсир энергии ×2", img: PASS_ICON.potionEnergy, grant: { type: "mat", id: "potion_energy", amount: 2 } },
+    { name: "Отвар очищения ×2", img: PASS_ICON.potionCleanse, grant: { type: "mat", id: "potion_cleanse", amount: 2 } },
     { name: "Руна Метки", img: PASS_ICON.rune, grant: { type: "mat", id: "rune_mark", amount: 1 } },
     { name: "Сундук Лапы", img: PASS_ICON.chest, grant: { type: "mat", id: "rune_shard", amount: 3 } },
     { name: "Ошейник Удачи", img: PASS_ICON.collar, grant: { type: "fish", amount: 250 } },
@@ -1013,7 +1026,7 @@ const state = {
   /** In-fight PvP auto-battle toggle (client AI loop while player's turn). */
   pvpAutoBattle: false,
   /** Local fight potion tray qty (HUD smoke — Phase 1 sim rejects ActionPotion). */
-  pvpFightPots: { heal: 2, mana: 1, cleanse: 2 },
+  pvpFightPots: { heal: 2, energy: 1, cleanse: 2 },
   bossWaveIndex: 0,
   campaign: null,
   bossFirst: null,
@@ -1316,6 +1329,30 @@ function mergeGearCatalogSeed() {
 
 function mergeBarnMatsSeed() {
   if (!Array.isArray(state.barnMats)) state.barnMats = [];
+  const rename = {
+    potion_mana: "potion_cleanse",
+    potion_nature: "potion_heal",
+  };
+  for (const m of state.barnMats) {
+    const next = rename[m.id];
+    if (!next) continue;
+    const existing = state.barnMats.find((x) => x.id === next);
+    if (existing) {
+      existing.qty = (existing.qty || 0) + (m.qty || 0);
+      m.qty = 0;
+      m.id = `__retired_${m.id}`;
+    } else {
+      const seed = BARN_MATS_SEED.find((s) => s.id === next);
+      m.id = next;
+      if (seed) {
+        m.name = seed.name;
+        m.desc = seed.desc;
+        m.tag = seed.tag;
+        m.iconSrc = seed.iconSrc;
+      }
+    }
+  }
+  state.barnMats = state.barnMats.filter((m) => !String(m.id || "").startsWith("__retired_"));
   const have = new Set(state.barnMats.map((m) => m.id));
   for (const seed of BARN_MATS_SEED) {
     if (have.has(seed.id)) continue;
@@ -5380,6 +5417,7 @@ function renderShop() {
         if (row.gated) showGateTip();
         else if (row.id === "pass_buy") buyBattlePass();
         else if (row.id.startsWith("armor_") || row.id.startsWith("pvp_set_")) grantShopPvpGear(row.id);
+        else if (row.matId) buyShopMatPack(row);
         else toast(state.locale === "ru" ? `${row.label} — stub (сервер)` : `${row.label} — stub`);
       });
       list.appendChild(li);
@@ -5403,6 +5441,7 @@ function renderShop() {
         if (row.gated) showGateTip();
         else if (row.id === "pass_buy") buyBattlePass();
         else if (row.id.startsWith("armor_") || row.id.startsWith("pvp_set_")) grantShopPvpGear(row.id);
+        else if (row.matId) buyShopMatPack(row);
         else toast(state.locale === "ru" ? `${row.label} — stub` : `${row.label} — stub`);
       });
       stubHost.appendChild(btn);
@@ -5433,6 +5472,25 @@ function renderShop() {
     empty.textContent = state.locale === "ru" ? "Нет common_cat в LiveOps" : "No common_cat offers";
     cats.appendChild(empty);
   }
+}
+
+function buyShopMatPack(row) {
+  const price = Math.max(0, Number(row.price) || 0);
+  const qty = Math.max(1, Number(row.buyQty) || 1);
+  if (price && (state.wallet.gold || 0) < price) {
+    toast(state.locale === "ru" ? `Недостаточно рыбок (нужно ${price})` : `Need ${price} fish`);
+    return;
+  }
+  if (price) state.wallet.gold -= price;
+  const mat = barnMatAdd(row.matId, qty);
+  renderCurrency();
+  toast(
+    state.locale === "ru"
+      ? `Куплено: ${row.label}${mat ? ` · на складе ${mat.qty}` : ""}`
+      : `Bought: ${row.label}`,
+  );
+  renderShop();
+  if (!$("viewGear")?.classList.contains("hidden")) renderBarn();
 }
 
 function buyMarketItem(item) {
@@ -12234,30 +12292,37 @@ function pvpUnitCard(u, foe, cleansedIds = []) {
 
 const PVP_FIGHT_POT_META = {
   heal: {
-    potionId: "stone_skin",
-    name: "Целебный отвар",
-    fx: "+350 HP союзникам (stub)",
+    potionId: "potion_heal",
+    matId: "potion_heal",
+    name: "Зелье жизни",
+    fx: "Восстановление HP (stub)",
     qtyId: "pvPotHealQty",
     btnId: "pvPotHeal",
   },
-  mana: {
-    potionId: "spark_claw",
-    name: "Эликсир маны",
-    fx: "+1 AP (stub)",
-    qtyId: "pvPotManaQty",
-    btnId: "pvPotMana",
+  energy: {
+    potionId: "potion_energy",
+    matId: "potion_energy",
+    name: "Эликсир энергии",
+    fx: "+1 энергия (AP)",
+    qtyId: "pvPotEnergyQty",
+    btnId: "pvPotEnergy",
   },
   cleanse: {
-    potionId: "cleanse",
-    name: "Солнечный настой",
-    fx: "Очищение DoT (stub)",
+    potionId: "potion_cleanse",
+    matId: "potion_cleanse",
+    name: "Отвар очищения",
+    fx: "Снять 1 дебафф",
     qtyId: "pvPotCleanseQty",
     btnId: "pvPotCleanse",
   },
 };
 
 function resetPvpFightPots() {
-  state.pvpFightPots = { heal: 2, mana: 1, cleanse: 2 };
+  state.pvpFightPots = {
+    heal: Math.max(0, barnMatQty("potion_heal")),
+    energy: Math.max(0, barnMatQty("potion_energy")),
+    cleanse: Math.max(0, barnMatQty("potion_cleanse")),
+  };
 }
 
 function syncPvpAutoBattleUi() {
@@ -12478,6 +12543,10 @@ async function usePvpFightPotion(slotKey) {
     return;
   }
   // Phase 1 sim rejects ActionPotion — apply local tray smoke so the HUD tray works.
+  if (meta.matId && !barnMatSpend(meta.matId, 1)) {
+    toast(state.locale === "ru" ? "Нет баночки на складе" : "No potion in warehouse");
+    return;
+  }
   state.pvpFightPots[slotKey] = qty - 1;
   renderPvpFightPots(true);
   toast(

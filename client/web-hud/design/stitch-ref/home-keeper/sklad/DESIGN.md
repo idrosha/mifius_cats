@@ -258,9 +258,11 @@ Split singles for Phase 6 alchemy shelf; keep `potions.png` as category row unti
 
 | Asset | RU hint | Hue |
 |---|---|---|
-| `potion-mana.png` | Мана / вода | mineral teal-blue |
-| `potion-nature.png` | Природа / рост | leaf green + leaf wax seal |
-| `potion-ember.png` | Огонь / жар | amber-orange + lion «S» seal |
+| `potion-nature.png` | Зелье жизни / HP | leaf green + leaf wax seal |
+| `potion-energy.png` | Эликсир энергии / +1 AP | molten gold + bronze filigree |
+| `potion-cleanse.png` | Отвар очищения / −1 дебафф | mineral teal-blue (ex mana) |
+| `potion-ember.png` | Мятный отвар (utility) | amber-orange + lion «S» seal |
+| `potion-mana.png` | legacy → cleanse | same as `potion-cleanse.png` |
 
 #### Warehouse chrome (не mats)
 
