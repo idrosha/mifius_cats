@@ -27,8 +27,10 @@ Idle ×18 влиты в `client/web-hud/public/stitch-assets/cat-heroes/`.
 ## Shipped gear18 (ordinary)
 
 - Lobby + battle: `client/web-hud/public/stitch-assets/cat-heroes/` (+ `battle/`)
-- Cache: `?v=gear18` in `app.js` (`CAT_HERO_ART` / `CAT_HERO_BATTLE_ART`)
-- Cutouts без таверны (studio BG)
+- Cache: `?v=gear18c` in `app.js` (`CAT_HERO_ART` / `CAT_HERO_BATTLE_ART`)
+- Studio cutouts: `cat-heroes/studio/` (без таверны)
+- Lobby idle = studio + `bg/tavern-shared.jpg` (очаг на портретах)
+- Battle = studio без таверны; page wallpaper = `bg/tavern-shared-wide.jpg`
 
 ## Next
 

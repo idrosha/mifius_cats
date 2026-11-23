@@ -7399,15 +7399,15 @@ const CAT_HERO_BATTLE_ART = {
 const PRACTICE_DUMMY_ART_FALLBACKS = {
   bot_practice_tank_a: [
     "/stitch-assets/dojo/battle/dummy-oak-knight.webp?v=dummyfix1",
-    "/stitch-assets/dojo/dummy-oak-knight.jpg",
+    "/stitch-assets/dojo/dummy-oak-knight.webp",
   ],
   bot_practice_fighter_a: [
     "/stitch-assets/dojo/battle/dummy-straw-berserk.webp?v=dummyfix1",
-    "/stitch-assets/dojo/dummy-straw-berserk.jpg",
+    "/stitch-assets/dojo/dummy-straw-berserk.webp",
   ],
   bot_practice_support_a: [
     "/stitch-assets/dojo/battle/dummy-stone-totem.webp?v=dummyfix1",
-    "/stitch-assets/dojo/dummy-stone-totem.jpg",
+    "/stitch-assets/dojo/dummy-stone-totem.webp",
   ],
 };
 
@@ -11285,7 +11285,7 @@ const VICTORY_DUMMIES = [
     roleIcon: "shield",
     accent: "primary",
     lvl: 1,
-    art: "/stitch-assets/dojo/dummy-oak-knight.jpg",
+    art: "/stitch-assets/dojo/dummy-oak-knight.webp",
     archetype: "Тяжёлый автоматон",
     stats: [
       { label: "Щит", value: "18", tone: "outline" },
@@ -11301,7 +11301,7 @@ const VICTORY_DUMMIES = [
     roleIcon: "swords",
     accent: "primary",
     lvl: 1,
-    art: "/stitch-assets/dojo/dummy-straw-berserk.jpg",
+    art: "/stitch-assets/dojo/dummy-straw-berserk.webp",
     archetype: "Спарринг-чучело · Ярость",
     stats: [
       { label: "Урон", value: "32", tone: "primary" },
@@ -11318,7 +11318,7 @@ const VICTORY_DUMMIES = [
     roleIcon: "water_drop",
     accent: "secondary",
     lvl: 1,
-    art: "/stitch-assets/dojo/dummy-stone-totem.jpg",
+    art: "/stitch-assets/dojo/dummy-stone-totem.webp",
     archetype: "Магический оберег",
     stats: [
       { label: "Урон", value: "4", tone: "outline" },
@@ -12399,7 +12399,7 @@ const ATTACK_CARD_ART_ALIAS = {
 };
 
 /** Bust Amvera/browser max-age after in-place rebakes. */
-const STITCH_ASSET_V = "elven18";
+const STITCH_ASSET_V = "elven18w";
 
 function attackCardArtUrl(cardId) {
   if (!cardId) return "";
@@ -12416,7 +12416,7 @@ function attackCardArtUrl(cardId) {
   }
   const folder = ATTACK_CARD_ART_FOLDER[folderKey];
   if (!folder) return "";
-  return `/stitch-assets/attack-cards/${folder}/attack_${fileStem}.jpg?v=${STITCH_ASSET_V}`;
+  return `/stitch-assets/attack-cards/${folder}/attack_${fileStem}.webp?v=${STITCH_ASSET_V}`;
 }
 
 function unitCrowdControlled(diff, unitId) {
