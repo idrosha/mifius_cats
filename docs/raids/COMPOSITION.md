@@ -4,8 +4,8 @@
 
 ## Таймер хода
 
-**Ровно 60 секунд** на ход игрока (`BATTLE_TURN_TIMER_SEC = 60` / LiveOps `limits.battle_turn_sec`).  
-По истечении — авто «Конец хода».
+**Ровно 60 секунд** на ход в рейде (`BATTLE_TURN_TIMER_SEC = 60` / LiveOps `limits.battle_turn_sec`).  
+PvE и PvP — отдельно **30 секунд** (`BATTLE_TURN_TIMER_PVE_PVP_SEC`). По истечении — авто «Конец хода».
 
 ## Состав легиона (12 котиков)
 

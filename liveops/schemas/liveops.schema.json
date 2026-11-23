@@ -384,7 +384,7 @@
         "battle_turn_sec": {
           "type": "integer",
           "minimum": 1,
-          "description": "Player turn countdown seconds in fight HUD (LOCKED 60 · docs/raids/COMPOSITION.md)"
+          "description": "Raise floor for non-PvE/PvP turn timer (raid/dungeon/etc; default 60). PvE/PvP are fixed at 30s client-side."
         }
       }
     },

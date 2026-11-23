@@ -2,6 +2,7 @@
 
 Одна строка на изменение конфига/схемы (skill `docs/skills/liveops.md`).
 
+- 2026-11-23: Turn timer by mode — PvE/PvP 30s fixed; other modes 60s (`battle_turn_sec` raise floor for non-PvE/PvP)
 - 2026-11-22: Battle turn timer — `limits.battle_turn_sec=60` (1 min · docs/raids/COMPOSITION.md)
 - 2026-11-22: Raid/legion limits — `raid_attempts_weekly=3`, `raid_weekly_lock=true`, `raid_soft_wipe_cap=5` (docs/raids · qa/RAID_ACCEPTANCE G7)
 - 2026-11-22: Mythmir chess rebalance — ch2 pitboss Лютый Клык backline leaps 6–7 HP 54; ch5 Фантом Гул backline slash 7 + cleave 6 HP 58; ch4 Некропёс HP 48 miasma 3; ch2 f1 soldiers buffed; pitboss cards respect taunt via `backline` rule (`mythmir_*`)
