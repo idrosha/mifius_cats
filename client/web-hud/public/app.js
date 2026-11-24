@@ -13147,6 +13147,11 @@ async function commitHandSelectionAndEndTurn() {
       // Let hit/heal floats show between selected cards.
       await new Promise((r) => setTimeout(r, 420));
     }
+    // Drop commit lock before endTurn: enemy phase is gated by actionBusy /
+    // oppThrowPlaying. If turnCommitPlaying stays true through submitAction's
+    // final paint, hand keeps disabled+is-busy-wait on the next player turn
+    // (D-053; #231 re-render alone was easy to miss / race).
+    state.turnCommitPlaying = false;
     if (
       state.battle &&
       !state.battle.result &&
@@ -13157,15 +13162,14 @@ async function commitHandSelectionAndEndTurn() {
     }
   } finally {
     state.turnCommitPlaying = false;
-    // submitAction re-renders while turnCommitPlaying was still true → hand stays
-    // disabled/is-busy-wait until we paint again with the flag cleared.
     if (state.battle) {
-      try {
-        renderPracticeFight();
-        renderPvpFight();
-        renderBattle();
-      } catch {
-        /* ignore */
+      // Separate tries: one throw must not skip the live fight view paint.
+      for (const paint of [renderPracticeFight, renderPvpFight, renderBattle]) {
+        try {
+          paint();
+        } catch {
+          /* ignore */
+        }
       }
     }
   }
