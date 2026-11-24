@@ -1273,6 +1273,10 @@ const state = {
   actionBusy: false,
   /** Space must be pressed twice within window to end turn (accidental-tap guard). */
   endTurnArmed: false,
+  /** D-053 · selected hand cards this turn (tap = toggle; ХОД ГОТОВ commits). */
+  handSelection: [],
+  /** True while playing selected cards then endTurn. */
+  turnCommitPlaying: false,
   /** In-fight auto-battle toggle (client AI loop; PvP + practice/PvE HUD). */
   pvpAutoBattle: false,
   /** Local fight potion tray qty (HUD smoke — Phase 1 sim rejects ActionPotion). */
@@ -12956,6 +12960,136 @@ function unitCrowdControlled(diff, unitId) {
   return (u.statuses || []).some((s) => s.id === "stun" || s.id === "sleep");
 }
 
+/** D-053 · stable key for a hand card while the player turn has not committed yet. */
+function handSelKey(c) {
+  return `${c.unitId}|${c.handIndex}|${c.cardId}`;
+}
+
+function clearHandSelection() {
+  state.handSelection = [];
+}
+
+/** Drop stale picks when hand/turn/side changes; clear entirely off the player turn. */
+function pruneHandSelection(diff) {
+  if (!Array.isArray(state.handSelection)) state.handSelection = [];
+  if (!diff || diff.result || diff.active !== 0) {
+    state.handSelection = [];
+    return;
+  }
+  const hand = diff.hand || [];
+  state.handSelection = state.handSelection.filter((sel) =>
+    hand.some(
+      (c) =>
+        c.unitId === sel.unitId &&
+        c.handIndex === sel.handIndex &&
+        c.cardId === sel.cardId,
+    ),
+  );
+}
+
+function handSelectionReservedAp() {
+  return (state.handSelection || []).reduce((n, s) => n + (Number(s.cost) || 0), 0);
+}
+
+function isHandCardSelected(c) {
+  const key = handSelKey(c);
+  return (state.handSelection || []).some((s) => handSelKey(s) === key);
+}
+
+function handSelectionCommitLabel(ru = state.locale === "ru") {
+  const n = (state.handSelection || []).length;
+  const ap = handSelectionReservedAp();
+  return ru ? `ВЫБРАНО: ${n} · ${ap} AP` : `SELECTED: ${n} · ${ap} AP`;
+}
+
+/** Tap toggles selection; cards stay in hand until ХОД ГОТОВ (D-053). */
+function toggleHandCardSelection(c, diff) {
+  if (!diff || diff.result || diff.active !== 0) return;
+  if (state.actionBusy || state.oppThrowPlaying || state.turnCommitPlaying) return;
+  if (state.pvpAutoBattle) return;
+  if (!c?.playable || unitCrowdControlled(diff, c.unitId)) return;
+  if (!Array.isArray(state.handSelection)) state.handSelection = [];
+  const key = handSelKey(c);
+  const idx = state.handSelection.findIndex((s) => handSelKey(s) === key);
+  if (idx >= 0) {
+    state.handSelection.splice(idx, 1);
+  } else {
+    const energy = diff.p1?.energy ?? 0;
+    const cost = Number(c.cost) || 0;
+    if (handSelectionReservedAp() + cost > energy) {
+      toast(state.locale === "ru" ? "Не хватает AP" : "Not enough AP");
+      return;
+    }
+    state.handSelection.push({
+      unitId: c.unitId,
+      handIndex: c.handIndex,
+      cardId: c.cardId,
+      cost,
+    });
+  }
+  try {
+    renderPracticeFight();
+    renderPvpFight();
+    renderBattle();
+  } catch {
+    /* ignore */
+  }
+}
+
+function resolveQueuedHandCard(sel) {
+  const hand = state.battle?.hand || [];
+  const exact = hand.find(
+    (c) =>
+      c.unitId === sel.unitId &&
+      c.handIndex === sel.handIndex &&
+      c.cardId === sel.cardId,
+  );
+  if (exact) return exact;
+  // Indices shift after earlier plays in the same commit — match unit + cardId.
+  return hand.find((c) => c.unitId === sel.unitId && c.cardId === sel.cardId) || null;
+}
+
+/**
+ * D-053 · play selected cards in order (server playCard + FX), then endTurn.
+ * Enemy turn timer / opp throw start after endTurn as before.
+ */
+async function commitHandSelectionAndEndTurn() {
+  if (state.actionBusy || state.oppThrowPlaying || state.turnCommitPlaying) return;
+  if (!state.battle?.canEndTurn || state.battle?.result || state.battle?.active !== 0) return;
+  const queue = [...(state.handSelection || [])];
+  clearHandSelection();
+  state.selectedKeep = null;
+  state.endTurnArmed = false;
+  state.turnCommitPlaying = true;
+  clearBattleTurnTimer();
+  try {
+    for (const sel of queue) {
+      if (!state.battle || state.battle.result || state.battle.active !== 0) break;
+      const c = resolveQueuedHandCard(sel);
+      if (!c || c.playable === false) continue;
+      if (unitCrowdControlled(state.battle, c.unitId)) continue;
+      await submitAction({
+        kind: "playCard",
+        unitId: c.unitId,
+        handIndex: c.handIndex,
+        targetId: "",
+      });
+      // Let hit/heal floats show between selected cards.
+      await new Promise((r) => setTimeout(r, 420));
+    }
+    if (
+      state.battle &&
+      !state.battle.result &&
+      state.battle.active === 0 &&
+      state.battle.canEndTurn
+    ) {
+      await submitAction({ kind: "endTurn" });
+    }
+  } finally {
+    state.turnCommitPlaying = false;
+  }
+}
+
 /** Portrait attack-card button for practice / PvP / wire battle hands. */
 function makeAttackHandButton(c, diff, classNames = "mf-atk-card") {
   const b = document.createElement("button");
@@ -12964,16 +13098,29 @@ function makeAttackHandButton(c, diff, classNames = "mf-atk-card") {
   const title = t(c.name_key, c.cardId);
   const cost = c.cost ?? "?";
   const cc = unitCrowdControlled(diff, c.unitId);
-  const busy = !!state.oppThrowPlaying || !!state.actionBusy || !!state.pvpAutoBattle;
+  const busy =
+    !!state.oppThrowPlaying ||
+    !!state.actionBusy ||
+    !!state.pvpAutoBattle ||
+    !!state.turnCommitPlaying;
+  const selected = isHandCardSelected(c);
   b.className = art
     ? `${classNames} mf-atk-card--art pf-card pf-card-art`
     : `${classNames} mf-atk-card--text pf-card`;
   if (cc) b.classList.add("mf-atk-card--stunned");
   if (busy) b.classList.add("is-busy-wait");
+  if (selected) b.classList.add("is-selected");
   b.disabled = !c.playable || cc || !!diff.result || diff.active !== 0 || busy;
   b.dataset.cardId = c.cardId || "";
   b.dataset.targetRule = c.targetRule || "";
-  b.title = cc ? `${title} · стан/сон — пропуск хода` : attackCardTooltip(c.cardId, title, cost);
+  b.dataset.handIndex = String(c.handIndex ?? "");
+  b.dataset.unitId = c.unitId || "";
+  b.setAttribute("aria-pressed", selected ? "true" : "false");
+  b.title = cc
+    ? `${title} · стан/сон — пропуск хода`
+    : selected
+      ? `${attackCardTooltip(c.cardId, title, cost)} · выбрана`
+      : attackCardTooltip(c.cardId, title, cost);
   if (art) {
     b.innerHTML = `<img alt="${title}" src="${art}" draggable="false"/><b class="mf-atk-card__meta">${title}</b><span class="mf-atk-card__sub">${cost} AP</span>`;
     const img = b.querySelector("img");
@@ -12999,8 +13146,8 @@ function makeAttackHandButton(c, diff, classNames = "mf-atk-card") {
       submitAction({ kind: "keep", unitId: c.unitId, handIndex: c.handIndex });
       return;
     }
-    // Auto-target by card TargetRule (nearest / backline / all_enemies / self / heal…).
-    submitAction({ kind: "playCard", unitId: c.unitId, handIndex: c.handIndex, targetId: "" });
+    // D-053: select/deselect — play happens on ХОД ГОТОВ (server still SoT).
+    toggleHandCardSelection(c, diff);
   });
   return b;
 }
@@ -13579,7 +13726,7 @@ function syncBattleTurnTimer({ mine = false, turn = 0, battleId = "" } = {}) {
     if (state.battleTurnLeft <= 0) {
       clearBattleTurnTimer();
       toast(t("battle.turn.timeout", "Время хода вышло · ход передан"));
-      submitAction({ kind: "endTurn" });
+      void commitHandSelectionAndEndTurn();
     }
   }, 1000);
 }
@@ -13602,9 +13749,12 @@ function applyPracticeFightBackdrop() {
 function renderPracticeFight() {
   const diff = state.battle;
   if (!diff) return;
+  pruneHandSelection(diff);
   const local = diff.p1 || {};
   const energy = local.energy ?? 0;
   const mine = diff.active === 0 && !diff.result;
+  const reserved = mine ? handSelectionReservedAp() : 0;
+  const shownEnergy = Math.max(0, energy - reserved);
   const isPve = state.battleMode === "pve";
   if (isPve) syncPveFromStageId(state.selectedStageId);
   applyPracticeFightBackdrop();
@@ -13660,8 +13810,8 @@ function renderPracticeFight() {
       if (headSub) headSub.textContent = "Угроза: Уровень 44 • Тренировочные идолы";
     }
   }
-  if ($("pfOrbs")) $("pfOrbs").textContent = `Орбы энергии ${energy}`;
-  if ($("pfOrbsNum")) $("pfOrbsNum").textContent = String(energy);
+  if ($("pfOrbs")) $("pfOrbs").textContent = `Орбы энергии ${shownEnergy}`;
+  if ($("pfOrbsNum")) $("pfOrbsNum").textContent = String(shownEnergy);
   if ($("pfOrbsMax")) $("pfOrbsMax").textContent = String(energyMax);
   if ($("pfDrawCount")) $("pfDrawCount").textContent = String(drawCount);
   if ($("pfDiscardCount")) $("pfDiscardCount").textContent = String(discardCount);
@@ -13671,7 +13821,7 @@ function renderPracticeFight() {
     for (let i = 0; i < energyMax; i++) {
       const pip = document.createElement("span");
       pip.className =
-        i < energy
+        i < shownEnergy
           ? "w-2 h-2 rounded-full bg-primary shadow-[0_0_6px_rgba(253,186,69,0.8)]"
           : "w-2 h-2 rounded-full bg-surface-container-highest border border-outline-variant/40";
       pips.appendChild(pip);
@@ -13804,12 +13954,12 @@ function renderPracticeFight() {
       diff.active !== 0 ||
       state.oppThrowPlaying ||
       state.actionBusy ||
+      state.turnCommitPlaying ||
       state.pvpAutoBattle;
     const hint = end.querySelector(".pv-end-sub, :scope > span:last-of-type");
     if (hint) {
-      const playable = liveCards.filter((c) => c.playable).length;
       hint.textContent = mine
-        ? `В РУКЕ: ${liveCards.length} · ${playable} ход. · ${energy}/${energyMax} AP`
+        ? handSelectionCommitLabel(true)
         : diff.result
           ? String(diff.result)
           : "бот…";
@@ -13822,7 +13972,14 @@ function renderPracticeFight() {
   }
   if (!state.pvpFightPots) resetPvpFightPots();
   renderPvpFightPots(mine && !state.pvpAutoBattle);
-  if (state.pvpAutoBattle && mine && !diff.result && !state.actionBusy && !state.oppThrowPlaying) {
+  if (
+    state.pvpAutoBattle &&
+    mine &&
+    !diff.result &&
+    !state.actionBusy &&
+    !state.oppThrowPlaying &&
+    !state.turnCommitPlaying
+  ) {
     queuePvpAutoBattleStep();
   }
   if (diff.result && state.pvpAutoBattle) setPvpAutoBattle(false, { silent: true });
@@ -13831,6 +13988,8 @@ function renderPracticeFight() {
 function leaveLiveFightHud() {
   setPvpAutoBattle(false, { silent: true });
   clearTimeout(_pvpAutoStepTimer);
+  clearHandSelection();
+  state.turnCommitPlaying = false;
   state.battle = null;
   state.lastResult = null;
   state.oppThrowPlaying = false;
@@ -13859,8 +14018,7 @@ function bindPracticeFight() {
     }
     if (id === "pfEndTurn") {
       if (state.pvpAutoBattle) return;
-      state.selectedKeep = null;
-      submitAction({ kind: "endTurn" });
+      void commitHandSelectionAndEndTurn();
       return;
     }
     if (id === "pfBack") leaveLiveFightHud();
@@ -13889,7 +14047,7 @@ function bindPracticeFight() {
 }
 
 function requestEndTurn() {
-  if (state.actionBusy || state.oppThrowPlaying) return;
+  if (state.actionBusy || state.oppThrowPlaying || state.turnCommitPlaying) return;
   if (!state.battle?.canEndTurn || state.battle?.result || state.battle?.active !== 0) return;
   if (!state.endTurnArmed) {
     state.endTurnArmed = true;
@@ -13901,13 +14059,12 @@ function requestEndTurn() {
     return;
   }
   state.endTurnArmed = false;
-  state.selectedKeep = null;
-  submitAction({ kind: "endTurn" });
+  void commitHandSelectionAndEndTurn();
 }
 
-/** Hotkeys 1–6: play visible hand card; empty targetId → server TargetRule. */
+/** Hotkeys 1–6: toggle select visible hand card (D-053); commit on ХОД ГОТОВ / Space. */
 function playHandCardByHotkey(slotIndex) {
-  if (state.actionBusy || state.oppThrowPlaying) return;
+  if (state.actionBusy || state.oppThrowPlaying || state.turnCommitPlaying) return;
   const diff = state.battle;
   if (!diff || diff.result || diff.active !== 0) return;
   const cards = sortHandByVisualLanes(diff.hand || [], diff.units || []);
@@ -13919,7 +14076,7 @@ function playHandCardByHotkey(slotIndex) {
     submitAction({ kind: "keep", unitId: c.unitId, handIndex: c.handIndex });
     return;
   }
-  submitAction({ kind: "playCard", unitId: c.unitId, handIndex: c.handIndex, targetId: "" });
+  toggleHandCardSelection(c, diff);
 }
 
 function pvpUnitCard(u, foe, cleansedIds = []) {
@@ -14065,16 +14222,19 @@ function renderPvpFightPots(mine) {
 function renderPvpFight() {
   const diff = state.battle;
   if (!diff) return;
+  pruneHandSelection(diff);
   const energy = diff.p1?.energy ?? 0;
   const mine = diff.active === 0 && !diff.result;
+  const reserved = mine ? handSelectionReservedAp() : 0;
+  const shownEnergy = Math.max(0, energy - reserved);
   if ($("pvRound")) {
     $("pvRound").textContent = `Раунд ${diff.turn || 1} · ${
       mine ? "Ход игрока" : diff.result ? "Итог" : "Ход AI (smoke)"
     }`;
   }
   const energyMax = Math.max(energyTurnCap(diff.turn, true), energy);
-  if ($("pvEnergy")) $("pvEnergy").textContent = `Энергия ${energy}/${energyMax}`;
-  renderPvpApPips(energy, energyMax);
+  if ($("pvEnergy")) $("pvEnergy").textContent = `Энергия ${shownEnergy}/${energyMax}`;
+  renderPvpApPips(shownEnergy, energyMax);
   const root = $("viewPvpFight");
   const allyTitle = root?.querySelector(".pv-side.is-ally h2");
   const foeTitle = root?.querySelector(".pv-side.is-enemy h2");
@@ -14140,12 +14300,12 @@ function renderPvpFight() {
       diff.active !== 0 ||
       state.oppThrowPlaying ||
       state.actionBusy ||
+      state.turnCommitPlaying ||
       state.pvpAutoBattle;
     const sub = $("pvEndSub");
     if (sub) {
-      const playable = cards.filter((c) => c.playable).length;
       sub.textContent = mine
-        ? `В РУКЕ: ${cards.length} · ${playable} ход. · ${energy}/${energyMax} AP`
+        ? handSelectionCommitLabel(true)
         : diff.result
           ? String(diff.result)
           : "ход соперника…";
@@ -14157,7 +14317,14 @@ function renderPvpFight() {
     syncPvpAutoBattleUi();
   }
   renderPvpFightPots(mine && !state.pvpAutoBattle);
-  if (state.pvpAutoBattle && mine && !diff.result && !state.actionBusy && !state.oppThrowPlaying) {
+  if (
+    state.pvpAutoBattle &&
+    mine &&
+    !diff.result &&
+    !state.actionBusy &&
+    !state.oppThrowPlaying &&
+    !state.turnCommitPlaying
+  ) {
     queuePvpAutoBattleStep();
   }
   if (diff.result && state.pvpAutoBattle) setPvpAutoBattle(false, { silent: true });
@@ -14170,6 +14337,7 @@ function setPvpAutoBattle(on, { silent = false } = {}) {
   syncPvpAutoBattleUi();
   if (!changed) return;
   if (state.pvpAutoBattle) {
+    clearHandSelection();
     if (!silent) toast(state.locale === "ru" ? "Авто-бой включён" : "Auto-battle ON");
     queuePvpAutoBattleStep();
   } else if (!silent) {
@@ -14202,7 +14370,7 @@ async function runPvpAutoBattleStep() {
     setPvpAutoBattle(false, { silent: true });
     return;
   }
-  if (state.actionBusy || state.oppThrowPlaying || diff.active !== 0) {
+  if (state.actionBusy || state.oppThrowPlaying || state.turnCommitPlaying || diff.active !== 0) {
     queuePvpAutoBattleStep();
     return;
   }
@@ -14212,6 +14380,7 @@ async function runPvpAutoBattleStep() {
     .sort((a, b) => (a.cost ?? 1) - (b.cost ?? 1));
   if (cards.length) {
     const c = cards[0];
+    // Auto still plays immediately (no manual select queue).
     await submitAction({ kind: "playCard", unitId: c.unitId, handIndex: c.handIndex, targetId: "" });
     if (state.pvpAutoBattle) queuePvpAutoBattleStep();
     return;
@@ -14252,6 +14421,8 @@ async function usePvpFightPotion(slotKey) {
 function leavePvpFight() {
   state.pvpAutoBattle = false;
   clearTimeout(_pvpAutoStepTimer);
+  clearHandSelection();
+  state.turnCommitPlaying = false;
   state.battle = null;
   state.lastResult = null;
   state.battleMode = "";
@@ -14281,8 +14452,7 @@ function bindPvpFight() {
     }
     if (id === "pvEndTurn") {
       if (state.pvpAutoBattle) return;
-      state.selectedKeep = null;
-      submitAction({ kind: "endTurn" });
+      void commitHandSelectionAndEndTurn();
       return;
     }
     if (id === "pvSurrender") {
@@ -14316,13 +14486,16 @@ function bindPvpFight() {
 function renderBattle() {
   const diff = state.battle;
   if (!diff) return;
+  pruneHandSelection(diff);
   const local = diff.p1 || {};
   const mine = diff.active === 0 && !diff.result;
-  $("battleHeading").textContent = `${diff.battleId || "?"} · T${diff.turn} · seq ${diff.seq}`;
   const energyNow = local.energy ?? 0;
+  const reserved = mine ? handSelectionReservedAp() : 0;
+  const shownEnergy = Math.max(0, energyNow - reserved);
+  $("battleHeading").textContent = `${diff.battleId || "?"} · T${diff.turn} · seq ${diff.seq}`;
   const energyMax = Math.max(energyTurnCap(diff.turn, true), energyNow);
   $("battleStats").innerHTML = `
-    <span>⚡ <b>${energyNow}/${energyMax}</b></span>
+    <span>⚡ <b>${shownEnergy}/${energyMax}</b>${reserved ? ` · выбр. ${reserved}` : ""}</span>
     <span>🥛 <b>${local.milkDrops ?? 0}</b> / bursts ${local.milkBursts ?? 0}</span>
     <span>active <b>P${(diff.active ?? 0) + 1}</b></span>
   `;
@@ -14354,10 +14527,16 @@ function renderBattle() {
   }
 
   $("btnEndTurn").disabled =
-    !diff.canEndTurn || !!diff.result || diff.active !== 0 || state.oppThrowPlaying || state.actionBusy;
+    !diff.canEndTurn ||
+    !!diff.result ||
+    diff.active !== 0 ||
+    state.oppThrowPlaying ||
+    state.actionBusy ||
+    state.turnCommitPlaying;
   // Keep soft-launch control removed (D-052); sim Keep stays §3.4.
   state.selectedKeep = null;
-  $("btnSurrender").disabled = !!diff.result || state.oppThrowPlaying || state.actionBusy;
+  $("btnSurrender").disabled =
+    !!diff.result || state.oppThrowPlaying || state.actionBusy || state.turnCommitPlaying;
 
   const banner = $("resultBanner");
   if (diff.result) {
@@ -14575,6 +14754,13 @@ async function createPvE({ autoPlay = false, seed = 0, stageId = null, team = nu
 async function submitAction(action) {
   if (!state.battle?.battleId) return;
   if (state.oppThrowPlaying || state.actionBusy) return;
+  // Outside commit loop, end/surrender/keep drop any leftover picks.
+  if (
+    !state.turnCommitPlaying &&
+    (action.kind === "endTurn" || action.kind === "surrender" || action.kind === "keep")
+  ) {
+    clearHandSelection();
+  }
   state.actionBusy = true;
   try {
     const prevActive = state.battle.active;
@@ -17411,7 +17597,7 @@ function bindRaidBattleStub() {
         return;
       }
       if (state.battle && !state.battle.result && state.battleMode === "boss") {
-        submitAction({ kind: "endTurn" });
+        void commitHandSelectionAndEndTurn();
         return;
       }
       startRaidNodeFight({ autoPlay: false });
@@ -17953,15 +18139,20 @@ function wireButtons() {
   $("btnBossRaidHub")?.addEventListener("click", () => navigate("hub"));
   $("btnBossRaidFormation")?.addEventListener("click", () => navigate("formation"));
   $("btnBossRaidDungeon")?.addEventListener("click", () => navigate("boss_dungeon"));
-  $("btnEndTurn").addEventListener("click", () => submitAction({ kind: "endTurn" }));
+  $("btnEndTurn").addEventListener("click", () => {
+    void commitHandSelectionAndEndTurn();
+  });
   $("btnSurrender").addEventListener("click", () => submitAction({ kind: "surrender" }));
   $("btnBackHub").addEventListener("click", () => {
+    clearHandSelection();
+    state.turnCommitPlaying = false;
     state.battle = null;
     state.lastResult = null;
     state.selectedKeep = null;
     navigate("hub");
   });
   $("btnResultHub").addEventListener("click", () => {
+    clearHandSelection();
     state.battle = null;
     state.lastResult = null;
     navigate("hub");

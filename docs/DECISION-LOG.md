@@ -12,6 +12,26 @@ Append-only. Новые записи — **сверху** (после шабло
 6. Одна запись = одно решение. Не смешивать баланс и IA в одном D-id.
 7. В коде/доках ссылайся `D-0xx`, не копируй абзац Context.
 
+## D-053 · 2026-11-24 · Hand select → commit turn (all live modes)
+
+- **Status:** Accepted
+- **Area:** hud | battle
+- **SSOT:** docs/FULL-SPEC.md §6 Battle HUD
+- **Owner:** Andrew / web-hud
+
+### Context
+Карты в soft-launch fight HUD игрались сразу по тапу; эталон tray («ХОД ГОТОВ» + glow) подразумевает набор выбранных карт и один commit. Нужен один UX во всех live-режимах (practice / Mythmir PvE / PvP / wire).
+
+### Decision
+1. Тап / hotkey 1–6 **выбирает** карту (toggle + amber glow); карта остаётся в руке.
+2. AP HUD показывает остаток после резерва выбранных; нельзя выбрать сверх текущего energy.
+3. **ХОД ГОТОВ** / Space×2 / timeout: по очереди `playCard` (сервер SoT + FX), затем `endTurn` → ход врага (таймер / opp throw) как раньше.
+4. Авто-бой по-прежнему играет карты сразу (без очереди выбора).
+5. Targeting: по-прежнему `targetId:""` → server TargetRule (`D-050` / §6 pause на ручной aim).
+
+### Consequences
+`client/web-hud` `handSelection` + `commitHandSelectionAndEndTurn`; FULL-SPEC §6. Симулятор без batch API — клиент шлёт последовательные SubmitAction.
+
 ## D-052 · 2026-11-24 · Fight tray unify · no Keep button · potions ≤1 loadout
 
 - **Status:** Accepted
