@@ -4593,6 +4593,38 @@ function applyPveYardTeamPreset(pi) {
   return true;
 }
 
+/**
+ * PvE yard «Поменять порядок»: swap visual тыл ↔ авангард (catIds[0] ↔ [2]).
+ * Stays on yard — does not open the broken formation screen.
+ * CreatePvE still reads sim order via collectionPresetTemplateIds (front←vanguard).
+ */
+function swapPveYardFrontRear() {
+  if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
+  const pi = state.colPresetIndex || 0;
+  const preset = state.profile?.presets?.[pi];
+  if (!preset) {
+    toast("Сначала выберите команду");
+    return false;
+  }
+  if (!Array.isArray(preset.catIds)) preset.catIds = [];
+  while (preset.catIds.length < 3) preset.catIds.push(null);
+  const a = preset.catIds[0];
+  const b = preset.catIds[2];
+  if (!a && !b) {
+    toast("Пустые слоты тыл/авангард — соберите отряд в Коллекции");
+    return false;
+  }
+  preset.catIds[0] = b;
+  preset.catIds[2] = a;
+  if (typeof persistCollectionStub === "function") persistCollectionStub();
+  renderPveYardSquad();
+  renderPveYardTeamPicker();
+  const visual = pveYardActiveCats();
+  const names = visual.map((c) => (c ? catSheetName(c) : "—"));
+  toast(`Порядок: ${names[0]} · ${names[1]} · ${names[2]}`);
+  return true;
+}
+
 /** Painted PvE campaign hub (viewYard) — D-025: no menu chrome; CTAs only. */
 function bindYardForm() {
   const start = $("btnYardStartBattle");
@@ -4621,7 +4653,10 @@ function bindYardForm() {
   const toForm = $("btnYardToFormationPainted");
   if (toForm && !toForm.dataset.bound) {
     toForm.dataset.bound = "1";
-    toForm.addEventListener("click", () => navigate("formation"));
+    toForm.addEventListener("click", (ev) => {
+      ev.preventDefault();
+      swapPveYardFrontRear();
+    });
   }
   const team = $("btnYardTeamPreset");
   if (team && !team.dataset.bound) {
@@ -16094,15 +16129,16 @@ function collectionParseDrag(ev) {
   }
 }
 
+/** Visual L→R catIds: тыл · центр · авангард (D-034). Sim flips via collectionPresetTemplateIds. */
 function collectionAutopickSquad(roster, usedIds) {
   const pick = [];
   const take = (role) => {
     const c = roster.find((x) => homeCatRole(x) === role && !usedIds.has(x.catId) && !pick.includes(x.catId));
     if (c) pick.push(c.catId);
   };
-  take("tank");
-  take("fighter");
   take("support");
+  take("fighter");
+  take("tank");
   for (const c of roster) {
     if (pick.length >= 3) break;
     if (!usedIds.has(c.catId) && !pick.includes(c.catId)) pick.push(c.catId);
