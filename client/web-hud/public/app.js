@@ -1276,7 +1276,7 @@ const state = {
   /** In-fight PvP auto-battle toggle (client AI loop while player's turn). */
   pvpAutoBattle: false,
   /** Local fight potion tray qty (HUD smoke — Phase 1 sim rejects ActionPotion). */
-  pvpFightPots: { heal: 2, energy: 1, cleanse: 2 },
+  pvpFightPots: { heal: 1, energy: 1, cleanse: 1 },
   bossWaveIndex: 0,
   campaign: null,
   bossFirst: null,
@@ -13769,7 +13769,9 @@ function renderPracticeFight() {
   if (hand) {
     hand.removeAttribute("data-pf-hand-static");
     hand.classList.add("mf-attack-hand");
-    hand.style.setProperty("--mf-hand-h", "20rem");
+    hand.style.setProperty("--mf-hand-h", "16.75rem");
+    hand.style.removeProperty("height");
+    hand.style.removeProperty("min-height");
     hand.innerHTML = "";
     if (!mine && !diff.result) {
       // Opponent turn: never reveal their hand — face-down throw overlay is the cue.
@@ -13792,15 +13794,8 @@ function renderPracticeFight() {
       }
     }
   }
-  const keepBtn = document.querySelector("#viewPracticeFight #pfKeep");
-  if (keepBtn) {
-    const kc = local.keepCost ?? 1;
-    keepBtn.disabled =
-      !diff.canKeep || !!diff.result || !mine || state.oppThrowPlaying || state.actionBusy;
-    keepBtn.innerHTML = state.selectedKeep?.mode
-      ? `<span class="material-symbols-outlined text-[16px]">touch_app</span><span>Keep: клик по карте</span>`
-      : `<span class="material-symbols-outlined text-[16px]">back_hand</span><span>Keep (${kc})</span>`;
-  }
+  // Keep control removed from soft-launch tray (D-052).
+  state.selectedKeep = null;
   const end = document.querySelector("#viewPracticeFight #pfEndTurn");
   if (end) {
     end.disabled =
@@ -13809,16 +13804,18 @@ function renderPracticeFight() {
       diff.active !== 0 ||
       state.oppThrowPlaying ||
       state.actionBusy;
-    const hint = end.querySelector(":scope > span:last-of-type");
+    const hint = end.querySelector(".pv-end-sub, :scope > span:last-of-type");
     if (hint) {
       const playable = liveCards.filter((c) => c.playable).length;
       hint.textContent = mine
-        ? `${liveCards.length}·${playable}·${energy}/${energyMax}AP`
+        ? `В РУКЕ: ${liveCards.length} · ${playable} ход. · ${energy}/${energyMax} AP`
         : diff.result
           ? String(diff.result)
           : "бот…";
     }
   }
+  if (!state.pvpFightPots) resetPvpFightPots();
+  renderPvpFightPots(mine);
 }
 
 function leaveLiveFightHud() {
@@ -13836,17 +13833,18 @@ function bindPracticeFight() {
   if (!root || root.dataset.bound === "1") return;
   root.dataset.bound = "1";
   root.addEventListener("click", (ev) => {
-    const id = ev.target.closest("button")?.id;
-    if (id === "pfKeep") {
-      if (!state.battle?.canKeep || state.battle?.result) return;
-      state.selectedKeep = { mode: true };
-      toast(state.locale === "ru" ? "Keep: клик по карте в руке" : "Keep: click a hand card");
-      renderPracticeFight();
+    const btn = ev.target.closest("button");
+    if (!btn) return;
+    const potKey = btn.getAttribute("data-pf-pot");
+    if (potKey) {
+      void usePvpFightPotion(potKey);
       return;
     }
+    const id = btn.id;
     if (id === "pfEndTurn") {
       state.selectedKeep = null;
       submitAction({ kind: "endTurn" });
+      return;
     }
     if (id === "pfBack") leaveLiveFightHud();
   });
@@ -13946,38 +13944,46 @@ function pvpUnitCard(u, foe, cleansedIds = []) {
   return li;
 }
 
+/** Battle loadout cap — FULL-SPEC §3.4 / §2.5: ≤1 per potionId into a fight (inventory may hold more). */
+const BATTLE_POTION_LOADOUT_CAP = 1;
+
 const PVP_FIGHT_POT_META = {
   heal: {
     potionId: "potion_heal",
     matId: "potion_heal",
     name: "Зелье жизни",
     fx: "Восстановление HP (stub)",
-    qtyId: "pvPotHealQty",
-    btnId: "pvPotHeal",
+    qtyIds: ["pvPotHealQty", "pfPotHealQty"],
+    btnIds: ["pvPotHeal", "pfPotHeal"],
   },
   energy: {
     potionId: "potion_energy",
     matId: "potion_energy",
     name: "Эликсир энергии",
     fx: "+1 энергия (AP)",
-    qtyId: "pvPotEnergyQty",
-    btnId: "pvPotEnergy",
+    qtyIds: ["pvPotEnergyQty", "pfPotEnergyQty"],
+    btnIds: ["pvPotEnergy", "pfPotEnergy"],
   },
   cleanse: {
     potionId: "potion_cleanse",
     matId: "potion_cleanse",
     name: "Отвар очищения",
     fx: "Снять 1 дебафф",
-    qtyId: "pvPotCleanseQty",
-    btnId: "pvPotCleanse",
+    qtyIds: ["pvPotCleanseQty", "pfPotCleanseQty"],
+    btnIds: ["pvPotCleanse", "pfPotCleanse"],
   },
 };
 
+function battlePotionLoadoutQty(matId) {
+  return Math.min(BATTLE_POTION_LOADOUT_CAP, Math.max(0, barnMatQty(matId)));
+}
+
 function resetPvpFightPots() {
+  // Cap at 1/id even if warehouse has more — do not take stacks into a fight.
   state.pvpFightPots = {
-    heal: Math.max(0, barnMatQty("potion_heal")),
-    energy: Math.max(0, barnMatQty("potion_energy")),
-    cleanse: Math.max(0, barnMatQty("potion_cleanse")),
+    heal: battlePotionLoadoutQty("potion_heal"),
+    energy: battlePotionLoadoutQty("potion_energy"),
+    cleanse: battlePotionLoadoutQty("potion_cleanse"),
   };
 }
 
@@ -14014,11 +14020,18 @@ function renderPvpApPips(energy, energyMax) {
 function renderPvpFightPots(mine) {
   if (!state.pvpFightPots) resetPvpFightPots();
   for (const [key, meta] of Object.entries(PVP_FIGHT_POT_META)) {
-    const qty = Math.max(0, Number(state.pvpFightPots[key]) || 0);
-    const qtyEl = $(meta.qtyId);
-    const btn = $(meta.btnId);
-    if (qtyEl) qtyEl.textContent = String(qty);
-    if (btn) {
+    const qty = Math.min(
+      BATTLE_POTION_LOADOUT_CAP,
+      Math.max(0, Number(state.pvpFightPots[key]) || 0),
+    );
+    state.pvpFightPots[key] = qty;
+    for (const qtyId of meta.qtyIds || []) {
+      const qtyEl = $(qtyId);
+      if (qtyEl) qtyEl.textContent = String(qty);
+    }
+    for (const btnId of meta.btnIds || []) {
+      const btn = $(btnId);
+      if (!btn) continue;
       btn.classList.toggle("is-empty", qty <= 0);
       btn.disabled = !mine || qty <= 0 || !!state.battle?.result || state.oppThrowPlaying || state.actionBusy;
     }
@@ -14090,13 +14103,8 @@ function renderPvpFight() {
       }
     }
   }
-  const keepBtn = $("pvKeep");
-  if (keepBtn) {
-    const kc = diff.p1?.keepCost ?? 1;
-    keepBtn.disabled =
-      !diff.canKeep || !!diff.result || !mine || state.oppThrowPlaying || state.actionBusy || state.pvpAutoBattle;
-    keepBtn.textContent = state.selectedKeep?.mode ? "Keep: клик по карте" : `Keep (${kc})`;
-  }
+  // Keep control removed from soft-launch tray (D-052).
+  state.selectedKeep = null;
   const end = $("pvEndTurn");
   if (end) {
     end.disabled =
@@ -14243,14 +14251,6 @@ function bindPvpFight() {
       togglePvpAutoBattle();
       return;
     }
-    if (id === "pvKeep") {
-      if (state.pvpAutoBattle) return;
-      if (!state.battle?.canKeep || state.battle?.result) return;
-      state.selectedKeep = { mode: true };
-      toast(state.locale === "ru" ? "Keep: клик по карте в руке" : "Keep: click a hand card");
-      renderPvpFight();
-      return;
-    }
     if (id === "pvEndTurn") {
       if (state.pvpAutoBattle) return;
       state.selectedKeep = null;
@@ -14296,7 +14296,6 @@ function renderBattle() {
   $("battleStats").innerHTML = `
     <span>⚡ <b>${energyNow}/${energyMax}</b></span>
     <span>🥛 <b>${local.milkDrops ?? 0}</b> / bursts ${local.milkBursts ?? 0}</span>
-    <span>keep <b>${local.keepCost ?? 1}</b></span>
     <span>active <b>P${(diff.active ?? 0) + 1}</b></span>
   `;
 
@@ -14328,12 +14327,8 @@ function renderBattle() {
 
   $("btnEndTurn").disabled =
     !diff.canEndTurn || !!diff.result || diff.active !== 0 || state.oppThrowPlaying || state.actionBusy;
-  $("btnKeep").disabled = !diff.canKeep || !!diff.result || state.oppThrowPlaying || state.actionBusy;
-  $("btnKeep").textContent = state.selectedKeep?.mode
-    ? state.locale === "ru"
-      ? "Keep: клик по карте"
-      : "Keep: click a card"
-    : `Keep (${local.keepCost ?? 1})`;
+  // Keep soft-launch control removed (D-052); sim Keep stays §3.4.
+  state.selectedKeep = null;
   $("btnSurrender").disabled = !!diff.result || state.oppThrowPlaying || state.actionBusy;
 
   const banner = $("resultBanner");
@@ -14649,6 +14644,7 @@ async function startYard(autoPlay = false) {
       team: plan.team,
       carryAlive: plan.carryAlive,
     });
+    resetPvpFightPots();
     await applyDiff(diff, autoPlay ? "CreatePvE autoPlay" : `CreatePvE ${plan.stageId}`);
   } catch (err) {
     log(`CreatePvE fail: ${err.message}`);
@@ -17888,12 +17884,6 @@ function wireButtons() {
   $("btnBossRaidFormation")?.addEventListener("click", () => navigate("formation"));
   $("btnBossRaidDungeon")?.addEventListener("click", () => navigate("boss_dungeon"));
   $("btnEndTurn").addEventListener("click", () => submitAction({ kind: "endTurn" }));
-  $("btnKeep").addEventListener("click", () => {
-    if (!state.battle?.canKeep || state.battle?.result) return;
-    state.selectedKeep = { mode: true };
-    log(state.locale === "ru" ? "Выбери карту для Keep (клик)" : "Click a card to Keep");
-    renderBattle();
-  });
   $("btnSurrender").addEventListener("click", () => submitAction({ kind: "surrender" }));
   $("btnBackHub").addEventListener("click", () => {
     state.battle = null;

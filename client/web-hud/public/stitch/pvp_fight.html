@@ -33,7 +33,6 @@
 <span class="pv-ap-num"><b id="pvApNum">0</b><em>/4 AP</em></span>
 <div class="pv-ap-pips" id="pvApPips" aria-hidden="true"></div>
 </div>
-<button type="button" class="pv-keep" id="pvKeep" title="Удержать карту (§3.4)">Keep</button>
 <button type="button" class="pv-end" id="pvEndTurn">
 <span class="pv-end-label">ХОД ГОТОВ</span>
 <span class="pv-end-sub" id="pvEndSub">0 карт · 0 AP</span>
@@ -42,15 +41,15 @@
 <span class="pv-auto-left"><span class="material-symbols-outlined">smart_toy</span> Авто-бой</span>
 <span class="pv-auto-right"><em id="pvAutoStatus">ВЫКЛ</em><i class="pv-auto-track" id="pvAutoTrack"><i class="pv-auto-knob"></i></i></span>
 </button>
-<div class="pv-pots" id="pvPots" role="group" aria-label="Зелья в бою">
-<button type="button" class="pv-pot is-heal" data-pv-pot="heal" id="pvPotHeal" title="Зелье жизни (восстановление HP)">
-<img alt="" decoding="async" loading="lazy" data-mf-src="/barn-icons/potion-nature.png"><span class="pv-pot-qty" id="pvPotHealQty">2</span>
+<div class="pv-pots" id="pvPots" role="group" aria-label="Зелья в бою · ≤1 / potionId">
+<button type="button" class="pv-pot is-heal" data-pv-pot="heal" id="pvPotHeal" title="Зелье жизни · ≤1 в бою">
+<img alt="" decoding="async" loading="lazy" data-mf-src="/barn-icons/potion-nature.png"><span class="pv-pot-qty" id="pvPotHealQty">1</span>
 </button>
-<button type="button" class="pv-pot is-energy" data-pv-pot="energy" id="pvPotEnergy" title="Эликсир энергии (+1 AP)">
+<button type="button" class="pv-pot is-energy" data-pv-pot="energy" id="pvPotEnergy" title="Эликсир энергии · ≤1 в бою">
 <img alt="" decoding="async" loading="lazy" data-mf-src="/barn-icons/potion-energy.png"><span class="pv-pot-qty" id="pvPotEnergyQty">1</span>
 </button>
-<button type="button" class="pv-pot is-cleanse" data-pv-pot="cleanse" id="pvPotCleanse" title="Отвар очищения (−1 дебафф)">
-<img alt="" decoding="async" loading="lazy" data-mf-src="/barn-icons/potion-cleanse.png"><span class="pv-pot-qty" id="pvPotCleanseQty">2</span>
+<button type="button" class="pv-pot is-cleanse" data-pv-pot="cleanse" id="pvPotCleanse" title="Отвар очищения · ≤1 в бою">
+<img alt="" decoding="async" loading="lazy" data-mf-src="/barn-icons/potion-cleanse.png"><span class="pv-pot-qty" id="pvPotCleanseQty">1</span>
 </button>
 </div>
 <p class="sr-only" id="pvOrbs">0 карт</p>
