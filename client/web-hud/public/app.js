@@ -3049,6 +3049,8 @@ function pvpSquadIds() {
   if (Array.isArray(state.pvpSquad) && state.pvpSquad.length === 3) {
     return [...state.pvpSquad];
   }
+  const fromCol = collectionPresetTemplateIds(pvpArenaPresetIndex());
+  if (fromCol && fromCol.length === 3) return fromCol;
   return ["shop_tank_fire", "shop_fighter_fire", "shop_support_water"];
 }
 
@@ -15276,27 +15278,20 @@ function renderPveFight() {
   }
 }
 
-/** Arena presets: sim order front(tank) → mid(DPS) → rear(support). */
-const PVP_ARENA_SQUADS = {
-  "1": {
-    name: "Мурр-Оплот",
-    team: ["shop_tank_fire", "shop_fighter_fire", "shop_support_water"],
-  },
-  "2": {
-    name: "Теневой Клык",
-    team: ["shop_tank_water", "shop_assassin_fire", "shop_support_wind"],
-  },
-  "3": {
-    name: "Ледяной Строй",
-    team: ["shop_tank_water", "shop_mage_water", "shop_support_water"],
-  },
-};
+/** Arena squads = collection presets (COL_SQUADS: PvE + PvP). */
 const PVP_DPS_ROLES = new Set(["fighter", "assassin", "ranger", "mage"]);
 const PVP_FOE_NAMES = ["Свора Гладиаторов", "Клык Арены", "Тень Колизея", "Рёв Трибун", "Лапы Судьбы"];
 
 function pickRandomItem(list) {
   if (!list?.length) return null;
   return list[Math.floor(Math.random() * list.length)];
+}
+
+/** Collection preset index selected for PvP lobby (0=PvE, 1=PvP). */
+function pvpArenaPresetIndex() {
+  const n = Number(state.pvpArenaSquadId);
+  if (Number.isFinite(n) && n >= 0 && n < COL_SQUADS) return n;
+  return Math.min(1, Math.max(0, COL_SQUADS - 1));
 }
 
 /** MM stub: random tank + DPS + support from all shop cats. */
@@ -15315,20 +15310,48 @@ function rollPvpOpponentTeam(excludeIds = []) {
 }
 
 function ensurePvpSquad() {
-  const preset = PVP_ARENA_SQUADS[state.pvpArenaSquadId] || PVP_ARENA_SQUADS["1"];
-  if (!Array.isArray(state.pvpSquad) || state.pvpSquad.length !== 3) {
-    state.pvpSquad = [...preset.team];
+  if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
+  let pi = pvpArenaPresetIndex();
+  let tids = collectionPresetTemplateIds(pi);
+  if (!tids || tids.length !== 3) {
+    for (let i = 0; i < COL_SQUADS; i++) {
+      const alt = collectionPresetTemplateIds(i);
+      if (alt && alt.length === 3) {
+        pi = i;
+        tids = alt;
+        break;
+      }
+    }
+  }
+  state.pvpArenaSquadId = String(pi);
+  if (tids && tids.length === 3) {
+    state.pvpSquad = tids;
+  } else if (!Array.isArray(state.pvpSquad) || state.pvpSquad.length !== 3) {
+    const starters = typeof combatStarterIds === "function" ? combatStarterIds() : STARTERS;
+    state.pvpSquad =
+      starters.length === 3
+        ? [...starters]
+        : ["shop_tank_fire", "shop_fighter_fire", "shop_support_water"];
   }
   return state.pvpSquad;
 }
 
 function applyPvpArenaSquad(id) {
-  const preset = PVP_ARENA_SQUADS[id];
-  if (!preset) return;
-  state.pvpArenaSquadId = id;
-  state.pvpSquad = [...preset.team];
+  if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
+  const pi = Math.max(0, Math.min(COL_SQUADS - 1, Number(id)));
+  if (!Number.isFinite(Number(id))) return false;
+  const preset = state.profile?.presets?.[pi];
+  const filled = (preset?.catIds || []).filter(Boolean).length;
+  if (filled < 3) {
+    toast("В этом отряде меньше 3 котиков — доберите в Коллекции");
+    return false;
+  }
+  state.pvpArenaSquadId = String(pi);
+  const tids = collectionPresetTemplateIds(pi);
+  if (tids && tids.length === 3) state.pvpSquad = tids;
   state.pvpOpponentTeam = null;
   state.pvpOpponentName = "";
+  return true;
 }
 
 function pvpRosterEntry(templateId) {
@@ -15363,7 +15386,10 @@ function pvpVisualRoster(teamIds) {
 }
 
 function pvpActiveSquadName() {
-  return PVP_ARENA_SQUADS[state.pvpArenaSquadId]?.name || "Мурр-Оплот";
+  if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
+  const pi = pvpArenaPresetIndex();
+  const preset = state.profile?.presets?.[pi];
+  return preset?.name || COL_SQUAD_NAMES[pi] || "PvP";
 }
 
 /** Open ranked duel load sheet after MM stub finds a foe. */
@@ -17151,37 +17177,53 @@ function renderPvpArenaOppPreview(mode = "idle") {
     .join("");
 }
 
+function renderPvpArenaSquadList() {
+  const host = $("arenaSquadList");
+  if (!host) return;
+  if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
+  const active = String(pvpArenaPresetIndex());
+  const count = $("arenaSquadCount");
+  if (count) count.textContent = `${COL_SQUADS} команды`;
+  host.innerHTML = Array.from({ length: COL_SQUADS }, (_, pi) => {
+    const preset = state.profile?.presets?.[pi] || { name: COL_SQUAD_NAMES[pi], catIds: [] };
+    const slotCats = [0, 1, 2].map((i) => collectionCatById(preset.catIds?.[i]) || null);
+    const filled = slotCats.filter(Boolean).length;
+    const on = String(pi) === active;
+    const title = preset.name || COL_SQUAD_NAMES[pi];
+    const faces = slotCats
+      .map((c) => {
+        if (!c) {
+          return `<span class="w-7 h-7 rounded-full border border-dashed border-outline-variant/50 bg-black/30 inline-flex items-center justify-center text-[9px] text-outline">?</span>`;
+        }
+        const art = catHeroArt(c.templateId) || "/stitch-assets/cat-heroes/fighter-fire.webp?v=gear18c";
+        return `<img alt="" class="w-7 h-7 rounded-full border ${on ? "border-primary/50" : "border-outline-variant/50"} object-cover object-top" src="${art}">`;
+      })
+      .join("");
+    const hint =
+      filled === 3
+        ? slotCats
+            .filter(Boolean)
+            .map((c) => catSheetName(c).split(/\s+/)[0])
+            .join(" · ")
+        : "Соберите в Коллекции";
+    return `<article data-arena-squad="${pi}" class="arena-squad${on ? " is-on" : ""} rounded-lg border ${on ? "border-primary/60" : "border-outline-variant/40"} bg-[#1a1613] p-1.5 cursor-pointer hover:border-primary/50 transition-colors" tabindex="0">
+<header class="flex items-center justify-between gap-1 mb-1"><b class="text-[10px] ${on ? "text-primary" : "text-on-surface-variant"} font-bold">${title}</b>${on ? `<i class="text-[9px] text-secondary not-italic font-bold">Активен</i>` : filled < 3 ? `<span class="text-[9px] text-outline">${filled}/3</span>` : ""}</header>
+<div class="flex -space-x-1.5 justify-center">${faces}</div>
+<p class="text-center text-[9px] text-outline mt-1 truncate">${hint}</p>
+</article>`;
+  }).join("");
+}
+
 function renderPvpArena() {
   const root = $("viewPvp");
   if (!root) return;
   ensurePvpSquad();
-  const id = state.pvpArenaSquadId || "1";
-  root.querySelectorAll("[data-arena-squad]").forEach((card) => {
-    const on = card.getAttribute("data-arena-squad") === id;
-    card.classList.toggle("is-on", on);
-    const badge = card.querySelector("header i");
-    if (on) {
-      if (!badge) {
-        const mark = document.createElement("i");
-        mark.className = "text-[9px] text-secondary not-italic font-bold";
-        mark.textContent = "Активен";
-        card.querySelector("header")?.appendChild(mark);
-      } else {
-        badge.textContent = "Активен";
-      }
-    } else if (badge) {
-      badge.remove();
-    }
-    const preset = PVP_ARENA_SQUADS[card.getAttribute("data-arena-squad")];
-    if (preset) {
-      const imgs = card.querySelectorAll("img");
-      preset.team.forEach((tid, i) => {
-        if (imgs[i]) imgs[i].src = catHeroArt(tid) || imgs[i].src;
-      });
-      const title = card.querySelector("p");
-      if (title) title.textContent = preset.name;
-    }
-  });
+  renderPvpArenaSquadList();
+  const bmEl = $("arenaSquadBm");
+  if (bmEl) {
+    const sum = (state.pvpSquad || []).reduce((n, id) => n + (pvpRosterEntry(id).bm || 0), 0);
+    bmEl.textContent = `${formatSheetNum(sum)} БМ`;
+  }
   root.querySelectorAll("[data-arena-mode]").forEach((btn) => {
     const on = btn.getAttribute("data-arena-mode") === (state.pvpArenaMode || "ranked");
     btn.classList.toggle("is-on", on);
@@ -17471,7 +17513,7 @@ function bindPvpArena() {
     if (squad && root.contains(squad)) {
       ev.preventDefault();
       const id = squad.getAttribute("data-arena-squad");
-      applyPvpArenaSquad(id);
+      if (!applyPvpArenaSquad(id)) return;
       renderPvpArena();
       toast(`Отряд «${pvpActiveSquadName()}» выбран для арены`);
       return;
