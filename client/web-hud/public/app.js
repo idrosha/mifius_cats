@@ -1273,7 +1273,7 @@ const state = {
   actionBusy: false,
   /** Space must be pressed twice within window to end turn (accidental-tap guard). */
   endTurnArmed: false,
-  /** In-fight PvP auto-battle toggle (client AI loop while player's turn). */
+  /** In-fight auto-battle toggle (client AI loop; PvP + practice/PvE HUD). */
   pvpAutoBattle: false,
   /** Local fight potion tray qty (HUD smoke — Phase 1 sim rejects ActionPotion). */
   pvpFightPots: { heal: 1, energy: 1, cleanse: 1 },
@@ -12964,7 +12964,7 @@ function makeAttackHandButton(c, diff, classNames = "mf-atk-card") {
   const title = t(c.name_key, c.cardId);
   const cost = c.cost ?? "?";
   const cc = unitCrowdControlled(diff, c.unitId);
-  const busy = !!state.oppThrowPlaying || !!state.actionBusy;
+  const busy = !!state.oppThrowPlaying || !!state.actionBusy || !!state.pvpAutoBattle;
   b.className = art
     ? `${classNames} mf-atk-card--art pf-card pf-card-art`
     : `${classNames} mf-atk-card--text pf-card`;
@@ -13803,7 +13803,8 @@ function renderPracticeFight() {
       !!diff.result ||
       diff.active !== 0 ||
       state.oppThrowPlaying ||
-      state.actionBusy;
+      state.actionBusy ||
+      state.pvpAutoBattle;
     const hint = end.querySelector(".pv-end-sub, :scope > span:last-of-type");
     if (hint) {
       const playable = liveCards.filter((c) => c.playable).length;
@@ -13814,11 +13815,22 @@ function renderPracticeFight() {
           : "бот…";
     }
   }
+  const autoBtn = $("pfAutoBattle");
+  if (autoBtn) {
+    autoBtn.disabled = !!diff.result || state.oppThrowPlaying;
+    syncPvpAutoBattleUi();
+  }
   if (!state.pvpFightPots) resetPvpFightPots();
-  renderPvpFightPots(mine);
+  renderPvpFightPots(mine && !state.pvpAutoBattle);
+  if (state.pvpAutoBattle && mine && !diff.result && !state.actionBusy && !state.oppThrowPlaying) {
+    queuePvpAutoBattleStep();
+  }
+  if (diff.result && state.pvpAutoBattle) setPvpAutoBattle(false, { silent: true });
 }
 
 function leaveLiveFightHud() {
+  setPvpAutoBattle(false, { silent: true });
+  clearTimeout(_pvpAutoStepTimer);
   state.battle = null;
   state.lastResult = null;
   state.oppThrowPlaying = false;
@@ -13841,7 +13853,12 @@ function bindPracticeFight() {
       return;
     }
     const id = btn.id;
+    if (id === "pfAutoBattle") {
+      togglePvpAutoBattle();
+      return;
+    }
     if (id === "pfEndTurn") {
+      if (state.pvpAutoBattle) return;
       state.selectedKeep = null;
       submitAction({ kind: "endTurn" });
       return;
@@ -13858,12 +13875,14 @@ function bindPracticeFight() {
     }
     if (ev.code === "Space") {
       ev.preventDefault();
+      if (state.pvpAutoBattle) return;
       requestEndTurn();
       return;
     }
     const digit = /^Digit([1-6])$/.exec(ev.code);
     if (digit) {
       ev.preventDefault();
+      if (state.pvpAutoBattle) return;
       playHandCardByHotkey(Number(digit[1]) - 1);
     }
   });
@@ -13988,13 +14007,18 @@ function resetPvpFightPots() {
 }
 
 function syncPvpAutoBattleUi() {
-  const btn = $("pvAutoBattle");
-  const status = $("pvAutoStatus");
-  if (!btn) return;
   const on = !!state.pvpAutoBattle;
-  btn.classList.toggle("is-on", on);
-  btn.setAttribute("aria-pressed", on ? "true" : "false");
-  if (status) status.textContent = on ? "ВКЛ" : "ВЫКЛ";
+  for (const [btnId, statusId] of [
+    ["pvAutoBattle", "pvAutoStatus"],
+    ["pfAutoBattle", "pfAutoStatus"],
+  ]) {
+    const btn = $(btnId);
+    if (!btn) continue;
+    btn.classList.toggle("is-on", on);
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+    const status = $(statusId);
+    if (status) status.textContent = on ? "ВКЛ" : "ВЫКЛ";
+  }
 }
 
 function renderPvpApPips(energy, energyMax) {
@@ -14168,7 +14192,8 @@ function queuePvpAutoBattleStep() {
 
 async function runPvpAutoBattleStep() {
   if (!state.pvpAutoBattle) return;
-  if (logicalViewId() !== "viewPvpFight") {
+  const view = logicalViewId();
+  if (view !== "viewPvpFight" && view !== "viewPracticeFight") {
     setPvpAutoBattle(false, { silent: true });
     return;
   }
@@ -14647,6 +14672,8 @@ async function startYard(autoPlay = false) {
       team: plan.team,
       carryAlive: plan.carryAlive,
     });
+    state.pvpAutoBattle = false;
+    syncPvpAutoBattleUi();
     resetPvpFightPots();
     await applyDiff(diff, autoPlay ? "CreatePvE autoPlay" : `CreatePvE ${plan.stageId}`);
   } catch (err) {
