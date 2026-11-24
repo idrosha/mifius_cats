@@ -4201,16 +4201,25 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   box-shadow: 0 -10px 28px rgba(0, 0, 0, 0.55);
 }
 .pv-act {
-  flex: 0 0 12.75rem;
+  flex: 0 0 13.25rem;
   order: 2;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: stretch;
   align-items: stretch;
-  gap: 0.35rem;
+  gap: 0.4rem;
   align-self: stretch;
   margin-left: 0;
   min-height: var(--mf-hand-h, 17.5rem);
+}
+/* Grow every tray row so hand-height column has no dead gaps (D-052 tray). */
+.pv-act > .pv-ap,
+.pv-act > .pv-end,
+.pv-act > .pv-auto,
+.pv-act > .pv-pots {
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
 }
 #pvOrbs { margin: 0; font-size: 12px; color: #d5c4af; }
 .pv-ap {
@@ -4218,11 +4227,12 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   align-items: center;
   justify-content: space-between;
   gap: 0.45rem;
-  padding: 0.4rem 0.55rem;
+  padding: 0.55rem 0.65rem;
   border-radius: 0.75rem;
   background: rgba(36, 30, 24, 0.92);
   border: 1px solid rgba(253, 186, 69, 0.45);
   box-shadow: inset 0 1px 0 rgba(255, 222, 174, 0.08);
+  box-sizing: border-box;
 }
 .pv-ap-num {
   display: flex;
@@ -4287,14 +4297,16 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   color: #1a1308;
   font-weight: 800;
   border-radius: 0.75rem;
-  padding: 0.55rem 0.7rem;
+  padding: 0.65rem 0.75rem;
   cursor: pointer;
   box-shadow: 0 6px 16px rgba(224, 163, 34, 0.35);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 0.12rem;
+  justify-content: center;
+  gap: 0.15rem;
   line-height: 1.15;
+  box-sizing: border-box;
 }
 .pv-end-label {
   font-size: 0.92rem;
@@ -4311,14 +4323,15 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   background: rgba(36, 30, 24, 0.95);
   color: #d5c4af;
   border-radius: 0.65rem;
-  padding: 0.35rem 0.55rem;
+  padding: 0.5rem 0.65rem;
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 0.45rem;
   font-weight: 700;
-  font-size: 0.72rem;
+  font-size: 0.78rem;
+  box-sizing: border-box;
 }
 .pv-auto-left {
   display: inline-flex;
@@ -4379,14 +4392,16 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: stretch;
-  gap: 0.35rem;
+  gap: 0.3rem;
   width: 100%;
+  min-height: 3.1rem;
 }
 .pv-pot {
   position: relative;
   width: 100%;
   min-width: 0;
-  height: 2.75rem;
+  height: 100%;
+  min-height: 3.1rem;
   border-radius: 0.65rem;
   border: 1px solid rgba(80, 69, 53, 0.75);
   background: rgba(36, 30, 24, 0.95);
@@ -4394,12 +4409,12 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.25rem;
+  padding: 0.3rem;
   box-sizing: border-box;
 }
 .pv-pot img {
-  width: 1.85rem;
-  height: 1.85rem;
+  width: 2.1rem;
+  height: 2.1rem;
   object-fit: contain;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
 }
@@ -4469,7 +4484,7 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   height: auto;
   min-height: 0;
   max-height: none;
-  max-width: calc(100% - 13.5rem);
+  max-width: calc(100% - 14rem);
 }
 @media (min-width: 1100px) {
   #viewPvpFight .pv-hand { --mf-hand-h: 16.75rem; }
@@ -4502,11 +4517,12 @@ body:has(#viewPvpFight:not(.hidden)) #app {
     height: calc(8.2rem * var(--mf-role-h, 1)) !important;
   }
   .pv-foot { padding: 0.35rem 0.45rem 0.4rem; margin: 0 -0.55rem; }
-  .pv-act { flex-basis: 11rem; min-height: var(--mf-hand-h, 12.25rem); }
-  .pv-end { padding: 0.4rem 0.55rem; }
+  .pv-act { flex-basis: 11.5rem; min-height: var(--mf-hand-h, 12.25rem); }
+  .pv-end { padding: 0.45rem 0.55rem; }
   .pv-end-label { font-size: 0.8rem; }
-  .pv-pot { height: 2.35rem; }
-  .pv-pot img { width: 1.55rem; height: 1.55rem; }
+  .pv-pots { min-height: 2.5rem; }
+  .pv-pot { min-height: 2.5rem; }
+  .pv-pot img { width: 1.65rem; height: 1.65rem; }
   #viewPvpFight .pv-hand { --mf-hand-h: 12.25rem; }
 }
 /* Shared battle hand — plate is 2:3; size from --mf-hand-h width, no stretch footer */
@@ -4727,22 +4743,30 @@ body:has(#viewPracticeFight:not(.hidden)) #app {
 }
 #viewPracticeFight .pf-cmd {
   order: 2;
-  width: 12.75rem;
-  max-width: 13rem;
-  flex: 0 0 12.75rem;
+  width: 13.25rem;
+  max-width: 13.5rem;
+  flex: 0 0 13.25rem;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: stretch;
   align-items: stretch;
-  gap: 0.35rem;
+  gap: 0.4rem;
   align-self: stretch;
   min-height: var(--mf-hand-h, 16.75rem);
   padding: 0.35rem;
 }
+#viewPracticeFight .pf-cmd > .pv-ap,
+#viewPracticeFight .pf-cmd > .pv-end,
+#viewPracticeFight .pf-cmd > .pv-auto,
+#viewPracticeFight .pf-cmd > .pv-pots {
+  flex: 1 1 0;
+  min-height: 0;
+  width: 100%;
+}
 #viewPracticeFight #pfEndTurn {
-  min-height: 2.75rem;
+  min-height: 0;
   line-height: 1.2;
-  padding-block: 0.55rem;
+  padding-block: 0.65rem;
   font-size: 13px;
 }
 #viewPracticeFight #pfEndTurn .material-symbols-outlined {
@@ -4752,7 +4776,7 @@ body:has(#viewPracticeFight:not(.hidden)) #app {
   order: 1;
   flex: 0 1 auto;
   min-width: 0;
-  max-width: calc(100% - 13.5rem);
+  max-width: calc(100% - 14rem);
   --mf-hand-h: 16.75rem;
   height: auto;
   min-height: 0;
