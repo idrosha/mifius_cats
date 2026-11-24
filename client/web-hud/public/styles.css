@@ -4230,6 +4230,14 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   gap: 0.15rem;
   line-height: 1;
 }
+.pv-ap-label {
+  font-style: normal;
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #d5c4af;
+  letter-spacing: 0.02em;
+  margin-right: 0.2rem;
+}
 .pv-ap-num b {
   font-size: 1.15rem;
   font-weight: 900;
@@ -4368,16 +4376,17 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   transform: translateX(0.75rem);
 }
 .pv-pots {
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: stretch;
-  justify-content: space-between;
   gap: 0.35rem;
+  width: 100%;
 }
 .pv-pot {
   position: relative;
-  flex: 1 1 0;
+  width: 100%;
   min-width: 0;
-  height: 2.35rem;
+  height: 2.75rem;
   border-radius: 0.65rem;
   border: 1px solid rgba(80, 69, 53, 0.75);
   background: rgba(36, 30, 24, 0.95);
@@ -4385,11 +4394,12 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.2rem;
+  padding: 0.25rem;
+  box-sizing: border-box;
 }
 .pv-pot img {
-  width: 1.55rem;
-  height: 1.55rem;
+  width: 1.85rem;
+  height: 1.85rem;
   object-fit: contain;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.45));
 }
@@ -4495,8 +4505,8 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   .pv-act { flex-basis: 11rem; min-height: var(--mf-hand-h, 12.25rem); }
   .pv-end { padding: 0.4rem 0.55rem; }
   .pv-end-label { font-size: 0.8rem; }
-  .pv-pot { height: 2rem; }
-  .pv-pot img { width: 1.3rem; height: 1.3rem; }
+  .pv-pot { height: 2.35rem; }
+  .pv-pot img { width: 1.55rem; height: 1.55rem; }
   #viewPvpFight .pv-hand { --mf-hand-h: 12.25rem; }
 }
 /* Shared battle hand — plate is 2:3; size from --mf-hand-h width, no stretch footer */
