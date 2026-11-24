@@ -7229,6 +7229,23 @@ body:has(#viewBreeding:not(.hidden)) #app { height: 100dvh !important; max-heigh
 #viewPracticeFight .pf-card:disabled.is-busy-wait {
   opacity: 0.55;
 }
+/* D-053 · selected for commit (cards stay in hand until ХОД ГОТОВ). */
+.mf-atk-card.is-selected,
+#viewPracticeFight .pf-card.is-selected,
+.pv-hand > .mf-atk-card.is-selected,
+#viewBattle #hand.mythfel-hand > button.mf-atk-card.is-selected {
+  transform: translateY(-0.7rem) scale(1.05);
+  border-color: rgba(253, 186, 69, 0.95);
+  box-shadow:
+    0 0 0 2px rgba(253, 186, 69, 0.85),
+    0 0 22px rgba(253, 186, 69, 0.55),
+    0 14px 28px rgba(0, 0, 0, 0.75);
+  z-index: 2;
+}
+.mf-atk-card.is-selected:disabled,
+#viewPracticeFight .pf-card.is-selected:disabled {
+  opacity: 1;
+}
 @keyframes mf-opp-throw-in {
   0% {
     opacity: 0;
