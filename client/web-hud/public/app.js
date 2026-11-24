@@ -13087,6 +13087,17 @@ async function commitHandSelectionAndEndTurn() {
     }
   } finally {
     state.turnCommitPlaying = false;
+    // submitAction re-renders while turnCommitPlaying was still true → hand stays
+    // disabled/is-busy-wait until we paint again with the flag cleared.
+    if (state.battle) {
+      try {
+        renderPracticeFight();
+        renderPvpFight();
+        renderBattle();
+      } catch {
+        /* ignore */
+      }
+    }
   }
 }
 
@@ -13141,13 +13152,15 @@ function makeAttackHandButton(c, diff, classNames = "mf-atk-card") {
 
   b.addEventListener("click", () => {
     if (b.disabled) return;
+    const live = state.battle;
     if (state.selectedKeep?.mode) {
       state.selectedKeep = null;
       submitAction({ kind: "keep", unitId: c.unitId, handIndex: c.handIndex });
       return;
     }
     // D-053: select/deselect — play happens on ХОД ГОТОВ (server still SoT).
-    toggleHandCardSelection(c, diff);
+    // Use live battle state (not the render-time diff closure).
+    toggleHandCardSelection(c, live);
   });
   return b;
 }
