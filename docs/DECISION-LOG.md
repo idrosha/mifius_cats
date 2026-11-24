@@ -12,6 +12,25 @@ Append-only. Новые записи — **сверху** (после шабло
 6. Одна запись = одно решение. Не смешивать баланс и IA в одном D-id.
 7. В коде/доках ссылайся `D-0xx`, не копируй абзац Context.
 
+## D-052 · 2026-11-24 · Fight tray unify · no Keep button · potions ≤1 loadout
+
+- **Status:** Accepted
+- **Area:** hud | battle
+- **SSOT:** docs/FULL-SPEC.md §3.4 Potions, §6 Battle HUD
+- **Owner:** Andrew / web-hud
+
+### Context
+Live fight footer (PvP / practice / PvE) был неровным: правый act выше карт, у webp-плашек пустой «подвал» из-за stretch `height:100%`, Keep в tray путал, а HUD брал в бой весь склад зелий (2/1/2) вопреки §3.4 ≤1/potionId.
+
+### Decision
+1. Единый блок рука + правый act (AP · ХОД ГОТОВ · авто · 3 баночки) во всех soft-launch live-режимах; act `space-evenly` рядом с картами.
+2. Карты руки: размер от `--mf-hand-h` × 2:3, без stretch-подвала; `object-fit: cover` top.
+3. Кнопка **Keep** снята с SL HUD (PvP / practice / wire). Механика Keep в симе §3.4 **не** удаляется.
+4. Loadout зелий в бой: `min(1, warehouse)` на каждый potionId (хил / энергия / очищение); склад может хранить больше.
+
+### Consequences
+`client/web-hud` tray HTML/CSS/JS; FULL-SPEC §3.4 / §6. Симулятор `potionSet` уже капил ≤1/id.
+
 ## D-051 · 2026-11-21 · Mythmir wave layouts + shared bot energy budget
 
 - **Status:** Accepted

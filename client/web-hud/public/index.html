@@ -6005,7 +6005,6 @@
 <span class="pv-ap-num"><b id="pvApNum">0</b><em>/4 AP</em></span>
 <div class="pv-ap-pips" id="pvApPips" aria-hidden="true"></div>
 </div>
-<button type="button" class="pv-keep" id="pvKeep" title="Удержать карту (§3.4)">Keep</button>
 <button type="button" class="pv-end" id="pvEndTurn">
 <span class="pv-end-label">ХОД ГОТОВ</span>
 <span class="pv-end-sub" id="pvEndSub">0 карт · 0 AP</span>
@@ -6014,15 +6013,15 @@
 <span class="pv-auto-left"><span class="material-symbols-outlined">smart_toy</span> Авто-бой</span>
 <span class="pv-auto-right"><em id="pvAutoStatus">ВЫКЛ</em><i class="pv-auto-track" id="pvAutoTrack"><i class="pv-auto-knob"></i></i></span>
 </button>
-<div class="pv-pots" id="pvPots" role="group" aria-label="Зелья в бою">
-<button type="button" class="pv-pot is-heal" data-pv-pot="heal" id="pvPotHeal" title="Зелье жизни (восстановление HP)">
-<img alt="" decoding="async" loading="lazy" data-mf-src="/barn-icons/potion-nature.png"><span class="pv-pot-qty" id="pvPotHealQty">2</span>
+<div class="pv-pots" id="pvPots" role="group" aria-label="Зелья в бою · ≤1 / potionId">
+<button type="button" class="pv-pot is-heal" data-pv-pot="heal" id="pvPotHeal" title="Зелье жизни · ≤1 в бою">
+<img alt="" decoding="async" loading="lazy" data-mf-src="/barn-icons/potion-nature.png"><span class="pv-pot-qty" id="pvPotHealQty">1</span>
 </button>
-<button type="button" class="pv-pot is-energy" data-pv-pot="energy" id="pvPotEnergy" title="Эликсир энергии (+1 AP)">
+<button type="button" class="pv-pot is-energy" data-pv-pot="energy" id="pvPotEnergy" title="Эликсир энергии · ≤1 в бою">
 <img alt="" decoding="async" loading="lazy" data-mf-src="/barn-icons/potion-energy.png"><span class="pv-pot-qty" id="pvPotEnergyQty">1</span>
 </button>
-<button type="button" class="pv-pot is-cleanse" data-pv-pot="cleanse" id="pvPotCleanse" title="Отвар очищения (−1 дебафф)">
-<img alt="" decoding="async" loading="lazy" data-mf-src="/barn-icons/potion-cleanse.png"><span class="pv-pot-qty" id="pvPotCleanseQty">2</span>
+<button type="button" class="pv-pot is-cleanse" data-pv-pot="cleanse" id="pvPotCleanse" title="Отвар очищения · ≤1 в бою">
+<img alt="" decoding="async" loading="lazy" data-mf-src="/barn-icons/potion-cleanse.png"><span class="pv-pot-qty" id="pvPotCleanseQty">1</span>
 </button>
 </div>
 <p class="sr-only" id="pvOrbs">0 карт</p>
@@ -7073,67 +7072,41 @@
 
 <!-- Bottom console: left command + 6-card hand (cards fill console height, 2:3) -->
 <div class="pf-console w-full bg-surface-container-lowest relative z-30 px-space-md lg:px-6 py-2 shadow-[0_-8px_32px_rgba(0,0,0,0.85)] shrink-0">
-<div class="pf-console-row max-w-[1720px] mx-auto flex flex-col xl:flex-row items-stretch justify-between gap-space-md">
-<div class="pf-cmd flex flex-col gap-1.5 shrink-0 bg-surface-container-high/60 backdrop-blur-md rounded-xl border border-outline-variant/30 shadow-xl p-2.5 w-44 lg:w-48">
-<div class="flex items-center justify-between border-b border-outline-variant/30 pb-1.5">
-<div class="flex flex-col">
-<span class="font-label-sm text-[10px] text-outline uppercase tracking-wider font-bold">ЭНЕРГИЯ ХОДА</span>
-<div class="flex items-baseline gap-1 mt-0.5">
-<span class="font-headline-md text-primary text-[18px] font-bold" id="pfOrbsNum">3</span>
-<span class="font-body-md text-on-surface-variant font-bold text-[12px]">/ <span id="pfOrbsMax">3</span> AP</span>
+<div class="pf-console-row max-w-[1720px] mx-auto flex flex-row items-center justify-start gap-space-md">
+<div class="mf-attack-hand relative z-10 min-w-0 items-center justify-start overflow-x-auto" id="pfHand" data-pf-hand-static="1" style="--mf-hand-h:16.75rem">
+<div class="mf-hand-slot relative shrink-0"><div class="mf-hand-face shadow-2xl border border-outline-variant/30"><img alt="" class="block" decoding="async" loading="lazy" data-mf-src="/stitch-assets/attack-cards/fighter-fire/attack_shop_fighter_fire_muzzle.webp"></div></div>
+<div class="mf-hand-slot relative shrink-0"><div class="mf-hand-face shadow-2xl border border-outline-variant/30"><img alt="" class="block" decoding="async" loading="lazy" data-mf-src="/stitch-assets/attack-cards/fighter-fire/attack_shop_fighter_fire_tail.webp"></div></div>
+<div class="mf-hand-slot relative shrink-0"><div class="mf-hand-face shadow-2xl border border-outline-variant/30"><img alt="" class="block" decoding="async" loading="lazy" data-mf-src="/stitch-assets/attack-cards/tank-water/attack_shop_tank_water_muzzle.webp"></div></div>
+<div class="mf-hand-slot relative shrink-0"><div class="mf-hand-face shadow-2xl border border-outline-variant/30"><img alt="" class="block" decoding="async" loading="lazy" data-mf-src="/stitch-assets/attack-cards/tank-water/attack_shop_tank_water_back.webp"></div></div>
+<div class="mf-hand-slot relative shrink-0"><div class="mf-hand-face shadow-2xl border border-outline-variant/30"><img alt="" class="block" decoding="async" loading="lazy" data-mf-src="/stitch-assets/attack-cards/support-water/attack_shop_support_water_muzzle.webp"></div></div>
+<div class="mf-hand-slot relative shrink-0"><div class="mf-hand-face shadow-2xl border border-outline-variant/30"><img alt="" class="block" decoding="async" loading="lazy" data-mf-src="/stitch-assets/attack-cards/support-water/attack_shop_support_water_back.webp"></div></div>
+</div>
+<div class="pf-cmd pv-act shrink-0 bg-surface-container-high/60 backdrop-blur-md rounded-xl border border-outline-variant/30 shadow-xl">
+<div class="pv-ap" id="pfApRow">
+<span class="pv-ap-num"><b id="pfOrbsNum">3</b><em>/ <span id="pfOrbsMax">3</span> AP</em></span>
+<div class="pv-ap-pips" id="pfOrbPips" aria-hidden="true"></div>
 </div>
 <p class="sr-only" id="pfOrbs">Орбы энергии 3</p>
-</div>
-<div class="flex items-center gap-1 bg-surface-container-lowest px-1.5 py-1 rounded-lg border border-outline-variant/30" id="pfOrbPips" aria-hidden="true">
-<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_6px_rgba(253,186,69,0.8)]"></span>
-<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_6px_rgba(253,186,69,0.8)]"></span>
-<span class="w-2 h-2 rounded-full bg-primary shadow-[0_0_6px_rgba(253,186,69,0.8)]"></span>
-</div>
-</div>
-<div class="grid grid-cols-2 gap-1.5 text-label-sm font-label-sm">
-<div class="flex items-center gap-1 bg-surface-container-lowest/80 px-1.5 py-1 rounded-lg border border-outline-variant/30"><span class="material-symbols-outlined text-[14px] text-primary">style</span><span>Колода: <strong class="text-primary font-stat-numeral" id="pfDrawCount">0</strong></span></div>
-<div class="flex items-center gap-1 bg-surface-container-lowest/80 px-1.5 py-1 rounded-lg border border-outline-variant/30"><span class="material-symbols-outlined text-[14px] text-outline">restore_from_trash</span><span>Сброс: <strong class="text-on-surface font-stat-numeral" id="pfDiscardCount">0</strong></span></div>
-</div>
-<div class="flex items-center justify-between bg-surface-container-lowest/90 px-2 py-1 rounded-lg border border-outline-variant/30">
-<div class="flex items-center gap-1.5"><span class="text-[15px]">🍶</span><div class="flex flex-col"><span class="font-label-sm text-on-surface font-bold leading-tight text-[11px]">Кувшин Сливок</span><span class="text-[10px] text-secondary">+250 HP</span></div></div>
-<span class="font-stat-numeral text-label-sm px-1 py-0.5 rounded bg-surface-container-high text-outline font-bold">2/2</span>
-</div>
-<button id="pfEndTurn" class="w-full rounded-xl bg-gradient-to-b from-primary to-primary-container text-on-primary font-headline-md text-[13px] tracking-wider uppercase font-bold shadow-[0_3px_0_#604100,0_6px_12px_rgba(217,155,38,0.35)] hover:brightness-110 active:translate-y-0.5 active:shadow-[0_1px_0_#604100] transition flex items-center justify-between py-2.5 px-2.5 cursor-pointer" type="button">
-<span class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px]">check_circle</span><span>Завершить ход</span></span>
-<span class="text-[11px] px-1.5 py-0.5 rounded-full bg-on-primary/20 text-on-primary font-body-sm font-bold">—</span>
+<span class="sr-only" id="pfDrawCount">0</span>
+<span class="sr-only" id="pfDiscardCount">0</span>
+<button id="pfEndTurn" class="pv-end w-full" type="button">
+<span class="pv-end-label">ХОД ГОТОВ</span>
+<span class="pv-end-sub">—</span>
 </button>
-<div class="grid grid-cols-2 gap-1 w-full">
-<button class="py-1 px-1.5 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface font-label-sm text-[11px] transition flex items-center justify-center gap-1 cursor-pointer" type="button"><span class="material-symbols-outlined text-[13px]">smart_toy</span><span>Авто</span></button>
-<button class="py-1 px-1.5 rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface-variant hover:text-on-surface font-label-sm text-[11px] transition flex items-center justify-center gap-1 cursor-pointer" type="button"><span class="material-symbols-outlined text-[13px]">refresh</span><span>DPS</span></button>
-</div>
-</div>
-
-<div class="mf-attack-hand relative z-10 flex-1 min-w-0 self-stretch items-stretch justify-center overflow-x-auto py-0.5 gap-space-xs lg:gap-space-sm" id="pfHand" data-pf-hand-static="1" style="--mf-hand-h:20rem;height:20rem;min-height:20rem">
-<div class="mf-hand-slot relative shrink-0 transition duration-300 transform scale-105">
-<div class="mf-hand-face shadow-[0_0_22px_rgba(253,186,69,0.7)] border-2 border-primary"><img alt="Прилив силы" class="block" decoding="async" loading="lazy" data-mf-src="/stitch-assets/attack-cards/support-a/attack_shop_support_water_a_back.webp"></div>
-<div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-on-primary px-2 py-0.5 rounded-full shadow-lg flex items-center gap-1 whitespace-nowrap z-10"><span class="material-symbols-outlined text-[12px]">check_circle</span><span class="font-label-sm text-label-sm font-bold uppercase">В очереди</span></div>
-<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-surface-container-lowest/90 px-2 py-0.5 rounded-full border border-outline-variant/40 shadow whitespace-nowrap z-10"><span class="font-label-sm text-label-sm text-primary font-bold">[1] 2 AP</span></div>
-</div>
-<div class="mf-hand-slot relative shrink-0 group transition duration-300 transform hover:-translate-y-1">
-<div class="mf-hand-face shadow-2xl border border-outline-variant/30"><img alt="Каменный оскал" class="block" decoding="async" loading="lazy" data-mf-src="/stitch-assets/attack-cards/tank-a/attack_shop_tank_stone_a_muzzle.webp"></div>
-<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-surface-container-lowest/90 px-2 py-0.5 rounded-full border border-outline-variant/40 shadow whitespace-nowrap z-10"><span class="font-label-sm text-label-sm text-primary font-bold">[2] 1 AP</span></div>
-</div>
-<div class="mf-hand-slot relative shrink-0 transition duration-300 transform scale-105">
-<div class="mf-hand-face shadow-[0_0_22px_rgba(253,186,69,0.7)] border-2 border-primary"><img alt="Огненный укус" class="block" decoding="async" loading="lazy" data-mf-src="/stitch-assets/attack-cards/fighter-a/attack_shop_fighter_fire_a_muzzle.webp"></div>
-<div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-on-primary px-2 py-0.5 rounded-full shadow-lg flex items-center gap-1 whitespace-nowrap z-10"><span class="material-symbols-outlined text-[12px]">check_circle</span><span class="font-label-sm text-label-sm font-bold uppercase">В очереди</span></div>
-<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-surface-container-lowest/90 px-2 py-0.5 rounded-full border border-outline-variant/40 shadow whitespace-nowrap z-10"><span class="font-label-sm text-label-sm text-primary font-bold">[3] 1 AP</span></div>
-</div>
-<div class="mf-hand-slot relative shrink-0 group transition duration-300 transform hover:-translate-y-1">
-<div class="mf-hand-face shadow-2xl border border-outline-variant/30"><img alt="Чистый родник" class="block" decoding="async" loading="lazy" data-mf-src="/stitch-assets/attack-cards/support-a/attack_shop_support_water_a_headwear.webp"></div>
-<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-surface-container-lowest/90 px-2 py-0.5 rounded-full border border-outline-variant/40 shadow whitespace-nowrap z-10"><span class="font-label-sm text-label-sm text-primary font-bold">[4] 1 AP</span></div>
-</div>
-<div class="mf-hand-slot relative shrink-0 group transition duration-300 transform hover:-translate-y-1">
-<div class="mf-hand-face shadow-2xl border border-outline-variant/30"><img alt="Щит-валун" class="block" decoding="async" loading="lazy" data-mf-src="/stitch-assets/attack-cards/tank-a/attack_shop_tank_stone_a_back.webp"></div>
-<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-surface-container-lowest/90 px-2 py-0.5 rounded-full border border-outline-variant/40 shadow whitespace-nowrap z-10"><span class="font-label-sm text-label-sm text-primary font-bold">[5] 2 AP</span></div>
-</div>
-<div class="mf-hand-slot relative shrink-0 group transition duration-300 transform hover:-translate-y-1">
-<div class="mf-hand-face shadow-2xl border border-outline-variant/30"><img alt="Двойной хлыст" class="block" decoding="async" loading="lazy" data-mf-src="/stitch-assets/attack-cards/fighter-a/attack_shop_fighter_fire_a_tail.webp"></div>
-<div class="absolute -bottom-2 left-1/2 -translate-x-1/2 bg-surface-container-lowest/90 px-2 py-0.5 rounded-full border border-outline-variant/40 shadow whitespace-nowrap z-10"><span class="font-label-sm text-label-sm text-primary font-bold">[6] 1 AP</span></div>
+<button type="button" class="pv-auto" id="pfAutoBattle" aria-pressed="false" title="Авто-бой">
+<span class="pv-auto-left"><span class="material-symbols-outlined">smart_toy</span> Авто-бой</span>
+<span class="pv-auto-right"><em id="pfAutoStatus">ВЫКЛ</em><i class="pv-auto-track"><i class="pv-auto-knob"></i></i></span>
+</button>
+<div class="pv-pots" id="pfPots" role="group" aria-label="Зелья в бою · ≤1 / potionId">
+<button type="button" class="pv-pot is-heal" data-pf-pot="heal" id="pfPotHeal" title="Зелье жизни · ≤1 в бою">
+<img alt="" decoding="async" loading="lazy" data-mf-src="/barn-icons/potion-nature.png"><span class="pv-pot-qty" id="pfPotHealQty">1</span>
+</button>
+<button type="button" class="pv-pot is-energy" data-pf-pot="energy" id="pfPotEnergy" title="Эликсир энергии · ≤1 в бою">
+<img alt="" decoding="async" loading="lazy" data-mf-src="/barn-icons/potion-energy.png"><span class="pv-pot-qty" id="pfPotEnergyQty">1</span>
+</button>
+<button type="button" class="pv-pot is-cleanse" data-pf-pot="cleanse" id="pfPotCleanse" title="Отвар очищения · ≤1 в бою">
+<img alt="" decoding="async" loading="lazy" data-mf-src="/barn-icons/potion-cleanse.png"><span class="pv-pot-qty" id="pfPotCleanseQty">1</span>
+</button>
 </div>
 </div>
 </div>
@@ -12032,7 +12005,6 @@
       <button type="button" class="wire-btn" data-for="boss_raid" id="btnBossRaidFormation">Строй 3v3</button>
       <button type="button" class="wire-btn" data-for="boss_raid" id="btnBossRaidDungeon">К выбору данжа</button>
       <button type="button" class="wire-btn" data-for="battle" id="btnEndTurn">Конец хода</button>
-      <button type="button" class="wire-btn" data-for="battle" id="btnKeep">Keep</button>
       <button type="button" class="wire-btn" data-for="battle" id="btnSurrender">Сдаться</button>
       <button type="button" class="wire-btn" data-for="battle" id="btnBackHub">В хаб</button>
       <button type="button" class="wire-btn" data-for="result" id="btnResultHub">В Хаб</button>

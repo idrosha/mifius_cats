@@ -4190,25 +4190,27 @@ body:has(#viewPvpFight:not(.hidden)) #app {
 .pv-foot {
   flex: 0 0 auto;
   display: flex;
-  align-items: stretch;
-  justify-content: space-between;
-  gap: 0.7rem;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
   min-height: 0;
-  padding: 0.55rem 0.65rem 0.65rem;
+  padding: 0.45rem 0.65rem 0.55rem;
   margin: 0 -0.85rem;
   background: linear-gradient(180deg, rgba(16, 14, 12, 0.55), rgba(16, 14, 12, 0.94));
   border-top: 1px solid rgba(80, 69, 53, 0.55);
   box-shadow: 0 -10px 28px rgba(0, 0, 0, 0.55);
 }
 .pv-act {
-  flex: 0 0 13.5rem;
+  flex: 0 0 12.75rem;
   order: 2;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: space-evenly;
   align-items: stretch;
   gap: 0.35rem;
-  margin-left: auto;
+  align-self: stretch;
+  margin-left: 0;
+  min-height: var(--mf-hand-h, 17.5rem);
 }
 #pvOrbs { margin: 0; font-size: 12px; color: #d5c4af; }
 .pv-ap {
@@ -4264,17 +4266,10 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   color: #432c00;
   box-shadow: 0 0 8px rgba(253, 186, 69, 0.55);
 }
-.pv-keep {
-  border: 1px solid rgba(80, 69, 53, 0.85);
-  background: rgba(26, 22, 19, 0.95);
-  color: #eae1db;
-  border-radius: 0.65rem;
-  padding: 0.35rem 0.55rem;
-  cursor: pointer;
-  font-weight: 700;
-  font-size: 0.78rem;
-}
-.pv-keep:disabled,
+/* Keep control removed from soft-launch fight tray (D-052); mechanic stays §3.4. */
+.pv-keep,
+#pfKeep,
+#btnKeep { display: none !important; }
 .pv-end:disabled,
 .pv-auto:disabled,
 .pv-pot:disabled { opacity: 0.45; cursor: default; }
@@ -4453,18 +4448,25 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   filter: grayscale(0.35);
 }
 #viewPvpFight .pv-hand {
-  --mf-hand-h: 17.5rem;
+  --mf-hand-h: 15.5rem;
   order: 1;
+  flex: 0 1 auto;
   justify-content: flex-start;
-  gap: 0.45rem;
-  padding: 0.15rem 0.15rem 0.1rem;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0;
   margin-right: 0;
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  max-width: calc(100% - 13.5rem);
 }
 @media (min-width: 1100px) {
-  #viewPvpFight .pv-hand { --mf-hand-h: 19rem; }
+  #viewPvpFight .pv-hand { --mf-hand-h: 16.75rem; }
 }
 #viewPvpFight .pv-hand > .mf-atk-card {
   width: calc(var(--mf-hand-h) * 2 / 3);
+  height: auto;
 }
 #viewPvpFight .pv-hand > .mf-atk-card:disabled {
   opacity: 0.62;
@@ -4490,33 +4492,34 @@ body:has(#viewPvpFight:not(.hidden)) #app {
     height: calc(8.2rem * var(--mf-role-h, 1)) !important;
   }
   .pv-foot { padding: 0.35rem 0.45rem 0.4rem; margin: 0 -0.55rem; }
-  .pv-act { flex-basis: 11.25rem; }
+  .pv-act { flex-basis: 11rem; min-height: var(--mf-hand-h, 12.25rem); }
   .pv-end { padding: 0.4rem 0.55rem; }
   .pv-end-label { font-size: 0.8rem; }
   .pv-pot { height: 2rem; }
   .pv-pot img { width: 1.3rem; height: 1.3rem; }
   #viewPvpFight .pv-hand { --mf-hand-h: 12.25rem; }
 }
-/* Shared battle hand — cards fill console height (2:3), full art so text reads */
+/* Shared battle hand — plate is 2:3; size from --mf-hand-h width, no stretch footer */
 .mf-attack-hand,
 .pv-hand,
 #viewPracticeFight #pfHand,
 #viewBattle #hand.mythfel-hand {
-  --mf-hand-h: 24rem;
+  --mf-hand-h: 16.75rem;
   list-style: none;
   margin: 0;
-  padding: 0.25rem 0.1rem;
-  flex: 1 1 auto;
+  padding: 0;
+  /* Grow only enough for cards — keep act flush beside the hand (D-052). */
+  flex: 0 1 auto;
   min-width: 0;
-  height: var(--mf-hand-h);
-  min-height: var(--mf-hand-h);
-  max-height: var(--mf-hand-h);
-  align-self: stretch;
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  align-self: center;
   display: flex;
   flex-wrap: nowrap;
-  align-items: stretch;
-  justify-content: center;
-  gap: 0.55rem;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.4rem;
   overflow-x: auto;
   overflow-y: hidden;
 }
@@ -4525,10 +4528,10 @@ body:has(#viewPvpFight:not(.hidden)) #app {
 #viewPracticeFight .pf-card,
 #viewBattle #hand.mythfel-hand > button {
   flex: 0 0 auto;
-  height: 100%;
+  height: auto;
   width: calc(var(--mf-hand-h) * 2 / 3);
   aspect-ratio: 2 / 3;
-  max-height: 100%;
+  max-height: none;
   text-align: left;
   background: #161310;
   color: #eae1db;
@@ -4557,7 +4560,7 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center top;
   background: #110d0b;
 }
@@ -4705,13 +4708,26 @@ body:has(#viewPracticeFight:not(.hidden)) #app {
 #viewPracticeFight #pfBack {
   cursor: pointer;
 }
-/* Practice dojo hand — ~+2–3cm vs 15rem baseline; cards scale with --mf-hand-h */
+/* Practice/PvE fight tray — same hand+act block as PvP (D-052) */
 #viewPracticeFight .pf-console-row {
-  align-items: stretch !important;
+  align-items: center !important;
+  justify-content: center !important;
+  flex-direction: row !important;
+  gap: 0.55rem;
 }
 #viewPracticeFight .pf-cmd {
-  width: 11.5rem;
-  max-width: 12.5rem;
+  order: 2;
+  width: 12.75rem;
+  max-width: 13rem;
+  flex: 0 0 12.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: stretch;
+  gap: 0.35rem;
+  align-self: stretch;
+  min-height: var(--mf-hand-h, 16.75rem);
+  padding: 0.35rem;
 }
 #viewPracticeFight #pfEndTurn {
   min-height: 2.75rem;
@@ -4723,27 +4739,30 @@ body:has(#viewPracticeFight:not(.hidden)) #app {
   font-size: 18px;
 }
 #viewPracticeFight #pfHand {
-  flex: 1 1 auto;
+  order: 1;
+  flex: 0 1 auto;
   min-width: 0;
-  --mf-hand-h: 20rem; /* was 15rem; +5rem ≈ +2.1cm */
-  height: var(--mf-hand-h);
-  min-height: var(--mf-hand-h);
-  max-height: var(--mf-hand-h);
-  align-self: stretch;
-  align-items: stretch;
+  max-width: calc(100% - 13.5rem);
+  --mf-hand-h: 16.75rem;
+  height: auto;
+  min-height: 0;
+  max-height: none;
+  align-self: center;
+  align-items: center;
   justify-content: flex-start;
   gap: 0.4rem;
 }
 #viewPracticeFight #pfHand > .mf-atk-card,
 #viewPracticeFight #pfHand > .pf-card {
   width: calc(var(--mf-hand-h) * 2 / 3);
+  height: auto;
 }
 .mf-attack-hand .mf-hand-slot,
 #viewPracticeFight #pfHand .mf-hand-slot,
 #viewPracticeFight #pfHand > .mf-hand-slot {
   flex: 0 0 auto;
-  height: 100%;
-  width: calc(var(--mf-hand-h, 24rem) * 2 / 3);
+  height: auto;
+  width: calc(var(--mf-hand-h, 16.75rem) * 2 / 3);
   aspect-ratio: 2 / 3;
   position: relative;
   display: flex;
@@ -4764,7 +4783,7 @@ body:has(#viewPracticeFight:not(.hidden)) #app {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center top;
 }
 #viewPracticeFight .pf-card.pf-card-art {
