@@ -5236,14 +5236,18 @@ function renderRaidPath() {
   const root = $("viewBossRaid");
   if (!root) return;
   let panel = $("raidPathPanel");
+  const host =
+    root.querySelector("[data-raid-path-host]") ||
+    root.querySelector(".mode-grid > aside") ||
+    root.querySelector(".mode-grid") ||
+    root.querySelector("main") ||
+    root;
   if (!panel) {
     panel = document.createElement("div");
     panel.id = "raidPathPanel";
     panel.className = "raid-path-panel";
-    const host =
-      root.querySelector(".mode-grid") ||
-      root.querySelector("main") ||
-      root;
+    host.prepend(panel);
+  } else if (panel.parentElement !== host) {
     host.prepend(panel);
   }
   const raids = state.raidsCatalog?.raids || [];

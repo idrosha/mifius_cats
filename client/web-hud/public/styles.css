@@ -5387,16 +5387,35 @@ body:has(#viewGuildHub:not(.hidden)) #wireDock { display: none !important; }
 .raid-rage {
   box-shadow: 0 0 10px rgba(255, 180, 166, 0.45);
 }
+/* Left column sidebar (not full-width top strip) — frees center legion board */
 #raidPathPanel.raid-path-panel {
-  grid-column: 1 / -1;
+  flex: 0 1 auto;
+  min-height: 0;
+  max-height: 46%;
+  overflow: auto;
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  padding: 0.55rem 0.65rem;
+  gap: 0.35rem;
+  padding: 0.5rem 0.55rem;
   border-radius: 0.75rem;
   border: 1px solid rgba(157, 143, 123, 0.4);
   background: #161310;
-  margin-bottom: 0.35rem;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.45);
+}
+#raidPathPanel .raid-path-head {
+  flex-direction: column;
+  align-items: flex-start;
+}
+#raidPathPanel .raid-path-raids {
+  flex-direction: column;
+}
+#raidPathPanel .raid-pick {
+  width: 100%;
+  text-align: left;
+}
+#raidPathPanel .raid-path-foot {
+  flex-direction: column;
+  align-items: flex-start;
 }
 .raid-path-head {
   display: flex;
