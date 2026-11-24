@@ -116,6 +116,7 @@ const SCREEN_FALLBACKS = {
   "pvp.html": ["/stitch-ref/4da7/pvp.png", "/stitch-ref/e608/arena_dojo.png", "/stitch-ref/64d5/cat_portrait.png"],
   "pvp_load.html": [
     "/stitch-ref/pvp-battles/pvp-load.png",
+    "/stitch-ref/pvp-battles/arena-versus.png",
     "/stitch-ref/pvp-battles/arena-ground.png",
     "/stitch-ref/battles-trade-guild-etalons/07-pvp-vs-loading.png",
   ],
