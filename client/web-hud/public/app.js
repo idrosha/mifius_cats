@@ -2052,11 +2052,12 @@ function showView(id) {
 
 function updateWireDock() {
   const mode = state.wireMode;
-  // Двор: hide fat HUD wire cluster — thin in-form resource strip only
+  // Soft-launch Stitch screens: no wire footer (D-029). Dock keeps legacy viewBattle hand/board only.
   const dock = $("wireDock");
-  const hideDock = state.tab === "farm" || (mode === "soon" && state.tab === "farm");
+  const suppress = mode !== "battle";
   document.body.classList.toggle("mythfel-farm", state.tab === "farm");
-  if (dock) dock.classList.toggle("wire-dock-suppressed", state.tab === "farm");
+  if (dock) dock.classList.toggle("wire-dock-suppressed", suppress);
+  if (suppress) $("resultBanner")?.classList.add("hidden");
   for (const el of document.querySelectorAll("#wireDock [data-for]")) {
     const match = el.getAttribute("data-for") === mode;
     el.classList.toggle("wire-hidden", !match);

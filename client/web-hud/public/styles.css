@@ -5134,6 +5134,8 @@ body:has(#viewPractice > .dojo-load:not([hidden])) #app {
   object-position: center bottom !important;
   background: transparent !important;
 }
+/* PvP Arena lobby — no wire debug footer (logs / surrender banner) */
+body:has(#viewPvp:not(.hidden)) #wireDock { display: none !important; }
 /* PvP Arena lobby (Axie-style: team → search → ladder/history) */
 #viewPvp > .arena-hall {
   flex: 1 1 auto !important;
