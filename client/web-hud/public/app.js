@@ -15389,6 +15389,11 @@ function pvpVisualRoster(teamIds) {
     .map(pvpRosterEntry);
 }
 
+/** Enemy load/fight L→R = авангард · центр · тыл (tank nearest VS) — raw sim, no PRACTICE_VISUAL_LANES. */
+function pvpFoeRoster(teamIds) {
+  return (Array.isArray(teamIds) ? teamIds : []).filter(Boolean).map(pvpRosterEntry);
+}
+
 function pvpActiveSquadName() {
   if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
   const pi = pvpArenaPresetIndex();
@@ -15439,7 +15444,7 @@ function pvpLoadRosters() {
   }
   return {
     ally: pvpVisualRoster(state.pvpSquad),
-    foe: pvpVisualRoster(state.pvpOpponentTeam),
+    foe: pvpFoeRoster(state.pvpOpponentTeam),
   };
 }
 
@@ -15845,9 +15850,14 @@ function collectionEnsurePresets() {
   const uniq = [];
   for (const id of p0.catIds) if (!uniq.includes(id)) uniq.push(id);
   p0.catIds = uniq;
-  if (p0.catIds.length < 3 && roster.length) {
-    const extras = roster.map((c) => c.catId).filter((id) => !p0.catIds.includes(id)).slice(0, 3 - p0.catIds.length);
-    p0.catIds = p0.catIds.concat(extras).slice(0, 3);
+  // One-shot in-session: old grant sim seed (no localStorage yet) → visual slots.
+  if (!state._colVisualMigrated && collectionSlotsAreLegacySimSeed(p0.catIds)) {
+    p0.catIds = [p0.catIds[2], p0.catIds[1], p0.catIds[0]];
+    state._colVisualMigrated = true;
+  }
+  // Empty → visual autopick (тыл · центр · авангард). Never raw roster/sim order (CreatePvP double-flip).
+  if (p0.catIds.filter(Boolean).length === 0 && roster.length) {
+    p0.catIds = collectionAutopickSquad(roster, new Set());
   }
   while (state.profile.presets.length < 5) {
     state.profile.presets.push({ name: `preset_${state.profile.presets.length + 1}`, catIds: [] });
@@ -15864,7 +15874,24 @@ function collectionEnsurePresets() {
       p.name = COL_SQUAD_NAMES[pi];
     }
     if (!Array.isArray(p.catIds)) p.catIds = [];
+    if (pi > 0 && p.catIds.filter(Boolean).length === 0 && roster.length) {
+      p.catIds = collectionAutopickSquad(roster, new Set());
+    }
   }
+}
+
+/** Legacy grant seeded sim [tank,fighter,support] into visual collection slots — fingerprint after twin. */
+function collectionSlotsAreLegacySimSeed(catIds) {
+  if (!Array.isArray(catIds) || catIds.filter(Boolean).length !== 3) return false;
+  const tids = catIds.map((id) => collectionCatById(id)?.templateId);
+  return (
+    (tids[0] === "shop_tank_fire" &&
+      tids[1] === "shop_fighter_fire" &&
+      tids[2] === "shop_support_water") ||
+    (tids[0] === "starter_tank_stone" &&
+      tids[1] === "starter_fighter_fire" &&
+      tids[2] === "starter_support_water")
+  );
 }
 
 function persistCollectionStub() {
@@ -15872,6 +15899,8 @@ function persistCollectionStub() {
     const payload = {
       activePresetIndex: state.colPresetIndex || 0,
       presets: (state.profile?.presets || []).slice(0, 5),
+      // v1 = slots are visual тыл·центр·авангард (D-034); migrates legacy sim seed once.
+      visualOrderV: 1,
     };
     localStorage.setItem("mythfel_sl_collection", JSON.stringify(payload));
   } catch {
@@ -15889,6 +15918,16 @@ function loadCollectionPresetsLocal() {
     }
     if (Array.isArray(data.presets) && state.profile) {
       state.profile.presets = data.presets;
+      // One-shot: old grant wrote sim order into visual slots → flip before CreatePvP remap.
+      if (data.visualOrderV !== 1) {
+        for (const p of state.profile.presets) {
+          if (!p || !Array.isArray(p.catIds)) continue;
+          if (collectionSlotsAreLegacySimSeed(p.catIds)) {
+            p.catIds = [p.catIds[2], p.catIds[1], p.catIds[0]];
+          }
+        }
+        persistCollectionStub();
+      }
     }
   } catch {
     /* ignore */
@@ -17094,7 +17133,8 @@ function renderPvpArenaActiveTeam() {
   const box = $("arenaActiveTeam");
   if (!box) return;
   ensurePvpSquad();
-  const rows = state.pvpSquad.map(pvpRosterEntry);
+  // D-034: lobby L→R = тыл · центр · авангард (same as pvp-load / victory).
+  const rows = pvpVisualRoster(state.pvpSquad);
   const tone = {
     tank: {
       card: "border-primary/40",
