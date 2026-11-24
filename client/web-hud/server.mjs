@@ -222,10 +222,13 @@ function grantStarterKit(userId = "local_smoke", { testRoster = true } = {}) {
     pvpTickets: 5,
     jarKey: 0,
     cats,
+    // HUD collection slots = visual L→R тыл · центр · авангард (D-034).
+    // Sim CreatePvE/PvP order is produced later by collectionPresetTemplateIds flip.
+    // Do NOT seed sim [tank,fighter,support] here — that double-flips live PvP paint.
     presets: [
       {
         name: "starter",
-        catIds: [cats[0].catId, cats[1].catId, cats[2].catId],
+        catIds: [cats[2].catId, cats[1].catId, cats[0].catId],
       },
     ],
     potions: potionIds.map((potionId) => ({ potionId, count: 1 })),
