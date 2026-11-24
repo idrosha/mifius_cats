@@ -15933,15 +15933,20 @@ function pvpLoadRosters() {
 }
 
 /** Stitch pvp_versus_3v3 card plate (framed portrait + role + HP). D-037: load uses studio art. */
-function pvpLoadCardHtml(c) {
+function pvpLoadCardHtml(c, desiredFace = "right") {
   const safeName = String(c.fullName || c.name || "").replace(/"/g, "&quot;");
   const role = String(c.roleRu || c.role || "").replace(/</g, "");
   const src = c.art || "";
   const lvl = c.lvl || 1;
   const hp = Number(c.hp) || 0;
+  // D-047: load roster side → toward center (ally right, foe left).
+  const face = spriteFaceHtml(`<img alt="${safeName}" src="${src}"/>`, {
+    artSrc: src,
+    desiredFace,
+  });
   return `<li>
 <figure>
-<img alt="${safeName}" src="${src}"/>
+${face}
 <span class="pvp-load-role">${role}</span>
 <span class="pvp-load-lvl">${lvl}</span>
 </figure>
@@ -15955,8 +15960,8 @@ function renderPvpLoad() {
   const ally = $("pvpLoadAllyList");
   const enemy = $("pvpLoadEnemyList");
   const { ally: allyRoster, foe: foeRoster } = pvpLoadRosters();
-  if (ally) ally.innerHTML = allyRoster.map(pvpLoadCardHtml).join("");
-  if (enemy) enemy.innerHTML = foeRoster.map(pvpLoadCardHtml).join("");
+  if (ally) ally.innerHTML = allyRoster.map((c) => pvpLoadCardHtml(c, "right")).join("");
+  if (enemy) enemy.innerHTML = foeRoster.map((c) => pvpLoadCardHtml(c, "left")).join("");
   const sumBm = (rows) => rows.reduce((n, c) => n + (c.bm || 0), 0);
   const allyName = `«${pvpActiveSquadName()}»`;
   const foeName = `«${state.pvpOpponentName || "Свора Гладиаторов"}»`;

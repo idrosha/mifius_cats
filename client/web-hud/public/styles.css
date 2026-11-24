@@ -9758,6 +9758,14 @@ body:has(#viewPveVictory:not(.hidden)) #app {
   background: #1f1b18; border: 1px solid rgba(80, 69, 53, 0.55);
 }
 #viewPvpLoad .pvp-load-team.is-enemy figure { border-color: rgba(239, 138, 120, 0.35); }
+/* D-047: face wrapper fills the plate; flip only the sprite (role/lvl stay put). */
+#viewPvpLoad .pvp-load-team figure .mf-sprite-face {
+  position: absolute;
+  inset: 0;
+}
+#viewPvpLoad .pvp-load-team figure .mf-sprite-face.is-flipped {
+  transform: scaleX(-1) !important;
+}
 #viewPvpLoad .pvp-load-team figure img {
   width: 100% !important; height: 100% !important; max-width: none !important; min-height: 0 !important;
   object-fit: cover !important; object-position: center 18% !important; display: block;
