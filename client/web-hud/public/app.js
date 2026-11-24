@@ -1273,7 +1273,7 @@ const state = {
   actionBusy: false,
   /** Space must be pressed twice within window to end turn (accidental-tap guard). */
   endTurnArmed: false,
-  /** D-053 · selected hand cards this turn (tap = toggle; ХОД ГОТОВ commits). */
+  /** D-053 · selected hand cards this turn (tap = toggle; ЗАВЕРШИТЬ ХОД commits). */
   handSelection: [],
   /** True while playing selected cards then endTurn. */
   turnCommitPlaying: false,
@@ -13072,7 +13072,7 @@ function handSelectionCommitLabel(ru = state.locale === "ru") {
   return ru ? `ВЫБРАНО: ${n} · ${ap} AP` : `SELECTED: ${n} · ${ap} AP`;
 }
 
-/** Tap toggles selection; cards stay in hand until ХОД ГОТОВ (D-053). */
+/** Tap toggles selection; cards stay in hand until ЗАВЕРШИТЬ ХОД (D-053). */
 function toggleHandCardSelection(c, diff) {
   if (!diff || diff.result || diff.active !== 0) return;
   if (state.actionBusy || state.oppThrowPlaying || state.turnCommitPlaying) return;
@@ -13228,7 +13228,7 @@ function makeAttackHandButton(c, diff, classNames = "mf-atk-card") {
       submitAction({ kind: "keep", unitId: c.unitId, handIndex: c.handIndex });
       return;
     }
-    // D-053: select/deselect — play happens on ХОД ГОТОВ (server still SoT).
+    // D-053: select/deselect — play happens on ЗАВЕРШИТЬ ХОД (server still SoT).
     // Use live battle state (not the render-time diff closure).
     toggleHandCardSelection(c, live);
   });
@@ -14145,7 +14145,7 @@ function requestEndTurn() {
   void commitHandSelectionAndEndTurn();
 }
 
-/** Hotkeys 1–6: toggle select visible hand card (D-053); commit on ХОД ГОТОВ / Space. */
+/** Hotkeys 1–6: toggle select visible hand card (D-053); commit on ЗАВЕРШИТЬ ХОД / Space. */
 function playHandCardByHotkey(slotIndex) {
   if (state.actionBusy || state.oppThrowPlaying || state.turnCommitPlaying) return;
   const diff = state.battle;

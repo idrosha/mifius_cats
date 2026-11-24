@@ -4194,7 +4194,8 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   flex: 0 0 auto;
   display: flex;
   align-items: center;
-  justify-content: center;
+  /* Act pinned right; hand fills leftover — no center-cluster jump (D-052). */
+  justify-content: flex-start;
   gap: 0.55rem;
   min-height: 0;
   padding: 0.45rem 0.65rem 0.55rem;
@@ -4218,7 +4219,7 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   align-items: stretch;
   gap: 0.28rem;
   align-self: center;
-  margin-left: 0;
+  margin-left: auto;
   height: var(--mf-hand-h);
   min-height: var(--mf-hand-h);
   max-height: var(--mf-hand-h);
@@ -4489,8 +4490,8 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   /* Inherit --mf-hand-h from .pv-foot (shared with .pv-act). */
   --mf-hand-h: inherit;
   order: 1;
-  flex: 0 1 auto;
-  justify-content: flex-start;
+  flex: 1 1 auto;
+  justify-content: center;
   align-items: center;
   gap: 0.4rem;
   padding: 0;
@@ -4498,7 +4499,8 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   height: auto;
   min-height: 0;
   max-height: none;
-  max-width: calc(100% - var(--mf-act-w, calc(var(--mf-hand-h) * 2 / 3)) - 0.55rem);
+  max-width: none;
+  min-width: 0;
 }
 #viewPvpFight .pv-hand > .mf-atk-card {
   width: calc(var(--mf-hand-h) * 2 / 3);
@@ -4751,9 +4753,14 @@ body:has(#viewPracticeFight:not(.hidden)) #app {
   --mf-hand-h: 16.75rem;
   --mf-act-w: calc(var(--mf-hand-h) * 2 / 3);
   align-items: center !important;
-  justify-content: center !important;
+  /* Act pinned right; hand fills leftover (same as .pv-foot). */
+  justify-content: flex-start !important;
   flex-direction: row !important;
   gap: 0.55rem;
+  max-width: none !important;
+  width: 100%;
+  margin-left: 0 !important;
+  margin-right: 0 !important;
 }
 #viewPracticeFight .pf-cmd {
   /* Match one attack card box (same formula as .pv-act). */
@@ -4767,6 +4774,7 @@ body:has(#viewPracticeFight:not(.hidden)) #app {
   align-items: stretch;
   gap: 0.28rem;
   align-self: center;
+  margin-left: auto;
   height: var(--mf-hand-h);
   min-height: var(--mf-hand-h);
   max-height: var(--mf-hand-h);
@@ -4794,15 +4802,15 @@ body:has(#viewPracticeFight:not(.hidden)) #app {
   /* Inherit --mf-hand-h from .pf-console-row (shared with .pf-cmd). */
   --mf-hand-h: inherit;
   order: 1;
-  flex: 0 1 auto;
+  flex: 1 1 auto;
   min-width: 0;
-  max-width: calc(100% - var(--mf-act-w, calc(var(--mf-hand-h) * 2 / 3)) - 0.55rem);
+  max-width: none;
   height: auto;
   min-height: 0;
   max-height: none;
   align-self: center;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
   gap: 0.4rem;
 }
 #viewPracticeFight #pfHand > .mf-atk-card,
@@ -7229,7 +7237,7 @@ body:has(#viewBreeding:not(.hidden)) #app { height: 100dvh !important; max-heigh
 #viewPracticeFight .pf-card:disabled.is-busy-wait {
   opacity: 0.55;
 }
-/* D-053 · selected for commit (cards stay in hand until ХОД ГОТОВ). */
+/* D-053 · selected for commit (cards stay in hand until ЗАВЕРШИТЬ ХОД). */
 .mf-atk-card.is-selected,
 #viewPracticeFight .pf-card.is-selected,
 .pv-hand > .mf-atk-card.is-selected,

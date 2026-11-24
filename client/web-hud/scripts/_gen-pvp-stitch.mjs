@@ -141,7 +141,7 @@ const fightHtml = `<!DOCTYPE html>
 </div>
 <button type="button" class="pv-keep" id="pvKeep" title="Удержать карту (§3.4)">Keep</button>
 <button type="button" class="pv-end" id="pvEndTurn">
-<span class="pv-end-label">ХОД ГОТОВ</span>
+<span class="pv-end-label">ЗАВЕРШИТЬ ХОД</span>
 <span class="pv-end-sub" id="pvEndSub">0 карт · 0 AP</span>
 </button>
 <button type="button" class="pv-auto" id="pvAutoBattle" aria-pressed="false" title="Авто-бой">

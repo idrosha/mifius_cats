@@ -20,12 +20,12 @@ Append-only. Новые записи — **сверху** (после шабло
 - **Owner:** Andrew / web-hud
 
 ### Context
-Карты в soft-launch fight HUD игрались сразу по тапу; эталон tray («ХОД ГОТОВ» + glow) подразумевает набор выбранных карт и один commit. Нужен один UX во всех live-режимах (practice / Mythmir PvE / PvP / wire).
+Карты в soft-launch fight HUD игрались сразу по тапу; эталон tray («ЗАВЕРШИТЬ ХОД» + glow) подразумевает набор выбранных карт и один commit. Нужен один UX во всех live-режимах (practice / Mythmir PvE / PvP / wire).
 
 ### Decision
 1. Тап / hotkey 1–6 **выбирает** карту (toggle + amber glow); карта остаётся в руке.
 2. AP HUD показывает остаток после резерва выбранных; нельзя выбрать сверх текущего energy.
-3. **ХОД ГОТОВ** / Space×2 / timeout: по очереди `playCard` (сервер SoT + FX), затем `endTurn` → ход врага (таймер / opp throw) как раньше.
+3. **ЗАВЕРШИТЬ ХОД** / Space×2 / timeout: по очереди `playCard` (сервер SoT + FX), затем `endTurn` → ход врага (таймер / opp throw) как раньше.
 4. Авто-бой по-прежнему играет карты сразу (без очереди выбора).
 5. Targeting: по-прежнему `targetId:""` → server TargetRule (`D-050` / §6 pause на ручной aim).
 
@@ -43,7 +43,7 @@ Append-only. Новые записи — **сверху** (после шабло
 Live fight footer (PvP / practice / PvE) был неровным: правый act выше карт, у webp-плашек пустой «подвал» из-за stretch `height:100%`, Keep в tray путал, а HUD брал в бой весь склад зелий (2/1/2) вопреки §3.4 ≤1/potionId.
 
 ### Decision
-1. Единый блок рука + правый act (AP · ХОД ГОТОВ · авто · 3 баночки) во всех soft-launch live-режимах; act `space-evenly` рядом с картами.
+1. Единый блок рука + правый act (AP · ЗАВЕРШИТЬ ХОД · авто · 3 баночки) во всех soft-launch live-режимах; act **закреплён у правого края** footer/console (`margin-left: auto`), рука заполняет остаток — без прыжка при смене числа карт.
 2. Карты руки: размер от `--mf-hand-h` × 2:3, без stretch-подвала; `object-fit: cover` top.
 3. Кнопка **Keep** снята с SL HUD (PvP / practice / wire). Механика Keep в симе §3.4 **не** удаляется.
 4. Loadout зелий в бой: `min(1, warehouse)` на каждый potionId (хил / энергия / очищение); склад может хранить больше.
