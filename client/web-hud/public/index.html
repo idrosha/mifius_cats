@@ -5495,42 +5495,16 @@
 <span class="material-symbols-outlined text-primary text-[18px]">groups</span>
 <span class="font-headline-md text-[13px] text-on-surface font-bold">Выбор команды</span>
 </div>
-<span class="text-[10px] text-outline font-bold uppercase tracking-wide">3 пресета</span>
+<span id="arenaSquadCount" class="text-[10px] text-outline font-bold uppercase tracking-wide">2 команды</span>
 </div>
 
-<div class="grid grid-cols-3 gap-1.5 py-1.5 flex-shrink-0" role="listbox" aria-label="Пресеты отряда">
-<article data-arena-squad="1" class="arena-squad is-on rounded-lg border border-primary/60 bg-[#1a1613] p-1.5 cursor-pointer hover:border-primary transition-colors" tabindex="0">
-<header class="flex items-center justify-between gap-1 mb-1"><b class="text-[10px] text-primary font-bold">Отряд №1</b><i class="text-[9px] text-secondary not-italic font-bold">Активен</i></header>
-<div class="flex -space-x-1.5 justify-center">
-<img alt="" class="w-7 h-7 rounded-full border border-primary/50 object-cover object-top" decoding="async" loading="lazy" data-mf-src="/stitch-assets/cat-heroes/tank-a.webp?v=opt1">
-<img alt="" class="w-7 h-7 rounded-full border border-tertiary/50 object-cover object-top" decoding="async" loading="lazy" data-mf-src="/stitch-assets/cat-heroes/fighter-a.webp?v=opt1">
-<img alt="" class="w-7 h-7 rounded-full border border-secondary/50 object-cover object-top" decoding="async" loading="lazy" data-mf-src="/stitch-assets/cat-heroes/support-a.webp?v=opt1">
-</div>
-<p class="text-center text-[9px] text-outline mt-1 truncate">Мурр-Оплот</p>
-</article>
-<article data-arena-squad="2" class="arena-squad rounded-lg border border-outline-variant/40 bg-[#1a1613] p-1.5 cursor-pointer hover:border-primary/50 transition-colors" tabindex="0">
-<header class="flex items-center justify-between gap-1 mb-1"><b class="text-[10px] text-on-surface-variant font-bold">Отряд №2</b></header>
-<div class="flex -space-x-1.5 justify-center">
-<img alt="" class="w-7 h-7 rounded-full border border-outline-variant/50 object-cover object-top" decoding="async" loading="lazy" data-mf-src="/stitch-assets/cat-heroes/tank-b.webp?v=opt1">
-<img alt="" class="w-7 h-7 rounded-full border border-outline-variant/50 object-cover object-top" decoding="async" loading="lazy" data-mf-src="/stitch-assets/cat-heroes/assassin-a.webp?v=opt1">
-<img alt="" class="w-7 h-7 rounded-full border border-outline-variant/50 object-cover object-top" decoding="async" loading="lazy" data-mf-src="/stitch-assets/cat-heroes/support-b.webp?v=opt1">
-</div>
-<p class="text-center text-[9px] text-outline mt-1 truncate">Теневой Клык</p>
-</article>
-<article data-arena-squad="3" class="arena-squad rounded-lg border border-outline-variant/40 bg-[#1a1613] p-1.5 cursor-pointer hover:border-primary/50 transition-colors" tabindex="0">
-<header class="flex items-center justify-between gap-1 mb-1"><b class="text-[10px] text-on-surface-variant font-bold">Отряд №3</b></header>
-<div class="flex -space-x-1.5 justify-center">
-<img alt="" class="w-7 h-7 rounded-full border border-outline-variant/50 object-cover object-top" decoding="async" loading="lazy" data-mf-src="/stitch-assets/cat-heroes/tank-b.webp?v=opt1">
-<img alt="" class="w-7 h-7 rounded-full border border-outline-variant/50 object-cover object-top" decoding="async" loading="lazy" data-mf-src="/stitch-assets/cat-heroes/mage-b.webp?v=opt1">
-<img alt="" class="w-7 h-7 rounded-full border border-outline-variant/50 object-cover object-top" decoding="async" loading="lazy" data-mf-src="/stitch-assets/cat-heroes/support-a.webp?v=opt1">
-</div>
-<p class="text-center text-[9px] text-outline mt-1 truncate">Ледяной Строй</p>
-</article>
+<div id="arenaSquadList" class="grid grid-cols-2 gap-1.5 py-1.5 flex-shrink-0" role="listbox" aria-label="Команды из коллекции">
+<!-- filled by renderPvpArenaSquadList from collection presets -->
 </div>
 
 <div class="flex items-center justify-between px-1 py-1 border-y border-outline-variant/25 flex-shrink-0 text-[10px]">
 <span class="text-outline">Мощь отряда</span>
-<strong class="text-primary">18 450 БМ</strong>
+<strong id="arenaSquadBm" class="text-primary">— БМ</strong>
 <span class="text-secondary font-bold">WR 62%</span>
 <span class="text-tertiary font-bold">🔥×3</span>
 </div>
