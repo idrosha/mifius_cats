@@ -6681,13 +6681,15 @@
 </div>
 </div>
 </div>
-<div class="rounded-xl bg-surface-container-lowest/95 border border-primary/40 shadow-lg text-on-surface flex flex-col flex-shrink-0 mt-auto overflow-hidden p-1.5 gap-1">
-<div class="flex items-center justify-between pb-1 border-b border-outline-variant/30 flex-shrink-0">
-<div class="flex items-center gap-1.5">
+<div id="dojoTacticalCodex" class="dojo-tactical-codex is-collapsed rounded-xl bg-surface-container-lowest/95 border border-primary/40 shadow-lg text-on-surface flex flex-col flex-shrink-0 mt-auto overflow-hidden p-1.5 gap-1">
+<button type="button" class="dojo-tactical-codex__head flex items-center justify-between pb-1 border-b border-outline-variant/30 flex-shrink-0 w-full text-left cursor-pointer" data-dojo="codex-toggle" aria-expanded="false" aria-controls="dojoTacticalCodexBody">
+<div class="flex items-center gap-1.5 min-w-0">
 <span class="material-symbols-outlined text-[16px] text-primary">menu_book</span>
-<span class="font-headline-md text-[13px] font-bold text-primary tracking-wide">Тактический Кодекс Додзё: Построение 3v3</span>
+<span class="font-headline-md text-[13px] font-bold text-primary tracking-wide truncate">Тактический Кодекс Додзё: Построение 3v3</span>
 </div>
-</div>
+<span class="material-symbols-outlined dojo-tactical-codex__chevron text-[18px] text-primary flex-shrink-0" aria-hidden="true">expand_less</span>
+</button>
+<div id="dojoTacticalCodexBody" class="dojo-tactical-codex__body" role="region" aria-label="Тактический Кодекс Додзё">
 <div class="flex flex-col gap-1">
 <div class="flex flex-col gap-0.5 bg-[#1a1613] p-1 rounded-lg border border-secondary/30 shadow-sm">
 <div class="flex items-center justify-between"><span class="flex items-center gap-1 text-[12px] font-bold text-secondary"><span class="material-symbols-outlined text-[13px]">spa</span> 1. ТЫЛ (Саппорт / Целитель / Маг)</span><span class="text-[10px] font-bold text-outline uppercase">Слева</span></div>
@@ -6700,6 +6702,7 @@
 <div class="flex flex-col gap-0.5 bg-[#1a1613] p-1 rounded-lg border border-primary/30 shadow-sm">
 <div class="flex items-center justify-between"><span class="flex items-center gap-1 text-[12px] font-bold text-primary"><span class="material-symbols-outlined text-[13px]">shield</span> 3. АВАНГАРД (Танк / Страж)</span><span class="text-[10px] font-bold text-outline uppercase">Справа</span></div>
 <p class="text-[11px] text-on-surface-variant leading-tight">100% агро лобовых атак, базовый щит и провокация. На экране всегда справа.<br/><span class="text-primary/90 font-semibold">Рекомендуются:</span> <span class="text-on-surface font-medium">Барсик Щит-утёс, Титан Пробой.</span></p>
+</div>
 </div>
 </div>
 </div>
