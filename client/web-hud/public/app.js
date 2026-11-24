@@ -1127,6 +1127,11 @@ const state = {
   wallet: { gold: 0, milk: 0, energy: "0/0", gems: 0 },
   profile: null, // GrantStarterKit smoke (§5.1)
   ownedPotions: [],
+  /** Soft-launch QA social (login1–4) — friends + DM peer. */
+  friends: [],
+  chatPeer: null,
+  chatChannel: "dm",
+  chatMessages: [],
   marketLots: [
     { id: "lot_1", name: "craft_herb_bundle", bid: 40, side: "npc", kind: "ingredient" },
     { id: "lot_2", name: "scrap_pile", bid: 25, side: "npc", kind: "resource" },
@@ -1529,11 +1534,16 @@ function persistProgress() {
   } catch (_) {}
 }
 
+function gearStorageKey() {
+  const uid = state.session?.userId || state.profile?.userId;
+  return uid ? `mythfel_sl_gear_${uid}` : "mythfel_sl_gear";
+}
+
 function persistGearStub() {
   try {
     syncEquippedAlias();
     localStorage.setItem(
-      "mythfel_sl_gear",
+      gearStorageKey(),
       JSON.stringify({
         version: GEAR_STUB_VERSION,
         gearCatalog: state.gearCatalog,
@@ -1632,7 +1642,7 @@ function mergeBarnMatsSeed() {
 
 function loadGearStub() {
   try {
-    const raw = localStorage.getItem("mythfel_sl_gear");
+    const raw = localStorage.getItem(gearStorageKey()) || localStorage.getItem("mythfel_sl_gear");
     if (!raw) return;
     const parsed = JSON.parse(raw);
     const stale = Number(parsed.version || 0) < GEAR_STUB_VERSION;
@@ -2264,6 +2274,7 @@ function applyStarterGrant(profile) {
   if (!state.selectedCatId && cats.length) {
     state.selectedCatId =
       cats.find((c) => c.templateId === "starter_fighter_fire")?.catId ||
+      cats.find((c) => c.templateId === "shop_fighter_fire")?.catId ||
       cats.find((c) => c.role !== "farm")?.catId ||
       cats[0].catId;
   }
@@ -2280,7 +2291,7 @@ function applyStarterGrant(profile) {
     }
   }
   syncEquippedAlias();
-  ensureStarterPveGrey();
+  if (!profile?.qaFullKit) ensureStarterPveGrey();
   for (const z of FARM_ZONES) {
     if (!state.farmState[z.id]) {
       state.farmState[z.id] = {
@@ -2291,6 +2302,60 @@ function applyStarterGrant(profile) {
       };
     }
   }
+}
+
+/**
+ * QA equal kit (login1–4): full gear catalog ×18, all sets dressable,
+ * battle potions ×999, each combat cat wears best gear both lanes.
+ */
+function applyQaFullKit(profile) {
+  if (!profile?.qaFullKit) return;
+  state.gearCatalog = JSON.parse(JSON.stringify(GEAR_CATALOG_SEED));
+  for (const g of state.gearCatalog) {
+    g.qty = GEAR_HERO_STOCK;
+  }
+  ensureBarnMats();
+  for (const id of ["potion_heal", "potion_energy", "potion_cleanse"]) {
+    const seed = BARN_MATS_SEED.find((m) => m.id === id);
+    let mat = state.barnMats.find((m) => m.id === id);
+    if (!mat && seed) {
+      mat = JSON.parse(JSON.stringify(seed));
+      state.barnMats.push(mat);
+    }
+    if (mat) {
+      const fromProfile = (profile.potions || []).find(
+        (p) => (p.potionId || p.id) === id,
+      );
+      mat.qty = Number(fromProfile?.count ?? 999) || 999;
+    }
+  }
+  state.ownedPotions = ["potion_heal", "potion_energy", "potion_cleanse"];
+  const prevLane = state.equipLane;
+  const cats = (profile.cats || []).filter((c) => c.role !== "farm");
+  // Catalog already stocks every armor/weapon set ×GEAR_HERO_STOCK (one copy per cat).
+  // Quiet-equip best loadout per cat on both lanes (no toast spam).
+  for (const lane of ["pve", "pvp"]) {
+    state.equipLane = lane;
+    const map = equipMapForLane(lane);
+    for (const c of cats) {
+      if (!map[c.catId]) map[c.catId] = emptyEquipSlots();
+      for (const slot of HOME_SLOT_ORDER) {
+        const candidates = state.gearCatalog
+          .filter((item) => item.slot === slot && canEquipItem(c.catId, item))
+          .sort(
+            (a, b) =>
+              b.atk + b.hp + b.def + b.spd - (a.atk + a.hp + a.def + a.spd),
+          );
+        map[c.catId][slot] = null;
+        const best = candidates.find((item) => gearAvailableQty(item) > 0);
+        map[c.catId][slot] = best ? best.id : null;
+      }
+    }
+  }
+  state.equipLane = prevLane || "pve";
+  syncEquippedAlias();
+  syncBarnFromGear();
+  persistGearStub();
 }
 
 /** LVL1 baseStats from content/cats — sheet ATK is catalog only (hit = card.Atk). DEF only from gear. */
@@ -16292,6 +16357,12 @@ function renderAll() {
       renderGuild();
       bindBattleModeLobbies();
       break;
+    case "chat_friends":
+      renderFriendsSocial();
+      break;
+    case "chat_global":
+      renderChatSocial();
+      break;
     case "soon_clan":
       renderClanPanel();
       break;
@@ -18243,8 +18314,357 @@ function bindPracticeFightCtas() {
   });
 }
 
-/** Soft-launch stub auth — any login/password succeeds; never blocks test flow. */
-async function stubLogin({ login = "", password = "" } = {}) {
+function qaSessionLogin() {
+  return state.session?.userId || state.profile?.userId || state.profile?.login || "";
+}
+
+function formatChatTime(ts) {
+  try {
+    return new Date(ts).toLocaleTimeString("ru-RU", {
+      hour: "2-digit",
+      minute: "2-digit",
+      timeZone: "Europe/Moscow",
+    });
+  } catch {
+    return "";
+  }
+}
+
+async function loadFriendsSocial() {
+  const login = qaSessionLogin();
+  if (!login) {
+    state.friends = [];
+    return;
+  }
+  try {
+    const { data } = await api(`/api/dev/friends?login=${encodeURIComponent(login)}`);
+    state.friends = Array.isArray(data?.friends) ? data.friends : [];
+  } catch (err) {
+    console.warn("friends load", err);
+  }
+}
+
+async function loadChatMessages({ peer = state.chatPeer, channel = state.chatChannel } = {}) {
+  const login = qaSessionLogin();
+  if (!login) {
+    state.chatMessages = [];
+    return;
+  }
+  try {
+    const q =
+      channel === "global" || !peer
+        ? `/api/dev/chat?channel=global&login=${encodeURIComponent(login)}`
+        : `/api/dev/chat?login=${encodeURIComponent(login)}&peer=${encodeURIComponent(peer)}`;
+    const { data } = await api(q);
+    state.chatMessages = Array.isArray(data?.messages) ? data.messages : [];
+    state.chatChannel = data?.channel || channel;
+    if (data?.peer) state.chatPeer = data.peer;
+  } catch (err) {
+    console.warn("chat load", err);
+    state.chatMessages = [];
+  }
+}
+
+async function sendChatMessage(text) {
+  const login = qaSessionLogin();
+  const body = String(text || "").trim();
+  if (!login || !body) return false;
+  const peer = state.chatPeer;
+  const channel = peer ? "dm" : state.chatChannel || "global";
+  try {
+    await api("/api/dev/chat", {
+      method: "POST",
+      body: JSON.stringify({ login, peer: peer || undefined, channel, text: body }),
+    });
+    await loadChatMessages({ peer, channel });
+    paintChatStream();
+    return true;
+  } catch (err) {
+    toast(state.locale === "ru" ? `Чат: ${err.message || "ошибка"}` : `Chat: ${err.message}`);
+    return false;
+  }
+}
+
+function paintChatStream() {
+  const stream = $("chatStream");
+  if (!stream) return;
+  const me = qaSessionLogin();
+  const msgs = state.chatMessages || [];
+  if (!msgs.length) {
+    stream.innerHTML = `<div class="p-3 text-center text-[11px] text-outline-variant">Нет сообщений — напишите другу</div>`;
+    return;
+  }
+  stream.innerHTML = msgs
+    .map((m) => {
+      const mine = m.from === me;
+      const time = formatChatTime(m.ts);
+      if (mine) {
+        return `<div class="flex items-start gap-2 flex-row-reverse">
+<span class="relative shrink-0"><span class="w-9 h-9 rounded-xl bg-primary flex items-center justify-center text-on-primary"><span class="material-symbols-outlined text-[18px]">pets</span></span></span>
+<div class="min-w-0 flex-1 flex flex-col items-end">
+<div class="flex items-center gap-1.5 mb-0.5"><span class="text-[9px] text-outline">${time}</span><span class="text-[8px] px-1 py-0.5 rounded bg-secondary/20 text-secondary font-bold">Вы</span><b class="text-[11px]">${escapeHtml(me)}</b></div>
+<div class="rounded-xl rounded-tr-sm bg-primary-container text-on-primary-container px-2.5 py-2 text-[11px] font-semibold leading-snug max-w-[90%]">${escapeHtml(m.text)}</div>
+</div></div>`;
+      }
+      return `<div class="flex items-start gap-2">
+<span class="relative shrink-0"><span class="w-9 h-9 rounded-xl bg-[#2e2926] flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[20px]">cruelty_free</span></span></span>
+<div class="min-w-0 flex-1">
+<div class="flex items-center gap-1.5 mb-0.5 flex-wrap"><b class="text-[11px] text-primary">${escapeHtml(m.from)}</b><span class="text-[9px] text-outline">${time}</span></div>
+<div class="rounded-xl rounded-tl-sm bg-[#1a1613] border border-outline-variant/25 px-2.5 py-2 text-[11px] text-on-surface leading-snug">${escapeHtml(m.text)}</div>
+</div></div>`;
+    })
+    .join("");
+  stream.scrollTop = stream.scrollHeight;
+}
+
+function escapeHtml(s) {
+  return String(s ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+function findDmListHost() {
+  return (
+    $("dmPeerList") ||
+    document.querySelector("#viewChatGlobal #dmPeerList") ||
+    null
+  );
+}
+
+function paintDmPeerList() {
+  const dmBox = findDmListHost();
+  if (!dmBox) return;
+  const friends = state.friends || [];
+  if (!friends.length) {
+    dmBox.innerHTML = `<div class="p-2 text-[10px] text-outline">Нет друзей</div>`;
+    return;
+  }
+  dmBox.innerHTML = friends
+    .map((f) => {
+      const id = f.login || f.userId;
+      const on = state.chatPeer === id;
+      return `<button type="button" data-dm-peer="${escapeHtml(id)}" class="flex items-center justify-between p-1.5 rounded-lg ${on ? "bg-[#2e2926] border border-primary/45" : "hover:bg-[#1a1613] border border-transparent"} cursor-pointer text-left w-full">
+<div class="flex items-center gap-2 min-w-0">
+<span class="relative shrink-0"><span class="w-7 h-7 rounded-full bg-[#393430] flex items-center justify-center text-[10px] text-primary font-bold">${escapeHtml(String(id).slice(0, 2).toUpperCase())}</span><i class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-secondary ring-1 ring-[#161310]"></i></span>
+<div class="min-w-0"><b class="text-[11px] truncate block">${escapeHtml(id)}</b><span class="text-[9px] text-outline truncate block">ЛС</span></div>
+</div>
+</button>`;
+    })
+    .join("");
+  dmBox.querySelectorAll("[data-dm-peer]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      state.chatPeer = btn.getAttribute("data-dm-peer");
+      state.chatChannel = "dm";
+      await loadChatMessages({ peer: state.chatPeer, channel: "dm" });
+      paintDmPeerList();
+      paintChatStream();
+      updateChatHeader();
+    });
+  });
+}
+
+function updateChatHeader() {
+  const root = $("viewChatGlobal");
+  const title = root?.querySelector(".col-span-12.lg\\:col-span-5 b.text-\\[13px\\]");
+  const lead = root?.querySelector(".col-span-12.lg\\:col-span-5 p.text-\\[9px\\].text-outline");
+  const badge = root?.querySelector(".col-span-12.lg\\:col-span-5 .rounded-full");
+  if (state.chatPeer) {
+    if (title) title.textContent = `ЛС · ${state.chatPeer}`;
+    if (lead) lead.textContent = "Личные сообщения";
+    if (badge) badge.innerHTML = `<i class="w-1.5 h-1.5 rounded-full bg-secondary"></i>2`;
+  } else {
+    if (title) title.textContent = "Общий чат";
+    if (lead) lead.textContent = "Пустой канал — пишите друзьям в ЛС";
+    if (badge) badge.innerHTML = `<i class="w-1.5 h-1.5 rounded-full bg-secondary"></i>0`;
+  }
+  const mode = root?.querySelector(".dojo-mode");
+  if (mode) mode.textContent = state.chatPeer ? `ЛС · ${state.chatPeer}` : "Общий чат QA";
+  const input = $("chatInput");
+  if (input) {
+    input.placeholder = state.chatPeer
+      ? `Написать ${state.chatPeer}…`
+      : "Написать в общий…";
+  }
+}
+
+function clearLoungeJunk() {
+  const lounge = $("loungeList");
+  if (!lounge) return;
+  const friends = state.friends || [];
+  const me = qaSessionLogin();
+  lounge.innerHTML = [
+    me
+      ? `<div class="flex items-center justify-between p-1.5 rounded-lg bg-[#2e2926]/60 border border-primary/20"><div class="flex items-center gap-2 min-w-0"><span class="w-8 h-8 rounded-xl bg-primary flex items-center justify-center text-on-primary"><span class="material-symbols-outlined text-[18px]">pets</span></span><div class="min-w-0"><b class="text-[11px] text-primary truncate block">${escapeHtml(me)} <span class="text-[8px] px-1 rounded bg-secondary/20 text-secondary">Вы</span></b><span class="text-[9px] text-secondary truncate block">В таверне</span></div></div></div>`
+      : "",
+    ...friends.map(
+      (f) =>
+        `<button type="button" data-dm-peer="${escapeHtml(f.login || f.userId)}" class="flex items-center justify-between p-1.5 rounded-lg hover:bg-[#1a1613] cursor-pointer text-left w-full"><div class="flex items-center gap-2 min-w-0"><span class="w-8 h-8 rounded-xl bg-[#393430] flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[18px]">cruelty_free</span></span><div class="min-w-0"><b class="text-[11px] truncate block">${escapeHtml(f.login || f.userId)}</b><span class="text-[9px] text-outline truncate block">друг · онлайн</span></div></div></button>`,
+    ),
+  ].join("");
+  lounge.querySelectorAll("[data-dm-peer]").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      state.chatPeer = btn.getAttribute("data-dm-peer");
+      state.chatChannel = "dm";
+      await loadChatMessages({ peer: state.chatPeer, channel: "dm" });
+      paintDmPeerList();
+      paintChatStream();
+      updateChatHeader();
+    });
+  });
+}
+
+function scrubFriendsChrome() {
+  const root = $("viewChatFriends");
+  if (!root) return;
+  const n = (state.friends || []).length;
+  const peer =
+    state.chatPeer || state.friends[0]?.login || state.friends[0]?.userId || "—";
+  root.querySelectorAll("b.text-primary.text-\\[16px\\], b.text-secondary.text-\\[16px\\], b.text-tertiary.text-\\[16px\\]").forEach((el, i) => {
+    if (i === 0) el.textContent = String(n);
+    else if (i === 1) el.textContent = String(n);
+    else if (i === 2) el.textContent = "0";
+  });
+  const filterBtns = root.querySelectorAll("aside .grid.grid-cols-2 button");
+  if (filterBtns[0]) filterBtns[0].textContent = `Все (${n})`;
+  if (filterBtns[1]) filterBtns[1].textContent = `Онлайн (${n})`;
+  if (filterBtns[2]) filterBtns[2].textContent = "В бою (0)";
+  if (filterBtns[3]) filterBtns[3].textContent = "Заявки (0)";
+  root.querySelectorAll("aside .mt-auto").forEach((box) => {
+    box.innerHTML = `<div class="flex items-center justify-between"><span class="text-[11px] font-bold flex items-center gap-1"><span class="material-symbols-outlined text-tertiary text-[16px]">person_add</span>Входящие</span><span class="text-[9px] px-1.5 py-0.5 rounded-full bg-tertiary/30 text-tertiary font-bold">0</span></div><p class="text-[10px] text-outline">Заявок нет</p>`;
+  });
+  root.querySelectorAll(".flex.items-center.justify-between.pt-1.text-\\[10px\\]").forEach((el) => {
+    el.innerHTML = `<span>Показано ${n} из ${n}</span><span class="text-primary font-bold">QA друзья</span>`;
+  });
+  const dossier = root.querySelector(".mode-grid > aside.col-span-12.lg\\:col-span-4");
+  if (dossier) {
+    dossier.innerHTML = `<div class="flex items-center justify-between flex-shrink-0 px-0.5 mb-2"><div class="flex items-center gap-1"><span class="material-symbols-outlined text-primary text-[18px]">badge</span><span class="font-bold text-[12px]">Досье друга</span></div><span class="text-[9px] px-1.5 py-0.5 rounded-full bg-secondary/15 text-secondary border border-secondary/30 font-bold">Онлайн</span></div>
+<div class="flex gap-2 bg-[#161310] rounded-xl border border-outline-variant/40 p-2 flex-shrink-0">
+<span class="w-16 h-16 rounded-xl bg-primary/20 border-2 border-primary/50 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-primary text-[28px]">cruelty_free</span></span>
+<div class="min-w-0 flex-1"><b class="text-primary text-[13px] truncate block">${escapeHtml(peer)}</b><p class="text-[10px] text-on-surface-variant mt-1">QA аккаунт · 18 котов · полный кит</p></div>
+</div>
+<button type="button" class="mt-2 w-full py-2 rounded-xl bg-primary text-on-primary text-[11px] font-bold" data-path="chat_global" data-dm-peer="${escapeHtml(peer)}">Написать ЛС</button>`;
+    dossier.querySelector("[data-dm-peer]")?.addEventListener("click", () => {
+      state.chatPeer = peer;
+      state.chatChannel = "dm";
+      navigate("chat_global");
+    });
+  }
+  const headerOnline = root.querySelector("nav .hidden.md\\:flex");
+  if (headerOnline) {
+    headerOnline.innerHTML = `<span class="material-symbols-outlined text-secondary text-[14px]">circle</span><span class="text-on-surface font-bold">${n} онлайн</span><span class="text-outline">·</span><span class="text-primary font-bold">${n} в круге</span><span class="text-outline">·</span><span class="text-tertiary font-bold">0 заявок</span>`;
+  }
+  root.querySelectorAll("span").forEach((s) => {
+    if (/в сети|в бою/i.test(s.textContent || "")) {
+      s.textContent = `${n} в сети · 0 в бою`;
+    }
+  });
+}
+
+function scrubChatChrome() {
+  const root = $("viewChatGlobal");
+  if (!root) return;
+  // Hide static town channels (Общий/Клан/Торговля/LFG) — keep DM list live.
+  root.querySelectorAll("aside .flex.flex-col.flex-1.min-h-0").forEach((col) => {
+    col.querySelectorAll(":scope > .flex.items-center.justify-between").forEach((row) => {
+      if (!row.hasAttribute("data-dm-peer")) row.classList.add("hidden");
+    });
+  });
+  root.querySelectorAll("aside .rounded-xl.bg-\\[\\#1a1613\\].border.border-primary\\/30").forEach((el) => {
+    el.classList.add("hidden");
+  });
+  root.querySelectorAll("aside .rounded-lg.bg-\\[\\#1a1613\\].border.border-primary\\/25").forEach((el) => {
+    el.classList.add("hidden");
+  });
+  const insp = $("inspectorPanel");
+  if (insp) {
+    const peer = state.chatPeer || "—";
+    insp.innerHTML = `<div class="flex items-center justify-between mb-1.5"><span class="text-[9px] text-outline uppercase font-bold tracking-wide">Собеседник</span><span class="text-[9px] px-1.5 py-0.5 rounded bg-secondary/15 text-secondary font-bold">Онлайн</span></div>
+<div class="flex items-center gap-2 mb-2">
+<span class="w-11 h-11 rounded-xl bg-[#2e2926] flex items-center justify-center text-primary shrink-0"><span class="material-symbols-outlined text-[24px]">cruelty_free</span></span>
+<div class="min-w-0"><b class="text-[12px] text-on-surface truncate block">${escapeHtml(peer)}</b><p class="text-[10px] text-primary font-bold">QA · 18 котов</p></div>
+</div>`;
+  }
+  root.querySelectorAll("aside .flex.items-center.justify-between.pb-1\\.5").forEach((el) => {
+    if (/очаге/i.test(el.textContent || "")) {
+      const n = (state.friends || []).length + 1;
+      el.querySelector("span") && (el.querySelector("span").textContent = `В круге (${n})`);
+    }
+  });
+  const headerOnline = root.querySelector("nav .hidden.md\\:flex");
+  if (headerOnline) {
+    const n = (state.friends || []).length + 1;
+    headerOnline.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span><span class="text-on-surface font-bold">QA</span><span class="text-outline">·</span><span class="text-secondary font-bold">${n} в круге</span>`;
+  }
+}
+
+async function renderFriendsSocial() {
+  await loadFriendsSocial();
+  const list = $("friends-list");
+  if (list) {
+    const friends = state.friends || [];
+    if (!friends.length) {
+      list.innerHTML = `<div class="p-3 text-center text-[11px] text-outline-variant">Нет друзей — войдите как login1…login4</div>`;
+    } else {
+      list.innerHTML = friends
+        .map((f) => {
+          const id = f.login || f.userId;
+          return `<button type="button" data-dm-peer="${escapeHtml(id)}" class="friend-card grid grid-cols-12 items-center px-2 py-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/25 hover:border-primary/40 text-left w-full">
+<div class="col-span-6 flex items-center gap-1.5 min-w-0">
+<span class="relative w-8 h-8 rounded-lg bg-primary/15 border border-primary/35 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-primary text-[16px]">cruelty_free</span><i class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-secondary ring-1 ring-[#161310]"></i></span>
+<div class="min-w-0"><b class="text-[11px] truncate block">${escapeHtml(id)}</b><p class="text-[9px] text-on-surface-variant truncate">QA · ${Number(f.cats) || 18} котов</p></div>
+</div>
+<div class="col-span-3 text-right"><b class="text-[11px]">—</b></div>
+<div class="col-span-2 text-right"><span class="text-[9px] text-secondary font-bold">Онлайн</span></div>
+<div class="col-span-1 flex justify-center"><span class="material-symbols-outlined text-[14px] text-outline">mail</span></div>
+</button>`;
+        })
+        .join("");
+      list.querySelectorAll("[data-dm-peer]").forEach((btn) => {
+        btn.addEventListener("click", () => {
+          state.chatPeer = btn.getAttribute("data-dm-peer");
+          state.chatChannel = "dm";
+          navigate("chat_global");
+        });
+      });
+    }
+  }
+  scrubFriendsChrome();
+  wireChatComposer();
+}
+
+async function renderChatSocial() {
+  await loadFriendsSocial();
+  if (!state.chatPeer && (state.friends || []).length) {
+    state.chatPeer = state.friends[0].login || state.friends[0].userId;
+    state.chatChannel = "dm";
+  }
+  await loadChatMessages({ peer: state.chatPeer, channel: state.chatPeer ? "dm" : "global" });
+  scrubChatChrome();
+  paintDmPeerList();
+  clearLoungeJunk();
+  paintChatStream();
+  updateChatHeader();
+  wireChatComposer();
+}
+
+function wireChatComposer() {
+  const form = $("chatForm");
+  if (!form || form.dataset.qaBound === "1") return;
+  form.dataset.qaBound = "1";
+  form.addEventListener("submit", async (ev) => {
+    ev.preventDefault();
+    const input = $("chatInput");
+    const text = input?.value || "";
+    if (!text.trim()) return;
+    const ok = await sendChatMessage(text);
+    if (ok && input) input.value = "";
+  });
+}
+
+/** Soft-launch auth — QA accounts validate password; others free smoke. */
+async function stubLogin({ login = "", password = "", register = false } = {}) {
   const btn = $("submitBtn");
   const originalHtml = btn?.innerHTML;
   if (btn) {
@@ -18254,22 +18674,45 @@ async function stubLogin({ login = "", password = "" } = {}) {
   try {
     const { data } = await api("/api/dev/login", {
       method: "POST",
-      body: JSON.stringify({ login, password }),
+      body: JSON.stringify({ login, password, register: !!register }),
     });
-    if (data?.profile) applyStarterGrant(data.profile);
-    state.loggedIn = true;
     state.session = data?.session || { userId: data?.profile?.userId || "guest_smoke" };
+    state.friends = Array.isArray(data?.friends) ? data.friends : [];
+    state.chatPeer =
+      state.friends[0]?.login || state.friends[0]?.userId || null;
+    state.chatChannel = "dm";
+    state.chatMessages = [];
+    state.selectedCatId = null;
+    if (data?.profile) {
+      applyStarterGrant(data.profile);
+      if (data.profile.qaFullKit) applyQaFullKit(data.profile);
+      else loadGearStub();
+    }
+    state.loggedIn = true;
     log(
-      `stubAuth ok user=${state.session.userId} cats=${(data?.profile?.cats || []).length}`,
+      `stubAuth ok user=${state.session.userId} cats=${(data?.profile?.cats || []).length} friends=${state.friends.length}`,
     );
     toast(
-      state.locale === "ru"
-        ? "Свободный вход — любой логин/пароль"
-        : "Free login — any credentials",
+      data?.message === "qa account"
+        ? state.locale === "ru"
+          ? `Вход ${login} · ${data.profile?.cats?.length || 0} котов`
+          : `Signed in ${login}`
+        : state.locale === "ru"
+          ? "Свободный вход — smoke"
+          : "Free smoke login",
     );
     navigate(bootTabAfterLogin());
   } catch (err) {
-    // Still admit on network blip: local grant already loaded at boot.
+    if (err.status === 401 || err.status === 409) {
+      toast(
+        state.locale === "ru"
+          ? err.status === 409
+            ? "Аккаунт уже есть"
+            : "Неверный пароль"
+          : err.message || "auth failed",
+      );
+      return;
+    }
     console.warn("stub login", err);
     state.loggedIn = true;
     navigate(bootTabAfterLogin());
@@ -18291,7 +18734,7 @@ function wireLoginForm() {
     const password = register
       ? $("registerPasswordInput")?.value || ""
       : $("passwordInput")?.value || "";
-    stubLogin({ login, password });
+    stubLogin({ login, password, register });
   };
   // Stitch inline scripts are stripped at build — restore tab / password UI helpers.
   window.switchTab = (mode) => {
