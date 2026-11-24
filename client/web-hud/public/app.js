@@ -2040,7 +2040,7 @@ function showView(id) {
   } else if (id === "viewPracticeFight") {
     preloadScreenBgs("dojo", "pveVictory", "victoryHall");
     prefetchSquadCardArt(combatSquadForPrefetch());
-  } else if (id === "viewPvpLoad") preloadScreenBgs("pvpLoad", "arenaInterior");
+  } else if (id === "viewPvpLoad") preloadScreenBgs("pvpLoad", "pvpLoadTeams", "arenaInterior");
   else if (id === "viewPvpFight") preloadScreenBgs("arenaInterior", "pvpVictory");
   else if (id === "viewPveVictory" || id === "viewVictoryHall" || id === "viewPvpVictory") {
     preloadScreenBgs("pveVictory", "victoryHall", "pvpVictory", "yard");
@@ -13187,7 +13187,7 @@ const ATTACK_CARD_ART_ALIAS = {
 };
 
 /** Bust Amvera/browser max-age after in-place rebakes. */
-const STITCH_ASSET_V = "nomf1";
+const STITCH_ASSET_V = "pvpload2";
 
 function attackCardArtUrl(cardId) {
   if (!cardId) return "";
@@ -13863,6 +13863,7 @@ const SCREEN_BG = {
   dojo: `/stitch-ref/e608/arena_dojo.webp?v=${STITCH_ASSET_V}`,
   dojoLoad: `/stitch-assets/dojo/practice-load-arena.webp?v=${STITCH_ASSET_V}`,
   pvpLoad: `/stitch-assets/pvp-battles/load-bg.webp?v=${STITCH_ASSET_V}`,
+  pvpLoadTeams: `/stitch-assets/pvp-battles/teams-bg.webp?v=${STITCH_ASSET_V}`,
   pveVictory: `/stitch-assets/pve-victory/bg.webp?v=${STITCH_ASSET_V}`,
   victoryHall: `/stitch-ref/e608/victory_hall.webp?v=${STITCH_ASSET_V}`,
   arenaInterior: `/stitch-assets/pvp-battles/fight-bg.webp?v=${STITCH_ASSET_V}`,
@@ -15976,7 +15977,7 @@ function startPvpLoadSync() {
   clearInterval(state.pvpLoadTimer);
   setPvpLoadProgress(0);
   state.battleMode = "pvp";
-  preloadScreenBgs("pvpLoad", "arenaInterior");
+  preloadScreenBgs("pvpLoad", "pvpLoadTeams", "arenaInterior");
   prefetchSquadCardArt(combatSquadForPrefetch());
   let pct = 0;
   state.pvpLoadTimer = setInterval(() => {

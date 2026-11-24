@@ -60,6 +60,8 @@ const loadHtml = `<!DOCTYPE html>
 </div>
 </div>
 <div class="pvp-load-teams">
+<img class="pvp-load-teams-art" alt="" src="/stitch-assets/pvp-battles/teams-bg.webp"/>
+<div class="pvp-load-teams-shade" aria-hidden="true"></div>
 <section class="pvp-load-team is-ally" id="pvpLoadAlly">
 <header>
 <span class="pvp-load-build-label"><i></i>Сборка команды</span>

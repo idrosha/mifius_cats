@@ -261,6 +261,7 @@ async function main() {
     "dojo/arena-full.png",
     "attack-cards/chrome/attack_card_chrome.png",
     "pvp-battles/load-bg.png",
+    "pvp-battles/teams-bg.png",
     "pvp-battles/fight-bg.png",
     "pvp-battles/victory-bg.png",
   ];
