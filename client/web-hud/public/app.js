@@ -1843,15 +1843,10 @@ function logicalViewId() {
     return "viewPracticeFight";
   }
   if (state.battle?.result && state.lastResult) {
-    if (state.lastResult.result === "p1_win" && state.battleMode === "practice") {
-      return "viewVictoryHall";
-    }
-    if (state.lastResult.result === "p1_win" && state.battleMode === "pve") {
-      return "viewPveVictory";
-    }
-    if (state.lastResult.result === "p1_win" && state.battleMode === "pvp") {
-      return "viewPvpVictory";
-    }
+    // Win and lose share the painted victory form; render* swaps title + winner squad.
+    if (state.battleMode === "practice") return "viewVictoryHall";
+    if (state.battleMode === "pve") return "viewPveVictory";
+    if (state.battleMode === "pvp") return "viewPvpVictory";
     if (state.lastResult.result === "p1_win" && state.battleMode === "boss") {
       return "viewResultWin";
     }
@@ -11949,8 +11944,42 @@ function renderVictorySlots(squad) {
   if (root) root.dataset.vicActive = squad;
 }
 
-/** MF-151 · PvE expedition victory (Славная победа) — paint from design pack. */
+/** Winner showcase cards for defeat screens (side 1 / bots). Visual L→R = тыл · центр · авангард. */
+function victoryEnemyShowcaseCards() {
+  const enemies = (state.battle?.units || [])
+    .filter((u) => u.side === 1 && !String(unitTemplateId(u) || "").includes("empty_lane"))
+    .slice()
+    .sort((a, b) => (a.lane ?? 0) - (b.lane ?? 0));
+  return PRACTICE_VISUAL_LANES.map((laneIdx, visualPos) => {
+    const u = enemies.find((e) => e.lane === laneIdx) || null;
+    if (!u) return null;
+    const tid = unitTemplateId(u);
+    const meta = VICTORY_SLOT_META[visualPos];
+    const isMvp = !!meta?.mvp;
+    const hero = practiceHeroByTemplate(tid);
+    const name =
+      hero?.name ||
+      CAT_SHEET_NAMES[tid] ||
+      pveBotDisplayName(tid, u.role) ||
+      tid;
+    const art =
+      catHeroArt(tid) ||
+      (PRACTICE_DUMMY_ART_FALLBACKS[tid] || [])[0] ||
+      battleUnitArt(u) ||
+      "/stitch-assets/cat-heroes/fighter-fire.webp?v=gear18c";
+    return {
+      id: tid || u.id,
+      name,
+      art,
+      roleRu: isMvp ? `${CAT_ROLE_RU[u.role] || u.role || "ГЕРОЙ"} · MVP` : CAT_ROLE_RU[u.role] || u.role || "",
+      mvp: isMvp,
+    };
+  });
+}
+
+/** MF-151 · PvE expedition victory / defeat — same form; losers see winner squad. */
 function renderPveVictory() {
+  const win = state.lastResult?.result === "p1_win";
   const chapter = Math.max(1, Math.min(5, Number(state.pveChapter) || 1));
   const data = pveChapterData(chapter);
   const turn = state.battle?.turn || state.battle?.round || state.lastResult?.turn || 5;
@@ -11961,31 +11990,48 @@ function renderPveVictory() {
     const el = $(id);
     if (el) el.textContent = value;
   };
-  setText("pveVicBadge", `ЭКСПЕДИЦИЯ ЗАВЕРШЕНА · 3/3 ВОЛНЫ ЗАЧИЩЕНО`);
-  setText("pveVicTitle", "СЛАВНАЯ ПОБЕДА!");
-  setText(
-    "pveVicLead",
-    `Пит-Босс «${data.bossName}» повержен! Ваши герои стяжали славу и сокровища Очага.`,
-  );
+  const waveN = pveFightNum(state.selectedStageId);
+  if (win) {
+    setText("pveVicBadge", `ЭКСПЕДИЦИЯ ЗАВЕРШЕНА · 3/3 ВОЛНЫ ЗАЧИЩЕНО`);
+    setText("pveVicTitle", "СЛАВНАЯ ПОБЕДА!");
+    setText(
+      "pveVicLead",
+      `Пит-Босс «${data.bossName}» повержен! Ваши герои стяжали славу и сокровища Очага.`,
+    );
+    setText("pveVicLosses", "0 Потерь");
+    setText("pveVicMvp", "MVP: Слот #1");
+    setText("pveVicGold", "+2,400");
+    setText("pveVicGems", "+480");
+    setText("pveVicDust", "+1,200");
+  } else {
+    setText("pveVicBadge", `ЭКСПЕДИЦИЯ ПРЕРВАНА · ВОЛНА ${waveN}/3`);
+    setText("pveVicTitle", "ПОРАЖЕНИЕ В БОЮ");
+    setText(
+      "pveVicLead",
+      `Стая «${data.faction || "врагов"}» удержала Очаг. На экране — команда победителя.`,
+    );
+    setText("pveVicLosses", "Отряд пал");
+    setText("pveVicMvp", "MVP: враг");
+    setText("pveVicGold", "0");
+    setText("pveVicGems", "0");
+    setText("pveVicDust", "0");
+  }
   setText("pveVicTime", `${mm}:${ss}`);
   setText("pveVicRounds", `${turn || 5} Раундов`);
-  setText("pveVicLosses", "0 Потерь");
-  setText("pveVicMvp", "MVP: Слот #1");
-  setText("pveVicGold", "+2,400");
-  setText("pveVicGems", "+480");
-  setText("pveVicDust", "+1,200");
   const vicSlots = document.querySelectorAll("#pveVicSlots article");
-  const vicCats = victoryCatCards();
+  const vicCards = win ? victoryCatCards() : victoryEnemyShowcaseCards();
   vicSlots.forEach((article, i) => {
-    const card = vicCats[i];
+    const card = vicCards[i];
+    article.hidden = !card;
+    article.classList.toggle("hidden", !card);
     if (!card) return;
-    const img = article.querySelector("img");
+    const img = article.querySelector(".pve-vic-art img, img");
     if (img && card.art) {
       img.src = card.art;
       img.alt = card.name;
       img.removeAttribute("data-mf-src");
     }
-    const nameEl = article.querySelector("b");
+    const nameEl = article.querySelector(".pve-vic-art b, b");
     if (nameEl) nameEl.textContent = card.name;
   });
   // Prefer chapter boss hall as backdrop when present.
@@ -12043,12 +12089,19 @@ function bindPveVictory() {
 
 function renderVictoryHall() {
   const mode = state.battleMode;
+  const win = state.lastResult?.result === "p1_win";
   const turn = state.battle?.turn || state.battle?.round || 0;
-  const copy = {
-    practice: ["Арена Сэнсэя · Триумф", "Славная победа!", "Награды за спарринг:"],
-    pve: ["Мифмир · Триумф", "Славная победа!", "Трофеи похода:"],
-    pvp: ["Арена · Триумф", "Славная победа!", "Трофеи арены:"],
-  }[mode] || ["Бой · Триумф", "Славная победа!", "Награды:"];
+  const copy = win
+    ? {
+        practice: ["Арена Сэнсэя · Триумф", "Славная победа!", "Награды за спарринг:"],
+        pve: ["Мифмир · Триумф", "Славная победа!", "Трофеи похода:"],
+        pvp: ["Арена · Триумф", "Славная победа!", "Трофеи арены:"],
+      }[mode] || ["Бой · Триумф", "Славная победа!", "Награды:"]
+    : {
+        practice: ["Арена Сэнсэя · Итог", "Поражение в бою", "Поражение · без наград"],
+        pve: ["Мифмир · Итог", "Поражение в бою", "Поражение · без наград"],
+        pvp: ["Арена · Итог", "Поражение в бою", "Поражение · без наград"],
+      }[mode] || ["Бой · Итог", "Поражение в бою", "Поражение · без наград"];
   if ($("vicKicker")) $("vicKicker").textContent = copy[0];
   if ($("vicTitle")) $("vicTitle").textContent = copy[1];
   if ($("vicLoot")) $("vicLoot").textContent = copy[2];
@@ -12059,8 +12112,11 @@ function renderVictoryHall() {
     const ss = String(sec % 60).padStart(2, "0");
     $("vicTime").textContent = `Время боя: ${mm}:${ss}`;
   }
-  // Winners stand after p1_win — cats by default; toggle shows dojo dummies.
-  const winners = state.lastResult?.result === "p2_win" ? "dummies" : "cats";
+  // Soft hide stub reward chips on defeat (form stays; numbers are win-only chrome).
+  const footLoot = $("vicLoot")?.parentElement?.nextElementSibling;
+  if (footLoot) footLoot.classList.toggle("hidden", !win);
+  // Defeat defaults to winner squad (dummies); win defaults to cats. Toggle still swaps.
+  const winners = win ? "cats" : "dummies";
   renderVictorySlots(winners);
   bindVictoryHall();
 }
@@ -12145,16 +12201,30 @@ function ruWins(n) {
 }
 
 function renderPvpVictory() {
+  const win = state.lastResult?.result === "p1_win";
   const turn = state.battle?.turn || state.battle?.round || 0;
-  const streak = state.progress.pvpWins || 1;
-  if ($("colStreak")) $("colStreak").textContent = `Серия: ${ruWins(streak)}`;
+  const streak = state.progress.pvpWins || 0;
+  const root = $("viewPvpVictory");
+  const titleEl = root?.querySelector("h1");
+  if (titleEl) titleEl.textContent = win ? "Славная победа в Колизее!" : "Поражение в бою";
+  if ($("colStreak")) {
+    $("colStreak").textContent = win
+      ? `Серия: ${ruWins(Math.max(1, streak))}`
+      : `Соперник: ${state.pvpOpponentName || "Свора гладиаторов"}`;
+  }
   if ($("colLead")) {
     const when = turn ? ` за ${ruRounds(turn)}` : "";
-    $("colLead").textContent = `Арена рукоплещет отряду Хранителя. Все три мифических кота выстояли${when}.`;
+    $("colLead").textContent = win
+      ? `Арена рукоплещет отряду Хранителя. Все три мифических кота выстояли${when}.`
+      : `Поражение${when}. На форме — команда победителя «${state.pvpOpponentName || "соперника"}».`;
   }
-  const list = $("viewPvpVictory")?.querySelector(".col-cats");
+  const list = root?.querySelector(".col-cats");
   if (list) {
-    const squad = pvpSquadIds();
+    const squad = win
+      ? pvpSquadIds()
+      : Array.isArray(state.pvpOpponentTeam) && state.pvpOpponentTeam.length
+        ? state.pvpOpponentTeam
+        : pvpSquadIds();
     const visual = PRACTICE_VISUAL_LANES.map((i) => squad[i]).filter(Boolean);
     const chips = { tank: "is-storm", fighter: "is-fire", assassin: "is-storm", ranger: "is-fire", mage: "is-fire", support: "is-water" };
     list.innerHTML = visual
@@ -18377,6 +18447,28 @@ async function main() {
     }
     await startYard(false);
     return { ok: !!state.battle, battleId: state.battle?.battleId, mode: state.battleMode, stageId: state.selectedStageId };
+  };
+  /** QA: force post-battle result screen (win/lose share painted victory forms). */
+  window.mythfelDebugForceBattleResult = ({
+    result = "p2_win",
+    mode = "practice",
+    units = null,
+    extra = null,
+  } = {}) => {
+    if (extra && typeof extra === "object") Object.assign(state, extra);
+    state.battleMode = mode;
+    state.battle = {
+      ...(state.battle || {}),
+      result,
+      turn: state.battle?.turn || 4,
+      battleId: state.battle?.battleId || `debug_${mode}`,
+      units: units || state.battle?.units || [],
+      hand: state.battle?.hand || [],
+      active: 0,
+    };
+    state.lastResult = { result, battleId: state.battle.battleId, turn: state.battle.turn };
+    renderAll();
+    return { view: logicalViewId(), result, mode };
   };
   /** QA: mark foe lane dead + re-paint; returns label + DOM text (D-041). */
   window.mythfelDebugSetFoeDead = (lane = 0) => {
