@@ -5784,9 +5784,12 @@ function renderFormation() {
 }
 
 const SHOP_CAT_ACTIVE =
-  "shop-cat-btn px-space-md py-1.5 rounded-lg bg-primary-container text-on-primary-container font-label-md text-label-md whitespace-nowrap shadow-[0_0_12px_rgba(217,155,38,0.3)]";
+  "shop-cat-btn w-full flex items-center justify-between px-space-sm py-2 rounded-lg bg-primary-container text-on-primary-container font-bold shadow-[0_0_10px_rgba(217,155,38,0.25)] transition-all text-left";
 const SHOP_CAT_IDLE =
-  "shop-cat-btn px-space-md py-1.5 rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface whitespace-nowrap transition-all";
+  "shop-cat-btn w-full flex items-center justify-between px-space-sm py-2 rounded-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-all text-left";
+
+/** @type {Map<string, {sku:string,name:string,blurb:string,price:number,currency:string,qty:number,art:string}>} */
+const shopCart = new Map();
 
 function shopParsePrice(el) {
   if (!el) return 0;
@@ -5797,9 +5800,9 @@ function shopParsePrice(el) {
 function sortShopSectionCards(section) {
   if (!section) return;
   const id = section.getAttribute("data-shop-section") || "";
-  // Featured / pass use asymmetric hero layout — keep authored order.
+  // Featured / pass keep authored order.
   if (id === "featured" || id === "pass") return;
-  const grids = section.querySelectorAll(".grid, .shop-section-body");
+  const grids = section.querySelectorAll(".shop-offers-grid, .grid, .shop-section-body");
   for (const grid of grids) {
     const cards = [...grid.children].filter((n) => n.matches?.("article[data-sku], article[data-price]"));
     if (cards.length < 2) continue;
@@ -5815,8 +5818,151 @@ function sortShopSectionCards(section) {
   }
 }
 
+function shopCardTitle(card) {
+  return (
+    card?.querySelector("h2, h3, .font-label-lg, .font-label-md")?.textContent ||
+    card?.getAttribute("data-sku") ||
+    ""
+  ).trim();
+}
+
+function shopCardBlurb(card) {
+  return (card?.querySelector("p, .font-body-sm")?.textContent || "").trim();
+}
+
+function shopCardArt(card) {
+  const img = card?.querySelector("img");
+  return img?.getAttribute("src") || img?.getAttribute("data-mf-src") || "";
+}
+
+function shopAddToCart(card) {
+  if (!card) return;
+  const sku = card.getAttribute("data-sku") || "";
+  if (!sku) return;
+  const price = shopParsePrice(card);
+  const currency = card.getAttribute("data-currency") || "yarn";
+  const prev = shopCart.get(sku);
+  const qty = Math.min(99, (prev?.qty || 0) + 1);
+  shopCart.set(sku, {
+    sku,
+    name: shopCardTitle(card) || sku,
+    blurb: shopCardBlurb(card),
+    price,
+    currency,
+    qty,
+    art: shopCardArt(card) || prev?.art || "",
+  });
+  renderShopCart();
+  toast(state.locale === "ru" ? `В корзине: ${shopCardTitle(card) || sku}` : `Cart: ${sku}`);
+}
+
+function shopCartSetQty(sku, qty) {
+  const row = shopCart.get(sku);
+  if (!row) return;
+  const next = Math.max(0, Math.min(99, Math.floor(Number(qty) || 0)));
+  if (!next) shopCart.delete(sku);
+  else {
+    row.qty = next;
+    shopCart.set(sku, row);
+  }
+  renderShopCart();
+}
+
+function shopCartClear() {
+  shopCart.clear();
+  renderShopCart();
+}
+
+function renderShopCart() {
+  const list = $("shop-cart-list");
+  const countEl = $("shop-cart-count");
+  const yarnEl = $("shop-cart-total-yarn");
+  const iapEl = $("shop-cart-total-iap");
+  if (!list) return;
+  const rows = [...shopCart.values()];
+  let yarn = 0;
+  let iap = 0;
+  let count = 0;
+  for (const row of rows) {
+    count += row.qty;
+    if (row.currency === "iap") iap += row.price * row.qty;
+    else yarn += row.price * row.qty;
+  }
+  if (countEl) countEl.textContent = state.locale === "ru" ? `В корзине: ${count}` : `Cart: ${count}`;
+  if (yarnEl) yarnEl.textContent = String(yarn);
+  if (iapEl) iapEl.textContent = String(iap);
+  if (!rows.length) {
+    list.innerHTML =
+      '<div id="shop-cart-empty" class="text-[11px] text-on-surface-variant text-center py-6 px-2">Корзина пуста — добавьте товары из витрины.</div>';
+    return;
+  }
+  list.innerHTML = rows
+    .map((row) => {
+      const art = row.art
+        ? `<img alt="${row.name}" class="w-full h-full object-cover" decoding="async" src="${row.art}">`
+        : `<span class="material-symbols-outlined text-outline text-[20px] absolute inset-0 m-auto w-fit h-fit">shopping_bag</span>`;
+      const curIcon = row.currency === "iap" ? "diamond" : "diamond";
+      const priceLabel = row.currency === "iap" ? `${row.price} ₽` : String(row.price);
+      return `<div class="bg-surface-container p-2 rounded-xl flex items-center justify-between gap-2 shadow-inner border border-outline-variant/20" data-cart-sku="${row.sku}">
+<div class="w-11 h-11 rounded-lg overflow-hidden shrink-0 bg-surface-container-lowest border border-outline-variant/40 relative flex items-center justify-center">${art}</div>
+<div class="flex-1 min-w-0">
+<h4 class="font-headline-md text-[13px] text-on-surface truncate font-bold leading-tight">${row.name}</h4>
+<p class="font-body-sm text-[10px] text-on-surface-variant truncate">${row.blurb || ""}</p>
+<div class="text-primary-fixed font-bold font-stat-numeral text-label-sm flex items-center gap-1 mt-0.5">
+<span class="material-symbols-outlined text-[14px] text-primary-fixed-dim">${curIcon}</span> ${priceLabel}
+</div>
+</div>
+<div class="flex items-center gap-1.5 bg-surface-container-lowest p-1 rounded-lg shrink-0">
+<button type="button" class="shop-cart-qty w-5 h-5 rounded bg-surface-container-high hover:bg-surface-bright flex items-center justify-center font-bold text-on-surface" data-delta="-1">−</button>
+<span class="font-stat-numeral text-label-sm px-1">${row.qty}</span>
+<button type="button" class="shop-cart-qty w-5 h-5 rounded bg-surface-container-high hover:bg-surface-bright flex items-center justify-center font-bold text-on-surface" data-delta="1">+</button>
+</div>
+</div>`;
+    })
+    .join("");
+}
+
+function shopCheckoutCart() {
+  if (!shopCart.size) {
+    toast(state.locale === "ru" ? "Корзина пуста" : "Cart empty");
+    return;
+  }
+  const root = $("viewShop");
+  const entries = [...shopCart.values()];
+  let ok = 0;
+  for (const row of entries) {
+    for (let i = 0; i < row.qty; i++) {
+      const card = root?.querySelector(`article[data-sku="${row.sku}"]`);
+      if (purchaseShopSku(row.sku, row.price, card || undefined)) ok += 1;
+      else break;
+    }
+  }
+  shopCartClear();
+  hydrateShopOfferUi(root);
+  if (ok) toast(state.locale === "ru" ? `Куплено позиций: ${ok}` : `Bought ×${ok}`);
+}
+
 function updateShopCartBar() {
-  /* Cart multi-select removed — long checkbox bar no longer used. */
+  renderShopCart();
+}
+
+function setShopCurrencyFilter(cur) {
+  const root = $("viewShop");
+  if (!root) return;
+  const active = cur || root.dataset.shopCurrency || "all";
+  root.dataset.shopCurrency = active;
+  for (const btn of root.querySelectorAll("[data-shop-currency]")) {
+    const on = btn.getAttribute("data-shop-currency") === active;
+    btn.className = on
+      ? "shop-currency-btn px-2.5 py-1 rounded-lg text-label-sm font-bold bg-primary-container text-on-primary-container shadow-inner"
+      : "shop-currency-btn px-2.5 py-1 rounded-lg text-label-sm text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all";
+  }
+  const section = root.querySelector("[data-shop-section]:not([hidden])");
+  if (!section) return;
+  for (const card of section.querySelectorAll("article[data-sku]")) {
+    const c = card.getAttribute("data-currency") || "yarn";
+    card.hidden = active !== "all" && c !== active;
+  }
 }
 
 const SHOP_ARMOR_SET_META = {
@@ -6100,27 +6246,19 @@ function stripShopCartUi(root) {
 }
 
 function shopBuyBtnHtml(price) {
-  const p = Number(price) || 0;
-  return `<button type="button" class="shop-buy-btn px-space-sm py-1 rounded-lg bg-primary-container text-on-primary-container font-label-sm text-label-sm hover:brightness-110 active:scale-95 transition-all flex items-center gap-0.5"><span class="material-symbols-outlined text-[14px]">shopping_bag</span>Купить${p ? ` · ${p}` : ""}</button>`;
+  return `<button type="button" class="shop-cart-add w-full h-5 rounded bg-surface-container-highest hover:bg-primary-container text-on-surface hover:text-on-primary-container font-label-sm text-[10px] font-bold transition-colors flex items-center justify-center gap-1 shrink-0 mt-1"><span class="material-symbols-outlined text-[11px]">add_shopping_cart</span> В корзину</button>`;
 }
 
 function ensureShopCardBuyButton(card) {
-  if (!card || card.querySelector(".shop-buy-btn")) return;
+  if (!card || card.querySelector(".shop-cart-add, .shop-buy-btn")) return;
+  if (/Куплено|owned/i.test(card.textContent || "")) return;
   const price = shopParsePrice(card);
-  const existing = [...card.querySelectorAll("button")].find((b) => /Купить|Пасс|амулет/i.test(b.textContent || ""));
+  const existing = [...card.querySelectorAll("button")].find((b) => /Купить|Пасс|амулет|корзин/i.test(b.textContent || ""));
   if (existing) {
-    existing.classList.add("shop-buy-btn");
+    existing.classList.add("shop-cart-add");
     return;
   }
-  const emptyRow = [...card.querySelectorAll(".flex.items-center.justify-between, .flex.flex-col.items-end")].find(
-    (row) => !row.querySelector("button"),
-  );
-  if (emptyRow) {
-    emptyRow.insertAdjacentHTML("beforeend", shopBuyBtnHtml(price));
-    return;
-  }
-  const foot = card.querySelector(".flex.items-center.justify-between") || card;
-  foot.insertAdjacentHTML("beforeend", shopBuyBtnHtml(price));
+  card.insertAdjacentHTML("beforeend", shopBuyBtnHtml(price));
 }
 
 function fillShopCardArt(card) {
@@ -6174,18 +6312,25 @@ function shopHeroCardHtml(tid) {
   const art = catHeroArt(tid) || "";
   const price = SHOP_HERO_PRICE[role] || 90;
   const owned = (state.profile?.cats || []).some((c) => c.templateId === tid);
-  return `<article class="bg-surface-container rounded-xl p-space-sm flex flex-col gap-space-sm shadow-sm hover:bg-surface-container-high transition-colors group" data-sku="${tid}" data-price="${price}" data-element="${el}">
-<div class="relative aspect-square rounded-lg overflow-hidden bg-surface-container-highest shadow-inner">
-${art ? `<img alt="${name}" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" decoding="async" loading="lazy" src="${art}">` : `<span class="material-symbols-outlined text-outline text-[48px] absolute inset-0 m-auto w-fit h-fit">pets</span>`}
-<span class="absolute top-1 left-1 px-1.5 py-0.5 rounded bg-surface-container-lowest/90 font-label-sm text-[10px] text-outline uppercase">${CAT_ROLE_RU[role] || role}</span>
-<span class="absolute bottom-1 right-1 px-1 rounded bg-surface-container-lowest/90 font-stat-numeral text-[10px] text-primary">${CAT_ELEMENT_RU[el] || el}</span>
+  const artHtml = art
+    ? `<img alt="${name}" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-200" decoding="async" loading="lazy" src="${art}">`
+    : `<span class="material-symbols-outlined text-outline text-[22px] absolute inset-0 m-auto w-fit h-fit">pets</span>`;
+  return `<article class="shop-offer market-cell group bg-surface-container hover:bg-surface-container-high rounded-lg p-1.5 flex flex-col justify-between transition-all duration-150 border border-outline-variant/20 shadow-sm" data-sku="${tid}" data-price="${price}" data-currency="yarn" data-element="${el}">
+<div class="flex items-center justify-between shrink-0 mb-1">
+<span class="font-label-sm text-[9px] px-1 py-0.5 rounded bg-surface-container-lowest/90 font-label-sm text-outline uppercase font-bold tracking-wider">${CAT_ROLE_RU[role] || role}</span>
+<span class="font-label-sm text-[9px] text-primary">${CAT_ELEMENT_RU[el] || el}</span>
 </div>
-<div class="font-label-md text-label-md text-on-surface truncate">${name}</div>
-<div class="font-body-sm text-body-sm text-outline">${CAT_ELEMENT_RU[el] || el} · ${CAT_ROLE_RU[role] || role}</div>
-<div class="flex items-center justify-between pt-1 border-t border-surface-container-highest gap-1">
-<div class="flex items-center gap-0.5"><span class="material-symbols-outlined text-primary-fixed-dim text-[14px]">diamond</span><span class="font-stat-numeral text-label-md text-primary-fixed">${price}</span></div>
-${owned ? `<span class="font-label-sm text-label-sm text-secondary">Куплено</span>` : shopBuyBtnHtml(price)}
+<div class="flex items-center gap-1.5 my-1 min-h-0">
+<div class="w-11 h-11 rounded overflow-hidden bg-surface-container-lowest shrink-0 shadow-inner border border-outline-variant/30 relative flex items-center justify-center">${artHtml}</div>
+<div class="flex-1 min-w-0">
+<h3 class="font-headline-md text-[11px] text-on-surface truncate font-bold leading-tight">${name}</h3>
+<p class="font-body-sm text-[9px] text-on-surface-variant truncate">${CAT_ELEMENT_RU[el] || el} · ${CAT_ROLE_RU[role] || role}</p>
+<div class="flex items-center gap-1 text-primary-fixed font-bold font-stat-numeral text-[10px] mt-0.5">
+<span class="material-symbols-outlined text-[12px] text-primary-fixed-dim">diamond</span> ${price}
 </div>
+</div>
+</div>
+${owned ? `<span class="font-label-sm text-[10px] text-secondary text-center py-1">Куплено</span>` : shopBuyBtnHtml(price)}
 </article>`;
 }
 
@@ -6221,11 +6366,11 @@ function renderShopHeroesGrid() {
       const cards = byElement[el].map(shopHeroCardHtml).join("");
       return `<div class="shop-element-group flex flex-col gap-space-sm shrink-0" data-element-group="${el}">
 <div class="flex items-center gap-space-sm sticky top-0 z-[1] py-1 bg-surface-container-low/95 backdrop-blur-sm">
-<span class="material-symbols-outlined ${meta.accent} text-[20px]" style="font-variation-settings:'FILL' 1">${meta.icon}</span>
-<h3 class="font-headline-md text-body-lg ${meta.accent}">Стихия · ${meta.label}</h3>
+<span class="material-symbols-outlined ${meta.accent} text-[18px]" style="font-variation-settings:'FILL' 1">${meta.icon}</span>
+<h3 class="font-headline-md text-label-md ${meta.accent}">Стихия · ${meta.label}</h3>
 <span class="font-label-sm text-label-sm text-outline">${byElement[el].length}</span>
 </div>
-<div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-space-sm">${cards}</div>
+<div class="shop-offers-grid">${cards}</div>
 </div>`;
     })
     .join("");
@@ -6235,22 +6380,33 @@ function renderShopArmorGrid() {
   if (!section) return;
   const body = section.querySelector(".shop-section-body");
   if (!body) return;
+  body.classList.add("shop-offers-grid");
   body.innerHTML = Object.entries(SHOP_ARMOR_SET_META)
     .map(([sid, meta]) => {
       const border =
-        sid === "red" ? "border border-tertiary/40" : ["yellow", "purple", "solar", "or"].includes(sid) ? "border border-primary/25" : "";
-      return `<article class="bg-surface-container rounded-xl p-space-md flex gap-space-md shadow-sm hover:bg-surface-container-high transition-colors group ${border}" data-sku="set_${sid}" data-price="${meta.price}">
-<img alt="${meta.name}" class="w-16 h-16 rounded-lg object-contain bg-surface-container-highest p-1 shrink-0 group-hover:scale-105 transition-transform" decoding="async" loading="lazy" src="${meta.thumb}">
-<div class="flex-1 min-w-0 flex flex-col justify-between">
-<div>
-<div class="flex items-center gap-1.5"><span class="font-label-lg text-label-lg text-on-surface">${meta.name}</span><span class="px-1 rounded bg-surface-container-highest font-label-sm text-[10px] text-outline">${meta.rank}</span></div>
-<div class="font-body-sm text-body-sm text-outline">${meta.blurb}</div>
+        sid === "red"
+          ? "border-tertiary/40"
+          : ["yellow", "purple", "solar", "or"].includes(sid)
+            ? "border-primary/25"
+            : "border-outline-variant/20";
+      return `<article class="shop-offer market-cell group bg-surface-container hover:bg-surface-container-high rounded-lg p-1.5 flex flex-col justify-between transition-all duration-150 border ${border} shadow-sm" data-sku="set_${sid}" data-price="${meta.price}" data-currency="yarn">
+<div class="flex items-center justify-between shrink-0 mb-1">
+<span class="font-label-sm text-[9px] px-1 py-0.5 rounded bg-surface-container-highest text-outline uppercase font-bold tracking-wider">Сет</span>
+<span class="font-label-sm text-[9px] text-outline">${meta.rank}</span>
 </div>
-<div class="flex items-center justify-between mt-2 gap-2">
-<div class="flex items-center gap-0.5"><span class="material-symbols-outlined text-primary-fixed-dim text-[16px]">diamond</span><span class="font-stat-numeral text-label-lg text-primary-fixed">${meta.price}</span></div>
+<div class="flex items-center gap-1.5 my-1 min-h-0">
+<div class="w-11 h-11 rounded overflow-hidden bg-surface-container-lowest shrink-0 shadow-inner border border-outline-variant/30 relative flex items-center justify-center">
+<img alt="${meta.name}" class="w-full h-full object-contain p-0.5 group-hover:scale-105 transition-transform" decoding="async" loading="lazy" src="${meta.thumb}">
+</div>
+<div class="flex-1 min-w-0">
+<h3 class="font-headline-md text-[11px] text-on-surface truncate font-bold leading-tight">${meta.name}</h3>
+<p class="font-body-sm text-[9px] text-on-surface-variant truncate">${meta.blurb}</p>
+<div class="flex items-center gap-1 text-primary-fixed font-bold font-stat-numeral text-[10px] mt-0.5">
+<span class="material-symbols-outlined text-[12px] text-primary-fixed-dim">diamond</span> ${meta.price}
+</div>
+</div>
+</div>
 ${shopBuyBtnHtml(meta.price)}
-</div>
-</div>
 </article>`;
     })
     .join("");
@@ -6289,6 +6445,19 @@ function setShopCategory(cat) {
     const body = shown.querySelector(".shop-section-body");
     if (body) body.scrollTop = 0;
   }
+  const title = $("shopTitle");
+  const titles = {
+    featured: "Горячие спецпредложения & Лавка",
+    pass: "Боевой Пасс & Сезон",
+    breed: "Скрещивание & Питомник",
+    armor: "Доспехи & Сеты",
+    chests: "Ларцы & Ресурсы",
+    weapons: "Оружие & Арсенал",
+    heroes: "Контракты Котиков",
+    packs: "Самоцветы & Ресурсы",
+  };
+  if (title) title.textContent = titles[active] || t("hub.tab.shop");
+  setShopCurrencyFilter(root.dataset.shopCurrency || "all");
 }
 
 function bindShopPassBuyOnce() {
@@ -6296,20 +6465,37 @@ function bindShopPassBuyOnce() {
   if (!root || root.dataset.passBuyBound === "1") return;
   root.dataset.passBuyBound = "1";
   root.addEventListener("click", (ev) => {
-    const buyBtn = ev.target.closest(".shop-buy-btn, button");
-    const card = ev.target.closest("article[data-sku]");
-    if (!card || !root.contains(card)) return;
-    const sku = card.getAttribute("data-sku") || "";
-    if (buyBtn && card.contains(buyBtn)) {
-      ev.preventDefault();
-      purchaseShopSku(sku, shopParsePrice(card), card);
-      hydrateShopOfferUi(root);
+    const qtyBtn = ev.target.closest(".shop-cart-qty");
+    if (qtyBtn) {
+      const row = qtyBtn.closest("[data-cart-sku]");
+      const sku = row?.getAttribute("data-cart-sku") || "";
+      const delta = Number(qtyBtn.getAttribute("data-delta") || 0);
+      const cur = shopCart.get(sku)?.qty || 0;
+      if (sku) shopCartSetQty(sku, cur + delta);
       return;
     }
-    if (sku === "pass_buy" && (buyBtn || ev.target === card)) {
+    if (ev.target.closest("#shop-cart-clear")) {
       ev.preventDefault();
-      purchaseShopSku("pass_buy", shopParsePrice(card), card);
-      hydrateShopOfferUi(root);
+      shopCartClear();
+      return;
+    }
+    if (ev.target.closest("#shop-buy-selected")) {
+      ev.preventDefault();
+      shopCheckoutCart();
+      return;
+    }
+    const curBtn = ev.target.closest("button[data-shop-currency]");
+    if (curBtn && root.contains(curBtn)) {
+      ev.preventDefault();
+      setShopCurrencyFilter(curBtn.getAttribute("data-shop-currency"));
+      return;
+    }
+    const card = ev.target.closest("article[data-sku]");
+    if (!card || !root.contains(card)) return;
+    const addBtn = ev.target.closest(".shop-cart-add, .shop-buy-btn");
+    if (addBtn && card.contains(addBtn)) {
+      ev.preventDefault();
+      shopAddToCart(card);
     }
   });
 }
@@ -6333,34 +6519,31 @@ function bindShopCatalogOnce() {
   });
 
   setShopCategory(root.dataset.shopCat || "featured");
+  renderShopCart();
 }
 
 function renderShop() {
-  $("shopEyebrow").textContent = t("hub.tab.shop");
-  $("shopTitle").textContent = t("hub.tab.shop");
-  $("shopLead").textContent = t(
-    "shop.lead_channels",
-    "IAP · пасс (сет+герой) · рыбки · breeding · PvP броня · PvE сеты — редкий дроп данжей/рейдов",
-  );
+  const eyebrow = $("shopEyebrow");
+  if (eyebrow) eyebrow.textContent = t("hub.tab.shop");
+  const lead = $("shopLead");
+  if (lead) {
+    lead.textContent = t(
+      "shop.lead_channels",
+      "IAP · пасс (сет+герой) · рыбки · breeding · PvP броня · PvE сеты — редкий дроп данжей/рейдов",
+    );
+  }
   bindShopPassBuyOnce();
   bindShopCatalogOnce();
   hydrateShopOfferUi($("viewShop"));
   setShopCategory($("viewShop")?.dataset.shopCat || "featured");
   const passCard = $("viewShop")?.querySelector('[data-sku="pass_buy"]');
-  if (passCard) {
-    const ul = passCard.querySelector("ul");
-    if (ul) {
-      ul.innerHTML = `
-        <li class="flex items-center gap-1.5"><span class="material-symbols-outlined text-secondary text-[16px]">bolt</span>×2 XP и автоферма сезона</li>
-        <li class="flex items-center gap-1.5"><span class="material-symbols-outlined text-primary text-[16px]">shield</span>Гарант: сет брони + оружие на 1 котика</li>
-        <li class="flex items-center gap-1.5"><span class="material-symbols-outlined text-tertiary text-[16px]">pets</span>Финал сезона: +1 Герой (кого нет)</li>`;
-    }
-    const buyBtn = [...passCard.querySelectorAll("button")].find((b) => /Купить|Пасс/i.test(b.textContent || ""));
-    if (buyBtn) {
-      buyBtn.classList.add("shop-buy-btn");
-      buyBtn.textContent = state.passOwned ? "Пасс куплен · ACTIVE" : "Купить пасс";
+  if (passCard && state.passOwned) {
+    for (const btn of passCard.querySelectorAll(".shop-cart-add, .shop-buy-btn")) {
+      btn.textContent = "Пасс куплен";
+      btn.disabled = true;
     }
   }
+  renderShopCart();
   const list = $("offerList");
   if (list) {
     list.innerHTML = "";
