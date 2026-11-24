@@ -14043,8 +14043,11 @@ function renderPvpFight() {
   const foeTitle = root?.querySelector(".pv-side.is-enemy h2");
   if (allyTitle) allyTitle.textContent = `Отряд «${pvpActiveSquadName()}»`;
   if (foeTitle) foeTitle.textContent = state.pvpOpponentName || "Свора гладиаторов";
-  const allies = (diff.units || []).filter((u) => u.side === 0).sort((a, b) => a.lane - b.lane);
-  const enemies = (diff.units || []).filter((u) => u.side === 1).sort((a, b) => a.lane - b.lane);
+  // D-034: allies L→R = тыл · центр · авангард (tank right, nearest VS). Sim lanes stay 0=front…2=rear.
+  // Enemies face left: L→R = авангард · центр · тыл — same as renderPracticeFight.
+  const listBySide = (side) => (diff.units || []).filter((u) => u.side === side);
+  const allies = PRACTICE_VISUAL_LANES.map((lane) => listBySide(0).find((u) => u.lane === lane)).filter(Boolean);
+  const enemies = listBySide(1).slice().sort((a, b) => a.lane - b.lane);
   const allyBox = $("pvAllies");
   const foeBox = $("pvEnemies");
   const clearedByUnit = activeCleanseFlashes(
