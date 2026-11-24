@@ -5122,6 +5122,54 @@ body:has(#viewPractice > .dojo-load:not([hidden])) #app {
   flex: 1 1 auto;
   min-height: 0;
 }
+/* Tactical codex: collapse to header strip at bottom of roster column */
+#viewPractice .dojo-tactical-codex {
+  gap: 0.25rem;
+}
+#viewPractice .dojo-tactical-codex.is-collapsed {
+  gap: 0;
+  padding-bottom: 0.35rem;
+}
+#viewPractice .dojo-tactical-codex.is-collapsed .dojo-tactical-codex__head {
+  border-bottom-color: transparent;
+  padding-bottom: 0;
+}
+#viewPractice .dojo-tactical-codex__head {
+  background: transparent;
+  border: 0;
+  color: inherit;
+  font: inherit;
+}
+#viewPractice .dojo-tactical-codex__head:hover .dojo-tactical-codex__chevron {
+  color: #fde68a;
+}
+#viewPractice .dojo-tactical-codex__chevron {
+  transition: transform 0.22s ease;
+}
+#viewPractice .dojo-tactical-codex.is-collapsed .dojo-tactical-codex__chevron {
+  transform: rotate(180deg);
+}
+#viewPractice .dojo-tactical-codex__body {
+  display: grid;
+  grid-template-rows: 1fr;
+  transition: grid-template-rows 0.28s ease, opacity 0.2s ease;
+  opacity: 1;
+}
+#viewPractice .dojo-tactical-codex__body > * {
+  min-height: 0;
+  overflow: hidden;
+}
+#viewPractice .dojo-tactical-codex.is-collapsed .dojo-tactical-codex__body {
+  grid-template-rows: 0fr;
+  opacity: 0;
+  pointer-events: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  #viewPractice .dojo-tactical-codex__body,
+  #viewPractice .dojo-tactical-codex__chevron {
+    transition: none !important;
+  }
+}
 @keyframes dojo-slot-pop {
   from { opacity: 0; transform: scale(0.94) translateY(6px); }
   to { opacity: 1; transform: scale(1) translateY(0); }

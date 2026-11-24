@@ -17996,6 +17996,14 @@ function bindPracticeFightCtas() {
     const dojo = ev.target.closest("[data-dojo]")?.getAttribute("data-dojo");
     if (dojo) {
       ev.preventDefault();
+      if (dojo === "codex-toggle") {
+        const panel = ev.target.closest(".dojo-tactical-codex") || $("dojoTacticalCodex");
+        const head = panel?.querySelector("[data-dojo='codex-toggle']");
+        if (!panel || !head) return;
+        const open = panel.classList.toggle("is-collapsed") === false;
+        head.setAttribute("aria-expanded", open ? "true" : "false");
+        return;
+      }
       if (dojo === "quick") {
         startPractice(true);
         return;
