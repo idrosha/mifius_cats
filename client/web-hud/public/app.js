@@ -1261,6 +1261,8 @@ const state = {
   pvpOpponentName: "",
   pvpSearching: false,
   pvpSearchTimer: null,
+  pvpSearchTick: null,
+  pvpSearchStartedAt: 0,
   pvpLoadPct: 0,
   pvpLoadTimer: null,
   pvpStarting: false,
@@ -17828,11 +17830,69 @@ function nudgeDojoNeedSquad() {
   window.setTimeout(() => grid.classList.remove("dojo-need-squad"), 450);
 }
 
+function formatPvpSearchElapsed(ms) {
+  const s = Math.max(0, Math.floor(Number(ms) / 1000) || 0);
+  const m = Math.floor(s / 60);
+  return `${m}:${String(s % 60).padStart(2, "0")}`;
+}
+
+function stopPvpSearchTick() {
+  if (state.pvpSearchTick) {
+    clearInterval(state.pvpSearchTick);
+    state.pvpSearchTick = null;
+  }
+  state.pvpSearchStartedAt = 0;
+}
+
+function syncPvpSearchStatusUi() {
+  const status = $("arenaSearchStatus");
+  const icon = $("arenaSearchIcon");
+  const timer = $("arenaSearchTimer");
+  const row = $("arenaSearchStatusRow");
+  if (!status) return;
+  if (state.pvpSearching) {
+    const elapsed = Date.now() - (state.pvpSearchStartedAt || Date.now());
+    status.textContent = "Идёт поиск";
+    if (icon) {
+      icon.textContent = "search";
+      icon.classList.remove("hidden");
+    }
+    if (timer) {
+      timer.textContent = formatPvpSearchElapsed(elapsed);
+      timer.classList.remove("hidden");
+      timer.setAttribute("aria-hidden", "false");
+    }
+    if (row) row.dataset.state = "searching";
+    return;
+  }
+  if (state.pvpOpponentTeam?.length === 3) {
+    status.textContent = "Соперник найден";
+    if (icon) {
+      icon.textContent = "person_check";
+      icon.classList.remove("hidden");
+    }
+    if (timer) {
+      timer.classList.add("hidden");
+      timer.setAttribute("aria-hidden", "true");
+    }
+    if (row) row.dataset.state = "found";
+    return;
+  }
+  status.textContent = "";
+  if (icon) icon.classList.add("hidden");
+  if (timer) {
+    timer.classList.add("hidden");
+    timer.setAttribute("aria-hidden", "true");
+  }
+  if (row) row.dataset.state = "idle";
+}
+
 function clearPvpSearchTimer() {
   if (state.pvpSearchTimer) {
     clearTimeout(state.pvpSearchTimer);
     state.pvpSearchTimer = null;
   }
+  stopPvpSearchTick();
   state.pvpSearching = false;
   const cta = $("btnArenaSearch");
   if (cta) {
@@ -17904,35 +17964,6 @@ function renderPvpArenaActiveTeam() {
     .join("");
 }
 
-function renderPvpArenaOppPreview(mode = "idle") {
-  const box = $("arenaOppPreview");
-  if (!box) return;
-  const labels = ["Танк", "ДПС", "Саппорт"];
-  const team =
-    mode === "found" && Array.isArray(state.pvpOpponentTeam) ? state.pvpOpponentTeam.map(pvpRosterEntry) : null;
-  box.innerHTML = [0, 1, 2]
-    .map((i) => {
-      if (mode === "searching") {
-        return `<div class="rounded-lg border border-dashed border-primary/40 bg-[#1a1613]/80 h-20 flex flex-col items-center justify-center gap-0.5 text-primary animate-pulse" data-opp-slot="${i}">
-<span class="material-symbols-outlined text-[20px]">hourglass_top</span>
-<span class="text-[9px] font-bold">${labels[i]}…</span>
-</div>`;
-      }
-      if (team?.[i]) {
-        const c = team[i];
-        return `<div class="rounded-lg border border-secondary/40 bg-[#1a1613] h-20 overflow-hidden flex flex-col items-center justify-end relative" data-opp-slot="${i}">
-<img alt="${c.name}" class="absolute inset-0 w-full h-full object-cover object-top opacity-90" src="${c.art}"/>
-<span class="relative z-10 w-full text-center text-[9px] font-bold bg-black/65 text-white py-0.5">${c.name}</span>
-</div>`;
-      }
-      return `<div class="rounded-lg border border-dashed border-outline-variant/50 bg-[#1a1613]/80 h-20 flex flex-col items-center justify-center gap-0.5 text-outline" data-opp-slot="${i}">
-<span class="material-symbols-outlined text-[20px]">person_search</span>
-<span class="text-[9px] font-bold">${labels[i]}</span>
-</div>`;
-    })
-    .join("");
-}
-
 function renderPvpArenaSquadList() {
   const host = $("arenaSquadList");
   if (!host) return;
@@ -17986,13 +18017,7 @@ function renderPvpArena() {
     btn.setAttribute("aria-selected", on ? "true" : "false");
   });
   renderPvpArenaActiveTeam();
-  if (state.pvpSearching) renderPvpArenaOppPreview("searching");
-  else if (state.pvpOpponentTeam?.length === 3) renderPvpArenaOppPreview("found");
-  else renderPvpArenaOppPreview("idle");
-  const status = $("arenaSearchStatus");
-  if (status && !state.pvpSearching) {
-    status.textContent = state.pvpOpponentTeam?.length === 3 ? "Соперник найден" : "Готов к поиску";
-  }
+  syncPvpSearchStatusUi();
 }
 
 function startPvpSearch() {
@@ -18006,18 +18031,23 @@ function startPvpSearch() {
   state.pvpSearching = true;
   state.pvpOpponentTeam = null;
   state.pvpOpponentName = "";
+  state.pvpSearchStartedAt = Date.now();
   const cta = $("btnArenaSearch");
-  const status = $("arenaSearchStatus");
   if (cta) {
     cta.classList.add("is-searching");
     cta.disabled = true;
   }
-  if (status) status.textContent = "Поиск соперника…";
-  renderPvpArenaOppPreview("searching");
+  syncPvpSearchStatusUi();
+  state.pvpSearchTick = setInterval(() => {
+    if (!state.pvpSearching) return;
+    const timer = $("arenaSearchTimer");
+    if (timer) timer.textContent = formatPvpSearchElapsed(Date.now() - state.pvpSearchStartedAt);
+  }, 250);
   toast("Поиск по рангу + БМ…");
   const delay = 1200 + Math.floor(Math.random() * 1400);
   state.pvpSearchTimer = setTimeout(() => {
     state.pvpSearchTimer = null;
+    stopPvpSearchTick();
     state.pvpSearching = false;
     state.pvpOpponentTeam = rollPvpOpponentTeam(state.pvpSquad);
     state.pvpOpponentName = pickRandomItem(PVP_FOE_NAMES) || "Свора Гладиаторов";
@@ -18025,8 +18055,7 @@ function startPvpSearch() {
       cta.classList.remove("is-searching");
       cta.disabled = false;
     }
-    if (status) status.textContent = "Соперник найден";
-    renderPvpArenaOppPreview("found");
+    syncPvpSearchStatusUi();
     const names = state.pvpOpponentTeam.map((id) => pvpRosterEntry(id).name).join(" · ");
     toast(`Найден отряд: ${names}`);
     window.setTimeout(() => openPvpLoad(), 450);

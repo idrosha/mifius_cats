@@ -136,7 +136,7 @@
 
 <div class="relative flex-1 min-h-0 rounded-xl overflow-hidden border border-outline-variant/40 shadow-2xl flex flex-col">
 <img class="absolute inset-0 w-full h-full object-cover" alt="" src="/stitch-assets/pvp-load-arena.webp?v=opt1"/>
-<div class="absolute inset-0 bg-gradient-to-t from-[#100e0c] via-[#100e0c]/75 to-[#100e0c]/45"></div>
+<div class="absolute inset-0 arena-search-veil pointer-events-none" aria-hidden="true"></div>
 
 <div class="relative z-10 flex flex-col h-full p-2.5 gap-2 min-h-0">
 <!-- Rank / stars (Axie Victory Stars) -->
@@ -163,42 +163,12 @@
 </div>
 </div>
 
-<!-- Matchmaking panel -->
-<div class="flex-1 min-h-0 flex flex-col justify-center gap-2">
-<div class="bg-surface-container-lowest/88 backdrop-blur-md rounded-xl border border-outline-variant/40 p-3 flex flex-col gap-2.5">
-<div class="flex items-center justify-between">
-<div>
-<p class="text-[10px] text-outline uppercase tracking-wider font-bold">Подбор соперника</p>
-<strong class="text-[14px] text-on-surface" id="arenaSearchStatus">Готов к поиску</strong>
-</div>
-<span class="px-2 py-0.5 rounded-full bg-secondary/15 text-secondary text-[10px] font-bold border border-secondary/30">Пул: кросс-плей</span>
-</div>
-
-<div class="grid grid-cols-3 gap-2" aria-label="Превью слотов противника">
-<div class="rounded-lg border border-dashed border-outline-variant/50 bg-[#1a1613]/80 h-20 flex flex-col items-center justify-center gap-0.5 text-outline">
-<span class="material-symbols-outlined text-[20px]">person_search</span>
-<span class="text-[9px] font-bold">Слот 1</span>
-</div>
-<div class="rounded-lg border border-dashed border-outline-variant/50 bg-[#1a1613]/80 h-20 flex flex-col items-center justify-center gap-0.5 text-outline">
-<span class="material-symbols-outlined text-[20px]">person_search</span>
-<span class="text-[9px] font-bold">Слот 2</span>
-</div>
-<div class="rounded-lg border border-dashed border-outline-variant/50 bg-[#1a1613]/80 h-20 flex flex-col items-center justify-center gap-0.5 text-outline">
-<span class="material-symbols-outlined text-[20px]">person_search</span>
-<span class="text-[9px] font-bold">Слот 3</span>
-</div>
-</div>
-
-<div class="grid grid-cols-3 gap-1.5 text-[10px]">
-<div class="rounded-md bg-[#1a1613] border border-outline-variant/30 px-2 py-1.5 flex justify-between"><span class="text-outline">Победа</span><b class="text-secondary">+28 MMR</b></div>
-<div class="rounded-md bg-[#1a1613] border border-outline-variant/30 px-2 py-1.5 flex justify-between"><span class="text-outline">Ничья</span><b class="text-on-surface-variant">0</b></div>
-<div class="rounded-md bg-[#1a1613] border border-outline-variant/30 px-2 py-1.5 flex justify-between"><span class="text-outline">Пораж.</span><b class="text-tertiary">−18 MMR</b></div>
-</div>
-
-<div class="flex items-center gap-2 text-[10px] text-on-surface-variant">
-<span class="material-symbols-outlined text-[14px] text-primary">info</span>
-<span>Подбор по рангу + шмоту БМ · средняя очередь ~12 сек</span>
-</div>
+<!-- Matchmaking status: no card / no veil; art shows through -->
+<div class="flex-1 min-h-0 flex flex-col justify-center">
+<div id="arenaSearchStatusRow" class="arena-search-status flex flex-col items-center justify-center gap-1.5 text-center min-h-[7.5rem] px-2" data-state="idle" aria-live="polite">
+<span class="material-symbols-outlined arena-search-status__icon text-[36px] text-primary hidden" id="arenaSearchIcon" aria-hidden="true">search</span>
+<strong class="text-[16px] text-on-surface font-extrabold tracking-wide" id="arenaSearchStatus"></strong>
+<span class="arena-search-status__timer text-[20px] font-bold text-primary tabular-nums hidden" id="arenaSearchTimer" aria-hidden="true">0:00</span>
 </div>
 </div>
 
@@ -221,6 +191,7 @@
 <div class="flex-shrink-0 w-9 h-9 rounded-lg bg-surface-container-high border border-outline-variant/40 flex items-center justify-center"><span class="material-symbols-outlined text-[16px] text-outline">lock</span></div>
 <div class="flex-shrink-0 w-9 h-9 rounded-lg bg-surface-container-high border border-outline-variant/40 flex items-center justify-center"><span class="material-symbols-outlined text-[16px] text-outline">lock</span></div>
 </div>
+<span id="arenaCrossplayPill" class="px-2 py-0.5 rounded-full bg-secondary/15 text-secondary text-[10px] font-bold border border-secondary/30 flex-shrink-0">Пул: кросс-плей</span>
 <button type="button" class="text-[10px] text-primary font-bold flex-shrink-0 hover:underline" data-arena="rewards">Все →</button>
 </div>
 </div>
