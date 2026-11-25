@@ -5419,6 +5419,21 @@ body:has(#viewPvp:not(.hidden)) #wireDock { display: none !important; }
   animation: none;
   filter: saturate(0.85);
 }
+#viewPvp .arena-search-status[data-state="searching"] .arena-search-status__icon {
+  animation: arena-search-pulse 1.2s ease-in-out infinite;
+}
+#viewPvp .arena-search-status[data-state="found"] .arena-search-status__icon {
+  color: #8ecb8a;
+}
+@keyframes arena-search-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(1.08); }
+}
+@media (prefers-reduced-motion: reduce) {
+  #viewPvp .arena-search-status[data-state="searching"] .arena-search-status__icon {
+    animation: none !important;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   #viewPvp .arena-search-cta { animation: none !important; }
 }

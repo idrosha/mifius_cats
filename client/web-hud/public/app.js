@@ -1261,6 +1261,8 @@ const state = {
   pvpOpponentName: "",
   pvpSearching: false,
   pvpSearchTimer: null,
+  pvpSearchTick: null,
+  pvpSearchStartedAt: 0,
   pvpLoadPct: 0,
   pvpLoadTimer: null,
   pvpStarting: false,
@@ -17822,11 +17824,69 @@ function nudgeDojoNeedSquad() {
   window.setTimeout(() => grid.classList.remove("dojo-need-squad"), 450);
 }
 
+function formatPvpSearchElapsed(ms) {
+  const s = Math.max(0, Math.floor(Number(ms) / 1000) || 0);
+  const m = Math.floor(s / 60);
+  return `${m}:${String(s % 60).padStart(2, "0")}`;
+}
+
+function stopPvpSearchTick() {
+  if (state.pvpSearchTick) {
+    clearInterval(state.pvpSearchTick);
+    state.pvpSearchTick = null;
+  }
+  state.pvpSearchStartedAt = 0;
+}
+
+function syncPvpSearchStatusUi() {
+  const status = $("arenaSearchStatus");
+  const icon = $("arenaSearchIcon");
+  const timer = $("arenaSearchTimer");
+  const row = $("arenaSearchStatusRow");
+  if (!status) return;
+  if (state.pvpSearching) {
+    const elapsed = Date.now() - (state.pvpSearchStartedAt || Date.now());
+    status.textContent = "Идёт поиск";
+    if (icon) {
+      icon.textContent = "search";
+      icon.classList.remove("hidden");
+    }
+    if (timer) {
+      timer.textContent = formatPvpSearchElapsed(elapsed);
+      timer.classList.remove("hidden");
+      timer.setAttribute("aria-hidden", "false");
+    }
+    if (row) row.dataset.state = "searching";
+    return;
+  }
+  if (state.pvpOpponentTeam?.length === 3) {
+    status.textContent = "Соперник найден";
+    if (icon) {
+      icon.textContent = "person_check";
+      icon.classList.remove("hidden");
+    }
+    if (timer) {
+      timer.classList.add("hidden");
+      timer.setAttribute("aria-hidden", "true");
+    }
+    if (row) row.dataset.state = "found";
+    return;
+  }
+  status.textContent = "";
+  if (icon) icon.classList.add("hidden");
+  if (timer) {
+    timer.classList.add("hidden");
+    timer.setAttribute("aria-hidden", "true");
+  }
+  if (row) row.dataset.state = "idle";
+}
+
 function clearPvpSearchTimer() {
   if (state.pvpSearchTimer) {
     clearTimeout(state.pvpSearchTimer);
     state.pvpSearchTimer = null;
   }
+  stopPvpSearchTick();
   state.pvpSearching = false;
   const cta = $("btnArenaSearch");
   if (cta) {
@@ -17983,10 +18043,7 @@ function renderPvpArena() {
   if (state.pvpSearching) renderPvpArenaOppPreview("searching");
   else if (state.pvpOpponentTeam?.length === 3) renderPvpArenaOppPreview("found");
   else renderPvpArenaOppPreview("idle");
-  const status = $("arenaSearchStatus");
-  if (status && !state.pvpSearching) {
-    status.textContent = state.pvpOpponentTeam?.length === 3 ? "Соперник найден" : "Готов к поиску";
-  }
+  syncPvpSearchStatusUi();
 }
 
 function startPvpSearch() {
@@ -18000,18 +18057,24 @@ function startPvpSearch() {
   state.pvpSearching = true;
   state.pvpOpponentTeam = null;
   state.pvpOpponentName = "";
+  state.pvpSearchStartedAt = Date.now();
   const cta = $("btnArenaSearch");
-  const status = $("arenaSearchStatus");
   if (cta) {
     cta.classList.add("is-searching");
     cta.disabled = true;
   }
-  if (status) status.textContent = "Поиск соперника…";
+  syncPvpSearchStatusUi();
+  state.pvpSearchTick = setInterval(() => {
+    if (!state.pvpSearching) return;
+    const timer = $("arenaSearchTimer");
+    if (timer) timer.textContent = formatPvpSearchElapsed(Date.now() - state.pvpSearchStartedAt);
+  }, 250);
   renderPvpArenaOppPreview("searching");
   toast("Поиск по рангу + БМ…");
   const delay = 1200 + Math.floor(Math.random() * 1400);
   state.pvpSearchTimer = setTimeout(() => {
     state.pvpSearchTimer = null;
+    stopPvpSearchTick();
     state.pvpSearching = false;
     state.pvpOpponentTeam = rollPvpOpponentTeam(state.pvpSquad);
     state.pvpOpponentName = pickRandomItem(PVP_FOE_NAMES) || "Свора Гладиаторов";
@@ -18019,7 +18082,7 @@ function startPvpSearch() {
       cta.classList.remove("is-searching");
       cta.disabled = false;
     }
-    if (status) status.textContent = "Соперник найден";
+    syncPvpSearchStatusUi();
     renderPvpArenaOppPreview("found");
     const names = state.pvpOpponentTeam.map((id) => pvpRosterEntry(id).name).join(" · ");
     toast(`Найден отряд: ${names}`);

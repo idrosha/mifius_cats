@@ -166,12 +166,13 @@
 <!-- Matchmaking panel -->
 <div class="flex-1 min-h-0 flex flex-col justify-center gap-2">
 <div class="bg-surface-container-lowest/88 backdrop-blur-md rounded-xl border border-outline-variant/40 p-3 flex flex-col gap-2.5">
-<div class="flex items-center justify-between">
-<div>
-<p class="text-[10px] text-outline uppercase tracking-wider font-bold">Подбор соперника</p>
-<strong class="text-[14px] text-on-surface" id="arenaSearchStatus">Готов к поиску</strong>
+<div class="flex items-center justify-between gap-2">
+<div id="arenaSearchStatusRow" class="arena-search-status flex items-center gap-2 min-h-[2.25rem] min-w-0" data-state="idle" aria-live="polite">
+<span class="material-symbols-outlined arena-search-status__icon text-[20px] text-primary hidden" id="arenaSearchIcon" aria-hidden="true">search</span>
+<strong class="text-[14px] text-on-surface truncate" id="arenaSearchStatus"></strong>
+<span class="arena-search-status__timer text-[14px] font-bold text-primary tabular-nums hidden" id="arenaSearchTimer" aria-hidden="true">0:00</span>
 </div>
-<span class="px-2 py-0.5 rounded-full bg-secondary/15 text-secondary text-[10px] font-bold border border-secondary/30">Пул: кросс-плей</span>
+<span class="px-2 py-0.5 rounded-full bg-secondary/15 text-secondary text-[10px] font-bold border border-secondary/30 flex-shrink-0">Пул: кросс-плей</span>
 </div>
 
 <div class="grid grid-cols-3 gap-2" aria-label="Превью слотов противника">
