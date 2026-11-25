@@ -782,7 +782,7 @@ body.mythfel-login .mythfel-logout {
 /* Combat HUD: HP + shield bars, status icons, fatality (D-032) */
 .mf-bars { display: flex; flex-direction: column; gap: 2px; width: 100%; }
 .mf-bar {
-  height: 0.45rem;
+  height: 0.55rem;
   border-radius: 999px;
   background: #1a1613;
   overflow: hidden;
@@ -791,6 +791,65 @@ body.mythfel-login .mythfel-logout {
 .mf-bar i { display: block; height: 100%; border-radius: inherit; width: 0; transition: width 0.2s ease; }
 .mf-bar--hp i { background: linear-gradient(90deg, #4caf7a, #89d98c); }
 .mf-bar--shield i { background: linear-gradient(90deg, #5b8def, #9ec1ff); }
+/* Shared bottom vitals (PvE/practice · PvP · wire): name left · HP right · bars under feet */
+.mf-unit-vitals {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding: 0.1rem 0.15rem 0;
+}
+.mf-unit-vitals__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.35rem;
+  min-width: 0;
+}
+.mf-unit-vitals__name {
+  flex: 1 1 auto;
+  min-width: 0;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  color: #f2e8de;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.mf-unit-vitals__hp {
+  flex: 0 0 auto;
+  margin: 0;
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  color: #89d98c;
+  white-space: nowrap;
+}
+.mf-unit-lane {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.2rem;
+}
+.mf-unit-lane span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.1rem 0.45rem;
+  border-radius: 999px;
+  background: rgba(16, 14, 12, 0.82);
+  border: 1px solid rgba(80, 69, 53, 0.55);
+  color: #eae1db;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.pv-foes .mf-unit-vitals__hp { color: #ffb4a6; }
+#viewBattle .unit .mf-unit-vitals { margin-top: 0.15rem; }
+#viewBattle .unit .meta { font-size: 10px; color: #d5c4af; }
 .mf-unit-frame { position: relative; }
 /* D-037: transparent cutouts only on live fight boards (not lobby/forms). */
 .mf-battle-unit--cutout .mf-unit-frame,
@@ -4231,26 +4290,16 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   object-position: center bottom;
   filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.55));
 }
-.pv-units > li > div {
+/* PvP vitals match PvE footer (name | HP over bars) — no dark plaque under cutout */
+.pv-units > li > .mf-unit-vitals {
   width: 100%;
-  padding: 0.35rem 0.45rem 0.4rem;
-  border-radius: 0.65rem;
-  background: rgba(16, 14, 12, 0.82);
-  border: 1px solid rgba(80, 69, 53, 0.65);
-  backdrop-filter: blur(4px);
+  padding: 0.15rem 0.1rem 0;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  backdrop-filter: none;
 }
-.pv-foes > li > div { border-color: rgba(255, 130, 108, 0.4); }
-.pv-units b {
-  display: block;
-  font-size: 12px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.pv-units small { display: block; color: #d5c4af; font-size: 10px; }
-.pv-units em { display: block; font-style: normal; color: #89d98c; font-size: 12px; margin-top: 0.1rem; }
-.pv-foes em { color: #ffb4a6; }
-.pv-units .mf-bars { margin-top: 0.2rem; }
+.pv-units .mf-bars { margin-top: 0; }
 .pv-foot {
   /* Shared with hand + act so tray matches one 2:3 plate (D-052). */
   --mf-hand-h: 15.5rem;
