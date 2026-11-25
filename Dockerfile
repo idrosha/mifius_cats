@@ -12,6 +12,7 @@ WORKDIR /app
 COPY --from=battle /mythfel-devapi /usr/local/bin/mythfel-devapi
 COPY client/web-hud/server.mjs ./server.mjs
 COPY client/web-hud/dungeon-dev-api.mjs ./dungeon-dev-api.mjs
+COPY client/web-hud/accounts-dev-api.mjs ./accounts-dev-api.mjs
 COPY client/web-hud/public ./public
 COPY client/web-hud/amvera-start.sh ./amvera-start.sh
 COPY content ./content
