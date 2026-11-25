@@ -10643,7 +10643,7 @@
 <div class="flex items-center gap-space-md flex-1 min-w-[280px]">
 <div class="relative w-full max-w-md">
 <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-[18px]">search</span>
-<input class="w-full pl-9 pr-3 py-1.5 rounded-lg bg-surface-container text-body-md font-body-md text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-high transition-colors" placeholder="Поиск по названию, классу или роли..." type="text" value="Багровый">
+<input id="auctionSearch" class="w-full pl-9 pr-3 py-1.5 rounded-lg bg-surface-container text-body-md font-body-md text-on-surface placeholder:text-outline focus:outline-none focus:bg-surface-container-high transition-colors" placeholder="Поиск по названию, классу или роли..." type="text" value="">
 </div>
 <div class="hidden sm:flex items-center gap-1.5 px-space-sm py-1 rounded bg-surface-container font-label-sm text-label-sm text-outline">
 <span class="w-2 h-2 rounded-full bg-secondary animate-pulse"></span>
@@ -10674,31 +10674,31 @@
 </div>
 <!-- Row 2: Category Chips & Item Rank Pills -->
 <div class="flex flex-wrap items-center justify-between gap-space-sm">
-<div class="flex items-center gap-1.5 overflow-x-auto py-0.5">
-<button class="px-space-sm py-1 rounded bg-surface-container-highest text-primary font-label-sm text-label-sm shrink-0">Все категории</button>
-<button class="px-space-sm py-1 rounded bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-sm text-label-sm shrink-0 flex items-center gap-1">
+<div class="flex items-center gap-1.5 overflow-x-auto py-0.5" id="auctionCatChips">
+<button type="button" data-auction-cat="all" class="auction-cat-chip px-space-sm py-1 rounded bg-surface-container-highest text-primary font-label-sm text-label-sm shrink-0">Все категории</button>
+<button type="button" data-auction-cat="cats" class="auction-cat-chip px-space-sm py-1 rounded bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-sm text-label-sm shrink-0 flex items-center gap-1">
 <span>🐾</span> Котики (Контракты)
         </button>
-<button class="px-space-sm py-1 rounded bg-primary-container/20 text-primary-fixed-dim font-label-sm text-label-sm shrink-0 flex items-center gap-1">
+<button type="button" data-auction-cat="armor" class="auction-cat-chip px-space-sm py-1 rounded bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-sm text-label-sm shrink-0 flex items-center gap-1">
 <span>🛡️</span> Доспехи
         </button>
-<button class="px-space-sm py-1 rounded bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-sm text-label-sm shrink-0 flex items-center gap-1">
+<button type="button" data-auction-cat="weapon" class="auction-cat-chip px-space-sm py-1 rounded bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-sm text-label-sm shrink-0 flex items-center gap-1">
 <span>⚔️</span> Оружие
         </button>
-<button class="px-space-sm py-1 rounded bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-sm text-label-sm shrink-0 flex items-center gap-1">
+<button type="button" data-auction-cat="gems" class="auction-cat-chip px-space-sm py-1 rounded bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-sm text-label-sm shrink-0 flex items-center gap-1">
 <span>💎</span> Самоцветы и Руны
         </button>
-<button class="px-space-sm py-1 rounded bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-sm text-label-sm shrink-0 flex items-center gap-1">
+<button type="button" data-auction-cat="resources" class="auction-cat-chip px-space-sm py-1 rounded bg-surface-container text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface font-label-sm text-label-sm shrink-0 flex items-center gap-1">
 <span>🌿</span> Ресурсы и Ингредиенты
         </button>
 </div>
-<div class="flex items-center gap-1.5">
+<div class="flex items-center gap-1.5" id="auctionRankChips">
 <span class="text-outline font-label-sm text-label-sm uppercase tracking-wider hidden lg:inline">Грейд:</span>
-<button class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm hover:text-on-surface">Все</button>
-<button class="px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm hover:text-on-surface">Ранг 1-3</button>
-<button class="px-2 py-0.5 rounded bg-surface-container text-tertiary-fixed font-label-sm text-label-sm hover:bg-surface-container-high">Ранг 4-6 (Эпик)</button>
-<button class="px-2 py-0.5 rounded bg-surface-container-highest text-primary font-label-sm text-label-sm shadow-inner">Ранг 7-8 (Мифик)</button>
-<button class="p-1 rounded bg-surface-container text-outline hover:text-on-surface ml-1" title="Сортировка по времени">
+<button type="button" data-auction-rank="all" class="auction-rank-chip px-2 py-0.5 rounded bg-surface-container-highest text-primary font-label-sm text-label-sm shadow-inner hover:text-on-surface">Все</button>
+<button type="button" data-auction-rank="1-3" class="auction-rank-chip px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm hover:text-on-surface">Ранг 1-3</button>
+<button type="button" data-auction-rank="4-6" class="auction-rank-chip px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm hover:bg-surface-container-high">Ранг 4-6 (Эпик)</button>
+<button type="button" data-auction-rank="7-8" class="auction-rank-chip px-2 py-0.5 rounded bg-surface-container text-on-surface-variant font-label-sm text-label-sm hover:text-on-surface">Ранг 7-8 (Мифик)</button>
+<button type="button" class="p-1 rounded bg-surface-container text-outline hover:text-on-surface ml-1" title="Сортировка по времени">
 <span class="material-symbols-outlined text-[16px]">swap_vert</span>
 </button>
 </div>
@@ -10931,7 +10931,7 @@
 <!-- Quick Ticker / Summary Bar -->
 <footer class="w-full bg-surface-container-low px-gutter py-2 flex items-center justify-between text-outline font-label-sm text-label-sm shadow-inner">
 <div class="flex items-center gap-space-md">
-<span>Найдено лотов: <strong class="text-on-surface font-stat-numeral">1,248</strong></span>
+<span>Найдено лотов: <strong id="auctionLotCount" class="text-on-surface font-stat-numeral">0</strong></span>
 <span class="text-outline-variant">•</span>
 <span>Средняя цена Ранг 8: <strong class="text-primary font-stat-numeral">54,000 🪙</strong></span>
 </div>
