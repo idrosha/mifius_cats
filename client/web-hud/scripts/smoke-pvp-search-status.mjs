@@ -80,7 +80,7 @@ async function main() {
     const list = await (await fetch(`http://127.0.0.1:${CDP_PORT}/json/list`)).json();
     const page = list.find((t) => t.type === "page" && t.webSocketDebuggerUrl);
     if (!page) throw new Error("no CDP page");
-    const { ws, send } = await cdp(page.webSocketDebuggerUrl);
+    let { ws, send } = await cdp(page.webSocketDebuggerUrl);
     await send("Runtime.enable");
     await new Promise((r) => setTimeout(r, 1200));
 
@@ -107,8 +107,21 @@ async function main() {
         return true;
       })()`,
     );
-    await new Promise((r) => setTimeout(r, 1500));
-    await evalJson(
+    await new Promise((r) => setTimeout(r, 1800));
+    // Re-attach CDP after reload (old Runtime session can go stale).
+    try {
+      ws.close();
+    } catch {
+      /* ignore */
+    }
+    const list2 = await (await fetch(`http://127.0.0.1:${CDP_PORT}/json/list`)).json();
+    const page2 = list2.find((t) => t.type === "page" && t.webSocketDebuggerUrl);
+    if (!page2) throw new Error("no CDP page after reload");
+    const session2 = await cdp(page2.webSocketDebuggerUrl);
+    ws = session2.ws;
+    send = session2.send;
+    await send("Runtime.enable");
+    const rebooted = await evalJson(
       send,
       `(() => new Promise((resolve) => {
         let n = 0;
@@ -120,6 +133,7 @@ async function main() {
         tick();
       }))()`,
     );
+    if (!rebooted) throw new Error("HUD reboot timeout");
 
     const idle = await evalJson(
       send,
@@ -128,15 +142,18 @@ async function main() {
         window.mythfelNavigate("pvp");
         const view = document.getElementById("viewPvp");
         if (!view || view.classList.contains("hidden")) return { ok: false, err: "viewPvp hidden" };
-        const banned = (view.textContent || "").includes("Подбор соперника");
+        const leftover =
+          !!document.getElementById("arenaOppPreview") ||
+          (view.textContent || "").includes("Подбор соперника") ||
+          (view.textContent || "").includes("средняя очередь");
         const status = document.getElementById("arenaSearchStatus")?.textContent?.trim() || "";
         const timerHidden = document.getElementById("arenaSearchTimer")?.classList.contains("hidden");
         const iconHidden = document.getElementById("arenaSearchIcon")?.classList.contains("hidden");
         const row = document.getElementById("arenaSearchStatusRow");
         const btn = document.getElementById("btnArenaSearch");
         return {
-          ok: !banned && status === "" && timerHidden && iconHidden && row?.dataset.state === "idle" && !!btn,
-          banned,
+          ok: !leftover && status === "" && timerHidden && iconHidden && row?.dataset.state === "idle" && !!btn,
+          leftover,
           status,
           timerHidden,
           iconHidden,

@@ -17958,35 +17958,6 @@ function renderPvpArenaActiveTeam() {
     .join("");
 }
 
-function renderPvpArenaOppPreview(mode = "idle") {
-  const box = $("arenaOppPreview");
-  if (!box) return;
-  const labels = ["Танк", "ДПС", "Саппорт"];
-  const team =
-    mode === "found" && Array.isArray(state.pvpOpponentTeam) ? state.pvpOpponentTeam.map(pvpRosterEntry) : null;
-  box.innerHTML = [0, 1, 2]
-    .map((i) => {
-      if (mode === "searching") {
-        return `<div class="rounded-lg border border-dashed border-primary/40 bg-[#1a1613]/80 h-20 flex flex-col items-center justify-center gap-0.5 text-primary animate-pulse" data-opp-slot="${i}">
-<span class="material-symbols-outlined text-[20px]">hourglass_top</span>
-<span class="text-[9px] font-bold">${labels[i]}…</span>
-</div>`;
-      }
-      if (team?.[i]) {
-        const c = team[i];
-        return `<div class="rounded-lg border border-secondary/40 bg-[#1a1613] h-20 overflow-hidden flex flex-col items-center justify-end relative" data-opp-slot="${i}">
-<img alt="${c.name}" class="absolute inset-0 w-full h-full object-cover object-top opacity-90" src="${c.art}"/>
-<span class="relative z-10 w-full text-center text-[9px] font-bold bg-black/65 text-white py-0.5">${c.name}</span>
-</div>`;
-      }
-      return `<div class="rounded-lg border border-dashed border-outline-variant/50 bg-[#1a1613]/80 h-20 flex flex-col items-center justify-center gap-0.5 text-outline" data-opp-slot="${i}">
-<span class="material-symbols-outlined text-[20px]">person_search</span>
-<span class="text-[9px] font-bold">${labels[i]}</span>
-</div>`;
-    })
-    .join("");
-}
-
 function renderPvpArenaSquadList() {
   const host = $("arenaSquadList");
   if (!host) return;
@@ -18040,9 +18011,6 @@ function renderPvpArena() {
     btn.setAttribute("aria-selected", on ? "true" : "false");
   });
   renderPvpArenaActiveTeam();
-  if (state.pvpSearching) renderPvpArenaOppPreview("searching");
-  else if (state.pvpOpponentTeam?.length === 3) renderPvpArenaOppPreview("found");
-  else renderPvpArenaOppPreview("idle");
   syncPvpSearchStatusUi();
 }
 
@@ -18069,7 +18037,6 @@ function startPvpSearch() {
     const timer = $("arenaSearchTimer");
     if (timer) timer.textContent = formatPvpSearchElapsed(Date.now() - state.pvpSearchStartedAt);
   }, 250);
-  renderPvpArenaOppPreview("searching");
   toast("Поиск по рангу + БМ…");
   const delay = 1200 + Math.floor(Math.random() * 1400);
   state.pvpSearchTimer = setTimeout(() => {
@@ -18083,7 +18050,6 @@ function startPvpSearch() {
       cta.disabled = false;
     }
     syncPvpSearchStatusUi();
-    renderPvpArenaOppPreview("found");
     const names = state.pvpOpponentTeam.map((id) => pvpRosterEntry(id).name).join(" · ");
     toast(`Найден отряд: ${names}`);
     window.setTimeout(() => openPvpLoad(), 450);
