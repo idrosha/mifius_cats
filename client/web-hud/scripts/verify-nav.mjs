@@ -530,6 +530,13 @@ ok(
   "viewPveVictory missing expedition win form",
 );
 ok(
+  "PvE victory squad from fought allies (not practiceSquad-only)",
+  js.includes("function victoryAllyTemplateIds") &&
+    js.includes("victoryAllyTemplateIds()") &&
+    /victoryCatCards[\s\S]*?victoryAllyTemplateIds\(\)/.test(js),
+  "victoryCatCards must use victoryAllyTemplateIds (battle/combatSquad)",
+);
+ok(
   "painted guild not placeholder",
   html.includes('data-stitch="guild"') &&
     !/<section[^>]*data-stitch="guild"[^>]*data-placeholder/.test(html),

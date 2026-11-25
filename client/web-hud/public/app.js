@@ -12431,11 +12431,32 @@ function victoryStarterFallback(templateId) {
   return table[templateId] || null;
 }
 
+/** Sim-order templateIds for victory showcase: fought allies → combatSquad → practice → starters. */
+function victoryAllyTemplateIds() {
+  const fromBattle = (state.battle?.units || [])
+    .filter((u) => u.side === 0 && !String(unitTemplateId(u) || "").includes("empty_lane"))
+    .slice()
+    .sort((a, b) => (a.lane ?? 0) - (b.lane ?? 0));
+  if (fromBattle.length === 3) {
+    const tids = fromBattle.map((u) => unitTemplateId(u)).filter(Boolean);
+    if (tids.length === 3) return tids;
+  }
+  if (typeof combatSquadIds === "function") {
+    try {
+      const ids = combatSquadIds();
+      if (Array.isArray(ids) && ids.length === 3) return [...ids];
+    } catch {
+      /* ignore */
+    }
+  }
+  if (Array.isArray(state.practiceSquad) && state.practiceSquad.length === 3) {
+    return [...state.practiceSquad];
+  }
+  return [...STARTERS];
+}
+
 function victoryCatCards() {
-  const ids =
-    Array.isArray(state.practiceSquad) && state.practiceSquad.length === 3
-      ? state.practiceSquad
-      : STARTERS;
+  const ids = victoryAllyTemplateIds();
   return PRACTICE_VISUAL_LANES.map((laneIdx, visualPos) => {
     const templateId = ids[laneIdx] || STARTERS[laneIdx] || STARTERS[0];
     const hero =
@@ -12478,6 +12499,7 @@ function victoryCatCards() {
     return {
       id: hero.templateId,
       name: hero.name,
+      role: hero.role || "fighter",
       roleRu: isMvp ? `${hero.roleRu} · MVP` : hero.roleRu,
       roleIcon: isMvp ? "crown" : hero.roleIcon,
       accent: hero.accent || meta.accent,
@@ -12586,6 +12608,7 @@ function victoryEnemyShowcaseCards() {
       id: tid || u.id,
       name,
       art,
+      role: u.role || "fighter",
       roleRu: isMvp ? `${CAT_ROLE_RU[u.role] || u.role || "ГЕРОЙ"} · MVP` : CAT_ROLE_RU[u.role] || u.role || "",
       mvp: isMvp,
     };
@@ -12635,6 +12658,16 @@ function renderPveVictory() {
   setText("pveVicRounds", `${turn || 5} Раундов`);
   const vicSlots = document.querySelectorAll("#pveVicSlots article");
   const vicCards = win ? victoryCatCards() : victoryEnemyShowcaseCards();
+  // Visual L→R = тыл · центр · авангард (D-034); slot chrome stays positional.
+  const lanePaint = ["ТЫЛ", "ЦЕНТР", "АВАНГАРД"];
+  const roleEm = {
+    tank: { label: "Таунт", cls: "is-tank" },
+    fighter: { label: "Крит DPS", cls: "is-dps" },
+    assassin: { label: "Крит DPS", cls: "is-dps" },
+    ranger: { label: "Крит DPS", cls: "is-dps" },
+    mage: { label: "Каст", cls: "is-dps" },
+    support: { label: "Хил", cls: "is-heal" },
+  };
   vicSlots.forEach((article, i) => {
     const card = vicCards[i];
     article.hidden = !card;
@@ -12648,6 +12681,20 @@ function renderPveVictory() {
     }
     const nameEl = article.querySelector(".pve-vic-art b, b");
     if (nameEl) nameEl.textContent = card.name;
+    const role = card.role || (card.roleRu || "").toLowerCase();
+    const paint = roleEm[role] || { label: card.roleRu || "Герой", cls: "is-dps" };
+    const laneEl = article.querySelector(".pve-vic-card-top strong");
+    if (laneEl) {
+      const roleWord = (CAT_ROLE_RU[role] || card.roleRu || paint.label || "").toUpperCase();
+      laneEl.textContent = `${lanePaint[i] || "СЛОТ"} / ${roleWord}`;
+    }
+    const em = article.querySelector(".pve-vic-card-top em");
+    if (em) {
+      em.className = paint.cls;
+      em.textContent = paint.label;
+    }
+    article.dataset.role = role || article.dataset.role || "";
+    article.classList.toggle("is-dps", paint.cls === "is-dps");
   });
   // Prefer chapter boss hall as backdrop when present.
   const bg = document.querySelector("#viewPveVictory .pve-vic-bg");
