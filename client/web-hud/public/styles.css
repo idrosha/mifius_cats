@@ -855,7 +855,8 @@ body.mythfel-login .mythfel-logout {
 .mf-battle-unit--cutout .mf-unit-frame,
 #viewPracticeFight .mf-battle-unit--cutout,
 #viewPvpFight .mf-battle-unit--cutout,
-#viewBattle .mf-battle-unit--cutout {
+#viewBattle .mf-battle-unit--cutout,
+#viewRaidBattle .mf-battle-unit--cutout {
   background: transparent !important;
 }
 /* PvE yard board: full-body cutouts (cats + monsters, MF-152). */
@@ -906,8 +907,10 @@ body.mythfel-login .mythfel-logout {
 .mf-battle-cutout,
 #viewPracticeFight img.mf-battle-cutout,
 #viewPvpFight img.mf-battle-cutout,
+#viewRaidBattle img.mf-battle-cutout,
 #viewPracticeFight .mf-battle-unit--cutout img,
-#viewPvpFight .mf-battle-unit--cutout img {
+#viewPvpFight .mf-battle-unit--cutout img,
+#viewRaidBattle .mf-battle-unit--cutout img {
   object-fit: contain !important;
   object-position: center bottom !important;
   background: transparent !important;
@@ -930,40 +933,47 @@ body.mythfel-login .mythfel-logout {
  */
 #viewPracticeFight .mf-battle-unit--cutout,
 #viewPvpFight .mf-battle-unit--cutout,
-#viewBattle .mf-battle-unit--cutout {
+#viewBattle .mf-battle-unit--cutout,
+#viewRaidBattle .mf-battle-unit--cutout {
   --mf-role-h: 1;
   --mf-role-w: 1;
 }
 #viewPracticeFight .mf-battle-unit--cutout[data-role="assassin"],
 #viewPvpFight .mf-battle-unit--cutout[data-role="assassin"],
 #viewBattle .mf-battle-unit--cutout[data-role="assassin"],
+#viewRaidBattle .mf-battle-unit--cutout[data-role="assassin"],
 #viewPracticeFight .mf-battle-unit--cutout[data-role="mage"],
 #viewPvpFight .mf-battle-unit--cutout[data-role="mage"],
-#viewBattle .mf-battle-unit--cutout[data-role="mage"] {
+#viewBattle .mf-battle-unit--cutout[data-role="mage"],
+#viewRaidBattle .mf-battle-unit--cutout[data-role="mage"] {
   --mf-role-h: 1;
   --mf-role-w: 1;
 }
 #viewPracticeFight .mf-battle-unit--cutout[data-role="ranger"],
 #viewPvpFight .mf-battle-unit--cutout[data-role="ranger"],
-#viewBattle .mf-battle-unit--cutout[data-role="ranger"] {
+#viewBattle .mf-battle-unit--cutout[data-role="ranger"],
+#viewRaidBattle .mf-battle-unit--cutout[data-role="ranger"] {
   --mf-role-h: 1.06;
   --mf-role-w: 1.04;
 }
 #viewPracticeFight .mf-battle-unit--cutout[data-role="support"],
 #viewPvpFight .mf-battle-unit--cutout[data-role="support"],
-#viewBattle .mf-battle-unit--cutout[data-role="support"] {
+#viewBattle .mf-battle-unit--cutout[data-role="support"],
+#viewRaidBattle .mf-battle-unit--cutout[data-role="support"] {
   --mf-role-h: 1.12;
   --mf-role-w: 1.08;
 }
 #viewPracticeFight .mf-battle-unit--cutout[data-role="fighter"],
 #viewPvpFight .mf-battle-unit--cutout[data-role="fighter"],
-#viewBattle .mf-battle-unit--cutout[data-role="fighter"] {
+#viewBattle .mf-battle-unit--cutout[data-role="fighter"],
+#viewRaidBattle .mf-battle-unit--cutout[data-role="fighter"] {
   --mf-role-h: 1.22;
   --mf-role-w: 1.14;
 }
 #viewPracticeFight .mf-battle-unit--cutout[data-role="tank"],
 #viewPvpFight .mf-battle-unit--cutout[data-role="tank"],
-#viewBattle .mf-battle-unit--cutout[data-role="tank"] {
+#viewBattle .mf-battle-unit--cutout[data-role="tank"],
+#viewRaidBattle .mf-battle-unit--cutout[data-role="tank"] {
   --mf-role-h: 1.32;
   --mf-role-w: 1.22;
 }
@@ -5963,8 +5973,41 @@ body:has(#viewRaidBattle:not(.hidden)) #app {
 #viewRaidBattle .raid-battle-12-stage > .relative > main {
   flex: 1 1 auto;
   min-height: 0;
-  overflow: auto;
-  align-items: stretch !important;
+  overflow: hidden;
+  /* Even arena: legion | VS | enemies on one baseline */
+  display: grid !important;
+  grid-template-columns: minmax(0, 1.2fr) auto minmax(0, 1fr);
+  align-items: end !important;
+  justify-items: stretch;
+  gap: 0.35rem 0.75rem;
+  padding: 0.35rem 0.85rem 0.25rem !important;
+}
+#viewRaidBattle .raid-legion-pane {
+  width: 100%;
+  max-width: none !important;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.35rem;
+}
+#viewRaidBattle .raid-legion-caption {
+  flex: 0 0 auto;
+}
+#viewRaidBattle .raid-vs {
+  align-self: end;
+  padding-bottom: 3.25rem;
+}
+#viewRaidBattle .raid-enemies {
+  width: 100%;
+  max-width: none !important;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: 1fr 1.35fr 1fr;
+  align-items: end;
+  justify-items: center;
+  gap: 0.35rem 0.55rem;
+  margin: 0 !important;
 }
 #viewRaidBattle .rb-foot.pv-foot {
   flex: 0 0 auto;
@@ -6081,35 +6124,43 @@ body:has(#viewRaidBattle:not(.hidden)) #app {
   gap: 0.55rem;
   width: 100%;
 }
-/* Stitch raid battle: 4 columns · vertical plates (zip etalon h-32 / art h-16+) */
-#viewRaidBattle [data-raid-battle-board] {
+/* Raid legion: even 4×3 slots (uniform cell — no role-width wander) */
+#viewRaidBattle [data-raid-battle-board],
+#viewRaidBattle .raid-legion-board {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 0.45rem 0.55rem;
   width: 100%;
-  align-content: start;
-  /* Don't let tray height crush the 12 plates */
-  overflow-y: auto;
-  max-height: 100%;
-  padding-top: 0.35rem; /* room for role badges */
+  margin: 0;
+  align-content: end;
+  align-items: end;
+  justify-content: stretch;
+  overflow: visible;
+  max-height: none;
+  padding: 0.15rem 0 0;
+  background: transparent;
 }
 #viewRaidBattle .raid-hero-col {
-  display: flex;
-  flex-direction: column;
-  gap: 0.45rem;
+  display: grid;
+  grid-template-rows: auto repeat(3, minmax(0, 1fr));
+  align-items: end;
+  justify-items: center;
+  gap: 0.4rem;
   min-width: 0;
-  flex-shrink: 0;
+  width: 100%;
 }
 #viewRaidBattle .raid-hero-col-head {
   flex: 0 0 auto;
-  padding: 0.2rem 0.4rem;
-  border-radius: 0.4rem;
+  width: 100%;
+  max-width: 6.5rem;
+  padding: 0.12rem 0.25rem;
+  border-radius: 0.3rem;
   text-align: center;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 800;
   letter-spacing: 0.03em;
   text-transform: uppercase;
-  background: rgba(46, 41, 38, 0.92);
+  background: rgba(16, 14, 12, 0.55);
   color: #d5c4af;
   white-space: nowrap;
   overflow: hidden;
@@ -6119,127 +6170,227 @@ body:has(#viewRaidBattle:not(.hidden)) #app {
 #viewRaidBattle .raid-hero-col-head.is-ranged { color: #fdba45; }
 #viewRaidBattle .raid-hero-col-head.is-melee { color: #ffb4a6; }
 #viewRaidBattle .raid-hero-col-head.is-tank {
-  color: #281900;
-  background: #d99b26;
+  color: #fdba45;
+  background: rgba(217, 155, 38, 0.18);
 }
-#viewRaidBattle .raid-hero-card {
+#viewRaidBattle .raid-unit {
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
-  gap: 0.3rem;
-  padding: 0.45rem;
-  /* stitch h-32 — never shrink under the fight tray */
-  height: 8.5rem;
-  min-height: 8.5rem;
-  flex: 0 0 8.5rem;
-  box-sizing: border-box;
-  border-radius: 0.75rem;
-  background: rgba(35, 31, 28, 0.95);
-  border: 1px solid rgba(157, 143, 123, 0.28);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
-  color: #eae1db;
-  cursor: pointer;
-  transition: transform 0.15s ease;
-}
-#viewRaidBattle .raid-hero-card:hover {
-  transform: scale(1.02);
-}
-#viewRaidBattle .raid-hero-card.is-tank {
-  border-color: rgba(253, 186, 69, 0.45);
-}
-#viewRaidBattle .raid-hero-card.is-empty {
   align-items: center;
+  justify-content: flex-end;
+  gap: 0.15rem;
+  /* Fixed footprint so 4 cols stay even (D-048 role scale off on raid board) */
+  width: 100%;
+  max-width: 6.25rem;
+  --mf-role-w: 1 !important;
+  --mf-role-h: 1 !important;
+  flex: 0 0 auto;
+  padding: 0;
+  margin: 0;
+  background: transparent !important;
+  border: 0;
+  box-shadow: none;
+  color: #eae1db;
+}
+#viewRaidBattle .raid-unit.is-empty {
+  width: 100%;
+  max-width: 6.25rem;
+  min-height: 7.5rem;
   justify-content: center;
-  border-style: dashed;
+  border: 1px dashed rgba(157, 143, 123, 0.35);
+  border-radius: 0.55rem;
   color: #9d8f7b;
-  font-size: 11px;
-  opacity: 0.7;
+  font-size: 10px;
+  opacity: 0.65;
 }
-#viewRaidBattle .raid-hero-badge {
-  position: absolute;
-  top: -0.3rem;
-  left: -0.2rem;
-  z-index: 2;
-  padding: 0.1rem 0.4rem;
-  border-radius: 999px;
-  font-size: 9px;
-  font-weight: 800;
-  text-transform: uppercase;
-  line-height: 1.2;
-}
-#viewRaidBattle .raid-hero-art-well {
+#viewRaidBattle .raid-unit .mf-unit-frame {
   position: relative;
   width: 100%;
-  /* Bigger cat window than stitch h-16 — cats must read clearly */
-  flex: 1 1 auto;
-  min-height: 5rem;
-  height: 5.25rem;
-  border-radius: 0.5rem;
-  background: #110d0b;
-  overflow: hidden;
+  height: 6.75rem;
+  overflow: visible;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+/* Enemy trio: cutouts + vitals, shared baseline with legion */
+#viewRaidBattle .raid-foe {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.2rem;
+  width: 100%;
+  max-width: 8.5rem;
+  margin: 0 !important;
+  transform: none !important;
+  background: transparent;
+}
+#viewRaidBattle .raid-foe--boss {
+  max-width: 11.5rem;
+}
+#viewRaidBattle .raid-foe-name {
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #d5c4af;
+  text-align: center;
+  line-height: 1.15;
+  white-space: nowrap;
+}
+#viewRaidBattle .raid-foe-name--boss {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  color: #ffb4a6;
+  font-size: 11px;
+}
+#viewRaidBattle .raid-foe-frame {
+  position: relative;
+  width: 100%;
+  height: 9.5rem;
+  margin: 0;
   display: flex;
   align-items: flex-end;
   justify-content: center;
+  background: transparent;
+  overflow: visible;
 }
-#viewRaidBattle .raid-hero-art {
+#viewRaidBattle .raid-foe--boss .raid-foe-frame {
+  height: 13.5rem;
+}
+#viewRaidBattle .raid-foe-frame img {
+  width: 100%;
   height: 100%;
-  width: auto;
-  max-width: 92%;
   object-fit: contain;
   object-position: center bottom;
-  filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.5));
+  background: transparent !important;
+  filter: drop-shadow(0 10px 16px rgba(0, 0, 0, 0.55));
 }
-#viewRaidBattle .raid-hero-sub {
-  position: absolute;
-  top: 0.25rem;
-  right: 0.25rem;
-  padding: 0.05rem 0.3rem;
-  border-radius: 0.25rem;
-  background: rgba(46, 41, 38, 0.9);
-  color: #eae1db;
-  font-size: 8px;
-  line-height: 1.2;
-  text-transform: uppercase;
-}
-#viewRaidBattle .raid-hero-meta {
-  flex: 0 0 auto;
+#viewRaidBattle .raid-foe-vitals {
+  width: 100%;
+  max-width: 7.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.15rem;
-  min-width: 0;
+  align-items: stretch;
+  gap: 0.12rem;
 }
-#viewRaidBattle .raid-hero-meta > b {
-  font-size: 11px;
+#viewRaidBattle .raid-foe--boss .raid-foe-vitals {
+  max-width: 9.5rem;
+}
+#viewRaidBattle .raid-foe-hp {
+  font-size: 10px;
+  font-weight: 800;
+  color: #ffb4a6;
+  text-align: right;
+  line-height: 1;
+}
+#viewRaidBattle .raid-foe .mf-bar {
+  display: block;
+  height: 0.35rem;
+  border-radius: 999px;
+  background: rgba(16, 14, 12, 0.85);
+  overflow: hidden;
+}
+#viewRaidBattle .raid-foe .mf-bar--hp i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #e0533c, #ffb4a6);
+}
+#viewRaidBattle .raid-foe .mf-bar--shield i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #5b8def, #9ec1ff);
+}
+@media (max-width: 1023px) {
+  #viewRaidBattle .raid-battle-12-stage > .relative > main {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    align-items: stretch !important;
+    overflow: auto;
+  }
+  #viewRaidBattle .raid-vs { display: none !important; }
+  #viewRaidBattle .raid-enemies {
+    grid-template-columns: 1fr 1.2fr 1fr;
+    padding-top: 0.5rem;
+  }
+  #viewRaidBattle .raid-foe-frame { height: 7.5rem; }
+  #viewRaidBattle .raid-foe--boss .raid-foe-frame { height: 10rem; }
+}
+#viewRaidBattle .raid-unit img.mf-battle-cutout,
+#viewRaidBattle .raid-unit .mf-sprite-face {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  background: transparent !important;
+  filter: drop-shadow(0 6px 10px rgba(0, 0, 0, 0.55));
+}
+#viewRaidBattle .raid-unit .mf-unit-vitals {
+  width: 100%;
+  padding: 0.1rem 0.05rem 0;
+  background: transparent;
+  border: 0;
+}
+#viewRaidBattle .raid-unit .mf-unit-vitals__row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.25rem;
+  font-size: 10px;
   line-height: 1.15;
+}
+#viewRaidBattle .raid-unit .mf-unit-vitals__name {
+  font-size: 10px;
+  font-weight: 800;
+  color: #eae1db;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  max-width: 60%;
 }
-#viewRaidBattle .raid-hero-hp {
-  display: block;
-  height: 0.4rem;
+#viewRaidBattle .raid-unit .mf-unit-vitals__hp {
+  font-size: 9px;
+  font-weight: 700;
+  color: #89d98c;
+  font-style: normal;
+  white-space: nowrap;
+}
+#viewRaidBattle .raid-unit .mf-bars {
+  margin-top: 0.12rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  width: 100%;
+}
+#viewRaidBattle .raid-unit .mf-bar {
+  height: 0.35rem;
   border-radius: 999px;
-  background: #2a241c;
+  background: rgba(16, 14, 12, 0.85);
   overflow: hidden;
 }
-#viewRaidBattle .raid-hero-hp > i {
+#viewRaidBattle .raid-unit .mf-bar--hp i {
   display: block;
   height: 100%;
   background: linear-gradient(90deg, #4d9a55, #89d98c);
 }
-#viewRaidBattle .raid-hero-meta > em {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.35rem;
-  font-style: normal;
-  font-size: 9px;
-  color: #9d8f7b;
-  text-transform: none;
+/* Shield / armor bar only when buff is active (hidden otherwise via [hidden]) */
+#viewRaidBattle .raid-unit .mf-bar--shield[hidden] {
+  display: none !important;
 }
-#viewRaidBattle .raid-hero-meta > em .text-secondary {
-  color: #89d98c;
-  font-weight: 700;
+#viewRaidBattle .raid-unit .mf-bar--shield i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #5b8def, #9ec1ff);
+}
+#viewRaidBattle .raid-unit .mf-status-row {
+  position: absolute;
+  top: 0.15rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 3;
 }
 .raid-form-row,
 .raid-battle-row {
