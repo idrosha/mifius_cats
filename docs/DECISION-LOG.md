@@ -12,6 +12,23 @@ Append-only. Новые записи — **сверху** (после шабло
 6. Одна запись = одно решение. Не смешивать баланс и IA в одном D-id.
 7. В коде/доках ссылайся `D-0xx`, не копируй абзац Context.
 
+## D-060 · 2026-11-25 · Mythmir/dungeon clear-band + golden refresh
+
+- **Status:** Accepted
+- **Area:** liveops | battle
+- **SSOT:** docs/FULL-SPEC.md §4.1; liveops/CHANGELOG.md
+- **Owner:** Andrew / liveops+battle
+
+### Context
+Soft-launch CI: golden turn/frames drift; ch1 solo boss HP 95 (<100 layout); `mythmir_3_f2` / `dungeon_scarlet_short_2` and ch5 ghost soldiers unbeatable on starter AutoPlay (D-042 clear-all).
+
+### Decision
+1. Refresh golden `starters_vs_test_yard_1` → turn 6 / 36 frames.
+2. Baron HP 95→110; nerf ch3 assassin-tank wave + scarlet short_2 copy; nerf ch5 f1/f2 ghost sustain so tank·DPS·support AutoPlay clears.
+
+### Consequences
++ Clear-all / golden green again. − Ghost/ch3 soldiers slightly easier for humans too.
+
 ## D-059 · 2026-11-25 · Shop: 18 героев × 6 карт (вместо 12×72)
 
 - **Status:** Accepted
