@@ -17589,6 +17589,7 @@ function practiceAccentTextClass(accent) {
 function practiceSquadFilledSlot(hero, visualPos, opts = {}) {
   const interactive = opts.interactive !== false;
   const compact = !!opts.compact;
+  const showStats = opts.showStats !== false;
   const tip =
     opts.tip === undefined ? (interactive ? "Нажмите, чтобы убрать" : "") : opts.tip || "";
   const laneIdx = PRACTICE_VISUAL_LANES[visualPos] ?? visualPos;
@@ -17615,11 +17616,19 @@ function practiceSquadFilledSlot(hero, visualPos, opts = {}) {
     interactive
       ? "cursor-pointer hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
       : "pointer-events-none"
-  }`;
+  }${showStats ? "" : " is-stats-off"}`;
   const open = interactive
     ? `<button type="button" class="${shellClass}" data-accent="${accent}" data-squad-hero="${hero.templateId}" data-lane="${laneIdx}" title="Убрать из отряда">`
     : `<div class="${shellClass}" data-accent="${accent}" data-lane="${laneIdx}">`;
   const close = interactive ? `</button>` : `</div>`;
+  const statsHtml = showStats
+    ? `<div class="flex flex-col gap-0.5"><div class="flex justify-between ${labelSz}"><span class="text-outline">HP</span><span class="text-secondary font-bold">${hero.hp}</span></div>
+<div class="w-full bg-[#231f1c] ${barH} rounded-full overflow-hidden"><div class="bg-secondary h-full rounded-full" style="width:${hpPct}%"></div></div></div>
+<div class="flex flex-col gap-0.5"><div class="flex justify-between ${labelSz}"><span class="text-outline">${midLabel}</span><span class="${accentText} font-bold">${midVal}</span></div>
+<div class="w-full bg-[#231f1c] ${barH} rounded-full overflow-hidden"><div class="${midBar} h-full rounded-full" style="width:${midPct}%"></div></div></div>
+<div class="flex flex-col gap-0.5"><div class="flex justify-between ${labelSz}"><span class="text-outline">Урон</span><span class="text-on-surface font-bold">${hero.dmg}</span></div>
+<div class="w-full bg-[#231f1c] ${barH} rounded-full overflow-hidden"><div class="bg-on-surface/60 h-full rounded-full" style="width:${dmgPct}%"></div></div></div>`
+    : "";
   return `${open}
 <div class="absolute inset-0 z-0">
 ${heroFace}
@@ -17635,12 +17644,7 @@ ${heroFace}
       ? `<span class="${accentText} text-[9px] font-bold whitespace-nowrap">${formatSheetNum(hero.bm || 0)} БМ</span>`
       : `<span class="${accentText} text-[10px] font-bold whitespace-nowrap">Слот ${visualPos + 1}</span>`
   }</div>
-<div class="flex flex-col gap-0.5"><div class="flex justify-between ${labelSz}"><span class="text-outline">HP</span><span class="text-secondary font-bold">${hero.hp}</span></div>
-<div class="w-full bg-[#231f1c] ${barH} rounded-full overflow-hidden"><div class="bg-secondary h-full rounded-full" style="width:${hpPct}%"></div></div></div>
-<div class="flex flex-col gap-0.5"><div class="flex justify-between ${labelSz}"><span class="text-outline">${midLabel}</span><span class="${accentText} font-bold">${midVal}</span></div>
-<div class="w-full bg-[#231f1c] ${barH} rounded-full overflow-hidden"><div class="${midBar} h-full rounded-full" style="width:${midPct}%"></div></div></div>
-<div class="flex flex-col gap-0.5"><div class="flex justify-between ${labelSz}"><span class="text-outline">Урон</span><span class="text-on-surface font-bold">${hero.dmg}</span></div>
-<div class="w-full bg-[#231f1c] ${barH} rounded-full overflow-hidden"><div class="bg-on-surface/60 h-full rounded-full" style="width:${dmgPct}%"></div></div></div>
+${statsHtml}
 ${tip ? `<span class="text-[9px] text-outline/80 font-bold mt-0.5">${tip}</span>` : ""}
 </div>
 ${close}`;
@@ -18012,6 +18016,7 @@ function renderPvpArenaSquadList() {
           interactive: false,
           compact: true,
           tip: "",
+          showStats: on,
         });
       })
       .join("");
