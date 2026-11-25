@@ -5815,6 +5815,7 @@ function renderRaidBattleStub() {
   if (bar) bar.style.width = "100%";
 
   // Column order matches Stitch: rear(support) → ranged → melee → front(tanks)
+  // Card chrome = stitch h-32 / art h-16 vertical plates (zip etalon); tray stays D-052.
   const cols = [
     { row: 3, head: "РЯД 4: САППОРТ", headClass: "is-support" },
     { row: 2, head: "РЯД 3: МАГИ/ЛУК", headClass: "is-ranged" },
@@ -5836,11 +5837,14 @@ function renderRaidBattleStub() {
           const tankish = s.role === "tank";
           return `<div class="raid-hero-card${tankish ? " is-tank" : ""}" data-row="${col.row}" data-col="${slotCol}" data-role="${s.role}" data-sub="${s.sub}" data-template="${s.templateId}">
             <span class="raid-hero-badge ${badge.tone}">${badge.label}</span>
-            <img class="raid-hero-art" alt="" src="${art}" decoding="async" loading="lazy"/>
+            <div class="raid-hero-art-well">
+              <img class="raid-hero-art" alt="" src="${art}" decoding="async" loading="lazy"/>
+              <span class="raid-hero-sub">${s.sub || s.role}</span>
+            </div>
             <div class="raid-hero-meta">
               <b>${s.name_ru}</b>
               <span class="raid-hero-hp" aria-hidden="true"><i style="width:100%"></i></span>
-              <em>${s.sub || s.role}</em>
+              <em><span class="text-secondary">готов</span><span>${s.role}</span></em>
             </div>
           </div>`;
         })
