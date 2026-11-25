@@ -4794,6 +4794,8 @@ function closePveYardTeamPicker() {
   if (!picker) return;
   picker.classList.add("hidden");
   picker.setAttribute("aria-hidden", "true");
+  const btn = $("btnYardTeamPreset");
+  if (btn) btn.setAttribute("aria-expanded", "false");
 }
 
 function openPveYardTeamPicker() {
@@ -4803,6 +4805,14 @@ function openPveYardTeamPicker() {
   renderPveYardTeamPicker();
   picker.classList.remove("hidden");
   picker.setAttribute("aria-hidden", "false");
+  const btn = $("btnYardTeamPreset");
+  if (btn) btn.setAttribute("aria-expanded", "true");
+}
+
+function togglePveYardTeamPicker() {
+  const picker = $("pveYardTeamPicker");
+  if (!picker || picker.classList.contains("hidden")) openPveYardTeamPicker();
+  else closePveYardTeamPicker();
 }
 
 function renderPveYardTeamPicker() {
@@ -4810,28 +4820,29 @@ function renderPveYardTeamPicker() {
   if (!list) return;
   if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
   const active = state.colPresetIndex || 0;
-  const lanes = ["Тыл", "Центр", "Авангард"];
   list.innerHTML = Array.from({ length: COL_SQUADS }, (_, pi) => {
-      const preset = state.profile?.presets?.[pi] || { name: COL_SQUAD_NAMES[pi], catIds: [] };
-      const slotCats = [0, 1, 2].map((i) => collectionCatById(preset.catIds?.[i]) || null);
-      const filled = slotCats.filter(Boolean).length;
-      const on = pi === active;
-      const title = preset.name || COL_SQUAD_NAMES[pi];
-      const slots = slotCats
-        .map((c, i) => {
-          if (!c) {
-            return `<div class="pve-yard-team-card__slot is-empty">${lanes[i]}</div>`;
-          }
-          const art = catHeroArt(c.templateId) || "/stitch-assets/cat-heroes/fighter-fire.webp?v=gear18c";
-          return `<div class="pve-yard-team-card__slot"><img alt="" src="${art}"/><span>${catSheetName(c)}</span></div>`;
-        })
-        .join("");
-      return `<button type="button" class="pve-yard-team-card${on ? " is-on" : ""}" data-yard-team-pick="${pi}">
-        <header><b>${title}</b>${on ? "<i>Активна</i>" : `<span class="text-[10px] text-outline">${filled}/3</span>`}</header>
-        <div class="pve-yard-team-card__slots">${slots}</div>
-        <footer>${filled === 3 ? "Нажмите, чтобы выбрать" : "Неполный отряд — соберите в Коллекции"}</footer>
-      </button>`;
-    }).join("");
+    const preset = state.profile?.presets?.[pi] || { name: COL_SQUAD_NAMES[pi], catIds: [] };
+    const slotCats = [0, 1, 2].map((i) => collectionCatById(preset.catIds?.[i]) || null);
+    const filled = slotCats.filter(Boolean).length;
+    const on = pi === active;
+    const title = preset.name || COL_SQUAD_NAMES[pi];
+    const thumbs = slotCats
+      .map((c) => {
+        if (!c) {
+          return `<span class="w-[1.55rem] h-[1.55rem] rounded bg-[#120f0d] border border-outline-variant/40 flex-shrink-0"></span>`;
+        }
+        const art =
+          (typeof catHeroArt === "function" && catHeroArt(c.templateId)) ||
+          `/stitch-assets/cat-heroes/fighter-fire.webp?v=gear18c`;
+        return `<img alt="" src="${art}"/>`;
+      })
+      .join("");
+    return `<button type="button" class="dungeon-team-picker__row${on ? " is-on" : ""}" data-yard-team-pick="${pi}" role="option" aria-selected="${on ? "true" : "false"}">
+      ${thumbs}
+      <b>${title}</b>
+      <span>${on ? "активна" : `${filled}/3`}</span>
+    </button>`;
+  }).join("");
 }
 
 function applyPveYardTeamPreset(pi) {
@@ -4935,15 +4946,20 @@ function bindYardForm() {
   const team = $("btnYardTeamPreset");
   if (team && !team.dataset.bound) {
     team.dataset.bound = "1";
-    team.addEventListener("click", () => openPveYardTeamPicker());
+    team.addEventListener("click", (ev) => {
+      ev.preventDefault();
+      togglePveYardTeamPicker();
+    });
   }
   const picker = $("pveYardTeamPicker");
   if (picker && !picker.dataset.bound) {
     picker.dataset.bound = "1";
     picker.addEventListener("click", (ev) => {
-      if (ev.target.closest("[data-yard-team-close]")) {
+      const goCol = ev.target.closest('[data-hud-action="yard-open-collection"]');
+      if (goCol && picker.contains(goCol)) {
         ev.preventDefault();
         closePveYardTeamPicker();
+        navigate("collection", { primary: "character" });
         return;
       }
       const pick = ev.target.closest("[data-yard-team-pick]");
@@ -4951,6 +4967,11 @@ function bindYardForm() {
         ev.preventDefault();
         applyPveYardTeamPreset(pick.getAttribute("data-yard-team-pick"));
       }
+    });
+    document.addEventListener("click", (ev) => {
+      if (picker.classList.contains("hidden")) return;
+      if (ev.target.closest("#pveYardTeamPicker") || ev.target.closest("#btnYardTeamPreset")) return;
+      closePveYardTeamPicker();
     });
     document.addEventListener("keydown", (ev) => {
       if (ev.key !== "Escape") return;
