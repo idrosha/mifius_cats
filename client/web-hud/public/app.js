@@ -3987,18 +3987,23 @@ function ensureRaidCatalogPicks(root) {
 function syncDungeonCenterPanels() {
   const root = $("viewBossDungeon");
   if (!root) return;
-  const deploy = !!(state.raidDeployOpen && isRaidLobby());
+  // Center = stage until Ready 4/4; only then swap to legion board (no modal).
+  if (isRaidLobby() && !dungeonPartyReadyForStart()) {
+    state.raidDeployOpen = false;
+  }
+  const deploy = !!(state.raidDeployOpen && isRaidLobby() && dungeonPartyReadyForStart());
   root.querySelector("[data-dungeon-stage-panel]")?.classList.toggle("hidden", deploy);
   root.querySelector("[data-dungeon-deploy-panel]")?.classList.toggle("hidden", !deploy);
   root.querySelector("[data-dungeon-rewards-row]")?.classList.toggle("hidden", deploy);
   if (deploy) renderRaidLegionBoard();
 }
 
+/** Only call after party hits Ready 4/4 in raid mode. */
 function maybeOpenRaidDeployAfterReady() {
   if (!isRaidLobby()) return;
   if (!dungeonPartyReadyForStart()) return;
   if (state.raidDeployConfirmed && state.raidDeployOpen) return;
-  openRaidDeployModal({ autoFill: (state.raidLegionCount | 0) === 0 });
+  showRaidDeployCenter({ autoFill: (state.raidLegionCount | 0) === 0 });
 }
 
 function renderDungeonLobby() {
@@ -4046,8 +4051,9 @@ function renderDungeonLobby() {
     if (sub) sub.textContent = `${ui.place_ru} · пати 4×3 · легион 12 · путь голосованием`;
     const pathHint = root.querySelector("[data-dungeon-path-hint]");
     if (pathHint) {
-      pathHint.textContent =
-        "После Ready 4/4 центр станет «Состав легиона» 4×3 · короткий/длинный путь — голосование в бою.";
+      pathHint.textContent = state.raidDeployOpen
+        ? "Расставьте легион 4×3 · «Готово» разблокирует старт · путь short/long — голосование в бою."
+        : "Пока пати не Ready 4/4 — здесь сцена рейда. После Ready всех центр сменится на расстановку.";
     }
     const timeEl = root.querySelector("[data-dungeon-time]");
     if (timeEl) {
@@ -5867,19 +5873,28 @@ function renderRaidLegionBoard() {
   if (deploySize) deploySize.textContent = `${c.total}/${RAID_PARTY_SIZE}`;
 }
 
-/** After Ready 4/4 in raid mode — swap center stage → «Состав легиона» (not a modal). */
-function openRaidDeployModal({ autoFill = false } = {}) {
-  if (!isRaidLobby()) return;
+/**
+ * Swap center stage → «Состав легиона». Hard-gated on Ready 4/4 (not a button/modal shortcut).
+ */
+function showRaidDeployCenter({ autoFill = false } = {}) {
+  if (!isRaidLobby()) return false;
   if (!dungeonPartyReadyForStart()) {
-    toast("Нужны Ready 4/4");
-    return;
+    state.raidDeployOpen = false;
+    toast("Сначала Ready всех 4 игроков — тогда центр сменится на расстановку");
+    return false;
   }
   ensureRaidLegion();
   if (autoFill) fillRaidLegionSlots(RAID_PARTY_SIZE);
   state.raidDeployOpen = true;
   state.raidDeployConfirmed = false;
   renderDungeonLobby();
-  toast("Центр: состав легиона 4×3");
+  toast("Все Ready · центр: состав легиона 4×3");
+  return true;
+}
+
+/** @deprecated name kept for call sites — use showRaidDeployCenter */
+function openRaidDeployModal(opts) {
+  return showRaidDeployCenter(opts);
 }
 
 function closeRaidDeployModal() {
@@ -6009,7 +6024,7 @@ function raidFightGatesOk() {
     return false;
   }
   if (!state.raidDeployConfirmed) {
-    openRaidDeployModal({ autoFill: (state.raidLegionCount | 0) < minRaidPlayers });
+    showRaidDeployCenter({ autoFill: (state.raidLegionCount | 0) < minRaidPlayers });
     showGateTip(t("raid.gate.deploy", "Сначала расставьте легион 4×3 в центре и нажмите «Готово»."));
     return false;
   }
@@ -6020,7 +6035,7 @@ function raidFightGatesOk() {
         `Легион ${state.raidLegionCount}/${RAID_PARTY_SIZE}. Доберите котов в центре.`,
       ),
     );
-    openRaidDeployModal({ autoFill: false });
+    showRaidDeployCenter({ autoFill: false });
     return false;
   }
   const comp = validateRaidComposition();
@@ -6031,7 +6046,7 @@ function raidFightGatesOk() {
         `Состав: нужно ${RAID_COMP.tank}T (2 агр + 1 пробитие), ${RAID_COMP.support}S (2 хил + 1 бафф), ${RAID_COMP.dps} DPS. Сейчас T${comp.counts.tank}/S${comp.counts.support}/D${comp.counts.dps}.`,
       ),
     );
-    openRaidDeployModal({ autoFill: false });
+    showRaidDeployCenter({ autoFill: false });
     return false;
   }
   if (state.raidWeeklyLocked) {
@@ -19870,13 +19885,13 @@ function bindBattleModeLobbies() {
         return;
       }
       if (act === "dungeon-formation" || act === "raid-formation" || act === "gvg-formation") {
-        if ((id === "viewBossDungeon" || root.id === "viewBossDungeon") && isRaidLobby()) {
-          openRaidDeployModal({ autoFill: (state.raidLegionCount | 0) === 0 });
-          return;
-        }
         if (id === "viewBossDungeon" || root.id === "viewBossDungeon") {
-          // Dropdown of collection presets (PvE·PvP·Данж·Рейд) — stay on lobby.
-          state.battleMode = "dungeon";
+          // Team picker only. Raid center deploy opens solely after Ready 4/4.
+          if (isRaidLobby() && !dungeonPartyReadyForStart()) {
+            toast("Сначала Ready 4/4 — центр сам сменится на расстановку");
+            return;
+          }
+          state.battleMode = isRaidLobby() ? "boss" : "dungeon";
           state.formationMode = "";
           ensureDungeonTestSquad();
           toggleDungeonTeamPicker();

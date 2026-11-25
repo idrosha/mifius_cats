@@ -98,20 +98,25 @@ async function main() {
               const raidFilterOn = root
                 .querySelector('[data-dungeon-filter="raid"]')
                 ?.classList.contains("is-on");
+              const beforeReady = {
+                stageHidden: root.querySelector("[data-dungeon-stage-panel]")?.classList.contains("hidden"),
+                deployHidden: root.querySelector("[data-dungeon-deploy-panel]")?.classList.contains("hidden"),
+              };
               root.querySelector('[data-hud-action="dungeon-fill-party"]')?.click();
               setTimeout(() => {
                 const stageHidden = root.querySelector("[data-dungeon-stage-panel]")?.classList.contains("hidden");
                 const deployHidden = root.querySelector("[data-dungeon-deploy-panel]")?.classList.contains("hidden");
                 const slots = root.querySelectorAll("[data-raid-form-row]").length;
                 const partyN = root.querySelector("[data-dungeon-party]")?.children.length || 0;
-                const modal = document.querySelector("[data-raid-deploy-modal]");
-                const modalOpen = modal && !modal.classList.contains("hidden") && modal.offsetParent !== null;
+                const modal = document.querySelector("#viewBossDungeon [data-raid-deploy-modal]");
+                const modalOpen = !!(modal && !modal.classList.contains("hidden") && modal.offsetParent);
                 root.querySelector('[data-hud-action="raid-deploy-confirm"]')?.click();
                 setTimeout(() => {
                   const startBtn = root.querySelector('[data-hud-action="dungeon-start"]');
                   resolve({
                     filters,
                     raidFilterOn,
+                    beforeReady,
                     partyN,
                     stageHidden,
                     deployHidden,
@@ -139,8 +144,10 @@ async function main() {
     if (r.filters?.includes("open") || r.filters?.includes("heroic")) fails.push("legacy open/heroic still present");
     if (!r.raidFilterOn) fails.push("raid filter not on after boss_raid nav");
     if (r.partyN !== 4) fails.push(`partyN=${r.partyN}`);
+    if (r.beforeReady?.stageHidden) fails.push("stage already hidden before Ready");
+    if (r.beforeReady && r.beforeReady.deployHidden === false) fails.push("deploy shown before Ready");
     if (!r.stageHidden) fails.push("stage panel still visible after Ready");
-    if (r.deployHidden) fails.push("deploy panel not shown in center");
+    if (r.deployHidden) fails.push("deploy panel not shown in center after Ready");
     if (r.slots !== 12) fails.push(`slots=${r.slots}`);
     if (r.modalOpen) fails.push("legacy modal still open");
     if (!r.startEnabled) fails.push("start still disabled");
