@@ -337,7 +337,7 @@ Server validates all purchases.
 3. `Hub` chrome: **один** shared header (`#appNav` / `#appSubTabs`, web-hud; `D-029`). Primary **LOCKED `D-033`** (порядок): **Боевой пропуск** · **Дом Хранителя** · **Торговля** · **Бои** · **Гильдии** · **Рейтинги** · **Друзья** · **База знаний** + subtabs — канон `docs/nav-ia.md` (не менять без нового D-0xx). Дефолт Дома = `home`; `farm` = Soon. Мифмир = хаб боёв (`battle_hub`) + PvE map (`yard` / `pve`) под **Бои**.  
 4. `YardMap` (Мифмир) → Formation 3v3 → `Battle`; рейд/легион — отдельный экран  
 5. `PvPMenu` (Дуэли/Арена) → matchmaking → `Battle`  
-6. `Collection` (cats, presets×5, pendants/bows) — на SL = HUD stub (`D-031`, `D-054`): ростер из профиля + **4 именованных отряда** 3v3 local — PvE · PvP · Данж · Рейд (cap presets[5]); без client SoT урона/БМ/резонанса; серверный SavePreset — later; live данж/рейд-бой — не из этого экрана  
+6. `Collection` (cats, presets×5, pendants/bows) — на SL = HUD stub (`D-031`, `D-054`, `D-056`): ростер из профиля + **4 именованных отряда** 3v3 local — PvE · PvP · Данж · Рейд (cap presets[5]); сборка как practice: сначала активная команда справа, затем тап ростера слева; без client SoT урона/БМ/резонанса; серверный SavePreset — later; live данж/рейд-бой — не из этого экрана  
 6b. `Склад` (`gear`) — амбар игрока: grid / фильтры / inspect / надеть; на SL = HUD stub (`D-028`); не «склад алхимика» (§4.4). Клиентский экип не SoT боя (§7.1 pendant/bow).
 6c. `Скрещивание` (`breeding`) — питомник / алтарь; на SL = HUD stub (`D-030`, §4.4.1): form + tip, без live breed; Phase 6 = server SoT.
 7. `Shop` (yarn/IAP, jars, pass, fish packs, breeding ingredients, **common_cat** ×2×6 = 12 SKU, grey R1 armor; battle_coin gear)

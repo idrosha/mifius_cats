@@ -16765,8 +16765,9 @@ function collectionEnsurePresets() {
     p0.catIds = [p0.catIds[2], p0.catIds[1], p0.catIds[0]];
     state._colVisualMigrated = true;
   }
-  // Empty → visual autopick (тыл · центр · авангард). Never raw roster/sim order (CreatePvP double-flip).
-  if (p0.catIds.filter(Boolean).length === 0 && roster.length) {
+  // First paint only: empty → visual autopick. Later clears stay empty (D-056 rebuild).
+  const seedEmpty = !state._colSeededEmpty;
+  if (seedEmpty && p0.catIds.filter(Boolean).length === 0 && roster.length) {
     p0.catIds = collectionAutopickSquad(roster, new Set());
   }
   while (state.profile.presets.length < 5) {
@@ -16783,10 +16784,11 @@ function collectionEnsurePresets() {
       p.name = COL_SQUAD_NAMES[pi];
     }
     if (!Array.isArray(p.catIds)) p.catIds = [];
-    if (pi > 0 && p.catIds.filter(Boolean).length === 0 && roster.length) {
+    if (seedEmpty && pi > 0 && p.catIds.filter(Boolean).length === 0 && roster.length) {
       p.catIds = collectionAutopickSquad(roster, new Set());
     }
   }
+  state._colSeededEmpty = true;
 }
 
 /** Legacy grant seeded sim [tank,fighter,support] into visual collection slots — fingerprint after twin. */
@@ -17027,7 +17029,10 @@ function renderCollectionRosterCards(cats) {
       squadMarks[id].push(COL_SQUAD_NAMES[pi] || `К${pi + 1}`);
     }
   }
-  const sel = state.colSelectedId;
+  // D-056: highlight cats in the *active* team (practice-like), not a pending pick.
+  const activeIds = new Set(
+    (state.profile?.presets?.[state.colPresetIndex || 0]?.catIds || []).filter(Boolean),
+  );
   if (!shown.length) {
     list.innerHTML = `<div class="col-span-2 p-3 rounded-lg border border-dashed border-outline-variant/40 text-outline-variant text-center text-xs">Нет котиков — grant / login</div>`;
     return shown;
@@ -17038,10 +17043,10 @@ function renderCollectionRosterCards(cats) {
       const role = CAT_ROLE_RU[homeCatRole(c)] || homeCatRole(c) || "—";
       const el = CAT_ELEMENT_RU[c.element || starterMeta(c.templateId)?.element] || "";
       const art = catHeroArt(c.templateId);
-      const on = c.catId === sel;
+      const on = activeIds.has(c.catId);
       const marks = squadMarks[c.catId];
       const markLabel = marks ? marks.join(" · ") : "";
-      return `<button type="button" draggable="true" data-col-cat="${c.catId}" class="col-roster-card relative rounded-lg flex items-center gap-2 h-[88px] px-2 text-left border transition-colors cursor-grab active:cursor-grabbing ${
+      return `<button type="button" draggable="true" data-col-cat="${c.catId}" class="col-roster-card relative rounded-lg flex items-center gap-2 h-[88px] px-2 text-left border transition-colors cursor-pointer active:cursor-grabbing ${
         on ? "is-picked bg-surface-container-highest border-primary/60" : "bg-surface-container-lowest/50 border-surface-container-highest/30 hover:border-primary/40"
       }">
         ${art ? `<img alt="" src="${art}" draggable="false" class="w-14 h-14 object-cover object-top rounded shrink-0 pointer-events-none"/>` : `<span class="material-symbols-outlined text-primary text-[28px]">pets</span>`}
@@ -17097,6 +17102,45 @@ function collectionClearSlot(pi, slot) {
   persistCollectionStub();
 }
 
+const COL_LANE_LABEL = ["Тыл", "Центр", "Авангард"];
+
+/** Active squad slots (тыл·центр·авангард), length 3, null = empty. */
+function collectionActiveSquadSlots() {
+  collectionEnsurePresets();
+  const pi = Math.max(0, Math.min(COL_SQUADS - 1, state.colPresetIndex || 0));
+  state.colPresetIndex = pi;
+  const p = state.profile.presets[pi];
+  if (!Array.isArray(p.catIds)) p.catIds = [];
+  while (p.catIds.length < 3) p.catIds.push(null);
+  return { pi, preset: p, slots: p.catIds };
+}
+
+/**
+ * Practice-like pick into the active team (D-056):
+ * already in squad → remove; else first empty slot; full → no-op.
+ * @returns {"added"|"removed"|"full"|"missing"}
+ */
+function collectionToggleCatInActive(catId) {
+  if (!catId || !collectionCatById(catId)) return "missing";
+  const { preset, slots } = collectionActiveSquadSlots();
+  const at = slots.indexOf(catId);
+  if (at >= 0) {
+    slots[at] = null;
+    persistCollectionStub();
+    return "removed";
+  }
+  const empty = slots.findIndex((id) => !id);
+  if (empty < 0) return "full";
+  for (let j = 0; j < 3; j++) {
+    if (slots[j] === catId) slots[j] = null;
+  }
+  slots[empty] = catId;
+  preset.catIds = slots;
+  state.colSelectedId = catId;
+  persistCollectionStub();
+  return "added";
+}
+
 function collectionParseDrag(ev) {
   try {
     const raw = ev.dataTransfer?.getData("application/x-mythfel-cat") || ev.dataTransfer?.getData("text/plain");
@@ -17146,7 +17190,7 @@ function renderCollectionTeams(cats) {
   }
   const headerSub = headerTitle?.parentElement?.querySelector("p");
   if (headerSub) {
-    headerSub.textContent = "Четыре отряда 3v3: PvE · PvP · Данж · Рейд · Тыл · DPS · Танк";
+    headerSub.textContent = "Сначала команда справа → трое слева · PvE · PvP · Данж · Рейд";
   }
 
   const slotHtml = (pi, i, slotCats) => {
@@ -17182,7 +17226,7 @@ function renderCollectionTeams(cats) {
     const filled = slotCats.filter(Boolean).length;
     const on = pi === active;
     const title = preset.name || COL_SQUAD_NAMES[pi];
-    return `<div class="col-team bg-surface-container rounded-lg p-space-sm border ${on ? "border-primary/50 shadow-[0_4px_14px_rgba(0,0,0,0.5)]" : "border-surface-container-highest/60"} flex flex-col gap-1 min-h-0" data-col-team="${pi}">
+    return `<div class="col-team bg-surface-container rounded-lg p-space-sm border cursor-pointer ${on ? "border-primary/50 shadow-[0_4px_14px_rgba(0,0,0,0.5)] is-active" : "border-surface-container-highest/60"} flex flex-col gap-1 min-h-0" data-col-team="${pi}" title="Выбрать команду">
       <div class="col-team-head flex items-center gap-1.5 min-w-0">
         <button type="button" data-col-preset-select="${pi}" class="col-team-label shrink-0 font-stat-numeral text-[11px] font-bold uppercase cursor-pointer ${on ? "text-primary" : "text-on-surface-variant"}">Команда ${pi + 1}:</button>
         <input type="text" data-col-rename="${pi}" maxlength="32" value="${String(title).replace(/"/g, "&quot;")}"
@@ -17206,7 +17250,7 @@ function renderCollectionTeams(cats) {
       <button type="button" data-col-act="autopick-all" class="py-1.5 px-3 rounded bg-surface-container-high text-primary border border-primary/40 font-label-sm text-[11px] font-bold">Авто · все 4</button>
       <button type="button" data-col-act="codex" class="py-1.5 px-3 rounded bg-surface-container-high text-on-surface font-label-sm text-[11px] font-bold">Кодекс</button>
     </div>
-    <p class="text-[10px] text-on-surface-variant m-0">4 отряда · PvE · PvP · Данж · Рейд · local stub · не SoT боя</p>`;
+    <p class="text-[10px] text-on-surface-variant m-0">D-056 · команда справа → котики слева · local stub · не SoT боя</p>`;
 }
 
 function renderCollection() {
@@ -17215,9 +17259,6 @@ function renderCollection() {
   ensureCollectionDom(root);
   collectionEnsurePresets();
   const cats = collectionRosterCats();
-  if (!state.colSelectedId && cats.length) {
-    state.colSelectedId = cats[0].catId;
-  }
   const shown = renderCollectionRosterCards(cats) || [];
   renderCollectionSummary(root, cats, shown.length ? shown : cats);
   renderCollectionTeams(cats);
@@ -17238,20 +17279,7 @@ function bindCollectionRoster() {
       renderCollection();
       return;
     }
-    const selectTeam = ev.target.closest("[data-col-preset-select]");
-    if (selectTeam && root.contains(selectTeam)) {
-      ev.preventDefault();
-      state.colPresetIndex = Number(selectTeam.getAttribute("data-col-preset-select")) || 0;
-      renderCollection();
-      return;
-    }
-    const card = ev.target.closest("[data-col-cat]");
-    if (card && root.contains(card)) {
-      ev.preventDefault();
-      state.colSelectedId = card.getAttribute("data-col-cat");
-      renderCollection();
-      return;
-    }
+    // D-056: slot click selects that team; filled slot removes (practice-like).
     const slot = ev.target.closest("[data-col-slot]");
     if (slot && root.contains(slot)) {
       ev.preventDefault();
@@ -17259,28 +17287,56 @@ function bindCollectionRoster() {
       const i = Number(slot.getAttribute("data-col-slot"));
       collectionEnsurePresets();
       if (pi >= 0 && pi < COL_SQUADS) state.colPresetIndex = pi;
-      const preset = state.profile.presets[pi] || state.profile.presets[state.colPresetIndex || 0];
-      if (!Array.isArray(preset.catIds)) preset.catIds = [];
       const occupied = slot.getAttribute("data-col-slot-cat");
-      if (occupied && state.colSelectedId === occupied) {
-        preset.catIds[i] = null;
-        while (preset.catIds.length < 3) preset.catIds.push(null);
-        persistCollectionStub();
+      if (occupied) {
+        collectionClearSlot(pi, i);
         renderCollection();
         toast(`${COL_SQUAD_NAMES[pi] || `К${pi + 1}`}: слот очищен`);
         return;
       }
-      if (!state.colSelectedId) {
-        toast("Сначала выбери котика слева");
+      renderCollection();
+      toast(`${COL_SQUAD_NAMES[pi] || `К${pi + 1}`}: выбрана · тапни котиков слева`);
+      return;
+    }
+    const selectTeam = ev.target.closest("[data-col-preset-select], [data-col-team]");
+    if (
+      selectTeam &&
+      root.contains(selectTeam) &&
+      !ev.target.closest("[data-col-rename], [data-col-act], [data-col-cat]")
+    ) {
+      ev.preventDefault();
+      const pi = Number(
+        selectTeam.getAttribute("data-col-preset-select") ?? selectTeam.getAttribute("data-col-team"),
+      );
+      if (pi >= 0 && pi < COL_SQUADS) state.colPresetIndex = pi;
+      renderCollection();
+      toast(`${COL_SQUAD_NAMES[pi] || `К${pi + 1}`}: выбрана · тапни котиков слева`);
+      return;
+    }
+    // D-056: roster tap fills / toggles the active team (no «pick then slot»).
+    const card = ev.target.closest("[data-col-cat]");
+    if (card && root.contains(card)) {
+      ev.preventDefault();
+      const catId = card.getAttribute("data-col-cat");
+      const cat = collectionCatById(catId);
+      const name = catSheetName(cat || {});
+      const { pi, slots } = collectionActiveSquadSlots();
+      const result = collectionToggleCatInActive(catId);
+      if (result === "full") {
+        toast("Отряд полон · уберите котика справа или тапните его в ростере");
         return;
       }
-      preset.catIds = (preset.catIds || []).map((id, j) =>
-        j === i ? state.colSelectedId : id === state.colSelectedId ? null : id,
-      );
-      while (preset.catIds.length < 3) preset.catIds.push(null);
-      persistCollectionStub();
-      renderCollection();
-      toast(`${COL_SQUAD_NAMES[pi] || `К${pi + 1}`}: ${catSheetName(collectionCatById(state.colSelectedId) || {})}`);
+      if (result === "removed") {
+        renderCollection();
+        toast(`${COL_SQUAD_NAMES[pi] || `К${pi + 1}`}: ${name} убран`);
+        return;
+      }
+      if (result === "added") {
+        const lane = COL_LANE_LABEL[slots.indexOf(catId)] || "строй";
+        renderCollection();
+        toast(`${name} → ${COL_SQUAD_NAMES[pi] || `К${pi + 1}`} · ${lane}`);
+        return;
+      }
       return;
     }
     const act = ev.target.closest("[data-col-act]")?.getAttribute("data-col-act");
