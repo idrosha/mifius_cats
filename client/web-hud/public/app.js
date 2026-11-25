@@ -5816,10 +5816,10 @@ function renderRaidBattleStub() {
 
   // Column order matches Stitch: rear(support) → ranged → melee → front(tanks)
   const cols = [
-    { row: 3, head: "РЯД 4: САППОРТ", headClass: "text-secondary-fixed" },
-    { row: 2, head: "РЯД 3: МАГИ/ЛУК", headClass: "text-primary" },
-    { row: 1, head: "РЯД 2: ШТУРМ", headClass: "text-tertiary" },
-    { row: 0, head: "РЯД 1: ТАНКИ", headClass: "text-on-primary font-bold", headBg: "bg-primary-container" },
+    { row: 3, head: "РЯД 4: САППОРТ", headClass: "is-support" },
+    { row: 2, head: "РЯД 3: МАГИ/ЛУК", headClass: "is-ranged" },
+    { row: 1, head: "РЯД 2: ШТУРМ", headClass: "is-melee" },
+    { row: 0, head: "РЯД 1: ТАНКИ", headClass: "is-tank" },
   ];
   const board = root.querySelector("[data-raid-battle-board]");
   if (!board) return;
@@ -5829,59 +5829,30 @@ function renderRaidBattleStub() {
         .map((slotCol) => {
           const s = state.raidLegion.find((x) => x.row === col.row && x.col === slotCol);
           if (!s?.filled) {
-            return `<div class="relative bg-surface-container/40 rounded-xl p-1.5 border border-dashed border-outline-variant/40 flex flex-col items-center justify-center h-28 text-outline text-[10px]" data-row="${col.row}" data-col="${slotCol}">пусто</div>`;
+            return `<div class="raid-hero-card is-empty" data-row="${col.row}" data-col="${slotCol}">пусто</div>`;
           }
           const badge = raidBattleRoleBadge(s);
           const art = raidBattleCatArt(s.templateId);
           const tankish = s.role === "tank";
-          return `<div class="relative bg-surface-container/95 rounded-xl p-1.5 shadow-md flex flex-col justify-between h-28 sm:h-32 hover:scale-[1.02] transition-transform cursor-pointer group${tankish ? " border border-primary/40" : ""}" data-row="${col.row}" data-col="${slotCol}" data-role="${s.role}" data-sub="${s.sub}" data-template="${s.templateId}">
-            <div class="absolute -top-1 -left-1 px-1.5 py-0.5 rounded-full ${badge.tone} text-[9px] uppercase font-bold z-10">${badge.label}</div>
-            <div class="relative w-full h-14 sm:h-16 rounded-lg bg-surface-container-lowest overflow-hidden flex items-end justify-center">
-              <img alt="" class="h-full object-contain drop-shadow-md group-hover:scale-105 transition-transform" src="${art}"/>
-              <div class="absolute top-1 right-1 px-1 rounded bg-surface-container-high text-on-surface text-[8px] leading-tight">${s.sub}</div>
-            </div>
-            <div class="flex flex-col mt-1">
-              <span class="text-[11px] font-bold text-on-surface truncate leading-tight">${s.name_ru}</span>
-              <div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden mt-1">
-                <div class="bg-secondary h-full rounded-full" style="width:100%"></div>
-              </div>
-              <div class="flex items-center justify-between text-[9px] text-on-surface-variant mt-0.5">
-                <span class="text-secondary font-bold">готов</span>
-                <span class="text-primary-fixed">${s.role}</span>
-              </div>
+          return `<div class="raid-hero-card${tankish ? " is-tank" : ""}" data-row="${col.row}" data-col="${slotCol}" data-role="${s.role}" data-sub="${s.sub}" data-template="${s.templateId}">
+            <span class="raid-hero-badge ${badge.tone}">${badge.label}</span>
+            <img class="raid-hero-art" alt="" src="${art}" decoding="async" loading="lazy"/>
+            <div class="raid-hero-meta">
+              <b>${s.name_ru}</b>
+              <span class="raid-hero-hp" aria-hidden="true"><i style="width:100%"></i></span>
+              <em>${s.sub || s.role}</em>
             </div>
           </div>`;
         })
         .join("");
-      const headBg = col.headBg || "bg-surface-container-high/90";
-      return `<div class="flex flex-col gap-1.5" data-raid-col-row="${col.row}">
-        <div class="px-1.5 py-0.5 rounded ${headBg} text-center text-[10px] font-bold ${col.headClass}">${col.head}</div>
+      return `<div class="raid-hero-col" data-raid-col-row="${col.row}">
+        <div class="raid-hero-col-head ${col.headClass}">${col.head}</div>
         ${cards}
       </div>`;
     })
     .join("");
 
-  const endBtn = $("raidEndTurnBtn");
-  if (endBtn) {
-    const live = !!(state.battle && !state.battle.result);
-    const voting = !!state.raidPathVoteOpen;
-    const title = endBtn.querySelector("span.flex span:last-child") || endBtn.querySelector("span span:last-child");
-    const sub = endBtn.querySelector("span.font-label-sm");
-    if (title) {
-      title.textContent = voting ? "ГОЛОСОВАНИЕ" : live ? "ЗАВЕРШИТЬ ХОД" : "В БОЙ";
-    }
-    if (sub) {
-      sub.textContent = voting
-        ? "Выберите короткий или длинный путь"
-        : live
-          ? `ХОД ${formatBattleTimer(snap.turnSec)} · [ПРОБЕЛ]`
-          : state.raidPathLocked
-            ? `Строй 12 · узел ${nodeN}/${nodeMax}`
-            : "Входной отряд · путь после победы";
-    }
-    endBtn.disabled = voting;
-    endBtn.classList.toggle("opacity-50", voting);
-  }
+  paintRaidFightTray(snap);
   const note = root.querySelector("[data-raid-battle-note]");
   if (note) {
     note.textContent = state.raidPathVoteOpen
@@ -5892,6 +5863,131 @@ function renderRaidBattleStub() {
   }
   paintBattleTurnTimer(snap.turnSec);
   renderRaidPathVotePanel();
+}
+
+/** Preview plates when raid fight is not live yet (same tray chrome as PvP / practice). */
+const RAID_PREVIEW_HAND = [
+  { cardId: "shop_tank_fire_muzzle", title: "Каменный оскал", cost: 1 },
+  { cardId: "shop_fighter_fire_muzzle", title: "Огненный укус", cost: 1 },
+  { cardId: "shop_assassin_fire_tail", title: "Двойной хлыст", cost: 1 },
+  { cardId: "shop_mage_fire_muzzle", title: "Огненный круг", cost: 2 },
+  { cardId: "shop_ranger_fire_muzzle", title: "Град стрел", cost: 1 },
+  { cardId: "shop_support_water_back", title: "Прилив силы", cost: 2 },
+];
+
+/** Shared D-052 tray: attack hand + right act (AP · end turn · auto · pots). */
+function paintRaidFightTray(snap) {
+  const hand = $("rbHand");
+  const endBtn = $("raidEndTurnBtn");
+  const sub = $("rbEndSub");
+  const apNum = $("rbApNum");
+  const apMax = $("rbApMax");
+  const apPips = $("rbApPips");
+  const live = !!(state.battle && !state.battle.result && state.battleMode === "boss");
+  const voting = !!state.raidPathVoteOpen;
+  const diff = live ? state.battle : null;
+  const mine = !!(diff && diff.active === 0 && !diff.result);
+  if (diff) pruneHandSelection(diff);
+
+  if (hand) {
+    hand.classList.add("mf-attack-hand", "pv-hand");
+    hand.innerHTML = "";
+    if (live && diff) {
+      const liveCards = sortHandByVisualLanes(diff.hand || [], diff.units || []);
+      if (!mine && !diff.result) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "mf-atk-card mf-atk-card--text pf-card";
+        b.disabled = true;
+        b.innerHTML = `<b class="mf-atk-card__meta">Обложка</b><span class="mf-atk-card__sub">ход противника</span>`;
+        hand.appendChild(b);
+      } else if (!liveCards.length) {
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = "mf-atk-card mf-atk-card--text pf-card";
+        b.disabled = true;
+        b.innerHTML = `<b class="mf-atk-card__meta">Колода</b><span class="mf-atk-card__sub">ждёт раздачу</span>`;
+        hand.appendChild(b);
+      } else {
+        for (const c of liveCards) {
+          hand.appendChild(makeAttackHandButton(c, diff, "mf-atk-card"));
+        }
+      }
+    } else {
+      for (const c of RAID_PREVIEW_HAND) {
+        const art = attackCardArtUrl(c.cardId);
+        const b = document.createElement("button");
+        b.type = "button";
+        b.className = art
+          ? "mf-atk-card mf-atk-card--art pf-card pf-card-art"
+          : "mf-atk-card mf-atk-card--text pf-card";
+        b.disabled = true;
+        b.title = `${c.title} · ${c.cost} AP · превью строя`;
+        if (art) {
+          b.innerHTML = `<img alt="${c.title}" src="${art}" draggable="false"/><b class="mf-atk-card__meta">${c.title}</b><span class="mf-atk-card__sub">${c.cost} AP</span>`;
+        } else {
+          b.innerHTML = `<b class="mf-atk-card__meta">${c.title}</b><span class="mf-atk-card__sub">${c.cost} AP</span>`;
+        }
+        hand.appendChild(b);
+      }
+    }
+  }
+
+  const energy = live ? (diff.p1?.energy ?? 0) : 3;
+  const reserved = live && mine ? handSelectionReservedAp() : 0;
+  const shown = Math.max(0, energy - reserved);
+  const energyCap = live ? Math.max(energyTurnCap(diff.turn, true), energy) : 3;
+  if (apNum) apNum.textContent = String(shown);
+  if (apMax) apMax.textContent = String(energyCap);
+  if (apPips) {
+    apPips.innerHTML = Array.from({ length: energyCap }, (_, i) =>
+      `<i class="${i < shown ? "is-on" : ""}"></i>`,
+    ).join("");
+  }
+
+  if (endBtn) {
+    const label = endBtn.querySelector(".pv-end-label");
+    if (label) {
+      label.textContent = voting ? "ГОЛОСОВАНИЕ" : live ? "ЗАВЕРШИТЬ ХОД" : "В БОЙ";
+    }
+    if (sub) {
+      if (voting) sub.textContent = "Выберите короткий или длинный путь";
+      else if (live) sub.textContent = mine ? handSelectionCommitLabel(true) : "бот…";
+      else if (state.raidPathLocked) {
+        const nodeN = ((snap?.nodeIndex | 0) + 1) || 1;
+        sub.textContent = `Строй 12 · узел ${nodeN}`;
+      } else sub.textContent = "Входной отряд · путь после победы";
+    }
+    endBtn.disabled =
+      voting ||
+      (live &&
+        (!diff.canEndTurn ||
+          !!diff.result ||
+          diff.active !== 0 ||
+          state.oppThrowPlaying ||
+          state.actionBusy ||
+          state.turnCommitPlaying ||
+          state.pvpAutoBattle));
+    endBtn.classList.toggle("opacity-50", !!endBtn.disabled);
+  }
+
+  const autoBtn = $("rbAutoBattle");
+  if (autoBtn) {
+    autoBtn.disabled = !live || !!diff?.result || state.oppThrowPlaying;
+    autoBtn.setAttribute("aria-pressed", state.pvpAutoBattle ? "true" : "false");
+    autoBtn.classList.toggle("is-on", !!state.pvpAutoBattle);
+    const st = $("rbAutoStatus");
+    if (st) st.textContent = state.pvpAutoBattle ? "ВКЛ" : "ВЫКЛ";
+  }
+  if (live) {
+    if (!state.pvpFightPots) resetPvpFightPots();
+    const pots = state.pvpFightPots || {};
+    const qtyIds = { heal: "rbPotHealQty", energy: "rbPotEnergyQty", cleanse: "rbPotCleanseQty" };
+    for (const key of Object.keys(qtyIds)) {
+      const el = $(qtyIds[key]);
+      if (el) el.textContent = String(pots[key] ?? 0);
+    }
+  }
 }
 
 function renderBossFirst() {
@@ -13784,6 +13880,7 @@ function toggleHandCardSelection(c, diff) {
   try {
     renderPracticeFight();
     renderPvpFight();
+    renderRaidBattleStub();
     renderBattle();
   } catch {
     /* ignore */
@@ -16644,6 +16741,15 @@ function renderAll() {
     bindPvpFight();
     return;
   }
+  if (viewId === "viewRaidBattle") {
+    // Preview or live boss wing — same 12-legion board + D-052 tray (no #appNav).
+    if (!(state.battle && !state.battle.result && state.battleMode === "boss")) {
+      state.raidBattlePreview = true;
+    }
+    renderRaidBattleStub();
+    bindRaidBattleStub();
+    return;
+  }
   if (viewId === "viewBattle" && state.battle && !state.battle.result) {
     renderBattle();
     return;
@@ -18694,6 +18800,22 @@ function bindRaidBattleStub() {
       castRaidPathVote(voteBtn.getAttribute("data-raid-vote"));
       return;
     }
+    const potKey = ev.target.closest("[data-rb-pot]")?.getAttribute("data-rb-pot");
+    if (potKey && root.contains(ev.target.closest("[data-rb-pot]"))) {
+      ev.preventDefault();
+      if (state.battle && !state.battle.result && state.battleMode === "boss") {
+        void usePvpFightPotion(potKey);
+      }
+      return;
+    }
+    if (ev.target.closest("#rbAutoBattle") && root.contains(ev.target.closest("#rbAutoBattle"))) {
+      ev.preventDefault();
+      if (state.battle && !state.battle.result && state.battleMode === "boss") {
+        togglePvpAutoBattle();
+        paintRaidFightTray(raidFormationSnapshot());
+      }
+      return;
+    }
     const btn = ev.target.closest("[data-hud-action]");
     if (!btn || !root.contains(btn)) return;
     const act = btn.getAttribute("data-hud-action");
@@ -18714,6 +18836,7 @@ function bindRaidBattleStub() {
         return;
       }
       if (state.battle && !state.battle.result && state.battleMode === "boss") {
+        if (state.pvpAutoBattle) return;
         void commitHandSelectionAndEndTurn();
         return;
       }
@@ -18721,6 +18844,16 @@ function bindRaidBattleStub() {
       return;
     }
     if (act === "raid-battle-back") {
+      if (state.battle && !state.battle.result && state.battleMode === "boss") {
+        setPvpAutoBattle(false, { silent: true });
+        clearHandSelection();
+        state.turnCommitPlaying = false;
+        state.battle = null;
+        state.lastResult = null;
+        state.oppThrowPlaying = false;
+        state.actionBusy = false;
+        hideOppThrow();
+      }
       state.raidBattlePreview = false;
       state.raidPathVoteOpen = false;
       navigate("boss_raid", { primary: "combat" });
@@ -18731,6 +18864,29 @@ function bindRaidBattleStub() {
       state.formationMode = "raid";
       state.battleMode = "boss";
       navigate("formation", { primary: "combat" });
+    }
+  });
+  document.addEventListener("keydown", (ev) => {
+    if (logicalViewId() !== "viewRaidBattle") return;
+    if (ev.target.closest?.("input, textarea")) return;
+    if (ev.code === "Escape") {
+      ev.preventDefault();
+      const back = root.querySelector('[data-hud-action="raid-battle-back"]');
+      back?.click();
+      return;
+    }
+    if (!(state.battle && !state.battle.result && state.battleMode === "boss")) return;
+    if (ev.code === "Space") {
+      ev.preventDefault();
+      if (state.pvpAutoBattle) return;
+      requestEndTurn();
+      return;
+    }
+    const digit = /^Digit([1-6])$/.exec(ev.code);
+    if (digit) {
+      ev.preventDefault();
+      if (state.pvpAutoBattle) return;
+      playHandCardByHotkey(Number(digit[1]) - 1);
     }
   });
 }
