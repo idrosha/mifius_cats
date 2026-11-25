@@ -17011,6 +17011,8 @@ function renderCollectionSummary(root, cats, shown) {
 function renderCollectionRosterCards(cats) {
   const list = $("colRoster");
   if (!list) return;
+  list.classList.remove("grid-cols-2");
+  list.classList.add("grid-cols-3");
   const q = (state.colSearch || "").trim().toLowerCase();
   const filter = state.colRoleFilter || "all";
   let shown = homeRosterByRole(cats, filter);
@@ -17030,34 +17032,77 @@ function renderCollectionRosterCards(cats) {
     }
   }
   // D-056: highlight cats in the *active* team (practice-like), not a pending pick.
-  const activeIds = new Set(
-    (state.profile?.presets?.[state.colPresetIndex || 0]?.catIds || []).filter(Boolean),
-  );
+  const activeSlots = state.profile?.presets?.[state.colPresetIndex || 0]?.catIds || [];
+  const activeIds = new Set(activeSlots.filter(Boolean));
   if (!shown.length) {
-    list.innerHTML = `<div class="col-span-2 p-3 rounded-lg border border-dashed border-outline-variant/40 text-outline-variant text-center text-xs">Нет котиков — grant / login</div>`;
+    list.innerHTML = `<div class="col-span-3 p-3 rounded-lg border border-dashed border-outline-variant/40 text-outline-variant text-center text-xs">Нет котиков — grant / login</div>`;
     return shown;
   }
+  // Portrait 3-col grid — same skin as practice dojo roster.
   list.innerHTML = shown
     .map((c) => {
-      const name = catSheetName(c);
-      const role = CAT_ROLE_RU[homeCatRole(c)] || homeCatRole(c) || "—";
-      const el = CAT_ELEMENT_RU[c.element || starterMeta(c.templateId)?.element] || "";
-      const art = catHeroArt(c.templateId);
+      const hero = arenaHeroForCat(c) || {};
+      const name = hero.short || catSheetName(c);
+      const roleRu = hero.roleRu || CAT_ROLE_RU[homeCatRole(c)] || homeCatRole(c) || "—";
+      const roleIcon = hero.roleIcon || "pets";
+      const elKey = c.element || starterMeta(c.templateId)?.element || "";
+      const art = catHeroArt(c.templateId) || "";
       const on = activeIds.has(c.catId);
+      const slotIdx = on ? activeSlots.indexOf(c.catId) : -1;
       const marks = squadMarks[c.catId];
       const markLabel = marks ? marks.join(" · ") : "";
-      return `<button type="button" draggable="true" data-col-cat="${c.catId}" class="col-roster-card relative rounded-lg flex items-center gap-2 h-[88px] px-2 text-left border transition-colors cursor-pointer active:cursor-grabbing ${
-        on ? "is-picked bg-surface-container-highest border-primary/60" : "bg-surface-container-lowest/50 border-surface-container-highest/30 hover:border-primary/40"
-      }">
-        ${art ? `<img alt="" src="${art}" draggable="false" class="w-14 h-14 object-cover object-top rounded shrink-0 pointer-events-none"/>` : `<span class="material-symbols-outlined text-primary text-[28px]">pets</span>`}
-        <span class="flex flex-col min-w-0 gap-0.5">
-          <span class="font-label-sm text-label-sm text-on-surface font-bold truncate">${name}</span>
-          <span class="text-[10px] text-on-surface-variant truncate">${role}${el ? ` · ${el}` : ""}</span>
-          ${markLabel ? `<span class="text-[9px] text-secondary font-bold uppercase">${markLabel}</span>` : ""}
-        </span>
-      </button>`;
+      const accent =
+        hero.accent === "tertiary" ? "tertiary" : hero.accent === "secondary" ? "secondary" : "primary";
+      const tone =
+        accent === "tertiary"
+          ? {
+              hover: "hover:border-tertiary",
+              chip: "border-tertiary/40 text-tertiary",
+              stat: "text-tertiary",
+              btn: "text-tertiary border-tertiary/40",
+            }
+          : accent === "secondary"
+            ? {
+                hover: "hover:border-secondary",
+                chip: "border-secondary/40 text-secondary",
+                stat: "text-secondary",
+                btn: "text-secondary border-secondary/40",
+              }
+            : {
+                hover: "hover:border-primary",
+                chip: "border-primary/40 text-primary",
+                stat: "text-primary",
+                btn: "text-primary border-primary/40",
+              };
+      const base = CONTENT_CAT_BASE[c.templateId] || {};
+      const hp = base.hp ?? hero.hp ?? "—";
+      const cta = on ? `Слот ${slotIdx + 1}` : markLabel || "+ В отряд";
+      return `<div draggable="true" data-col-cat="${c.catId}" tabindex="0" role="button" aria-pressed="${on ? "true" : "false"}" class="col-roster-card relative bg-[#1a1613] rounded-lg border border-outline-variant/40 ${tone.hover} transition-all overflow-hidden flex flex-col shadow-md group cursor-pointer active:cursor-grabbing h-36 ${on ? "is-picked" : ""}">
+<div class="absolute inset-0 z-0 pointer-events-none">
+${art ? `<img alt="${name}" draggable="false" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300 mf-hero-portrait" src="${art}" decoding="async">` : `<span class="material-symbols-outlined text-primary text-[36px] absolute inset-0 m-auto w-9 h-9">pets</span>`}
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+</div>
+<div class="relative z-10 flex items-center justify-between p-1 pointer-events-none">
+<div class="bg-black/75 px-1.5 py-0.5 rounded border ${tone.chip} text-[9px] font-bold flex items-center gap-0.5"><span class="material-symbols-outlined text-[10px]">${roleIcon}</span> ${roleRu}</div>
+<div class="bg-black/75 px-1 py-0.5 rounded border border-outline-variant/40 text-[10px]">${dojoElIcon(elKey)}</div>
+</div>
+<div class="relative z-10 mt-auto p-1.5 flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent pointer-events-none">
+<div class="font-bold text-[11px] text-white truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">${name}</div>
+<div class="flex items-center justify-between mt-1 gap-1">
+<span class="${tone.stat} font-bold text-[10px] drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">${hp} HP</span>
+<span class="col-roster-cta bg-black/60 backdrop-blur-sm ${tone.btn} border text-[9px] font-bold px-1.5 py-0.5 rounded shadow-sm truncate max-w-[55%]">${cta}</span>
+</div>
+</div>
+</div>`;
     })
     .join("");
+  // D-040: framed roster cats always face right.
+  list.querySelectorAll(".col-roster-card img.mf-hero-portrait").forEach((img) => {
+    applySpriteFacing(img, {
+      artSrc: img.getAttribute("src") || "",
+      desiredFace: "right",
+    });
+  });
   return shown;
 }
 
