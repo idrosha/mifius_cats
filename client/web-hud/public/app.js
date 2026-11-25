@@ -15991,7 +15991,7 @@ function renderPveFight() {
   }
 }
 
-/** Arena squads = collection presets (COL_SQUADS: PvE + PvP). */
+/** Arena squads = collection presets (COL_SQUADS). */
 const PVP_DPS_ROLES = new Set(["fighter", "assassin", "ranger", "mage"]);
 const PVP_FOE_NAMES = ["Свора Гладиаторов", "Клык Арены", "Тень Колизея", "Рёв Трибун", "Лапы Судьбы"];
 
@@ -16532,9 +16532,9 @@ function renderAll() {
 }
 
 /** D-031 collection HUD stub — roster from profile, local preset persist. */
-/** SL editable squads: PvE + PvP (of presets[5] cap). */
-const COL_SQUADS = 2;
-const COL_SQUAD_NAMES = ["PvE", "PvP"];
+/** SL editable squads (of presets[5] cap from FULL-SPEC §1). */
+const COL_SQUADS = 4;
+const COL_SQUAD_NAMES = ["PvE", "PvP", "Отряд 3", "Отряд 4"];
 const COL_SQUAD_OLD_NAMES = ["Основной", "Второй эшелон", "Резерв"];
 
 function collectionRosterCats() {
@@ -16951,11 +16951,11 @@ function renderCollectionTeams(cats) {
 
   const headerTitle = host.closest("section")?.querySelector("h2");
   if (headerTitle) {
-    headerTitle.textContent = "Боевые Связки · PvE и PvP (2 команды)";
+    headerTitle.textContent = `Боевые Связки · ${COL_SQUADS} команды`;
   }
   const headerSub = headerTitle?.parentElement?.querySelector("p");
   if (headerSub) {
-    headerSub.textContent = "Два отряда 3v3: PvE (Мифмир / данжи) и PvP (Колизей) · Тыл · DPS · Танк";
+    headerSub.textContent = `${COL_SQUADS} отряда 3v3 · Тыл · DPS · Танк · local stub`;
   }
 
   const slotHtml = (pi, i, slotCats) => {
@@ -17013,12 +17013,12 @@ function renderCollectionTeams(cats) {
       ${Array.from({ length: COL_SQUADS }, (_, pi) => teamCard(pi)).join("")}
     </div>
     <div class="flex gap-2 pt-1 border-t border-surface-container-highest/40 flex-shrink-0 flex-wrap">
-      <button type="button" data-col-act="apply" class="flex-1 py-1.5 rounded bg-primary text-on-primary font-label-sm text-[11px] font-bold">Сохранить 2 отряда</button>
+      <button type="button" data-col-act="apply" class="flex-1 py-1.5 rounded bg-primary text-on-primary font-label-sm text-[11px] font-bold">Сохранить ${COL_SQUADS} отряда</button>
       <button type="button" data-col-act="autopick" class="py-1.5 px-3 rounded bg-surface-container-high text-primary border border-primary/40 font-label-sm text-[11px] font-bold">Авто · активный</button>
-      <button type="button" data-col-act="autopick-all" class="py-1.5 px-3 rounded bg-surface-container-high text-primary border border-primary/40 font-label-sm text-[11px] font-bold">Авто · PvE+PvP</button>
+      <button type="button" data-col-act="autopick-all" class="py-1.5 px-3 rounded bg-surface-container-high text-primary border border-primary/40 font-label-sm text-[11px] font-bold">Авто · все</button>
       <button type="button" data-col-act="codex" class="py-1.5 px-3 rounded bg-surface-container-high text-on-surface font-label-sm text-[11px] font-bold">Кодекс</button>
     </div>
-    <p class="text-[10px] text-on-surface-variant m-0">2 отряда · PvE + PvP · local stub · не SoT боя</p>`;
+    <p class="text-[10px] text-on-surface-variant m-0">${COL_SQUADS} отряда · local stub · не SoT боя</p>`;
 }
 
 function renderCollection() {
@@ -17136,7 +17136,7 @@ function bindCollectionRoster() {
       }
       if (act === "apply") {
         persistCollectionStub();
-        toast("2 отряда сохранены · PvE + PvP (local · не SoT боя)");
+        toast(`${COL_SQUADS} отряда сохранены · local · не SoT боя`);
         return;
       }
     }
@@ -17970,10 +17970,10 @@ function renderPvpArenaSquadList() {
             .map((c) => catSheetName(c).split(/\s+/)[0])
             .join(" · ")
         : "Соберите в Коллекции";
-    return `<article data-arena-squad="${pi}" class="arena-squad${on ? " is-on" : ""} rounded-lg border ${on ? "border-primary/60" : "border-outline-variant/40"} bg-[#1a1613] p-1.5 cursor-pointer hover:border-primary/50 transition-colors" tabindex="0">
-<header class="flex items-center justify-between gap-1 mb-1"><b class="text-[10px] ${on ? "text-primary" : "text-on-surface-variant"} font-bold">${title}</b>${on ? `<i class="text-[9px] text-secondary not-italic font-bold">Активен</i>` : filled < 3 ? `<span class="text-[9px] text-outline">${filled}/3</span>` : ""}</header>
+    return `<article data-arena-squad="${pi}" class="arena-squad${on ? " is-on" : ""} rounded-lg border ${on ? "border-primary/60" : "border-outline-variant/40"} bg-[#1a1613] px-1.5 py-1 cursor-pointer hover:border-primary/50 transition-colors" tabindex="0">
+<header class="flex items-center justify-between gap-1 mb-0.5"><b class="text-[10px] ${on ? "text-primary" : "text-on-surface-variant"} font-bold">${title}</b>${on ? `<i class="text-[9px] text-secondary not-italic font-bold">Активен</i>` : filled < 3 ? `<span class="text-[9px] text-outline">${filled}/3</span>` : ""}</header>
 <div class="flex gap-1.5 justify-center items-center">${faces}</div>
-<p class="text-center text-[9px] text-outline mt-1 truncate">${hint}</p>
+<p class="text-center text-[9px] text-outline mt-0.5 truncate">${hint}</p>
 </article>`;
   }).join("");
 }
