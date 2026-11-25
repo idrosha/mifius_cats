@@ -1149,6 +1149,9 @@ const state = {
     { id: "auc_7", name: "weapon_flint_bow", bid: 260, kind: "weapon" },
     { id: "auc_8", name: "craft_mint_bundle", bid: 70, kind: "ingredient" },
   ],
+  auctionQuery: "",
+  auctionCat: "all",
+  auctionRank: "all",
   codexEntryId: "class_sets",
   codexFilter: "all",
   codexQuery: "",
@@ -7059,6 +7062,136 @@ function renderTavern() {
   }
 }
 
+/** Painted Stitch lots in `#lots-container` — category/rank meta for HUD filters (stub). */
+const AUCTION_LOT_META = {
+  1: { cat: "armor", rank: 8 },
+  2: { cat: "weapon", rank: 6 },
+  3: { cat: "cats", rank: 0 },
+  4: { cat: "gems", rank: 0 },
+  5: { cat: "weapon", rank: 5 },
+  6: { cat: "armor", rank: 8 },
+  7: { cat: "armor", rank: 8 },
+  8: { cat: "armor", rank: 8 },
+  9: { cat: "gems", rank: 0 },
+  10: { cat: "resources", rank: 0 },
+  11: { cat: "resources", rank: 0 },
+};
+
+const AUCTION_CAT_ON = ["bg-surface-container-highest", "text-primary"];
+const AUCTION_CAT_OFF = [
+  "bg-surface-container",
+  "text-on-surface-variant",
+  "bg-primary-container/20",
+  "text-primary-fixed-dim",
+];
+const AUCTION_RANK_ON = ["bg-surface-container-highest", "text-primary", "shadow-inner"];
+const AUCTION_RANK_OFF = [
+  "bg-surface-container",
+  "text-on-surface-variant",
+  "text-tertiary-fixed",
+  "shadow-inner",
+];
+
+function auctionRankMatches(rank, band) {
+  if (!band || band === "all") return true;
+  const n = Number(rank) || 0;
+  if (!n) return false;
+  if (band === "1-3") return n >= 1 && n <= 3;
+  if (band === "4-6") return n >= 4 && n <= 6;
+  if (band === "7-8") return n >= 7 && n <= 8;
+  return true;
+}
+
+/** Substring + short RU stem so «Багровый» hits «Багровые». */
+function auctionTextMatch(hay, q) {
+  if (!q) return true;
+  if (hay.includes(q)) return true;
+  if (q.length >= 5 && hay.includes(q.slice(0, -2))) return true;
+  return false;
+}
+
+function applyAuctionLotFilters() {
+  const root = $("viewAuction");
+  if (!root) return;
+  const host = root.querySelector("#lots-container");
+  if (!host) return;
+  if (state.auctionQuery == null) state.auctionQuery = "";
+  if (!state.auctionCat) state.auctionCat = "all";
+  if (!state.auctionRank) state.auctionRank = "all";
+  const q = String(state.auctionQuery || "")
+    .trim()
+    .toLowerCase();
+  const cat = state.auctionCat || "all";
+  const rankBand = state.auctionRank || "all";
+  let visible = 0;
+  host.querySelectorAll(".lot-card").forEach((card) => {
+    const id = card.getAttribute("data-lot-id") || "";
+    const meta = AUCTION_LOT_META[id] || {};
+    if (!card.getAttribute("data-auction-cat") && meta.cat) {
+      card.setAttribute("data-auction-cat", meta.cat);
+    }
+    if (!card.hasAttribute("data-auction-rank") && meta.rank != null) {
+      card.setAttribute("data-auction-rank", String(meta.rank));
+    }
+    const lotCat = card.getAttribute("data-auction-cat") || meta.cat || "";
+    const lotRank = Number(card.getAttribute("data-auction-rank") || meta.rank || 0);
+    const hay = (card.textContent || "").toLowerCase();
+    const okCat = cat === "all" || lotCat === cat;
+    const okRank = auctionRankMatches(lotRank, rankBand);
+    const okQuery = auctionTextMatch(hay, q);
+    const show = okCat && okRank && okQuery;
+    card.style.display = show ? "flex" : "none";
+    if (show) visible += 1;
+  });
+  const countEl = root.querySelector("#auctionLotCount");
+  if (countEl) countEl.textContent = String(visible);
+
+  root.querySelectorAll(".auction-cat-chip").forEach((btn) => {
+    const on = (btn.getAttribute("data-auction-cat") || "all") === cat;
+    AUCTION_CAT_OFF.forEach((c) => btn.classList.remove(c));
+    AUCTION_CAT_ON.forEach((c) => btn.classList.toggle(c, on));
+    if (!on) {
+      btn.classList.add("bg-surface-container", "text-on-surface-variant");
+    }
+  });
+  root.querySelectorAll(".auction-rank-chip").forEach((btn) => {
+    const on = (btn.getAttribute("data-auction-rank") || "all") === rankBand;
+    AUCTION_RANK_OFF.forEach((c) => btn.classList.remove(c));
+    AUCTION_RANK_ON.forEach((c) => btn.classList.toggle(c, on));
+    if (!on) {
+      btn.classList.add("bg-surface-container", "text-on-surface-variant");
+    }
+  });
+}
+
+function bindAuctionFilters(root) {
+  if (!root || root.dataset.auctionFilterBound === "1") return;
+  root.dataset.auctionFilterBound = "1";
+  const search = root.querySelector("#auctionSearch");
+  if (search) {
+    search.value = state.auctionQuery || "";
+    search.addEventListener("input", () => {
+      state.auctionQuery = search.value || "";
+      applyAuctionLotFilters();
+    });
+  }
+  root.addEventListener("click", (ev) => {
+    const catBtn = ev.target.closest(".auction-cat-chip");
+    if (catBtn && root.contains(catBtn)) {
+      ev.preventDefault();
+      state.auctionCat = catBtn.getAttribute("data-auction-cat") || "all";
+      applyAuctionLotFilters();
+      return;
+    }
+    const rankBtn = ev.target.closest(".auction-rank-chip");
+    if (rankBtn && root.contains(rankBtn)) {
+      ev.preventDefault();
+      state.auctionRank = rankBtn.getAttribute("data-auction-rank") || "all";
+      applyAuctionLotFilters();
+    }
+  });
+}
+
 function renderAuction() {
   const eyebrow = $("auctionEyebrow");
   if (eyebrow) eyebrow.textContent = t("hub.tab.auction", "Аукцион");
@@ -7110,6 +7243,11 @@ function renderAuction() {
       listBtn.addEventListener("click", () => showGateTip());
       el.appendChild(listBtn);
     }
+  }
+  const stitch = $("viewAuction");
+  if (stitch) {
+    bindAuctionFilters(stitch);
+    applyAuctionLotFilters();
   }
 }
 
