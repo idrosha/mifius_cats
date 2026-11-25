@@ -1,35 +1,239 @@
 <section id="viewResultWin" class="stitch-view mythfel-form hidden" data-stitch="result_win" data-layout="landscape">
-<main class="wf" data-purpose="wireframe" data-screen="Победа" >
-<header class="wf-head">
-<div>
-<p class="wf-eyebrow">Итог боя · победа</p>
-<h1>Победа</h1>
-<p>Шаблон победы: лут/XP, бейдж режима, кнопки ещё / в меню.</p>
+<!-- Stitch: dungeon/raid victory · no site #appNav chrome (D-025) -->
+<main class="w-full h-full min-h-0 bg-surface relative overflow-hidden" data-purpose="result-win"><div class="flex flex-col w-full relative overflow-hidden select-none">
+<!-- Dynamic Cinematic Tavern Hearth Backdrop -->
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-cover bg-center scale-105 filter brightness-[0.38] contrast-125 transition-transform duration-1000 ease-out" data-mf-bg="/stitch-assets/result-win/bg.jpg" data-alt="Grandiose medieval stone fantasy tavern feast hall filled with triumphant light beams, arched hearth fireplace radiating warm amber fire glow, celebratory banners, shields, scattered gold coins, and floating warm dust sparks in painterly hearthstone style." >
 </div>
-<div class="wf-tags"><span class="wf-tag">landscape 16:9</span><span class="wf-tag">блоки без картинок</span><span class="wf-tag">без подвала</span></div>
+<!-- Layered radial vignette and ambient gold illumination glow -->
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface/80 to-surface-container-lowest/90 mix-blend-multiply"></div>
+<div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary-container/10 via-transparent to-surface-container-lowest/95 pointer-events-none"></div>
+<!-- Floating Victory Embers Particles Canvas -->
+<div class="absolute inset-0 pointer-events-none opacity-40 mix-blend-screen">
+<div class="absolute w-2 h-2 rounded-full bg-primary animate-ping top-1/4 left-1/5"></div>
+<div class="absolute w-1.5 h-1.5 rounded-full bg-primary-container animate-pulse top-1/3 right-1/4"></div>
+<div class="absolute w-2 h-2 rounded-full bg-tertiary animate-pulse top-2/3 left-1/3"></div>
+<div class="absolute w-1 h-1 rounded-full bg-primary top-1/2 right-1/6"></div>
+<div class="absolute w-2.5 h-2.5 rounded-full bg-primary-fixed top-3/4 right-1/3 animate-ping"></div>
+</div>
+</div>
+<!-- Main Content Viewport: Pure 16:9 Widescreen Command Layout -->
+<div class="relative z-10 w-full max-w-[1920px] mx-auto px-margin md:px-margin-tablet py-space-sm flex flex-col justify-between min-h-full">
+<!-- SECTION 1: HEADER & TRIUMPH BANNER -->
+<header class="flex flex-col items-center justify-center text-center relative py-space-xs">
+<!-- Breadcrumb Bar -->
+<div class="flex items-center gap-space-xs text-on-surface-variant text-label-sm font-label-sm uppercase tracking-widest bg-surface-container-lowest/80 px-space-md py-0.5 rounded-full shadow-md backdrop-blur-md mb-space-xs">
+<span class="hover:text-primary transition-colors cursor-pointer">Данжи</span>
+<span class="text-outline text-[10px]">/</span>
+<span class="hover:text-primary transition-colors cursor-pointer" id="rwCrumbMode">Катакомбы Псов (Рейд Легиона 12)</span>
+<span class="text-outline text-[10px]">/</span>
+<span class="text-primary font-bold">Итоги Битвы</span>
+</div>
+<!-- Triumph Grand Crest & Title -->
+<div class="flex items-center justify-center gap-space-lg w-full max-w-4xl relative">
+<div class="hidden lg:flex items-center gap-space-xs text-primary/70">
+<span class="material-symbols-outlined text-[36px]">swords</span>
+<span class="material-symbols-outlined text-[28px]">military_tech</span>
+</div>
+<div class="flex flex-col items-center">
+<div class="flex items-center gap-space-xs text-primary drop-shadow-[0_0_14px_rgba(253,186,69,0.6)]">
+<span class="material-symbols-outlined text-[32px]">workspace_premium</span>
+<h1 class="font-headline-xl text-headline-xl text-primary tracking-wider uppercase font-extrabold drop-shadow-[0_2px_12px_rgba(0,0,0,0.9)]">
+              <span id="rwTitle">Славная Победа Легиона!</span>
+            </h1>
+<span class="material-symbols-outlined text-[32px]">workspace_premium</span>
+</div>
+<p class="font-body-md text-body-md text-on-surface drop-shadow-md mt-0.5 flex items-center gap-space-sm flex-wrap justify-center">
+<span>Пит-Босс <span class="text-tertiary font-bold"><span id="rwBoss">Генерал Дог</span></span> (Верховный Инквизитор) повержен за <strong class="text-primary"><span id="rwRounds">6 раундов</span></strong></span>
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span>Время боя: <strong class="text-on-surface font-stat-numeral"><span id="rwTime">03:42</span></strong></span>
+<span class="w-1.5 h-1.5 rounded-full bg-outline"></span>
+<span class="text-secondary font-bold flex items-center gap-1">
+<span class="material-symbols-outlined text-[16px]">verified</span> Потерь: 0 (Идеально)
+            </span>
+</p>
+</div>
+<div class="hidden lg:flex items-center gap-space-xs text-primary/70">
+<span class="material-symbols-outlined text-[28px]">military_tech</span>
+<span class="material-symbols-outlined text-[36px]">shield</span>
+</div>
+</div>
+<!-- Match Stat Badges Carousel Strip -->
+<div class="flex items-center justify-center gap-space-sm mt-space-xs flex-wrap">
+<div class="flex items-center gap-space-xs px-space-md py-0.5 rounded-full bg-surface-container-high/90 shadow-md">
+<span class="material-symbols-outlined text-tertiary text-[16px]">local_fire_department</span>
+<span class="text-label-md font-label-md text-on-surface-variant">Сложность: <strong class="text-tertiary font-bold">Мифическая V</strong></span>
+</div>
+<div class="flex items-center gap-space-xs px-space-md py-0.5 rounded-full bg-surface-container-high/90 shadow-md">
+<span class="material-symbols-outlined text-primary text-[16px]">upgrade</span>
+<span class="text-label-md font-label-md text-on-surface-variant">Опыт Хранителя: <strong class="text-primary font-bold"><span id="rwXp">+4,850 XP</span></strong></span>
+</div>
+<div class="flex items-center gap-space-xs px-space-md py-0.5 rounded-full bg-surface-container-high/90 shadow-md">
+<span class="material-symbols-outlined text-secondary text-[16px]">shield_moon</span>
+<span class="text-label-md font-label-md text-on-surface-variant">Слава Гильдии: <strong class="text-secondary font-bold">+1,200</strong></span>
+</div>
+<div class="flex items-center gap-space-xs px-space-md py-0.5 rounded-full bg-primary-container/20 shadow-md">
+<span class="text-primary font-bold tracking-widest text-[14px]">★★★</span>
+<span class="text-label-md font-label-md text-primary font-extrabold uppercase">Триумф Мастера</span>
+</div>
+</div>
 </header>
-<div class="wf-body grid-cols-1 lg:grid-cols-12">
-<section class="wf-block lg:col-span-7"><h2>Заголовок</h2><p class="hint">Крупно Победа + бейдж режима.</p><div class="wf-row" style="justify-content:center;font-size:1.6rem;font-weight:900;color:#fdba45">Победа</div><div class="wf-grid"><div class="wf-row"><span>Режим</span><span>Мифмир / PvP / Данж</span></div>
-<div class="wf-row"><span>XP</span><span>+120</span></div>
-<div class="wf-row"><span>Лут</span><span>fish · yarn</span></div></div></section>
-<section class="wf-block lg:col-span-5"><h2>Дальше</h2><p class="hint">CTA после боя.</p><div class="wf-tags" style="flex-direction:column;align-items:stretch"><button type="button" class="wf-cta" data-hud-action="result-retry">Ещё бой</button><button type="button" class="wf-cta ghost" data-hud-action="result-formation">Расстановка</button><button type="button" class="wf-cta muted" data-hud-action="result-hub">В Хаб</button></div></section>
+<!-- SECTION 2: BATTLE ARENA ROSTER & LOOT SPLIT (16:9 Balanced) -->
+<div class="flex flex-col gap-space-sm w-full my-auto"><div class="grid grid-cols-1 lg:grid-cols-4 gap-space-md w-full"><div class="bg-surface-container-low/95 backdrop-blur-md rounded-xl p-space-sm shadow-xl flex flex-col gap-space-xs border border-outline-variant/30"><div class="flex items-center justify-between px-space-xs pb-1 border-b border-outline-variant/30"><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px] text-primary">security</span><span class="font-label-md text-label-md text-primary font-bold uppercase tracking-wide">I. Авангард</span></div><span class="text-[11px] text-secondary font-bold flex items-center gap-1"><span class="material-symbols-outlined text-[14px]">check_circle</span> 100% HP</span></div><div class="grid grid-cols-3 gap-space-xs"><div class="bg-surface-container-high/90 hover:bg-surface-bright/90 rounded-lg p-space-xs flex flex-col items-center text-center relative overflow-hidden transition-all duration-200 group border border-primary/40 shadow-md"><div class="absolute top-1.5 left-1.5 bg-primary text-on-primary font-label-sm text-[9px] px-1.5 py-0.5 rounded font-black z-10 shadow">MVP 🛡️</div><div class="relative w-full h-28 rounded-md bg-surface-container-lowest overflow-hidden shadow-inner mb-1.5"><img data-rw-slot="0" data-rw-tid="shop_tank_fire" decoding="async" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" data-alt="Chibi armored warrior cat knight with a massive polished runic tower shield in golden fantasy armor with radiant stone glow." src="/stitch-assets/cat-heroes/tank-fire.webp?v=gear18c"><div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent h-8"></div><span class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-surface-container-lowest/90 text-primary">Земля</span></div><span class="font-label-md text-label-md text-primary font-bold truncate w-full" data-rw-name="0">Барсик Щит</span><div class="w-full bg-surface-container-lowest h-2 rounded-full overflow-hidden my-1"><div class="bg-secondary h-full rounded-full w-full"></div></div><div class="flex flex-col text-[11px] text-on-surface-variant w-full leading-tight"><span class="text-on-surface font-semibold">7.8k HP</span><span class="text-secondary font-bold">64.2k Блок 🛡️</span></div></div><div class="bg-surface-container-high/90 hover:bg-surface-bright/90 rounded-lg p-space-xs flex flex-col items-center text-center relative overflow-hidden transition-all duration-200 group border border-outline-variant/30 shadow-md"><div class="relative w-full h-28 rounded-md bg-surface-container-lowest overflow-hidden shadow-inner mb-1.5"><img data-rw-slot="1" data-rw-tid="shop_tank_water" decoding="async" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" data-alt="Fierce heavy armored tiger cat off-tank with granite stone spiked shoulder pauldrons and spiked granite mace." src="/stitch-assets/cat-heroes/tank-water.webp?v=gear18c"><div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent h-8"></div><span class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-surface-container-lowest/90 text-outline">Камень</span></div><span class="font-label-md text-label-md text-on-surface font-bold truncate w-full" data-rw-name="1">Титан Пробой</span><div class="w-full bg-surface-container-lowest h-2 rounded-full overflow-hidden my-1"><div class="bg-secondary h-full rounded-full w-full"></div></div><div class="flex flex-col text-[11px] text-on-surface-variant w-full leading-tight"><span class="text-on-surface font-semibold">6.9k HP</span><span class="text-on-surface">38.4k Блок</span></div></div><div class="bg-surface-container-high/90 hover:bg-surface-bright/90 rounded-lg p-space-xs flex flex-col items-center text-center relative overflow-hidden transition-all duration-200 group border border-outline-variant/30 shadow-md"><div class="relative w-full h-28 rounded-md bg-surface-container-lowest overflow-hidden shadow-inner mb-1.5"><img data-rw-slot="2" data-rw-tid="shop_tank_wind" decoding="async" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" data-alt="Ancient mossy nature ent guardian cat with carved wooden bark armor glowing with green forest runes." src="/stitch-assets/cat-heroes/tank-wind.webp?v=gear18c"><div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent h-8"></div><span class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-surface-container-lowest/90 text-secondary">Лес</span></div><span class="font-label-md text-label-md text-on-surface font-bold truncate w-full" data-rw-name="2">Дубовый Страж</span><div class="w-full bg-surface-container-lowest h-2 rounded-full overflow-hidden my-1"><div class="bg-secondary h-full rounded-full w-full"></div></div><div class="flex flex-col text-[11px] text-on-surface-variant w-full leading-tight"><span class="text-on-surface font-semibold">8.4k HP</span><span class="text-tertiary font-medium">12.5k Возврат</span></div></div></div></div><div class="bg-surface-container-low/95 backdrop-blur-md rounded-xl p-space-sm shadow-xl flex flex-col gap-space-xs border border-outline-variant/30"><div class="flex items-center justify-between px-space-xs pb-1 border-b border-outline-variant/30"><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px] text-tertiary">sports_martial_arts</span><span class="font-label-md text-label-md text-tertiary font-bold uppercase tracking-wide">II. Штурм</span></div><span class="text-[11px] text-tertiary font-bold">146.9k DPS</span></div><div class="grid grid-cols-3 gap-space-xs"><div class="bg-surface-container-high/90 hover:bg-surface-bright/90 rounded-lg p-space-xs flex flex-col items-center text-center relative overflow-hidden transition-all duration-200 group border border-tertiary/40 shadow-md"><div class="absolute top-1.5 left-1.5 bg-tertiary-container text-on-tertiary-container font-label-sm text-[9px] px-1.5 py-0.5 rounded font-black z-10 shadow">MVP ⚔️</div><div class="relative w-full h-28 rounded-md bg-surface-container-lowest overflow-hidden shadow-inner mb-1.5"><img data-rw-slot="3" data-rw-tid="shop_fighter_fire" decoding="async" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" data-alt="Aggressive ginger berserker cat warrior wielding dual flaming crimson steel claws leaping into fray." src="/stitch-assets/cat-heroes/fighter-fire.webp?v=gear18c"><div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent h-8"></div><span class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-surface-container-lowest/90 text-tertiary">Огонь</span></div><span class="font-label-md text-label-md text-tertiary font-bold truncate w-full" data-rw-name="3">Рыжик Когти</span><div class="w-full bg-surface-container-lowest h-2 rounded-full overflow-hidden my-1"><div class="bg-secondary h-full rounded-full w-full"></div></div><div class="flex flex-col text-[11px] text-on-surface-variant w-full leading-tight"><span class="text-on-surface font-semibold">3.1k HP</span><span class="text-tertiary font-extrabold">58.9k Урон ⚔️</span></div></div><div class="bg-surface-container-high/90 hover:bg-surface-bright/90 rounded-lg p-space-xs flex flex-col items-center text-center relative overflow-hidden transition-all duration-200 group border border-outline-variant/30 shadow-md"><div class="relative w-full h-28 rounded-md bg-surface-container-lowest overflow-hidden shadow-inner mb-1.5"><img data-rw-slot="4" data-rw-tid="shop_fighter_water" decoding="async" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" data-alt="Muscular heavy two-handed greatsword tiger cat warrior in battered spiked steel plate armor." src="/stitch-assets/cat-heroes/fighter-water.webp?v=gear18c"><div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent h-8"></div><span class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-surface-container-lowest/90 text-tertiary">Огонь</span></div><span class="font-label-md text-label-md text-on-surface font-bold truncate w-full" data-rw-name="4">Гром Двуруч</span><div class="w-full bg-surface-container-lowest h-2 rounded-full overflow-hidden my-1"><div class="bg-secondary h-full rounded-full w-full"></div></div><div class="flex flex-col text-[11px] text-on-surface-variant w-full leading-tight"><span class="text-on-surface font-semibold">4.1k HP</span><span class="text-on-surface">46.2k Урон</span></div></div><div class="bg-surface-container-high/90 hover:bg-surface-bright/90 rounded-lg p-space-xs flex flex-col items-center text-center relative overflow-hidden transition-all duration-200 group border border-outline-variant/30 shadow-md"><div class="relative w-full h-28 rounded-md bg-surface-container-lowest overflow-hidden shadow-inner mb-1.5"><img data-rw-slot="5" data-rw-tid="shop_assassin_fire" decoding="async" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" data-alt="Stealthy black shadow panther cat assassin cloaked in smoke with lightning daggers." src="/stitch-assets/cat-heroes/assassin-fire.webp?v=gear18c"><div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent h-8"></div><span class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-surface-container-lowest/90 text-primary">Молния</span></div><span class="font-label-md text-label-md text-on-surface font-bold truncate w-full" data-rw-name="5">Тень Ассасин</span><div class="w-full bg-surface-container-lowest h-2 rounded-full overflow-hidden my-1"><div class="bg-secondary h-full rounded-full w-full"></div></div><div class="flex flex-col text-[11px] text-on-surface-variant w-full leading-tight"><span class="text-on-surface font-semibold">2.7k HP</span><span class="text-primary font-bold">41.8k (x3)</span></div></div></div></div><div class="bg-surface-container-low/95 backdrop-blur-md rounded-xl p-space-sm shadow-xl flex flex-col gap-space-xs border border-outline-variant/30"><div class="flex items-center justify-between px-space-xs pb-1 border-b border-outline-variant/30"><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px] text-primary">auto_fix_high</span><span class="font-label-md text-label-md text-primary font-bold uppercase tracking-wide">III. Магия &amp; Дальний</span></div><span class="text-[11px] text-on-surface-variant">Стан: 14с</span></div><div class="grid grid-cols-3 gap-space-xs"><div class="bg-surface-container-high/90 hover:bg-surface-bright/90 rounded-lg p-space-xs flex flex-col items-center text-center relative overflow-hidden transition-all duration-200 group border border-outline-variant/30 shadow-md"><div class="relative w-full h-28 rounded-md bg-surface-container-lowest overflow-hidden shadow-inner mb-1.5"><img data-rw-slot="6" data-rw-tid="shop_mage_fire" decoding="async" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" data-alt="Mystical calico flame pyromancer wizard cat holding an ornate glowing wooden staff with a floating fireball orb." src="/stitch-assets/cat-heroes/mage-fire.webp?v=gear18c"><div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent h-8"></div><span class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-surface-container-lowest/90 text-tertiary">Огонь</span></div><span class="font-label-md text-label-md text-on-surface font-bold truncate w-full" data-rw-name="6">Игниус Пламя</span><div class="w-full bg-surface-container-lowest h-2 rounded-full overflow-hidden my-1"><div class="bg-secondary h-full rounded-full w-full"></div></div><div class="flex flex-col text-[11px] text-on-surface-variant w-full leading-tight"><span class="text-on-surface font-semibold">2.2k HP</span><span class="text-primary font-bold">39.4k AoE</span></div></div><div class="bg-surface-container-high/90 hover:bg-surface-bright/90 rounded-lg p-space-xs flex flex-col items-center text-center relative overflow-hidden transition-all duration-200 group border border-outline-variant/30 shadow-md"><div class="relative w-full h-28 rounded-md bg-surface-container-lowest overflow-hidden shadow-inner mb-1.5"><img data-rw-slot="7" data-rw-tid="shop_mage_water" decoding="async" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" data-alt="Elegant white frost sorceress cat with icy crystal blue tiara and ice shard runic wand." src="/stitch-assets/cat-heroes/mage-water.webp?v=gear18c"><div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent h-8"></div><span class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-surface-container-lowest/90 text-secondary-fixed">Лёд</span></div><span class="font-label-md text-label-md text-on-surface font-bold truncate w-full" data-rw-name="7">Фростия Лёд</span><div class="w-full bg-surface-container-lowest h-2 rounded-full overflow-hidden my-1"><div class="bg-secondary h-full rounded-full w-full"></div></div><div class="flex flex-col text-[11px] text-on-surface-variant w-full leading-tight"><span class="text-on-surface font-semibold">2.3k HP</span><span class="text-on-surface">Заморозка</span></div></div><div class="bg-surface-container-high/90 hover:bg-surface-bright/90 rounded-lg p-space-xs flex flex-col items-center text-center relative overflow-hidden transition-all duration-200 group border border-outline-variant/30 shadow-md"><div class="relative w-full h-28 rounded-md bg-surface-container-lowest overflow-hidden shadow-inner mb-1.5"><img data-rw-slot="8" data-rw-tid="shop_ranger_fire" decoding="async" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" data-alt="Lynx feline master ranger cat with a heavy engraved wooden recurve longbow and glowing emerald arrows." src="/stitch-assets/cat-heroes/ranger-fire.webp?v=gear18c"><div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent h-8"></div><span class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-surface-container-lowest/90 text-secondary">Ветер</span></div><span class="font-label-md text-label-md text-on-surface font-bold truncate w-full" data-rw-name="8">Лео Стрелок</span><div class="w-full bg-surface-container-lowest h-2 rounded-full overflow-hidden my-1"><div class="bg-secondary h-full rounded-full w-full"></div></div><div class="flex flex-col text-[11px] text-on-surface-variant w-full leading-tight"><span class="text-on-surface font-semibold">2.6k HP</span><span class="text-on-surface">34.1k DPS</span></div></div></div></div><div class="bg-surface-container-low/95 backdrop-blur-md rounded-xl p-space-sm shadow-xl flex flex-col gap-space-xs border border-outline-variant/30"><div class="flex items-center justify-between px-space-xs pb-1 border-b border-outline-variant/30"><div class="flex items-center gap-1.5"><span class="material-symbols-outlined text-[18px] text-secondary">vital_signs</span><span class="font-label-md text-label-md text-secondary font-bold uppercase tracking-wide">IV. Тыл &amp; Хил</span></div><span class="text-[11px] text-secondary font-bold">Хил: 100%</span></div><div class="grid grid-cols-3 gap-space-xs"><div class="bg-surface-container-high/90 hover:bg-surface-bright/90 rounded-lg p-space-xs flex flex-col items-center text-center relative overflow-hidden transition-all duration-200 group border border-secondary/40 shadow-md"><div class="absolute top-1.5 left-1.5 bg-secondary text-on-secondary font-label-sm text-[9px] px-1.5 py-0.5 rounded font-black z-10 shadow">MVP 💧</div><div class="relative w-full h-28 rounded-md bg-surface-container-lowest overflow-hidden shadow-inner mb-1.5"><img data-rw-slot="9" data-rw-tid="shop_support_water" decoding="async" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" data-alt="Serene sacred blue-eyed water priestess cat with pearl ornaments and floating healing water bubbles." src="/stitch-assets/cat-heroes/support-water.webp?v=gear18c"><div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent h-8"></div><span class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-surface-container-lowest/90 text-secondary">Вода</span></div><span class="font-label-md text-label-md text-secondary font-bold truncate w-full" data-rw-name="9">Мурка Родник</span><div class="w-full bg-surface-container-lowest h-2 rounded-full overflow-hidden my-1"><div class="bg-secondary h-full rounded-full w-full"></div></div><div class="flex flex-col text-[11px] text-on-surface-variant w-full leading-tight"><span class="text-on-surface font-semibold">2.4k HP</span><span class="text-secondary font-black">42.6k Хил 💧</span></div></div><div class="bg-surface-container-high/90 hover:bg-surface-bright/90 rounded-lg p-space-xs flex flex-col items-center text-center relative overflow-hidden transition-all duration-200 group border border-outline-variant/30 shadow-md"><div class="relative w-full h-28 rounded-md bg-surface-container-lowest overflow-hidden shadow-inner mb-1.5"><img data-rw-slot="10" data-rw-tid="shop_support_fire" decoding="async" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" data-alt="Golden angelic cleric cat radiating soft holy halo light with golden bells and blessed scriptures." src="/stitch-assets/cat-heroes/support-fire.webp?v=gear18c"><div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent h-8"></div><span class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-surface-container-lowest/90 text-primary">Свет</span></div><span class="font-label-md text-label-md text-on-surface font-bold truncate w-full" data-rw-name="10">Аурелия</span><div class="w-full bg-surface-container-lowest h-2 rounded-full overflow-hidden my-1"><div class="bg-secondary h-full rounded-full w-full"></div></div><div class="flex flex-col text-[11px] text-on-surface-variant w-full leading-tight"><span class="text-on-surface font-semibold">2.1k HP</span><span class="text-primary font-bold">36 Баффов</span></div></div><div class="bg-surface-container-high/90 hover:bg-surface-bright/90 rounded-lg p-space-xs flex flex-col items-center text-center relative overflow-hidden transition-all duration-200 group border border-outline-variant/30 shadow-md"><div class="relative w-full h-28 rounded-md bg-surface-container-lowest overflow-hidden shadow-inner mb-1.5"><img data-rw-slot="11" data-rw-tid="shop_support_wind" decoding="async" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-200" data-alt="Wise elder shaman cat sitting near an engraved stone earth totem that radiates amber defensive runes." src="/stitch-assets/cat-heroes/support-wind.webp?v=gear18c"><div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-transparent h-8"></div><span class="absolute bottom-1 right-1 px-1.5 py-0.5 rounded text-[9px] font-bold bg-surface-container-lowest/90 text-outline">Земля</span></div><span class="font-label-md text-label-md text-on-surface font-bold truncate w-full" data-rw-name="11">Тотем</span><div class="w-full bg-surface-container-lowest h-2 rounded-full overflow-hidden my-1"><div class="bg-secondary h-full rounded-full w-full"></div></div><div class="flex flex-col text-[11px] text-on-surface-variant w-full leading-tight"><span class="text-on-surface font-semibold">3.6k HP</span><span class="text-on-surface">18 Дебаффов</span></div></div></div></div></div><div class="bg-surface-container-low/95 backdrop-blur-md rounded-xl p-space-md shadow-2xl flex flex-col lg:flex-row items-center gap-space-lg w-full border border-primary/40"><div class="flex items-center gap-space-md shrink-0 px-space-xs"><div class="w-20 h-20 rounded-xl bg-surface-container-lowest overflow-hidden flex items-center justify-center shadow-inner shrink-0 relative border border-primary/40"><img class="w-full h-full object-cover" data-alt="Gleaming heavy iron dungeon treasure chest overflowing with glowing golden gems, runic scroll, and radiant red spiked dragon armor in a stone fantasy crypt." src="/stitch-assets/result-win/chest.jpg"><span class="material-symbols-outlined text-primary text-[32px] absolute inset-0 m-auto drop-shadow-[0_0_8px_rgba(253,186,69,0.8)]">lock_open</span></div><div class="flex flex-col"><div class="flex items-center gap-space-xs"><h3 class="font-headline-md text-headline-md text-on-surface font-extrabold leading-tight text-[20px]">Трофеи Босса</h3><span class="px-space-xs py-0.5 rounded-full bg-primary-container text-on-primary-container text-label-sm font-black text-[12px]">6/6</span></div><span class="text-label-md font-label-md text-primary uppercase font-bold tracking-wider text-[14px]">Сундук Инквизиции (Мифик)</span></div></div><div class="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-6 gap-space-sm flex-1 w-full">
+  <!-- Card 1: Gold -->
+  <div class="bg-surface-container-high/90 hover:bg-surface-bright rounded-xl p-space-xs sm:p-space-sm flex flex-col items-center justify-between text-center shadow-md transition-colors cursor-pointer border border-primary/40 min-h-[92px]">
+    <div class="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center shrink-0 text-primary shadow-inner mb-1">
+      <span class="material-symbols-outlined text-[24px]">monetization_on</span>
+    </div>
+    <div class="flex flex-col items-center justify-center w-full">
+      <span class="font-stat-numeral text-primary leading-tight text-[18px] font-bold">5,000</span>
+      <span class="text-[11px] text-on-surface-variant font-semibold leading-tight mt-0.5">Золото Очага</span>
+    </div>
+  </div>
+
+  <!-- Card 2: Mana -->
+  <div class="bg-surface-container-high/90 hover:bg-surface-bright rounded-xl p-space-xs sm:p-space-sm flex flex-col items-center justify-between text-center shadow-md transition-colors cursor-pointer border border-secondary/40 min-h-[92px]">
+    <div class="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center shrink-0 text-secondary-fixed shadow-inner mb-1">
+      <span class="material-symbols-outlined text-[24px]">cyclone</span>
+    </div>
+    <div class="flex flex-col items-center justify-center w-full">
+      <span class="font-stat-numeral text-secondary-fixed leading-tight text-[18px] font-bold">150</span>
+      <span class="text-[11px] text-on-surface-variant font-semibold leading-tight mt-0.5">Клубки Маны</span>
+    </div>
+  </div>
+
+  <!-- Card 3: Scales -->
+  <div class="bg-surface-container-high/90 hover:bg-surface-bright rounded-xl p-space-xs sm:p-space-sm flex flex-col items-center justify-between text-center shadow-md transition-colors cursor-pointer border border-tertiary/40 min-h-[92px]">
+    <div class="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center shrink-0 text-tertiary shadow-inner mb-1">
+      <span class="material-symbols-outlined text-[24px]">grain</span>
+    </div>
+    <div class="flex flex-col items-center justify-center w-full">
+      <span class="font-stat-numeral text-tertiary leading-tight text-[18px] font-bold">40</span>
+      <span class="text-[11px] text-on-surface-variant font-semibold leading-tight mt-0.5">Чешуя Дракона</span>
+    </div>
+  </div>
+
+  <!-- Card 4: Armor -->
+  <div class="bg-surface-container-high/90 hover:bg-surface-bright rounded-xl p-space-xs sm:p-space-sm flex flex-col items-center justify-between text-center shadow-md transition-colors cursor-pointer border border-tertiary-container/50 relative overflow-hidden min-h-[92px]">
+    <div class="absolute top-0 right-0 w-3 h-3 bg-tertiary-container rounded-bl"></div>
+    <div class="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center shrink-0 text-tertiary-container shadow-inner mb-1">
+      <span class="material-symbols-outlined text-[24px]">shield</span>
+    </div>
+    <div class="flex flex-col items-center justify-center w-full">
+      <span class="text-[12px] text-tertiary font-bold leading-tight">Панцирь</span>
+      <span class="text-[10px] text-on-surface-variant font-medium leading-tight mt-0.5">Ранг 6 · Эпик</span>
+    </div>
+  </div>
+
+  <!-- Card 5: Rune -->
+  <div class="bg-surface-container-high/90 hover:bg-surface-bright rounded-xl p-space-xs sm:p-space-sm flex flex-col items-center justify-between text-center shadow-md transition-colors cursor-pointer border border-primary/40 min-h-[92px]">
+    <div class="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center shrink-0 text-primary shadow-inner mb-1">
+      <span class="material-symbols-outlined text-[24px]">diamond</span>
+    </div>
+    <div class="flex flex-col items-center justify-center w-full">
+      <span class="text-[12px] text-primary font-bold leading-tight">Руна Оружия</span>
+      <span class="text-[10px] text-on-surface-variant font-medium leading-tight mt-0.5">+15 Заточка</span>
+    </div>
+  </div>
+
+  <!-- Card 6: Mythic Scroll -->
+  <div class="bg-surface-container-high/90 hover:bg-surface-bright rounded-xl p-space-xs sm:p-space-sm flex flex-col items-center justify-between text-center shadow-md transition-colors cursor-pointer border border-tertiary-fixed/50 min-h-[92px]">
+    <div class="w-10 h-10 rounded-lg bg-surface-container-lowest flex items-center justify-center shrink-0 text-tertiary-fixed shadow-inner mb-1">
+      <span class="material-symbols-outlined text-[24px]">history_edu</span>
+    </div>
+    <div class="flex flex-col items-center justify-center w-full">
+      <span class="text-[12px] text-tertiary-fixed font-bold leading-tight">Свиток Синтеза</span>
+      <span class="text-[10px] text-on-surface-variant font-medium leading-tight mt-0.5">Мифик Рецепт</span>
+    </div>
+  </div>
+</div><div class="bg-surface-container-lowest/80 rounded-xl px-space-md py-space-sm flex items-center justify-between shrink-0 gap-space-sm border border-secondary/40 shadow-inner"><div class="flex items-center gap-space-xs"><span class="material-symbols-outlined text-secondary text-[24px]">cloud_download</span><div class="flex flex-col"><span class="text-label-md font-label-md text-on-surface font-bold leading-tight text-[14px]">Бонус Гильдии</span><span class="text-[12px] text-on-surface-variant font-medium mt-0.5">+500 Монет • 250 XP</span></div></div><span class="material-symbols-outlined text-secondary text-[20px]">verified</span></div></div></div>
+<!-- SECTION 3: WIDESCREEN ACTION CONTROLS & DEDICATED HOTKEYS -->
+<footer class="bg-surface-container-low/95 backdrop-blur-xl rounded-xl p-space-xs shadow-2xl mt-space-xs">
+<div class="flex flex-col md:flex-row items-center justify-between gap-space-sm px-space-xs">
+<!-- Left: System Status & Diagnostic Meta -->
+<div class="flex items-center gap-space-md text-on-surface-variant text-label-sm font-label-sm">
+<div class="flex items-center gap-1.5">
+<span class="w-2.5 h-2.5 rounded-full bg-secondary animate-pulse"></span>
+<span class="text-on-surface font-medium">Сервер «Очаг Таверны»</span>
+<span class="text-outline text-[11px]">(Пинг 18 ms)</span>
 </div>
-<section class="wf-block" aria-hidden="true" data-purpose="wireframe-pad"><h2>Плотность сетки</h2><p class="hint">Служебные ряды, чтобы форма была заполнена без подвала и дыр.</p><div class="wf-grid"><div class="wf-row" data-pad="Победа-0"><span>Слот макета 1</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Победа-1"><span>Слот макета 2</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Победа-2"><span>Слот макета 3</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Победа-3"><span>Слот макета 4</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Победа-4"><span>Слот макета 5</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Победа-5"><span>Слот макета 6</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Победа-6"><span>Слот макета 7</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Победа-7"><span>Слот макета 8</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Победа-8"><span>Слот макета 9</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Победа-9"><span>Слот макета 10</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Победа-10"><span>Слот макета 11</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Победа-11"><span>Слот макета 12</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Победа-12"><span>Слот макета 13</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Победа-13"><span>Слот макета 14</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Победа-14"><span>Слот макета 15</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Победа-15"><span>Слот макета 16</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Победа-16"><span>Слот макета 17</span><span class="hint">блок заполнения · без пустот</span></div>
-<div class="wf-row" data-pad="Победа-17"><span>Слот макета 18</span><span class="hint">блок заполнения · без пустот</span></div></div></section></main>
+<span class="hidden sm:inline text-outline">•</span>
+<span class="hidden sm:inline text-outline-variant font-mono text-[11px]">v1.4.8-Web Widescreen Raid Edition</span>
+</div>
+<!-- Right: Tactile Action Buttons Array -->
+<div class="flex items-center gap-space-xs w-full md:w-auto justify-end flex-wrap">
+<!-- Button 3: Detailed DPS/HPS breakdown -->
+<button class="px-space-md py-space-xs rounded-lg bg-surface-container-high hover:bg-surface-container-highest text-on-surface font-label-md text-label-md flex items-center gap-1.5 transition-all shadow-md active:scale-95" id="rwBtnStats" type="button" data-hud-action="result-stats">
+<span class="material-symbols-outlined text-[18px]">query_stats</span>
+<span>Статистика DPS / HPS</span>
+<kbd class="px-1 py-0.2 bg-surface-container-lowest rounded text-[9px] text-outline font-mono">TAB</kbd>
+</button>
+<!-- Button 2: Repeat Raid -->
+<button class="px-space-md py-space-xs rounded-lg bg-surface-container-high hover:bg-surface-bright text-tertiary font-label-md text-label-md flex items-center gap-1.5 transition-all shadow-md active:scale-95" id="rwBtnRetry" type="button" data-hud-action="result-retry">
+<span class="material-symbols-outlined text-[18px]">replay</span>
+<span>Повторить (⚡ 12)</span>
+<kbd class="px-1 py-0.2 bg-surface-container-lowest rounded text-[9px] text-outline font-mono">R</kbd>
+</button>
+<!-- Button 1 (PRIMARY): Claim Rewards & Return to Hub -->
+<button class="px-space-lg py-space-xs rounded-lg bg-gradient-to-r from-primary via-primary-container to-primary text-on-primary-container font-label-lg text-label-lg font-black flex items-center gap-2 transition-all shadow-[0_4px_16px_rgba(253,186,69,0.4)] hover:brightness-110 active:scale-95" id="rwBtnHub" type="button" data-hud-action="result-hub">
+<span class="material-symbols-outlined text-[20px]">redeem</span>
+<span>Забрать Награды и в Хаб</span>
+<kbd class="px-1.5 py-0.5 bg-on-primary-container/20 text-on-primary-container rounded text-[10px] font-mono">ПРОБЕЛ</kbd>
+</button>
+</div>
+</div>
+</footer>
+</div>
+<!-- Micro-interaction Logic & Keyboard Hotkeys Handler -->
+<script>
+    (function() {
+      // Hotkey navigation bindings
+      window.addEventListener('keydown', function(e) {
+        if (e.code === 'Space') {
+          e.preventDefault();
+          triggerClaim();
+        } else if (e.key === 'r' || e.key === 'R' || e.key === 'к' || e.key === 'К') {
+          triggerRepeat();
+        } else if (e.code === 'Tab') {
+          e.preventDefault();
+          triggerStats();
+        }
+      });
+
+      const btnClaim = document.getElementById('btn-claim');
+      const btnRepeat = document.getElementById('btn-repeat');
+      const btnStats = document.getElementById('btn-stats');
+
+      if (btnClaim) btnClaim.addEventListener('click', triggerClaim);
+      if (btnRepeat) btnRepeat.addEventListener('click', triggerRepeat);
+      if (btnStats) btnStats.addEventListener('click', triggerStats);
+
+      function triggerClaim() {
+        if (!btnClaim) return;
+        btnClaim.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">refresh</span><span>Награды Получены! Переход...</span>';
+        btnClaim.classList.add('opacity-80', 'pointer-events-none');
+        setTimeout(function() {
+          const navTavern = document.querySelector('nav a[data-path="tavern-hearth"]');
+          if (navTavern) {
+            navTavern.click();
+          } else {
+            console.log('Returning to Tavern Hub...');
+          }
+        }, 600);
+      }
+
+      function triggerRepeat() {
+        if (!btnRepeat) return;
+        btnRepeat.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span><span>Подготовка...</span>';
+        setTimeout(function() {
+          btnRepeat.innerHTML = '<span class="material-symbols-outlined text-[18px]">replay</span><span>Повторить (⚡ 12)</span><kbd class="px-1 py-0.2 bg-surface-container-lowest rounded text-[9px] text-outline font-mono">R</kbd>';
+        }, 500);
+      }
+
+      function triggerStats() {
+        alert("Детальный отчет боя #41829:\n- Общий DPS: 279,600\n- Общий HPS: 42,600\n- Парировано: 115,100 урона\n- Время в оглушении босса: 14.2 сек");
+      }
+    })();
+  </script>
+</div></main>
 </section>
