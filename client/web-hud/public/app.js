@@ -4664,17 +4664,16 @@ function applyPveYardTeamPreset(pi) {
 }
 
 /**
- * PvE yard «Поменять порядок»: swap visual тыл ↔ авангард (catIds[0] ↔ [2]).
- * Stays on yard — does not open the broken formation screen.
- * CreatePvE still reads sim order via collectionPresetTemplateIds (front←vanguard).
+ * Swap visual тыл ↔ авангард (catIds[0] ↔ [2]) on a collection preset.
+ * Stays on the current screen — does not open the broken formation form.
  */
-function swapPveYardFrontRear() {
+function swapCollectionPresetFrontRear(pi) {
   if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
-  const pi = state.colPresetIndex || 0;
-  const preset = state.profile?.presets?.[pi];
+  const idx = Math.max(0, Math.min(COL_SQUADS - 1, Number(pi) || 0));
+  const preset = state.profile?.presets?.[idx];
   if (!preset) {
     toast("Сначала выберите команду");
-    return false;
+    return null;
   }
   if (!Array.isArray(preset.catIds)) preset.catIds = [];
   while (preset.catIds.length < 3) preset.catIds.push(null);
@@ -4682,15 +4681,30 @@ function swapPveYardFrontRear() {
   const b = preset.catIds[2];
   if (!a && !b) {
     toast("Пустые слоты тыл/авангард — соберите отряд в Коллекции");
-    return false;
+    return null;
   }
   preset.catIds[0] = b;
   preset.catIds[2] = a;
   if (typeof persistCollectionStub === "function") persistCollectionStub();
+  return true;
+}
+
+/** PvE yard «Поменять порядок». CreatePvE still reads sim order via collectionPresetTemplateIds. */
+function swapPveYardFrontRear() {
+  if (!swapCollectionPresetFrontRear(state.colPresetIndex || 0)) return false;
   renderPveYardSquad();
   renderPveYardTeamPicker();
-  const visual = pveYardActiveCats();
-  const names = visual.map((c) => (c ? catSheetName(c) : "—"));
+  const names = pveYardActiveCats().map((c) => (c ? catSheetName(c) : "—"));
+  toast(`Порядок: ${names[0]} · ${names[1]} · ${names[2]}`);
+  return true;
+}
+
+/** PvP arena «Поменять порядок» on the active arena preset. */
+function swapPvpArenaFrontRear() {
+  if (!swapCollectionPresetFrontRear(pvpArenaPresetIndex())) return false;
+  ensurePvpSquad();
+  renderPvpArena();
+  const names = pvpVisualRoster(state.pvpSquad).map((c) => c.name || "—");
   toast(`Порядок: ${names[0]} · ${names[1]} · ${names[2]}`);
   return true;
 }
@@ -17943,10 +17957,10 @@ function renderPvpArenaSquadList() {
     const faces = slotCats
       .map((c) => {
         if (!c) {
-          return `<span class="w-7 h-7 rounded-full border border-dashed border-outline-variant/50 bg-black/30 inline-flex items-center justify-center text-[9px] text-outline">?</span>`;
+          return `<span class="w-8 h-8 rounded-full border border-dashed border-outline-variant/50 bg-black/30 inline-flex items-center justify-center text-[10px] text-outline">?</span>`;
         }
         const art = catHeroArt(c.templateId) || "/stitch-assets/cat-heroes/fighter-fire.webp?v=gear18c";
-        return `<img alt="" class="w-7 h-7 rounded-full border ${on ? "border-primary/50" : "border-outline-variant/50"} object-cover object-top" src="${art}">`;
+        return `<img alt="" class="w-8 h-8 rounded-full border ${on ? "border-primary/50" : "border-outline-variant/50"} object-cover object-top" src="${art}">`;
       })
       .join("");
     const hint =
@@ -17958,7 +17972,7 @@ function renderPvpArenaSquadList() {
         : "Соберите в Коллекции";
     return `<article data-arena-squad="${pi}" class="arena-squad${on ? " is-on" : ""} rounded-lg border ${on ? "border-primary/60" : "border-outline-variant/40"} bg-[#1a1613] p-1.5 cursor-pointer hover:border-primary/50 transition-colors" tabindex="0">
 <header class="flex items-center justify-between gap-1 mb-1"><b class="text-[10px] ${on ? "text-primary" : "text-on-surface-variant"} font-bold">${title}</b>${on ? `<i class="text-[9px] text-secondary not-italic font-bold">Активен</i>` : filled < 3 ? `<span class="text-[9px] text-outline">${filled}/3</span>` : ""}</header>
-<div class="flex -space-x-1.5 justify-center">${faces}</div>
+<div class="flex gap-1.5 justify-center items-center">${faces}</div>
 <p class="text-center text-[9px] text-outline mt-1 truncate">${hint}</p>
 </article>`;
   }).join("");
@@ -18281,10 +18295,6 @@ function bindPvpArena() {
     const arenaTip = ev.target.closest("[data-arena]");
     if (arenaTip && root.contains(arenaTip)) {
       const tip = arenaTip.getAttribute("data-arena");
-      if (tip === "tactics") {
-        toast("Тактика защиты: скоро");
-        return;
-      }
       if (tip === "rewards") {
         toast("Сезонные награды арены: скоро");
         return;
@@ -18299,7 +18309,12 @@ function bindPvpArena() {
       return;
     }
     if (act === "pvp-formation") {
-      navigate("formation", { primary: "combat" });
+      swapPvpArenaFrontRear();
+      return;
+    }
+    if (act === "pvp-replace-team") {
+      state.colPresetIndex = pvpArenaPresetIndex();
+      navigate("collection", { primary: "character" });
       return;
     }
     if (act === "pvp-rating") {
