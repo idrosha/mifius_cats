@@ -1254,6 +1254,8 @@ const state = {
   practiceFilterEl: "",
   /** Practice load overlay progress (0–100) + timer handle. */
   practiceLoadPct: 0,
+  raidLoadPct: 0,
+  raidLoadTimer: null,
   practiceLoadTimer: null,
   /** PvP arena: preset id, active 3-cat squad (front→mid→rear), MM stub foe. */
   pvpArenaMode: "ranked",
@@ -2061,6 +2063,7 @@ function showView(id) {
   // Warm current + next-likely screen art (not every chapter / every pack).
   if (id === "viewLogin") preloadScreenBgs("login", "yard");
   else if (id === "viewYard") preloadScreenBgs("yard", "dojoLoad", "dojo");
+  else if (id === "viewBossRaid") preloadScreenBgs("raidLoad");
   else if (id === "viewPractice" || id === "viewPracticeLoad") {
     preloadScreenBgs("dojoLoad", "dojo");
     prefetchSquadCardArt(combatSquadForPrefetch());
@@ -5683,8 +5686,8 @@ async function advanceRaidNodeAfterWin() {
   return true;
 }
 
-/** Validate legion → show 4×3 preview (design placeholder) before sim fight. */
-function viewRaidFight({ autoPlay = false } = {}) {
+/** Soft-launch gates before raid load / formation preview. Tips on fail. */
+function raidFightGatesOk() {
   ensureRaidLegion();
   if ((state.raidLegionCount | 0) < minRaidPlayers) {
     showGateTip(
@@ -5713,6 +5716,79 @@ function viewRaidFight({ autoPlay = false } = {}) {
     showGateTip(t("raid.gate.attempts", "Попытки рейда на неделю закончились."));
     return false;
   }
+  return true;
+}
+
+function clearRaidLoadTimer() {
+  clearInterval(state.raidLoadTimer);
+  state.raidLoadTimer = null;
+}
+
+function fillRaidLoadInfo() {
+  const raid = raidDef();
+  const ui = RAID_BOSS_UI[raid?.raidId] || RAID_BOSS_UI.myaurra;
+  const title = raid?.title_ru || "Рейд легиона";
+  const set = (id, value) => {
+    const el = $(id);
+    if (el) el.textContent = value;
+  };
+  set("raidLoadTitle", title);
+  set("raidLoadBoss", title);
+  set("raidLoadPlace", `${ui.place_ru} · Эпос`);
+  set("raidLoadMech", ui.mech_ru || "—");
+  set("raidLoadPhase", ui.phase_ru ? `· фаза «${ui.phase_ru}»` : "");
+  const tip = $("raidLoadTip");
+  if (tip) {
+    tip.innerHTML = `<strong>Совет легиона:</strong> «Держите 2 хила и танков на фронте — ярость «${
+      ui.phase_ru || "босса"
+    }» бьёт по всему крылу.»`;
+  }
+  const ping = $("raidLoadPing");
+  if (ping) ping.textContent = `${14 + Math.floor(Math.random() * 18)} ms`;
+}
+
+function setRaidLoadProgress(pct) {
+  const n = Math.max(0, Math.min(100, Math.round(pct)));
+  const bar = $("raidLoadBar");
+  const label = $("raidLoadPct");
+  const status = $("raidLoadStatus");
+  const track = bar?.parentElement;
+  if (bar) bar.style.width = `${n}%`;
+  if (label) label.textContent = `${n}%`;
+  if (track?.getAttribute("role") === "progressbar") track.setAttribute("aria-valuenow", String(n));
+  if (status) {
+    status.textContent =
+      n >= 100
+        ? "Легион синхронизирован · вход в строй рейда…"
+        : "Подготовка рейдовой арены и синхронизация легиона…";
+  }
+  state.raidLoadPct = n;
+}
+
+function startRaidLoadSync() {
+  clearRaidLoadTimer();
+  setRaidLoadProgress(0);
+  preloadScreenBgs("raidLoad");
+  let pct = 0;
+  state.raidLoadTimer = setInterval(() => {
+    const root = $("viewBossRaid");
+    if (!root || root.dataset.raidLoading !== "1" || state.tab !== "boss_raid") {
+      clearRaidLoadTimer();
+      return;
+    }
+    pct = Math.min(100, pct + 5 + Math.floor(Math.random() * 8));
+    setRaidLoadProgress(pct);
+    if (pct >= 100) {
+      clearRaidLoadTimer();
+      // No confirm — load to 100% then enter raid formation preview.
+      enterRaidBattleFromLoad({ autoPlay: !!state._raidAutoPlay });
+    }
+  }, 110);
+}
+
+/** Finish load overlay → raid_battle formation (gates already passed). */
+function enterRaidBattleFromLoad({ autoPlay = false } = {}) {
+  showRaidLoad(false);
   resetRaidPathVote();
   const stageId = raidEntryStageId();
   state.battleMode = "boss";
@@ -5725,6 +5801,43 @@ function viewRaidFight({ autoPlay = false } = {}) {
   renderRaidBattleStub();
   toast(`Строй 12 · входной отряд · путь выберете после победы`);
   return true;
+}
+
+/**
+ * Raid load sheet (lair bg + raid info, no hero cards) — practice dojo-load analog.
+ * At 100% → raid_battle formation preview.
+ */
+function showRaidLoad(on, { autoPlay = false } = {}) {
+  const root = $("viewBossRaid");
+  const load = root?.querySelector(".raid-load");
+  if (!root) return false;
+  if (!load) {
+    clearRaidLoadTimer();
+    root.dataset.raidLoading = "0";
+    if (on) return enterRaidBattleFromLoad({ autoPlay });
+    return false;
+  }
+  if (on) {
+    if (!raidFightGatesOk()) return false;
+    state._raidAutoPlay = !!autoPlay;
+    fillRaidLoadInfo();
+    load.hidden = false;
+    // Use data-raid-loading — not data-raid-load (that attr is for cancel/go buttons).
+    root.dataset.raidLoading = "1";
+    hydrateViewImages(load);
+    startRaidLoadSync();
+    return true;
+  }
+  clearRaidLoadTimer();
+  load.hidden = true;
+  root.dataset.raidLoading = "0";
+  setRaidLoadProgress(0);
+  return true;
+}
+
+/** Validate legion → load sheet → 4×3 preview before sim fight. */
+function viewRaidFight({ autoPlay = false } = {}) {
+  return showRaidLoad(true, { autoPlay });
 }
 
 /** Actually start CreatePvE for current raid node (3v3 stub until full 12 sim). */
@@ -14653,6 +14766,7 @@ const SCREEN_BG = {
   yard: `/stitch-assets/yard/meowkara-mines-bg.webp?v=${STITCH_ASSET_V}`,
   dojo: `/stitch-ref/e608/arena_dojo.webp?v=${STITCH_ASSET_V}`,
   dojoLoad: `/stitch-assets/dojo/practice-load-arena.webp?v=${STITCH_ASSET_V}`,
+  raidLoad: `/stitch-assets/modes/raid-lair-bg.webp?v=${STITCH_ASSET_V}`,
   pvpLoad: `/stitch-assets/pvp-battles/load-bg.webp?v=${STITCH_ASSET_V}`,
   pvpLoadTeams: `/stitch-assets/pvp-battles/teams-bg.webp?v=${STITCH_ASSET_V}`,
   pveVictory: `/stitch-assets/pve-victory/bg.webp?v=${STITCH_ASSET_V}`,
@@ -17191,6 +17305,8 @@ function renderAll() {
       break;
     case "boss_raid":
       state.raidBattlePreview = false;
+      // Keep overlay if load bar is running; otherwise scrub leftover state.
+      if (!state.raidLoadTimer) showRaidLoad(false);
       renderRaidPath();
       bindBattleModeLobbies();
       break;
@@ -19255,7 +19371,47 @@ function bindRaidBattleStub() {
 }
 
 /** Dense painted lobbies: dungeon / raid / guild war CTAs + local selection. */
+function bindRaidLoadControls() {
+  const root = $("viewBossRaid");
+  if (!root || root.dataset.raidLoadBound === "1") return;
+  root.dataset.raidLoadBound = "1";
+  root.addEventListener(
+    "click",
+    (ev) => {
+      // Only cancel/go on the load overlay — never match lobby CTAs.
+      const actEl = ev.target.closest(".raid-load [data-raid-load]");
+      if (!actEl || !root.contains(actEl)) return;
+      const act = actEl.getAttribute("data-raid-load");
+      ev.preventDefault();
+      ev.stopPropagation();
+      if (act === "close") showRaidLoad(false);
+      else if (act === "go") {
+        clearRaidLoadTimer();
+        setRaidLoadProgress(100);
+        enterRaidBattleFromLoad({ autoPlay: !!state._raidAutoPlay });
+      }
+    },
+    true,
+  );
+  document.addEventListener("keydown", (ev) => {
+    if (state.tab !== "boss_raid") return;
+    if (ev.target.closest?.("input, textarea")) return;
+    const loading = root.dataset.raidLoading === "1";
+    if (!loading) return;
+    if (ev.code === "Space") {
+      ev.preventDefault();
+      clearRaidLoadTimer();
+      setRaidLoadProgress(100);
+      enterRaidBattleFromLoad({ autoPlay: !!state._raidAutoPlay });
+    } else if (ev.code === "Escape") {
+      ev.preventDefault();
+      showRaidLoad(false);
+    }
+  });
+}
+
 function bindBattleModeLobbies() {
+  bindRaidLoadControls();
   for (const id of ["viewBossDungeon", "viewBossRaid", "viewGuildBattle"]) {
     const root = $(id);
     if (!root || root.dataset.modeLobbyBound === "1") continue;

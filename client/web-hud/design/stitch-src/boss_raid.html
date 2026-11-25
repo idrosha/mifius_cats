@@ -213,7 +213,7 @@
 <button type="button" class="flex-1 py-1.5 rounded-lg border border-tertiary/50 text-tertiary text-[11px] font-bold hover:bg-tertiary/10" data-hud-action="raid-solo-test" title="Один игрок · все 12 слотов · полный прогон">Соло-тест</button>
 </div>
 <p class="text-[9px] text-outline mt-0.5">Соло-тест: сразу канон 3T/3S/6DPS · все герои ваши</p>
-<button type="button" id="btn-deploy-raid" class="mode-cta w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-[#c45a3a] via-[#fdba45] to-[#ffdeae] text-[#432c00] font-headline-md font-extrabold text-[14px] uppercase tracking-wider shadow-[0_4px_16px_rgba(253,186,69,0.4)] hover:brightness-105 active:scale-[0.99] transition-all flex items-center justify-center gap-2" data-hud-action="raid-formation">
+<button type="button" id="btn-deploy-raid" class="mode-cta w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-[#c45a3a] via-[#fdba45] to-[#ffdeae] text-[#432c00] font-headline-md font-extrabold text-[14px] uppercase tracking-wider shadow-[0_4px_16px_rgba(253,186,69,0.4)] hover:brightness-105 active:scale-[0.99] transition-all flex items-center justify-center gap-2" data-hud-action="raid-start">
 <span class="material-symbols-outlined text-[20px]">skull</span>
 <span>Вступить в рейд</span>
 <span class="px-2 py-0.5 rounded bg-black/20 text-[10px] font-bold">1 попытка</span>
@@ -222,5 +222,41 @@
 </aside>
 </div>
 </main>
+<!-- Raid load — lair backdrop + raid info only (no hero cards). Analog practice dojo-load / MF-161. -->
+<div class="raid-load" hidden data-purpose="raid-load">
+<img class="dojo-load-art" alt="" src="/stitch-assets/modes/raid-lair-bg.webp"/>
+<div class="dojo-load-shade"></div>
+<div class="dojo-load-ui dojo-load-ui--stitch">
+<header class="dojo-load-head">
+<div class="dojo-load-head-l">
+<p class="dojo-load-sync-line"><span class="dojo-load-dot" aria-hidden="true"></span> Синхронизация легиона • <b id="raidLoadPing">24 ms</b></p>
+<h2 class="dojo-load-title" id="raidLoadTitle">Рейд легиона</h2>
+<p class="dojo-load-matchup">Легион Хранителя против <em id="raidLoadBoss">босса</em></p>
+</div>
+<div class="dojo-load-head-r">
+<p class="dojo-load-tier" id="raidLoadPlace">Мировой босс</p>
+<p class="dojo-load-energy">Механика: <b id="raidLoadMech">—</b> <span id="raidLoadPhase"></span></p>
+<p class="dojo-load-rule">Строй 12: 3T · 3S · 6DPS · путь short/long после 1-го отряда</p>
+</div>
+</header>
+<div class="dojo-load-vs" aria-hidden="true">VS</div>
+<footer class="dojo-load-foot-stitch">
+<div class="dojo-load-bar-wrap">
+<div class="dojo-load-status">
+<span id="raidLoadStatus">Подготовка рейдовой арены и синхронизация легиона…</span>
+<b id="raidLoadPct">0%</b>
+</div>
+<div class="dojo-load-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-labelledby="raidLoadStatus">
+<i id="raidLoadBar" style="width:0%"></i>
+</div>
+</div>
+<div class="dojo-load-meta">
+<p class="dojo-load-tip" id="raidLoadTip"><strong>Совет легиона:</strong> «Держите 2 хила и танков на фронте — ярость босса бьёт по всему крылу.»</p>
+<p class="dojo-load-keys"><kbd>ESC</kbd> Отмена · <kbd>Пробел</kbd> Быстрый старт</p>
+<button type="button" class="dojo-load-cancel" data-raid-load="close">Отмена</button>
+</div>
+</footer>
+</div>
+</div>
 </body>
 </html>
