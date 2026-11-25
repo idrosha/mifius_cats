@@ -5525,6 +5525,92 @@ body:has(#viewPvp:not(.hidden)) #wireDock { display: none !important; }
 #viewBossDungeon [data-dungeon-squad-strip] > * {
   align-self: start;
 }
+/* Collection-team dropdown above dungeon CTA row */
+#viewBossDungeon .dungeon-team-picker {
+  position: absolute;
+  left: 0.5rem;
+  right: 0.5rem;
+  bottom: 2.65rem;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  padding: 0.45rem;
+  border-radius: 0.65rem;
+  border: 1px solid rgba(253, 186, 69, 0.4);
+  background: linear-gradient(165deg, #241e18 0%, #161310 100%);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.55);
+}
+#viewBossDungeon .dungeon-team-picker.hidden {
+  display: none !important;
+}
+#viewBossDungeon .dungeon-team-picker__list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  max-height: 11rem;
+  overflow-y: auto;
+}
+#viewBossDungeon .dungeon-team-picker__row {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  width: 100%;
+  padding: 0.35rem 0.4rem;
+  border-radius: 0.45rem;
+  border: 1px solid rgba(80, 69, 53, 0.55);
+  background: #1a1613;
+  color: #eae1db;
+  text-align: left;
+  cursor: pointer;
+}
+#viewBossDungeon .dungeon-team-picker__row:hover {
+  border-color: rgba(253, 186, 69, 0.45);
+}
+#viewBossDungeon .dungeon-team-picker__row.is-on {
+  border-color: rgba(253, 186, 69, 0.65);
+  background: rgba(253, 186, 69, 0.08);
+}
+#viewBossDungeon .dungeon-team-picker__row img {
+  width: 1.55rem;
+  height: 1.55rem;
+  border-radius: 0.3rem;
+  object-fit: cover;
+  object-position: top;
+  flex-shrink: 0;
+}
+#viewBossDungeon .dungeon-team-picker__row b {
+  flex: 1;
+  min-width: 0;
+  font-size: 11px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+#viewBossDungeon .dungeon-team-picker__row span {
+  font-size: 9px;
+  font-weight: 700;
+  color: #9d8f7b;
+  flex-shrink: 0;
+}
+#viewBossDungeon .dungeon-team-picker__row.is-on span {
+  color: #89d98c;
+}
+#viewBossDungeon .dungeon-team-picker__goto {
+  width: 100%;
+  padding: 0.4rem 0.45rem;
+  border-radius: 0.45rem;
+  border: 1px dashed rgba(253, 186, 69, 0.45);
+  background: transparent;
+  color: #fdba45;
+  font-size: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+#viewBossDungeon .dungeon-team-picker__goto:hover {
+  background: rgba(253, 186, 69, 0.08);
+}
 #viewBossDungeon .mode-grid,
 #viewBossRaid .mode-grid,
 #viewGuildBattle .mode-grid,

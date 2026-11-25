@@ -1246,6 +1246,8 @@ const state = {
   ],
   /** Solo QA stub: one player fills party + picks 3 heroes, full dungeon run. */
   dungeonSoloStub: false,
+  /** Collection preset index for dungeon 3v3 wing (0=PvE … 2=Данж). */
+  dungeonSquadId: "2",
   /** Practice dojo selected squad — templateIds, max 3; starts empty. */
   practiceSquad: [],
   practiceFilterRole: "",
@@ -3568,14 +3570,162 @@ async function fillDungeonPartyBots() {
   toast("Пати 4/4 (локальные боты · бой всё ещё ваш 3v3)");
 }
 
-/** Default 3v3 wing for dungeon solo tests (tank · DPS · heal). */
+/** Collection preset index for dungeon lobby (default «Данж»). */
+function dungeonPresetIndex() {
+  const n = Number(state.dungeonSquadId);
+  if (Number.isFinite(n) && n >= 0 && n < COL_SQUADS) return n;
+  return Math.min(2, Math.max(0, COL_SQUADS - 1));
+}
+
+/** Combat order templateIds from the selected collection preset (fallback starters). */
 function ensureDungeonTestSquad() {
-  if (Array.isArray(state.practiceSquad) && state.practiceSquad.length === 3) {
-    return [...state.practiceSquad];
+  if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
+  let pi = dungeonPresetIndex();
+  let tids = collectionPresetTemplateIds(pi);
+  if (!tids || tids.length !== 3) {
+    for (let i = 0; i < COL_SQUADS; i++) {
+      const alt = collectionPresetTemplateIds(i);
+      if (alt && alt.length === 3) {
+        pi = i;
+        tids = alt;
+        break;
+      }
+    }
   }
-  const pick = ["shop_tank_fire", "shop_fighter_fire", "shop_support_water"];
-  state.practiceSquad = [...pick];
-  return [...pick];
+  state.dungeonSquadId = String(pi);
+  if (tids && tids.length === 3) {
+    state.practiceSquad = tids;
+  } else if (!Array.isArray(state.practiceSquad) || state.practiceSquad.length !== 3) {
+    state.practiceSquad = ["shop_tank_fire", "shop_fighter_fire", "shop_support_water"];
+  }
+  return [...state.practiceSquad];
+}
+
+function applyDungeonSquad(id) {
+  if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
+  const pi = Math.max(0, Math.min(COL_SQUADS - 1, Number(id)));
+  if (!Number.isFinite(Number(id))) return false;
+  const preset = state.profile?.presets?.[pi];
+  const filled = (preset?.catIds || []).filter(Boolean).length;
+  if (filled < 3) {
+    toast("В этом отряде меньше 3 котиков — доберите в Коллекции");
+    return false;
+  }
+  state.dungeonSquadId = String(pi);
+  const tids = collectionPresetTemplateIds(pi);
+  if (tids && tids.length === 3) state.practiceSquad = tids;
+  return true;
+}
+
+function dungeonActiveSquadName() {
+  if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
+  const pi = dungeonPresetIndex();
+  const preset = state.profile?.presets?.[pi];
+  return preset?.name || COL_SQUAD_NAMES[pi] || "Данж";
+}
+
+/** Visual L→R: тыл · центр · авангард (collection slot order). */
+function dungeonVisualRoster() {
+  ensureDungeonTestSquad();
+  if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
+  const pi = dungeonPresetIndex();
+  const preset = state.profile?.presets?.[pi];
+  const ids = Array.isArray(preset?.catIds) ? preset.catIds : [];
+  const cats = [0, 1, 2].map((i) => collectionCatById(ids[i]) || null);
+  if (cats.filter(Boolean).length === 3) {
+    return cats.map((c, i) => ({
+      tid: c.templateId,
+      name: typeof catSheetName === "function" ? catSheetName(c) : c.templateId,
+      lane: PVE_YARD_LANES[i],
+    }));
+  }
+  const combat = state.practiceSquad;
+  const visualTids = [combat[2], combat[1], combat[0]];
+  return visualTids.map((tid, i) => ({
+    tid,
+    name: String(tid).replace(/^shop_/, "").replace(/_/g, " "),
+    lane: PVE_YARD_LANES[i],
+  }));
+}
+
+function closeDungeonTeamPicker() {
+  const picker = $("dungeonTeamPicker");
+  if (!picker) return;
+  picker.classList.add("hidden");
+  picker.setAttribute("aria-hidden", "true");
+  const btn = document.querySelector('#viewBossDungeon [data-hud-action="dungeon-formation"]');
+  if (btn) btn.setAttribute("aria-expanded", "false");
+}
+
+function openDungeonTeamPicker() {
+  const picker = $("dungeonTeamPicker");
+  if (!picker) return;
+  if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
+  renderDungeonTeamPicker();
+  picker.classList.remove("hidden");
+  picker.setAttribute("aria-hidden", "false");
+  const btn = document.querySelector('#viewBossDungeon [data-hud-action="dungeon-formation"]');
+  if (btn) btn.setAttribute("aria-expanded", "true");
+}
+
+function toggleDungeonTeamPicker() {
+  const picker = $("dungeonTeamPicker");
+  if (!picker || picker.classList.contains("hidden")) openDungeonTeamPicker();
+  else closeDungeonTeamPicker();
+}
+
+function renderDungeonTeamPicker() {
+  const list = document.querySelector("#viewBossDungeon [data-dungeon-team-list]");
+  if (!list) return;
+  if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
+  const active = dungeonPresetIndex();
+  list.innerHTML = Array.from({ length: COL_SQUADS }, (_, pi) => {
+    const preset = state.profile?.presets?.[pi] || { name: COL_SQUAD_NAMES[pi], catIds: [] };
+    const slotCats = [0, 1, 2].map((i) => collectionCatById(preset.catIds?.[i]) || null);
+    const filled = slotCats.filter(Boolean).length;
+    const on = pi === active;
+    const title = preset.name || COL_SQUAD_NAMES[pi];
+    const thumbs = slotCats
+      .map((c) => {
+        if (!c) return `<span class="w-[1.55rem] h-[1.55rem] rounded bg-[#120f0d] border border-outline-variant/40 flex-shrink-0"></span>`;
+        const art =
+          (typeof catHeroArt === "function" && catHeroArt(c.templateId)) ||
+          `/stitch-assets/cat-heroes/fighter-fire.webp?v=gear18c`;
+        return `<img alt="" src="${art}"/>`;
+      })
+      .join("");
+    return `<button type="button" class="dungeon-team-picker__row${on ? " is-on" : ""}" data-dungeon-team-pick="${pi}" role="option" aria-selected="${on ? "true" : "false"}">
+      ${thumbs}
+      <b>${title}</b>
+      <span>${on ? "активна" : `${filled}/3`}</span>
+    </button>`;
+  }).join("");
+}
+
+function swapDungeonFrontRear() {
+  const pi = dungeonPresetIndex();
+  if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
+  const preset = state.profile?.presets?.[pi];
+  const filled = (preset?.catIds || []).filter(Boolean).length;
+  if (filled >= 2) {
+    if (!swapCollectionPresetFrontRear(pi)) return false;
+  } else {
+    ensureDungeonTestSquad();
+    const s = state.practiceSquad;
+    if (!Array.isArray(s) || s.length !== 3) {
+      toast("Сначала выберите команду");
+      return false;
+    }
+    const tmp = s[0];
+    s[0] = s[2];
+    s[2] = tmp;
+  }
+  ensureDungeonTestSquad();
+  renderDungeonSquadStrip();
+  renderDungeonTeamPicker();
+  const names = dungeonVisualRoster().map((r) => r.name);
+  toast(`Порядок: ${names[0]} · ${names[1]} · ${names[2]}`);
+  return true;
 }
 
 /**
@@ -3600,7 +3750,7 @@ function enableDungeonSoloTestStub() {
   persistProgress();
   state.battleMode = "dungeon";
   renderDungeonLobby();
-  toast("Соло-тест: пати 4/4 заглушка · выберите 3 котов в «Расстановка» · затем «В путь»");
+  toast("Соло-тест: пати 4/4 заглушка · выберите команду · затем «В путь»");
 }
 
 function dungeonPartyReadyForStart() {
@@ -3615,38 +3765,39 @@ function renderDungeonSquadStrip() {
   if (!root) return;
   const host = root.querySelector("[data-dungeon-squad-strip]");
   if (!host) return;
-  const squad = ensureDungeonTestSquad();
-  const roles = ["ТАНК", "DPS", "САП"];
-  const toneCls = [
-    {
-      border: "border-primary/40",
-      badge: "bg-primary/15 text-primary border-primary/35",
-    },
-    {
-      border: "border-tertiary/40",
-      badge: "bg-tertiary/15 text-tertiary border-tertiary/35",
-    },
-    {
+  const roster = dungeonVisualRoster();
+  const toneCls = {
+    secondary: {
       border: "border-secondary/40",
       badge: "bg-secondary/15 text-secondary border-secondary/35",
     },
-  ];
-  host.innerHTML = squad
-    .map((tid, i) => {
+    tertiary: {
+      border: "border-tertiary/40",
+      badge: "bg-tertiary/15 text-tertiary border-tertiary/35",
+    },
+    primary: {
+      border: "border-primary/40",
+      badge: "bg-primary/15 text-primary border-primary/35",
+    },
+  };
+  const nameEl = root.querySelector("[data-dungeon-squad-name]");
+  if (nameEl) nameEl.textContent = dungeonActiveSquadName();
+  host.innerHTML = roster
+    .map((row) => {
       const art =
-        (typeof catHeroArt === "function" && catHeroArt(tid)) ||
-        (typeof CAT_HERO_ART !== "undefined" && CAT_HERO_ART[tid]) ||
+        (typeof catHeroArt === "function" && catHeroArt(row.tid)) ||
+        (typeof CAT_HERO_ART !== "undefined" && CAT_HERO_ART[row.tid]) ||
         `/stitch-assets/cat-heroes/tank-fire.webp?v=gear18c`;
-      const name = String(tid).replace(/^shop_/, "").replace(/_/g, " ");
-      const t = toneCls[i] || toneCls[0];
-      // Compact 3-up avatars (object-top) — no vertical strip scroll in the dungeon aside.
+      const t = toneCls[row.lane?.tone] || toneCls.primary;
+      const badge = row.lane?.badge || "—";
+      // Compact 3-up avatars (object-top) — visual тыл · центр · авангард.
       return `<article class="rounded-lg border ${t.border} bg-[#1a1613] overflow-hidden flex flex-col min-w-0">
         <div class="relative w-full h-[4.25rem] overflow-hidden bg-[#120f0d]">
           <img alt="" class="w-full h-full object-cover object-top" src="${art}"/>
-          <span class="absolute bottom-1 left-1 text-[8px] px-1 py-0.5 rounded border font-bold leading-tight ${t.badge}">${roles[i]}</span>
+          <span class="absolute bottom-1 left-1 text-[8px] px-1 py-0.5 rounded border font-bold leading-tight ${t.badge}">${badge}</span>
         </div>
         <div class="px-1 py-1 min-w-0">
-          <span class="font-bold text-[10px] text-white truncate block leading-tight" title="${name}">${name}</span>
+          <span class="font-bold text-[10px] text-white truncate block leading-tight" title="${row.name}">${row.name}</span>
         </div>
       </article>`;
     })
@@ -3674,6 +3825,7 @@ function selectDungeon(id, path = state.dungeonPath, fork = state.dungeonFork) {
 function renderDungeonLobby() {
   const root = $("viewBossDungeon");
   if (!root || !state.dungeonCoop) return;
+  closeDungeonTeamPicker();
   seedDungeonKeysIfNeeded();
   const d = dungeonById();
   if (!d) return;
@@ -18197,6 +18349,28 @@ function bindBattleModeLobbies() {
     if (!root || root.dataset.modeLobbyBound === "1") continue;
     root.dataset.modeLobbyBound = "1";
     root.addEventListener("click", (ev) => {
+      if (id === "viewBossDungeon" || root.id === "viewBossDungeon") {
+        const teamPick = ev.target.closest("[data-dungeon-team-pick]");
+        if (teamPick && root.contains(teamPick)) {
+          ev.preventDefault();
+          const teamId = teamPick.getAttribute("data-dungeon-team-pick");
+          if (!applyDungeonSquad(teamId)) return;
+          renderDungeonSquadStrip();
+          renderDungeonTeamPicker();
+          closeDungeonTeamPicker();
+          toast(`Отряд «${dungeonActiveSquadName()}» выбран для данжа`);
+          return;
+        }
+        const picker = $("dungeonTeamPicker");
+        if (
+          picker &&
+          !picker.classList.contains("hidden") &&
+          !ev.target.closest("#dungeonTeamPicker") &&
+          !ev.target.closest('[data-hud-action="dungeon-formation"]')
+        ) {
+          closeDungeonTeamPicker();
+        }
+      }
       const pick = ev.target.closest(".dungeon-pick[data-dungeon]");
       if (pick && root.contains(pick) && !pick.classList.contains("is-locked")) {
         const id = pick.getAttribute("data-dungeon");
@@ -18273,6 +18447,16 @@ function bindBattleModeLobbies() {
         viewRaidFight({ autoPlay: false });
         return;
       }
+      if (act === "dungeon-swap-order") {
+        swapDungeonFrontRear();
+        return;
+      }
+      if (act === "dungeon-open-collection") {
+        closeDungeonTeamPicker();
+        state.colPresetIndex = dungeonPresetIndex();
+        navigate("collection", { primary: "character" });
+        return;
+      }
       if (act === "dungeon-formation" || act === "raid-formation" || act === "gvg-formation") {
         if (id === "viewBossRaid" || root.id === "viewBossRaid") {
           if (actBtn.id === "btn-deploy-raid") {
@@ -18286,15 +18470,18 @@ function bindBattleModeLobbies() {
           return;
         }
         if (id === "viewBossDungeon" || root.id === "viewBossDungeon") {
-          // Keep dungeon mode; pick 3 heroes into practiceSquad for 3v3 wing.
+          // Dropdown of collection presets (PvE·PvP·Данж·Рейд) — stay on lobby.
           state.battleMode = "dungeon";
           state.formationMode = "";
           ensureDungeonTestSquad();
+          toggleDungeonTeamPicker();
+          return;
         }
         navigate("formation", { primary: "combat" });
         return;
       }
       if (act === "dungeon-raid") {
+        // Legacy CTA — keep for stitch copies; live lobby uses dungeon-swap-order.
         navigate("boss_raid", { primary: "combat" });
         return;
       }
