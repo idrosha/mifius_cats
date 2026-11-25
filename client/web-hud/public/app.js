@@ -11109,7 +11109,8 @@ function bindPassInteractions() {
         return;
       }
       const tab = seasonGo.getAttribute("data-pass-go");
-      const PASS_SEASON_TABS = new Set(["boss_dungeon", "boss_raid", "raid_battle"]);
+      // Pass portals: PvE → dungeon → raid (left→right).
+      const PASS_SEASON_TABS = new Set(["pve", "boss_dungeon", "boss_raid", "raid_battle"]);
       if (!tab || !PASS_SEASON_TABS.has(tab)) {
         toast("Маршрут сезона недоступен");
         return;
