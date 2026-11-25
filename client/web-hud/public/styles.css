@@ -5255,6 +5255,30 @@ body:has(#viewPractice > .dojo-load:not([hidden])) #app {
   .dojo-load-title { font-size: 1.35rem; }
   .dojo-load-vs { font-size: 3.2rem; }
 }
+/* Raid load — same floating HUD as dojo-load; lair backdrop, no hero cards. */
+#viewBossRaid { position: relative; }
+#viewBossRaid > .raid-load {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 40;
+  width: 100% !important;
+  height: 100% !important;
+  color: #eae1db;
+  overflow: hidden;
+  background: #110d0b;
+}
+#viewBossRaid > .raid-load[hidden] { display: none !important; }
+#viewBossRaid > .raid-load:not([hidden]) { display: block !important; }
+body:has(#viewBossRaid > .raid-load:not([hidden])) #appNav,
+body:has(#viewBossRaid > .raid-load:not([hidden])) #appSubTabs,
+body:has(#viewBossRaid > .raid-load:not([hidden])) #wireDock { display: none !important; }
+body:has(#viewBossRaid > .raid-load:not([hidden])) #app {
+  height: 100dvh !important;
+  max-height: 100dvh !important;
+}
+body:has(#viewBossRaid > .raid-load:not([hidden])) #viewBossRaid > .mode-hall {
+  visibility: hidden;
+}
 #viewPractice > .dojo-hall {
   flex: 1 1 auto !important;
   min-height: 0 !important;

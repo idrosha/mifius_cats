@@ -749,6 +749,15 @@ ok(
 );
 ok("raid lobby no stale Tank 1/2", !html.includes("Танк 1/2") && !html.includes("ДД 1/7"));
 ok("raid lobby needs 12", html.includes("нужно ровно 12"));
+ok(
+  "raid load sheet (no hero cards)",
+  html.includes('data-purpose="raid-load"') &&
+    html.includes('id="raidLoadBar"') &&
+    js.includes("function showRaidLoad") &&
+    js.includes("function fillRaidLoadInfo") &&
+    js.includes("function enterRaidBattleFromLoad") &&
+    !/raid-load[\s\S]{0,800}battle-load-roster/.test(html),
+);
 ok("dungeon solo test stub", js.includes("function enableDungeonSoloTestStub") && js.includes("dungeonSoloStub"));
 ok("dungeon party ready helper", js.includes("function dungeonPartyReadyForStart"));
 ok(

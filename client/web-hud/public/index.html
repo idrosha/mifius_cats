@@ -4881,6 +4881,42 @@
 </aside>
 </div>
 </main>
+<!-- Raid load — lair backdrop + raid info only (no hero cards). Analog practice dojo-load / MF-161. -->
+<div class="raid-load" hidden data-purpose="raid-load">
+<img class="dojo-load-art" alt="" decoding="async" loading="lazy" data-mf-src="/stitch-assets/modes/raid-lair-bg.webp">
+<div class="dojo-load-shade"></div>
+<div class="dojo-load-ui dojo-load-ui--stitch">
+<header class="dojo-load-head">
+<div class="dojo-load-head-l">
+<p class="dojo-load-sync-line"><span class="dojo-load-dot" aria-hidden="true"></span> Синхронизация легиона • <b id="raidLoadPing">24 ms</b></p>
+<h2 class="dojo-load-title" id="raidLoadTitle">Рейд легиона</h2>
+<p class="dojo-load-matchup">Легион Хранителя против <em id="raidLoadBoss">босса</em></p>
+</div>
+<div class="dojo-load-head-r">
+<p class="dojo-load-tier" id="raidLoadPlace">Мировой босс</p>
+<p class="dojo-load-energy">Механика: <b id="raidLoadMech">—</b> <span id="raidLoadPhase"></span></p>
+<p class="dojo-load-rule">Строй 12: 3T · 3S · 6DPS · путь short/long после 1-го отряда</p>
+</div>
+</header>
+<div class="dojo-load-vs" aria-hidden="true">VS</div>
+<footer class="dojo-load-foot-stitch">
+<div class="dojo-load-bar-wrap">
+<div class="dojo-load-status">
+<span id="raidLoadStatus">Подготовка рейдовой арены и синхронизация легиона…</span>
+<b id="raidLoadPct">0%</b>
+</div>
+<div class="dojo-load-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-labelledby="raidLoadStatus">
+<i id="raidLoadBar" style="width:0%"></i>
+</div>
+</div>
+<div class="dojo-load-meta">
+<p class="dojo-load-tip" id="raidLoadTip"><strong>Совет легиона:</strong> «Держите 2 хила и танков на фронте — ярость босса бьёт по всему крылу.»</p>
+<p class="dojo-load-keys"><kbd>ESC</kbd> Отмена · <kbd>Пробел</kbd> Быстрый старт</p>
+<button type="button" class="dojo-load-cancel" data-raid-load="close">Отмена</button>
+</div>
+</footer>
+</div>
+</div>
 </section>
 <section id="viewRaidBattle" class="stitch-view mythfel-form hidden" data-stitch="raid_battle" data-layout="landscape" data-purpose="raid-battle-12">
 <!-- Stitch: legion 12 formation fight · no site #appNav chrome (D-025) -->
