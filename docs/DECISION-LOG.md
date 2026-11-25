@@ -46,7 +46,7 @@ CI `TestShopCardCosts_MatchWikiSnapshot` ждал 72 карты (12 A/B геро
 ### Consequences
 + Тест совпадает с живым контентом. − Player wiki ещё может описывать A/B — отдельный wiki-pass.
 
-## D-058 · 2026-11-25 · Live PvP: один бой, очередь ходов, таймер 30с
+## D-061 · 2026-11-25 · Live PvP: один бой, очередь ходов, таймер 30с
 
 - **Status:** Accepted
 - **Area:** battle | hud
@@ -65,6 +65,22 @@ CI `TestShopCardCosts_MatchWikiSnapshot` ждал 72 карты (12 A/B геро
 
 ### Consequences
 + Синхрон двух экранов на soft-launch QA. − Dev MM всё ещё in-memory (не Nakama). Bot-stub PvP без изменений (AI P2).
+
+## D-058 · 2026-11-25 · Unspent energy → +1 milk drop (not +E)
+
+- **Status:** Accepted
+- **Area:** battle
+- **SSOT:** docs/FULL-SPEC.md §3.4
+- **Owner:** Andrew / battle
+
+### Context
+`endTurn` писал `MilkDrops += Energy`. Пустой ход (ЗАВЕРШИТЬ ХОД без атак) за несколько раундов разгонял Milk Burst: AP 8/8, рука 8+ карт во всех режимах — выглядело как «энергия не сбрасывается, карты остаются».
+
+### Decision
+Любой leftover energy >0 на `endTurn` даёт **ровно +1** milk drop (как Keep), не +N за каждый непотраченный AP. Energy по-прежнему обнуляется и на старте хода ставится из таблицы §3.3 + `BonusE`. Сброс руки / discard / redraw без изменений (§3.3).
+
+### Consequences
+`battle/internal/sim/action.go`; FULL-SPEC §3.4; regression `TestMilk_UnspentEnergy_OneDropNotPerPoint`.
 
 ## D-057 · 2026-11-25 · Арена: тумблер заглушки бот-MM вместо «кросс-плей»
 

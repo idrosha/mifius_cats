@@ -138,7 +138,7 @@
 
 ### §3.2 Ход
 Sequential: P1 acts → resolve → P2 acts → resolve → round end (shield drop default, status ticks).  
-**Live PvP (LOCKED `D-058`):** оба игрока — люди; ходы строго по очереди (сначала P1, затем P2, по кругу). Общий серверный бой на `matchId` (не два локальных Create). **Таймер хода 30с** (серверный deadline); истечение → auto `endTurn` / ход переходит сопернику. Bot-MM smoke может по-прежнему крутить scripted P2.
+**Live PvP (LOCKED `D-061`):** оба игрока — люди; ходы строго по очереди (сначала P1, затем P2, по кругу). Общий серверный бой на `matchId` (не два локальных Create). **Таймер хода 30с** (серверный deadline); истечение → auto `endTurn` / ход переходит сопернику. Bot-MM smoke может по-прежнему крутить scripted P2.
 
 ### §3.3 Старт энергии/добора (конфиг, дефолт)
 
@@ -167,7 +167,7 @@ Unused energy не переносится. Unused cards не переносят�
 5. Mode-layer (PvE / PvP / practice / босс / гильдия-demo) **не** дублирует и не отключает этот цикл.
 
 ### §3.4 Системы
-- **Milk drops** → Milk Burst (+1 E forever; every 2nd burst +1 draw). Unspent E → drops+1.
+- **Milk drops** → Milk Burst (+1 E forever; every 2nd burst +1 draw). Unspent E (любой leftover >0 на `endTurn`) → **ровно +1** milk drop (`D-058`; не +E капель за каждый непотраченный AP).
 - **Keep:** hold card into next own turn + milk; cost escalates same turn; kept card stays playable this turn.
 - **Mouse Hour:** from turn 10 maxHP decay (config).
 - **Ruffle→Claw Mode:** 10 stacks → +1E, draw1, +50% dmg; no drops/ruffle that turn.
@@ -409,7 +409,7 @@ Matchmaker: **общий пул** для всех клиентов; ticket/query
 | `GetReplay` | battleId | frames |
 
 Reject illegal actions. Rate-limit. Log seed+inputs.  
-`CreatePvP` **идемпотентен по `matchId`** (`D-058`): повторный вызов того же match возвращает тот же бой. `humanP2` — live duel без scripted P2. `GetBattle` / `seat` — poll + hand только для своего места. stateDiff несёт `turnLeftSec` / `turnDeadlineUnix` при активном таймере.  
+`CreatePvP` **идемпотентен по `matchId`** (`D-061`): повторный вызов того же match возвращает тот же бой. `humanP2` — live duel без scripted P2. `GetBattle` / `seat` — poll + hand только для своего места. stateDiff несёт `turnLeftSec` / `turnDeadlineUnix` при активном таймере.  
 Один сервис для mobile / web / desktop (Steam); протокол боя платформо-независим.
 
 ### §8.3 Economy-service (может быть модуль Nakama + hooks)

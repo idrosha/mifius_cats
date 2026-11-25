@@ -219,7 +219,7 @@ func (b *Battle) TurnLeftSec() int {
 	return int(left)
 }
 
-// EnforceTurnDeadline auto-endTurns when the active side ran out of time (D-058).
+// EnforceTurnDeadline auto-endTurns when the active side ran out of time (D-061).
 // Returns true if a timeout endTurn was applied.
 func (b *Battle) EnforceTurnDeadline() (bool, error) {
 	if b == nil || b.Finished() || b.TurnDeadlineUnix <= 0 {

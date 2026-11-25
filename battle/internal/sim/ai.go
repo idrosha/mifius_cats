@@ -259,7 +259,7 @@ func (b *Battle) AutoPlay(maxTurns int) error {
 
 // AdvancePvEBots runs scripted AI while it is the P2 turn.
 // Used after interactive SubmitAction so the player sees P1 again without inventing combat on the client.
-// Soft-launch bot-MM: ModePvP advances scripted P2 (HUD labels AI smoke). Live human MM sets P2Human — skip (D-058).
+// Soft-launch bot-MM: ModePvP advances scripted P2 (HUD labels AI smoke). Live human MM sets P2Human — skip (D-061).
 func (b *Battle) AdvancePvEBots() error {
 	if b.Mode != ModePvE && b.Mode != ModePvP {
 		return nil
