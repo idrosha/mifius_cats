@@ -130,13 +130,47 @@ function ensureQaAccount(login) {
   return s.accounts[id];
 }
 
+/** Mutual friends among QA_LOGINS (does not wipe DMs). */
+export function linkQaFriends() {
+  const s = loadStore();
+  for (const login of QA_LOGINS) ensureQaAccount(login);
+  for (const a of QA_LOGINS) {
+    if (!Array.isArray(s.accounts[a].friends)) s.accounts[a].friends = [];
+    for (const b of QA_LOGINS) {
+      if (a === b) continue;
+      if (!s.accounts[a].friends.includes(b)) s.accounts[a].friends.push(b);
+    }
+  }
+  saveStore();
+  return {
+    ok: true,
+    linked: QA_LOGINS.slice(),
+    friends: Object.fromEntries(
+      QA_LOGINS.map((login) => [login, [...(s.accounts[login].friends || [])]]),
+    ),
+  };
+}
+
+function friendRowsFor(login) {
+  const s = loadStore();
+  const acc = s.accounts[login];
+  if (!acc) return [];
+  return (acc.friends || []).map((fid) => {
+    const f = s.accounts[fid];
+    return {
+      login: fid,
+      userId: f?.userId || fid,
+      online: true,
+      cats: (f?.profile?.cats || []).length,
+    };
+  });
+}
+
 /** Seed login1–4 equal kits + mutual friends; wipe DM junk. */
 export function seedQaAccounts() {
   const s = loadStore();
   for (const login of QA_LOGINS) ensureQaAccount(login);
-  for (const a of QA_LOGINS) {
-    s.accounts[a].friends = QA_LOGINS.filter((x) => x !== a);
-  }
+  linkQaFriends();
   // Drop any prior DM threads among QA logins (clean slate).
   for (let i = 0; i < QA_LOGINS.length; i++) {
     for (let j = i + 1; j < QA_LOGINS.length; j++) {
@@ -152,6 +186,9 @@ export function seedQaAccounts() {
     catsEach: SHOP_COMMON_COMBAT.length,
     potions: BATTLE_POTIONS,
     friendsPairs: (QA_LOGINS.length * (QA_LOGINS.length - 1)) / 2,
+    friends: Object.fromEntries(
+      QA_LOGINS.map((login) => [login, [...(s.accounts[login].friends || [])]]),
+    ),
   };
 }
 
@@ -192,6 +229,11 @@ export async function handleAccountsDevApi(req, res, send) {
   // Seed / reset QA quartet
   if (u.pathname === "/api/dev/accounts/seed" && (req.method === "POST" || req.method === "GET")) {
     return json(200, seedQaAccounts()), true;
+  }
+
+  // Link login1–4 as mutual friends without wiping chats
+  if (u.pathname === "/api/dev/friends/link-qa" && (req.method === "POST" || req.method === "GET")) {
+    return json(200, linkQaFriends()), true;
   }
 
   if (u.pathname === "/api/dev/accounts" && req.method === "GET") {
@@ -270,6 +312,8 @@ export async function handleAccountsDevApi(req, res, send) {
       );
     }
 
+    // Ensure QA quartet stays mutual on every login (no DM wipe).
+    if (QA_LOGINS.includes(acc.login)) linkQaFriends();
     return (
       json(200, {
         ok: true,
@@ -279,7 +323,7 @@ export async function handleAccountsDevApi(req, res, send) {
         passwordAccepted: true,
         session: { userId: acc.userId, token: `stub_${acc.userId}` },
         profile: acc.profile,
-        friends: [...(acc.friends || [])],
+        friends: friendRowsFor(acc.login),
       }),
       true
     );
@@ -290,16 +334,7 @@ export async function handleAccountsDevApi(req, res, send) {
     const s = loadStore();
     const acc = s.accounts[login];
     if (!acc) return json(404, { ok: false, error: "unknown_user" }), true;
-    const friends = (acc.friends || []).map((fid) => {
-      const f = s.accounts[fid];
-      return {
-        login: fid,
-        userId: f?.userId || fid,
-        online: true,
-        cats: (f?.profile?.cats || []).length,
-      };
-    });
-    return json(200, { ok: true, login, friends }), true;
+    return json(200, { ok: true, login, friends: friendRowsFor(login) }), true;
   }
 
   if (u.pathname === "/api/dev/friends/add" && req.method === "POST") {

@@ -18464,6 +18464,30 @@ function qaSessionLogin() {
   return state.session?.userId || state.profile?.userId || state.profile?.login || "";
 }
 
+/** Normalize friends from login (strings) or /api/dev/friends (objects). */
+function normalizeFriends(list) {
+  if (!Array.isArray(list)) return [];
+  return list
+    .map((f) => {
+      if (typeof f === "string") return { login: f, userId: f, online: true, cats: 18 };
+      const login = f?.login || f?.userId || "";
+      if (!login) return null;
+      return {
+        login,
+        userId: f.userId || login,
+        online: f.online !== false,
+        cats: Number(f.cats) || 18,
+      };
+    })
+    .filter(Boolean);
+}
+
+function friendLogin(f) {
+  if (!f) return "";
+  if (typeof f === "string") return f;
+  return f.login || f.userId || "";
+}
+
 function formatChatTime(ts) {
   try {
     return new Date(ts).toLocaleTimeString("ru-RU", {
@@ -18484,7 +18508,7 @@ async function loadFriendsSocial() {
   }
   try {
     const { data } = await api(`/api/dev/friends?login=${encodeURIComponent(login)}`);
-    state.friends = Array.isArray(data?.friends) ? data.friends : [];
+    state.friends = normalizeFriends(data?.friends);
   } catch (err) {
     console.warn("friends load", err);
   }
@@ -18589,7 +18613,7 @@ function paintDmPeerList() {
   }
   dmBox.innerHTML = friends
     .map((f) => {
-      const id = f.login || f.userId;
+      const id = friendLogin(f);
       const on = state.chatPeer === id;
       return `<button type="button" data-dm-peer="${escapeHtml(id)}" class="flex items-center justify-between p-1.5 rounded-lg ${on ? "bg-[#2e2926] border border-primary/45" : "hover:bg-[#1a1613] border border-transparent"} cursor-pointer text-left w-full">
 <div class="flex items-center gap-2 min-w-0">
@@ -18644,10 +18668,10 @@ function clearLoungeJunk() {
     me
       ? `<div class="flex items-center justify-between p-1.5 rounded-lg bg-[#2e2926]/60 border border-primary/20"><div class="flex items-center gap-2 min-w-0"><span class="w-8 h-8 rounded-xl bg-primary flex items-center justify-center text-on-primary"><span class="material-symbols-outlined text-[18px]">pets</span></span><div class="min-w-0"><b class="text-[11px] text-primary truncate block">${escapeHtml(me)} <span class="text-[8px] px-1 rounded bg-secondary/20 text-secondary">Вы</span></b><span class="text-[9px] text-secondary truncate block">В таверне</span></div></div></div>`
       : "",
-    ...friends.map(
-      (f) =>
-        `<button type="button" data-dm-peer="${escapeHtml(f.login || f.userId)}" class="flex items-center justify-between p-1.5 rounded-lg hover:bg-[#1a1613] cursor-pointer text-left w-full"><div class="flex items-center gap-2 min-w-0"><span class="w-8 h-8 rounded-xl bg-[#393430] flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[18px]">cruelty_free</span></span><div class="min-w-0"><b class="text-[11px] truncate block">${escapeHtml(f.login || f.userId)}</b><span class="text-[9px] text-outline truncate block">друг · онлайн</span></div></div></button>`,
-    ),
+    ...friends.map((f) => {
+      const id = friendLogin(f);
+      return `<button type="button" data-dm-peer="${escapeHtml(id)}" class="flex items-center justify-between p-1.5 rounded-lg hover:bg-[#1a1613] cursor-pointer text-left w-full"><div class="flex items-center gap-2 min-w-0"><span class="w-8 h-8 rounded-xl bg-[#393430] flex items-center justify-center text-primary"><span class="material-symbols-outlined text-[18px]">cruelty_free</span></span><div class="min-w-0"><b class="text-[11px] truncate block">${escapeHtml(id)}</b><span class="text-[9px] text-outline truncate block">друг · онлайн</span></div></div></button>`;
+    }),
   ].join("");
   lounge.querySelectorAll("[data-dm-peer]").forEach((btn) => {
     btn.addEventListener("click", async () => {
@@ -18665,8 +18689,7 @@ function scrubFriendsChrome() {
   const root = $("viewChatFriends");
   if (!root) return;
   const n = (state.friends || []).length;
-  const peer =
-    state.chatPeer || state.friends[0]?.login || state.friends[0]?.userId || "—";
+  const peer = state.chatPeer || friendLogin(state.friends[0]) || "—";
   root.querySelectorAll("b.text-primary.text-\\[16px\\], b.text-secondary.text-\\[16px\\], b.text-tertiary.text-\\[16px\\]").forEach((el, i) => {
     if (i === 0) el.textContent = String(n);
     else if (i === 1) el.textContent = String(n);
@@ -18755,7 +18778,7 @@ async function renderFriendsSocial() {
     } else {
       list.innerHTML = friends
         .map((f) => {
-          const id = f.login || f.userId;
+          const id = friendLogin(f);
           return `<button type="button" data-dm-peer="${escapeHtml(id)}" class="friend-card grid grid-cols-12 items-center px-2 py-1.5 rounded-lg bg-[#1a1613] border border-outline-variant/25 hover:border-primary/40 text-left w-full">
 <div class="col-span-6 flex items-center gap-1.5 min-w-0">
 <span class="relative w-8 h-8 rounded-lg bg-primary/15 border border-primary/35 flex items-center justify-center flex-shrink-0"><span class="material-symbols-outlined text-primary text-[16px]">cruelty_free</span><i class="absolute bottom-0 right-0 w-2 h-2 rounded-full bg-secondary ring-1 ring-[#161310]"></i></span>
@@ -18783,7 +18806,7 @@ async function renderFriendsSocial() {
 async function renderChatSocial() {
   await loadFriendsSocial();
   if (!state.chatPeer && (state.friends || []).length) {
-    state.chatPeer = state.friends[0].login || state.friends[0].userId;
+    state.chatPeer = friendLogin(state.friends[0]);
     state.chatChannel = "dm";
   }
   await loadChatMessages({ peer: state.chatPeer, channel: state.chatPeer ? "dm" : "global" });
@@ -18823,9 +18846,8 @@ async function stubLogin({ login = "", password = "", register = false } = {}) {
       body: JSON.stringify({ login, password, register: !!register }),
     });
     state.session = data?.session || { userId: data?.profile?.userId || "guest_smoke" };
-    state.friends = Array.isArray(data?.friends) ? data.friends : [];
-    state.chatPeer =
-      state.friends[0]?.login || state.friends[0]?.userId || null;
+    state.friends = normalizeFriends(data?.friends);
+    state.chatPeer = friendLogin(state.friends[0]) || null;
     state.chatChannel = "dm";
     state.chatMessages = [];
     state.selectedCatId = null;
