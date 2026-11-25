@@ -114,11 +114,12 @@ async function main() {
     const idle = await evalJson(
       send,
       `(() => {
-        document.body.classList.remove("mythfel-login");
-        window.mythfelNavigate("pvp");
-        const view = document.getElementById("viewPvp");
-        if (!view || view.classList.contains("hidden")) return { ok: false, err: "viewPvp hidden" };
         try {
+          localStorage.setItem("mythfel_sl_progress", JSON.stringify({ pveWins: 3, practiceWins: 0 }));
+          document.body.classList.remove("mythfel-login");
+          window.mythfelNavigate("pvp");
+          const view = document.getElementById("viewPvp");
+          if (!view || view.classList.contains("hidden")) return { ok: false, err: "viewPvp hidden" };
           const leftover =
             !!document.getElementById("arenaOppPreview") ||
             (view.textContent || "").includes("Подбор соперника") ||
@@ -128,14 +129,10 @@ async function main() {
           const iconHidden = document.getElementById("arenaSearchIcon")?.classList.contains("hidden");
           const row = document.getElementById("arenaSearchStatusRow");
           const pill = document.getElementById("arenaCrossplayPill");
-          const pillInStatus = !!(pill && row && row.contains(pill));
-          const rowClass = row?.className || "";
-          const parentClass = row?.parentElement?.className || "";
-          const cardChrome =
-            /backdrop-blur/.test(rowClass) ||
-            /backdrop-blur/.test(parentClass) ||
-            /bg-surface-container-lowest/.test(rowClass) ||
-            /bg-surface-container-lowest/.test(parentClass);
+          const rewardsBtn = view.querySelector('[data-arena="rewards"]');
+          const pillAtBottom = !!(pill && rewardsBtn && pill.nextElementSibling === rewardsBtn);
+          const veil = view.querySelector(".arena-search-veil");
+          const veilOk = !!veil;
           const btn = document.getElementById("btnArenaSearch");
           const idleOk =
             !leftover &&
@@ -143,8 +140,8 @@ async function main() {
             timerHidden &&
             iconHidden &&
             row?.dataset.state === "idle" &&
-            pillInStatus &&
-            !cardChrome &&
+            pillAtBottom &&
+            veilOk &&
             !!btn;
           return {
             ok: idleOk,
@@ -152,8 +149,8 @@ async function main() {
             status,
             timerHidden,
             iconHidden,
-            pillInStatus,
-            cardChrome,
+            pillAtBottom,
+            veilOk,
             state: row?.dataset.state || "",
           };
         } catch (e) {
