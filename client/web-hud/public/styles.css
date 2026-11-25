@@ -6513,7 +6513,8 @@ body:has(#viewCollection:not(.hidden)) #app {
 }
 #viewCollection .collection-teams .col-team,
 #viewCollection #colTeams .col-team {
-  flex: 1 1 0 !important;
+  /* 4 squads: size to content + scroll list (D-054); do not equal-split 2-way. */
+  flex: 0 0 auto !important;
   min-height: 0;
   display: flex;
   flex-direction: column;
