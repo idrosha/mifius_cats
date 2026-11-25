@@ -2065,12 +2065,14 @@ function showView(id) {
     preloadScreenBgs("dojoLoad", "dojo");
     prefetchSquadCardArt(combatSquadForPrefetch());
   } else if (id === "viewPracticeFight") {
-    preloadScreenBgs("dojo", "pveVictory", "victoryHall");
+    preloadScreenBgs("dojo", "pveVictory", "victoryHall", "resultWin");
     prefetchSquadCardArt(combatSquadForPrefetch());
   } else if (id === "viewPvpLoad") preloadScreenBgs("pvpLoad", "pvpLoadTeams", "arenaInterior");
   else if (id === "viewPvpFight") preloadScreenBgs("arenaInterior", "pvpVictory");
   else if (id === "viewPveVictory" || id === "viewVictoryHall" || id === "viewPvpVictory") {
     preloadScreenBgs("pveVictory", "victoryHall", "pvpVictory", "yard");
+  } else if (id === "viewResultWin") {
+    preloadScreenBgs("resultWin");
   }
   state.wireMode = wireModeFor(id);
   updateWireDock();
@@ -13159,18 +13161,86 @@ function bindPvpVictory() {
   });
 }
 
+/** Painted `#viewResultWin` chrome — dungeon/raid victory (Stitch result_win). */
+function paintResultWinForm() {
+  const root = $("viewResultWin");
+  if (!root || root.querySelector("[data-purpose='wireframe']")) return;
+  const mode = state.battleMode;
+  const turn = state.battle?.turn || state.battle?.round || state.lastResult?.turn || 6;
+  const sec = Math.max(48, Math.min(360, (turn || 6) * 28));
+  const mm = String(Math.floor(sec / 60)).padStart(2, "0");
+  const ss = String(sec % 60).padStart(2, "0");
+  const dung = typeof dungeonById === "function" ? dungeonById() : null;
+  const raid = typeof raidDef === "function" ? raidDef() : null;
+  const setText = (id, value) => {
+    const el = $(id);
+    if (el) el.textContent = value;
+  };
+  if (mode === "dungeon") {
+    setText("rwTitle", "Славная победа в данже!");
+    setText("rwCrumbMode", dung?.title_ru || "Рунические склепы");
+    setText("rwBoss", dung?.boss_ru || dung?.title_ru || "Босс склепа");
+    setText("rwXp", "+1,200 XP");
+  } else if (mode === "boss") {
+    const ui = RAID_BOSS_UI[raid?.raidId] || RAID_BOSS_UI.myaurra;
+    setText("rwTitle", "Славная Победа Легиона!");
+    setText("rwCrumbMode", raid?.title_ru || "Рейд Легиона 12");
+    setText("rwBoss", raid?.title_ru || ui?.place_ru || "Пит-босс");
+    setText("rwXp", "+4,850 XP");
+  } else {
+    setText("rwTitle", "Славная победа!");
+    setText("rwCrumbMode", "Итог боя");
+    setText("rwBoss", "Противник");
+    setText("rwXp", "+850 XP");
+  }
+  setText("rwRounds", `${turn} раундов`);
+  setText("rwTime", `${mm}:${ss}`);
+
+  // Prefer legion roster arts/names when present; else keep painted defaults.
+  const roster =
+    mode === "boss" && Array.isArray(state.raidLegion) && state.raidLegion.some((s) => s?.filled)
+      ? [...state.raidLegion].filter((s) => s?.filled).sort((a, b) => a.row - b.row || a.col - b.col)
+      : null;
+  if (roster?.length) {
+    // Visual wings: front→rear = row 0→3 (matches Stitch I…IV).
+    const byWing = [0, 1, 2, 3].flatMap((row) => roster.filter((s) => s.row === row).slice(0, 3));
+    byWing.forEach((slot, i) => {
+      const img = root.querySelector(`img[data-rw-slot="${i}"]`);
+      const nameEl = root.querySelector(`[data-rw-name="${i}"]`);
+      const tid = slot.templateId;
+      const art = (tid && typeof catHeroArt === "function" && catHeroArt(tid)) || "";
+      if (img && art) {
+        img.src = art;
+        img.setAttribute("data-rw-tid", tid);
+      }
+      if (nameEl) {
+        const hero = typeof practiceHeroByTemplate === "function" ? practiceHeroByTemplate(tid) : null;
+        nameEl.textContent = hero?.name || slot.name_ru || tid || nameEl.textContent;
+      }
+    });
+  }
+}
+
 function renderResult() {
   const r = state.lastResult;
   const win = r?.result === "p1_win";
   const modeRu =
-    { practice: "Тренировка", pve: "Мифмир", pvp: "PvP арена", boss: "Босс" }[state.battleMode] ||
+    {
+      practice: "Тренировка",
+      pve: "Мифмир",
+      pvp: "PvP арена",
+      boss: "Рейд",
+      dungeon: "Данж",
+    }[state.battleMode] ||
     state.battleMode ||
     "бой";
-  $("resultEyebrow").textContent = t("result.eyebrow", "Итог боя");
-  $("resultTitle").textContent = win
-    ? t("result.win", "Блестящая победа!")
-    : t("result.lose", "Поражение в бою");
-  $("resultLead").textContent = `${r?.battleId || "?"} · ${r?.result || "?"} · ${modeRu}`;
+  if ($("resultEyebrow")) $("resultEyebrow").textContent = t("result.eyebrow", "Итог боя");
+  if ($("resultTitle")) {
+    $("resultTitle").textContent = win
+      ? t("result.win", "Блестящая победа!")
+      : t("result.lose", "Поражение в бою");
+  }
+  if ($("resultLead")) $("resultLead").textContent = `${r?.battleId || "?"} · ${r?.result || "?"} · ${modeRu}`;
   const loseLead = $("resultLoseLead");
   if (loseLead && !win) {
     loseLead.textContent =
@@ -13180,39 +13250,71 @@ function renderResult() {
   }
   const pvpLobbyBtn = document.querySelector('#viewResultLose [data-hud-action="result-pvp-lobby"]');
   if (pvpLobbyBtn) pvpLobbyBtn.hidden = state.battleMode !== "pvp";
-  // Wire painted/lose CTAs once
-  document.querySelectorAll("[data-hud-action]").forEach((btn) => {
-    if (btn.dataset.bound) return;
-    btn.dataset.bound = "1";
-    btn.addEventListener("click", () => {
-      const act = btn.getAttribute("data-hud-action");
-      const mode = state.battleMode;
-      state.battle = null;
-      state.lastResult = null;
-      if (act === "result-retry") {
-        if (mode === "pvp") {
+  if (win) paintResultWinForm();
+  // Wire painted win / lose CTAs once (scoped — avoid double-binding whole document).
+  const roots = [$("viewResultWin"), $("viewResultLose")].filter(Boolean);
+  for (const root of roots) {
+    root.querySelectorAll("[data-hud-action]").forEach((btn) => {
+      if (btn.dataset.bound) return;
+      btn.dataset.bound = "1";
+      btn.addEventListener("click", () => {
+        const act = btn.getAttribute("data-hud-action");
+        const mode = state.battleMode;
+        if (act === "result-stats") {
+          toast("Статистика DPS/HPS — скоро (серверный лог боя)");
+          return;
+        }
+        state.battle = null;
+        state.lastResult = null;
+        if (act === "result-retry") {
+          if (mode === "pvp") {
+            state.battleMode = "";
+            state.pvpOpponentTeam = null;
+            navigate("pvp", { primary: "combat" });
+            window.setTimeout(() => startPvpSearch(), 80);
+          } else if (mode === "practice") startPractice(false);
+          else if (mode === "dungeon") {
+            state.battleMode = "dungeon";
+            navigate("boss_dungeon", { primary: "combat" });
+          } else if (mode === "boss") {
+            state.battleMode = "boss";
+            navigate("boss_raid", { primary: "combat" });
+          } else startYard(false);
+        } else if (act === "result-formation") navigate("formation");
+        else if (act === "result-tavern") navigate("tavern");
+        else if (act === "result-hub") {
+          state.battleMode = "";
+          navigate("hub");
+        } else if (act === "result-yard") {
+          state.battleMode = "";
+          state.pvpOpponentTeam = null;
+          navigate(mode === "pvp" ? "pvp" : mode === "practice" ? "practice" : "yard");
+        } else if (act === "result-pvp-lobby") {
           state.battleMode = "";
           state.pvpOpponentTeam = null;
           navigate("pvp", { primary: "combat" });
-          window.setTimeout(() => startPvpSearch(), 80);
-        } else if (mode === "practice") startPractice(false);
-        else startYard(false);
-      } else if (act === "result-formation") navigate("formation");
-      else if (act === "result-tavern") navigate("tavern");
-      else if (act === "result-hub") {
-        state.battleMode = "";
-        navigate("hub");
-      } else if (act === "result-yard") {
-        state.battleMode = "";
-        state.pvpOpponentTeam = null;
-        navigate(mode === "pvp" ? "pvp" : mode === "practice" ? "practice" : "yard");
-      } else if (act === "result-pvp-lobby") {
-        state.battleMode = "";
-        state.pvpOpponentTeam = null;
-        navigate("pvp", { primary: "combat" });
+        }
+      });
+    });
+  }
+  if (!$("viewResultWin")?.dataset.rwKeys) {
+    const winRoot = $("viewResultWin");
+    if (winRoot) winRoot.dataset.rwKeys = "1";
+    document.addEventListener("keydown", (ev) => {
+      if (logicalViewId() !== "viewResultWin") return;
+      if (ev.target.closest?.("input, textarea")) return;
+      if (ev.code === "Space") {
+        ev.preventDefault();
+        $("rwBtnHub")?.click();
+      } else if (ev.code === "KeyR") {
+        ev.preventDefault();
+        $("rwBtnRetry")?.click();
+      } else if (ev.code === "Tab") {
+        ev.preventDefault();
+        $("rwBtnStats")?.click();
       }
     });
-  });
+  }
 }
 
 function cleansedByUnitFromEvents(events) {
@@ -14557,6 +14659,7 @@ const SCREEN_BG = {
   victoryHall: `/stitch-ref/e608/victory_hall.webp?v=${STITCH_ASSET_V}`,
   arenaInterior: `/stitch-assets/pvp-battles/fight-bg.webp?v=${STITCH_ASSET_V}`,
   pvpVictory: `/stitch-assets/pvp-battles/victory-hall.webp?v=${STITCH_ASSET_V}`,
+  resultWin: `/stitch-assets/result-win/bg.jpg?v=${STITCH_ASSET_V}`,
 };
 
 function preloadScreenBgs(...keys) {

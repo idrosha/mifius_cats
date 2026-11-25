@@ -31,7 +31,7 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | `yard` | `yard.html` | e608 `pve` | Мифмир start: карта + узлы + волны; строй tip inline |
 | `formation` | `formation.html` | e608 `versus_3v3` | Строй 3v3 **inline** (не вкладка Бои) |
 | `battle` | `battle.html` | e608 `pve_3v3` | Shared fight UI (рука / HP / ход) |
-| `result_win` | `result_win.html` | e608 root | Shared victory template |
+| `result_win` | `result_win.html` | Stitch legion victory zip | Данж/рейд победа · 12 героев · трофеи · CTA (D-025 без site nav) |
 | `victory_hall` | `victory_hall.html` | victory-practice | Training/Mythmir win · 3 hero cards (cats↔dummies) |
 | `boss_dungeon` | `boss_dungeon.html` | 4da7 `3` | Данжи start · 3 волны |
 | `boss_raid` | `boss_raid.html` | 4da7 `12` | Рейд / легион 12 start |
