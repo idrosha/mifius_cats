@@ -5446,7 +5446,8 @@ body:has(#viewPvp:not(.hidden)) #wireDock { display: none !important; }
 }
 #viewPvp .arena-squad .dojo-squad-slot {
   min-height: 0;
-  height: 7.25rem; /* portrait in col-span-3; 4 teams fit without scroll */
+  /* Practice roster tiles measure ~116px tall in the lobby; keep 4 teams on-screen. */
+  height: 7.25rem;
   border-radius: 0.5rem;
 }
 #viewPvp .arena-squad .dojo-squad-slot.is-empty {
