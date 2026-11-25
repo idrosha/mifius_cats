@@ -5518,19 +5518,24 @@ body:has(#viewPvp:not(.hidden)) #wireDock { display: none !important; }
   background: #100e0c;
   overflow: hidden;
 }
-/* Squad strip: 3-up avatars, hug content (global .stitch-view grid stretch would inflate cards). */
+/* Squad strip: PvE-style cards, hug content (global .stitch-view grid stretch would inflate). */
 #viewBossDungeon [data-dungeon-squad-strip] {
   align-content: start !important;
 }
 #viewBossDungeon [data-dungeon-squad-strip] > * {
   align-self: start;
 }
-/* Collection-team dropdown above dungeon CTA row */
+#viewBossDungeon .dungeon-squad-hero-art {
+  height: 4.75rem;
+  max-height: 4.75rem;
+  min-height: 4.25rem;
+}
+/* Collection-team dropdown under «Выбор команды» */
 #viewBossDungeon .dungeon-team-picker {
   position: absolute;
   left: 0.5rem;
   right: 0.5rem;
-  bottom: 2.65rem;
+  top: 2.75rem;
   z-index: 40;
   display: flex;
   flex-direction: column;

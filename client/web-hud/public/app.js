@@ -3624,26 +3624,31 @@ function dungeonActiveSquadName() {
   return preset?.name || COL_SQUAD_NAMES[pi] || "Данж";
 }
 
-/** Visual L→R: тыл · центр · авангард (collection slot order). */
-function dungeonVisualRoster() {
+/** Visual L→R cats: тыл · центр · авангард (collection slot order). */
+function dungeonVisualCats() {
   ensureDungeonTestSquad();
   if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
   const pi = dungeonPresetIndex();
   const preset = state.profile?.presets?.[pi];
   const ids = Array.isArray(preset?.catIds) ? preset.catIds : [];
   const cats = [0, 1, 2].map((i) => collectionCatById(ids[i]) || null);
-  if (cats.filter(Boolean).length === 3) {
-    return cats.map((c, i) => ({
-      tid: c.templateId,
-      name: typeof catSheetName === "function" ? catSheetName(c) : c.templateId,
-      lane: PVE_YARD_LANES[i],
-    }));
-  }
-  const combat = state.practiceSquad;
+  if (cats.filter(Boolean).length === 3) return cats;
+  const combat = state.practiceSquad || [];
   const visualTids = [combat[2], combat[1], combat[0]];
-  return visualTids.map((tid, i) => ({
-    tid,
-    name: String(tid).replace(/^shop_/, "").replace(/_/g, " "),
+  return [0, 1, 2].map((i) => {
+    if (cats[i]) return cats[i];
+    const tid = visualTids[i];
+    if (!tid) return null;
+    const fromProfile = (state.profile?.cats || []).find((c) => c.templateId === tid);
+    return fromProfile || { templateId: tid, level: 1 };
+  });
+}
+
+/** @deprecated name kept for swap toast — visual cat names L→R. */
+function dungeonVisualRoster() {
+  return dungeonVisualCats().map((c, i) => ({
+    tid: c?.templateId,
+    name: c ? (typeof catSheetName === "function" ? catSheetName(c) : c.templateId) : "—",
     lane: PVE_YARD_LANES[i],
   }));
 }
@@ -3765,43 +3770,74 @@ function renderDungeonSquadStrip() {
   if (!root) return;
   const host = root.querySelector("[data-dungeon-squad-strip]");
   if (!host) return;
-  const roster = dungeonVisualRoster();
+  const cats = dungeonVisualCats();
+  const roleBadge = (role) => {
+    if (role === "tank") return "ТАНК";
+    if (role === "support") return "ХИЛ";
+    return "ДПС";
+  };
   const toneCls = {
     secondary: {
-      border: "border-secondary/40",
-      badge: "bg-secondary/15 text-secondary border-secondary/35",
+      card: "border-secondary/40 hover:border-secondary/60",
+      label: "text-secondary",
+      art: "border-secondary/40",
+      badge: "bg-secondary text-on-secondary",
     },
     tertiary: {
-      border: "border-tertiary/40",
-      badge: "bg-tertiary/15 text-tertiary border-tertiary/35",
+      card: "border-tertiary/40 hover:border-tertiary/60",
+      label: "text-tertiary",
+      art: "border-tertiary/40",
+      badge: "bg-tertiary text-on-tertiary",
     },
     primary: {
-      border: "border-primary/40",
-      badge: "bg-primary/15 text-primary border-primary/35",
+      card: "border-primary/40 hover:border-primary/60",
+      label: "text-primary",
+      art: "border-primary/40",
+      badge: "bg-primary text-on-primary",
     },
   };
   const nameEl = root.querySelector("[data-dungeon-squad-name]");
   if (nameEl) nameEl.textContent = dungeonActiveSquadName();
-  host.innerHTML = roster
-    .map((row) => {
-      const art =
-        (typeof catHeroArt === "function" && catHeroArt(row.tid)) ||
-        (typeof CAT_HERO_ART !== "undefined" && CAT_HERO_ART[row.tid]) ||
-        `/stitch-assets/cat-heroes/tank-fire.webp?v=gear18c`;
-      const t = toneCls[row.lane?.tone] || toneCls.primary;
-      const badge = row.lane?.badge || "—";
-      // Compact 3-up avatars (object-top) — visual тыл · центр · авангард.
-      return `<article class="rounded-lg border ${t.border} bg-[#1a1613] overflow-hidden flex flex-col min-w-0">
-        <div class="relative w-full h-[4.25rem] overflow-hidden bg-[#120f0d]">
-          <img alt="" class="w-full h-full object-cover object-top" src="${art}"/>
-          <span class="absolute bottom-1 left-1 text-[8px] px-1 py-0.5 rounded border font-bold leading-tight ${t.badge}">${badge}</span>
+  // Same card chrome as PvE yard; shorter art well for the dungeon aside.
+  host.innerHTML = PVE_YARD_LANES.map((lane, i) => {
+    const c = cats[i];
+    const role = c && typeof homeCatRole === "function" ? homeCatRole(c) : "";
+    const art = c
+      ? (typeof catHeroArt === "function" && catHeroArt(c.templateId)) ||
+        `/stitch-assets/cat-heroes/fighter-fire.webp?v=gear18c`
+      : "";
+    const name = c && typeof catSheetName === "function" ? catSheetName(c) : c?.templateId || "Пусто";
+    const lvl = c?.level != null ? c.level : "—";
+    const stats = c && typeof statsForCat === "function" ? statsForCat(c) : null;
+    const hp = stats && typeof formatSheetNum === "function" ? formatSheetNum(stats.hp) : "—";
+    const atk = stats && typeof formatSheetNum === "function" ? formatSheetNum(stats.atk) : "—";
+    const tc = toneCls[lane.tone] || toneCls.primary;
+    const badge = role ? roleBadge(role) : lane.badge;
+    if (!c) {
+      return `<div class="bg-surface-container rounded-xl p-1.5 border border-dashed border-outline-variant/50 flex flex-col justify-center items-center min-h-[7.5rem] text-on-surface-variant">
+        <span class="text-[10px] font-label-sm font-bold uppercase tracking-wider">${lane.label}</span>
+        <span class="material-symbols-outlined text-2xl mt-1">add</span>
+      </div>`;
+    }
+    return `<div class="bg-surface-container rounded-xl p-1.5 border ${tc.card} flex flex-col justify-between transition-all shadow-md group relative overflow-hidden min-w-0">
+      <div class="flex items-center justify-between mb-1 z-10 relative gap-0.5">
+        <span class="text-[10px] font-label-sm ${tc.label} font-bold uppercase tracking-wider truncate">${lane.label}</span>
+        <span class="text-[10px] font-stat-numeral text-primary font-bold bg-primary/10 px-1 py-0.5 rounded shrink-0">Ур. ${lvl}</span>
+      </div>
+      <div class="dungeon-squad-hero-art w-full rounded-lg overflow-hidden relative bg-surface-container-highest border ${tc.art} shadow-inner">
+        <img class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" alt="${String(name).replace(/"/g, "&quot;")}" src="${art}"/>
+        <div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent opacity-80 pointer-events-none"></div>
+        <span class="absolute bottom-1 left-1 ${tc.badge} text-[9px] font-bold px-1 py-0.5 rounded leading-tight shadow-sm">${badge}</span>
+      </div>
+      <div class="flex flex-col min-w-0 mt-1.5 z-10 relative">
+        <span class="font-label-md text-[11px] text-on-surface font-bold truncate leading-tight">${name}</span>
+        <div class="flex items-center justify-between gap-0.5 mt-1">
+          <span class="text-secondary text-[10px] font-stat-numeral flex items-center gap-0.5 font-bold leading-none"><span class="material-symbols-outlined text-[12px]">favorite</span>${hp}</span>
+          <span class="text-primary text-[10px] font-stat-numeral flex items-center gap-0.5 font-bold leading-none"><span class="material-symbols-outlined text-[12px]">swords</span>${atk}</span>
         </div>
-        <div class="px-1 py-1 min-w-0">
-          <span class="font-bold text-[10px] text-white truncate block leading-tight" title="${row.name}">${row.name}</span>
-        </div>
-      </article>`;
-    })
-    .join("");
+      </div>
+    </div>`;
+  }).join("");
 }
 
 function selectDungeon(id, path = state.dungeonPath, fork = state.dungeonFork) {
