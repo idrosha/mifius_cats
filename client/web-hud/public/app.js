@@ -17578,7 +17578,11 @@ function practiceAccentTextClass(accent) {
   return "text-primary";
 }
 
-function practiceSquadFilledSlot(hero, visualPos) {
+function practiceSquadFilledSlot(hero, visualPos, opts = {}) {
+  const interactive = opts.interactive !== false;
+  const compact = !!opts.compact;
+  const tip =
+    opts.tip === undefined ? (interactive ? "Нажмите, чтобы убрать" : "") : opts.tip || "";
   const laneIdx = PRACTICE_VISUAL_LANES[visualPos] ?? visualPos;
   const accent = hero.accent || "primary";
   const accentText = practiceAccentTextClass(accent);
@@ -17591,30 +17595,100 @@ function practiceSquadFilledSlot(hero, visualPos) {
   const midVal = hero.role === "fighter" || hero.role === "assassin" ? hero.dmg : hero.shield;
   const midPct = hero.role === "fighter" || hero.role === "assassin" ? dmgPct : shPct;
   const midBar = accent === "tertiary" ? "bg-tertiary" : accent === "secondary" ? "bg-secondary" : "bg-primary";
+  const pad = compact ? "p-1" : "p-2";
+  const nameSz = compact ? "text-[11px]" : "text-[13px]";
+  const barH = compact ? "h-1" : "h-1.5";
+  const labelSz = compact ? "text-[9px]" : "text-[10px]";
   const heroFace = spriteFaceHtml(
     `<img alt="${hero.name}" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-300 pointer-events-none mf-hero-portrait" src="${art}"/>`,
     { artSrc: art, desiredFace: "right" }
   );
-  return `<button type="button" class="dojo-squad-slot is-filled group relative rounded-xl bg-[#1a1613] border shadow-lg overflow-hidden flex flex-col justify-between min-h-0 text-left cursor-pointer hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary" data-accent="${accent}" data-squad-hero="${hero.templateId}" data-lane="${laneIdx}" title="Убрать из отряда">
+  const shellClass = `dojo-squad-slot is-filled group relative rounded-xl bg-[#1a1613] border shadow-lg overflow-hidden flex flex-col justify-between min-h-0 h-full text-left ${
+    interactive
+      ? "cursor-pointer hover:brightness-110 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+      : "pointer-events-none"
+  }`;
+  const open = interactive
+    ? `<button type="button" class="${shellClass}" data-accent="${accent}" data-squad-hero="${hero.templateId}" data-lane="${laneIdx}" title="Убрать из отряда">`
+    : `<div class="${shellClass}" data-accent="${accent}" data-lane="${laneIdx}">`;
+  const close = interactive ? `</button>` : `</div>`;
+  return `${open}
 <div class="absolute inset-0 z-0">
 ${heroFace}
 <div class="absolute inset-0 bg-gradient-to-t from-[#110d0b] via-[#110d0b]/75 to-transparent"></div>
 </div>
-<div class="relative z-10 p-2 flex items-center justify-between">
-<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur border border-outline-variant/40 ${accentText} text-[9px] font-bold flex items-center gap-1"><span class="material-symbols-outlined text-[11px]">${hero.roleIcon}</span> ${hero.roleRu}</span>
-<span class="px-2 py-0.5 rounded bg-black/80 backdrop-blur border border-outline-variant/40 ${accentText} text-[10px] font-bold">${lane}</span>
+<div class="relative z-10 ${pad} flex items-center justify-between gap-0.5">
+<span class="px-1.5 py-0.5 rounded bg-black/80 backdrop-blur border border-outline-variant/40 ${accentText} text-[8px] font-bold flex items-center gap-0.5 min-w-0"><span class="material-symbols-outlined text-[10px] shrink-0">${hero.roleIcon || "pets"}</span><span class="truncate">${hero.roleRu}</span></span>
+<span class="px-1.5 py-0.5 rounded bg-black/80 backdrop-blur border border-outline-variant/40 ${accentText} text-[9px] font-bold shrink-0">${lane}</span>
 </div>
-<div class="relative z-10 p-2 flex flex-col gap-1 bg-gradient-to-t from-[#110d0b] via-[#110d0b]/95 to-transparent">
-<div class="flex items-center justify-between gap-1"><h4 class="font-bold text-[13px] text-white truncate">${hero.name}</h4><span class="${accentText} text-[10px] font-bold whitespace-nowrap">Слот ${visualPos + 1}</span></div>
-<div class="flex flex-col gap-0.5"><div class="flex justify-between text-[10px]"><span class="text-outline">HP</span><span class="text-secondary font-bold">${hero.hp}</span></div>
-<div class="w-full bg-[#231f1c] h-1.5 rounded-full overflow-hidden"><div class="bg-secondary h-full rounded-full" style="width:${hpPct}%"></div></div></div>
-<div class="flex flex-col gap-0.5"><div class="flex justify-between text-[10px]"><span class="text-outline">${midLabel}</span><span class="${accentText} font-bold">${midVal}</span></div>
-<div class="w-full bg-[#231f1c] h-1.5 rounded-full overflow-hidden"><div class="${midBar} h-full rounded-full" style="width:${midPct}%"></div></div></div>
-<div class="flex flex-col gap-0.5"><div class="flex justify-between text-[10px]"><span class="text-outline">Урон</span><span class="text-on-surface font-bold">${hero.dmg}</span></div>
-<div class="w-full bg-[#231f1c] h-1.5 rounded-full overflow-hidden"><div class="bg-on-surface/60 h-full rounded-full" style="width:${dmgPct}%"></div></div></div>
-<span class="text-[9px] text-outline/80 font-bold mt-0.5">Нажмите, чтобы убрать</span>
+<div class="relative z-10 ${pad} flex flex-col gap-0.5 bg-gradient-to-t from-[#110d0b] via-[#110d0b]/95 to-transparent mt-auto">
+<div class="flex items-center justify-between gap-1"><h4 class="font-bold ${nameSz} text-white truncate">${hero.name}</h4>${
+    compact
+      ? `<span class="${accentText} text-[9px] font-bold whitespace-nowrap">${formatSheetNum(hero.bm || 0)} БМ</span>`
+      : `<span class="${accentText} text-[10px] font-bold whitespace-nowrap">Слот ${visualPos + 1}</span>`
+  }</div>
+<div class="flex flex-col gap-0.5"><div class="flex justify-between ${labelSz}"><span class="text-outline">HP</span><span class="text-secondary font-bold">${hero.hp}</span></div>
+<div class="w-full bg-[#231f1c] ${barH} rounded-full overflow-hidden"><div class="bg-secondary h-full rounded-full" style="width:${hpPct}%"></div></div></div>
+<div class="flex flex-col gap-0.5"><div class="flex justify-between ${labelSz}"><span class="text-outline">${midLabel}</span><span class="${accentText} font-bold">${midVal}</span></div>
+<div class="w-full bg-[#231f1c] ${barH} rounded-full overflow-hidden"><div class="${midBar} h-full rounded-full" style="width:${midPct}%"></div></div></div>
+<div class="flex flex-col gap-0.5"><div class="flex justify-between ${labelSz}"><span class="text-outline">Урон</span><span class="text-on-surface font-bold">${hero.dmg}</span></div>
+<div class="w-full bg-[#231f1c] ${barH} rounded-full overflow-hidden"><div class="bg-on-surface/60 h-full rounded-full" style="width:${dmgPct}%"></div></div></div>
+${tip ? `<span class="text-[9px] text-outline/80 font-bold mt-0.5">${tip}</span>` : ""}
 </div>
-</button>`;
+${close}`;
+}
+
+/** Resolve practice-shaped hero for arena/collection cat (fallback if not in PRACTICE_HEROES). */
+function arenaHeroForCat(cat) {
+  if (!cat) return null;
+  const known = practiceHeroByTemplate(cat.templateId);
+  if (known) return known;
+  const entry = pvpRosterEntry(cat.templateId);
+  const role = entry.roleKey || "fighter";
+  const roleIcon =
+    role === "tank"
+      ? "shield"
+      : role === "support"
+        ? "healing"
+        : role === "ranger"
+          ? "adjust"
+          : role === "mage"
+            ? "auto_awesome"
+            : role === "assassin"
+              ? "flash_on"
+              : "swords";
+  const accent =
+    role === "support" || role === "ranger"
+      ? "secondary"
+      : role === "fighter" || role === "mage"
+        ? "tertiary"
+        : "primary";
+  return {
+    templateId: cat.templateId,
+    name: entry.fullName || entry.name,
+    short: entry.name,
+    role,
+    roleRu: entry.roleRu,
+    roleIcon,
+    accent,
+    hp: entry.hp || 30,
+    shield: Math.max(1, Math.round((entry.hp || 30) / 5)),
+    dmg: Math.max(1, Math.round((entry.bm || 4500) / 500)),
+    bm: entry.bm || 4500,
+  };
+}
+
+function arenaSquadEmptyCard(visualPos) {
+  const laneIdx = PRACTICE_VISUAL_LANES[visualPos] ?? visualPos;
+  const lane = PRACTICE_LANE_LABEL[laneIdx] || "";
+  const meta = PRACTICE_EMPTY_SLOT_META[visualPos] || PRACTICE_EMPTY_SLOT_META[0];
+  const accent = meta.accent || "primary";
+  const accentText = practiceAccentTextClass(accent);
+  return `<div class="dojo-squad-slot is-empty relative rounded-xl border-2 border-dashed border-outline-variant/40 bg-[#1a1613]/80 flex flex-col items-center justify-center gap-1 min-h-0 h-full pointer-events-none px-1" data-lane="${laneIdx}">
+<span class="text-[9px] font-bold ${accentText} uppercase">${lane}</span>
+<span class="material-symbols-outlined text-[18px] text-outline">add</span>
+<span class="text-[8px] text-outline text-center leading-tight">Пусто</span>
+</div>`;
 }
 
 function practiceMatchAllyCard(hero, accentFallback) {
@@ -17888,30 +17962,25 @@ function renderPvpArenaSquadList() {
   host.style.gridTemplateRows = `repeat(${COL_SQUADS}, minmax(0, 1fr))`;
   host.innerHTML = Array.from({ length: COL_SQUADS }, (_, pi) => {
     const preset = state.profile?.presets?.[pi] || { name: COL_SQUAD_NAMES[pi], catIds: [] };
+    // Collection slots are visual тыл · центр · авангард (same L→R as dojo).
     const slotCats = [0, 1, 2].map((i) => collectionCatById(preset.catIds?.[i]) || null);
     const filled = slotCats.filter(Boolean).length;
     const on = String(pi) === active;
     const title = preset.name || COL_SQUAD_NAMES[pi];
-    const faces = slotCats
-      .map((c) => {
-        if (!c) {
-          return `<span class="w-11 h-11 rounded-full border border-dashed border-outline-variant/50 bg-black/30 inline-flex items-center justify-center text-[12px] text-outline">?</span>`;
-        }
-        const art = catHeroArt(c.templateId) || "/stitch-assets/cat-heroes/fighter-fire.webp?v=gear18c";
-        return `<img alt="" class="w-11 h-11 rounded-full border ${on ? "border-primary/50" : "border-outline-variant/50"} object-cover object-top" src="${art}">`;
+    const cards = slotCats
+      .map((cat, visualPos) => {
+        const hero = arenaHeroForCat(cat);
+        if (!hero) return arenaSquadEmptyCard(visualPos);
+        return practiceSquadFilledSlot(hero, visualPos, {
+          interactive: false,
+          compact: true,
+          tip: "",
+        });
       })
       .join("");
-    const hint =
-      filled === 3
-        ? slotCats
-            .filter(Boolean)
-            .map((c) => catSheetName(c).split(/\s+/)[0])
-            .join(" · ")
-        : "Соберите в Коллекции";
-    return `<article data-arena-squad="${pi}" class="arena-squad${on ? " is-on" : ""} min-h-0 h-full flex flex-col justify-center rounded-lg border ${on ? "border-primary/60" : "border-outline-variant/40"} bg-[#1a1613] px-2 py-1.5 cursor-pointer hover:border-primary/50 transition-colors" tabindex="0">
-<header class="flex items-center justify-between gap-1 mb-1"><b class="text-[11px] ${on ? "text-primary" : "text-on-surface-variant"} font-bold">${title}</b>${on ? `<i class="text-[9px] text-secondary not-italic font-bold">Активен</i>` : filled < 3 ? `<span class="text-[9px] text-outline">${filled}/3</span>` : ""}</header>
-<div class="flex gap-2 justify-center items-center flex-1">${faces}</div>
-<p class="text-center text-[10px] text-outline mt-1 truncate">${hint}</p>
+    return `<article data-arena-squad="${pi}" class="arena-squad${on ? " is-on" : ""} min-h-0 h-full flex flex-col rounded-lg border ${on ? "border-primary/60" : "border-outline-variant/40"} bg-[#1a1613] px-1.5 py-1 cursor-pointer hover:border-primary/50 transition-colors" tabindex="0">
+<header class="flex items-center justify-between gap-1 mb-1 flex-shrink-0"><b class="text-[11px] ${on ? "text-primary" : "text-on-surface-variant"} font-bold truncate">${title}</b>${on ? `<i class="text-[9px] text-secondary not-italic font-bold shrink-0">Активен</i>` : filled < 3 ? `<span class="text-[9px] text-outline shrink-0">${filled}/3</span>` : ""}</header>
+<div class="grid grid-cols-3 gap-1 flex-1 min-h-0">${cards}</div>
 </article>`;
   }).join("");
 }
