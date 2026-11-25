@@ -5448,75 +5448,29 @@
 <div class="arena-grid grid grid-cols-12 gap-2 flex-1 min-h-0 overflow-hidden">
 
 <!-- LEFT: team select (Axie-style saved teams + active 3) -->
-<aside class="col-span-12 lg:col-span-3 flex flex-col h-full min-h-0 gap-2 overflow-hidden">
+<aside class="col-span-12 lg:col-span-4 flex flex-col h-full min-h-0 gap-2 overflow-hidden">
 <div class="flex flex-col flex-1 min-h-0 bg-[#161310] rounded-xl border border-outline-variant/40 p-2 shadow-2xl overflow-hidden">
 <div class="flex items-center justify-between pb-1.5 px-1 border-b border-outline-variant/30 flex-shrink-0">
 <div class="flex items-center gap-1.5">
 <span class="material-symbols-outlined text-primary text-[18px]">groups</span>
 <span class="font-headline-md text-[13px] text-on-surface font-bold">Выбор команды</span>
 </div>
-<span id="arenaSquadCount" class="text-[10px] text-outline font-bold uppercase tracking-wide">2 команды</span>
+<span id="arenaSquadCount" class="text-[10px] text-outline font-bold uppercase tracking-wide">4 команды</span>
 </div>
 
-<div id="arenaSquadList" class="grid grid-cols-2 gap-1.5 py-1.5 flex-shrink-0" role="listbox" aria-label="Команды из коллекции">
+<div id="arenaSquadList" class="grid grid-cols-1 gap-1.5 py-1.5 flex-1 min-h-0" role="listbox" aria-label="Команды из коллекции">
 <!-- filled by renderPvpArenaSquadList from collection presets -->
 </div>
 
-<div class="flex items-center justify-between px-1 py-1 border-y border-outline-variant/25 flex-shrink-0 text-[10px]">
-<span class="text-outline">Мощь отряда</span>
-<strong id="arenaSquadBm" class="text-primary">— БМ</strong>
-<span class="text-secondary font-bold">WR 62%</span>
-<span class="text-tertiary font-bold">🔥×3</span>
-</div>
-
-<div class="flex-1 min-h-0 flex flex-col gap-1.5 overflow-y-auto py-1.5" id="arenaActiveTeam">
-<article class="relative flex gap-2 rounded-lg border border-primary/40 bg-[#1a1613] overflow-hidden min-h-[4.6rem] flex-shrink-0">
-<img alt="Барсик" class="w-14 self-stretch object-cover object-top" decoding="async" loading="lazy" data-mf-src="/stitch-assets/cat-heroes/tank-a.webp?v=opt1">
-<div class="flex-1 min-w-0 py-1.5 pr-2 flex flex-col justify-between">
-<div class="flex items-center justify-between gap-1">
-<span class="font-bold text-[12px] text-white truncate">Барсик Щит</span>
-<span class="text-[9px] px-1.5 py-0.5 rounded bg-primary/15 text-primary border border-primary/35 font-bold">ТАНК</span>
-</div>
-<div class="flex items-center gap-2 text-[10px] text-outline"><span>Ур. 48</span><span>🪨 Земля</span></div>
-<div class="h-1.5 rounded-full bg-black/50 overflow-hidden"><i class="block h-full w-[86%] bg-secondary rounded-full"></i></div>
-<div class="flex justify-between text-[10px]"><span class="text-on-surface-variant">DEF 1 240</span><span class="text-secondary font-bold">4 820 БМ</span></div>
-</div>
-</article>
-<article class="relative flex gap-2 rounded-lg border border-tertiary/40 bg-[#1a1613] overflow-hidden min-h-[4.6rem] flex-shrink-0">
-<img alt="Рыжик" class="w-14 self-stretch object-cover object-top" decoding="async" loading="lazy" data-mf-src="/stitch-assets/cat-heroes/fighter-a.webp?v=opt1">
-<div class="flex-1 min-w-0 py-1.5 pr-2 flex flex-col justify-between">
-<div class="flex items-center justify-between gap-1">
-<span class="font-bold text-[12px] text-white truncate">Рыжик Когти</span>
-<span class="text-[9px] px-1.5 py-0.5 rounded bg-tertiary/15 text-tertiary border border-tertiary/35 font-bold">БОЕЦ</span>
-</div>
-<div class="flex items-center gap-2 text-[10px] text-outline"><span>Ур. 50</span><span>🔥 Огонь</span></div>
-<div class="h-1.5 rounded-full bg-black/50 overflow-hidden"><i class="block h-full w-[78%] bg-tertiary rounded-full"></i></div>
-<div class="flex justify-between text-[10px]"><span class="text-on-surface-variant">ATK 1 680</span><span class="text-tertiary font-bold">5 140 БМ</span></div>
-</div>
-</article>
-<article class="relative flex gap-2 rounded-lg border border-secondary/40 bg-[#1a1613] overflow-hidden min-h-[4.6rem] flex-shrink-0">
-<img alt="Мурка" class="w-14 self-stretch object-cover object-top" decoding="async" loading="lazy" data-mf-src="/stitch-assets/cat-heroes/support-a.webp?v=opt1">
-<div class="flex-1 min-w-0 py-1.5 pr-2 flex flex-col justify-between">
-<div class="flex items-center justify-between gap-1">
-<span class="font-bold text-[12px] text-white truncate">Мурка Родник</span>
-<span class="text-[9px] px-1.5 py-0.5 rounded bg-secondary/15 text-secondary border border-secondary/35 font-bold">САППОРТ</span>
-</div>
-<div class="flex items-center gap-2 text-[10px] text-outline"><span>Ур. 47</span><span>💧 Вода</span></div>
-<div class="h-1.5 rounded-full bg-black/50 overflow-hidden"><i class="block h-full w-[92%] bg-secondary rounded-full"></i></div>
-<div class="flex justify-between text-[10px]"><span class="text-on-surface-variant">HEAL 980</span><span class="text-secondary font-bold">4 750 БМ</span></div>
-</div>
-</article>
-</div>
-
 <div class="flex gap-1.5 flex-shrink-0 pt-1">
-<button type="button" class="flex-1 py-1.5 rounded-lg border border-primary/50 text-primary text-[11px] font-bold hover:bg-primary/10 transition-colors" data-hud-action="pvp-formation">Расстановка</button>
-<button type="button" class="flex-1 py-1.5 rounded-lg border border-outline-variant/50 text-on-surface-variant text-[11px] font-bold hover:bg-surface-container-high transition-colors" data-arena="tactics">Тактика</button>
+<button type="button" class="flex-1 py-1.5 px-1 rounded-lg border border-primary/50 text-primary text-[10px] font-bold leading-tight hover:bg-primary/10 transition-colors" data-hud-action="pvp-formation">Поменять порядок</button>
+<button type="button" class="flex-1 py-1.5 px-1 rounded-lg border border-outline-variant/50 text-on-surface-variant text-[10px] font-bold leading-tight hover:bg-surface-container-high transition-colors" data-hud-action="pvp-replace-team">Заменить команду</button>
 </div>
 </div>
 </aside>
 
 <!-- CENTER: modes + rank stars + matchmaking search (Axie arena core) -->
-<div class="col-span-12 lg:col-span-5 flex flex-col h-full min-h-0 gap-2 overflow-hidden">
+<div class="col-span-12 lg:col-span-4 flex flex-col h-full min-h-0 gap-2 overflow-hidden">
 <div class="flex items-center gap-1 flex-shrink-0 bg-[#161310] rounded-xl border border-outline-variant/40 p-1" role="tablist" aria-label="Режим арены">
 <button type="button" class="arena-mode is-on flex-1 py-1.5 rounded-lg text-[11px] font-bold" data-arena-mode="ranked" role="tab" aria-selected="true">
 <span class="material-symbols-outlined text-[14px] align-middle mr-0.5">military_tech</span>Рейтинг
