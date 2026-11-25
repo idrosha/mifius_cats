@@ -17849,69 +17849,6 @@ function clearPvpSearchTimer() {
   }
 }
 
-function renderPvpArenaActiveTeam() {
-  const box = $("arenaActiveTeam");
-  if (!box) return;
-  ensurePvpSquad();
-  // D-034: lobby L→R = тыл · центр · авангард (same as pvp-load / victory).
-  const rows = pvpVisualRoster(state.pvpSquad);
-  const tone = {
-    tank: {
-      card: "border-primary/40",
-      badge: "bg-primary/15 text-primary border-primary/35",
-      bar: "bg-primary",
-      bm: "text-primary",
-    },
-    fighter: {
-      card: "border-tertiary/40",
-      badge: "bg-tertiary/15 text-tertiary border-tertiary/35",
-      bar: "bg-tertiary",
-      bm: "text-tertiary",
-    },
-    assassin: {
-      card: "border-primary/40",
-      badge: "bg-primary/15 text-primary border-primary/35",
-      bar: "bg-primary",
-      bm: "text-primary",
-    },
-    ranger: {
-      card: "border-secondary/40",
-      badge: "bg-secondary/15 text-secondary border-secondary/35",
-      bar: "bg-secondary",
-      bm: "text-secondary",
-    },
-    mage: {
-      card: "border-tertiary/40",
-      badge: "bg-tertiary/15 text-tertiary border-tertiary/35",
-      bar: "bg-tertiary",
-      bm: "text-tertiary",
-    },
-    support: {
-      card: "border-secondary/40",
-      badge: "bg-secondary/15 text-secondary border-secondary/35",
-      bar: "bg-secondary",
-      bm: "text-secondary",
-    },
-  };
-  box.innerHTML = rows
-    .map((c) => {
-      const t = tone[c.roleKey] || tone.tank;
-      return `<article class="relative flex gap-2 rounded-lg border ${t.card} bg-[#1a1613] overflow-hidden min-h-[4.6rem] flex-shrink-0">
-<img alt="${c.name}" class="w-14 self-stretch object-cover object-top" src="${c.art}"/>
-<div class="flex-1 min-w-0 py-1.5 pr-2 flex flex-col justify-between">
-<div class="flex items-center justify-between gap-1">
-<span class="font-bold text-[12px] text-white truncate">${c.name}</span>
-<span class="text-[9px] px-1.5 py-0.5 rounded border font-bold ${t.badge}">${(c.role.split(" · ")[0] || c.role).toUpperCase()}</span>
-</div>
-<div class="flex items-center gap-2 text-[10px] text-outline"><span>${c.role}</span></div>
-<div class="h-1.5 rounded-full bg-black/50 overflow-hidden"><i class="block h-full w-[80%] ${t.bar} rounded-full"></i></div>
-<div class="flex justify-between text-[10px]"><span class="text-on-surface-variant">${c.hp}</span><span class="${t.bm} font-bold">${formatSheetNum(c.bm)} БМ</span></div>
-</div>
-</article>`;
-    })
-    .join("");
-}
-
 function renderPvpArenaOppPreview(mode = "idle") {
   const box = $("arenaOppPreview");
   if (!box) return;
@@ -17948,6 +17885,7 @@ function renderPvpArenaSquadList() {
   const active = String(pvpArenaPresetIndex());
   const count = $("arenaSquadCount");
   if (count) count.textContent = `${COL_SQUADS} команды`;
+  host.style.gridTemplateRows = `repeat(${COL_SQUADS}, minmax(0, 1fr))`;
   host.innerHTML = Array.from({ length: COL_SQUADS }, (_, pi) => {
     const preset = state.profile?.presets?.[pi] || { name: COL_SQUAD_NAMES[pi], catIds: [] };
     const slotCats = [0, 1, 2].map((i) => collectionCatById(preset.catIds?.[i]) || null);
@@ -17957,10 +17895,10 @@ function renderPvpArenaSquadList() {
     const faces = slotCats
       .map((c) => {
         if (!c) {
-          return `<span class="w-8 h-8 rounded-full border border-dashed border-outline-variant/50 bg-black/30 inline-flex items-center justify-center text-[10px] text-outline">?</span>`;
+          return `<span class="w-11 h-11 rounded-full border border-dashed border-outline-variant/50 bg-black/30 inline-flex items-center justify-center text-[12px] text-outline">?</span>`;
         }
         const art = catHeroArt(c.templateId) || "/stitch-assets/cat-heroes/fighter-fire.webp?v=gear18c";
-        return `<img alt="" class="w-8 h-8 rounded-full border ${on ? "border-primary/50" : "border-outline-variant/50"} object-cover object-top" src="${art}">`;
+        return `<img alt="" class="w-11 h-11 rounded-full border ${on ? "border-primary/50" : "border-outline-variant/50"} object-cover object-top" src="${art}">`;
       })
       .join("");
     const hint =
@@ -17970,10 +17908,10 @@ function renderPvpArenaSquadList() {
             .map((c) => catSheetName(c).split(/\s+/)[0])
             .join(" · ")
         : "Соберите в Коллекции";
-    return `<article data-arena-squad="${pi}" class="arena-squad${on ? " is-on" : ""} rounded-lg border ${on ? "border-primary/60" : "border-outline-variant/40"} bg-[#1a1613] px-1.5 py-1 cursor-pointer hover:border-primary/50 transition-colors" tabindex="0">
-<header class="flex items-center justify-between gap-1 mb-0.5"><b class="text-[10px] ${on ? "text-primary" : "text-on-surface-variant"} font-bold">${title}</b>${on ? `<i class="text-[9px] text-secondary not-italic font-bold">Активен</i>` : filled < 3 ? `<span class="text-[9px] text-outline">${filled}/3</span>` : ""}</header>
-<div class="flex gap-1.5 justify-center items-center">${faces}</div>
-<p class="text-center text-[9px] text-outline mt-0.5 truncate">${hint}</p>
+    return `<article data-arena-squad="${pi}" class="arena-squad${on ? " is-on" : ""} min-h-0 h-full flex flex-col justify-center rounded-lg border ${on ? "border-primary/60" : "border-outline-variant/40"} bg-[#1a1613] px-2 py-1.5 cursor-pointer hover:border-primary/50 transition-colors" tabindex="0">
+<header class="flex items-center justify-between gap-1 mb-1"><b class="text-[11px] ${on ? "text-primary" : "text-on-surface-variant"} font-bold">${title}</b>${on ? `<i class="text-[9px] text-secondary not-italic font-bold">Активен</i>` : filled < 3 ? `<span class="text-[9px] text-outline">${filled}/3</span>` : ""}</header>
+<div class="flex gap-2 justify-center items-center flex-1">${faces}</div>
+<p class="text-center text-[10px] text-outline mt-1 truncate">${hint}</p>
 </article>`;
   }).join("");
 }
@@ -17983,17 +17921,11 @@ function renderPvpArena() {
   if (!root) return;
   ensurePvpSquad();
   renderPvpArenaSquadList();
-  const bmEl = $("arenaSquadBm");
-  if (bmEl) {
-    const sum = (state.pvpSquad || []).reduce((n, id) => n + (pvpRosterEntry(id).bm || 0), 0);
-    bmEl.textContent = `${formatSheetNum(sum)} БМ`;
-  }
   root.querySelectorAll("[data-arena-mode]").forEach((btn) => {
     const on = btn.getAttribute("data-arena-mode") === (state.pvpArenaMode || "ranked");
     btn.classList.toggle("is-on", on);
     btn.setAttribute("aria-selected", on ? "true" : "false");
   });
-  renderPvpArenaActiveTeam();
   if (state.pvpSearching) renderPvpArenaOppPreview("searching");
   else if (state.pvpOpponentTeam?.length === 3) renderPvpArenaOppPreview("found");
   else renderPvpArenaOppPreview("idle");
