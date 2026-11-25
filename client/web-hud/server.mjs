@@ -10,6 +10,7 @@ import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { handleDungeonDevApi } from "./dungeon-dev-api.mjs";
 import { handleAccountsDevApi } from "./accounts-dev-api.mjs";
+import { handlePvpMmDevApi } from "./pvp-mm-dev-api.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC = path.join(__dirname, "public");
@@ -315,6 +316,11 @@ const server = http.createServer(async (req, res) => {
   }
 
   if (await handleDungeonDevApi(req, res, send, REPO)) {
+    return;
+  }
+
+  /** PvP MM queue when bot stub is off (D-057). */
+  if (await handlePvpMmDevApi(req, res, send)) {
     return;
   }
 

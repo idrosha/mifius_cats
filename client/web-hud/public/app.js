@@ -1261,9 +1261,12 @@ const state = {
   pvpSquad: ["shop_tank_fire", "shop_fighter_fire", "shop_support_water"],
   pvpOpponentTeam: null,
   pvpOpponentName: "",
+  /** D-057: bot-MM stub on by default; off → /api/dev/pvp/mm real queue. */
+  pvpBotMmStub: true,
   pvpSearching: false,
   pvpSearchTimer: null,
   pvpSearchTick: null,
+  pvpSearchPoll: null,
   pvpSearchStartedAt: 0,
   pvpLoadPct: 0,
   pvpLoadTimer: null,
@@ -18201,7 +18204,61 @@ function stopPvpSearchTick() {
     clearInterval(state.pvpSearchTick);
     state.pvpSearchTick = null;
   }
+  if (state.pvpSearchPoll) {
+    clearInterval(state.pvpSearchPoll);
+    state.pvpSearchPoll = null;
+  }
   state.pvpSearchStartedAt = 0;
+}
+
+function loadPvpBotMmStub() {
+  try {
+    const raw = localStorage.getItem("mythfel_sl_pvp_bot_mm");
+    if (raw === "0" || raw === "false") state.pvpBotMmStub = false;
+    else if (raw === "1" || raw === "true") state.pvpBotMmStub = true;
+  } catch {
+    /* keep default */
+  }
+}
+
+function persistPvpBotMmStub() {
+  try {
+    localStorage.setItem("mythfel_sl_pvp_bot_mm", state.pvpBotMmStub ? "1" : "0");
+  } catch {
+    /* ignore */
+  }
+}
+
+function syncPvpBotMmToggleUi() {
+  const btn = $("arenaBotMmToggle");
+  if (!btn) return;
+  const on = !!state.pvpBotMmStub;
+  btn.textContent = on ? "Боты: вкл" : "Боты: выкл";
+  btn.setAttribute("aria-pressed", on ? "true" : "false");
+  btn.classList.toggle("bg-secondary/15", on);
+  btn.classList.toggle("text-secondary", on);
+  btn.classList.toggle("border-secondary/30", on);
+  btn.classList.toggle("bg-surface-container-high", !on);
+  btn.classList.toggle("text-on-surface-variant", !on);
+  btn.classList.toggle("border-outline-variant/40", !on);
+}
+
+function syncPvpSearchCtaUi() {
+  const cta = $("btnArenaSearch");
+  if (!cta) return;
+  const icon = $("arenaSearchCtaIcon");
+  const label = $("arenaSearchCtaLabel");
+  if (state.pvpSearching) {
+    cta.classList.add("is-searching");
+    cta.disabled = false;
+    if (icon) icon.textContent = "close";
+    if (label) label.textContent = "Отмена";
+  } else {
+    cta.classList.remove("is-searching");
+    cta.disabled = false;
+    if (icon) icon.textContent = "swords";
+    if (label) label.textContent = "Начать поиск";
+  }
 }
 
 function syncPvpSearchStatusUi() {
@@ -18223,6 +18280,7 @@ function syncPvpSearchStatusUi() {
       timer.setAttribute("aria-hidden", "false");
     }
     if (row) row.dataset.state = "searching";
+    syncPvpSearchCtaUi();
     return;
   }
   if (state.pvpOpponentTeam?.length === 3) {
@@ -18236,6 +18294,7 @@ function syncPvpSearchStatusUi() {
       timer.setAttribute("aria-hidden", "true");
     }
     if (row) row.dataset.state = "found";
+    syncPvpSearchCtaUi();
     return;
   }
   status.textContent = "";
@@ -18245,6 +18304,7 @@ function syncPvpSearchStatusUi() {
     timer.setAttribute("aria-hidden", "true");
   }
   if (row) row.dataset.state = "idle";
+  syncPvpSearchCtaUi();
 }
 
 function clearPvpSearchTimer() {
@@ -18254,10 +18314,80 @@ function clearPvpSearchTimer() {
   }
   stopPvpSearchTick();
   state.pvpSearching = false;
-  const cta = $("btnArenaSearch");
-  if (cta) {
-    cta.classList.remove("is-searching");
-    cta.disabled = false;
+  syncPvpSearchCtaUi();
+}
+
+function pvpMmUserId() {
+  return state.session?.userId || state.profile?.userId || state.profile?.login || "local_smoke";
+}
+
+function pvpMmDisplayName() {
+  return (
+    state.profile?.login ||
+    state.session?.userId ||
+    state.profile?.userId ||
+    "Игрок"
+  );
+}
+
+async function leavePvpMmQueue() {
+  try {
+    await api("/api/dev/pvp/mm/leave", {
+      method: "POST",
+      body: JSON.stringify({ userId: pvpMmUserId() }),
+    });
+  } catch (err) {
+    console.warn("pvp mm leave", err);
+  }
+}
+
+async function cancelPvpSearch() {
+  if (!state.pvpSearching) return;
+  const wasBot = !!state.pvpBotMmStub;
+  clearPvpSearchTimer();
+  if (!wasBot) await leavePvpMmQueue();
+  syncPvpSearchStatusUi();
+  toast("Поиск отменён");
+}
+
+function togglePvpBotMmStub() {
+  state.pvpBotMmStub = !state.pvpBotMmStub;
+  persistPvpBotMmStub();
+  syncPvpBotMmToggleUi();
+  if (state.pvpSearching) {
+    // Mode flip mid-search: cancel and restart on next CTA.
+    cancelPvpSearch();
+  }
+  toast(state.pvpBotMmStub ? "Заглушка ботов: вкл" : "Заглушка ботов: выкл · пул игроков");
+}
+
+function applyPvpMmMatch(snap) {
+  const opp = snap?.opponent;
+  const team = normalizeTeamLike(opp?.team);
+  if (team.length !== 3) return false;
+  clearPvpSearchTimer();
+  state.pvpOpponentTeam = team;
+  state.pvpOpponentName = String(opp?.name || opp?.userId || "Соперник");
+  leavePvpMmQueue();
+  syncPvpSearchStatusUi();
+  const names = team.map((id) => pvpRosterEntry(id).name).join(" · ");
+  toast(`Найден игрок: ${state.pvpOpponentName} · ${names}`);
+  window.setTimeout(() => openPvpLoad(), 450);
+  return true;
+}
+
+function normalizeTeamLike(team) {
+  if (!Array.isArray(team)) return [];
+  return team.map((id) => String(id || "")).filter(Boolean).slice(0, 3);
+}
+
+async function pollPvpMmOnce() {
+  if (!state.pvpSearching || state.pvpBotMmStub) return;
+  try {
+    const { data } = await api(`/api/dev/pvp/mm?userId=${encodeURIComponent(pvpMmUserId())}`);
+    if (data?.status === "matched") applyPvpMmMatch(data);
+  } catch (err) {
+    console.warn("pvp mm poll", err);
   }
 }
 
@@ -18305,6 +18435,7 @@ function renderPvpArena() {
     btn.classList.toggle("is-on", on);
     btn.setAttribute("aria-selected", on ? "true" : "false");
   });
+  syncPvpBotMmToggleUi();
   syncPvpSearchStatusUi();
 }
 
@@ -18313,41 +18444,69 @@ function startPvpSearch() {
     showGateTip(t("gate.tip.pvp", "PvP откроется после 3 побед в Мифмире или тренировке"));
     return;
   }
-  if (state.pvpSearching) return;
+  if (state.pvpSearching) {
+    cancelPvpSearch();
+    return;
+  }
   ensurePvpSquad();
   clearPvpSearchTimer();
   state.pvpSearching = true;
   state.pvpOpponentTeam = null;
   state.pvpOpponentName = "";
   state.pvpSearchStartedAt = Date.now();
-  const cta = $("btnArenaSearch");
-  if (cta) {
-    cta.classList.add("is-searching");
-    cta.disabled = true;
-  }
   syncPvpSearchStatusUi();
   state.pvpSearchTick = setInterval(() => {
     if (!state.pvpSearching) return;
     const timer = $("arenaSearchTimer");
     if (timer) timer.textContent = formatPvpSearchElapsed(Date.now() - state.pvpSearchStartedAt);
   }, 250);
-  toast("Поиск по рангу + БМ…");
-  const delay = 1200 + Math.floor(Math.random() * 1400);
-  state.pvpSearchTimer = setTimeout(() => {
-    state.pvpSearchTimer = null;
-    stopPvpSearchTick();
-    state.pvpSearching = false;
-    state.pvpOpponentTeam = rollPvpOpponentTeam(state.pvpSquad);
-    state.pvpOpponentName = pickRandomItem(PVP_FOE_NAMES) || "Свора Гладиаторов";
-    if (cta) {
-      cta.classList.remove("is-searching");
-      cta.disabled = false;
+
+  if (state.pvpBotMmStub) {
+    toast("Поиск · заглушка ботов…");
+    const delay = 1200 + Math.floor(Math.random() * 1400);
+    state.pvpSearchTimer = setTimeout(() => {
+      state.pvpSearchTimer = null;
+      stopPvpSearchTick();
+      state.pvpSearching = false;
+      state.pvpOpponentTeam = rollPvpOpponentTeam(state.pvpSquad);
+      state.pvpOpponentName = pickRandomItem(PVP_FOE_NAMES) || "Свора Гладиаторов";
+      syncPvpSearchStatusUi();
+      const names = state.pvpOpponentTeam.map((id) => pvpRosterEntry(id).name).join(" · ");
+      toast(`Найден отряд: ${names}`);
+      window.setTimeout(() => openPvpLoad(), 450);
+    }, delay);
+    return;
+  }
+
+  toast("Поиск игроков…");
+  const enqueue = async () => {
+    try {
+      const { data } = await api("/api/dev/pvp/mm/enqueue", {
+        method: "POST",
+        body: JSON.stringify({
+          userId: pvpMmUserId(),
+          name: pvpMmDisplayName(),
+          team: [...(state.pvpSquad || [])],
+        }),
+      });
+      if (!state.pvpSearching) return;
+      if (data?.status === "matched") {
+        applyPvpMmMatch(data);
+        return;
+      }
+    } catch (err) {
+      console.warn("pvp mm enqueue", err);
+      if (!state.pvpSearching) return;
+      clearPvpSearchTimer();
+      syncPvpSearchStatusUi();
+      toast("Очередь MM недоступна");
+      return;
     }
-    syncPvpSearchStatusUi();
-    const names = state.pvpOpponentTeam.map((id) => pvpRosterEntry(id).name).join(" · ");
-    toast(`Найден отряд: ${names}`);
-    window.setTimeout(() => openPvpLoad(), 450);
-  }, delay);
+    state.pvpSearchPoll = setInterval(() => {
+      pollPvpMmOnce();
+    }, 800);
+  };
+  enqueue();
 }
 
 /** Painted guild hall / hub / members / tech / treasury — local CTAs + tips. */
@@ -18650,6 +18809,10 @@ function bindPvpArena() {
     ev.preventDefault();
     if (act === "pvp-search") {
       startPvpSearch();
+      return;
+    }
+    if (act === "pvp-bot-mm-toggle") {
+      togglePvpBotMmStub();
       return;
     }
     if (act === "pvp-formation") {
@@ -19669,6 +19832,7 @@ async function main() {
     loadProgress();
     loadGearStub();
     loadPassStub();
+    loadPvpBotMmStub();
     await loadLoc();
     await bootLiveOps();
     await loadCampaign();

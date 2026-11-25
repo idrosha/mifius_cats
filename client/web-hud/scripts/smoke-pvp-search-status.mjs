@@ -128,9 +128,12 @@ async function main() {
           const timerHidden = document.getElementById("arenaSearchTimer")?.classList.contains("hidden");
           const iconHidden = document.getElementById("arenaSearchIcon")?.classList.contains("hidden");
           const row = document.getElementById("arenaSearchStatusRow");
-          const pill = document.getElementById("arenaCrossplayPill");
+          const pill = document.getElementById("arenaBotMmToggle");
           const rewardsBtn = view.querySelector('[data-arena="rewards"]');
           const pillAtBottom = !!(pill && rewardsBtn && pill.nextElementSibling === rewardsBtn);
+          const botMmOn =
+            pill?.getAttribute("aria-pressed") === "true" &&
+            (pill.textContent || "").includes("вкл");
           const veil = view.querySelector(".arena-search-veil");
           const veilOk = !!veil;
           const btn = document.getElementById("btnArenaSearch");
@@ -141,6 +144,7 @@ async function main() {
             iconHidden &&
             row?.dataset.state === "idle" &&
             pillAtBottom &&
+            botMmOn &&
             veilOk &&
             !!btn;
           return {
@@ -150,6 +154,7 @@ async function main() {
             timerHidden,
             iconHidden,
             pillAtBottom,
+            botMmOn,
             veilOk,
             state: row?.dataset.state || "",
           };
