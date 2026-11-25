@@ -5821,47 +5821,8 @@ function renderRaidBattleStub() {
   const bar = root.querySelector("[data-raid-battle-boss-bar]");
   if (bar) bar.style.width = "100%";
 
-  // Column order matches Stitch: rear(support) → ranged → melee → front(tanks)
-  // Card chrome = stitch h-32 / art h-16 vertical plates (zip etalon); tray stays D-052.
-  const cols = [
-    { row: 3, head: "РЯД 4: САППОРТ", headClass: "is-support" },
-    { row: 2, head: "РЯД 3: МАГИ/ЛУК", headClass: "is-ranged" },
-    { row: 1, head: "РЯД 2: ШТУРМ", headClass: "is-melee" },
-    { row: 0, head: "РЯД 1: ТАНКИ", headClass: "is-tank" },
-  ];
-  const board = root.querySelector("[data-raid-battle-board]");
-  if (!board) return;
-  board.innerHTML = cols
-    .map((col) => {
-      const cards = [0, 1, 2]
-        .map((slotCol) => {
-          const s = state.raidLegion.find((x) => x.row === col.row && x.col === slotCol);
-          if (!s?.filled) {
-            return `<div class="raid-hero-card is-empty" data-row="${col.row}" data-col="${slotCol}">пусто</div>`;
-          }
-          const badge = raidBattleRoleBadge(s);
-          const art = raidBattleCatArt(s.templateId);
-          const tankish = s.role === "tank";
-          return `<div class="raid-hero-card${tankish ? " is-tank" : ""}" data-row="${col.row}" data-col="${slotCol}" data-role="${s.role}" data-sub="${s.sub}" data-template="${s.templateId}">
-            <span class="raid-hero-badge ${badge.tone}">${badge.label}</span>
-            <div class="raid-hero-art-well">
-              <img class="raid-hero-art" alt="" src="${art}" decoding="async" loading="lazy"/>
-              <span class="raid-hero-sub">${s.sub || s.role}</span>
-            </div>
-            <div class="raid-hero-meta">
-              <b>${s.name_ru}</b>
-              <span class="raid-hero-hp" aria-hidden="true"><i style="width:100%"></i></span>
-              <em><span class="text-secondary">готов</span><span>${s.role}</span></em>
-            </div>
-          </div>`;
-        })
-        .join("");
-      return `<div class="raid-hero-col" data-raid-col-row="${col.row}">
-        <div class="raid-hero-col-head ${col.headClass}">${col.head}</div>
-        ${cards}
-      </div>`;
-    })
-    .join("");
+  // Legion board = cutouts + vitals like practice/PvP (D-037 / D-048); tray stays D-052.
+  paintRaidLegionCutouts(root);
 
   paintRaidFightTray(snap);
   const note = root.querySelector("[data-raid-battle-note]");
@@ -5874,6 +5835,101 @@ function renderRaidBattleStub() {
   }
   paintBattleTurnTimer(snap.turnSec);
   renderRaidPathVotePanel();
+}
+
+/** Map live wing units by templateId (raid sim is still 3v3 stub). */
+function raidLiveUnitsByTemplate() {
+  const map = new Map();
+  if (!(state.battle && !state.battle.result && state.battleMode === "boss")) return map;
+  for (const u of state.battle.units || []) {
+    if (u.side !== 0) continue;
+    const tid = unitTemplateId(u);
+    if (tid && !map.has(tid)) map.set(tid, u);
+  }
+  return map;
+}
+
+/** Preview/live unit for a legion slot — HP/shield from battle when this cat is in the wing. */
+function raidSlotBattleUnit(slot, liveByTemplate) {
+  const live = slot?.templateId ? liveByTemplate.get(slot.templateId) : null;
+  if (live) return live;
+  return {
+    id: `raid_${slot.row}_${slot.col}`,
+    side: 0,
+    role: slot.role,
+    alive: true,
+    hp: 100,
+    maxHp: 100,
+    shield: 0,
+    statuses: [],
+    lane: slot.row,
+    templateId: slot.templateId,
+  };
+}
+
+/** One legion cutout: no card plate — sprite + name/HP + shield bar when buffed (shared vitals). */
+function raidUnitCutoutEl(slot, u) {
+  const el = document.createElement("div");
+  const role = u.role || slot.role || "";
+  el.className = `raid-unit mf-battle-unit--cutout${u.alive ? "" : " mf-unit-dead"}`;
+  el.dataset.role = role;
+  el.dataset.row = String(slot.row);
+  el.dataset.col = String(slot.col);
+  el.dataset.sub = slot.sub || "";
+  el.dataset.template = slot.templateId || "";
+  const art = raidBattleCatArt(slot.templateId);
+  const name =
+    slot.name_ru ||
+    catSheetName({ templateId: slot.templateId, catId: u.id }) ||
+    role;
+  const cutout = art
+    ? spriteFaceHtml(
+        `<img alt="" src="${art}" class="mf-battle-cutout${u.alive ? "" : " mf-unit-dim"}" decoding="async" loading="lazy"/>`,
+        { artSrc: art, desiredFace: "right" },
+      )
+    : "";
+  el.innerHTML = `<figure class="mf-unit-frame">${cutout}<div class="mf-status-row" hidden></div><div class="mf-fatality" hidden><span></span></div></figure>${unitVitalsFooterHtml(u, { name })}`;
+  paintCombatUnitCard(el, u);
+  decorateBattleUnitIdle(el, u, slot.col | 0);
+  return el;
+}
+
+/** 4×3 cutout grid: rear → ranged → melee → front tanks. */
+function paintRaidLegionCutouts(root) {
+  const board = root?.querySelector?.("[data-raid-battle-board]");
+  if (!board) return;
+  const cols = [
+    { row: 3, head: "РЯД 4: САППОРТ", headClass: "is-support" },
+    { row: 2, head: "РЯД 3: МАГИ/ЛУК", headClass: "is-ranged" },
+    { row: 1, head: "РЯД 2: ШТУРМ", headClass: "is-melee" },
+    { row: 0, head: "РЯД 1: ТАНКИ", headClass: "is-tank" },
+  ];
+  const liveByTemplate = raidLiveUnitsByTemplate();
+  board.replaceChildren();
+  board.classList.add("raid-legion-board");
+  for (const col of cols) {
+    const colEl = document.createElement("div");
+    colEl.className = "raid-hero-col";
+    colEl.dataset.raidColRow = String(col.row);
+    const head = document.createElement("div");
+    head.className = `raid-hero-col-head ${col.headClass}`;
+    head.textContent = col.head;
+    colEl.appendChild(head);
+    for (let slotCol = 0; slotCol < 3; slotCol += 1) {
+      const s = state.raidLegion.find((x) => x.row === col.row && x.col === slotCol);
+      if (!s?.filled) {
+        const empty = document.createElement("div");
+        empty.className = "raid-unit is-empty";
+        empty.dataset.row = String(col.row);
+        empty.dataset.col = String(slotCol);
+        empty.textContent = "пусто";
+        colEl.appendChild(empty);
+        continue;
+      }
+      colEl.appendChild(raidUnitCutoutEl(s, raidSlotBattleUnit(s, liveByTemplate)));
+    }
+    board.appendChild(colEl);
+  }
 }
 
 /** Preview plates when raid fight is not live yet (same tray chrome as PvP / practice). */

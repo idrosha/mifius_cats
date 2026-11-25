@@ -414,6 +414,7 @@ export function findBattleUnitEl(unitId) {
   return (
     document.querySelector(`#viewPracticeFight [data-unit-id="${esc}"]`) ||
     document.querySelector(`#viewPvpFight [data-unit-id="${esc}"]`) ||
+    document.querySelector(`#viewRaidBattle [data-unit-id="${esc}"]`) ||
     document.querySelector(`#viewBattle [data-unit-id="${esc}"]`) ||
     document.querySelector(`#enemyBoard [data-unit-id="${esc}"]`) ||
     document.querySelector(`#allyBoard [data-unit-id="${esc}"]`) ||
