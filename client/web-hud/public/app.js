@@ -16704,18 +16704,20 @@ function ensureCollectionDom(root) {
   const right = [...root.querySelectorAll(".collection-stage > section")].find((s) =>
     /\bcol-span-8\b/.test(s.className),
   );
-  const teamsHost =
-    right &&
-    [...right.querySelectorAll(":scope > div")].find(
-      (d) => /\bflex-1\b/.test(d.className) && /overflow-y-auto/.test(d.className),
+  let teamsHost = right?.querySelector("#colTeams");
+  if (!teamsHost && right) {
+    teamsHost = [...right.querySelectorAll(":scope > div")].find((d) =>
+      /\bcollection-teams\b/.test(d.className),
     );
+  }
   if (teamsHost) {
     teamsHost.id = "colTeams";
     teamsHost.classList.add("collection-teams");
+    teamsHost.classList.remove("overflow-y-auto");
   } else if (right) {
     const box = document.createElement("div");
     box.id = "colTeams";
-    box.className = "collection-teams flex flex-col gap-space-sm flex-1 min-h-0 overflow-y-auto";
+    box.className = "collection-teams flex flex-col gap-space-sm flex-1 min-h-0";
     right.appendChild(box);
   }
 
@@ -16963,10 +16965,10 @@ function renderCollectionTeams(cats) {
     const c = slotCats[i];
     const lane = lanes[i];
     const base =
-      "col-slot flex flex-col items-stretch justify-start gap-0.5 p-1.5 rounded-lg cursor-pointer transition-colors h-full min-h-[7.5rem]";
+      "col-slot rounded-lg cursor-pointer transition-colors h-full min-h-0";
     if (!c) {
-      return `<button type="button" data-col-preset="${pi}" data-col-slot="${i}" data-col-drop="1" class="${base} is-empty bg-surface-container-lowest/40 border border-dashed border-outline-variant/40 text-outline-variant hover:border-primary/50">
-        <span class="text-[9px] font-bold uppercase self-start opacity-70">${lane.label}</span>
+      return `<button type="button" data-col-preset="${pi}" data-col-slot="${i}" data-col-drop="1" class="${base} is-empty flex flex-col items-stretch justify-start gap-0.5 p-1.5 bg-surface-container-lowest/40 border border-dashed border-outline-variant/40 text-outline-variant hover:border-primary/50">
+        <span class="col-slot-lane text-[9px] font-bold uppercase self-start opacity-70">${lane.label}</span>
         <span class="flex-1 flex flex-col items-center justify-center gap-0.5 min-h-0">
           <span class="material-symbols-outlined text-2xl">add</span>
           <span class="font-label-sm text-[10px]">${lane.tip}</span>
@@ -16976,12 +16978,12 @@ function renderCollectionTeams(cats) {
     const art = catHeroArt(c.templateId);
     const name = catSheetName(c);
     const role = CAT_ROLE_RU[homeCatRole(c)] || "";
-    return `<button type="button" draggable="true" data-col-preset="${pi}" data-col-slot="${i}" data-col-slot-cat="${c.catId}" data-col-drop="1" class="${base} is-filled bg-surface-container-high/60 border border-primary/30 cursor-grab active:cursor-grabbing hover:border-primary/60">
-      <span class="text-[9px] font-bold text-primary uppercase self-start">${lane.label}</span>
-      <span class="flex-1 flex flex-col items-center justify-center gap-0.5 min-h-0">
-        ${art ? `<img alt="" src="${art}" draggable="false" class="h-14 w-auto max-h-[56px] object-contain pointer-events-none"/>` : `<span class="material-symbols-outlined text-3xl text-primary">pets</span>`}
-        <span class="font-label-sm text-[11px] text-on-surface font-bold text-center leading-tight line-clamp-2">${name}</span>
-        <span class="text-[9px] text-on-surface-variant">${role}</span>
+    return `<button type="button" draggable="true" data-col-preset="${pi}" data-col-slot="${i}" data-col-slot-cat="${c.catId}" data-col-drop="1" class="${base} is-filled relative overflow-hidden border border-primary/30 cursor-grab active:cursor-grabbing hover:border-primary/60 bg-surface-container-high/60">
+      <span class="col-slot-lane">${lane.label}</span>
+      ${art ? `<img alt="" src="${art}" draggable="false" class="col-slot-avatar"/>` : `<span class="col-slot-avatar-fallback material-symbols-outlined text-3xl text-primary">pets</span>`}
+      <span class="col-slot-caption">
+        <span class="col-slot-name">${name}</span>
+        <span class="col-slot-role">${role}</span>
       </span>
     </button>`;
   };
@@ -16992,25 +16994,22 @@ function renderCollectionTeams(cats) {
     const filled = slotCats.filter(Boolean).length;
     const on = pi === active;
     const title = preset.name || COL_SQUAD_NAMES[pi];
-    const modeTag = COL_SQUAD_NAMES[pi];
-    return `<div class="col-team bg-surface-container rounded-lg p-space-sm border ${on ? "border-primary/50 shadow-[0_4px_14px_rgba(0,0,0,0.5)]" : "border-surface-container-highest/60"} flex flex-col gap-1.5" data-col-team="${pi}">
-      <div class="flex items-center justify-between gap-2 flex-wrap">
-        <button type="button" data-col-preset-select="${pi}" class="px-2 py-0.5 rounded ${on ? "bg-primary-container/30 text-primary" : "bg-surface-container-highest text-on-surface-variant"} font-stat-numeral text-[10px] font-bold uppercase cursor-pointer">${modeTag}${on ? " · правка" : ""}</button>
-        <span class="text-[11px] text-on-surface-variant">${filled}/3</span>
-      </div>
-      <label class="flex items-center gap-1.5 min-w-0">
-        <span class="material-symbols-outlined text-[14px] text-on-surface-variant shrink-0">edit</span>
+    return `<div class="col-team bg-surface-container rounded-lg p-space-sm border ${on ? "border-primary/50 shadow-[0_4px_14px_rgba(0,0,0,0.5)]" : "border-surface-container-highest/60"} flex flex-col gap-1 min-h-0" data-col-team="${pi}">
+      <div class="col-team-head flex items-center gap-1.5 min-w-0">
+        <button type="button" data-col-preset-select="${pi}" class="col-team-label shrink-0 font-stat-numeral text-[11px] font-bold uppercase cursor-pointer ${on ? "text-primary" : "text-on-surface-variant"}">Команда ${pi + 1}:</button>
         <input type="text" data-col-rename="${pi}" maxlength="32" value="${String(title).replace(/"/g, "&quot;")}"
-          class="flex-1 min-w-0 bg-surface-container-lowest rounded-lg px-2 py-1 font-label-md text-[13px] ${on ? "text-primary" : "text-on-surface"} font-bold border border-surface-container-highest/60 focus:outline-none focus:ring-1 focus:ring-primary"
-          placeholder="Название отряда" />
-      </label>
+          class="col-team-name flex-1 min-w-0 bg-surface-container-lowest rounded-md px-2 py-0.5 font-label-md text-[12px] ${on ? "text-primary" : "text-on-surface"} font-bold border border-surface-container-highest/60 focus:outline-none focus:ring-1 focus:ring-primary"
+          placeholder="Название команды" aria-label="Название команды ${pi + 1}" />
+        <span class="text-[11px] text-on-surface-variant shrink-0">${filled}/3</span>
+      </div>
       <div class="col-team-slots grid grid-cols-3 gap-1.5 flex-1 min-h-0 items-stretch">${slotHtml(pi, 0, slotCats)}${slotHtml(pi, 1, slotCats)}${slotHtml(pi, 2, slotCats)}</div>
     </div>`;
   };
 
   host.classList.add("collection-teams");
+  host.classList.remove("overflow-y-auto");
   host.innerHTML = `
-    <div class="collection-teams-list flex flex-col gap-space-sm flex-1 min-h-0 overflow-y-auto pr-1">
+    <div class="collection-teams-list">
       ${Array.from({ length: COL_SQUADS }, (_, pi) => teamCard(pi)).join("")}
     </div>
     <div class="flex gap-2 pt-1 border-t border-surface-container-highest/40 flex-shrink-0 flex-wrap">
@@ -17172,6 +17171,31 @@ function bindCollectionRoster() {
     renderCollection();
   });
 
+  root.addEventListener("focusin", (ev) => {
+    const input = ev.target.closest?.("[data-col-rename]");
+    if (!input || !root.contains(input)) return;
+    const pi = Number(input.getAttribute("data-col-rename"));
+    if (pi < 0 || pi >= COL_SQUADS) return;
+    if (state.colPresetIndex !== pi) {
+      state.colPresetIndex = pi;
+      root.querySelectorAll("[data-col-team]").forEach((el) => {
+        const on = Number(el.getAttribute("data-col-team")) === pi;
+        el.classList.toggle("border-primary/50", on);
+        el.classList.toggle("shadow-[0_4px_14px_rgba(0,0,0,0.5)]", on);
+        el.classList.toggle("border-surface-container-highest/60", !on);
+        const lab = el.querySelector(".col-team-label");
+        if (lab) {
+          lab.classList.toggle("text-primary", on);
+          lab.classList.toggle("text-on-surface-variant", !on);
+        }
+        const nameInp = el.querySelector("[data-col-rename]");
+        if (nameInp) {
+          nameInp.classList.toggle("text-primary", on);
+          nameInp.classList.toggle("text-on-surface", !on);
+        }
+      });
+    }
+  });
   root.addEventListener("change", (ev) => {
     const input = ev.target.closest("[data-col-rename]");
     if (!input || !root.contains(input)) return;
