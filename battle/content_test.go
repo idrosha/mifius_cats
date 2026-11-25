@@ -42,7 +42,8 @@ func TestContentCatalog_StartersAndCards(t *testing.T) {
 		t.Fatal("missing test_yard_1")
 	}
 
-	// §3.4: multiple roles ship ≥1 backline attack (formation pierce).
+	// §3.4: multiple combat roles ship ≥1 backline attack (formation pierce).
+	// Support elven-18 kits are heal/buff — no backline attack required (D-059).
 	backlineByRole := map[string]bool{}
 	for _, c := range cat.Cards {
 		if c.TargetRule != "backline" {
@@ -59,7 +60,7 @@ func TestContentCatalog_StartersAndCards(t *testing.T) {
 			backlineByRole[c.RoleGate] = true
 		}
 	}
-	for _, role := range []string{"tank", "fighter", "assassin", "support", "mage", "ranger"} {
+	for _, role := range []string{"tank", "fighter", "assassin", "mage", "ranger"} {
 		if !backlineByRole[role] {
 			t.Fatalf("missing backline attack for role %s", role)
 		}

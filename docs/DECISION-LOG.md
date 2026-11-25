@@ -12,6 +12,23 @@ Append-only. Новые записи — **сверху** (после шабло
 6. Одна запись = одно решение. Не смешивать баланс и IA в одном D-id.
 7. В коде/доках ссылайся `D-0xx`, не копируй абзац Context.
 
+## D-059 · 2026-11-25 · Shop: 18 героев × 6 карт (вместо 12×72)
+
+- **Status:** Accepted
+- **Area:** content | battle
+- **SSOT:** docs/FULL-SPEC.md §2.1, §5 Shop
+- **Owner:** Andrew / content
+
+### Context
+CI `TestShopCardCosts_MatchWikiSnapshot` ждал 72 карты (12 A/B героев). В content уже elven-18: 6 ролей × fire/water/wind = 108 карт; старые `shop_*_a/b` удалены.
+
+### Decision
+1. Shop SL SoT = **18** templates × **6** parts = **108** `card_shop_*`.
+2. Smoke costs / N6 / catalog assertions переведены на новые id; support не обязан иметь backline-атаку.
+
+### Consequences
++ Тест совпадает с живым контентом. − Player wiki ещё может описывать A/B — отдельный wiki-pass.
+
 ## D-058 · 2026-11-25 · Live PvP: один бой, очередь ходов, таймер 30с
 
 - **Status:** Accepted

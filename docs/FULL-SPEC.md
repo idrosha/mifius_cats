@@ -78,8 +78,8 @@
 | `ranger` | Приоритет целей / AoE | SPD↑ | `ambush`/`lowest_hp`/`aoe` |
 | `support` | Хил/чистота/бафф | — | `heal`/`cleanse`/`buff` |
 
-**Shop common (SL):** 6 классов × 2 варианта = **12** SKU (`common_cat`), у каждого свой **6-card kit** (§2.3, §6 Shop) — **72** attack cards total.  
-Варианты (EN id): tank A hard-def+aggro (+guard bash / poke для finish) / tank B **armor pierce** (fragile/pierce, не raw ATK); fighter A dual+crit / B two-hand; assassin A evade+crit / B backline+crit; ranger A hunter any-target+crit / B heavy AoE; mage A fire AoE+crit+debuff / B ice AoE+freeze(1)+debuff; support A heal+cleanse (**+1** soft attack/smite) / B heal+buff/debuff (+finish). LiveOps retune `D-035`.
+**Shop common (SL, LOCKED `D-059`):** 6 классов × 3 стихии (fire/water/wind) = **18** SKU (`shop_{role}_{element}`), у каждого свой **6-card kit** (§2.3, §6 Shop) — **108** attack cards total.  
+Старые A/B kits (`shop_*_a` / `shop_*_b`, stone/bolt/grass…) удалены. LiveOps retune чисел — через change log; cost-2 snapshot в `battle/shop_card_cost_smoke_test.go`.
 
 **Пресет 3v3:** tank + (fighter\|assassin\|ranger\|mage) + support.  
 **Стартеры:** tank·stone, fighter·fire, support·water (`starter_tank_stone`, `starter_fighter_fire`, `starter_support_water`) — equal decks; shop common — доп. контент.
@@ -295,7 +295,7 @@ IAP: yarn packs, pass, slot expand, maybe jar bundles.
 Server validates all purchases.
 
 **Каналы торговли (не смешивать):**
-- **Shop** — IAP/donate, pass, fish packs, breeding ingredients, 12 common cats, common (grey R1) starter armor; `battle_coin`/medals с PvE/PvP → полезный gear при здоровом онлайне.
+- **Shop** — IAP/donate, pass, fish packs, breeding ingredients, **18** common cats (6×3 element, `D-059`), common (grey R1) starter armor; `battle_coin`/medals с PvE/PvP → полезный gear при здоровом онлайне.
 - **Tavern** — молоко на льду = post-fight HP restore; **другие молока** = pre-fight баффы **только PvE + данжи** (не ranked PvP/арена). Зелья крафтеров — не здесь.
 - **Market** — семена, расходные tools (shovel/axe/pick), sell crafted resources, **quick sell** лута по серверной цене без аукциона.
 - **Auction** — player-listed cats / weapons·armor / ingredients **по своей цене** (soft currency only; без денег/крипты).

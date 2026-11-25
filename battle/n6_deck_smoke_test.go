@@ -14,7 +14,8 @@ func TestSmoke_N6GapHeroesDeckAndHand(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	ids := []string{"shop_tank_stone_a", "shop_tank_stone_b", "shop_fighter_fire_a"}
+	// Elven-18 shop kits (D-059); old A/B stone/fire_a ids deleted.
+	ids := []string{"shop_tank_fire", "shop_tank_water", "shop_fighter_fire"}
 	for _, id := range ids {
 		deck, err := cat.DeckForStarter(id)
 		if err != nil {
