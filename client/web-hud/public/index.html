@@ -4955,16 +4955,16 @@
 </header>
 <!-- CENTER COMBAT ARENA: 12-FELINE LEGION (LEFT) VS APEX BOSS & GUARDS (RIGHT) -->
 <main class="relative z-10 flex-1 w-full px-margin md:px-margin-tablet py-space-xs flex flex-col lg:flex-row items-center justify-between gap-space-md">
-<!-- LEFT FORMATION: 12 FELINE LEGION (STRICT ORDER: 4 RANKS) · stitch max-w 62% -->
-<div class="flex-1 w-full lg:max-w-[62%] flex flex-col gap-1.5 min-w-0">
-<!-- ROW HEADER OVERVIEW TABS -->
-<div class="flex items-center justify-between px-space-xs text-on-surface-variant font-label-sm text-label-sm">
-<div class="flex items-center gap-space-md">
-<span class="text-primary font-bold">ЛЕГИОН 12 КОТИКОВ</span>
-<span class="hidden sm:inline">РЯД 4: ТЫЛ → РЯД 3: ДАЛЬНИЙ БОЙ → РЯД 2: ШТУРМ → РЯД 1: АВАНГАРД</span>
+<!-- LEFT FORMATION: 12 FELINE LEGION (even 4×3 grid) -->
+<div class="raid-legion-pane flex flex-col gap-1 min-w-0" data-raid-legion-pane="1">
+<!-- ROW HEADER OVERVIEW -->
+<div class="raid-legion-caption flex items-center justify-between px-1 text-on-surface-variant font-label-sm text-label-sm">
+<div class="flex items-center gap-2">
+<span class="text-primary font-bold">ЛЕГИОН 12</span>
+<span class="hidden md:inline opacity-70">тыл → даль → штурм → танки</span>
 </div>
 <span class="text-secondary font-bold flex items-center gap-1">
-<span class="material-symbols-outlined text-[14px]">shield</span> Общий щит: 1,850
+<span class="material-symbols-outlined text-[14px]">shield</span> щит 1,850
           </span>
 </div>
 <!-- 4-ROW TACTICAL GRID (STAGGERED COMPACT BATTLE CARDS) -->
@@ -5230,59 +5230,44 @@
 </div>
 </div>
 </div>
-<!-- VERSUS BADGE / CLASH ENERGY IN BETWEEN -->
-<div class="hidden lg:flex flex-col items-center justify-center px-1">
-<div class="w-10 h-10 rounded-full bg-surface-container-highest shadow-xl flex items-center justify-center border-primary/30">
-<span class="font-headline-md text-headline-md text-primary font-bold">VS</span>
-</div>
-<div class="w-0.5 h-36 bg-gradient-to-b from-transparent via-primary/40 to-transparent mt-2"></div>
-</div>
-<!-- RIGHT SIDE: DUNGEON BOSS (GENERAL DOG) & 2 ELITE GUARDS -->
-<div class="w-full lg:max-w-[34%] flex items-end justify-center relative">
-<!-- Guard 1: Чумной Пёс (Left flank) -->
-<div class="relative z-10 -mr-6 flex flex-col items-center group cursor-pointer">
-<div class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-[10px] uppercase mb-1 shadow">
-            Чумной Мясник
-          </div>
-<div class="w-28 sm:w-36 h-48 sm:h-56 relative flex items-end justify-center overflow-hidden">
-<img alt="Чумной Пёс" class="h-full object-contain filter drop-shadow-2xl group-hover:scale-105 transition-transform"  decoding="async" loading="lazy" data-mf-src="/stitch-assets/cat-heroes/fighter-a.webp?v=opt1">
-</div>
-<!-- Minion HP -->
-<div class="w-24 bg-surface-container-highest rounded-full h-1.5 overflow-hidden mt-1 shadow-inner">
-<div class="bg-tertiary h-full rounded-full" style="width: 65%;"></div>
-</div>
-<span class="font-label-sm text-[10px] text-tertiary mt-0.5">24,500 HP</span>
-</div>
-<!-- Colossal Apex Pit Boss: Мяурра (Center Stage) -->
-<div class="relative z-20 flex flex-col items-center group cursor-pointer scale-105 sm:scale-110">
-<!-- Boss Aura Glow -->
-<div class="absolute -inset-4 bg-tertiary-container/20 rounded-full blur-2xl pointer-events-none"></div>
-<div class="px-space-md py-0.5 rounded-full bg-tertiary-container text-on-tertiary font-label-md text-label-md uppercase tracking-wider mb-1 shadow-lg font-bold flex items-center gap-1">
-<span class="material-symbols-outlined text-[16px]">swords</span> ВЕРХОВНЫЙ ПИТ-БОСС
-          </div>
-<div class="w-44 sm:w-60 h-64 sm:h-80 relative flex items-end justify-center overflow-hidden">
-<img alt="Мяурра Архипёс" data-raid-enemy-boss="1" class="h-full object-contain filter drop-shadow-[0_12px_24px_rgba(0,0,0,0.85)] group-hover:scale-105 transition-transform duration-300"  data-raid-enemy-boss="1" decoding="async" loading="lazy" data-mf-src="/stitch-assets/monsters/battle/myaurra-pitboss-cutout.webp?v=raid1">
-</div>
-<!-- Boss Quick Status Chips -->
-<div class="flex items-center gap-1 mt-1 z-10">
-<span class="px-space-xs py-0.5 rounded bg-surface-container-high text-primary font-label-sm text-[10px]">Броня: 3.5k</span>
-<span class="px-space-xs py-0.5 rounded bg-tertiary-container text-on-tertiary font-label-sm text-[10px]">Пламенный Меч</span>
-<span class="px-space-xs py-0.5 rounded bg-surface-container-high text-secondary font-label-sm text-[10px]">Атака: Танк</span>
+<!-- VERSUS -->
+<div class="raid-vs hidden lg:flex flex-col items-center justify-end pb-8" data-raid-vs="1" aria-hidden="true">
+<div class="w-9 h-9 rounded-full bg-surface-container-highest/90 flex items-center justify-center border border-primary/35">
+<span class="font-headline-md text-primary font-bold text-sm">VS</span>
 </div>
 </div>
-<!-- Guard 2: Spectral Ghost Dog (Right flank) -->
-<div class="relative z-10 -ml-6 flex flex-col items-center group cursor-pointer">
-<div class="px-space-xs py-0.5 rounded bg-surface-container-high text-on-surface font-label-sm text-[10px] uppercase mb-1 shadow">
-            Призрак-Шаман
-          </div>
-<div class="w-28 sm:w-36 h-48 sm:h-56 relative flex items-end justify-center overflow-hidden">
-<img alt="Призрачный Пёс" class="h-full object-contain filter drop-shadow-2xl group-hover:scale-105 transition-transform"  decoding="async" loading="lazy" data-mf-src="/stitch-assets/monsters/battle/myaurra-pitboss-cutout.webp?v=raid1">
+<!-- RIGHT: add · pitboss · add — even 3-col cutouts, no overlap -->
+<div class="raid-enemies" data-raid-enemies="1">
+<div class="raid-foe raid-foe--add" data-raid-add="1">
+<span class="raid-foe-name">Чумной Мясник</span>
+<figure class="raid-foe-frame">
+<img alt="Чумной Мясник" class="mf-battle-cutout mf-sprite-face is-flipped" decoding="async" loading="lazy" data-mf-src="/stitch-assets/monsters/battle/redd-fighter-cutout.webp?v=raid1">
+</figure>
+<div class="raid-foe-vitals">
+<span class="raid-foe-hp">24 500</span>
+<span class="mf-bar mf-bar--hp" aria-hidden="true"><i style="width:65%"></i></span>
 </div>
-<!-- Minion HP -->
-<div class="w-24 bg-surface-container-highest rounded-full h-1.5 overflow-hidden mt-1 shadow-inner">
-<div class="bg-tertiary h-full rounded-full" style="width: 82%;"></div>
 </div>
-<span class="font-label-sm text-[10px] text-tertiary mt-0.5">31,000 HP</span>
+<div class="raid-foe raid-foe--boss" data-raid-boss-wrap="1">
+<span class="raid-foe-name raid-foe-name--boss"><span class="material-symbols-outlined text-[14px]">swords</span> Пит-босс</span>
+<figure class="raid-foe-frame">
+<img alt="Мяурра" data-raid-enemy-boss="1" class="mf-battle-cutout mf-sprite-face is-flipped" decoding="async" loading="lazy" data-mf-src="/stitch-assets/monsters/battle/myaurra-pitboss-cutout.webp?v=raid1">
+</figure>
+<div class="raid-foe-vitals">
+<span class="raid-foe-hp">145 000</span>
+<span class="mf-bar mf-bar--hp" aria-hidden="true"><i style="width:80%"></i></span>
+<span class="mf-bar mf-bar--shield" aria-hidden="true"><i style="width:40%"></i></span>
+</div>
+</div>
+<div class="raid-foe raid-foe--add" data-raid-add="2">
+<span class="raid-foe-name">Призрак-Шаман</span>
+<figure class="raid-foe-frame">
+<img alt="Призрак-Шаман" class="mf-battle-cutout mf-sprite-face is-flipped" decoding="async" loading="lazy" data-mf-src="/stitch-assets/monsters/battle/ghost-support-cutout.webp?v=raid1">
+</figure>
+<div class="raid-foe-vitals">
+<span class="raid-foe-hp">31 000</span>
+<span class="mf-bar mf-bar--hp" aria-hidden="true"><i style="width:82%"></i></span>
+</div>
 </div>
 </div>
 </main>
