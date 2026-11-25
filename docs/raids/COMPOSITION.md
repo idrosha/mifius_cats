@@ -63,5 +63,6 @@ PvE и PvP — отдельно **30 секунд** (`BATTLE_TURN_TIMER_PVE_PVP_
 - `#viewRaidBattle` — Stitch «построение в бою» (4 колонки: сап → даль → штурм → танки)
 - `design/stitch-src/raid_battle.html` — исходник макета
 - `mythfelRaidFormation()` / `[data-raid-formation-json]` — снимок строя
+- Лобби: пати 12 + Ready → центр-модалка `[data-raid-deploy-modal]` («Состав легиона» 4×3) → «Готово» → старт
 - Крыло 3v3 stub: танк-агр + мили DPS + хил, пока нет сима 12
 - Путь short/long **не** выбирается в лобби: общий входной отряд → на форме боя голосование пати → фиксация пути
