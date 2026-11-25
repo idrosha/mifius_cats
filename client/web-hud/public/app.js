@@ -15977,7 +15977,7 @@ function renderPveFight() {
   }
 }
 
-/** Arena squads = collection presets (COL_SQUADS: PvE + PvP). */
+/** Arena squads = collection presets (COL_SQUADS: PvE · PvP · Данж · Рейд). */
 const PVP_DPS_ROLES = new Set(["fighter", "assassin", "ranger", "mage"]);
 const PVP_FOE_NAMES = ["Свора Гладиаторов", "Клык Арены", "Тень Колизея", "Рёв Трибун", "Лапы Судьбы"];
 
@@ -16517,10 +16517,10 @@ function renderAll() {
   }
 }
 
-/** D-031 collection HUD stub — roster from profile, local preset persist. */
-/** SL editable squads: PvE + PvP (of presets[5] cap). */
-const COL_SQUADS = 2;
-const COL_SQUAD_NAMES = ["PvE", "PvP"];
+/** D-031 / D-054 collection HUD stub — roster from profile, local preset persist. */
+/** SL editable squads: PvE · PvP · Данж · Рейд (of presets[5] cap). */
+const COL_SQUADS = 4;
+const COL_SQUAD_NAMES = ["PvE", "PvP", "Данж", "Рейд"];
 const COL_SQUAD_OLD_NAMES = ["Основной", "Второй эшелон", "Резерв"];
 
 function collectionRosterCats() {
@@ -16937,11 +16937,11 @@ function renderCollectionTeams(cats) {
 
   const headerTitle = host.closest("section")?.querySelector("h2");
   if (headerTitle) {
-    headerTitle.textContent = "Боевые Связки · PvE и PvP (2 команды)";
+    headerTitle.textContent = "Боевые Связки · PvE · PvP · Данж · Рейд (4 команды)";
   }
   const headerSub = headerTitle?.parentElement?.querySelector("p");
   if (headerSub) {
-    headerSub.textContent = "Два отряда 3v3: PvE (Мифмир / данжи) и PvP (Колизей) · Тыл · DPS · Танк";
+    headerSub.textContent = "Четыре отряда 3v3: PvE · PvP · Данж · Рейд · Тыл · DPS · Танк";
   }
 
   const slotHtml = (pi, i, slotCats) => {
@@ -16999,12 +16999,12 @@ function renderCollectionTeams(cats) {
       ${Array.from({ length: COL_SQUADS }, (_, pi) => teamCard(pi)).join("")}
     </div>
     <div class="flex gap-2 pt-1 border-t border-surface-container-highest/40 flex-shrink-0 flex-wrap">
-      <button type="button" data-col-act="apply" class="flex-1 py-1.5 rounded bg-primary text-on-primary font-label-sm text-[11px] font-bold">Сохранить 2 отряда</button>
+      <button type="button" data-col-act="apply" class="flex-1 py-1.5 rounded bg-primary text-on-primary font-label-sm text-[11px] font-bold">Сохранить 4 отряда</button>
       <button type="button" data-col-act="autopick" class="py-1.5 px-3 rounded bg-surface-container-high text-primary border border-primary/40 font-label-sm text-[11px] font-bold">Авто · активный</button>
-      <button type="button" data-col-act="autopick-all" class="py-1.5 px-3 rounded bg-surface-container-high text-primary border border-primary/40 font-label-sm text-[11px] font-bold">Авто · PvE+PvP</button>
+      <button type="button" data-col-act="autopick-all" class="py-1.5 px-3 rounded bg-surface-container-high text-primary border border-primary/40 font-label-sm text-[11px] font-bold">Авто · все 4</button>
       <button type="button" data-col-act="codex" class="py-1.5 px-3 rounded bg-surface-container-high text-on-surface font-label-sm text-[11px] font-bold">Кодекс</button>
     </div>
-    <p class="text-[10px] text-on-surface-variant m-0">2 отряда · PvE + PvP · local stub · не SoT боя</p>`;
+    <p class="text-[10px] text-on-surface-variant m-0">4 отряда · PvE · PvP · Данж · Рейд · local stub · не SoT боя</p>`;
 }
 
 function renderCollection() {
@@ -17092,7 +17092,7 @@ function bindCollectionRoster() {
         const roster = collectionRosterCats();
         collectionEnsurePresets();
         const idx = state.colPresetIndex || 0;
-        // PvE / PvP — независимые составы: один котик может быть в обеих командах.
+        // Режимы независимы: один котик может стоять в нескольких командах.
         state.profile.presets[idx].catIds = collectionAutopickSquad(roster, new Set());
         if (!state.profile.presets[idx].name || /^preset_|^squad_/.test(state.profile.presets[idx].name)) {
           state.profile.presets[idx].name = COL_SQUAD_NAMES[idx];
@@ -17117,12 +17117,12 @@ function bindCollectionRoster() {
         }
         persistCollectionStub();
         renderCollection();
-        toast("Авто · PvE + PvP (local stub)");
+        toast("Авто · 4 отряда · PvE · PvP · Данж · Рейд (local stub)");
         return;
       }
       if (act === "apply") {
         persistCollectionStub();
-        toast("2 отряда сохранены · PvE + PvP (local · не SoT боя)");
+        toast("4 отряда сохранены · PvE · PvP · Данж · Рейд (local · не SoT боя)");
         return;
       }
     }
@@ -17132,10 +17132,16 @@ function bindCollectionRoster() {
       root.querySelector("[data-col-act='autopick-all']")?.click();
       return;
     }
-    if (label.includes("применить все") || label.includes("применить расстановку") || label.includes("сохранить 2") || label.includes("сохранить 3")) {
+    if (
+      label.includes("применить все") ||
+      label.includes("применить расстановку") ||
+      label.includes("сохранить 2") ||
+      label.includes("сохранить 3") ||
+      label.includes("сохранить 4")
+    ) {
       ev.preventDefault();
       persistCollectionStub();
-      toast("2 отряда сохранены · PvE + PvP (local · не SoT боя)");
+      toast("4 отряда сохранены · PvE · PvP · Данж · Рейд (local · не SoT боя)");
       return;
     }
     if (label.includes("база знаний") || label.includes("кодекс")) {
