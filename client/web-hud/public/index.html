@@ -4717,19 +4717,19 @@
 <div class="flex items-center justify-between pb-1.5 px-1 border-b border-outline-variant/30 flex-shrink-0">
 <div class="flex items-center gap-1.5">
 <span class="material-symbols-outlined text-primary text-[18px]">key</span>
-<span class="font-headline-md text-[13px] text-on-surface font-bold">Каталог склепов</span>
+<span class="font-headline-md text-[13px] text-on-surface font-bold" data-dungeon-catalog-title>Каталог склепов</span>
 </div>
-<span class="text-[10px] text-outline font-bold uppercase tracking-wide">5 зон</span>
+<span class="text-[10px] text-outline font-bold uppercase tracking-wide" data-dungeon-catalog-count>5 зон</span>
 </div>
 
-<div class="flex gap-1 py-1.5 flex-shrink-0" role="tablist" aria-label="Фильтр данжей">
+<div class="flex gap-1 py-1.5 flex-shrink-0" role="tablist" aria-label="Фильтр каталога">
 <button type="button" class="mode-chip is-on flex-1 py-1 rounded-md text-[10px] font-bold" data-dungeon-filter="all">Все</button>
-<button type="button" class="mode-chip flex-1 py-1 rounded-md text-[10px] font-bold text-on-surface-variant" data-dungeon-filter="open">Открыты</button>
-<button type="button" class="mode-chip flex-1 py-1 rounded-md text-[10px] font-bold text-on-surface-variant" data-dungeon-filter="heroic">Героик</button>
+<button type="button" class="mode-chip flex-1 py-1 rounded-md text-[10px] font-bold text-on-surface-variant" data-dungeon-filter="dungeon">Данж</button>
+<button type="button" class="mode-chip flex-1 py-1 rounded-md text-[10px] font-bold text-on-surface-variant" data-dungeon-filter="raid">Рейд</button>
 </div>
 
-<div class="flex-1 min-h-0 overflow-y-auto flex flex-col gap-1.5 pr-0.5">
-<article class="dungeon-pick is-on rounded-lg border border-primary/55 bg-[#1a1613] p-2 cursor-pointer" data-dungeon="scarlet" tabindex="0">
+<div class="flex-1 min-h-0 overflow-y-auto flex flex-col gap-1.5 pr-0.5" data-dungeon-catalog>
+<article class="dungeon-pick is-on rounded-lg border border-primary/55 bg-[#1a1613] p-2 cursor-pointer" data-catalog-kind="dungeon" data-dungeon="scarlet" tabindex="0">
 <header class="flex items-center justify-between gap-1 mb-1">
 <span class="text-[11px] font-bold text-primary truncate">Псарня Алых Колец</span>
 <span class="text-[9px] px-1.5 py-0.5 rounded bg-secondary/15 text-secondary border border-secondary/35 font-bold">≤10</span>
@@ -4740,7 +4740,7 @@
 <span class="text-primary font-bold">короткий / длинный</span>
 </div>
 </article>
-<article class="dungeon-pick rounded-lg border border-outline-variant/40 bg-[#1a1613] p-2 cursor-pointer hover:border-primary/45" data-dungeon="howl" tabindex="0">
+<article class="dungeon-pick rounded-lg border border-outline-variant/40 bg-[#1a1613] p-2 cursor-pointer hover:border-primary/45" data-catalog-kind="dungeon" data-dungeon="howl" tabindex="0">
 <header class="flex items-center justify-between gap-1 mb-1">
 <span class="text-[11px] font-bold text-on-surface truncate">Ледник Воющих</span>
 <span class="text-[9px] px-1.5 py-0.5 rounded bg-primary/15 text-primary border border-primary/35 font-bold">≤10</span>
@@ -4751,7 +4751,7 @@
 <span class="text-on-surface-variant font-bold">короткий / длинный</span>
 </div>
 </article>
-<article class="dungeon-pick rounded-lg border border-outline-variant/40 bg-[#1a1613] p-2 cursor-pointer hover:border-primary/45" data-dungeon="whisper" tabindex="0">
+<article class="dungeon-pick rounded-lg border border-outline-variant/40 bg-[#1a1613] p-2 cursor-pointer hover:border-primary/45" data-catalog-kind="dungeon" data-dungeon="whisper" tabindex="0">
 <header class="flex items-center justify-between gap-1 mb-1">
 <span class="text-[11px] font-bold text-on-surface truncate">Склеп Шепчущих</span>
 <span class="text-[9px] px-1.5 py-0.5 rounded bg-tertiary/15 text-tertiary border border-tertiary/35 font-bold">≤10</span>
@@ -4762,7 +4762,7 @@
 <span class="text-on-surface-variant font-bold">короткий / длинный</span>
 </div>
 </article>
-<article class="dungeon-pick is-locked rounded-lg border border-outline-variant/30 bg-[#14110f] p-2 opacity-70" data-dungeon="ember" aria-disabled="true">
+<article class="dungeon-pick is-locked rounded-lg border border-outline-variant/30 bg-[#14110f] p-2 opacity-70" data-catalog-kind="dungeon" data-dungeon="ember" aria-disabled="true">
 <header class="flex items-center justify-between gap-1 mb-1">
 <span class="text-[11px] font-bold text-outline truncate">Пепельный алтарь</span>
 <span class="material-symbols-outlined text-[14px] text-outline">lock</span>
@@ -4773,7 +4773,7 @@
 <span class="text-outline font-bold">Ур. 52</span>
 </div>
 </article>
-<article class="dungeon-pick is-locked rounded-lg border border-outline-variant/30 bg-[#14110f] p-2 opacity-70" data-dungeon="frost" aria-disabled="true">
+<article class="dungeon-pick is-locked rounded-lg border border-outline-variant/30 bg-[#14110f] p-2 opacity-70" data-catalog-kind="dungeon" data-dungeon="frost" aria-disabled="true">
 <header class="flex items-center justify-between gap-1 mb-1">
 <span class="text-[11px] font-bold text-outline truncate">Ледяной катакомб</span>
 <span class="material-symbols-outlined text-[14px] text-outline">lock</span>
@@ -4795,16 +4795,16 @@
 </div>
 </aside>
 
-<!-- CENTER: selected dungeon stage -->
-<div class="col-span-12 lg:col-span-5 flex flex-col h-full min-h-0 gap-2 overflow-hidden">
-<div class="relative flex-1 min-h-0 rounded-xl overflow-hidden border border-outline-variant/40 shadow-2xl flex flex-col">
-<img class="absolute inset-0 w-full h-full object-cover" alt="" decoding="async" loading="lazy" data-mf-src="/stitch-assets/modes/dungeon-crypt-bg.webp">
+<!-- CENTER: stage art OR legion deploy (after Ready) -->
+<div class="col-span-12 lg:col-span-5 flex flex-col h-full min-h-0 gap-2 overflow-hidden" data-dungeon-center>
+<div class="relative flex-1 min-h-0 rounded-xl overflow-hidden border border-outline-variant/40 shadow-2xl flex flex-col" data-dungeon-stage-panel>
+<img class="absolute inset-0 w-full h-full object-cover" alt="" decoding="async" loading="lazy" data-dungeon-stage-bg data-mf-src="/stitch-assets/modes/dungeon-crypt-bg.webp">
 <div class="absolute inset-0 bg-gradient-to-t from-[#100e0c] via-[#100e0c]/78 to-[#100e0c]/40"></div>
 
 <div class="relative z-10 flex flex-col h-full p-2.5 gap-2 min-h-0">
 <div class="flex items-start justify-between gap-2 bg-surface-container-lowest/88 backdrop-blur-md px-3 py-2 rounded-lg border border-primary/35 flex-shrink-0">
 <div class="min-w-0">
-<p class="text-[10px] text-outline uppercase tracking-wider font-bold">Активный данж</p>
+<p class="text-[10px] text-outline uppercase tracking-wider font-bold" data-dungeon-active-label>Активный данж</p>
 <strong class="text-[16px] text-primary font-extrabold leading-tight" data-dungeon-active-title>Псарня Алых Колец</strong>
 <p class="text-[11px] text-on-surface-variant mt-0.5" data-dungeon-active-sub>Входной отряд · путь — голосование в бою · 3v3</p>
 </div>
@@ -4812,7 +4812,7 @@
 <span class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-secondary/15 text-secondary text-[10px] font-bold border border-secondary/30" data-dungeon-first-clear>
 <span class="material-symbols-outlined text-[12px]">verified</span> First-clear бонус
 </span>
-<p class="text-[11px] text-primary font-bold mt-1">Ключ ×1 / вход</p>
+<p class="text-[11px] text-primary font-bold mt-1" data-dungeon-entry-cost>Ключ ×1 / вход</p>
 </div>
 </div>
 
@@ -4822,18 +4822,41 @@
 <button type="button" class="mode-chip flex-1 py-1.5 rounded-md text-[10px] font-bold text-on-surface-variant" data-dungeon-fork="right">Направо</button>
 </div>
 
-<div class="flex-1 min-h-0" aria-hidden="true"></div>
+<div class="flex-1 min-h-0 flex items-end justify-center">
+<img alt="" class="max-h-[11rem] w-auto object-contain drop-shadow-2xl hidden" data-dungeon-boss-art decoding="async" loading="lazy">
+</div>
 
 <div class="grid grid-cols-3 gap-1.5 flex-shrink-0 text-[10px]">
 <div class="rounded-md bg-surface-container-lowest/88 border border-outline-variant/35 px-2 py-1.5 flex justify-between"><span class="text-outline">Время</span><b data-dungeon-time>≤10 мин</b></div>
-<div class="rounded-md bg-surface-container-lowest/88 border border-outline-variant/35 px-2 py-1.5 flex justify-between"><span class="text-outline">Лут</span><b class="text-primary">редметы с босса</b></div>
-<div class="rounded-md bg-surface-container-lowest/88 border border-outline-variant/35 px-2 py-1.5 flex justify-between"><span class="text-outline">Режим</span><b class="text-secondary">3v3</b></div>
+<div class="rounded-md bg-surface-container-lowest/88 border border-outline-variant/35 px-2 py-1.5 flex justify-between"><span class="text-outline">Лут</span><b class="text-primary" data-dungeon-loot-chip>редметы с босса</b></div>
+<div class="rounded-md bg-surface-container-lowest/88 border border-outline-variant/35 px-2 py-1.5 flex justify-between"><span class="text-outline">Режим</span><b class="text-secondary" data-dungeon-mode-chip>3v3</b></div>
 </div>
 </div>
 </div>
 
-<div class="flex-shrink-0 rounded-xl border border-outline-variant/40 bg-[#161310] px-2.5 py-2 flex items-center gap-2 overflow-hidden">
-<span class="text-[10px] text-primary font-bold uppercase tracking-wide flex-shrink-0">Награды склепа</span>
+<div class="flex flex-col flex-1 min-h-0 bg-[#161310] rounded-xl border border-outline-variant/40 p-2 shadow-2xl overflow-hidden hidden" data-dungeon-deploy-panel>
+<div class="flex items-center justify-between pb-1.5 px-1 border-b border-outline-variant/30 flex-shrink-0">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-primary text-[18px]">military_tech</span>
+<span class="font-headline-md text-[13px] font-bold">Состав легиона</span>
+</div>
+<div class="flex items-center gap-2 text-[10px]">
+<span class="text-outline">Легион</span>
+<strong class="text-primary" data-raid-deploy-size>0/12</strong>
+<span class="px-1.5 py-0.5 rounded bg-primary/15 text-primary border border-primary/35 font-bold">4×3 строй</span>
+</div>
+</div>
+<div class="flex flex-col gap-1.5 flex-1 min-h-0 overflow-y-auto py-1.5" aria-label="12 слотов рейда" data-raid-legion-board="1"></div>
+<div class="flex flex-wrap items-center gap-1.5 flex-shrink-0 pt-1 border-t border-outline-variant/25 text-[10px]" data-raid-role-chips></div>
+<div class="flex flex-wrap gap-1.5 flex-shrink-0 pt-2">
+<button type="button" class="flex-1 py-1.5 rounded-lg border border-outline-variant/50 text-on-surface-variant text-[11px] font-bold hover:bg-surface-container-high" data-hud-action="raid-deploy-fill">Заполнить канон</button>
+<button type="button" class="flex-1 py-1.5 rounded-lg border border-outline-variant/50 text-on-surface-variant text-[11px] font-bold hover:bg-surface-container-high" data-hud-action="raid-deploy-clear">Очистить</button>
+<button type="button" class="flex-[1.4] py-1.5 rounded-lg bg-gradient-to-r from-[#d99b26] via-[#fdba45] to-[#ffdeae] text-[#432c00] text-[11px] font-extrabold" data-hud-action="raid-deploy-confirm">Готово · к старту</button>
+</div>
+</div>
+
+<div class="flex-shrink-0 rounded-xl border border-outline-variant/40 bg-[#161310] px-2.5 py-2 flex items-center gap-2 overflow-hidden" data-dungeon-rewards-row>
+<span class="text-[10px] text-primary font-bold uppercase tracking-wide flex-shrink-0" data-dungeon-rewards-label>Награды склепа</span>
 <div class="flex-1 flex items-center gap-1.5 min-w-0 overflow-x-auto">
 <div class="flex-shrink-0 w-9 h-9 rounded-lg bg-surface-container-high border border-primary/45 flex items-center justify-center" title="Чертёж брони"><span class="material-symbols-outlined text-[16px] text-primary">architecture</span></div>
 <div class="flex-shrink-0 w-9 h-9 rounded-lg bg-surface-container-high border border-secondary/40 flex items-center justify-center" title="Руна"><span class="material-symbols-outlined text-[16px] text-secondary">auto_awesome</span></div>

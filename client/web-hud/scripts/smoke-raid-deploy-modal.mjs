@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * Smoke: raid lobby like dungeon + party scroll 12 + Ready → deploy modal → confirm → start gate.
+ * Smoke: unified dungeon/raid lobby — filter Данж|Рейд, Ready 4/4 → center legion board (not modal).
  * HUD must be up: PORT=8099 node server.mjs
  */
 import { spawn } from "node:child_process";
@@ -75,81 +75,81 @@ async function main() {
     await send("Runtime.enable");
     await new Promise((r) => setTimeout(r, 1800));
 
-    await send("Runtime.evaluate", {
-      expression: `(() => new Promise((resolve) => {
-        let n = 0;
-        const tick = () => {
-          if (typeof window.navigate === "function" || typeof window.mythfelNavigate === "function") return resolve(true);
-          if (document.getElementById("viewBossRaid")) return resolve(true);
-          if (++n > 80) return resolve(false);
-          setTimeout(tick, 200);
-        };
-        tick();
-      }))()`,
-      awaitPromise: true,
-      returnByValue: true,
-    });
-
     const probe = await send("Runtime.evaluate", {
       expression: `(() => {
-        if (typeof window.mythfelStubLogin === "function") window.mythfelStubLogin();
+        const u = document.getElementById("loginUserInput");
+        const p = document.getElementById("passwordInput");
+        if (u) u.value = "qa_smoke";
+        if (p) p.value = "qa";
         document.body.classList.remove("mythfel-login");
-        if (typeof window.mythfelNavigate === "function") {
-          window.mythfelNavigate("boss_raid", { primary: "combat" });
-        }
-        const root = document.getElementById("viewBossRaid");
-        if (!root) return { err: "no viewBossRaid" };
-        root.classList.remove("hidden");
-        root.querySelector('[data-hud-action="raid-fill-party"]')?.click();
-        const party = root.querySelector("[data-raid-party]");
-        const partyN = party ? party.children.length : 0;
-        const partyScroll = party ? getComputedStyle(party).overflowY : "";
-        const modal = root.querySelector("[data-raid-deploy-modal]");
-        const modalOpen = modal && !modal.classList.contains("hidden");
-        const board = root.querySelector("[data-raid-legion-board]");
-        const slots = board ? board.querySelectorAll("[data-raid-form-row]").length : 0;
-        const catalog = root.querySelector("[data-raid-catalog]");
-        const catalogN = catalog ? catalog.querySelectorAll("[data-raid-id]").length : 0;
-        const readyChip = root.querySelector("[data-raid-ready-chip]")?.textContent || "";
-        root.querySelector('[data-hud-action="raid-deploy-confirm"]')?.click();
-        const modalClosed = !modal || modal.classList.contains("hidden");
-        const startBtn = root.querySelector('[data-hud-action="raid-start"]');
-        const startEnabled = !!(startBtn && !startBtn.disabled);
-        const status = root.querySelector("[data-raid-deploy-status]")?.textContent || "";
-        return {
-          partyN,
-          partyScroll,
-          modalOpenBeforeConfirm: modalOpen,
-          slots,
-          catalogN,
-          readyChip,
-          modalClosed,
-          startEnabled,
-          status,
-          hasDungeonLikeGrid: !!root.querySelector(".mode-grid"),
-        };
+        if (typeof mythfelStubLogin === "function") mythfelStubLogin();
+        return new Promise((resolve) => {
+          setTimeout(() => {
+            if (typeof mythfelNavigate === "function") mythfelNavigate("boss_raid", { primary: "combat" });
+            setTimeout(() => {
+              const root = document.getElementById("viewBossDungeon");
+              if (!root || root.classList.contains("hidden")) {
+                resolve({ err: "viewBossDungeon not shown for boss_raid" });
+                return;
+              }
+              const filters = [...root.querySelectorAll("[data-dungeon-filter]")].map((el) =>
+                el.getAttribute("data-dungeon-filter"),
+              );
+              const raidFilterOn = root
+                .querySelector('[data-dungeon-filter="raid"]')
+                ?.classList.contains("is-on");
+              root.querySelector('[data-hud-action="dungeon-fill-party"]')?.click();
+              setTimeout(() => {
+                const stageHidden = root.querySelector("[data-dungeon-stage-panel]")?.classList.contains("hidden");
+                const deployHidden = root.querySelector("[data-dungeon-deploy-panel]")?.classList.contains("hidden");
+                const slots = root.querySelectorAll("[data-raid-form-row]").length;
+                const partyN = root.querySelector("[data-dungeon-party]")?.children.length || 0;
+                const modal = document.querySelector("[data-raid-deploy-modal]");
+                const modalOpen = modal && !modal.classList.contains("hidden") && modal.offsetParent !== null;
+                root.querySelector('[data-hud-action="raid-deploy-confirm"]')?.click();
+                setTimeout(() => {
+                  const startBtn = root.querySelector('[data-hud-action="dungeon-start"]');
+                  resolve({
+                    filters,
+                    raidFilterOn,
+                    partyN,
+                    stageHidden,
+                    deployHidden,
+                    slots,
+                    modalOpen,
+                    startEnabled: !!(startBtn && !startBtn.disabled),
+                    startLabel: startBtn?.textContent?.replace(/\\s+/g, " ").trim() || "",
+                  });
+                }, 200);
+              }, 400);
+            }, 600);
+          }, 600);
+        });
       })()`,
+      awaitPromise: true,
       returnByValue: true,
     });
 
     const r = probe.result?.value || {};
     const fails = [];
     if (r.err) fails.push(r.err);
-    if (r.partyN !== 12) fails.push(`partyN=${r.partyN}`);
-    if (r.partyScroll !== "auto") fails.push(`partyScroll=${r.partyScroll}`);
-    if (!r.modalOpenBeforeConfirm) fails.push("modal not open after bots");
+    if (!Array.isArray(r.filters) || !r.filters.includes("dungeon") || !r.filters.includes("raid")) {
+      fails.push(`filters=${JSON.stringify(r.filters)}`);
+    }
+    if (r.filters?.includes("open") || r.filters?.includes("heroic")) fails.push("legacy open/heroic still present");
+    if (!r.raidFilterOn) fails.push("raid filter not on after boss_raid nav");
+    if (r.partyN !== 4) fails.push(`partyN=${r.partyN}`);
+    if (!r.stageHidden) fails.push("stage panel still visible after Ready");
+    if (r.deployHidden) fails.push("deploy panel not shown in center");
     if (r.slots !== 12) fails.push(`slots=${r.slots}`);
-    if (r.catalogN < 1) fails.push(`catalogN=${r.catalogN}`);
-    if (!r.modalClosed) fails.push("modal still open after confirm");
+    if (r.modalOpen) fails.push("legacy modal still open");
     if (!r.startEnabled) fails.push("start still disabled");
-    if (!r.hasDungeonLikeGrid) fails.push("no mode-grid");
-    if (!String(r.status || "").includes("Строй")) fails.push(`status=${r.status}`);
 
     if (fails.length) {
       console.error("FAIL", fails, r);
       process.exitCode = 1;
     } else {
-      console.log("PASS raid deploy modal", r);
+      console.log("PASS unified raid deploy center", r);
     }
     ws.close();
   } finally {

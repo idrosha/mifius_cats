@@ -55,6 +55,26 @@ const RAID_FORMATION_ROWS = [
   { row: 1, lane: "melee", roles: ["assassin|fighter", "assassin|fighter", "assassin|fighter"], label_ru: "Мили · убийцы/воины" },
   { row: 0, lane: "front", roles: ["tank", "tank", "tank"], label_ru: "Фронт · танки" },
 ];
+const RAID_BOSS_UI = {
+  myaurra: {
+    art: "/stitch-assets/monsters/battle/myaurra-pitboss-cutout.webp?v=raid1",
+    place_ru: "Небесный Двор",
+    mech_ru: "Удар стаи",
+    phase_ru: "Пса-Бури",
+  },
+  talass: {
+    art: "/stitch-assets/monsters/battle/talass-pitboss-cutout.webp?v=raid1",
+    place_ru: "Бездна Усов",
+    mech_ru: "Шёпот глубин",
+    phase_ru: "Прилив",
+  },
+  vulcan: {
+    art: "/stitch-assets/monsters/battle/vulcan-pitboss-cutout.webp?v=raid1",
+    place_ru: "Пепельный Трон",
+    mech_ru: "Девять хвостов",
+    phase_ru: "Пепел",
+  },
+};
 const PRACTICE_STAGE = "practice_dummy_1";
 const TUTORIAL_BUDGET_MS = 10 * 60 * 1000;
 const CLIENT_REGION = (new URLSearchParams(location.search).get("region") || "RU").toUpperCase();
@@ -1230,6 +1250,10 @@ const state = {
   dungeonRewards: null, // content/dungeon_rewards_v1.json
   dungeonRares: null, // content/dungeon_rares.json
   selectedDungeonId: "scarlet",
+  /** Unified lobby catalog: all | dungeon | raid (replaces open/heroic chips). */
+  dungeonCatalogFilter: "all",
+  /** Selected catalog card kind on shared dungeon/raid lobby. */
+  dungeonLobbyKind: "dungeon",
   dungeonPath: "short", // short | long — голосование после 1-го отряда
   dungeonPathLocked: false,
   dungeonPathVoteOpen: false,
@@ -1909,7 +1933,8 @@ function logicalViewId() {
     battle_hub: "viewBattleHub",
     formation: "viewFormation",
     boss_dungeon: "viewBossDungeon",
-    boss_raid: "viewBossRaid",
+    /** Raid shares dungeon lobby (4×3 пати · filter Рейд · center deploy). */
+    boss_raid: "viewBossDungeon",
     raid_battle: "viewRaidBattle",
     battle: "viewBattle",
     pvp: "viewPvp",
@@ -1968,7 +1993,7 @@ function wireModeFor(viewId) {
     return "soon";
   }
   const special = {
-    viewBossDungeon: "boss_dungeon",
+    viewBossDungeon: state.dungeonLobbyKind === "raid" ? "boss_raid" : "boss_dungeon",
     viewBossRaid: "boss_raid",
     viewGuildBattle: "guild_battle",
     viewChatGlobal: "chat_global",
@@ -2215,6 +2240,15 @@ function navigate(tab, { soon = null, clearBattle = true, primary = null, fromGa
   }
   // Inline formation: keep combat primary highlighted even though it is not a subtab.
   if (tab === "formation" && primary == null) primary = "combat";
+  // Shared dungeon/raid lobby: subtab picks catalog filter + kind.
+  if (tab === "boss_raid") {
+    state.dungeonCatalogFilter = "raid";
+    state.dungeonLobbyKind = "raid";
+  } else if (tab === "boss_dungeon") {
+    state.dungeonCatalogFilter = "dungeon";
+    state.dungeonLobbyKind = "dungeon";
+    state.raidDeployOpen = false;
+  }
 
   // Day-1: all forms present. Gated tabs still open, but tip on entry for meta gates.
   const navTab = findNavTabMeta(tab)?.tab || TABS.find((x) => x.id === tab);
@@ -3558,11 +3592,25 @@ async function toggleDungeonPartyReady() {
     });
     if (data?.ok && data.party) {
       applyDungeonPartySnapshot(data.party, userId);
+      if (!nextReady) {
+        state.raidDeployConfirmed = false;
+        state.raidDeployOpen = false;
+      }
       toast(nextReady ? "Ready ✓" : "Ready снято");
+      maybeOpenRaidDeployAfterReady();
+      return;
     }
-  } catch (err) {
-    toast(`Ready: ${err.message || "offline"}`);
+  } catch (_) {
+    /* local fallback */
   }
+  if (me) me.ready = nextReady;
+  if (!nextReady) {
+    state.raidDeployConfirmed = false;
+    state.raidDeployOpen = false;
+  }
+  renderDungeonLobby();
+  toast(nextReady ? "Ready ✓" : "Ready снято");
+  maybeOpenRaidDeployAfterReady();
 }
 
 async function fillDungeonPartyBots() {
@@ -3582,6 +3630,7 @@ async function fillDungeonPartyBots() {
       applyDungeonPartySnapshot(data.party, userId);
       startDungeonPartyPoll();
       toast(`Пати ${data.party.readyCount}/4 · код ${data.party.code}`);
+      maybeOpenRaidDeployAfterReady();
       return;
     }
   } catch (_) {
@@ -3594,7 +3643,12 @@ async function fillDungeonPartyBots() {
     { slot: 3, name: "Бот·Хил", ready: true, bot: true },
   ];
   renderDungeonLobby();
-  toast("Пати 4/4 (локальные боты · бой всё ещё ваш 3v3)");
+  toast(
+    isRaidLobby()
+      ? "Пати 4/4 ready · расстановка легиона в центре"
+      : "Пати 4/4 (локальные боты · бой всё ещё ваш 3v3)",
+  );
+  maybeOpenRaidDeployAfterReady();
 }
 
 /** Collection preset index for dungeon lobby (default «Данж»). */
@@ -3780,9 +3834,14 @@ function enableDungeonSoloTestStub() {
   const id = state.selectedDungeonId || "scarlet";
   prog.keys[id] = Math.max(prog.keys[id] | 0, 5);
   persistProgress();
-  state.battleMode = "dungeon";
+  state.battleMode = isRaidLobby() ? "boss" : "dungeon";
   renderDungeonLobby();
-  toast("Соло-тест: пати 4/4 заглушка · выберите команду · затем «В путь»");
+  toast(
+    isRaidLobby()
+      ? "Соло-тест рейда: пати 4/4 · расставьте легион · затем «В путь»"
+      : "Соло-тест: пати 4/4 заглушка · выберите команду · затем «В путь»",
+  );
+  maybeOpenRaidDeployAfterReady();
 }
 
 function dungeonPartyReadyForStart() {
@@ -3885,86 +3944,235 @@ function selectDungeon(id, path = state.dungeonPath, fork = state.dungeonFork) {
   renderDungeonLobby();
 }
 
+function isRaidLobby() {
+  return state.dungeonLobbyKind === "raid";
+}
+
+function ensureRaidCatalogPicks(root) {
+  const catalog = root.querySelector("[data-dungeon-catalog]");
+  if (!catalog) return;
+  let host = catalog.querySelector("[data-raid-catalog-picks]");
+  if (!host) {
+    host = document.createElement("div");
+    host.setAttribute("data-raid-catalog-picks", "1");
+    host.className = "flex flex-col gap-1.5";
+    catalog.appendChild(host);
+  }
+  const raids = state.raidsCatalog?.raids || [];
+  const blurb = {
+    myaurra: "Солнечные львы · Мяурра · пати 4×3",
+    talass: "Глубинные рыси · Таласс · пати 4×3",
+    vulcan: "Пепельные кицунэ · Вулкан · пати 4×3",
+  };
+  host.innerHTML = raids
+    .map((r) => {
+      const on = isRaidLobby() && r.raidId === state.raidId;
+      return `<article class="dungeon-pick${on ? " is-on" : ""} rounded-lg border ${
+        on ? "border-primary/55 bg-[#1a1613]" : "border-outline-variant/40 bg-[#1a1613] hover:border-primary/45"
+      } p-2 cursor-pointer" data-catalog-kind="raid" data-raid-id="${r.raidId}" tabindex="0">
+        <header class="flex items-center justify-between gap-1 mb-1">
+          <span class="text-[11px] font-bold ${on ? "text-primary" : "text-on-surface"} truncate">${r.title_ru}</span>
+          <span class="text-[9px] px-1.5 py-0.5 rounded bg-tertiary/15 text-tertiary border border-tertiary/35 font-bold">эпос</span>
+        </header>
+        <p class="text-[10px] text-on-surface-variant leading-snug">${blurb[r.raidId] || "Рейд · легион 12 котов"}</p>
+        <div class="flex items-center justify-between mt-1.5 text-[9px]">
+          <span class="text-outline">Кооп 4×3</span>
+          <span class="${on ? "text-primary" : "text-on-surface-variant"} font-bold">короткий / длинный</span>
+        </div>
+      </article>`;
+    })
+    .join("");
+}
+
+function syncDungeonCenterPanels() {
+  const root = $("viewBossDungeon");
+  if (!root) return;
+  const deploy = !!(state.raidDeployOpen && isRaidLobby());
+  root.querySelector("[data-dungeon-stage-panel]")?.classList.toggle("hidden", deploy);
+  root.querySelector("[data-dungeon-deploy-panel]")?.classList.toggle("hidden", !deploy);
+  root.querySelector("[data-dungeon-rewards-row]")?.classList.toggle("hidden", deploy);
+  if (deploy) renderRaidLegionBoard();
+}
+
+function maybeOpenRaidDeployAfterReady() {
+  if (!isRaidLobby()) return;
+  if (!dungeonPartyReadyForStart()) return;
+  if (state.raidDeployConfirmed && state.raidDeployOpen) return;
+  openRaidDeployModal({ autoFill: (state.raidLegionCount | 0) === 0 });
+}
+
 function renderDungeonLobby() {
   const root = $("viewBossDungeon");
   if (!root || !state.dungeonCoop) return;
   closeDungeonTeamPicker();
   seedDungeonKeysIfNeeded();
-  const d = dungeonById();
-  if (!d) return;
-  const nodes = dungeonPathNodes();
-  const path = d.paths?.[state.dungeonPath];
-  root.querySelectorAll(".dungeon-pick[data-dungeon]").forEach((el) => {
-    const id = el.getAttribute("data-dungeon");
-    el.classList.toggle("is-on", id === d.id);
+  ensureRaidCatalogPicks(root);
+
+  const filter = state.dungeonCatalogFilter || "all";
+  root.querySelectorAll("[data-dungeon-filter]").forEach((el) => {
+    el.classList.toggle("is-on", el.getAttribute("data-dungeon-filter") === filter);
   });
-  root.querySelectorAll("[data-dungeon-path]").forEach((el) => {
-    el.classList.add("hidden");
+  root.querySelectorAll("[data-catalog-kind='dungeon']").forEach((el) => {
+    el.classList.toggle("hidden", filter === "raid");
   });
-  root.querySelectorAll("[data-dungeon-fork]").forEach((el) => {
-    el.classList.toggle("is-on", el.getAttribute("data-dungeon-fork") === state.dungeonFork);
-    el.classList.toggle(
-      "hidden",
-      !state.dungeonPathLocked || state.dungeonPath !== "long" || !path?.forkF2,
-    );
-  });
-  const forkWrap = root.querySelector("[data-dungeon-fork-wrap]");
-  if (forkWrap) {
-    forkWrap.classList.toggle(
-      "hidden",
-      !state.dungeonPathLocked || state.dungeonPath !== "long" || !path?.forkF2,
-    );
+  const raidPicks = root.querySelector("[data-raid-catalog-picks]");
+  if (raidPicks) raidPicks.classList.toggle("hidden", filter === "dungeon");
+
+  const catalogTitle = root.querySelector("[data-dungeon-catalog-title]");
+  if (catalogTitle) {
+    catalogTitle.textContent = filter === "raid" ? "Каталог рейдов" : "Каталог склепов";
   }
-  if (path?.forkF2) {
-    const leftBtn = root.querySelector('[data-dungeon-fork="left"]');
-    const rightBtn = root.querySelector('[data-dungeon-fork="right"]');
-    if (leftBtn) leftBtn.textContent = path.forkF2.left_ru || "Налево";
-    if (rightBtn) rightBtn.textContent = path.forkF2.right_ru || "Направо";
+  const catalogCount = root.querySelector("[data-dungeon-catalog-count]");
+  if (catalogCount) {
+    catalogCount.textContent =
+      filter === "raid" ? "3 босса" : filter === "dungeon" ? "5 зон" : "данж+рейд";
   }
-  const pathHint = root.querySelector("[data-dungeon-path-hint]");
-  if (pathHint) {
-    pathHint.textContent = state.dungeonPathLocked
-      ? `Путь зафиксирован: ${state.dungeonPath === "long" ? "длинный" : "короткий"}`
-      : "Короткий/длинный путь — голосование после первого отряда (соло-тест: ваш голос = решение).";
-  }
-  const title = root.querySelector("[data-dungeon-active-title]");
-  if (title) title.textContent = d.title_ru || d.id;
-  const sub = root.querySelector("[data-dungeon-active-sub]");
-  if (sub) {
-    if (!state.dungeonPathLocked) {
-      sub.textContent = `Входной отряд · путь позже голосованием · 3v3`;
-    } else {
-      const tmax =
-        state.dungeonPath === "short"
-          ? state.dungeonCoop.timing?.shortMaxMin
-          : state.dungeonCoop.timing?.longMaxMin;
-      const forkHint =
-        state.dungeonPath === "long" && path?.forkF2
-          ? ` · F2 ${state.dungeonFork === "right" ? path.forkF2.right_ru || "право" : path.forkF2.left_ru || "лево"}`
-          : "";
-      sub.textContent = `${path?.label_ru || state.dungeonPath}${forkHint} · ${nodes.length} узлов · ≤${tmax || "?"} мин · 3v3`;
+
+  const raid = isRaidLobby();
+  if (raid) {
+    syncRaidLimitsFromLiveOps();
+    ensureRaidLegion();
+    const rdef = raidDef();
+    const ui = RAID_BOSS_UI[rdef?.raidId] || RAID_BOSS_UI.myaurra;
+    root.querySelectorAll(".dungeon-pick[data-dungeon]").forEach((el) => el.classList.remove("is-on"));
+    root.querySelectorAll(".dungeon-pick[data-raid-id]").forEach((el) => {
+      el.classList.toggle("is-on", el.getAttribute("data-raid-id") === state.raidId);
+    });
+    const label = root.querySelector("[data-dungeon-active-label]");
+    if (label) label.textContent = "Активный рейд";
+    const title = root.querySelector("[data-dungeon-active-title]");
+    if (title) title.textContent = rdef?.title_ru || state.raidId;
+    const sub = root.querySelector("[data-dungeon-active-sub]");
+    if (sub) sub.textContent = `${ui.place_ru} · пати 4×3 · легион 12 · путь голосованием`;
+    const pathHint = root.querySelector("[data-dungeon-path-hint]");
+    if (pathHint) {
+      pathHint.textContent =
+        "После Ready 4/4 центр станет «Состав легиона» 4×3 · короткий/длинный путь — голосование в бою.";
     }
+    const timeEl = root.querySelector("[data-dungeon-time]");
+    if (timeEl) {
+      const short = rdef?.paths?.short?.etaMin;
+      const long = rdef?.paths?.long?.etaMin;
+      const a = Array.isArray(short) ? short[0] : 18;
+      const b = Array.isArray(long) ? long[1] : 30;
+      timeEl.textContent = `≤${a}–${b} мин`;
+    }
+    const loot = root.querySelector("[data-dungeon-loot-chip]");
+    if (loot) loot.textContent = "PvE-сеты";
+    const mode = root.querySelector("[data-dungeon-mode-chip]");
+    if (mode) mode.textContent = "легион 12";
+    const cost = root.querySelector("[data-dungeon-entry-cost]");
+    if (cost) cost.textContent = "1 попытка / вход";
+    const fcEl = root.querySelector("[data-dungeon-first-clear]");
+    if (fcEl) {
+      fcEl.innerHTML = `<span class="material-symbols-outlined text-[12px]">swords</span> ЭПОС`;
+      fcEl.classList.add("text-tertiary");
+    }
+    const rewardsLabel = root.querySelector("[data-dungeon-rewards-label]");
+    if (rewardsLabel) rewardsLabel.textContent = "Награды рейда";
+    const bg = root.querySelector("[data-dungeon-stage-bg]");
+    if (bg) bg.src = "/stitch-assets/modes/raid-lair-bg.webp";
+    const bossArt = root.querySelector("[data-dungeon-boss-art]");
+    if (bossArt && ui.art) {
+      bossArt.src = ui.art;
+      bossArt.alt = rdef?.title_ru || "Босс";
+      bossArt.classList.remove("hidden");
+    }
+    root.querySelector("[data-dungeon-fork-wrap]")?.classList.add("hidden");
+  } else {
+    const d = dungeonById();
+    if (!d) return;
+    const nodes = dungeonPathNodes();
+    const path = d.paths?.[state.dungeonPath];
+    root.querySelectorAll(".dungeon-pick[data-dungeon]").forEach((el) => {
+      const id = el.getAttribute("data-dungeon");
+      el.classList.toggle("is-on", id === d.id);
+    });
+    root.querySelectorAll(".dungeon-pick[data-raid-id]").forEach((el) => el.classList.remove("is-on"));
+    root.querySelectorAll("[data-dungeon-path]").forEach((el) => el.classList.add("hidden"));
+    root.querySelectorAll("[data-dungeon-fork]").forEach((el) => {
+      el.classList.toggle("is-on", el.getAttribute("data-dungeon-fork") === state.dungeonFork);
+      el.classList.toggle(
+        "hidden",
+        !state.dungeonPathLocked || state.dungeonPath !== "long" || !path?.forkF2,
+      );
+    });
+    const forkWrap = root.querySelector("[data-dungeon-fork-wrap]");
+    if (forkWrap) {
+      forkWrap.classList.toggle(
+        "hidden",
+        !state.dungeonPathLocked || state.dungeonPath !== "long" || !path?.forkF2,
+      );
+    }
+    if (path?.forkF2) {
+      const leftBtn = root.querySelector('[data-dungeon-fork="left"]');
+      const rightBtn = root.querySelector('[data-dungeon-fork="right"]');
+      if (leftBtn) leftBtn.textContent = path.forkF2.left_ru || "Налево";
+      if (rightBtn) rightBtn.textContent = path.forkF2.right_ru || "Направо";
+    }
+    const pathHint = root.querySelector("[data-dungeon-path-hint]");
+    if (pathHint) {
+      pathHint.textContent = state.dungeonPathLocked
+        ? `Путь зафиксирован: ${state.dungeonPath === "long" ? "длинный" : "короткий"}`
+        : "Короткий/длинный путь — голосование после первого отряда (соло-тест: ваш голос = решение).";
+    }
+    const label = root.querySelector("[data-dungeon-active-label]");
+    if (label) label.textContent = "Активный данж";
+    const title = root.querySelector("[data-dungeon-active-title]");
+    if (title) title.textContent = d.title_ru || d.id;
+    const sub = root.querySelector("[data-dungeon-active-sub]");
+    if (sub) {
+      if (!state.dungeonPathLocked) {
+        sub.textContent = `Входной отряд · путь позже голосованием · 3v3`;
+      } else {
+        const tmax =
+          state.dungeonPath === "short"
+            ? state.dungeonCoop.timing?.shortMaxMin
+            : state.dungeonCoop.timing?.longMaxMin;
+        const forkHint =
+          state.dungeonPath === "long" && path?.forkF2
+            ? ` · F2 ${state.dungeonFork === "right" ? path.forkF2.right_ru || "право" : path.forkF2.left_ru || "лево"}`
+            : "";
+        sub.textContent = `${path?.label_ru || state.dungeonPath}${forkHint} · ${nodes.length} узлов · ≤${tmax || "?"} мин · 3v3`;
+      }
+    }
+    const timeEl = root.querySelector("[data-dungeon-time]");
+    if (timeEl) {
+      timeEl.textContent = state.dungeonPathLocked
+        ? state.dungeonPath === "short"
+          ? `≤${state.dungeonCoop.timing?.shortMaxMin || 10} мин`
+          : `≤${state.dungeonCoop.timing?.longMaxMin || 15} мин`
+        : `≤${state.dungeonCoop.timing?.shortMaxMin || 10}–${state.dungeonCoop.timing?.longMaxMin || 15} мин`;
+    }
+    const loot = root.querySelector("[data-dungeon-loot-chip]");
+    if (loot) loot.textContent = "редметы с босса";
+    const mode = root.querySelector("[data-dungeon-mode-chip]");
+    if (mode) mode.textContent = "3v3";
+    const cost = root.querySelector("[data-dungeon-entry-cost]");
+    if (cost) cost.textContent = "Ключ ×1 / вход";
+    const keysEl = root.querySelector("[data-dungeon-keys]");
+    if (keysEl) keysEl.textContent = String(dungeonKeyCount(d.id));
+    const runsEl = root.querySelector("[data-dungeon-runs]");
+    if (runsEl) runsEl.textContent = String(ensureDungeonProgress().runs || 0);
+    const raresEl = root.querySelector("[data-dungeon-rares-count]");
+    if (raresEl) raresEl.textContent = String((ensureDungeonProgress().rares || []).length);
+    const fcEl = root.querySelector("[data-dungeon-first-clear]");
+    if (fcEl) {
+      const done = !!ensureDungeonProgress().firstClear[d.id];
+      fcEl.innerHTML = `<span class="material-symbols-outlined text-[12px]">verified</span> ${
+        done ? "First-clear ✓" : "First-clear бонус"
+      }`;
+      fcEl.classList.toggle("text-secondary", done);
+      fcEl.classList.remove("text-tertiary");
+    }
+    const rewardsLabel = root.querySelector("[data-dungeon-rewards-label]");
+    if (rewardsLabel) rewardsLabel.textContent = "Награды склепа";
+    const bg = root.querySelector("[data-dungeon-stage-bg]");
+    if (bg) bg.src = "/stitch-assets/modes/dungeon-crypt-bg.webp";
+    root.querySelector("[data-dungeon-boss-art]")?.classList.add("hidden");
+    state.raidDeployOpen = false;
   }
-  const timeEl = root.querySelector("[data-dungeon-time]");
-  if (timeEl) {
-    timeEl.textContent = state.dungeonPathLocked
-      ? state.dungeonPath === "short"
-        ? `≤${state.dungeonCoop.timing?.shortMaxMin || 10} мин`
-        : `≤${state.dungeonCoop.timing?.longMaxMin || 15} мин`
-      : `≤${state.dungeonCoop.timing?.shortMaxMin || 10}–${state.dungeonCoop.timing?.longMaxMin || 15} мин`;
-  }
-  const keysEl = root.querySelector("[data-dungeon-keys]");
-  if (keysEl) keysEl.textContent = String(dungeonKeyCount(d.id));
-  const runsEl = root.querySelector("[data-dungeon-runs]");
-  if (runsEl) runsEl.textContent = String(ensureDungeonProgress().runs || 0);
-  const raresEl = root.querySelector("[data-dungeon-rares-count]");
-  if (raresEl) raresEl.textContent = String((ensureDungeonProgress().rares || []).length);
-  const fcEl = root.querySelector("[data-dungeon-first-clear]");
-  if (fcEl) {
-    const done = !!ensureDungeonProgress().firstClear[d.id];
-    fcEl.textContent = done ? "First-clear ✓" : "First-clear бонус";
-    fcEl.classList.toggle("text-secondary", done);
-  }
+
   const partyBox = root.querySelector("[data-dungeon-party]");
   if (partyBox) {
     partyBox.innerHTML = "";
@@ -3992,18 +4200,50 @@ function renderDungeonLobby() {
   const partyHint = root.querySelector("[data-dungeon-party-hint]");
   if (partyHint) {
     if (state.dungeonSoloStub) {
-      partyHint.textContent = "Соло-тест · вы = вся пати 4/4 · бой ваш 3v3";
+      partyHint.textContent = raid
+        ? "Соло-тест · пати 4/4 · после Ready — расстановка 4×3"
+        : "Соло-тест · вы = вся пати 4/4 · бой ваш 3v3";
+    } else if (readyN < 4) {
+      partyHint.textContent = `Пати ${readyN}/${Math.max(4, sizeN)} ready · или «Соло-тест»`;
+    } else if (raid && !state.raidDeployConfirmed) {
+      partyHint.textContent = "Пати 4/4 ready · расставьте легион в центре";
+    } else if (raid) {
+      partyHint.textContent = "Пати 4/4 · строй принят · можно в путь";
     } else {
-      partyHint.textContent =
-        readyN < 4
-          ? `Пати ${readyN}/${Math.max(4, sizeN)} ready · или «Соло-тест»`
-          : "Пати 4/4 ready · бой ядра 3v3";
+      partyHint.textContent = "Пати 4/4 ready · бой ядра 3v3";
     }
   }
   const soloChip = root.querySelector("[data-dungeon-solo-chip]");
-  if (soloChip) {
-    soloChip.classList.toggle("hidden", !state.dungeonSoloStub);
+  if (soloChip) soloChip.classList.toggle("hidden", !state.dungeonSoloStub);
+
+  const startBtn = root.querySelector('[data-hud-action="dungeon-start"]');
+  if (startBtn) {
+    const label = startBtn.querySelector("span:not(.material-symbols-outlined):not(.px-2)");
+    const chip = startBtn.querySelector(".px-2");
+    if (raid) {
+      if (label) label.textContent = "В путь · легион 12";
+      if (chip) chip.textContent = "1 попытка";
+      const icon = startBtn.querySelector(".material-symbols-outlined");
+      if (icon) icon.textContent = "skull";
+      const can =
+        dungeonPartyReadyForStart() &&
+        state.raidDeployConfirmed &&
+        validateRaidComposition().ok &&
+        !state.raidWeeklyLocked &&
+        state.raidAttemptsLeft > 0;
+      startBtn.disabled = !can;
+      startBtn.classList.toggle("opacity-45", !can);
+    } else {
+      if (label) label.textContent = "В путь · 3v3";
+      if (chip) chip.textContent = "1 ключ";
+      const icon = startBtn.querySelector(".material-symbols-outlined");
+      if (icon) icon.textContent = "fort";
+      startBtn.disabled = false;
+      startBtn.classList.remove("opacity-45");
+    }
   }
+
+  syncDungeonCenterPanels();
   renderDungeonSquadStrip();
 }
 
@@ -4128,6 +4368,10 @@ function renderDungeonPathVotePanel() {
 }
 
 async function startDungeonRun() {
+  if (isRaidLobby()) {
+    viewRaidFight({ autoPlay: false });
+    return;
+  }
   const entry = dungeonEntryStageId();
   if (!entry) {
     toast("Нет узлов пути — проверьте dungeons_coop_v1.json");
@@ -5383,27 +5627,6 @@ function raidFormationSnapshot() {
   };
 }
 
-const RAID_BOSS_UI = {
-  myaurra: {
-    art: "/stitch-assets/monsters/battle/myaurra-pitboss-cutout.webp?v=raid1",
-    place_ru: "Небесный Двор",
-    mech_ru: "Удар стаи",
-    phase_ru: "Пса-Бури",
-  },
-  talass: {
-    art: "/stitch-assets/monsters/battle/talass-pitboss-cutout.webp?v=raid1",
-    place_ru: "Бездна Усов",
-    mech_ru: "Шёпот глубин",
-    phase_ru: "Прилив",
-  },
-  vulcan: {
-    art: "/stitch-assets/monsters/battle/vulcan-pitboss-cutout.webp?v=raid1",
-    place_ru: "Пепельный Трон",
-    mech_ru: "Девять хвостов",
-    phase_ru: "Пепел",
-  },
-};
-
 function emptyRaidParty() {
   return Array.from({ length: RAID_PARTY_SIZE }, (_, i) => ({
     slot: i,
@@ -5491,31 +5714,19 @@ function fillRaidLegionSlots(n = RAID_PARTY_SIZE) {
 }
 
 /**
- * Solo QA stub: one player «owns» all 12 party + legion slots for full raid path smoke.
- * Skips real MM; opens deploy modal so placement → start matches live flow.
+ * Solo QA stub for raid on the shared dungeon lobby (пати 4×3 → center deploy).
  */
 function enableRaidSoloTestStub() {
+  state.dungeonCatalogFilter = "raid";
+  state.dungeonLobbyKind = "raid";
   state.raidSoloStub = true;
   resetRaidPathVote();
   syncRaidLimitsFromLiveOps();
   state.raidWeeklyLocked = false;
   state.raidAttemptsLeft = Math.max(state.raidAttemptsLeft | 0, 3);
-  state.raidPartyCode = "SOLO";
-  state.raidParty = Array.from({ length: RAID_PARTY_SIZE }, (_, i) => ({
-    slot: i,
-    name: i === 0 ? "Вы (соло-тест)" : `Слот·Вы·${i + 1}`,
-    ready: true,
-    local: true,
-    solo: true,
-    empty: false,
-  }));
   state.raidDeployConfirmed = false;
   fillRaidLegionSlots(0);
-  state.battleMode = "boss";
-  state.formationMode = "raid";
-  renderRaidPath();
-  openRaidDeployModal({ autoFill: true });
-  toast("Соло-тест: пати 12/12 · расставьте легион · затем «В путь»");
+  enableDungeonSoloTestStub();
 }
 
 function createRaidParty() {
@@ -5598,7 +5809,7 @@ function fillRaidPartyBots() {
 }
 
 function renderRaidLegionBoard() {
-  const root = $("viewBossRaid");
+  const root = $("viewBossDungeon") || $("viewBossRaid");
   if (!root) return;
   ensureRaidLegion();
   const board = root.querySelector("[data-raid-legion-board]");
@@ -5656,34 +5867,24 @@ function renderRaidLegionBoard() {
   if (deploySize) deploySize.textContent = `${c.total}/${RAID_PARTY_SIZE}`;
 }
 
+/** After Ready 4/4 in raid mode — swap center stage → «Состав легиона» (not a modal). */
 function openRaidDeployModal({ autoFill = false } = {}) {
-  const root = $("viewBossRaid");
-  if (!root) return;
-  if (!raidPartyReadyForDeploy()) {
-    toast(`Нужны Ready ${RAID_PARTY_SIZE}/${RAID_PARTY_SIZE}`);
+  if (!isRaidLobby()) return;
+  if (!dungeonPartyReadyForStart()) {
+    toast("Нужны Ready 4/4");
     return;
   }
   ensureRaidLegion();
   if (autoFill) fillRaidLegionSlots(RAID_PARTY_SIZE);
   state.raidDeployOpen = true;
   state.raidDeployConfirmed = false;
-  const modal = root.querySelector("[data-raid-deploy-modal]");
-  if (modal) {
-    modal.classList.remove("hidden");
-    modal.setAttribute("aria-hidden", "false");
-  }
-  renderRaidLegionBoard();
-  renderRaidPath();
+  renderDungeonLobby();
+  toast("Центр: состав легиона 4×3");
 }
 
 function closeRaidDeployModal() {
   state.raidDeployOpen = false;
-  const root = $("viewBossRaid");
-  const modal = root?.querySelector("[data-raid-deploy-modal]");
-  if (modal) {
-    modal.classList.add("hidden");
-    modal.setAttribute("aria-hidden", "true");
-  }
+  renderDungeonLobby();
 }
 
 function confirmRaidDeploy() {
@@ -5699,8 +5900,8 @@ function confirmRaidDeploy() {
     return false;
   }
   state.raidDeployConfirmed = true;
-  closeRaidDeployModal();
-  renderRaidPath();
+  state.raidDeployOpen = true; // keep center board visible
+  renderDungeonLobby();
   toast("Расстановка принята · можно «В путь»");
   return true;
 }
@@ -5719,140 +5920,16 @@ function toggleRaidDeploySlot(row, col) {
   state.raidLegionCount = state.raidLegion.filter((s) => s.filled).length;
   state.raidDeployConfirmed = false;
   renderRaidLegionBoard();
-  renderRaidPath();
+  renderDungeonLobby();
 }
 
-/** Painted raid lobby: каталог + пати 12 + deploy modal (путь — голосование в бою). */
+/** Legacy entry → shared dungeon lobby in raid filter. */
 function renderRaidPath() {
+  state.dungeonCatalogFilter = "raid";
+  state.dungeonLobbyKind = "raid";
   syncRaidLimitsFromLiveOps();
   ensureRaidLegion();
-  ensureRaidParty();
-  const root = $("viewBossRaid");
-  if (!root) return;
-  // Legacy floating path panel — hide if present (catalog is in left column now).
-  const legacy = $("raidPathPanel");
-  if (legacy) legacy.classList.add("hidden");
-
-  const raids = state.raidsCatalog?.raids || [];
-  const raid = raidDef();
-  const catalog = root.querySelector("[data-raid-catalog]");
-  if (catalog) {
-    const blurb = {
-      myaurra: "Солнечные львы · Мяурра · легион 12",
-      talass: "Глубинные рыси · Таласс · легион 12",
-      vulcan: "Пепельные кицунэ · Вулкан · легион 12",
-    };
-    catalog.innerHTML = raids
-      .map((r) => {
-        const on = r.raidId === state.raidId;
-        return `<article class="dungeon-pick raid-pick-card${on ? " is-on" : ""} rounded-lg border ${
-          on ? "border-primary/55 bg-[#1a1613]" : "border-outline-variant/40 bg-[#1a1613] hover:border-primary/45"
-        } p-2 cursor-pointer" data-raid-id="${r.raidId}" tabindex="0">
-          <header class="flex items-center justify-between gap-1 mb-1">
-            <span class="text-[11px] font-bold ${on ? "text-primary" : "text-on-surface"} truncate">${r.title_ru}</span>
-            <span class="text-[9px] px-1.5 py-0.5 rounded bg-tertiary/15 text-tertiary border border-tertiary/35 font-bold">эпос</span>
-          </header>
-          <p class="text-[10px] text-on-surface-variant leading-snug">${blurb[r.raidId] || "Рейд · 4×3"}</p>
-          <div class="flex items-center justify-between mt-1.5 text-[9px]">
-            <span class="text-outline">Легион 12</span>
-            <span class="${on ? "text-primary" : "text-on-surface-variant"} font-bold">короткий / длинный</span>
-          </div>
-        </article>`;
-      })
-      .join("");
-  }
-
-  paintRaidLobbyBoss();
-  if (state.raidDeployOpen) renderRaidLegionBoard();
-
-  const partyBox = root.querySelector("[data-raid-party]");
-  if (partyBox) {
-    partyBox.innerHTML = "";
-    for (const p of state.raidParty || []) {
-      const row = document.createElement("div");
-      const empty = !!p.empty;
-      row.className =
-        "rounded-md border px-2 py-1 text-[10px] flex justify-between " +
-        (p.ready && !empty
-          ? "border-primary/40 bg-primary/10"
-          : empty
-            ? "border-outline-variant/30 bg-[#1a1613]"
-            : "border-outline-variant/40 bg-[#1a1613]");
-      row.innerHTML = `<span>${p.name || `Слот ${p.slot + 1}`}</span><b>${
-        empty ? "…" : p.ready ? "ready" : "…"
-      }</b>`;
-      partyBox.appendChild(row);
-    }
-  }
-
-  const codeEl = root.querySelector("[data-raid-party-code]");
-  if (codeEl) {
-    if (state.raidPartyCode) {
-      codeEl.textContent = `Код: ${state.raidPartyCode}`;
-      codeEl.classList.remove("hidden");
-    } else {
-      codeEl.textContent = "";
-      codeEl.classList.add("hidden");
-    }
-  }
-
-  const readyN = raidPartyReadyCount();
-  const partyHint = root.querySelector("[data-raid-party-hint]");
-  if (partyHint) {
-    if (state.raidSoloStub) {
-      partyHint.textContent = "Соло-тест · вы = вся пати 12/12 · расстановка → старт";
-    } else if (readyN < RAID_PARTY_SIZE) {
-      partyHint.textContent = `Пати ${readyN}/${RAID_PARTY_SIZE} ready · или «Соло-тест» / «Боты»`;
-    } else if (!state.raidDeployConfirmed) {
-      partyHint.textContent = "Все Ready · откройте расстановку легиона";
-    } else {
-      partyHint.textContent = "Пати 12/12 · строй принят · можно в путь";
-    }
-  }
-
-  const soloChip = root.querySelector("[data-raid-solo-chip]");
-  if (soloChip) soloChip.classList.toggle("hidden", !state.raidSoloStub);
-
-  const deployStatus = root.querySelector("[data-raid-deploy-status]");
-  if (deployStatus) {
-    deployStatus.textContent = state.raidDeployConfirmed
-      ? "Строй ✓"
-      : raidPartyReadyForDeploy()
-        ? "Расстановка"
-        : "Ждём Ready";
-  }
-
-  const attemptsMax = state.liveops?.limits?.raid_attempts_weekly ?? state.liveOps?.limits?.raid_attempts_weekly ?? 3;
-  const attemptsLeft = root.querySelector("[data-raid-attempts-left]");
-  if (attemptsLeft) attemptsLeft.textContent = String(state.raidAttemptsLeft | 0);
-  const attemptsChip = root.querySelector("[data-raid-attempts-chip]");
-  if (attemptsChip) attemptsChip.textContent = `${state.raidAttemptsLeft | 0}/${attemptsMax}`;
-  const readyChip = root.querySelector("[data-raid-ready-chip]");
-  if (readyChip) readyChip.textContent = `${readyN}/${RAID_PARTY_SIZE}`;
-  const sizeChip = root.querySelector("[data-raid-size-chip]");
-  if (sizeChip) {
-    sizeChip.textContent = state.raidDeployConfirmed
-      ? `${state.raidLegionCount | 0}/${RAID_PARTY_SIZE}`
-      : `${readyN}/${RAID_PARTY_SIZE}`;
-  }
-
-  const startBtn = root.querySelector('[data-hud-action="raid-start"]');
-  if (startBtn) {
-    const canStart =
-      raidPartyReadyForDeploy() &&
-      state.raidDeployConfirmed &&
-      validateRaidComposition().ok &&
-      !state.raidWeeklyLocked &&
-      state.raidAttemptsLeft > 0;
-    startBtn.disabled = !canStart;
-    startBtn.classList.toggle("opacity-45", !canStart);
-  }
-
-  const modal = root.querySelector("[data-raid-deploy-modal]");
-  if (modal) {
-    modal.classList.toggle("hidden", !state.raidDeployOpen);
-    modal.setAttribute("aria-hidden", state.raidDeployOpen ? "false" : "true");
-  }
+  renderDungeonLobby();
 }
 
 function raidPathIsBossNode(stageId = raidCurrentStageId()) {
@@ -5924,27 +6001,23 @@ async function advanceRaidNodeAfterWin() {
 /** Soft-launch gates before raid load / formation preview. Tips on fail. */
 function raidFightGatesOk() {
   ensureRaidLegion();
-  ensureRaidParty();
-  if (!raidPartyReadyForDeploy()) {
-    const readyN = raidPartyReadyCount();
+  if (!dungeonPartyReadyForStart()) {
+    const readyN = (state.dungeonParty || []).filter((p) => p.ready).length;
     showGateTip(
-      t(
-        "raid.gate.party",
-        `Рейд только на ${minRaidPlayers}: Ready ${readyN}/${RAID_PARTY_SIZE}. «Соло-тест» или «Боты».`,
-      ),
+      t("raid.gate.party", `Рейд: пати Ready ${readyN}/4. «Соло-тест» или «Боты».`),
     );
     return false;
   }
   if (!state.raidDeployConfirmed) {
     openRaidDeployModal({ autoFill: (state.raidLegionCount | 0) < minRaidPlayers });
-    showGateTip(t("raid.gate.deploy", "Сначала расставьте легион 4×3 и нажмите «Готово»."));
+    showGateTip(t("raid.gate.deploy", "Сначала расставьте легион 4×3 в центре и нажмите «Готово»."));
     return false;
   }
   if ((state.raidLegionCount | 0) < minRaidPlayers) {
     showGateTip(
       t(
         "raid.gate.party",
-        `Рейд только на ${minRaidPlayers}: сейчас ${state.raidLegionCount}/${RAID_PARTY_SIZE}. Откройте расстановку.`,
+        `Легион ${state.raidLegionCount}/${RAID_PARTY_SIZE}. Доберите котов в центре.`,
       ),
     );
     openRaidDeployModal({ autoFill: false });
@@ -17553,14 +17626,11 @@ function renderAll() {
       renderFormation();
       break;
     case "boss_dungeon":
-      renderBossFirst();
-      bindBattleModeLobbies();
-      break;
     case "boss_raid":
       state.raidBattlePreview = false;
       // Keep overlay if load bar is running; otherwise scrub leftover state.
       if (!state.raidLoadTimer) showRaidLoad(false);
-      renderRaidPath();
+      renderBossFirst();
       bindBattleModeLobbies();
       break;
     case "raid_battle":
@@ -19694,10 +19764,34 @@ function bindBattleModeLobbies() {
       }
       const pick = ev.target.closest(".dungeon-pick[data-dungeon]");
       if (pick && root.contains(pick) && !pick.classList.contains("is-locked")) {
-        const id = pick.getAttribute("data-dungeon");
-        if (id === "loot") return;
-        selectDungeon(id, state.dungeonPath);
-        toast(`Данж: ${dungeonById()?.title_ru || id}`);
+        const dungId = pick.getAttribute("data-dungeon");
+        if (dungId === "loot") return;
+        state.dungeonLobbyKind = "dungeon";
+        state.raidDeployOpen = false;
+        state.raidDeployConfirmed = false;
+        if (state.dungeonCatalogFilter === "raid") state.dungeonCatalogFilter = "all";
+        selectDungeon(dungId, state.dungeonPath);
+        toast(`Данж: ${dungeonById()?.title_ru || dungId}`);
+        return;
+      }
+      const raidPick = ev.target.closest(".dungeon-pick[data-raid-id], [data-raid-id]");
+      if (raidPick && root.contains(raidPick) && raidPick.getAttribute("data-raid-id")) {
+        state.raidId = raidPick.getAttribute("data-raid-id") || state.raidId;
+        state.dungeonLobbyKind = "raid";
+        state.dungeonCatalogFilter =
+          state.dungeonCatalogFilter === "dungeon" ? "all" : state.dungeonCatalogFilter;
+        state.raidDeployConfirmed = false;
+        if (!dungeonPartyReadyForStart()) state.raidDeployOpen = false;
+        resetRaidPathVote();
+        renderDungeonLobby();
+        toast(raidDef()?.title_ru || state.raidId);
+        return;
+      }
+      const formSlot = ev.target.closest("[data-raid-form-row]");
+      if (formSlot && root.contains(formSlot) && state.raidDeployOpen) {
+        const row = Number(formSlot.getAttribute("data-raid-form-row"));
+        const col = Number(formSlot.getAttribute("data-raid-form-col"));
+        toggleRaidDeploySlot(row, col);
         return;
       }
       // Path short/long is voted in-battle after entry squad — ignore lobby picks.
@@ -19710,7 +19804,15 @@ function bindBattleModeLobbies() {
       }
       const filter = ev.target.closest("[data-dungeon-filter]");
       if (filter && root.contains(filter)) {
-        root.querySelectorAll("[data-dungeon-filter]").forEach((el) => el.classList.toggle("is-on", el === filter));
+        const next = filter.getAttribute("data-dungeon-filter") || "all";
+        state.dungeonCatalogFilter = next;
+        if (next === "raid") {
+          state.dungeonLobbyKind = "raid";
+        } else if (next === "dungeon") {
+          state.dungeonLobbyKind = "dungeon";
+          state.raidDeployOpen = false;
+        }
+        renderDungeonLobby();
         return;
       }
       const sizeBtn = ev.target.closest("[data-gvg-size]");
@@ -19720,29 +19822,6 @@ function bindBattleModeLobbies() {
         root.querySelectorAll("[data-gvg-size]").forEach((el) => el.classList.toggle("is-on", el === sizeBtn));
         toast(`Формат GvG: ${n}v${n}`);
         return;
-      }
-      if (id === "viewBossRaid" || root.id === "viewBossRaid") {
-        const raidPick = ev.target.closest("[data-raid-id]");
-        if (raidPick && root.contains(raidPick)) {
-          state.raidId = raidPick.getAttribute("data-raid-id") || state.raidId;
-          resetRaidPathVote();
-          renderRaidPath();
-          toast(raidDef()?.title_ru || state.raidId);
-          return;
-        }
-        const formSlot = ev.target.closest("[data-raid-form-row]");
-        if (formSlot && root.contains(formSlot) && state.raidDeployOpen) {
-          const row = Number(formSlot.getAttribute("data-raid-form-row"));
-          const col = Number(formSlot.getAttribute("data-raid-form-col"));
-          toggleRaidDeploySlot(row, col);
-          return;
-        }
-        const filter = ev.target.closest("[data-raid-filter]");
-        if (filter && root.contains(filter)) {
-          root.querySelectorAll("[data-raid-filter]").forEach((el) => el.classList.toggle("is-on", el === filter));
-          return;
-        }
-        // Path short/long is chosen by vote on the battle form after the entry squad — not in lobby.
       }
       const actBtn = ev.target.closest("[data-hud-action]");
       if (!actBtn || !root.contains(actBtn)) return;
@@ -19791,8 +19870,7 @@ function bindBattleModeLobbies() {
         return;
       }
       if (act === "dungeon-formation" || act === "raid-formation" || act === "gvg-formation") {
-        if (id === "viewBossRaid" || root.id === "viewBossRaid") {
-          // Center deploy modal (Состав легиона) — not the old formation tab.
+        if ((id === "viewBossDungeon" || root.id === "viewBossDungeon") && isRaidLobby()) {
           openRaidDeployModal({ autoFill: (state.raidLegionCount | 0) === 0 });
           return;
         }
@@ -19802,6 +19880,10 @@ function bindBattleModeLobbies() {
           state.formationMode = "";
           ensureDungeonTestSquad();
           toggleDungeonTeamPicker();
+          return;
+        }
+        if (id === "viewBossRaid" || root.id === "viewBossRaid") {
+          navigate("boss_raid", { primary: "combat" });
           return;
         }
         navigate("formation", { primary: "combat" });
@@ -19817,40 +19899,37 @@ function bindBattleModeLobbies() {
         return;
       }
       if (act === "raid-party-create") {
-        createRaidParty();
+        createDungeonParty();
         return;
       }
       if (act === "raid-party-join") {
-        joinRaidParty();
+        joinDungeonParty();
         return;
       }
       if (act === "raid-party-ready") {
-        toggleRaidPartyReady();
+        toggleDungeonPartyReady();
         return;
       }
       if (act === "raid-fill-party") {
-        fillRaidPartyBots();
+        fillDungeonPartyBots();
         return;
       }
       if (act === "raid-deploy-fill") {
         fillRaidLegionSlots(RAID_PARTY_SIZE);
         state.raidDeployConfirmed = false;
         state.raidDeployOpen = true;
-        renderRaidLegionBoard();
-        renderRaidPath();
+        renderDungeonLobby();
         return;
       }
       if (act === "raid-deploy-clear") {
         fillRaidLegionSlots(0);
         state.raidDeployConfirmed = false;
         state.raidDeployOpen = true;
-        renderRaidLegionBoard();
-        renderRaidPath();
+        renderDungeonLobby();
         return;
       }
       if (act === "raid-deploy-cancel") {
         closeRaidDeployModal();
-        renderRaidPath();
         return;
       }
       if (act === "raid-deploy-confirm") {
@@ -19858,25 +19937,7 @@ function bindBattleModeLobbies() {
         return;
       }
       if (act === "raid-invite") {
-        // Legacy: fill +3 party bots toward hard-12, then deploy when full.
-        ensureRaidParty();
-        if (!state.raidPartyCode) state.raidPartyCode = "INV";
-        let added = 0;
-        for (const p of state.raidParty) {
-          if (added >= 3) break;
-          if (p.empty || (!p.ready && !p.local)) {
-            p.empty = false;
-            p.ready = true;
-            if (!p.local) {
-              p.name = p.name?.startsWith("Бот") ? p.name : `Бот·${p.slot + 1}`;
-              p.bot = true;
-            }
-            added++;
-          }
-        }
-        renderRaidPath();
-        if (raidPartyReadyForDeploy()) openRaidDeployModal({ autoFill: true });
-        else toast(`Пати ${raidPartyReadyCount()}/${RAID_PARTY_SIZE} ready`);
+        fillDungeonPartyBots();
         return;
       }
       if (act === "gvg-search") {
