@@ -17131,7 +17131,7 @@ function bindCollectionRoster() {
         }
         persistCollectionStub();
         renderCollection();
-        toast("Авто · PvE + PvP (local stub)");
+        toast(`Авто · ${COL_SQUADS} отряда (local stub)`);
         return;
       }
       if (act === "apply") {
@@ -17146,10 +17146,10 @@ function bindCollectionRoster() {
       root.querySelector("[data-col-act='autopick-all']")?.click();
       return;
     }
-    if (label.includes("применить все") || label.includes("применить расстановку") || label.includes("сохранить 2") || label.includes("сохранить 3")) {
+    if (label.includes("применить все") || label.includes("применить расстановку") || /сохранить \d/.test(label)) {
       ev.preventDefault();
       persistCollectionStub();
-      toast("2 отряда сохранены · PvE + PvP (local · не SoT боя)");
+      toast(`${COL_SQUADS} отряда сохранены · local · не SoT боя`);
       return;
     }
     if (label.includes("база знаний") || label.includes("кодекс")) {
