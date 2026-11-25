@@ -537,6 +537,15 @@ ok(
   "victoryCatCards must use victoryAllyTemplateIds (battle/combatSquad)",
 );
 ok(
+  "victory/defeat squads from battle units (practice · PvP · PvE)",
+  js.includes("function victorySideTemplateIds") &&
+    js.includes("function victoryFoeTemplateIds") &&
+    js.includes("victoryHallFoeCards") &&
+    js.includes("victorySideTemplateIds(0)") &&
+    js.includes("victoryFoeTemplateIds(state.pvpOpponentTeam)"),
+  "practice/PvP victory must prefer fought side units",
+);
+ok(
   "painted guild not placeholder",
   html.includes('data-stitch="guild"') &&
     !/<section[^>]*data-stitch="guild"[^>]*data-placeholder/.test(html),

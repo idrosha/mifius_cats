@@ -12431,16 +12431,21 @@ function victoryStarterFallback(templateId) {
   return table[templateId] || null;
 }
 
-/** Sim-order templateIds for victory showcase: fought allies → combatSquad → practice → starters. */
-function victoryAllyTemplateIds() {
+/** Sim-order templateIds from a battle side (0 allies / 1 foes). Empty if board incomplete. */
+function victorySideTemplateIds(side) {
   const fromBattle = (state.battle?.units || [])
-    .filter((u) => u.side === 0 && !String(unitTemplateId(u) || "").includes("empty_lane"))
+    .filter((u) => u.side === side && !String(unitTemplateId(u) || "").includes("empty_lane"))
     .slice()
     .sort((a, b) => (a.lane ?? 0) - (b.lane ?? 0));
-  if (fromBattle.length === 3) {
-    const tids = fromBattle.map((u) => unitTemplateId(u)).filter(Boolean);
-    if (tids.length === 3) return tids;
-  }
+  if (fromBattle.length !== 3) return null;
+  const tids = fromBattle.map((u) => unitTemplateId(u)).filter(Boolean);
+  return tids.length === 3 ? tids : null;
+}
+
+/** Sim-order templateIds for ally victory showcase: fought → combatSquad → practice → starters. */
+function victoryAllyTemplateIds() {
+  const fromBattle = victorySideTemplateIds(0);
+  if (fromBattle) return fromBattle;
   if (typeof combatSquadIds === "function") {
     try {
       const ids = combatSquadIds();
@@ -12453,6 +12458,14 @@ function victoryAllyTemplateIds() {
     return [...state.practiceSquad];
   }
   return [...STARTERS];
+}
+
+/** Winner squad on defeat / foe showcase: fought side-1 → explicit fallback (never own squad). */
+function victoryFoeTemplateIds(fallbackIds) {
+  const fromBattle = victorySideTemplateIds(1);
+  if (fromBattle) return fromBattle;
+  if (Array.isArray(fallbackIds) && fallbackIds.length === 3) return [...fallbackIds];
+  return null;
 }
 
 function victoryCatCards() {
@@ -12561,26 +12574,6 @@ ${mvp ? `<div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-
 </article>`;
 }
 
-function renderVictorySlots(squad) {
-  const root = $("viewVictoryHall");
-  const grid = $("vicSlots") || root?.querySelector("[data-vic-slots]");
-  if (!grid) return;
-  const cards = squad === "dummies" ? VICTORY_DUMMIES : victoryCatCards();
-  grid.innerHTML = cards
-    .map((card, i) => victoryHeroCardHtml(card, VICTORY_SLOT_META[i] || VICTORY_SLOT_META[0]))
-    .join("");
-  const btnCats = $("btnVicCats");
-  const btnDummies = $("btnVicDummies");
-  const onCls =
-    "vic-squad-btn is-on flex items-center gap-2 px-4 py-1.5 rounded-full text-[12px] font-semibold bg-primary text-on-primary shadow-sm transition-all";
-  const offCls =
-    "vic-squad-btn flex items-center gap-2 px-4 py-1.5 rounded-full text-[12px] font-semibold bg-transparent text-on-surface-variant hover:text-on-surface transition-all";
-  if (btnCats) btnCats.className = squad === "cats" ? onCls : offCls;
-  if (btnDummies) btnDummies.className = squad === "dummies" ? onCls : offCls;
-  // Never set data-vic-squad on the hall root — it steals [data-win] clicks via closest().
-  if (root) root.dataset.vicActive = squad;
-}
-
 /** Winner showcase cards for defeat screens (side 1 / bots). Visual L→R = тыл · центр · авангард. */
 function victoryEnemyShowcaseCards() {
   const enemies = (state.battle?.units || [])
@@ -12604,15 +12597,52 @@ function victoryEnemyShowcaseCards() {
       (PRACTICE_DUMMY_ART_FALLBACKS[tid] || [])[0] ||
       battleUnitArt(u) ||
       "/stitch-assets/cat-heroes/fighter-fire.webp?v=gear18c";
+    const roleRu = CAT_ROLE_RU[u.role] || u.role || "ГЕРОЙ";
     return {
       id: tid || u.id,
       name,
       art,
       role: u.role || "fighter",
-      roleRu: isMvp ? `${CAT_ROLE_RU[u.role] || u.role || "ГЕРОЙ"} · MVP` : CAT_ROLE_RU[u.role] || u.role || "",
+      roleRu: isMvp ? `${roleRu} · MVP` : roleRu,
+      roleIcon: isMvp ? "crown" : hero?.roleIcon || "swords",
+      accent: hero?.accent || meta?.accent || "primary",
+      lvl: hero?.lvl || 1,
+      archetype: CAT_HERO_BLURB[tid]?.split("·")[0]?.trim() || roleRu,
+      stats: [
+        { label: "Урон", value: "—", tone: "outline" },
+        { label: "Щит", value: "—", tone: "outline" },
+        { label: "Итог", value: "Победа", tone: "primary" },
+      ],
+      foot: isMvp ? "MVP боя" : "Победитель",
       mvp: isMvp,
     };
   });
+}
+
+/** Practice/dojo defeat: fought bots first, else painted dummy masters. */
+function victoryHallFoeCards() {
+  const fought = victoryEnemyShowcaseCards().filter(Boolean);
+  return fought.length === 3 ? fought : VICTORY_DUMMIES;
+}
+
+function renderVictorySlots(squad) {
+  const root = $("viewVictoryHall");
+  const grid = $("vicSlots") || root?.querySelector("[data-vic-slots]");
+  if (!grid) return;
+  const cards = squad === "dummies" ? victoryHallFoeCards() : victoryCatCards();
+  grid.innerHTML = cards
+    .map((card, i) => victoryHeroCardHtml(card, VICTORY_SLOT_META[i] || VICTORY_SLOT_META[0]))
+    .join("");
+  const btnCats = $("btnVicCats");
+  const btnDummies = $("btnVicDummies");
+  const onCls =
+    "vic-squad-btn is-on flex items-center gap-2 px-4 py-1.5 rounded-full text-[12px] font-semibold bg-primary text-on-primary shadow-sm transition-all";
+  const offCls =
+    "vic-squad-btn flex items-center gap-2 px-4 py-1.5 rounded-full text-[12px] font-semibold bg-transparent text-on-surface-variant hover:text-on-surface transition-all";
+  if (btnCats) btnCats.className = squad === "cats" ? onCls : offCls;
+  if (btnDummies) btnDummies.className = squad === "dummies" ? onCls : offCls;
+  // Never set data-vic-squad on the hall root — it steals [data-win] clicks via closest().
+  if (root) root.dataset.vicActive = squad;
 }
 
 /** MF-151 · PvE expedition victory / defeat — same form; losers see winner squad. */
@@ -12882,11 +12912,10 @@ function renderPvpVictory() {
   }
   const list = root?.querySelector(".col-cats");
   if (list) {
+    // Winners only: win → fought allies / pvpSquad; lose → fought foes / opponent team (never own squad).
     const squad = win
-      ? pvpSquadIds()
-      : Array.isArray(state.pvpOpponentTeam) && state.pvpOpponentTeam.length
-        ? state.pvpOpponentTeam
-        : pvpSquadIds();
+      ? victorySideTemplateIds(0) || pvpSquadIds()
+      : victoryFoeTemplateIds(state.pvpOpponentTeam) || [];
     const visual = PRACTICE_VISUAL_LANES.map((i) => squad[i]).filter(Boolean);
     const chips = { tank: "is-storm", fighter: "is-fire", assassin: "is-storm", ranger: "is-fire", mage: "is-fire", support: "is-water" };
     list.innerHTML = visual
@@ -12898,7 +12927,7 @@ function renderPvpVictory() {
         const art = catHeroArt(tid) || "/stitch-assets/cat-heroes/fighter-fire.webp?v=gear18c";
         const mvp = idx === 1 ? ` class="is-mvp"` : "";
         const badge = idx === 1 ? `<span class="col-badge">MVP матча</span>` : "";
-        return `<li${mvp}>
+        return `<li${mvp} data-vic-tid="${tid}">
 ${badge}
 <span class="col-chip ${chips[role] || "is-fire"}">${CAT_ELEMENT_RU[el] || el} · ${hero?.roleRu || CAT_ROLE_RU[role] || role}</span>
 <figure><img alt="" src="${art}"/></figure>
