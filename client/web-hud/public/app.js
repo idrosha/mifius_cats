@@ -3634,19 +3634,19 @@ function renderDungeonSquadStrip() {
   host.innerHTML = squad
     .map((tid, i) => {
       const art =
+        (typeof catHeroArt === "function" && catHeroArt(tid)) ||
         (typeof CAT_HERO_ART !== "undefined" && CAT_HERO_ART[tid]) ||
         `/stitch-assets/cat-heroes/tank-fire.webp?v=gear18c`;
       const name = String(tid).replace(/^shop_/, "").replace(/_/g, " ");
       const t = toneCls[i] || toneCls[0];
-      return `<article class="relative flex gap-2 rounded-lg border ${t.border} bg-[#1a1613] overflow-hidden min-h-[4.4rem] flex-shrink-0">
-        <img alt="" class="w-14 self-stretch object-cover object-top" src="${art}"/>
-        <div class="flex-1 min-w-0 py-1.5 pr-2 flex flex-col justify-between">
-          <div class="flex items-center justify-between gap-1">
-            <span class="font-bold text-[12px] text-white truncate">${name}</span>
-            <span class="text-[9px] px-1.5 py-0.5 rounded border font-bold ${t.badge}">${roles[i]}</span>
-          </div>
-          <div class="text-[10px] text-outline">${state.dungeonSoloStub ? "соло-тест · ваш выбор" : "ядро 3v3"}</div>
-          <div class="text-[10px] text-on-surface-variant truncate">${tid}</div>
+      // Compact 3-up avatars (object-top) — no vertical strip scroll in the dungeon aside.
+      return `<article class="rounded-lg border ${t.border} bg-[#1a1613] overflow-hidden flex flex-col min-w-0">
+        <div class="relative w-full h-[4.25rem] overflow-hidden bg-[#120f0d]">
+          <img alt="" class="w-full h-full object-cover object-top" src="${art}"/>
+          <span class="absolute bottom-1 left-1 text-[8px] px-1 py-0.5 rounded border font-bold leading-tight ${t.badge}">${roles[i]}</span>
+        </div>
+        <div class="px-1 py-1 min-w-0">
+          <span class="font-bold text-[10px] text-white truncate block leading-tight" title="${name}">${name}</span>
         </div>
       </article>`;
     })

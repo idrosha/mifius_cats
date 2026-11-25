@@ -5518,6 +5518,13 @@ body:has(#viewPvp:not(.hidden)) #wireDock { display: none !important; }
   background: #100e0c;
   overflow: hidden;
 }
+/* Squad strip: 3-up avatars, hug content (global .stitch-view grid stretch would inflate cards). */
+#viewBossDungeon [data-dungeon-squad-strip] {
+  align-content: start !important;
+}
+#viewBossDungeon [data-dungeon-squad-strip] > * {
+  align-self: start;
+}
 #viewBossDungeon .mode-grid,
 #viewBossRaid .mode-grid,
 #viewGuildBattle .mode-grid,
