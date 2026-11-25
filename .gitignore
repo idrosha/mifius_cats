@@ -42,6 +42,9 @@ local.properties
 # Local toolchain (portable node, asset opt staging)
 client/web-hud/.tools/
 
+# Soft-launch QA account / chat store (seeded at runtime)
+client/web-hud/data/
+
 # Archived originals after WebP optimize (keep local, do not ship)
 **/stitch-assets/**/_src/
 **/stitch-ref/**/_src/

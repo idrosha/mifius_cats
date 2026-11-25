@@ -9,6 +9,7 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { handleDungeonDevApi } from "./dungeon-dev-api.mjs";
+import { handleAccountsDevApi } from "./accounts-dev-api.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC = path.join(__dirname, "public");
@@ -317,41 +318,8 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  /** Stub auth for soft-launch smoke — any login/password succeeds. */
-  if (u.pathname === "/api/dev/login" && req.method === "POST") {
-    const chunks = [];
-    for await (const chunk of req) chunks.push(chunk);
-    let login = "";
-    let password = "";
-    try {
-      const body = Buffer.concat(chunks).toString("utf8");
-      if (body) {
-        const parsed = JSON.parse(body);
-        login = String(parsed?.login ?? parsed?.user ?? parsed?.email ?? "");
-        password = String(parsed?.password ?? "");
-      }
-    } catch {
-      /* empty ok */
-    }
-    const userId = (login && login.trim()) || "guest_smoke";
-    const kit = grantStarterKit(userId.replace(/[^\w.-]+/g, "_").slice(0, 48), {
-      testRoster: true,
-    });
-    send(
-      res,
-      200,
-      {
-        ok: true,
-        stubAuth: true,
-        message: "free login — credentials not validated",
-        login: login || userId,
-        passwordAccepted: true,
-        passwordLength: password.length,
-        session: { userId: kit.userId, token: `stub_${kit.userId}` },
-        profile: kit,
-      },
-      { "Content-Type": "application/json; charset=utf-8" },
-    );
+  /** QA accounts + friends + DM (login1–4). Falls through if path not matched. */
+  if (await handleAccountsDevApi(req, res, send)) {
     return;
   }
 
