@@ -98,9 +98,12 @@ async function main() {
               const raidFilterOn = root
                 .querySelector('[data-dungeon-filter="raid"]')
                 ?.classList.contains("is-on");
+              const bossArt = root.querySelector("[data-dungeon-boss-art]");
               const beforeReady = {
                 stageHidden: root.querySelector("[data-dungeon-stage-panel]")?.classList.contains("hidden"),
                 deployHidden: root.querySelector("[data-dungeon-deploy-panel]")?.classList.contains("hidden"),
+                bossArtHidden: !bossArt || bossArt.classList.contains("hidden") || getComputedStyle(bossArt).display === "none",
+                stageBg: root.querySelector("[data-dungeon-stage-bg]")?.getAttribute("src") || "",
               };
               root.querySelector('[data-hud-action="dungeon-fill-party"]')?.click();
               setTimeout(() => {
@@ -146,6 +149,10 @@ async function main() {
     if (r.partyN !== 4) fails.push(`partyN=${r.partyN}`);
     if (r.beforeReady?.stageHidden) fails.push("stage already hidden before Ready");
     if (r.beforeReady && r.beforeReady.deployHidden === false) fails.push("deploy shown before Ready");
+    if (r.beforeReady && r.beforeReady.bossArtHidden === false) fails.push("boss cutout still visible over stage bg");
+    if (r.beforeReady?.stageBg && !String(r.beforeReady.stageBg).includes("raid-lair-bg")) {
+      fails.push(`stageBg=${r.beforeReady.stageBg}`);
+    }
     if (!r.stageHidden) fails.push("stage panel still visible after Ready");
     if (r.deployHidden) fails.push("deploy panel not shown in center after Ready");
     if (r.slots !== 12) fails.push(`slots=${r.slots}`);

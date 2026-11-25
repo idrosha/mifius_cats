@@ -4078,12 +4078,8 @@ function renderDungeonLobby() {
     if (rewardsLabel) rewardsLabel.textContent = "Награды рейда";
     const bg = root.querySelector("[data-dungeon-stage-bg]");
     if (bg) bg.src = "/stitch-assets/modes/raid-lair-bg.webp";
-    const bossArt = root.querySelector("[data-dungeon-boss-art]");
-    if (bossArt && ui.art) {
-      bossArt.src = ui.art;
-      bossArt.alt = rdef?.title_ru || "Босс";
-      bossArt.classList.remove("hidden");
-    }
+    // Keep stage bg only — no pitboss cutout over the lair (lobby reads as place, not portrait).
+    root.querySelector("[data-dungeon-boss-art]")?.classList.add("hidden");
     root.querySelector("[data-dungeon-fork-wrap]")?.classList.add("hidden");
   } else {
     const d = dungeonById();
