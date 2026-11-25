@@ -5459,10 +5459,25 @@ body:has(#viewPvp:not(.hidden)) #wireDock { display: none !important; }
   min-height: 0;
 }
 #viewPvp #arenaSquadList {
-  align-content: stretch;
+  align-content: start;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+/* Same width band as Practice left (lg:col-span-4); tiles sized like dojo-roster-card. */
+#viewPvp .arena-squad {
+  flex: 0 0 auto;
+  height: auto;
 }
 #viewPvp .arena-squad .dojo-squad-slot {
   min-height: 0;
+  /* Practice roster tiles measure ~116px tall in the lobby; keep 4 teams on-screen. */
+  height: 7.25rem;
+  border-radius: 0.5rem;
+}
+#viewPvp .arena-squad .dojo-squad-slot.is-empty {
+  min-height: 7.25rem;
+  height: 7.25rem;
+  padding: 0.35rem;
 }
 #viewPvp .arena-squad .dojo-squad-slot.is-filled .mf-sprite-face,
 #viewPvp .arena-squad .dojo-squad-slot.is-filled .mf-hero-portrait {
