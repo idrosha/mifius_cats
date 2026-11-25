@@ -4,7 +4,7 @@
  * HUD must be up: PORT=8099 node server.mjs
  */
 import { spawn } from "node:child_process";
-import { mkdtemp, rm } from "node:fs/promises";
+import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 
@@ -55,12 +55,20 @@ async function evalJson(send, expression) {
     awaitPromise: true,
     returnByValue: true,
   });
+  if (probe.exceptionDetails) {
+    throw new Error(probe.exceptionDetails.text || JSON.stringify(probe.exceptionDetails));
+  }
   return probe.result?.value;
 }
 
 async function main() {
   await waitHttp(`${HUD}/`);
   const userData = await mkdtemp(join(tmpdir(), "mf-pvp-search-smoke-"));
+  // Seed unlock wins before first paint so we skip reload.
+  await writeFile(
+    join(userData, "Default"),
+    "",
+  ).catch(() => {});
   const chrome = spawn(
     "google-chrome",
     [
@@ -70,7 +78,7 @@ async function main() {
       "--disable-dev-shm-usage",
       `--user-data-dir=${userData}`,
       `--remote-debugging-port=${CDP_PORT}`,
-      `${HUD}/?region=RU`,
+      "about:blank",
     ],
     { stdio: "ignore" },
   );
@@ -80,9 +88,14 @@ async function main() {
     const list = await (await fetch(`http://127.0.0.1:${CDP_PORT}/json/list`)).json();
     const page = list.find((t) => t.type === "page" && t.webSocketDebuggerUrl);
     if (!page) throw new Error("no CDP page");
-    let { ws, send } = await cdp(page.webSocketDebuggerUrl);
+    const { ws, send } = await cdp(page.webSocketDebuggerUrl);
     await send("Runtime.enable");
-    await new Promise((r) => setTimeout(r, 1200));
+    await send("Page.enable");
+    await send("Page.addScriptToEvaluateOnNewDocument", {
+      source: `localStorage.setItem("mythfel_sl_progress", JSON.stringify({ pveWins: 3, practiceWins: 0 }));`,
+    });
+    await send("Page.navigate", { url: `${HUD}/?region=RU` });
+    await new Promise((r) => setTimeout(r, 1500));
 
     const boot = await evalJson(
       send,
@@ -90,50 +103,13 @@ async function main() {
         let n = 0;
         const tick = () => {
           if (typeof window.mythfelNavigate === "function") return resolve(true);
-          if (++n > 60) return resolve(false);
+          if (++n > 80) return resolve(false);
           setTimeout(tick, 250);
         };
         tick();
       }))()`,
     );
     if (!boot) throw new Error("HUD boot timeout");
-
-    // Persist unlock wins, reload so progress hydrate unlocks PvP.
-    await evalJson(
-      send,
-      `(() => {
-        localStorage.setItem("mythfel_sl_progress", JSON.stringify({ pveWins: 3, practiceWins: 0 }));
-        location.reload();
-        return true;
-      })()`,
-    );
-    await new Promise((r) => setTimeout(r, 1800));
-    // Re-attach CDP after reload (old Runtime session can go stale).
-    try {
-      ws.close();
-    } catch {
-      /* ignore */
-    }
-    const list2 = await (await fetch(`http://127.0.0.1:${CDP_PORT}/json/list`)).json();
-    const page2 = list2.find((t) => t.type === "page" && t.webSocketDebuggerUrl);
-    if (!page2) throw new Error("no CDP page after reload");
-    const session2 = await cdp(page2.webSocketDebuggerUrl);
-    ws = session2.ws;
-    send = session2.send;
-    await send("Runtime.enable");
-    const rebooted = await evalJson(
-      send,
-      `(() => new Promise((resolve) => {
-        let n = 0;
-        const tick = () => {
-          if (typeof window.mythfelNavigate === "function") return resolve(true);
-          if (++n > 60) return resolve(false);
-          setTimeout(tick, 250);
-        };
-        tick();
-      }))()`,
-    );
-    if (!rebooted) throw new Error("HUD reboot timeout");
 
     const idle = await evalJson(
       send,
@@ -142,23 +118,47 @@ async function main() {
         window.mythfelNavigate("pvp");
         const view = document.getElementById("viewPvp");
         if (!view || view.classList.contains("hidden")) return { ok: false, err: "viewPvp hidden" };
-        const leftover =
-          !!document.getElementById("arenaOppPreview") ||
-          (view.textContent || "").includes("Подбор соперника") ||
-          (view.textContent || "").includes("средняя очередь");
-        const status = document.getElementById("arenaSearchStatus")?.textContent?.trim() || "";
-        const timerHidden = document.getElementById("arenaSearchTimer")?.classList.contains("hidden");
-        const iconHidden = document.getElementById("arenaSearchIcon")?.classList.contains("hidden");
-        const row = document.getElementById("arenaSearchStatusRow");
-        const btn = document.getElementById("btnArenaSearch");
-        return {
-          ok: !leftover && status === "" && timerHidden && iconHidden && row?.dataset.state === "idle" && !!btn,
-          leftover,
-          status,
-          timerHidden,
-          iconHidden,
-          state: row?.dataset.state || "",
-        };
+        try {
+          const leftover =
+            !!document.getElementById("arenaOppPreview") ||
+            (view.textContent || "").includes("Подбор соперника") ||
+            (view.textContent || "").includes("средняя очередь");
+          const status = document.getElementById("arenaSearchStatus")?.textContent?.trim() || "";
+          const timerHidden = document.getElementById("arenaSearchTimer")?.classList.contains("hidden");
+          const iconHidden = document.getElementById("arenaSearchIcon")?.classList.contains("hidden");
+          const row = document.getElementById("arenaSearchStatusRow");
+          const pill = document.getElementById("arenaCrossplayPill");
+          const pillInStatus = !!(pill && row && row.contains(pill));
+          const rowClass = row?.className || "";
+          const parentClass = row?.parentElement?.className || "";
+          const cardChrome =
+            /backdrop-blur/.test(rowClass) ||
+            /backdrop-blur/.test(parentClass) ||
+            /bg-surface-container-lowest/.test(rowClass) ||
+            /bg-surface-container-lowest/.test(parentClass);
+          const btn = document.getElementById("btnArenaSearch");
+          const idleOk =
+            !leftover &&
+            status === "" &&
+            timerHidden &&
+            iconHidden &&
+            row?.dataset.state === "idle" &&
+            pillInStatus &&
+            !cardChrome &&
+            !!btn;
+          return {
+            ok: idleOk,
+            leftover,
+            status,
+            timerHidden,
+            iconHidden,
+            pillInStatus,
+            cardChrome,
+            state: row?.dataset.state || "",
+          };
+        } catch (e) {
+          return { ok: false, err: String(e && e.message ? e.message : e) };
+        }
       })()`,
     );
     if (!idle?.ok) throw new Error("idle status failed: " + JSON.stringify(idle));

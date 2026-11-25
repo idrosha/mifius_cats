@@ -5419,6 +5419,20 @@ body:has(#viewPvp:not(.hidden)) #wireDock { display: none !important; }
   animation: none;
   filter: saturate(0.85);
 }
+/* No card chrome behind «Идёт поиск» — only the floating status + cross-play pill. */
+#viewPvp .arena-search-status {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+#viewPvp .arena-search-status #arenaSearchStatus,
+#viewPvp .arena-search-status #arenaSearchTimer,
+#viewPvp .arena-search-status .arena-search-status__icon {
+  text-shadow: none;
+  background: transparent;
+}
 #viewPvp .arena-search-status[data-state="searching"] .arena-search-status__icon {
   animation: arena-search-pulse 1.2s ease-in-out infinite;
 }

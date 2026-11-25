@@ -163,17 +163,13 @@
 </div>
 </div>
 
-<!-- Matchmaking panel: search status only (no role/MMR preview block) -->
-<div class="flex-1 min-h-0 flex flex-col justify-center gap-2">
-<div class="bg-surface-container-lowest/88 backdrop-blur-md rounded-xl border border-outline-variant/40 p-3 flex flex-col gap-2 min-h-[9.5rem]">
-<div class="flex justify-end flex-shrink-0">
-<span class="px-2 py-0.5 rounded-full bg-secondary/15 text-secondary text-[10px] font-bold border border-secondary/30">Пул: кросс-плей</span>
-</div>
-<div id="arenaSearchStatusRow" class="arena-search-status flex-1 flex flex-col items-center justify-center gap-1.5 text-center" data-state="idle" aria-live="polite">
+<!-- Matchmaking status: no card chrome; cross-play lives inside the status block -->
+<div class="flex-1 min-h-0 flex flex-col justify-center">
+<div id="arenaSearchStatusRow" class="arena-search-status flex flex-col items-center justify-center gap-1.5 text-center min-h-[7.5rem] px-2" data-state="idle" aria-live="polite">
+<span id="arenaCrossplayPill" class="px-2 py-0.5 rounded-full bg-secondary/15 text-secondary text-[10px] font-bold border border-secondary/30">Пул: кросс-плей</span>
 <span class="material-symbols-outlined arena-search-status__icon text-[36px] text-primary hidden" id="arenaSearchIcon" aria-hidden="true">search</span>
-<strong class="text-[16px] text-on-surface font-extrabold tracking-wide" id="arenaSearchStatus"></strong>
-<span class="arena-search-status__timer text-[20px] font-bold text-primary tabular-nums hidden" id="arenaSearchTimer" aria-hidden="true">0:00</span>
-</div>
+<strong class="text-[16px] text-on-surface font-extrabold tracking-wide drop-shadow-none" id="arenaSearchStatus"></strong>
+<span class="arena-search-status__timer text-[20px] font-bold text-primary tabular-nums hidden drop-shadow-none" id="arenaSearchTimer" aria-hidden="true">0:00</span>
 </div>
 </div>
 
