@@ -12,6 +12,26 @@ Append-only. Новые записи — **сверху** (после шабло
 6. Одна запись = одно решение. Не смешивать баланс и IA в одном D-id.
 7. В коде/доках ссылайся `D-0xx`, не копируй абзац Context.
 
+## D-054 · 2026-11-25 · Коллекция: 4 именованных отряда (PvE · PvP · Данж · Рейд)
+
+- **Status:** Accepted
+- **Area:** hud
+- **SSOT:** docs/FULL-SPEC.md §6 (`collection`)
+- **Owner:** Andrew / web-hud
+- **Supersedes:** D-031 (только число/имена редактируемых отрядов)
+
+### Context
+На SL в Коллекции были 2 живых пресета (PvE + PvP), хотя D-031 / §6 говорили «3 отряда». Нужны отдельные связки под режимы: PvE, PvP, данж, рейд — без запуска live данж/рейд-боя и без превышения `presets[5]`.
+
+### Decision
+1. Редактируемых отрядов на SL = **4**: имена по умолчанию `PvE` · `PvP` · `Данж` · `Рейд` (`COL_SQUADS` / `COL_SQUAD_NAMES`).
+2. Cap модели `presets[5]` без изменений; 5-й слот остаётся резервом / later.
+3. Составы независимы (один котик может стоять в нескольких командах). Persist — local stub (`mythfel_sl_collection`), не SoT боя.
+4. Не реализовывать live данж/рейд/clan-boss из этого экрана (soft-launch scope).
+
+### Consequences
++ UI Коллекции / yard picker / PvP arena list показывают 4 пресета. − Backend SavePreset по-прежнему later. Follow-up: привязка режима боя к индексу пресета на сервере.
+
 ## D-053 · 2026-11-24 · Hand select → commit turn (all live modes)
 
 - **Status:** Accepted
@@ -414,7 +434,7 @@ Locked primary (порядок): Боевой пропуск → Дом Хран
 
 ## D-031 · 2026-11-15 · Коллекция на SL = HUD stub + roster из профиля
 
-- **Status:** Accepted
+- **Status:** Accepted (число отрядов → `Superseded by D-054`)
 - **Area:** hud
 - **SSOT:** docs/FULL-SPEC.md §6 (`collection`); §1 cap 15 / presets×5
 - **Owner:** web-hud
@@ -423,10 +443,10 @@ Locked primary (порядок): Боевой пропуск → Дом Хран
 Экран `collection` был пустой Stitch-оболочкой («Пусто»×12), с фейк БМ/рангом прайда/резонансом % вне FULL-SPEC; bind искал несуществующие `.roster-list`. Риск принять клиентский power за SoT.
 
 ### Decision
-На SL коллекция = **HUD stub**: ростер из `profile.cats` (как home — shop×12, D-027; farm вне боевого грида); **3 редактируемых отряда** 3v3 local (+ persist; cap presets[5] в модели); фильтры роль/поиск. Без client SoT урона/наград. БМ / «резонанс %» / «Ранг V прайда» — не показывать как live. Серверный SavePreset — later. Каталог: `collection-stub.json` + `GET /api/dev/collection`.
+На SL коллекция = **HUD stub**: ростер из `profile.cats` (как home — shop×12, D-027; farm вне боевого грида); редактируемые отряды 3v3 local (+ persist; cap presets[5] в модели) — число/имена: **D-054** (PvE · PvP · Данж · Рейд); фильтры роль/поиск. Без client SoT урона/наград. БМ / «резонанс %» / «Ранг V прайда» — не показывать как live. Серверный SavePreset — later. Каталог: `collection-stub.json` + `GET /api/dev/collection`.
 
 ### Consequences
-+ Можно собрать 3 связки для smoke. − Пресеты не SoT боя до backend. Follow-up: SavePreset RPC; UI пресетов 4–5.
++ Можно собрать связки для smoke. − Пресеты не SoT боя до backend. Follow-up: SavePreset RPC.
 
 ---
 

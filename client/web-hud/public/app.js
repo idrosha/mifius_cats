@@ -1261,6 +1261,8 @@ const state = {
   pvpOpponentName: "",
   pvpSearching: false,
   pvpSearchTimer: null,
+  pvpSearchTick: null,
+  pvpSearchStartedAt: 0,
   pvpLoadPct: 0,
   pvpLoadTimer: null,
   pvpStarting: false,
@@ -15991,7 +15993,7 @@ function renderPveFight() {
   }
 }
 
-/** Arena squads = collection presets (COL_SQUADS). */
+/** Arena squads = collection presets (COL_SQUADS: PvE · PvP · Данж · Рейд). */
 const PVP_DPS_ROLES = new Set(["fighter", "assassin", "ranger", "mage"]);
 const PVP_FOE_NAMES = ["Свора Гладиаторов", "Клык Арены", "Тень Колизея", "Рёв Трибун", "Лапы Судьбы"];
 
@@ -16531,11 +16533,11 @@ function renderAll() {
   }
 }
 
-/** D-031 collection HUD stub — roster from profile, local preset persist. */
-/** SL editable squads (of presets[5] cap from FULL-SPEC §1). */
+/** D-031 / D-054 collection HUD stub — roster from profile, local preset persist. */
+/** SL editable squads: PvE · PvP · Данж · Рейд (of presets[5] cap). */
 const COL_SQUADS = 4;
-const COL_SQUAD_NAMES = ["PvE", "PvP", "Отряд 3", "Отряд 4"];
-const COL_SQUAD_OLD_NAMES = ["Основной", "Второй эшелон", "Резерв"];
+const COL_SQUAD_NAMES = ["PvE", "PvP", "Данж", "Рейд"];
+const COL_SQUAD_OLD_NAMES = ["Основной", "Второй эшелон", "Резерв", "Отряд 3", "Отряд 4"];
 
 function collectionRosterCats() {
   return homeRosterCats();
@@ -16584,12 +16586,11 @@ function collectionEnsurePresets() {
   }
   for (let pi = 0; pi < COL_SQUADS; pi++) {
     const p = state.profile.presets[pi];
-    const legacy = COL_SQUAD_OLD_NAMES[pi];
     if (
       !p.name ||
       p.name === "starter" ||
       /^preset_/.test(p.name) ||
-      (legacy && p.name === legacy)
+      COL_SQUAD_OLD_NAMES.includes(p.name)
     ) {
       p.name = COL_SQUAD_NAMES[pi];
     }
@@ -16951,11 +16952,11 @@ function renderCollectionTeams(cats) {
 
   const headerTitle = host.closest("section")?.querySelector("h2");
   if (headerTitle) {
-    headerTitle.textContent = `Боевые Связки · ${COL_SQUADS} команды`;
+    headerTitle.textContent = "Боевые Связки · PvE · PvP · Данж · Рейд (4 команды)";
   }
   const headerSub = headerTitle?.parentElement?.querySelector("p");
   if (headerSub) {
-    headerSub.textContent = `${COL_SQUADS} отряда 3v3 · Тыл · DPS · Танк · local stub`;
+    headerSub.textContent = "Четыре отряда 3v3: PvE · PvP · Данж · Рейд · Тыл · DPS · Танк";
   }
 
   const slotHtml = (pi, i, slotCats) => {
@@ -17013,12 +17014,12 @@ function renderCollectionTeams(cats) {
       ${Array.from({ length: COL_SQUADS }, (_, pi) => teamCard(pi)).join("")}
     </div>
     <div class="flex gap-2 pt-1 border-t border-surface-container-highest/40 flex-shrink-0 flex-wrap">
-      <button type="button" data-col-act="apply" class="flex-1 py-1.5 rounded bg-primary text-on-primary font-label-sm text-[11px] font-bold">Сохранить ${COL_SQUADS} отряда</button>
+      <button type="button" data-col-act="apply" class="flex-1 py-1.5 rounded bg-primary text-on-primary font-label-sm text-[11px] font-bold">Сохранить 4 отряда</button>
       <button type="button" data-col-act="autopick" class="py-1.5 px-3 rounded bg-surface-container-high text-primary border border-primary/40 font-label-sm text-[11px] font-bold">Авто · активный</button>
-      <button type="button" data-col-act="autopick-all" class="py-1.5 px-3 rounded bg-surface-container-high text-primary border border-primary/40 font-label-sm text-[11px] font-bold">Авто · все</button>
+      <button type="button" data-col-act="autopick-all" class="py-1.5 px-3 rounded bg-surface-container-high text-primary border border-primary/40 font-label-sm text-[11px] font-bold">Авто · все 4</button>
       <button type="button" data-col-act="codex" class="py-1.5 px-3 rounded bg-surface-container-high text-on-surface font-label-sm text-[11px] font-bold">Кодекс</button>
     </div>
-    <p class="text-[10px] text-on-surface-variant m-0">${COL_SQUADS} отряда · local stub · не SoT боя</p>`;
+    <p class="text-[10px] text-on-surface-variant m-0">4 отряда · PvE · PvP · Данж · Рейд · local stub · не SoT боя</p>`;
 }
 
 function renderCollection() {
@@ -17106,7 +17107,7 @@ function bindCollectionRoster() {
         const roster = collectionRosterCats();
         collectionEnsurePresets();
         const idx = state.colPresetIndex || 0;
-        // PvE / PvP — независимые составы: один котик может быть в обеих командах.
+        // Режимы независимы: один котик может стоять в нескольких командах.
         state.profile.presets[idx].catIds = collectionAutopickSquad(roster, new Set());
         if (!state.profile.presets[idx].name || /^preset_|^squad_/.test(state.profile.presets[idx].name)) {
           state.profile.presets[idx].name = COL_SQUAD_NAMES[idx];
@@ -17131,12 +17132,12 @@ function bindCollectionRoster() {
         }
         persistCollectionStub();
         renderCollection();
-        toast(`Авто · ${COL_SQUADS} отряда (local stub)`);
+        toast("Авто · 4 отряда · PvE · PvP · Данж · Рейд (local stub)");
         return;
       }
       if (act === "apply") {
         persistCollectionStub();
-        toast(`${COL_SQUADS} отряда сохранены · local · не SoT боя`);
+        toast("4 отряда сохранены · PvE · PvP · Данж · Рейд (local · не SoT боя)");
         return;
       }
     }
@@ -17146,10 +17147,17 @@ function bindCollectionRoster() {
       root.querySelector("[data-col-act='autopick-all']")?.click();
       return;
     }
-    if (label.includes("применить все") || label.includes("применить расстановку") || /сохранить \d/.test(label)) {
+    if (
+      label.includes("применить все") ||
+      label.includes("применить расстановку") ||
+      label.includes("сохранить 2") ||
+      label.includes("сохранить 3") ||
+      label.includes("сохранить 4") ||
+      /сохранить \d/.test(label)
+    ) {
       ev.preventDefault();
       persistCollectionStub();
-      toast(`${COL_SQUADS} отряда сохранены · local · не SoT боя`);
+      toast("4 отряда сохранены · PvE · PvP · Данж · Рейд (local · не SoT боя)");
       return;
     }
     if (label.includes("база знаний") || label.includes("кодекс")) {
@@ -17910,46 +17918,75 @@ function nudgeDojoNeedSquad() {
   window.setTimeout(() => grid.classList.remove("dojo-need-squad"), 450);
 }
 
+function formatPvpSearchElapsed(ms) {
+  const s = Math.max(0, Math.floor(Number(ms) / 1000) || 0);
+  const m = Math.floor(s / 60);
+  return `${m}:${String(s % 60).padStart(2, "0")}`;
+}
+
+function stopPvpSearchTick() {
+  if (state.pvpSearchTick) {
+    clearInterval(state.pvpSearchTick);
+    state.pvpSearchTick = null;
+  }
+  state.pvpSearchStartedAt = 0;
+}
+
+function syncPvpSearchStatusUi() {
+  const status = $("arenaSearchStatus");
+  const icon = $("arenaSearchIcon");
+  const timer = $("arenaSearchTimer");
+  const row = $("arenaSearchStatusRow");
+  if (!status) return;
+  if (state.pvpSearching) {
+    const elapsed = Date.now() - (state.pvpSearchStartedAt || Date.now());
+    status.textContent = "Идёт поиск";
+    if (icon) {
+      icon.textContent = "search";
+      icon.classList.remove("hidden");
+    }
+    if (timer) {
+      timer.textContent = formatPvpSearchElapsed(elapsed);
+      timer.classList.remove("hidden");
+      timer.setAttribute("aria-hidden", "false");
+    }
+    if (row) row.dataset.state = "searching";
+    return;
+  }
+  if (state.pvpOpponentTeam?.length === 3) {
+    status.textContent = "Соперник найден";
+    if (icon) {
+      icon.textContent = "person_check";
+      icon.classList.remove("hidden");
+    }
+    if (timer) {
+      timer.classList.add("hidden");
+      timer.setAttribute("aria-hidden", "true");
+    }
+    if (row) row.dataset.state = "found";
+    return;
+  }
+  status.textContent = "";
+  if (icon) icon.classList.add("hidden");
+  if (timer) {
+    timer.classList.add("hidden");
+    timer.setAttribute("aria-hidden", "true");
+  }
+  if (row) row.dataset.state = "idle";
+}
+
 function clearPvpSearchTimer() {
   if (state.pvpSearchTimer) {
     clearTimeout(state.pvpSearchTimer);
     state.pvpSearchTimer = null;
   }
+  stopPvpSearchTick();
   state.pvpSearching = false;
   const cta = $("btnArenaSearch");
   if (cta) {
     cta.classList.remove("is-searching");
     cta.disabled = false;
   }
-}
-
-function renderPvpArenaOppPreview(mode = "idle") {
-  const box = $("arenaOppPreview");
-  if (!box) return;
-  const labels = ["Танк", "ДПС", "Саппорт"];
-  const team =
-    mode === "found" && Array.isArray(state.pvpOpponentTeam) ? state.pvpOpponentTeam.map(pvpRosterEntry) : null;
-  box.innerHTML = [0, 1, 2]
-    .map((i) => {
-      if (mode === "searching") {
-        return `<div class="rounded-lg border border-dashed border-primary/40 bg-[#1a1613]/80 h-20 flex flex-col items-center justify-center gap-0.5 text-primary animate-pulse" data-opp-slot="${i}">
-<span class="material-symbols-outlined text-[20px]">hourglass_top</span>
-<span class="text-[9px] font-bold">${labels[i]}…</span>
-</div>`;
-      }
-      if (team?.[i]) {
-        const c = team[i];
-        return `<div class="rounded-lg border border-secondary/40 bg-[#1a1613] h-20 overflow-hidden flex flex-col items-center justify-end relative" data-opp-slot="${i}">
-<img alt="${c.name}" class="absolute inset-0 w-full h-full object-cover object-top opacity-90" src="${c.art}"/>
-<span class="relative z-10 w-full text-center text-[9px] font-bold bg-black/65 text-white py-0.5">${c.name}</span>
-</div>`;
-      }
-      return `<div class="rounded-lg border border-dashed border-outline-variant/50 bg-[#1a1613]/80 h-20 flex flex-col items-center justify-center gap-0.5 text-outline" data-opp-slot="${i}">
-<span class="material-symbols-outlined text-[20px]">person_search</span>
-<span class="text-[9px] font-bold">${labels[i]}</span>
-</div>`;
-    })
-    .join("");
 }
 
 function renderPvpArenaSquadList() {
@@ -17995,13 +18032,7 @@ function renderPvpArena() {
     btn.classList.toggle("is-on", on);
     btn.setAttribute("aria-selected", on ? "true" : "false");
   });
-  if (state.pvpSearching) renderPvpArenaOppPreview("searching");
-  else if (state.pvpOpponentTeam?.length === 3) renderPvpArenaOppPreview("found");
-  else renderPvpArenaOppPreview("idle");
-  const status = $("arenaSearchStatus");
-  if (status && !state.pvpSearching) {
-    status.textContent = state.pvpOpponentTeam?.length === 3 ? "Соперник найден" : "Готов к поиску";
-  }
+  syncPvpSearchStatusUi();
 }
 
 function startPvpSearch() {
@@ -18015,18 +18046,23 @@ function startPvpSearch() {
   state.pvpSearching = true;
   state.pvpOpponentTeam = null;
   state.pvpOpponentName = "";
+  state.pvpSearchStartedAt = Date.now();
   const cta = $("btnArenaSearch");
-  const status = $("arenaSearchStatus");
   if (cta) {
     cta.classList.add("is-searching");
     cta.disabled = true;
   }
-  if (status) status.textContent = "Поиск соперника…";
-  renderPvpArenaOppPreview("searching");
+  syncPvpSearchStatusUi();
+  state.pvpSearchTick = setInterval(() => {
+    if (!state.pvpSearching) return;
+    const timer = $("arenaSearchTimer");
+    if (timer) timer.textContent = formatPvpSearchElapsed(Date.now() - state.pvpSearchStartedAt);
+  }, 250);
   toast("Поиск по рангу + БМ…");
   const delay = 1200 + Math.floor(Math.random() * 1400);
   state.pvpSearchTimer = setTimeout(() => {
     state.pvpSearchTimer = null;
+    stopPvpSearchTick();
     state.pvpSearching = false;
     state.pvpOpponentTeam = rollPvpOpponentTeam(state.pvpSquad);
     state.pvpOpponentName = pickRandomItem(PVP_FOE_NAMES) || "Свора Гладиаторов";
@@ -18034,8 +18070,7 @@ function startPvpSearch() {
       cta.classList.remove("is-searching");
       cta.disabled = false;
     }
-    if (status) status.textContent = "Соперник найден";
-    renderPvpArenaOppPreview("found");
+    syncPvpSearchStatusUi();
     const names = state.pvpOpponentTeam.map((id) => pvpRosterEntry(id).name).join(" · ");
     toast(`Найден отряд: ${names}`);
     window.setTimeout(() => openPvpLoad(), 450);

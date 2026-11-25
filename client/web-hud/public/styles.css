@@ -5432,6 +5432,46 @@ body:has(#viewPvp:not(.hidden)) #wireDock { display: none !important; }
   animation: none;
   filter: saturate(0.85);
 }
+/* Arena art veil: clear middle so search status sits on the picture. */
+#viewPvp .arena-search-veil {
+  background: linear-gradient(
+    to top,
+    #100e0c 0%,
+    rgba(16, 14, 12, 0.65) 8%,
+    transparent 20%,
+    transparent 82%,
+    rgba(16, 14, 12, 0.22) 100%
+  );
+}
+/* No card chrome behind «Идёт поиск». */
+#viewPvp .arena-search-status {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+#viewPvp .arena-search-status #arenaSearchStatus,
+#viewPvp .arena-search-status #arenaSearchTimer,
+#viewPvp .arena-search-status .arena-search-status__icon {
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.65);
+  background: transparent;
+}
+#viewPvp .arena-search-status[data-state="searching"] .arena-search-status__icon {
+  animation: arena-search-pulse 1.2s ease-in-out infinite;
+}
+#viewPvp .arena-search-status[data-state="found"] .arena-search-status__icon {
+  color: #8ecb8a;
+}
+@keyframes arena-search-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.55; transform: scale(1.08); }
+}
+@media (prefers-reduced-motion: reduce) {
+  #viewPvp .arena-search-status[data-state="searching"] .arena-search-status__icon {
+    animation: none !important;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   #viewPvp .arena-search-cta { animation: none !important; }
 }
@@ -6526,7 +6566,8 @@ body:has(#viewCollection:not(.hidden)) #app {
 }
 #viewCollection .collection-teams .col-team,
 #viewCollection #colTeams .col-team {
-  flex: 1 1 0 !important;
+  /* 4 squads: size to content + scroll list (D-054); do not equal-split 2-way. */
+  flex: 0 0 auto !important;
   min-height: 0;
   display: flex;
   flex-direction: column;
