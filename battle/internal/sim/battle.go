@@ -2,20 +2,23 @@ package sim
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/idrosha/mir_games/battle/internal/content"
 )
 
 type CreateParams struct {
-	BattleID string
-	Mode     Mode
-	Seed     int64
-	StageID  string
-	MatchID  string
-	P1Team   []SpawnUnit
-	P2Team   []SpawnUnit
-	PotionsP1 []string
-	PotionsP2 []string
+	BattleID     string
+	Mode         Mode
+	Seed         int64
+	StageID      string
+	MatchID      string
+	P1Team       []SpawnUnit
+	P2Team       []SpawnUnit
+	PotionsP1    []string
+	PotionsP2    []string
+	P2Human      bool
+	TurnTimerSec int
 }
 
 // GearBonus — flat loadout stats from armor/weapons (HUD sheet). Applied at spawn only.
@@ -57,6 +60,8 @@ func NewBattle(p CreateParams) (*Battle, error) {
 		PotionsP1:         potionSet(p.PotionsP1),
 		PotionsP2:         potionSet(p.PotionsP2),
 		cardsPlayedByUnit: map[string]int{},
+		P2Human:           p.P2Human,
+		TurnTimerSec:      p.TurnTimerSec,
 	}
 	for i, s := range p.P1Team {
 		u, err := spawn(s, SideP1, i, b.rng)
@@ -189,7 +194,44 @@ func (b *Battle) beginSideTurn(side Side, isRoundStart bool) {
 			continue
 		}
 	}
+	b.refreshTurnDeadline()
 	_ = isRoundStart
+}
+
+// refreshTurnDeadline sets TurnDeadlineUnix from TurnTimerSec (0 clears).
+func (b *Battle) refreshTurnDeadline() {
+	if b == nil || b.TurnTimerSec <= 0 || b.Finished() {
+		b.TurnDeadlineUnix = 0
+		return
+	}
+	b.TurnDeadlineUnix = time.Now().Unix() + int64(b.TurnTimerSec)
+}
+
+// TurnLeftSec returns remaining turn seconds (0 if no deadline / finished).
+func (b *Battle) TurnLeftSec() int {
+	if b == nil || b.TurnDeadlineUnix <= 0 || b.Finished() {
+		return 0
+	}
+	left := b.TurnDeadlineUnix - time.Now().Unix()
+	if left < 0 {
+		return 0
+	}
+	return int(left)
+}
+
+// EnforceTurnDeadline auto-endTurns when the active side ran out of time (D-058).
+// Returns true if a timeout endTurn was applied.
+func (b *Battle) EnforceTurnDeadline() (bool, error) {
+	if b == nil || b.Finished() || b.TurnDeadlineUnix <= 0 {
+		return false, nil
+	}
+	if time.Now().Unix() < b.TurnDeadlineUnix {
+		return false, nil
+	}
+	if err := b.SubmitAction(Action{Kind: ActionEndTurn}); err != nil {
+		return false, err
+	}
+	return true, nil
 }
 
 // discardUnusedHand moves non-Kept hand cards into discard at end of that side's turn (§3.3).

@@ -1,11 +1,20 @@
 /**
  * Dev in-memory PvP matchmaking queue (HUD QA: login1 vs login2).
- * Not Nakama SoT — only when client turns off the bot-MM stub (D-057).
+ * Not Nakama SoT — only when client turns off the bot-MM stub (D-057 / D-058).
+ * Matched snapshots carry seat + ordered team1/team2 so both clients join one battle.
  */
 
 /** @type {Map<string, { userId: string, name: string, team: string[], enqueuedAt: number }>} */
 const waiting = new Map();
-/** @type {Map<string, { matchId: string, opponent: { userId: string, name: string, team: string[] } }>} */
+/**
+ * @type {Map<string, {
+ *   matchId: string,
+ *   seat: 0|1,
+ *   team1: string[],
+ *   team2: string[],
+ *   opponent: { userId: string, name: string, team: string[] }
+ * }>}
+ */
 const matches = new Map();
 
 function readBody(req) {
@@ -35,6 +44,9 @@ function snapshotFor(userId) {
       ok: true,
       status: "matched",
       matchId: matched.matchId,
+      seat: matched.seat,
+      team1: [...matched.team1],
+      team2: [...matched.team2],
       opponent: {
         userId: matched.opponent.userId,
         name: matched.opponent.name,
@@ -98,7 +110,7 @@ export async function handlePvpMmDevApi(req, res, send) {
       return true;
     }
 
-    // Pair with oldest other waiter.
+    // Pair with oldest other waiter. First waiter = seat 0 / team1 (D-058).
     let partnerId = null;
     let partner = null;
     for (const [wid, w] of waiting) {
@@ -112,13 +124,25 @@ export async function handlePvpMmDevApi(req, res, send) {
       waiting.delete(partnerId);
       waiting.delete(userId);
       const matchId = `mm_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 7)}`;
-      matches.set(userId, {
-        matchId,
-        opponent: { userId: partner.userId, name: partner.name, team: [...partner.team] },
-      });
+      const team1 = [...partner.team];
+      const team2 = [...team];
       matches.set(partnerId, {
         matchId,
+        seat: 0,
+        team1,
+        team2,
         opponent: { userId, name, team: [...team] },
+      });
+      matches.set(userId, {
+        matchId,
+        seat: 1,
+        team1,
+        team2,
+        opponent: {
+          userId: partner.userId,
+          name: partner.name,
+          team: [...partner.team],
+        },
       });
       json(200, snapshotFor(userId));
       return true;

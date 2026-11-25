@@ -41,7 +41,7 @@ func TestDeckCycle_EndTurnDiscardsUnused_ThenReshuffles(t *testing.T) {
 			if modeName == "pve" {
 				b, err = mode.CreatePvE(cat, "cycle_pve", "test_yard_1", 77, starters(), nil, nil, nil)
 			} else {
-				b, err = mode.CreatePvP(cat, "cycle_pvp", "m1", 77, starters(), starters(), nil, nil, nil, nil)
+				b, err = mode.CreatePvP(cat, "cycle_pvp", "m1", 77, starters(), starters(), nil, nil, nil, nil, false, 0)
 			}
 			if err != nil {
 				t.Fatal(err)
@@ -157,7 +157,7 @@ func TestDeckCycle_PlayedCardGoesToDiscard(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	b, err := mode.CreatePvP(cat, "play_disc", "m2", 3, starters(), starters(), nil, nil, nil, nil)
+	b, err := mode.CreatePvP(cat, "play_disc", "m2", 3, starters(), starters(), nil, nil, nil, nil, false, 0)
 	if err != nil {
 		t.Fatal(err)
 	}

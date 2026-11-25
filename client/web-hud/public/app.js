@@ -1263,6 +1263,13 @@ const state = {
   pvpOpponentName: "",
   /** D-057: bot-MM stub on by default; off → /api/dev/pvp/mm real queue. */
   pvpBotMmStub: true,
+  /** D-058: live MM seat 0|1, shared matchId, ordered teams, poll handle. */
+  pvpSeat: 0,
+  pvpMatchId: "",
+  pvpLiveHuman: false,
+  pvpTeam1: null,
+  pvpTeam2: null,
+  pvpPollTimer: null,
   pvpSearching: false,
   pvpSearchTimer: null,
   pvpSearchTick: null,
@@ -12816,7 +12823,7 @@ function ruWins(n) {
 }
 
 function renderPvpVictory() {
-  const win = state.lastResult?.result === "p1_win";
+  const win = pvpIWon(state.lastResult || state.battle);
   const turn = state.battle?.turn || state.battle?.round || 0;
   const streak = state.progress.pvpWins || 0;
   const root = $("viewPvpVictory");
@@ -12891,6 +12898,9 @@ function bindPvpVictory() {
       state.lastResult = null;
       state.battleMode = "";
       state.pvpOpponentTeam = null;
+      state.pvpLiveHuman = false;
+      state.pvpMatchId = "";
+      stopPvpLivePoll();
       if (act === "again") {
         navigate("pvp", { primary: "combat" });
         window.setTimeout(() => startPvpSearch(), 80);
@@ -13733,7 +13743,10 @@ function resolveQueuedHandCard(sel) {
  */
 async function commitHandSelectionAndEndTurn() {
   if (state.actionBusy || state.oppThrowPlaying || state.turnCommitPlaying) return;
-  if (!state.battle?.canEndTurn || state.battle?.result || state.battle?.active !== 0) return;
+  const seat = pvpMySeat();
+  if (!state.battle?.canEndTurn || state.battle?.result || (state.battle?.active | 0) !== seat) {
+    return;
+  }
   const queue = [...(state.handSelection || [])];
   clearHandSelection();
   state.selectedKeep = null;
@@ -13742,7 +13755,7 @@ async function commitHandSelectionAndEndTurn() {
   clearBattleTurnTimer();
   try {
     for (const sel of queue) {
-      if (!state.battle || state.battle.result || state.battle.active !== 0) break;
+      if (!state.battle || state.battle.result || (state.battle.active | 0) !== seat) break;
       const c = resolveQueuedHandCard(sel);
       if (!c || c.playable === false) continue;
       if (unitCrowdControlled(state.battle, c.unitId)) continue;
@@ -13763,7 +13776,7 @@ async function commitHandSelectionAndEndTurn() {
     if (
       state.battle &&
       !state.battle.result &&
-      state.battle.active === 0 &&
+      (state.battle.active | 0) === seat &&
       state.battle.canEndTurn
     ) {
       await submitAction({ kind: "endTurn" });
@@ -13803,7 +13816,8 @@ function makeAttackHandButton(c, diff, classNames = "mf-atk-card") {
   if (cc) b.classList.add("mf-atk-card--stunned");
   if (busy) b.classList.add("is-busy-wait");
   if (selected) b.classList.add("is-selected");
-  b.disabled = !c.playable || cc || !!diff.result || diff.active !== 0 || busy;
+  b.disabled =
+    !c.playable || cc || !!diff.result || (diff.active | 0) !== pvpMySeat() || busy;
   b.dataset.cardId = c.cardId || "";
   b.dataset.targetRule = c.targetRule || "";
   b.dataset.handIndex = String(c.handIndex ?? "");
@@ -14398,6 +14412,8 @@ function paintBattleTurnTimer(sec = state.battleTurnLeft) {
   if (el) el.textContent = label;
   const pve = $("pveFightTimer");
   if (pve) pve.textContent = label;
+  const pv = $("pvTimer");
+  if (pv) pv.textContent = label;
   const raidT = $("raidBattleTimer");
   if (raidT) raidT.textContent = label;
   document.querySelectorAll("[data-raid-battle-timer]").forEach((n) => {
@@ -14412,26 +14428,66 @@ function clearBattleTurnTimer() {
   }
 }
 
+/** Soft-launch seat for live MM (0 = P1). Bot-smoke / PvE always 0. */
+function pvpMySeat() {
+  return state.pvpLiveHuman ? state.pvpSeat | 0 : 0;
+}
+
+function pvpIWon(diff = state.battle) {
+  if (!diff?.result) return false;
+  const seat = pvpMySeat();
+  if (diff.result === "p1_win") return seat === 0;
+  if (diff.result === "p2_win") return seat === 1;
+  return false;
+}
+
 /** Player-turn countdown (30s PvE/PvP, 60s otherwise); on 0 auto endTurn. */
-function syncBattleTurnTimer({ mine = false, turn = 0, battleId = "" } = {}) {
+function syncBattleTurnTimer({ mine = false, turn = 0, battleId = "", activeSide = 0 } = {}) {
+  // Prefer server deadline when present (live PvP D-058).
+  const serverLeft = Number(state.battle?.turnLeftSec);
+  if (Number.isFinite(serverLeft) && serverLeft >= 0 && state.battle?.turnDeadlineUnix) {
+    state.battleTurnLeft = serverLeft;
+  }
   paintBattleTurnTimer(state.battleTurnLeft);
   if (!mine || state.battle?.result) {
     clearBattleTurnTimer();
     state.battleTurnKey = "";
     return;
   }
-  const key = `${battleId || state.battle?.battleId || "b"}:${turn || state.battle?.turn || 0}`;
+  const key = `${battleId || state.battle?.battleId || "b"}:${turn || state.battle?.turn || 0}:${activeSide}`;
   if (state.battleTurnKey === key && state.battleTurnTimer) {
     paintBattleTurnTimer(state.battleTurnLeft);
     return;
   }
   clearBattleTurnTimer();
   state.battleTurnKey = key;
-  state.battleTurnLeft = battleTurnTimerSec();
+  if (!(Number.isFinite(serverLeft) && state.battle?.turnDeadlineUnix)) {
+    state.battleTurnLeft = battleTurnTimerSec();
+  }
   paintBattleTurnTimer(state.battleTurnLeft);
   state.battleTurnTimer = setInterval(() => {
-    if (!state.battle || state.battle.result || state.battle.active !== 0) {
+    if (!state.battle || state.battle.result) {
       clearBattleTurnTimer();
+      return;
+    }
+    const mySide = pvpMySeat();
+    if ((state.battle.active | 0) !== mySide) {
+      clearBattleTurnTimer();
+      return;
+    }
+    // Live human: server enforces deadline on GetBattle poll; client only paints.
+    if (state.pvpLiveHuman && state.battle.turnDeadlineUnix) {
+      const left = Math.max(
+        0,
+        (state.battle.turnDeadlineUnix | 0) - Math.floor(Date.now() / 1000),
+      );
+      state.battleTurnLeft = left;
+      paintBattleTurnTimer(left);
+      if (left <= 0) {
+        clearBattleTurnTimer();
+        toast(t("battle.turn.timeout", "Время хода вышло · ход передан"));
+        void commitHandSelectionAndEndTurn();
+      }
       return;
     }
     state.battleTurnLeft = Math.max(0, (state.battleTurnLeft | 0) - 1);
@@ -14497,6 +14553,7 @@ function renderPracticeFight() {
     mine,
     turn: diff.turn || 1,
     battleId: diff.battleId || "",
+    activeSide: diff.active | 0,
   });
   const waveStrip = $("pfPveWaveStrip");
   if (waveStrip) {
@@ -14761,7 +14818,13 @@ function bindPracticeFight() {
 
 function requestEndTurn() {
   if (state.actionBusy || state.oppThrowPlaying || state.turnCommitPlaying) return;
-  if (!state.battle?.canEndTurn || state.battle?.result || state.battle?.active !== 0) return;
+  if (
+    !state.battle?.canEndTurn ||
+    state.battle?.result ||
+    (state.battle?.active | 0) !== pvpMySeat()
+  ) {
+    return;
+  }
   if (!state.endTurnArmed) {
     state.endTurnArmed = true;
     toast(state.locale === "ru" ? "Ещё раз Space — завершить ход" : "Press Space again to end turn");
@@ -14779,7 +14842,7 @@ function requestEndTurn() {
 function playHandCardByHotkey(slotIndex) {
   if (state.actionBusy || state.oppThrowPlaying || state.turnCommitPlaying) return;
   const diff = state.battle;
-  if (!diff || diff.result || diff.active !== 0) return;
+  if (!diff || diff.result || (diff.active | 0) !== pvpMySeat()) return;
   const cards = sortHandByVisualLanes(diff.hand || [], diff.units || []);
   const c = cards[slotIndex];
   if (!c || !c.playable) return;
@@ -14928,18 +14991,29 @@ function renderPvpFight() {
   const diff = state.battle;
   if (!diff) return;
   pruneHandSelection(diff);
-  const energy = diff.p1?.energy ?? 0;
-  const mine = diff.active === 0 && !diff.result;
+  const seat = pvpMySeat();
+  const energy =
+    seat === 0 ? (diff.p1?.energy ?? 0) : (diff.p2?.energy ?? 0);
+  const mine = (diff.active | 0) === seat && !diff.result;
   const reserved = mine ? handSelectionReservedAp() : 0;
   const shownEnergy = Math.max(0, energy - reserved);
+  const oppLabel = state.pvpLiveHuman
+    ? "Ход соперника"
+    : "Ход AI (smoke)";
   if ($("pvRound")) {
     $("pvRound").textContent = `Раунд ${diff.turn || 1} · ${
-      mine ? "Ход игрока" : diff.result ? "Итог" : "Ход AI (smoke)"
+      mine ? "Ход игрока" : diff.result ? "Итог" : oppLabel
     }`;
   }
   const energyMax = Math.max(energyTurnCap(diff.turn, true), energy);
   if ($("pvEnergy")) $("pvEnergy").textContent = `Энергия ${shownEnergy}/${energyMax}`;
   renderPvpApPips(shownEnergy, energyMax);
+  syncBattleTurnTimer({
+    mine,
+    turn: diff.turn || 1,
+    battleId: diff.battleId || "",
+    activeSide: diff.active | 0,
+  });
   const root = $("viewPvpFight");
   const allyTitle = root?.querySelector(".pv-side.is-ally h2");
   const foeTitle = root?.querySelector(".pv-side.is-enemy h2");
@@ -14947,9 +15021,14 @@ function renderPvpFight() {
   if (foeTitle) foeTitle.textContent = state.pvpOpponentName || "Свора гладиаторов";
   // D-034: allies L→R = тыл · центр · авангард (tank right, nearest VS). Sim lanes stay 0=front…2=rear.
   // Enemies face left: L→R = авангард · центр · тыл — same as renderPracticeFight.
-  const listBySide = (side) => (diff.units || []).filter((u) => u.side === side);
-  const allies = PRACTICE_VISUAL_LANES.map((lane) => listBySide(0).find((u) => u.lane === lane)).filter(Boolean);
-  const enemies = listBySide(1).slice().sort((a, b) => a.lane - b.lane);
+  // Live seat1: own units are sim side 1 — still paint left as allies (D-058).
+  const listBySide = (side) => (diff.units || []).filter((u) => (u.side | 0) === side);
+  const mySide = seat;
+  const foeSide = seat === 0 ? 1 : 0;
+  const allies = PRACTICE_VISUAL_LANES.map((lane) =>
+    listBySide(mySide).find((u) => u.lane === lane),
+  ).filter(Boolean);
+  const enemies = listBySide(foeSide).slice().sort((a, b) => a.lane - b.lane);
   const allyBox = $("pvAllies");
   const foeBox = $("pvEnemies");
   const clearedByUnit = activeCleanseFlashes(
@@ -15002,7 +15081,7 @@ function renderPvpFight() {
     end.disabled =
       !diff.canEndTurn ||
       !!diff.result ||
-      diff.active !== 0 ||
+      (diff.active | 0) !== seat ||
       state.oppThrowPlaying ||
       state.actionBusy ||
       state.turnCommitPlaying ||
@@ -15075,11 +15154,12 @@ async function runPvpAutoBattleStep() {
     setPvpAutoBattle(false, { silent: true });
     return;
   }
-  if (state.actionBusy || state.oppThrowPlaying || state.turnCommitPlaying || diff.active !== 0) {
+  const seat = pvpMySeat();
+  if (state.actionBusy || state.oppThrowPlaying || state.turnCommitPlaying || (diff.active | 0) !== seat) {
     queuePvpAutoBattleStep();
     return;
   }
-  const allies = (diff.units || []).filter((u) => u.side === 0);
+  const allies = (diff.units || []).filter((u) => (u.side | 0) === seat);
   const cards = sortHandByVisualLanes(diff.hand || [], allies)
     .filter((c) => c.playable && !unitCrowdControlled(diff, c.unitId))
     .sort((a, b) => (a.cost ?? 1) - (b.cost ?? 1));
@@ -15101,7 +15181,14 @@ async function runPvpAutoBattleStep() {
 async function usePvpFightPotion(slotKey) {
   const meta = PVP_FIGHT_POT_META[slotKey];
   if (!meta || !state.battle || state.battle.result) return;
-  if (state.battle.active !== 0 || state.actionBusy || state.oppThrowPlaying || state.pvpAutoBattle) return;
+  if (
+    (state.battle.active | 0) !== pvpMySeat() ||
+    state.actionBusy ||
+    state.oppThrowPlaying ||
+    state.pvpAutoBattle
+  ) {
+    return;
+  }
   if (!state.pvpFightPots) resetPvpFightPots();
   const qty = Math.max(0, Number(state.pvpFightPots[slotKey]) || 0);
   if (qty <= 0) {
@@ -15343,6 +15430,7 @@ async function applyDiff(diff, note = "") {
     state.battleMode === "boss" &&
     !raidPathIsBossNode(state.selectedStageId);
   if (diff.result) {
+    if (state.battleMode === "pvp") stopPvpLivePoll();
     // Mid-chapter / mid-dungeon / mid-raid wins skip victory view until final boss node.
     if (!midChapterPveWin && !midDungeonWin && !midRaidWin) {
       state.lastResult = { battleId: diff.battleId, result: diff.result };
@@ -15352,7 +15440,9 @@ async function applyDiff(diff, note = "") {
       // Fatigue after chapter boss clear or any defeat — not between f1→f2→f3.
       if (!midChapterPveWin) markPveFatigue();
     }
-    if (diff.result === "p1_win") {
+    const won =
+      state.battleMode === "pvp" ? pvpIWon(diff) : diff.result === "p1_win";
+    if (won) {
       if (state.battleMode === "practice") {
         state.progress.practiceWins += 1;
       } else if (state.battleMode === "pvp") {
@@ -15468,25 +15558,32 @@ async function submitAction(action) {
   }
   state.actionBusy = true;
   try {
-    const prevActive = state.battle.active;
+    const prevActive = state.battle.active | 0;
     const prevTurn = state.battle.turn;
+    const seat = pvpMySeat();
+    const body = {
+      battleId: state.battle.battleId,
+      action: {
+        kind: action.kind,
+        unitId: action.unitId || "",
+        handIndex: action.handIndex ?? 0,
+        targetId: action.targetId || "",
+        potionId: action.potionId || "",
+      },
+    };
+    if (state.pvpLiveHuman) body.seat = seat;
     const { data } = await api("/api/battle/v1/SubmitAction", {
       method: "POST",
-      body: JSON.stringify({
-        battleId: state.battle.battleId,
-        action: {
-          kind: action.kind,
-          unitId: action.unitId || "",
-          handIndex: action.handIndex ?? 0,
-          targetId: action.targetId || "",
-          potionId: action.potionId || "",
-        },
-      }),
+      body: JSON.stringify(body),
     });
-    // After P1 endTurn the server resolves P2 (PvE bots + local PvP smoke).
-    // Paint stateDiff FIRST (HP/floats), then Axie-style 6 face-down throw overlay.
+    // After own endTurn: PvE/bot-smoke resolve AI on server; live human waits for poll.
+    // Paint stateDiff FIRST (HP/floats), then face-down throw overlay for AI only.
     const shouldThrow =
-      action.kind === "endTurn" && prevActive === 0 && state.battle && !state.battle.result;
+      action.kind === "endTurn" &&
+      prevActive === seat &&
+      !state.pvpLiveHuman &&
+      state.battle &&
+      !state.battle.result;
     // Lock hand before paint so mid-throw taps cannot double-submit.
     if (shouldThrow) state.oppThrowPlaying = true;
     await applyDiff(data, `${action.kind}${action.unitId ? " " + action.unitId : ""}`);
@@ -15503,6 +15600,8 @@ async function submitAction(action) {
           $("pvRound").textContent = `Раунд ${state.battle.turn || 1} · Ход игрока`;
         }
       }
+    } else if (state.pvpLiveHuman) {
+      ensurePvpLivePoll();
     }
   } catch (err) {
     state.oppThrowPlaying = false;
@@ -16483,7 +16582,58 @@ function verifyPvpHandCards(diff) {
   return ok;
 }
 
-/** Interactive PvP (same core; P2 = scripted AI until live MM — B1/B2 smoke). */
+function stopPvpLivePoll() {
+  if (state.pvpPollTimer) {
+    clearInterval(state.pvpPollTimer);
+    state.pvpPollTimer = null;
+  }
+}
+
+function ensurePvpLivePoll() {
+  if (!state.pvpLiveHuman || !state.battle?.battleId || state.battle.result) {
+    stopPvpLivePoll();
+    return;
+  }
+  if (state.pvpPollTimer) return;
+  state.pvpPollTimer = setInterval(() => {
+    void pollPvpLiveOnce();
+  }, 700);
+}
+
+async function pollPvpLiveOnce() {
+  if (!state.pvpLiveHuman || !state.battle?.battleId || state.actionBusy || state.turnCommitPlaying) {
+    return;
+  }
+  if (state.battle.result) {
+    stopPvpLivePoll();
+    return;
+  }
+  try {
+    const seat = pvpMySeat();
+    const { data } = await api(
+      `/api/battle/v1/GetBattle?battleId=${encodeURIComponent(state.battle.battleId)}&seat=${seat}`,
+    );
+    if (!data?.battleId) return;
+    const prevSeq = state.battle.seq ?? 0;
+    const prevActive = state.battle.active | 0;
+    const changed =
+      (data.seq ?? 0) !== prevSeq ||
+      (data.active | 0) !== prevActive ||
+      data.result !== state.battle.result ||
+      (data.turnLeftSec | 0) !== (state.battle.turnLeftSec | 0);
+    if (!changed) return;
+    const becameMine = prevActive !== seat && (data.active | 0) === seat && !data.result;
+    await applyDiff(data, "GetBattle poll");
+    if (becameMine) {
+      toast(t("pvp.your_turn", "Ваш ход"));
+    }
+    if (data.result) stopPvpLivePoll();
+  } catch (err) {
+    console.warn("pvp live poll", err);
+  }
+}
+
+/** Interactive PvP: bot-smoke (AI P2) or live MM shared battle (D-058). */
 async function pvpStart() {
   if (state.pvpStarting) return;
   if (!pvpUnlocked()) {
@@ -16502,34 +16652,66 @@ async function pvpStart() {
     state.pvpLoadTimer = null;
     state.battleMode = "pvp";
     ensurePvpSquad();
-    const team1 = [...state.pvpSquad];
-    const team2 =
-      Array.isArray(state.pvpOpponentTeam) && state.pvpOpponentTeam.length === 3
-        ? [...state.pvpOpponentTeam]
-        : rollPvpOpponentTeam(team1);
-    state.pvpOpponentTeam = team2;
-    toast(
-      t(
-        "pvp.smoke.ai",
-        "PvP smoke: соперник — скриптовый AI (общий MM позже)",
-      ),
-    );
+    const live = !!state.pvpLiveHuman && !!state.pvpMatchId;
+    let team1;
+    let team2;
+    let matchId;
+    let seat = 0;
+    if (live) {
+      team1 = Array.isArray(state.pvpTeam1) ? [...state.pvpTeam1] : [...state.pvpSquad];
+      team2 = Array.isArray(state.pvpTeam2) ? [...state.pvpTeam2] : [...(state.pvpOpponentTeam || [])];
+      matchId = state.pvpMatchId;
+      seat = pvpMySeat();
+      if (team1.length !== 3 || team2.length !== 3) {
+        throw new Error("live PvP teams incomplete");
+      }
+      toast(t("pvp.live.sync", "PvP · общий бой · ходы по очереди"));
+    } else {
+      state.pvpLiveHuman = false;
+      state.pvpSeat = 0;
+      state.pvpMatchId = "";
+      team1 = [...state.pvpSquad];
+      team2 =
+        Array.isArray(state.pvpOpponentTeam) && state.pvpOpponentTeam.length === 3
+          ? [...state.pvpOpponentTeam]
+          : rollPvpOpponentTeam(team1);
+      state.pvpOpponentTeam = team2;
+      matchId = `web_${Date.now()}`;
+      toast(
+        t(
+          "pvp.smoke.ai",
+          "PvP smoke: соперник — скриптовый AI (общий MM позже)",
+        ),
+      );
+    }
+    // Seed from matchId so both seats request the same create (idempotent join).
+    let seed = Date.now() % 1e9;
+    if (live) {
+      seed = 0;
+      for (let i = 0; i < matchId.length; i++) seed = (seed * 31 + matchId.charCodeAt(i)) >>> 0;
+      if (!seed) seed = 20261104;
+    }
+    const createBody = {
+      matchId,
+      team1,
+      team2,
+      seed,
+      autoPlay: false,
+      humanP2: live,
+      turnTimerSec: live ? BATTLE_TURN_TIMER_PVE_PVP_SEC : 0,
+      teamGear1: teamGearForTemplates(team1, "pvp"),
+      teamGear2: teamGearForTemplates(team2, "pvp"),
+    };
+    if (live) createBody.seat = seat;
     const { data } = await api("/api/battle/v1/CreatePvP", {
       method: "POST",
-      body: JSON.stringify({
-        matchId: `web_${Date.now()}`,
-        team1,
-        team2,
-        seed: Date.now() % 1e9,
-        autoPlay: false,
-        teamGear1: teamGearForTemplates(team1, "pvp"),
-        teamGear2: teamGearForTemplates(team2, "pvp"),
-      }),
+      body: JSON.stringify(createBody),
     });
-    verifyPvpHandCards(data);
+    if ((data.active | 0) === seat) verifyPvpHandCards(data);
     state.pvpAutoBattle = false;
     resetPvpFightPots();
-    await applyDiff(data, "CreatePvP");
+    await applyDiff(data, live ? "CreatePvP live" : "CreatePvP");
+    if (live) ensurePvpLivePoll();
   } catch (err) {
     log(`PvP fail: ${err.message}`, "pvp");
     alert(err.message);
@@ -18431,13 +18613,25 @@ function applyPvpMmMatch(snap) {
   const opp = snap?.opponent;
   const team = normalizeTeamLike(opp?.team);
   if (team.length !== 3) return false;
+  const team1 = normalizeTeamLike(snap?.team1);
+  const team2 = normalizeTeamLike(snap?.team2);
+  if (team1.length !== 3 || team2.length !== 3) return false;
+  const seat = Number(snap?.seat);
+  if (seat !== 0 && seat !== 1) return false;
+  const matchId = String(snap?.matchId || "");
+  if (!matchId) return false;
   clearPvpSearchTimer();
   state.pvpOpponentTeam = team;
   state.pvpOpponentName = String(opp?.name || opp?.userId || "Соперник");
+  state.pvpMatchId = matchId;
+  state.pvpSeat = seat;
+  state.pvpTeam1 = team1;
+  state.pvpTeam2 = team2;
+  state.pvpLiveHuman = true;
   leavePvpMmQueue();
   syncPvpSearchStatusUi();
   const names = team.map((id) => pvpRosterEntry(id).name).join(" · ");
-  toast(`Найден игрок: ${state.pvpOpponentName} · ${names}`);
+  toast(`Найден игрок: ${state.pvpOpponentName} · место ${seat + 1} · ${names}`);
   window.setTimeout(() => openPvpLoad(), 450);
   return true;
 }
@@ -18529,6 +18723,12 @@ function startPvpSearch() {
 
   if (state.pvpBotMmStub) {
     toast("Поиск · заглушка ботов…");
+    state.pvpLiveHuman = false;
+    state.pvpMatchId = "";
+    state.pvpSeat = 0;
+    state.pvpTeam1 = null;
+    state.pvpTeam2 = null;
+    stopPvpLivePoll();
     const delay = 1200 + Math.floor(Math.random() * 1400);
     state.pvpSearchTimer = setTimeout(() => {
       state.pvpSearchTimer = null;

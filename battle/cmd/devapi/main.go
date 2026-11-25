@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"path/filepath"
+	"strconv"
 	"sync"
 	"sync/atomic"
 	"time"
@@ -20,6 +21,8 @@ import (
 	"github.com/idrosha/mir_games/battle/internal/sim"
 	"github.com/idrosha/mir_games/battle/internal/statediff"
 )
+
+const defaultPvPTurnSec = 30
 
 func main() {
 	addr := flag.String("addr", "127.0.0.1:8081", "listen (local smoke; not prod)")
@@ -43,16 +46,18 @@ func main() {
 	}
 
 	s := &server{
-		cat:     cat,
-		battles: map[string]*sim.Battle{},
-		store:   replay.NewStore(),
-		userID:  "local_smoke",
+		cat:       cat,
+		battles:   map[string]*sim.Battle{},
+		byMatchID: map[string]string{},
+		store:     replay.NewStore(),
+		userID:    "local_smoke",
 	}
 
 	mux := http.NewServeMux()
 	mux.HandleFunc("/healthz", s.healthz)
 	mux.HandleFunc("/v1/CreatePvE", s.createPvE)
 	mux.HandleFunc("/v1/CreatePvP", s.createPvP)
+	mux.HandleFunc("/v1/GetBattle", s.getBattle)
 	mux.HandleFunc("/v1/SubmitAction", s.submitAction)
 	mux.HandleFunc("/v1/ListReplays", s.listReplays)
 	mux.HandleFunc("/v1/GetReplay", s.getReplay)
@@ -62,12 +67,13 @@ func main() {
 }
 
 type server struct {
-	cat     *content.Catalog
-	mu      sync.Mutex
-	battles map[string]*sim.Battle
-	store   *replay.Store
-	userID  string
-	seq     atomic.Uint64
+	cat       *content.Catalog
+	mu        sync.Mutex
+	battles   map[string]*sim.Battle
+	byMatchID map[string]string // matchId → battleId (idempotent CreatePvP / D-058)
+	store     *replay.Store
+	userID    string
+	seq       atomic.Uint64
 }
 
 type createPvEReq struct {
@@ -81,17 +87,21 @@ type createPvEReq struct {
 }
 
 type createPvPReq struct {
-	MatchID   string          `json:"matchId"`
-	Team1     []string        `json:"team1"`
-	Team2     []string        `json:"team2"`
-	Seed      int64           `json:"seed"`
-	AutoPlay  bool            `json:"autoPlay"`
-	TeamGear1 []sim.GearBonus `json:"teamGear1"`
-	TeamGear2 []sim.GearBonus `json:"teamGear2"`
+	MatchID      string          `json:"matchId"`
+	Team1        []string        `json:"team1"`
+	Team2        []string        `json:"team2"`
+	Seed         int64           `json:"seed"`
+	AutoPlay     bool            `json:"autoPlay"`
+	TeamGear1    []sim.GearBonus `json:"teamGear1"`
+	TeamGear2    []sim.GearBonus `json:"teamGear2"`
+	HumanP2      bool            `json:"humanP2"` // live MM: both humans (D-058)
+	TurnTimerSec int             `json:"turnTimerSec"`
+	Seat         *int            `json:"seat"` // optional viewer seat for hand filter
 }
 
 type submitReq struct {
 	BattleID string     `json:"battleId"`
+	Seat     *int       `json:"seat"` // optional; when set must match Active for play/end/keep
 	Action   sim.Action `json:"action"`
 }
 
@@ -159,12 +169,35 @@ func (s *server) createPvP(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "teams must be 3v3", http.StatusBadRequest)
 		return
 	}
+
+	// Idempotent by matchId — both live seats join the same battle (D-058).
+	s.mu.Lock()
+	if bid, ok := s.byMatchID[req.MatchID]; ok {
+		b := s.battles[bid]
+		s.mu.Unlock()
+		if b == nil {
+			http.Error(w, "battle missing for match", http.StatusInternalServerError)
+			return
+		}
+		if _, err := s.withDeadline(b); err != nil {
+			http.Error(w, "deadline: "+err.Error(), http.StatusInternalServerError)
+			return
+		}
+		writeJSON(w, http.StatusOK, statediff.FromBattleForSeat(b, req.Seat))
+		return
+	}
+	s.mu.Unlock()
+
 	seed := req.Seed
 	if seed == 0 {
 		seed = 20261104
 	}
+	turnSec := req.TurnTimerSec
+	if req.HumanP2 && turnSec <= 0 {
+		turnSec = defaultPvPTurnSec
+	}
 	id := fmt.Sprintf("pvp_%d", s.seq.Add(1))
-	b, err := mode.CreatePvP(s.cat, id, req.MatchID, seed, req.Team1, req.Team2, nil, nil, req.TeamGear1, req.TeamGear2)
+	b, err := mode.CreatePvP(s.cat, id, req.MatchID, seed, req.Team1, req.Team2, nil, nil, req.TeamGear1, req.TeamGear2, req.HumanP2, turnSec)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
@@ -175,13 +208,65 @@ func (s *server) createPvP(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 	}
+
 	s.mu.Lock()
+	// Double-check race: another seat may have created first.
+	if bid, ok := s.byMatchID[req.MatchID]; ok {
+		existing := s.battles[bid]
+		s.mu.Unlock()
+		if existing == nil {
+			http.Error(w, "battle missing for match", http.StatusInternalServerError)
+			return
+		}
+		writeJSON(w, http.StatusOK, statediff.FromBattleForSeat(existing, req.Seat))
+		return
+	}
 	s.battles[id] = b
+	s.byMatchID[req.MatchID] = id
 	s.mu.Unlock()
+
 	if b.Finished() {
 		_ = s.store.SaveFinishedPvP([]string{s.userID, "opp_smoke"}, b)
 	}
-	writeJSON(w, http.StatusOK, statediff.FromBattle(b))
+	writeJSON(w, http.StatusOK, statediff.FromBattleForSeat(b, req.Seat))
+}
+
+func (s *server) getBattle(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodGet {
+		http.Error(w, "GET only", http.StatusMethodNotAllowed)
+		return
+	}
+	battleID := r.URL.Query().Get("battleId")
+	matchID := r.URL.Query().Get("matchId")
+	var seat *int
+	if raw := r.URL.Query().Get("seat"); raw != "" {
+		n, err := strconv.Atoi(raw)
+		if err != nil || (n != 0 && n != 1) {
+			http.Error(w, "seat must be 0 or 1", http.StatusBadRequest)
+			return
+		}
+		seat = &n
+	}
+
+	s.mu.Lock()
+	var b *sim.Battle
+	if battleID != "" {
+		b = s.battles[battleID]
+	} else if matchID != "" {
+		if bid, ok := s.byMatchID[matchID]; ok {
+			b = s.battles[bid]
+		}
+	}
+	s.mu.Unlock()
+	if b == nil {
+		http.Error(w, "battle not found", http.StatusNotFound)
+		return
+	}
+	if _, err := s.withDeadline(b); err != nil {
+		http.Error(w, "deadline: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+	writeJSON(w, http.StatusOK, statediff.FromBattleForSeat(b, seat))
 }
 
 func (s *server) submitAction(w http.ResponseWriter, r *http.Request) {
@@ -201,6 +286,20 @@ func (s *server) submitAction(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "battle not found", http.StatusNotFound)
 		return
 	}
+	if _, err := s.withDeadline(b); err != nil {
+		http.Error(w, "deadline: "+err.Error(), http.StatusInternalServerError)
+		return
+	}
+	if b.Finished() {
+		writeJSON(w, http.StatusOK, statediff.FromBattleForSeat(b, req.Seat))
+		return
+	}
+	if req.Seat != nil {
+		if int(b.Active) != *req.Seat {
+			http.Error(w, "not your turn", http.StatusBadRequest)
+			return
+		}
+	}
 	if err := b.SubmitAction(req.Action); err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest) // illegal → reject (§13.5)
 		return
@@ -212,7 +311,20 @@ func (s *server) submitAction(w http.ResponseWriter, r *http.Request) {
 	if b.Mode == sim.ModePvP && b.Finished() {
 		_ = s.store.SaveFinishedPvP([]string{s.userID, "opp_smoke"}, b)
 	}
-	writeJSON(w, http.StatusOK, statediff.FromBattle(b))
+	writeJSON(w, http.StatusOK, statediff.FromBattleForSeat(b, req.Seat))
+}
+
+func (s *server) withDeadline(b *sim.Battle) (timedOut bool, err error) {
+	timedOut, err = b.EnforceTurnDeadline()
+	if err != nil {
+		return timedOut, err
+	}
+	if timedOut {
+		if err := b.AdvancePvEBots(); err != nil {
+			return true, err
+		}
+	}
+	return timedOut, nil
 }
 
 func (s *server) listReplays(w http.ResponseWriter, r *http.Request) {

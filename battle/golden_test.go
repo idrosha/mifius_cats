@@ -73,7 +73,7 @@ func TestCreatePvP_SharesCore(t *testing.T) {
 		t.Fatal(err)
 	}
 	team := []string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}
-	b, err := mode.CreatePvP(cat, "pvp1", "match1", 42, team, team, nil, nil, nil, nil)
+	b, err := mode.CreatePvP(cat, "pvp1", "match1", 42, team, team, nil, nil, nil, nil, false, 0)
 	if err != nil {
 		t.Fatal(err)
 	}

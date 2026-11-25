@@ -12,6 +12,26 @@ Append-only. Новые записи — **сверху** (после шабло
 6. Одна запись = одно решение. Не смешивать баланс и IA в одном D-id.
 7. В коде/доках ссылайся `D-0xx`, не копируй абзац Context.
 
+## D-058 · 2026-11-25 · Live PvP: один бой, очередь ходов, таймер 30с
+
+- **Status:** Accepted
+- **Area:** battle | hud
+- **SSOT:** docs/FULL-SPEC.md §3.2, §3.6, §8.2
+- **Owner:** Andrew / battle+web-hud
+
+### Context
+Два аккаунта через `/api/dev/pvp/mm` (D-057) матчились, но каждый клиент звал свой `CreatePvP` → разные battleId/HP/ходы. P2 по-прежнему добивал AI (`AdvancePvEBots`). Таймер хода был только на practice HUD.
+
+### Decision
+1. `CreatePvP` **идемпотентен по `matchId`**: оба seat’а получают один battle.
+2. MM отдаёт `seat` (0|1) + одинаковые `team1`/`team2` (первый в очереди = P1).
+3. `humanP2:true` → AI на P2 **не** крутится; ходы строго P1↔P2 (§3.2).
+4. `GetBattle` + poll + `seat` в `SubmitAction`; hand только своему seat.
+5. Серверный deadline **30с** на ход (`turnDeadlineUnix` / `turnLeftSec`); просрочка = auto `endTurn`. HUD `#pvTimer`.
+
+### Consequences
++ Синхрон двух экранов на soft-launch QA. − Dev MM всё ещё in-memory (не Nakama). Bot-stub PvP без изменений (AI P2).
+
 ## D-057 · 2026-11-25 · Арена: тумблер заглушки бот-MM вместо «кросс-плей»
 
 - **Status:** Accepted

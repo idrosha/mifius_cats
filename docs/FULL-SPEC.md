@@ -137,7 +137,8 @@
 Нокаут 3 врагов. Поражение: 0 своих HP / surrender / server timeout.
 
 ### §3.2 Ход
-Sequential: P1 acts → resolve → P2 acts → resolve → round end (shield drop default, status ticks).
+Sequential: P1 acts → resolve → P2 acts → resolve → round end (shield drop default, status ticks).  
+**Live PvP (LOCKED `D-058`):** оба игрока — люди; ходы строго по очереди (сначала P1, затем P2, по кругу). Общий серверный бой на `matchId` (не два локальных Create). **Таймер хода 30с** (серверный deadline); истечение → auto `endTurn` / ход переходит сопернику. Bot-MM smoke может по-прежнему крутить scripted P2.
 
 ### §3.3 Старт энергии/добора (конфиг, дефолт)
 
@@ -402,11 +403,13 @@ Matchmaker: **общий пул** для всех клиентов; ticket/query
 | RPC | In | Out |
 |---|---|---|
 | `CreatePvE` | stageId, team, potions | battleId |
-| `CreatePvP` | matchId, teams | battleId |
-| `SubmitAction` | battleId, playCards[] / keep[] / potion / endTurn | stateDiff |
+| `CreatePvP` | matchId, teams [, humanP2, seat, turnTimerSec] | battleId / stateDiff |
+| `GetBattle` | battleId \| matchId [, seat] | stateDiff |
+| `SubmitAction` | battleId, playCards[] / keep[] / potion / endTurn [, seat] | stateDiff |
 | `GetReplay` | battleId | frames |
 
 Reject illegal actions. Rate-limit. Log seed+inputs.  
+`CreatePvP` **идемпотентен по `matchId`** (`D-058`): повторный вызов того же match возвращает тот же бой. `humanP2` — live duel без scripted P2. `GetBattle` / `seat` — poll + hand только для своего места. stateDiff несёт `turnLeftSec` / `turnDeadlineUnix` при активном таймере.  
 Один сервис для mobile / web / desktop (Steam); протокол боя платформо-независим.
 
 ### §8.3 Economy-service (может быть модуль Nakama + hooks)
