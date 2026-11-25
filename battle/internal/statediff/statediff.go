@@ -8,19 +8,24 @@ import (
 
 // Diff mirrors mythfel-client StateDiff JSON (§8.2 / §9 Game/Battle).
 type Diff struct {
-	BattleID   string            `json:"battleId"`
-	Seq        int               `json:"seq"`
-	Turn       int               `json:"turn"`
-	Active     int               `json:"active"`
-	Result     string            `json:"result"`
-	P1         Player            `json:"p1"`
-	P2         Player            `json:"p2"`
-	Units      []Unit            `json:"units"`
-	Hand       []HandCard        `json:"hand"`
-	PotionTray []PotionSlot      `json:"potionTray"`
-	CanKeep    bool              `json:"canKeep"`
-	CanEndTurn bool              `json:"canEndTurn"`
-	Events     []sim.CombatEvent `json:"events,omitempty"`
+	BattleID         string            `json:"battleId"`
+	MatchID          string            `json:"matchId,omitempty"`
+	Seq              int               `json:"seq"`
+	Turn             int               `json:"turn"`
+	Active           int               `json:"active"`
+	Result           string            `json:"result"`
+	P1               Player            `json:"p1"`
+	P2               Player            `json:"p2"`
+	Units            []Unit            `json:"units"`
+	Hand             []HandCard        `json:"hand"`
+	PotionTray       []PotionSlot      `json:"potionTray"`
+	CanKeep          bool              `json:"canKeep"`
+	CanEndTurn       bool              `json:"canEndTurn"`
+	Events           []sim.CombatEvent `json:"events,omitempty"`
+	TurnLeftSec      int               `json:"turnLeftSec,omitempty"`
+	TurnDeadlineUnix int64             `json:"turnDeadlineUnix,omitempty"`
+	P2Human          bool              `json:"p2Human,omitempty"`
+	ViewerSeat       *int              `json:"viewerSeat,omitempty"`
 }
 
 type Player struct {
@@ -74,6 +79,11 @@ type PotionSlot struct {
 
 // FromBattle builds presentation payload for the HUD (active side hand).
 func FromBattle(b *sim.Battle) Diff {
+	return FromBattleForSeat(b, nil)
+}
+
+// FromBattleForSeat builds Diff; when seat is set, hand/canEndTurn only for that seat (D-061 live PvP).
+func FromBattleForSeat(b *sim.Battle, seat *int) Diff {
 	seq := 0
 	if n := len(b.Frames); n > 0 {
 		seq = b.Frames[n-1].Seq
@@ -81,11 +91,16 @@ func FromBattle(b *sim.Battle) Diff {
 	finished := b.Finished()
 	active := int(b.Active)
 	d := Diff{
-		BattleID: b.ID,
-		Seq:      seq,
-		Turn:     b.Turn,
-		Active:   active,
-		Result:   string(b.Result),
+		BattleID:         b.ID,
+		MatchID:          b.MatchID,
+		Seq:              seq,
+		Turn:             b.Turn,
+		Active:           active,
+		Result:           string(b.Result),
+		TurnLeftSec:      b.TurnLeftSec(),
+		TurnDeadlineUnix: b.TurnDeadlineUnix,
+		P2Human:          b.P2Human,
+		ViewerSeat:       seat,
 		P1: Player{
 			Energy:     b.P1.Energy,
 			MilkDrops:  b.P1.MilkDrops,
@@ -115,7 +130,13 @@ func FromBattle(b *sim.Battle) Diff {
 		d.CanKeep = !finished
 		d.CanEndTurn = !finished
 	}
+	if seat != nil {
+		mine := !finished && active == *seat
+		d.CanKeep = mine
+		d.CanEndTurn = mine
+	}
 
+	showHand := seat == nil || (active == *seat)
 	for _, u := range b.Units {
 		statuses := make([]Status, 0, len(u.Statuses))
 		for _, s := range u.Statuses {
@@ -138,7 +159,7 @@ func FromBattle(b *sim.Battle) Diff {
 			DrawCount:    len(u.DrawPile),
 			DiscardCount: len(u.Discard),
 		})
-		if u.Side != b.Active || !u.Alive {
+		if !showHand || u.Side != b.Active || !u.Alive {
 			continue
 		}
 		stunned := unitCC(u)

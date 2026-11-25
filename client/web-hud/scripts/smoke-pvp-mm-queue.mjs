@@ -45,10 +45,15 @@ async function main() {
   if (b1.status !== "matched") throw new Error(`b1 expected matched: ${JSON.stringify(b1)}`);
   if (b1.opponent?.userId !== "mm_smoke_a") throw new Error("b1 opponent wrong");
   if (JSON.stringify(b1.opponent?.team) !== JSON.stringify(teamA)) throw new Error("b1 team wrong");
+  if (b1.seat !== 1) throw new Error(`b1 seat want 1 got ${b1.seat}`);
+  if (JSON.stringify(b1.team1) !== JSON.stringify(teamA)) throw new Error("b1 team1 wrong");
+  if (JSON.stringify(b1.team2) !== JSON.stringify(teamB)) throw new Error("b1 team2 wrong");
 
   const a2 = await get("/api/dev/pvp/mm?userId=mm_smoke_a");
   if (a2.status !== "matched") throw new Error(`a2 expected matched: ${JSON.stringify(a2)}`);
   if (a2.opponent?.userId !== "mm_smoke_b") throw new Error("a2 opponent wrong");
+  if (a2.seat !== 0) throw new Error(`a2 seat want 0 got ${a2.seat}`);
+  if (a2.matchId !== b1.matchId) throw new Error("matchId mismatch");
 
   await post("/api/dev/pvp/mm/leave", { userId: "mm_smoke_a" });
   const a3 = await get("/api/dev/pvp/mm?userId=mm_smoke_a");

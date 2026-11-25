@@ -4161,6 +4161,36 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   text-overflow: ellipsis;
 }
 #pvEnergy { margin: 0; color: #89d98c; font-size: 13px; }
+.pv-timer-wrap {
+  flex: 0 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.1rem;
+  min-width: 3.4rem;
+  padding: 0.25rem 0.55rem;
+  border-radius: 0.65rem;
+  background: rgba(22, 19, 16, 0.88);
+  border: 1px solid rgba(253, 186, 69, 0.35);
+}
+.pv-timer-label {
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(253, 186, 69, 0.75);
+  font-weight: 700;
+}
+#pvTimer,
+.pv-timer {
+  font-family: Rubik, sans-serif;
+  font-size: clamp(15px, 1.4vw, 20px);
+  font-weight: 800;
+  color: #fdba45;
+  letter-spacing: 0.04em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
 #pvSurrender {
   flex: 0 0 auto;
   border: 1px solid rgba(255, 180, 166, 0.45);

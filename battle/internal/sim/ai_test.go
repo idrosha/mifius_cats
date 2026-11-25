@@ -130,7 +130,7 @@ func TestAdvancePvEBots_PvPSmoke_AfterEndTurn_ReturnsToP1(t *testing.T) {
 		t.Fatal(err)
 	}
 	team := []string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}
-	b, err := mode.CreatePvP(cat, "pvp_bot_advance", "m_smoke", 20261104, team, team, nil, nil, nil, nil)
+	b, err := mode.CreatePvP(cat, "pvp_bot_advance", "m_smoke", 20261104, team, team, nil, nil, nil, nil, false, 0)
 	if err != nil {
 		t.Fatal(err)
 	}

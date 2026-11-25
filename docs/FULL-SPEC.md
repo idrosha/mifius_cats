@@ -78,8 +78,8 @@
 | `ranger` | Приоритет целей / AoE | SPD↑ | `ambush`/`lowest_hp`/`aoe` |
 | `support` | Хил/чистота/бафф | — | `heal`/`cleanse`/`buff` |
 
-**Shop common (SL):** 6 классов × 2 варианта = **12** SKU (`common_cat`), у каждого свой **6-card kit** (§2.3, §6 Shop) — **72** attack cards total.  
-Варианты (EN id): tank A hard-def+aggro (+guard bash / poke для finish) / tank B **armor pierce** (fragile/pierce, не raw ATK); fighter A dual+crit / B two-hand; assassin A evade+crit / B backline+crit; ranger A hunter any-target+crit / B heavy AoE; mage A fire AoE+crit+debuff / B ice AoE+freeze(1)+debuff; support A heal+cleanse (**+1** soft attack/smite) / B heal+buff/debuff (+finish). LiveOps retune `D-035`.
+**Shop common (SL, LOCKED `D-059`):** 6 классов × 3 стихии (fire/water/wind) = **18** SKU (`shop_{role}_{element}`), у каждого свой **6-card kit** (§2.3, §6 Shop) — **108** attack cards total.  
+Старые A/B kits (`shop_*_a` / `shop_*_b`, stone/bolt/grass…) удалены. LiveOps retune чисел — через change log; cost-2 snapshot в `battle/shop_card_cost_smoke_test.go`.
 
 **Пресет 3v3:** tank + (fighter\|assassin\|ranger\|mage) + support.  
 **Стартеры:** tank·stone, fighter·fire, support·water (`starter_tank_stone`, `starter_fighter_fire`, `starter_support_water`) — equal decks; shop common — доп. контент.
@@ -137,7 +137,8 @@
 Нокаут 3 врагов. Поражение: 0 своих HP / surrender / server timeout.
 
 ### §3.2 Ход
-Sequential: P1 acts → resolve → P2 acts → resolve → round end (shield drop default, status ticks).
+Sequential: P1 acts → resolve → P2 acts → resolve → round end (shield drop default, status ticks).  
+**Live PvP (LOCKED `D-061`):** оба игрока — люди; ходы строго по очереди (сначала P1, затем P2, по кругу). Общий серверный бой на `matchId` (не два локальных Create). **Таймер хода 30с** (серверный deadline); истечение → auto `endTurn` / ход переходит сопернику. Bot-MM smoke может по-прежнему крутить scripted P2.
 
 ### §3.3 Старт энергии/добора (конфиг, дефолт)
 
@@ -294,7 +295,7 @@ IAP: yarn packs, pass, slot expand, maybe jar bundles.
 Server validates all purchases.
 
 **Каналы торговли (не смешивать):**
-- **Shop** — IAP/donate, pass, fish packs, breeding ingredients, 12 common cats, common (grey R1) starter armor; `battle_coin`/medals с PvE/PvP → полезный gear при здоровом онлайне.
+- **Shop** — IAP/donate, pass, fish packs, breeding ingredients, **18** common cats (6×3 element, `D-059`), common (grey R1) starter armor; `battle_coin`/medals с PvE/PvP → полезный gear при здоровом онлайне.
 - **Tavern** — молоко на льду = post-fight HP restore; **другие молока** = pre-fight баффы **только PvE + данжи** (не ranked PvP/арена). Зелья крафтеров — не здесь.
 - **Market** — семена, расходные tools (shovel/axe/pick), sell crafted resources, **quick sell** лута по серверной цене без аукциона.
 - **Auction** — player-listed cats / weapons·armor / ingredients **по своей цене** (soft currency only; без денег/крипты).
@@ -402,11 +403,13 @@ Matchmaker: **общий пул** для всех клиентов; ticket/query
 | RPC | In | Out |
 |---|---|---|
 | `CreatePvE` | stageId, team, potions | battleId |
-| `CreatePvP` | matchId, teams | battleId |
-| `SubmitAction` | battleId, playCards[] / keep[] / potion / endTurn | stateDiff |
+| `CreatePvP` | matchId, teams [, humanP2, seat, turnTimerSec] | battleId / stateDiff |
+| `GetBattle` | battleId \| matchId [, seat] | stateDiff |
+| `SubmitAction` | battleId, playCards[] / keep[] / potion / endTurn [, seat] | stateDiff |
 | `GetReplay` | battleId | frames |
 
 Reject illegal actions. Rate-limit. Log seed+inputs.  
+`CreatePvP` **идемпотентен по `matchId`** (`D-061`): повторный вызов того же match возвращает тот же бой. `humanP2` — live duel без scripted P2. `GetBattle` / `seat` — poll + hand только для своего места. stateDiff несёт `turnLeftSec` / `turnDeadlineUnix` при активном таймере.  
 Один сервис для mobile / web / desktop (Steam); протокол боя платформо-независим.
 
 ### §8.3 Economy-service (может быть модуль Nakama + hooks)

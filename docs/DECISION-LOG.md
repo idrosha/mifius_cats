@@ -12,6 +12,60 @@ Append-only. Новые записи — **сверху** (после шабло
 6. Одна запись = одно решение. Не смешивать баланс и IA в одном D-id.
 7. В коде/доках ссылайся `D-0xx`, не копируй абзац Context.
 
+## D-060 · 2026-11-25 · Mythmir/dungeon clear-band + golden refresh
+
+- **Status:** Accepted
+- **Area:** liveops | battle
+- **SSOT:** docs/FULL-SPEC.md §4.1; liveops/CHANGELOG.md
+- **Owner:** Andrew / liveops+battle
+
+### Context
+Soft-launch CI: golden turn/frames drift; ch1 solo boss HP 95 (<100 layout); `mythmir_3_f2` / `dungeon_scarlet_short_2` and ch5 ghost soldiers unbeatable on starter AutoPlay (D-042 clear-all).
+
+### Decision
+1. Refresh golden `starters_vs_test_yard_1` → turn 6 / 36 frames.
+2. Baron HP 95→110; nerf ch3 assassin-tank wave + scarlet short_2 copy; nerf ch5 f1/f2 ghost sustain so tank·DPS·support AutoPlay clears.
+
+### Consequences
++ Clear-all / golden green again. − Ghost/ch3 soldiers slightly easier for humans too.
+
+## D-059 · 2026-11-25 · Shop: 18 героев × 6 карт (вместо 12×72)
+
+- **Status:** Accepted
+- **Area:** content | battle
+- **SSOT:** docs/FULL-SPEC.md §2.1, §5 Shop
+- **Owner:** Andrew / content
+
+### Context
+CI `TestShopCardCosts_MatchWikiSnapshot` ждал 72 карты (12 A/B героев). В content уже elven-18: 6 ролей × fire/water/wind = 108 карт; старые `shop_*_a/b` удалены.
+
+### Decision
+1. Shop SL SoT = **18** templates × **6** parts = **108** `card_shop_*`.
+2. Smoke costs / N6 / catalog assertions переведены на новые id; support не обязан иметь backline-атаку.
+
+### Consequences
++ Тест совпадает с живым контентом. − Player wiki ещё может описывать A/B — отдельный wiki-pass.
+
+## D-061 · 2026-11-25 · Live PvP: один бой, очередь ходов, таймер 30с
+
+- **Status:** Accepted
+- **Area:** battle | hud
+- **SSOT:** docs/FULL-SPEC.md §3.2, §3.6, §8.2
+- **Owner:** Andrew / battle+web-hud
+
+### Context
+Два аккаунта через `/api/dev/pvp/mm` (D-057) матчились, но каждый клиент звал свой `CreatePvP` → разные battleId/HP/ходы. P2 по-прежнему добивал AI (`AdvancePvEBots`). Таймер хода был только на practice HUD.
+
+### Decision
+1. `CreatePvP` **идемпотентен по `matchId`**: оба seat’а получают один battle.
+2. MM отдаёт `seat` (0|1) + одинаковые `team1`/`team2` (первый в очереди = P1).
+3. `humanP2:true` → AI на P2 **не** крутится; ходы строго P1↔P2 (§3.2).
+4. `GetBattle` + poll + `seat` в `SubmitAction`; hand только своему seat.
+5. Серверный deadline **30с** на ход (`turnDeadlineUnix` / `turnLeftSec`); просрочка = auto `endTurn`. HUD `#pvTimer`.
+
+### Consequences
++ Синхрон двух экранов на soft-launch QA. − Dev MM всё ещё in-memory (не Nakama). Bot-stub PvP без изменений (AI P2).
+
 ## D-058 · 2026-11-25 · Unspent energy → +1 milk drop (not +E)
 
 - **Status:** Accepted

@@ -29,7 +29,7 @@ func finishShortPvP(t *testing.T, battleID, matchID string, seed int64) *sim.Bat
 		t.Fatal(err)
 	}
 	team := []string{"starter_tank_stone", "starter_fighter_fire", "starter_support_water"}
-	b, err := mode.CreatePvP(cat, battleID, matchID, seed, team, team, nil, nil, nil, nil)
+	b, err := mode.CreatePvP(cat, battleID, matchID, seed, team, team, nil, nil, nil, nil, false, 0)
 	if err != nil {
 		t.Fatal(err)
 	}

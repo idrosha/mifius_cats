@@ -128,6 +128,12 @@ type Battle struct {
 	PotionsP2 map[string]bool
 	cardsPlayedByUnit map[string]int // for skill combo §2.4
 	Events            []CombatEvent  // cleared at start of each action; copied into stateDiff
+	// P2Human — live MM duel: both sides human; AdvancePvEBots must not auto-play P2 (D-061).
+	P2Human bool
+	// TurnTimerSec — per-side turn budget (0 = no deadline). Soft-launch PvP live = 30.
+	TurnTimerSec int
+	// TurnDeadlineUnix — unix seconds when active side's turn expires; 0 = none.
+	TurnDeadlineUnix int64
 }
 
 func (b *Battle) clearEvents() {
