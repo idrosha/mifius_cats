@@ -140,8 +140,10 @@ func (b *Battle) tryMilkBurst(ps *PlayerState) {
 
 func (b *Battle) endTurn(a *Action) error {
 	ps := b.player(b.Active)
+	// §3.4 / D-058: any leftover energy → exactly +1 milk drop (not +E drops).
+	// Dumping all unspent AP into milk snowballed BonusE/hand on empty ends.
 	if ps.Energy > 0 {
-		ps.MilkDrops += ps.Energy
+		ps.MilkDrops++
 		b.tryMilkBurst(ps)
 	}
 	ps.Energy = 0

@@ -57,7 +57,7 @@ func CreatePvE(cat *content.Catalog, battleID, stageID string, seed int64, teamT
 
 // CreatePvP — FULL-SPEC §8.2. Same combat core as PvE; both sides human-driven (no AI injection).
 // teamGear1/teamGear2: optional PvP-lane armor/weapons (shop gear). Same length rules as CreatePvE.
-// humanP2: live MM duel — P2 is human; scripted AdvancePvEBots skipped (D-058). turnTimerSec>0 arms per-turn deadline.
+// humanP2: live MM duel — P2 is human; scripted AdvancePvEBots skipped (D-061). turnTimerSec>0 arms per-turn deadline.
 func CreatePvP(cat *content.Catalog, battleID, matchID string, seed int64, team1, team2 []string, potions1, potions2 []string, teamGear1, teamGear2 []sim.GearBonus, humanP2 bool, turnTimerSec int) (*sim.Battle, error) {
 	if len(team1) != 3 || len(team2) != 3 {
 		return nil, fmt.Errorf("CreatePvP teams must be 3v3")

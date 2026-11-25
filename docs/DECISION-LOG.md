@@ -12,6 +12,25 @@ Append-only. Новые записи — **сверху** (после шабло
 6. Одна запись = одно решение. Не смешивать баланс и IA в одном D-id.
 7. В коде/доках ссылайся `D-0xx`, не копируй абзац Context.
 
+## D-061 · 2026-11-25 · Live PvP: один бой, очередь ходов, таймер 30с
+
+- **Status:** Accepted
+- **Area:** battle | hud
+- **SSOT:** docs/FULL-SPEC.md §3.2, §3.6, §8.2
+- **Owner:** Andrew / battle+web-hud
+
+### Context
+Два аккаунта через `/api/dev/pvp/mm` (D-057) матчились, но каждый клиент звал свой `CreatePvP` → разные battleId/HP/ходы. P2 по-прежнему добивал AI (`AdvancePvEBots`). Таймер хода был только на practice HUD.
+
+### Decision
+1. `CreatePvP` **идемпотентен по `matchId`**: оба seat’а получают один battle.
+2. MM отдаёт `seat` (0|1) + одинаковые `team1`/`team2` (первый в очереди = P1).
+3. `humanP2:true` → AI на P2 **не** крутится; ходы строго P1↔P2 (§3.2).
+4. `GetBattle` + poll + `seat` в `SubmitAction`; hand только своему seat.
+5. Серверный deadline **30с** на ход (`turnDeadlineUnix` / `turnLeftSec`); просрочка = auto `endTurn`. HUD `#pvTimer`.
+
+### Consequences
++ Синхрон двух экранов на soft-launch QA. − Dev MM всё ещё in-memory (не Nakama). Bot-stub PvP без изменений (AI P2).
 ## D-060 · 2026-11-25 · Mythmir/dungeon clear-band + golden refresh
 
 - **Status:** Accepted
@@ -46,25 +65,22 @@ CI `TestShopCardCosts_MatchWikiSnapshot` ждал 72 карты (12 A/B геро
 ### Consequences
 + Тест совпадает с живым контентом. − Player wiki ещё может описывать A/B — отдельный wiki-pass.
 
-## D-058 · 2026-11-25 · Live PvP: один бой, очередь ходов, таймер 30с
+## D-058 · 2026-11-25 · Unspent energy → +1 milk drop (not +E)
 
 - **Status:** Accepted
-- **Area:** battle | hud
-- **SSOT:** docs/FULL-SPEC.md §3.2, §3.6, §8.2
-- **Owner:** Andrew / battle+web-hud
+- **Area:** battle
+- **SSOT:** docs/FULL-SPEC.md §3.4
+- **Owner:** Andrew / battle
 
 ### Context
-Два аккаунта через `/api/dev/pvp/mm` (D-057) матчились, но каждый клиент звал свой `CreatePvP` → разные battleId/HP/ходы. P2 по-прежнему добивал AI (`AdvancePvEBots`). Таймер хода был только на practice HUD.
+`endTurn` писал `MilkDrops += Energy`. Пустой ход (ЗАВЕРШИТЬ ХОД без атак) за несколько раундов разгонял Milk Burst: AP 8/8, рука 8+ карт во всех режимах — выглядело как «энергия не сбрасывается, карты остаются».
 
 ### Decision
-1. `CreatePvP` **идемпотентен по `matchId`**: оба seat’а получают один battle.
-2. MM отдаёт `seat` (0|1) + одинаковые `team1`/`team2` (первый в очереди = P1).
-3. `humanP2:true` → AI на P2 **не** крутится; ходы строго P1↔P2 (§3.2).
-4. `GetBattle` + poll + `seat` в `SubmitAction`; hand только своему seat.
-5. Серверный deadline **30с** на ход (`turnDeadlineUnix` / `turnLeftSec`); просрочка = auto `endTurn`. HUD `#pvTimer`.
+Любой leftover energy >0 на `endTurn` даёт **ровно +1** milk drop (как Keep), не +N за каждый непотраченный AP. Energy по-прежнему обнуляется и на старте хода ставится из таблицы §3.3 + `BonusE`. Сброс руки / discard / redraw без изменений (§3.3).
 
 ### Consequences
-+ Синхрон двух экранов на soft-launch QA. − Dev MM всё ещё in-memory (не Nakama). Bot-stub PvP без изменений (AI P2).
+`battle/internal/sim/action.go`; FULL-SPEC §3.4; regression `TestMilk_UnspentEnergy_OneDropNotPerPoint`.
+
 
 ## D-057 · 2026-11-25 · Арена: тумблер заглушки бот-MM вместо «кросс-плей»
 

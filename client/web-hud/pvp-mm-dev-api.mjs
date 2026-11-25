@@ -1,6 +1,6 @@
 /**
  * Dev in-memory PvP matchmaking queue (HUD QA: login1 vs login2).
- * Not Nakama SoT — only when client turns off the bot-MM stub (D-057 / D-058).
+ * Not Nakama SoT — only when client turns off the bot-MM stub (D-057 / D-061).
  * Matched snapshots carry seat + ordered team1/team2 so both clients join one battle.
  */
 
@@ -110,7 +110,7 @@ export async function handlePvpMmDevApi(req, res, send) {
       return true;
     }
 
-    // Pair with oldest other waiter. First waiter = seat 0 / team1 (D-058).
+    // Pair with oldest other waiter. First waiter = seat 0 / team1 (D-061).
     let partnerId = null;
     let partner = null;
     for (const [wid, w] of waiting) {

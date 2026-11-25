@@ -70,7 +70,7 @@ type server struct {
 	cat       *content.Catalog
 	mu        sync.Mutex
 	battles   map[string]*sim.Battle
-	byMatchID map[string]string // matchId → battleId (idempotent CreatePvP / D-058)
+	byMatchID map[string]string // matchId → battleId (idempotent CreatePvP / D-061)
 	store     *replay.Store
 	userID    string
 	seq       atomic.Uint64
@@ -94,7 +94,7 @@ type createPvPReq struct {
 	AutoPlay     bool            `json:"autoPlay"`
 	TeamGear1    []sim.GearBonus `json:"teamGear1"`
 	TeamGear2    []sim.GearBonus `json:"teamGear2"`
-	HumanP2      bool            `json:"humanP2"` // live MM: both humans (D-058)
+	HumanP2      bool            `json:"humanP2"` // live MM: both humans (D-061)
 	TurnTimerSec int             `json:"turnTimerSec"`
 	Seat         *int            `json:"seat"` // optional viewer seat for hand filter
 }
@@ -170,7 +170,7 @@ func (s *server) createPvP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Idempotent by matchId — both live seats join the same battle (D-058).
+	// Idempotent by matchId — both live seats join the same battle (D-061).
 	s.mu.Lock()
 	if bid, ok := s.byMatchID[req.MatchID]; ok {
 		b := s.battles[bid]

@@ -82,7 +82,7 @@ func FromBattle(b *sim.Battle) Diff {
 	return FromBattleForSeat(b, nil)
 }
 
-// FromBattleForSeat builds Diff; when seat is set, hand/canEndTurn only for that seat (D-058 live PvP).
+// FromBattleForSeat builds Diff; when seat is set, hand/canEndTurn only for that seat (D-061 live PvP).
 func FromBattleForSeat(b *sim.Battle, seat *int) Diff {
 	seq := 0
 	if n := len(b.Frames); n > 0 {
