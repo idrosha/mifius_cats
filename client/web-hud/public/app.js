@@ -15351,10 +15351,15 @@ async function startPractice(autoPlay = false) {
     toast("Выберите 3 котиков в боевой отряд");
     return;
   }
-  showPracticeLoad(false);
+  // Keep dojo-load overlay up through CreatePvE; hiding early flashes the lobby (FR flash).
+  clearPracticeLoadTimer();
   state.battleMode = "practice";
   state.selectedStageId = PRACTICE_STAGE;
-  await startYard(autoPlay);
+  try {
+    await startYard(autoPlay);
+  } finally {
+    showPracticeLoad(false);
+  }
 }
 
 async function startTutorial() {
