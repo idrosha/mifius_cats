@@ -12799,9 +12799,6 @@ function mountBattleGearDoll(root, u) {
 function unitCard(u, side) {
   const d = document.createElement("div");
   d.className = `unit ${side}${u.alive ? "" : " dead mf-unit-dead"} mf-battle-unit--cutout`;
-  const pct = u.maxHp > 0 ? Math.max(0, Math.min(100, (u.hp / u.maxHp) * 100)) : 0;
-  const seeSh = canSeeUnitShield(u);
-  const sh = seeSh && u.shield > 0 ? ` +${u.shield}` : "";
   const icons = statusIconsHtml(unitStatusList(u));
   const art = battleUnitArt(u);
   const roleRu = CAT_ROLE_RU[u.role] || u.role || "";
@@ -12816,15 +12813,11 @@ function unitCard(u, side) {
       )
     : "";
   const rest = unitFatalityLabel(u);
+  const name = catSheetName({ templateId: tidArt, catId: u.id }) || roleRu || tidArt;
   d.innerHTML = `
     <figure class="mf-unit-frame">${cutout}<div class="mf-status-row">${icons}</div><div class="mf-fatality" ${u.alive ? "hidden" : ""}><span>${rest}</span></div></figure>
     <div class="meta">${roleRu}${elRu ? ` · ${elRu}` : ""} · L${u.lane}</div>
-    <div class="hp">${u.alive ? `${u.hp}/${u.maxHp}${sh}` : rest}</div>
-    <div class="mf-bars"><div class="mf-bar mf-bar--hp"><i style="width:${pct}%"></i></div>${
-      seeSh && u.shield > 0
-        ? `<div class="mf-bar mf-bar--shield" title="Щит ${u.shield}"><i style="width:${Math.min(100, (u.shield / Math.max(u.maxHp, 1)) * 100)}%"></i></div>`
-        : ""
-    }</div>
+    ${unitVitalsFooterHtml(u, { name })}
   `;
   d.classList.toggle("is-stunned", !!(u.alive && (u.statuses || []).some((s) => s.id === "stun" || s.id === "sleep")));
   // MF-152: idle/aura + hit FX target via data-unit-id (same kits as cats by role).
@@ -13829,6 +13822,23 @@ function canSeeUnitShield(u) {
   return state.battleMode !== "pvp";
 }
 
+/** Bottom vitals: name | HP · HP bar · shield bar — same footer as PvE/practice. */
+function unitVitalsFooterHtml(u, { name = "" } = {}) {
+  const pct = u.maxHp > 0 ? Math.max(0, Math.min(100, (u.hp / u.maxHp) * 100)) : 0;
+  const seeSh = canSeeUnitShield(u);
+  const rest = unitFatalityLabel(u);
+  const hpLine = u.alive
+    ? seeSh && u.shield > 0
+      ? `${u.hp} / ${u.maxHp} +${u.shield}`
+      : `${u.hp} / ${u.maxHp}`
+    : rest;
+  const shieldBar =
+    seeSh && u.shield > 0 && u.alive
+      ? `<div class="mf-bar mf-bar--shield" title="Щит ${u.shield}"><i style="width:${Math.min(100, (u.shield / Math.max(u.maxHp, 1)) * 100)}%"></i></div>`
+      : `<div class="mf-bar mf-bar--shield" title="Щит" hidden><i></i></div>`;
+  return `<div class="mf-unit-vitals"><div class="mf-unit-vitals__row"><b class="mf-unit-vitals__name">${name}</b><em class="mf-unit-vitals__hp${u.alive ? "" : " mf-fatality-inline"}">${hpLine}</em></div><div class="mf-bars"><div class="mf-bar mf-bar--hp" title="HP"><i style="width:${pct}%"></i></div>${shieldBar}</div></div>`;
+}
+
 function unitStatusList(u) {
   const out = [];
   const seen = new Set();
@@ -14556,18 +14566,9 @@ function playHandCardByHotkey(slotIndex) {
 function pvpUnitCard(u, foe, cleansedIds = []) {
   const li = document.createElement("li");
   const role = CAT_ROLE_RU[u.role] || u.role || "";
-  const element = CAT_ELEMENT_RU[u.element] || u.element || "";
   const name = catSheetName({ templateId: unitTemplateId(u), catId: u.id });
-  const pct = u.maxHp > 0 ? Math.max(0, Math.min(100, (u.hp / u.maxHp) * 100)) : 0;
   const art = catHeroBattleArt(unitTemplateId(u)) || catHeroBattleArt(u.id);
-  const seeSh = canSeeUnitShield(u);
   const rest = unitFatalityLabel(u);
-  // D-032: never leak enemy shield as «+N» text in PvP.
-  const hpLine = u.alive
-    ? seeSh && u.shield > 0
-      ? `${u.hp} / ${u.maxHp} +${u.shield}`
-      : `${u.hp} / ${u.maxHp}`
-    : rest;
   li.className = (u.alive ? "" : "mf-unit-dead") + " mf-battle-unit--cutout";
   li.classList.toggle("is-stunned", !!(u.alive && (u.statuses || []).some((s) => s.id === "stun" || s.id === "sleep")));
   // D-047: board side → toward center (PvP foe cats face left when on the right column).
@@ -14579,15 +14580,16 @@ function pvpUnitCard(u, foe, cleansedIds = []) {
       )
     : "";
   const statusHtml = statusIconsHtml(u.alive ? unitStatusList(u) : [], { cleansed: cleansedIds });
-  const shieldBar =
-    seeSh && u.shield > 0 && u.alive
-      ? `<div class="mf-bar mf-bar--shield" title="Щит ${u.shield}"><i style="width:${Math.min(100, (u.shield / Math.max(u.maxHp, 1)) * 100)}%"></i></div>`
-      : "";
-  li.innerHTML = `${
+  const lane = PRACTICE_LANE_LABEL[u.lane] || `Л${u.lane}`;
+  const laneBadge = role
+    ? `<div class="mf-unit-lane"><span>${lane} • ${role}</span></div>`
+    : "";
+  // Same bottom vitals as PvE/practice (name | HP · HP + shield bars). D-032 fog via canSeeUnitShield.
+  li.innerHTML = `${laneBadge}${
     art
       ? `<figure class="mf-unit-frame">${cutout}<div class="mf-status-row">${statusHtml}</div><div class="mf-fatality" ${u.alive ? "hidden" : ""}><span>${rest}</span></div></figure>`
       : ""
-  }<div><b>${name}</b><small>${element}${role ? " · " + role : ""}</small><em class="${u.alive ? "" : "mf-fatality-inline"}">${hpLine}</em><div class="mf-bars"><div class="mf-bar mf-bar--hp"><i style="width:${pct}%"></i></div>${shieldBar}</div></div>`;
+  }${unitVitalsFooterHtml(u, { name })}`;
   if (foe) li.dataset.foe = "1";
   decorateBattleUnitIdle(li, u, u.lane ?? 0);
   mountBattleGearDoll(li, u);
