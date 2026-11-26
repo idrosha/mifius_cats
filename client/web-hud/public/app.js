@@ -3892,8 +3892,7 @@ function renderDungeonSquadStrip() {
   };
   const nameEl = root.querySelector("[data-dungeon-squad-name]");
   if (nameEl) nameEl.textContent = dungeonActiveSquadName();
-  host.classList.add("formation-lane-stack");
-  // Top→bottom: саппорт → даль/мили → танк (D-063). Compact row cards.
+  // Same card chrome as PvE yard; 3-col strip (не вертикальный стек).
   host.innerHTML = PVE_YARD_LANES.map((lane, i) => {
     const c = cats[i];
     const role = c && typeof homeCatRole === "function" ? homeCatRole(c) : "";
@@ -3909,23 +3908,24 @@ function renderDungeonSquadStrip() {
     const tc = toneCls[lane.tone] || toneCls.primary;
     const badge = role ? roleBadge(role) : lane.badge;
     if (!c) {
-      return `<div class="bg-surface-container rounded-lg px-2 py-1.5 border border-dashed border-outline-variant/50 flex items-center justify-center gap-1 text-on-surface-variant min-h-[2.75rem]">
+      return `<div class="bg-surface-container rounded-xl p-1.5 border border-dashed border-outline-variant/50 flex flex-col justify-center items-center min-h-[7.5rem] text-on-surface-variant">
         <span class="text-[10px] font-label-sm font-bold uppercase tracking-wider">${lane.label}</span>
-        <span class="material-symbols-outlined text-[16px]">add</span>
+        <span class="material-symbols-outlined text-2xl mt-1">add</span>
       </div>`;
     }
-    return `<div class="bg-surface-container rounded-lg p-1.5 border ${tc.card} flex items-center gap-2 transition-all shadow-md group relative overflow-hidden min-w-0 min-h-[2.75rem]">
-      <div class="dungeon-squad-hero-art w-11 h-11 rounded-md overflow-hidden relative bg-surface-container-highest border ${tc.art} shadow-inner flex-shrink-0">
-        <img class="w-full h-full object-cover" style="object-position:center 12%" alt="${String(name).replace(/"/g, "&quot;")}" src="${art}"/>
-        <span class="absolute bottom-0.5 left-0.5 ${tc.badge} text-[8px] font-bold px-0.5 rounded leading-tight shadow-sm">${badge}</span>
+    return `<div class="bg-surface-container rounded-xl p-1.5 border ${tc.card} flex flex-col justify-between transition-all shadow-md group relative overflow-hidden min-w-0">
+      <div class="flex items-center justify-between mb-1 z-10 relative gap-0.5">
+        <span class="text-[10px] font-label-sm ${tc.label} font-bold uppercase tracking-wider truncate">${lane.label}</span>
+        <span class="text-[10px] font-stat-numeral text-primary font-bold bg-primary/10 px-1 py-0.5 rounded shrink-0">Ур. ${lvl}</span>
       </div>
-      <div class="flex flex-col min-w-0 flex-1 z-10 relative">
-        <div class="flex items-center justify-between gap-1">
-          <span class="text-[9px] font-label-sm ${tc.label} font-bold uppercase tracking-wider truncate">${lane.label}</span>
-          <span class="text-[9px] font-stat-numeral text-primary font-bold bg-primary/10 px-1 py-0.5 rounded shrink-0">Ур. ${lvl}</span>
-        </div>
+      <div class="dungeon-squad-hero-art w-full rounded-lg overflow-hidden relative bg-surface-container-highest border ${tc.art} shadow-inner">
+        <img class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" alt="${String(name).replace(/"/g, "&quot;")}" src="${art}"/>
+        <div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent opacity-80 pointer-events-none"></div>
+        <span class="absolute bottom-1 left-1 ${tc.badge} text-[9px] font-bold px-1 py-0.5 rounded leading-tight shadow-sm">${badge}</span>
+      </div>
+      <div class="flex flex-col min-w-0 mt-1.5 z-10 relative">
         <span class="font-label-md text-[11px] text-on-surface font-bold truncate leading-tight">${name}</span>
-        <div class="flex items-center gap-2 mt-0.5">
+        <div class="flex items-center justify-between gap-0.5 mt-1">
           <span class="text-secondary text-[10px] font-stat-numeral flex items-center gap-0.5 font-bold leading-none"><span class="material-symbols-outlined text-[12px]">favorite</span>${hp}</span>
           <span class="text-primary text-[10px] font-stat-numeral flex items-center gap-0.5 font-bold leading-none"><span class="material-symbols-outlined text-[12px]">swords</span>${atk}</span>
         </div>
@@ -5028,11 +5028,10 @@ function renderYard() {
 }
 
 /** Visual L→R lanes on PvE yard: тыл · центр · авангард (collection slot order). */
-/** Visual stack top→bottom: support → DPS → tank (D-063 formation order). */
 const PVE_YARD_LANES = [
-  { key: "rear", label: "Саппорт", badge: "САП", tone: "secondary" },
-  { key: "center", label: "Даль / мили", badge: "ДПС", tone: "tertiary" },
-  { key: "vanguard", label: "Танк", badge: "ТАНК", tone: "primary" },
+  { key: "rear", label: "Тыл", badge: "ХИЛ", tone: "secondary" },
+  { key: "center", label: "Центр", badge: "ДПС", tone: "tertiary" },
+  { key: "vanguard", label: "Авангард", badge: "ТАНК", tone: "primary" },
 ];
 
 function pveYardActiveCats() {
@@ -6170,7 +6169,6 @@ function renderDungeonFormationBoard() {
   const preset = state.profile?.presets?.[pi] || { catIds: [] };
   const slots = Array.isArray(preset.catIds) ? preset.catIds : [];
   const activeIds = slots.filter(Boolean);
-  const squadHost = root.querySelector("[data-dungeon-form-squad]");
   const rosterHost = root.querySelector("[data-dungeon-form-roster]");
   const sizeEl = root.querySelector("[data-dungeon-form-size]");
   const countEl = root.querySelector("[data-dungeon-form-count]");
@@ -6178,31 +6176,7 @@ function renderDungeonFormationBoard() {
   if (sizeEl) sizeEl.textContent = `${activeIds.length}/3`;
   if (nameEl) nameEl.textContent = dungeonActiveSquadName();
 
-  // Vertical stack top→bottom: саппорт · DPS · танк (same depth order as raid).
-  const laneLabels = ["Саппорт", "Даль / мили", "Танк"];
-  if (squadHost) {
-    squadHost.classList.add("formation-lane-stack");
-    squadHost.innerHTML = [0, 1, 2]
-      .map((i) => {
-        const cat = collectionCatById(slots[i]);
-        if (!cat) {
-          return `<div class="rounded-lg border border-dashed border-outline-variant/50 bg-[#14110f] flex items-center justify-center gap-1 text-outline h-9 px-1.5">
-            <span class="text-[9px] font-bold uppercase">${laneLabels[i]}</span>
-            <span class="material-symbols-outlined text-[14px]">add</span>
-          </div>`;
-        }
-        const d = formationDisplayForTemplate(cat.templateId, catSheetName(cat));
-        return `<button type="button" class="rounded-lg border border-primary/45 bg-[#1a1613] flex items-center gap-1.5 h-9 px-1.5 text-left overflow-hidden w-full" data-dungeon-form-slot="${i}" title="Убрать из отряда">
-          <img alt="" class="w-7 h-7 rounded object-cover mf-hero-portrait flex-shrink-0" style="object-position:center 12%" src="${d.art}" decoding="async"/>
-          <span class="min-w-0 flex-1">
-            <span class="block text-[8px] font-bold uppercase text-primary/90 leading-none">${laneLabels[i]} · ${d.roleRu}</span>
-            <span class="block text-[10px] font-bold truncate text-white leading-tight">${d.name} · ${d.hp} HP</span>
-          </span>
-        </button>`;
-      })
-      .join("");
-  }
-
+  // No center selected-strip — отряд уже справа; ростер ниже как practice.
   const cats = [...(state.profile?.cats || [])].sort((a, b) => {
     const ra = FORMATION_ROLE_ORDER.indexOf(homeCatRole(a) || starterMeta(a.templateId)?.role);
     const rb = FORMATION_ROLE_ORDER.indexOf(homeCatRole(b) || starterMeta(b.templateId)?.role);

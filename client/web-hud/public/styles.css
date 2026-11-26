@@ -5864,18 +5864,6 @@ body:has(#viewGuildHub:not(.hidden)) #wireDock { display: none !important; }
 .mode-cta {
   animation: dojo-cta-pulse 1.8s ease-in-out infinite;
 }
-/* Pre-battle lane stack: top support → bottom tank (D-063) */
-#viewBossDungeon .formation-lane-stack {
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  width: 100%;
-}
-#viewBossDungeon [data-dungeon-squad-strip] .dungeon-squad-hero-art {
-  height: 2.75rem;
-  max-height: 2.75rem;
-  min-height: 2.75rem;
-}
 /* Formation slots — bust crop like practice «Доступные Герои» (D-063), not full-body */
 #viewBossDungeon [data-raid-legion-board] .raid-slot,
 #viewBossRaid [data-raid-legion-board] .raid-slot,
