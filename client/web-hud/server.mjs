@@ -6,6 +6,7 @@
  */
 import http from "node:http";
 import fs from "node:fs";
+import zlib from "node:zlib";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { handleDungeonDevApi } from "./dungeon-dev-api.mjs";
@@ -78,16 +79,75 @@ function send(res, code, body, headers = {}) {
   res.end(payload);
 }
 
-function serveFile(res, filePath) {
-  fs.readFile(filePath, (err, data) => {
-    if (err) {
+// Lossless transfer compression for text assets (JS/CSS/HTML/JSON/SVG).
+// Images/fonts are already binary-compressed — never re-encoded here (no quality loss).
+const COMPRESSIBLE_EXT = new Set([".html", ".js", ".mjs", ".css", ".json", ".svg", ".txt"]);
+/** key → Buffer; keyed by file path + ETag + encoding, so a changed file gets a fresh entry. */
+const encodedCache = new Map();
+const ENCODED_CACHE_MAX = 64;
+
+function pickEncoding(req) {
+  const ae = String(req?.headers?.["accept-encoding"] || "");
+  if (/\bbr\b/.test(ae)) return "br";
+  if (/\bgzip\b/.test(ae)) return "gzip";
+  return null;
+}
+
+function encodedBody(filePath, etag, data, enc) {
+  const key = `${filePath}|${etag}|${enc}`;
+  const hit = encodedCache.get(key);
+  if (hit) return hit;
+  const out =
+    enc === "br"
+      ? zlib.brotliCompressSync(data, {
+          params: {
+            [zlib.constants.BROTLI_PARAM_QUALITY]: 11,
+            [zlib.constants.BROTLI_PARAM_SIZE_HINT]: data.length,
+          },
+        })
+      : zlib.gzipSync(data, { level: 9 });
+  if (encodedCache.size >= ENCODED_CACHE_MAX) encodedCache.delete(encodedCache.keys().next().value);
+  encodedCache.set(key, out);
+  return out;
+}
+
+function serveFile(req, res, filePath) {
+  fs.stat(filePath, (statErr, st) => {
+    if (statErr || !st.isFile()) {
       send(res, 404, "not found", { "Content-Type": "text/plain; charset=utf-8" });
       return;
     }
     const ext = path.extname(filePath).toLowerCase();
-    send(res, 200, data, {
+    // Weak ETag from size + mtime: browser revalidation returns 304 with no body.
+    const etag = `W/"${st.size.toString(16)}-${Math.floor(st.mtimeMs).toString(16)}"`;
+    const headers = {
       "Content-Type": MIME[ext] || "application/octet-stream",
       "Cache-Control": cacheControlFor(ext),
+      ETag: etag,
+    };
+    if (req?.headers?.["if-none-match"] === etag) {
+      res.writeHead(304, headers);
+      res.end();
+      return;
+    }
+    fs.readFile(filePath, (err, data) => {
+      if (err) {
+        send(res, 404, "not found", { "Content-Type": "text/plain; charset=utf-8" });
+        return;
+      }
+      const enc = COMPRESSIBLE_EXT.has(ext) ? pickEncoding(req) : null;
+      if (!enc) {
+        send(res, 200, data, headers);
+        return;
+      }
+      const body = encodedBody(filePath, etag, data, enc);
+      res.writeHead(200, {
+        ...headers,
+        "Content-Encoding": enc,
+        "Content-Length": body.length,
+        Vary: "Accept-Encoding",
+      });
+      res.end(body);
     });
   });
 }
@@ -389,14 +449,14 @@ const server = http.createServer(async (req, res) => {
       /* fall through to disk fallback */
     }
     if (wantsBundle && fs.existsSync(LIVEOPS_FALLBACK)) {
-      serveFile(res, LIVEOPS_FALLBACK);
+      serveFile(req, res, LIVEOPS_FALLBACK);
       return;
     }
     send(res, 503, { error: "liveops unavailable" }, { "Content-Type": "application/json; charset=utf-8" });
     return;
   }
   if (u.pathname === "/loc.json") {
-    serveFile(res, LOC_PATH);
+    serveFile(req, res, LOC_PATH);
     return;
   }
 
@@ -430,7 +490,7 @@ const server = http.createServer(async (req, res) => {
     rel === "/home" ||
     rel === "/home/"
   ) {
-    serveFile(res, path.join(PUBLIC, "index.html"));
+    serveFile(req, res, path.join(PUBLIC, "index.html"));
     return;
   }
   if (rel === "/" || rel === "") rel = "/index.html";
@@ -444,7 +504,7 @@ const server = http.createServer(async (req, res) => {
     send(res, 403, "forbidden", { "Content-Type": "text/plain; charset=utf-8" });
     return;
   }
-  serveFile(res, filePath);
+  serveFile(req, res, filePath);
 });
 
 // Sync bind line so Amvera logs show it even if the process is SIGTERM'd quickly
