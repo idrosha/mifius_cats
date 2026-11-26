@@ -1,0 +1,1082 @@
+[
+  {
+    "cardId": "card_shop_assassin_fire_back",
+    "role": "assassin",
+    "element": "fire",
+    "part": "back",
+    "title_ru": "Удар из тени",
+    "effect_ru": "Наносит 6 урона ближайшему врагу. Стелс.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/assassin-fire/back.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: lithe dark-russet and charcoal ember-tabby rogue cat in charred leather hood and daggers glowing white-hot at the edges — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: darting out of swirling elemental smoke and shadow in a razor-sharp crouched ambush slash, glowing eyes piercing the darkness. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_assassin_fire_ears",
+    "role": "assassin",
+    "element": "fire",
+    "part": "ears",
+    "title_ru": "Шёпот искр",
+    "effect_ru": "Наносит 4 урона ближайшему врагу. Яд.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/assassin-fire/ears.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: lithe dark-russet and charcoal ember-tabby rogue cat in charred leather hood and daggers glowing white-hot at the edges — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: lunging in a swift slashing strike with blades dripping glowing emerald-violet venom, sending swirling toxic mist across the struck foe. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_assassin_fire_eyes",
+    "role": "assassin",
+    "element": "fire",
+    "part": "eyes",
+    "title_ru": "Глаза мглы-жара",
+    "effect_ru": "Наносит 3 урона ближайшему врагу. Стан.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/assassin-fire/eyes.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: lithe dark-russet and charcoal ember-tabby rogue cat in charred leather hood and daggers glowing white-hot at the edges — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: leaping from the shadows in a blinding acrobatic strike, landing a concussive glowing pommel-and-blade blow that stuns the target with shockwaves. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_assassin_fire_headwear",
+    "role": "assassin",
+    "element": "fire",
+    "part": "headwear",
+    "title_ru": "Маска угля",
+    "effect_ru": "Наносит 4 урона ближайшему врагу. Стелс.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/assassin-fire/headwear.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: lithe dark-russet and charcoal ember-tabby rogue cat in charred leather hood and daggers glowing white-hot at the edges — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: darting out of swirling elemental smoke and shadow in a razor-sharp crouched ambush slash, glowing eyes piercing the darkness. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_assassin_fire_muzzle",
+    "role": "assassin",
+    "element": "fire",
+    "part": "muzzle",
+    "title_ru": "Теневой укус",
+    "effect_ru": "Наносит 5 урона ближайшему врагу.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/assassin-fire/muzzle.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: lithe dark-russet and charcoal ember-tabby rogue cat in charred leather hood and daggers glowing white-hot at the edges — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: launching forward in an explosive critical strike, weapon blazing with intense concentrated elemental fire at the exact moment of impact. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_assassin_fire_tail",
+    "role": "assassin",
+    "element": "fire",
+    "part": "tail",
+    "title_ru": "Исчезновение",
+    "effect_ru": "Наносит 4 урона ближайшему врагу. Стелс.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/assassin-fire/tail.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: lithe dark-russet and charcoal ember-tabby rogue cat in charred leather hood and daggers glowing white-hot at the edges — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: darting out of swirling elemental smoke and shadow in a razor-sharp crouched ambush slash, glowing eyes piercing the darkness. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_assassin_water_back",
+    "role": "assassin",
+    "element": "water",
+    "part": "back",
+    "title_ru": "Казнь сзади",
+    "effect_ru": "Наносит 6 урона врагу в тылу.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/assassin-water/back.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: sleek midnight-blue and frost-silver shadow cat assassin in wet-sheen sea-leather cloak, wielding twin crystalline frost-venom daggers — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: launching forward in an explosive critical strike, weapon blazing with intense concentrated elemental fire at the exact moment of impact. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_assassin_water_ears",
+    "role": "assassin",
+    "element": "water",
+    "part": "ears",
+    "title_ru": "Слух тыла",
+    "effect_ru": "Наносит 3 урона врагу в тылу. Стан.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/assassin-water/ears.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: sleek midnight-blue and frost-silver shadow cat assassin in wet-sheen sea-leather cloak, wielding twin crystalline frost-venom daggers — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: unleashing a sudden blast of glacial frost that freezes an enemy warrior solid inside jagged crystalline ice, immobilizing them. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_assassin_water_eyes",
+    "role": "assassin",
+    "element": "water",
+    "part": "eyes",
+    "title_ru": "Прицел в спину",
+    "effect_ru": "Наносит 4 урона врагу в тылу. Яд.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/assassin-water/eyes.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: sleek midnight-blue and frost-silver shadow cat assassin in wet-sheen sea-leather cloak, wielding twin crystalline frost-venom daggers — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: lunging in a swift slashing strike with blades dripping glowing emerald-violet venom, sending swirling toxic mist across the struck foe. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_assassin_water_headwear",
+    "role": "assassin",
+    "element": "water",
+    "part": "headwear",
+    "title_ru": "Капюшон пены",
+    "effect_ru": "Наносит 4 урона врагу в тылу.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/assassin-water/headwear.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: sleek midnight-blue and frost-silver shadow cat assassin in wet-sheen sea-leather cloak, wielding twin crystalline frost-venom daggers — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: launching forward in an explosive critical strike, weapon blazing with intense concentrated elemental fire at the exact moment of impact. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_assassin_water_muzzle",
+    "role": "assassin",
+    "element": "water",
+    "part": "muzzle",
+    "title_ru": "Укол прилива",
+    "effect_ru": "Наносит 5 урона врагу в тылу. Яд.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/assassin-water/muzzle.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: sleek midnight-blue and frost-silver shadow cat assassin in wet-sheen sea-leather cloak, wielding twin crystalline frost-venom daggers — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: lunging in a swift slashing strike with blades dripping glowing emerald-violet venom, sending swirling toxic mist across the struck foe. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_assassin_water_tail",
+    "role": "assassin",
+    "element": "water",
+    "part": "tail",
+    "title_ru": "Тихий разряд",
+    "effect_ru": "Наносит 4 урона врагу в тылу. Яд.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/assassin-water/tail.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: sleek midnight-blue and frost-silver shadow cat assassin in wet-sheen sea-leather cloak, wielding twin crystalline frost-venom daggers — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: lunging in a swift slashing strike with blades dripping glowing emerald-violet venom, sending swirling toxic mist across the struck foe. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_assassin_wind_back",
+    "role": "assassin",
+    "element": "wind",
+    "part": "back",
+    "title_ru": "Шквал яда",
+    "effect_ru": "Наносит 3 урона ×2 случайному врагу. Яд.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/assassin-wind/back.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: slender pale-ash and moss-green forest lynx assassin in hooded leaf-weave mantle, wielding dual toxic wind-etched blades — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: lunging in a swift slashing strike with blades dripping glowing emerald-violet venom, sending swirling toxic mist across the struck foe. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_assassin_wind_ears",
+    "role": "assassin",
+    "element": "wind",
+    "part": "ears",
+    "title_ru": "Слух роя",
+    "effect_ru": "Наносит 4 урона случайному врагу. Яд.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/assassin-wind/ears.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: slender pale-ash and moss-green forest lynx assassin in hooded leaf-weave mantle, wielding dual toxic wind-etched blades — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: lunging in a swift slashing strike with blades dripping glowing emerald-violet venom, sending swirling toxic mist across the struck foe. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_assassin_wind_eyes",
+    "role": "assassin",
+    "element": "wind",
+    "part": "eyes",
+    "title_ru": "Глаза сквозняка",
+    "effect_ru": "Наносит 4 урона случайному врагу. Яд.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/assassin-wind/eyes.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: slender pale-ash and moss-green forest lynx assassin in hooded leaf-weave mantle, wielding dual toxic wind-etched blades — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: lunging in a swift slashing strike with blades dripping glowing emerald-violet venom, sending swirling toxic mist across the struck foe. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_assassin_wind_headwear",
+    "role": "assassin",
+    "element": "wind",
+    "part": "headwear",
+    "title_ru": "Маска пыльцы",
+    "effect_ru": "Наносит 2 урона случайному врагу. Яд.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/assassin-wind/headwear.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: slender pale-ash and moss-green forest lynx assassin in hooded leaf-weave mantle, wielding dual toxic wind-etched blades — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: lunging in a swift slashing strike with blades dripping glowing emerald-violet venom, sending swirling toxic mist across the struck foe. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_assassin_wind_muzzle",
+    "role": "assassin",
+    "element": "wind",
+    "part": "muzzle",
+    "title_ru": "Ядовитый порыв",
+    "effect_ru": "Наносит 5 урона ближайшему врагу. Яд.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/assassin-wind/muzzle.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: slender pale-ash and moss-green forest lynx assassin in hooded leaf-weave mantle, wielding dual toxic wind-etched blades — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: lunging in a swift slashing strike with blades dripping glowing emerald-violet venom, sending swirling toxic mist across the struck foe. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_assassin_wind_tail",
+    "role": "assassin",
+    "element": "wind",
+    "part": "tail",
+    "title_ru": "Хвост-зараз",
+    "effect_ru": "Наносит 5 урона случайному врагу. Яд.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/assassin-wind/tail.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: slender pale-ash and moss-green forest lynx assassin in hooded leaf-weave mantle, wielding dual toxic wind-etched blades — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: lunging in a swift slashing strike with blades dripping glowing emerald-violet venom, sending swirling toxic mist across the struck foe. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_fighter_fire_back",
+    "role": "fighter",
+    "element": "fire",
+    "part": "back",
+    "title_ru": "Двойной удар",
+    "effect_ru": "Наносит 4 урона ×2 ближайшему врагу.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/fighter-fire/back.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: fierce muscular orange-striped tiger warrior cat in scorched bronze lamellar armor with ember-cracked pauldrons, wielding blazing twin warblades — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: mid-leap in a ferocious twin-blade cross-slash, carving two blazing intersecting arcs of elemental energy at high speed. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_fighter_fire_ears",
+    "role": "fighter",
+    "element": "fire",
+    "part": "ears",
+    "title_ru": "Боевой слух",
+    "effect_ru": "Наносит 4 урона ближайшему врагу.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/fighter-fire/ears.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: fierce muscular orange-striped tiger warrior cat in scorched bronze lamellar armor with ember-cracked pauldrons, wielding blazing twin warblades — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: launching forward in an explosive critical strike, weapon blazing with intense concentrated elemental fire at the exact moment of impact. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_fighter_fire_eyes",
+    "role": "fighter",
+    "element": "fire",
+    "part": "eyes",
+    "title_ru": "Искрящий взгляд",
+    "effect_ru": "Наносит 3 урона ×2 ближайшему врагу. Кровотечение.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/fighter-fire/eyes.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: fierce muscular orange-striped tiger warrior cat in scorched bronze lamellar armor with ember-cracked pauldrons, wielding blazing twin warblades — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: mid-leap in a ferocious twin-blade cross-slash, carving two blazing intersecting arcs of elemental energy at high speed. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_fighter_fire_headwear",
+    "role": "fighter",
+    "element": "fire",
+    "part": "headwear",
+    "title_ru": "Корона искр",
+    "effect_ru": "Наносит 5 урона ближайшему врагу.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/fighter-fire/headwear.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: fierce muscular orange-striped tiger warrior cat in scorched bronze lamellar armor with ember-cracked pauldrons, wielding blazing twin warblades — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: launching forward in an explosive critical strike, weapon blazing with intense concentrated elemental fire at the exact moment of impact. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_fighter_fire_muzzle",
+    "role": "fighter",
+    "element": "fire",
+    "part": "muzzle",
+    "title_ru": "Парный укус",
+    "effect_ru": "Наносит 4 урона ближайшему врагу. Кровотечение.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/fighter-fire/muzzle.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: fierce muscular orange-striped tiger warrior cat in scorched bronze lamellar armor with ember-cracked pauldrons, wielding blazing twin warblades — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: charging forward in a fierce dynamic mid-attack combat strike, weapon and claws blazing with intense elemental energy. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_fighter_fire_tail",
+    "role": "fighter",
+    "element": "fire",
+    "part": "tail",
+    "title_ru": "Хлыст жара",
+    "effect_ru": "Наносит 6 урона ближайшему врагу. Кровотечение.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/fighter-fire/tail.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: fierce muscular orange-striped tiger warrior cat in scorched bronze lamellar armor with ember-cracked pauldrons, wielding blazing twin warblades — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: spinning dynamically mid-combat to whip its glowing elemental-charged tail in a ferocious sweeping lash that sends sparks and shockwaves flying. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_fighter_water_back",
+    "role": "fighter",
+    "element": "water",
+    "part": "back",
+    "title_ru": "Двуручный шквал",
+    "effect_ru": "Наносит 6 урона ближайшему врагу. Хрупкость.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/fighter-water/back.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: powerful dark-slate and ice-blue panther-cat bruiser in heavy naval steel armor, wielding a massive tidal warhammer or greatsword — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: driving a focused high-velocity piercing thrust forward, cracking and shattering a glowing enemy armor barrier in a burst of elemental shards. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_fighter_water_ears",
+    "role": "fighter",
+    "element": "water",
+    "part": "ears",
+    "title_ru": "Рёв стали-воды",
+    "effect_ru": "Наносит 5 урона ближайшему врагу. Хрупкость.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/fighter-water/ears.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: powerful dark-slate and ice-blue panther-cat bruiser in heavy naval steel armor, wielding a massive tidal warhammer or greatsword — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: driving a focused high-velocity piercing thrust forward, cracking and shattering a glowing enemy armor barrier in a burst of elemental shards. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_fighter_water_eyes",
+    "role": "fighter",
+    "element": "water",
+    "part": "eyes",
+    "title_ru": "Тяжёлый взор",
+    "effect_ru": "Наносит 6 урона ближайшему врагу. Кровотечение.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/fighter-water/eyes.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: powerful dark-slate and ice-blue panther-cat bruiser in heavy naval steel armor, wielding a massive tidal warhammer or greatsword — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: charging forward in a fierce dynamic mid-attack combat strike, weapon and claws blazing with intense elemental energy. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_fighter_water_headwear",
+    "role": "fighter",
+    "element": "water",
+    "part": "headwear",
+    "title_ru": "Шлем вала",
+    "effect_ru": "Наносит 5 урона ближайшему врагу. Кровотечение.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/fighter-water/headwear.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: powerful dark-slate and ice-blue panther-cat bruiser in heavy naval steel armor, wielding a massive tidal warhammer or greatsword — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: charging forward in a fierce dynamic mid-attack combat strike, weapon and claws blazing with intense elemental energy. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_fighter_water_muzzle",
+    "role": "fighter",
+    "element": "water",
+    "part": "muzzle",
+    "title_ru": "Молот прилива",
+    "effect_ru": "Наносит 8 урона ближайшему врагу.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/fighter-water/muzzle.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: powerful dark-slate and ice-blue panther-cat bruiser in heavy naval steel armor, wielding a massive tidal warhammer or greatsword — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: charging forward in a fierce dynamic mid-attack combat strike, weapon and claws blazing with intense elemental energy. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_fighter_water_tail",
+    "role": "fighter",
+    "element": "water",
+    "part": "tail",
+    "title_ru": "Добивающий вал",
+    "effect_ru": "Наносит 5 урона врагу в тылу.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/fighter-water/tail.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: powerful dark-slate and ice-blue panther-cat bruiser in heavy naval steel armor, wielding a massive tidal warhammer or greatsword — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: spinning dynamically mid-combat to whip its glowing elemental-charged tail in a ferocious sweeping lash that sends sparks and shockwaves flying. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_fighter_wind_back",
+    "role": "fighter",
+    "element": "wind",
+    "part": "back",
+    "title_ru": "Ветряной размах",
+    "effect_ru": "Наносит 3 урона всем врагам.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/fighter-wind/back.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: agile silver-grey striped wildcat swordsman in light jade-trimmed brigandine with flowing wind ribbons, wielding a curved tempest saber — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: executing a wide spinning cleave slash that sends a massive crescent arc of elemental energy tearing across multiple foes. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_fighter_wind_ears",
+    "role": "fighter",
+    "element": "wind",
+    "part": "ears",
+    "title_ru": "Слух строя",
+    "effect_ru": "Наносит 3 урона всем врагам.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/fighter-wind/ears.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: agile silver-grey striped wildcat swordsman in light jade-trimmed brigandine with flowing wind ribbons, wielding a curved tempest saber — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: executing a wide spinning cleave slash that sends a massive crescent arc of elemental energy tearing across multiple foes. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_fighter_wind_eyes",
+    "role": "fighter",
+    "element": "wind",
+    "part": "eyes",
+    "title_ru": "Взор порыва",
+    "effect_ru": "Наносит 5 урона ближайшему врагу.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/fighter-wind/eyes.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: agile silver-grey striped wildcat swordsman in light jade-trimmed brigandine with flowing wind ribbons, wielding a curved tempest saber — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: charging forward in a fierce dynamic mid-attack combat strike, weapon and claws blazing with intense elemental energy. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_fighter_wind_headwear",
+    "role": "fighter",
+    "element": "wind",
+    "part": "headwear",
+    "title_ru": "Лента ветра",
+    "effect_ru": "Наносит 5 урона ближайшему врагу. Слабость.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/fighter-wind/headwear.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: agile silver-grey striped wildcat swordsman in light jade-trimmed brigandine with flowing wind ribbons, wielding a curved tempest saber — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: charging forward in a fierce dynamic mid-attack combat strike, weapon and claws blazing with intense elemental energy. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_fighter_wind_muzzle",
+    "role": "fighter",
+    "element": "wind",
+    "part": "muzzle",
+    "title_ru": "Клык вихря",
+    "effect_ru": "Наносит 6 урона ближайшему врагу.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/fighter-wind/muzzle.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: agile silver-grey striped wildcat swordsman in light jade-trimmed brigandine with flowing wind ribbons, wielding a curved tempest saber — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: charging forward in a fierce dynamic mid-attack combat strike, weapon and claws blazing with intense elemental energy. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_fighter_wind_tail",
+    "role": "fighter",
+    "element": "wind",
+    "part": "tail",
+    "title_ru": "Финальный порыв",
+    "effect_ru": "Наносит 7 урона врагу с наименьшим HP.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/fighter-wind/tail.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: agile silver-grey striped wildcat swordsman in light jade-trimmed brigandine with flowing wind ribbons, wielding a curved tempest saber — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: spinning dynamically mid-combat to whip its glowing elemental-charged tail in a ferocious sweeping lash that sends sparks and shockwaves flying. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_mage_fire_back",
+    "role": "mage",
+    "element": "fire",
+    "part": "back",
+    "title_ru": "Волна жара",
+    "effect_ru": "Наносит 3 урона всем врагам.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/mage-fire/back.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: regal amber-eyed ginger-gold mystic cat sorcerer in charred crimson-and-gold robes with ember runes and a blazing staff — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: unleashing a cataclysmic sweeping elemental storm wave from outstretched claws and staff, engulfing multiple enemies in the foreground. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_mage_fire_ears",
+    "role": "mage",
+    "element": "fire",
+    "part": "ears",
+    "title_ru": "Треск искр",
+    "effect_ru": "Наносит 3 урона ближайшему врагу. Слабость.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/mage-fire/ears.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: regal amber-eyed ginger-gold mystic cat sorcerer in charred crimson-and-gold robes with ember runes and a blazing staff — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: launching forward in an explosive critical strike, weapon blazing with intense concentrated elemental fire at the exact moment of impact. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_mage_fire_eyes",
+    "role": "mage",
+    "element": "fire",
+    "part": "eyes",
+    "title_ru": "Пламенный зрачок",
+    "effect_ru": "Наносит 4 урона ближайшему врагу. Уязвимость.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/mage-fire/eyes.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: regal amber-eyed ginger-gold mystic cat sorcerer in charred crimson-and-gold robes with ember runes and a blazing staff — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: charging forward in a fierce dynamic mid-attack combat strike, weapon and claws blazing with intense elemental energy. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_mage_fire_headwear",
+    "role": "mage",
+    "element": "fire",
+    "part": "headwear",
+    "title_ru": "Корона углей",
+    "effect_ru": "Наносит 4 урона ближайшему врагу. Слабость.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/mage-fire/headwear.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: regal amber-eyed ginger-gold mystic cat sorcerer in charred crimson-and-gold robes with ember runes and a blazing staff — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: charging forward in a fierce dynamic mid-attack combat strike, weapon and claws blazing with intense elemental energy. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_mage_fire_muzzle",
+    "role": "mage",
+    "element": "fire",
+    "part": "muzzle",
+    "title_ru": "Огненный шар",
+    "effect_ru": "Наносит 3 урона всем врагам. Уязвимость.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/mage-fire/muzzle.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: regal amber-eyed ginger-gold mystic cat sorcerer in charred crimson-and-gold robes with ember runes and a blazing staff — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: hurling a massive roaring fireball across the battlefield that explodes in a blinding wave of magma and sparks over multiple foes. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_mage_fire_tail",
+    "role": "mage",
+    "element": "fire",
+    "part": "tail",
+    "title_ru": "Искра дожатия",
+    "effect_ru": "Наносит 5 урона ближайшему врагу.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/mage-fire/tail.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: regal amber-eyed ginger-gold mystic cat sorcerer in charred crimson-and-gold robes with ember runes and a blazing staff — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: spinning dynamically mid-combat to whip its glowing elemental-charged tail in a ferocious sweeping lash that sends sparks and shockwaves flying. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_mage_water_back",
+    "role": "mage",
+    "element": "water",
+    "part": "back",
+    "title_ru": "Буря льда",
+    "effect_ru": "Наносит 2 урона всем врагам. Стан.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/mage-water/back.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: mystical snow-white and sapphire-marked frost cat mage in ornate silver-blue arcane robes, crystalline icicle staff, glowing frost runes — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: summoning a swirling blizzard of razor icicles and freezing gale across the battlefield, freezing enemies solid in ice. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_mage_water_ears",
+    "role": "mage",
+    "element": "water",
+    "part": "ears",
+    "title_ru": "Холодный слух",
+    "effect_ru": "Наносит 3 урона ближайшему врагу. Слабость ×2.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/mage-water/ears.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: mystical snow-white and sapphire-marked frost cat mage in ornate silver-blue arcane robes, crystalline icicle staff, glowing frost runes — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: charging forward in a fierce dynamic mid-attack combat strike, weapon and claws blazing with intense elemental energy. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_mage_water_eyes",
+    "role": "mage",
+    "element": "water",
+    "part": "eyes",
+    "title_ru": "Ледяной взор",
+    "effect_ru": "Наносит 2 урона ближайшему врагу. Стан.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/mage-water/eyes.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: mystical snow-white and sapphire-marked frost cat mage in ornate silver-blue arcane robes, crystalline icicle staff, glowing frost runes — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: casting a piercing beam of glacial frost from glowing eyes, encasing a stunned enemy monster-cat inside jagged solid blue ice crystals. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_mage_water_headwear",
+    "role": "mage",
+    "element": "water",
+    "part": "headwear",
+    "title_ru": "Корона льда-воды",
+    "effect_ru": "Наносит 2 урона всем врагам. Слабость.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/mage-water/headwear.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: mystical snow-white and sapphire-marked frost cat mage in ornate silver-blue arcane robes, crystalline icicle staff, glowing frost runes — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: unleashing a cataclysmic sweeping elemental storm wave from outstretched claws and staff, engulfing multiple enemies in the foreground. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_mage_water_muzzle",
+    "role": "mage",
+    "element": "water",
+    "part": "muzzle",
+    "title_ru": "Морозный укус",
+    "effect_ru": "Наносит 4 урона ближайшему врагу. Стан.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/mage-water/muzzle.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: mystical snow-white and sapphire-marked frost cat mage in ornate silver-blue arcane robes, crystalline icicle staff, glowing frost runes — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: unleashing a sudden blast of glacial frost that freezes an enemy warrior solid inside jagged crystalline ice, immobilizing them. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_mage_water_tail",
+    "role": "mage",
+    "element": "water",
+    "part": "tail",
+    "title_ru": "Стылый хвост",
+    "effect_ru": "Наносит 4 урона ближайшему врагу. Слабость.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/mage-water/tail.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: mystical snow-white and sapphire-marked frost cat mage in ornate silver-blue arcane robes, crystalline icicle staff, glowing frost runes — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: spinning dynamically mid-combat to whip its glowing elemental-charged tail in a ferocious sweeping lash that sends sparks and shockwaves flying. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_mage_wind_back",
+    "role": "mage",
+    "element": "wind",
+    "part": "back",
+    "title_ru": "Цепной порыв",
+    "effect_ru": "Наносит 5 урона всем врагам.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/mage-wind/back.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: ethereal pale-silver and jade-eyed storm cat mage in billowing celadon tempest robes, channeling crackling pale-green storm lightning — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: unleashing a cataclysmic sweeping elemental storm wave from outstretched claws and staff, engulfing multiple enemies in the foreground. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_mage_wind_ears",
+    "role": "mage",
+    "element": "wind",
+    "part": "ears",
+    "title_ru": "Слух грозы",
+    "effect_ru": "Наносит 3 урона ближайшему врагу. Стан.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/mage-wind/ears.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: ethereal pale-silver and jade-eyed storm cat mage in billowing celadon tempest robes, channeling crackling pale-green storm lightning — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: unleashing a dazzling crackling elemental shockwave straight into an enemy, staggering and stunning them with blinding impact sparks. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_mage_wind_eyes",
+    "role": "mage",
+    "element": "wind",
+    "part": "eyes",
+    "title_ru": "Взор молнии-ветра",
+    "effect_ru": "Наносит 4 урона ближайшему врагу. Слабость.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/mage-wind/eyes.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: ethereal pale-silver and jade-eyed storm cat mage in billowing celadon tempest robes, channeling crackling pale-green storm lightning — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: charging forward in a fierce dynamic mid-attack combat strike, weapon and claws blazing with intense elemental energy. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_mage_wind_headwear",
+    "role": "mage",
+    "element": "wind",
+    "part": "headwear",
+    "title_ru": "Обруч шквала",
+    "effect_ru": "Наносит 2 урона всем врагам.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/mage-wind/headwear.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: ethereal pale-silver and jade-eyed storm cat mage in billowing celadon tempest robes, channeling crackling pale-green storm lightning — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: unleashing a cataclysmic sweeping elemental storm wave from outstretched claws and staff, engulfing multiple enemies in the foreground. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_mage_wind_muzzle",
+    "role": "mage",
+    "element": "wind",
+    "part": "muzzle",
+    "title_ru": "Разряд",
+    "effect_ru": "Наносит 5 урона ближайшему врагу.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/mage-wind/muzzle.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: ethereal pale-silver and jade-eyed storm cat mage in billowing celadon tempest robes, channeling crackling pale-green storm lightning — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: charging forward in a fierce dynamic mid-attack combat strike, weapon and claws blazing with intense elemental energy. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_mage_wind_tail",
+    "role": "mage",
+    "element": "wind",
+    "part": "tail",
+    "title_ru": "Хвост-разряд",
+    "effect_ru": "Наносит 4 урона врагу в тылу. Слабость.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/mage-wind/tail.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: ethereal pale-silver and jade-eyed storm cat mage in billowing celadon tempest robes, channeling crackling pale-green storm lightning — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: spinning dynamically mid-combat to whip its glowing elemental-charged tail in a ferocious sweeping lash that sends sparks and shockwaves flying. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_ranger_fire_back",
+    "role": "ranger",
+    "element": "fire",
+    "part": "back",
+    "title_ru": "Огненная стрела",
+    "effect_ru": "Наносит 6 урона врагу с наименьшим HP.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/ranger-fire/back.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: lean copper-furred caracal archer cat in ranger hood and leather quiver, wielding a recurve bow strung with blazing ember fire — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: crouched dynamically on a rocky ledge, loosing a high-speed glowing elemental arrow directly toward the viewer's target with wind-blown cloak. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_ranger_fire_ears",
+    "role": "ranger",
+    "element": "fire",
+    "part": "ears",
+    "title_ru": "Уши засады",
+    "effect_ru": "Наносит 5 урона ближайшему врагу. Кровотечение.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/ranger-fire/ears.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: lean copper-furred caracal archer cat in ranger hood and leather quiver, wielding a recurve bow strung with blazing ember fire — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: crouched dynamically on a rocky ledge, loosing a high-speed glowing elemental arrow directly toward the viewer's target with wind-blown cloak. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_ranger_fire_eyes",
+    "role": "ranger",
+    "element": "fire",
+    "part": "eyes",
+    "title_ru": "Глаз добычи",
+    "effect_ru": "Наносит 5 урона врагу с наименьшим HP. Слабость.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/ranger-fire/eyes.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: lean copper-furred caracal archer cat in ranger hood and leather quiver, wielding a recurve bow strung with blazing ember fire — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: crouched dynamically on a rocky ledge, loosing a high-speed glowing elemental arrow directly toward the viewer's target with wind-blown cloak. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_ranger_fire_headwear",
+    "role": "ranger",
+    "element": "fire",
+    "part": "headwear",
+    "title_ru": "Капюшон охоты",
+    "effect_ru": "Наносит 5 урона врагу с наименьшим HP.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/ranger-fire/headwear.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: lean copper-furred caracal archer cat in ranger hood and leather quiver, wielding a recurve bow strung with blazing ember fire — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: crouched dynamically on a rocky ledge, loosing a high-speed glowing elemental arrow directly toward the viewer's target with wind-blown cloak. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_ranger_fire_muzzle",
+    "role": "ranger",
+    "element": "fire",
+    "part": "muzzle",
+    "title_ru": "Выстрел жара",
+    "effect_ru": "Наносит 6 урона врагу с наименьшим HP.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/ranger-fire/muzzle.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: lean copper-furred caracal archer cat in ranger hood and leather quiver, wielding a recurve bow strung with blazing ember fire — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: crouched dynamically on a rocky ledge, loosing a high-speed glowing elemental arrow directly toward the viewer's target with wind-blown cloak. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_ranger_fire_tail",
+    "role": "ranger",
+    "element": "fire",
+    "part": "tail",
+    "title_ru": "Добивание",
+    "effect_ru": "Наносит 5 урона врагу с наименьшим HP. Слабость.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/ranger-fire/tail.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: lean copper-furred caracal archer cat in ranger hood and leather quiver, wielding a recurve bow strung with blazing ember fire — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: crouched dynamically on a rocky ledge, loosing a high-speed glowing elemental arrow directly toward the viewer's target with wind-blown cloak. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_ranger_water_back",
+    "role": "ranger",
+    "element": "water",
+    "part": "back",
+    "title_ru": "Волна стрел",
+    "effect_ru": "Наносит 3 урона всем врагам. Слабость.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/ranger-water/back.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: graceful silver-white snow-leopard archer cat in sea-blue cloak, wielding a frost-carved longbow with shimmering water arrows — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: leaping mid-air and loosing a dramatic fan-volley of multiple glowing elemental arrows streaking down across a group of enemies. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_ranger_water_ears",
+    "role": "ranger",
+    "element": "water",
+    "part": "ears",
+    "title_ru": "Дальний слух",
+    "effect_ru": "Наносит 4 урона врагу с наименьшим HP.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/ranger-water/ears.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: graceful silver-white snow-leopard archer cat in sea-blue cloak, wielding a frost-carved longbow with shimmering water arrows — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: crouched dynamically on a rocky ledge, loosing a high-speed glowing elemental arrow directly toward the viewer's target with wind-blown cloak. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_ranger_water_eyes",
+    "role": "ranger",
+    "element": "water",
+    "part": "eyes",
+    "title_ru": "Широкий взор",
+    "effect_ru": "Наносит 2 урона всем врагам. Слабость.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/ranger-water/eyes.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: graceful silver-white snow-leopard archer cat in sea-blue cloak, wielding a frost-carved longbow with shimmering water arrows — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: leaping mid-air and loosing a dramatic fan-volley of multiple glowing elemental arrows streaking down across a group of enemies. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_ranger_water_headwear",
+    "role": "ranger",
+    "element": "water",
+    "part": "headwear",
+    "title_ru": "Обруч прилива",
+    "effect_ru": "Наносит 2 урона всем врагам. Кровотечение.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/ranger-water/headwear.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: graceful silver-white snow-leopard archer cat in sea-blue cloak, wielding a frost-carved longbow with shimmering water arrows — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: leaping mid-air and loosing a dramatic fan-volley of multiple glowing elemental arrows streaking down across a group of enemies. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_ranger_water_muzzle",
+    "role": "ranger",
+    "element": "water",
+    "part": "muzzle",
+    "title_ru": "Град капель",
+    "effect_ru": "Наносит 3 урона всем врагам.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/ranger-water/muzzle.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: graceful silver-white snow-leopard archer cat in sea-blue cloak, wielding a frost-carved longbow with shimmering water arrows — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: leaping mid-air and loosing a dramatic fan-volley of multiple glowing elemental arrows streaking down across a group of enemies. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_ranger_water_tail",
+    "role": "ranger",
+    "element": "water",
+    "part": "tail",
+    "title_ru": "Стрела-якорь",
+    "effect_ru": "Наносит 5 урона ближайшему врагу.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/ranger-water/tail.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: graceful silver-white snow-leopard archer cat in sea-blue cloak, wielding a frost-carved longbow with shimmering water arrows — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: crouched dynamically on a rocky ledge, loosing a high-speed glowing elemental arrow directly toward the viewer's target with wind-blown cloak. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_ranger_wind_back",
+    "role": "ranger",
+    "element": "wind",
+    "part": "back",
+    "title_ru": "Стрела-шквал",
+    "effect_ru": "Наносит 5 урона врагу в тылу. Пробой. Уязвимость.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/ranger-wind/back.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: keen-eyed celadon-silver wildcat scout archer in feathered hood, wielding a wind-carved elven bow with glowing emerald-white arrows — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: drawing its bow to full tension and firing a blazing armor-piercing elemental arrow that shatters straight through a dark enemy shield. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_ranger_wind_ears",
+    "role": "ranger",
+    "element": "wind",
+    "part": "ears",
+    "title_ru": "Слух цели",
+    "effect_ru": "Наносит 5 урона врагу с наименьшим HP.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/ranger-wind/ears.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: keen-eyed celadon-silver wildcat scout archer in feathered hood, wielding a wind-carved elven bow with glowing emerald-white arrows — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: crouched dynamically on a rocky ledge, loosing a high-speed glowing elemental arrow directly toward the viewer's target with wind-blown cloak. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_ranger_wind_eyes",
+    "role": "ranger",
+    "element": "wind",
+    "part": "eyes",
+    "title_ru": "Метка ветра",
+    "effect_ru": "Наносит 4 урона ближайшему врагу. Уязвимость.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/ranger-wind/eyes.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: keen-eyed celadon-silver wildcat scout archer in feathered hood, wielding a wind-carved elven bow with glowing emerald-white arrows — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: crouched dynamically on a rocky ledge, loosing a high-speed glowing elemental arrow directly toward the viewer's target with wind-blown cloak. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_ranger_wind_headwear",
+    "role": "ranger",
+    "element": "wind",
+    "part": "headwear",
+    "title_ru": "Перо следопыта",
+    "effect_ru": "Наносит 5 урона врагу в тылу. Пробой.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/ranger-wind/headwear.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: keen-eyed celadon-silver wildcat scout archer in feathered hood, wielding a wind-carved elven bow with glowing emerald-white arrows — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: drawing its bow to full tension and firing a blazing armor-piercing elemental arrow that shatters straight through a dark enemy shield. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_ranger_wind_muzzle",
+    "role": "ranger",
+    "element": "wind",
+    "part": "muzzle",
+    "title_ru": "Пронзающий свист",
+    "effect_ru": "Наносит 5 урона ближайшему врагу. Пробой.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/ranger-wind/muzzle.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: keen-eyed celadon-silver wildcat scout archer in feathered hood, wielding a wind-carved elven bow with glowing emerald-white arrows — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: drawing its bow to full tension and firing a blazing armor-piercing elemental arrow that shatters straight through a dark enemy shield. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_ranger_wind_tail",
+    "role": "ranger",
+    "element": "wind",
+    "part": "tail",
+    "title_ru": "Финальный свист",
+    "effect_ru": "Наносит 6 урона врагу с наименьшим HP. Пробой.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/ranger-wind/tail.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: keen-eyed celadon-silver wildcat scout archer in feathered hood, wielding a wind-carved elven bow with glowing emerald-white arrows — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: drawing its bow to full tension and firing a blazing armor-piercing elemental arrow that shatters straight through a dark enemy shield. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_support_fire_back",
+    "role": "support",
+    "element": "fire",
+    "part": "back",
+    "title_ru": "Волна тепла",
+    "effect_ru": "Восстанавливает 3 HP всем союзникам.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/support-fire/back.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: warm golden-cream longhaired cleric cat in sunlit bronze-and-ivory priestly robes, radiant lantern-flame halo and healing staff — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: raising its staff high as a sweeping wave of luminous healing energy and shimmering restorative light washes over allied warrior cats. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_support_fire_ears",
+    "role": "support",
+    "element": "fire",
+    "part": "ears",
+    "title_ru": "Тёплый слух",
+    "effect_ru": "Восстанавливает 6 HP слабейшему союзнику.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/support-fire/ears.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: warm golden-cream longhaired cleric cat in sunlit bronze-and-ivory priestly robes, radiant lantern-flame halo and healing staff — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: kneeling in urgent battle motion, pouring a glowing concentrated stream of warm healing energy from both paws into an injured ally cat. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_support_fire_eyes",
+    "role": "support",
+    "element": "fire",
+    "part": "eyes",
+    "title_ru": "Целительный жар",
+    "effect_ru": "Восстанавливает 7 HP слабейшему союзнику.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/support-fire/eyes.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: warm golden-cream longhaired cleric cat in sunlit bronze-and-ivory priestly robes, radiant lantern-flame halo and healing staff — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: channeling a warm golden stream of radiant healing embers from outstretched paws onto a wounded ally cat, mending its wounds. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_support_fire_headwear",
+    "role": "support",
+    "element": "fire",
+    "part": "headwear",
+    "title_ru": "Корона заботы",
+    "effect_ru": "Восстанавливает 5 HP слабейшему союзнику. Снимает 1 дебафф.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/support-fire/headwear.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: warm golden-cream longhaired cleric cat in sunlit bronze-and-ivory priestly robes, radiant lantern-flame halo and healing staff — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: kneeling in urgent battle motion, pouring a glowing concentrated stream of warm healing energy from both paws into an injured ally cat. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_support_fire_muzzle",
+    "role": "support",
+    "element": "fire",
+    "part": "muzzle",
+    "title_ru": "Поцелуй угля",
+    "effect_ru": "Восстанавливает 5 HP слабейшему союзнику.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/support-fire/muzzle.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: warm golden-cream longhaired cleric cat in sunlit bronze-and-ivory priestly robes, radiant lantern-flame halo and healing staff — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: kneeling in urgent battle motion, pouring a glowing concentrated stream of warm healing energy from both paws into an injured ally cat. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_support_fire_tail",
+    "role": "support",
+    "element": "fire",
+    "part": "tail",
+    "title_ru": "Праведный ожог",
+    "effect_ru": "Наносит 5 урона ближайшему врагу. Восстанавливает 4 HP себе.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/support-fire/tail.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: warm golden-cream longhaired cleric cat in sunlit bronze-and-ivory priestly robes, radiant lantern-flame halo and healing staff — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: unleashing a dazzling crackling elemental shockwave straight into an enemy, staggering and stunning them with blinding impact sparks. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_support_water_back",
+    "role": "support",
+    "element": "water",
+    "part": "back",
+    "title_ru": "Волна опеки",
+    "effect_ru": "Восстанавливает 3 HP всем союзникам. Снимает 1 дебафф.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/support-water/back.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: serene pearl-white and aqua-marked healer cat in flowing silver-water priestess robes, glowing spring-water chalice and luminous droplets — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: raising its staff high as a sweeping wave of luminous healing energy and shimmering restorative light washes over allied warrior cats. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_support_water_ears",
+    "role": "support",
+    "element": "water",
+    "part": "ears",
+    "title_ru": "Уши очищения",
+    "effect_ru": "Восстанавливает 4 HP слабейшему союзнику. Снимает 1 дебафф.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/support-water/ears.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: serene pearl-white and aqua-marked healer cat in flowing silver-water priestess robes, glowing spring-water chalice and luminous droplets — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: kneeling in urgent battle motion, pouring a glowing concentrated stream of warm healing energy from both paws into an injured ally cat. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_support_water_eyes",
+    "role": "support",
+    "element": "water",
+    "part": "eyes",
+    "title_ru": "Целительный взгляд",
+    "effect_ru": "Восстанавливает 6 HP слабейшему союзнику.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/support-water/eyes.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: serene pearl-white and aqua-marked healer cat in flowing silver-water priestess robes, glowing spring-water chalice and luminous droplets — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: kneeling in urgent battle motion, pouring a glowing concentrated stream of warm healing energy from both paws into an injured ally cat. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_support_water_headwear",
+    "role": "support",
+    "element": "water",
+    "part": "headwear",
+    "title_ru": "Чистый родник",
+    "effect_ru": "Восстанавливает 5 HP слабейшему союзнику. Снимает 1 дебафф.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/support-water/headwear.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: serene pearl-white and aqua-marked healer cat in flowing silver-water priestess robes, glowing spring-water chalice and luminous droplets — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: conjuring a pure glowing fountain of luminous aqua spring water cascading over an ally cat, washing away dark poison mist. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_support_water_muzzle",
+    "role": "support",
+    "element": "water",
+    "part": "muzzle",
+    "title_ru": "Капля жизни",
+    "effect_ru": "Восстанавливает 5 HP слабейшему союзнику.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/support-water/muzzle.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: serene pearl-white and aqua-marked healer cat in flowing silver-water priestess robes, glowing spring-water chalice and luminous droplets — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: kneeling in urgent battle motion, pouring a glowing concentrated stream of warm healing energy from both paws into an injured ally cat. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_support_water_tail",
+    "role": "support",
+    "element": "water",
+    "part": "tail",
+    "title_ru": "Очищающий удар",
+    "effect_ru": "Наносит 4 урона ближайшему врагу. Снимает 1 дебафф.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/support-water/tail.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: serene pearl-white and aqua-marked healer cat in flowing silver-water priestess robes, glowing spring-water chalice and luminous droplets — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: spinning dynamically mid-combat to whip its glowing elemental-charged tail in a ferocious sweeping lash that sends sparks and shockwaves flying. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_support_wind_back",
+    "role": "support",
+    "element": "wind",
+    "part": "back",
+    "title_ru": "Попутный шквал",
+    "effect_ru": "Восстанавливает 3 HP всем союзникам. Бафф ATK +1 (2 ход.).",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/support-wind/back.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: gentle pale-sage and white oracle cat in fluttering silk-and-leaf wind robes, holding a glowing emerald-white chime staff — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: sweeping both paws upward to summon a radiant emerald-gold tailwind aura that heals and empowers allied warrior cats in battle. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_support_wind_ears",
+    "role": "support",
+    "element": "wind",
+    "part": "ears",
+    "title_ru": "Шёпот ветра",
+    "effect_ru": "Наносит 3 урона ближайшему врагу. Восстанавливает 3 HP себе. Слабость.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/support-wind/ears.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: gentle pale-sage and white oracle cat in fluttering silk-and-leaf wind robes, holding a glowing emerald-white chime staff — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: unleashing a dazzling crackling elemental shockwave straight into an enemy, staggering and stunning them with blinding impact sparks. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_support_wind_eyes",
+    "role": "support",
+    "element": "wind",
+    "part": "eyes",
+    "title_ru": "Вдохновляющий взор",
+    "effect_ru": "Бафф ATK +2 (2 ход.).",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/support-wind/eyes.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: gentle pale-sage and white oracle cat in fluttering silk-and-leaf wind robes, holding a glowing emerald-white chime staff — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: raising its weapon and channeling a surging golden-elemental battle aura that erupts upward, empowering an allied warrior cat. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_support_wind_headwear",
+    "role": "support",
+    "element": "wind",
+    "part": "headwear",
+    "title_ru": "Лента попутного",
+    "effect_ru": "Восстанавливает 5 HP слабейшему союзнику.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/support-wind/headwear.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: gentle pale-sage and white oracle cat in fluttering silk-and-leaf wind robes, holding a glowing emerald-white chime staff — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: kneeling in urgent battle motion, pouring a glowing concentrated stream of warm healing energy from both paws into an injured ally cat. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_support_wind_muzzle",
+    "role": "support",
+    "element": "wind",
+    "part": "muzzle",
+    "title_ru": "Дыхание силы",
+    "effect_ru": "Даёт 4 щита слабейшему союзнику. Восстанавливает 5 HP слабейшему союзнику.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/support-wind/muzzle.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: gentle pale-sage and white oracle cat in fluttering silk-and-leaf wind robes, holding a glowing emerald-white chime staff — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: kneeling in urgent battle motion, pouring a glowing concentrated stream of warm healing energy from both paws into an injured ally cat. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_support_wind_tail",
+    "role": "support",
+    "element": "wind",
+    "part": "tail",
+    "title_ru": "Добивающий порыв",
+    "effect_ru": "Наносит 5 урона врагу с наименьшим HP. Слабость.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/support-wind/tail.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: gentle pale-sage and white oracle cat in fluttering silk-and-leaf wind robes, holding a glowing emerald-white chime staff — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: spinning dynamically mid-combat to whip its glowing elemental-charged tail in a ferocious sweeping lash that sends sparks and shockwaves flying. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_tank_fire_back",
+    "role": "tank",
+    "element": "fire",
+    "part": "back",
+    "title_ru": "Удар щита-жара",
+    "effect_ru": "Наносит 4 урона ближайшему врагу. Даёт 2 щита себе. Таунт.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/tank-fire/back.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: massive muscular ginger tabby lion-like warrior cat in blackened bronze-and-iron plate armor, scarred muzzle, glowing amber eyes, wielding a heavy volcanic battle shield — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: slamming forward with a blazing volcanic tower shield, shockwave of fire and sparks blasting an enemy backward. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_tank_fire_ears",
+    "role": "tank",
+    "element": "fire",
+    "part": "ears",
+    "title_ru": "Слух горна",
+    "effect_ru": "Даёт 3 щита слабейшему союзнику.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/tank-fire/ears.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: massive muscular ginger tabby lion-like warrior cat in blackened bronze-and-iron plate armor, scarred muzzle, glowing amber eyes, wielding a heavy volcanic battle shield — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: leaping beside a companion and projecting a bright protective elemental dome shield around the ally cat. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_tank_fire_eyes",
+    "role": "tank",
+    "element": "fire",
+    "part": "eyes",
+    "title_ru": "Жаркий взор",
+    "effect_ru": "Даёт 5 щита себе.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/tank-fire/eyes.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: massive muscular ginger tabby lion-like warrior cat in blackened bronze-and-iron plate armor, scarred muzzle, glowing amber eyes, wielding a heavy volcanic battle shield — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: raising its armored guard as a luminous runic energy shield materializes in front of its body, deflecting incoming sparks. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_tank_fire_headwear",
+    "role": "tank",
+    "element": "fire",
+    "part": "headwear",
+    "title_ru": "Шлем углей",
+    "effect_ru": "Даёт 5 щита себе.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/tank-fire/headwear.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: massive muscular ginger tabby lion-like warrior cat in blackened bronze-and-iron plate armor, scarred muzzle, glowing amber eyes, wielding a heavy volcanic battle shield — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: raising its armored guard as a luminous runic energy shield materializes in front of its body, deflecting incoming sparks. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_tank_fire_muzzle",
+    "role": "tank",
+    "element": "fire",
+    "part": "muzzle",
+    "title_ru": "Оскал жара",
+    "effect_ru": "Даёт 6 щита себе. Таунт.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/tank-fire/muzzle.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: massive muscular ginger tabby lion-like warrior cat in blackened bronze-and-iron plate armor, scarred muzzle, glowing amber eyes, wielding a heavy volcanic battle shield — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: roaring fiercely with a torrent of golden fire erupting from its jaws while raising its heavy bronze shield behind a blazing flame barrier. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_tank_fire_tail",
+    "role": "tank",
+    "element": "fire",
+    "part": "tail",
+    "title_ru": "Хлыст пламени",
+    "effect_ru": "Наносит 5 урона ближайшему врагу.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/tank-fire/tail.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: massive muscular ginger tabby lion-like warrior cat in blackened bronze-and-iron plate armor, scarred muzzle, glowing amber eyes, wielding a heavy volcanic battle shield — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: spinning dynamically mid-combat to whip its glowing elemental-charged tail in a ferocious sweeping lash that sends sparks and shockwaves flying. Visual effects & atmosphere: blazing embers, molten sparks, swirling flames, warm volcanic firelight, dark ember-lit fantasy battlefield background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_tank_water_back",
+    "role": "tank",
+    "element": "water",
+    "part": "back",
+    "title_ru": "Таран глубины",
+    "effect_ru": "Наносит 5 урона ближайшему врагу. Пробой.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/tank-water/back.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: broad-shouldered silver-blue arctic lynx warrior cat in frosted steel-and-sapphire plate armor, icy blue glowing eyes, heavy glacier shield and gauntlets — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: charging forward in a devastating full-body shield-ram wrapped in a crashing tidal wave, smashing through an enemy's barrier. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_tank_water_ears",
+    "role": "tank",
+    "element": "water",
+    "part": "ears",
+    "title_ru": "Слух бреши",
+    "effect_ru": "Наносит 4 урона ближайшему врагу. Пробой.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/tank-water/ears.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: broad-shouldered silver-blue arctic lynx warrior cat in frosted steel-and-sapphire plate armor, icy blue glowing eyes, heavy glacier shield and gauntlets — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: driving a focused high-velocity piercing thrust forward, cracking and shattering a glowing enemy armor barrier in a burst of elemental shards. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_tank_water_eyes",
+    "role": "tank",
+    "element": "water",
+    "part": "eyes",
+    "title_ru": "Трещина волны",
+    "effect_ru": "Наносит 3 урона ближайшему врагу. Пробой. Хрупкость.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/tank-water/eyes.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: broad-shouldered silver-blue arctic lynx warrior cat in frosted steel-and-sapphire plate armor, icy blue glowing eyes, heavy glacier shield and gauntlets — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: driving a focused high-velocity piercing thrust forward, cracking and shattering a glowing enemy armor barrier in a burst of elemental shards. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_tank_water_headwear",
+    "role": "tank",
+    "element": "water",
+    "part": "headwear",
+    "title_ru": "Шлем пены",
+    "effect_ru": "Даёт 5 щита себе. Таунт.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/tank-water/headwear.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: broad-shouldered silver-blue arctic lynx warrior cat in frosted steel-and-sapphire plate armor, icy blue glowing eyes, heavy glacier shield and gauntlets — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: roaring defiantly in a fierce defensive stance, slamming its shield down as a glowing elemental fortress barrier rises around it. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_tank_water_muzzle",
+    "role": "tank",
+    "element": "water",
+    "part": "muzzle",
+    "title_ru": "Клык прилива",
+    "effect_ru": "Наносит 4 урона ближайшему врагу. Пробой. Хрупкость.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/tank-water/muzzle.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: broad-shouldered silver-blue arctic lynx warrior cat in frosted steel-and-sapphire plate armor, icy blue glowing eyes, heavy glacier shield and gauntlets — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: lunging forward and unleashing a high-pressure piercing jet of icy water and frost fangs from its roaring jaws, shattering an enemy's armor. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_tank_water_tail",
+    "role": "tank",
+    "element": "water",
+    "part": "tail",
+    "title_ru": "Хвост-пробой",
+    "effect_ru": "Наносит 4 урона врагу в тылу. Пробой. Хрупкость.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/tank-water/tail.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: broad-shouldered silver-blue arctic lynx warrior cat in frosted steel-and-sapphire plate armor, icy blue glowing eyes, heavy glacier shield and gauntlets — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: driving a focused high-velocity piercing thrust forward, cracking and shattering a glowing enemy armor barrier in a burst of elemental shards. Visual effects & atmosphere: crashing aqua waves, shimmering ice crystals, frost mist, glowing sapphire ripples, atmospheric stormy twilight fantasy background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_tank_wind_back",
+    "role": "tank",
+    "element": "wind",
+    "part": "back",
+    "title_ru": "Щит-вихрь",
+    "effect_ru": "Даёт 3 щита себе. Таунт.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/tank-wind/back.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: tall athletic pale-silver and celadon maine-coon warrior cat in ornate engraved wind-steel plate armor, emerald eyes, wielding a swirling gale-forged tower shield — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: bracing behind a spinning cyclone shield-barrier that reflects bright emerald wind blades back toward attackers. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_tank_wind_ears",
+    "role": "tank",
+    "element": "wind",
+    "part": "ears",
+    "title_ru": "Слух отката",
+    "effect_ru": "Даёт 3 щита слабейшему союзнику.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/tank-wind/ears.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: tall athletic pale-silver and celadon maine-coon warrior cat in ornate engraved wind-steel plate armor, emerald eyes, wielding a swirling gale-forged tower shield — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: leaping beside a companion and projecting a bright protective elemental dome shield around the ally cat. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_tank_wind_eyes",
+    "role": "tank",
+    "element": "wind",
+    "part": "eyes",
+    "title_ru": "Взор бури",
+    "effect_ru": "Даёт 4 щита себе.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/tank-wind/eyes.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: tall athletic pale-silver and celadon maine-coon warrior cat in ornate engraved wind-steel plate armor, emerald eyes, wielding a swirling gale-forged tower shield — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: raising its armored guard as a luminous runic energy shield materializes in front of its body, deflecting incoming sparks. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_tank_wind_headwear",
+    "role": "tank",
+    "element": "wind",
+    "part": "headwear",
+    "title_ru": "Корона шквала",
+    "effect_ru": "Даёт 4 щита себе.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/tank-wind/headwear.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: tall athletic pale-silver and celadon maine-coon warrior cat in ornate engraved wind-steel plate armor, emerald eyes, wielding a swirling gale-forged tower shield — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: raising its armored guard as a luminous runic energy shield materializes in front of its body, deflecting incoming sparks. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_tank_wind_muzzle",
+    "role": "tank",
+    "element": "wind",
+    "part": "muzzle",
+    "title_ru": "Рёв ветра",
+    "effect_ru": "Даёт 5 щита себе. Таунт.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/tank-wind/muzzle.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: tall athletic pale-silver and celadon maine-coon warrior cat in ornate engraved wind-steel plate armor, emerald eyes, wielding a swirling gale-forged tower shield — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: roaring with a spiraling emerald wind vortex erupting from its mouth, raising a glowing gale-shield that deflects incoming attacks. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  },
+  {
+    "cardId": "card_shop_tank_wind_tail",
+    "role": "tank",
+    "element": "wind",
+    "part": "tail",
+    "title_ru": "Ответный порыв",
+    "effect_ru": "Наносит 3 урона ближайшему врагу.",
+    "outFile": "client/web-hud/public/stitch-assets/attack-cards/art-raw/tank-wind/tail.png",
+    "prompt": "Dynamic dark-fantasy painted RPG skill card illustration (square 1:1 composition, action centered for card art window). Subject: tall athletic pale-silver and celadon maine-coon warrior cat in ornate engraved wind-steel plate armor, emerald eyes, wielding a swirling gale-forged tower shield — MUST be an anthropomorphic bipedal warrior cat (feline head, ears, fur, tail), NEVER a human or elf. Action: spinning dynamically mid-combat to whip its glowing elemental-charged tail in a ferocious sweeping lash that sends sparks and shockwaves flying. Visual effects & atmosphere: luminous celadon wind currents, swirling emerald-white air ribbons, flying leaves, crackling gale wisps, dramatic misty mountain sky background. Art style: semi-realistic 2D painted fantasy game art (Hearthstone / Magic / tavern dark fantasy aesthetic), dramatic lighting, rich painterly brushwork, readable silhouette at card size. Strictly forbidden: NO text, NO letters, NO numbers, NO watermarks, NO card frames or borders, NO UI icons, NO vector arrows or floating geometric circles, NO static standing pose."
+  }
+]
