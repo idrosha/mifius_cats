@@ -1,191 +1,280 @@
 {
-    "stageId":  "raid_vulcan_c",
-    "chapter":  103,
-    "name_key":  "stage.raid_vulcan_c",
-    "bowlCost":  1,
-    "enemyTeam":  [
-                      {
-                          "templateId":  "bot_kitsune_support_a",
-                          "role":  "support",
-                          "element":  "fire",
-                          "level":  1,
-                          "baseStats":  {
-                                            "hp":  28,
-                                            "atk":  2,
-                                            "spd":  3,
-                                            "skill":  3,
-                                            "charm":  1
-                                        },
-                          "deck":  [
-                                       {
-                                           "cardId":  "raid_kit_mask_a",
-                                           "name_key":  "card.bot_heal",
-                                           "element":  "fire",
-                                           "cost":  1,
-                                           "atk":  0,
-                                           "shield":  0,
-                                           "hits":  0,
-                                           "targetRule":  "ally_lowest_hp",
-                                           "tags":  [
-                                                        "heal"
-                                                    ],
-                                           "effectOps":  [
-                                                             {
-                                                                 "op":  "heal",
-                                                                 "amount":  5
-                                                             }
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "raid_kit_ember_a",
-                                           "name_key":  "card.bot_claw",
-                                           "element":  "fire",
-                                           "cost":  1,
-                                           "atk":  3,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-                                                             {
-                                                                 "duration":  2,
-                                                                 "status":  "burn",
-                                                                 "op":  "apply_status",
-                                                                 "stacks":  1
-                                                             }
-                                                         ]
-                                       }
-                                   ],
-                          "meta":  {
-                                       "display_ru":  "Кицунэ-иллюзионист",
-                                       "faction":  "kitsune_ash",
-                                       "isPitboss":  false
-                                   }
-                      },
-                      {
-                          "templateId":  "bot_kitsune_fighter_a",
-                          "role":  "fighter",
-                          "element":  "fire",
-                          "level":  1,
-                          "baseStats":  {
-                                            "hp":  38,
-                                            "atk":  3,
-                                            "spd":  4,
-                                            "skill":  2,
-                                            "charm":  1
-                                        },
-                          "deck":  [
-                                       {
-                                           "cardId":  "raid_kit_slash_a",
-                                           "name_key":  "card.bot_claw",
-                                           "element":  "fire",
-                                           "cost":  1,
-                                           "atk":  5,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "raid_kit_slash2_a",
-                                           "name_key":  "card.bot_claw",
-                                           "element":  "fire",
-                                           "cost":  1,
-                                           "atk":  5,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       }
-                                   ],
-                          "meta":  {
-                                       "display_ru":  "Кицунэ-клинок",
-                                       "faction":  "kitsune_ash",
-                                       "isPitboss":  false
-                                   }
-                      },
-                      {
-                          "templateId":  "bot_kitsune_support_a",
-                          "role":  "support",
-                          "element":  "fire",
-                          "level":  1,
-                          "baseStats":  {
-                                            "hp":  28,
-                                            "atk":  2,
-                                            "spd":  3,
-                                            "skill":  3,
-                                            "charm":  1
-                                        },
-                          "deck":  [
-                                       {
-                                           "cardId":  "raid_kit_mask_a",
-                                           "name_key":  "card.bot_heal",
-                                           "element":  "fire",
-                                           "cost":  1,
-                                           "atk":  0,
-                                           "shield":  0,
-                                           "hits":  0,
-                                           "targetRule":  "ally_lowest_hp",
-                                           "tags":  [
-                                                        "heal"
-                                                    ],
-                                           "effectOps":  [
-                                                             {
-                                                                 "op":  "heal",
-                                                                 "amount":  5
-                                                             }
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "raid_kit_ember_a",
-                                           "name_key":  "card.bot_claw",
-                                           "element":  "fire",
-                                           "cost":  1,
-                                           "atk":  3,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-                                                             {
-                                                                 "duration":  2,
-                                                                 "status":  "burn",
-                                                                 "op":  "apply_status",
-                                                                 "stacks":  1
-                                                             }
-                                                         ]
-                                       }
-                                   ],
-                          "meta":  {
-                                       "display_ru":  "Кицунэ-иллюзионист",
-                                       "faction":  "kitsune_ash",
-                                       "isPitboss":  false
-                                   }
-                      }
-                  ],
-    "meta":  {
-                 "faction":  "kitsune_ash",
-                 "title_ru":  "Галерея Хвостов",
-                 "location_ru":  "Галерея Хвостов",
-                 "fight_ru":  "Галерея Хвостов",
-                 "waveTheme":  "raid_node",
-                 "mode":  "raid",
-                 "path":  "long",
-                 "node":  "C",
-                 "raidId":  "vulcan"
-             }
+  "stageId": "raid_vulcan_c",
+  "chapter": 103,
+  "name_key": "stage.raid_vulcan_c",
+  "bowlCost": 1,
+  "enemyTeam": [
+    {
+      "templateId": "bot_kitsune_support_a",
+      "role": "support",
+      "element": "fire",
+      "level": 1,
+      "baseStats": {
+        "hp": 28,
+        "atk": 2,
+        "spd": 3,
+        "skill": 3,
+        "charm": 1
+      },
+      "deck": [
+        {
+          "cardId": "raid_kit_mask_a",
+          "name_key": "card.bot_heal",
+          "element": "fire",
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "ally_lowest_hp",
+          "tags": [
+            "heal"
+          ],
+          "effectOps": [
+            {
+              "op": "heal",
+              "amount": 5
+            }
+          ]
+        },
+        {
+          "cardId": "raid_kit_ward_a",
+          "name_key": "card.raid_kit_ward",
+          "element": "fire",
+          "cost": 1,
+          "atk": 0,
+          "shield": 5,
+          "hits": 0,
+          "targetRule": "ally_lowest_hp",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "raid_kit_ember_a",
+          "name_key": "card.bot_claw",
+          "element": "fire",
+          "cost": 1,
+          "atk": 3,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "burn",
+              "stacks": 1,
+              "duration": 2
+            }
+          ]
+        },
+        {
+          "cardId": "raid_kit_soothe_a",
+          "name_key": "card.bot_heal",
+          "element": "fire",
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "ally_lowest_hp",
+          "tags": [
+            "heal"
+          ],
+          "effectOps": [
+            {
+              "op": "heal",
+              "amount": 5
+            }
+          ]
+        }
+      ],
+      "meta": {
+        "display_ru": "Кицунэ-иллюзионист",
+        "faction": "kitsune_ash",
+        "isPitboss": false
+      }
+    },
+    {
+      "templateId": "bot_kitsune_tank_a",
+      "role": "tank",
+      "element": "stone",
+      "level": 1,
+      "baseStats": {
+        "hp": 44,
+        "atk": 2,
+        "spd": 2,
+        "skill": 2,
+        "charm": 1
+      },
+      "deck": [
+        {
+          "cardId": "raid_kit_aegis_a",
+          "name_key": "card.bot_shell",
+          "element": "stone",
+          "cost": 1,
+          "atk": 0,
+          "shield": 6,
+          "hits": 0,
+          "targetRule": "self",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "raid_kit_taunt_a",
+          "name_key": "card.raid_kit_taunt",
+          "element": "stone",
+          "cost": 1,
+          "atk": 0,
+          "shield": 4,
+          "hits": 0,
+          "targetRule": "self",
+          "tags": [
+            "shield",
+            "taunt"
+          ],
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "taunt",
+              "stacks": 1,
+              "duration": 2
+            }
+          ]
+        },
+        {
+          "cardId": "raid_kit_slam_a",
+          "name_key": "card.bot_bash",
+          "element": "stone",
+          "cost": 1,
+          "atk": 4,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "raid_kit_slam2_a",
+          "name_key": "card.bot_bash",
+          "element": "stone",
+          "cost": 1,
+          "atk": 4,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        }
+      ],
+      "meta": {
+        "display_ru": "Кицунэ-страж пепла",
+        "faction": "kitsune_ash",
+        "isPitboss": false
+      }
+    },
+    {
+      "templateId": "bot_kitsune_fighter_a",
+      "role": "fighter",
+      "element": "fire",
+      "level": 1,
+      "baseStats": {
+        "hp": 38,
+        "atk": 3,
+        "spd": 4,
+        "skill": 2,
+        "charm": 1
+      },
+      "deck": [
+        {
+          "cardId": "raid_kit_slash_a",
+          "name_key": "card.bot_claw",
+          "element": "fire",
+          "cost": 1,
+          "atk": 5,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "raid_kit_slash2_a",
+          "name_key": "card.bot_claw",
+          "element": "fire",
+          "cost": 1,
+          "atk": 5,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "raid_kit_cinder_a",
+          "name_key": "card.raid_kit_cinder",
+          "element": "fire",
+          "cost": 1,
+          "atk": 4,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "burn",
+              "stacks": 1,
+              "duration": 2
+            }
+          ]
+        },
+        {
+          "cardId": "raid_kit_fan_a",
+          "name_key": "card.raid_masks",
+          "element": "fire",
+          "cost": 1,
+          "atk": 3,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "all_enemies",
+          "tags": [
+            "attack",
+            "mass"
+          ],
+          "effectOps": []
+        }
+      ],
+      "meta": {
+        "display_ru": "Кицунэ-клинок",
+        "faction": "kitsune_ash",
+        "isPitboss": false
+      }
+    }
+  ],
+  "meta": {
+    "faction": "kitsune_ash",
+    "title_ru": "Галерея Хвостов",
+    "location_ru": "Галерея Хвостов",
+    "fight_ru": "Галерея Хвостов",
+    "waveTheme": "raid_node",
+    "mode": "raid",
+    "path": "long",
+    "node": "C",
+    "raidId": "vulcan"
+  }
 }

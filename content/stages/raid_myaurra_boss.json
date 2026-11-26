@@ -1,198 +1,281 @@
 {
-    "stageId":  "raid_myaurra_boss",
-    "chapter":  101,
-    "name_key":  "stage.raid_myaurra_boss",
-    "bowlCost":  1,
-    "enemyTeam":  [
-                      {
-                          "templateId":  "bot_solar_tank_a",
-                          "role":  "tank",
-                          "element":  "stone",
-                          "level":  1,
-                          "baseStats":  {
-                                            "hp":  42,
-                                            "atk":  2,
-                                            "spd":  2,
-                                            "skill":  2,
-                                            "charm":  1
-                                        },
-                          "deck":  [
-                                       {
-                                           "cardId":  "raid_solar_shell_a",
-                                           "name_key":  "card.bot_shell",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  0,
-                                           "shield":  5,
-                                           "hits":  0,
-                                           "targetRule":  "self",
-                                           "tags":  [
-                                                        "shield"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "raid_solar_bash_a",
-                                           "name_key":  "card.bot_bash",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  4,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       }
-                                   ],
-                          "meta":  {
-                                       "display_ru":  "Лев-страж",
-                                       "faction":  "solar_lions",
-                                       "isPitboss":  false
-                                   }
-                      },
-                      {
-                          "templateId":  "bot_pitboss_myaurra",
-                          "role":  "fighter",
-                          "element":  "fire",
-                          "level":  1,
-                          "baseStats":  {
-                                            "hp":  120,
-                                            "atk":  4,
-                                            "spd":  4,
-                                            "skill":  4,
-                                            "charm":  1
-                                        },
-                          "deck":  [
-                                       {
-                                           "cardId":  "raid_myaurra_verdict",
-                                           "name_key":  "card.raid_verdict",
-                                           "element":  "fire",
-                                           "cost":  1,
-                                           "atk":  7,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack",
-                                                        "pierce"
-                                                    ],
-                                           "effectOps":  [
-                                                             {
-                                                                 "duration":  2,
-                                                                 "status":  "fragile",
-                                                                 "op":  "apply_status",
-                                                                 "stacks":  1
-                                                             }
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "raid_myaurra_ray",
-                                           "name_key":  "card.raid_ray",
-                                           "element":  "fire",
-                                           "cost":  1,
-                                           "atk":  5,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "all_enemies",
-                                           "tags":  [
-                                                        "attack",
-                                                        "mass"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "raid_myaurra_guard",
-                                           "name_key":  "card.bot_shell",
-                                           "element":  "stone",
-                                           "cost":  1,
-                                           "atk":  0,
-                                           "shield":  6,
-                                           "hits":  0,
-                                           "targetRule":  "self",
-                                           "tags":  [
-                                                        "shield"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       }
-                                   ],
-                          "meta":  {
-                                       "display_ru":  "Мяурра Триумфальная",
-                                       "faction":  "solar_lions",
-                                       "isPitboss":  true
-                                   }
-                      },
-                      {
-                          "templateId":  "bot_solar_fighter_a",
-                          "role":  "fighter",
-                          "element":  "fire",
-                          "level":  1,
-                          "baseStats":  {
-                                            "hp":  36,
-                                            "atk":  3,
-                                            "spd":  3,
-                                            "skill":  2,
-                                            "charm":  1
-                                        },
-                          "deck":  [
-                                       {
-                                           "cardId":  "raid_solar_slash_a",
-                                           "name_key":  "card.bot_claw",
-                                           "element":  "fire",
-                                           "cost":  1,
-                                           "atk":  5,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "raid_solar_slash2_a",
-                                           "name_key":  "card.bot_claw",
-                                           "element":  "fire",
-                                           "cost":  1,
-                                           "atk":  5,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       }
-                                   ],
-                          "meta":  {
-                                       "display_ru":  "Лев-писец",
-                                       "faction":  "solar_lions",
-                                       "isPitboss":  false
-                                   }
-                      }
-                  ],
-    "meta":  {
-                 "faction":  "solar_lions",
-                 "title_ru":  "Мяурра Триумфальная",
-                 "location_ru":  "Мяурра Триумфальная",
-                 "fight_ru":  "Мяурра Триумфальная",
-                 "waveTheme":  "raid_node",
-                 "mode":  "raid",
-                 "node":  "BOSS",
-                 "raidId":  "myaurra",
-                 "isBoss":  true
-             }
+  "stageId": "raid_myaurra_boss",
+  "chapter": 101,
+  "name_key": "stage.raid_myaurra_boss",
+  "bowlCost": 1,
+  "enemyTeam": [
+    {
+      "templateId": "bot_solar_tank_a",
+      "role": "tank",
+      "element": "stone",
+      "level": 1,
+      "baseStats": {
+        "hp": 42,
+        "atk": 2,
+        "spd": 2,
+        "skill": 2,
+        "charm": 1
+      },
+      "deck": [
+        {
+          "cardId": "raid_solar_shell_a",
+          "name_key": "card.bot_shell",
+          "element": "stone",
+          "cost": 1,
+          "atk": 0,
+          "shield": 5,
+          "hits": 0,
+          "targetRule": "self",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "raid_solar_taunt_a",
+          "name_key": "card.raid_solar_taunt",
+          "element": "stone",
+          "cost": 1,
+          "atk": 0,
+          "shield": 4,
+          "hits": 0,
+          "targetRule": "self",
+          "tags": [
+            "shield",
+            "taunt"
+          ],
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "taunt",
+              "stacks": 1,
+              "duration": 2
+            }
+          ]
+        },
+        {
+          "cardId": "raid_solar_bash_a",
+          "name_key": "card.bot_bash",
+          "element": "stone",
+          "cost": 1,
+          "atk": 4,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "raid_solar_bash2_a",
+          "name_key": "card.bot_bash",
+          "element": "stone",
+          "cost": 1,
+          "atk": 4,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        }
+      ],
+      "meta": {
+        "display_ru": "Лев-страж",
+        "faction": "solar_lions",
+        "isPitboss": false
+      }
+    },
+    {
+      "templateId": "bot_pitboss_myaurra",
+      "role": "fighter",
+      "element": "fire",
+      "level": 1,
+      "baseStats": {
+        "hp": 120,
+        "atk": 4,
+        "spd": 4,
+        "skill": 4,
+        "charm": 1
+      },
+      "deck": [
+        {
+          "cardId": "raid_myaurra_verdict",
+          "name_key": "card.raid_verdict",
+          "element": "fire",
+          "cost": 1,
+          "atk": 7,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack",
+            "pierce"
+          ],
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "fragile",
+              "stacks": 1,
+              "duration": 2
+            }
+          ]
+        },
+        {
+          "cardId": "raid_myaurra_ray",
+          "name_key": "card.raid_ray",
+          "element": "fire",
+          "cost": 1,
+          "atk": 5,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "all_enemies",
+          "tags": [
+            "attack",
+            "mass"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "raid_myaurra_guard",
+          "name_key": "card.bot_shell",
+          "element": "stone",
+          "cost": 1,
+          "atk": 0,
+          "shield": 6,
+          "hits": 0,
+          "targetRule": "self",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "raid_myaurra_judgment",
+          "name_key": "card.raid_solar_flare",
+          "element": "fire",
+          "cost": 1,
+          "atk": 6,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "burn",
+              "stacks": 1,
+              "duration": 2
+            }
+          ]
+        }
+      ],
+      "meta": {
+        "display_ru": "Мяурра Триумфальная",
+        "faction": "solar_lions",
+        "isPitboss": true
+      }
+    },
+    {
+      "templateId": "bot_solar_support_a",
+      "role": "support",
+      "element": "fire",
+      "level": 1,
+      "baseStats": {
+        "hp": 30,
+        "atk": 2,
+        "spd": 3,
+        "skill": 3,
+        "charm": 1
+      },
+      "deck": [
+        {
+          "cardId": "raid_solar_heal_a",
+          "name_key": "card.bot_heal",
+          "element": "fire",
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "ally_lowest_hp",
+          "tags": [
+            "heal"
+          ],
+          "effectOps": [
+            {
+              "op": "heal",
+              "amount": 6
+            }
+          ]
+        },
+        {
+          "cardId": "raid_solar_blessing_a",
+          "name_key": "card.raid_solar_blessing",
+          "element": "fire",
+          "cost": 1,
+          "atk": 0,
+          "shield": 5,
+          "hits": 0,
+          "targetRule": "ally_lowest_hp",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "raid_solar_spark_a",
+          "name_key": "card.raid_solar_spark",
+          "element": "fire",
+          "cost": 1,
+          "atk": 3,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "raid_solar_heal2_a",
+          "name_key": "card.bot_heal",
+          "element": "fire",
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "ally_lowest_hp",
+          "tags": [
+            "heal"
+          ],
+          "effectOps": [
+            {
+              "op": "heal",
+              "amount": 5
+            }
+          ]
+        }
+      ],
+      "meta": {
+        "display_ru": "Лев-жрец",
+        "faction": "solar_lions",
+        "isPitboss": false
+      }
+    }
+  ],
+  "meta": {
+    "faction": "solar_lions",
+    "title_ru": "Мяурра Триумфальная",
+    "location_ru": "Мяурра Триумфальная",
+    "fight_ru": "Мяурра Триумфальная",
+    "waveTheme": "raid_node",
+    "mode": "raid",
+    "node": "BOSS",
+    "raidId": "myaurra",
+    "isBoss": true
+  }
 }

@@ -1,1790 +1,1876 @@
 {
-    "card.tank_stone_muzzle":  {
-                                   "ru":  "Каменный оскал",
-                                   "en":  "Stone Snarl"
-                               },
-    "card.tank_stone_headwear":  {
-                                     "ru":  "Галька-шлем",
-                                     "en":  "Pebble Helm"
-                                 },
-    "card.tank_stone_back":  {
-                                 "ru":  "Щит-валун",
-                                 "en":  "Boulder Guard"
-                             },
-    "card.tank_stone_tail":  {
-                                 "ru":  "Хвост-утёс",
-                                 "en":  "Cliff Tail"
-                             },
-    "card.fighter_fire_muzzle":  {
-                                     "ru":  "Огненный укус",
-                                     "en":  "Fire Bite"
-                                 },
-    "card.fighter_fire_headwear":  {
-                                       "ru":  "Искры на ушах",
-                                       "en":  "Spark Crest"
-                                   },
-    "card.fighter_fire_back":  {
-                                   "ru":  "Пламенный удар",
-                                   "en":  "Flame Strike"
-                               },
-    "card.fighter_fire_tail":  {
-                                   "ru":  "Хлыст жара",
-                                   "en":  "Heat Lash"
-                               },
-    "card.support_water_muzzle":  {
-                                      "ru":  "Капля жизни",
-                                      "en":  "Life Drop"
-                                  },
-    "card.support_water_headwear":  {
-                                        "ru":  "Чистый родник",
-                                        "en":  "Clear Spring"
-                                    },
-    "card.support_water_back":  {
-                                    "ru":  "Волна опеки",
-                                    "en":  "Ward Wave"
-                                },
-    "card.support_water_tail":  {
-                                    "ru":  "Мягкий всплеск",
-                                    "en":  "Soft Splash"
-                                },
-    "card.mage_bolt_tail":  {
-                                "ru":  "Хвост-разряд",
-                                "en":  "Spark Tail"
-                            },
-    "card.ranger_grass_muzzle":  {
-                                     "ru":  "Засадный укус",
-                                     "en":  "Ambush Bite"
-                                 },
-    "stage.test_yard_1":  {
-                              "ru":  "Мифмир: учебный двор",
-                              "en":  "Mythmir: practice gate"
-                          },
-    "card.bot_nibble":  {
-                            "ru":  "Покус",
-                            "en":  "Nibble"
-                        },
-    "card.bot_shell":  {
-                           "ru":  "Кожура",
-                           "en":  "Husk"
-                       },
-    "card.bot_nibble2":  {
-                             "ru":  "Покус+",
-                             "en":  "Nibble+"
-                         },
-    "card.bot_shell2":  {
-                            "ru":  "Кожура+",
-                            "en":  "Husk+"
-                        },
-    "card.bot_scratch":  {
-                             "ru":  "Царапка",
-                             "en":  "Scratch"
-                         },
-    "card.bot_scratch2":  {
-                              "ru":  "Царапка 2",
-                              "en":  "Scratch 2"
-                          },
-    "card.bot_scratch3":  {
-                              "ru":  "Царапка 3",
-                              "en":  "Scratch 3"
-                          },
-    "card.bot_scratch4":  {
-                              "ru":  "Царапка 4",
-                              "en":  "Scratch 4"
-                          },
-    "card.bot_sip":  {
-                         "ru":  "Глоток",
-                         "en":  "Sip"
-                     },
-    "card.bot_poke":  {
-                          "ru":  "Тычок",
-                          "en":  "Poke"
-                      },
-    "card.bot_sip2":  {
-                          "ru":  "Глоток+",
-                          "en":  "Sip+"
-                      },
-    "card.bot_poke2":  {
-                           "ru":  "Тычок+",
-                           "en":  "Poke+"
-                       },
-    "hub.tab.yard":  {
-                         "ru":  "Мифмир",
-                         "en":  "Mythmir"
-                     },
-    "hub.tab.pvp":  {
-                        "ru":  "PvP",
-                        "en":  "PvP"
-                    },
-    "hub.tab.collection":  {
-                               "ru":  "Коллекция",
-                               "en":  "Collection"
-                           },
-    "hub.tab.shop":  {
-                         "ru":  "Магазин",
-                         "en":  "Shop"
-                     },
-    "hub.tab.clans":  {
-                          "ru":  "Гильдии",
-                          "en":  "Guilds"
-                      },
-    "hub.tab.more":  {
-                         "ru":  "Ещё",
-                         "en":  "More"
-                     },
-    "hub.soon.clan_boss.title":  {
-                                     "ru":  "Клан-босс",
-                                     "en":  "Clan Boss"
-                                 },
-    "hub.soon.farm.title":  {
-                                "ru":  "Двор",
-                                "en":  "Farm"
-                            },
-    "hub.soon.nursery.title":  {
-                                   "ru":  "Питомник",
-                                   "en":  "Nursery"
-                               },
-    "hub.soon.nursery.body":  {
-                                  "ru":  "Скоро: скрещивание обычных котов. Малый шанс мифика — N=6 сильнейших карт из смеси родителей. Без безлимитного breeding.",
-                                  "en":  "Soon: breed ordinary cats. Small mythic chance — N=6 strongest cards from the parent mix. No unlimited breeding."
-                              },
-    "hub.soon.body":  {
-                          "ru":  "Скоро",
-                          "en":  "Coming soon"
-                      },
-    "breeding.title":  {
-                           "ru":  "Скрещивание",
-                           "en":  "Breeding"
-                       },
-    "breeding.lead":  {
-                          "ru":  "Цель Мифиус: из обычных котов — мифические. Малый шанс мифика; у мифика набор из N=6 сильнейших карт обоих родителей.",
-                          "en":  "Mythfel goal: turn ordinary cats into mythics. Small mythic chance; a mythic keeps the N=6 strongest cards from both parents."
-                      },
-    "breeding.tip":  {
-                         "ru":  "Питомник скоро · мифик = редкий шанс · N=6 карт родителей · подними ранг в боях",
-                         "en":  "Nursery soon · mythic = rare chance · N=6 parent cards · rank up in battles"
-                     },
-    "shop.kind.yarn":  {
-                           "ru":  "Клубки",
-                           "en":  "Yarn"
-                       },
-    "shop.kind.gacha_jar":  {
-                                "ru":  "Банки",
-                                "en":  "Jars"
-                            },
-    "shop.kind.pass":  {
-                           "ru":  "Пасс",
-                           "en":  "Pass"
-                       },
-    "shop.kind.battle_potion":  {
-                                    "ru":  "Зелья",
-                                    "en":  "Potions"
-                                },
-    "shop.kind.slot_expand":  {
-                                  "ru":  "Слоты",
-                                  "en":  "Slots"
-                              },
-    "locale.name.ru":  {
-                           "ru":  "Русский",
-                           "en":  "Russian"
-                       },
-    "locale.name.en":  {
-                           "ru":  "English",
-                           "en":  "English"
-                       },
-    "tutorial.step.starters":  {
-                                   "ru":  "Три стартовых котика",
-                                   "en":  "Your three starter cats"
-                               },
-    "tutorial.step.yard_battle":  {
-                                      "ru":  "Бой в Мифмире",
-                                      "en":  "Mythmir battle"
-                                  },
-    "tutorial.step.victory":  {
-                                  "ru":  "Победа в Мифмире",
-                                  "en":  "Mythmir victory"
-                              },
-    "tutorial.step.overtime":  {
-                                   "ru":  "Дольше 10 минут",
-                                   "en":  "Over 10 minutes"
-                               },
-    "hub.tab.hub":  {
-                        "ru":  "Хаб",
-                        "en":  "Hub"
-                    },
-    "hub.tab.formation":  {
-                              "ru":  "Расстановка",
-                              "en":  "Formation"
-                          },
-    "hub.tab.market":  {
-                           "ru":  "Рынок",
-                           "en":  "Market"
-                       },
-    "hub.tab.tavern":  {
-                           "ru":  "Таверна",
-                           "en":  "Tavern"
-                       },
-    "hub.tab.pass":  {
-                         "ru":  "Пасс",
-                         "en":  "Pass"
-                     },
-    "hub.home.title":  {
-                           "ru":  "Таверна «Драконья Кружка»",
-                           "en":  "Tavern «Dragon Mug»"
-                       },
-    "hub.home.lead":  {
-                          "ru":  "Soft launch: Мифмир + PvP. Навигация — primary/subtabs.",
-                          "en":  "Soft launch: Mythmir + PvP. Primary/subtab navigation."
-                      },
-    "hub.portal.yard":  {
-                            "ru":  "PvE кампания Мифмира",
-                            "en":  "Mythmir PvE campaign"
-                        },
-    "hub.portal.formation":  {
-                                 "ru":  "Строй 3v3 перед боем",
-                                 "en":  "3v3 lineup before battle"
-                             },
-    "hub.portal.pvp":  {
-                           "ru":  "Дуэли и арена (smoke)",
-                           "en":  "Duels \u0026 arena (smoke)"
-                       },
-    "hub.portal.collection":  {
-                                  "ru":  "Казарма и пресеты",
-                                  "en":  "Barracks \u0026 presets"
-                              },
-    "hub.portal.shop":  {
-                            "ru":  "Лавка и призыв",
-                            "en":  "Shop \u0026 summon"
-                        },
-    "hub.portal.market":  {
-                              "ru":  "Купить / продать (stub)",
-                              "en":  "Buy / sell (stub)"
-                          },
-    "hub.portal.tavern":  {
-                              "ru":  "Молоко, напитки, зелья",
-                              "en":  "Milk, drinks, potions"
-                          },
-    "hub.portal.pass":  {
-                            "ru":  "Сезонный пасс",
-                            "en":  "Season pass"
-                        },
-    "hub.portal.clans":  {
-                             "ru":  "Клан и босс — скоро",
-                             "en":  "Clan \u0026 boss — soon"
-                         },
-    "hub.portal.farm":  {
-                            "ru":  "Двор усадьбы — скоро",
-                            "en":  "Estate farm — soon"
-                        },
-    "hub.portal.nursery":  {
-                               "ru":  "Питомник — скоро",
-                               "en":  "Nursery — soon"
-                           },
-    "formation.title":  {
-                            "ru":  "Строй отряда 3v3",
-                            "en":  "Squad formation 3v3"
-                        },
-    "formation.lead":  {
-                           "ru":  "Авангард → Центр → Тыл. Не ставь саппорта/стрелка/мага вперёд — фронт для танка (и мили).",
-                           "en":  "Vanguard → Center → Rear. Keep support/ranger/mage off the front — front is for tanks (and melee)."
-                       },
-    "formation.lane.vanguard":  {
-                                    "ru":  "Авангард",
-                                    "en":  "Vanguard"
-                                },
-    "formation.lane.center":  {
-                                  "ru":  "Центр",
-                                  "en":  "Center"
-                              },
-    "formation.lane.rear":  {
-                                "ru":  "Тыл",
-                                "en":  "Rear"
-                            },
-    "formation.no_potions":  {
-                                 "ru":  "Нет зелий — зайди в Таверну",
-                                 "en":  "No potions — visit the Tavern"
-                             },
-    "tavern.title":  {
-                         "ru":  "Таверна «Усатый Хмель»",
-                         "en":  "Tavern «Whiskered Hops»"
-                     },
-    "tavern.lead":  {
-                        "ru":  "Молоко, напитки и зелья. Лимит зелий в бой — UI stub.",
-                        "en":  "Milk, drinks, potions. Battle potion cap — UI stub."
-                    },
-    "tavern.drinks":  {
-                          "ru":  "Напитки",
-                          "en":  "Drinks"
-                      },
-    "tavern.potions":  {
-                           "ru":  "Зелья",
-                           "en":  "Potions"
-                       },
-    "tavern.buy":  {
-                       "ru":  "Купить",
-                       "en":  "Buy"
-                   },
-    "tavern.owned":  {
-                         "ru":  "В ранце",
-                         "en":  "Owned"
-                     },
-    "tavern.bought":  {
-                          "ru":  "Куплено (stub)",
-                          "en":  "Bought (stub)"
-                      },
-    "tavern.drink.milk":  {
-                              "ru":  "Парное молоко",
-                              "en":  "Fresh milk"
-                          },
-    "tavern.drink.milk.fx":  {
-                                 "ru":  "+15 энергии",
-                                 "en":  "+15 energy"
-                             },
-    "tavern.drink.honey":  {
-                               "ru":  "Медовый отвар",
-                               "en":  "Honey brew"
-                           },
-    "tavern.drink.honey.fx":  {
-                                  "ru":  "+5% крит (1 бой)",
-                                  "en":  "+5% crit (1 battle)"
-                              },
-    "tavern.drink.mint":  {
-                              "ru":  "Мятный настой",
-                              "en":  "Mint infusion"
-                          },
-    "tavern.drink.mint.fx":  {
-                                 "ru":  "Сброс усталости",
-                                 "en":  "Reset fatigue"
-                             },
-    "tavern.potion.stone":  {
-                                "ru":  "Зелье Каменной Шкуры",
-                                "en":  "Stone Skin potion"
-                            },
-    "tavern.potion.stone.fx":  {
-                                   "ru":  "+800 брони на 2 хода",
-                                   "en":  "+800 armor for 2 turns"
-                               },
-    "tavern.potion.spark":  {
-                                "ru":  "Эликсир Искрящих Когтей",
-                                "en":  "Sparking Claw elixir"
-                            },
-    "tavern.potion.spark.fx":  {
-                                   "ru":  "+25% урон молнии",
-                                   "en":  "+25% lightning damage"
-                               },
-    "tavern.potion.nine":  {
-                               "ru":  "Настой Девяти Жизней",
-                               "en":  "Nine Lives infusion"
-                           },
-    "tavern.potion.nine.fx":  {
-                                  "ru":  "Спасение +1200 HP",
-                                  "en":  "Rescue +1200 HP"
-                              },
-    "tavern.potion.cleanse":  {
-                                  "ru":  "Отвар Очищения",
-                                  "en":  "Cleansing decoction"
-                              },
-    "tavern.potion.cleanse.fx":  {
-                                     "ru":  "Снимает негативы",
-                                     "en":  "Removes debuffs"
-                                 },
-    "market.title":  {
-                         "ru":  "Аукцион Хранителей",
-                         "en":  "Keepers\u0027 Auction"
-                     },
-    "market.lead":  {
-                        "ru":  "Buy/sell stub (без денег/крипты). Лоты локальные для ручного QA.",
-                        "en":  "Buy/sell stub (no real money/crypto). Local lots for manual QA."
-                    },
-    "market.buy":  {
-                       "ru":  "Купить",
-                       "en":  "Buy"
-                   },
-    "market.empty":  {
-                         "ru":  "Лотов нет",
-                         "en":  "No lots"
-                     },
-    "market.no_gems":  {
-                           "ru":  "Не хватает кристаллов",
-                           "en":  "Not enough crystals"
-                       },
-    "market.bought":  {
-                          "ru":  "Куплено (stub)",
-                          "en":  "Bought (stub)"
-                      },
-    "market.listed":  {
-                          "ru":  "Лот выставлен (stub)",
-                          "en":  "Lot listed (stub)"
-                      },
-    "market.sell.title":  {
-                              "ru":  "Выставить лот",
-                              "en":  "List a lot"
-                          },
-    "market.sell.lead":  {
-                             "ru":  "Stub: выставить starter в локальный список.",
-                             "en":  "Stub: list a starter in the local board."
-                         },
-    "pass.title":  {
-                       "ru":  "Зов Тёплого Очага",
-                       "en":  "Call of the Warm Hearth"
-                   },
-    "pass.lead":  {
-                      "ru":  "×2 XP · боксы по рангу · автоферма при ACTIVE.",
-                      "en":  "×2 XP · rank boxes · autofarm when ACTIVE."
-                  },
-    "gate.tip.pass":  {
-                          "ru":  "Активируй боевой пасс",
-                          "en":  "Activate the battle pass"
-                      },
-    "farm.autofarm.on":  {
-                             "ru":  "Автоферма ON · stub (сервер later)",
-                             "en":  "Autofarm ON · stub (server later)"
-                         },
-    "farm.autofarm.off":  {
-                              "ru":  "Автоферма OFF",
-                              "en":  "Autofarm OFF"
-                          },
-    "farm.autofarm.lead.active":  {
-                                      "ru":  "Пасс ACTIVE · тумблеры stub · seeds/bait с Рынка",
-                                      "en":  "Pass ACTIVE · stub toggles · seeds/bait from Market"
-                                  },
-    "farm.autofarm.lead.locked":  {
-                                      "ru":  "Нужен ACTIVE пасс · иначе tip «Активируй боевой пасс»",
-                                      "en":  "Need ACTIVE pass · else tip «Activate the battle pass»"
-                                  },
-    "pass.autofarm.lead.active":  {
-                                      "ru":  "ACTIVE: фермеры / алхимик / gather→кузнец / auto-craft",
-                                      "en":  "ACTIVE: farmers / alchemist / gather→blacksmith / auto-craft"
-                                  },
-    "pass.autofarm.lead.locked":  {
-                                      "ru":  "Без ACTIVE пасса автоферма недоступна",
-                                      "en":  "Autofarm locked without ACTIVE pass"
-                                  },
-    "pass.active.stub.on":  {
-                                "ru":  "Stub: пасс ACTIVE",
-                                "en":  "Stub: pass ACTIVE"
-                            },
-    "pass.active.stub.off":  {
-                                 "ru":  "Stub: пасс inactive",
-                                 "en":  "Stub: pass inactive"
-                             },
-    "pass.active.stub.toggle_on":  {
-                                       "ru":  "Stub: пасс ACTIVE",
-                                       "en":  "Stub: pass ACTIVE"
-                                   },
-    "pass.active.stub.toggle_off":  {
-                                        "ru":  "Stub: выключить ACTIVE",
-                                        "en":  "Stub: turn ACTIVE off"
-                                    },
-    "pass.claim":  {
-                       "ru":  "Забрать",
-                       "en":  "Claim"
-                   },
-    "pass.reward.fish_50":  {
-                                "ru":  "50 рыбок",
-                                "en":  "50 fish"
-                            },
-    "pass.reward.yarn_10":  {
-                                "ru":  "10 пряжи",
-                                "en":  "10 yarn"
-                            },
-    "pass.reward.scrap":  {
-                              "ru":  "Лом",
-                              "en":  "Scrap"
-                          },
-    "pass.reward.potion_skin":  {
-                                    "ru":  "Зелье Шкуры x3",
-                                    "en":  "Skin potion x3"
-                                },
-    "pass.reward.bowl":  {
-                             "ru":  "Миска",
-                             "en":  "Bowl"
-                         },
-    "pass.reward.chest":  {
-                              "ru":  "Сундук",
-                              "en":  "Chest"
-                          },
-    "pass.reward.ticket":  {
-                               "ru":  "Билет арены",
-                               "en":  "Arena ticket"
-                           },
-    "pass.reward.potion_nine":  {
-                                    "ru":  "Зелье 9 Жизней x5",
-                                    "en":  "Nine Lives x5"
-                                },
-    "shop.gacha.title":  {
-                             "ru":  "Алтарь Призыва",
-                             "en":  "Summon Altar"
-                         },
-    "shop.gacha.lead":  {
-                            "ru":  "Stub гачи: pity/банки — на backend.",
-                            "en":  "Gacha stub: pity/jars on backend."
-                        },
-    "shop.gacha.stub":  {
-                            "ru":  "Гача stub",
-                            "en":  "Gacha stub"
-                        },
-    "result.eyebrow":  {
-                           "ru":  "Итог боя",
-                           "en":  "Battle result"
-                       },
-    "result.win":  {
-                       "ru":  "Блестящая победа!",
-                       "en":  "Brilliant victory!"
-                   },
-    "result.lose":  {
-                        "ru":  "Поражение в бою",
-                        "en":  "Defeat in battle"
-                    },
-    "nav.primary.character":  {
-                                  "ru":  "Дом Хранителя",
-                                  "en":  "Keeper Home"
-                              },
-    "nav.primary.combat":  {
-                               "ru":  "Бои",
-                               "en":  "Combat"
-                           },
-    "nav.primary.trade":  {
-                              "ru":  "Торговля",
-                              "en":  "Trade"
-                          },
-    "nav.primary.guilds":  {
-                               "ru":  "Гильдии",
-                               "en":  "Guilds"
-                           },
-    "nav.primary.chats":  {
-                              "ru":  "Друзья",
-                              "en":  "Friends"
-                          },
-    "nav.primary.pass":  {
-                             "ru":  "Боевой пропуск",
-                             "en":  "Battle Pass"
-                         },
-    "nav.primary.knowledge":  {
-                                  "ru":  "База знаний",
-                                  "en":  "Knowledge base"
-                              },
-    "nav.primary.ratings":  {
-                                "ru":  "Рейтинги",
-                                "en":  "Ratings"
-                            },
-    "nav.sub.gear":  {
-                         "ru":  "Склад",
-                         "en":  "Storehouse"
-                     },
-    "nav.sub.home":  {
-                         "ru":  "Персонаж",
-                         "en":  "Character"
-                     },
-    "nav.sub.farm":  {
-                         "ru":  "Двор",
-                         "en":  "Farm"
-                     },
-    "nav.sub.collection":  {
-                               "ru":  "Коллекция котиков",
-                               "en":  "Cat collection"
-                           },
-    "nav.sub.knowledge":  {
-                              "ru":  "База знаний",
-                              "en":  "Knowledge base"
-                          },
-    "nav.sub.craft":  {
-                          "ru":  "Крафт",
-                          "en":  "Craft"
-                      },
-    "nav.sub.breeding":  {
-                             "ru":  "Скрещивание",
-                             "en":  "Breeding"
-                         },
-    "nav.sub.mythmir":  {
-                            "ru":  "Хаб боев Мифмир",
-                            "en":  "Mythmir battle hub"
-                        },
-    "nav.sub.pve":  {
-                        "ru":  "ПВЕ",
-                        "en":  "PvE"
-                    },
-    "nav.sub.formation":  {
-                              "ru":  "Строй 3v3",
-                              "en":  "3v3 formation"
-                          },
-    "nav.sub.pvp":  {
-                        "ru":  "ПВП",
-                        "en":  "PvP"
-                    },
-    "nav.sub.boss_dungeon":  {
-                                 "ru":  "Походы",
-                                 "en":  "Expeditions"
-                             },
-    "dungeon.path.short":  {
-                               "ru":  "Короткий ≤10",
-                               "en":  "Short ≤10"
-                           },
-    "dungeon.path.long":  {
-                              "ru":  "Длинный ≤15",
-                              "en":  "Long ≤15"
-                          },
-    "dungeon.start":  {
-                          "ru":  "В путь · 3v3",
-                          "en":  "Enter · 3v3"
-                      },
-    "dungeon.buy_key":  {
-                            "ru":  "Купить ключ за рыбу",
-                            "en":  "Buy key for fish"
-                        },
-    "dungeon.fill_party":  {
-                               "ru":  "Заполнить ботами",
-                               "en":  "Fill with bots"
-                           },
-    "dungeon.solo_warn":  {
-                              "ru":  "Соло нежелателен: сложность под пати 4",
-                              "en":  "Solo not recommended: tuned for party of 4"
-                          },
-    "nav.sub.boss_raid":  {
-                              "ru":  "Рейд",
-                              "en":  "Raid"
-                          },
-    "nav.sub.trade_hub":  {
-                              "ru":  "Хаб торговли Площадь",
-                              "en":  "Trade square hub"
-                          },
-    "nav.sub.tavern":  {
-                           "ru":  "Таверна",
-                           "en":  "Tavern"
-                       },
-    "nav.sub.shop":  {
-                         "ru":  "Магазин",
-                         "en":  "Shop"
-                     },
-    "nav.sub.market":  {
-                           "ru":  "Рынок",
-                           "en":  "Market"
-                       },
-    "nav.sub.auction":  {
-                            "ru":  "Аукцион",
-                            "en":  "Auction"
-                        },
-    "nav.sub.guild_hub":  {
-                              "ru":  "Хаб Гильдии",
-                              "en":  "Guild hub"
-                          },
-    "nav.sub.guild":  {
-                          "ru":  "Моя гильдия",
-                          "en":  "My guild"
-                      },
-    "nav.sub.guild_battle":  {
-                                 "ru":  "Война Гильдий",
-                                 "en":  "Guild war"
-                             },
-    "guild.battle.title":  {
-                               "ru":  "Бой гильдий (GvG)",
-                               "en":  "Guild vs guild (GvG)"
-                           },
-    "guild.battle.lead":  {
-                              "ru":  "3–12 котов на сторону. Матчмейкинг gated; размер 3 → демо 3v3 на ядре боя.",
-                              "en":  "3–12 cats per side. Matchmaking gated; size 3 → 3v3 core demo."
-                          },
-    "guild.battle.start":  {
-                               "ru":  "В бой гильдий",
-                               "en":  "Start guild battle"
-                           },
-    "guild.battle.gate":  {
-                              "ru":  "Бой гильдий 4–12 — подними ранг в боях",
-                              "en":  "Guild battle 4–12 — rank up in fights"
-                          },
-    "guild.battle.demo":  {
-                              "ru":  "GvG demo 3v3 — ядро боя; матчмейкинг не live",
-                              "en":  "GvG demo 3v3 — battle core; matchmaking not live"
-                          },
-    "guild.clan_boss":  {
-                            "ru":  "Клан-босс",
-                            "en":  "Clan boss"
-                        },
-    "shop.lead_channels":  {
-                               "ru":  "IAP · пасс · рыбки · breeding · 12 ordinary · grey armor · battle coins → gear",
-                               "en":  "IAP · pass · fish · breeding · 12 ordinary · grey armor · battle coins → gear"
-                           },
-    "tavern.drink.milk_on_ice":  {
-                                     "ru":  "Молоко на льду",
-                                     "en":  "Milk on ice"
-                                 },
-    "tavern.drink.milk_on_ice.fx":  {
-                                        "ru":  "HP после боя",
-                                        "en":  "Post-fight HP"
-                                    },
-    "tavern.drink.cream_whisk":  {
-                                     "ru":  "Сливки с венчиком",
-                                     "en":  "Cream whisk"
-                                 },
-    "tavern.drink.cream_whisk.fx":  {
-                                        "ru":  "ATK tip · PvE/данж",
-                                        "en":  "ATK tip · PvE/dungeon"
-                                    },
-    "tavern.drink.moon_milk":  {
-                                   "ru":  "Лунное молоко",
-                                   "en":  "Moon milk"
-                               },
-    "tavern.drink.moon_milk.fx":  {
-                                      "ru":  "DEF tip · PvE/данж",
-                                      "en":  "DEF tip · PvE/dungeon"
-                                  },
-    "tavern.drink.spice_milk":  {
-                                    "ru":  "Пряное молоко",
-                                    "en":  "Spice milk"
-                                },
-    "tavern.drink.spice_milk.fx":  {
-                                       "ru":  "SPD tip · PvE/данж",
-                                       "en":  "SPD tip · PvE/dungeon"
-                                   },
-    "tavern.drink.herbal_milk":  {
-                                     "ru":  "Травяное молоко",
-                                     "en":  "Herbal milk"
-                                 },
-    "tavern.drink.herbal_milk.fx":  {
-                                        "ru":  "Resist tip · PvE/данж",
-                                        "en":  "Resist tip · PvE/dungeon"
-                                    },
-    "market.quick_sell":  {
-                              "ru":  "Quick sell лута",
-                              "en":  "Quick sell loot"
-                          },
-    "market.quick_sell.tip":  {
-                                  "ru":  "Quick sell — подними ранг в боях",
-                                  "en":  "Quick sell — rank up in fights"
-                              },
-    "market.catalog.buy":  {
-                               "ru":  "Купить",
-                               "en":  "Buy"
-                           },
-    "market.catalog.sell":  {
-                                "ru":  "Сбыт крафта / ресурсов (NPC)",
-                                "en":  "Sell craft / resources (NPC)"
-                            },
-    "auction.list_stub":  {
-                              "ru":  "Выставить лот",
-                              "en":  "List a lot"
-                          },
-    "nav.sub.chat_global":  {
-                                "ru":  "Чаты",
-                                "en":  "Chats"
-                            },
-    "nav.sub.chat_guild":  {
-                               "ru":  "Чат Гильдии",
-                               "en":  "Guild chat"
-                           },
-    "nav.sub.chat_friends":  {
-                                 "ru":  "Список Друзей",
-                                 "en":  "Friend list"
-                             },
-    "nav.sub.pass":  {
-                         "ru":  "Боевой пасс",
-                         "en":  "Battle Pass"
-                     },
-    "nav.sub.rating_players":  {
-                                   "ru":  "Рейтинг ПВП",
-                                   "en":  "PvP rating"
-                               },
-    "nav.sub.rating_dungeon":  {
-                                   "ru":  "Рейтинг Данжей",
-                                   "en":  "Dungeon rating"
-                               },
-    "nav.sub.rating_raid":  {
-                                "ru":  "Рейтинг Рейдов",
-                                "en":  "Raid rating"
-                            },
-    "nav.sub.rating_guilds":  {
-                                  "ru":  "Рейтинг Гильдий",
-                                  "en":  "Guild rating"
-                              },
-    "hub.tab.boss_raid":  {
-                              "ru":  "Рейд",
-                              "en":  "Raid"
-                          },
-    "hub.tab.auction":  {
-                            "ru":  "Аукцион",
-                            "en":  "Auction"
-                        },
-    "mythmir.stage.1":  {
-                            "ru":  "Железная Цитадель",
-                            "en":  "Iron Citadel"
-                        },
-    "stage.mythmir_1_f1":  {
-                               "ru":  "Железная Цитадель — Солдаты",
-                               "en":  "Iron Citadel — Soldiers"
-                           },
-    "stage.mythmir_1_f2":  {
-                               "ru":  "Железная Цитадель — Солдаты",
-                               "en":  "Iron Citadel — Soldiers"
-                           },
-    "stage.mythmir_1_f3":  {
-                               "ru":  "Железная Цитадель — Питбосс + солдаты",
-                               "en":  "Iron Citadel — Pitboss + soldiers"
-                           },
-    "mythmir.stage.2":  {
-                            "ru":  "Ледяные Пещеры",
-                            "en":  "Ice Caves"
-                        },
-    "stage.mythmir_2_f1":  {
-                               "ru":  "Ледяные Пещеры — Солдаты",
-                               "en":  "Ice Caves — Soldiers"
-                           },
-    "stage.mythmir_2_f2":  {
-                               "ru":  "Ледяные Пещеры — Солдаты",
-                               "en":  "Ice Caves — Soldiers"
-                           },
-    "stage.mythmir_2_f3":  {
-                               "ru":  "Ледяные Пещеры — Питбосс + солдаты",
-                               "en":  "Ice Caves — Pitboss + soldiers"
-                           },
-    "mythmir.stage.3":  {
-                            "ru":  "Алая Псарня",
-                            "en":  "Scarlet Kennel"
-                        },
-    "stage.mythmir_3_f1":  {
-                               "ru":  "Алая Псарня — Солдаты",
-                               "en":  "Scarlet Kennel — Soldiers"
-                           },
-    "stage.mythmir_3_f2":  {
-                               "ru":  "Алая Псарня — Солдаты",
-                               "en":  "Scarlet Kennel — Soldiers"
-                           },
-    "stage.mythmir_3_f3":  {
-                               "ru":  "Алая Псарня — Питбосс + солдаты",
-                               "en":  "Scarlet Kennel — Pitboss + soldiers"
-                           },
-    "mythmir.stage.4":  {
-                            "ru":  "Чумные Склепы",
-                            "en":  "Plague Crypts"
-                        },
-    "stage.mythmir_4_f1":  {
-                               "ru":  "Чумные Склепы — Солдаты",
-                               "en":  "Plague Crypts — Soldiers"
-                           },
-    "stage.mythmir_4_f2":  {
-                               "ru":  "Чумные Склепы — Солдаты",
-                               "en":  "Plague Crypts — Soldiers"
-                           },
-    "stage.mythmir_4_f3":  {
-                               "ru":  "Чумные Склепы — Питбосс + солдаты",
-                               "en":  "Plague Crypts — Pitboss + soldiers"
-                           },
-    "mythmir.stage.5":  {
-                            "ru":  "Призрачный Чертог",
-                            "en":  "Ghost Hall"
-                        },
-    "stage.mythmir_5_f1":  {
-                               "ru":  "Призрачный Чертог — Солдаты",
-                               "en":  "Ghost Hall — Soldiers"
-                           },
-    "stage.mythmir_5_f2":  {
-                               "ru":  "Призрачный Чертог — Солдаты",
-                               "en":  "Ghost Hall — Soldiers"
-                           },
-    "stage.mythmir_5_f3":  {
-                               "ru":  "Призрачный Чертог — Питбосс + солдаты",
-                               "en":  "Ghost Hall — Pitboss + soldiers"
-                           },
-    "stage.practice_dummy_1":  {
-                                   "ru":  "Тренировочный манекен",
-                                   "en":  "Тренировочный манекен"
-                               },
-    "stage.boss_first_w1":  {
-                                "ru":  "Архипёс · волна 1 (мелкие)",
-                                "en":  "Архипёс · волна 1 (мелкие)"
-                            },
-    "stage.boss_first_w2":  {
-                                "ru":  "Архипёс · волна 2 (стая)",
-                                "en":  "Архипёс · волна 2 (стая)"
-                            },
-    "stage.boss_first_w3":  {
-                                "ru":  "Архипёс · волна 3 (босс)",
-                                "en":  "Архипёс · волна 3 (босс)"
-                            },
-    "nav.sub.practice":  {
-                             "ru":  "Тренировка",
-                             "en":  "Тренировка"
-                         },
-    "nav.sub.codex":  {
-                          "ru":  "Кодекс",
-                          "en":  "Кодекс"
-                      },
-    "nav.sub.heroes":  {
-                           "ru":  "Кодекс героев",
-                           "en":  "Heroes codex"
-                       },
-    "nav.sub.armor_sets":  {
-                               "ru":  "Сеты брони",
-                               "en":  "Armor sets"
-                           },
-    "nav.sub.class_sets":  {
-                               "ru":  "Классовые сеты",
-                               "en":  "Class sets"
-                           },
-    "nav.sub.equip_cards":  {
-                                "ru":  "Карточки экипировки",
-                                "en":  "Equipment cards"
-                            },
-    "nav.sub.login":  {
-                          "ru":  "Вход",
-                          "en":  "Вход"
-                      },
-    "gate.tip.rank":  {
-                          "ru":  "Подними ранг в боях",
-                          "en":  "Rank up in battles"
-                      },
-    "gate.tip.pvp":  {
-                         "ru":  "PvP откроется после 3 побед в Мифмире или тренировке",
-                         "en":  "PvP unlocks after 3 Mythmir or practice wins"
-                     },
-    "gate.tip.breeding":  {
-                              "ru":  "Питомник: обычные → мифики (малый шанс). Пока — подними ранг в боях",
-                              "en":  "Nursery: ordinary → mythics (small chance). For now — rank up in battles"
-                          },
-    "tavern.lead_milk":  {
-                             "ru":  "Молочный бар: восстанови HP и энергию после боя. Зелья — на рынке у крафтеров.",
-                             "en":  "Молочный бар: восстанови HP и энергию после боя. Зелья — на рынке у крафтеров."
-                         },
-    "shop.common_cats":  {
-                             "ru":  "Обычные коты",
-                             "en":  "Обычные коты"
-                         },
-    "shop.lead_common":  {
-                             "ru":  "6 классов × 2 варианта = 12 обычных котов · фиксированные киты из 6 карт · за рыбок",
-                             "en":  "6 classes × 2 variants = 12 ordinary cats · fixed 6-card kits · fish"
-                         },
-    "mythmir.mission_list":  {
-                                 "ru":  "Список миссий",
-                                 "en":  "Список миссий"
-                             },
-    "boss.first.title":  {
-                             "ru":  "Первый босс: Архипёс",
-                             "en":  "Первый босс: Архипёс"
-                         },
-    "boss.first.wave":  {
-                            "ru":  "Волна",
-                            "en":  "Волна"
-                        },
-    "practice.lead":  {
-                          "ru":  "Тренировочный лагерь — победы считаются к открытию PvP",
-                          "en":  "Тренировочный лагерь — победы считаются к открытию PvP"
-                      },
-    "codex.lead":  {
-                       "ru":  "Кодекс Мифмира — механики, строй, походы",
-                       "en":  "Кодекс Мифмира — механики, строй, походы"
-                   },
-    "login.cta":  {
-                      "ru":  "Войти как Хранитель",
-                      "en":  "Войти как Хранитель"
-                  },
-    "card.shop_tank_stone_a_muzzle":  {
-                                          "ru":  "Каменный оскал",
-                                          "en":  "Stone Snarl"
-                                      },
-    "card.shop_tank_stone_a_headwear":  {
-                                            "ru":  "Галька-шлем",
-                                            "en":  "Pebble Helm"
-                                        },
-    "card.shop_tank_stone_a_back":  {
-                                        "ru":  "Щит-валун",
-                                        "en":  "Boulder Guard"
-                                    },
-    "card.shop_tank_stone_a_tail":  {
-                                        "ru":  "Хвост-утёс",
-                                        "en":  "Cliff Tail"
-                                    },
-    "shop.offer.shop_cat_tank_common_a":  {
-                                              "ru":  "Обычный танк A (щит/агро)",
-                                              "en":  "Common tank A (shield/aggro)"
-                                          },
-    "card.shop_tank_stone_b_muzzle":  {
-                                          "ru":  "Пробой когтем",
-                                          "en":  "Pierce Claw"
-                                      },
-    "card.shop_tank_stone_b_headwear":  {
-                                            "ru":  "Щит-осколок",
-                                            "en":  "Shard Guard"
-                                        },
-    "card.shop_tank_stone_b_back":  {
-                                        "ru":  "Бронелом",
-                                        "en":  "Armor Break"
-                                    },
-    "card.shop_tank_stone_b_tail":  {
-                                        "ru":  "Хвост-пробой",
-                                        "en":  "Pierce Tail"
-                                    },
-    "shop.offer.shop_cat_tank_common_b":  {
-                                              "ru":  "Обычный танк B (пробой)",
-                                              "en":  "Common tank B (pierce)"
-                                          },
-    "card.shop_fighter_fire_a_muzzle":  {
-                                            "ru":  "Парный укус",
-                                            "en":  "Twin Bite"
-                                        },
-    "card.shop_fighter_fire_a_headwear":  {
-                                              "ru":  "Искры-когти",
-                                              "en":  "Spark Claws"
-                                          },
-    "card.shop_fighter_fire_a_back":  {
-                                          "ru":  "Критовсечь",
-                                          "en":  "Crit Slash"
-                                      },
-    "card.shop_fighter_fire_a_tail":  {
-                                          "ru":  "Двойной хлыст",
-                                          "en":  "Twin Lash"
-                                      },
-    "shop.offer.shop_cat_fighter_common_a":  {
-                                                 "ru":  "Обычный боец A (парный/крит)",
-                                                 "en":  "Common fighter A (dual/crit)"
-                                             },
-    "card.shop_fighter_fire_b_muzzle":  {
-                                            "ru":  "Двуручный удар",
-                                            "en":  "Great Swing"
-                                        },
-    "card.shop_fighter_fire_b_headwear":  {
-                                              "ru":  "Тяжёлый оскал",
-                                              "en":  "Heavy Snarl"
-                                          },
-    "card.shop_fighter_fire_b_back":  {
-                                          "ru":  "Молот жара",
-                                          "en":  "Heat Hammer"
-                                      },
-    "card.shop_fighter_fire_b_tail":  {
-                                          "ru":  "Тяжёлый хлыст",
-                                          "en":  "Heavy Lash"
-                                      },
-    "shop.offer.shop_cat_fighter_common_b":  {
-                                                 "ru":  "Обычный боец B (двуручный)",
-                                                 "en":  "Common fighter B (two-hand)"
-                                             },
-    "card.shop_assassin_bolt_a_muzzle":  {
-                                             "ru":  "Теневой укус",
-                                             "en":  "Shadow Bite"
-                                         },
-    "card.shop_assassin_bolt_a_headwear":  {
-                                               "ru":  "Ускользнуть",
-                                               "en":  "Slip Away"
-                                           },
-    "card.shop_assassin_bolt_a_back":  {
-                                           "ru":  "Крит из тени",
-                                           "en":  "Shade Crit"
-                                       },
-    "card.shop_assassin_bolt_a_tail":  {
-                                           "ru":  "Исчезновение",
-                                           "en":  "Vanish Strike"
-                                       },
-    "shop.offer.shop_cat_assassin_common_a":  {
-                                                  "ru":  "Обычный убийца A (уворот/крит)",
-                                                  "en":  "Common assassin A (evade/crit)"
-                                              },
-    "card.shop_assassin_bolt_b_muzzle":  {
-                                             "ru":  "Укол в тыл",
-                                             "en":  "Backstab"
-                                         },
-    "card.shop_assassin_bolt_b_headwear":  {
-                                               "ru":  "Тихий разряд",
-                                               "en":  "Silent Bolt"
-                                           },
-    "card.shop_assassin_bolt_b_back":  {
-                                           "ru":  "Пронзить тыл",
-                                           "en":  "Rear Pierce"
-                                       },
-    "card.shop_assassin_bolt_b_tail":  {
-                                           "ru":  "Казнь сзади",
-                                           "en":  "Rear Execute"
-                                       },
-    "shop.offer.shop_cat_assassin_common_b":  {
-                                                  "ru":  "Обычный убийца B (тыл/крит)",
-                                                  "en":  "Common assassin B (backline/crit)"
-                                              },
-    "card.shop_ranger_grass_a_muzzle":  {
-                                            "ru":  "Метка охотника",
-                                            "en":  "Hunter\u0027s Mark"
-                                        },
-    "card.shop_ranger_grass_a_headwear":  {
-                                              "ru":  "Прицельный укус",
-                                              "en":  "Aimed Bite"
-                                          },
-    "card.shop_ranger_grass_a_back":  {
-                                          "ru":  "Стрела в тыл",
-                                          "en":  "Rear Arrow"
-                                      },
-    "card.shop_ranger_grass_a_tail":  {
-                                          "ru":  "Крит-засада",
-                                          "en":  "Ambush Crit"
-                                      },
-    "shop.offer.shop_cat_ranger_common_a":  {
-                                                "ru":  "Обычный стрелок A (охотник)",
-                                                "en":  "Common ranger A (hunter)"
-                                            },
-    "card.shop_ranger_grass_b_muzzle":  {
-                                            "ru":  "Град стрел",
-                                            "en":  "Arrow Storm"
-                                        },
-    "card.shop_ranger_grass_b_headwear":  {
-                                              "ru":  "Тяжёлые стрелы",
-                                              "en":  "Heavy Arrows"
-                                          },
-    "card.shop_ranger_grass_b_back":  {
-                                          "ru":  "Метка слабого",
-                                          "en":  "Weak Mark"
-                                      },
-    "card.shop_ranger_grass_b_tail":  {
-                                          "ru":  "Залп по площади",
-                                          "en":  "Volley"
-                                      },
-    "shop.offer.shop_cat_ranger_common_b":  {
-                                                "ru":  "Обычный стрелок B (AoE)",
-                                                "en":  "Common ranger B (AoE)"
-                                            },
-    "card.shop_mage_fire_a_muzzle":  {
-                                         "ru":  "Огненный круг",
-                                         "en":  "Fire Ring"
-                                     },
-    "card.shop_mage_fire_a_headwear":  {
-                                           "ru":  "Искра-крит",
-                                           "en":  "Spark Crit"
-                                       },
-    "card.shop_mage_fire_a_back":  {
-                                       "ru":  "Волна жара",
-                                       "en":  "Heat Wave"
-                                   },
-    "card.shop_mage_fire_a_tail":  {
-                                       "ru":  "Ожог тыла",
-                                       "en":  "Rear Burn"
-                                   },
-    "shop.offer.shop_cat_mage_common_a":  {
-                                              "ru":  "Обычный маг A (огонь/AoE)",
-                                              "en":  "Common mage A (fire/AoE)"
-                                          },
-    "card.shop_mage_ice_b_muzzle":  {
-                                        "ru":  "Ледяная буря",
-                                        "en":  "Ice Storm"
-                                    },
-    "card.shop_mage_ice_b_headwear":  {
-                                          "ru":  "Морозный укус",
-                                          "en":  "Frost Bite"
-                                      },
-    "card.shop_mage_ice_b_back":  {
-                                      "ru":  "Холодный фронт",
-                                      "en":  "Cold Front"
-                                  },
-    "card.shop_mage_ice_b_tail":  {
-                                      "ru":  "Заморозка тыла",
-                                      "en":  "Rear Freeze"
-                                  },
-    "shop.offer.shop_cat_mage_common_b":  {
-                                              "ru":  "Обычный маг B (лёд/стан)",
-                                              "en":  "Common mage B (ice/freeze)"
-                                          },
-    "card.shop_support_water_a_muzzle":  {
-                                             "ru":  "Капля жизни",
-                                             "en":  "Life Drop"
-                                         },
-    "card.shop_support_water_a_headwear":  {
-                                               "ru":  "Чистый родник",
-                                               "en":  "Clear Spring"
-                                           },
-    "card.shop_support_water_a_back":  {
-                                           "ru":  "Волна опеки",
-                                           "en":  "Ward Wave"
-                                       },
-    "card.shop_support_water_a_tail":  {
-                                           "ru":  "Очищение",
-                                           "en":  "Cleanse Flow"
-                                       },
-    "shop.offer.shop_cat_support_common_a":  {
-                                                 "ru":  "Обычная поддержка A (хил/чистота)",
-                                                 "en":  "Common support A (heal/cleanse)"
-                                             },
-    "card.shop_support_water_b_muzzle":  {
-                                             "ru":  "Лёгкий хил",
-                                             "en":  "Soft Heal"
-                                         },
-    "card.shop_support_water_b_headwear":  {
-                                               "ru":  "Боевой настрой",
-                                               "en":  "Battle Cheer"
-                                           },
-    "card.shop_support_water_b_back":  {
-                                           "ru":  "Прилив силы",
-                                           "en":  "Tide Buff"
-                                       },
-    "card.shop_support_water_b_tail":  {
-                                           "ru":  "Ослабить врага",
-                                           "en":  "Weaken"
-                                       },
-    "shop.offer.shop_cat_support_common_b":  {
-                                                 "ru":  "Обычная поддержка B (хил/бафф)",
-                                                 "en":  "Common support B (heal/buff)"
-                                             },
-    "formation.tip.roles":  {
-                                "ru":  "Подсказка: саппорт и стрелок бьют с любого ряда — береги их в тылу.",
-                                "en":  "Tip: support and ranger hit from any lane — keep them in the rear."
-                            },
-    "nav.sub.soon_clan":  {
-                              "ru":  "Клан",
-                              "en":  "Clan"
-                          },
-    "card.shop_tank_stone_a_eyes":  {
-                                        "ru":  "Каменный взор",
-                                        "en":  "Stone Gaze"
-                                    },
-    "card.shop_tank_stone_a_ears":  {
-                                        "ru":  "Уши валуна",
-                                        "en":  "Boulder Ears"
-                                    },
-    "card.shop_tank_stone_b_eyes":  {
-                                        "ru":  "Трещина взора",
-                                        "en":  "Crack Gaze"
-                                    },
-    "card.shop_tank_stone_b_ears":  {
-                                        "ru":  "Чуткость бреши",
-                                        "en":  "Breach Sense"
-                                    },
-    "card.shop_fighter_fire_a_eyes":  {
-                                          "ru":  "Искрящий взгляд",
-                                          "en":  "Spark Gaze"
-                                      },
-    "card.shop_fighter_fire_a_ears":  {
-                                          "ru":  "Боевой слух",
-                                          "en":  "Battle Ear"
-                                      },
-    "card.shop_fighter_fire_b_eyes":  {
-                                          "ru":  "Яростный взор",
-                                          "en":  "Fury Gaze"
-                                      },
-    "card.shop_fighter_fire_b_ears":  {
-                                          "ru":  "Рёв стали",
-                                          "en":  "Steel Roar"
-                                      },
-    "card.shop_assassin_bolt_a_eyes":  {
-                                           "ru":  "Глаза мглы",
-                                           "en":  "Mist Eyes"
-                                       },
-    "card.shop_assassin_bolt_a_ears":  {
-                                           "ru":  "Шёпот ветра",
-                                           "en":  "Wind Whisper"
-                                       },
-    "card.shop_assassin_bolt_b_eyes":  {
-                                           "ru":  "Прицел в спину",
-                                           "en":  "Back Aim"
-                                       },
-    "card.shop_assassin_bolt_b_ears":  {
-                                           "ru":  "Слух поддержки",
-                                           "en":  "Support Ear"
-                                       },
-    "card.shop_ranger_grass_a_eyes":  {
-                                          "ru":  "Глаз добычи",
-                                          "en":  "Prey Eye"
-                                      },
-    "card.shop_ranger_grass_a_ears":  {
-                                          "ru":  "Уши засады",
-                                          "en":  "Ambush Ears"
-                                      },
-    "card.shop_ranger_grass_b_eyes":  {
-                                          "ru":  "Широкий взор",
-                                          "en":  "Wide Gaze"
-                                      },
-    "card.shop_ranger_grass_b_ears":  {
-                                          "ru":  "Дальний слух",
-                                          "en":  "Far Hearing"
-                                      },
-    "card.shop_mage_fire_a_eyes":  {
-                                       "ru":  "Пламенный зрачок",
-                                       "en":  "Ember Pupil"
-                                   },
-    "card.shop_mage_fire_a_ears":  {
-                                       "ru":  "Треск искр",
-                                       "en":  "Spark Crack"
-                                   },
-    "card.shop_mage_ice_b_eyes":  {
-                                      "ru":  "Ледяной взор",
-                                      "en":  "Ice Gaze"
-                                  },
-    "card.shop_mage_ice_b_ears":  {
-                                      "ru":  "Холодный слух",
-                                      "en":  "Cold Hearing"
-                                  },
-    "card.shop_support_water_a_eyes":  {
-                                           "ru":  "Целительный взгляд",
-                                           "en":  "Healing Gaze"
-                                       },
-    "card.shop_support_water_a_ears":  {
-                                           "ru":  "Уши очищения",
-                                           "en":  "Cleanse Ears"
-                                       },
-    "card.shop_support_water_b_eyes":  {
-                                           "ru":  "Вдохновляющий взор",
-                                           "en":  "Inspire Gaze"
-                                       },
-    "card.shop_support_water_b_ears":  {
-                                           "ru":  "Шёпот слабости",
-                                           "en":  "Weakness Whisper"
-                                       },
-    "card.tank_stone_eyes":  {
-                                 "ru":  "Каменный взор",
-                                 "en":  "Stone Gaze"
-                             },
-    "card.tank_stone_ears":  {
-                                 "ru":  "Уши валуна",
-                                 "en":  "Boulder Ears"
-                             },
-    "card.fighter_fire_eyes":  {
-                                   "ru":  "Искрящий взгляд",
-                                   "en":  "Spark Gaze"
-                               },
-    "card.fighter_fire_ears":  {
-                                   "ru":  "Боевой слух",
-                                   "en":  "Battle Ear"
-                               },
-    "card.support_water_eyes":  {
-                                    "ru":  "Целительный взгляд",
-                                    "en":  "Healing Gaze"
-                                },
-    "card.support_water_ears":  {
-                                    "ru":  "Уши очищения",
-                                    "en":  "Cleanse Ears"
-                                },
-    "pve.fatigue.tip":  {
-                            "ru":  "Котики устали после боя · молоко в Таверне или подождите 5–10 мин (stub)",
-                            "en":  "Cats are tired after the fight · tavern milk or wait 5–10 min (stub)"
-                        },
-    "pve.fatigue.active":  {
-                               "ru":  "Отряд устал (stub) · можно идти в бой; LiveOps pve_fatigue_stub",
-                               "en":  "Squad fatigued (stub) · can still fight; LiveOps pve_fatigue_stub"
-                           },
-    "pve.fatigue.cleared":  {
-                                "ru":  "Усталость снята молоком на льду (stub)",
-                                "en":  "Fatigue cleared with milk on ice (stub)"
-                            },
-    "card.shop_tank_fire_eyes":  {
-                                     "ru":  "Жаркий взор",
-                                     "en":  "Ember Gaze"
-                                 },
-    "card.shop_tank_fire_ears":  {
-                                     "ru":  "Слух горна",
-                                     "en":  "Horn Hearing"
-                                 },
-    "card.shop_tank_fire_muzzle":  {
-                                       "ru":  "Оскал жара",
-                                       "en":  "Heat Snarl"
-                                   },
-    "card.shop_tank_fire_headwear":  {
-                                         "ru":  "Шлем углей",
-                                         "en":  "Cinder Helm"
-                                     },
-    "card.shop_tank_fire_back":  {
-                                     "ru":  "Удар щита-жара",
-                                     "en":  "Heat Bash"
-                                 },
-    "card.shop_tank_fire_tail":  {
-                                     "ru":  "Хлыст пламени",
-                                     "en":  "Flame Lash"
-                                 },
-    "card.shop_tank_water_eyes":  {
-                                      "ru":  "Трещина волны",
-                                      "en":  "Wave Crack"
-                                  },
-    "card.shop_tank_water_ears":  {
-                                      "ru":  "Слух бреши",
-                                      "en":  "Breach Ear"
-                                  },
-    "card.shop_tank_water_muzzle":  {
-                                        "ru":  "Клык прилива",
-                                        "en":  "Tide Fang"
-                                    },
-    "card.shop_tank_water_headwear":  {
-                                          "ru":  "Шлем пены",
-                                          "en":  "Foam Helm"
-                                      },
-    "card.shop_tank_water_back":  {
-                                      "ru":  "Таран глубины",
-                                      "en":  "Depth Ram"
-                                  },
-    "card.shop_tank_water_tail":  {
-                                      "ru":  "Хвост-пробой",
-                                      "en":  "Pierce Tail"
-                                  },
-    "card.shop_tank_wind_eyes":  {
-                                     "ru":  "Взор бури",
-                                     "en":  "Storm Gaze"
-                                 },
-    "card.shop_tank_wind_ears":  {
-                                     "ru":  "Слух отката",
-                                     "en":  "Rebound Ear"
-                                 },
-    "card.shop_tank_wind_muzzle":  {
-                                       "ru":  "Рёв ветра",
-                                       "en":  "Wind Roar"
-                                   },
-    "card.shop_tank_wind_headwear":  {
-                                         "ru":  "Корона шквала",
-                                         "en":  "Squall Crown"
-                                     },
-    "card.shop_tank_wind_back":  {
-                                     "ru":  "Щит-вихрь",
-                                     "en":  "Vortex Guard"
-                                 },
-    "card.shop_tank_wind_tail":  {
-                                     "ru":  "Ответный порыв",
-                                     "en":  "Reply Gust"
-                                 },
-    "card.shop_fighter_fire_eyes":  {
-                                        "ru":  "Искрящий взгляд",
-                                        "en":  "Spark Gaze"
-                                    },
-    "card.shop_fighter_fire_ears":  {
-                                        "ru":  "Боевой слух",
-                                        "en":  "Battle Ear"
-                                    },
-    "card.shop_fighter_fire_muzzle":  {
-                                          "ru":  "Парный укус",
-                                          "en":  "Twin Bite"
-                                      },
-    "card.shop_fighter_fire_headwear":  {
-                                            "ru":  "Корона искр",
-                                            "en":  "Spark Crown"
-                                        },
-    "card.shop_fighter_fire_back":  {
-                                        "ru":  "Двойной удар",
-                                        "en":  "Double Strike"
-                                    },
-    "card.shop_fighter_fire_tail":  {
-                                        "ru":  "Хлыст жара",
-                                        "en":  "Heat Whip"
-                                    },
-    "card.shop_fighter_water_eyes":  {
-                                         "ru":  "Тяжёлый взор",
-                                         "en":  "Heavy Gaze"
-                                     },
-    "card.shop_fighter_water_ears":  {
-                                         "ru":  "Рёв стали-воды",
-                                         "en":  "Steelwater Roar"
-                                     },
-    "card.shop_fighter_water_muzzle":  {
-                                           "ru":  "Молот прилива",
-                                           "en":  "Tide Hammer"
-                                       },
-    "card.shop_fighter_water_headwear":  {
-                                             "ru":  "Шлем вала",
-                                             "en":  "Surge Helm"
-                                         },
-    "card.shop_fighter_water_back":  {
-                                         "ru":  "Двуручный шквал",
-                                         "en":  "Twohand Squall"
-                                     },
-    "card.shop_fighter_water_tail":  {
-                                         "ru":  "Добивающий вал",
-                                         "en":  "Finishing Wave"
-                                     },
-    "card.shop_fighter_wind_eyes":  {
-                                        "ru":  "Взор порыва",
-                                        "en":  "Gust Gaze"
-                                    },
-    "card.shop_fighter_wind_ears":  {
-                                        "ru":  "Слух строя",
-                                        "en":  "Line Ear"
-                                    },
-    "card.shop_fighter_wind_muzzle":  {
-                                          "ru":  "Клык вихря",
-                                          "en":  "Vortex Fang"
-                                      },
-    "card.shop_fighter_wind_headwear":  {
-                                            "ru":  "Лента ветра",
-                                            "en":  "Wind Ribbon"
-                                        },
-    "card.shop_fighter_wind_back":  {
-                                        "ru":  "Ветряной размах",
-                                        "en":  "Wind Sweep"
-                                    },
-    "card.shop_fighter_wind_tail":  {
-                                        "ru":  "Финальный порыв",
-                                        "en":  "Final Gust"
-                                    },
-    "card.shop_assassin_fire_eyes":  {
-                                         "ru":  "Глаза мглы-жара",
-                                         "en":  "Ember Haze Eyes"
-                                     },
-    "card.shop_assassin_fire_ears":  {
-                                         "ru":  "Шёпот искр",
-                                         "en":  "Spark Whisper"
-                                     },
-    "card.shop_assassin_fire_muzzle":  {
-                                           "ru":  "Теневой укус",
-                                           "en":  "Shadow Bite"
-                                       },
-    "card.shop_assassin_fire_headwear":  {
-                                             "ru":  "Маска угля",
-                                             "en":  "Coal Mask"
-                                         },
-    "card.shop_assassin_fire_back":  {
-                                         "ru":  "Удар из тени",
-                                         "en":  "Shadow Strike"
-                                     },
-    "card.shop_assassin_fire_tail":  {
-                                         "ru":  "Исчезновение",
-                                         "en":  "Vanish"
-                                     },
-    "card.shop_assassin_water_eyes":  {
-                                          "ru":  "Прицел в спину",
-                                          "en":  "Back Aim"
-                                      },
-    "card.shop_assassin_water_ears":  {
-                                          "ru":  "Слух тыла",
-                                          "en":  "Rear Ear"
-                                      },
-    "card.shop_assassin_water_muzzle":  {
-                                            "ru":  "Укол прилива",
-                                            "en":  "Tide Stab"
-                                        },
-    "card.shop_assassin_water_headwear":  {
-                                              "ru":  "Капюшон пены",
-                                              "en":  "Foam Hood"
-                                          },
-    "card.shop_assassin_water_back":  {
-                                          "ru":  "Казнь сзади",
-                                          "en":  "Rear Execute"
-                                      },
-    "card.shop_assassin_water_tail":  {
-                                          "ru":  "Тихий разряд",
-                                          "en":  "Quiet Discharge"
-                                      },
-    "card.shop_assassin_wind_eyes":  {
-                                         "ru":  "Глаза сквозняка",
-                                         "en":  "Draft Eyes"
-                                     },
-    "card.shop_assassin_wind_ears":  {
-                                         "ru":  "Слух роя",
-                                         "en":  "Swarm Ear"
-                                     },
-    "card.shop_assassin_wind_muzzle":  {
-                                           "ru":  "Ядовитый порыв",
-                                           "en":  "Venom Gust"
-                                       },
-    "card.shop_assassin_wind_headwear":  {
-                                             "ru":  "Маска пыльцы",
-                                             "en":  "Pollen Mask"
-                                         },
-    "card.shop_assassin_wind_back":  {
-                                         "ru":  "Шквал яда",
-                                         "en":  "Poison Squall"
-                                     },
-    "card.shop_assassin_wind_tail":  {
-                                         "ru":  "Хвост-зараз",
-                                         "en":  "Plague Tail"
-                                     },
-    "card.shop_ranger_fire_eyes":  {
-                                       "ru":  "Глаз добычи",
-                                       "en":  "Prey Eye"
-                                   },
-    "card.shop_ranger_fire_ears":  {
-                                       "ru":  "Уши засады",
-                                       "en":  "Ambush Ears"
-                                   },
-    "card.shop_ranger_fire_muzzle":  {
-                                         "ru":  "Выстрел жара",
-                                         "en":  "Heat Shot"
-                                     },
-    "card.shop_ranger_fire_headwear":  {
-                                           "ru":  "Капюшон охоты",
-                                           "en":  "Hunt Hood"
-                                       },
-    "card.shop_ranger_fire_back":  {
-                                       "ru":  "Огненная стрела",
-                                       "en":  "Fire Arrow"
-                                   },
-    "card.shop_ranger_fire_tail":  {
-                                       "ru":  "Добивание",
-                                       "en":  "Finish Off"
-                                   },
-    "card.shop_ranger_water_eyes":  {
-                                        "ru":  "Широкий взор",
-                                        "en":  "Wide Gaze"
-                                    },
-    "card.shop_ranger_water_ears":  {
-                                        "ru":  "Дальний слух",
-                                        "en":  "Far Ear"
-                                    },
-    "card.shop_ranger_water_muzzle":  {
-                                          "ru":  "Град капель",
-                                          "en":  "Drop Volley"
-                                      },
-    "card.shop_ranger_water_headwear":  {
-                                            "ru":  "Обруч прилива",
-                                            "en":  "Tide Circlet"
-                                        },
-    "card.shop_ranger_water_back":  {
-                                        "ru":  "Волна стрел",
-                                        "en":  "Arrow Wave"
-                                    },
-    "card.shop_ranger_water_tail":  {
-                                        "ru":  "Стрела-якорь",
-                                        "en":  "Anchor Arrow"
-                                    },
-    "card.shop_ranger_wind_eyes":  {
-                                       "ru":  "Метка ветра",
-                                       "en":  "Wind Mark"
-                                   },
-    "card.shop_ranger_wind_ears":  {
-                                       "ru":  "Слух цели",
-                                       "en":  "Target Ear"
-                                   },
-    "card.shop_ranger_wind_muzzle":  {
-                                         "ru":  "Пронзающий свист",
-                                         "en":  "Piercing Whistle"
-                                     },
-    "card.shop_ranger_wind_headwear":  {
-                                           "ru":  "Перо следопыта",
-                                           "en":  "Tracker Feather"
-                                       },
-    "card.shop_ranger_wind_back":  {
-                                       "ru":  "Стрела-шквал",
-                                       "en":  "Squall Arrow"
-                                   },
-    "card.shop_ranger_wind_tail":  {
-                                       "ru":  "Финальный свист",
-                                       "en":  "Final Whistle"
-                                   },
-    "card.shop_mage_fire_eyes":  {
-                                     "ru":  "Пламенный зрачок",
-                                     "en":  "Flame Pupil"
-                                 },
-    "card.shop_mage_fire_ears":  {
-                                     "ru":  "Треск искр",
-                                     "en":  "Spark Crack"
-                                 },
-    "card.shop_mage_fire_muzzle":  {
-                                       "ru":  "Огненный шар",
-                                       "en":  "Fireball"
-                                   },
-    "card.shop_mage_fire_headwear":  {
-                                         "ru":  "Корона углей",
-                                         "en":  "Cinder Crown"
-                                     },
-    "card.shop_mage_fire_back":  {
-                                     "ru":  "Волна жара",
-                                     "en":  "Heat Wave"
-                                 },
-    "card.shop_mage_fire_tail":  {
-                                     "ru":  "Искра дожатия",
-                                     "en":  "Finish Spark"
-                                 },
-    "card.shop_mage_water_eyes":  {
-                                      "ru":  "Ледяной взор",
-                                      "en":  "Ice Gaze"
-                                  },
-    "card.shop_mage_water_ears":  {
-                                      "ru":  "Холодный слух",
-                                      "en":  "Cold Ear"
-                                  },
-    "card.shop_mage_water_muzzle":  {
-                                        "ru":  "Морозный укус",
-                                        "en":  "Frost Bite"
-                                    },
-    "card.shop_mage_water_headwear":  {
-                                          "ru":  "Корона льда-воды",
-                                          "en":  "Icewater Crown"
-                                      },
-    "card.shop_mage_water_back":  {
-                                      "ru":  "Буря льда",
-                                      "en":  "Ice Storm"
-                                  },
-    "card.shop_mage_water_tail":  {
-                                      "ru":  "Стылый хвост",
-                                      "en":  "Chill Tail"
-                                  },
-    "card.shop_mage_wind_eyes":  {
-                                     "ru":  "Взор молнии-ветра",
-                                     "en":  "Stormbolt Gaze"
-                                 },
-    "card.shop_mage_wind_ears":  {
-                                     "ru":  "Слух грозы",
-                                     "en":  "Thunder Ear"
-                                 },
-    "card.shop_mage_wind_muzzle":  {
-                                       "ru":  "Разряд",
-                                       "en":  "Discharge"
-                                   },
-    "card.shop_mage_wind_headwear":  {
-                                         "ru":  "Обруч шквала",
-                                         "en":  "Squall Band"
-                                     },
-    "card.shop_mage_wind_back":  {
-                                     "ru":  "Цепной порыв",
-                                     "en":  "Chain Gust"
-                                 },
-    "card.shop_mage_wind_tail":  {
-                                     "ru":  "Хвост-разряд",
-                                     "en":  "Tail Bolt"
-                                 },
-    "card.shop_support_fire_eyes":  {
-                                        "ru":  "Целительный жар",
-                                        "en":  "Healing Ember"
-                                    },
-    "card.shop_support_fire_ears":  {
-                                        "ru":  "Тёплый слух",
-                                        "en":  "Warm Ear"
-                                    },
-    "card.shop_support_fire_muzzle":  {
-                                          "ru":  "Поцелуй угля",
-                                          "en":  "Coal Kiss"
-                                      },
-    "card.shop_support_fire_headwear":  {
-                                            "ru":  "Корона заботы",
-                                            "en":  "Care Crown"
-                                        },
-    "card.shop_support_fire_back":  {
-                                        "ru":  "Волна тепла",
-                                        "en":  "Warm Wave"
-                                    },
-    "card.shop_support_fire_tail":  {
-                                        "ru":  "Праведный ожог",
-                                        "en":  "Righteous Burn"
-                                    },
-    "card.shop_support_water_eyes":  {
-                                         "ru":  "Целительный взгляд",
-                                         "en":  "Healing Gaze"
-                                     },
-    "card.shop_support_water_ears":  {
-                                         "ru":  "Уши очищения",
-                                         "en":  "Cleanse Ears"
-                                     },
-    "card.shop_support_water_muzzle":  {
-                                           "ru":  "Капля жизни",
-                                           "en":  "Life Drop"
-                                       },
-    "card.shop_support_water_headwear":  {
-                                             "ru":  "Чистый родник",
-                                             "en":  "Clear Spring"
-                                         },
-    "card.shop_support_water_back":  {
-                                         "ru":  "Волна опеки",
-                                         "en":  "Care Wave"
-                                     },
-    "card.shop_support_water_tail":  {
-                                         "ru":  "Очищающий удар",
-                                         "en":  "Cleansing Strike"
-                                     },
-    "card.shop_support_wind_eyes":  {
-                                        "ru":  "Вдохновляющий взор",
-                                        "en":  "Inspire Gaze"
-                                    },
-    "card.shop_support_wind_ears":  {
-                                        "ru":  "Шёпот ветра",
-                                        "en":  "Wind Whisper"
-                                    },
-    "card.shop_support_wind_muzzle":  {
-                                          "ru":  "Дыхание силы",
-                                          "en":  "Breath of Power"
-                                      },
-    "card.shop_support_wind_headwear":  {
-                                            "ru":  "Лента попутного",
-                                            "en":  "Tailwind Ribbon"
-                                        },
-    "card.shop_support_wind_back":  {
-                                        "ru":  "Попутный шквал",
-                                        "en":  "Tailwind Squall"
-                                    },
-    "card.shop_support_wind_tail":  {
-                                        "ru":  "Добивающий порыв",
-                                        "en":  "Finishing Gust"
-                                    }
+  "card.tank_stone_muzzle": {
+    "ru": "Каменный оскал",
+    "en": "Stone Snarl"
+  },
+  "card.tank_stone_headwear": {
+    "ru": "Галька-шлем",
+    "en": "Pebble Helm"
+  },
+  "card.tank_stone_back": {
+    "ru": "Щит-валун",
+    "en": "Boulder Guard"
+  },
+  "card.tank_stone_tail": {
+    "ru": "Хвост-утёс",
+    "en": "Cliff Tail"
+  },
+  "card.fighter_fire_muzzle": {
+    "ru": "Огненный укус",
+    "en": "Fire Bite"
+  },
+  "card.fighter_fire_headwear": {
+    "ru": "Искры на ушах",
+    "en": "Spark Crest"
+  },
+  "card.fighter_fire_back": {
+    "ru": "Пламенный удар",
+    "en": "Flame Strike"
+  },
+  "card.fighter_fire_tail": {
+    "ru": "Хлыст жара",
+    "en": "Heat Lash"
+  },
+  "card.support_water_muzzle": {
+    "ru": "Капля жизни",
+    "en": "Life Drop"
+  },
+  "card.support_water_headwear": {
+    "ru": "Чистый родник",
+    "en": "Clear Spring"
+  },
+  "card.support_water_back": {
+    "ru": "Волна опеки",
+    "en": "Ward Wave"
+  },
+  "card.support_water_tail": {
+    "ru": "Мягкий всплеск",
+    "en": "Soft Splash"
+  },
+  "card.mage_bolt_tail": {
+    "ru": "Хвост-разряд",
+    "en": "Spark Tail"
+  },
+  "card.ranger_grass_muzzle": {
+    "ru": "Засадный укус",
+    "en": "Ambush Bite"
+  },
+  "stage.test_yard_1": {
+    "ru": "Мифмир: учебный двор",
+    "en": "Mythmir: practice gate"
+  },
+  "card.bot_nibble": {
+    "ru": "Покус",
+    "en": "Nibble"
+  },
+  "card.bot_shell": {
+    "ru": "Кожура",
+    "en": "Husk"
+  },
+  "card.bot_nibble2": {
+    "ru": "Покус+",
+    "en": "Nibble+"
+  },
+  "card.bot_shell2": {
+    "ru": "Кожура+",
+    "en": "Husk+"
+  },
+  "card.bot_scratch": {
+    "ru": "Царапка",
+    "en": "Scratch"
+  },
+  "card.bot_scratch2": {
+    "ru": "Царапка 2",
+    "en": "Scratch 2"
+  },
+  "card.bot_scratch3": {
+    "ru": "Царапка 3",
+    "en": "Scratch 3"
+  },
+  "card.bot_scratch4": {
+    "ru": "Царапка 4",
+    "en": "Scratch 4"
+  },
+  "card.bot_sip": {
+    "ru": "Глоток",
+    "en": "Sip"
+  },
+  "card.bot_poke": {
+    "ru": "Тычок",
+    "en": "Poke"
+  },
+  "card.bot_sip2": {
+    "ru": "Глоток+",
+    "en": "Sip+"
+  },
+  "card.bot_poke2": {
+    "ru": "Тычок+",
+    "en": "Poke+"
+  },
+  "hub.tab.yard": {
+    "ru": "Мифмир",
+    "en": "Mythmir"
+  },
+  "hub.tab.pvp": {
+    "ru": "PvP",
+    "en": "PvP"
+  },
+  "hub.tab.collection": {
+    "ru": "Коллекция",
+    "en": "Collection"
+  },
+  "hub.tab.shop": {
+    "ru": "Магазин",
+    "en": "Shop"
+  },
+  "hub.tab.clans": {
+    "ru": "Гильдии",
+    "en": "Guilds"
+  },
+  "hub.tab.more": {
+    "ru": "Ещё",
+    "en": "More"
+  },
+  "hub.soon.clan_boss.title": {
+    "ru": "Клан-босс",
+    "en": "Clan Boss"
+  },
+  "hub.soon.farm.title": {
+    "ru": "Двор",
+    "en": "Farm"
+  },
+  "hub.soon.nursery.title": {
+    "ru": "Питомник",
+    "en": "Nursery"
+  },
+  "hub.soon.nursery.body": {
+    "ru": "Скоро: скрещивание обычных котов. Малый шанс мифика — N=6 сильнейших карт из смеси родителей. Без безлимитного breeding.",
+    "en": "Soon: breed ordinary cats. Small mythic chance — N=6 strongest cards from the parent mix. No unlimited breeding."
+  },
+  "hub.soon.body": {
+    "ru": "Скоро",
+    "en": "Coming soon"
+  },
+  "breeding.title": {
+    "ru": "Скрещивание",
+    "en": "Breeding"
+  },
+  "breeding.lead": {
+    "ru": "Цель Мифиус: из обычных котов — мифические. Малый шанс мифика; у мифика набор из N=6 сильнейших карт обоих родителей.",
+    "en": "Mythfel goal: turn ordinary cats into mythics. Small mythic chance; a mythic keeps the N=6 strongest cards from both parents."
+  },
+  "breeding.tip": {
+    "ru": "Питомник скоро · мифик = редкий шанс · N=6 карт родителей · подними ранг в боях",
+    "en": "Nursery soon · mythic = rare chance · N=6 parent cards · rank up in battles"
+  },
+  "shop.kind.yarn": {
+    "ru": "Клубки",
+    "en": "Yarn"
+  },
+  "shop.kind.gacha_jar": {
+    "ru": "Банки",
+    "en": "Jars"
+  },
+  "shop.kind.pass": {
+    "ru": "Пасс",
+    "en": "Pass"
+  },
+  "shop.kind.battle_potion": {
+    "ru": "Зелья",
+    "en": "Potions"
+  },
+  "shop.kind.slot_expand": {
+    "ru": "Слоты",
+    "en": "Slots"
+  },
+  "locale.name.ru": {
+    "ru": "Русский",
+    "en": "Russian"
+  },
+  "locale.name.en": {
+    "ru": "English",
+    "en": "English"
+  },
+  "tutorial.step.starters": {
+    "ru": "Три стартовых котика",
+    "en": "Your three starter cats"
+  },
+  "tutorial.step.yard_battle": {
+    "ru": "Бой в Мифмире",
+    "en": "Mythmir battle"
+  },
+  "tutorial.step.victory": {
+    "ru": "Победа в Мифмире",
+    "en": "Mythmir victory"
+  },
+  "tutorial.step.overtime": {
+    "ru": "Дольше 10 минут",
+    "en": "Over 10 minutes"
+  },
+  "hub.tab.hub": {
+    "ru": "Хаб",
+    "en": "Hub"
+  },
+  "hub.tab.formation": {
+    "ru": "Расстановка",
+    "en": "Formation"
+  },
+  "hub.tab.market": {
+    "ru": "Рынок",
+    "en": "Market"
+  },
+  "hub.tab.tavern": {
+    "ru": "Таверна",
+    "en": "Tavern"
+  },
+  "hub.tab.pass": {
+    "ru": "Пасс",
+    "en": "Pass"
+  },
+  "hub.home.title": {
+    "ru": "Таверна «Драконья Кружка»",
+    "en": "Tavern «Dragon Mug»"
+  },
+  "hub.home.lead": {
+    "ru": "Soft launch: Мифмир + PvP. Навигация — primary/subtabs.",
+    "en": "Soft launch: Mythmir + PvP. Primary/subtab navigation."
+  },
+  "hub.portal.yard": {
+    "ru": "PvE кампания Мифмира",
+    "en": "Mythmir PvE campaign"
+  },
+  "hub.portal.formation": {
+    "ru": "Строй 3v3 перед боем",
+    "en": "3v3 lineup before battle"
+  },
+  "hub.portal.pvp": {
+    "ru": "Дуэли и арена (smoke)",
+    "en": "Duels & arena (smoke)"
+  },
+  "hub.portal.collection": {
+    "ru": "Казарма и пресеты",
+    "en": "Barracks & presets"
+  },
+  "hub.portal.shop": {
+    "ru": "Лавка и призыв",
+    "en": "Shop & summon"
+  },
+  "hub.portal.market": {
+    "ru": "Купить / продать (stub)",
+    "en": "Buy / sell (stub)"
+  },
+  "hub.portal.tavern": {
+    "ru": "Молоко, напитки, зелья",
+    "en": "Milk, drinks, potions"
+  },
+  "hub.portal.pass": {
+    "ru": "Сезонный пасс",
+    "en": "Season pass"
+  },
+  "hub.portal.clans": {
+    "ru": "Клан и босс — скоро",
+    "en": "Clan & boss — soon"
+  },
+  "hub.portal.farm": {
+    "ru": "Двор усадьбы — скоро",
+    "en": "Estate farm — soon"
+  },
+  "hub.portal.nursery": {
+    "ru": "Питомник — скоро",
+    "en": "Nursery — soon"
+  },
+  "formation.title": {
+    "ru": "Строй отряда 3v3",
+    "en": "Squad formation 3v3"
+  },
+  "formation.lead": {
+    "ru": "Авангард → Центр → Тыл. Не ставь саппорта/стрелка/мага вперёд — фронт для танка (и мили).",
+    "en": "Vanguard → Center → Rear. Keep support/ranger/mage off the front — front is for tanks (and melee)."
+  },
+  "formation.lane.vanguard": {
+    "ru": "Авангард",
+    "en": "Vanguard"
+  },
+  "formation.lane.center": {
+    "ru": "Центр",
+    "en": "Center"
+  },
+  "formation.lane.rear": {
+    "ru": "Тыл",
+    "en": "Rear"
+  },
+  "formation.no_potions": {
+    "ru": "Нет зелий — зайди в Таверну",
+    "en": "No potions — visit the Tavern"
+  },
+  "tavern.title": {
+    "ru": "Таверна «Усатый Хмель»",
+    "en": "Tavern «Whiskered Hops»"
+  },
+  "tavern.lead": {
+    "ru": "Молоко, напитки и зелья. Лимит зелий в бой — UI stub.",
+    "en": "Milk, drinks, potions. Battle potion cap — UI stub."
+  },
+  "tavern.drinks": {
+    "ru": "Напитки",
+    "en": "Drinks"
+  },
+  "tavern.potions": {
+    "ru": "Зелья",
+    "en": "Potions"
+  },
+  "tavern.buy": {
+    "ru": "Купить",
+    "en": "Buy"
+  },
+  "tavern.owned": {
+    "ru": "В ранце",
+    "en": "Owned"
+  },
+  "tavern.bought": {
+    "ru": "Куплено (stub)",
+    "en": "Bought (stub)"
+  },
+  "tavern.drink.milk": {
+    "ru": "Парное молоко",
+    "en": "Fresh milk"
+  },
+  "tavern.drink.milk.fx": {
+    "ru": "+15 энергии",
+    "en": "+15 energy"
+  },
+  "tavern.drink.honey": {
+    "ru": "Медовый отвар",
+    "en": "Honey brew"
+  },
+  "tavern.drink.honey.fx": {
+    "ru": "+5% крит (1 бой)",
+    "en": "+5% crit (1 battle)"
+  },
+  "tavern.drink.mint": {
+    "ru": "Мятный настой",
+    "en": "Mint infusion"
+  },
+  "tavern.drink.mint.fx": {
+    "ru": "Сброс усталости",
+    "en": "Reset fatigue"
+  },
+  "tavern.potion.stone": {
+    "ru": "Зелье Каменной Шкуры",
+    "en": "Stone Skin potion"
+  },
+  "tavern.potion.stone.fx": {
+    "ru": "+800 брони на 2 хода",
+    "en": "+800 armor for 2 turns"
+  },
+  "tavern.potion.spark": {
+    "ru": "Эликсир Искрящих Когтей",
+    "en": "Sparking Claw elixir"
+  },
+  "tavern.potion.spark.fx": {
+    "ru": "+25% урон молнии",
+    "en": "+25% lightning damage"
+  },
+  "tavern.potion.nine": {
+    "ru": "Настой Девяти Жизней",
+    "en": "Nine Lives infusion"
+  },
+  "tavern.potion.nine.fx": {
+    "ru": "Спасение +1200 HP",
+    "en": "Rescue +1200 HP"
+  },
+  "tavern.potion.cleanse": {
+    "ru": "Отвар Очищения",
+    "en": "Cleansing decoction"
+  },
+  "tavern.potion.cleanse.fx": {
+    "ru": "Снимает негативы",
+    "en": "Removes debuffs"
+  },
+  "market.title": {
+    "ru": "Аукцион Хранителей",
+    "en": "Keepers' Auction"
+  },
+  "market.lead": {
+    "ru": "Buy/sell stub (без денег/крипты). Лоты локальные для ручного QA.",
+    "en": "Buy/sell stub (no real money/crypto). Local lots for manual QA."
+  },
+  "market.buy": {
+    "ru": "Купить",
+    "en": "Buy"
+  },
+  "market.empty": {
+    "ru": "Лотов нет",
+    "en": "No lots"
+  },
+  "market.no_gems": {
+    "ru": "Не хватает кристаллов",
+    "en": "Not enough crystals"
+  },
+  "market.bought": {
+    "ru": "Куплено (stub)",
+    "en": "Bought (stub)"
+  },
+  "market.listed": {
+    "ru": "Лот выставлен (stub)",
+    "en": "Lot listed (stub)"
+  },
+  "market.sell.title": {
+    "ru": "Выставить лот",
+    "en": "List a lot"
+  },
+  "market.sell.lead": {
+    "ru": "Stub: выставить starter в локальный список.",
+    "en": "Stub: list a starter in the local board."
+  },
+  "pass.title": {
+    "ru": "Зов Тёплого Очага",
+    "en": "Call of the Warm Hearth"
+  },
+  "pass.lead": {
+    "ru": "×2 XP · боксы по рангу · автоферма при ACTIVE.",
+    "en": "×2 XP · rank boxes · autofarm when ACTIVE."
+  },
+  "gate.tip.pass": {
+    "ru": "Активируй боевой пасс",
+    "en": "Activate the battle pass"
+  },
+  "farm.autofarm.on": {
+    "ru": "Автоферма ON · stub (сервер later)",
+    "en": "Autofarm ON · stub (server later)"
+  },
+  "farm.autofarm.off": {
+    "ru": "Автоферма OFF",
+    "en": "Autofarm OFF"
+  },
+  "farm.autofarm.lead.active": {
+    "ru": "Пасс ACTIVE · тумблеры stub · seeds/bait с Рынка",
+    "en": "Pass ACTIVE · stub toggles · seeds/bait from Market"
+  },
+  "farm.autofarm.lead.locked": {
+    "ru": "Нужен ACTIVE пасс · иначе tip «Активируй боевой пасс»",
+    "en": "Need ACTIVE pass · else tip «Activate the battle pass»"
+  },
+  "pass.autofarm.lead.active": {
+    "ru": "ACTIVE: фермеры / алхимик / gather→кузнец / auto-craft",
+    "en": "ACTIVE: farmers / alchemist / gather→blacksmith / auto-craft"
+  },
+  "pass.autofarm.lead.locked": {
+    "ru": "Без ACTIVE пасса автоферма недоступна",
+    "en": "Autofarm locked without ACTIVE pass"
+  },
+  "pass.active.stub.on": {
+    "ru": "Stub: пасс ACTIVE",
+    "en": "Stub: pass ACTIVE"
+  },
+  "pass.active.stub.off": {
+    "ru": "Stub: пасс inactive",
+    "en": "Stub: pass inactive"
+  },
+  "pass.active.stub.toggle_on": {
+    "ru": "Stub: пасс ACTIVE",
+    "en": "Stub: pass ACTIVE"
+  },
+  "pass.active.stub.toggle_off": {
+    "ru": "Stub: выключить ACTIVE",
+    "en": "Stub: turn ACTIVE off"
+  },
+  "pass.claim": {
+    "ru": "Забрать",
+    "en": "Claim"
+  },
+  "pass.reward.fish_50": {
+    "ru": "50 рыбок",
+    "en": "50 fish"
+  },
+  "pass.reward.yarn_10": {
+    "ru": "10 пряжи",
+    "en": "10 yarn"
+  },
+  "pass.reward.scrap": {
+    "ru": "Лом",
+    "en": "Scrap"
+  },
+  "pass.reward.potion_skin": {
+    "ru": "Зелье Шкуры x3",
+    "en": "Skin potion x3"
+  },
+  "pass.reward.bowl": {
+    "ru": "Миска",
+    "en": "Bowl"
+  },
+  "pass.reward.chest": {
+    "ru": "Сундук",
+    "en": "Chest"
+  },
+  "pass.reward.ticket": {
+    "ru": "Билет арены",
+    "en": "Arena ticket"
+  },
+  "pass.reward.potion_nine": {
+    "ru": "Зелье 9 Жизней x5",
+    "en": "Nine Lives x5"
+  },
+  "shop.gacha.title": {
+    "ru": "Алтарь Призыва",
+    "en": "Summon Altar"
+  },
+  "shop.gacha.lead": {
+    "ru": "Stub гачи: pity/банки — на backend.",
+    "en": "Gacha stub: pity/jars on backend."
+  },
+  "shop.gacha.stub": {
+    "ru": "Гача stub",
+    "en": "Gacha stub"
+  },
+  "result.eyebrow": {
+    "ru": "Итог боя",
+    "en": "Battle result"
+  },
+  "result.win": {
+    "ru": "Блестящая победа!",
+    "en": "Brilliant victory!"
+  },
+  "result.lose": {
+    "ru": "Поражение в бою",
+    "en": "Defeat in battle"
+  },
+  "nav.primary.character": {
+    "ru": "Дом Хранителя",
+    "en": "Keeper Home"
+  },
+  "nav.primary.combat": {
+    "ru": "Бои",
+    "en": "Combat"
+  },
+  "nav.primary.trade": {
+    "ru": "Торговля",
+    "en": "Trade"
+  },
+  "nav.primary.guilds": {
+    "ru": "Гильдии",
+    "en": "Guilds"
+  },
+  "nav.primary.chats": {
+    "ru": "Друзья",
+    "en": "Friends"
+  },
+  "nav.primary.pass": {
+    "ru": "Боевой пропуск",
+    "en": "Battle Pass"
+  },
+  "nav.primary.knowledge": {
+    "ru": "База знаний",
+    "en": "Knowledge base"
+  },
+  "nav.primary.ratings": {
+    "ru": "Рейтинги",
+    "en": "Ratings"
+  },
+  "nav.sub.gear": {
+    "ru": "Склад",
+    "en": "Storehouse"
+  },
+  "nav.sub.home": {
+    "ru": "Персонаж",
+    "en": "Character"
+  },
+  "nav.sub.farm": {
+    "ru": "Двор",
+    "en": "Farm"
+  },
+  "nav.sub.collection": {
+    "ru": "Коллекция котиков",
+    "en": "Cat collection"
+  },
+  "nav.sub.knowledge": {
+    "ru": "База знаний",
+    "en": "Knowledge base"
+  },
+  "nav.sub.craft": {
+    "ru": "Крафт",
+    "en": "Craft"
+  },
+  "nav.sub.breeding": {
+    "ru": "Скрещивание",
+    "en": "Breeding"
+  },
+  "nav.sub.mythmir": {
+    "ru": "Хаб боев Мифмир",
+    "en": "Mythmir battle hub"
+  },
+  "nav.sub.pve": {
+    "ru": "ПВЕ",
+    "en": "PvE"
+  },
+  "nav.sub.formation": {
+    "ru": "Строй 3v3",
+    "en": "3v3 formation"
+  },
+  "nav.sub.pvp": {
+    "ru": "ПВП",
+    "en": "PvP"
+  },
+  "nav.sub.boss_dungeon": {
+    "ru": "Походы",
+    "en": "Expeditions"
+  },
+  "dungeon.path.short": {
+    "ru": "Короткий ≤10",
+    "en": "Short ≤10"
+  },
+  "dungeon.path.long": {
+    "ru": "Длинный ≤15",
+    "en": "Long ≤15"
+  },
+  "dungeon.start": {
+    "ru": "В путь · 3v3",
+    "en": "Enter · 3v3"
+  },
+  "dungeon.buy_key": {
+    "ru": "Купить ключ за рыбу",
+    "en": "Buy key for fish"
+  },
+  "dungeon.fill_party": {
+    "ru": "Заполнить ботами",
+    "en": "Fill with bots"
+  },
+  "dungeon.solo_warn": {
+    "ru": "Соло нежелателен: сложность под пати 4",
+    "en": "Solo not recommended: tuned for party of 4"
+  },
+  "nav.sub.boss_raid": {
+    "ru": "Рейд",
+    "en": "Raid"
+  },
+  "nav.sub.trade_hub": {
+    "ru": "Хаб торговли Площадь",
+    "en": "Trade square hub"
+  },
+  "nav.sub.tavern": {
+    "ru": "Таверна",
+    "en": "Tavern"
+  },
+  "nav.sub.shop": {
+    "ru": "Магазин",
+    "en": "Shop"
+  },
+  "nav.sub.market": {
+    "ru": "Рынок",
+    "en": "Market"
+  },
+  "nav.sub.auction": {
+    "ru": "Аукцион",
+    "en": "Auction"
+  },
+  "nav.sub.guild_hub": {
+    "ru": "Хаб Гильдии",
+    "en": "Guild hub"
+  },
+  "nav.sub.guild": {
+    "ru": "Моя гильдия",
+    "en": "My guild"
+  },
+  "nav.sub.guild_battle": {
+    "ru": "Война Гильдий",
+    "en": "Guild war"
+  },
+  "guild.battle.title": {
+    "ru": "Бой гильдий (GvG)",
+    "en": "Guild vs guild (GvG)"
+  },
+  "guild.battle.lead": {
+    "ru": "3–12 котов на сторону. Матчмейкинг gated; размер 3 → демо 3v3 на ядре боя.",
+    "en": "3–12 cats per side. Matchmaking gated; size 3 → 3v3 core demo."
+  },
+  "guild.battle.start": {
+    "ru": "В бой гильдий",
+    "en": "Start guild battle"
+  },
+  "guild.battle.gate": {
+    "ru": "Бой гильдий 4–12 — подними ранг в боях",
+    "en": "Guild battle 4–12 — rank up in fights"
+  },
+  "guild.battle.demo": {
+    "ru": "GvG demo 3v3 — ядро боя; матчмейкинг не live",
+    "en": "GvG demo 3v3 — battle core; matchmaking not live"
+  },
+  "guild.clan_boss": {
+    "ru": "Клан-босс",
+    "en": "Clan boss"
+  },
+  "shop.lead_channels": {
+    "ru": "IAP · пасс · рыбки · breeding · 12 ordinary · grey armor · battle coins → gear",
+    "en": "IAP · pass · fish · breeding · 12 ordinary · grey armor · battle coins → gear"
+  },
+  "tavern.drink.milk_on_ice": {
+    "ru": "Молоко на льду",
+    "en": "Milk on ice"
+  },
+  "tavern.drink.milk_on_ice.fx": {
+    "ru": "HP после боя",
+    "en": "Post-fight HP"
+  },
+  "tavern.drink.cream_whisk": {
+    "ru": "Сливки с венчиком",
+    "en": "Cream whisk"
+  },
+  "tavern.drink.cream_whisk.fx": {
+    "ru": "ATK tip · PvE/данж",
+    "en": "ATK tip · PvE/dungeon"
+  },
+  "tavern.drink.moon_milk": {
+    "ru": "Лунное молоко",
+    "en": "Moon milk"
+  },
+  "tavern.drink.moon_milk.fx": {
+    "ru": "DEF tip · PvE/данж",
+    "en": "DEF tip · PvE/dungeon"
+  },
+  "tavern.drink.spice_milk": {
+    "ru": "Пряное молоко",
+    "en": "Spice milk"
+  },
+  "tavern.drink.spice_milk.fx": {
+    "ru": "SPD tip · PvE/данж",
+    "en": "SPD tip · PvE/dungeon"
+  },
+  "tavern.drink.herbal_milk": {
+    "ru": "Травяное молоко",
+    "en": "Herbal milk"
+  },
+  "tavern.drink.herbal_milk.fx": {
+    "ru": "Resist tip · PvE/данж",
+    "en": "Resist tip · PvE/dungeon"
+  },
+  "market.quick_sell": {
+    "ru": "Quick sell лута",
+    "en": "Quick sell loot"
+  },
+  "market.quick_sell.tip": {
+    "ru": "Quick sell — подними ранг в боях",
+    "en": "Quick sell — rank up in fights"
+  },
+  "market.catalog.buy": {
+    "ru": "Купить",
+    "en": "Buy"
+  },
+  "market.catalog.sell": {
+    "ru": "Сбыт крафта / ресурсов (NPC)",
+    "en": "Sell craft / resources (NPC)"
+  },
+  "auction.list_stub": {
+    "ru": "Выставить лот",
+    "en": "List a lot"
+  },
+  "nav.sub.chat_global": {
+    "ru": "Чаты",
+    "en": "Chats"
+  },
+  "nav.sub.chat_guild": {
+    "ru": "Чат Гильдии",
+    "en": "Guild chat"
+  },
+  "nav.sub.chat_friends": {
+    "ru": "Список Друзей",
+    "en": "Friend list"
+  },
+  "nav.sub.pass": {
+    "ru": "Боевой пасс",
+    "en": "Battle Pass"
+  },
+  "nav.sub.rating_players": {
+    "ru": "Рейтинг ПВП",
+    "en": "PvP rating"
+  },
+  "nav.sub.rating_dungeon": {
+    "ru": "Рейтинг Данжей",
+    "en": "Dungeon rating"
+  },
+  "nav.sub.rating_raid": {
+    "ru": "Рейтинг Рейдов",
+    "en": "Raid rating"
+  },
+  "nav.sub.rating_guilds": {
+    "ru": "Рейтинг Гильдий",
+    "en": "Guild rating"
+  },
+  "hub.tab.boss_raid": {
+    "ru": "Рейд",
+    "en": "Raid"
+  },
+  "hub.tab.auction": {
+    "ru": "Аукцион",
+    "en": "Auction"
+  },
+  "mythmir.stage.1": {
+    "ru": "Железная Цитадель",
+    "en": "Iron Citadel"
+  },
+  "stage.mythmir_1_f1": {
+    "ru": "Железная Цитадель — Солдаты",
+    "en": "Iron Citadel — Soldiers"
+  },
+  "stage.mythmir_1_f2": {
+    "ru": "Железная Цитадель — Солдаты",
+    "en": "Iron Citadel — Soldiers"
+  },
+  "stage.mythmir_1_f3": {
+    "ru": "Железная Цитадель — Питбосс + солдаты",
+    "en": "Iron Citadel — Pitboss + soldiers"
+  },
+  "mythmir.stage.2": {
+    "ru": "Ледяные Пещеры",
+    "en": "Ice Caves"
+  },
+  "stage.mythmir_2_f1": {
+    "ru": "Ледяные Пещеры — Солдаты",
+    "en": "Ice Caves — Soldiers"
+  },
+  "stage.mythmir_2_f2": {
+    "ru": "Ледяные Пещеры — Солдаты",
+    "en": "Ice Caves — Soldiers"
+  },
+  "stage.mythmir_2_f3": {
+    "ru": "Ледяные Пещеры — Питбосс + солдаты",
+    "en": "Ice Caves — Pitboss + soldiers"
+  },
+  "mythmir.stage.3": {
+    "ru": "Алая Псарня",
+    "en": "Scarlet Kennel"
+  },
+  "stage.mythmir_3_f1": {
+    "ru": "Алая Псарня — Солдаты",
+    "en": "Scarlet Kennel — Soldiers"
+  },
+  "stage.mythmir_3_f2": {
+    "ru": "Алая Псарня — Солдаты",
+    "en": "Scarlet Kennel — Soldiers"
+  },
+  "stage.mythmir_3_f3": {
+    "ru": "Алая Псарня — Питбосс + солдаты",
+    "en": "Scarlet Kennel — Pitboss + soldiers"
+  },
+  "mythmir.stage.4": {
+    "ru": "Чумные Склепы",
+    "en": "Plague Crypts"
+  },
+  "stage.mythmir_4_f1": {
+    "ru": "Чумные Склепы — Солдаты",
+    "en": "Plague Crypts — Soldiers"
+  },
+  "stage.mythmir_4_f2": {
+    "ru": "Чумные Склепы — Солдаты",
+    "en": "Plague Crypts — Soldiers"
+  },
+  "stage.mythmir_4_f3": {
+    "ru": "Чумные Склепы — Питбосс + солдаты",
+    "en": "Plague Crypts — Pitboss + soldiers"
+  },
+  "mythmir.stage.5": {
+    "ru": "Призрачный Чертог",
+    "en": "Ghost Hall"
+  },
+  "stage.mythmir_5_f1": {
+    "ru": "Призрачный Чертог — Солдаты",
+    "en": "Ghost Hall — Soldiers"
+  },
+  "stage.mythmir_5_f2": {
+    "ru": "Призрачный Чертог — Солдаты",
+    "en": "Ghost Hall — Soldiers"
+  },
+  "stage.mythmir_5_f3": {
+    "ru": "Призрачный Чертог — Питбосс + солдаты",
+    "en": "Ghost Hall — Pitboss + soldiers"
+  },
+  "stage.practice_dummy_1": {
+    "ru": "Тренировочный манекен",
+    "en": "Тренировочный манекен"
+  },
+  "stage.boss_first_w1": {
+    "ru": "Архипёс · волна 1 (мелкие)",
+    "en": "Архипёс · волна 1 (мелкие)"
+  },
+  "stage.boss_first_w2": {
+    "ru": "Архипёс · волна 2 (стая)",
+    "en": "Архипёс · волна 2 (стая)"
+  },
+  "stage.boss_first_w3": {
+    "ru": "Архипёс · волна 3 (босс)",
+    "en": "Архипёс · волна 3 (босс)"
+  },
+  "nav.sub.practice": {
+    "ru": "Тренировка",
+    "en": "Тренировка"
+  },
+  "nav.sub.codex": {
+    "ru": "Кодекс",
+    "en": "Кодекс"
+  },
+  "nav.sub.heroes": {
+    "ru": "Кодекс героев",
+    "en": "Heroes codex"
+  },
+  "nav.sub.armor_sets": {
+    "ru": "Сеты брони",
+    "en": "Armor sets"
+  },
+  "nav.sub.class_sets": {
+    "ru": "Классовые сеты",
+    "en": "Class sets"
+  },
+  "nav.sub.equip_cards": {
+    "ru": "Карточки экипировки",
+    "en": "Equipment cards"
+  },
+  "nav.sub.login": {
+    "ru": "Вход",
+    "en": "Вход"
+  },
+  "gate.tip.rank": {
+    "ru": "Подними ранг в боях",
+    "en": "Rank up in battles"
+  },
+  "gate.tip.pvp": {
+    "ru": "PvP откроется после 3 побед в Мифмире или тренировке",
+    "en": "PvP unlocks after 3 Mythmir or practice wins"
+  },
+  "gate.tip.breeding": {
+    "ru": "Питомник: обычные → мифики (малый шанс). Пока — подними ранг в боях",
+    "en": "Nursery: ordinary → mythics (small chance). For now — rank up in battles"
+  },
+  "tavern.lead_milk": {
+    "ru": "Молочный бар: восстанови HP и энергию после боя. Зелья — на рынке у крафтеров.",
+    "en": "Молочный бар: восстанови HP и энергию после боя. Зелья — на рынке у крафтеров."
+  },
+  "shop.common_cats": {
+    "ru": "Обычные коты",
+    "en": "Обычные коты"
+  },
+  "shop.lead_common": {
+    "ru": "6 классов × 2 варианта = 12 обычных котов · фиксированные киты из 6 карт · за рыбок",
+    "en": "6 classes × 2 variants = 12 ordinary cats · fixed 6-card kits · fish"
+  },
+  "mythmir.mission_list": {
+    "ru": "Список миссий",
+    "en": "Список миссий"
+  },
+  "boss.first.title": {
+    "ru": "Первый босс: Архипёс",
+    "en": "Первый босс: Архипёс"
+  },
+  "boss.first.wave": {
+    "ru": "Волна",
+    "en": "Волна"
+  },
+  "practice.lead": {
+    "ru": "Тренировочный лагерь — победы считаются к открытию PvP",
+    "en": "Тренировочный лагерь — победы считаются к открытию PvP"
+  },
+  "codex.lead": {
+    "ru": "Кодекс Мифмира — механики, строй, походы",
+    "en": "Кодекс Мифмира — механики, строй, походы"
+  },
+  "login.cta": {
+    "ru": "Войти как Хранитель",
+    "en": "Войти как Хранитель"
+  },
+  "card.shop_tank_stone_a_muzzle": {
+    "ru": "Каменный оскал",
+    "en": "Stone Snarl"
+  },
+  "card.shop_tank_stone_a_headwear": {
+    "ru": "Галька-шлем",
+    "en": "Pebble Helm"
+  },
+  "card.shop_tank_stone_a_back": {
+    "ru": "Щит-валун",
+    "en": "Boulder Guard"
+  },
+  "card.shop_tank_stone_a_tail": {
+    "ru": "Хвост-утёс",
+    "en": "Cliff Tail"
+  },
+  "shop.offer.shop_cat_tank_common_a": {
+    "ru": "Обычный танк A (щит/агро)",
+    "en": "Common tank A (shield/aggro)"
+  },
+  "card.shop_tank_stone_b_muzzle": {
+    "ru": "Пробой когтем",
+    "en": "Pierce Claw"
+  },
+  "card.shop_tank_stone_b_headwear": {
+    "ru": "Щит-осколок",
+    "en": "Shard Guard"
+  },
+  "card.shop_tank_stone_b_back": {
+    "ru": "Бронелом",
+    "en": "Armor Break"
+  },
+  "card.shop_tank_stone_b_tail": {
+    "ru": "Хвост-пробой",
+    "en": "Pierce Tail"
+  },
+  "shop.offer.shop_cat_tank_common_b": {
+    "ru": "Обычный танк B (пробой)",
+    "en": "Common tank B (pierce)"
+  },
+  "card.shop_fighter_fire_a_muzzle": {
+    "ru": "Парный укус",
+    "en": "Twin Bite"
+  },
+  "card.shop_fighter_fire_a_headwear": {
+    "ru": "Искры-когти",
+    "en": "Spark Claws"
+  },
+  "card.shop_fighter_fire_a_back": {
+    "ru": "Критовсечь",
+    "en": "Crit Slash"
+  },
+  "card.shop_fighter_fire_a_tail": {
+    "ru": "Двойной хлыст",
+    "en": "Twin Lash"
+  },
+  "shop.offer.shop_cat_fighter_common_a": {
+    "ru": "Обычный боец A (парный/крит)",
+    "en": "Common fighter A (dual/crit)"
+  },
+  "card.shop_fighter_fire_b_muzzle": {
+    "ru": "Двуручный удар",
+    "en": "Great Swing"
+  },
+  "card.shop_fighter_fire_b_headwear": {
+    "ru": "Тяжёлый оскал",
+    "en": "Heavy Snarl"
+  },
+  "card.shop_fighter_fire_b_back": {
+    "ru": "Молот жара",
+    "en": "Heat Hammer"
+  },
+  "card.shop_fighter_fire_b_tail": {
+    "ru": "Тяжёлый хлыст",
+    "en": "Heavy Lash"
+  },
+  "shop.offer.shop_cat_fighter_common_b": {
+    "ru": "Обычный боец B (двуручный)",
+    "en": "Common fighter B (two-hand)"
+  },
+  "card.shop_assassin_bolt_a_muzzle": {
+    "ru": "Теневой укус",
+    "en": "Shadow Bite"
+  },
+  "card.shop_assassin_bolt_a_headwear": {
+    "ru": "Ускользнуть",
+    "en": "Slip Away"
+  },
+  "card.shop_assassin_bolt_a_back": {
+    "ru": "Крит из тени",
+    "en": "Shade Crit"
+  },
+  "card.shop_assassin_bolt_a_tail": {
+    "ru": "Исчезновение",
+    "en": "Vanish Strike"
+  },
+  "shop.offer.shop_cat_assassin_common_a": {
+    "ru": "Обычный убийца A (уворот/крит)",
+    "en": "Common assassin A (evade/crit)"
+  },
+  "card.shop_assassin_bolt_b_muzzle": {
+    "ru": "Укол в тыл",
+    "en": "Backstab"
+  },
+  "card.shop_assassin_bolt_b_headwear": {
+    "ru": "Тихий разряд",
+    "en": "Silent Bolt"
+  },
+  "card.shop_assassin_bolt_b_back": {
+    "ru": "Пронзить тыл",
+    "en": "Rear Pierce"
+  },
+  "card.shop_assassin_bolt_b_tail": {
+    "ru": "Казнь сзади",
+    "en": "Rear Execute"
+  },
+  "shop.offer.shop_cat_assassin_common_b": {
+    "ru": "Обычный убийца B (тыл/крит)",
+    "en": "Common assassin B (backline/crit)"
+  },
+  "card.shop_ranger_grass_a_muzzle": {
+    "ru": "Метка охотника",
+    "en": "Hunter's Mark"
+  },
+  "card.shop_ranger_grass_a_headwear": {
+    "ru": "Прицельный укус",
+    "en": "Aimed Bite"
+  },
+  "card.shop_ranger_grass_a_back": {
+    "ru": "Стрела в тыл",
+    "en": "Rear Arrow"
+  },
+  "card.shop_ranger_grass_a_tail": {
+    "ru": "Крит-засада",
+    "en": "Ambush Crit"
+  },
+  "shop.offer.shop_cat_ranger_common_a": {
+    "ru": "Обычный стрелок A (охотник)",
+    "en": "Common ranger A (hunter)"
+  },
+  "card.shop_ranger_grass_b_muzzle": {
+    "ru": "Град стрел",
+    "en": "Arrow Storm"
+  },
+  "card.shop_ranger_grass_b_headwear": {
+    "ru": "Тяжёлые стрелы",
+    "en": "Heavy Arrows"
+  },
+  "card.shop_ranger_grass_b_back": {
+    "ru": "Метка слабого",
+    "en": "Weak Mark"
+  },
+  "card.shop_ranger_grass_b_tail": {
+    "ru": "Залп по площади",
+    "en": "Volley"
+  },
+  "shop.offer.shop_cat_ranger_common_b": {
+    "ru": "Обычный стрелок B (AoE)",
+    "en": "Common ranger B (AoE)"
+  },
+  "card.shop_mage_fire_a_muzzle": {
+    "ru": "Огненный круг",
+    "en": "Fire Ring"
+  },
+  "card.shop_mage_fire_a_headwear": {
+    "ru": "Искра-крит",
+    "en": "Spark Crit"
+  },
+  "card.shop_mage_fire_a_back": {
+    "ru": "Волна жара",
+    "en": "Heat Wave"
+  },
+  "card.shop_mage_fire_a_tail": {
+    "ru": "Ожог тыла",
+    "en": "Rear Burn"
+  },
+  "shop.offer.shop_cat_mage_common_a": {
+    "ru": "Обычный маг A (огонь/AoE)",
+    "en": "Common mage A (fire/AoE)"
+  },
+  "card.shop_mage_ice_b_muzzle": {
+    "ru": "Ледяная буря",
+    "en": "Ice Storm"
+  },
+  "card.shop_mage_ice_b_headwear": {
+    "ru": "Морозный укус",
+    "en": "Frost Bite"
+  },
+  "card.shop_mage_ice_b_back": {
+    "ru": "Холодный фронт",
+    "en": "Cold Front"
+  },
+  "card.shop_mage_ice_b_tail": {
+    "ru": "Заморозка тыла",
+    "en": "Rear Freeze"
+  },
+  "shop.offer.shop_cat_mage_common_b": {
+    "ru": "Обычный маг B (лёд/стан)",
+    "en": "Common mage B (ice/freeze)"
+  },
+  "card.shop_support_water_a_muzzle": {
+    "ru": "Капля жизни",
+    "en": "Life Drop"
+  },
+  "card.shop_support_water_a_headwear": {
+    "ru": "Чистый родник",
+    "en": "Clear Spring"
+  },
+  "card.shop_support_water_a_back": {
+    "ru": "Волна опеки",
+    "en": "Ward Wave"
+  },
+  "card.shop_support_water_a_tail": {
+    "ru": "Очищение",
+    "en": "Cleanse Flow"
+  },
+  "shop.offer.shop_cat_support_common_a": {
+    "ru": "Обычная поддержка A (хил/чистота)",
+    "en": "Common support A (heal/cleanse)"
+  },
+  "card.shop_support_water_b_muzzle": {
+    "ru": "Лёгкий хил",
+    "en": "Soft Heal"
+  },
+  "card.shop_support_water_b_headwear": {
+    "ru": "Боевой настрой",
+    "en": "Battle Cheer"
+  },
+  "card.shop_support_water_b_back": {
+    "ru": "Прилив силы",
+    "en": "Tide Buff"
+  },
+  "card.shop_support_water_b_tail": {
+    "ru": "Ослабить врага",
+    "en": "Weaken"
+  },
+  "shop.offer.shop_cat_support_common_b": {
+    "ru": "Обычная поддержка B (хил/бафф)",
+    "en": "Common support B (heal/buff)"
+  },
+  "formation.tip.roles": {
+    "ru": "Подсказка: саппорт и стрелок бьют с любого ряда — береги их в тылу.",
+    "en": "Tip: support and ranger hit from any lane — keep them in the rear."
+  },
+  "nav.sub.soon_clan": {
+    "ru": "Клан",
+    "en": "Clan"
+  },
+  "card.shop_tank_stone_a_eyes": {
+    "ru": "Каменный взор",
+    "en": "Stone Gaze"
+  },
+  "card.shop_tank_stone_a_ears": {
+    "ru": "Уши валуна",
+    "en": "Boulder Ears"
+  },
+  "card.shop_tank_stone_b_eyes": {
+    "ru": "Трещина взора",
+    "en": "Crack Gaze"
+  },
+  "card.shop_tank_stone_b_ears": {
+    "ru": "Чуткость бреши",
+    "en": "Breach Sense"
+  },
+  "card.shop_fighter_fire_a_eyes": {
+    "ru": "Искрящий взгляд",
+    "en": "Spark Gaze"
+  },
+  "card.shop_fighter_fire_a_ears": {
+    "ru": "Боевой слух",
+    "en": "Battle Ear"
+  },
+  "card.shop_fighter_fire_b_eyes": {
+    "ru": "Яростный взор",
+    "en": "Fury Gaze"
+  },
+  "card.shop_fighter_fire_b_ears": {
+    "ru": "Рёв стали",
+    "en": "Steel Roar"
+  },
+  "card.shop_assassin_bolt_a_eyes": {
+    "ru": "Глаза мглы",
+    "en": "Mist Eyes"
+  },
+  "card.shop_assassin_bolt_a_ears": {
+    "ru": "Шёпот ветра",
+    "en": "Wind Whisper"
+  },
+  "card.shop_assassin_bolt_b_eyes": {
+    "ru": "Прицел в спину",
+    "en": "Back Aim"
+  },
+  "card.shop_assassin_bolt_b_ears": {
+    "ru": "Слух поддержки",
+    "en": "Support Ear"
+  },
+  "card.shop_ranger_grass_a_eyes": {
+    "ru": "Глаз добычи",
+    "en": "Prey Eye"
+  },
+  "card.shop_ranger_grass_a_ears": {
+    "ru": "Уши засады",
+    "en": "Ambush Ears"
+  },
+  "card.shop_ranger_grass_b_eyes": {
+    "ru": "Широкий взор",
+    "en": "Wide Gaze"
+  },
+  "card.shop_ranger_grass_b_ears": {
+    "ru": "Дальний слух",
+    "en": "Far Hearing"
+  },
+  "card.shop_mage_fire_a_eyes": {
+    "ru": "Пламенный зрачок",
+    "en": "Ember Pupil"
+  },
+  "card.shop_mage_fire_a_ears": {
+    "ru": "Треск искр",
+    "en": "Spark Crack"
+  },
+  "card.shop_mage_ice_b_eyes": {
+    "ru": "Ледяной взор",
+    "en": "Ice Gaze"
+  },
+  "card.shop_mage_ice_b_ears": {
+    "ru": "Холодный слух",
+    "en": "Cold Hearing"
+  },
+  "card.shop_support_water_a_eyes": {
+    "ru": "Целительный взгляд",
+    "en": "Healing Gaze"
+  },
+  "card.shop_support_water_a_ears": {
+    "ru": "Уши очищения",
+    "en": "Cleanse Ears"
+  },
+  "card.shop_support_water_b_eyes": {
+    "ru": "Вдохновляющий взор",
+    "en": "Inspire Gaze"
+  },
+  "card.shop_support_water_b_ears": {
+    "ru": "Шёпот слабости",
+    "en": "Weakness Whisper"
+  },
+  "card.tank_stone_eyes": {
+    "ru": "Каменный взор",
+    "en": "Stone Gaze"
+  },
+  "card.tank_stone_ears": {
+    "ru": "Уши валуна",
+    "en": "Boulder Ears"
+  },
+  "card.fighter_fire_eyes": {
+    "ru": "Искрящий взгляд",
+    "en": "Spark Gaze"
+  },
+  "card.fighter_fire_ears": {
+    "ru": "Боевой слух",
+    "en": "Battle Ear"
+  },
+  "card.support_water_eyes": {
+    "ru": "Целительный взгляд",
+    "en": "Healing Gaze"
+  },
+  "card.support_water_ears": {
+    "ru": "Уши очищения",
+    "en": "Cleanse Ears"
+  },
+  "pve.fatigue.tip": {
+    "ru": "Котики устали после боя · молоко в Таверне или подождите 5–10 мин (stub)",
+    "en": "Cats are tired after the fight · tavern milk or wait 5–10 min (stub)"
+  },
+  "pve.fatigue.active": {
+    "ru": "Отряд устал (stub) · можно идти в бой; LiveOps pve_fatigue_stub",
+    "en": "Squad fatigued (stub) · can still fight; LiveOps pve_fatigue_stub"
+  },
+  "pve.fatigue.cleared": {
+    "ru": "Усталость снята молоком на льду (stub)",
+    "en": "Fatigue cleared with milk on ice (stub)"
+  },
+  "card.shop_tank_fire_eyes": {
+    "ru": "Жаркий взор",
+    "en": "Ember Gaze"
+  },
+  "card.shop_tank_fire_ears": {
+    "ru": "Слух горна",
+    "en": "Horn Hearing"
+  },
+  "card.shop_tank_fire_muzzle": {
+    "ru": "Оскал жара",
+    "en": "Heat Snarl"
+  },
+  "card.shop_tank_fire_headwear": {
+    "ru": "Шлем углей",
+    "en": "Cinder Helm"
+  },
+  "card.shop_tank_fire_back": {
+    "ru": "Удар щита-жара",
+    "en": "Heat Bash"
+  },
+  "card.shop_tank_fire_tail": {
+    "ru": "Хлыст пламени",
+    "en": "Flame Lash"
+  },
+  "card.shop_tank_water_eyes": {
+    "ru": "Трещина волны",
+    "en": "Wave Crack"
+  },
+  "card.shop_tank_water_ears": {
+    "ru": "Слух бреши",
+    "en": "Breach Ear"
+  },
+  "card.shop_tank_water_muzzle": {
+    "ru": "Клык прилива",
+    "en": "Tide Fang"
+  },
+  "card.shop_tank_water_headwear": {
+    "ru": "Шлем пены",
+    "en": "Foam Helm"
+  },
+  "card.shop_tank_water_back": {
+    "ru": "Таран глубины",
+    "en": "Depth Ram"
+  },
+  "card.shop_tank_water_tail": {
+    "ru": "Хвост-пробой",
+    "en": "Pierce Tail"
+  },
+  "card.shop_tank_wind_eyes": {
+    "ru": "Взор бури",
+    "en": "Storm Gaze"
+  },
+  "card.shop_tank_wind_ears": {
+    "ru": "Слух отката",
+    "en": "Rebound Ear"
+  },
+  "card.shop_tank_wind_muzzle": {
+    "ru": "Рёв ветра",
+    "en": "Wind Roar"
+  },
+  "card.shop_tank_wind_headwear": {
+    "ru": "Корона шквала",
+    "en": "Squall Crown"
+  },
+  "card.shop_tank_wind_back": {
+    "ru": "Щит-вихрь",
+    "en": "Vortex Guard"
+  },
+  "card.shop_tank_wind_tail": {
+    "ru": "Ответный порыв",
+    "en": "Reply Gust"
+  },
+  "card.shop_fighter_fire_eyes": {
+    "ru": "Искрящий взгляд",
+    "en": "Spark Gaze"
+  },
+  "card.shop_fighter_fire_ears": {
+    "ru": "Боевой слух",
+    "en": "Battle Ear"
+  },
+  "card.shop_fighter_fire_muzzle": {
+    "ru": "Парный укус",
+    "en": "Twin Bite"
+  },
+  "card.shop_fighter_fire_headwear": {
+    "ru": "Корона искр",
+    "en": "Spark Crown"
+  },
+  "card.shop_fighter_fire_back": {
+    "ru": "Двойной удар",
+    "en": "Double Strike"
+  },
+  "card.shop_fighter_fire_tail": {
+    "ru": "Хлыст жара",
+    "en": "Heat Whip"
+  },
+  "card.shop_fighter_water_eyes": {
+    "ru": "Тяжёлый взор",
+    "en": "Heavy Gaze"
+  },
+  "card.shop_fighter_water_ears": {
+    "ru": "Рёв стали-воды",
+    "en": "Steelwater Roar"
+  },
+  "card.shop_fighter_water_muzzle": {
+    "ru": "Молот прилива",
+    "en": "Tide Hammer"
+  },
+  "card.shop_fighter_water_headwear": {
+    "ru": "Шлем вала",
+    "en": "Surge Helm"
+  },
+  "card.shop_fighter_water_back": {
+    "ru": "Двуручный шквал",
+    "en": "Twohand Squall"
+  },
+  "card.shop_fighter_water_tail": {
+    "ru": "Добивающий вал",
+    "en": "Finishing Wave"
+  },
+  "card.shop_fighter_wind_eyes": {
+    "ru": "Взор порыва",
+    "en": "Gust Gaze"
+  },
+  "card.shop_fighter_wind_ears": {
+    "ru": "Слух строя",
+    "en": "Line Ear"
+  },
+  "card.shop_fighter_wind_muzzle": {
+    "ru": "Клык вихря",
+    "en": "Vortex Fang"
+  },
+  "card.shop_fighter_wind_headwear": {
+    "ru": "Лента ветра",
+    "en": "Wind Ribbon"
+  },
+  "card.shop_fighter_wind_back": {
+    "ru": "Ветряной размах",
+    "en": "Wind Sweep"
+  },
+  "card.shop_fighter_wind_tail": {
+    "ru": "Финальный порыв",
+    "en": "Final Gust"
+  },
+  "card.shop_assassin_fire_eyes": {
+    "ru": "Глаза мглы-жара",
+    "en": "Ember Haze Eyes"
+  },
+  "card.shop_assassin_fire_ears": {
+    "ru": "Шёпот искр",
+    "en": "Spark Whisper"
+  },
+  "card.shop_assassin_fire_muzzle": {
+    "ru": "Теневой укус",
+    "en": "Shadow Bite"
+  },
+  "card.shop_assassin_fire_headwear": {
+    "ru": "Маска угля",
+    "en": "Coal Mask"
+  },
+  "card.shop_assassin_fire_back": {
+    "ru": "Удар из тени",
+    "en": "Shadow Strike"
+  },
+  "card.shop_assassin_fire_tail": {
+    "ru": "Исчезновение",
+    "en": "Vanish"
+  },
+  "card.shop_assassin_water_eyes": {
+    "ru": "Прицел в спину",
+    "en": "Back Aim"
+  },
+  "card.shop_assassin_water_ears": {
+    "ru": "Слух тыла",
+    "en": "Rear Ear"
+  },
+  "card.shop_assassin_water_muzzle": {
+    "ru": "Укол прилива",
+    "en": "Tide Stab"
+  },
+  "card.shop_assassin_water_headwear": {
+    "ru": "Капюшон пены",
+    "en": "Foam Hood"
+  },
+  "card.shop_assassin_water_back": {
+    "ru": "Казнь сзади",
+    "en": "Rear Execute"
+  },
+  "card.shop_assassin_water_tail": {
+    "ru": "Тихий разряд",
+    "en": "Quiet Discharge"
+  },
+  "card.shop_assassin_wind_eyes": {
+    "ru": "Глаза сквозняка",
+    "en": "Draft Eyes"
+  },
+  "card.shop_assassin_wind_ears": {
+    "ru": "Слух роя",
+    "en": "Swarm Ear"
+  },
+  "card.shop_assassin_wind_muzzle": {
+    "ru": "Ядовитый порыв",
+    "en": "Venom Gust"
+  },
+  "card.shop_assassin_wind_headwear": {
+    "ru": "Маска пыльцы",
+    "en": "Pollen Mask"
+  },
+  "card.shop_assassin_wind_back": {
+    "ru": "Шквал яда",
+    "en": "Poison Squall"
+  },
+  "card.shop_assassin_wind_tail": {
+    "ru": "Хвост-зараз",
+    "en": "Plague Tail"
+  },
+  "card.shop_ranger_fire_eyes": {
+    "ru": "Глаз добычи",
+    "en": "Prey Eye"
+  },
+  "card.shop_ranger_fire_ears": {
+    "ru": "Уши засады",
+    "en": "Ambush Ears"
+  },
+  "card.shop_ranger_fire_muzzle": {
+    "ru": "Выстрел жара",
+    "en": "Heat Shot"
+  },
+  "card.shop_ranger_fire_headwear": {
+    "ru": "Капюшон охоты",
+    "en": "Hunt Hood"
+  },
+  "card.shop_ranger_fire_back": {
+    "ru": "Огненная стрела",
+    "en": "Fire Arrow"
+  },
+  "card.shop_ranger_fire_tail": {
+    "ru": "Добивание",
+    "en": "Finish Off"
+  },
+  "card.shop_ranger_water_eyes": {
+    "ru": "Широкий взор",
+    "en": "Wide Gaze"
+  },
+  "card.shop_ranger_water_ears": {
+    "ru": "Дальний слух",
+    "en": "Far Ear"
+  },
+  "card.shop_ranger_water_muzzle": {
+    "ru": "Град капель",
+    "en": "Drop Volley"
+  },
+  "card.shop_ranger_water_headwear": {
+    "ru": "Обруч прилива",
+    "en": "Tide Circlet"
+  },
+  "card.shop_ranger_water_back": {
+    "ru": "Волна стрел",
+    "en": "Arrow Wave"
+  },
+  "card.shop_ranger_water_tail": {
+    "ru": "Стрела-якорь",
+    "en": "Anchor Arrow"
+  },
+  "card.shop_ranger_wind_eyes": {
+    "ru": "Метка ветра",
+    "en": "Wind Mark"
+  },
+  "card.shop_ranger_wind_ears": {
+    "ru": "Слух цели",
+    "en": "Target Ear"
+  },
+  "card.shop_ranger_wind_muzzle": {
+    "ru": "Пронзающий свист",
+    "en": "Piercing Whistle"
+  },
+  "card.shop_ranger_wind_headwear": {
+    "ru": "Перо следопыта",
+    "en": "Tracker Feather"
+  },
+  "card.shop_ranger_wind_back": {
+    "ru": "Стрела-шквал",
+    "en": "Squall Arrow"
+  },
+  "card.shop_ranger_wind_tail": {
+    "ru": "Финальный свист",
+    "en": "Final Whistle"
+  },
+  "card.shop_mage_fire_eyes": {
+    "ru": "Пламенный зрачок",
+    "en": "Flame Pupil"
+  },
+  "card.shop_mage_fire_ears": {
+    "ru": "Треск искр",
+    "en": "Spark Crack"
+  },
+  "card.shop_mage_fire_muzzle": {
+    "ru": "Огненный шар",
+    "en": "Fireball"
+  },
+  "card.shop_mage_fire_headwear": {
+    "ru": "Корона углей",
+    "en": "Cinder Crown"
+  },
+  "card.shop_mage_fire_back": {
+    "ru": "Волна жара",
+    "en": "Heat Wave"
+  },
+  "card.shop_mage_fire_tail": {
+    "ru": "Искра дожатия",
+    "en": "Finish Spark"
+  },
+  "card.shop_mage_water_eyes": {
+    "ru": "Ледяной взор",
+    "en": "Ice Gaze"
+  },
+  "card.shop_mage_water_ears": {
+    "ru": "Холодный слух",
+    "en": "Cold Ear"
+  },
+  "card.shop_mage_water_muzzle": {
+    "ru": "Морозный укус",
+    "en": "Frost Bite"
+  },
+  "card.shop_mage_water_headwear": {
+    "ru": "Корона льда-воды",
+    "en": "Icewater Crown"
+  },
+  "card.shop_mage_water_back": {
+    "ru": "Буря льда",
+    "en": "Ice Storm"
+  },
+  "card.shop_mage_water_tail": {
+    "ru": "Стылый хвост",
+    "en": "Chill Tail"
+  },
+  "card.shop_mage_wind_eyes": {
+    "ru": "Взор молнии-ветра",
+    "en": "Stormbolt Gaze"
+  },
+  "card.shop_mage_wind_ears": {
+    "ru": "Слух грозы",
+    "en": "Thunder Ear"
+  },
+  "card.shop_mage_wind_muzzle": {
+    "ru": "Разряд",
+    "en": "Discharge"
+  },
+  "card.shop_mage_wind_headwear": {
+    "ru": "Обруч шквала",
+    "en": "Squall Band"
+  },
+  "card.shop_mage_wind_back": {
+    "ru": "Цепной порыв",
+    "en": "Chain Gust"
+  },
+  "card.shop_mage_wind_tail": {
+    "ru": "Хвост-разряд",
+    "en": "Tail Bolt"
+  },
+  "card.shop_support_fire_eyes": {
+    "ru": "Целительный жар",
+    "en": "Healing Ember"
+  },
+  "card.shop_support_fire_ears": {
+    "ru": "Тёплый слух",
+    "en": "Warm Ear"
+  },
+  "card.shop_support_fire_muzzle": {
+    "ru": "Поцелуй угля",
+    "en": "Coal Kiss"
+  },
+  "card.shop_support_fire_headwear": {
+    "ru": "Корона заботы",
+    "en": "Care Crown"
+  },
+  "card.shop_support_fire_back": {
+    "ru": "Волна тепла",
+    "en": "Warm Wave"
+  },
+  "card.shop_support_fire_tail": {
+    "ru": "Праведный ожог",
+    "en": "Righteous Burn"
+  },
+  "card.shop_support_water_eyes": {
+    "ru": "Целительный взгляд",
+    "en": "Healing Gaze"
+  },
+  "card.shop_support_water_ears": {
+    "ru": "Уши очищения",
+    "en": "Cleanse Ears"
+  },
+  "card.shop_support_water_muzzle": {
+    "ru": "Капля жизни",
+    "en": "Life Drop"
+  },
+  "card.shop_support_water_headwear": {
+    "ru": "Чистый родник",
+    "en": "Clear Spring"
+  },
+  "card.shop_support_water_back": {
+    "ru": "Волна опеки",
+    "en": "Care Wave"
+  },
+  "card.shop_support_water_tail": {
+    "ru": "Очищающий удар",
+    "en": "Cleansing Strike"
+  },
+  "card.shop_support_wind_eyes": {
+    "ru": "Вдохновляющий взор",
+    "en": "Inspire Gaze"
+  },
+  "card.shop_support_wind_ears": {
+    "ru": "Шёпот ветра",
+    "en": "Wind Whisper"
+  },
+  "card.shop_support_wind_muzzle": {
+    "ru": "Дыхание силы",
+    "en": "Breath of Power"
+  },
+  "card.shop_support_wind_headwear": {
+    "ru": "Лента попутного",
+    "en": "Tailwind Ribbon"
+  },
+  "card.shop_support_wind_back": {
+    "ru": "Попутный шквал",
+    "en": "Tailwind Squall"
+  },
+  "card.shop_support_wind_tail": {
+    "ru": "Добивающий порыв",
+    "en": "Finishing Gust"
+  },
+  "ru": {
+    "card.bot_bash": "Таранный удар",
+    "card.bot_claw": "Удар когтями",
+    "card.bot_ghost_sip": "Призрачный глоток",
+    "card.bot_ghost_slash": "Призрачный разрез",
+    "card.bot_heal": "Полевое исцеление",
+    "card.bot_redd_bite": "Алый укус",
+    "card.bot_redd_claw": "Алый коготь",
+    "card.bot_redd_cleave": "Алое рассечение",
+    "card.bot_redd_roar": "Рёв арены",
+    "card.bot_redd_stab": "Выпад пса",
+    "card.bot_shell": "Каменный панцирь",
+    "card.bot_wolf_claw": "Волчий коготь",
+    "card.bot_wolf_leap": "Ледяной прыжок",
+    "card.bot_wolf_pounce": "Наскок стаи",
+    "card.bot_wolf_rend": "Рваная рана",
+    "card.bot_wolf_shot": "Ледяной выстрел",
+    "card.bot_wolf_sip": "Глоток вьюги",
+    "card.bot_zomb_bash": "Удар костью",
+    "card.bot_zomb_bolt": "Стрела гнили",
+    "card.bot_zomb_cleave": "Размах склепа",
+    "card.bot_zomb_heal": "Тёмное заживление",
+    "card.bot_zomb_miasma": "Ядовитый миазм",
+    "card.bot_zomb_stab": "Укол тенью",
+    "card.raid_anchor": "Удар якорем",
+    "card.raid_glaive": "Огненная глефа",
+    "card.raid_kit_cinder": "Пепельный ожог",
+    "card.raid_kit_taunt": "Зов пепла",
+    "card.raid_kit_ward": "Пепельный оберег",
+    "card.raid_lynx_harpoon": "Гарпунный выпад",
+    "card.raid_lynx_surge": "Прилив бездны",
+    "card.raid_lynx_taunt": "Якорный вызов",
+    "card.raid_lynx_tide_shield": "Щит прилива",
+    "card.raid_masks": "Вихрь масок",
+    "card.raid_ray": "Солнечный луч",
+    "card.raid_solar_blessing": "Благословение солнца",
+    "card.raid_solar_flare": "Солнечная вспышка",
+    "card.raid_solar_pierce": "Пробитие светом",
+    "card.raid_solar_spark": "Искра двора",
+    "card.raid_solar_taunt": "Львиный вызов",
+    "card.raid_tide": "Волна Таласса",
+    "card.raid_verdict": "Вердикт Мяурры"
+  },
+  "en": {
+    "card.bot_bash": "Shield Bash",
+    "card.bot_claw": "Claw Strike",
+    "card.bot_ghost_sip": "Spectral Sip",
+    "card.bot_ghost_slash": "Phantom Slash",
+    "card.bot_heal": "Field Mend",
+    "card.bot_redd_bite": "Scarlet Bite",
+    "card.bot_redd_claw": "Scarlet Claw",
+    "card.bot_redd_cleave": "Scarlet Cleave",
+    "card.bot_redd_roar": "Arena Roar",
+    "card.bot_redd_stab": "Hound Lunge",
+    "card.bot_shell": "Stone Shell",
+    "card.bot_wolf_claw": "Frost Claw",
+    "card.bot_wolf_leap": "Glacier Leap",
+    "card.bot_wolf_pounce": "Pack Pounce",
+    "card.bot_wolf_rend": "Rending Fang",
+    "card.bot_wolf_shot": "Frost Shot",
+    "card.bot_wolf_sip": "Blizzard Sip",
+    "card.bot_zomb_bash": "Bone Bash",
+    "card.bot_zomb_bolt": "Blight Bolt",
+    "card.bot_zomb_cleave": "Crypt Cleave",
+    "card.bot_zomb_heal": "Dark Mend",
+    "card.bot_zomb_miasma": "Toxic Miasma",
+    "card.bot_zomb_stab": "Shadow Stab",
+    "card.raid_anchor": "Abyssal Anchor",
+    "card.raid_glaive": "Ashen Glaive",
+    "card.raid_kit_cinder": "Cinder Burn",
+    "card.raid_kit_taunt": "Ashen Taunt",
+    "card.raid_kit_ward": "Ashen Ward",
+    "card.raid_lynx_harpoon": "Harpoon Thrust",
+    "card.raid_lynx_surge": "Abyssal Surge",
+    "card.raid_lynx_taunt": "Anchor Taunt",
+    "card.raid_lynx_tide_shield": "Tide Shield",
+    "card.raid_masks": "Whirl of Masks",
+    "card.raid_ray": "Solar Ray",
+    "card.raid_solar_blessing": "Solar Blessing",
+    "card.raid_solar_flare": "Solar Flare",
+    "card.raid_solar_pierce": "Radiant Pierce",
+    "card.raid_solar_spark": "Court Spark",
+    "card.raid_solar_taunt": "Lion's Challenge",
+    "card.raid_tide": "Talass Tide",
+    "card.raid_verdict": "Myaurra's Verdict"
+  }
 }

@@ -1,200 +1,280 @@
 {
-    "stageId":  "raid_talass_boss",
-    "chapter":  102,
-    "name_key":  "stage.raid_talass_boss",
-    "bowlCost":  1,
-    "enemyTeam":  [
-                      {
-                          "templateId":  "bot_lynx_tank_a",
-                          "role":  "tank",
-                          "element":  "water",
-                          "level":  1,
-                          "baseStats":  {
-                                            "hp":  44,
-                                            "atk":  2,
-                                            "spd":  2,
-                                            "skill":  2,
-                                            "charm":  1
-                                        },
-                          "deck":  [
-                                       {
-                                           "cardId":  "raid_lynx_shell_a",
-                                           "name_key":  "card.bot_shell",
-                                           "element":  "water",
-                                           "cost":  1,
-                                           "atk":  0,
-                                           "shield":  5,
-                                           "hits":  0,
-                                           "targetRule":  "self",
-                                           "tags":  [
-                                                        "shield"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "raid_lynx_bash_a",
-                                           "name_key":  "card.bot_bash",
-                                           "element":  "water",
-                                           "cost":  1,
-                                           "atk":  4,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       }
-                                   ],
-                          "meta":  {
-                                       "display_ru":  "Рысь-якорь",
-                                       "faction":  "deep_lynxes",
-                                       "isPitboss":  false
-                                   }
-                      },
-                      {
-                          "templateId":  "bot_pitboss_talass",
-                          "role":  "fighter",
-                          "element":  "water",
-                          "level":  1,
-                          "baseStats":  {
-                                            "hp":  125,
-                                            "atk":  4,
-                                            "spd":  3,
-                                            "skill":  4,
-                                            "charm":  1
-                                        },
-                          "deck":  [
-                                       {
-                                           "cardId":  "raid_talass_anchor",
-                                           "name_key":  "card.raid_anchor",
-                                           "element":  "water",
-                                           "cost":  1,
-                                           "atk":  7,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-                                                             {
-                                                                 "duration":  1,
-                                                                 "status":  "stun",
-                                                                 "op":  "apply_status",
-                                                                 "stacks":  1
-                                                             }
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "raid_talass_tide",
-                                           "name_key":  "card.raid_tide",
-                                           "element":  "water",
-                                           "cost":  1,
-                                           "atk":  5,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "all_enemies",
-                                           "tags":  [
-                                                        "attack",
-                                                        "mass"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "raid_talass_shell",
-                                           "name_key":  "card.bot_shell",
-                                           "element":  "water",
-                                           "cost":  1,
-                                           "atk":  0,
-                                           "shield":  6,
-                                           "hits":  0,
-                                           "targetRule":  "self",
-                                           "tags":  [
-                                                        "shield"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       }
-                                   ],
-                          "meta":  {
-                                       "display_ru":  "Левиафан-Рысь Таласс",
-                                       "faction":  "deep_lynxes",
-                                       "isPitboss":  true
-                                   }
-                      },
-                      {
-                          "templateId":  "bot_lynx_support_a",
-                          "role":  "support",
-                          "element":  "water",
-                          "level":  1,
-                          "baseStats":  {
-                                            "hp":  30,
-                                            "atk":  2,
-                                            "spd":  3,
-                                            "skill":  3,
-                                            "charm":  1
-                                        },
-                          "deck":  [
-                                       {
-                                           "cardId":  "raid_lynx_heal_a",
-                                           "name_key":  "card.bot_heal",
-                                           "element":  "water",
-                                           "cost":  1,
-                                           "atk":  0,
-                                           "shield":  0,
-                                           "hits":  0,
-                                           "targetRule":  "ally_lowest_hp",
-                                           "tags":  [
-                                                        "heal"
-                                                    ],
-                                           "effectOps":  [
-                                                             {
-                                                                 "op":  "heal",
-                                                                 "amount":  6
-                                                             }
-                                                         ]
-                                       },
-                                       {
-                                           "cardId":  "raid_lynx_poke_a",
-                                           "name_key":  "card.bot_claw",
-                                           "element":  "water",
-                                           "cost":  1,
-                                           "atk":  3,
-                                           "shield":  0,
-                                           "hits":  1,
-                                           "targetRule":  "nearest",
-                                           "tags":  [
-                                                        "attack"
-                                                    ],
-                                           "effectOps":  [
-
-                                                         ]
-                                       }
-                                   ],
-                          "meta":  {
-                                       "display_ru":  "Рысь-шаман",
-                                       "faction":  "deep_lynxes",
-                                       "isPitboss":  false
-                                   }
-                      }
-                  ],
-    "meta":  {
-                 "faction":  "deep_lynxes",
-                 "title_ru":  "Таласс",
-                 "location_ru":  "Таласс",
-                 "fight_ru":  "Таласс",
-                 "waveTheme":  "raid_node",
-                 "mode":  "raid",
-                 "node":  "BOSS",
-                 "raidId":  "talass",
-                 "isBoss":  true
-             }
+  "stageId": "raid_talass_boss",
+  "chapter": 102,
+  "name_key": "stage.raid_talass_boss",
+  "bowlCost": 1,
+  "enemyTeam": [
+    {
+      "templateId": "bot_lynx_tank_a",
+      "role": "tank",
+      "element": "water",
+      "level": 1,
+      "baseStats": {
+        "hp": 44,
+        "atk": 2,
+        "spd": 2,
+        "skill": 2,
+        "charm": 1
+      },
+      "deck": [
+        {
+          "cardId": "raid_lynx_shell_a",
+          "name_key": "card.bot_shell",
+          "element": "water",
+          "cost": 1,
+          "atk": 0,
+          "shield": 5,
+          "hits": 0,
+          "targetRule": "self",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "raid_lynx_taunt_a",
+          "name_key": "card.raid_lynx_taunt",
+          "element": "water",
+          "cost": 1,
+          "atk": 0,
+          "shield": 4,
+          "hits": 0,
+          "targetRule": "self",
+          "tags": [
+            "shield",
+            "taunt"
+          ],
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "taunt",
+              "stacks": 1,
+              "duration": 2
+            }
+          ]
+        },
+        {
+          "cardId": "raid_lynx_bash_a",
+          "name_key": "card.bot_bash",
+          "element": "water",
+          "cost": 1,
+          "atk": 4,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "raid_lynx_bash2_a",
+          "name_key": "card.bot_bash",
+          "element": "water",
+          "cost": 1,
+          "atk": 4,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        }
+      ],
+      "meta": {
+        "display_ru": "Рысь-якорь",
+        "faction": "deep_lynxes",
+        "isPitboss": false
+      }
+    },
+    {
+      "templateId": "bot_pitboss_talass",
+      "role": "fighter",
+      "element": "water",
+      "level": 1,
+      "baseStats": {
+        "hp": 125,
+        "atk": 4,
+        "spd": 3,
+        "skill": 4,
+        "charm": 1
+      },
+      "deck": [
+        {
+          "cardId": "raid_talass_anchor",
+          "name_key": "card.raid_anchor",
+          "element": "water",
+          "cost": 1,
+          "atk": 7,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "stun",
+              "stacks": 1,
+              "duration": 1
+            }
+          ]
+        },
+        {
+          "cardId": "raid_talass_tide",
+          "name_key": "card.raid_tide",
+          "element": "water",
+          "cost": 1,
+          "atk": 5,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "all_enemies",
+          "tags": [
+            "attack",
+            "mass"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "raid_talass_shell",
+          "name_key": "card.bot_shell",
+          "element": "water",
+          "cost": 1,
+          "atk": 0,
+          "shield": 6,
+          "hits": 0,
+          "targetRule": "self",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "raid_talass_maelstrom",
+          "name_key": "card.raid_lynx_surge",
+          "element": "water",
+          "cost": 1,
+          "atk": 6,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "weak",
+              "stacks": 1,
+              "duration": 2
+            }
+          ]
+        }
+      ],
+      "meta": {
+        "display_ru": "Левиафан-Рысь Таласс",
+        "faction": "deep_lynxes",
+        "isPitboss": true
+      }
+    },
+    {
+      "templateId": "bot_lynx_support_a",
+      "role": "support",
+      "element": "water",
+      "level": 1,
+      "baseStats": {
+        "hp": 30,
+        "atk": 2,
+        "spd": 3,
+        "skill": 3,
+        "charm": 1
+      },
+      "deck": [
+        {
+          "cardId": "raid_lynx_heal_a",
+          "name_key": "card.bot_heal",
+          "element": "water",
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "ally_lowest_hp",
+          "tags": [
+            "heal"
+          ],
+          "effectOps": [
+            {
+              "op": "heal",
+              "amount": 6
+            }
+          ]
+        },
+        {
+          "cardId": "raid_lynx_tide_shield_a",
+          "name_key": "card.raid_lynx_tide_shield",
+          "element": "water",
+          "cost": 1,
+          "atk": 0,
+          "shield": 5,
+          "hits": 0,
+          "targetRule": "ally_lowest_hp",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "raid_lynx_poke_a",
+          "name_key": "card.bot_claw",
+          "element": "water",
+          "cost": 1,
+          "atk": 3,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "raid_lynx_heal2_a",
+          "name_key": "card.bot_heal",
+          "element": "water",
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "ally_lowest_hp",
+          "tags": [
+            "heal"
+          ],
+          "effectOps": [
+            {
+              "op": "heal",
+              "amount": 5
+            }
+          ]
+        }
+      ],
+      "meta": {
+        "display_ru": "Рысь-шаман",
+        "faction": "deep_lynxes",
+        "isPitboss": false
+      }
+    }
+  ],
+  "meta": {
+    "faction": "deep_lynxes",
+    "title_ru": "Таласс",
+    "location_ru": "Таласс",
+    "fight_ru": "Таласс",
+    "waveTheme": "raid_node",
+    "mode": "raid",
+    "node": "BOSS",
+    "raidId": "talass",
+    "isBoss": true
+  }
 }
