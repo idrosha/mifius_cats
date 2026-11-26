@@ -2,6 +2,7 @@
  * Soft-launch QA accounts + friends + DM chat (file store).
  * Not Nakama SoT — HUD smoke only. Seeds login1…login4 with equal kits.
  */
+import crypto from "node:crypto";
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
@@ -189,6 +190,40 @@ export function seedQaAccounts() {
     friends: Object.fromEntries(
       QA_LOGINS.map((login) => [login, [...(s.accounts[login].friends || [])]]),
     ),
+  };
+}
+
+/**
+ * Telegram Mini App login. The caller MUST verify Telegram initData first
+ * (telegram-auth.mjs). Account id = `tg_<telegramId>`. The password is random
+ * and unknown to anyone, so the plain /api/dev/login form cannot take over a TG account.
+ */
+export function loginTelegramAccount({ tgId, firstName = "" }) {
+  const login = `tg_${String(tgId)}`;
+  const s = loadStore();
+  let acc = s.accounts[login];
+  if (!acc) {
+    acc = {
+      login,
+      password: crypto.randomBytes(24).toString("hex"),
+      userId: login,
+      profile: buildQaProfile(login),
+      friends: [],
+      createdAt: Date.now(),
+      telegram: { id: String(tgId), firstName: String(firstName).slice(0, 64) },
+    };
+    s.accounts[login] = acc;
+    saveStore();
+  }
+  return {
+    ok: true,
+    stubAuth: true,
+    message: "telegram account",
+    login,
+    passwordAccepted: true,
+    session: { userId: acc.userId, token: `tg_${acc.userId}` },
+    profile: acc.profile,
+    friends: friendRowsFor(login),
   };
 }
 

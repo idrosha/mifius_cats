@@ -997,25 +997,25 @@ const PASS_SEASON_DAYS = 30;
 const PASS_XP_PER_LEVEL = 3000;
 const PASS_ICON = {
   gold: "/stitch-ref/pass-hearth/icon-1.webp",
-  fish: "/stitch-assets/barn-icons/fish.webp",
-  herbs: "/stitch-assets/barn-icons/herbs.webp",
-  veggies: "/stitch-assets/barn-icons/veggies.webp",
-  fruit: "/stitch-assets/barn-icons/fruit.webp",
+  fish: "/barn-icons/fish.webp",
+  herbs: "/barn-icons/herbs.webp",
+  veggies: "/barn-icons/veggies.webp",
+  fruit: "/barn-icons/fruit.webp",
   milk: "/stitch-assets/tavern/milk-on-ice.webp",
-  potions: "/stitch-assets/barn-icons/potions.webp",
+  potions: "/barn-icons/potions.webp",
   potionHeal: "/barn-icons/potion-nature.webp",
   potionEnergy: "/barn-icons/potion-energy.webp",
   potionCleanse: "/barn-icons/potion-cleanse.webp",
-  ring: "/stitch-assets/barn-icons/ring.webp",
-  chest: "/stitch-assets/barn-icons/chest.webp",
-  seeds: "/stitch-assets/barn-icons/seeds.webp",
-  wood: "/stitch-assets/barn-icons/wood.webp",
-  iron: "/stitch-assets/barn-icons/iron.webp",
-  stone: "/stitch-assets/barn-icons/stone.webp",
+  ring: "/barn-icons/ring.webp",
+  chest: "/barn-icons/chest.webp",
+  seeds: "/barn-icons/seeds.webp",
+  wood: "/barn-icons/wood.webp",
+  iron: "/barn-icons/iron.webp",
+  stone: "/barn-icons/stone.webp",
   scroll: "/stitch-assets/hero-icons/deck_1.webp",
   tome: "/stitch-assets/hero-icons/deck_3.webp",
   amulet: "/stitch-assets/hero-icons/slot_amulet.webp",
-  collar: "/stitch-assets/barn-icons/collar.webp",
+  collar: "/barn-icons/collar.webp",
   cloak: "/stitch-assets/kb-v3/items/item-1.webp",
   belt: "/stitch-assets/kb-v3/items/item-2.webp",
   helm: "/stitch-assets/kb-v3/items/item-3.webp",
@@ -12754,16 +12754,16 @@ function breedingGateTip() {
 
 /** Ritual reagent icons (barn + item pack). */
 const BREED_MAT_ART = {
-  breed_milk_essence: "/stitch-assets/barn-icons/milk.webp",
-  breed_moon_whisker: "/stitch-assets/barn-icons/herbs.webp",
-  breed_stone_purr: "/stitch-assets/barn-icons/stone.webp",
-  breed_spark_pollen: "/stitch-assets/barn-icons/seeds.webp",
-  breed_tide_scale: "/stitch-assets/barn-icons/fish.webp",
-  milk: "/stitch-assets/barn-icons/milk.webp",
-  fish: "/stitch-assets/barn-icons/fish.webp",
-  "hearth-runes": "/stitch-assets/barn-icons/stone.webp",
+  breed_milk_essence: "/barn-icons/milk.webp",
+  breed_moon_whisker: "/barn-icons/herbs.webp",
+  breed_stone_purr: "/barn-icons/stone.webp",
+  breed_spark_pollen: "/barn-icons/seeds.webp",
+  breed_tide_scale: "/barn-icons/fish.webp",
+  milk: "/barn-icons/milk.webp",
+  fish: "/barn-icons/fish.webp",
+  "hearth-runes": "/barn-icons/stone.webp",
   "breed-token": "/stitch-assets/kb-v3/items/item-4.webp",
-  "synth-potion": "/stitch-assets/barn-icons/potions.webp",
+  "synth-potion": "/barn-icons/potions.webp",
 };
 
 /** Incubator cradle panel backgrounds. */
@@ -12775,7 +12775,7 @@ const BREED_CRIB_BG = {
 };
 
 function breedMatArt(id) {
-  return BREED_MAT_ART[id] || "/stitch-assets/barn-icons/potions.webp";
+  return BREED_MAT_ART[id] || "/barn-icons/potions.webp";
 }
 
 function breedCribBg(status) {
@@ -21349,8 +21349,14 @@ function wireChatComposer() {
   });
 }
 
-/** Soft-launch auth — QA accounts validate password; others free smoke. */
-async function stubLogin({ login = "", password = "", register = false } = {}) {
+/** Telegram Mini App: signed initData from the SDK, or "" outside Telegram. */
+function telegramInitData() {
+  const init = window.Telegram?.WebApp?.initData;
+  return typeof init === "string" ? init : "";
+}
+
+/** Soft-launch auth — QA accounts validate password; others free smoke. Telegram: signed initData. */
+async function stubLogin({ login = "", password = "", register = false, tgInitData = "" } = {}) {
   const btn = $("submitBtn");
   const originalHtml = btn?.innerHTML;
   if (btn) {
@@ -21358,10 +21364,15 @@ async function stubLogin({ login = "", password = "", register = false } = {}) {
     btn.innerHTML = `<span class="material-symbols-outlined animate-spin text-lg">progress_activity</span> <span>Открытие портала...</span>`;
   }
   try {
-    const { data } = await api("/api/dev/login", {
-      method: "POST",
-      body: JSON.stringify({ login, password, register: !!register }),
-    });
+    const { data } = tgInitData
+      ? await api("/api/tg/login", {
+          method: "POST",
+          body: JSON.stringify({ initData: tgInitData }),
+        })
+      : await api("/api/dev/login", {
+          method: "POST",
+          body: JSON.stringify({ login, password, register: !!register }),
+        });
     state.session = data?.session || { userId: data?.profile?.userId || "guest_smoke" };
     state.friends = normalizeFriends(data?.friends);
     state.chatPeer = friendLogin(state.friends[0]) || null;
@@ -21387,6 +21398,7 @@ async function stubLogin({ login = "", password = "", register = false } = {}) {
           : "Free smoke login",
     );
     navigate(bootTabAfterLogin());
+    return true;
   } catch (err) {
     if (err.status === 401 || err.status === 409) {
       toast(
@@ -21396,7 +21408,13 @@ async function stubLogin({ login = "", password = "", register = false } = {}) {
             : "Неверный пароль"
           : err.message || "auth failed",
       );
-      return;
+      return false;
+    }
+    if (tgInitData) {
+      // Telegram login must not fall back to a guest session.
+      console.warn("telegram login", err);
+      toast(state.locale === "ru" ? "Не удалось войти через Telegram" : "Telegram sign-in failed");
+      return false;
     }
     console.warn("stub login", err);
     state.loggedIn = true;
@@ -21474,13 +21492,24 @@ function wireLoginForm() {
       const btn = ev.target.closest("button");
       if (!btn || btn.id === "submitBtn" || btn.id === "tabLogin" || btn.id === "tabRegister") return;
       const label = (btn.textContent || "").toLowerCase();
-      if (
-        label.includes("telegram") ||
-        label.includes("vk") ||
-        label.includes("google")
-      ) {
+      const provider = label.includes("telegram")
+        ? "telegram"
+        : label.includes("vk")
+          ? "vk"
+          : label.includes("google")
+            ? "google"
+            : label.includes("steam")
+              ? "steam"
+              : "";
+      if (provider) {
         ev.preventDefault();
-        stubLogin({ login: `social_${label.trim().split(/\s+/)[0] || "oauth"}`, password: "" });
+        const tgInitData = provider === "telegram" ? telegramInitData() : "";
+        if (provider === "telegram" && !tgInitData) {
+          // Opened in a regular browser: Telegram login needs the Mini App.
+          toast(state.locale === "ru" ? "Откройте игру через бота Telegram" : "Open the game via the Telegram bot");
+          return;
+        }
+        stubLogin({ login: `social_${provider}`, password: "", tgInitData });
       }
     });
   }
@@ -22132,6 +22161,13 @@ async function main() {
   window.addEventListener("resize", syncOrientGate);
   wireButtons();
   showView("viewBoot");
+  // Telegram Mini App: fill the Telegram viewport (no-op in a regular browser).
+  try {
+    window.Telegram?.WebApp?.ready?.();
+    window.Telegram?.WebApp?.expand?.();
+  } catch {
+    /* old or missing Telegram SDK */
+  }
   $("bootMsg").textContent = "Boot → LiveOps fetch…";
   try {
     loadProgress();
@@ -22156,6 +22192,19 @@ async function main() {
         }),
       ]).catch(() => {});
     };
+    // Opened from the Telegram bot: sign in with the verified Telegram identity, no guest session.
+    const tgInit = telegramInitData();
+    if (tgInit) {
+      state.loggedIn = false;
+      state.tab = "login";
+      document.body.classList.add("mythfel-login");
+      const signedIn = await stubLogin({ tgInitData: tgInit });
+      if (!signedIn) navigate("login");
+      dismissBootSplash();
+      setTimeout(warmSecondary, 50);
+      return;
+    }
+
     // /home = login/register desk. Root (and Amvera) open the main hub with portals — no login hop.
     if (loginAddressOpen()) {
       state.loggedIn = false;

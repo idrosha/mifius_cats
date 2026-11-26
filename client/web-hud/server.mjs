@@ -12,6 +12,8 @@ import { fileURLToPath } from "node:url";
 import { handleDungeonDevApi } from "./dungeon-dev-api.mjs";
 import { handleAccountsDevApi } from "./accounts-dev-api.mjs";
 import { handlePvpMmDevApi } from "./pvp-mm-dev-api.mjs";
+import { handleTelegramApi } from "./telegram-auth.mjs";
+import { startTelegramBot } from "./telegram-bot.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PUBLIC = path.join(__dirname, "public");
@@ -482,6 +484,11 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  /** Telegram Mini App login (verified initData → tg_<id> account). */
+  if (await handleTelegramApi(req, res, send)) {
+    return;
+  }
+
   /** QA accounts + friends + DM (login1–4). Falls through if path not matched. */
   if (await handleAccountsDevApi(req, res, send)) {
     return;
@@ -631,4 +638,15 @@ server.listen(HUD_PORT, HUD_ADDR, () => {
   console.log(`  loc           → ${LOC_PATH}`);
   console.log(`  public        → ${PUBLIC}`);
   console.log(`  repo          → ${REPO}`);
+
+  // Telegram bot: only when BOT_TOKEN is set. Never blocks the HUD if Telegram is unreachable.
+  if (process.env.BOT_TOKEN) {
+    startTelegramBot({
+      token: process.env.BOT_TOKEN,
+      webAppUrl: process.env.WEB_APP_URL || "",
+      log: console,
+    }).catch((err) => console.error(`telegram-bot start failed: ${err.message}`));
+  } else {
+    console.log("  telegram      → off (BOT_TOKEN not set)");
+  }
 });
