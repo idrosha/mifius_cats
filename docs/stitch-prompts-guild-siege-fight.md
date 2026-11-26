@@ -3,6 +3,7 @@
 **Статус:** draft prompt (презентация). Механика = `FULL-SPEC` §4.5 · `D-064` · `D-065`.  
 **Главный бой осады:** **12 vs 12**. 3/6 — только лобби/быстрые форматы, не этот экран.  
 **Таргет (`D-065`):** башни бьют только лучники/маги; мили на стену не прыгает.  
+**Борд (`D-066`):** один 16:9 overview — все 24 видны; **без** horizontal scroll / ultra-wide.  
 **Связь:** лобби = `guild_battle`; этот промпт = **live fight** осады.  
 **Не путать:** клан-босс (§4.4), рейд/легион PvE, обычный 3v3 PvP.
 
@@ -72,6 +73,7 @@ BOTTOM FIGHT TRAY (soft-launch fight HUD language):
 DO NOT:
 - Draw a flat 3-lane 3v3 PvP row (must READ as castle: gate wall of 6 + towers of 3+3).
 - Show only a subset “hero focus” of the 12 — all slots filled.
+- Use horizontal scroll, paged legion strips, or an ultra-wide / multi-aspect board — one 16:9 overview (`D-066`).
 - Show clan-boss shared HP bar or raid-only legion grid chrome.
 - Add NFT / mint / wallet / crypto labels.
 - Add site nav, footer, or empty letterbox bands.
@@ -99,5 +101,6 @@ CTA row: «Ещё штурм» / «К осаде» / «В Хаб». No crypto. N
 
 - Route/view: отдельно от лобби `guild_battle` — например `guild_siege_fight` / `#viewGuildSiegeFight` (или реюз live-fight HUD + siege backdrop + 12+12 slots). Решать на wire, не в Stitch.
 - Battle-core 12 + siege zone target-filter = расширение ядра (§4.5 / `D-065`); SL demo 3v3 ≠ этот экран.
-- Cutouts / idle breathe / facing — `D-046` / `D-047` / `D-048`, когда дойдёт до кода.
+- Layout: overview scale 24-in-frame, no board scroll (`D-066`); phone landscape (`D-036`).
+- Cutouts / idle breathe / facing — `D-046` / `D-047` / `D-048`, когда дойдёт до кода (siege floor плотнее practice).
 - Числа HP/наград на макете = paint; SoT — сервер.

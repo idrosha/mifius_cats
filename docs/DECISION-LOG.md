@@ -12,6 +12,27 @@ Append-only. Новые записи — **сверху** (после шабло
 6. Одна запись = одно решение. Не смешивать баланс и IA в одном D-id.
 7. В коде/доках ссылайся `D-0xx`, не копируй абзац Context.
 
+## D-066 · 2026-11-26 · Осада HUD: overview 24, без скролла поля
+
+- **Status:** Accepted
+- **Area:** hud | battle
+- **SSOT:** docs/FULL-SPEC.md §4.5; docs/stitch-prompts-guild-siege-fight.md
+- **Owner:** Andrew / design
+- **Patches:** D-064 / D-065 (презентация борда 12v12)
+
+### Context
+24 cutout’а на одном бое. Соблазн — шире экран или horizontal scroll; в card battler это ломает выбор цели и phone landscape.
+
+### Decision
+1. **Один** landscape **16:9** кадр; **все 24** юнита видны (overview scale), без horizontal scroll борда и без ultra-wide aspect.
+2. Плотнее practice 3v3; role silhouette (`D-048`) сохраняется, общий floor ниже. Tray ≤ ~22% высоты.
+3. Опционально tap → highlight/focus; камера/поле **не** уезжает лентой. Не прятать половину легиона за «страницей».
+
+### Consequences
++ Стабильный таргет + phone landscape. − Нельзя «раздвинуть» осаду скроллом; нужен siege-scale CSS/layout.
+
+---
+
 ## D-065 · 2026-11-26 · Осада: зоны ворот/башен, win, AI-зелья
 
 - **Status:** Accepted
