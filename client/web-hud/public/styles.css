@@ -5255,8 +5255,11 @@ body:has(#viewPractice > .dojo-load:not([hidden])) #app {
   .dojo-load-title { font-size: 1.35rem; }
   .dojo-load-vs { font-size: 3.2rem; }
 }
-/* Raid load — same floating HUD as dojo-load; lair backdrop, no hero cards. */
+/* Raid load — same floating HUD as dojo-load; lair backdrop, no hero cards.
+   Host = shared lobby #viewBossDungeon (legacy #viewBossRaid kept for adopt). */
+#viewBossDungeon,
 #viewBossRaid { position: relative; }
+#viewBossDungeon > .raid-load,
 #viewBossRaid > .raid-load {
   position: absolute !important;
   inset: 0 !important;
@@ -5267,15 +5270,22 @@ body:has(#viewPractice > .dojo-load:not([hidden])) #app {
   overflow: hidden;
   background: #110d0b;
 }
+#viewBossDungeon > .raid-load[hidden],
 #viewBossRaid > .raid-load[hidden] { display: none !important; }
+#viewBossDungeon > .raid-load:not([hidden]),
 #viewBossRaid > .raid-load:not([hidden]) { display: block !important; }
+body:has(#viewBossDungeon > .raid-load:not([hidden])) #appNav,
+body:has(#viewBossDungeon > .raid-load:not([hidden])) #appSubTabs,
+body:has(#viewBossDungeon > .raid-load:not([hidden])) #wireDock,
 body:has(#viewBossRaid > .raid-load:not([hidden])) #appNav,
 body:has(#viewBossRaid > .raid-load:not([hidden])) #appSubTabs,
 body:has(#viewBossRaid > .raid-load:not([hidden])) #wireDock { display: none !important; }
+body:has(#viewBossDungeon > .raid-load:not([hidden])) #app,
 body:has(#viewBossRaid > .raid-load:not([hidden])) #app {
   height: 100dvh !important;
   max-height: 100dvh !important;
 }
+body:has(#viewBossDungeon > .raid-load:not([hidden])) #viewBossDungeon > .mode-hall,
 body:has(#viewBossRaid > .raid-load:not([hidden])) #viewBossRaid > .mode-hall {
   visibility: hidden;
 }

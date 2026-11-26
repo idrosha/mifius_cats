@@ -6061,6 +6061,29 @@ function clearRaidLoadTimer() {
   state.raidLoadTimer = null;
 }
 
+/** Shared dungeon/raid lobby hosts the load overlay (legacy viewBossRaid stays hidden). */
+function raidLoadHost() {
+  return $("viewBossDungeon") || $("viewBossRaid");
+}
+
+/** Move .raid-load onto the visible shared lobby once (chrome used to live on viewBossRaid). */
+function ensureRaidLoadOverlay() {
+  const host = raidLoadHost();
+  if (!host) return { root: null, load: null };
+  let load = host.querySelector(":scope > .raid-load");
+  if (!load) {
+    const legacy = $("viewBossRaid")?.querySelector(".raid-load");
+    if (legacy && legacy.parentElement !== host) host.appendChild(legacy);
+    load = host.querySelector(":scope > .raid-load");
+  }
+  return { root: host, load: load || null };
+}
+
+/** Load bar is active on the shared lobby for either Данж or Рейд subtab. */
+function raidLoadTabActive() {
+  return state.tab === "boss_raid" || (state.tab === "boss_dungeon" && isRaidLobby());
+}
+
 function fillRaidLoadInfo() {
   const raid = raidDef();
   const ui = RAID_BOSS_UI[raid?.raidId] || RAID_BOSS_UI.myaurra;
@@ -6108,8 +6131,8 @@ function startRaidLoadSync() {
   preloadScreenBgs("raidLoad");
   let pct = 0;
   state.raidLoadTimer = setInterval(() => {
-    const root = $("viewBossRaid");
-    if (!root || root.dataset.raidLoading !== "1" || state.tab !== "boss_raid") {
+    const root = raidLoadHost();
+    if (!root || root.dataset.raidLoading !== "1" || !raidLoadTabActive()) {
       clearRaidLoadTimer();
       return;
     }
@@ -6145,8 +6168,7 @@ function enterRaidBattleFromLoad({ autoPlay = false } = {}) {
  * At 100% → raid_battle formation preview.
  */
 function showRaidLoad(on, { autoPlay = false } = {}) {
-  const root = $("viewBossRaid");
-  const load = root?.querySelector(".raid-load");
+  const { root, load } = ensureRaidLoadOverlay();
   if (!root) return false;
   if (!load) {
     clearRaidLoadTimer();
@@ -19718,31 +19740,37 @@ function bindRaidBattleStub() {
 
 /** Dense painted lobbies: dungeon / raid / guild war CTAs + local selection. */
 function bindRaidLoadControls() {
-  const root = $("viewBossRaid");
+  // Overlay may still sit on legacy viewBossRaid until first showRaidLoad adopts it.
+  const root = raidLoadHost() || $("viewBossRaid");
   if (!root || root.dataset.raidLoadBound === "1") return;
   root.dataset.raidLoadBound = "1";
-  root.addEventListener(
-    "click",
-    (ev) => {
-      // Only cancel/go on the load overlay — never match lobby CTAs.
-      const actEl = ev.target.closest(".raid-load [data-raid-load]");
-      if (!actEl || !root.contains(actEl)) return;
-      const act = actEl.getAttribute("data-raid-load");
-      ev.preventDefault();
-      ev.stopPropagation();
-      if (act === "close") showRaidLoad(false);
-      else if (act === "go") {
-        clearRaidLoadTimer();
-        setRaidLoadProgress(100);
-        enterRaidBattleFromLoad({ autoPlay: !!state._raidAutoPlay });
-      }
-    },
-    true,
-  );
+  const onLoadClick = (ev) => {
+    // Only cancel/go on the load overlay — never match lobby CTAs.
+    const actEl = ev.target.closest(".raid-load [data-raid-load]");
+    const host = raidLoadHost() || root;
+    if (!actEl || !host.contains(actEl)) return;
+    const act = actEl.getAttribute("data-raid-load");
+    ev.preventDefault();
+    ev.stopPropagation();
+    if (act === "close") showRaidLoad(false);
+    else if (act === "go") {
+      clearRaidLoadTimer();
+      setRaidLoadProgress(100);
+      enterRaidBattleFromLoad({ autoPlay: !!state._raidAutoPlay });
+    }
+  };
+  root.addEventListener("click", onLoadClick, true);
+  // Legacy host may still hold the node until adopt — listen there too once.
+  const legacy = $("viewBossRaid");
+  if (legacy && legacy !== root && legacy.dataset.raidLoadBound !== "1") {
+    legacy.dataset.raidLoadBound = "1";
+    legacy.addEventListener("click", onLoadClick, true);
+  }
   document.addEventListener("keydown", (ev) => {
-    if (state.tab !== "boss_raid") return;
+    if (!raidLoadTabActive()) return;
     if (ev.target.closest?.("input, textarea")) return;
-    const loading = root.dataset.raidLoading === "1";
+    const host = raidLoadHost() || root;
+    const loading = host.dataset.raidLoading === "1";
     if (!loading) return;
     if (ev.code === "Space") {
       ev.preventDefault();

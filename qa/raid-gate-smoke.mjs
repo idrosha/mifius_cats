@@ -80,6 +80,20 @@ const hasPathUi =
   /raid[_-]?path|raidPath|развилк|split.?room|viewRaidFight/i.test(appJs);
 add("G5", hasPathUi, `raid path/fight UI hooks in app.js: ${hasPathUi}`);
 
+// Shared lobby: raid load must host on viewBossDungeon (not only hidden viewBossRaid).
+const sharedLoad =
+  /function raidLoadHost\s*\(/.test(appJs) &&
+  /function raidLoadTabActive\s*\(/.test(appJs) &&
+  /function ensureRaidLoadOverlay\s*\(/.test(appJs) &&
+  /boss_dungeon.*isRaidLobby|isRaidLobby\(\).*boss_dungeon/.test(
+    appJs.match(/function raidLoadTabActive[\s\S]{0,220}/)?.[0] || "",
+  );
+add(
+  "G5b",
+  sharedLoad,
+  "raid load host on shared dungeon lobby (Данж → рейд start)",
+);
+
 const lobbyHard12 =
   /legion.*12|partySize\s*[:=]\s*12|minPlayers\s*[:=]\s*12|рейд.*12/i.test(appJs) &&
   !/boss_raid[\s\S]{0,200}gated:\s*true/.test(appJs);
@@ -100,7 +114,7 @@ add(
 );
 
 const designOk = checks.filter((c) => c.id.startsWith("G1") || c.id.startsWith("G2")).every((c) => c.ok);
-const playOk = checks.filter((c) => /^G[3-7]$/.test(c.id)).every((c) => c.ok);
+const playOk = checks.filter((c) => /^G[3-7]/.test(c.id)).every((c) => c.ok);
 
 console.log("=== Raid gate smoke ===");
 for (const c of checks) {
