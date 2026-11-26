@@ -21,12 +21,25 @@
 .golden-glow { box-shadow: 0 0 25px rgba(253, 186, 69, 0.45), inset 0 1px 1px rgba(255,255,255,0.4); }
 .card-hover-fx { transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); }
 .card-hover-fx:hover { transform: translateY(-3px) scale(1.015); }
+/* FOUC gate: cover raw wire/nav/grids until HUD boot paints a real form. */
+#mfBootSplash{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:flex-start;justify-content:flex-end;padding:1.1rem 1.35rem;box-sizing:border-box;background:#110d0b url("/stitch-assets/boot-splash.webp") center/cover no-repeat;transition:opacity .35s ease}
+#mfBootSplash[hidden]{display:none!important}
+#mfBootSplash.is-leaving{opacity:0;pointer-events:none}
+.mf-boot-spin{width:1.65rem;height:1.65rem;border-radius:50%;border:2.5px solid rgba(234,225,219,.28);border-top-color:#fdba45;box-shadow:0 0 12px rgba(253,186,69,.35);animation:mf-boot-spin .7s linear infinite}
+.mf-boot-spin-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+@keyframes mf-boot-spin{to{transform:rotate(360deg)}}
+body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
 </style>
   <link rel="stylesheet" href="/styles.css?v=handsel1" />
+  <link rel="preload" as="image" href="/stitch-assets/boot-splash.webp" fetchpriority="high" />
   <link rel="preload" as="image" href="/stitch-assets/login-bg.webp?v=opt2" fetchpriority="high" />
   <link rel="preload" as="image" href="/stitch-assets/login-hero.webp?v=opt2" />
 </head>
 <body class="bg-surface font-body-md text-body-md text-on-surface mythfel-shell">
+  <div id="mfBootSplash" role="status" aria-live="polite" aria-busy="true">
+    <span class="mf-boot-spin" aria-hidden="true"></span>
+    <span class="mf-boot-spin-label">Загрузка…</span>
+  </div>
   <header id="appNav" class="mythfel-nav" aria-label="Mythfel navigation">
     <div class="mythfel-nav-top">
       <button type="button" class="mythfel-brand" id="btnBrandHub" title="Хаб">
@@ -12301,7 +12314,7 @@
 
   <nav id="hubTabs" class="hidden" aria-hidden="true"></nav>
   <script src="/codex-topics.js" defer></script>
-  <script type="module" src="/app.js?v=handsel3"></script>
+  <script type="module" src="/app.js?v=bootsplash1"></script>
 </body>
 </html>
 

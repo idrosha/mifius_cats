@@ -1513,6 +1513,21 @@ function gearAvailableQty(item, lane = state.equipLane || "pve") {
 
 const $ = (id) => document.getElementById(id);
 
+/** Drop FOUC splash once a real screen (or boot error) is painted under it. */
+function dismissBootSplash() {
+  const splash = $("mfBootSplash");
+  document.body.classList.add("is-hud-ready");
+  if (!splash || splash.hidden) return;
+  splash.setAttribute("aria-busy", "false");
+  splash.classList.add("is-leaving");
+  const done = () => {
+    splash.hidden = true;
+    splash.classList.remove("is-leaving");
+  };
+  splash.addEventListener("transitionend", done, { once: true });
+  window.setTimeout(done, 450);
+}
+
 function t(key, fallback = key) {
   const entry = state.loc[key];
   if (!entry) return fallback;
@@ -21475,12 +21490,14 @@ async function main() {
       state.primary = "combat";
       document.body.classList.add("mythfel-login");
       renderAll();
+      dismissBootSplash();
       return;
     }
     state.loggedIn = true;
     if (!state.session) state.session = { userId: "local_smoke" };
     document.body.classList.remove("mythfel-login");
     navigate(bootTabAfterLogin());
+    dismissBootSplash();
   } catch (err) {
     $("bootMsg").textContent = `Boot fail: ${err.message}. Подними CDN :8090 и battle :8081 (см. README).`;
     const loFail = $("liveopsPill");
@@ -21489,6 +21506,7 @@ async function main() {
       loFail.className = "status-pill mythfel-debug-pill bad";
     }
     console.error(err);
+    dismissBootSplash();
   }
 }
 
