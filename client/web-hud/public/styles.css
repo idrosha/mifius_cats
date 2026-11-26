@@ -5864,23 +5864,53 @@ body:has(#viewGuildHub:not(.hidden)) #wireDock { display: none !important; }
 .mode-cta {
   animation: dojo-cta-pulse 1.8s ease-in-out infinite;
 }
+/* Pre-battle lane stack: top support → bottom tank (D-063) */
+#viewBossDungeon .formation-lane-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  width: 100%;
+}
+#viewBossDungeon [data-dungeon-squad-strip] .dungeon-squad-hero-art {
+  height: 2.75rem;
+  max-height: 2.75rem;
+  min-height: 2.75rem;
+}
 /* Formation slots — bust crop like practice «Доступные Герои» (D-063), not full-body */
 #viewBossDungeon [data-raid-legion-board] .raid-slot,
 #viewBossRaid [data-raid-legion-board] .raid-slot,
 #viewBossDungeon .dungeon-form-slot,
-#viewBossDungeon [data-dungeon-form-panel] .dungeon-form-card {
+#viewBossDungeon [data-dungeon-form-panel] .dungeon-form-card,
+#viewBossDungeon [data-dungeon-form-panel] .formation-bust-card {
   height: 9rem; /* = practice h-36 */
   min-height: 9rem;
   max-height: 9rem;
   width: 100%;
   aspect-ratio: auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+/* applySpriteFacing wraps img → .mf-sprite-face; keep it absolute so role/HP chrome stays visible */
+#viewBossDungeon [data-raid-legion-board] .raid-slot .mf-sprite-face,
+#viewBossRaid [data-raid-legion-board] .raid-slot .mf-sprite-face,
+#viewBossDungeon [data-dungeon-form-panel] .formation-bust-card .mf-sprite-face,
+#viewBossDungeon [data-dungeon-form-panel] .dungeon-form-card .mf-sprite-face {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
 }
 #viewBossDungeon [data-raid-legion-board] .raid-slot img.mf-hero-portrait,
 #viewBossRaid [data-raid-legion-board] .raid-slot img.mf-hero-portrait,
 #viewBossDungeon .dungeon-form-slot img.mf-hero-portrait,
-#viewBossDungeon [data-dungeon-form-panel] .dungeon-form-card img.mf-hero-portrait {
+#viewBossDungeon [data-dungeon-form-panel] .dungeon-form-card img.mf-hero-portrait,
+#viewBossDungeon [data-raid-legion-board] .raid-slot .mf-sprite-face > img,
+#viewBossRaid [data-raid-legion-board] .raid-slot .mf-sprite-face > img {
   object-fit: cover;
   object-position: center 12%; /* chest-up bust, hide legs/tail */
+  width: 100%;
+  height: 100%;
 }
 #viewBossDungeon [data-raid-legion-board] .raid-slot.is-filled,
 #viewBossRaid [data-raid-legion-board] .raid-slot.is-filled,

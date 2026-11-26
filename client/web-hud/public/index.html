@@ -4868,7 +4868,7 @@
 <span class="px-1.5 py-0.5 rounded bg-primary/15 text-primary border border-primary/35 font-bold">3v3 строй</span>
 </div>
 </div>
-<div class="grid grid-cols-3 gap-1.5 flex-shrink-0 py-1.5" data-dungeon-form-squad aria-label="Выбранный отряд 3v3"></div>
+<div class="formation-lane-stack flex flex-col gap-1 flex-shrink-0 py-1.5" data-dungeon-form-squad aria-label="Выбранный отряд 3v3 · сверху саппорт · снизу танк"></div>
 <div class="flex items-center justify-between px-0.5 pb-1 flex-shrink-0">
 <span class="text-[11px] text-on-surface-variant font-semibold">Нажмите для выбора</span>
 <span class="text-[10px] text-outline truncate" data-dungeon-form-squad-name>Данж</span>
@@ -4926,8 +4926,8 @@
 <span class="material-symbols-outlined text-primary text-[15px]">swap_horiz</span><span>Поменять порядок</span>
 </button>
 </div>
-<div class="grid grid-cols-3 gap-1.5 flex-shrink-0 content-start items-start" data-dungeon-squad-strip>
-<!-- filled by renderDungeonSquadStrip — PvE-style slots -->
+<div class="formation-lane-stack flex flex-col gap-1.5 flex-shrink-0 content-start items-stretch" data-dungeon-squad-strip aria-label="Строй 3v3 · сверху саппорт · снизу танк">
+<!-- filled by renderDungeonSquadStrip — top support → bottom tank -->
 </div>
 <div id="dungeonTeamPicker" class="dungeon-team-picker hidden" aria-hidden="true" role="listbox" aria-label="Команды из коллекции">
 <div class="dungeon-team-picker__list" data-dungeon-team-list><!-- filled by renderDungeonTeamPicker --></div>

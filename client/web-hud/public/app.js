@@ -46,15 +46,16 @@ const RAID_COMP = {
   dpsSubs: { ranged: 3, melee: 3 }, // mage|ranger · assassin|fighter
 };
 /**
- * Построение от тыла к фронту (4×3):
- * row3 supports → row2 ranged DPS → row1 melee DPS → row0 tanks.
+ * Pre-battle board top→bottom: supports → rangers/mages → assassins/fighters → tanks (D-063).
  */
 const RAID_FORMATION_ROWS = [
-  { row: 3, lane: "rear", roles: ["support", "support", "support"], label_ru: "Тыл · саппорты" },
-  { row: 2, lane: "ranged", roles: ["mage|ranger", "mage|ranger", "mage|ranger"], label_ru: "Даль · маги/лучники" },
-  { row: 1, lane: "melee", roles: ["assassin|fighter", "assassin|fighter", "assassin|fighter"], label_ru: "Мили · убийцы/воины" },
-  { row: 0, lane: "front", roles: ["tank", "tank", "tank"], label_ru: "Фронт · танки" },
+  { row: 3, lane: "rear", roles: ["support", "support", "support"], label_ru: "Саппорты" },
+  { row: 2, lane: "ranged", roles: ["mage|ranger", "mage|ranger", "mage|ranger"], label_ru: "Стрелки / маги" },
+  { row: 1, lane: "melee", roles: ["assassin|fighter", "assassin|fighter", "assassin|fighter"], label_ru: "Убийцы / бойцы" },
+  { row: 0, lane: "front", roles: ["tank", "tank", "tank"], label_ru: "Танки" },
 ];
+/** Roster sort / lane stack: top support … bottom tank. */
+const FORMATION_ROLE_ORDER = ["support", "ranger", "mage", "assassin", "fighter", "tank"];
 const RAID_BOSS_UI = {
   myaurra: {
     art: "/stitch-assets/monsters/battle/myaurra-pitboss-cutout.webp?v=raid1",
@@ -3891,7 +3892,8 @@ function renderDungeonSquadStrip() {
   };
   const nameEl = root.querySelector("[data-dungeon-squad-name]");
   if (nameEl) nameEl.textContent = dungeonActiveSquadName();
-  // Same card chrome as PvE yard; shorter art well for the dungeon aside.
+  host.classList.add("formation-lane-stack");
+  // Top→bottom: саппорт → даль/мили → танк (D-063). Compact row cards.
   host.innerHTML = PVE_YARD_LANES.map((lane, i) => {
     const c = cats[i];
     const role = c && typeof homeCatRole === "function" ? homeCatRole(c) : "";
@@ -3907,24 +3909,23 @@ function renderDungeonSquadStrip() {
     const tc = toneCls[lane.tone] || toneCls.primary;
     const badge = role ? roleBadge(role) : lane.badge;
     if (!c) {
-      return `<div class="bg-surface-container rounded-xl p-1.5 border border-dashed border-outline-variant/50 flex flex-col justify-center items-center min-h-[7.5rem] text-on-surface-variant">
+      return `<div class="bg-surface-container rounded-lg px-2 py-1.5 border border-dashed border-outline-variant/50 flex items-center justify-center gap-1 text-on-surface-variant min-h-[2.75rem]">
         <span class="text-[10px] font-label-sm font-bold uppercase tracking-wider">${lane.label}</span>
-        <span class="material-symbols-outlined text-2xl mt-1">add</span>
+        <span class="material-symbols-outlined text-[16px]">add</span>
       </div>`;
     }
-    return `<div class="bg-surface-container rounded-xl p-1.5 border ${tc.card} flex flex-col justify-between transition-all shadow-md group relative overflow-hidden min-w-0">
-      <div class="flex items-center justify-between mb-1 z-10 relative gap-0.5">
-        <span class="text-[10px] font-label-sm ${tc.label} font-bold uppercase tracking-wider truncate">${lane.label}</span>
-        <span class="text-[10px] font-stat-numeral text-primary font-bold bg-primary/10 px-1 py-0.5 rounded shrink-0">Ур. ${lvl}</span>
+    return `<div class="bg-surface-container rounded-lg p-1.5 border ${tc.card} flex items-center gap-2 transition-all shadow-md group relative overflow-hidden min-w-0 min-h-[2.75rem]">
+      <div class="dungeon-squad-hero-art w-11 h-11 rounded-md overflow-hidden relative bg-surface-container-highest border ${tc.art} shadow-inner flex-shrink-0">
+        <img class="w-full h-full object-cover" style="object-position:center 12%" alt="${String(name).replace(/"/g, "&quot;")}" src="${art}"/>
+        <span class="absolute bottom-0.5 left-0.5 ${tc.badge} text-[8px] font-bold px-0.5 rounded leading-tight shadow-sm">${badge}</span>
       </div>
-      <div class="dungeon-squad-hero-art w-full rounded-lg overflow-hidden relative bg-surface-container-highest border ${tc.art} shadow-inner">
-        <img class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" alt="${String(name).replace(/"/g, "&quot;")}" src="${art}"/>
-        <div class="absolute inset-0 bg-gradient-to-t from-surface-container via-transparent to-transparent opacity-80 pointer-events-none"></div>
-        <span class="absolute bottom-1 left-1 ${tc.badge} text-[9px] font-bold px-1 py-0.5 rounded leading-tight shadow-sm">${badge}</span>
-      </div>
-      <div class="flex flex-col min-w-0 mt-1.5 z-10 relative">
+      <div class="flex flex-col min-w-0 flex-1 z-10 relative">
+        <div class="flex items-center justify-between gap-1">
+          <span class="text-[9px] font-label-sm ${tc.label} font-bold uppercase tracking-wider truncate">${lane.label}</span>
+          <span class="text-[9px] font-stat-numeral text-primary font-bold bg-primary/10 px-1 py-0.5 rounded shrink-0">Ур. ${lvl}</span>
+        </div>
         <span class="font-label-md text-[11px] text-on-surface font-bold truncate leading-tight">${name}</span>
-        <div class="flex items-center justify-between gap-0.5 mt-1">
+        <div class="flex items-center gap-2 mt-0.5">
           <span class="text-secondary text-[10px] font-stat-numeral flex items-center gap-0.5 font-bold leading-none"><span class="material-symbols-outlined text-[12px]">favorite</span>${hp}</span>
           <span class="text-primary text-[10px] font-stat-numeral flex items-center gap-0.5 font-bold leading-none"><span class="material-symbols-outlined text-[12px]">swords</span>${atk}</span>
         </div>
@@ -5027,10 +5028,11 @@ function renderYard() {
 }
 
 /** Visual L→R lanes on PvE yard: тыл · центр · авангард (collection slot order). */
+/** Visual stack top→bottom: support → DPS → tank (D-063 formation order). */
 const PVE_YARD_LANES = [
-  { key: "rear", label: "Тыл", badge: "ХИЛ", tone: "secondary" },
-  { key: "center", label: "Центр", badge: "ДПС", tone: "tertiary" },
-  { key: "vanguard", label: "Авангард", badge: "ТАНК", tone: "primary" },
+  { key: "rear", label: "Саппорт", badge: "САП", tone: "secondary" },
+  { key: "center", label: "Даль / мили", badge: "ДПС", tone: "tertiary" },
+  { key: "vanguard", label: "Танк", badge: "ТАНК", tone: "primary" },
 ];
 
 function pveYardActiveCats() {
@@ -5867,25 +5869,111 @@ function fillRaidPartyBots() {
   toast(`Пати ${RAID_PARTY_SIZE}/${RAID_PARTY_SIZE} ready · расстановка`);
 }
 
+/** Practice/dungeon-style role chrome for formation bust cards. */
+function formationRoleMeta(role) {
+  const map = {
+    tank: { roleRu: "ТАНК", roleIcon: "shield", accent: "primary" },
+    fighter: { roleRu: "БОЕЦ", roleIcon: "swords", accent: "tertiary" },
+    assassin: { roleRu: "АССАСИН", roleIcon: "flash_on", accent: "primary" },
+    ranger: { roleRu: "СТРЕЛОК", roleIcon: "adjust", accent: "secondary" },
+    mage: { roleRu: "МАГ", roleIcon: "auto_fix_high", accent: "secondary" },
+    support: { roleRu: "САППОРТ", roleIcon: "healing", accent: "secondary" },
+  };
+  return map[role] || { roleRu: String(role || "—").toUpperCase(), roleIcon: "pets", accent: "primary" };
+}
+
+function formationAccentTone(accent) {
+  if (accent === "tertiary") {
+    return {
+      hover: "hover:border-tertiary",
+      chip: "border-tertiary/40 text-tertiary",
+      stat: "text-tertiary",
+      btn: "text-tertiary border-tertiary/40",
+      border: "border-tertiary/55",
+    };
+  }
+  if (accent === "secondary") {
+    return {
+      hover: "hover:border-secondary",
+      chip: "border-secondary/40 text-secondary",
+      stat: "text-secondary",
+      btn: "text-secondary border-secondary/40",
+      border: "border-secondary/55",
+    };
+  }
+  return {
+    hover: "hover:border-primary",
+    chip: "border-primary/40 text-primary",
+    stat: "text-primary",
+    btn: "text-primary border-primary/40",
+    border: "border-primary/55",
+  };
+}
+
+function formationDisplayForTemplate(tid, fallbackName) {
+  const hero = typeof practiceHeroByTemplate === "function" ? practiceHeroByTemplate(tid) : null;
+  const meta = typeof starterMeta === "function" ? starterMeta(tid) : {};
+  const role = hero?.role || meta.role || "fighter";
+  const roleMeta = formationRoleMeta(role);
+  const base = (typeof CONTENT_CAT_BASE !== "undefined" && CONTENT_CAT_BASE[tid]) || {};
+  const art =
+    (typeof catHeroArt === "function" && catHeroArt(tid)) ||
+    (typeof CAT_HERO_ART !== "undefined" && CAT_HERO_ART[tid]) ||
+    `/stitch-assets/cat-heroes/tank-fire.webp?v=gear18c`;
+  return {
+    name: hero?.short || fallbackName || tid,
+    role,
+    roleRu: hero?.roleRu || roleMeta.roleRu,
+    roleIcon: hero?.roleIcon || roleMeta.roleIcon,
+    accent: hero?.accent || roleMeta.accent,
+    element: meta.element || hero?.element || "",
+    hp: base.hp ?? hero?.hp ?? "—",
+    art,
+  };
+}
+
+/** Bust card chrome shared by dungeon roster + raid legion (role · element · HP). */
+function formationBustCardHtml({
+  art,
+  name,
+  roleRu,
+  roleIcon,
+  accent,
+  element,
+  hp,
+  ctaHtml = "",
+  attrs = "",
+  extraClass = "",
+  picked = false,
+}) {
+  const tone = formationAccentTone(accent);
+  return `<div ${attrs} class="formation-bust-card relative bg-[#1a1613] rounded-lg border border-outline-variant/40 ${tone.hover} ${tone.border} transition-all overflow-hidden flex flex-col shadow-md group ${picked ? "is-picked" : ""} ${extraClass}" tabindex="0" role="button" aria-pressed="${picked ? "true" : "false"}">
+<div class="absolute inset-0 z-0 pointer-events-none">
+${art ? `<img alt="${String(name).replace(/"/g, "&quot;")}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 mf-hero-portrait" style="object-position:center 12%" src="${art}" decoding="async">` : ""}
+<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
+</div>
+<div class="relative z-10 flex items-center justify-between p-1 pointer-events-none">
+<div class="bg-black/75 px-1.5 py-0.5 rounded border ${tone.chip} text-[9px] font-bold flex items-center gap-0.5"><span class="material-symbols-outlined text-[10px]">${roleIcon}</span> ${roleRu}</div>
+<div class="bg-black/75 px-1 py-0.5 rounded border border-outline-variant/40 text-[10px]">${typeof dojoElIcon === "function" ? dojoElIcon(element) : "·"}</div>
+</div>
+<div class="relative z-10 mt-auto p-1.5 flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent pointer-events-none">
+<div class="font-bold text-[11px] text-white truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">${name}</div>
+<div class="flex items-center justify-between mt-1 gap-1">
+<span class="${tone.stat} font-bold text-[10px] drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">${hp} HP</span>
+${ctaHtml}
+</div>
+</div>
+</div>`;
+}
+
 function renderRaidLegionBoard() {
   const root = $("viewBossDungeon") || $("viewBossRaid");
   if (!root) return;
   ensureRaidLegion();
   const board = root.querySelector("[data-raid-legion-board]");
   if (!board) return;
-  const artFor = (tid) =>
-    (typeof CAT_HERO_ART !== "undefined" && CAT_HERO_ART[tid]) ||
-    `/stitch-assets/cat-heroes/tank-fire.webp?v=gear18c`;
-  const subRu = {
-    aggro: "агр",
-    armorBreak: "пробитие",
-    heal: "хил",
-    buffer: "бафф",
-    ranged: "даль",
-    melee: "мили",
-  };
-  const laneShort = { rear: "Тыл", ranged: "Даль", melee: "Мили", front: "Фронт" };
-  const rows = [...RAID_FORMATION_ROWS];
+  const laneShort = { rear: "Сап", ranged: "Даль", melee: "Мили", front: "Танк" };
+  const rows = [...RAID_FORMATION_ROWS]; // top supports → bottom tanks
   board.innerHTML = rows
     .map((rowDef) => {
       const slots = [0, 1, 2].map((col) => {
@@ -5893,19 +5981,22 @@ function renderRaidLegionBoard() {
         if (!s?.filled) {
           return `<button type="button" class="raid-slot raid-slot--empty rounded-lg border border-dashed border-outline-variant/50 bg-[#14110f] flex flex-col items-center justify-center gap-0.5 text-outline" data-raid-form-row="${rowDef.row}" data-raid-form-col="${col}">
             <span class="material-symbols-outlined text-[20px]">add</span>
-            <span class="text-[9px] font-bold">${laneShort[rowDef.lane] || rowDef.label_ru.split("·")[0].trim()}</span>
+            <span class="text-[9px] font-bold">${laneShort[rowDef.lane] || rowDef.label_ru}</span>
           </button>`;
         }
-        const tone =
-          s.role === "tank" ? "border-primary/55" : s.role === "support" ? "border-secondary/50" : "border-tertiary/50";
-        const art = artFor(s.templateId);
-        // Bust crop (chest-up) like practice roster — not full-body (D-063).
-        return `<button type="button" class="raid-slot is-filled relative overflow-hidden rounded-lg border ${tone} bg-[#1a1613] text-left group" data-raid-form-row="${rowDef.row}" data-raid-form-col="${col}">
-          <img alt="" class="absolute inset-0 w-full h-full object-cover mf-hero-portrait group-hover:scale-105 transition-transform duration-300" style="object-position:center 12%" src="${art}" decoding="async"/>
-          <div class="absolute inset-0 bg-gradient-to-t from-black/92 via-black/35 to-transparent pointer-events-none"></div>
-          <div class="relative z-10 flex flex-col justify-end h-full p-1.5 gap-0.5">
-            <span class="text-[10px] font-bold truncate text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">${s.name_ru}</span>
-            <span class="text-[9px] font-bold text-primary/95 drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">${subRu[s.sub] || s.role}</span>
+        const d = formationDisplayForTemplate(s.templateId, s.name_ru);
+        const tone = formationAccentTone(d.accent);
+        // Same bust chrome as dungeon: role · element · name · HP (D-063).
+        return `<button type="button" class="raid-slot is-filled formation-bust-card relative overflow-hidden rounded-lg border ${tone.border} bg-[#1a1613] text-left group" data-raid-form-row="${rowDef.row}" data-raid-form-col="${col}">
+          <img alt="" class="absolute inset-0 w-full h-full object-cover mf-hero-portrait group-hover:scale-105 transition-transform duration-300 pointer-events-none" style="object-position:center 12%" src="${d.art}" decoding="async"/>
+          <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent pointer-events-none"></div>
+          <div class="relative z-10 flex items-center justify-between p-1 pointer-events-none">
+            <div class="bg-black/75 px-1.5 py-0.5 rounded border ${tone.chip} text-[9px] font-bold flex items-center gap-0.5"><span class="material-symbols-outlined text-[10px]">${d.roleIcon}</span> ${d.roleRu}</div>
+            <div class="bg-black/75 px-1 py-0.5 rounded border border-outline-variant/40 text-[10px]">${dojoElIcon(d.element)}</div>
+          </div>
+          <div class="relative z-10 mt-auto p-1.5 flex flex-col justify-end pointer-events-none">
+            <span class="text-[11px] font-bold truncate text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">${d.name}</span>
+            <span class="${tone.stat} font-bold text-[10px] drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">${d.hp} HP</span>
           </div>
         </button>`;
       });
@@ -6087,9 +6178,10 @@ function renderDungeonFormationBoard() {
   if (sizeEl) sizeEl.textContent = `${activeIds.length}/3`;
   if (nameEl) nameEl.textContent = dungeonActiveSquadName();
 
-  // Selected strip: compact lane chips only — bust roster below is the practice-style picker.
-  const laneLabels = ["Тыл", "Центр", "Авангард"];
+  // Vertical stack top→bottom: саппорт · DPS · танк (same depth order as raid).
+  const laneLabels = ["Саппорт", "Даль / мили", "Танк"];
   if (squadHost) {
+    squadHost.classList.add("formation-lane-stack");
     squadHost.innerHTML = [0, 1, 2]
       .map((i) => {
         const cat = collectionCatById(slots[i]);
@@ -6099,21 +6191,23 @@ function renderDungeonFormationBoard() {
             <span class="material-symbols-outlined text-[14px]">add</span>
           </div>`;
         }
-        const hero = arenaHeroForCat(cat) || {};
-        const name = hero.short || catSheetName(cat);
-        const art = catHeroArt(cat.templateId) || "";
-        return `<button type="button" class="rounded-lg border border-primary/45 bg-[#1a1613] flex items-center gap-1.5 h-9 px-1.5 text-left overflow-hidden" data-dungeon-form-slot="${i}" title="Убрать из отряда">
-          <img alt="" class="w-7 h-7 rounded object-cover mf-hero-portrait flex-shrink-0" style="object-position:center 12%" src="${art}" decoding="async"/>
+        const d = formationDisplayForTemplate(cat.templateId, catSheetName(cat));
+        return `<button type="button" class="rounded-lg border border-primary/45 bg-[#1a1613] flex items-center gap-1.5 h-9 px-1.5 text-left overflow-hidden w-full" data-dungeon-form-slot="${i}" title="Убрать из отряда">
+          <img alt="" class="w-7 h-7 rounded object-cover mf-hero-portrait flex-shrink-0" style="object-position:center 12%" src="${d.art}" decoding="async"/>
           <span class="min-w-0 flex-1">
-            <span class="block text-[8px] font-bold uppercase text-primary/90 leading-none">${laneLabels[i]}</span>
-            <span class="block text-[10px] font-bold truncate text-white leading-tight">${name}</span>
+            <span class="block text-[8px] font-bold uppercase text-primary/90 leading-none">${laneLabels[i]} · ${d.roleRu}</span>
+            <span class="block text-[10px] font-bold truncate text-white leading-tight">${d.name} · ${d.hp} HP</span>
           </span>
         </button>`;
       })
       .join("");
   }
 
-  const cats = state.profile?.cats || [];
+  const cats = [...(state.profile?.cats || [])].sort((a, b) => {
+    const ra = FORMATION_ROLE_ORDER.indexOf(homeCatRole(a) || starterMeta(a.templateId)?.role);
+    const rb = FORMATION_ROLE_ORDER.indexOf(homeCatRole(b) || starterMeta(b.templateId)?.role);
+    return (ra < 0 ? 99 : ra) - (rb < 0 ? 99 : rb);
+  });
   if (countEl) countEl.textContent = `(${cats.length} героев)`;
   if (rosterHost) {
     if (!cats.length) {
@@ -6121,42 +6215,24 @@ function renderDungeonFormationBoard() {
     } else {
       rosterHost.innerHTML = cats
         .map((c) => {
-          const hero = arenaHeroForCat(c) || {};
-          const name = hero.short || catSheetName(c);
-          const roleRu = hero.roleRu || CAT_ROLE_RU[homeCatRole(c)] || "—";
-          const roleIcon = hero.roleIcon || "pets";
-          const elKey = c.element || starterMeta(c.templateId)?.element || "";
-          const art = catHeroArt(c.templateId) || "";
+          const d = formationDisplayForTemplate(c.templateId, catSheetName(c));
           const on = activeIds.includes(c.catId);
           const slotIdx = on ? slots.indexOf(c.catId) : -1;
-          const accent =
-            hero.accent === "tertiary" ? "tertiary" : hero.accent === "secondary" ? "secondary" : "primary";
-          const tone =
-            accent === "tertiary"
-              ? { hover: "hover:border-tertiary", chip: "border-tertiary/40 text-tertiary", stat: "text-tertiary", btn: "text-tertiary border-tertiary/40" }
-              : accent === "secondary"
-                ? { hover: "hover:border-secondary", chip: "border-secondary/40 text-secondary", stat: "text-secondary", btn: "text-secondary border-secondary/40" }
-                : { hover: "hover:border-primary", chip: "border-primary/40 text-primary", stat: "text-primary", btn: "text-primary border-primary/40" };
-          const base = CONTENT_CAT_BASE[c.templateId] || {};
-          const hp = base.hp ?? hero.hp ?? "—";
+          const tone = formationAccentTone(d.accent);
           const cta = on ? `Слот ${slotIdx + 1}` : "+ В отряд";
-          return `<div data-dungeon-form-cat="${c.catId}" tabindex="0" role="button" aria-pressed="${on ? "true" : "false"}" class="dungeon-form-card relative bg-[#1a1613] rounded-lg border border-outline-variant/40 ${tone.hover} transition-all overflow-hidden flex flex-col shadow-md group cursor-pointer ${on ? "is-picked" : ""}">
-<div class="absolute inset-0 z-0 pointer-events-none">
-${art ? `<img alt="${name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 mf-hero-portrait" style="object-position:center 12%" src="${art}" decoding="async">` : ""}
-<div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
-</div>
-<div class="relative z-10 flex items-center justify-between p-1 pointer-events-none">
-<div class="bg-black/75 px-1.5 py-0.5 rounded border ${tone.chip} text-[9px] font-bold flex items-center gap-0.5"><span class="material-symbols-outlined text-[10px]">${roleIcon}</span> ${roleRu}</div>
-<div class="bg-black/75 px-1 py-0.5 rounded border border-outline-variant/40 text-[10px]">${dojoElIcon(elKey)}</div>
-</div>
-<div class="relative z-10 mt-auto p-1.5 flex flex-col justify-end bg-gradient-to-t from-black/80 to-transparent pointer-events-none">
-<div class="font-bold text-[11px] text-white truncate drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">${name}</div>
-<div class="flex items-center justify-between mt-1 gap-1">
-<span class="${tone.stat} font-bold text-[10px] drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">${hp} HP</span>
-<span data-dungeon-form-cta class="bg-black/60 backdrop-blur-sm ${tone.btn} border text-[9px] font-bold px-1.5 py-0.5 rounded shadow-sm truncate max-w-[55%]">${cta}</span>
-</div>
-</div>
-</div>`;
+          return formationBustCardHtml({
+            art: d.art,
+            name: d.name,
+            roleRu: d.roleRu,
+            roleIcon: d.roleIcon,
+            accent: d.accent,
+            element: d.element || c.element || "",
+            hp: d.hp,
+            picked: on,
+            extraClass: "dungeon-form-card cursor-pointer",
+            attrs: `data-dungeon-form-cat="${c.catId}"`,
+            ctaHtml: `<span data-dungeon-form-cta class="bg-black/60 backdrop-blur-sm ${tone.btn} border text-[9px] font-bold px-1.5 py-0.5 rounded shadow-sm truncate max-w-[55%]">${cta}</span>`,
+          });
         })
         .join("");
     }
