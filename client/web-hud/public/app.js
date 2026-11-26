@@ -10,8 +10,13 @@ import {
   decorateBattleUnitIdle,
   playCombatEvents,
   skipCombatFx,
+  setFxSpeed,
+  getFxSpeed,
   SoundFX,
 } from "./battle-fx.js";
+
+/** Debug / settings: `MythfelBattleFx.setFxSpeed(1.5)`, `.skipCombatFx()`. */
+window.MythfelBattleFx = { skipCombatFx, setFxSpeed, getFxSpeed, SoundFX };
 /** Side-effect: fills window.CODEX_TOPICS / CODEX_FILTERS (survives stitch HTML rebakes). */
 import "./codex-topics.js";
 import {
@@ -9434,27 +9439,27 @@ const CAT_HERO_ART = {
 
 /** Fight board art — studio cutouts without tavern (D-037; RGBA cutouts). */
 const CAT_HERO_BATTLE_ART = {
-  shop_tank_fire: "/stitch-assets/cat-heroes/battle/tank-fire.webp?v=rgba2",
-  shop_tank_water: "/stitch-assets/cat-heroes/battle/tank-water.webp?v=rgba2",
-  shop_tank_wind: "/stitch-assets/cat-heroes/battle/tank-wind.webp?v=rgba2",
-  shop_fighter_fire: "/stitch-assets/cat-heroes/battle/fighter-fire.webp?v=rgba2",
-  shop_fighter_water: "/stitch-assets/cat-heroes/battle/fighter-water.webp?v=rgba2",
-  shop_fighter_wind: "/stitch-assets/cat-heroes/battle/fighter-wind.webp?v=rgba2",
-  shop_assassin_fire: "/stitch-assets/cat-heroes/battle/assassin-fire.webp?v=rgba2",
-  shop_assassin_water: "/stitch-assets/cat-heroes/battle/assassin-water.webp?v=rgba2",
-  shop_assassin_wind: "/stitch-assets/cat-heroes/battle/assassin-wind.webp?v=rgba2",
-  shop_ranger_fire: "/stitch-assets/cat-heroes/battle/ranger-fire.webp?v=rgba2",
-  shop_ranger_water: "/stitch-assets/cat-heroes/battle/ranger-water.webp?v=rgba2",
-  shop_ranger_wind: "/stitch-assets/cat-heroes/battle/ranger-wind.webp?v=rgba2",
-  shop_mage_fire: "/stitch-assets/cat-heroes/battle/mage-fire.webp?v=rgba2",
-  shop_mage_water: "/stitch-assets/cat-heroes/battle/mage-water.webp?v=rgba2",
-  shop_mage_wind: "/stitch-assets/cat-heroes/battle/mage-wind.webp?v=rgba2",
-  shop_support_fire: "/stitch-assets/cat-heroes/battle/support-fire.webp?v=rgba2",
-  shop_support_water: "/stitch-assets/cat-heroes/battle/support-water.webp?v=rgba2",
-  shop_support_wind: "/stitch-assets/cat-heroes/battle/support-wind.webp?v=rgba2",
-  starter_tank_stone: "/stitch-assets/cat-heroes/battle/tank-fire.webp?v=rgba2",
-  starter_fighter_fire: "/stitch-assets/cat-heroes/battle/fighter-fire.webp?v=rgba2",
-  starter_support_water: "/stitch-assets/cat-heroes/battle/support-water.webp?v=rgba2",
+  shop_tank_fire: "/stitch-assets/cat-heroes/battle/tank-fire.webp?v=rgba3",
+  shop_tank_water: "/stitch-assets/cat-heroes/battle/tank-water.webp?v=rgba3",
+  shop_tank_wind: "/stitch-assets/cat-heroes/battle/tank-wind.webp?v=rgba3",
+  shop_fighter_fire: "/stitch-assets/cat-heroes/battle/fighter-fire.webp?v=rgba3",
+  shop_fighter_water: "/stitch-assets/cat-heroes/battle/fighter-water.webp?v=rgba3",
+  shop_fighter_wind: "/stitch-assets/cat-heroes/battle/fighter-wind.webp?v=rgba3",
+  shop_assassin_fire: "/stitch-assets/cat-heroes/battle/assassin-fire.webp?v=rgba3",
+  shop_assassin_water: "/stitch-assets/cat-heroes/battle/assassin-water.webp?v=rgba3",
+  shop_assassin_wind: "/stitch-assets/cat-heroes/battle/assassin-wind.webp?v=rgba3",
+  shop_ranger_fire: "/stitch-assets/cat-heroes/battle/ranger-fire.webp?v=rgba3",
+  shop_ranger_water: "/stitch-assets/cat-heroes/battle/ranger-water.webp?v=rgba3",
+  shop_ranger_wind: "/stitch-assets/cat-heroes/battle/ranger-wind.webp?v=rgba3",
+  shop_mage_fire: "/stitch-assets/cat-heroes/battle/mage-fire.webp?v=rgba3",
+  shop_mage_water: "/stitch-assets/cat-heroes/battle/mage-water.webp?v=rgba3",
+  shop_mage_wind: "/stitch-assets/cat-heroes/battle/mage-wind.webp?v=rgba3",
+  shop_support_fire: "/stitch-assets/cat-heroes/battle/support-fire.webp?v=rgba3",
+  shop_support_water: "/stitch-assets/cat-heroes/battle/support-water.webp?v=rgba3",
+  shop_support_wind: "/stitch-assets/cat-heroes/battle/support-wind.webp?v=rgba3",
+  starter_tank_stone: "/stitch-assets/cat-heroes/battle/tank-fire.webp?v=rgba3",
+  starter_fighter_fire: "/stitch-assets/cat-heroes/battle/fighter-fire.webp?v=rgba3",
+  starter_support_water: "/stitch-assets/cat-heroes/battle/support-water.webp?v=rgba3",
   // Practice dummies — dedicated no-bg mannequins (D-037 fight-only).
   bot_practice_tank_a: "/stitch-assets/dojo/battle/dummy-oak-knight.webp?v=dummyfix1",
   bot_practice_fighter_a: "/stitch-assets/dojo/battle/dummy-straw-berserk.webp?v=dummyfix1",
@@ -15052,6 +15057,76 @@ function unitCrowdControlled(diff, unitId) {
   return (u.statuses || []).some((s) => s.id === "stun" || s.id === "sleep");
 }
 
+/** Fan-hover: focus card enlarges; neighbors shrink and slide away (practice / PvP / wire). */
+function bindBattleHandHover() {
+  if (window.__mfHandHoverBound) return;
+  window.__mfHandHoverBound = true;
+  const handSel =
+    ".mf-attack-hand, .pv-hand, #viewPracticeFight #pfHand, #viewBattle #hand.mythfel-hand";
+  const cardSel = ".mf-atk-card, .pf-card";
+  const clear = (hand) => {
+    if (!hand) return;
+    hand.classList.remove("mf-hand--fan");
+    for (const el of hand.querySelectorAll(cardSel)) {
+      el.classList.remove("mf-hand-card--focus", "mf-hand-card--away");
+      el.style.removeProperty("--mf-hand-push");
+    }
+  };
+  const apply = (hand, focus) => {
+    const cards = [...hand.querySelectorAll(cardSel)].filter(
+      (el) => el.parentElement === hand || el.closest(handSel) === hand,
+    );
+    if (!cards.length) return;
+    const fi = cards.indexOf(focus);
+    if (fi < 0) return;
+    hand.classList.add("mf-hand--fan");
+    for (let i = 0; i < cards.length; i++) {
+      const el = cards[i];
+      el.classList.remove("mf-hand-card--focus", "mf-hand-card--away");
+      el.style.removeProperty("--mf-hand-push");
+      if (i === fi) {
+        el.classList.add("mf-hand-card--focus");
+        continue;
+      }
+      const d = i - fi;
+      el.classList.add("mf-hand-card--away");
+      // Push neighbors outward; farther cards move a bit more.
+      const push = Math.sign(d) * (0.35 + Math.min(2, Math.abs(d)) * 0.28);
+      el.style.setProperty("--mf-hand-push", `${push}rem`);
+    }
+  };
+  document.addEventListener(
+    "pointerover",
+    (ev) => {
+      if (ev.pointerType === "touch") return;
+      const card = ev.target?.closest?.(cardSel);
+      if (!card) return;
+      const hand = card.closest(handSel);
+      if (!hand) return;
+      apply(hand, card);
+    },
+    true,
+  );
+  document.addEventListener(
+    "pointerout",
+    (ev) => {
+      const hand = ev.target?.closest?.(handSel);
+      if (!hand) return;
+      const to = ev.relatedTarget;
+      if (to && hand.contains(to)) {
+        const next = to.closest?.(cardSel);
+        if (next && hand.contains(next)) {
+          apply(hand, next);
+          return;
+        }
+        if (hand.contains(to)) return;
+      }
+      clear(hand);
+    },
+    true,
+  );
+}
+bindBattleHandHover();
 /** D-053 · stable key for a hand card while the player turn has not committed yet. */
 function handSelKey(c) {
   return `${c.unitId}|${c.handIndex}|${c.cardId}`;
