@@ -4855,6 +4855,32 @@
 </div>
 </div>
 
+<!-- Dungeon 3v3 formation (after Ready) — practice-style portraits (D-063) -->
+<div class="flex flex-col flex-1 min-h-0 bg-[#161310] rounded-xl border border-outline-variant/40 p-2 shadow-2xl overflow-hidden hidden" data-dungeon-form-panel>
+<div class="flex items-center justify-between pb-1.5 px-1 border-b border-outline-variant/30 flex-shrink-0 gap-2">
+<div class="flex items-center gap-1.5 min-w-0">
+<span aria-hidden="true">🐱</span>
+<span class="font-headline-md text-[13px] font-bold truncate">Доступные Герои</span>
+<span class="text-outline text-[11px] flex-shrink-0" data-dungeon-form-count>(0)</span>
+</div>
+<div class="flex items-center gap-2 text-[10px] flex-shrink-0">
+<strong class="text-primary" data-dungeon-form-size>0/3</strong>
+<span class="px-1.5 py-0.5 rounded bg-primary/15 text-primary border border-primary/35 font-bold">3v3 строй</span>
+</div>
+</div>
+<div class="grid grid-cols-3 gap-1.5 flex-shrink-0 py-1.5" data-dungeon-form-squad aria-label="Выбранный отряд 3v3"></div>
+<div class="flex items-center justify-between px-0.5 pb-1 flex-shrink-0">
+<span class="text-[11px] text-on-surface-variant font-semibold">Нажмите для выбора</span>
+<span class="text-[10px] text-outline truncate" data-dungeon-form-squad-name>Данж</span>
+</div>
+<div class="grid grid-cols-3 gap-1.5 flex-1 min-h-0 overflow-y-auto content-start p-0.5" data-dungeon-form-roster aria-label="Ростер героев"></div>
+<div class="flex flex-wrap gap-1.5 flex-shrink-0 pt-2 border-t border-outline-variant/25">
+<button type="button" class="flex-1 py-1.5 rounded-lg border border-outline-variant/50 text-on-surface-variant text-[11px] font-bold hover:bg-surface-container-high" data-hud-action="dungeon-deploy-fill">Заполнить</button>
+<button type="button" class="flex-1 py-1.5 rounded-lg border border-outline-variant/50 text-on-surface-variant text-[11px] font-bold hover:bg-surface-container-high" data-hud-action="dungeon-deploy-clear">Очистить</button>
+<button type="button" class="flex-[1.4] py-1.5 rounded-lg bg-gradient-to-r from-[#d99b26] via-[#fdba45] to-[#ffdeae] text-[#432c00] text-[11px] font-extrabold" data-hud-action="dungeon-deploy-confirm">Готово · к старту</button>
+</div>
+</div>
+
 <div class="flex-shrink-0 rounded-xl border border-outline-variant/40 bg-[#161310] px-2.5 py-2 flex items-center gap-2 overflow-hidden" data-dungeon-rewards-row>
 <span class="text-[10px] text-primary font-bold uppercase tracking-wide flex-shrink-0" data-dungeon-rewards-label>Награды склепа</span>
 <div class="flex-1 flex items-center gap-1.5 min-w-0 overflow-x-auto">
