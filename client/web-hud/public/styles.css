@@ -5865,8 +5865,14 @@ body:has(#viewGuildHub:not(.hidden)) #wireDock { display: none !important; }
   color: #fdba45;
   border-color: rgba(253, 186, 69, 0.45);
 }
+/* Selection chrome lives here — not baked Tailwind on the default pick (stuck scarlet). */
 .dungeon-pick.is-on {
+  border-color: rgba(253, 186, 69, 0.55);
   box-shadow: 0 0 0 1px rgba(253, 186, 69, 0.4), 0 4px 14px rgba(217, 155, 38, 0.16);
+}
+.dungeon-pick.is-on > header > span:first-child,
+.dungeon-pick.is-on > div:last-child > span:last-child {
+  color: #fdba45;
 }
 .dungeon-pick.is-locked {
   cursor: not-allowed;
