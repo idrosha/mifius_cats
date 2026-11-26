@@ -5874,6 +5874,57 @@ body:has(#viewGuildHub:not(.hidden)) #wireDock { display: none !important; }
 .mode-cta {
   animation: dojo-cta-pulse 1.8s ease-in-out infinite;
 }
+/* Formation slots — bust crop like practice «Доступные Герои» (D-063), not full-body */
+#viewBossDungeon [data-raid-legion-board] .raid-slot,
+#viewBossRaid [data-raid-legion-board] .raid-slot,
+#viewBossDungeon .dungeon-form-slot,
+#viewBossDungeon [data-dungeon-form-panel] .dungeon-form-card,
+#viewBossDungeon [data-dungeon-form-panel] .formation-bust-card {
+  height: 9rem; /* = practice h-36 */
+  min-height: 9rem;
+  max-height: 9rem;
+  width: 100%;
+  aspect-ratio: auto;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  overflow: hidden;
+}
+/* applySpriteFacing wraps img → .mf-sprite-face; keep it absolute so role/HP chrome stays visible */
+#viewBossDungeon [data-raid-legion-board] .raid-slot .mf-sprite-face,
+#viewBossRaid [data-raid-legion-board] .raid-slot .mf-sprite-face,
+#viewBossDungeon [data-dungeon-form-panel] .formation-bust-card .mf-sprite-face,
+#viewBossDungeon [data-dungeon-form-panel] .dungeon-form-card .mf-sprite-face {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+#viewBossDungeon [data-raid-legion-board] .raid-slot img.mf-hero-portrait,
+#viewBossRaid [data-raid-legion-board] .raid-slot img.mf-hero-portrait,
+#viewBossDungeon .dungeon-form-slot img.mf-hero-portrait,
+#viewBossDungeon [data-dungeon-form-panel] .dungeon-form-card img.mf-hero-portrait,
+#viewBossDungeon [data-raid-legion-board] .raid-slot .mf-sprite-face > img,
+#viewBossRaid [data-raid-legion-board] .raid-slot .mf-sprite-face > img {
+  object-fit: cover;
+  object-position: center 12%; /* chest-up bust, hide legs/tail */
+  width: 100%;
+  height: 100%;
+}
+#viewBossDungeon [data-raid-legion-board] .raid-slot.is-filled,
+#viewBossRaid [data-raid-legion-board] .raid-slot.is-filled,
+#viewBossDungeon .dungeon-form-slot.is-filled {
+  box-shadow: inset 0 0 0 1px rgba(253, 186, 69, 0.22);
+  padding: 0;
+}
+#viewBossDungeon [data-dungeon-form-panel] .dungeon-form-card.is-picked {
+  border-color: rgba(253, 186, 69, 0.75);
+  box-shadow: 0 0 0 1px rgba(253, 186, 69, 0.35), 0 6px 16px rgba(0, 0, 0, 0.4);
+}
+#viewBossDungeon [data-dungeon-form-panel] .dungeon-form-card.is-picked [data-dungeon-form-cta] {
+  background: linear-gradient(180deg, #fdba45, #d99b26);
+  color: #432c00;
+  border-color: transparent;
+}
 .raid-slot.is-filled {
   box-shadow: inset 0 0 0 1px rgba(253, 186, 69, 0.18);
 }
