@@ -11422,22 +11422,20 @@ function renderHeroesCodex() {
       const on = (state.heroesFocusId || pool[0]) === tid;
       return `<article class="archetype-card cursor-pointer rounded-lg p-space-sm transition-all duration-200 ${
         on ? "bg-surface-container-highest shadow-md" : "bg-surface-container-low hover:bg-surface-container-high shadow"
-      } relative group flex flex-col justify-between" data-id="${tid}" data-template="${tid}" data-role="${role}"${
+      } relative group flex flex-col gap-2" data-id="${tid}" data-template="${tid}" data-role="${role}"${
         on ? ' style="box-shadow: 0 0 12px rgba(217, 155, 38, 0.4);"' : ""
       }>
-        <div class="flex items-start gap-space-sm">
-          <div class="w-12 h-12 rounded-lg bg-surface-container-lowest shrink-0 overflow-hidden relative shadow-inner">
-            ${art ? `<img class="w-full h-full object-cover object-top" alt="${name}" src="${art}" decoding="async" loading="lazy"/>` : `<span class="material-symbols-outlined text-primary absolute inset-0 m-auto text-[22px] w-fit h-fit">pets</span>`}
-            <span class="absolute bottom-0 right-0 w-3.5 h-3.5 rounded-full bg-primary flex items-center justify-center text-[9px] text-on-primary font-bold">${i + 1}</span>
-          </div>
-          <div class="flex flex-col min-w-0 flex-1">
-            <div class="flex items-center justify-between gap-1">
-              <span class="font-label-sm text-label-sm ${on ? "text-primary" : "text-on-surface-variant"} uppercase tracking-wider">${CAT_ROLE_RU[role] || role}</span>
-              <span class="px-1.5 py-0.5 rounded bg-surface-container-highest text-secondary font-label-sm text-label-sm">${CAT_ELEMENT_RU[el] || el}</span>
-            </div>
-            <h2 class="font-headline-md text-body-lg text-on-surface truncate group-hover:text-primary">${name}</h2>
-            <p class="font-body-sm text-body-sm text-on-surface-variant truncate">${blurb}</p>
-          </div>
+        <div class="flex items-center justify-between gap-1">
+          <span class="font-label-sm text-label-sm ${on ? "text-primary" : "text-on-surface-variant"} uppercase tracking-wider truncate">${CAT_ROLE_RU[role] || role}</span>
+          <span class="px-1.5 py-0.5 rounded bg-surface-container-highest text-secondary font-label-sm text-label-sm shrink-0">${CAT_ELEMENT_RU[el] || el}</span>
+        </div>
+        <div class="archetype-card-art w-full rounded-lg bg-surface-container-lowest overflow-hidden relative shadow-inner">
+          ${art ? `<img class="w-full h-full object-contain object-bottom group-hover:scale-105 transition-transform duration-300" alt="${name}" src="${art}" decoding="async" loading="lazy"/>` : `<span class="material-symbols-outlined text-primary absolute inset-0 m-auto text-[32px] w-fit h-fit">pets</span>`}
+          <span class="absolute bottom-1.5 right-1.5 w-5 h-5 rounded-full bg-primary flex items-center justify-center text-[10px] text-on-primary font-bold shadow">${i + 1}</span>
+        </div>
+        <div class="flex flex-col min-w-0">
+          <h2 class="font-headline-md text-body-lg text-on-surface truncate group-hover:text-primary">${name}</h2>
+          <p class="font-body-sm text-body-sm text-on-surface-variant truncate">${blurb}</p>
         </div>
       </article>`;
     })

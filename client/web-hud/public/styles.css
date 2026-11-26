@@ -3192,6 +3192,13 @@ body:has(#viewCodex:not(.hidden)) #app {
   min-height: 20rem;
   max-height: min(820px, 70dvh);
 }
+#archetypes-grid {
+  align-content: start;
+  grid-auto-rows: max-content;
+}
+#archetypes-grid .archetype-card-art {
+  aspect-ratio: 3 / 4;
+}
 
 /* Craft workshop — 3 equal-height columns, recipe list not stretched */
 body:has(#viewCraft:not(.hidden)) #wireDock { display: none !important; }
