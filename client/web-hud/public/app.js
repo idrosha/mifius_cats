@@ -4333,11 +4333,10 @@ function renderDungeonLobby() {
       const icon = startBtn.querySelector(".material-symbols-outlined");
       if (icon) icon.textContent = "skull";
       const can =
-        dungeonPartyReadyForStart() &&
-        state.raidDeployConfirmed &&
-        validateRaidComposition().ok &&
         !state.raidWeeklyLocked &&
-        state.raidAttemptsLeft > 0;
+        state.raidAttemptsLeft > 0 &&
+        ((dungeonPartyReadyForStart() && state.raidDeployConfirmed && validateRaidComposition().ok) ||
+          dungeonVisualCats().filter(Boolean).length >= 3);
       startBtn.disabled = !can;
       startBtn.classList.toggle("opacity-45", !can);
     } else {
@@ -4345,10 +4344,7 @@ function renderDungeonLobby() {
       if (chip) chip.textContent = "1 ключ";
       const icon = startBtn.querySelector(".material-symbols-outlined");
       if (icon) icon.textContent = "fort";
-      const can =
-        dungeonPartyReadyForStart() &&
-        state.dungeonDeployConfirmed &&
-        dungeonVisualCats().filter(Boolean).length >= 3;
+      const can = dungeonVisualCats().filter(Boolean).length >= 3;
       startBtn.disabled = !can;
       startBtn.classList.toggle("opacity-45", !can);
     }
@@ -4357,9 +4353,9 @@ function renderDungeonLobby() {
   const formBtn = root.querySelector('[data-hud-action="dungeon-formation"]');
   if (formBtn) {
     const formLabel = formBtn.querySelector("span:not(.material-symbols-outlined)");
-    if (formLabel) formLabel.textContent = "Расстановка";
+    if (formLabel) formLabel.textContent = "Выбор команды";
     const formIcon = formBtn.querySelector(".material-symbols-outlined");
-    if (formIcon) formIcon.textContent = raid ? "military_tech" : "group";
+    if (formIcon) formIcon.textContent = "group";
   }
 
   syncDungeonCenterPanels();
@@ -4501,26 +4497,25 @@ async function startDungeonRun() {
     toast("Нет ключа — купите за рыбу или «Соло-тест»");
     return;
   }
-  if (!dungeonPartyReadyForStart()) {
-    const readyN = (state.dungeonParty || []).filter((p) => p.ready).length;
-    const sizeN = (state.dungeonParty || []).length;
-    toast(
-      `Пати ${readyN}/${Math.max(4, sizeN)} · нажмите «Соло-тест» или «Боты»`,
-    );
-    return;
-  }
-  if (!state.dungeonDeployConfirmed) {
-    showDungeonDeployCenter({ autoFill: false });
-    showGateTip(t("dungeon.gate.deploy", "Сначала расставьте пати 4×3 в центре и нажмите «Готово»."));
-    return;
-  }
-  syncDungeonCombatSquadFromPlayer();
-  ensureDungeonTestSquad();
   if (dungeonVisualCats().filter(Boolean).length < 3) {
-    showDungeonDeployCenter({ autoFill: false });
-    showGateTip(t("dungeon.gate.squad", "Нужны 3 котика в команде справа."));
+    ensureDungeonTestSquad();
+  }
+  if (dungeonVisualCats().filter(Boolean).length < 3) {
+    openDungeonTeamPicker();
+    showGateTip(t("dungeon.gate.squad", "Выберите команду из 3 котиков."));
     return;
   }
+  if (!dungeonPartyReadyForStart()) {
+    state.dungeonSoloStub = true;
+    state.dungeonParty = [
+      { id: "self", name: "Вы", ready: true },
+      { id: "bot1", name: "Бот-танк", ready: true },
+      { id: "bot2", name: "Бот-дпс", ready: true },
+      { id: "bot3", name: "Бот-хил", ready: true },
+    ];
+  }
+  state.dungeonDeployConfirmed = true;
+  syncDungeonCombatSquadFromPlayer();
   if (!(await spendDungeonKey(dung.id))) {
     toast("Не удалось списать ключ");
     return;
@@ -20636,20 +20631,7 @@ function bindBattleModeLobbies() {
       }
       if (act === "dungeon-formation" || act === "raid-formation" || act === "gvg-formation") {
         if (id === "viewBossDungeon" || root.id === "viewBossDungeon") {
-          // Center deploy after Ready 4/4 — shared 4×3 (12) for dungeon and raid (D-064).
-          if (!dungeonPartyReadyForStart()) {
-            toast("Сначала «Готов» 4/4 — центр сам сменится на расстановку 4×3");
-            return;
-          }
-          state.battleMode = isRaidLobby() ? "boss" : "dungeon";
-          state.formationMode = "";
-          if (isRaidLobby()) {
-            showRaidDeployCenter({ autoFill: false });
-          } else if (state.dungeonDeployOpen) {
-            closeDungeonDeployCenter();
-          } else {
-            showDungeonDeployCenter({ autoFill: false });
-          }
+          toggleDungeonTeamPicker();
           return;
         }
         if (id === "viewBossRaid" || root.id === "viewBossRaid") {
