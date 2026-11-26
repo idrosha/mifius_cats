@@ -4170,7 +4170,10 @@ function renderDungeonLobby() {
     const rewardsLabel = root.querySelector("[data-dungeon-rewards-label]");
     if (rewardsLabel) rewardsLabel.textContent = "Награды рейда";
     const bg = root.querySelector("[data-dungeon-stage-bg]");
-    if (bg) bg.src = "/stitch-assets/modes/raid-lair-bg.webp";
+    if (bg) {
+      const rid = rdef?.raidId || state.raidId;
+      bg.src = rid ? `/stitch-assets/modes/raid-${rid}-bg.webp?v=loc1` : "/stitch-assets/modes/raid-lair-bg.webp";
+    }
     // Keep stage bg only — no pitboss cutout over the lair (lobby reads as place, not portrait).
     root.querySelector("[data-dungeon-boss-art]")?.classList.add("hidden");
     root.querySelector("[data-dungeon-fork-wrap]")?.classList.add("hidden");
@@ -4269,7 +4272,9 @@ function renderDungeonLobby() {
     const rewardsLabel = root.querySelector("[data-dungeon-rewards-label]");
     if (rewardsLabel) rewardsLabel.textContent = "Награды склепа";
     const bg = root.querySelector("[data-dungeon-stage-bg]");
-    if (bg) bg.src = "/stitch-assets/modes/dungeon-crypt-bg.webp";
+    if (bg) {
+      bg.src = d?.id ? `/stitch-assets/modes/dungeon-${d.id}-bg.webp?v=loc1` : "/stitch-assets/modes/dungeon-crypt-bg.webp";
+    }
     root.querySelector("[data-dungeon-boss-art]")?.classList.add("hidden");
     state.raidDeployOpen = false;
     // Keep dungeon deploy flags when re-rendering dungeon lobby.
@@ -9615,21 +9620,21 @@ const MONSTER_BATTLE_BY_FACTION = {
     support: ["/stitch-assets/monsters/battle/ghost-support-cutout-faceleft.webp?v=faceleft2"],
     pitboss: ["/stitch-assets/monsters/battle/ghost-pitboss-cutout-faceleft.webp?v=faceleft2"],
   },
-  // Raid factions (docs/raids) — PNG cutouts 2026-11-22
+  // Raid factions (docs/raids) — PNG cutouts 2026-11-22 + missing role cutouts
   solar_lions: {
     tank: ["/stitch-assets/monsters/battle/solar-lion-tank-cutout.webp?v=raid1"],
     fighter: ["/stitch-assets/monsters/battle/solar-lion-fighter-cutout.webp?v=raid1"],
-    support: ["/stitch-assets/monsters/battle/solar-lion-fighter-cutout.webp?v=raid1"],
+    support: ["/stitch-assets/monsters/battle/solar-lion-support-cutout.webp?v=raid2"],
     pitboss: ["/stitch-assets/monsters/battle/myaurra-pitboss-cutout.webp?v=raid1"],
   },
   deep_lynxes: {
     tank: ["/stitch-assets/monsters/battle/deep-lynx-tank-cutout.webp?v=raid1"],
-    fighter: ["/stitch-assets/monsters/battle/deep-lynx-tank-cutout.webp?v=raid1"],
+    fighter: ["/stitch-assets/monsters/battle/deep-lynx-fighter-cutout.webp?v=raid2"],
     support: ["/stitch-assets/monsters/battle/deep-lynx-support-cutout.webp?v=raid1"],
     pitboss: ["/stitch-assets/monsters/battle/talass-pitboss-cutout.webp?v=raid1"],
   },
   kitsune_ash: {
-    tank: ["/stitch-assets/monsters/battle/kitsune-fighter-cutout.webp?v=raid1"],
+    tank: ["/stitch-assets/monsters/battle/kitsune-tank-cutout.webp?v=raid2"],
     fighter: ["/stitch-assets/monsters/battle/kitsune-fighter-cutout.webp?v=raid1"],
     support: ["/stitch-assets/monsters/battle/kitsune-support-cutout.webp?v=raid1"],
     pitboss: ["/stitch-assets/monsters/battle/vulcan-pitboss-cutout.webp?v=raid1"],
@@ -9806,8 +9811,11 @@ const MONSTER_NATIVE_FACE_LEFT = new Set([
   "vulcan-pitboss-cutout",
   "solar-lion-tank-cutout",
   "solar-lion-fighter-cutout",
+  "solar-lion-support-cutout",
   "deep-lynx-tank-cutout",
+  "deep-lynx-fighter-cutout",
   "deep-lynx-support-cutout",
+  "kitsune-tank-cutout",
   "kitsune-fighter-cutout",
   "kitsune-support-cutout",
   // Flopped rebakes (*-faceleft.webp)
@@ -22036,7 +22044,9 @@ window.addEventListener("popstate", () => {
 function syncOrientGate() {
   const gate = $("orientGate");
   if (!gate) return;
-  const phonePortrait = window.matchMedia("(max-width: 600px) and (orientation: portrait)").matches;
+  const phonePortrait = window.matchMedia(
+    "(orientation: portrait) and (max-width: 767px), (orientation: portrait) and (max-width: 900px) and (pointer: coarse)"
+  ).matches;
   gate.setAttribute("aria-hidden", phonePortrait ? "false" : "true");
   document.body.classList.toggle("mythfel-phone-portrait", phonePortrait);
 }

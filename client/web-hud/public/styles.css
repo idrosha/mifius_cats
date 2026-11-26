@@ -19,6 +19,22 @@
   --mythfel-chrome-stack: 9.5rem;
   --mythfel-form-max-h: calc(100dvh - var(--mythfel-chrome-stack));
   --mythfel-form-max-w: min(100vw, calc(var(--mythfel-form-max-h) * 16 / 9));
+  --mythfel-stage-max-w: 1920px;
+  --mythfel-stage-max-h: 1120px;
+  /* Safe-area insets (notches & rounded corners in mobile landscape) */
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  /* Fluid spacing, typography & touch tokens */
+  --mf-gap: clamp(0.35rem, 0.7vw, 0.75rem);
+  --mf-pad: clamp(0.35rem, 0.8vw, 1rem);
+  --mf-fs-xs: clamp(10px, 0.72vw, 11px);
+  --mf-fs-sm: clamp(11px, 0.82vw, 12px);
+  --mf-fs-md: clamp(12px, 0.95vw, 14px);
+  --mf-fs-lg: clamp(14px, 1.25vw, 18px);
+  --mf-fs-xl: clamp(17px, 1.7vw, 26px);
+  --mf-touch-min: 40px;
   font-family: "Nunito Sans", "Rubik", system-ui, sans-serif;
 }
 
@@ -8966,24 +8982,24 @@ body:has(#viewBreeding:not(.hidden)) #app { height: 100dvh !important; max-heigh
  * Nav IA/labels locked (D-025) — only wrap/scroll/stack layout.
  * ============================================================================= */
 
-/* —— Phone portrait gate (phones only; tablet ≥601px portrait stays open) —— */
+/* —— Portrait gate (landscape-only on mobile phones & narrow touch devices) —— */
 .mythfel-orient-gate {
   display: none;
   position: fixed;
   inset: 0;
-  z-index: 200;
+  z-index: 9000;
   align-items: center;
   justify-content: center;
-  padding: 1.25rem;
+  padding: max(1.25rem, var(--safe-top)) max(1.25rem, var(--safe-right)) max(1.25rem, var(--safe-bottom)) max(1.25rem, var(--safe-left));
   box-sizing: border-box;
   background:
-    radial-gradient(ellipse at 50% 40%, rgba(253, 186, 69, 0.12), transparent 55%),
-    rgba(8, 6, 4, 0.96);
+    radial-gradient(ellipse at 50% 40%, rgba(253, 186, 69, 0.14), transparent 55%),
+    rgba(8, 6, 4, 0.97);
   color: var(--on-surface);
   text-align: center;
 }
 .mythfel-orient-card {
-  max-width: 22rem;
+  max-width: min(22rem, 90dvw);
   padding: 1.35rem 1.25rem 1.2rem;
   border-radius: 0.85rem;
   border: 1px solid rgba(253, 186, 69, 0.35);
@@ -8998,24 +9014,24 @@ body:has(#viewBreeding:not(.hidden)) #app { height: 100dvh !important; max-heigh
 .mythfel-orient-card h2 {
   margin: 0.55rem 0 0.4rem;
   font-family: Rubik, sans-serif;
-  font-size: 1.35rem;
+  font-size: clamp(1.1rem, 4.5vw, 1.35rem);
   letter-spacing: 0.04em;
   color: var(--primary);
 }
 .mythfel-orient-card p {
   margin: 0;
-  font-size: 0.9rem;
-  line-height: 1.4;
+  font-size: clamp(0.85rem, 3.4vw, 0.95rem);
+  line-height: 1.45;
   color: var(--muted);
 }
 .mythfel-orient-card strong { color: var(--on-surface); }
 .mythfel-orient-hint {
   margin-top: 0.75rem !important;
   font-family: Rubik, sans-serif;
-  font-size: 0.7rem !important;
+  font-size: 0.72rem !important;
   letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: rgba(253, 186, 69, 0.75) !important;
+  color: rgba(253, 186, 69, 0.78) !important;
 }
 @keyframes mythfel-orient-nudge {
   0%, 100% { transform: rotate(-18deg); }
@@ -9024,11 +9040,12 @@ body:has(#viewBreeding:not(.hidden)) #app { height: 100dvh !important; max-heigh
 @media (prefers-reduced-motion: reduce) {
   .mythfel-orient-ico { animation: none; }
 }
-@media (max-width: 600px) and (orientation: portrait) {
+@media (orientation: portrait) and (max-width: 767px),
+       (orientation: portrait) and (max-width: 900px) and (pointer: coarse) {
   .mythfel-orient-gate {
     display: flex !important;
   }
-  /* Freeze shell under the gate — no portrait-first playable UI on phone */
+  /* Freeze shell under the gate — landscape-only gameplay */
   body.mythfel-shell > #appNav,
   body.mythfel-shell > #app,
   body.mythfel-shell > #toast,
@@ -9508,11 +9525,18 @@ body:has(#viewBreeding:not(.hidden)) #app { height: 100dvh !important; max-heigh
   }
 }
 
-/* Ultra-short landscape phones */
+/* Ultra-short landscape phones — keep subtabs accessible as ultra-compact strip */
 @media (max-height: 400px) and (orientation: landscape) {
-  .mythfel-subtabs { display: none; }
-  :root, body:not(.mythfel-login) { --mythfel-chrome-stack: 2.85rem; }
+  :root, body:not(.mythfel-login) { --mythfel-chrome-stack: 3.1rem; }
   .mythfel-nav-top { padding: 0.12rem 0.35rem; }
+  .mythfel-subtabs {
+    padding: 0.08rem 0.35rem;
+    margin: 0;
+  }
+  .mythfel-subtabs button {
+    padding: 0.15rem 0.42rem;
+    font-size: 10px;
+  }
 }
 
 /* Ejected stitch stages (practice/yard/… landed as body siblings after #137) —
@@ -11190,4 +11214,479 @@ body:has(#viewPveVictory:not(.hidden)) #app {
   display: block; height: 100%; width: 100%;
   background: linear-gradient(90deg, #4ade80, #89d98c); border-radius: 999px;
 }
+
+/* =============================================================================
+ * RESPONSIVE STAGE & STITCH ADAPTIVE SYSTEM (mobile landscape / tablet / desktop / large)
+ * - Landscape-only on phones (portrait blocked by #orientGate above).
+ * - Safe-area insets for notches & rounded corners in landscape.
+ * - No page-level horizontal scroll; vertical scroll only inside form panels.
+ * - Large monitors (>=1920px / >=1200px height): cap stage width/height cleanly.
+ * ============================================================================= */
+
+/* Global anti-overflow & safe-area shell */
+html, body {
+  max-width: 100dvw;
+  overflow: hidden;
+}
+.mythfel-shell {
+  width: 100%;
+  max-width: 100dvw;
+  padding-left: var(--safe-left);
+  padding-right: var(--safe-right);
+  padding-bottom: var(--safe-bottom);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+.mythfel-nav {
+  padding-top: var(--safe-top);
+  box-sizing: border-box;
+}
+.stitch-view,
+.mythfel-form {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+.stitch-view .w-screen {
+  width: 100% !important;
+  max-width: 100% !important;
+}
+
+/* ——— LARGE MONITORS (2560×1440+): prevent infinite stretch, frame stage cleanly ——— */
+@media (min-width: 1921px), (min-height: 1200px) {
+  .mythfel-nav-top,
+  .mythfel-subtabs {
+    max-width: var(--mythfel-stage-max-w);
+    margin-inline: auto;
+  }
+  body:not(.mythfel-login) #app,
+  body:not(.mythfel-login) > section.stitch-view:not(.hidden),
+  body:not(.mythfel-login) > section.mythfel-form:not(.hidden),
+  body:not(.mythfel-login) #wireDock {
+    width: 100%;
+    max-width: var(--mythfel-stage-max-w) !important;
+    margin-inline: auto !important;
+    box-sizing: border-box;
+  }
+  body:not(.mythfel-login) #app,
+  body:not(.mythfel-login) > section.stitch-view:not(.hidden) {
+    max-height: min(calc(100dvh - var(--mythfel-chrome-stack)), var(--mythfel-stage-max-h)) !important;
+    border-inline: 1px solid rgba(80, 69, 53, 0.35);
+    border-bottom: 1px solid rgba(80, 69, 53, 0.25);
+  }
+  /* Login: keep hero bg full-bleed, center content within stage cap */
+  #viewLogin > main > *:not(.fixed):not(.absolute) {
+    max-width: var(--mythfel-stage-max-w);
+    margin-inline: auto;
+  }
+}
+
+/* ——— TABLET LANDSCAPE (1024–1366 × 768–1024) & SMALL DESKTOP ——— */
+@media (max-width: 1366px) and (orientation: landscape) {
+  :root,
+  body:not(.mythfel-login) {
+    --mythfel-chrome-stack: 5.25rem;
+  }
+  body:has(#viewYard:not(.hidden)) {
+    --mythfel-chrome-stack: 5.25rem;
+  }
+  #app {
+    flex: 1 1 auto !important;
+    height: auto !important;
+    max-height: none !important;
+    aspect-ratio: auto !important;
+  }
+  .mythfel-nav-top {
+    padding: 0.3rem 0.6rem;
+    gap: 0.4rem 0.6rem;
+  }
+  .mythfel-primary button {
+    padding: 0.3rem 0.55rem;
+    font-size: var(--mf-fs-sm);
+  }
+  .mythfel-subtabs {
+    padding: 0.2rem 0.6rem;
+  }
+  .mythfel-subtabs button {
+    font-size: var(--mf-fs-sm);
+  }
+  /* Prevent oversized fixed heights from clipping on 768px-tall tablets */
+  .stitch-view [class*="h-[820px]"] {
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: 100%;
+  }
+  #viewVictoryHall article[class*="h-[555px]"],
+  #viewVictoryHall article[class*="h-[510px]"],
+  #viewVictoryHall article[class*="h-[500px]"],
+  #viewVictoryHall article[class*="h-[460px]"] {
+    height: clamp(18rem, 56dvh, 30rem) !important;
+  }
+  #viewCodex [class*="min-h-[560px]"],
+  #viewPass [class*="min-h-[620px]"] {
+    min-height: 0 !important;
+  }
+}
+
+/* Touch hit-area floor on coarse-pointer tablets & phones */
+@media (pointer: coarse) {
+  .stitch-view button:not(.mythfel-close-sm):not([aria-hidden="true"]),
+  .stitch-view a.mythfel-portal,
+  .stitch-view [role="button"] {
+    min-height: 36px;
+  }
+  .mythfel-hub-cta,
+  .pve-vic-next,
+  .pve-vic-btn,
+  .mythfel-settings-btn,
+  #btnLoginEnter,
+  #btnPracticeBattle,
+  #btnYardToFormation,
+  #btnFormationBattle {
+    min-height: var(--mf-touch-min);
+    min-width: var(--mf-touch-min);
+  }
+}
+
+/* ——— MOBILE LANDSCAPE (~640–932 × 360–430, compact height <= 520px or width <= 960px) ——— */
+@media (max-height: 520px) and (orientation: landscape),
+       (max-width: 960px) and (orientation: landscape) {
+  :root,
+  body:not(.mythfel-login),
+  body:has(#viewYard:not(.hidden)) {
+    --mythfel-chrome-stack: 3.75rem;
+  }
+  .mythfel-login {
+    --mythfel-chrome-stack: 0px;
+  }
+
+  /* Compact single-row header + scrollable subtabs strip */
+  .mythfel-nav-top {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas: "brand tabs chrome";
+    gap: 0.25rem 0.4rem;
+    padding: 0.16rem max(0.4rem, var(--safe-right)) 0.16rem max(0.4rem, var(--safe-left));
+    align-items: center;
+  }
+  .mythfel-brand {
+    padding: 0.08rem 0.15rem;
+    gap: 0.3rem;
+  }
+  .mythfel-brand-mark {
+    width: 1.6rem;
+    height: 1.6rem;
+    font-size: 0.85rem;
+  }
+  .mythfel-brand-text strong {
+    font-size: 0.8rem;
+  }
+  .mythfel-brand-text span,
+  .mythfel-social,
+  .mythfel-nav-rank,
+  #liveopsPill,
+  #battlePill {
+    display: none !important;
+  }
+  .mythfel-nav-wallet {
+    gap: 0.28rem;
+    font-size: 10px;
+  }
+  .mythfel-nav-wallet > span:nth-child(n + 3) {
+    display: none !important;
+  }
+  .mythfel-primary {
+    grid-area: tabs;
+    justify-self: stretch;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 0.12rem;
+    gap: 0.15rem;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+  .mythfel-primary button {
+    padding: 0.28rem 0.5rem;
+    font-size: 10.5px;
+    min-height: 30px;
+    flex: 0 0 auto;
+  }
+  .mythfel-settings-btn {
+    width: 2rem;
+    height: 2rem;
+    min-width: 32px;
+    min-height: 32px;
+  }
+  .mythfel-subtabs {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    justify-content: flex-start !important;
+    gap: 0.2rem;
+    margin: 0 !important;
+    padding: 0.12rem max(0.4rem, var(--safe-right)) 0.14rem max(0.4rem, var(--safe-left)) !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .mythfel-subtabs:empty {
+    display: none !important;
+  }
+  .mythfel-subtabs button {
+    flex: 0 0 auto !important;
+    min-width: 0 !important;
+    padding: 0.22rem 0.5rem !important;
+    font-size: 10.5px !important;
+    min-height: 26px;
+    white-space: nowrap;
+  }
+
+  /* Drop rigid 16:9 stage on short landscape — fill full remaining area */
+  #app {
+    flex: 1 1 auto !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    aspect-ratio: auto !important;
+    overflow: hidden !important;
+  }
+  .stitch-view:not(.hidden),
+  .mythfel-form:not(.hidden),
+  .hud-view:not(.hidden),
+  body.mythfel-shell > section.stitch-view:not(.hidden) {
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+    height: 100% !important;
+    max-height: none !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .stitch-view:not(.hidden) > main,
+  .stitch-view:not(.hidden) > div {
+    min-height: 0 !important;
+    max-width: 100% !important;
+  }
+
+  /* Readable typography floor on mobile landscape (>=10px labels, >=11px body) */
+  .stitch-view [class*="text-[7px]"],
+  .stitch-view [class*="text-[8px]"],
+  .stitch-view [class*="text-[9px]"] {
+    font-size: 10px !important;
+    line-height: 1.25 !important;
+  }
+  .stitch-view [class*="text-[10px]"] {
+    font-size: 10.5px !important;
+  }
+  .stitch-view h1 {
+    font-size: clamp(1rem, 2.8vw, 1.45rem) !important;
+    line-height: 1.15 !important;
+  }
+  .stitch-view h2 {
+    font-size: clamp(0.9rem, 2.2vw, 1.2rem) !important;
+    line-height: 1.2 !important;
+  }
+  .stitch-view h3 {
+    font-size: clamp(0.8rem, 1.8vw, 1rem) !important;
+  }
+
+  /* Neutralize fixed px height/width traps across all Stitch screens */
+  .stitch-view [class*="h-[820px]"],
+  .stitch-view [class*="h-[555px]"],
+  .stitch-view [class*="h-[510px]"],
+  .stitch-view [class*="h-[500px]"],
+  .stitch-view [class*="h-[460px]"],
+  .stitch-view [class*="h-[250px]"],
+  .stitch-view [class*="min-h-[620px]"],
+  .stitch-view [class*="min-h-[560px]"],
+  .stitch-view [class*="min-h-[290px]"],
+  .stitch-view [class*="min-h-[220px]"],
+  .stitch-view [class*="min-h-[200px]"] {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+  .stitch-view [class*="min-w-[280px]"],
+  .stitch-view [class*="min-w-[210px]"],
+  .stitch-view [class*="min-w-[200px]"],
+  .stitch-view [class*="min-w-[190px]"],
+  .stitch-view [class*="min-w-[170px]"],
+  .stitch-view [class*="w-[280px]"] {
+    min-width: 0 !important;
+    width: auto !important;
+    max-width: 100% !important;
+  }
+  .stitch-view .w-96,
+  .stitch-view .w-80,
+  .stitch-view .w-72 {
+    width: clamp(10.5rem, 30vw, 16rem) !important;
+    max-width: 100% !important;
+  }
+  .stitch-view .w-64,
+  .stitch-view .w-60,
+  .stitch-view .w-56,
+  .stitch-view .w-52,
+  .stitch-view .w-48 {
+    width: clamp(8.5rem, 24vw, 13rem) !important;
+    max-width: 100% !important;
+  }
+  .stitch-view [style*="min-width: 280px"] {
+    min-width: 0 !important;
+    width: clamp(10.5rem, 28vw, 15rem) !important;
+  }
+
+  /* Adaptive compact grids & gaps on narrow landscape */
+  .stitch-view .gap-space-xl,
+  .stitch-view .gap-space-lg,
+  .stitch-view .gap-6,
+  .stitch-view .gap-5,
+  .stitch-view .gap-4 {
+    gap: var(--mf-gap) !important;
+  }
+  .stitch-view .p-space-xl,
+  .stitch-view .p-space-lg,
+  .stitch-view .p-6,
+  .stitch-view .p-5 {
+    padding: var(--mf-pad) !important;
+  }
+
+  /* Compact wire dock when visible */
+  .mythfel-wire-inner {
+    padding: 0.25rem 0.45rem;
+    gap: 0.35rem;
+  }
+
+  /* —— Per-screen mobile landscape polish —— */
+  /* Hub */
+  #viewHub .mythfel-hub-main {
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 0.45rem 0.6rem !important;
+    gap: 0.55rem !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+  }
+  #viewHub .mythfel-pass {
+    flex: 0 0 auto !important;
+    min-height: auto !important;
+    overflow: visible !important;
+    grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr) !important;
+    gap: 0.5rem !important;
+  }
+  #viewHub .mythfel-pass-hero,
+  #viewHub .mythfel-pass-perks {
+    overflow: visible !important;
+    padding: 0.55rem 0.65rem !important;
+  }
+  #viewHub .mythfel-portals-wrap {
+    flex: 0 0 auto !important;
+    overflow: visible !important;
+  }
+  #viewHub .mythfel-portals {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 0.45rem !important;
+  }
+  #viewHub .mythfel-portal {
+    min-height: 9.5rem !important;
+  }
+  #viewHub .mythfel-hub-foot {
+    flex: 0 0 auto !important;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  /* Login */
+  #viewLogin > main {
+    min-height: 100% !important;
+    height: auto !important;
+    overflow-y: auto !important;
+    padding: 0.5rem 0.75rem !important;
+  }
+  #viewLogin button#btnLoginEnter {
+    min-height: var(--mf-touch-min);
+  }
+
+  /* Home (Дом Хранителя) */
+  #viewHome > main {
+    overflow-y: auto !important;
+    padding: 0.3rem 0.45rem !important;
+  }
+  #viewHome .grid.grid-cols-12 {
+    gap: 0.35rem !important;
+  }
+
+  /* Yard (PvE campaign map) */
+  body.mythfel-shell > #viewYard.stitch-view:not(.hidden) {
+    overflow-y: auto !important;
+  }
+  #viewYard .pve-yard,
+  #viewYard .pve-yard-hub {
+    overflow-y: auto !important;
+    height: auto !important;
+    min-height: 100% !important;
+  }
+
+  /* Battle & Victory screens — fit compact height cleanly */
+  #viewPvpLoad .pvp-load-stage {
+    min-height: 7.5rem !important;
+    flex: 1 1 0 !important;
+  }
+  #viewPvpLoad .pvp-load-teams {
+    min-height: 7rem !important;
+    max-height: none !important;
+  }
+  #viewPvpLoad .pvp-load-banner {
+    top: 0.45rem;
+    padding: 0.25rem 0.45rem;
+  }
+  #viewPveVictory .pve-vic-squad {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 0.35rem;
+  }
+  #viewVictoryHall .grid.grid-cols-3 {
+    gap: 0.4rem !important;
+  }
+  #viewVictoryHall article {
+    margin-top: 0 !important;
+    min-height: 11rem !important;
+  }
+  #viewResultWin .grid.grid-cols-6 {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+  #viewResultWin .grid.grid-cols-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  /* Raid battle 4x3 board + sidebar */
+  #viewRaidBattle .grid.grid-cols-4 {
+    gap: 0.25rem !important;
+  }
+
+  /* Auction lots: prevent horizontal squeeze */
+  #viewAuction article.lot-card {
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  /* Collection & Heroes & Codex & Craft & Breeding */
+  #viewCollection .collection-roster {
+    grid-template-columns: repeat(auto-fill, minmax(6.2rem, 1fr)) !important;
+  }
+  #viewBreeding article[class*="snap-center"] {
+    min-width: 11rem !important;
+    width: auto !important;
+  }
+  #viewCraft main {
+    padding-top: 0 !important;
+    min-height: 0 !important;
+    height: auto !important;
+  }
+  #viewPass .pass-dual-rail {
+    width: 5rem;
+    flex-basis: 5rem;
+  }
+
+  /* Settings */
+  .mf-settings-shell {
+    padding: 0.4rem 0.55rem 0.55rem;
+    gap: 0.4rem;
+  }
+}
+
 

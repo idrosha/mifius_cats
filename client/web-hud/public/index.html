@@ -2,7 +2,7 @@
 <html class="dark" lang="ru">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <meta name="shell-type" content="web_standard" />
   <meta name="hud-ui" content="stitch-0268-64d5-e608-4da7-18c7" />
   <meta name="hud-layout" content="landscape-flush" />
@@ -28,7 +28,7 @@
 .mf-boot-spin{width:1.65rem;height:1.65rem;border-radius:50%;border:2.5px solid rgba(234,225,219,.28);border-top-color:#fdba45;box-shadow:0 0 12px rgba(253,186,69,.35);animation:mf-boot-spin .7s linear infinite}
 .mf-boot-spin-label{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
 @keyframes mf-boot-spin{to{transform:rotate(360deg)}}
-body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
+body:not(.is-hud-ready)>:not(#mfBootSplash):not(#orientGate){visibility:hidden!important}
 </style>
   <link rel="stylesheet" href="/styles.css?v=combatfx2" />
   <link rel="preload" as="image" href="/stitch-assets/boot-splash.webp" fetchpriority="high" />
@@ -39,6 +39,14 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
   <div id="mfBootSplash" role="status" aria-live="polite" aria-busy="true">
     <span class="mf-boot-spin" aria-hidden="true"></span>
     <span class="mf-boot-spin-label">Загрузка…</span>
+  </div>
+  <div id="orientGate" class="mythfel-orient-gate" role="dialog" aria-modal="true" aria-labelledby="orientGateTitle" aria-hidden="true">
+    <div class="mythfel-orient-card">
+      <span class="material-symbols-outlined mythfel-orient-ico" aria-hidden="true">screen_rotation</span>
+      <h2 id="orientGateTitle">Поверните устройство горизонтально</h2>
+      <p><strong>Мифиус</strong> работает только в горизонтальной ориентации экрана. Переверните телефон на бок, чтобы продолжить игру.</p>
+      <p class="mythfel-orient-hint">LANDSCAPE MODE</p>
+    </div>
   </div>
   <header id="appNav" class="mythfel-nav" aria-label="Mythfel navigation">
     <div class="mythfel-nav-top">
@@ -298,7 +306,7 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
 </section>
 <section id="viewLogin" class="stitch-view mythfel-form hidden" data-stitch="login" data-layout="landscape">
 <!-- Full Screen Visual Canvas -->
-<main class="relative h-screen w-screen overflow-hidden flex flex-col justify-between">
+<main class="relative h-full w-full overflow-hidden flex flex-col justify-between">
 <!-- Background Image Layer: Full bleed 100vw x 100vh with atmospheric tavern vignette -->
 <div class="fixed inset-0 z-0 overflow-hidden pointer-events-none">
 <img alt="МИФИУС: Мифические Котики в Таверне" class="w-full h-full object-cover object-center scale-[1.01] brightness-[0.92] contrast-[1.06]" src="/stitch-assets/login-bg.webp" decoding="async" fetchpriority="high">
@@ -971,7 +979,7 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
 <div class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-low border border-outline-variant/30 shadow-inner">
 <span class="text-xs">🪙</span>
 <div class="flex flex-col pr-1">
-<span class="text-[7px] uppercase tracking-wider font-headline text-on-surface-variant leading-none">Золото</span>
+<span class="text-[10px] uppercase tracking-wider font-headline text-on-surface-variant leading-none">Золото</span>
 <span class="font-stat text-[11px] font-black text-primary leading-tight">148,250</span>
 </div>
 </div>
@@ -979,7 +987,7 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
 <div class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-low border border-outline-variant/30 shadow-inner">
 <span class="text-xs">🐟</span>
 <div class="flex flex-col pr-1">
-<span class="text-[7px] uppercase tracking-wider font-headline text-on-surface-variant leading-none">Рыбка</span>
+<span class="text-[10px] uppercase tracking-wider font-headline text-on-surface-variant leading-none">Рыбка</span>
 <span class="font-stat text-[11px] font-black text-secondary-fixed leading-tight">920</span>
 </div>
 </div>
@@ -987,7 +995,7 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
 <div class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-low border border-outline-variant/30 shadow-inner">
 <span class="text-xs">💎</span>
 <div class="flex flex-col pr-1">
-<span class="text-[7px] uppercase tracking-wider font-headline text-on-surface-variant leading-none">Кристаллы</span>
+<span class="text-[10px] uppercase tracking-wider font-headline text-on-surface-variant leading-none">Кристаллы</span>
 <span class="font-stat text-[11px] font-black text-secondary leading-tight">385</span>
 </div>
 </div>
@@ -995,7 +1003,7 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
 <div class="flex items-center gap-1 px-2 py-0.5 rounded-full bg-surface-container-low border border-outline-variant/30 shadow-inner">
 <span class="material-symbols-outlined text-[13px] text-primary" style="font-variation-settings: &quot;FILL&quot; 1;">bolt</span>
 <div class="flex flex-col pr-1">
-<span class="text-[7px] uppercase tracking-wider font-headline text-on-surface-variant leading-none">Энергия</span>
+<span class="text-[10px] uppercase tracking-wider font-headline text-on-surface-variant leading-none">Энергия</span>
 <div class="flex items-baseline gap-0.5 leading-tight">
 <span class="font-stat text-[11px] font-black text-primary">85</span>
 <span class="text-[8px] text-on-surface-variant font-bold">/100</span>
@@ -1106,28 +1114,28 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
     <!-- 1. Weapon Slot -->
     <div class="group relative cursor-pointer bg-surface-container-highest/95 hover:bg-surface-container-high rounded-xl p-1 border-2 border-primary ring-1 ring-primary/40 shadow-lg transition-all flex flex-col items-center hover:scale-105">
       
-      <div class="w-14 h-14 rounded-lg bg-surface-container-lowest/90 border border-primary/50 flex flex-col items-center justify-center relative overflow-hidden group-hover:border-primary transition-colors"><span class="material-symbols-outlined text-outline-variant text-xl">add</span><span class="text-[7px] font-headline uppercase tracking-wider text-outline-variant leading-none mt-0.5">Пусто</span></div>
+      <div class="w-14 h-14 rounded-lg bg-surface-container-lowest/90 border border-primary/50 flex flex-col items-center justify-center relative overflow-hidden group-hover:border-primary transition-colors"><span class="material-symbols-outlined text-outline-variant text-xl">add</span><span class="text-[10px] font-headline uppercase tracking-wider text-outline-variant leading-none mt-0.5">Пусто</span></div>
       
     </div>
 
     <!-- 2. Collar Slot -->
     <div class="group relative cursor-pointer bg-surface-container-highest/95 hover:bg-surface-container-high rounded-xl p-1 border-2 border-secondary/60 hover:border-secondary shadow-lg transition-all flex flex-col items-center hover:scale-105">
       
-      <div class="w-14 h-14 rounded-lg bg-surface-container-lowest/90 border border-secondary/40 flex flex-col items-center justify-center relative overflow-hidden group-hover:border-secondary transition-colors"><span class="material-symbols-outlined text-outline-variant text-xl">add</span><span class="text-[7px] font-headline uppercase tracking-wider text-outline-variant leading-none mt-0.5">Пусто</span></div>
+      <div class="w-14 h-14 rounded-lg bg-surface-container-lowest/90 border border-secondary/40 flex flex-col items-center justify-center relative overflow-hidden group-hover:border-secondary transition-colors"><span class="material-symbols-outlined text-outline-variant text-xl">add</span><span class="text-[10px] font-headline uppercase tracking-wider text-outline-variant leading-none mt-0.5">Пусто</span></div>
       
     </div>
 
     <!-- 3. Belt Slot -->
     <div class="group relative cursor-pointer bg-surface-container-highest/95 hover:bg-surface-container-high rounded-xl p-1 border-2 border-outline-variant/40 hover:border-primary/50 shadow-lg transition-all flex flex-col items-center hover:scale-105">
       
-      <div class="w-14 h-14 rounded-lg bg-surface-container-lowest/90 border border-outline-variant/30 flex flex-col items-center justify-center relative overflow-hidden group-hover:border-primary/40 transition-colors"><span class="material-symbols-outlined text-outline-variant text-xl">add</span><span class="text-[7px] font-headline uppercase tracking-wider text-outline-variant leading-none mt-0.5">Пусто</span></div>
+      <div class="w-14 h-14 rounded-lg bg-surface-container-lowest/90 border border-outline-variant/30 flex flex-col items-center justify-center relative overflow-hidden group-hover:border-primary/40 transition-colors"><span class="material-symbols-outlined text-outline-variant text-xl">add</span><span class="text-[10px] font-headline uppercase tracking-wider text-outline-variant leading-none mt-0.5">Пусто</span></div>
       
     </div>
 
     <!-- 4. Ring Slot -->
     <div class="group relative cursor-pointer bg-surface-container-highest/95 hover:bg-surface-container-high rounded-xl p-1 border-2 border-primary/60 hover:border-primary shadow-lg transition-all flex flex-col items-center hover:scale-105">
       
-      <div class="w-14 h-14 rounded-lg bg-surface-container-lowest/90 border border-primary/40 flex flex-col items-center justify-center relative overflow-hidden group-hover:border-primary transition-colors"><span class="material-symbols-outlined text-outline-variant text-xl">add</span><span class="text-[7px] font-headline uppercase tracking-wider text-outline-variant leading-none mt-0.5">Пусто</span></div>
+      <div class="w-14 h-14 rounded-lg bg-surface-container-lowest/90 border border-primary/40 flex flex-col items-center justify-center relative overflow-hidden group-hover:border-primary transition-colors"><span class="material-symbols-outlined text-outline-variant text-xl">add</span><span class="text-[10px] font-headline uppercase tracking-wider text-outline-variant leading-none mt-0.5">Пусто</span></div>
       
     </div>
   </div>
@@ -1147,28 +1155,28 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
     <!-- 1. Helmet Slot -->
     <div class="group relative cursor-pointer bg-surface-container-highest/95 hover:bg-surface-container-high rounded-xl p-1 border-2 border-primary/70 hover:border-primary shadow-lg transition-all flex flex-col items-center hover:scale-105">
       
-      <div class="w-14 h-14 rounded-lg bg-surface-container-lowest/90 border border-primary/40 flex flex-col items-center justify-center relative overflow-hidden group-hover:border-primary transition-colors"><span class="material-symbols-outlined text-outline-variant text-xl">add</span><span class="text-[7px] font-headline uppercase tracking-wider text-outline-variant leading-none mt-0.5">Пусто</span></div>
+      <div class="w-14 h-14 rounded-lg bg-surface-container-lowest/90 border border-primary/40 flex flex-col items-center justify-center relative overflow-hidden group-hover:border-primary transition-colors"><span class="material-symbols-outlined text-outline-variant text-xl">add</span><span class="text-[10px] font-headline uppercase tracking-wider text-outline-variant leading-none mt-0.5">Пусто</span></div>
       
     </div>
 
     <!-- 2. Chestplate Slot -->
     <div class="group relative cursor-pointer bg-surface-container-highest/95 hover:bg-surface-container-high rounded-xl p-1 border-2 border-primary/70 hover:border-primary shadow-lg transition-all flex flex-col items-center hover:scale-105">
       
-      <div class="w-14 h-14 rounded-lg bg-surface-container-lowest/90 border border-primary/40 flex flex-col items-center justify-center relative overflow-hidden group-hover:border-primary transition-colors"><span class="material-symbols-outlined text-outline-variant text-xl">add</span><span class="text-[7px] font-headline uppercase tracking-wider text-outline-variant leading-none mt-0.5">Пусто</span></div>
+      <div class="w-14 h-14 rounded-lg bg-surface-container-lowest/90 border border-primary/40 flex flex-col items-center justify-center relative overflow-hidden group-hover:border-primary transition-colors"><span class="material-symbols-outlined text-outline-variant text-xl">add</span><span class="text-[10px] font-headline uppercase tracking-wider text-outline-variant leading-none mt-0.5">Пусто</span></div>
       
     </div>
 
     <!-- 3. Talisman / Bell Slot -->
     <div class="group relative cursor-pointer bg-surface-container-highest/95 hover:bg-surface-container-high rounded-xl p-1 border-2 border-primary/60 hover:border-primary shadow-lg transition-all flex flex-col items-center hover:scale-105">
       
-      <div class="w-14 h-14 rounded-lg bg-surface-container-lowest/90 border border-primary/40 flex flex-col items-center justify-center relative overflow-hidden group-hover:border-primary transition-colors"><span class="material-symbols-outlined text-outline-variant text-xl">add</span><span class="text-[7px] font-headline uppercase tracking-wider text-outline-variant leading-none mt-0.5">Пусто</span></div>
+      <div class="w-14 h-14 rounded-lg bg-surface-container-lowest/90 border border-primary/40 flex flex-col items-center justify-center relative overflow-hidden group-hover:border-primary transition-colors"><span class="material-symbols-outlined text-outline-variant text-xl">add</span><span class="text-[10px] font-headline uppercase tracking-wider text-outline-variant leading-none mt-0.5">Пусто</span></div>
       
     </div>
 
     <!-- 4. Boots Slot -->
     <div class="group relative cursor-pointer bg-surface-container-highest/95 hover:bg-surface-container-high rounded-xl p-1 border-2 border-secondary/60 hover:border-secondary shadow-lg transition-all flex flex-col items-center hover:scale-105">
       
-      <div class="w-14 h-14 rounded-lg bg-surface-container-lowest/90 border border-secondary/40 flex flex-col items-center justify-center relative overflow-hidden group-hover:border-secondary transition-colors"><span class="material-symbols-outlined text-outline-variant text-xl">add</span><span class="text-[7px] font-headline uppercase tracking-wider text-outline-variant leading-none mt-0.5">Пусто</span></div>
+      <div class="w-14 h-14 rounded-lg bg-surface-container-lowest/90 border border-secondary/40 flex flex-col items-center justify-center relative overflow-hidden group-hover:border-secondary transition-colors"><span class="material-symbols-outlined text-outline-variant text-xl">add</span><span class="text-[10px] font-headline uppercase tracking-wider text-outline-variant leading-none mt-0.5">Пусто</span></div>
       
     </div>
   </div>
@@ -1294,7 +1302,7 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
   <div class="w-full h-full rounded border border-dashed border-primary/40 bg-surface-container/60 flex flex-col items-center justify-between p-1">
     <span class="text-[8px] font-stat font-black text-primary leading-none self-start">M</span>
     <span class="material-symbols-outlined text-base text-primary/80 group-hover:scale-110 transition-transform">crisis_alert</span>
-    <span class="text-[7px] font-headline uppercase tracking-wider text-primary font-bold leading-none">ЛУК</span>
+    <span class="text-[10px] font-headline uppercase tracking-wider text-primary font-bold leading-none">ЛУК</span>
   </div>
 </div>
 
@@ -1303,7 +1311,7 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
   <div class="w-full h-full rounded border border-dashed border-secondary/40 bg-surface-container/60 flex flex-col items-center justify-between p-1">
     <span class="text-[8px] font-stat font-black text-secondary leading-none self-start">E</span>
     <span class="material-symbols-outlined text-base text-secondary/80 group-hover:scale-110 transition-transform">dry_cleaning</span>
-    <span class="text-[7px] font-headline uppercase tracking-wider text-secondary font-bold leading-none">ПЛЕЧИ</span>
+    <span class="text-[10px] font-headline uppercase tracking-wider text-secondary font-bold leading-none">ПЛЕЧИ</span>
   </div>
 </div>
 
@@ -1321,7 +1329,7 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
   <div class="w-full h-full rounded border border-dashed border-secondary/40 bg-surface-container/60 flex flex-col items-center justify-between p-1">
     <span class="text-[8px] font-stat font-black text-secondary leading-none self-start">E</span>
     <span class="material-symbols-outlined text-base text-secondary/80 group-hover:scale-110 transition-transform">adjust</span>
-    <span class="text-[7px] font-headline uppercase tracking-wider text-secondary font-bold leading-none">ОШЕЙНИК</span>
+    <span class="text-[10px] font-headline uppercase tracking-wider text-secondary font-bold leading-none">ОШЕЙНИК</span>
   </div>
 </div>
 
@@ -1330,7 +1338,7 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
   <div class="w-full h-full rounded border border-dashed border-outline-variant/30 bg-surface-container/60 flex flex-col items-center justify-between p-1">
     <span class="text-[8px] font-stat font-black text-on-surface-variant leading-none self-start">R</span>
     <span class="material-symbols-outlined text-base text-on-surface-variant group-hover:scale-110 transition-transform">notifications_active</span>
-    <span class="text-[7px] font-headline uppercase tracking-wider text-on-surface-variant font-bold leading-none">АМУЛЕТ</span>
+    <span class="text-[10px] font-headline uppercase tracking-wider text-on-surface-variant font-bold leading-none">АМУЛЕТ</span>
   </div>
 </div>
 
@@ -1345,7 +1353,7 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
   <div class="w-full h-full rounded border border-dashed border-primary/40 bg-surface-container/60 flex flex-col items-center justify-between p-1">
     <span class="text-[8px] font-stat font-black text-primary leading-none self-start">M</span>
     <span class="material-symbols-outlined text-base text-primary/80 group-hover:scale-110 transition-transform">verified_user</span>
-    <span class="text-[7px] font-headline uppercase tracking-wider text-primary font-bold leading-none">ЭГИДА</span>
+    <span class="text-[10px] font-headline uppercase tracking-wider text-primary font-bold leading-none">ЭГИДА</span>
   </div>
 </div>
 
@@ -1354,7 +1362,7 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
   <div class="w-full h-full rounded border border-dashed border-outline-variant/30 bg-surface-container/60 flex flex-col items-center justify-between p-1">
     <span class="text-[8px] font-stat font-black text-on-surface-variant leading-none self-start">R</span>
     <span class="material-symbols-outlined text-base text-on-surface-variant group-hover:scale-110 transition-transform">pan_tool</span>
-    <span class="text-[7px] font-headline uppercase tracking-wider text-on-surface-variant font-bold leading-none">НАРУЧИ</span>
+    <span class="text-[10px] font-headline uppercase tracking-wider text-on-surface-variant font-bold leading-none">НАРУЧИ</span>
   </div>
 </div>
 
@@ -1363,7 +1371,7 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
   <div class="w-full h-full rounded border border-dashed border-secondary/40 bg-surface-container/60 flex flex-col items-center justify-between p-1">
     <span class="text-[8px] font-stat font-black text-secondary leading-none self-start">E</span>
     <span class="material-symbols-outlined text-base text-secondary/80 group-hover:scale-110 transition-transform">styler</span>
-    <span class="text-[7px] font-headline uppercase tracking-wider text-secondary font-bold leading-none">МАНТИЯ</span>
+    <span class="text-[10px] font-headline uppercase tracking-wider text-secondary font-bold leading-none">МАНТИЯ</span>
   </div>
 </div>
 
@@ -2515,9 +2523,9 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
           </div>
 </div>
 <!-- The Mannequin Stand Visual with Pinned HUD Slot Badges -->
-<div class="relative w-full flex-1 my-space-xs flex items-center justify-center min-h-[560px] h-full">
+<div class="relative w-full flex-1 my-space-xs flex items-center justify-center min-h-0 h-full">
 <!-- Mannequin Image container -->
-<div class="relative h-full min-h-[560px] w-full rounded-2xl overflow-hidden shadow-2xl bg-surface-container-lowest flex items-center justify-center">
+<div class="relative h-full min-h-0 w-full rounded-2xl overflow-hidden shadow-2xl bg-surface-container-lowest flex items-center justify-center">
 <img alt="Full crimson dragon battle plate armor on wooden mannequin in tavern hearth background, head-to-toe, full view" class="w-full h-full object-contain object-center filter saturate-110 drop-shadow-2xl" id="mannequin-armor-img"  decoding="async" loading="lazy" data-mf-src="/stitch-assets/kb-v3/armor/r6-dragon.webp">
 <!-- Ambient Hearth Glow Gradient Overlay -->
 <div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-transparent to-primary/5 pointer-events-none"></div>
@@ -2827,7 +2835,7 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
 <!-- ОСНОВНОЙ ГОРИЗОНТАЛЬНЫЙ СТЕНД (ЛЕВАЯ И ПРАВАЯ КОЛОНКИ 50/50) -->
 <div class="grid grid-cols-1 lg:grid-cols-12 gap-space-md items-start">
 <!-- ЛЕВАЯ КОЛОНКА (КАТАЛОГ 12 АРХЕТИПОВ — 50%) -->
-<section class="lg:col-span-6 bg-surface-container rounded-xl p-space-md shadow-xl flex flex-col gap-space-sm h-[820px]">
+<section class="lg:col-span-6 bg-surface-container rounded-xl p-space-md shadow-xl flex flex-col gap-space-sm h-full min-h-0">
 <div class="flex items-center justify-between px-space-xs">
 <div class="flex items-center gap-space-xs">
 <span class="material-symbols-outlined text-primary text-[18px]">view_comfy</span>
@@ -4539,19 +4547,19 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
 
 <div class="relative z-20 w-full max-w-7xl mx-auto px-3 py-2 flex-1 min-h-0 flex items-center justify-center">
 <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-3 lg:gap-4 items-end justify-center" id="vicSlots" data-vic-slots="1" aria-live="polite">
-<article class="relative flex flex-col justify-between h-[460px] lg:h-[510px] rounded-xl bg-surface-container-high shadow-xl border border-outline-variant/40 overflow-hidden" data-vic-card="shop_support_water_a">
+<article class="relative flex flex-col justify-between h-[clamp(14rem,50dvh,32rem)] rounded-xl bg-surface-container-high shadow-xl border border-outline-variant/40 overflow-hidden" data-vic-card="shop_support_water_a">
 <div class="absolute inset-0 z-0"><img alt="Мурка Родник" class="w-full h-full object-cover object-top" decoding="async" loading="lazy" data-mf-src="/stitch-assets/cat-heroes/support-a.webp?v=opt1"><div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/55 to-surface-container-lowest/20"></div></div>
 <div class="relative z-10 flex items-center justify-between p-3 border-b border-outline-variant/30 bg-surface-container-lowest/55"><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface shadow"><span class="material-symbols-outlined text-[16px] text-secondary">water_drop</span><span class="text-[10px] font-bold uppercase tracking-wider">СЛОТ: ТЫЛ · САППОРТ</span></div><div class="px-2.5 py-0.5 rounded-full bg-surface-container-high/90 text-outline text-[12px] font-extrabold">Ур. 47</div></div>
 <div class="relative z-10 flex-1 flex flex-col items-center justify-end p-3 text-center"><h3 class="text-[18px] font-bold text-on-surface">Мурка Родник</h3><p class="text-[12px] text-on-surface-variant">Саппорт A</p></div>
 <div class="relative z-10 p-3 bg-surface-container-lowest/92 border-t border-outline-variant/30"><div class="grid grid-cols-3 gap-1 text-center bg-surface-container/80 rounded-lg p-1.5 text-[10px]"><div><p class="text-outline font-bold">Урон</p><p class="font-extrabold text-[18px]">840</p></div><div class="border-x border-outline-variant/30"><p class="text-secondary font-bold">Лечение</p><p class="font-extrabold text-[18px]">1 680</p></div><div><p class="text-tertiary font-bold">Получено</p><p class="font-extrabold text-[18px]">1 120</p></div></div><div class="flex items-center justify-center py-2 mt-1 rounded bg-surface-container text-outline text-[11px] font-bold"><span class="material-symbols-outlined text-[16px] mr-1">emoji_events</span>Победитель спарринга</div></div>
 </article>
-<article class="relative flex flex-col justify-between h-[500px] lg:h-[555px] -mt-4 z-20 rounded-xl bg-surface-container-high shadow-2xl shadow-primary/20 border border-primary/40 overflow-hidden" data-vic-card="shop_fighter_fire_a" data-mvp="1">
+<article class="relative flex flex-col justify-between h-[clamp(15rem,54dvh,34rem)] -mt-4 z-20 rounded-xl bg-surface-container-high shadow-2xl shadow-primary/20 border border-primary/40 overflow-hidden" data-vic-card="shop_fighter_fire_a" data-mvp="1">
 <div class="absolute inset-0 z-0"><img alt="Рыжик Когти" class="w-full h-full object-cover object-top" decoding="async" loading="lazy" data-mf-src="/stitch-assets/cat-heroes/fighter-a.webp?v=opt1"><div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/55 to-surface-container-lowest/20"></div></div>
 <div class="relative z-10 flex items-center justify-between p-3 border-b border-outline-variant/30 bg-surface-container-lowest/55"><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-primary text-on-primary shadow-lg"><span class="material-symbols-outlined text-[16px]">crown</span><span class="text-[10px] font-bold uppercase tracking-wider">СЛОТ: ЦЕНТР · БОЕЦ (MVP)</span></div><div class="px-2.5 py-0.5 rounded-full bg-surface-container-high/90 text-primary text-[12px] font-extrabold">Ур. 48</div></div>
 <div class="relative z-10 flex-1 flex flex-col items-center justify-end p-3 text-center"><div class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-primary-container/25 text-primary-fixed mb-1"><span class="material-symbols-outlined text-[14px]">workspace_premium</span><span class="text-[10px] font-bold">Золотой MVP</span></div><h3 class="text-[22px] font-bold text-primary">Рыжик Когти</h3><p class="text-[12px] text-on-surface-variant">Боец A</p></div>
 <div class="relative z-10 p-3 bg-surface-container-lowest/92 border-t border-outline-variant/30"><div class="grid grid-cols-3 gap-1 text-center bg-surface-container/80 rounded-lg p-1.5 text-[10px]"><div><p class="text-primary font-bold">Урон</p><p class="font-extrabold text-[18px]">4 160</p></div><div class="border-x border-outline-variant/30"><p class="text-tertiary font-bold">Крит</p><p class="font-extrabold text-[18px]">20%</p></div><div><p class="text-outline font-bold">Опыт</p><p class="font-extrabold text-[18px]">+150</p></div></div><div class="flex items-center justify-center py-2 mt-1 rounded bg-primary-container/20 text-primary text-[11px] font-bold"><span class="material-symbols-outlined text-[16px] mr-1">add_circle</span>MVP боя ×1.5</div></div>
 </article>
-<article class="relative flex flex-col justify-between h-[460px] lg:h-[510px] rounded-xl bg-surface-container-high shadow-xl border border-outline-variant/40 overflow-hidden" data-vic-card="shop_tank_stone_a">
+<article class="relative flex flex-col justify-between h-[clamp(14rem,50dvh,32rem)] rounded-xl bg-surface-container-high shadow-xl border border-outline-variant/40 overflow-hidden" data-vic-card="shop_tank_stone_a">
 <div class="absolute inset-0 z-0"><img alt="Барсик Щит-утёс" class="w-full h-full object-cover object-top" decoding="async" loading="lazy" data-mf-src="/stitch-assets/cat-heroes/tank-a.webp?v=opt1"><div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/55 to-surface-container-lowest/20"></div></div>
 <div class="relative z-10 flex items-center justify-between p-3 border-b border-outline-variant/30 bg-surface-container-lowest/55"><div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-surface-container-high text-on-surface shadow"><span class="material-symbols-outlined text-[16px] text-primary">shield</span><span class="text-[10px] font-bold uppercase tracking-wider">СЛОТ: АВАНГАРД · ТАНК</span></div><div class="px-2.5 py-0.5 rounded-full bg-surface-container-high/90 text-outline text-[12px] font-extrabold">Ур. 50</div></div>
 <div class="relative z-10 flex-1 flex flex-col items-center justify-end p-3 text-center"><h3 class="text-[18px] font-bold text-on-surface">Барсик Щит-утёс</h3><p class="text-[12px] text-on-surface-variant">Танк A</p></div>
@@ -7032,7 +7040,7 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
 </section>
 <section id="viewPracticeFight" class="stitch-view mythfel-form hidden" data-stitch="practice_fight" data-layout="landscape">
 <!-- Immersive dojo fight: no site header/footer; exit via #pfBack only -->
-<main class="w-full min-h-screen bg-surface">
+<main class="w-full h-full min-h-0 bg-surface">
 <div class="pf-stage flex flex-col w-full relative select-none overflow-hidden">
 
 <div class="w-full bg-surface-container-lowest/90 backdrop-blur-md px-space-lg py-2 z-30 shadow-[0_4px_24px_rgba(0,0,0,0.8)]">
@@ -8026,7 +8034,7 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
 </section>
 <section id="viewPass" class="stitch-view mythfel-form hidden" data-stitch="pass" data-layout="landscape">
 <header class="fixed top-0 left-0 right-0 z-50 bg-surface-container-low/95 backdrop-blur-md shadow-[0_4px_20px_rgba(0,0,0,0.6)]"><div class="h-16 w-full px-space-lg flex items-center justify-between gap-space-md"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm pl-space-xs"><div class="w-9 h-9 rounded-lg bg-surface-container-highest flex items-center justify-center shadow-inner"><span class="material-symbols-outlined text-primary text-[22px]">pets</span></div><div class="flex flex-col"><span class="font-headline-md text-headline-md tracking-wider text-primary uppercase leading-tight">Мифиус</span><span class="font-label-sm text-label-sm text-on-surface-variant uppercase tracking-widest leading-none">Mythfel Hearth</span></div></div><nav class="hidden xl:flex items-center gap-space-xs bg-surface-container-lowest p-space-xs rounded-xl" data-active-classes="bg-primary-container text-on-primary-container font-label-lg text-label-lg shadow-[0_2px_8px_rgba(217,155,38,0.35)]"><a aria-current="page" class="px-space-md py-space-xs rounded-lg transition-colors tracking-wide bg-primary-container text-on-primary-container font-label-lg text-label-lg shadow-[0_2px_8px_rgba(217,155,38,0.35)]" data-path="sezon" href="#">СЕЗОН</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors tracking-wide" data-path="mifmir" href="#">МИФМИР</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors tracking-wide" data-path="dom-khranitelya" href="#">ДОМ ХРАНИТЕЛЯ</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors tracking-wide" data-path="boi" href="#">БОИ</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors tracking-wide" data-path="torgovlya" href="#">ТОРГОВЛЯ</a><a class="px-space-md py-space-xs rounded-lg font-label-md text-label-md text-on-surface-variant hover:bg-surface-container-high hover:text-on-surface transition-colors tracking-wide" data-path="gildiya" href="#">ГИЛЬДИЯ</a></nav></div><div class="flex items-center gap-space-sm"><div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-space-xs rounded-lg shadow-inner"><span class="material-symbols-outlined text-secondary text-[18px]">set_meal</span><div class="flex flex-col"><span class="font-label-sm text-label-sm text-on-surface-variant leading-none">Рыбка</span><span class="font-stat-numeral text-body-sm text-on-surface leading-tight">1,420</span></div></div><div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-space-xs rounded-lg shadow-inner"><span class="material-symbols-outlined text-primary text-[18px]">monetization_on</span><div class="flex flex-col"><span class="font-label-sm text-label-sm text-on-surface-variant leading-none">Золото</span><span class="font-stat-numeral text-body-sm text-on-surface leading-tight">8,950</span></div></div><div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-space-xs rounded-lg shadow-inner"><span class="material-symbols-outlined text-secondary text-[18px]">bolt</span><div class="flex flex-col"><span class="font-label-sm text-label-sm text-on-surface-variant leading-none">Энергия</span><span class="font-stat-numeral text-body-sm text-on-surface leading-tight">84/100</span></div></div><div class="flex items-center gap-space-xs bg-surface-container-lowest px-space-sm py-space-xs rounded-lg shadow-inner"><span class="material-symbols-outlined text-tertiary text-[18px]">diamond</span><div class="flex flex-col"><span class="font-label-sm text-label-sm text-on-surface-variant leading-none">Кристаллы</span><span class="font-stat-numeral text-body-sm text-on-surface leading-tight">350</span></div></div><div class="h-6 w-px bg-surface-container-highest mx-space-xs"></div><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-md ring-2 ring-primary-container"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div></header><main class="w-full pt-16 bg-surface min-h-screen"><div class="flex flex-col w-full">
-<div class="relative w-full min-h-[620px] overflow-hidden flex flex-col justify-between p-space-lg select-none">
+<div class="relative w-full min-h-0 overflow-hidden flex flex-col justify-between p-space-lg select-none">
 <!-- Atmospheric Treasury Hearth Backdrop -->
 <div class="absolute inset-0 bg-cover bg-center -z-20" data-alt="A grand dimly lit stone tavern treasure armory vaulted catacombs with glowing fireplace on left, piles of sparkling gold coins, ancient runic feline pedestals, floating mythical glowing cat battle armors, stained glass window beam of light, richly detailed 2D fantasy game art in dark amber gold and peat slate tones" data-mf-bg="/stitch-assets/c98beea773d6.jpg"></div>
 <div class="absolute inset-0 bg-gradient-to-t from-surface via-surface/75 to-surface/85 -z-10 backdrop-blur-[2px]"></div>
