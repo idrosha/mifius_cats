@@ -1367,9 +1367,11 @@ const state = {
   /** Center «Состав легиона» modal after all Ready. */
   raidDeployOpen: false,
   raidDeployConfirmed: false,
-  /** Center «Расстановка 3v3» after Ready in dungeon lobby (D-063). */
+  /** Center 4×3 (12) after Ready in dungeon lobby — same board as raid (D-064). */
   dungeonDeployOpen: false,
   dungeonDeployConfirmed: false,
+  /** CatIds allowed in center deploy — snapshot of right-side team (D-064). */
+  dungeonDeployPoolIds: [],
   raidLastLoot: null,
   /** Live turn countdown (mode-aware via battleTurnTimerSec). */
   battleTurnLeft: BATTLE_TURN_TIMER_SEC,
@@ -3627,7 +3629,7 @@ async function toggleDungeonPartyReady() {
         state.dungeonDeployConfirmed = false;
         state.dungeonDeployOpen = false;
       }
-      toast(nextReady ? "Ready ✓" : "Ready снято");
+      toast(nextReady ? "Готов ✓" : "Готов снято");
       maybeOpenLobbyDeployAfterReady();
       return;
     }
@@ -3642,7 +3644,7 @@ async function toggleDungeonPartyReady() {
     state.dungeonDeployOpen = false;
   }
   renderDungeonLobby();
-  toast(nextReady ? "Ready ✓" : "Ready снято");
+  toast(nextReady ? "Готов ✓" : "Готов снято");
   maybeOpenLobbyDeployAfterReady();
 }
 
@@ -3676,11 +3678,7 @@ async function fillDungeonPartyBots() {
     { slot: 3, name: "Бот·Хил", ready: true, bot: true },
   ];
   renderDungeonLobby();
-  toast(
-    isRaidLobby()
-      ? "Пати 4/4 ready · расстановка легиона в центре"
-      : "Пати 4/4 ready · расстановка 3v3 в центре",
-  );
+  toast("Пати 4/4 готовы · расстановка 4×3 в центре");
   maybeOpenLobbyDeployAfterReady();
 }
 
@@ -3713,6 +3711,22 @@ function ensureDungeonTestSquad() {
     state.practiceSquad = ["shop_tank_fire", "shop_fighter_fire", "shop_support_water"];
   }
   return [...state.practiceSquad];
+}
+
+/** Party has bot members (solo+bots fill empties after the player places). */
+function lobbyPartyHasBots() {
+  return (state.dungeonParty || []).some((p) => p.bot);
+}
+
+/** Right-side team cats (тыл·центр·авангард) — deploy pool source (D-064). */
+function playerLobbySquadCats() {
+  if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
+  const poolIds = state.dungeonDeployPoolIds || [];
+  if (poolIds.length) {
+    return poolIds.map((id) => collectionCatById(id)).filter(Boolean);
+  }
+  ensureDungeonTestSquad();
+  return dungeonVisualCats().filter(Boolean);
 }
 
 function applyDungeonSquad(id) {
@@ -3871,8 +3885,8 @@ function enableDungeonSoloTestStub() {
   renderDungeonLobby();
   toast(
     isRaidLobby()
-      ? "Соло-тест рейда: пати 4/4 · расставьте легион · затем «В путь»"
-      : "Соло-тест: пати 4/4 · расставьте 3v3 · затем «В путь»",
+      ? "Соло-тест рейда: пати 4/4 · расставьте легион 4×3 · затем «В путь»"
+      : "Соло-тест: пати 4/4 · расставьте 4×3 · затем «В путь»",
   );
   maybeOpenLobbyDeployAfterReady();
 }
@@ -4020,7 +4034,7 @@ function ensureRaidCatalogPicks(root) {
 function syncDungeonCenterPanels() {
   const root = $("viewBossDungeon");
   if (!root) return;
-  // Center = stage until Ready 4/4; then raid legion OR dungeon 3v3 formation (D-063).
+  // Center = stage until Ready 4/4; then shared 4×3 (12) board for dungeon AND raid (D-064).
   if (!dungeonPartyReadyForStart()) {
     if (isRaidLobby()) state.raidDeployOpen = false;
     else state.dungeonDeployOpen = false;
@@ -4029,11 +4043,13 @@ function syncDungeonCenterPanels() {
   const dungDeploy = !!(state.dungeonDeployOpen && !isRaidLobby() && dungeonPartyReadyForStart());
   const deploy = raidDeploy || dungDeploy;
   root.querySelector("[data-dungeon-stage-panel]")?.classList.toggle("hidden", deploy);
-  root.querySelector("[data-dungeon-deploy-panel]")?.classList.toggle("hidden", !raidDeploy);
-  root.querySelector("[data-dungeon-form-panel]")?.classList.toggle("hidden", !dungDeploy);
+  root.querySelector("[data-dungeon-deploy-panel]")?.classList.toggle("hidden", !deploy);
+  // Legacy 3-slot «Доступные Герои» — superseded; both modes use 12 cells.
+  root.querySelector("[data-dungeon-form-panel]")?.classList.add("hidden");
   root.querySelector("[data-dungeon-rewards-row]")?.classList.toggle("hidden", deploy);
-  if (raidDeploy) renderRaidLegionBoard();
-  if (dungDeploy) renderDungeonFormationBoard();
+  const title = root.querySelector("[data-dungeon-deploy-panel] .font-headline-md");
+  if (title) title.textContent = isRaidLobby() ? "Состав легиона" : "Расстановка пати 4×3";
+  if (deploy) renderRaidLegionBoard();
 }
 
 /** Only call after party hits Ready 4/4 in raid mode. */
@@ -4041,10 +4057,11 @@ function maybeOpenRaidDeployAfterReady() {
   if (!isRaidLobby()) return;
   if (!dungeonPartyReadyForStart()) return;
   if (state.raidDeployConfirmed && state.raidDeployOpen) return;
-  showRaidDeployCenter({ autoFill: (state.raidLegionCount | 0) === 0 });
+  // D-064: always open empty — player places first, bots fill later.
+  showRaidDeployCenter({ autoFill: false });
 }
 
-/** After Ready 4/4 in dungeon mode — center swaps to 3v3 formation (D-063). */
+/** After Ready 4/4 in dungeon — same 12-cell 4×3 board as raid (D-064). */
 function maybeOpenDungeonDeployAfterReady() {
   if (isRaidLobby()) return;
   if (!dungeonPartyReadyForStart()) return;
@@ -4113,8 +4130,8 @@ function renderDungeonLobby() {
     const pathHint = root.querySelector("[data-dungeon-path-hint]");
     if (pathHint) {
       pathHint.textContent = state.raidDeployOpen
-        ? "Расставьте легион 4×3 · «Готово» разблокирует старт · путь short/long — голосование в бою."
-        : "Пока пати не Ready 4/4 — здесь сцена рейда. После Ready всех центр сменится на расстановку.";
+        ? "Расставьте легион 4×3 из команды справа · «Готово» запускает бой · путь short/long — голосование в бою."
+        : "Пока пати не «Готов» 4/4 — здесь сцена рейда. После «Готов» всех центр сменится на расстановку.";
     }
     const timeEl = root.querySelector("[data-dungeon-time]");
     if (timeEl) {
@@ -4177,12 +4194,12 @@ function renderDungeonLobby() {
     if (pathHint) {
       if (state.dungeonDeployOpen) {
         pathHint.textContent =
-          "Расставьте отряд 3v3 · «Готово» разблокирует старт · путь short/long — голосование в бою.";
+          "Расставьте пати 4×3 из команды справа · каждый — своих 3 · «Готово» запускает бой · путь short/long — голосование в бою.";
       } else if (state.dungeonPathLocked) {
         pathHint.textContent = `Путь зафиксирован: ${state.dungeonPath === "long" ? "длинный" : "короткий"}`;
       } else {
         pathHint.textContent =
-          "Пока пати не Ready 4/4 — здесь сцена склепа. После Ready всех центр сменится на расстановку 3v3.";
+          "Пока пати не «Готов» 4/4 — здесь сцена склепа. После «Готов» всех центр сменится на расстановку 4×3.";
       }
     }
     const label = root.querySelector("[data-dungeon-active-label]");
@@ -4251,7 +4268,7 @@ function renderDungeonLobby() {
       row.className =
         "rounded-md border px-2 py-1 text-[10px] flex justify-between " +
         (p.ready ? "border-primary/40 bg-primary/10" : "border-outline-variant/30 bg-[#1a1613]");
-      row.innerHTML = `<span>${p.name}</span><b>${p.ready ? "ready" : "…"}</b>`;
+      row.innerHTML = `<span>${p.name}</span><b>${p.ready ? "готов" : "…"}</b>`;
       partyBox.appendChild(row);
     }
   }
@@ -4270,17 +4287,15 @@ function renderDungeonLobby() {
   const partyHint = root.querySelector("[data-dungeon-party-hint]");
   if (partyHint) {
     if (state.dungeonSoloStub) {
-      partyHint.textContent = raid
-        ? "Соло-тест · пати 4/4 · после Ready — расстановка 4×3"
-        : "Соло-тест · пати 4/4 · после Ready — расстановка 3v3";
+      partyHint.textContent = "Соло-тест · пати 4/4 · после «Готов» — расстановка 4×3";
     } else if (readyN < 4) {
-      partyHint.textContent = `Пати ${readyN}/${Math.max(4, sizeN)} ready · или «Соло-тест»`;
+      partyHint.textContent = `Пати ${readyN}/${Math.max(4, sizeN)} готов · или «Соло-тест»`;
     } else if (raid && !state.raidDeployConfirmed) {
-      partyHint.textContent = "Пати 4/4 ready · расставьте легион в центре";
+      partyHint.textContent = "Пати 4/4 готовы · расставьте легион 4×3 в центре";
     } else if (raid) {
       partyHint.textContent = "Пати 4/4 · строй принят · можно в путь";
     } else if (!state.dungeonDeployConfirmed) {
-      partyHint.textContent = "Пати 4/4 ready · расставьте 3v3 в центре";
+      partyHint.textContent = "Пати 4/4 готовы · расставьте пати 4×3 в центре";
     } else {
       partyHint.textContent = "Пати 4/4 · строй принят · можно в путь";
     }
@@ -4475,14 +4490,15 @@ async function startDungeonRun() {
     return;
   }
   if (!state.dungeonDeployConfirmed) {
-    showDungeonDeployCenter({ autoFill: dungeonVisualCats().filter(Boolean).length < 3 });
-    showGateTip(t("dungeon.gate.deploy", "Сначала расставьте отряд 3v3 в центре и нажмите «Готово»."));
+    showDungeonDeployCenter({ autoFill: false });
+    showGateTip(t("dungeon.gate.deploy", "Сначала расставьте пати 4×3 в центре и нажмите «Готово»."));
     return;
   }
+  syncDungeonCombatSquadFromPlayer();
   ensureDungeonTestSquad();
   if (dungeonVisualCats().filter(Boolean).length < 3) {
-    showDungeonDeployCenter({ autoFill: true });
-    showGateTip(t("dungeon.gate.squad", "Нужны 3 котика в отряде — доберите в центре."));
+    showDungeonDeployCenter({ autoFill: false });
+    showGateTip(t("dungeon.gate.squad", "Нужны 3 котика в команде справа."));
     return;
   }
   if (!(await spendDungeonKey(dung.id))) {
@@ -5674,10 +5690,17 @@ function validateRaidComposition(roster = state.raidLegion) {
   return { ok, counts: c };
 }
 
-/** Active 3v3 wing from legion until full-12 sim exists: tank-aggro · melee DPS · heal. */
+/** Active 3v3 wing from legion until full-12 sim exists: player's right-team cats (D-064). */
 function raidCombatWingIds(roster = state.raidLegion) {
+  // Player controls their own 3 cats from the right-side team; bots play the rest of the legion.
+  const mine = playerLobbySquadCats()
+    .map((c) => c?.templateId)
+    .filter(Boolean);
+  if (mine.length === 3) return mine.slice(0, 3);
   const list = (Array.isArray(roster) ? roster : []).filter((s) => s?.filled && s.templateId);
-  const pick = (pred) => list.find(pred)?.templateId;
+  const yours = list.filter((s) => s.owner === "you");
+  const pool = yours.length ? yours : list;
+  const pick = (pred) => pool.find(pred)?.templateId || list.find(pred)?.templateId;
   const tank = pick((s) => s.role === "tank" && s.sub === "aggro") || pick((s) => s.role === "tank");
   const dps =
     pick((s) => s.sub === "melee") ||
@@ -5877,9 +5900,9 @@ function toggleRaidPartyReady() {
   renderRaidPath();
   if (me.ready && raidPartyReadyForDeploy()) {
     openRaidDeployModal({ autoFill: false });
-    toast("Все Ready · расстановка легиона");
+    toast("Все готовы · расстановка легиона");
   } else {
-    toast(me.ready ? "Ready ✓" : "Ready снято");
+    toast(me.ready ? "Готов ✓" : "Готов снято");
   }
 }
 
@@ -5899,7 +5922,7 @@ function fillRaidPartyBots() {
   fillRaidLegionSlots(0);
   renderRaidPath();
   openRaidDeployModal({ autoFill: true });
-  toast(`Пати ${RAID_PARTY_SIZE}/${RAID_PARTY_SIZE} ready · расстановка`);
+  toast(`Пати ${RAID_PARTY_SIZE}/${RAID_PARTY_SIZE} готовы · расстановка`);
 }
 
 /** Practice/dungeon-style role chrome for formation bust cards. */
@@ -6062,22 +6085,90 @@ function renderRaidLegionBoard() {
 }
 
 /**
+ * Snapshot right-side team as the only cats placeable in center deploy (D-064).
+ * Does not place them — slots stay empty until the player clicks.
+ */
+function snapshotDungeonDeployPool() {
+  if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
+  const pi = dungeonPresetIndex();
+  state.colPresetIndex = pi;
+  const preset = state.profile?.presets?.[pi];
+  let ids = (preset?.catIds || []).filter(Boolean);
+  if (ids.length < 3 && typeof collectionAutopickSquad === "function") {
+    ids = collectionAutopickSquad(state.profile?.cats || [], new Set()).slice(0, 3);
+  }
+  state.dungeonDeployPoolIds = ids.slice(0, 3);
+  return state.dungeonDeployPoolIds;
+}
+
+/** Fill empty dungeon slots from the deploy pool (bots / confirm). */
+function fillDungeonDeployFromPool() {
+  if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
+  const pi = dungeonPresetIndex();
+  const preset = state.profile?.presets?.[pi];
+  if (!preset) return;
+  if (!Array.isArray(preset.catIds)) preset.catIds = [null, null, null];
+  while (preset.catIds.length < 3) preset.catIds.push(null);
+  const pool = state.dungeonDeployPoolIds?.length
+    ? state.dungeonDeployPoolIds
+    : typeof collectionAutopickSquad === "function"
+      ? collectionAutopickSquad(state.profile?.cats || [], new Set())
+      : [];
+  for (const id of pool) {
+    if (!id || preset.catIds.includes(id)) continue;
+    const empty = preset.catIds.findIndex((x) => !x);
+    if (empty < 0) break;
+    preset.catIds[empty] = id;
+  }
+  if (preset.catIds.filter(Boolean).length < 3 && typeof collectionAutopickSquad === "function") {
+    const used = new Set(preset.catIds.filter(Boolean));
+    for (const id of collectionAutopickSquad(state.profile?.cats || [], used)) {
+      const empty = preset.catIds.findIndex((x) => !x);
+      if (empty < 0) break;
+      preset.catIds[empty] = id;
+    }
+  }
+  if (typeof persistCollectionStub === "function") persistCollectionStub();
+  ensureDungeonTestSquad();
+}
+
+/** Bots fill remaining empty raid legion slots with canonical role heroes (D-064). */
+function fillRaidEmptySlotsWithBots() {
+  ensureRaidLegion();
+  const full = buildRaidLegionRoster();
+  for (const slot of state.raidLegion) {
+    if (slot?.filled) continue;
+    const proto = full.find((x) => x.row === slot.row && x.col === slot.col);
+    if (!proto) continue;
+    Object.assign(slot, proto, { filled: true, owner: "bot", bot: true });
+  }
+  state.raidLegionCount = state.raidLegion.filter((s) => s.filled).length;
+  return state.raidLegionCount;
+}
+
+/**
  * Swap center stage → «Состав легиона». Hard-gated on Ready 4/4 (not a button/modal shortcut).
+ * D-064: opens with empty cells; player places from right team; bots fill on confirm.
  */
 function showRaidDeployCenter({ autoFill = false } = {}) {
   if (!isRaidLobby()) return false;
   if (!dungeonPartyReadyForStart()) {
     state.raidDeployOpen = false;
-    toast("Сначала Ready всех 4 игроков — тогда центр сменится на расстановку");
+    toast("Сначала «Готов» всех 4 игроков — тогда центр сменится на расстановку");
     return false;
   }
   ensureRaidLegion();
+  // Keep right-side team visible as the placeable pool (D-064).
+  snapshotDungeonDeployPool();
+  fillDungeonDeployFromPool();
+  ensureDungeonTestSquad();
   if (autoFill) fillRaidLegionSlots(RAID_PARTY_SIZE);
+  else fillRaidLegionSlots(0);
   state.raidDeployOpen = true;
   state.raidDeployConfirmed = false;
   state.dungeonDeployOpen = false;
   renderDungeonLobby();
-  toast("Все Ready · центр: состав легиона 4×3");
+  toast("Все готовы · центр: пустая расстановка 4×3");
   return true;
 }
 
@@ -6091,39 +6182,46 @@ function closeRaidDeployModal() {
   renderDungeonLobby();
 }
 
+/** Keep dungeon combat wing (= player's 3) in sync with the right-side team. */
+function syncDungeonCombatSquadFromPlayer() {
+  const cats = playerLobbySquadCats();
+  if (cats.length < 3) return false;
+  if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
+  const pi = dungeonPresetIndex();
+  const preset = state.profile?.presets?.[pi];
+  if (preset) {
+    preset.catIds = cats.slice(0, 3).map((c) => c.catId);
+    if (typeof persistCollectionStub === "function") persistCollectionStub();
+  }
+  state.practiceSquad = cats.slice(0, 3).map((c) => c.templateId);
+  return true;
+}
+
 /**
- * Swap center stage → dungeon 3v3 formation (practice-style portraits). Ready 4/4 gated (D-063).
+ * Dungeon after Ready — same empty 12-cell 4×3 board as raid (D-064).
+ * Each of 4 players places their own 3 cats from the right-side team.
  */
 function showDungeonDeployCenter({ autoFill = false } = {}) {
   if (isRaidLobby()) return false;
   if (!dungeonPartyReadyForStart()) {
     state.dungeonDeployOpen = false;
-    toast("Сначала Ready всех 4 игроков — тогда центр сменится на расстановку 3v3");
+    toast("Сначала «Готов» всех 4 игроков — тогда центр сменится на расстановку 4×3");
     return false;
   }
   closeDungeonTeamPicker();
   if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
   state.colPresetIndex = dungeonPresetIndex();
-  if (autoFill) {
-    ensureDungeonTestSquad();
-    const pi = dungeonPresetIndex();
-    const filled = (state.profile?.presets?.[pi]?.catIds || []).filter(Boolean).length;
-    if (filled < 3 && typeof collectionAutopickSquad === "function") {
-      const used = new Set();
-      const pick = collectionAutopickSquad(state.profile?.cats || [], used);
-      const preset = state.profile.presets[pi];
-      if (preset) {
-        preset.catIds = [...pick, null, null, null].slice(0, 3);
-        if (typeof persistCollectionStub === "function") persistCollectionStub();
-      }
-    }
-  }
+  snapshotDungeonDeployPool();
+  fillDungeonDeployFromPool();
   ensureDungeonTestSquad();
+  ensureRaidLegion();
+  if (autoFill) fillRaidLegionSlots(RAID_PARTY_SIZE);
+  else fillRaidLegionSlots(0);
   state.dungeonDeployOpen = true;
   state.dungeonDeployConfirmed = false;
   state.raidDeployOpen = false;
   renderDungeonLobby();
-  toast("Все Ready · центр: расстановка 3v3");
+  toast("Все готовы · центр: пустая расстановка 4×3");
   return true;
 }
 
@@ -6133,17 +6231,8 @@ function closeDungeonDeployCenter() {
 }
 
 function confirmDungeonDeploy() {
-  ensureDungeonTestSquad();
-  const cats = dungeonVisualCats().filter(Boolean);
-  if (cats.length < 3) {
-    showGateTip(t("dungeon.gate.squad", "Нужны 3 котика в отряде — доберите в центре или Коллекции."));
-    return false;
-  }
-  state.dungeonDeployConfirmed = true;
-  state.dungeonDeployOpen = true;
-  renderDungeonLobby();
-  toast("Расстановка принята · можно «В путь»");
-  return true;
+  // Same 12-board confirm path as raid (panel buttons are raid-deploy-*).
+  return confirmRaidDeploy();
 }
 
 function clearDungeonDeploySquad() {
@@ -6161,19 +6250,8 @@ function clearDungeonDeploySquad() {
 }
 
 function fillDungeonDeploySquad() {
-  ensureDungeonTestSquad();
-  const pi = dungeonPresetIndex();
-  const filled = (state.profile?.presets?.[pi]?.catIds || []).filter(Boolean).length;
-  if (filled < 3) {
-    const used = new Set();
-    const pick = collectionAutopickSquad(state.profile?.cats || [], used);
-    const preset = state.profile?.presets?.[pi];
-    if (preset && pick.length) {
-      preset.catIds = [...pick, null, null, null].slice(0, 3);
-      if (typeof persistCollectionStub === "function") persistCollectionStub();
-    }
-  }
-  ensureDungeonTestSquad();
+  if (!(state.dungeonDeployPoolIds || []).length) snapshotDungeonDeployPool();
+  fillDungeonDeployFromPool();
   state.dungeonDeployConfirmed = false;
   renderDungeonFormationBoard();
   renderDungeonSquadStrip();
@@ -6181,6 +6259,11 @@ function fillDungeonDeploySquad() {
 
 function dungeonToggleCatInDeploy(catId) {
   if (!catId) return;
+  const pool = state.dungeonDeployPoolIds || [];
+  if (pool.length && !pool.includes(catId)) {
+    toast("Только герои из команды справа");
+    return "blocked";
+  }
   if (typeof collectionEnsurePresets === "function") collectionEnsurePresets();
   state.colPresetIndex = dungeonPresetIndex();
   const result = collectionToggleCatInActive(catId);
@@ -6192,7 +6275,7 @@ function dungeonToggleCatInDeploy(catId) {
   return result;
 }
 
-/** Practice-style portrait cards for dungeon center formation (D-063). */
+/** Practice-style portrait cards for dungeon center formation (D-063 / D-064). */
 function renderDungeonFormationBoard() {
   const root = $("viewBossDungeon");
   if (!root) return;
@@ -6210,16 +6293,20 @@ function renderDungeonFormationBoard() {
   if (sizeEl) sizeEl.textContent = `${activeIds.length}/3`;
   if (nameEl) nameEl.textContent = dungeonActiveSquadName();
 
-  // No center selected-strip — отряд уже справа; ростер ниже как practice.
-  const cats = [...(state.profile?.cats || [])].sort((a, b) => {
+  // D-064: only heroes from the right-side team (deploy pool).
+  const pool = state.dungeonDeployPoolIds || [];
+  let cats = pool.length
+    ? pool.map((id) => collectionCatById(id)).filter(Boolean)
+    : [...(state.profile?.cats || [])];
+  cats = [...cats].sort((a, b) => {
     const ra = FORMATION_ROLE_ORDER.indexOf(homeCatRole(a) || starterMeta(a.templateId)?.role);
     const rb = FORMATION_ROLE_ORDER.indexOf(homeCatRole(b) || starterMeta(b.templateId)?.role);
     return (ra < 0 ? 99 : ra) - (rb < 0 ? 99 : rb);
   });
-  if (countEl) countEl.textContent = `(${cats.length} героев)`;
+  if (countEl) countEl.textContent = pool.length ? `(команда ${cats.length})` : `(${cats.length} героев)`;
   if (rosterHost) {
     if (!cats.length) {
-      rosterHost.innerHTML = `<div class="col-span-3 p-3 rounded-lg border border-dashed border-outline-variant/40 text-outline text-center text-xs">Нет котиков — grant / login</div>`;
+      rosterHost.innerHTML = `<div class="col-span-3 p-3 rounded-lg border border-dashed border-outline-variant/40 text-outline text-center text-xs">Нет котиков в команде справа — выберите отряд</div>`;
     } else {
       rosterHost.innerHTML = cats
         .map((c) => {
@@ -6255,6 +6342,10 @@ function renderDungeonFormationBoard() {
 
 function confirmRaidDeploy() {
   ensureRaidLegion();
+  // D-064: player placed first; bots (or solo stub) fill remaining empty cells.
+  if (lobbyPartyHasBots() || state.dungeonSoloStub || state.raidSoloStub) {
+    fillRaidEmptySlotsWithBots();
+  }
   const v = validateRaidComposition();
   if (!v.ok) {
     showGateTip(
@@ -6265,10 +6356,20 @@ function confirmRaidDeploy() {
     );
     return false;
   }
-  state.raidDeployConfirmed = true;
-  state.raidDeployOpen = true; // keep center board visible
+  if (isRaidLobby()) {
+    state.raidDeployConfirmed = true;
+    state.raidDeployOpen = true;
+  } else {
+    if (!syncDungeonCombatSquadFromPlayer()) {
+      showGateTip(t("dungeon.gate.squad", "Нужны 3 котика в команде справа."));
+      return false;
+    }
+    state.dungeonDeployConfirmed = true;
+    state.dungeonDeployOpen = true;
+  }
   renderDungeonLobby();
-  toast("Расстановка принята · можно «В путь»");
+  toast("Расстановка принята · в бой");
+  startDungeonRun();
   return true;
 }
 
@@ -6278,11 +6379,51 @@ function toggleRaidDeploySlot(row, col) {
   const proto = full.find((x) => x.row === row && x.col === col);
   const cur = state.raidLegion.find((x) => x.row === row && x.col === col);
   if (!proto || !cur) return;
-  Object.assign(cur, proto, {
-    filled: !cur.filled,
-    owner: state.raidSoloStub ? "you" : cur.owner || "you",
-    solo: !!state.raidSoloStub,
-  });
+  if (cur.filled) {
+    Object.assign(cur, proto, { filled: false, owner: "", bot: false, fromSquad: false });
+  } else {
+    const myPlaced = state.raidLegion.filter((s) => s.filled && s.owner === "you").length;
+    if (myPlaced >= 3 && !state.dungeonSoloStub && !state.raidSoloStub) {
+      toast("Ваши 3 героя уже расставлены · «Готово» — боты займут пустые");
+      return;
+    }
+    const squad = playerLobbySquadCats();
+    const used = new Set(
+      state.raidLegion.filter((s) => s.filled && s.owner === "you").map((s) => s.templateId),
+    );
+    const roleOf = (c) => (typeof homeCatRole === "function" ? homeCatRole(c) : "") || "";
+    const matchRole = (c) => {
+      const role = roleOf(c);
+      if (proto.role === "tank") return role === "tank";
+      if (proto.role === "support") return role === "support";
+      return role && role !== "tank" && role !== "support";
+    };
+    const pick =
+      squad.find((c) => c?.templateId && !used.has(c.templateId) && matchRole(c)) ||
+      squad.find((c) => c?.templateId && !used.has(c.templateId));
+    if (pick) {
+      Object.assign(cur, proto, {
+        filled: true,
+        templateId: pick.templateId,
+        name_ru:
+          (typeof catSheetName === "function" && catSheetName(pick)) || pick.templateId || proto.name_ru,
+        owner: "you",
+        fromSquad: true,
+        bot: false,
+        solo: !!state.raidSoloStub || !!state.dungeonSoloStub,
+      });
+    } else if (state.dungeonSoloStub || state.raidSoloStub) {
+      Object.assign(cur, proto, {
+        filled: true,
+        owner: "you",
+        solo: true,
+        bot: false,
+      });
+    } else {
+      toast("Нет свободных героев в команде справа");
+      return;
+    }
+  }
   state.raidLegionCount = state.raidLegion.filter((s) => s.filled).length;
   state.raidDeployConfirmed = false;
   renderRaidLegionBoard();
@@ -6375,7 +6516,7 @@ function raidFightGatesOk() {
     return false;
   }
   if (!state.raidDeployConfirmed) {
-    showRaidDeployCenter({ autoFill: (state.raidLegionCount | 0) < minRaidPlayers });
+    showRaidDeployCenter({ autoFill: false });
     showGateTip(t("raid.gate.deploy", "Сначала расставьте легион 4×3 в центре и нажмите «Готово»."));
     return false;
   }
@@ -20311,7 +20452,11 @@ function bindBattleModeLobbies() {
         return;
       }
       const formSlot = ev.target.closest("[data-raid-form-row]");
-      if (formSlot && root.contains(formSlot) && state.raidDeployOpen) {
+      if (
+        formSlot &&
+        root.contains(formSlot) &&
+        (state.raidDeployOpen || state.dungeonDeployOpen)
+      ) {
         const row = Number(formSlot.getAttribute("data-raid-form-row"));
         const col = Number(formSlot.getAttribute("data-raid-form-col"));
         toggleRaidDeploySlot(row, col);
@@ -20397,23 +20542,19 @@ function bindBattleModeLobbies() {
       }
       if (act === "dungeon-formation" || act === "raid-formation" || act === "gvg-formation") {
         if (id === "viewBossDungeon" || root.id === "viewBossDungeon") {
-          // Center deploy after Ready 4/4 (raid 4×3 / dungeon 3v3). D-063.
+          // Center deploy after Ready 4/4 — shared 4×3 (12) for dungeon and raid (D-064).
           if (!dungeonPartyReadyForStart()) {
-            toast(
-              isRaidLobby()
-                ? "Сначала Ready 4/4 — центр сам сменится на расстановку"
-                : "Сначала Ready 4/4 — центр сам сменится на расстановку 3v3",
-            );
+            toast("Сначала «Готов» 4/4 — центр сам сменится на расстановку 4×3");
             return;
           }
           state.battleMode = isRaidLobby() ? "boss" : "dungeon";
           state.formationMode = "";
           if (isRaidLobby()) {
-            showRaidDeployCenter({ autoFill: (state.raidLegionCount | 0) === 0 });
+            showRaidDeployCenter({ autoFill: false });
+          } else if (state.dungeonDeployOpen) {
+            closeDungeonDeployCenter();
           } else {
-            ensureDungeonTestSquad();
-            if (state.dungeonDeployOpen) closeDungeonDeployCenter();
-            else showDungeonDeployCenter({ autoFill: false });
+            showDungeonDeployCenter({ autoFill: false });
           }
           return;
         }
@@ -20451,15 +20592,25 @@ function bindBattleModeLobbies() {
       }
       if (act === "raid-deploy-fill") {
         fillRaidLegionSlots(RAID_PARTY_SIZE);
-        state.raidDeployConfirmed = false;
-        state.raidDeployOpen = true;
+        if (isRaidLobby()) {
+          state.raidDeployConfirmed = false;
+          state.raidDeployOpen = true;
+        } else {
+          state.dungeonDeployConfirmed = false;
+          state.dungeonDeployOpen = true;
+        }
         renderDungeonLobby();
         return;
       }
       if (act === "raid-deploy-clear") {
         fillRaidLegionSlots(0);
-        state.raidDeployConfirmed = false;
-        state.raidDeployOpen = true;
+        if (isRaidLobby()) {
+          state.raidDeployConfirmed = false;
+          state.raidDeployOpen = true;
+        } else {
+          state.dungeonDeployConfirmed = false;
+          state.dungeonDeployOpen = true;
+        }
         renderDungeonLobby();
         return;
       }
