@@ -4920,7 +4920,7 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
 <div class="flex gap-1 mb-1.5">
 <input type="text" maxlength="8" placeholder="Код пати" class="flex-1 min-w-0 rounded-md bg-[#1a1613] border border-outline-variant/40 px-2 py-1 text-[10px] text-on-surface" data-dungeon-party-join-input />
 <button type="button" class="px-2 py-1 rounded-md border border-secondary/40 text-secondary text-[10px] font-bold" data-hud-action="dungeon-party-join">Войти</button>
-<button type="button" class="px-2 py-1 rounded-md border border-outline-variant/40 text-[10px] font-bold" data-hud-action="dungeon-party-ready">Ready</button>
+<button type="button" class="px-2 py-1 rounded-md border border-outline-variant/40 text-[10px] font-bold" data-hud-action="dungeon-party-ready">Готов</button>
 </div>
 <div class="grid grid-cols-2 gap-1" data-dungeon-party></div>
 <p class="text-[9px] text-outline mt-1.5" data-dungeon-party-hint>Пати 1/4 · или «Соло-тест»</p>
@@ -5026,7 +5026,7 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
 
 <div class="flex-shrink-0 pt-1.5 border-t border-outline-variant/25 grid grid-cols-2 gap-1.5 text-[10px]">
 <div class="rounded-md bg-[#1a1613] border border-outline-variant/30 px-2 py-1.5 flex justify-between"><span class="text-outline">Попытки</span><b class="text-secondary" data-raid-attempts-left>0</b></div>
-<div class="rounded-md bg-[#1a1613] border border-outline-variant/30 px-2 py-1.5 flex justify-between"><span class="text-outline">Ready</span><b class="text-primary" data-raid-ready-chip>0/12</b></div>
+<div class="rounded-md bg-[#1a1613] border border-outline-variant/30 px-2 py-1.5 flex justify-between"><span class="text-outline">Готов</span><b class="text-primary" data-raid-ready-chip>0/12</b></div>
 <div class="rounded-md bg-[#1a1613] border border-outline-variant/30 px-2 py-1.5 flex justify-between col-span-2"><span class="text-outline">Строй</span><b class="text-tertiary">4×3 · 3T/3S/6DPS</b></div>
 </div>
 </div>
@@ -5093,10 +5093,10 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
 <div class="flex gap-1 mb-1.5 flex-shrink-0">
 <input type="text" maxlength="8" placeholder="Код пати" class="flex-1 min-w-0 rounded-md bg-[#1a1613] border border-outline-variant/40 px-2 py-1 text-[10px] text-on-surface" data-raid-party-join-input />
 <button type="button" class="px-2 py-1 rounded-md border border-secondary/40 text-secondary text-[10px] font-bold" data-hud-action="raid-party-join">Войти</button>
-<button type="button" class="px-2 py-1 rounded-md border border-outline-variant/40 text-[10px] font-bold" data-hud-action="raid-party-ready">Ready</button>
+<button type="button" class="px-2 py-1 rounded-md border border-outline-variant/40 text-[10px] font-bold" data-hud-action="raid-party-ready">Готов</button>
 </div>
 <div class="grid grid-cols-2 gap-1 flex-1 min-h-0 overflow-y-auto content-start pr-0.5" data-raid-party></div>
-<p class="text-[9px] text-outline mt-1.5 flex-shrink-0" data-raid-party-hint>Пати 0/12 ready · или «Соло-тест»</p>
+<p class="text-[9px] text-outline mt-1.5 flex-shrink-0" data-raid-party-hint>Пати 0/12 готов · или «Соло-тест»</p>
 </div>
 
 <div class="relative flex flex-col flex-shrink-0 bg-surface-container-low rounded-xl border border-outline-variant/30 p-2 shadow-xl overflow-hidden" data-raid-squad-card>
@@ -5106,10 +5106,10 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
 </button>
 <div class="flex items-center gap-1 px-2 py-1 text-[10px] font-semibold rounded-lg bg-amber-500/15 text-primary border border-amber-500/30 whitespace-nowrap shrink min-w-0">
 <span class="material-symbols-outlined text-tertiary text-[14px] shrink-0">groups_3</span>
-<span class="truncate" data-raid-deploy-status>Ждём Ready</span>
+<span class="truncate" data-raid-deploy-status>Ждём «Готов»</span>
 </div>
 </div>
-<p class="text-[9px] text-outline leading-snug">После Ready всех 12 откроется окно «Состав легиона» — каждый ставит бойцов на 4×3.</p>
+<p class="text-[9px] text-outline leading-snug">После «Готов» всех 12 откроется окно «Состав легиона» — каждый ставит бойцов на 4×3.</p>
 </div>
 
 <div class="flex flex-col flex-1 min-h-0 bg-[#161310] rounded-xl border border-outline-variant/40 p-2 shadow-2xl overflow-hidden">
