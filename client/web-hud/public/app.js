@@ -15029,7 +15029,7 @@ const ATTACK_CARD_ART_ALIAS = {
 };
 
 /** Bust Amvera/browser max-age after in-place rebakes. */
-const STITCH_ASSET_V = "pvpload2";
+const STITCH_ASSET_V = "catcards3";
 
 function attackCardArtUrl(cardId) {
   if (!cardId) return "";
