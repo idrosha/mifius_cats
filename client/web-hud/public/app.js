@@ -2251,6 +2251,12 @@ function navigate(tab, { soon = null, clearBattle = true, primary = null, fromGa
     tab = "codex";
     primary = primary || "character";
   }
+  // Heroes atlas → База знаний shell + left topic list (nav-ia: atlas from codex)
+  if (tab === "heroes") {
+    state.codexEntryId = "heroes_atlas";
+    tab = "codex";
+    primary = primary || "knowledge";
+  }
   // База знаний primary (D-033) — open the codex
   if (tab === "knowledge") {
     tab = "codex";
@@ -8763,6 +8769,84 @@ function codexRenderArticle(topic) {
 </aside>`;
 }
 
+/** Return heroes atlas panel to #viewHeroes before wiping #codexDetailHost. */
+function unmountCodexHeroes() {
+  const mount = $("codexHeroesMount");
+  const home = window.__heroesCodexHome;
+  if (!mount) return;
+  const source = mount.firstElementChild;
+  if (source && home?.parent) {
+    if (home.next && home.next.parentNode === home.parent) {
+      home.parent.insertBefore(source, home.next);
+    } else {
+      home.parent.appendChild(source);
+    }
+    source.classList.add("max-w-7xl", "mx-auto");
+    source.classList.remove("max-w-none");
+  }
+  mount.remove();
+  window.__heroesCodexHome = null;
+}
+
+/** Embed Stitch heroes atlas into the KB detail column (keeps left topic list). */
+function mountCodexHeroes(host) {
+  if (!host) return;
+  let mount = $("codexHeroesMount");
+  if (mount && host.contains(mount)) {
+    renderHeroesCodex();
+    const goHtml = codexGoHtml(
+      (codexTopics().find((t) => t.id === "heroes_atlas") || {}).go || [],
+    );
+    let strip = mount.querySelector("[data-kb-heroes-go]");
+    if (goHtml) {
+      if (!strip) {
+        strip = document.createElement("div");
+        strip.dataset.kbHeroesGo = "1";
+        strip.className = "flex flex-col gap-space-sm px-space-xs pb-space-sm flex-shrink-0";
+        mount.appendChild(strip);
+      }
+      strip.innerHTML = goHtml;
+    } else if (strip) {
+      strip.remove();
+    }
+    return;
+  }
+  unmountCodexHeroes();
+  if (!window.__codexArmorHTML && host.querySelector("#mannequin-armor-img")) {
+    window.__codexArmorHTML = host.innerHTML;
+  }
+  host.innerHTML = "";
+  mount = document.createElement("div");
+  mount.id = "codexHeroesMount";
+  mount.className =
+    "col-span-12 lg:col-span-9 flex flex-col gap-space-md min-h-0 overflow-auto h-full max-h-full";
+  host.appendChild(mount);
+  const view = $("viewHeroes");
+  const source =
+    view?.querySelector("main > .flex.flex-col.w-full > .w-full.max-w-7xl") ||
+    view?.querySelector("#archetypes-grid")?.closest(".w-full.max-w-7xl") ||
+    view?.querySelector("main .max-w-7xl.mx-auto");
+  if (!source) {
+    mount.innerHTML =
+      '<div class="p-space-md text-on-surface-variant font-body-sm">Кодекс героев недоступен</div>';
+    return;
+  }
+  window.__heroesCodexHome = { parent: source.parentElement, next: source.nextSibling };
+  source.classList.remove("max-w-7xl", "mx-auto");
+  source.classList.add("max-w-none", "w-full");
+  mount.appendChild(source);
+  renderHeroesCodex();
+  const goHtml = codexGoHtml(
+    (codexTopics().find((t) => t.id === "heroes_atlas") || {}).go || [],
+  );
+  if (goHtml) {
+    const strip = document.createElement("div");
+    strip.dataset.kbHeroesGo = "1";
+    strip.className = "flex flex-col gap-space-sm px-space-xs pb-space-sm flex-shrink-0";
+    strip.innerHTML = goHtml;
+    mount.appendChild(strip);
+  }
+}
 
 function renderCodex() {
   const root = $("viewCodex");
@@ -8900,21 +8984,26 @@ function renderCodex() {
 
   const topic = topics.find((t) => t.id === state.codexEntryId) || topics[0];
   if (host) {
-    if (topic.mode === "arsenal" && window.__codexArmorHTML) {
-      host.innerHTML = window.__codexArmorHTML;
-      // Restored markup may still carry data-mf-src (empty src) after topic switches.
-      hydrateViewImages(host);
-      const goHtml = codexGoHtml(topic.go || []);
-      if (goHtml) {
-        const strip = document.createElement("div");
-        strip.className =
-          "col-span-12 flex flex-col gap-space-sm px-space-md pb-space-md";
-        strip.innerHTML = goHtml;
-        host.appendChild(strip);
-      }
-      inspectTier(state.codexRankFocus || 6);
+    if (topic.mode === "heroes") {
+      mountCodexHeroes(host);
     } else {
-      host.innerHTML = codexRenderArticle(topic);
+      unmountCodexHeroes();
+      if (topic.mode === "arsenal" && window.__codexArmorHTML) {
+        host.innerHTML = window.__codexArmorHTML;
+        // Restored markup may still carry data-mf-src (empty src) after topic switches.
+        hydrateViewImages(host);
+        const goHtml = codexGoHtml(topic.go || []);
+        if (goHtml) {
+          const strip = document.createElement("div");
+          strip.className =
+            "col-span-12 flex flex-col gap-space-sm px-space-md pb-space-md";
+          strip.innerHTML = goHtml;
+          host.appendChild(strip);
+        }
+        inspectTier(state.codexRankFocus || 6);
+      } else {
+        host.innerHTML = codexRenderArticle(topic);
+      }
     }
   }
 
@@ -11121,8 +11210,11 @@ function syncHomeSheetStats(cat) {
 
 /** Codex heroes grid — elven 18 from HERO_CHEST_POOL (not stale stitch 12×a/b cards). */
 function renderHeroesCodex() {
-  const root = $("viewHeroes");
-  if (!root || root.classList.contains("hidden")) return;
+  const mount = $("codexHeroesMount");
+  const view = $("viewHeroes");
+  const root = mount || view;
+  if (!root) return;
+  if (!mount && view?.classList.contains("hidden")) return;
   const grid = root.querySelector("#archetypes-grid");
   if (!grid) return;
 
@@ -11248,11 +11340,14 @@ function renderHeroesCodex() {
     });
   };
 
-  if (root.dataset.heroesBound !== "1") {
-    root.dataset.heroesBound = "1";
-    root.addEventListener("click", (ev) => {
+  // Bind on the panel that reparents between #viewHeroes and #codexHeroesMount.
+  const panel = grid.closest("[data-heroes-panel]") || grid.closest(".w-full") || root;
+  panel.dataset.heroesPanel = "1";
+  if (panel.dataset.heroesBound !== "1") {
+    panel.dataset.heroesBound = "1";
+    panel.addEventListener("click", (ev) => {
       const btn = ev.target.closest(".filter-btn");
-      if (btn && root.contains(btn)) {
+      if (btn && panel.contains(btn)) {
         ev.preventDefault();
         applyFilter(btn.getAttribute("data-filter") || "all");
         return;

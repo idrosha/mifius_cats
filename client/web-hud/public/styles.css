@@ -2944,6 +2944,18 @@ body:has(#viewCodex:not(.hidden)) #app {
   height: 100% !important;
   max-height: 100% !important;
 }
+/* Heroes atlas embedded in KB detail (left topic list stays) */
+#viewCodex #codexHeroesMount {
+  min-height: 0 !important;
+  max-height: 100% !important;
+  height: 100% !important;
+  overflow: auto !important;
+}
+#viewCodex #codexHeroesMount .h-\[820px\] {
+  height: auto !important;
+  min-height: 20rem;
+  max-height: min(820px, 70dvh);
+}
 
 /* Craft workshop — 3 equal-height columns, recipe list not stretched */
 body:has(#viewCraft:not(.hidden)) #wireDock { display: none !important; }
