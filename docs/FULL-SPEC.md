@@ -167,7 +167,7 @@ Unused energy не переносится. Unused cards не переносят�
 5. Mode-layer (PvE / PvP / practice / босс / гильдия-demo) **не** дублирует и не отключает этот цикл.
 
 ### §3.4 Системы
-- **Milk drops** → Milk Burst (+1 E forever; every 2nd burst +1 draw). Unspent E (любой leftover >0 на `endTurn`) → **ровно +1** milk drop (`D-058`; не +E капель за каждый непотраченный AP).
+- **Milk drops** → Milk Burst (+1 E forever; every 2nd burst +1 draw) — только от `Keep`. Unspent E на `endTurn` **сгорает без начисления milk drops** (`D-058` / §3.3), чтобы пропуск ходов без атак не копил энергию и карты в руке.
 - **Keep:** hold card into next own turn + milk; cost escalates same turn; kept card stays playable this turn.
 - **Mouse Hour:** from turn 10 maxHP decay (config).
 - **Ruffle→Claw Mode:** 10 stacks → +1E, draw1, +50% dmg; no drops/ruffle that turn.

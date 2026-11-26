@@ -131,21 +131,21 @@ CI `TestShopCardCosts_MatchWikiSnapshot` ждал 72 карты (12 A/B геро
 ### Consequences
 + Синхрон двух экранов на soft-launch QA. − Dev MM всё ещё in-memory (не Nakama). Bot-stub PvP без изменений (AI P2).
 
-## D-058 · 2026-11-25 · Unspent energy → +1 milk drop (not +E)
+## D-058 · 2026-11-25 (уточнено 2026-11-26) · Unspent energy на endTurn не даёт milk drops
 
 - **Status:** Accepted
 - **Area:** battle
-- **SSOT:** docs/FULL-SPEC.md §3.4
+- **SSOT:** docs/FULL-SPEC.md §3.3–3.4
 - **Owner:** Andrew / battle
 
 ### Context
-`endTurn` писал `MilkDrops += Energy`. Пустой ход (ЗАВЕРШИТЬ ХОД без атак) за несколько раундов разгонял Milk Burst: AP 8/8, рука 8+ карт во всех режимах — выглядело как «энергия не сбрасывается, карты остаются».
+Изначально `endTurn` писал `MilkDrops += Energy`. Первый фикс снизил это до `+1` капли на каждый `endTurn` с остатком энергии, но пустые ходы без атак всё равно за 6 раундов выбивали 2 Milk Burst → к раунду 8 получались `5/5 AP` и `9` карт в руке (по 3 на кота вместо 2, вылезают за лоток).
 
 ### Decision
-Любой leftover energy >0 на `endTurn` даёт **ровно +1** milk drop (как Keep), не +N за каждый непотраченный AP. Energy по-прежнему обнуляется и на старте хода ставится из таблицы §3.3 + `BonusE`. Сброс руки / discard / redraw без изменений (§3.3).
+Неиспользованная энергия на `endTurn` просто сгорает (`Energy = 0`) и **не** начисляет `MilkDrops` / `BonusE` / `BonusDraw` (§3.3: «Unused energy не переносится»). `MilkDrops` начисляется только через явный `Keep`. Сброс руки / discard / redraw без изменений (§3.3).
 
 ### Consequences
-`battle/internal/sim/action.go`; FULL-SPEC §3.4; regression `TestMilk_UnspentEnergy_OneDropNotPerPoint`.
+`battle/internal/sim/action.go`; FULL-SPEC §3.4; regression `TestMilk_UnspentEnergy_NoCarryOrRunaway`.
 
 ## D-057 · 2026-11-25 · Арена: тумблер заглушки бот-MM вместо «кросс-плей»
 

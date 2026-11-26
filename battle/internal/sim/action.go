@@ -140,12 +140,8 @@ func (b *Battle) tryMilkBurst(ps *PlayerState) {
 
 func (b *Battle) endTurn(a *Action) error {
 	ps := b.player(b.Active)
-	// §3.4 / D-058: any leftover energy → exactly +1 milk drop (not +E drops).
-	// Dumping all unspent AP into milk snowballed BonusE/hand on empty ends.
-	if ps.Energy > 0 {
-		ps.MilkDrops++
-		b.tryMilkBurst(ps)
-	}
+	// §3.3 / D-058: unused energy does not carry over and does not grant MilkDrops on endTurn.
+	// Even +1 drop per empty endTurn still triggered Milk Burst by turn 6–8 (5/5 AP, 9 cards in hand).
 	ps.Energy = 0
 
 	// §3.3: leftover attack cards → discard immediately at end of turn (Keep stays).
