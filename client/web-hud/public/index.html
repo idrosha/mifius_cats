@@ -4449,61 +4449,6 @@ body:not(.is-hud-ready)>:not(#mfBootSplash):not(#orientGate){visibility:hidden!i
 </div>
 </footer>
 </div>
-<!-- Micro-interaction Logic & Keyboard Hotkeys Handler -->
-<script>
-    (function() {
-      // Hotkey navigation bindings
-      window.addEventListener('keydown', function(e) {
-        if (e.code === 'Space') {
-          e.preventDefault();
-          triggerClaim();
-        } else if (e.key === 'r' || e.key === 'R' || e.key === 'к' || e.key === 'К') {
-          triggerRepeat();
-        } else if (e.code === 'Tab') {
-          e.preventDefault();
-          triggerStats();
-        }
-      });
-
-      const btnClaim = document.getElementById('btn-claim');
-      const btnRepeat = document.getElementById('btn-repeat');
-      const btnStats = document.getElementById('btn-stats');
-
-      if (btnClaim) btnClaim.addEventListener('click', triggerClaim);
-      if (btnRepeat) btnRepeat.addEventListener('click', triggerRepeat);
-      if (btnStats) btnStats.addEventListener('click', triggerStats);
-
-      function triggerClaim() {
-        if (!btnClaim) return;
-        btnClaim.innerHTML = '<span class="material-symbols-outlined text-[20px] animate-spin">refresh</span><span>Награды Получены! Переход...</span>';
-        btnClaim.classList.add('opacity-80', 'pointer-events-none');
-        setTimeout(function() {
-          const navTavern = document.querySelector('nav a[data-path="tavern-hearth"]');
-          if (navTavern) {
-            navTavern.click();
-          } else {
-            console.log('Returning to Tavern Hub...');
-          }
-        }, 600);
-      }
-
-      function triggerRepeat() {
-        if (!btnRepeat) return;
-        btnRepeat.innerHTML = '<span class="material-symbols-outlined text-[18px] animate-spin">refresh</span><span>Подготовка...</span>';
-        setTimeout(function() {
-          btnRepeat.innerHTML = '<span class="material-symbols-outlined text-[18px]">replay</span><span>Повторить (⚡ 12)</span><kbd class="px-1 py-0.2 bg-surface-container-lowest rounded text-[9px] text-outline font-mono">R</kbd>';
-        }, 500);
-      }
-
-      function triggerStats() {
-        alert("Детальный отчет боя #41829:
-- Общий DPS: 279,600
-- Общий HPS: 42,600
-- Парировано: 115,100 урона
-- Время в оглушении босса: 14.2 сек");
-      }
-    })();
-  </script>
 </div></main>
 </section>
 <section id="viewVictoryHall" class="stitch-view mythfel-form hidden" data-stitch="victory_hall" data-layout="landscape">
@@ -5181,21 +5126,21 @@ body:not(.is-hud-ready)>:not(#mfBootSplash):not(#orientGate){visibility:hidden!i
 </div>
 </div>
 </main>
-<!-- Raid load — lair backdrop + raid info only (no hero cards). Analog practice dojo-load / MF-161. -->
+<!-- Raid & dungeon load — lair/crypt backdrop + info only (no hero cards). Analog practice dojo-load / MF-161. -->
 <div class="raid-load" hidden data-purpose="raid-load">
-<img class="dojo-load-art" alt="" decoding="async" loading="lazy" data-mf-src="/stitch-assets/modes/raid-lair-bg.webp">
+<img class="dojo-load-art" id="raidLoadArt" alt="" decoding="async" loading="lazy" data-mf-src="/stitch-assets/modes/raid-lair-bg.webp">
 <div class="dojo-load-shade"></div>
 <div class="dojo-load-ui dojo-load-ui--stitch">
 <header class="dojo-load-head">
 <div class="dojo-load-head-l">
-<p class="dojo-load-sync-line"><span class="dojo-load-dot" aria-hidden="true"></span> Синхронизация легиона • <b id="raidLoadPing">24 ms</b></p>
+<p class="dojo-load-sync-line"><span class="dojo-load-dot" aria-hidden="true"></span> <span id="raidLoadSyncLabel">Синхронизация легиона</span> • <b id="raidLoadPing">24 ms</b></p>
 <h2 class="dojo-load-title" id="raidLoadTitle">Рейд легиона</h2>
-<p class="dojo-load-matchup">Легион Хранителя против <em id="raidLoadBoss">босса</em></p>
+<p class="dojo-load-matchup" id="raidLoadMatchup">Легион Хранителя против <em id="raidLoadBoss">босса</em></p>
 </div>
 <div class="dojo-load-head-r">
 <p class="dojo-load-tier" id="raidLoadPlace">Мировой босс</p>
 <p class="dojo-load-energy">Механика: <b id="raidLoadMech">—</b> <span id="raidLoadPhase"></span></p>
-<p class="dojo-load-rule">Строй 12: 3T · 3S · 6DPS · путь short/long после 1-го отряда</p>
+<p class="dojo-load-rule" id="raidLoadRule">Строй 12: 3T · 3S · 6DPS · путь short/long после 1-го отряда</p>
 </div>
 </header>
 <div class="dojo-load-vs" aria-hidden="true">VS</div>
@@ -12072,11 +12017,11 @@ body:not(.is-hud-ready)>:not(#mfBootSplash):not(#orientGate){visibility:hidden!i
 <section id="viewResultLose" class="stitch-view mythfel-form hidden" data-stitch="result_lose" data-layout="landscape">
 <main class="w-full h-full min-h-0 flex flex-col bg-[#161310]" data-purpose="result-lose">
     <div class="flex-1 flex flex-col items-center justify-center gap-4 px-6 py-8 text-center relative overflow-hidden">
-      <div class="absolute inset-0 opacity-40 bg-cover bg-center pointer-events-none" data-mf-bg="/stitch-ref/e608/arena_interior.webp"></div>
+      <div class="absolute inset-0 opacity-40 bg-cover bg-center pointer-events-none" data-mf-bg="/stitch-assets/result-win/bg.webp"></div>
       <div class="absolute inset-0 bg-gradient-to-t from-[#161310] via-[#161310]/85 to-[#2e1614]/70"></div>
       <div class="relative z-10 max-w-3xl w-full flex flex-col gap-4 items-center">
-        <p class="eyebrow text-[#ffb4ab] uppercase tracking-[0.2em] text-xs font-bold">Итог боя · поражение</p>
-        <h1 class="font-black text-4xl md:text-5xl text-[#ffb4ab] drop-shadow-lg">Поражение в бою</h1>
+        <p class="eyebrow text-[#ffb4ab] uppercase tracking-[0.2em] text-xs font-bold" id="resultLoseEyebrow">Итог боя · поражение</p>
+        <h1 class="font-black text-4xl md:text-5xl text-[#ffb4ab] drop-shadow-lg" id="resultLoseTitle">Поражение в бою</h1>
         <p class="text-sm text-[#d5c4af] max-w-xl" id="resultLoseLead">Отряд пал. Пересобери строй, зайди в таверну за молоком на льду и попробуй снова.</p>
         <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 w-full mt-2">
           <div class="rounded-xl border border-[#504535] bg-[#231f1c]/95 p-4 text-left">

@@ -4557,21 +4557,8 @@ async function startDungeonRun() {
   }
   state.dungeonDeployConfirmed = true;
   syncDungeonCombatSquadFromPlayer();
-  if (!(await spendDungeonKey(dung.id))) {
-    toast("Не удалось списать ключ");
-    return;
-  }
-  resetDungeonPathVote();
-  state.battleMode = "dungeon";
-  state.dungeonNodeIndex = 0;
-  state.selectedStageId = entry;
-  state.battle = null;
-  state.lastResult = null;
   renderDungeonLobby();
-  toast(
-    `${dung?.title_ru || "Данж"} · вход · ${state.dungeonSoloStub ? "соло-тест" : "пати"} · ключ −1`,
-  );
-  await startYard(false);
+  showDungeonLoad(true, { autoPlay: false });
 }
 
 async function advanceDungeonNodeAfterWin() {
@@ -6633,35 +6620,74 @@ function ensureRaidLoadOverlay() {
   return { root: host, load: load || null };
 }
 
-/** Load bar is active on Походы lobby while raid kind (or mid-load after alias collapse). */
+/** Load bar is active on Походы lobby while loading dungeon or raid. */
 function raidLoadTabActive() {
   return (
-    state.tab === "boss_dungeon" &&
+    (state.tab === "boss_dungeon" || state.tab === "boss_raid") &&
     (isRaidLobby() || raidLoadHost()?.dataset.raidLoading === "1")
   );
 }
 
-function fillRaidLoadInfo() {
-  const raid = raidDef();
-  const ui = RAID_BOSS_UI[raid?.raidId] || RAID_BOSS_UI.myaurra;
-  const title = raid?.title_ru || "Рейд легиона";
+function fillRaidLoadInfo(kind = state._raidLoadKind || "raid") {
   const set = (id, value) => {
     const el = $(id);
     if (el) el.textContent = value;
   };
+  const art = $("raidLoadArt");
+  const matchup = $("raidLoadMatchup");
+  const tip = $("raidLoadTip");
+  const ping = $("raidLoadPing");
+  if (ping) ping.textContent = `${14 + Math.floor(Math.random() * 18)} ms`;
+
+  if (kind === "dungeon") {
+    const dung = dungeonById();
+    const title = dung?.title_ru || "Подземелье";
+    const boss = dung?.boss_ru || title;
+    if (art) {
+      const src = dung?.id
+        ? `/stitch-assets/modes/dungeon-${dung.id}-bg.webp?v=loc1`
+        : "/stitch-assets/modes/dungeon-crypt-bg.webp";
+      art.src = src;
+      art.setAttribute("data-mf-src", src);
+    }
+    set("raidLoadSyncLabel", "Синхронизация данжа");
+    set("raidLoadTitle", title);
+    if (matchup) matchup.innerHTML = `Отряд Хранителя против <em id="raidLoadBoss">${boss}</em>`;
+    else set("raidLoadBoss", boss);
+    set("raidLoadPlace", "Подземелье · Кооп 4×3");
+    set("raidLoadMech", "Ключ ×1");
+    set("raidLoadPhase", "· 3v3");
+    set("raidLoadRule", "Отряд 3v3 · короткий/длинный путь выбирается после 1-го отряда");
+    if (tip) {
+      tip.innerHTML =
+        `<strong>Совет Сэнсэя:</strong> «Танк держит удар в авангарде, саппорт лечит тыл — после 1-го отряда выберите короткий или длинный путь.»`;
+    }
+    return;
+  }
+
+  const raid = raidDef();
+  const ui = RAID_BOSS_UI[raid?.raidId] || RAID_BOSS_UI.myaurra;
+  const title = raid?.title_ru || "Рейд легиона";
+  if (art) {
+    const src = raid?.raidId
+      ? `/stitch-assets/modes/raid-${raid.raidId}-bg.webp?v=loc1`
+      : "/stitch-assets/modes/raid-lair-bg.webp";
+    art.src = src;
+    art.setAttribute("data-mf-src", src);
+  }
+  set("raidLoadSyncLabel", "Синхронизация легиона");
   set("raidLoadTitle", title);
-  set("raidLoadBoss", title);
+  if (matchup) matchup.innerHTML = `Легион Хранителя против <em id="raidLoadBoss">${title}</em>`;
+  else set("raidLoadBoss", title);
   set("raidLoadPlace", `${ui.place_ru} · Эпос`);
   set("raidLoadMech", ui.mech_ru || "—");
   set("raidLoadPhase", ui.phase_ru ? `· фаза «${ui.phase_ru}»` : "");
-  const tip = $("raidLoadTip");
+  set("raidLoadRule", "Строй 12: 3T · 3S · 6DPS · путь short/long после 1-го отряда");
   if (tip) {
     tip.innerHTML = `<strong>Совет легиона:</strong> «Держите 2 хила и танков на фронте — ярость «${
       ui.phase_ru || "босса"
     }» бьёт по всему крылу.»`;
   }
-  const ping = $("raidLoadPing");
-  if (ping) ping.textContent = `${14 + Math.floor(Math.random() * 18)} ms`;
 }
 
 function setRaidLoadProgress(pct) {
@@ -6670,12 +6696,16 @@ function setRaidLoadProgress(pct) {
   const label = $("raidLoadPct");
   const status = $("raidLoadStatus");
   const track = bar?.parentElement;
+  const isDung = state._raidLoadKind === "dungeon";
   if (bar) bar.style.width = `${n}%`;
   if (label) label.textContent = `${n}%`;
   if (track?.getAttribute("role") === "progressbar") track.setAttribute("aria-valuenow", String(n));
   if (status) {
-    status.textContent =
-      n >= 100
+    status.textContent = isDung
+      ? n >= 100
+        ? "Отряд готов · вход в подземелье…"
+        : "Подготовка склепа и синхронизация отряда…"
+      : n >= 100
         ? "Легион синхронизирован · вход в строй рейда…"
         : "Подготовка рейдовой арены и синхронизация легиона…";
   }
@@ -6697,10 +6727,49 @@ function startRaidLoadSync() {
     setRaidLoadProgress(pct);
     if (pct >= 100) {
       clearRaidLoadTimer();
-      // No confirm — load to 100% then enter raid formation preview.
-      enterRaidBattleFromLoad({ autoPlay: !!state._raidAutoPlay });
+      // No confirm — load to 100% then enter dungeon fight or raid formation preview.
+      finishDungeonOrRaidLoad();
     }
   }, 110);
+}
+
+function finishDungeonOrRaidLoad() {
+  if (state._raidLoadKind === "dungeon") {
+    return enterDungeonBattleFromLoad({ autoPlay: !!state._raidAutoPlay });
+  }
+  return enterRaidBattleFromLoad({ autoPlay: !!state._raidAutoPlay });
+}
+
+/** Finish dungeon load overlay → spend key and enter 3v3 dungeon fight (no lobby flash). */
+async function enterDungeonBattleFromLoad({ autoPlay = false } = {}) {
+  clearRaidLoadTimer();
+  const entry = dungeonEntryStageId();
+  const dung = dungeonById();
+  if (!entry || !dung) {
+    showRaidLoad(false);
+    toast("Нет узлов пути — проверьте dungeons_coop_v1.json");
+    return false;
+  }
+  if (!(await spendDungeonKey(dung.id))) {
+    showRaidLoad(false);
+    toast("Не удалось списать ключ");
+    return false;
+  }
+  resetDungeonPathVote();
+  state.battleMode = "dungeon";
+  state.dungeonNodeIndex = 0;
+  state.selectedStageId = entry;
+  state.battle = null;
+  state.lastResult = null;
+  toast(
+    `${dung?.title_ru || "Данж"} · вход · ${state.dungeonSoloStub ? "соло-тест" : "пати"} · ключ −1`,
+  );
+  try {
+    await startYard(autoPlay);
+  } finally {
+    showRaidLoad(false);
+  }
+  return true;
 }
 
 /** Finish load overlay → raid_battle formation (gates already passed). */
@@ -6721,22 +6790,26 @@ function enterRaidBattleFromLoad({ autoPlay = false } = {}) {
 }
 
 /**
- * Raid load sheet (lair bg + raid info, no hero cards) — practice dojo-load analog.
- * At 100% → raid_battle formation preview.
+ * Shared dungeon/raid load sheet (crypt/lair bg + info, no hero cards) — practice dojo-load analog.
+ * At 100% → dungeon 3v3 fight or raid 4×3 formation preview.
  */
-function showRaidLoad(on, { autoPlay = false } = {}) {
+function showRaidLoad(on, { autoPlay = false, kind = "raid" } = {}) {
   const { root, load } = ensureRaidLoadOverlay();
   if (!root) return false;
   if (!load) {
     clearRaidLoadTimer();
     root.dataset.raidLoading = "0";
-    if (on) return enterRaidBattleFromLoad({ autoPlay });
+    if (on) {
+      state._raidLoadKind = kind;
+      return finishDungeonOrRaidLoad();
+    }
     return false;
   }
   if (on) {
-    if (!raidFightGatesOk()) return false;
+    if (kind === "raid" && !raidFightGatesOk()) return false;
+    state._raidLoadKind = kind;
     state._raidAutoPlay = !!autoPlay;
-    fillRaidLoadInfo();
+    fillRaidLoadInfo(kind);
     load.hidden = false;
     // Use data-raid-loading — not data-raid-load (that attr is for cancel/go buttons).
     root.dataset.raidLoading = "1";
@@ -6751,9 +6824,40 @@ function showRaidLoad(on, { autoPlay = false } = {}) {
   return true;
 }
 
-/** Validate legion → load sheet → 4×3 preview before sim fight. */
+function showDungeonLoad(on, { autoPlay = false } = {}) {
+  return showRaidLoad(on, { autoPlay, kind: "dungeon" });
+}
+
+/** Validate legion (auto-ready solo/canon on direct launch) → load sheet → 4×3 preview before sim fight. */
 function viewRaidFight({ autoPlay = false } = {}) {
-  return showRaidLoad(true, { autoPlay });
+  ensureRaidLegion();
+  if (state.raidWeeklyLocked) {
+    showGateTip(t("raid.gate.weekly", "Weekly lock рейдового лута — ждите сброса."));
+    return false;
+  }
+  if (state.raidAttemptsLeft <= 0) {
+    showGateTip(t("raid.gate.attempts", "Попытки рейда на неделю закончились."));
+    return false;
+  }
+  if (!dungeonPartyReadyForStart()) {
+    state.dungeonSoloStub = true;
+    state.dungeonParty = [
+      { id: "self", name: "Вы", ready: true },
+      { id: "bot1", name: "Бот-танк", ready: true },
+      { id: "bot2", name: "Бот-дпс", ready: true },
+      { id: "bot3", name: "Бот-хил", ready: true },
+    ];
+  }
+  if (
+    !state.raidDeployConfirmed ||
+    (state.raidLegionCount | 0) < minRaidPlayers ||
+    !validateRaidComposition().ok
+  ) {
+    fillRaidLegionSlots(RAID_PARTY_SIZE);
+    state.raidDeployConfirmed = true;
+  }
+  renderDungeonLobby();
+  return showRaidLoad(true, { autoPlay, kind: "raid" });
 }
 
 /** Actually start CreatePvE for current raid node (3v3 stub until full 12 sim). */
@@ -14425,7 +14529,7 @@ function paintResultWinForm() {
   setText("rwRounds", `${turn} раундов`);
   setText("rwTime", `${mm}:${ss}`);
 
-  // Prefer legion roster arts/names when present; else keep painted defaults.
+  // Prefer legion roster arts/names when present; for dungeon paint player's 3 cats into first wing.
   const roster =
     mode === "boss" && Array.isArray(state.raidLegion) && state.raidLegion.some((s) => s?.filled)
       ? [...state.raidLegion].filter((s) => s?.filled).sort((a, b) => a.row - b.row || a.col - b.col)
@@ -14447,6 +14551,29 @@ function paintResultWinForm() {
         nameEl.textContent = hero?.name || slot.name_ru || tid || nameEl.textContent;
       }
     });
+  } else if (mode === "dungeon") {
+    const squad =
+      (typeof victorySideTemplateIds === "function" && victorySideTemplateIds(0)) ||
+      (typeof dungeonVisualCats === "function" && dungeonVisualCats().filter(Boolean)) ||
+      [];
+    squad.slice(0, 3).forEach((tid, i) => {
+      const img = root.querySelector(`img[data-rw-slot="${i}"]`);
+      const nameEl = root.querySelector(`[data-rw-name="${i}"]`);
+      const art = (tid && typeof catHeroArt === "function" && catHeroArt(tid)) || "";
+      if (img && art) {
+        img.src = art;
+        img.setAttribute("data-rw-tid", tid);
+      }
+      if (nameEl) {
+        const hero = typeof practiceHeroByTemplate === "function" ? practiceHeroByTemplate(tid) : null;
+        nameEl.textContent = hero?.name || tid || nameEl.textContent;
+      }
+    });
+  }
+  const retrySpan = root.querySelector("#rwBtnRetry span:not(.material-symbols-outlined)");
+  if (retrySpan) {
+    retrySpan.textContent =
+      mode === "dungeon" ? "Повторить данж" : mode === "boss" ? "Повторить рейд" : "Повторить";
   }
 }
 
@@ -14470,15 +14597,46 @@ function renderResult() {
       : t("result.lose", "Поражение в бою");
   }
   if ($("resultLead")) $("resultLead").textContent = `${r?.battleId || "?"} · ${r?.result || "?"} · ${modeRu}`;
-  const loseLead = $("resultLoseLead");
-  if (loseLead && !win) {
-    loseLead.textContent =
-      state.battleMode === "pvp"
-        ? `Арена: поражение против «${state.pvpOpponentName || "соперника"}». Вернись в лобби или сразу начни новый поиск.`
-        : `${modeRu}: ${r?.result || "поражение"}. Пересобери строй, зайди в таверну за молоком и попробуй снова.`;
+  if (!win) {
+    const dung = typeof dungeonById === "function" ? dungeonById() : null;
+    const raid = typeof raidDef === "function" ? raidDef() : null;
+    const loseEyebrow = $("resultLoseEyebrow");
+    const loseTitle = $("resultLoseTitle");
+    const loseLead = $("resultLoseLead");
+    if (loseEyebrow) {
+      loseEyebrow.textContent =
+        state.battleMode === "dungeon"
+          ? `Данж · ${dung?.title_ru || "Подземелье"} · поражение`
+          : state.battleMode === "boss"
+            ? `Рейд · ${raid?.title_ru || "Легион 12"} · поражение`
+            : "Итог боя · поражение";
+    }
+    if (loseTitle) {
+      loseTitle.textContent =
+        state.battleMode === "dungeon"
+          ? "Поражение в данже"
+          : state.battleMode === "boss"
+            ? "Поражение легиона"
+            : "Поражение в бою";
+    }
+    if (loseLead) {
+      loseLead.textContent =
+        state.battleMode === "pvp"
+          ? `Арена: поражение против «${state.pvpOpponentName || "соперника"}». Вернись в лобби или сразу начни новый поиск.`
+          : state.battleMode === "dungeon"
+            ? `«${dung?.boss_ru || dung?.title_ru || "Склеп"}» удержал проход. Пересобери команду, зайди в таверну за молоком и попробуй снова.`
+            : state.battleMode === "boss"
+              ? `«${raid?.title_ru || "Пит-босс"}» отбросил легион. Проверь баланс 3T/3S/6DPS, зайди в таверну и повтори штурм.`
+              : `${modeRu}: поражение. Пересобери строй, зайди в таверну за молоком и попробуй снова.`;
+    }
   }
   const pvpLobbyBtn = document.querySelector('#viewResultLose [data-hud-action="result-pvp-lobby"]');
   if (pvpLobbyBtn) pvpLobbyBtn.hidden = state.battleMode !== "pvp";
+  const loseFormBtn = document.querySelector('#viewResultLose [data-hud-action="result-formation"]');
+  if (loseFormBtn) {
+    loseFormBtn.textContent =
+      state.battleMode === "dungeon" || state.battleMode === "boss" ? "Коллекция" : "Расстановка";
+  }
   if (win) paintResultWinForm();
   // Wire painted win / lose CTAs once (scoped — avoid double-binding whole document).
   const roots = [$("viewResultWin"), $("viewResultLose")].filter(Boolean);
@@ -14504,13 +14662,21 @@ function renderResult() {
           } else if (mode === "practice") startPractice(false);
           else if (mode === "dungeon") {
             state.battleMode = "dungeon";
+            state.dungeonLobbyKind = "dungeon";
             navigate("boss_dungeon", { primary: "combat" });
           } else if (mode === "boss") {
             state.battleMode = "boss";
-            navigate("boss_raid", { primary: "combat" });
+            state.dungeonLobbyKind = "raid";
+            navigate("boss_dungeon", { primary: "combat" });
           } else startYard(false);
-        } else if (act === "result-formation") navigate("formation");
-        else if (act === "result-tavern") navigate("tavern");
+        } else if (act === "result-formation") {
+          if (mode === "dungeon" || mode === "boss") {
+            state.battleMode = "";
+            navigate("collection", { primary: "character" });
+          } else {
+            navigate("formation");
+          }
+        } else if (act === "result-tavern") navigate("tavern");
         else if (act === "result-hub") {
           state.battleMode = "";
           navigate("hub");
@@ -14530,17 +14696,28 @@ function renderResult() {
     const winRoot = $("viewResultWin");
     if (winRoot) winRoot.dataset.rwKeys = "1";
     document.addEventListener("keydown", (ev) => {
-      if (logicalViewId() !== "viewResultWin") return;
+      const view = logicalViewId();
+      if (view !== "viewResultWin" && view !== "viewResultLose") return;
       if (ev.target.closest?.("input, textarea")) return;
-      if (ev.code === "Space") {
-        ev.preventDefault();
-        $("rwBtnHub")?.click();
-      } else if (ev.code === "KeyR") {
-        ev.preventDefault();
-        $("rwBtnRetry")?.click();
-      } else if (ev.code === "Tab") {
-        ev.preventDefault();
-        $("rwBtnStats")?.click();
+      if (view === "viewResultWin") {
+        if (ev.code === "Space") {
+          ev.preventDefault();
+          $("rwBtnHub")?.click();
+        } else if (ev.code === "KeyR") {
+          ev.preventDefault();
+          $("rwBtnRetry")?.click();
+        } else if (ev.code === "Tab") {
+          ev.preventDefault();
+          $("rwBtnStats")?.click();
+        }
+      } else {
+        if (ev.code === "KeyR") {
+          ev.preventDefault();
+          document.querySelector('#viewResultLose [data-hud-action="result-retry"]')?.click();
+        } else if (ev.code === "Escape" || ev.code === "Space") {
+          ev.preventDefault();
+          document.querySelector('#viewResultLose [data-hud-action="result-hub"]')?.click();
+        }
       }
     });
   }
@@ -15965,7 +16142,7 @@ const SCREEN_BG = {
   victoryHall: `/stitch-ref/e608/victory_hall.webp?v=${STITCH_ASSET_V}`,
   arenaInterior: `/stitch-assets/pvp-battles/fight-bg.webp?v=${STITCH_ASSET_V}`,
   pvpVictory: `/stitch-assets/pvp-battles/victory-hall.webp?v=${STITCH_ASSET_V}`,
-  resultWin: `/stitch-assets/result-win/bg.jpg?v=${STITCH_ASSET_V}`,
+  resultWin: `/stitch-assets/result-win/bg.webp?v=${STITCH_ASSET_V}`,
 };
 
 function preloadScreenBgs(...keys) {
@@ -20608,7 +20785,7 @@ function bindRaidLoadControls() {
     else if (act === "go") {
       clearRaidLoadTimer();
       setRaidLoadProgress(100);
-      enterRaidBattleFromLoad({ autoPlay: !!state._raidAutoPlay });
+      finishDungeonOrRaidLoad();
     }
   };
   root.addEventListener("click", onLoadClick, true);
@@ -20628,7 +20805,7 @@ function bindRaidLoadControls() {
       ev.preventDefault();
       clearRaidLoadTimer();
       setRaidLoadProgress(100);
-      enterRaidBattleFromLoad({ autoPlay: !!state._raidAutoPlay });
+      finishDungeonOrRaidLoad();
     } else if (ev.code === "Escape") {
       ev.preventDefault();
       showRaidLoad(false);
