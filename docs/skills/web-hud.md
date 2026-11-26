@@ -5,7 +5,7 @@
 - HUD **не поднимать** без явной команды Andrew (prefs).
 - IA/nav: `docs/nav-ia.md`; yard/trade layout — prefs (full-bleed map, hover plaques, trade plaza hub).
 - **Меню locked:** при замене форм не менять `#appNav` / `#appSubTabs` / `NAV` (`D-025`, `D-033`, `D-029`).
-- **Phone:** только landscape + rotate gate (`D-036`). Portrait-first UI запрещён. CSS/gate owner = **MF-145** — не дублировать, пока задача открыта.
+- **Phone:** портрет и альбом (`D-065`, supersedes `D-036`). Rotate gate снят. Портрет-правила — только в блоке `PHONE PORTRAIT` (≤767px) в конце `client/web-hud/public/styles.css`.
 - **Cat art (`D-037`):** без фона (`/stitch-assets/cat-heroes/battle/` + `catHeroBattleArt`) — **только** live fight HUD. На остальных формах — портреты с фоном (`catHeroArt`).
 - **Facing (`D-047` / MF-170):** live/load board — слева → вправо, справа → влево (к центру). Вне боя: котики вправо. Один путь: `applySpriteFacing` / `.mf-sprite-face.is-flipped`. Новый арт → `*_NATIVE_FACE_LEFT` только если authored left.
 - **Silhouette (`D-048`):** live cutouts — `--mf-role-h`/`--mf-role-w` by `data-role`: assassin/mage < ranger < support < fighter < tank; overall bump; cats / PvE monsters / practice dummies share the same role wells on `#pfAllies` + `#pfEnemies`. Lobby portraits — no role scale.

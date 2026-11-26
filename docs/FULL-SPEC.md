@@ -355,7 +355,7 @@ Server validates all purchases.
 11. `ReplayList` (10)  
 12. `Soon` placeholder sheets  
 
-Адаптив (web-hud): stage **landscape** (~16:9). На **телефоне** — только landscape; portrait → rotate gate (`D-036`, MF-145). Отдельные mobile/tablet shells — после wide web (`D-012`). PC = keyboard hotkeys later.
+Адаптив (web-hud): stage **landscape** (~16:9) на десктопе и планшете. На **телефоне** — портрет и альбом: портрет (≤767px) использует блок `PHONE PORTRAIT` в `styles.css`, rotate gate снят (`D-065`, supersedes `D-036`). Отдельные mobile/tablet shells — после wide web (`D-012`). PC = keyboard hotkeys later.
 
 ---
 

@@ -22403,15 +22403,11 @@ window.addEventListener("popstate", () => {
   if (state.tab !== tab) navigate(tab);
 });
 
-/** Soft-launch phone = landscape only. Portrait phones get #orientGate (CSS); sync aria. */
+/** D-036 superseded: phones in portrait use the portrait layout (styles.css), no rotate gate. */
 function syncOrientGate() {
   const gate = $("orientGate");
-  if (!gate) return;
-  const phonePortrait = window.matchMedia(
-    "(orientation: portrait) and (max-width: 767px), (orientation: portrait) and (max-width: 900px) and (pointer: coarse)"
-  ).matches;
-  gate.setAttribute("aria-hidden", phonePortrait ? "false" : "true");
-  document.body.classList.toggle("mythfel-phone-portrait", phonePortrait);
+  if (gate) gate.setAttribute("aria-hidden", "true");
+  document.body.classList.remove("mythfel-phone-portrait");
 }
 
 async function main() {
