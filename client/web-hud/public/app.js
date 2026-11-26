@@ -8,15 +8,23 @@
 import {
   bindBattleFxGestureUnlock,
   decorateBattleUnitIdle,
+  findBattleUnitEl,
   playCombatEvents,
   skipCombatFx,
   setFxSpeed,
   getFxSpeed,
   SoundFX,
-} from "./battle-fx.js?v=combatfx2";
+} from "./battle-fx.js?v=combatfx3";
 
 /** Debug / settings: `MythfelBattleFx.setFxSpeed(1.5)`, `.skipCombatFx()`. */
-window.MythfelBattleFx = { skipCombatFx, setFxSpeed, getFxSpeed, SoundFX };
+window.MythfelBattleFx = {
+  skipCombatFx,
+  setFxSpeed,
+  getFxSpeed,
+  SoundFX,
+  playCombatEvents,
+  findBattleUnitEl,
+};
 /** Side-effect: fills window.CODEX_TOPICS / CODEX_FILTERS (survives stitch HTML rebakes). */
 import "./codex-topics.js";
 import {
@@ -2101,7 +2109,19 @@ function hydrateViewImages(root) {
   });
 }
 
+let lastShownViewId = null;
+const BATTLE_VIEW_IDS = new Set([
+  "viewPracticeFight",
+  "viewPvpFight",
+  "viewRaidBattle",
+  "viewBattle",
+]);
+
 function showView(id) {
+  if (lastShownViewId && lastShownViewId !== id && BATTLE_VIEW_IDS.has(lastShownViewId)) {
+    skipCombatFx();
+  }
+  lastShownViewId = id;
   // #app > section: hide EVERY direct child section, including wireframe pads
   // (section.wf-block with empty id). Filtering to [id^=view] left those pads
   // visible and blanked Training/hubs after #137 (same symptom class as #135).
@@ -4534,6 +4554,7 @@ async function startDungeonRun() {
 }
 
 async function advanceDungeonNodeAfterWin() {
+  skipCombatFx();
   const idx = Math.max(0, Number(state.dungeonNodeIndex) || 0);
   grantDungeonNodeLoot();
   if (!state.dungeonPathLocked && idx === 0) {
@@ -6495,6 +6516,7 @@ function grantRaidLootStub() {
 }
 
 async function advanceRaidNodeAfterWin() {
+  skipCombatFx();
   const i = state.raidPathNodeIndex | 0;
   // After entry squad — path vote on the same battle form (no lobby pick).
   if (!state.raidPathLocked && i === 0) {
@@ -6811,6 +6833,7 @@ function renderRaidBattleStub() {
 
   // Legion board = cutouts + vitals like practice/PvP (D-037 / D-048); tray stays D-052.
   paintRaidLegionCutouts(root);
+  paintRaidLiveEnemies(root);
 
   paintRaidFightTray(snap);
   const note = root.querySelector("[data-raid-battle-note]");
@@ -6823,6 +6846,77 @@ function renderRaidBattleStub() {
   }
   paintBattleTurnTimer(snap.turnSec);
   renderRaidPathVotePanel();
+}
+
+/** Bind live raid battle enemies (side === 1) to the 3 .raid-foe slots so FX & vitals target them. */
+function paintRaidLiveEnemies(root) {
+  const enemiesBox = root?.querySelector?.("[data-raid-enemies]");
+  if (!enemiesBox) return;
+  const add1 = enemiesBox.querySelector('[data-raid-add="1"]');
+  const bossWrap = enemiesBox.querySelector('[data-raid-boss-wrap="1"]');
+  const add2 = enemiesBox.querySelector('[data-raid-add="2"]');
+  const slotEls = [add1, bossWrap, add2].filter(Boolean);
+  const live = !!(state.battle && state.battleMode === "boss");
+  if (!live) {
+    slotEls.forEach((el) => {
+      el.hidden = false;
+      el.classList.remove("hidden", "mf-unit-dead");
+      delete el.dataset.unitId;
+      delete el.dataset.role;
+      delete el.dataset.element;
+    });
+    return;
+  }
+  const foes = (state.battle.units || [])
+    .filter((u) => (u.side | 0) === 1 && !String(unitTemplateId(u) || "").includes("empty_lane"))
+    .sort((a, b) => (a.lane | 0) - (b.lane | 0));
+
+  // Center boss slot gets the boss/front-or-highest-HP enemy; remaining foes fill add1 & add2.
+  let bossUnit =
+    foes.find((u) => /boss|pitboss/i.test(`${u.id || ""} ${unitTemplateId(u) || ""}`)) ||
+    foes.slice().sort((a, b) => (b.maxHp || 0) - (a.maxHp || 0))[0] ||
+    null;
+  const adds = foes.filter((u) => u !== bossUnit);
+  const mapping = [
+    [add1, adds[0] || null],
+    [bossWrap, bossUnit],
+    [add2, adds[1] || null],
+  ];
+
+  for (const [el, u] of mapping) {
+    if (!el) continue;
+    if (!u) {
+      el.hidden = true;
+      el.classList.add("hidden");
+      delete el.dataset.unitId;
+      delete el.dataset.role;
+      delete el.dataset.element;
+      continue;
+    }
+    el.hidden = false;
+    el.classList.remove("hidden");
+    const hpEl = el.querySelector(".raid-foe-hp");
+    const hpBar = el.querySelector(".mf-bar--hp i");
+    const shBar = el.querySelector(".mf-bar--shield i");
+    const hp = Math.max(0, Number(u.hp) || 0);
+    const maxHp = Math.max(1, Number(u.maxHp) || hp || 1);
+    const sh = Math.max(0, Number(u.shield) || 0);
+    if (hpEl) hpEl.textContent = sh > 0 ? `${hp} / ${maxHp} +${sh}` : `${hp} / ${maxHp}`;
+    if (hpBar) hpBar.style.width = `${Math.max(0, Math.min(100, Math.round((hp / maxHp) * 100)))}%`;
+    if (shBar) shBar.style.width = `${Math.max(0, Math.min(100, Math.round((sh / maxHp) * 100)))}%`;
+    const img = el.querySelector("img");
+    if (img) img.classList.toggle("mf-unit-dim", !u.alive);
+    decorateBattleUnitIdle(el, u, u.lane ?? 0);
+  }
+
+  if (bossUnit) {
+    const hp = Math.max(0, Number(bossUnit.hp) || 0);
+    const maxHp = Math.max(1, Number(bossUnit.maxHp) || hp || 1);
+    const bossHpTxt = root.querySelector("[data-raid-battle-boss-hp]");
+    if (bossHpTxt) bossHpTxt.textContent = `${hp} / ${maxHp}`;
+    const bar = root.querySelector("[data-raid-battle-boss-bar]");
+    if (bar) bar.style.width = `${Math.max(0, Math.min(100, Math.round((hp / maxHp) * 100)))}%`;
+  }
 }
 
 /** Map live wing units by templateId (raid sim is still 3v3 stub). */
@@ -6893,6 +6987,18 @@ function paintRaidLegionCutouts(root) {
     { row: 0, head: "РЯД 1: ТАНКИ", headClass: "is-tank" },
   ];
   const liveByTemplate = raidLiveUnitsByTemplate();
+  const liveAllies =
+    state.battle && !state.battle.result && state.battleMode === "boss"
+      ? (state.battle.units || []).filter((u) => (u.side | 0) === 0)
+      : [];
+  const usedLiveIds = new Set();
+  const roleRow = (r) => {
+    const k = String(r || "").toLowerCase();
+    if (k === "tank") return 0;
+    if (k === "fighter" || k === "assassin") return 1;
+    if (k === "mage" || k === "ranger") return 2;
+    return 3;
+  };
   board.replaceChildren();
   board.classList.add("raid-legion-board");
   for (const col of cols) {
@@ -6906,6 +7012,19 @@ function paintRaidLegionCutouts(root) {
     for (let slotCol = 0; slotCol < 3; slotCol += 1) {
       const s = state.raidLegion.find((x) => x.row === col.row && x.col === slotCol);
       if (!s?.filled) {
+        const fallbackLive = liveAllies.find((u) => !usedLiveIds.has(u.id) && roleRow(u.role) === col.row) || null;
+        if (fallbackLive) {
+          usedLiveIds.add(fallbackLive.id);
+          const syntheticSlot = {
+            row: col.row,
+            col: slotCol,
+            role: fallbackLive.role || "fighter",
+            templateId: unitTemplateId(fallbackLive),
+            sub: "",
+          };
+          colEl.appendChild(raidUnitCutoutEl(syntheticSlot, fallbackLive));
+          continue;
+        }
         const empty = document.createElement("div");
         empty.className = "raid-unit is-empty";
         empty.dataset.row = String(col.row);
@@ -6914,7 +7033,13 @@ function paintRaidLegionCutouts(root) {
         colEl.appendChild(empty);
         continue;
       }
-      colEl.appendChild(raidUnitCutoutEl(s, raidSlotBattleUnit(s, liveByTemplate)));
+      let liveU = s.templateId ? liveByTemplate.get(s.templateId) : null;
+      if (liveU && usedLiveIds.has(liveU.id)) liveU = null;
+      if (!liveU && liveAllies.length) {
+        liveU = liveAllies.find((u) => !usedLiveIds.has(u.id) && u.role === s.role) || null;
+      }
+      if (liveU) usedLiveIds.add(liveU.id);
+      colEl.appendChild(raidUnitCutoutEl(s, liveU || raidSlotBattleUnit(s, new Map())));
     }
     board.appendChild(colEl);
   }
@@ -15234,6 +15359,7 @@ async function commitHandSelectionAndEndTurn() {
   state.endTurnArmed = false;
   state.turnCommitPlaying = true;
   clearBattleTurnTimer();
+  let endTurnApplied = false;
   try {
     for (const sel of queue) {
       if (!state.battle || state.battle.result || (state.battle.active | 0) !== seat) break;
@@ -15261,17 +15387,22 @@ async function commitHandSelectionAndEndTurn() {
       state.battle.canEndTurn
     ) {
       await submitAction({ kind: "endTurn" });
+      endTurnApplied = true;
     }
   } finally {
     state.turnCommitPlaying = false;
-    if (state.battle) {
-      // Separate tries: one throw must not skip the live fight view paint.
-      for (const paint of [renderPracticeFight, renderPvpFight, renderBattle]) {
-        try {
-          paint();
-        } catch {
-          /* ignore */
-        }
+    // Only repaint the active view if endTurn did not already trigger applyDiff -> renderAll.
+    // Repainting all views here previously destroyed PvP/viewBattle DOM nodes mid-FX and
+    // populated hidden #viewPracticeFight slots with stale unit IDs.
+    if (state.battle && !endTurnApplied) {
+      const vid = logicalViewId();
+      try {
+        if (vid === "viewPracticeFight") renderPracticeFight();
+        else if (vid === "viewPvpFight") renderPvpFight();
+        else if (vid === "viewRaidBattle") renderRaidBattleStub();
+        else if (vid === "viewBattle") renderBattle();
+      } catch {
+        /* ignore */
       }
     }
   }
@@ -16108,7 +16239,22 @@ function renderPracticeFight() {
       const hideSlot = !u || emptyLane;
       card.hidden = hideSlot;
       card.classList.toggle("hidden", hideSlot);
-      if (hideSlot) return;
+      if (hideSlot) {
+        delete card.dataset.unitId;
+        delete card.dataset.fxDx;
+        delete card.dataset.fxDy;
+        card.classList.remove("mf-fx-motion", "mf-fx-dash", "mf-fx-jump", "mf-fx-windup", "mf-fx-cast");
+        card.style.transform = "";
+        card.style.animation = "";
+        card.style.transition = "";
+        card.style.zIndex = "";
+        card.style.opacity = "";
+        card.style.removeProperty("--fx-dx");
+        card.style.removeProperty("--fx-dy");
+        card.style.removeProperty("--fx-arc");
+        card.style.removeProperty("--fx-dir");
+        return;
+      }
       const tid = tidEarly;
       const hero = practiceHeroByTemplate(tid);
       const art = battleUnitArt(u) || catHeroBattleArt(tid);
@@ -16832,6 +16978,7 @@ function pveFightNum(stageId = state.selectedStageId) {
 
 /** D-039 · after f1/f2 win, CreatePvE next wave with carryAlive (no victory screen). */
 async function advancePveWaveAfterWin() {
+  skipCombatFx();
   const f = pveFightNum(state.selectedStageId);
   if (f >= 3) {
     state.pveAdvancingWave = false;

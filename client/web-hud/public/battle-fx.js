@@ -1,9 +1,19 @@
 /**
- * Live-fight presentation FX (D-037 cutouts + role action clips).
+ * Live-fight presentation FX (D-037 cutouts + universal 2D DOM rig + role action clips).
  * Numbers come from server CombatEvent — client does not invent damage.
- * Idle breathe/aura stay on the sprite; action motion runs on the unit slot,
+ * Idle breathe/aura stay on the sprite (or skeletal rig); action motion runs on the unit slot,
  * then returnHome restores slot transform. skipCombatFx clears everything.
  */
+
+import { buildHeroRig, loadHeroRigManifest, resolveHeroRigSlug } from "./hero-rig.js";
+import {
+  configureAnimEngine,
+  playClip,
+  resetRigToRest,
+  startIdle,
+  stopAllRigAnimations,
+} from "./hero-anim-engine.js";
+import { HERO_CLIPS, resolveRoleClipName } from "./hero-anim-clips.js";
 
 let audioCtx = null;
 let soundEnabled = true;
@@ -11,9 +21,46 @@ let soundEnabled = true;
 let fxSpeed = 1;
 let fxToken = 0;
 let activeFxNodes = 0;
-const FX_CONCURRENT_MAX = 8;
+const FX_CONCURRENT_MAX = 12;
 const MOTION_CLASS = "mf-fx-motion";
 const HOME_GUARD = new WeakMap();
+const MOTION_OWNER = new WeakMap();
+const RETURNING = new WeakSet();
+const BUMP_GEN = new WeakMap();
+const UNIT_RIGS = new WeakMap();
+const RIG_MOUNT_GEN = new WeakMap();
+const TRANSIENT_MOTION_CLASSES = [
+  MOTION_CLASS,
+  "mf-fx-dash",
+  "mf-fx-jump",
+  "mf-fx-windup",
+  "mf-fx-cast",
+  "mf-fx-brace",
+  "mf-fx-windup-pose",
+  "mf-fx-strike-slam",
+  "mf-fx-dodge",
+  "mf-fx-look-at",
+  "mf-fx-hit-react",
+];
+const TRANSIENT_SPRITE_CLASSES = [
+  "mf-fx-windup-pose",
+  "mf-fx-brace",
+  "mf-fx-cast",
+  "mf-fx-strike-slam",
+  "mf-fx-dodge",
+  "mf-fx-look-at",
+  "mf-fx-dot-tick",
+  "mf-fx-heal-pulse",
+  "mf-fx-buff-pulse",
+  "mf-fx-taunt-roar",
+  "mf-fx-stealth-enter",
+  "mf-fx-stun",
+  "hero-damage-hit",
+  "hero-block-brace",
+  "combat-action-shake",
+  "is-crit",
+  "is-secondary",
+];
 
 try {
   const raw = localStorage.getItem("mythfel_sfx");
@@ -55,6 +102,83 @@ function wait(ms, token) {
   return new Promise((resolve) => {
     setTimeout(() => resolve(token === fxToken), fxMs(ms));
   });
+}
+
+configureAnimEngine({
+  fxMs,
+  getFxToken: () => fxToken,
+  clips: HERO_CLIPS,
+});
+
+function getUnitRig(el) {
+  const root = motionRoot(el);
+  if (!root) return null;
+  const rig = UNIT_RIGS.get(root);
+  if (rig && rig.mode === "rig" && rig.root?.isConnected) return rig;
+  return null;
+}
+
+function playUnitRigAction(el, role, action, opts = {}) {
+  const rig = getUnitRig(el);
+  if (!rig) return null;
+  const clipName = HERO_CLIPS[action] ? action : resolveRoleClipName(role || rig.role, action);
+  return playClip(rig, clipName, {
+    token: opts.token ?? fxToken,
+    ...opts,
+  });
+}
+
+/**
+ * Attempt to upgrade a battle unit card from flat cutout to a skeletal DOM rig.
+ * If no `rig.json` exists for this hero, leaves the flat cutout untouched (zero breakage).
+ */
+export async function mountHeroRigOnUnit(card, unit, opts = {}) {
+  if (!card || !unit) return null;
+  const root = motionRoot(card);
+  const gen = (RIG_MOUNT_GEN.get(root) || 0) + 1;
+  RIG_MOUNT_GEN.set(root, gen);
+
+  const slug = opts.rigSlug || resolveHeroRigSlug(unit);
+  const manifest = opts.manifest || (slug ? await loadHeroRigManifest(slug) : null);
+  if (!manifest || !root.isConnected || RIG_MOUNT_GEN.get(root) !== gen) return null;
+
+  const face =
+    root.querySelector?.(".mf-sprite-face") ||
+    root.querySelector?.(".mf-unit-frame") ||
+    root;
+  const existingImg = face.querySelector?.("img.mf-battle-cutout, img") || null;
+  const fallbackSrc = opts.fallbackSrc || existingImg?.getAttribute("src") || "";
+  const desiredFace =
+    opts.facing ||
+    face.dataset?.face ||
+    (unit.side === 0 ? "right" : unit.side === 1 ? "left" : "right");
+
+  const prevRig = UNIT_RIGS.get(root);
+  if (prevRig) resetRigToRest(prevRig);
+
+  const rig = buildHeroRig(face, manifest, fallbackSrc, {
+    facing: desiredFace,
+    role: unit.role,
+    alive: unit.alive,
+  });
+  if (rig.mode !== "rig") return null;
+
+  UNIT_RIGS.set(root, rig);
+  if (unit.alive === false) {
+    playClip(rig, "death", { hold: true, ignoreToken: true, durationScale: 0.1 });
+  } else {
+    startIdle(rig, "idle");
+  }
+  return rig;
+}
+
+/** Public helper to trigger any named clip or role action on a battle unit (e.g. victory/defeat/QA). */
+export function playHeroRigClip(unitIdOrEl, actionOrClipName, opts = {}) {
+  const el = typeof unitIdOrEl === "string" ? findBattleUnitEl(unitIdOrEl) : unitIdOrEl;
+  if (!el) return Promise.resolve(false);
+  const role = opts.role || el.dataset?.role || "";
+  const p = playUnitRigAction(el, role, actionOrClipName, opts);
+  return p || Promise.resolve(false);
 }
 
 export const SoundFX = {
@@ -292,12 +416,12 @@ const ELEMENT_FX = {
 
 /** Keyframe + timing — breathe (transform) and aura (filter) must share one animation list (D-046). */
 const BREATHE_SPEC = [
-  { cls: "idle-breathe-1", name: "heroBreathe1", duration: "2.3s", delay: "0s" },
-  { cls: "idle-breathe-2", name: "heroBreathe2", duration: "2.1s", delay: "-0.7s" },
-  { cls: "idle-breathe-3", name: "heroBreathe3", duration: "2.5s", delay: "-1.4s" },
-  { cls: "idle-breathe-4", name: "heroBreathe4", duration: "2.2s", delay: "-0.4s" },
-  { cls: "idle-breathe-5", name: "heroBreathe5", duration: "2.0s", delay: "-1.1s" },
-  { cls: "idle-breathe-6", name: "heroBreathe6", duration: "2.4s", delay: "-0.2s" },
+  { cls: "idle-breathe-1", name: "heroBreathe1", duration: "3.2s", delay: "0s" },
+  { cls: "idle-breathe-2", name: "heroBreathe2", duration: "3.0s", delay: "-0.8s" },
+  { cls: "idle-breathe-3", name: "heroBreathe3", duration: "3.4s", delay: "-1.5s" },
+  { cls: "idle-breathe-4", name: "heroBreathe4", duration: "3.1s", delay: "-0.4s" },
+  { cls: "idle-breathe-5", name: "heroBreathe5", duration: "2.9s", delay: "-1.1s" },
+  { cls: "idle-breathe-6", name: "heroBreathe6", duration: "3.3s", delay: "-0.2s" },
 ];
 
 const AURA_SPEC = {
@@ -327,6 +451,8 @@ function viewportFor(el) {
   return (
     el.querySelector?.(".mf-unit-frame") ||
     el.closest?.(".mf-unit-frame") ||
+    el.querySelector?.(".raid-foe-frame") ||
+    el.closest?.(".raid-foe-frame") ||
     el.querySelector?.(".relative.w-full") ||
     el
   );
@@ -343,13 +469,25 @@ function bumpClass(el, cls, ms) {
   if (!el || !cls) return;
   const parts = String(cls).trim().split(/\s+/).filter(Boolean);
   if (!parts.length) return;
+  let genMap = BUMP_GEN.get(el);
+  if (!genMap) {
+    genMap = new Map();
+    BUMP_GEN.set(el, genMap);
+  }
+  const gens = parts.map((p) => {
+    const next = (genMap.get(p) || 0) + 1;
+    genMap.set(p, next);
+    return [p, next];
+  });
   el.classList.remove(...parts);
   void el.offsetWidth;
   el.classList.add(...parts);
-  const token = fxToken;
   setTimeout(() => {
-    if (token !== fxToken) return;
-    el.classList.remove(...parts);
+    for (const [p, g] of gens) {
+      if (genMap.get(p) === g) {
+        el.classList.remove(p);
+      }
+    }
   }, fxMs(ms));
 }
 
@@ -412,9 +550,17 @@ function elCenter(el) {
   return { x: r.left + r.width / 2, y: r.top + r.height / 2, w: r.width, h: r.height };
 }
 
+/** Base slot center, removing any active fxDx/fxDy displacement on the element. */
+function baseCenter(el) {
+  const c = elCenter(el);
+  const ox = Number(el?.dataset?.fxDx || 0);
+  const oy = Number(el?.dataset?.fxDy || 0);
+  return { x: c.x - ox, y: c.y - oy, w: c.w, h: c.h };
+}
+
 function centerDelta(fromEl, toEl, approach = 0.72) {
-  const a = elCenter(fromEl);
-  const b = elCenter(toEl);
+  const a = baseCenter(fromEl);
+  const b = baseCenter(toEl);
   return {
     dx: (b.x - a.x) * approach,
     dy: (b.y - a.y) * approach,
@@ -449,26 +595,101 @@ function isBacklineTarget(diff, sourceId, targetId) {
   return false;
 }
 
-function guardHome(root) {
-  if (!root || HOME_GUARD.has(root)) return;
-  HOME_GUARD.set(root, true);
-  const token = fxToken;
-  setTimeout(() => {
-    if (token !== fxToken) return;
-    if (root.classList.contains(MOTION_CLASS)) returnHome(root);
+function clearHomeGuard(root) {
+  if (!root) return;
+  const tid = HOME_GUARD.get(root);
+  if (tid) {
+    clearTimeout(tid);
     HOME_GUARD.delete(root);
+  }
+}
+
+function hasMotionState(el) {
+  if (!el) return false;
+  return (
+    el.classList.contains(MOTION_CLASS) ||
+    el.classList.contains("mf-fx-dash") ||
+    el.classList.contains("mf-fx-jump") ||
+    el.classList.contains("mf-fx-windup") ||
+    el.classList.contains("mf-fx-cast") ||
+    Boolean(el.style.transform) ||
+    Boolean(el.style.animation) ||
+    Boolean(el.style.zIndex) ||
+    Boolean(el.style.getPropertyValue("--fx-dx")) ||
+    Boolean(el.style.getPropertyValue("--fx-dy")) ||
+    Boolean(el.dataset?.fxDx) ||
+    Boolean(el.dataset?.fxDy)
+  );
+}
+
+function resetMotionRoot(el) {
+  if (!el) return;
+  clearHomeGuard(el);
+  MOTION_OWNER.delete(el);
+  RETURNING.delete(el);
+  el.classList.remove(...TRANSIENT_MOTION_CLASSES);
+  el.style.transition = "";
+  el.style.transform = "";
+  el.style.animation = "";
+  el.style.opacity = "";
+  el.style.zIndex = "";
+  el.style.removeProperty("--fx-dx");
+  el.style.removeProperty("--fx-dy");
+  el.style.removeProperty("--fx-arc");
+  el.style.removeProperty("--fx-dir");
+  delete el.dataset.fxDx;
+  delete el.dataset.fxDy;
+  const rig = getUnitRig(el);
+  if (rig && !el.classList.contains("mf-unit-dead")) {
+    resetRigToRest(rig);
+    startIdle(rig, "idle");
+  }
+}
+
+function resetAllMotionRoots() {
+  document.querySelectorAll(`.${MOTION_CLASS}, [data-unit-id]`).forEach((el) => {
+    if (!isBattleUnitSlot(el)) return;
+    if (hasMotionState(el)) resetMotionRoot(el);
+  });
+}
+
+function guardHome(root, token = fxToken) {
+  if (!root) return;
+  clearHomeGuard(root);
+  const tid = setTimeout(() => {
+    HOME_GUARD.delete(root);
+    if (MOTION_OWNER.get(root) !== token) return;
+    if (!hasMotionState(root)) {
+      MOTION_OWNER.delete(root);
+      RETURNING.delete(root);
+      return;
+    }
+    if (token !== fxToken) {
+      resetMotionRoot(root);
+      return;
+    }
+    returnHome(root, token);
   }, fxMs(2200));
+  HOME_GUARD.set(root, tid);
 }
 
 /** Melee step / lunge toward target slot. */
 export function dashTo(source, target, opts = {}) {
   const root = motionRoot(source);
   const dest = motionRoot(target) || target;
-  if (!root || !dest) return Promise.resolve(false);
+  const token = opts.token ?? fxToken;
+  if (!root || !dest || !root.isConnected || !dest.isConnected) return Promise.resolve(false);
+  if (token !== fxToken) return Promise.resolve(false);
+  if (hasMotionState(root)) {
+    resetMotionRoot(root);
+    void root.offsetWidth;
+  }
   const approach = opts.approach ?? 0.74;
   const ms = opts.ms ?? 260;
   const { dx, dy } = centerDelta(root, dest, approach);
   const dir = dx >= 0 ? 1 : -1;
+  MOTION_OWNER.set(root, token);
+  RETURNING.delete(root);
   root.classList.add(MOTION_CLASS, "mf-fx-dash");
   root.style.setProperty("--fx-dx", `${dx}px`);
   root.style.setProperty("--fx-dy", `${dy}px`);
@@ -479,20 +700,34 @@ export function dashTo(source, target, opts = {}) {
   root.style.transition = `transform ${fxMs(ms)}ms cubic-bezier(0.2, 0.85, 0.25, 1)`;
   root.style.transform = `translate(${dx}px, ${dy}px)`;
   root.style.zIndex = "45";
-  guardHome(root);
-  return wait(ms, fxToken);
+  guardHome(root, token);
+  return wait(ms, token).then((ok) => {
+    if (!ok) {
+      if (MOTION_OWNER.get(root) === token) resetMotionRoot(root);
+      return false;
+    }
+    return MOTION_OWNER.get(root) === token && root.isConnected;
+  });
 }
 
 /** Melee parabolic leap onto the target with takeoff dust + clean landing hold. */
 export function jumpArc(source, target, opts = {}) {
   const root = motionRoot(source);
   const dest = motionRoot(target) || target;
-  if (!root || !dest) return Promise.resolve(false);
+  const token = opts.token ?? fxToken;
+  if (!root || !dest || !root.isConnected || !dest.isConnected) return Promise.resolve(false);
+  if (token !== fxToken) return Promise.resolve(false);
+  if (hasMotionState(root)) {
+    resetMotionRoot(root);
+    void root.offsetWidth;
+  }
   const approach = opts.approach ?? 0.8;
   const ms = opts.ms ?? 380;
   const arc = opts.arc ?? 82;
   const { dx, dy } = centerDelta(root, dest, approach);
   const dir = dx >= 0 ? 1 : -1;
+  MOTION_OWNER.set(root, token);
+  RETURNING.delete(root);
   root.classList.add(MOTION_CLASS, "mf-fx-jump");
   root.style.setProperty("--fx-dx", `${dx}px`);
   root.style.setProperty("--fx-dy", `${dy}px`);
@@ -505,11 +740,14 @@ export function jumpArc(source, target, opts = {}) {
   void root.offsetWidth;
   root.style.animation = `mfJumpArc ${fxMs(ms)}ms cubic-bezier(0.28, 0.08, 0.25, 1) forwards`;
   root.style.zIndex = "50";
-  guardHome(root);
+  guardHome(root, token);
   spawnFx(viewportFor(root), "mf-fx-jump-smoke", "", 480);
-  const token = fxToken;
   return wait(ms, token).then((ok) => {
-    if (!ok) return false;
+    if (!ok) {
+      if (MOTION_OWNER.get(root) === token) resetMotionRoot(root);
+      return false;
+    }
+    if (MOTION_OWNER.get(root) !== token || !root.isConnected) return false;
     // Lock final translate before clearing keyframe animation so returnHome never teleports.
     root.style.transform = `translate(${dx}px, ${dy}px)`;
     root.style.animation = "";
@@ -521,10 +759,13 @@ export function jumpArc(source, target, opts = {}) {
 export function projectile(source, target, style = "arrow", opts = {}) {
   const aEl = motionRoot(source) || source;
   const bEl = motionRoot(target) || target;
-  if (!aEl || !bEl) return Promise.resolve(false);
+  const token = opts.token ?? fxToken;
+  if (!aEl || !bEl || !aEl.isConnected || !bEl.isConnected) return Promise.resolve(false);
+  if (token !== fxToken) return Promise.resolve(false);
   if (activeFxNodes >= FX_CONCURRENT_MAX) return Promise.resolve(false);
-  const a = elCenter(aEl);
-  const b = elCenter(bEl);
+  const a = baseCenter(aEl);
+  const b = baseCenter(bEl);
+  if (!a.w && !a.h) return Promise.resolve(false);
   const ms = opts.ms ?? (style === "beam" ? 360 : 320);
   const dx = b.x - a.x;
   const dy = b.y - a.y;
@@ -542,17 +783,19 @@ export function projectile(source, target, style = "arrow", opts = {}) {
   node.style.animationDuration = `${fxMs(ms)}ms`;
   fxLayer().appendChild(node);
   trackFxNode(node, ms + 40);
-  return wait(ms, fxToken);
+  return wait(ms, token);
 }
 
 /** Support / buff / cleanse wave traveling source → each target. */
 export function wave(source, targets, style = "heal", opts = {}) {
   const aEl = motionRoot(source) || source;
-  if (!aEl) return Promise.resolve(false);
-  const list = (Array.isArray(targets) ? targets : [targets]).filter(Boolean);
+  const token = opts.token ?? fxToken;
+  if (!aEl || !aEl.isConnected || token !== fxToken) return Promise.resolve(false);
+  const list = (Array.isArray(targets) ? targets : [targets]).filter((t) => t && t.isConnected);
   if (!list.length) return Promise.resolve(false);
   const ms = opts.ms ?? 380;
-  const a = elCenter(aEl);
+  const a = baseCenter(aEl);
+  if (!a.w && !a.h) return Promise.resolve(false);
   const ring = style === "aoe" || style === "aoe_heal" || list.length > 2;
   if (ring) {
     if (activeFxNodes < FX_CONCURRENT_MAX) {
@@ -567,8 +810,8 @@ export function wave(source, targets, style = "heal", opts = {}) {
   }
   list.forEach((t, i) => {
     const bEl = motionRoot(t) || t;
-    if (!bEl || activeFxNodes >= FX_CONCURRENT_MAX) return;
-    const b = elCenter(bEl);
+    if (!bEl || !bEl.isConnected || activeFxNodes >= FX_CONCURRENT_MAX) return;
+    const b = baseCenter(bEl);
     const node = document.createElement("div");
     node.className = `mf-fx-wave mf-fx-wave--${style} ${elementClass(opts.element)}`;
     node.style.left = `${a.x}px`;
@@ -580,70 +823,67 @@ export function wave(source, targets, style = "heal", opts = {}) {
     fxLayer().appendChild(node);
     trackFxNode(node, ms + i * 40 + 40);
   });
-  return wait(ms + Math.min(list.length, 3) * 40, fxToken);
+  return wait(ms + Math.min(list.length, 3) * 40, token);
 }
 
 /** Hop smoothly back to formation slot (never teleports after jumpArc). */
-export function returnHome(source) {
+export function returnHome(source, token = fxToken) {
   const root = motionRoot(source);
   if (!root) return Promise.resolve(false);
+  if (!hasMotionState(root)) {
+    if (MOTION_OWNER.get(root) === token) {
+      MOTION_OWNER.delete(root);
+      RETURNING.delete(root);
+    }
+    return Promise.resolve(true);
+  }
+  if (RETURNING.has(root) && MOTION_OWNER.get(root) === token) {
+    return Promise.resolve(true);
+  }
   const dx = Number(root.dataset.fxDx || 0);
   const dy = Number(root.dataset.fxDy || 0);
   const hadOffset = Math.hypot(dx, dy) > 4;
+  if (token !== fxToken || !root.isConnected) {
+    if (!MOTION_OWNER.has(root) || MOTION_OWNER.get(root) === token) {
+      resetMotionRoot(root);
+    }
+    return Promise.resolve(false);
+  }
+  if (!hadOffset) {
+    resetMotionRoot(root);
+    return Promise.resolve(true);
+  }
+  MOTION_OWNER.set(root, token);
+  RETURNING.add(root);
   root.classList.remove("mf-fx-dash", "mf-fx-jump", "mf-fx-windup", "mf-fx-cast");
   root.style.opacity = "";
-  const token = fxToken;
-  if (hadOffset) {
-    const ms = 270;
-    root.style.setProperty("--fx-dx", `${dx}px`);
-    root.style.setProperty("--fx-dy", `${dy}px`);
-    root.style.setProperty("--fx-arc", "42px");
-    root.style.transition = "none";
-    root.style.transform = `translate(${dx}px, ${dy}px)`;
-    void root.offsetWidth;
-    root.style.animation = `mfJumpBack ${fxMs(ms)}ms cubic-bezier(0.22, 0.85, 0.36, 1) forwards`;
-    return wait(ms + 10, token).then((ok) => {
-      if (!ok) return false;
-      root.classList.remove(MOTION_CLASS);
-      root.style.animation = "";
-      root.style.transition = "";
-      root.style.transform = "";
-      root.style.zIndex = "";
-      root.style.removeProperty("--fx-dx");
-      root.style.removeProperty("--fx-dy");
-      root.style.removeProperty("--fx-arc");
-      root.style.removeProperty("--fx-dir");
-      delete root.dataset.fxDx;
-      delete root.dataset.fxDy;
-      HOME_GUARD.delete(root);
-      return true;
-    });
-  }
-  root.style.animation = "";
-  root.style.transition = `transform ${fxMs(200)}ms cubic-bezier(0.22, 1, 0.36, 1), opacity ${fxMs(160)}ms ease`;
-  root.style.transform = "translate(0, 0)";
-  root.style.zIndex = "";
-  root.style.removeProperty("--fx-dx");
-  root.style.removeProperty("--fx-dy");
-  root.style.removeProperty("--fx-arc");
-  root.style.removeProperty("--fx-dir");
-  delete root.dataset.fxDx;
-  delete root.dataset.fxDy;
-  return wait(210, token).then((ok) => {
-    if (!ok) return false;
-    root.classList.remove(MOTION_CLASS);
-    root.style.transition = "";
-    root.style.transform = "";
-    HOME_GUARD.delete(root);
-    return true;
+  const ms = 270;
+  root.style.setProperty("--fx-dx", `${dx}px`);
+  root.style.setProperty("--fx-dy", `${dy}px`);
+  root.style.setProperty("--fx-arc", "42px");
+  root.style.transition = "none";
+  root.style.animation = "none";
+  root.style.transform = `translate(${dx}px, ${dy}px)`;
+  void root.offsetWidth;
+  root.style.animation = `mfJumpBack ${fxMs(ms)}ms cubic-bezier(0.22, 0.85, 0.36, 1) forwards`;
+  return wait(ms + 10, token).then((ok) => {
+    if (MOTION_OWNER.get(root) === token) {
+      resetMotionRoot(root);
+    }
+    return ok;
   });
 }
 
-function windup(sourceEl, role) {
+function windup(sourceEl, role, token = fxToken) {
   const root = motionRoot(sourceEl);
   const sprite = spriteRoot(sourceEl);
-  if (!root) return Promise.resolve(false);
+  if (!root || !root.isConnected || token !== fxToken) return Promise.resolve(false);
+  MOTION_OWNER.set(root, token);
+  RETURNING.delete(root);
   root.classList.add(MOTION_CLASS, "mf-fx-windup");
+  if (getUnitRig(sourceEl)) {
+    return playUnitRigAction(sourceEl, role, "windup", { token });
+  }
   const pose =
     role === "mage" || role === "support"
       ? "mf-fx-cast"
@@ -652,7 +892,7 @@ function windup(sourceEl, role) {
         : "mf-fx-windup-pose";
   // Pose lives ONLY on spriteRoot so it never overrides motionRoot's jump/dash transform!
   bumpClass(sprite, pose, 200);
-  return wait(130, fxToken);
+  return wait(130, token);
 }
 
 /**
@@ -698,20 +938,43 @@ export function decorateBattleUnitIdle(card, unit, laneIndex = 0) {
   img.classList.toggle("mf-fx-stealth", stealth);
   img.style.animation = anim.join(", ");
   img.style.transformOrigin = "bottom center";
+  // Non-blocking upgrade to skeletal DOM rig if `rig.json` exists for this hero.
+  mountHeroRigOnUnit(card, unit);
+}
+
+function isBattleUnitSlot(el) {
+  if (!el || !el.isConnected) return false;
+  if (el.matches?.("button, .mf-atk-card, .mf-hand-slot")) return false;
+  if (el.closest?.(".mf-attack-hand, .pv-hand, #pfHand, #pvHand, #rbHand, #hand")) return false;
+  return true;
+}
+
+function isVisibleUnitEl(el) {
+  if (!isBattleUnitSlot(el) || el.hidden) return false;
+  if (el.closest(".hidden, [hidden]")) return false;
+  const r = el.getBoundingClientRect();
+  return r.width > 0 && r.height > 0;
 }
 
 export function findBattleUnitEl(unitId) {
   if (!unitId) return null;
   const esc = CSS.escape(unitId);
-  return (
-    document.querySelector(`#viewPracticeFight [data-unit-id="${esc}"]`) ||
-    document.querySelector(`#viewPvpFight [data-unit-id="${esc}"]`) ||
-    document.querySelector(`#viewRaidBattle [data-unit-id="${esc}"]`) ||
-    document.querySelector(`#viewBattle [data-unit-id="${esc}"]`) ||
-    document.querySelector(`#enemyBoard [data-unit-id="${esc}"]`) ||
-    document.querySelector(`#allyBoard [data-unit-id="${esc}"]`) ||
-    document.querySelector(`[data-unit-id="${esc}"]`)
-  );
+  const selectors = [
+    `#viewPracticeFight:not(.hidden) [data-unit-id="${esc}"]`,
+    `#viewPvpFight:not(.hidden) [data-unit-id="${esc}"]`,
+    `#viewRaidBattle:not(.hidden) [data-unit-id="${esc}"]`,
+    `#viewBattle:not(.hidden) [data-unit-id="${esc}"]`,
+    `#enemyBoard [data-unit-id="${esc}"]`,
+    `#allyBoard [data-unit-id="${esc}"]`,
+    `[data-unit-id="${esc}"]`,
+  ];
+  for (const sel of selectors) {
+    const matches = document.querySelectorAll(sel);
+    for (const el of matches) {
+      if (isVisibleUnitEl(el)) return el;
+    }
+  }
+  return null;
 }
 
 export function setFxSpeed(speed) {
@@ -734,32 +997,14 @@ export function skipCombatFx() {
   activeFxNodes = 0;
   document
     .querySelectorAll(
-      ".mf-fx-float, .slash-impact-fx, .shield-barrier-fx, .mf-fx-projectile, .mf-fx-wave, .mf-fx-wave-ring, .mf-fx-jump-smoke, .mf-fx-slam-dust, .mf-fx-impact, .mf-fx-crit-flash, .mf-fx-pierce, .mf-fx-status-mark, .mf-fx-taunt-mark, .mf-fx-heal-pulse, .mf-fx-potion, .mf-fx-aoe-blast, .mf-fx-death-shadow"
+      ".mf-fx-float, .slash-impact-fx, .shield-barrier-fx, .mf-fx-projectile, .mf-fx-wave, .mf-fx-wave-ring, .mf-fx-jump-smoke, .mf-fx-slam-dust, .mf-fx-impact, .mf-fx-crit-flash, .mf-fx-pierce, .mf-fx-status-mark, .mf-fx-taunt-mark, .mf-fx-heal-pulse, .mf-fx-heal-burst, .mf-fx-cleanse-sparks, .mf-fx-aim-mark, .mf-fx-aoe-cast, .mf-fx-potion, .mf-fx-aoe-blast, .mf-fx-death-shadow"
     )
     .forEach((n) => n.remove());
-  document.querySelectorAll(`.${MOTION_CLASS}`).forEach((el) => {
-    el.classList.remove(
-      MOTION_CLASS,
-      "mf-fx-dash",
-      "mf-fx-jump",
-      "mf-fx-windup",
-      "mf-fx-cast",
-      "mf-fx-brace",
-      "mf-fx-windup-pose",
-      "mf-fx-strike-slam"
-    );
-    el.style.transition = "";
-    el.style.transform = "";
-    el.style.animation = "";
-    el.style.opacity = "";
-    el.style.zIndex = "";
-    el.style.removeProperty("--fx-dx");
-    el.style.removeProperty("--fx-dy");
-    el.style.removeProperty("--fx-arc");
-    el.style.removeProperty("--fx-dir");
-    delete el.dataset.fxDx;
-    delete el.dataset.fxDy;
-  });
+  resetAllMotionRoots();
+  document
+    .querySelectorAll("[data-unit-id] img, [data-unit-id] .mf-battle-cutout, [data-unit-id] .mf-hero-sprite")
+    .forEach((sprite) => sprite.classList.remove(...TRANSIENT_SPRITE_CLASSES));
+  stopAllRigAnimations({ resumeIdle: true });
   const layer = document.getElementById("mf-battle-fx-layer");
   if (layer) layer.innerHTML = "";
 }
@@ -782,8 +1027,15 @@ function playHitImpact(ev, opts = {}) {
   }
 
   const hitCls = crit ? "hero-damage-hit is-crit" : secondary ? "hero-damage-hit is-secondary" : "hero-damage-hit";
-  bumpClass(targetSprite, hitCls, crit ? 640 : 560);
-  if (targetEl) bumpClass(targetEl, "mf-fx-hit-react", 560);
+  if (targetEl && getUnitRig(targetEl)) {
+    playUnitRigAction(targetEl, targetEl.dataset?.role, ev.kill ? "death" : "hit", {
+      token: fxToken,
+      hold: !!ev.kill,
+    });
+  } else {
+    bumpClass(targetSprite, hitCls, crit ? 640 : 560);
+    if (targetEl) bumpClass(targetEl, "mf-fx-hit-react", 560);
+  }
 
   SoundFX.playDamage(crit);
 
@@ -820,7 +1072,6 @@ function playDodge(ev) {
   const targetSprite = spriteRoot(targetEl);
   const targetView = viewportFor(targetEl);
   bumpClass(targetSprite, "mf-fx-dodge", 420);
-  bumpClass(targetEl, "mf-fx-dodge", 420);
   floatText(targetView, "УВОРОТ", "block");
 }
 
@@ -829,7 +1080,11 @@ function playBlock(ev) {
   const targetSprite = spriteRoot(targetEl);
   const targetView = viewportFor(targetEl);
   SoundFX.playBlock();
-  bumpClass(targetSprite, "hero-block-brace", 620);
+  if (targetEl && getUnitRig(targetEl)) {
+    playUnitRigAction(targetEl, targetEl.dataset?.role || "tank", "block", { token: fxToken });
+  } else {
+    bumpClass(targetSprite, "hero-block-brace", 620);
+  }
   spawnFx(targetView, "shield-barrier-fx", '<span class="mf-fx-shield-glyph">🛡</span>', 600);
   floatText(targetView, "БЛОК", "block");
 }
@@ -864,14 +1119,18 @@ function playStatusApply(ev, sourceEl, role) {
   if (op !== "apply" && op !== "shield") return;
 
   if (st === "taunt") {
-    bumpClass(targetSprite, "mf-fx-taunt-roar", 700);
+    if (targetEl && getUnitRig(targetEl)) {
+      playUnitRigAction(targetEl, targetEl.dataset?.role || "tank", "taunt", { token: fxToken });
+    } else {
+      bumpClass(targetSprite, "mf-fx-taunt-roar", 700);
+    }
     spawnFx(targetView, "mf-fx-taunt-mark", "!", 900);
     floatText(targetView, "АГРА", "status");
-    // Glance: briefly nudge living enemies toward the tank.
+    // Glance: briefly nudge living enemies toward the tank (on spriteRoot, never overriding slot transform).
     document.querySelectorAll("[data-unit-id]").forEach((el) => {
       if (el === targetEl) return;
-      if (el.classList.contains("mf-unit-dead")) return;
-      bumpClass(el, "mf-fx-look-at", 500);
+      if (!isVisibleUnitEl(el) || el.classList.contains("mf-unit-dead")) return;
+      bumpClass(spriteRoot(el), "mf-fx-look-at", 500);
     });
     return;
   }
@@ -942,19 +1201,25 @@ function playDotTick(ev) {
   }
 }
 
-async function playMeleeAttack(diff, sourceEl, hits, role, token) {
+function resolveLiveUnitEl(currentEl, unitId) {
+  if (currentEl && currentEl.isConnected && isVisibleUnitEl(currentEl)) return currentEl;
+  return unitId ? findBattleUnitEl(unitId) : null;
+}
+
+async function playMeleeAttack(diff, sourceId, sourceEl, hits, role, token) {
   const primary = hits.find((h) => !h.aoeSecondary) || hits[0];
   if (!primary) return;
-  const targetEl = findBattleUnitEl(primary.targetId);
-  if (!targetEl) {
+  let src = resolveLiveUnitEl(sourceEl, sourceId);
+  let targetEl = findBattleUnitEl(primary.targetId);
+  if (!src || !targetEl) {
     hits.forEach((h) => playHitImpact(h));
     return;
   }
   const backline = isBacklineTarget(diff, primary.sourceId, primary.targetId);
   const span = (() => {
     try {
-      const a = elCenter(sourceEl);
-      const b = elCenter(targetEl);
+      const a = baseCenter(src);
+      const b = baseCenter(targetEl);
       return Math.hypot(b.x - a.x, b.y - a.y);
     } catch {
       return 0;
@@ -963,42 +1228,66 @@ async function playMeleeAttack(diff, sourceEl, hits, role, token) {
   const longLeap = span > 130;
   const dual =
     hits.filter((h) => h.targetId === primary.targetId && h.sourceId).length >= 2 &&
-    role === "fighter";
+    (role === "fighter" || role === "assassin");
 
-  await windup(sourceEl, role);
+  await windup(src, role, token);
   if (token !== fxToken) return;
 
+  src = resolveLiveUnitEl(src, sourceId);
+  targetEl = resolveLiveUnitEl(targetEl, primary.targetId);
+  if (!src || !targetEl) {
+    hits.forEach((h) => playHitImpact(h));
+    return;
+  }
+
   // Every melee hero leaps onto the enemy with role-specific arc height & speed.
+  let jumped = false;
   if (role === "assassin") {
-    await jumpArc(sourceEl, targetEl, {
+    if (getUnitRig(src)) playUnitRigAction(src, "assassin", "leap", { token });
+    jumped = await jumpArc(src, targetEl, {
       ms: 350,
       arc: backline || longLeap ? 110 : 88,
       approach: 0.84,
+      token,
     });
   } else if (role === "fighter") {
-    await jumpArc(sourceEl, targetEl, {
+    if (getUnitRig(src) && (backline || longLeap)) {
+      playUnitRigAction(src, "fighter", "leap", { token });
+    }
+    jumped = await jumpArc(src, targetEl, {
       ms: 370,
       arc: backline || longLeap ? 92 : 76,
       approach: 0.8,
+      token,
     });
   } else if (role === "tank") {
-    await jumpArc(sourceEl, targetEl, {
+    jumped = await jumpArc(src, targetEl, {
       ms: 400,
       arc: 62,
       approach: 0.72,
+      token,
     });
   } else {
-    await jumpArc(sourceEl, targetEl, {
+    jumped = await jumpArc(src, targetEl, {
       ms: 370,
       arc: 74,
       approach: 0.76,
+      token,
     });
   }
-  if (token !== fxToken) return;
+  if (!jumped || token !== fxToken) return;
 
+  src = resolveLiveUnitEl(src, sourceId);
+  targetEl = resolveLiveUnitEl(targetEl, primary.targetId);
   // Attacker strike slam + landing dust on impact.
-  bumpClass(spriteRoot(sourceEl), "mf-fx-strike-slam", 240);
-  if (role === "tank") {
+  if (src) {
+    if (getUnitRig(src)) {
+      playUnitRigAction(src, role, "strike", { token });
+    } else {
+      bumpClass(spriteRoot(src), "mf-fx-strike-slam", 240);
+    }
+  }
+  if (role === "tank" && targetEl) {
     spawnFx(viewportFor(targetEl), "mf-fx-slam-dust", "", 460);
   }
 
@@ -1009,7 +1298,8 @@ async function playMeleeAttack(diff, sourceEl, hits, role, token) {
     playHitImpact(sameTarget[0]);
     await wait(120, token);
     if (token !== fxToken) return;
-    bumpClass(spriteRoot(sourceEl), "mf-fx-strike-slam", 220);
+    src = resolveLiveUnitEl(src, sourceId);
+    if (src) bumpClass(spriteRoot(src), "mf-fx-strike-slam", 220);
     playHitImpact(sameTarget[1]);
     sameTarget.slice(2).forEach((h) => playHitImpact(h));
   } else {
@@ -1030,46 +1320,74 @@ async function playMeleeAttack(diff, sourceEl, hits, role, token) {
   await wait(dual ? 220 : 160, token);
   if (token !== fxToken) return;
 
-  if (role === "assassin" && backline) {
-    spawnFx(viewportFor(sourceEl), "mf-fx-jump-smoke", "", 480);
-    const root = motionRoot(sourceEl);
+  src = resolveLiveUnitEl(src, sourceId);
+  if (role === "assassin" && backline && src) {
+    if (getUnitRig(src)) playUnitRigAction(src, "assassin", "retreat", { token });
+    spawnFx(viewportFor(src), "mf-fx-jump-smoke", "", 480);
+    const root = motionRoot(src);
     if (root) root.style.opacity = "0.35";
     await wait(80, token);
+    if (token !== fxToken) return;
   }
-  await returnHome(sourceEl);
+  await returnHome(resolveLiveUnitEl(src, sourceId) || src, token);
 }
 
-async function playRangedAttack(diff, sourceEl, hits, role) {
+async function playRangedAttack(diff, sourceId, sourceEl, hits, role, token) {
   const element = unitElementFromDiff(diff, hits[0]?.sourceId);
   const primary = hits.find((h) => !h.aoeSecondary) || hits[0];
   const targets = [...new Map(hits.map((h) => [h.targetId, h])).values()];
   const aoe = hits.some((h) => h.aoeSecondary) || targets.length > 1;
 
-  await windup(sourceEl, role);
-  bumpClass(spriteRoot(sourceEl), "mf-fx-cast", 400);
+  let src = resolveLiveUnitEl(sourceEl, sourceId);
+  if (!src) {
+    hits.forEach((h) => playHitImpact(h));
+    return;
+  }
+  await windup(src, role, token);
+  if (token !== fxToken) return;
+  src = resolveLiveUnitEl(src, sourceId);
+  if (!src) return;
+  const hasRig = !!getUnitRig(src);
+  if (!hasRig) bumpClass(spriteRoot(src), "mf-fx-cast", 400);
 
   if (role === "mage" && aoe) {
-    spawnFx(viewportFor(sourceEl), `mf-fx-aoe-cast ${elementClass(element)}`, "", 520);
-    await wait(200, fxToken);
+    if (hasRig) playUnitRigAction(src, "mage", "cast_aoe", { token });
+    spawnFx(viewportFor(src), `mf-fx-aoe-cast ${elementClass(element)}`, "", 520);
+    await wait(200, token);
+    if (token !== fxToken) return;
+    src = resolveLiveUnitEl(src, sourceId);
     const ringTargets = targets.map((h) => findBattleUnitEl(h.targetId)).filter(Boolean);
-    await wave(sourceEl, ringTargets, "aoe", { element, ms: 420 });
+    if (src && ringTargets.length) {
+      await wave(src, ringTargets, "aoe", { element, ms: 420, token });
+    }
+    if (token !== fxToken) return;
     hits.forEach((h, i) => {
       setTimeout(() => {
+        if (token !== fxToken) return;
         const view = viewportFor(findBattleUnitEl(h.targetId));
         spawnFx(view, `mf-fx-aoe-blast ${elementClass(element)}${h.aoeSecondary ? " is-secondary" : ""}`, "", 480);
         playHitImpact(h);
       }, fxMs(i * 55));
     });
-    await wait(280 + targets.length * 40, fxToken);
+    await wait(280 + targets.length * 40, token);
     return;
   }
 
   if (role === "ranger" && primary) {
+    if (hasRig) {
+      await playUnitRigAction(src, "ranger", "aim", { token });
+      if (token !== fxToken) return;
+    }
     const markEl = findBattleUnitEl(primary.targetId);
     if (markEl && (BACKLINE_ROLES.has(unitRoleFromDiff(diff, primary.targetId)) || isBacklineTarget(diff, primary.sourceId, primary.targetId))) {
       spawnFx(viewportFor(markEl), "mf-fx-aim-mark", "", 500);
-      await wait(120, fxToken);
+      await wait(120, token);
+      if (token !== fxToken) return;
     }
+  }
+
+  if (hasRig) {
+    playUnitRigAction(src, role, role === "ranger" ? "release" : "cast", { token });
   }
 
   const style = role === "mage" ? "bolt" : "arrow";
@@ -1083,45 +1401,88 @@ async function playRangedAttack(diff, sourceEl, hits, role) {
     }
     flight.push(
       (async () => {
-        await wait(i * 45, fxToken);
-        await projectile(sourceEl, tEl, style, { element, ms: 300 });
+        if (i > 0) {
+          await wait(i * 45, token);
+          if (token !== fxToken) return;
+        }
+        const liveSrc = resolveLiveUnitEl(src, sourceId);
+        const liveTgt = resolveLiveUnitEl(tEl, h.targetId);
+        if (!liveSrc || !liveTgt) {
+          if (token === fxToken) {
+            hits.filter((x) => x.targetId === h.targetId).forEach((ev) => playHitImpact(ev));
+          }
+          return;
+        }
+        const ok = await projectile(liveSrc, liveTgt, style, { element, ms: 300, token });
+        if (!ok || token !== fxToken) return;
         const related = hits.filter((x) => x.targetId === h.targetId);
         related.forEach((ev, j) => {
-          setTimeout(() => playHitImpact(ev), fxMs(j * 90));
+          setTimeout(() => {
+            if (token !== fxToken) return;
+            playHitImpact(ev);
+          }, fxMs(j * 90));
         });
       })()
     );
   }
   await Promise.all(flight);
-  await wait(120, fxToken);
+  await wait(120, token);
 }
 
-async function playSupportAttack(diff, sourceEl, hits) {
+async function playSupportAttack(diff, sourceId, sourceEl, hits, token) {
   const primary = hits[0];
+  const src = resolveLiveUnitEl(sourceEl, sourceId);
   const targetEl = findBattleUnitEl(primary?.targetId);
-  await windup(sourceEl, "support");
-  if (targetEl) {
-    await wave(sourceEl, [targetEl], "smite", {
+  if (src) {
+    await windup(src, "support", token);
+    if (token !== fxToken) return;
+  }
+  const liveSrc = resolveLiveUnitEl(src, sourceId);
+  const liveTgt = resolveLiveUnitEl(targetEl, primary?.targetId);
+  if (liveSrc && getUnitRig(liveSrc)) {
+    playUnitRigAction(liveSrc, "support", "buff", { token });
+  }
+  if (liveSrc && liveTgt) {
+    await wave(liveSrc, [liveTgt], "smite", {
       element: unitElementFromDiff(diff, primary.sourceId),
       ms: 280,
+      token,
     });
+    if (token !== fxToken) return;
   }
   hits.forEach((h) => playHitImpact(h));
-  await wait(140, fxToken);
+  await wait(140, token);
 }
 
-async function playHealClip(diff, sourceEl, heals, role) {
-  const targetEls = heals.map((h) => findBattleUnitEl(h.targetId)).filter(Boolean);
+async function playHealClip(diff, sourceId, sourceEl, heals, role, token) {
   const element = unitElementFromDiff(diff, heals[0]?.sourceId) || "water";
   SoundFX.playSupport();
-  await windup(sourceEl, role || "support");
-  bumpClass(spriteRoot(sourceEl), "mf-fx-cast", 480);
+  let src = resolveLiveUnitEl(sourceEl, sourceId);
+  if (src) {
+    await windup(src, role || "support", token);
+    if (token !== fxToken) return;
+    src = resolveLiveUnitEl(src, sourceId);
+    if (src) {
+      if (getUnitRig(src)) {
+        playUnitRigAction(src, role || "support", "heal", { token });
+      } else {
+        bumpClass(spriteRoot(src), "mf-fx-cast", 480);
+      }
+    }
+  }
+  const targetEls = heals.map((h) => findBattleUnitEl(h.targetId)).filter(Boolean);
   const style = heals.length > 1 ? "aoe_heal" : "heal";
-  await wave(sourceEl, targetEls, style, { element, ms: 400 });
+  if (src && targetEls.length) {
+    await wave(src, targetEls, style, { element, ms: 400, token });
+    if (token !== fxToken) return;
+  }
   heals.forEach((h, i) => {
-    setTimeout(() => playHealOnTarget(h), fxMs(i * 50));
+    setTimeout(() => {
+      if (token !== fxToken) return;
+      playHealOnTarget(h);
+    }, fxMs(i * 50));
   });
-  await wait(220, fxToken);
+  await wait(220, token);
 }
 
 async function playActionBundle(diff, events, token) {
@@ -1141,7 +1502,7 @@ async function playActionBundle(diff, events, token) {
     heals[0]?.sourceId ||
     statuses.find((s) => s.sourceId)?.sourceId ||
     "";
-  const sourceEl = sourceId ? findBattleUnitEl(sourceId) : null;
+  let sourceEl = sourceId ? findBattleUnitEl(sourceId) : null;
   const role = String(unitRoleFromDiff(diff, sourceId) || sourceEl?.dataset?.role || "").toLowerCase();
 
   // Statuses that are pure defense on the target (no caster travel).
@@ -1154,6 +1515,7 @@ async function playActionBundle(diff, events, token) {
   if (!sourceEl) {
     activeStatus.forEach((ev) => playStatusApply(ev, null, role));
     heals.forEach((h) => playHealOnTarget(h));
+    sourcedHits.forEach((h) => playHitImpact(h));
     return;
   }
 
@@ -1161,18 +1523,19 @@ async function playActionBundle(diff, events, token) {
     if (sourcedHits.length) {
       SoundFX.playRole(role);
       if (role === "ranger" || role === "mage") {
-        await playRangedAttack(diff, sourceEl, sourcedHits, role);
+        await playRangedAttack(diff, sourceId, sourceEl, sourcedHits, role, token);
       } else if (role === "support") {
-        await playSupportAttack(diff, sourceEl, sourcedHits);
+        await playSupportAttack(diff, sourceId, sourceEl, sourcedHits, token);
       } else {
-        await playMeleeAttack(diff, sourceEl, sourcedHits, role || "fighter", token);
+        await playMeleeAttack(diff, sourceId, sourceEl, sourcedHits, role || "fighter", token);
       }
     }
 
     if (token !== fxToken) return;
 
     if (heals.length) {
-      await playHealClip(diff, sourceEl, heals, role || "support");
+      sourceEl = resolveLiveUnitEl(sourceEl, sourceId) || sourceEl;
+      await playHealClip(diff, sourceId, sourceEl, heals, role || "support", token);
     }
 
     if (token !== fxToken) return;
@@ -1183,17 +1546,28 @@ async function playActionBundle(diff, events, token) {
       s.statusOp === "shield" ||
       s.statusOp === "clear"
     );
-    if (needsWave && !sourcedHits.length && !heals.length) {
-      await windup(sourceEl, role);
+    sourceEl = resolveLiveUnitEl(sourceEl, sourceId) || sourceEl;
+    if (needsWave && !sourcedHits.length && !heals.length && sourceEl) {
+      await windup(sourceEl, role, token);
+      if (token !== fxToken) return;
       if (role === "tank" || role === "support") SoundFX.playRole(role || "tank");
     }
     for (const ev of activeStatus) {
       if (token !== fxToken) return;
+      sourceEl = resolveLiveUnitEl(sourceEl, sourceId) || sourceEl;
       playStatusApply(ev, sourceEl, role);
       await wait(60, token);
     }
   } finally {
-    if (token === fxToken) await returnHome(sourceEl);
+    const liveSrc = resolveLiveUnitEl(sourceEl, sourceId) || sourceEl;
+    const root = motionRoot(liveSrc);
+    if (root) {
+      if (token === fxToken) {
+        await returnHome(root, token);
+      } else if (MOTION_OWNER.get(root) === token) {
+        resetMotionRoot(root);
+      }
+    }
   }
 }
 
@@ -1240,14 +1614,21 @@ export function playCombatEvents(diff) {
   initAudioContext();
   const token = ++fxToken;
   activeFxNodes = 0;
+  resetAllMotionRoots();
   const groups = groupEventsBySource(events);
 
   setTimeout(async () => {
     if (token !== fxToken) return;
-    for (const group of groups) {
-      if (token !== fxToken) return;
-      await playActionBundle(diff, group, token);
-      await wait(70, token);
+    try {
+      for (const group of groups) {
+        if (token !== fxToken) return;
+        await playActionBundle(diff, group, token);
+        await wait(70, token);
+      }
+    } finally {
+      if (token === fxToken) {
+        resetAllMotionRoots();
+      }
     }
   }, fxMs(16));
 }

@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "role": "assassin",
+  "heroId": "template_assassin",
+  "canvas": [512, 512],
+  "facing": "left",
+  "origin": [256, 300],
+  "bones": {
+    "root":          { "parent": null,           "pivot": [256, 460], "z": 0 },
+    "pelvis":        { "parent": "root",         "pivot": [256, 300], "z": 10, "src": "pelvis.webp" },
+    "tail":          { "parent": "pelvis",       "pivot": [298, 292], "z": 4,  "src": "tail.webp" },
+
+    "leg_back_up":   { "parent": "pelvis",       "pivot": [276, 314], "z": 5,  "src": "leg_back_up.webp" },
+    "leg_back_low":  { "parent": "leg_back_up",  "pivot": [288, 376], "z": 5,  "src": "leg_back_low.webp" },
+    "foot_back":     { "parent": "leg_back_low", "pivot": [284, 434], "z": 5,  "src": "foot_back.webp" },
+
+    "torso":         { "parent": "pelvis",       "pivot": [254, 288], "z": 14, "src": "torso.webp" },
+    "cape":          { "parent": "torso",        "pivot": [278, 194], "z": 2,  "src": "cape.webp" },
+
+    "arm_back_up":   { "parent": "torso",        "pivot": [226, 210], "z": 6,  "src": "arm_back_up.webp" },
+    "arm_back_low":  { "parent": "arm_back_up",  "pivot": [200, 256], "z": 6,  "src": "arm_back_low.webp" },
+    "paw_back":      { "parent": "arm_back_low", "pivot": [180, 286], "z": 7,  "src": "paw_back.webp" },
+    "weapon_off":    { "parent": "paw_back",     "pivot": [174, 284], "z": 8,  "src": "dagger_off.webp" },
+
+    "head":          { "parent": "torso",        "pivot": [244, 184], "z": 18, "src": "head.webp" },
+    "ear_back":      { "parent": "head",         "pivot": [262, 114], "z": 16, "src": "ear_back.webp" },
+    "ear_front":     { "parent": "head",         "pivot": [228, 116], "z": 20, "src": "ear_front.webp" },
+    "eyes_open":     { "parent": "head",         "pivot": [218, 152], "z": 21, "src": "eyes_open.webp" },
+    "eyes_closed":   { "parent": "head",         "pivot": [218, 152], "z": 22, "src": "eyes_closed.webp", "opacity": 0 },
+    "muzzle":        { "parent": "head",         "pivot": [206, 168], "z": 21, "src": "muzzle.webp" },
+
+    "leg_front_up":  { "parent": "pelvis",       "pivot": [234, 314], "z": 12, "src": "leg_front_up.webp" },
+    "leg_front_low": { "parent": "leg_front_up", "pivot": [226, 378], "z": 12, "src": "leg_front_low.webp" },
+    "foot_front":    { "parent": "leg_front_low","pivot": [218, 436], "z": 13, "src": "foot_front.webp" },
+
+    "arm_front_up":  { "parent": "torso",        "pivot": [270, 210], "z": 23, "src": "arm_front_up.webp" },
+    "arm_front_low": { "parent": "arm_front_up", "pivot": [284, 258], "z": 24, "src": "arm_front_low.webp" },
+    "paw_front":     { "parent": "arm_front_low","pivot": [264, 290], "z": 24, "src": "paw_front.webp" },
+    "weapon_main":   { "parent": "paw_front",    "pivot": [256, 288], "z": 25, "src": "dagger_main.webp" }
+  }
+}

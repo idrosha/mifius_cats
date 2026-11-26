@@ -1384,31 +1384,30 @@ body.mythfel-login .mythfel-settings-btn {
 
 /* MF-149: live-fight idle / aura / hit / block (showcase → fight HUD only). */
 @keyframes heroBreathe1 {
-  0%, 100% { transform: translateY(0) scale(1.025, 0.975) rotate(0deg); }
-  50% { transform: translateY(-11px) scale(0.98, 1.035) rotate(1.1deg); }
+  0%, 100% { transform: translateY(0) scale(1, 1) rotate(0deg); }
+  50% { transform: translateY(-2.5px) scale(0.996, 1.008) rotate(0.25deg); }
 }
 @keyframes heroBreathe2 {
-  0%, 100% { transform: translateY(0) rotate(-0.8deg) scale(1.025, 0.975); }
-  40% { transform: translateY(-12px) rotate(1.3deg) scale(0.975, 1.04); }
-  75% { transform: translateY(-4px) rotate(-0.5deg) scale(1.01, 0.99); }
+  0%, 100% { transform: translateY(0) rotate(-0.2deg) scale(1, 1); }
+  45% { transform: translateY(-3px) rotate(0.3deg) scale(0.995, 1.009); }
+  78% { transform: translateY(-1px) rotate(-0.1deg) scale(1.002, 0.998); }
 }
 @keyframes heroBreathe3 {
-  0%, 100% { transform: translateY(0) scale(1.03, 0.97) rotate(0.5deg); }
-  48% { transform: translateY(-13px) scale(0.975, 1.04) rotate(-1.2deg); }
-  80% { transform: translateY(-3px) scale(1.01, 0.99) rotate(0.3deg); }
+  0%, 100% { transform: translateY(0) scale(1.004, 0.996) rotate(0.15deg); }
+  50% { transform: translateY(-2.5px) scale(0.996, 1.008) rotate(-0.3deg); }
 }
 @keyframes heroBreathe4 {
-  0%, 100% { transform: translateY(0) rotate(0.6deg) scale(1.02, 0.98); }
-  50% { transform: translateY(-10px) rotate(-1.4deg) scale(0.98, 1.032); }
+  0%, 100% { transform: translateY(0) rotate(0.15deg) scale(1, 1); }
+  50% { transform: translateY(-2px) rotate(-0.3deg) scale(0.997, 1.007); }
 }
 @keyframes heroBreathe5 {
-  0%, 100% { transform: translateY(0) scale(1.03, 0.97) skewX(0.5deg); }
-  42% { transform: translateY(-12px) scale(0.975, 1.04) skewX(-1.1deg); }
-  76% { transform: translateY(-3px) scale(1.015, 0.988) skewX(0.4deg); }
+  0%, 100% { transform: translateY(0) scale(1.004, 0.996); }
+  48% { transform: translateY(-2.5px) scale(0.996, 1.008); }
+  78% { transform: translateY(-1px) scale(1.002, 0.998); }
 }
 @keyframes heroBreathe6 {
-  0%, 100% { transform: translateY(0) rotate(-0.6deg) scale(1.025, 0.975); }
-  52% { transform: translateY(-11px) rotate(1.5deg) scale(0.98, 1.035); }
+  0%, 100% { transform: translateY(0) rotate(-0.15deg) scale(1, 1); }
+  52% { transform: translateY(-2.5px) rotate(0.3deg) scale(0.996, 1.008); }
 }
 /* Timing lives in battle-fx.js BREATHE_SPEC (inline list with aura). Classes = markers. */
 .idle-breathe-1,
@@ -1533,7 +1532,7 @@ body.mythfel-login .mythfel-settings-btn {
 .mf-battle-fx-layer {
   position: fixed;
   inset: 0;
-  z-index: 80;
+  z-index: 250;
   pointer-events: none;
   overflow: visible;
 }
@@ -1621,39 +1620,42 @@ body.mythfel-login .mythfel-settings-btn {
 
 .mf-fx-projectile {
   position: absolute;
-  width: 14px; height: 4px;
-  margin-left: -7px; margin-top: -2px;
-  border-radius: 2px;
-  background: linear-gradient(90deg, transparent, #fff7ed, #fbbf24);
-  box-shadow: 0 0 10px rgba(251, 191, 36, 0.85);
+  width: 24px; height: 5px;
+  margin-left: -12px; margin-top: -2.5px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, transparent, #fff7ed 45%, #fbbf24 80%, #fff);
+  box-shadow: 0 0 12px rgba(251, 191, 36, 0.95);
   transform: translate(0, 0) rotate(var(--fx-rot, 0deg));
   animation: mfProjectileFly linear forwards;
   z-index: 90;
 }
 .mf-fx-projectile--arrow {
-  width: 22px; height: 3px;
-  background: linear-gradient(90deg, transparent, #e7e5e4, #a3e635, #fff);
+  width: 36px; height: 5px;
+  margin-left: -18px; margin-top: -2.5px;
+  background: linear-gradient(90deg, transparent 0%, rgba(231, 229, 228, 0.7) 35%, #a3e635 78%, #ffffff 100%);
+  box-shadow: 0 0 12px rgba(163, 230, 53, 0.95), 0 0 4px #fff;
 }
 .mf-fx-projectile--bolt {
-  width: 18px; height: 18px; border-radius: 50%;
-  margin-left: -9px; margin-top: -9px;
-  background: radial-gradient(circle, #fff 0%, #a78bfa 45%, transparent 70%);
-  box-shadow: 0 0 16px rgba(167, 139, 250, 0.9);
+  width: 24px; height: 24px; border-radius: 50%;
+  margin-left: -12px; margin-top: -12px;
+  background: radial-gradient(circle, #fff 0%, #c4b5fd 38%, #8b5cf6 68%, transparent 82%);
+  box-shadow: 0 0 20px rgba(167, 139, 250, 0.95), 0 0 8px #fff;
 }
 .mf-fx-projectile--beam {
-  width: 10px; height: 10px; border-radius: 50%;
-  margin-left: -5px; margin-top: -5px;
+  width: 14px; height: 14px; border-radius: 50%;
+  margin-left: -7px; margin-top: -7px;
 }
 @keyframes mfProjectileFly {
-  0% { transform: translate(0, 0) rotate(var(--fx-rot, 0deg)) scale(0.6); opacity: 0; }
+  0% { transform: translate(0, 0) rotate(var(--fx-rot, 0deg)) scale(0.7); opacity: 0; }
   12% { opacity: 1; }
-  100% { transform: translate(var(--fx-dx), var(--fx-dy)) rotate(var(--fx-rot, 0deg)) scale(1); opacity: 0.85; }
+  90% { opacity: 1; }
+  100% { transform: translate(var(--fx-dx), var(--fx-dy)) rotate(var(--fx-rot, 0deg)) scale(1.05); opacity: 0.9; }
 }
 
 .mf-fx-wave {
   position: absolute;
-  width: 18px; height: 18px;
-  margin-left: -9px; margin-top: -9px;
+  width: 26px; height: 26px;
+  margin-left: -13px; margin-top: -13px;
   border-radius: 50%;
   pointer-events: none;
   animation: mfWaveTravel ease-out forwards;
@@ -7118,8 +7120,10 @@ body:has(#viewRaidBattle:not(.hidden)) #app {
   width: 100%;
   max-width: 8.5rem;
   margin: 0 !important;
-  transform: none !important;
   background: transparent;
+}
+#viewRaidBattle .raid-foe:not(.mf-fx-motion) {
+  transform: none;
 }
 #viewRaidBattle .raid-foe--boss {
   max-width: 11.5rem;
@@ -11688,5 +11692,76 @@ html, body {
     gap: 0.4rem;
   }
 }
+
+/* ============================================================================
+ * Universal 2D Cut-out Hero Rig Base (hero-rig.js + hero-anim-engine.js)
+ * ============================================================================ */
+.mf-rig-root {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  transform-origin: center bottom;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.mf-rig-root.is-flipped {
+  transform: scaleX(-1);
+}
+
+.mf-rig-stage {
+  position: relative;
+  width: 100%;
+  max-height: 100%;
+  aspect-ratio: 1 / 1;
+  transform-origin: center bottom;
+  pointer-events: none;
+  overflow: visible;
+}
+
+.mf-rig-bone {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+}
+
+.mf-rig-part {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  user-select: none;
+  -webkit-user-drag: none;
+  pointer-events: none;
+}
+
+.mf-rig-fallback > img.mf-battle-cutout {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+/* When a rig is active inside .mf-sprite-face, let rig own facing & idle breathe. */
+.mf-sprite-face:has(> .mf-rig-active) {
+  transform: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mf-rig-bone {
+    will-change: auto;
+  }
+}
+
 
 
