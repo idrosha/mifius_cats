@@ -612,8 +612,8 @@
                         "en":  "PvP"
                     },
     "nav.sub.boss_dungeon":  {
-                                 "ru":  "Данж",
-                                 "en":  "Dungeon"
+                                 "ru":  "Походы",
+                                 "en":  "Expeditions"
                              },
     "dungeon.path.short":  {
                                "ru":  "Короткий ≤10",

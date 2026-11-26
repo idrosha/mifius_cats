@@ -178,6 +178,9 @@ const PATH_TO_TAB = {
   dungeons: "boss_dungeon",
   "dungeons-and-raids": "boss_dungeon",
   "danzhi-i-reydy": "boss_dungeon",
+  походы: "boss_dungeon",
+  pohody: "boss_dungeon",
+  expeditions: "boss_dungeon",
   boss_dungeon: "boss_dungeon",
   рейтинги: "rating_players",
   leaderboards: "rating_players",
@@ -269,7 +272,7 @@ const KNOWLEDGE_TABS = [
 ];
 
 /**
- * Locked IA (D-033). Order + subtabs frozen — do not change without Andrew + new D-0xx.
+ * Locked IA (D-033; combat subtabs patched D-062). Do not change without Andrew + new D-0xx.
  * Primary: pass → character → trade → combat → guilds → ratings → friends → knowledge.
  */
 const NAV = [
@@ -317,8 +320,8 @@ const NAV = [
       { id: "practice", key: "nav.sub.practice" },
       { id: "pve", key: "nav.sub.pve" },
       { id: "pvp", key: "nav.sub.pvp", gated: "pvp" },
+      /** Unified dungeon+raid lobby (D-062). Label «Походы»; boss_raid = alias only. */
       { id: "boss_dungeon", key: "nav.sub.boss_dungeon" },
-      { id: "boss_raid", key: "nav.sub.boss_raid", gated: false },
       { id: "guild_battle", key: "nav.sub.guild_battle", gated: true },
     ],
   },
@@ -1997,8 +2000,8 @@ function wireModeFor(viewId) {
     return "soon";
   }
   const special = {
-    viewBossDungeon: state.dungeonLobbyKind === "raid" ? "boss_raid" : "boss_dungeon",
-    viewBossRaid: "boss_raid",
+    viewBossDungeon: "boss_dungeon",
+    viewBossRaid: "boss_dungeon",
     viewGuildBattle: "guild_battle",
     viewChatGlobal: "chat_global",
     viewChatGuild: "chat_guild",
@@ -2244,12 +2247,13 @@ function navigate(tab, { soon = null, clearBattle = true, primary = null, fromGa
   }
   // Inline formation: keep combat primary highlighted even though it is not a subtab.
   if (tab === "formation" && primary == null) primary = "combat";
-  // Shared dungeon/raid lobby: subtab picks catalog filter + kind.
+  // Shared lobby (D-062): one nav tab «Походы». boss_raid = deep-link → raid filter, then collapse.
   if (tab === "boss_raid") {
     state.dungeonCatalogFilter = "raid";
     state.dungeonLobbyKind = "raid";
+    tab = "boss_dungeon";
   } else if (tab === "boss_dungeon") {
-    state.dungeonCatalogFilter = "dungeon";
+    state.dungeonCatalogFilter = "all";
     state.dungeonLobbyKind = "dungeon";
     state.raidDeployOpen = false;
   }
@@ -4051,7 +4055,8 @@ function renderDungeonLobby() {
 
   const catalogTitle = root.querySelector("[data-dungeon-catalog-title]");
   if (catalogTitle) {
-    catalogTitle.textContent = filter === "raid" ? "Каталог рейдов" : "Каталог склепов";
+    catalogTitle.textContent =
+      filter === "raid" ? "Каталог рейдов" : filter === "dungeon" ? "Каталог склепов" : "Каталог походов";
   }
   const catalogCount = root.querySelector("[data-dungeon-catalog-count]");
   if (catalogCount) {
@@ -4060,6 +4065,14 @@ function renderDungeonLobby() {
   }
 
   const raid = isRaidLobby();
+  const crumbEm = root.querySelector(".dojo-crumb em");
+  if (crumbEm) crumbEm.textContent = "Походы";
+  const modeLine = root.querySelector(".dojo-mode");
+  if (modeLine) {
+    modeLine.textContent = raid
+      ? "Рейд легиона 12 · пати 4×3 · путь short/long голосованием после 1-го отряда"
+      : "Данжи 3v3 и рейды 12 · фильтр Все / Данж / Рейд · ключи склепа";
+  }
   if (raid) {
     state.dungeonDeployOpen = false;
     syncRaidLimitsFromLiveOps();
@@ -6382,6 +6395,32 @@ function clearRaidLoadTimer() {
   state.raidLoadTimer = null;
 }
 
+/** Shared dungeon/raid lobby hosts the load overlay (legacy viewBossRaid stays hidden). */
+function raidLoadHost() {
+  return $("viewBossDungeon") || $("viewBossRaid");
+}
+
+/** Move .raid-load onto the visible shared lobby once (chrome used to live on viewBossRaid). */
+function ensureRaidLoadOverlay() {
+  const host = raidLoadHost();
+  if (!host) return { root: null, load: null };
+  let load = host.querySelector(":scope > .raid-load");
+  if (!load) {
+    const legacy = $("viewBossRaid")?.querySelector(".raid-load");
+    if (legacy && legacy.parentElement !== host) host.appendChild(legacy);
+    load = host.querySelector(":scope > .raid-load");
+  }
+  return { root: host, load: load || null };
+}
+
+/** Load bar is active on Походы lobby while raid kind (or mid-load after alias collapse). */
+function raidLoadTabActive() {
+  return (
+    state.tab === "boss_dungeon" &&
+    (isRaidLobby() || raidLoadHost()?.dataset.raidLoading === "1")
+  );
+}
+
 function fillRaidLoadInfo() {
   const raid = raidDef();
   const ui = RAID_BOSS_UI[raid?.raidId] || RAID_BOSS_UI.myaurra;
@@ -6429,8 +6468,8 @@ function startRaidLoadSync() {
   preloadScreenBgs("raidLoad");
   let pct = 0;
   state.raidLoadTimer = setInterval(() => {
-    const root = $("viewBossRaid");
-    if (!root || root.dataset.raidLoading !== "1" || state.tab !== "boss_raid") {
+    const root = raidLoadHost();
+    if (!root || root.dataset.raidLoading !== "1" || !raidLoadTabActive()) {
       clearRaidLoadTimer();
       return;
     }
@@ -6466,8 +6505,7 @@ function enterRaidBattleFromLoad({ autoPlay = false } = {}) {
  * At 100% → raid_battle formation preview.
  */
 function showRaidLoad(on, { autoPlay = false } = {}) {
-  const root = $("viewBossRaid");
-  const load = root?.querySelector(".raid-load");
+  const { root, load } = ensureRaidLoadOverlay();
   if (!root) return false;
   if (!load) {
     clearRaidLoadTimer();
@@ -20039,31 +20077,37 @@ function bindRaidBattleStub() {
 
 /** Dense painted lobbies: dungeon / raid / guild war CTAs + local selection. */
 function bindRaidLoadControls() {
-  const root = $("viewBossRaid");
+  // Overlay may still sit on legacy viewBossRaid until first showRaidLoad adopts it.
+  const root = raidLoadHost() || $("viewBossRaid");
   if (!root || root.dataset.raidLoadBound === "1") return;
   root.dataset.raidLoadBound = "1";
-  root.addEventListener(
-    "click",
-    (ev) => {
-      // Only cancel/go on the load overlay — never match lobby CTAs.
-      const actEl = ev.target.closest(".raid-load [data-raid-load]");
-      if (!actEl || !root.contains(actEl)) return;
-      const act = actEl.getAttribute("data-raid-load");
-      ev.preventDefault();
-      ev.stopPropagation();
-      if (act === "close") showRaidLoad(false);
-      else if (act === "go") {
-        clearRaidLoadTimer();
-        setRaidLoadProgress(100);
-        enterRaidBattleFromLoad({ autoPlay: !!state._raidAutoPlay });
-      }
-    },
-    true,
-  );
+  const onLoadClick = (ev) => {
+    // Only cancel/go on the load overlay — never match lobby CTAs.
+    const actEl = ev.target.closest(".raid-load [data-raid-load]");
+    const host = raidLoadHost() || root;
+    if (!actEl || !host.contains(actEl)) return;
+    const act = actEl.getAttribute("data-raid-load");
+    ev.preventDefault();
+    ev.stopPropagation();
+    if (act === "close") showRaidLoad(false);
+    else if (act === "go") {
+      clearRaidLoadTimer();
+      setRaidLoadProgress(100);
+      enterRaidBattleFromLoad({ autoPlay: !!state._raidAutoPlay });
+    }
+  };
+  root.addEventListener("click", onLoadClick, true);
+  // Legacy host may still hold the node until adopt — listen there too once.
+  const legacy = $("viewBossRaid");
+  if (legacy && legacy !== root && legacy.dataset.raidLoadBound !== "1") {
+    legacy.dataset.raidLoadBound = "1";
+    legacy.addEventListener("click", onLoadClick, true);
+  }
   document.addEventListener("keydown", (ev) => {
-    if (state.tab !== "boss_raid") return;
+    if (!raidLoadTabActive()) return;
     if (ev.target.closest?.("input, textarea")) return;
-    const loading = root.dataset.raidLoading === "1";
+    const host = raidLoadHost() || root;
+    const loading = host.dataset.raidLoading === "1";
     if (!loading) return;
     if (ev.code === "Space") {
       ev.preventDefault();
