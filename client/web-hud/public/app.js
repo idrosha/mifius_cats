@@ -5899,9 +5899,9 @@ function renderRaidLegionBoard() {
         const tone =
           s.role === "tank" ? "border-primary/55" : s.role === "support" ? "border-secondary/50" : "border-tertiary/50";
         const art = artFor(s.templateId);
-        // Full-bleed portrait like practice «Доступные Герои» (D-063) — not a tiny h-9 strip.
+        // Bust crop (chest-up) like practice roster — not full-body (D-063).
         return `<button type="button" class="raid-slot is-filled relative overflow-hidden rounded-lg border ${tone} bg-[#1a1613] text-left group" data-raid-form-row="${rowDef.row}" data-raid-form-col="${col}">
-          <img alt="" class="absolute inset-0 w-full h-full object-cover object-top mf-hero-portrait group-hover:scale-105 transition-transform duration-300" src="${art}" decoding="async"/>
+          <img alt="" class="absolute inset-0 w-full h-full object-cover mf-hero-portrait group-hover:scale-105 transition-transform duration-300" style="object-position:center 12%" src="${art}" decoding="async"/>
           <div class="absolute inset-0 bg-gradient-to-t from-black/92 via-black/35 to-transparent pointer-events-none"></div>
           <div class="relative z-10 flex flex-col justify-end h-full p-1.5 gap-0.5">
             <span class="text-[10px] font-bold truncate text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">${s.name_ru}</span>
@@ -6087,34 +6087,27 @@ function renderDungeonFormationBoard() {
   if (sizeEl) sizeEl.textContent = `${activeIds.length}/3`;
   if (nameEl) nameEl.textContent = dungeonActiveSquadName();
 
+  // Selected strip: compact lane chips only — bust roster below is the practice-style picker.
   const laneLabels = ["Тыл", "Центр", "Авангард"];
   if (squadHost) {
     squadHost.innerHTML = [0, 1, 2]
       .map((i) => {
         const cat = collectionCatById(slots[i]);
         if (!cat) {
-          return `<div class="dungeon-form-slot is-empty rounded-lg border border-dashed border-outline-variant/50 bg-[#14110f] flex flex-col items-center justify-center gap-0.5 text-outline min-h-[5.25rem]">
+          return `<div class="rounded-lg border border-dashed border-outline-variant/50 bg-[#14110f] flex items-center justify-center gap-1 text-outline h-9 px-1.5">
             <span class="text-[9px] font-bold uppercase">${laneLabels[i]}</span>
-            <span class="material-symbols-outlined text-[18px]">add</span>
+            <span class="material-symbols-outlined text-[14px]">add</span>
           </div>`;
         }
         const hero = arenaHeroForCat(cat) || {};
         const name = hero.short || catSheetName(cat);
         const art = catHeroArt(cat.templateId) || "";
-        const accent = hero.accent === "tertiary" ? "tertiary" : hero.accent === "secondary" ? "secondary" : "primary";
-        const border =
-          accent === "tertiary"
-            ? "border-tertiary/55"
-            : accent === "secondary"
-              ? "border-secondary/55"
-              : "border-primary/55";
-        return `<button type="button" class="dungeon-form-slot is-filled relative overflow-hidden rounded-lg border ${border} bg-[#1a1613] min-h-[5.25rem] text-left group" data-dungeon-form-slot="${i}" title="Убрать из отряда">
-          <img alt="" class="absolute inset-0 w-full h-full object-cover object-top mf-hero-portrait group-hover:scale-105 transition-transform duration-300" src="${art}" decoding="async"/>
-          <div class="absolute inset-0 bg-gradient-to-t from-black/92 via-black/30 to-transparent pointer-events-none"></div>
-          <div class="relative z-10 flex flex-col justify-end h-full min-h-[5.25rem] p-1.5">
-            <span class="text-[9px] font-bold uppercase text-primary/90">${laneLabels[i]}</span>
-            <span class="text-[10px] font-bold truncate text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.9)]">${name}</span>
-          </div>
+        return `<button type="button" class="rounded-lg border border-primary/45 bg-[#1a1613] flex items-center gap-1.5 h-9 px-1.5 text-left overflow-hidden" data-dungeon-form-slot="${i}" title="Убрать из отряда">
+          <img alt="" class="w-7 h-7 rounded object-cover mf-hero-portrait flex-shrink-0" style="object-position:center 12%" src="${art}" decoding="async"/>
+          <span class="min-w-0 flex-1">
+            <span class="block text-[8px] font-bold uppercase text-primary/90 leading-none">${laneLabels[i]}</span>
+            <span class="block text-[10px] font-bold truncate text-white leading-tight">${name}</span>
+          </span>
         </button>`;
       })
       .join("");
@@ -6147,9 +6140,9 @@ function renderDungeonFormationBoard() {
           const base = CONTENT_CAT_BASE[c.templateId] || {};
           const hp = base.hp ?? hero.hp ?? "—";
           const cta = on ? `Слот ${slotIdx + 1}` : "+ В отряд";
-          return `<div data-dungeon-form-cat="${c.catId}" tabindex="0" role="button" aria-pressed="${on ? "true" : "false"}" class="dungeon-form-card relative bg-[#1a1613] rounded-lg border border-outline-variant/40 ${tone.hover} transition-all overflow-hidden flex flex-col shadow-md group cursor-pointer h-36 ${on ? "is-picked" : ""}">
+          return `<div data-dungeon-form-cat="${c.catId}" tabindex="0" role="button" aria-pressed="${on ? "true" : "false"}" class="dungeon-form-card relative bg-[#1a1613] rounded-lg border border-outline-variant/40 ${tone.hover} transition-all overflow-hidden flex flex-col shadow-md group cursor-pointer ${on ? "is-picked" : ""}">
 <div class="absolute inset-0 z-0 pointer-events-none">
-${art ? `<img alt="${name}" class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300 mf-hero-portrait" src="${art}" decoding="async">` : ""}
+${art ? `<img alt="${name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300 mf-hero-portrait" style="object-position:center 12%" src="${art}" decoding="async">` : ""}
 <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent"></div>
 </div>
 <div class="relative z-10 flex items-center justify-between p-1 pointer-events-none">

@@ -5864,13 +5864,23 @@ body:has(#viewGuildHub:not(.hidden)) #wireDock { display: none !important; }
 .mode-cta {
   animation: dojo-cta-pulse 1.8s ease-in-out infinite;
 }
-/* Legion / dungeon formation slots — full-bleed portraits (D-063) */
+/* Formation slots — bust crop like practice «Доступные Герои» (D-063), not full-body */
 #viewBossDungeon [data-raid-legion-board] .raid-slot,
 #viewBossRaid [data-raid-legion-board] .raid-slot,
-#viewBossDungeon .dungeon-form-slot {
-  min-height: 5.5rem;
-  aspect-ratio: 3 / 4;
+#viewBossDungeon .dungeon-form-slot,
+#viewBossDungeon [data-dungeon-form-panel] .dungeon-form-card {
+  height: 9rem; /* = practice h-36 */
+  min-height: 9rem;
+  max-height: 9rem;
   width: 100%;
+  aspect-ratio: auto;
+}
+#viewBossDungeon [data-raid-legion-board] .raid-slot img.mf-hero-portrait,
+#viewBossRaid [data-raid-legion-board] .raid-slot img.mf-hero-portrait,
+#viewBossDungeon .dungeon-form-slot img.mf-hero-portrait,
+#viewBossDungeon [data-dungeon-form-panel] .dungeon-form-card img.mf-hero-portrait {
+  object-fit: cover;
+  object-position: center 12%; /* chest-up bust, hide legs/tail */
 }
 #viewBossDungeon [data-raid-legion-board] .raid-slot.is-filled,
 #viewBossRaid [data-raid-legion-board] .raid-slot.is-filled,
