@@ -813,8 +813,8 @@ body.mythfel-login .mythfel-settings-btn {
   background: rgba(18, 14, 11, 0.78) !important;
   border: 1px solid rgba(253, 186, 69, 0.38) !important;
   border-radius: 0.85rem !important;
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
   box-sizing: border-box !important;
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
 }
@@ -1153,10 +1153,15 @@ body.mythfel-login .mythfel-settings-btn {
   border-color: transparent !important;
 }
 #viewPracticeFight .mf-battle-unit--cutout > div.w-full,
+#viewPracticeFight .mf-battle-unit--cutout .mf-motion-actor > div.w-full,
 #viewPracticeFight .pf-dummy-card.mf-battle-unit--cutout > div.w-full,
+#viewPracticeFight .pf-dummy-card.mf-battle-unit--cutout .mf-motion-actor > div.w-full,
 #viewPvpFight .mf-battle-unit--cutout > div.w-full,
+#viewPvpFight .mf-battle-unit--cutout .mf-motion-actor > div.w-full,
 #viewBattle .mf-battle-unit--cutout > div.w-full,
+#viewBattle .mf-battle-unit--cutout .mf-motion-actor > div.w-full,
 #viewRaidBattle .mf-battle-unit--cutout > div.w-full,
+#viewRaidBattle .mf-battle-unit--cutout .mf-motion-actor > div.w-full,
 #viewPracticeFight .mf-battle-unit--cutout .bg-surface-container-high,
 #viewPvpFight .mf-battle-unit--cutout .bg-surface-container-high,
 #viewBattle .mf-battle-unit--cutout .bg-surface-container-high {
@@ -1239,12 +1244,36 @@ body.mythfel-login .mythfel-settings-btn {
   --mf-role-h: 1.32;
   --mf-role-w: 1.22;
 }
-/* Practice / Mythmir board: unify ally + enemy wells (cats, soldiers, bosses, dummies). */
+/* Practice / Mythmir board: mirrored ally + enemy slots on one floor line, never clipping rightmost enemy. */
+#viewPracticeFight .pf-arena {
+  display: flex !important;
+  align-items: flex-end !important;
+  justify-content: space-between !important;
+  gap: clamp(0.5rem, 1.5vw, 1.5rem) !important;
+  padding: 0.75rem clamp(0.75rem, 2.2vw, 2rem) 0.9rem !important;
+  overflow: visible !important;
+  box-sizing: border-box;
+}
+#viewPracticeFight #pfAllies,
+#viewPracticeFight #pfEnemies {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex !important;
+  align-items: flex-end !important;
+  gap: clamp(0.35rem, 1vw, 0.95rem) !important;
+  overflow: visible !important;
+}
+#viewPracticeFight #pfAllies {
+  justify-content: flex-end !important;
+}
+#viewPracticeFight #pfEnemies {
+  justify-content: flex-start !important;
+}
 #viewPracticeFight .mf-battle-unit--cutout .relative.w-full,
 #viewPracticeFight .mf-battle-unit--cutout .mf-unit-frame,
 #viewPracticeFight .pf-dummy-card.mf-battle-unit--cutout .relative.w-full,
 #viewPracticeFight #pfEnemies .mf-battle-unit--cutout .relative.w-full {
-  height: calc(13.25rem * var(--mf-role-h, 1)) !important;
+  height: calc(clamp(9.25rem, 17vh, 13rem) * var(--mf-role-h, 1)) !important;
   max-height: none !important;
   aspect-ratio: auto !important;
   width: 100% !important;
@@ -1252,15 +1281,19 @@ body.mythfel-login .mythfel-settings-btn {
 #viewPracticeFight [data-slot].mf-battle-unit--cutout,
 #viewPracticeFight .pf-dummy-card.mf-battle-unit--cutout,
 #viewPracticeFight #pfEnemies .mf-battle-unit--cutout {
-  width: calc(11.5rem * var(--mf-role-w, 1)) !important;
+  flex: 0 1 calc(clamp(6.4rem, 11.2vw, 10.25rem) * var(--mf-role-w, 1)) !important;
+  width: calc(clamp(6.4rem, 11.2vw, 10.25rem) * var(--mf-role-w, 1)) !important;
+  max-width: calc(33.33% - 0.35rem) !important;
+  min-width: 5.75rem !important;
+  transform: none !important;
 }
 #viewPvpFight .mf-battle-unit--cutout .mf-unit-frame {
   width: 100%;
-  height: calc(11.5rem * var(--mf-role-h, 1));
+  height: calc(clamp(9.5rem, 17vh, 12rem) * var(--mf-role-h, 1));
 }
 @media (min-width: 1024px) {
   #viewPvpFight .mf-battle-unit--cutout .mf-unit-frame {
-    height: calc(12.75rem * var(--mf-role-h, 1));
+    height: calc(clamp(10.5rem, 19vh, 13.25rem) * var(--mf-role-h, 1));
   }
 }
 #viewBattle .unit.mf-battle-unit--cutout .mf-unit-frame {
@@ -1272,12 +1305,14 @@ body.mythfel-login .mythfel-settings-btn {
   #viewPracticeFight .mf-battle-unit--cutout .mf-unit-frame,
   #viewPracticeFight .pf-dummy-card.mf-battle-unit--cutout .relative.w-full,
   #viewPracticeFight #pfEnemies .mf-battle-unit--cutout .relative.w-full {
-    height: calc(14.5rem * var(--mf-role-h, 1)) !important;
+    height: calc(clamp(10.5rem, 19vh, 14.25rem) * var(--mf-role-h, 1)) !important;
   }
   #viewPracticeFight [data-slot].mf-battle-unit--cutout,
   #viewPracticeFight .pf-dummy-card.mf-battle-unit--cutout,
   #viewPracticeFight #pfEnemies .mf-battle-unit--cutout {
-    width: calc(12.25rem * var(--mf-role-w, 1)) !important;
+    flex: 0 1 calc(clamp(7.5rem, 11.8vw, 11.25rem) * var(--mf-role-w, 1)) !important;
+    width: calc(clamp(7.5rem, 11.8vw, 11.25rem) * var(--mf-role-w, 1)) !important;
+    max-width: calc(33.33% - 0.45rem) !important;
   }
 }
 
@@ -1382,33 +1417,134 @@ body.mythfel-login .mythfel-settings-btn {
   object-position: center bottom;
 }
 
-/* MF-149: live-fight idle / aura / hit / block (showcase → fight HUD only). */
+/* —— Anchor slot vs Motion actor + Pose rig + Weapon layer + Ground shadow (Axie/AFK 2D battler) —— */
+[data-unit-id] {
+  position: relative;
+  transform: none !important;
+  transition: none !important;
+}
+.mf-motion-actor {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  will-change: transform;
+  transform: translate3d(0, 0, 0);
+}
+.mf-pose-rig {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-origin: center bottom;
+  will-change: transform;
+}
+.mf-pose-rig > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+}
+/* Ground contact shadow under feet — anchors every fighter to the arena floor. */
+.mf-unit-shadow {
+  position: absolute;
+  left: 50%;
+  bottom: 1%;
+  width: 68%;
+  height: 1.15rem;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0.62) 0%, rgba(0, 0, 0, 0.24) 52%, transparent 76%);
+  pointer-events: none;
+  z-index: 0;
+}
+/* Crisp enemy & ally clarity: zero darkening or translucency at rest + subtle rim-light. */
+[data-unit-id]:not(.mf-unit-dead) {
+  opacity: 1 !important;
+  filter: none !important;
+}
+[data-unit-id][data-side="enemy"]:not(.mf-unit-dead) img.mf-battle-cutout,
+#pfEnemies [data-slot]:not(.mf-unit-dead) img.mf-battle-cutout,
+.pv-foes li:not(.mf-unit-dead) img.mf-battle-cutout {
+  opacity: 1 !important;
+  filter: drop-shadow(0 0 2px rgba(255, 224, 200, 0.45)) drop-shadow(0 10px 16px rgba(0, 0, 0, 0.6));
+}
+[data-unit-id][data-side="ally"]:not(.mf-unit-dead) img.mf-battle-cutout {
+  opacity: 1 !important;
+  filter: drop-shadow(0 0 2px rgba(253, 224, 150, 0.4)) drop-shadow(0 10px 16px rgba(0, 0, 0, 0.55));
+}
+
+/* Separate animated weapon/claw layer (pivoted at shoulder/grip, mirrored automatically inside .mf-sprite-face). */
+.mf-weapon-layer {
+  position: absolute;
+  right: 4%;
+  bottom: 24%;
+  width: 44%;
+  height: 44%;
+  max-width: 4.4rem;
+  max-height: 4.4rem;
+  z-index: 3;
+  pointer-events: none;
+  transform-origin: 18% 72%;
+  will-change: transform;
+  animation: mfWeaponIdle 2.35s ease-in-out var(--mf-weapon-delay, 0s) infinite;
+  filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.65));
+}
+.mf-weapon-layer[data-role="tank"] { right: 2%; bottom: 26%; }
+.mf-weapon-layer[data-role="assassin"] { right: 8%; bottom: 22%; width: 40%; height: 40%; }
+.mf-weapon-layer[data-role="ranger"] { right: 0%; bottom: 28%; }
+.mf-weapon-layer[data-role="mage"],
+.mf-weapon-layer[data-role="support"] { right: 2%; bottom: 30%; }
+/* Native face-left monsters (no .is-flipped): place & mirror weapon on the left side facing heroes. */
+.mf-sprite-face[data-face="left"]:not(.is-flipped) .mf-weapon-layer {
+  right: auto;
+  left: 4%;
+  transform-origin: 82% 72%;
+}
+.mf-sprite-face[data-face="left"]:not(.is-flipped) .mf-weapon-svg {
+  transform: scaleX(-1);
+}
+.mf-weapon-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+[data-unit-id].mf-unit-dead .mf-weapon-layer {
+  opacity: 0.25;
+  animation: none !important;
+}
+@keyframes mfWeaponIdle {
+  0%, 100% { transform: translate3d(0, 0, 0) rotate(-3deg); }
+  50% { transform: translate3d(1px, -4px, 0) rotate(6deg); }
+}
+
+/* MF-149: clean upright chest breathing (no skew / crooked tilts). */
 @keyframes heroBreathe1 {
-  0%, 100% { transform: translateY(0) scale(1.025, 0.975) rotate(0deg); }
-  50% { transform: translateY(-11px) scale(0.98, 1.035) rotate(1.1deg); }
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.016, 0.986); }
+  50% { transform: translate3d(0, -4px, 0) scale(0.988, 1.022); }
 }
 @keyframes heroBreathe2 {
-  0%, 100% { transform: translateY(0) rotate(-0.8deg) scale(1.025, 0.975); }
-  40% { transform: translateY(-12px) rotate(1.3deg) scale(0.975, 1.04); }
-  75% { transform: translateY(-4px) rotate(-0.5deg) scale(1.01, 0.99); }
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.018, 0.984); }
+  45% { transform: translate3d(0, -5px, 0) scale(0.986, 1.024); }
 }
 @keyframes heroBreathe3 {
-  0%, 100% { transform: translateY(0) scale(1.03, 0.97) rotate(0.5deg); }
-  48% { transform: translateY(-13px) scale(0.975, 1.04) rotate(-1.2deg); }
-  80% { transform: translateY(-3px) scale(1.01, 0.99) rotate(0.3deg); }
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.015, 0.988); }
+  50% { transform: translate3d(0, -4px, 0) scale(0.99, 1.02); }
 }
 @keyframes heroBreathe4 {
-  0%, 100% { transform: translateY(0) rotate(0.6deg) scale(1.02, 0.98); }
-  50% { transform: translateY(-10px) rotate(-1.4deg) scale(0.98, 1.032); }
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.016, 0.986); }
+  52% { transform: translate3d(0, -5px, 0) scale(0.988, 1.022); }
 }
 @keyframes heroBreathe5 {
-  0%, 100% { transform: translateY(0) scale(1.03, 0.97) skewX(0.5deg); }
-  42% { transform: translateY(-12px) scale(0.975, 1.04) skewX(-1.1deg); }
-  76% { transform: translateY(-3px) scale(1.015, 0.988) skewX(0.4deg); }
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.018, 0.984); }
+  48% { transform: translate3d(0, -4px, 0) scale(0.986, 1.024); }
 }
 @keyframes heroBreathe6 {
-  0%, 100% { transform: translateY(0) rotate(-0.6deg) scale(1.025, 0.975); }
-  52% { transform: translateY(-11px) rotate(1.5deg) scale(0.98, 1.035); }
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.015, 0.987); }
+  50% { transform: translate3d(0, -5px, 0) scale(0.989, 1.021); }
 }
 /* Timing lives in battle-fx.js BREATHE_SPEC (inline list with aura). Classes = markers. */
 .idle-breathe-1,
@@ -1519,10 +1655,115 @@ body.mythfel-login .mythfel-settings-btn {
   animation: floatCombatText 0.85s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
 }
 .floating-combat-txt.is-dmg { color: #ff8f86; }
+.floating-combat-txt.is-dmg.is-crit {
+  color: #fde047;
+  font-size: 18px;
+  letter-spacing: 0.06em;
+  text-shadow:
+    0 0 3px #0a0806,
+    0 0 12px rgba(239, 68, 68, 0.95),
+    0 2px 10px rgba(0, 0, 0, 0.95);
+}
 .floating-combat-txt.is-heal { color: #9ef0b0; }
 .floating-combat-txt.is-block { color: #ffd27a; }
 .floating-combat-txt.is-buff { color: #fbbf24; }
 .floating-combat-txt.is-status { color: #c4b5fd; }
+
+/* Wind-up ready glint */
+.mf-fx-ready-glint {
+  position: absolute;
+  top: 28%;
+  left: 58%;
+  width: 2.2rem;
+  height: 2.2rem;
+  z-index: 32;
+  pointer-events: none;
+  transform: translate(-50%, -50%) scale(0.2);
+  background: radial-gradient(circle, #ffffff 0%, #fde047 35%, rgba(251, 146, 60, 0) 72%);
+  clip-path: polygon(50% 0%, 60% 40%, 100% 50%, 60% 60%, 50% 100%, 40% 60%, 0% 50%, 40% 40%);
+  animation: mfReadyGlint 0.22s ease-out forwards;
+}
+@keyframes mfReadyGlint {
+  0% { transform: translate(-50%, -50%) scale(0.2) rotate(0deg); opacity: 0; }
+  45% { transform: translate(-50%, -50%) scale(1.25) rotate(22deg); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(0.5) rotate(45deg); opacity: 0; }
+}
+
+/* Dash motion trail */
+.mf-fx-dash-trail {
+  position: fixed;
+  height: 26px;
+  z-index: 75;
+  pointer-events: none;
+  transform-origin: left center;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.16) 45%, rgba(253, 224, 71, 0.55) 100%);
+  filter: blur(2px);
+  animation: mfDashTrail 0.24s ease-out forwards;
+}
+@keyframes mfDashTrail {
+  0% { opacity: 0.9; transform-origin: left center; }
+  100% { opacity: 0; }
+}
+
+/* Strike sword slash arc */
+.mf-fx-slash-arc {
+  position: absolute;
+  top: 44%;
+  left: 50%;
+  width: 7.5rem;
+  height: 7.5rem;
+  z-index: 34;
+  pointer-events: none;
+  border-radius: 50%;
+  border-top: 7px solid #ffffff;
+  border-right: 5px solid #fbbf24;
+  border-bottom: 4px solid transparent;
+  border-left: 4px solid transparent;
+  box-shadow: 0 -4px 18px rgba(251, 146, 60, 0.9);
+  transform: translate(-50%, -50%) rotate(-55deg) scale(0.45);
+  animation: mfSlashArc 0.34s cubic-bezier(0.12, 0.9, 0.25, 1) forwards;
+}
+.mf-fx-slash-arc.is-crit {
+  width: 9rem;
+  height: 9rem;
+  border-top-width: 9px;
+  border-right-color: #fde047;
+  box-shadow: 0 -6px 26px rgba(253, 224, 71, 1);
+}
+.mf-fx-slash-arc.is-secondary {
+  opacity: 0.65;
+  width: 5.5rem;
+  height: 5.5rem;
+}
+@keyframes mfSlashArc {
+  0% { transform: translate(-50%, -50%) rotate(-75deg) scale(0.35); opacity: 0; }
+  25% { transform: translate(-50%, -50%) rotate(-12deg) scale(1.08); opacity: 1; }
+  100% { transform: translate(-50%, -50%) rotate(42deg) scale(1.22); opacity: 0; }
+}
+
+/* Assassin claw marks */
+.mf-fx-claw-marks {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  width: 6.5rem;
+  height: 5.5rem;
+  z-index: 34;
+  pointer-events: none;
+  transform: translate(-50%, -50%) rotate(-24deg);
+  background:
+    linear-gradient(90deg, transparent, #fff 35%, #f43f5e 70%, transparent) 0 18% / 100% 5px no-repeat,
+    linear-gradient(90deg, transparent, #fff 35%, #fb7185 70%, transparent) 0 50% / 100% 6px no-repeat,
+    linear-gradient(90deg, transparent, #fff 35%, #f43f5e 70%, transparent) 0 82% / 100% 5px no-repeat;
+  filter: drop-shadow(0 0 10px rgba(244, 63, 94, 0.9));
+  animation: mfClawMarks 0.34s ease-out forwards;
+}
+@keyframes mfClawMarks {
+  0% { transform: translate(-50%, -50%) rotate(-24deg) scaleX(0.15); opacity: 0; }
+  30% { transform: translate(-50%, -50%) rotate(-24deg) scaleX(1.1); opacity: 1; }
+  100% { transform: translate(-50%, -50%) rotate(-24deg) scaleX(1.25); opacity: 0; }
+}
 @keyframes floatCombatText {
   0% { transform: translate(-50%, 0) scale(0.5); opacity: 0; }
   20% { transform: translate(-50%, -18px) scale(1.1); opacity: 1; }
@@ -2545,8 +2786,8 @@ body.mythfel-farm #app {
   border-radius: 0.9rem;
   border: 1px solid rgba(253, 186, 69, 0.34);
   background: rgba(14, 11, 9, 0.55);
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
 }
 #viewLogin .mythfel-login-copy > p { margin: 0; }
@@ -2584,8 +2825,8 @@ body.mythfel-farm #app {
   width: 100%;
   box-sizing: border-box;
   background: linear-gradient(180deg, rgba(28, 22, 16, 0.62), rgba(16, 12, 10, 0.7)) !important;
-  -webkit-backdrop-filter: blur(16px);
-  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35), 0 0 24px rgba(217, 155, 38, 0.12);
 }
 #viewLogin .mythfel-auth-tabs {
@@ -2734,8 +2975,8 @@ body.mythfel-farm #app {
   border-radius: 0.9rem;
   border: 1px solid rgba(253, 186, 69, 0.32);
   background: rgba(14, 11, 9, 0.55);
-  -webkit-backdrop-filter: blur(14px);
-  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
 }
 #viewLogin .mythfel-reward-title {
   color: #f6c453;
@@ -4359,9 +4600,9 @@ button.mythfel-hub-brand {
   background: #231f1c center / cover no-repeat;
   border: 1px solid rgba(253, 186, 69, 0.28);
 }
-.mythfel-perk-loot li:nth-child(1)::after { background-image: url("/stitch-assets/520c5d948660.jpg"); }
-.mythfel-perk-loot li:nth-child(2)::after { background-image: url("/stitch-assets/a0a1cde41302.jpg"); }
-.mythfel-perk-loot li:nth-child(3)::after { background-image: url("/stitch-assets/a79555b727ea.jpg"); }
+.mythfel-perk-loot li:nth-child(1)::after { background-image: url("/stitch-assets/520c5d948660.webp"); }
+.mythfel-perk-loot li:nth-child(2)::after { background-image: url("/stitch-assets/a0a1cde41302.webp"); }
+.mythfel-perk-loot li:nth-child(3)::after { background-image: url("/stitch-assets/a79555b727ea.webp"); }
 .mythfel-perk-loot strong { font-size: 12px; }
 .mythfel-perk-loot span, .mythfel-portal-body li, .mythfel-portal-body small, .mythfel-squad span, .mythfel-portals-head span {
   color: #d5c4af;
@@ -4948,16 +5189,18 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   flex: 1 1 auto;
   min-height: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: clamp(0.75rem, 2.2vw, 2rem);
-  padding: 0.35rem 0.25rem 0.15rem;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: clamp(0.5rem, 1.8vw, 1.75rem);
+  padding: 0.5rem clamp(0.75rem, 2vw, 1.75rem) 0.5rem;
   max-width: 1680px;
   width: 100%;
   margin: 0 auto;
+  overflow: visible;
+  box-sizing: border-box;
 }
 .pv-side {
-  flex: 0 1 auto;
+  flex: 1 1 0;
   min-width: 0;
   display: flex;
   flex-direction: column;
@@ -5048,7 +5291,8 @@ body:has(#viewPvpFight:not(.hidden)) #app {
   filter: drop-shadow(0 10px 18px rgba(0, 0, 0, 0.55));
 }
 /* PvP vitals match PvE footer (name | HP over bars) — no dark plaque under cutout */
-.pv-units > li > .mf-unit-vitals {
+.pv-units > li > .mf-unit-vitals,
+.pv-units > li .mf-motion-actor > .mf-unit-vitals {
   width: 100%;
   padding: 0.15rem 0.1rem 0;
   background: transparent;
@@ -11687,6 +11931,27 @@ html, body {
     padding: 0.4rem 0.55rem 0.55rem;
     gap: 0.4rem;
   }
+}
+
+/* Performance: isolate hidden views & smooth image placeholders to avoid CLS/flicker */
+.stitch-view.hidden {
+  contain: strict;
+}
+.archetype-card,
+.pass-node,
+.home-roster-row,
+.collection-roster > * {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 120px;
+}
+.stitch-view img:not([src]),
+.stitch-view img[src=""] {
+  background: rgba(35, 31, 28, 0.55);
+}
+.mf-hero-portrait,
+.home-roster-avatar,
+.archetype-card img {
+  background-color: rgba(24, 20, 17, 0.5);
 }
 
 
