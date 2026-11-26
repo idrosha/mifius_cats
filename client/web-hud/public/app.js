@@ -10,14 +10,13 @@ import {
   decorateBattleUnitIdle,
   playCombatEvents,
   skipCombatFx,
-  resetActor,
   setFxSpeed,
   getFxSpeed,
   SoundFX,
-} from "./battle-fx.js?v=combatfx3";
+} from "./battle-fx.js?v=combatfx2";
 
 /** Debug / settings: `MythfelBattleFx.setFxSpeed(1.5)`, `.skipCombatFx()`. */
-window.MythfelBattleFx = { skipCombatFx, resetActor, setFxSpeed, getFxSpeed, SoundFX };
+window.MythfelBattleFx = { skipCombatFx, setFxSpeed, getFxSpeed, SoundFX };
 /** Side-effect: fills window.CODEX_TOPICS / CODEX_FILTERS (survives stitch HTML rebakes). */
 import "./codex-topics.js";
 import {
@@ -479,7 +478,7 @@ const DRINKS = [
     price: 20,
     kind: "restore",
     gated: false,
-    iconSrc: "/stitch-assets/tavern/milk-on-ice.webp",
+    iconSrc: "/stitch-assets/tavern/milk-on-ice.jpg",
   },
   {
     id: "cream_whisk",
@@ -524,37 +523,37 @@ const POTIONS = [
 
 /** Local warehouse mats / tools / potions — HUD smoke (MF-153 icons). Not server SoT. */
 const BARN_MATS_SEED = [
-  { id: "seeds", name: "Семена Урожая", kind: "farm", rarity: "common", qty: 10, tag: "Двор · посев", desc: "Грядки и сад. Покупка на Рынке.", iconSrc: "/barn-icons/seeds.webp" },
-  { id: "wood", name: "Дубовые брёвна", kind: "farm", rarity: "common", qty: 8, tag: "Лесопилка", desc: "Кузня / крафт / ремонт tools.", iconSrc: "/barn-icons/wood.webp" },
-  { id: "iron", name: "Железо / слитки", kind: "farm", rarity: "common", qty: 6, tag: "Рудник", desc: "Кузня и ремонт инструментов.", iconSrc: "/barn-icons/iron.webp" },
-  { id: "stone", name: "Мшистый гранит", kind: "farm", rarity: "common", qty: 6, tag: "Карьер", desc: "Камень для кузни.", iconSrc: "/barn-icons/stone.webp" },
-  { id: "veggies", name: "Корзина урожая", kind: "farm", rarity: "common", qty: 12, tag: "Грядки", desc: "Алхимия «еда».", iconSrc: "/barn-icons/veggies.webp" },
-  { id: "fruit", name: "Свежие плоды", kind: "farm", rarity: "common", qty: 10, tag: "Сад", desc: "Алхимия / зелья.", iconSrc: "/barn-icons/fruit.webp" },
-  { id: "herbs", name: "Пучок трав", kind: "farm", rarity: "common", qty: 14, tag: "Аптека", desc: "Базовый реагент алхимии.", iconSrc: "/barn-icons/herbs.webp" },
-  { id: "fish", name: "Связка рыбы", kind: "farm", rarity: "common", qty: 8, tag: "Заводя", desc: "Сытость и крафт.", iconSrc: "/barn-icons/fish.webp" },
-  { id: "milk", name: "Молоко Очага", kind: "farm", rarity: "rare", qty: 4, tag: "Таверна", desc: "Post-fight HP (не ranked buff).", iconSrc: "/barn-icons/milk.webp" },
-  { id: "bait", name: "Наживка", kind: "farm", rarity: "common", qty: 8, tag: "Заводя", desc: "5 забросов на рыбную заводя.", iconSrc: "/barn-icons/fish.webp" },
-  { id: "tool_shovel", name: "Лопата", kind: "tool", rarity: "common", qty: 1, tag: "Инструмент", desc: "Грядки / сад · износ ~7д.", iconSrc: "/barn-icons/tool-shovel.webp", durability: 7, durabilityMax: 7 },
-  { id: "tool_axe", name: "Топор", kind: "tool", rarity: "common", qty: 1, tag: "Инструмент", desc: "Лесопилка · износ ~7д.", iconSrc: "/barn-icons/tool-axe.webp", durability: 7, durabilityMax: 7 },
-  { id: "tool_pick", name: "Кирка", kind: "tool", rarity: "common", qty: 1, tag: "Инструмент", desc: "Рудник / карьер · износ ~7д.", iconSrc: "/barn-icons/tool-pick.webp", durability: 7, durabilityMax: 7 },
-  { id: "tool_rod", name: "Удочка", kind: "tool", rarity: "common", qty: 1, tag: "Инструмент", desc: "Рыбная заводя (+ наживка).", iconSrc: "/barn-icons/tool-rod.webp", durability: 7, durabilityMax: 7 },
-  { id: "potion_heal", name: "Зелье жизни", kind: "potion", rarity: "rare", qty: 2, tag: "Бой · HP", desc: "PvE/PvP: восстановить HP союзнику. Зелёная баночка.", iconSrc: "/barn-icons/potion-nature.webp" },
-  { id: "potion_energy", name: "Эликсир энергии", kind: "potion", rarity: "rare", qty: 1, tag: "Бой · энергия", desc: "PvE/PvP: +1 энергия (AP) на ход. Золотая баночка.", iconSrc: "/barn-icons/potion-energy.webp" },
-  { id: "potion_cleanse", name: "Отвар очищения", kind: "potion", rarity: "rare", qty: 2, tag: "Бой · очищение", desc: "PvE/PvP: снять 1 дебафф с союзника. Голубая баночка.", iconSrc: "/barn-icons/potion-cleanse.webp" },
-  { id: "potion_ember", name: "Мятный отвар", kind: "potion", rarity: "rare", qty: 0, tag: "Алхимия", desc: "Utility / классовый бафф · не боевой слот.", iconSrc: "/barn-icons/potion-ember.webp" },
+  { id: "seeds", name: "Семена Урожая", kind: "farm", rarity: "common", qty: 10, tag: "Двор · посев", desc: "Грядки и сад. Покупка на Рынке.", iconSrc: "/barn-icons/seeds.png" },
+  { id: "wood", name: "Дубовые брёвна", kind: "farm", rarity: "common", qty: 8, tag: "Лесопилка", desc: "Кузня / крафт / ремонт tools.", iconSrc: "/barn-icons/wood.png" },
+  { id: "iron", name: "Железо / слитки", kind: "farm", rarity: "common", qty: 6, tag: "Рудник", desc: "Кузня и ремонт инструментов.", iconSrc: "/barn-icons/iron.png" },
+  { id: "stone", name: "Мшистый гранит", kind: "farm", rarity: "common", qty: 6, tag: "Карьер", desc: "Камень для кузни.", iconSrc: "/barn-icons/stone.png" },
+  { id: "veggies", name: "Корзина урожая", kind: "farm", rarity: "common", qty: 12, tag: "Грядки", desc: "Алхимия «еда».", iconSrc: "/barn-icons/veggies.png" },
+  { id: "fruit", name: "Свежие плоды", kind: "farm", rarity: "common", qty: 10, tag: "Сад", desc: "Алхимия / зелья.", iconSrc: "/barn-icons/fruit.png" },
+  { id: "herbs", name: "Пучок трав", kind: "farm", rarity: "common", qty: 14, tag: "Аптека", desc: "Базовый реагент алхимии.", iconSrc: "/barn-icons/herbs.png" },
+  { id: "fish", name: "Связка рыбы", kind: "farm", rarity: "common", qty: 8, tag: "Заводя", desc: "Сытость и крафт.", iconSrc: "/barn-icons/fish.png" },
+  { id: "milk", name: "Молоко Очага", kind: "farm", rarity: "rare", qty: 4, tag: "Таверна", desc: "Post-fight HP (не ranked buff).", iconSrc: "/barn-icons/milk.png" },
+  { id: "bait", name: "Наживка", kind: "farm", rarity: "common", qty: 8, tag: "Заводя", desc: "5 забросов на рыбную заводя.", iconSrc: "/barn-icons/fish.png" },
+  { id: "tool_shovel", name: "Лопата", kind: "tool", rarity: "common", qty: 1, tag: "Инструмент", desc: "Грядки / сад · износ ~7д.", iconSrc: "/barn-icons/tool-shovel.png", durability: 7, durabilityMax: 7 },
+  { id: "tool_axe", name: "Топор", kind: "tool", rarity: "common", qty: 1, tag: "Инструмент", desc: "Лесопилка · износ ~7д.", iconSrc: "/barn-icons/tool-axe.png", durability: 7, durabilityMax: 7 },
+  { id: "tool_pick", name: "Кирка", kind: "tool", rarity: "common", qty: 1, tag: "Инструмент", desc: "Рудник / карьер · износ ~7д.", iconSrc: "/barn-icons/tool-pick.png", durability: 7, durabilityMax: 7 },
+  { id: "tool_rod", name: "Удочка", kind: "tool", rarity: "common", qty: 1, tag: "Инструмент", desc: "Рыбная заводя (+ наживка).", iconSrc: "/barn-icons/tool-rod.png", durability: 7, durabilityMax: 7 },
+  { id: "potion_heal", name: "Зелье жизни", kind: "potion", rarity: "rare", qty: 2, tag: "Бой · HP", desc: "PvE/PvP: восстановить HP союзнику. Зелёная баночка.", iconSrc: "/barn-icons/potion-nature.png" },
+  { id: "potion_energy", name: "Эликсир энергии", kind: "potion", rarity: "rare", qty: 1, tag: "Бой · энергия", desc: "PvE/PvP: +1 энергия (AP) на ход. Золотая баночка.", iconSrc: "/barn-icons/potion-energy.png" },
+  { id: "potion_cleanse", name: "Отвар очищения", kind: "potion", rarity: "rare", qty: 2, tag: "Бой · очищение", desc: "PvE/PvP: снять 1 дебафф с союзника. Голубая баночка.", iconSrc: "/barn-icons/potion-cleanse.png" },
+  { id: "potion_ember", name: "Мятный отвар", kind: "potion", rarity: "rare", qty: 0, tag: "Алхимия", desc: "Utility / классовый бафф · не боевой слот.", iconSrc: "/barn-icons/potion-ember.png" },
   { id: "rune_shard", name: "Осколок руны", kind: "rune", rarity: "common", qty: 2, tag: "Заточка", desc: "Слабая руна точки · +5% шанс. Шмотка не сгорает при фейле.", iconSrc: "/stitch-assets/kb-v3/items/item-1.webp" },
   { id: "rune_mark", name: "Руна Метки", kind: "rune", rarity: "rare", qty: 1, tag: "Заточка", desc: "Средняя руна точки · +15% шанс. При провале вещь остаётся.", iconSrc: "/stitch-assets/kb-v3/items/item-2.webp" },
   { id: "rune_crest", name: "Гребень руны", kind: "rune", rarity: "epic", qty: 0, tag: "Заточка", desc: "Сильная руна точки · +28% шанс. Дроп из данжей/рейдов.", iconSrc: "/stitch-assets/kb-v3/items/item-3.webp" },
-  { id: "blade_iron", name: "Булатный клинок", kind: "craft", rarity: "rare", qty: 0, tag: "Кузница", desc: "Заготовка оружия · кузня Очага.", iconSrc: "/barn-icons/dagger.webp" },
-  { id: "plate_hearth", name: "Кираса Горна", kind: "craft", rarity: "epic", qty: 0, tag: "Кузница", desc: "Доспех из кузни · smoke craft.", iconSrc: "/barn-icons/chest.webp" },
+  { id: "blade_iron", name: "Булатный клинок", kind: "craft", rarity: "rare", qty: 0, tag: "Кузница", desc: "Заготовка оружия · кузня Очага.", iconSrc: "/barn-icons/dagger.png" },
+  { id: "plate_hearth", name: "Кираса Горна", kind: "craft", rarity: "epic", qty: 0, tag: "Кузница", desc: "Доспех из кузни · smoke craft.", iconSrc: "/barn-icons/chest.png" },
   { id: "scroll_spark", name: "Свиток Искры", kind: "scroll", rarity: "rare", qty: 0, tag: "Свитки", desc: "Боевой свиток · вспышка на 1 ход.", iconSrc: "/stitch-assets/kb-v3/items/item-4.webp" },
   { id: "scroll_ward", name: "Свиток Оберега", kind: "scroll", rarity: "rare", qty: 0, tag: "Свитки", desc: "Боевой свиток · щит союзнику.", iconSrc: "/stitch-assets/kb-v3/items/item-5.webp" },
-  { id: "fertilizer", name: "Лунная подкормка", kind: "farm", rarity: "common", qty: 0, tag: "Ферма", desc: "Ускоряет созревание грядок.", iconSrc: "/barn-icons/seeds.webp" },
-  { id: "breed_milk_essence", name: "Эссенция молока", kind: "breed", rarity: "rare", qty: 0, tag: "Питомник", desc: "Реагент скрещивания.", iconSrc: "/barn-icons/milk.webp" },
+  { id: "fertilizer", name: "Лунная подкормка", kind: "farm", rarity: "common", qty: 0, tag: "Ферма", desc: "Ускоряет созревание грядок.", iconSrc: "/barn-icons/seeds.png" },
+  { id: "breed_milk_essence", name: "Эссенция молока", kind: "breed", rarity: "rare", qty: 0, tag: "Питомник", desc: "Реагент скрещивания.", iconSrc: "/barn-icons/milk.png" },
   { id: "breed_moon_whisker", name: "Лунный ус", kind: "breed", rarity: "rare", qty: 0, tag: "Питомник", desc: "Реагент скрещивания.", iconSrc: "/stitch-assets/kb-v3/items/item-2.webp" },
-  { id: "breed_stone_purr", name: "Каменный мур", kind: "breed", rarity: "rare", qty: 0, tag: "Питомник", desc: "Реагент скрещивания.", iconSrc: "/barn-icons/stone.webp" },
-  { id: "breed_spark_pollen", name: "Искрящая пыльца", kind: "breed", rarity: "rare", qty: 0, tag: "Питомник", desc: "Реагент скрещивания.", iconSrc: "/barn-icons/herbs.webp" },
-  { id: "breed_tide_scale", name: "Чешуя прилива", kind: "breed", rarity: "rare", qty: 0, tag: "Питомник", desc: "Реагент скрещивания.", iconSrc: "/barn-icons/fish.webp" },
+  { id: "breed_stone_purr", name: "Каменный мур", kind: "breed", rarity: "rare", qty: 0, tag: "Питомник", desc: "Реагент скрещивания.", iconSrc: "/barn-icons/stone.png" },
+  { id: "breed_spark_pollen", name: "Искрящая пыльца", kind: "breed", rarity: "rare", qty: 0, tag: "Питомник", desc: "Реагент скрещивания.", iconSrc: "/barn-icons/herbs.png" },
+  { id: "breed_tide_scale", name: "Чешуя прилива", kind: "breed", rarity: "rare", qty: 0, tag: "Питомник", desc: "Реагент скрещивания.", iconSrc: "/barn-icons/fish.png" },
   { id: "talisman_mythic_luck", name: "Амулет удачи", kind: "breed", rarity: "epic", qty: 0, tag: "Питомник", desc: "+20% mythic при скрещивании.", iconSrc: "/stitch-assets/kb-v3/items/item-3.webp" },
   { id: "rename_token", name: "Жетон переименования", kind: "consumable", rarity: "rare", qty: 0, tag: "Утилита", desc: "Сменить имя котика или отряда.", iconSrc: "/stitch-assets/kb-v3/items/item-4.webp" },
 ];
@@ -563,37 +562,37 @@ const BARN_MATS_SEED = [
 const CRAFT_CATEGORY_META = {
   all: {
     tag: "Мастерская Очага",
-    banner: "/stitch-ref/home-keeper/craft/art-4.webp",
+    banner: "/stitch-ref/home-keeper/craft/art-4.png",
     label: "Все рецепты",
   },
   alchemy: {
     tag: "Алхимический Горн",
-    banner: "/stitch-ref/home-keeper/craft/art-4.webp",
+    banner: "/stitch-ref/home-keeper/craft/art-4.png",
     label: "Алхимия и Зелья",
     activeLabel: "Алхимия и Зелья (Активно)",
     icon: "science",
   },
   forge: {
     tag: "Кузница Горна",
-    banner: "/stitch-ref/home-keeper/craft/art-5.webp",
+    banner: "/stitch-ref/home-keeper/craft/art-5.png",
     label: "Кузница и Оружие",
     icon: "hardware",
   },
   scrolls: {
     tag: "Скрипторий Свитков",
-    banner: "/stitch-ref/home-keeper/craft/art-2.webp",
+    banner: "/stitch-ref/home-keeper/craft/art-2.png",
     label: "Боевые Свитки",
     icon: "auto_stories",
   },
   runes: {
     tag: "Инкрустация Рун",
-    banner: "/stitch-ref/home-keeper/craft/art-1.webp",
+    banner: "/stitch-ref/home-keeper/craft/art-1.png",
     label: "Инкрустация Рун",
     icon: "diamond",
   },
   farm: {
     tag: "Садовый Стол",
-    banner: "/stitch-ref/home-keeper/craft/art-3.webp",
+    banner: "/stitch-ref/home-keeper/craft/art-3.png",
     label: "Все для фермы",
     icon: "agriculture",
   },
@@ -901,21 +900,21 @@ const FARM_STOCK_CAPS = {
 };
 
 const MARKET_STOCK = [
-  { id: "seed_wheat", name: "Семена пшеницы", price: 15, kind: "seed", gated: false, matId: "seeds", buyQty: 5, iconSrc: "/barn-icons/seeds.webp" },
-  { id: "seed_herb", name: "Семена трав", price: 20, kind: "seed", gated: false, matId: "seeds", buyQty: 5, iconSrc: "/barn-icons/seeds.webp" },
-  { id: "seed_mint", name: "Семена мяты", price: 25, kind: "seed", gated: false, matId: "seeds", buyQty: 5, iconSrc: "/barn-icons/seeds.webp" },
-  { id: "tool_shovel", name: "Лопата", price: 50, kind: "tool", gated: false, matId: "tool_shovel", buyQty: 1, iconSrc: "/barn-icons/tool-shovel.webp" },
-  { id: "tool_axe", name: "Топор", price: 55, kind: "tool", gated: false, matId: "tool_axe", buyQty: 1, iconSrc: "/barn-icons/tool-axe.webp" },
-  { id: "tool_pick", name: "Кирка", price: 60, kind: "tool", gated: false, matId: "tool_pick", buyQty: 1, iconSrc: "/barn-icons/tool-pick.webp" },
-  { id: "tool_rod", name: "Удочка", price: 70, kind: "tool", gated: false, matId: "tool_rod", buyQty: 1, iconSrc: "/barn-icons/tool-rod.webp" },
-  { id: "bait_worm", name: "Наживка · червяк", price: 12, kind: "bait", gated: false, matId: "bait", buyQty: 5, iconSrc: "/barn-icons/fish.webp" },
-  { id: "bait_shiny", name: "Наживка · блесна", price: 28, kind: "bait", gated: false, matId: "bait", buyQty: 5, iconSrc: "/barn-icons/fish.webp" },
-  { id: "res_wood", name: "Бревно", price: 8, kind: "resource", gated: false, matId: "wood", buyQty: 1, iconSrc: "/barn-icons/wood.webp" },
-  { id: "res_ore", name: "Руда", price: 12, kind: "resource", gated: false, matId: "iron", buyQty: 1, iconSrc: "/barn-icons/iron.webp" },
-  { id: "craft_herb_bundle", name: "Пучок трав (крафт)", price: 18, kind: "ingredient", gated: false, matId: "herbs", buyQty: 3, iconSrc: "/barn-icons/herbs.webp" },
-  { id: "potion_heal", name: "Зелье жизни", price: 40, kind: "potion", gated: false, matId: "potion_heal", buyQty: 1, iconSrc: "/barn-icons/potion-nature.webp" },
-  { id: "potion_energy", name: "Эликсир энергии", price: 55, kind: "potion", gated: false, matId: "potion_energy", buyQty: 1, iconSrc: "/barn-icons/potion-energy.webp" },
-  { id: "potion_cleanse", name: "Отвар очищения", price: 45, kind: "potion", gated: false, matId: "potion_cleanse", buyQty: 1, iconSrc: "/barn-icons/potion-cleanse.webp" },
+  { id: "seed_wheat", name: "Семена пшеницы", price: 15, kind: "seed", gated: false, matId: "seeds", buyQty: 5, iconSrc: "/barn-icons/seeds.png" },
+  { id: "seed_herb", name: "Семена трав", price: 20, kind: "seed", gated: false, matId: "seeds", buyQty: 5, iconSrc: "/barn-icons/seeds.png" },
+  { id: "seed_mint", name: "Семена мяты", price: 25, kind: "seed", gated: false, matId: "seeds", buyQty: 5, iconSrc: "/barn-icons/seeds.png" },
+  { id: "tool_shovel", name: "Лопата", price: 50, kind: "tool", gated: false, matId: "tool_shovel", buyQty: 1, iconSrc: "/barn-icons/tool-shovel.png" },
+  { id: "tool_axe", name: "Топор", price: 55, kind: "tool", gated: false, matId: "tool_axe", buyQty: 1, iconSrc: "/barn-icons/tool-axe.png" },
+  { id: "tool_pick", name: "Кирка", price: 60, kind: "tool", gated: false, matId: "tool_pick", buyQty: 1, iconSrc: "/barn-icons/tool-pick.png" },
+  { id: "tool_rod", name: "Удочка", price: 70, kind: "tool", gated: false, matId: "tool_rod", buyQty: 1, iconSrc: "/barn-icons/tool-rod.png" },
+  { id: "bait_worm", name: "Наживка · червяк", price: 12, kind: "bait", gated: false, matId: "bait", buyQty: 5, iconSrc: "/barn-icons/fish.png" },
+  { id: "bait_shiny", name: "Наживка · блесна", price: 28, kind: "bait", gated: false, matId: "bait", buyQty: 5, iconSrc: "/barn-icons/fish.png" },
+  { id: "res_wood", name: "Бревно", price: 8, kind: "resource", gated: false, matId: "wood", buyQty: 1, iconSrc: "/barn-icons/wood.png" },
+  { id: "res_ore", name: "Руда", price: 12, kind: "resource", gated: false, matId: "iron", buyQty: 1, iconSrc: "/barn-icons/iron.png" },
+  { id: "craft_herb_bundle", name: "Пучок трав (крафт)", price: 18, kind: "ingredient", gated: false, matId: "herbs", buyQty: 3, iconSrc: "/barn-icons/herbs.png" },
+  { id: "potion_heal", name: "Зелье жизни", price: 40, kind: "potion", gated: false, matId: "potion_heal", buyQty: 1, iconSrc: "/barn-icons/potion-nature.png" },
+  { id: "potion_energy", name: "Эликсир энергии", price: 55, kind: "potion", gated: false, matId: "potion_energy", buyQty: 1, iconSrc: "/barn-icons/potion-energy.png" },
+  { id: "potion_cleanse", name: "Отвар очищения", price: 45, kind: "potion", gated: false, matId: "potion_cleanse", buyQty: 1, iconSrc: "/barn-icons/potion-cleanse.png" },
 ];
 
 /** Farm Soon zones — map pins + dock list (Phase 6 / SL stub). */
@@ -977,9 +976,9 @@ const SHOP_STUB_ROWS = [
   { id: "armor_grey_pendant", label: "PvP кулон · grey R1", detail: "PvP shop · Rank 1", gated: false },
   { id: "pvp_set_green", label: "PvP сет · green R2", detail: "PvP shop · Rank 2", gated: false },
   { id: "battle_coin_gear", label: "PvP gear за battle coins", detail: "medals → PvP shop", gated: true },
-  { id: "potion_heal_pack", label: "Зелье жизни ×3", detail: "бой · +HP · green", gated: false, matId: "potion_heal", buyQty: 3, price: 110, iconSrc: "/barn-icons/potion-nature.webp" },
-  { id: "potion_energy_pack", label: "Эликсир энергии ×3", detail: "бой · +1 AP · gold", gated: false, matId: "potion_energy", buyQty: 3, price: 150, iconSrc: "/barn-icons/potion-energy.webp" },
-  { id: "potion_cleanse_pack", label: "Отвар очищения ×3", detail: "бой · −1 дебафф · blue", gated: false, matId: "potion_cleanse", buyQty: 3, price: 120, iconSrc: "/barn-icons/potion-cleanse.webp" },
+  { id: "potion_heal_pack", label: "Зелье жизни ×3", detail: "бой · +HP · green", gated: false, matId: "potion_heal", buyQty: 3, price: 110, iconSrc: "/barn-icons/potion-nature.png" },
+  { id: "potion_energy_pack", label: "Эликсир энергии ×3", detail: "бой · +1 AP · gold", gated: false, matId: "potion_energy", buyQty: 3, price: 150, iconSrc: "/barn-icons/potion-energy.png" },
+  { id: "potion_cleanse_pack", label: "Отвар очищения ×3", detail: "бой · −1 дебафф · blue", gated: false, matId: "potion_cleanse", buyQty: 3, price: 120, iconSrc: "/barn-icons/potion-cleanse.png" },
 ];
 
 /** Codex knowledge base — titles/bodies from docs/game-wiki.md where possible. */
@@ -1024,10 +1023,10 @@ const PASS_ICON = {
   gloves: "/stitch-assets/kb-v3/items/item-6.webp",
   dragonSet: "/stitch-assets/kb-v3/armor/r6-dragon.webp",
   sunBars: "/stitch-assets/monsters/battle/solar-lion-fighter-cutout.webp",
-  freeBox: "/stitch-ref/pass-hearth/icon-2.webp",
+  freeBox: "/stitch-ref/pass-hearth/icon-2.png",
   rune: "/stitch-assets/kb-v3/items/item-2.webp",
-  set: "/gear-sets/thumbs/green-armor.webp",
-  weapon: "/gear-sets/thumbs/green-armor.webp",
+  set: "/gear-sets/thumbs/green-armor.png",
+  weapon: "/gear-sets/thumbs/green-armor.png",
 };
 
 /** Low-chance PvE gear / rune tables — gear is the CP key for dungeons / raids / sieges. */
@@ -1814,7 +1813,7 @@ async function bootBreedingStub() {
     if (data && typeof data === "object") state.breedingStub = data;
   } catch (_) {
     try {
-      const res = await fetch("/breeding-stub.json");
+      const res = await fetch("/breeding-stub.json", { cache: "no-store" });
       if (res.ok) state.breedingStub = await res.json();
     } catch (__) {
       state.breedingStub = {
@@ -1836,52 +1835,31 @@ function log(msg, which = "battle") {
   if (el) el.textContent = state.logLines.slice(0, 12).join("\n");
 }
 
-const _apiInflight = new Map();
-const _apiStaticCache = new Map();
-const STATIC_API_RE = /^\/(?:content\/[\w.-]+\.json|loc\.json|api\/dev\/(?:gear|breeding|collection))$/;
-
 async function api(path, opts = {}) {
-  const method = String(opts.method || "GET").toUpperCase();
-  const isStaticGet = method === "GET" && STATIC_API_RE.test(path);
-  if (isStaticGet && _apiStaticCache.has(path)) {
-    return _apiStaticCache.get(path);
+  const res = await fetch(path, {
+    ...opts,
+    headers: {
+      Accept: "application/json",
+      ...(opts.body ? { "Content-Type": "application/json" } : {}),
+      ...(opts.headers || {}),
+    },
+  });
+  const text = await res.text();
+  let data = null;
+  try {
+    data = text ? JSON.parse(text) : null;
+  } catch {
+    data = { raw: text };
   }
-  if (isStaticGet && _apiInflight.has(path)) {
-    return _apiInflight.get(path);
+  if (!res.ok) {
+    const err = new Error(
+      typeof data === "string" ? data : data?.error || data?.raw || text || res.statusText,
+    );
+    err.status = res.status;
+    err.data = data;
+    throw err;
   }
-  const run = (async () => {
-    const res = await fetch(path, {
-      ...opts,
-      headers: {
-        Accept: "application/json",
-        ...(opts.body ? { "Content-Type": "application/json" } : {}),
-        ...(opts.headers || {}),
-      },
-    });
-    const text = await res.text();
-    let data = null;
-    try {
-      data = text ? JSON.parse(text) : null;
-    } catch {
-      data = { raw: text };
-    }
-    if (!res.ok) {
-      const err = new Error(
-        typeof data === "string" ? data : data?.error || data?.raw || text || res.statusText,
-      );
-      err.status = res.status;
-      err.data = data;
-      throw err;
-    }
-    const out = { data, headers: res.headers };
-    if (isStaticGet) _apiStaticCache.set(path, out);
-    return out;
-  })();
-  if (isStaticGet) {
-    _apiInflight.set(path, run);
-    run.finally(() => _apiInflight.delete(path));
-  }
-  return run;
+  return { data, headers: res.headers };
 }
 
 async function loadLoc() {
@@ -2582,7 +2560,7 @@ function gearDollSrc(item) {
   if (!item?.slot) return "";
   const lane = gearLaneOf(item);
   if (item.set && ["helm", "armor", "cloak", "belt", "boots", "ring"].includes(item.slot)) {
-    return `/gear-sets/${lane}/${item.set}/${item.slot}.webp`;
+    return `/gear-sets/${lane}/${item.set}/${item.slot}.png`;
   }
   if (item.slot === "weapon" || item.slot === "shield") return item.iconSrc || "";
   return "";
@@ -3467,7 +3445,7 @@ function upsertDungeonRareGear(rare) {
     pveOnly: true,
     lane: "pve",
     effect: def.effect_ru || "",
-    iconSrc: "/barn-icons/fish.webp",
+    iconSrc: "/barn-icons/fish.png",
   };
   state.gearCatalog.push(item);
   persistGearStub();
@@ -7435,14 +7413,14 @@ function setShopCurrencyFilter(cur) {
 }
 
 const SHOP_ARMOR_SET_META = {
-  grey: { name: "Серый сет Льва", rank: "R1", price: 150, blurb: "Common · стартовый комплект", thumb: "/gear-sets/thumbs/grey-armor.webp" },
-  green: { name: "Зелёный сет Рыси", rank: "R2", price: 320, blurb: "Rare · листва и скорость", thumb: "/gear-sets/thumbs/green-armor.webp" },
-  blue: { name: "Синий сет Короны", rank: "R3", price: 480, blurb: "Rare · королевский синий", thumb: "/gear-sets/thumbs/blue-armor.webp" },
-  yellow: { name: "Жёлтый сет Солнца", rank: "R4", price: 720, blurb: "Epic · маг / солнце", thumb: "/gear-sets/thumbs/yellow-armor.webp" },
-  purple: { name: "Фиолетовый сет Пантеры", rank: "R5", price: 980, blurb: "Epic · ассасин / крит", thumb: "/gear-sets/thumbs/purple-armor.webp" },
-  red: { name: "Красный сет Дракона", rank: "R6", price: 1450, blurb: "Legendary · боец / танк", thumb: "/gear-sets/thumbs/red-armor.webp" },
-  solar: { name: "Солнечный сет Пламени", rank: "R7", price: 2100, blurb: "Legendary · R7", thumb: "/gear-sets/thumbs/solar-armor.webp" },
-  or: { name: "Мифик сет OR", rank: "R8", price: 3200, blurb: "Mythic · финал сезона", thumb: "/gear-sets/thumbs/or-armor.webp" },
+  grey: { name: "Серый сет Льва", rank: "R1", price: 150, blurb: "Common · стартовый комплект", thumb: "/gear-sets/thumbs/grey-armor.png" },
+  green: { name: "Зелёный сет Рыси", rank: "R2", price: 320, blurb: "Rare · листва и скорость", thumb: "/gear-sets/thumbs/green-armor.png" },
+  blue: { name: "Синий сет Короны", rank: "R3", price: 480, blurb: "Rare · королевский синий", thumb: "/gear-sets/thumbs/blue-armor.png" },
+  yellow: { name: "Жёлтый сет Солнца", rank: "R4", price: 720, blurb: "Epic · маг / солнце", thumb: "/gear-sets/thumbs/yellow-armor.png" },
+  purple: { name: "Фиолетовый сет Пантеры", rank: "R5", price: 980, blurb: "Epic · ассасин / крит", thumb: "/gear-sets/thumbs/purple-armor.png" },
+  red: { name: "Красный сет Дракона", rank: "R6", price: 1450, blurb: "Legendary · боец / танк", thumb: "/gear-sets/thumbs/red-armor.png" },
+  solar: { name: "Солнечный сет Пламени", rank: "R7", price: 2100, blurb: "Legendary · R7", thumb: "/gear-sets/thumbs/solar-armor.png" },
+  or: { name: "Мифик сет OR", rank: "R8", price: 3200, blurb: "Mythic · финал сезона", thumb: "/gear-sets/thumbs/or-armor.png" },
 };
 
 const SHOP_HERO_PRICE = {
@@ -7734,10 +7712,10 @@ function fillShopCardArt(card) {
   if (!card) return;
   const sku = card.getAttribute("data-sku") || "";
   let art = "";
-  if (HERO_CHEST_POOL.includes(sku)) art = catHeroThumb(sku) || catHeroArt(sku) || "";
+  if (HERO_CHEST_POOL.includes(sku)) art = catHeroArt(sku) || "";
   else if (sku.startsWith("set_")) {
     const sid = sku.slice(4);
-    art = SHOP_ARMOR_SET_META[sid]?.thumb || `/gear-sets/thumbs/${sid}-armor.webp`;
+    art = SHOP_ARMOR_SET_META[sid]?.thumb || `/gear-sets/thumbs/${sid}-armor.png`;
   } else {
     const gear = (state.gearCatalog || []).find((g) => g.id === sku);
     if (gear?.iconSrc) art = gear.iconSrc;
@@ -7778,7 +7756,7 @@ function shopHeroCardHtml(tid) {
   const role = meta.role || String(tid).split("_")[1] || "";
   const el = meta.element || String(tid).split("_")[2] || "";
   const name = CAT_SHEET_NAMES[tid] || tid;
-  const art = catHeroThumb(tid) || "";
+  const art = catHeroArt(tid) || "";
   const price = SHOP_HERO_PRICE[role] || 90;
   const owned = (state.profile?.cats || []).some((c) => c.templateId === tid);
   const artHtml = art
@@ -8369,7 +8347,6 @@ function renderTradeHub() {
     state.tradeFairTimerArmed = true;
     setInterval(() => {
       if (state.tradeFairLeft > 0) state.tradeFairLeft -= 1;
-      if (state.tab !== "trade_hub") return;
       const el = $("tradeFairTimer");
       if (!el) return;
       const left = Math.max(0, state.tradeFairLeft | 0);
@@ -9547,13 +9524,6 @@ const CAT_HERO_BLURB = {
 
 function catHeroArt(templateId) {
   return CAT_HERO_ART[templateId] || null;
-}
-
-/** Lightweight 320px WebP thumbnail for hero lists, cards, rosters, and grids. */
-function catHeroThumb(templateId) {
-  const full = catHeroArt(templateId);
-  if (!full) return null;
-  return full.replace("/cat-heroes/", "/cat-heroes/thumbs/");
 }
 
 /** No-background sprite for live battle boards only (D-037). */
@@ -11058,7 +11028,7 @@ function syncHomeEquipDom(catId) {
     btn.setAttribute("data-item-id", itemId);
     btn.title = `${label} · снять`;
     if (img) {
-      img.src = item?.iconSrc || "/barn-icons/dagger.webp";
+      img.src = item?.iconSrc || "/barn-icons/dagger.png";
       img.alt = label;
       img.classList.remove("opacity-30", "hidden");
     }
@@ -11263,11 +11233,11 @@ function renderHomeRoster(cat) {
       const m = starterMeta(c.templateId);
       const role = CAT_ROLE_RU[c.role || m.role] || c.role || "—";
       const el = CAT_ELEMENT_RU[c.element || m.element] || c.element || m.element || "—";
-      const art = catHeroThumb(c.templateId);
+      const art = catHeroArt(c.templateId);
       const s = statsForCat(c);
       const power = sheetPower(s);
       return `<button type="button" data-home-cat="${c.catId}" class="home-roster-row p-2 rounded-xl flex items-center gap-2 shrink-0 text-left border transition-colors ${on ? "bg-surface-container-highest border-primary/50 shadow" : "bg-surface-container-lowest/40 border-outline-variant/40 hover:border-primary/40"}">
-        ${art ? `<img alt="" src="${art}" width="48" height="48" loading="lazy" decoding="async" class="home-roster-avatar w-12 h-12 object-contain object-top rounded bg-surface-container-lowest shrink-0"/>` : `<span class="material-symbols-outlined text-primary">pets</span>`}
+        ${art ? `<img alt="" src="${art}" class="home-roster-avatar w-12 h-12 object-contain object-top rounded bg-surface-container-lowest shrink-0"/>` : `<span class="material-symbols-outlined text-primary">pets</span>`}
         <span class="home-roster-meta flex flex-col min-w-0 flex-1 gap-0.5">
           <span class="font-label-sm text-label-sm text-on-surface truncate font-bold">${name}</span>
           <span class="text-[10px] text-on-surface-variant truncate">${role} · ${el}</span>
@@ -11455,7 +11425,7 @@ function renderHeroesCodex() {
       const role = meta.role || String(tid).split("_")[1] || "";
       const el = meta.element || String(tid).split("_")[2] || "";
       const name = CAT_SHEET_NAMES[tid] || tid;
-      const art = catHeroThumb(tid) || "";
+      const art = catHeroArt(tid) || "";
       const blurb = CAT_HERO_BLURB[tid] || `${CAT_ROLE_RU[role] || role} · ${CAT_ELEMENT_RU[el] || el}`;
       const on = (state.heroesFocusId || pool[0]) === tid;
       return `<article class="archetype-card cursor-pointer rounded-lg p-space-sm transition-all duration-200 ${
@@ -12768,10 +12738,10 @@ const BREED_MAT_ART = {
 
 /** Incubator cradle panel backgrounds. */
 const BREED_CRIB_BG = {
-  empty: "/stitch-assets/nursery/cribs/crib-empty.webp",
-  incubating: "/stitch-assets/nursery/cribs/crib-incubating.webp",
-  ready: "/stitch-assets/nursery/cribs/crib-incubating.webp",
-  locked: "/stitch-assets/nursery/cribs/crib-locked.webp",
+  empty: "/stitch-assets/nursery/cribs/crib-empty.jpg",
+  incubating: "/stitch-assets/nursery/cribs/crib-incubating.jpg",
+  ready: "/stitch-assets/nursery/cribs/crib-incubating.jpg",
+  locked: "/stitch-assets/nursery/cribs/crib-locked.jpg",
 };
 
 function breedMatArt(id) {
@@ -13307,7 +13277,7 @@ function renderCraftReagents(root, recipe) {
       const ok = have >= ing.qty;
       return `<div class="p-space-sm rounded-xl bg-surface-container border ${ok ? "border-secondary/40" : "border-tertiary/50"} shadow-md flex flex-col items-center text-center">
         <div class="w-full h-28 rounded-lg bg-surface-container-lowest overflow-hidden mb-1 border border-outline-variant/30 flex items-center justify-center">
-          <img alt="" class="max-h-full max-w-full object-contain p-1" src="${mat?.iconSrc || "/barn-icons/herbs.webp"}"/>
+          <img alt="" class="max-h-full max-w-full object-contain p-1" src="${mat?.iconSrc || "/barn-icons/herbs.png"}"/>
         </div>
         <span class="font-label-sm text-label-sm text-on-surface line-clamp-1 font-bold">${mat?.name || ing.id}</span>
         <span class="font-body-sm text-body-sm ${ok ? "text-secondary" : "text-tertiary"} font-bold mt-0.5">${have} / ${ing.qty}</span>
@@ -13344,7 +13314,7 @@ function renderCraftRecipeList(root, recipes, selectedId) {
     .map((r) => {
       const on = r.id === selectedId;
       const out = barnMatGet(r.outId) || BARN_MATS_SEED.find((m) => m.id === r.outId);
-      const art = out?.iconSrc || "/barn-icons/potions.webp";
+      const art = out?.iconSrc || "/barn-icons/potions.png";
       const { ready, need } = craftIngredientReady(r);
       const readyLabel = need ? `${ready}/${need}` : "—";
       return `<div data-craft-recipe="${r.id}" data-cat="${r.category}" class="recipe-card p-space-sm rounded-lg ${
@@ -14478,7 +14448,6 @@ function mountBattleGearDoll(root, u) {
 function unitCard(u, side) {
   const d = document.createElement("div");
   d.className = `unit ${side}${u.alive ? "" : " dead mf-unit-dead"} mf-battle-unit--cutout`;
-  d.dataset.side = side === "enemy" ? "enemy" : "ally";
   const icons = statusIconsHtml(unitStatusList(u));
   const art = battleUnitArt(u);
   const roleRu = CAT_ROLE_RU[u.role] || u.role || "";
@@ -14511,7 +14480,7 @@ let cardEffectCatalog = {};
 
 async function bootCardEffects() {
   try {
-    const res = await fetch("/data/card-effects.json");
+    const res = await fetch("/data/card-effects.json", { cache: "no-store" });
     if (!res.ok) throw new Error(`card-effects ${res.status}`);
     cardEffectCatalog = (await res.json()) || {};
   } catch (err) {
@@ -15826,7 +15795,7 @@ function preloadImages(urls = []) {
 
 /** Critical screen backdrops — current + next-likely (not every chapter). */
 const SCREEN_BG = {
-  login: `/stitch-assets/login-bg.webp`,
+  login: `/stitch-assets/login-bg.webp?v=${STITCH_ASSET_V}`,
   yard: `/stitch-assets/yard/meowkara-mines-bg.webp?v=${STITCH_ASSET_V}`,
   dojo: `/stitch-ref/e608/arena_dojo.webp?v=${STITCH_ASSET_V}`,
   dojoLoad: `/stitch-assets/dojo/practice-load-arena.webp?v=${STITCH_ASSET_V}`,
@@ -15837,7 +15806,7 @@ const SCREEN_BG = {
   victoryHall: `/stitch-ref/e608/victory_hall.webp?v=${STITCH_ASSET_V}`,
   arenaInterior: `/stitch-assets/pvp-battles/fight-bg.webp?v=${STITCH_ASSET_V}`,
   pvpVictory: `/stitch-assets/pvp-battles/victory-hall.webp?v=${STITCH_ASSET_V}`,
-  resultWin: `/stitch-assets/result-win/bg.webp?v=${STITCH_ASSET_V}`,
+  resultWin: `/stitch-assets/result-win/bg.jpg?v=${STITCH_ASSET_V}`,
 };
 
 function preloadScreenBgs(...keys) {
@@ -16119,14 +16088,9 @@ function renderPracticeFight() {
     const root = document.querySelector(`#viewPracticeFight ${rootSel}`);
     if (!root) return;
     // D-047: column side → face toward center (not type).
-    const isEnemySide = /enem/i.test(rootSel);
-    const boardFace = isEnemySide ? "left" : "right";
+    const boardFace = /enem/i.test(rootSel) ? "left" : "right";
     const slots = [...root.querySelectorAll("[data-slot]")];
     slots.forEach((card, i) => {
-      // Anchor slot stays strictly locked on the floor line — strip legacy Stitch scale/hover transforms.
-      card.classList.remove("scale-105", "hover:-translate-y-2", "transform", "transition", "duration-300");
-      card.dataset.side = isEnemySide ? "enemy" : "ally";
-      card.querySelector(".animate-bounce")?.classList.remove("animate-bounce");
       const u = units[i];
       const em = card.querySelector("em");
       // Prefer the portrait cutout (not status/UI icons).
@@ -16401,7 +16365,6 @@ function pvpUnitCard(u, foe, cleansedIds = []) {
       ? `<figure class="mf-unit-frame">${cutout}<div class="mf-status-row">${statusHtml}</div><div class="mf-fatality" ${u.alive ? "hidden" : ""}><span>${rest}</span></div></figure>`
       : ""
   }${unitVitalsFooterHtml(u, { name })}`;
-  li.dataset.side = foe ? "enemy" : "ally";
   if (foe) li.dataset.foe = "1";
   decorateBattleUnitIdle(li, u, u.lane ?? 0);
   mountBattleGearDoll(li, u);
@@ -18588,7 +18551,7 @@ async function bootCollectionStub() {
     if (data && typeof data === "object") state.collectionStub = data;
   } catch {
     try {
-      const res = await fetch("/collection-stub.json");
+      const res = await fetch("/collection-stub.json", { cache: "no-store" });
       if (res.ok) state.collectionStub = await res.json();
     } catch {
       state.collectionStub = { stub: true, slotCap: 24, presetSlots: 5 };
@@ -18783,7 +18746,7 @@ function renderCollectionRosterCards(cats) {
       const roleRu = hero.roleRu || CAT_ROLE_RU[homeCatRole(c)] || homeCatRole(c) || "—";
       const roleIcon = hero.roleIcon || "pets";
       const elKey = c.element || starterMeta(c.templateId)?.element || "";
-      const art = catHeroThumb(c.templateId) || "";
+      const art = catHeroArt(c.templateId) || "";
       const on = activeIds.has(c.catId);
       const slotIdx = on ? activeSlots.indexOf(c.catId) : -1;
       const marks = squadMarks[c.catId];
@@ -19800,7 +19763,7 @@ function dojoRosterCardHtml(key) {
   const hero = PRACTICE_HEROES[key];
   if (!hero) return "";
   const el = practiceElementOf(hero);
-  const art = catHeroThumb(hero.templateId) || "";
+  const art = catHeroArt(hero.templateId) || "";
   const accent = hero.accent === "tertiary" ? "tertiary" : hero.accent === "secondary" ? "secondary" : "primary";
   const base = CONTENT_CAT_BASE[hero.templateId] || {};
   const hp = base.hp ?? hero.hp;
@@ -22005,39 +21968,57 @@ async function bootStarterGrant() {
 }
 
 async function loadCampaign() {
-  const [rCamp, rBoss, rCoop, rRew, rRare, rRaids] = await Promise.allSettled([
-    api("/content/mythmir_sl.json"),
-    api("/content/boss_first_sl.json"),
-    api("/content/dungeons_coop_v1.json"),
-    api("/content/dungeon_rewards_v1.json"),
-    api("/content/dungeon_rares.json"),
-    api("/content/raids_sl.json"),
-  ]);
-  state.campaign = rCamp.status === "fulfilled" ? rCamp.value.data : { nodes: [] };
-  state.bossFirst = rBoss.status === "fulfilled" ? rBoss.value.data : null;
-  if (rCoop.status === "fulfilled") {
-    const data = rCoop.value.data;
+  try {
+    const { data } = await api("/content/mythmir_sl.json");
+    state.campaign = data;
+  } catch (err) {
+    console.warn("campaign load", err);
+    state.campaign = { nodes: [] };
+  }
+  try {
+    const { data } = await api("/content/boss_first_sl.json");
+    state.bossFirst = data;
+  } catch (err) {
+    state.bossFirst = null;
+  }
+  try {
+    const { data } = await api("/content/dungeons_coop_v1.json");
     state.dungeonCoop = data;
     if (!state.selectedDungeonId && data?.dungeons?.[0]?.id) {
       state.selectedDungeonId = data.dungeons[0].id;
     }
     seedDungeonKeysIfNeeded();
-  } else {
+  } catch (err) {
+    console.warn("dungeon coop catalog", err);
     state.dungeonCoop = null;
   }
-  state.dungeonRewards = rRew.status === "fulfilled" ? rRew.value.data : null;
-  state.dungeonRares = rRare.status === "fulfilled" ? rRare.value.data : null;
-  if (rRaids.status === "fulfilled") {
-    const data = rRaids.value.data;
+  try {
+    const { data } = await api("/content/dungeon_rewards_v1.json");
+    state.dungeonRewards = data;
+  } catch (err) {
+    state.dungeonRewards = null;
+  }
+  try {
+    const { data } = await api("/content/dungeon_rares.json");
+    state.dungeonRares = data;
+  } catch (err) {
+    state.dungeonRares = null;
+  }
+  await syncDungeonStateFromServer();
+  try {
+    const { data } = await api("/content/raids_sl.json");
     state.raidsCatalog = data;
+    if (data?.partySize) {
+      /* RAID_PARTY_SIZE const is source of truth; catalog mirrors it */
+    }
     if (data?.raids?.[0]?.raidId && !data.raids.some((r) => r.raidId === state.raidId)) {
       state.raidId = data.raids[0].raidId;
     }
     syncRaidLimitsFromLiveOps();
-  } else {
+  } catch (err) {
+    console.warn("raids catalog", err);
     state.raidsCatalog = null;
   }
-  await syncDungeonStateFromServer();
 }
 
 function bootTabAfterLogin() {
@@ -22204,7 +22185,6 @@ async function main() {
       setTimeout(warmSecondary, 50);
       return;
     }
-
     // /home = login/register desk. Root (and Amvera) open the main hub with portals — no login hop.
     if (loginAddressOpen()) {
       state.loggedIn = false;
@@ -22213,7 +22193,6 @@ async function main() {
       document.body.classList.add("mythfel-login");
       renderAll();
       dismissBootSplash();
-      setTimeout(warmSecondary, 50);
       return;
     }
     state.loggedIn = true;
@@ -22221,7 +22200,6 @@ async function main() {
     document.body.classList.remove("mythfel-login");
     navigate(bootTabAfterLogin());
     dismissBootSplash();
-    setTimeout(warmSecondary, 50);
   } catch (err) {
     $("bootMsg").textContent = `Boot fail: ${err.message}. Подними CDN :8090 и battle :8081 (см. README).`;
     const loFail = $("liveopsPill");
