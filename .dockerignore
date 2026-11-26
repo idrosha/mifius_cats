@@ -23,3 +23,11 @@ client/web-hud/public/stitch-assets/monsters/prototypes
 client/web-hud/public/_tmp_stitch_pvp
 **/*-opaque.webp
 **/_src/**
+**/_src
+_tmp_*
+_hud_*.txt
+**/*.report.json
+client/web-hud/public/stitch/*.html
+client/web-hud/public/gear-sets/pve
+client/web-hud/public/gear-sets/pvp
+client/web-hud/public/stitch-assets/attack-cards/art-raw

@@ -177,7 +177,7 @@ for (const id of REQUIRED_BUTTONS) ok(`html#${id}`, html.includes(`id="${id}"`))
 
 ok(
   "stitch html applied (tailwind + material + local stitch assets)",
-  html.includes("cdn.tailwindcss.com") &&
+  (html.includes("tailwind.css") || html.includes("cdn.tailwindcss.com")) &&
     html.includes("Material+Symbols") &&
     html.includes("/stitch-assets/") &&
     html.includes('data-stitch="hub"') &&
@@ -192,46 +192,48 @@ ok(
 ok(
   "vendored stitch-assets present",
   fs.existsSync(path.join(PUBLIC, "stitch-assets", "manifest.json")) &&
-    fs.readdirSync(path.join(PUBLIC, "stitch-assets")).filter((f) => f.endsWith(".jpg")).length >= 10,
+    fs.readdirSync(path.join(PUBLIC, "stitch-assets")).filter((f) => /\.(?:webp|jpg)$/i.test(f)).length >= 10,
 );
 {
   const requiredBarnIcons = [
-    "boots.png",
-    "chest.png",
-    "collar.png",
-    "dagger.png",
-    "fish.png",
-    "fruit.png",
-    "guard.png",
-    "helmet.png",
-    "herbs.png",
-    "iron.png",
-    "milk.png",
-    "potions.png",
-    "potion-ember.png",
-    "potion-mana.png",
-    "potion-nature.png",
-    "ring.png",
-    "seal-paw.png",
-    "seal-warehouse.png",
-    "seeds.png",
-    "stone.png",
-    "tool-axe.png",
-    "tool-pick.png",
-    "tool-rod.png",
-    "tool-shovel.png",
-    "veggies.png",
-    "wood.png",
+    "boots",
+    "chest",
+    "collar",
+    "dagger",
+    "fish",
+    "fruit",
+    "guard",
+    "helmet",
+    "herbs",
+    "iron",
+    "milk",
+    "potions",
+    "potion-ember",
+    "potion-mana",
+    "potion-nature",
+    "ring",
+    "seal-paw",
+    "seal-warehouse",
+    "seeds",
+    "stone",
+    "tool-axe",
+    "tool-pick",
+    "tool-rod",
+    "tool-shovel",
+    "veggies",
+    "wood",
   ];
   const barnDir = path.join(PUBLIC, "barn-icons");
-  const missing = requiredBarnIcons.filter((name) => {
-    const p = path.join(barnDir, name);
-    return !fs.existsSync(p) || fs.statSync(p).size < 1000;
+  const missing = requiredBarnIcons.filter((stem) => {
+    const pWebp = path.join(barnDir, `${stem}.webp`);
+    const pPng = path.join(barnDir, `${stem}.png`);
+    const p = fs.existsSync(pWebp) ? pWebp : pPng;
+    return !fs.existsSync(p) || fs.statSync(p).size < 400;
   });
   const catalogSrcs = [...js.matchAll(/iconSrc:\s*"(\/barn-icons\/[^"]+)"/g)].map((m) => m[1]);
   const brokenCatalog = catalogSrcs.filter((src) => {
     const p = path.join(PUBLIC, src.replace(/^\//, ""));
-    return !fs.existsSync(p) || fs.statSync(p).size < 1000;
+    return !fs.existsSync(p) || fs.statSync(p).size < 400;
   });
   ok(
     "barn-icons pack present (warehouse-icons-v2)",
@@ -242,21 +244,24 @@ ok(
     catalogSrcs.length >= 20 && brokenCatalog.length === 0 && !js.includes("/stitch-assets/barn-icons/"),
   );
 }
+const hasStitchRef = (sub, stem) =>
+  fs.existsSync(path.join(PUBLIC, "stitch-ref", sub, `${stem}.webp`)) ||
+  fs.existsSync(path.join(PUBLIC, "stitch-ref", sub, `${stem}.png`));
 ok(
   "public stitch-ref screenshots present",
-  fs.existsSync(path.join(PUBLIC, "stitch-ref", "0268", "home.png")) &&
-    fs.existsSync(path.join(PUBLIC, "stitch-ref", "64d5", "heroes.png")) &&
-    fs.existsSync(path.join(PUBLIC, "stitch-ref", "e608", "yard.png")) &&
-    fs.existsSync(path.join(PUBLIC, "stitch-ref", "4da7", "pvp.png")) &&
-    fs.existsSync(path.join(PUBLIC, "stitch-ref", "18c7", "practice.png")) &&
-    fs.existsSync(path.join(PUBLIC, "stitch-ref", "18c7", "guild.png")) &&
-    fs.existsSync(path.join(PUBLIC, "stitch-ref", "ba17", "pass.png")) &&
-    fs.existsSync(path.join(PUBLIC, "stitch-ref", "ba17", "chat.png")) &&
-    fs.existsSync(path.join(PUBLIC, "stitch-ref", "17eb", "tavern.png")) &&
-    fs.existsSync(path.join(PUBLIC, "stitch-ref", "17eb", "shop.png")) &&
-    fs.existsSync(path.join(PUBLIC, "stitch-ref", "17eb", "market.png")) &&
-    fs.existsSync(path.join(PUBLIC, "stitch-ref", "17eb", "auction.png")) &&
-    fs.existsSync(path.join(PUBLIC, "stitch-ref", "17eb", "rating.png")),
+  hasStitchRef("0268", "home") &&
+    hasStitchRef("64d5", "heroes") &&
+    hasStitchRef("e608", "yard") &&
+    hasStitchRef("4da7", "pvp") &&
+    hasStitchRef("18c7", "practice") &&
+    hasStitchRef("18c7", "guild") &&
+    hasStitchRef("ba17", "pass") &&
+    hasStitchRef("ba17", "chat") &&
+    hasStitchRef("17eb", "tavern") &&
+    hasStitchRef("17eb", "shop") &&
+    hasStitchRef("17eb", "market") &&
+    hasStitchRef("17eb", "auction") &&
+    hasStitchRef("17eb", "rating"),
 );
 ok("appNav primary+subtabs shell", html.includes('id="appNav"') && html.includes('id="appSubTabs"'));
 ok(
@@ -415,7 +420,7 @@ ok(
   "soon_farm painted map in index",
   html.includes('id="viewSoonFarm"') &&
     html.includes('data-stitch="soon_farm"') &&
-    html.includes("farm_map.png") &&
+    (html.includes("farm_map.webp") || html.includes("farm_map.png")) &&
     html.includes('id="farmSideActions"') &&
     !html.includes('data-purpose="wireframe" data-screen="Двор'),
   "viewSoonFarm regressed to wireframe",
@@ -778,7 +783,7 @@ try {
   if (httpOk) {
     const page = await fetch(`${BASE}/`);
     const body = await page.text();
-    ok("http / serves index", page.ok && body.includes("viewHub") && body.includes("cdn.tailwindcss.com"));
+    ok("http / serves index", page.ok && body.includes("viewHub") && (body.includes("tailwind.css") || body.includes("cdn.tailwindcss.com")));
     ok("http / has appSubTabs", body.includes('id="appSubTabs"'));
     const loc = await fetch(`${BASE}/loc.json`);
     const locJson = await loc.json();

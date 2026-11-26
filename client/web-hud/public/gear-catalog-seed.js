@@ -184,7 +184,7 @@ const SET_DEFS = {
 };
 
 function thumbFor(setId, slot) {
-  return `/gear-sets/thumbs/${setId}-${slot}.png`;
+  return `/gear-sets/thumbs/${setId}-${slot}.webp`;
 }
 
 function weaponRow(row) {
@@ -242,7 +242,7 @@ function buildWeapons() {
       enhanceCap: 8,
       set: "yellow",
       roles: ["mage"],
-      iconSrc: "/gear-sets/thumbs/yellow-staff.png",
+      iconSrc: "/gear-sets/thumbs/yellow-staff.webp",
     }),
     weaponRow({
       id: "yellow_wand",
@@ -258,7 +258,7 @@ function buildWeapons() {
       enhanceCap: 6,
       set: "yellow",
       roles: ["mage"],
-      iconSrc: "/gear-sets/thumbs/yellow-wand.png",
+      iconSrc: "/gear-sets/thumbs/yellow-wand.webp",
     }),
     weaponRow({
       id: "mage_book",
@@ -274,7 +274,7 @@ function buildWeapons() {
       enhanceCap: 6,
       set: "yellow",
       roles: ["mage"],
-      iconSrc: "/gear-sets/thumbs/mage-book.png",
+      iconSrc: "/gear-sets/thumbs/mage-book.webp",
     }),
     weaponRow({
       id: "blue_staff",
@@ -290,7 +290,7 @@ function buildWeapons() {
       enhanceCap: 4,
       set: "blue",
       roles: ["support"],
-      iconSrc: "/gear-sets/thumbs/turquoise-staff.png",
+      iconSrc: "/gear-sets/thumbs/turquoise-staff.webp",
     }),
     weaponRow({
       id: "support_scroll",
@@ -306,7 +306,7 @@ function buildWeapons() {
       enhanceCap: 4,
       set: "blue",
       roles: ["support"],
-      iconSrc: "/gear-sets/thumbs/support-scroll.png",
+      iconSrc: "/gear-sets/thumbs/support-scroll.webp",
     }),
     weaponRow({
       id: "tank_mace",
@@ -322,7 +322,7 @@ function buildWeapons() {
       enhanceCap: 8,
       set: null,
       roles: ["tank"],
-      iconSrc: "/gear-sets/thumbs/tank-mace.png",
+      iconSrc: "/gear-sets/thumbs/tank-mace.webp",
     }),
     weaponRow({
       id: "tank_spear",
@@ -338,7 +338,7 @@ function buildWeapons() {
       enhanceCap: 8,
       set: null,
       roles: ["tank"],
-      iconSrc: "/gear-sets/thumbs/tank-spear.png",
+      iconSrc: "/gear-sets/thumbs/tank-spear.webp",
     }),
     weaponRow({
       id: "tank_shield_large",
@@ -354,7 +354,7 @@ function buildWeapons() {
       enhanceCap: 10,
       set: null,
       roles: ["tank"],
-      iconSrc: "/gear-sets/thumbs/tank-shield-large.png",
+      iconSrc: "/gear-sets/thumbs/tank-shield-large.webp",
     }),
     weaponRow({
       id: "tank_shield_small",
@@ -370,7 +370,7 @@ function buildWeapons() {
       enhanceCap: 6,
       set: null,
       roles: ["tank"],
-      iconSrc: "/gear-sets/thumbs/tank-shield-small.png",
+      iconSrc: "/gear-sets/thumbs/tank-shield-small.webp",
     }),
     weaponRow({
       id: "fighter_greatsword",
@@ -386,7 +386,7 @@ function buildWeapons() {
       enhanceCap: 10,
       set: "red",
       roles: ["fighter"],
-      iconSrc: "/gear-sets/thumbs/fighter-greatsword.png",
+      iconSrc: "/gear-sets/thumbs/fighter-greatsword.webp",
     }),
     weaponRow({
       id: "fighter_axe_a",
@@ -402,7 +402,7 @@ function buildWeapons() {
       enhanceCap: 8,
       set: "red",
       roles: ["fighter"],
-      iconSrc: "/gear-sets/thumbs/fighter-axe-a.png",
+      iconSrc: "/gear-sets/thumbs/fighter-axe-a.webp",
     }),
     weaponRow({
       id: "fighter_axe_b",
@@ -418,7 +418,7 @@ function buildWeapons() {
       enhanceCap: 8,
       set: "red",
       roles: ["fighter"],
-      iconSrc: "/gear-sets/thumbs/fighter-axe-b.png",
+      iconSrc: "/gear-sets/thumbs/fighter-axe-b.webp",
     }),
     weaponRow({
       id: "assassin_dagger_a",
@@ -434,7 +434,7 @@ function buildWeapons() {
       enhanceCap: 8,
       set: "purple",
       roles: ["assassin"],
-      iconSrc: "/gear-sets/thumbs/assassin-dagger-a.png",
+      iconSrc: "/gear-sets/thumbs/assassin-dagger-a.webp",
     }),
     weaponRow({
       id: "assassin_dagger_b",
@@ -450,7 +450,7 @@ function buildWeapons() {
       enhanceCap: 8,
       set: "purple",
       roles: ["assassin"],
-      iconSrc: "/gear-sets/thumbs/assassin-dagger-b.png",
+      iconSrc: "/gear-sets/thumbs/assassin-dagger-b.webp",
     }),
     weaponRow({
       id: "green_bow",
@@ -466,7 +466,7 @@ function buildWeapons() {
       enhanceCap: 4,
       set: "green",
       roles: ["ranger"],
-      iconSrc: "/gear-sets/thumbs/green-bow.png",
+      iconSrc: "/gear-sets/thumbs/green-bow.webp",
     }),
     weaponRow({
       id: "green_crossbow",
@@ -482,7 +482,7 @@ function buildWeapons() {
       enhanceCap: 4,
       set: "green",
       roles: ["ranger"],
-      iconSrc: "/gear-sets/thumbs/green-crossbow.png",
+      iconSrc: "/gear-sets/thumbs/green-crossbow.webp",
     }),
     weaponRow({
       id: "green_arrows",
@@ -498,7 +498,7 @@ function buildWeapons() {
       enhanceCap: 2,
       set: "green",
       roles: ["ranger"],
-      iconSrc: "/gear-sets/thumbs/green-arrows.png",
+      iconSrc: "/gear-sets/thumbs/green-arrows.webp",
     }),
   ];
 }

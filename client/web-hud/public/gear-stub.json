@@ -17,7 +17,7 @@
       "enhance": 0,
       "set": "grey",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/grey-helm.png"
+      "iconSrc": "/gear-sets/thumbs/grey-helm.webp"
     },
     {
       "id": "grey_armor",
@@ -33,7 +33,7 @@
       "enhance": 0,
       "set": "grey",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/grey-armor.png"
+      "iconSrc": "/gear-sets/thumbs/grey-armor.webp"
     },
     {
       "id": "grey_cloak",
@@ -49,7 +49,7 @@
       "enhance": 0,
       "set": "grey",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/grey-cloak.png"
+      "iconSrc": "/gear-sets/thumbs/grey-cloak.webp"
     },
     {
       "id": "grey_belt",
@@ -65,7 +65,7 @@
       "enhance": 0,
       "set": "grey",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/grey-belt.png"
+      "iconSrc": "/gear-sets/thumbs/grey-belt.webp"
     },
     {
       "id": "grey_boots",
@@ -81,7 +81,7 @@
       "enhance": 0,
       "set": "grey",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/grey-boots.png"
+      "iconSrc": "/gear-sets/thumbs/grey-boots.webp"
     },
     {
       "id": "grey_ring",
@@ -97,7 +97,7 @@
       "enhance": 0,
       "set": "grey",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/grey-ring.png"
+      "iconSrc": "/gear-sets/thumbs/grey-ring.webp"
     },
     {
       "id": "yellow_helm",
@@ -113,7 +113,7 @@
       "enhance": 6,
       "set": "yellow",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/yellow-helm.png"
+      "iconSrc": "/gear-sets/thumbs/yellow-helm.webp"
     },
     {
       "id": "yellow_armor",
@@ -129,7 +129,7 @@
       "enhance": 6,
       "set": "yellow",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/yellow-armor.png"
+      "iconSrc": "/gear-sets/thumbs/yellow-armor.webp"
     },
     {
       "id": "yellow_cloak",
@@ -145,7 +145,7 @@
       "enhance": 6,
       "set": "yellow",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/yellow-cloak.png"
+      "iconSrc": "/gear-sets/thumbs/yellow-cloak.webp"
     },
     {
       "id": "yellow_belt",
@@ -161,7 +161,7 @@
       "enhance": 6,
       "set": "yellow",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/yellow-belt.png"
+      "iconSrc": "/gear-sets/thumbs/yellow-belt.webp"
     },
     {
       "id": "yellow_boots",
@@ -177,7 +177,7 @@
       "enhance": 6,
       "set": "yellow",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/yellow-boots.png"
+      "iconSrc": "/gear-sets/thumbs/yellow-boots.webp"
     },
     {
       "id": "yellow_ring",
@@ -193,7 +193,7 @@
       "enhance": 6,
       "set": "yellow",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/yellow-ring.png"
+      "iconSrc": "/gear-sets/thumbs/yellow-ring.webp"
     },
     {
       "id": "yellow_staff",
@@ -211,7 +211,7 @@
       "roles": [
         "mage"
       ],
-      "iconSrc": "/gear-sets/thumbs/yellow-staff.png"
+      "iconSrc": "/gear-sets/thumbs/yellow-staff.webp"
     },
     {
       "id": "yellow_wand",
@@ -229,7 +229,7 @@
       "roles": [
         "mage"
       ],
-      "iconSrc": "/gear-sets/thumbs/yellow-wand.png"
+      "iconSrc": "/gear-sets/thumbs/yellow-wand.webp"
     },
     {
       "id": "mage_book",
@@ -247,7 +247,7 @@
       "roles": [
         "mage"
       ],
-      "iconSrc": "/gear-sets/thumbs/mage-book.png"
+      "iconSrc": "/gear-sets/thumbs/mage-book.webp"
     },
     {
       "id": "turquoise_helm",
@@ -263,7 +263,7 @@
       "enhance": 4,
       "set": "turquoise",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/turquoise-helm.png"
+      "iconSrc": "/gear-sets/thumbs/blue-helm.webp"
     },
     {
       "id": "turquoise_armor",
@@ -279,7 +279,7 @@
       "enhance": 4,
       "set": "turquoise",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/turquoise-armor.png"
+      "iconSrc": "/gear-sets/thumbs/blue-armor.webp"
     },
     {
       "id": "turquoise_cloak",
@@ -295,7 +295,7 @@
       "enhance": 4,
       "set": "turquoise",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/turquoise-cloak.png"
+      "iconSrc": "/gear-sets/thumbs/blue-cloak.webp"
     },
     {
       "id": "turquoise_belt",
@@ -311,7 +311,7 @@
       "enhance": 4,
       "set": "turquoise",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/turquoise-belt.png"
+      "iconSrc": "/gear-sets/thumbs/blue-belt.webp"
     },
     {
       "id": "turquoise_boots",
@@ -327,7 +327,7 @@
       "enhance": 4,
       "set": "turquoise",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/turquoise-boots.png"
+      "iconSrc": "/gear-sets/thumbs/blue-boots.webp"
     },
     {
       "id": "turquoise_ring",
@@ -343,7 +343,7 @@
       "enhance": 4,
       "set": "turquoise",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/turquoise-ring.png"
+      "iconSrc": "/gear-sets/thumbs/blue-ring.webp"
     },
     {
       "id": "turquoise_staff",
@@ -361,7 +361,7 @@
       "roles": [
         "support"
       ],
-      "iconSrc": "/gear-sets/thumbs/turquoise-staff.png"
+      "iconSrc": "/gear-sets/thumbs/turquoise-staff.webp"
     },
     {
       "id": "red_helm",
@@ -377,7 +377,7 @@
       "enhance": 10,
       "set": "red",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/red-helm.png"
+      "iconSrc": "/gear-sets/thumbs/red-helm.webp"
     },
     {
       "id": "red_armor",
@@ -393,7 +393,7 @@
       "enhance": 10,
       "set": "red",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/red-armor.png"
+      "iconSrc": "/gear-sets/thumbs/red-armor.webp"
     },
     {
       "id": "red_cloak",
@@ -409,7 +409,7 @@
       "enhance": 9,
       "set": "red",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/red-cloak.png"
+      "iconSrc": "/gear-sets/thumbs/red-cloak.webp"
     },
     {
       "id": "red_belt",
@@ -425,7 +425,7 @@
       "enhance": 9,
       "set": "red",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/red-belt.png"
+      "iconSrc": "/gear-sets/thumbs/red-belt.webp"
     },
     {
       "id": "red_boots",
@@ -441,7 +441,7 @@
       "enhance": 9,
       "set": "red",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/red-boots.png"
+      "iconSrc": "/gear-sets/thumbs/red-boots.webp"
     },
     {
       "id": "red_ring",
@@ -457,7 +457,7 @@
       "enhance": 9,
       "set": "red",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/red-ring.png"
+      "iconSrc": "/gear-sets/thumbs/red-ring.webp"
     },
     {
       "id": "purple_helm",
@@ -473,7 +473,7 @@
       "enhance": 8,
       "set": "purple",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/purple-helm.png"
+      "iconSrc": "/gear-sets/thumbs/purple-helm.webp"
     },
     {
       "id": "purple_armor",
@@ -489,7 +489,7 @@
       "enhance": 8,
       "set": "purple",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/purple-armor.png"
+      "iconSrc": "/gear-sets/thumbs/purple-armor.webp"
     },
     {
       "id": "purple_cloak",
@@ -505,7 +505,7 @@
       "enhance": 8,
       "set": "purple",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/purple-cloak.png"
+      "iconSrc": "/gear-sets/thumbs/purple-cloak.webp"
     },
     {
       "id": "purple_belt",
@@ -521,7 +521,7 @@
       "enhance": 8,
       "set": "purple",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/purple-belt.png"
+      "iconSrc": "/gear-sets/thumbs/purple-belt.webp"
     },
     {
       "id": "purple_boots",
@@ -537,7 +537,7 @@
       "enhance": 8,
       "set": "purple",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/purple-boots.png"
+      "iconSrc": "/gear-sets/thumbs/purple-boots.webp"
     },
     {
       "id": "purple_ring",
@@ -553,7 +553,7 @@
       "enhance": 8,
       "set": "purple",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/purple-ring.png"
+      "iconSrc": "/gear-sets/thumbs/purple-ring.webp"
     },
     {
       "id": "green_helm",
@@ -569,7 +569,7 @@
       "enhance": 4,
       "set": "green",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/green-helm.png"
+      "iconSrc": "/gear-sets/thumbs/green-helm.webp"
     },
     {
       "id": "green_armor",
@@ -585,7 +585,7 @@
       "enhance": 4,
       "set": "green",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/green-armor.png"
+      "iconSrc": "/gear-sets/thumbs/green-armor.webp"
     },
     {
       "id": "green_cloak",
@@ -601,7 +601,7 @@
       "enhance": 4,
       "set": "green",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/green-cloak.png"
+      "iconSrc": "/gear-sets/thumbs/green-cloak.webp"
     },
     {
       "id": "green_belt",
@@ -617,7 +617,7 @@
       "enhance": 4,
       "set": "green",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/green-belt.png"
+      "iconSrc": "/gear-sets/thumbs/green-belt.webp"
     },
     {
       "id": "green_boots",
@@ -633,7 +633,7 @@
       "enhance": 4,
       "set": "green",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/green-boots.png"
+      "iconSrc": "/gear-sets/thumbs/green-boots.webp"
     },
     {
       "id": "green_ring",
@@ -649,7 +649,7 @@
       "enhance": 4,
       "set": "green",
       "roles": null,
-      "iconSrc": "/gear-sets/thumbs/green-ring.png"
+      "iconSrc": "/gear-sets/thumbs/green-ring.webp"
     },
     {
       "id": "tank_mace",
@@ -667,7 +667,7 @@
       "roles": [
         "tank"
       ],
-      "iconSrc": "/gear-sets/thumbs/tank-mace.png"
+      "iconSrc": "/gear-sets/thumbs/tank-mace.webp"
     },
     {
       "id": "tank_spear",
@@ -685,7 +685,7 @@
       "roles": [
         "tank"
       ],
-      "iconSrc": "/gear-sets/thumbs/tank-spear.png"
+      "iconSrc": "/gear-sets/thumbs/tank-spear.webp"
     },
     {
       "id": "tank_shield_large",
@@ -703,7 +703,7 @@
       "roles": [
         "tank"
       ],
-      "iconSrc": "/gear-sets/thumbs/tank-shield-large.png"
+      "iconSrc": "/gear-sets/thumbs/tank-shield-large.webp"
     },
     {
       "id": "tank_shield_small",
@@ -721,7 +721,7 @@
       "roles": [
         "tank"
       ],
-      "iconSrc": "/gear-sets/thumbs/tank-shield-small.png"
+      "iconSrc": "/gear-sets/thumbs/tank-shield-small.webp"
     },
     {
       "id": "fighter_greatsword",
@@ -739,7 +739,7 @@
       "roles": [
         "fighter"
       ],
-      "iconSrc": "/gear-sets/thumbs/fighter-greatsword.png"
+      "iconSrc": "/gear-sets/thumbs/fighter-greatsword.webp"
     },
     {
       "id": "fighter_axe_a",
@@ -757,7 +757,7 @@
       "roles": [
         "fighter"
       ],
-      "iconSrc": "/gear-sets/thumbs/fighter-axe-a.png"
+      "iconSrc": "/gear-sets/thumbs/fighter-axe-a.webp"
     },
     {
       "id": "fighter_axe_b",
@@ -775,7 +775,7 @@
       "roles": [
         "fighter"
       ],
-      "iconSrc": "/gear-sets/thumbs/fighter-axe-b.png"
+      "iconSrc": "/gear-sets/thumbs/fighter-axe-b.webp"
     },
     {
       "id": "assassin_dagger_a",
@@ -793,7 +793,7 @@
       "roles": [
         "assassin"
       ],
-      "iconSrc": "/gear-sets/thumbs/assassin-dagger-a.png"
+      "iconSrc": "/gear-sets/thumbs/assassin-dagger-a.webp"
     },
     {
       "id": "assassin_dagger_b",
@@ -811,7 +811,7 @@
       "roles": [
         "assassin"
       ],
-      "iconSrc": "/gear-sets/thumbs/assassin-dagger-b.png"
+      "iconSrc": "/gear-sets/thumbs/assassin-dagger-b.webp"
     },
     {
       "id": "green_bow",
@@ -829,7 +829,7 @@
       "roles": [
         "ranger"
       ],
-      "iconSrc": "/gear-sets/thumbs/green-bow.png"
+      "iconSrc": "/gear-sets/thumbs/green-bow.webp"
     },
     {
       "id": "green_crossbow",
@@ -847,7 +847,7 @@
       "roles": [
         "ranger"
       ],
-      "iconSrc": "/gear-sets/thumbs/green-crossbow.png"
+      "iconSrc": "/gear-sets/thumbs/green-crossbow.webp"
     },
     {
       "id": "green_arrows",
@@ -865,7 +865,7 @@
       "roles": [
         "ranger"
       ],
-      "iconSrc": "/gear-sets/thumbs/green-arrows.png"
+      "iconSrc": "/gear-sets/thumbs/green-arrows.webp"
     },
     {
       "id": "support_scroll",
@@ -883,7 +883,7 @@
       "roles": [
         "support"
       ],
-      "iconSrc": "/gear-sets/thumbs/support-scroll.png"
+      "iconSrc": "/gear-sets/thumbs/support-scroll.webp"
     }
   ]
 }

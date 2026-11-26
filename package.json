@@ -9,6 +9,7 @@
     "hud:vendor-stitch": "npm run vendor-stitch --prefix client/web-hud",
     "hud:build-stitch": "npm run build-stitch --prefix client/web-hud",
     "hud:verify-nav": "npm run verify-nav --prefix client/web-hud",
+    "optimize:images": "node scripts/optimize-images.mjs",
     "web-hud": "./qa/run-web-hud.sh",
     "soft-launch": "./qa/run-soft-launch.sh",
     "acceptance": "./qa/run-acceptance.sh"

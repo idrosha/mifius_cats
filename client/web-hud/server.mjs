@@ -7,6 +7,7 @@
 import http from "node:http";
 import fs from "node:fs";
 import path from "node:path";
+import zlib from "node:zlib";
 import { fileURLToPath } from "node:url";
 import { handleDungeonDevApi } from "./dungeon-dev-api.mjs";
 import { handleAccountsDevApi } from "./accounts-dev-api.mjs";
@@ -49,46 +50,206 @@ const MIME = {
   ".jpg": "image/jpeg",
   ".jpeg": "image/jpeg",
   ".webp": "image/webp",
+  ".avif": "image/avif",
+  ".gif": "image/gif",
   ".ico": "image/x-icon",
+  ".woff": "font/woff",
   ".woff2": "font/woff2",
 };
 
-function cacheControlFor(ext) {
-  // Soft-launch cutouts still iterate — keep must-revalidate. Query `?v=` on URLs
-  // busts after rebakes; longer max-age cuts repeat downloads on warm sessions.
-  if ([".png", ".jpg", ".jpeg", ".webp", ".gif", ".svg", ".ico"].includes(ext)) {
-    // Query ?v= busts after rebakes; week-long warm cache speeds repeat visits.
-    return "public, max-age=604800, immutable";
+const COMPRESSIBLE_EXTS = new Set([".html", ".js", ".css", ".json", ".svg", ".txt", ".xml"]);
+const COMPRESS_MIN_BYTES = 1024;
+const COMPRESSED_CACHE_MAX = 64;
+/** Map<string, { mtimeMs: number, size: number, buf: Buffer }> */
+const compressedCache = new Map();
+
+function pickEncoding(req) {
+  const ae = String(req?.headers?.["accept-encoding"] || "");
+  if (/\bbr\b/i.test(ae)) return "br";
+  if (/\bgzip\b/i.test(ae)) return "gzip";
+  return null;
+}
+
+function compressBuffer(buf, enc) {
+  if (enc === "br") {
+    return zlib.brotliCompressSync(buf, {
+      params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 4 },
+    });
   }
-  if ([".woff", ".woff2"].includes(ext)) {
-    return "public, max-age=604800, immutable";
+  if (enc === "gzip") {
+    return zlib.gzipSync(buf, { level: 6 });
   }
-  // Soft-launch: JS/CSS change often (fatality labels, FX). max-age trapped
-  // open tabs on pre-deploy app.js (D-041 «котик» after merge) — always revalidate.
-  if ([".css", ".js"].includes(ext)) return "no-cache";
+  return buf;
+}
+
+function cacheControlFor(ext, hasVersionQuery = false) {
+  if ([".png", ".jpg", ".jpeg", ".webp", ".avif", ".gif", ".svg", ".ico", ".woff", ".woff2"].includes(ext)) {
+    return hasVersionQuery
+      ? "public, max-age=31536000, immutable"
+      : "public, max-age=604800, immutable";
+  }
+  if (ext === ".json") {
+    return "public, max-age=300, must-revalidate";
+  }
+  // Soft-launch: HTML/JS/CSS revalidate via ETag → 304 Not Modified (0 bytes on warm visits).
+  if ([".css", ".js", ".html"].includes(ext)) return "no-cache";
   return "no-store";
 }
 
-function send(res, code, body, headers = {}) {
-  const payload = typeof body === "string" || Buffer.isBuffer(body) ? body : JSON.stringify(body);
-  res.writeHead(code, {
-    "Cache-Control": "no-store",
-    ...headers,
-  });
-  res.end(payload);
+function makeEtag(st) {
+  return `W/"${st.size.toString(16)}-${Math.floor(st.mtimeMs).toString(16)}"`;
 }
 
-function serveFile(res, filePath) {
-  fs.readFile(filePath, (err, data) => {
-    if (err) {
-      send(res, 404, "not found", { "Content-Type": "text/plain; charset=utf-8" });
+function isFresh(req, etag, mtimeMs) {
+  const inm = req?.headers?.["if-none-match"];
+  if (inm) {
+    const tags = inm.split(",").map((s) => s.trim());
+    if (tags.includes("*") || tags.includes(etag)) return true;
+  }
+  const ims = req?.headers?.["if-modified-since"];
+  if (!inm && ims) {
+    const t = Date.parse(ims);
+    if (!Number.isNaN(t) && Math.floor(mtimeMs / 1000) * 1000 <= t) return true;
+  }
+  return false;
+}
+
+function send(res, code, body, headers = {}, req = null) {
+  const raw =
+    typeof body === "string"
+      ? Buffer.from(body, "utf8")
+      : Buffer.isBuffer(body)
+        ? body
+        : Buffer.from(JSON.stringify(body), "utf8");
+  const outHeaders = {
+    "Cache-Control": "no-store",
+    ...headers,
+  };
+  const ct = String(outHeaders["Content-Type"] || "");
+  const compressible =
+    req &&
+    raw.length >= COMPRESS_MIN_BYTES &&
+    /(?:json|text|javascript|svg|xml)/i.test(ct) &&
+    !outHeaders["Content-Encoding"];
+  let payload = raw;
+  if (compressible) {
+    const enc = pickEncoding(req);
+    if (enc) {
+      payload = compressBuffer(raw, enc);
+      outHeaders["Content-Encoding"] = enc;
+      outHeaders["Vary"] = "Accept-Encoding";
+    }
+  }
+  outHeaders["Content-Length"] = String(payload.length);
+  res.writeHead(code, outHeaders);
+  if (req?.method === "HEAD") {
+    res.end();
+  } else {
+    res.end(payload);
+  }
+}
+
+function serveFile(res, filePath, req = null, hasVersionQuery = false) {
+  fs.stat(filePath, (err, st) => {
+    if (err || !st.isFile()) {
+      send(res, 404, "not found", { "Content-Type": "text/plain; charset=utf-8" }, req);
       return;
     }
     const ext = path.extname(filePath).toLowerCase();
-    send(res, 200, data, {
-      "Content-Type": MIME[ext] || "application/octet-stream",
-      "Cache-Control": cacheControlFor(ext),
+    const contentType = MIME[ext] || "application/octet-stream";
+    const cacheControl = cacheControlFor(ext, hasVersionQuery);
+    const etag = makeEtag(st);
+    const lastModified = st.mtime.toUTCString();
+    const isCompressible = COMPRESSIBLE_EXTS.has(ext) && st.size >= COMPRESS_MIN_BYTES;
+
+    const baseHeaders = {
+      "Content-Type": contentType,
+      "Cache-Control": cacheControl,
+      ETag: etag,
+      "Last-Modified": lastModified,
+    };
+    if (isCompressible) baseHeaders["Vary"] = "Accept-Encoding";
+
+    if (req && isFresh(req, etag, st.mtimeMs)) {
+      res.writeHead(304, baseHeaders);
+      res.end();
+      return;
+    }
+
+    // Compressed path for text/HTML/JS/CSS/JSON/SVG (with mtime-keyed LRU cache)
+    const enc = isCompressible && req ? pickEncoding(req) : null;
+    if (enc) {
+      const cacheKey = `${filePath}|${enc}`;
+      const hit = compressedCache.get(cacheKey);
+      if (hit && hit.mtimeMs === st.mtimeMs && hit.size === st.size) {
+        const hdrs = {
+          ...baseHeaders,
+          "Content-Encoding": enc,
+          "Content-Length": String(hit.buf.length),
+        };
+        res.writeHead(200, hdrs);
+        if (req.method === "HEAD") res.end();
+        else res.end(hit.buf);
+        return;
+      }
+      fs.readFile(filePath, (rErr, data) => {
+        if (rErr) {
+          send(res, 404, "not found", { "Content-Type": "text/plain; charset=utf-8" }, req);
+          return;
+        }
+        const compressed = compressBuffer(data, enc);
+        if (compressedCache.size >= COMPRESSED_CACHE_MAX) {
+          const oldest = compressedCache.keys().next().value;
+          if (oldest) compressedCache.delete(oldest);
+        }
+        compressedCache.set(cacheKey, { mtimeMs: st.mtimeMs, size: st.size, buf: compressed });
+        res.writeHead(200, {
+          ...baseHeaders,
+          "Content-Encoding": enc,
+          "Content-Length": String(compressed.length),
+        });
+        if (req.method === "HEAD") res.end();
+        else res.end(compressed);
+      });
+      return;
+    }
+
+    // Binary / uncompressed streaming path with HTTP Range support
+    baseHeaders["Accept-Ranges"] = "bytes";
+    const rangeHdr = req?.headers?.range;
+    if (rangeHdr && /^bytes=/i.test(rangeHdr)) {
+      const m = /^bytes=(\d*)-(\d*)$/i.exec(rangeHdr.trim());
+      if (m) {
+        const start = m[1] === "" ? Math.max(0, st.size - Number(m[2])) : Number(m[1]);
+        const end = m[2] === "" ? st.size - 1 : Math.min(st.size - 1, Number(m[2]));
+        if (Number.isNaN(start) || Number.isNaN(end) || start > end || start >= st.size) {
+          res.writeHead(416, { "Content-Range": `bytes */${st.size}` });
+          res.end();
+          return;
+        }
+        res.writeHead(206, {
+          ...baseHeaders,
+          "Content-Range": `bytes ${start}-${end}/${st.size}`,
+          "Content-Length": String(end - start + 1),
+        });
+        if (req.method === "HEAD") {
+          res.end();
+        } else {
+          fs.createReadStream(filePath, { start, end }).pipe(res);
+        }
+        return;
+      }
+    }
+
+    res.writeHead(200, {
+      ...baseHeaders,
+      "Content-Length": String(st.size),
     });
+    if (req?.method === "HEAD") {
+      res.end();
+    } else {
+      fs.createReadStream(filePath).pipe(res);
+    }
   });
 }
 
@@ -252,42 +413,39 @@ const server = http.createServer(async (req, res) => {
   }
 
   /** Warehouse stub catalog (D-028 / Wave B) — not Nakama SoT; battle does not consume. */
-  if (u.pathname === "/api/dev/gear" && req.method === "GET") {
+  if (u.pathname === "/api/dev/gear" && (req.method === "GET" || req.method === "HEAD")) {
     const gearPath = path.join(PUBLIC, "gear-stub.json");
-    try {
-      const raw = fs.readFileSync(gearPath, "utf8");
-      send(res, 200, JSON.parse(raw), { "Content-Type": "application/json; charset=utf-8" });
-    } catch {
+    if (fs.existsSync(gearPath)) {
+      serveFile(res, gearPath, req, false);
+    } else {
       send(res, 200, { stub: true, cap: 96, items: [], note: "HUD local seed; file missing" }, {
         "Content-Type": "application/json; charset=utf-8",
-      });
+      }, req);
     }
     return;
   }
 
-  if (u.pathname === "/api/dev/breeding" && req.method === "GET") {
+  if (u.pathname === "/api/dev/breeding" && (req.method === "GET" || req.method === "HEAD")) {
     const breedPath = path.join(PUBLIC, "breeding-stub.json");
-    try {
-      const raw = fs.readFileSync(breedPath, "utf8");
-      send(res, 200, JSON.parse(raw), { "Content-Type": "application/json; charset=utf-8" });
-    } catch {
+    if (fs.existsSync(breedPath)) {
+      serveFile(res, breedPath, req, false);
+    } else {
       send(res, 200, { stub: true, note: "D-030; file missing", mythicChanceLabel: "малый", mats: [] }, {
         "Content-Type": "application/json; charset=utf-8",
-      });
+      }, req);
     }
     return;
   }
 
   /** Collection stub meta (D-031) — cats from grant/profile; presets local. */
-  if (u.pathname === "/api/dev/collection" && req.method === "GET") {
+  if (u.pathname === "/api/dev/collection" && (req.method === "GET" || req.method === "HEAD")) {
     const colPath = path.join(PUBLIC, "collection-stub.json");
-    try {
-      const raw = fs.readFileSync(colPath, "utf8");
-      send(res, 200, JSON.parse(raw), { "Content-Type": "application/json; charset=utf-8" });
-    } catch {
+    if (fs.existsSync(colPath)) {
+      serveFile(res, colPath, req, false);
+    } else {
       send(res, 200, { stub: true, note: "D-031; file missing", slotCap: 15, presetSlots: 5, presets: [] }, {
         "Content-Type": "application/json; charset=utf-8",
-      });
+      }, req);
     }
     return;
   }
@@ -311,7 +469,7 @@ const server = http.createServer(async (req, res) => {
     }
     send(res, 200, grantStarterKit(userId, { testRoster }), {
       "Content-Type": "application/json; charset=utf-8",
-    });
+    }, req);
     return;
   }
 
@@ -389,14 +547,14 @@ const server = http.createServer(async (req, res) => {
       /* fall through to disk fallback */
     }
     if (wantsBundle && fs.existsSync(LIVEOPS_FALLBACK)) {
-      serveFile(res, LIVEOPS_FALLBACK);
+      serveFile(res, LIVEOPS_FALLBACK, req, u.searchParams.has("v"));
       return;
     }
-    send(res, 503, { error: "liveops unavailable" }, { "Content-Type": "application/json; charset=utf-8" });
+    send(res, 503, { error: "liveops unavailable" }, { "Content-Type": "application/json; charset=utf-8" }, req);
     return;
   }
   if (u.pathname === "/loc.json") {
-    serveFile(res, LOC_PATH);
+    serveFile(res, LOC_PATH, req, u.searchParams.has("v"));
     return;
   }
 
@@ -430,21 +588,21 @@ const server = http.createServer(async (req, res) => {
     rel === "/home" ||
     rel === "/home/"
   ) {
-    serveFile(res, path.join(PUBLIC, "index.html"));
+    serveFile(res, path.join(PUBLIC, "index.html"), req, false);
     return;
   }
   if (rel === "/" || rel === "") rel = "/index.html";
-  // Masters / pre-optimize originals — not for runtime (keep on disk under _src/).
-  if (/(^|\/|\\)_src(\/|\\|$)/i.test(rel) || rel.includes("/_src/") || rel.includes("\\_src\\")) {
-    send(res, 404, "not found", { "Content-Type": "text/plain; charset=utf-8" });
+  // Masters / pre-optimize originals & raw build art — not for runtime.
+  if (/(^|\/|\\)(?:_src|art-raw)(\/|\\|$)/i.test(rel)) {
+    send(res, 404, "not found", { "Content-Type": "text/plain; charset=utf-8" }, req);
     return;
   }
   const filePath = path.normalize(path.join(PUBLIC, rel));
   if (!filePath.startsWith(PUBLIC)) {
-    send(res, 403, "forbidden", { "Content-Type": "text/plain; charset=utf-8" });
+    send(res, 403, "forbidden", { "Content-Type": "text/plain; charset=utf-8" }, req);
     return;
   }
-  serveFile(res, filePath);
+  serveFile(res, filePath, req, u.searchParams.has("v"));
 });
 
 // Sync bind line so Amvera logs show it even if the process is SIGTERM'd quickly
