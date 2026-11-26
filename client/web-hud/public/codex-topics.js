@@ -167,6 +167,21 @@ window.CODEX_TOPICS = [
 
   /* ─── Герои ─── */
   {
+    id: "heroes_atlas",
+    filter: "combat",
+    icon: "pets",
+    tag: "Герои",
+    status: "Изучается",
+    title: "Кодекс боевых архетипов",
+    blurb: "18 героев · роли · стихии",
+    mode: "heroes",
+    source: "wiki §1 · Stitch heroes",
+    go: [
+      { tab: "collection", label: "Коллекция", icon: "grid_view", primary: "character" },
+      { tab: "home", label: "Персонаж", icon: "person", primary: "character" },
+    ],
+  },
+  {
     id: "heroes_skills",
     filter: "combat",
     icon: "auto_awesome",
