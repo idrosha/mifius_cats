@@ -1843,31 +1843,52 @@ function log(msg, which = "battle") {
   if (el) el.textContent = state.logLines.slice(0, 12).join("\n");
 }
 
+const _apiInflight = new Map();
+const _apiStaticCache = new Map();
+const STATIC_API_RE = /^\/(?:content\/[\w.-]+\.json|loc\.json|api\/dev\/(?:gear|breeding|collection))$/;
+
 async function api(path, opts = {}) {
-  const res = await fetch(path, {
-    ...opts,
-    headers: {
-      Accept: "application/json",
-      ...(opts.body ? { "Content-Type": "application/json" } : {}),
-      ...(opts.headers || {}),
-    },
-  });
-  const text = await res.text();
-  let data = null;
-  try {
-    data = text ? JSON.parse(text) : null;
-  } catch {
-    data = { raw: text };
+  const method = String(opts.method || "GET").toUpperCase();
+  const isStaticGet = method === "GET" && STATIC_API_RE.test(path);
+  if (isStaticGet && _apiStaticCache.has(path)) {
+    return _apiStaticCache.get(path);
   }
-  if (!res.ok) {
-    const err = new Error(
-      typeof data === "string" ? data : data?.error || data?.raw || text || res.statusText,
-    );
-    err.status = res.status;
-    err.data = data;
-    throw err;
+  if (isStaticGet && _apiInflight.has(path)) {
+    return _apiInflight.get(path);
   }
-  return { data, headers: res.headers };
+  const run = (async () => {
+    const res = await fetch(path, {
+      ...opts,
+      headers: {
+        Accept: "application/json",
+        ...(opts.body ? { "Content-Type": "application/json" } : {}),
+        ...(opts.headers || {}),
+      },
+    });
+    const text = await res.text();
+    let data = null;
+    try {
+      data = text ? JSON.parse(text) : null;
+    } catch {
+      data = { raw: text };
+    }
+    if (!res.ok) {
+      const err = new Error(
+        typeof data === "string" ? data : data?.error || data?.raw || text || res.statusText,
+      );
+      err.status = res.status;
+      err.data = data;
+      throw err;
+    }
+    const out = { data, headers: res.headers };
+    if (isStaticGet) _apiStaticCache.set(path, out);
+    return out;
+  })();
+  if (isStaticGet) {
+    _apiInflight.set(path, run);
+    run.finally(() => _apiInflight.delete(path));
+  }
+  return run;
 }
 
 async function loadLoc() {
@@ -7837,7 +7858,7 @@ function fillShopCardArt(card) {
   if (!card) return;
   const sku = card.getAttribute("data-sku") || "";
   let art = "";
-  if (HERO_CHEST_POOL.includes(sku)) art = catHeroArt(sku) || "";
+  if (HERO_CHEST_POOL.includes(sku)) art = catHeroThumb(sku) || catHeroArt(sku) || "";
   else if (sku.startsWith("set_")) {
     const sid = sku.slice(4);
     art = SHOP_ARMOR_SET_META[sid]?.thumb || `/gear-sets/thumbs/${sid}-armor.png`;
@@ -7881,7 +7902,7 @@ function shopHeroCardHtml(tid) {
   const role = meta.role || String(tid).split("_")[1] || "";
   const el = meta.element || String(tid).split("_")[2] || "";
   const name = CAT_SHEET_NAMES[tid] || tid;
-  const art = catHeroArt(tid) || "";
+  const art = catHeroThumb(tid) || "";
   const price = SHOP_HERO_PRICE[role] || 90;
   const owned = (state.profile?.cats || []).some((c) => c.templateId === tid);
   const artHtml = art
@@ -9651,6 +9672,13 @@ function catHeroArt(templateId) {
   return CAT_HERO_ART[templateId] || null;
 }
 
+/** Lightweight 320px WebP thumbnail for hero lists, cards, rosters, and grids. */
+function catHeroThumb(templateId) {
+  const full = catHeroArt(templateId);
+  if (!full) return null;
+  return full.replace("/cat-heroes/", "/cat-heroes/thumbs/");
+}
+
 /** No-background sprite for live battle boards only (D-037). */
 function catHeroBattleArt(templateId) {
   return CAT_HERO_BATTLE_ART[templateId] || catHeroArt(templateId);
@@ -11358,7 +11386,7 @@ function renderHomeRoster(cat) {
       const m = starterMeta(c.templateId);
       const role = CAT_ROLE_RU[c.role || m.role] || c.role || "—";
       const el = CAT_ELEMENT_RU[c.element || m.element] || c.element || m.element || "—";
-      const art = catHeroArt(c.templateId);
+      const art = catHeroThumb(c.templateId);
       const s = statsForCat(c);
       const power = sheetPower(s);
       return `<button type="button" data-home-cat="${c.catId}" class="home-roster-row p-2 rounded-xl flex items-center gap-2 shrink-0 text-left border transition-colors ${on ? "bg-surface-container-highest border-primary/50 shadow" : "bg-surface-container-lowest/40 border-outline-variant/40 hover:border-primary/40"}">
@@ -11550,7 +11578,7 @@ function renderHeroesCodex() {
       const role = meta.role || String(tid).split("_")[1] || "";
       const el = meta.element || String(tid).split("_")[2] || "";
       const name = CAT_SHEET_NAMES[tid] || tid;
-      const art = catHeroArt(tid) || "";
+      const art = catHeroThumb(tid) || "";
       const blurb = CAT_HERO_BLURB[tid] || `${CAT_ROLE_RU[role] || role} · ${CAT_ELEMENT_RU[el] || el}`;
       const on = (state.heroesFocusId || pool[0]) === tid;
       return `<article class="archetype-card cursor-pointer rounded-lg p-space-sm transition-all duration-200 ${
@@ -18893,7 +18921,7 @@ function renderCollectionRosterCards(cats) {
       const roleRu = hero.roleRu || CAT_ROLE_RU[homeCatRole(c)] || homeCatRole(c) || "—";
       const roleIcon = hero.roleIcon || "pets";
       const elKey = c.element || starterMeta(c.templateId)?.element || "";
-      const art = catHeroArt(c.templateId) || "";
+      const art = catHeroThumb(c.templateId) || "";
       const on = activeIds.has(c.catId);
       const slotIdx = on ? activeSlots.indexOf(c.catId) : -1;
       const marks = squadMarks[c.catId];
@@ -19910,7 +19938,7 @@ function dojoRosterCardHtml(key) {
   const hero = PRACTICE_HEROES[key];
   if (!hero) return "";
   const el = practiceElementOf(hero);
-  const art = catHeroArt(hero.templateId) || "";
+  const art = catHeroThumb(hero.templateId) || "";
   const accent = hero.accent === "tertiary" ? "tertiary" : hero.accent === "secondary" ? "secondary" : "primary";
   const base = CONTENT_CAT_BASE[hero.templateId] || {};
   const hp = base.hp ?? hero.hp;

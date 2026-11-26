@@ -11765,3 +11765,24 @@ html, body {
 
 
 
+
+/* Performance: isolate hidden views & smooth image placeholders to avoid CLS/flicker */
+.stitch-view.hidden {
+  contain: strict;
+}
+.archetype-card,
+.pass-node,
+.home-roster-row,
+.collection-roster > * {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 120px;
+}
+.stitch-view img:not([src]),
+.stitch-view img[src=""] {
+  background: rgba(35, 31, 28, 0.55);
+}
+.mf-hero-portrait,
+.home-roster-avatar,
+.archetype-card img {
+  background-color: rgba(24, 20, 17, 0.5);
+}
