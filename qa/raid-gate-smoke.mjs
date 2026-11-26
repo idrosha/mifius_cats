@@ -85,14 +85,26 @@ const sharedLoad =
   /function raidLoadHost\s*\(/.test(appJs) &&
   /function raidLoadTabActive\s*\(/.test(appJs) &&
   /function ensureRaidLoadOverlay\s*\(/.test(appJs) &&
-  /boss_dungeon.*isRaidLobby|isRaidLobby\(\).*boss_dungeon/.test(
-    appJs.match(/function raidLoadTabActive[\s\S]{0,220}/)?.[0] || "",
+  /boss_dungeon[\s\S]*isRaidLobby|isRaidLobby\(\)[\s\S]*boss_dungeon/.test(
+    appJs.match(/function raidLoadTabActive[\s\S]{0,280}/)?.[0] || "",
   );
 add(
   "G5b",
   sharedLoad,
   "raid load host on shared dungeon lobby (Данж → рейд start)",
 );
+
+const unifiedNav =
+  /nav\.sub\.boss_dungeon[\s\S]{0,80}"ru"\s*:\s*"Походы"/.test(
+    fs.existsSync(rel("content/i18n/ru_en.json"))
+      ? fs.readFileSync(rel("content/i18n/ru_en.json"), "utf8")
+      : "",
+  ) &&
+  /id:\s*"boss_dungeon"/.test(appJs) &&
+  !/tabs:\s*\[[\s\S]*?id:\s*"boss_raid"/.test(
+    appJs.match(/id:\s*"combat"[\s\S]*?tabs:\s*\[[\s\S]*?\],\s*\n\s*\}/)?.[0] || "",
+  );
+add("G5c", unifiedNav, "NAV: one Походы tab, no boss_raid subtab (D-062)");
 
 const lobbyHard12 =
   /legion.*12|partySize\s*[:=]\s*12|minPlayers\s*[:=]\s*12|рейд.*12/i.test(appJs) &&

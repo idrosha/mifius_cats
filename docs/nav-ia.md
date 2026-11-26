@@ -14,7 +14,7 @@ Chrome: только `#appNav` / `#appSubTabs` (не Stitch-headers экрано
 | `pass` | Боевой пропуск | `pass` | _(нет)_ |
 | `character` | Дом Хранителя | `home` | `farm` (Двор · Soon), `craft`, `home` (Персонаж), **`gear` (Склад)**, `collection`, `breeding` |
 | `trade` | Торговля | `trade_hub` | `trade_hub` (Хаб торговли Площадь), `tavern`, `shop`, `market`, `auction` |
-| `combat` | Бои | `battle_hub` | `battle_hub` (Хаб боев Мифмир), `practice`, `pve` (= yard), `pvp`, `boss_dungeon`, `boss_raid`, `guild_battle` |
+| `combat` | Бои | `battle_hub` | `battle_hub` (Хаб боев Мифмир), `practice`, `pve` (= yard), `pvp`, `boss_dungeon` (**Походы** · данж+рейд, `D-062`), `guild_battle` |
 | `guilds` | Гильдии | `guild_hub` | `guild_hub`, `guild` (Моя гильдия), `chat_guild` |
 | `ratings` | Рейтинги | `rating_players` | `rating_players` (ПВП), `rating_dungeon`, `rating_raid`, `rating_guilds` |
 | `friends` | Друзья | `chat_friends` | `chat_friends` (Список Друзей), `chat_global` (Чаты) |

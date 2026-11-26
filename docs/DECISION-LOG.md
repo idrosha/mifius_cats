@@ -12,6 +12,27 @@ Append-only. Новые записи — **сверху** (после шабло
 6. Одна запись = одно решение. Не смешивать баланс и IA в одном D-id.
 7. В коде/доках ссылайся `D-0xx`, не копируй абзац Context.
 
+## D-062 · 2026-11-26 · Бои: одна вкладка «Походы» (данж+рейд)
+
+- **Status:** Accepted
+- **Area:** hud
+- **SSOT:** docs/nav-ia.md; docs/FULL-SPEC.md §6
+- **Owner:** Andrew / web-hud
+- **Patches:** D-033 (combat subtabs: drop `boss_raid`)
+
+### Context
+Лобби данж/рейд уже общее (`viewBossDungeon`). Две subtab «Данж» и «Рейд» дублировали вход. Нужно одно имя и без отдельной страницы рейда.
+
+### Decision
+1. Subtab label: **«Походы»** (EN *Expeditions*) — одно слово поверх данж+рейд. Альтернатива «Данжи/Рейды» отвергнута как длинная для chrome.
+2. Из `NAV` combat убрать `boss_raid`. Route `boss_dungeon` = канон; `boss_raid` и soft-path «рейд» = alias → тот же лобби с фильтром Рейд.
+3. Вход с вкладки «Походы» открывает фильтр **Все**. Фильтры Данж/Рейд внутри лобби остаются.
+
+### Consequences
++ Один пункт меню. − Legacy `#viewBossRaid` HTML может остаться скрытым (load chrome adopt). Рейтинги Данжи/Рейд не трогаем.
+
+---
+
 ## D-060 · 2026-11-25 · Mythmir/dungeon clear-band + golden refresh
 
 - **Status:** Accepted

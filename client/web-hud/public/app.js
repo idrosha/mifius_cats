@@ -177,6 +177,9 @@ const PATH_TO_TAB = {
   dungeons: "boss_dungeon",
   "dungeons-and-raids": "boss_dungeon",
   "danzhi-i-reydy": "boss_dungeon",
+  походы: "boss_dungeon",
+  pohody: "boss_dungeon",
+  expeditions: "boss_dungeon",
   boss_dungeon: "boss_dungeon",
   рейтинги: "rating_players",
   leaderboards: "rating_players",
@@ -268,7 +271,7 @@ const KNOWLEDGE_TABS = [
 ];
 
 /**
- * Locked IA (D-033). Order + subtabs frozen — do not change without Andrew + new D-0xx.
+ * Locked IA (D-033; combat subtabs patched D-062). Do not change without Andrew + new D-0xx.
  * Primary: pass → character → trade → combat → guilds → ratings → friends → knowledge.
  */
 const NAV = [
@@ -316,8 +319,8 @@ const NAV = [
       { id: "practice", key: "nav.sub.practice" },
       { id: "pve", key: "nav.sub.pve" },
       { id: "pvp", key: "nav.sub.pvp", gated: "pvp" },
+      /** Unified dungeon+raid lobby (D-062). Label «Походы»; boss_raid = alias only. */
       { id: "boss_dungeon", key: "nav.sub.boss_dungeon" },
-      { id: "boss_raid", key: "nav.sub.boss_raid", gated: false },
       { id: "guild_battle", key: "nav.sub.guild_battle", gated: true },
     ],
   },
@@ -1993,8 +1996,8 @@ function wireModeFor(viewId) {
     return "soon";
   }
   const special = {
-    viewBossDungeon: state.dungeonLobbyKind === "raid" ? "boss_raid" : "boss_dungeon",
-    viewBossRaid: "boss_raid",
+    viewBossDungeon: "boss_dungeon",
+    viewBossRaid: "boss_dungeon",
     viewGuildBattle: "guild_battle",
     viewChatGlobal: "chat_global",
     viewChatGuild: "chat_guild",
@@ -2240,12 +2243,13 @@ function navigate(tab, { soon = null, clearBattle = true, primary = null, fromGa
   }
   // Inline formation: keep combat primary highlighted even though it is not a subtab.
   if (tab === "formation" && primary == null) primary = "combat";
-  // Shared dungeon/raid lobby: subtab picks catalog filter + kind.
+  // Shared lobby (D-062): one nav tab «Походы». boss_raid = deep-link → raid filter, then collapse.
   if (tab === "boss_raid") {
     state.dungeonCatalogFilter = "raid";
     state.dungeonLobbyKind = "raid";
+    tab = "boss_dungeon";
   } else if (tab === "boss_dungeon") {
-    state.dungeonCatalogFilter = "dungeon";
+    state.dungeonCatalogFilter = "all";
     state.dungeonLobbyKind = "dungeon";
     state.raidDeployOpen = false;
   }
@@ -4025,7 +4029,8 @@ function renderDungeonLobby() {
 
   const catalogTitle = root.querySelector("[data-dungeon-catalog-title]");
   if (catalogTitle) {
-    catalogTitle.textContent = filter === "raid" ? "Каталог рейдов" : "Каталог склепов";
+    catalogTitle.textContent =
+      filter === "raid" ? "Каталог рейдов" : filter === "dungeon" ? "Каталог склепов" : "Каталог походов";
   }
   const catalogCount = root.querySelector("[data-dungeon-catalog-count]");
   if (catalogCount) {
@@ -4034,6 +4039,14 @@ function renderDungeonLobby() {
   }
 
   const raid = isRaidLobby();
+  const crumbEm = root.querySelector(".dojo-crumb em");
+  if (crumbEm) crumbEm.textContent = "Походы";
+  const modeLine = root.querySelector(".dojo-mode");
+  if (modeLine) {
+    modeLine.textContent = raid
+      ? "Рейд легиона 12 · пати 4×3 · путь short/long голосованием после 1-го отряда"
+      : "Данжи 3v3 и рейды 12 · фильтр Все / Данж / Рейд · ключи склепа";
+  }
   if (raid) {
     syncRaidLimitsFromLiveOps();
     ensureRaidLegion();
@@ -6079,9 +6092,12 @@ function ensureRaidLoadOverlay() {
   return { root: host, load: load || null };
 }
 
-/** Load bar is active on the shared lobby for either Данж or Рейд subtab. */
+/** Load bar is active on Походы lobby while raid kind (or mid-load after alias collapse). */
 function raidLoadTabActive() {
-  return state.tab === "boss_raid" || (state.tab === "boss_dungeon" && isRaidLobby());
+  return (
+    state.tab === "boss_dungeon" &&
+    (isRaidLobby() || raidLoadHost()?.dataset.raidLoading === "1")
+  );
 }
 
 function fillRaidLoadInfo() {

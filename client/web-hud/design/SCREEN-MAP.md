@@ -33,8 +33,8 @@ DESIGN.md = theme **Tavern Hearth Battler** (shared tokens).
 | `battle` | `battle.html` | e608 `pve_3v3` | Shared fight UI (рука / HP / ход) |
 | `result_win` | `result_win.html` | Stitch legion victory zip | Данж/рейд победа · 12 героев · трофеи · CTA (D-025 без site nav) |
 | `victory_hall` | `victory_hall.html` | victory-practice | Training/Mythmir win · 3 hero cards (cats↔dummies) |
-| `boss_dungeon` | `boss_dungeon.html` | 4da7 `3` | Данжи start · 3 волны |
-| `boss_raid` | `boss_raid.html` | 4da7 `12` | Рейд / легион 12 start |
+| `boss_dungeon` | `boss_dungeon.html` | 4da7 `3` | **Походы** (данж+рейд lobby, `D-062`) |
+| `boss_raid` | _(alias → `boss_dungeon`)_ · stitch `boss_raid.html` legacy | 4da7 `12` | No nav tab; deep-link sets raid filter |
 | `raid_battle` | `raid_battle.html` | Stitch raid-battle-12 | Бой рейда · строй 4×3 (тыл→авангард) · таймер 1:00 · без site nav (D-025) |
 | `pvp` | `pvp.html` | 4da7 `pvp` | PvP Арена start · подбор |
 | `pvp_load` | `pvp_load.html` | stitch pvp_versus_3v3 / pvp-load.png | Загрузка рейтинговой дуэли 3v3 · `/pvp-load` · stage art + bottom cards |
