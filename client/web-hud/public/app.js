@@ -1950,6 +1950,7 @@ function logicalViewId() {
   const map = {
     hub: "viewHub",
     login: "viewLogin",
+    settings: "viewSettings",
     practice: "viewPractice",
     codex: "viewCodex",
     yard: "viewYard",
@@ -2221,8 +2222,13 @@ function screenAddressFor(tab) {
   if (tab === "pve_load") return "/pve-load";
   if (tab === "pvp_load") return "/pvp-load";
   if (tab === "codex" || tab === "knowledge") return "/codex";
+  if (tab === "settings") return "/settings";
   if (tab === "login") return "/home";
   return "/";
+}
+
+function settingsAddressOpen() {
+  return normalizedPath() === "/settings";
 }
 
 function syncScreenAddress(tab) {
@@ -2302,6 +2308,9 @@ function navigate(tab, { soon = null, clearBattle = true, primary = null, fromGa
   }
   if (!tipShown) hideGateTip();
 
+  if (tab === "settings" && state.tab && state.tab !== "settings" && state.tab !== "login") {
+    state.prevTab = state.tab;
+  }
   state.tab = tab;
   state.soon = soon;
   // Farm still has Soon art sheet, but form is present (not hidden).
@@ -3140,6 +3149,7 @@ function renderTabs() {
   if (state.tab !== "hub" && activeGroup) state.primary = activeGroup.id;
 
   fillNav($("appTabs"), $("appSubTabs"), activeGroup, battleActive, "active");
+  $("btnSettings")?.classList.toggle("active", state.tab === "settings");
 }
 
 function starterMeta(id) {
@@ -18210,6 +18220,9 @@ function renderAll() {
       break;
     case "login":
       break;
+    case "settings":
+      renderSettings();
+      break;
     case "home":
       renderHome();
       break;
@@ -21383,9 +21396,334 @@ function stubLogout() {
   toast(t("auth.logout", "Вы вышли (stub)"));
 }
 
+const SETTINGS_STORAGE_KEY = "mythfel_settings_v1";
+const SETTINGS_AVATARS = [
+  "/stitch-assets/cat-heroes/tank-fire.webp",
+  "/stitch-assets/cat-heroes/fighter-fire.webp",
+  "/stitch-assets/cat-heroes/support-water.webp",
+  "/stitch-assets/cat-heroes/mage-fire.webp",
+  "/stitch-assets/cat-heroes/assassin-wind.webp",
+  "/stitch-assets/cat-heroes/ranger-water.webp",
+];
+const DEFAULT_SETTINGS = {
+  nickname: "",
+  avatarIdx: 0,
+  email: "keeper.m***@mifius.realm",
+  runeGlow: true,
+  hearthParticles: true,
+  musicVol: 65,
+  sfxVol: 90,
+  notifyFarm: true,
+  notifyColosseum: true,
+  twoFactor: true,
+  showHallOfFame: true,
+  allowFriendDuels: true,
+  hideTavernStats: false,
+  activeSection: "profile",
+};
+
+function loadSettingsState() {
+  if (state.settings) return state.settings;
+  let saved = {};
+  try {
+    const raw = localStorage.getItem(SETTINGS_STORAGE_KEY);
+    if (raw) saved = JSON.parse(raw) || {};
+  } catch {
+    saved = {};
+  }
+  state.settings = { ...DEFAULT_SETTINGS, ...saved };
+  return state.settings;
+}
+
+function saveSettingsState() {
+  const s = loadSettingsState();
+  try {
+    localStorage.setItem(SETTINGS_STORAGE_KEY, JSON.stringify(s));
+  } catch {
+    /* ignore storage quota */
+  }
+}
+
+function renderSettings() {
+  const s = loadSettingsState();
+  const root = $("viewSettings");
+  if (!root) return;
+
+  const fallbackName = state.profile?.name || state.login || "Мяурицио Громоносный";
+  const nameEl = $("settingsKeeperName");
+  if (nameEl) nameEl.textContent = s.nickname || fallbackName;
+
+  const tagEl = $("settingsKeeperTag");
+  if (tagEl && state.profile?.playerId) {
+    tagEl.textContent = `#${String(state.profile.playerId).slice(0, 8).toUpperCase()}`;
+  }
+
+  const avatarEl = $("settingsAvatarImg");
+  if (avatarEl) {
+    avatarEl.src = SETTINGS_AVATARS[s.avatarIdx % SETTINGS_AVATARS.length];
+  }
+
+  const emailEl = $("settingsCurrentEmail");
+  if (emailEl) emailEl.textContent = s.email || DEFAULT_SETTINGS.email;
+
+  const catsCount = state.profile?.cats?.length || 12;
+  const statCards = $("settingsStatCards");
+  if (statCards) statCards.textContent = `${catsCount} / 12`;
+
+  // Category tabs
+  for (const btn of root.querySelectorAll("[data-settings-tab]")) {
+    const active = btn.getAttribute("data-settings-tab") === s.activeSection;
+    btn.classList.toggle("is-active", active);
+    btn.setAttribute("aria-selected", active ? "true" : "false");
+  }
+  for (const sec of root.querySelectorAll("[data-settings-section]")) {
+    const match =
+      s.activeSection !== "profile" &&
+      sec.getAttribute("data-settings-section") === s.activeSection;
+    sec.classList.toggle("is-focus-highlight", match);
+  }
+
+  // Toggles
+  for (const el of root.querySelectorAll("[data-setting-toggle]")) {
+    const key = el.getAttribute("data-setting-toggle");
+    const on = !!s[key];
+    el.setAttribute("aria-pressed", on ? "true" : "false");
+    const pill = el.classList.contains("mf-toggle-pill")
+      ? el
+      : el.querySelector(".mf-toggle-pill");
+    if (pill) pill.classList.toggle("is-on", on);
+  }
+
+  // 2FA badge
+  const badge2fa = $("settings2faBadge");
+  if (badge2fa) {
+    badge2fa.innerHTML = s.twoFactor
+      ? '<span class="material-symbols-outlined text-[13px]">key</span> Ключ привязан'
+      : '<span class="material-symbols-outlined text-[13px]">key_off</span> Не привязан';
+    badge2fa.classList.toggle("text-secondary", !!s.twoFactor);
+    badge2fa.classList.toggle("text-outline", !s.twoFactor);
+  }
+
+  // Notifications status
+  const netStatus = $("settingsNetStatus");
+  if (netStatus) {
+    const anyOn = s.notifyFarm || s.notifyColosseum;
+    netStatus.textContent = anyOn ? "Активно" : "Отключено";
+    netStatus.classList.toggle("text-secondary", anyOn);
+    netStatus.classList.toggle("text-outline", !anyOn);
+  }
+
+  // Audio sliders
+  const musicEl = $("settingsMusicRange");
+  const sfxEl = $("settingsSfxRange");
+  if (musicEl) musicEl.value = String(s.musicVol);
+  if (sfxEl) sfxEl.value = String(s.sfxVol);
+  const musicVal = $("settingsMusicVal");
+  const sfxVal = $("settingsSfxVal");
+  const masterEl = $("settingsAudioMaster");
+  if (musicVal) musicVal.textContent = `${s.musicVol}%`;
+  if (sfxVal) sfxVal.textContent = `${s.sfxVol}%`;
+  if (masterEl) {
+    const master = Math.round((Number(s.musicVol) + Number(s.sfxVol)) / 2);
+    masterEl.textContent = `Мастер: ${master}%`;
+  }
+}
+
+function wireSettings() {
+  const root = $("viewSettings");
+  if (!root || root.dataset.wired === "1") return;
+  root.dataset.wired = "1";
+
+  // Category tabs
+  root.addEventListener("click", (e) => {
+    const tabBtn = e.target.closest("[data-settings-tab]");
+    if (tabBtn) {
+      const s = loadSettingsState();
+      s.activeSection = tabBtn.getAttribute("data-settings-tab") || "profile";
+      renderSettings();
+      const target = root.querySelector(`[data-settings-section="${s.activeSection}"]`);
+      if (target && s.activeSection !== "profile") {
+        target.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      }
+      return;
+    }
+
+    const toggleEl = e.target.closest("[data-setting-toggle]");
+    if (toggleEl) {
+      const key = toggleEl.getAttribute("data-setting-toggle");
+      const s = loadSettingsState();
+      s[key] = !s[key];
+      saveSettingsState();
+      renderSettings();
+    }
+  });
+
+  // Avatar cycle
+  $("btnSettingsAvatar")?.addEventListener("click", () => {
+    const s = loadSettingsState();
+    s.avatarIdx = (s.avatarIdx + 1) % SETTINGS_AVATARS.length;
+    saveSettingsState();
+    renderSettings();
+    toast("Аватар Хранителя обновлён");
+  });
+
+  // Nickname inline edit
+  $("btnSettingsNickname")?.addEventListener("click", () => {
+    const row = $("settingsNicknameRow");
+    const inp = $("settingsNicknameInput");
+    if (!row || !inp) return;
+    row.classList.toggle("hidden");
+    if (!row.classList.contains("hidden")) {
+      inp.value = $("settingsKeeperName")?.textContent || "";
+      inp.focus();
+    }
+  });
+  $("btnSettingsNicknameCancel")?.addEventListener("click", () => {
+    $("settingsNicknameRow")?.classList.add("hidden");
+  });
+  $("btnSettingsNicknameSave")?.addEventListener("click", () => {
+    const val = ($("settingsNicknameInput")?.value || "").trim();
+    if (!val) {
+      toast("Введите никнейм");
+      return;
+    }
+    const s = loadSettingsState();
+    s.nickname = val;
+    saveSettingsState();
+    $("settingsNicknameRow")?.classList.add("hidden");
+    renderSettings();
+    toast(`Никнейм изменён: ${val}`);
+  });
+
+  // Audio sliders
+  const onAudioInput = () => {
+    const s = loadSettingsState();
+    s.musicVol = Number($("settingsMusicRange")?.value ?? 65);
+    s.sfxVol = Number($("settingsSfxRange")?.value ?? 90);
+    saveSettingsState();
+    renderSettings();
+  };
+  $("settingsMusicRange")?.addEventListener("input", onAudioInput);
+  $("settingsSfxRange")?.addEventListener("input", onAudioInput);
+
+  // Reset other sessions
+  $("btnSettingsResetSessions")?.addEventListener("click", () => {
+    toast("Все остальные сеансы завершены");
+  });
+
+  // Email code
+  $("btnSettingsSendEmailCode")?.addEventListener("click", () => {
+    const inp = $("settingsNewEmail");
+    const email = (inp?.value || "").trim();
+    if (!email || !email.includes("@")) {
+      toast("Укажите корректный email");
+      return;
+    }
+    const s = loadSettingsState();
+    s.email = email;
+    saveSettingsState();
+    if (inp) inp.value = "";
+    renderSettings();
+    toast(`Код подтверждения отправлен на ${email}`);
+  });
+
+  // Password eye toggle
+  $("btnSettingsPwdEye")?.addEventListener("click", () => {
+    const inp = $("settingsPwdCur");
+    const btn = $("btnSettingsPwdEye");
+    if (!inp || !btn) return;
+    const show = inp.type === "password";
+    inp.type = show ? "text" : "password";
+    btn.textContent = show ? "visibility_off" : "visibility";
+  });
+
+  // Password strength meter
+  $("settingsPwdNew")?.addEventListener("input", (e) => {
+    const val = e.target.value || "";
+    let score = 0;
+    if (val.length >= 4) score++;
+    if (val.length >= 8) score++;
+    if (/[0-9]/.test(val) && /[A-Za-zА-Яа-я]/.test(val)) score++;
+    if (/[^A-Za-zА-Яа-я0-9]/.test(val) || val.length >= 12) score++;
+    const meter = $("settingsPwdMeter");
+    const label = $("settingsPwdStrength");
+    if (meter) {
+      const bars = meter.children;
+      for (let i = 0; i < bars.length; i++) {
+        bars[i].className =
+          i < score
+            ? `h-full w-1/4 rounded-full ${score >= 3 ? "bg-secondary" : "bg-primary"}`
+            : "h-full w-1/4 rounded-full bg-surface-container-highest";
+      }
+    }
+    if (label) {
+      const names = ["Слабая печать", "Базовая руна", "Крепкий щит", "Сильная защита", "Рунический монолит"];
+      label.textContent = names[score] || names[0];
+    }
+  });
+
+  // Password update
+  $("btnSettingsPwdUpdate")?.addEventListener("click", () => {
+    const p1 = $("settingsPwdNew")?.value || "";
+    const p2 = $("settingsPwdConfirm")?.value || "";
+    if (p1.length < 8) {
+      toast("Новый пароль должен быть не короче 8 символов");
+      return;
+    }
+    if (p1 !== p2) {
+      toast("Пароли не совпадают");
+      return;
+    }
+    if ($("settingsPwdNew")) $("settingsPwdNew").value = "";
+    if ($("settingsPwdConfirm")) $("settingsPwdConfirm").value = "";
+    toast("Магический пароль успешно обновлён");
+  });
+
+  // 2FA setup
+  $("btnSettings2faSetup")?.addEventListener("click", () => {
+    toast("Отсканируйте QR-код в приложении Authenticator (stub)");
+  });
+
+  // Danger zone delete
+  $("btnSettingsDeleteAcc")?.addEventListener("click", () => {
+    toast("Запрос на заморозку аккаунта (14 дней) требует подтверждения по почте");
+  });
+
+  // Bottom actions
+  $("btnSettingsReset")?.addEventListener("click", () => {
+    state.settings = { ...DEFAULT_SETTINGS };
+    saveSettingsState();
+    renderSettings();
+    toast("Настройки сброшены по умолчанию");
+  });
+  $("btnSettingsCancel")?.addEventListener("click", () => {
+    navigate(state.prevTab || "hub");
+  });
+  $("btnSettingsSave")?.addEventListener("click", () => {
+    saveSettingsState();
+    toast("Настройки Хранителя успешно сохранены в свитках!");
+  });
+
+  // Space shortcut on settings view
+  window.addEventListener("keydown", (e) => {
+    if (
+      state.tab === "settings" &&
+      e.code === "Space" &&
+      e.target &&
+      !["INPUT", "TEXTAREA", "BUTTON"].includes(e.target.tagName)
+    ) {
+      e.preventDefault();
+      saveSettingsState();
+      toast("Настройки Хранителя успешно сохранены в свитках!");
+    }
+  });
+}
+
 function wireButtons() {
   $("btnBrandHub")?.addEventListener("click", () => navigate("hub"));
+  $("btnSettings")?.addEventListener("click", () => navigate("settings"));
   $("btnLogout")?.addEventListener("click", () => stubLogout());
+  wireSettings();
   $("btnLoginEnter")?.addEventListener("click", () => {
     stubLogin({
       login: $("loginUserInput")?.value || "wire_dock",
@@ -21603,6 +21941,7 @@ function bootTabAfterLogin() {
   if (pveLoadAddressOpen()) return "pve_load";
   if (pvpLoadAddressOpen()) return "pvp_load";
   if (codexAddressOpen()) return "codex";
+  if (settingsAddressOpen()) return "settings";
   return "pass";
 }
 

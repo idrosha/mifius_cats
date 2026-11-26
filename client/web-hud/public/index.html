@@ -59,10 +59,11 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
             <svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path fill="currentColor" d="M12.63 16.95h-.97s-1.72-.2-3.23-2.16C6.7 12.6 5.4 9.14 5.4 9.14s-.08-.22.05-.33c.16-.13.58-.13.58-.13l2.05.01s.19.03.33.16c.12.11.18.29.18.29s.34.92.8 1.74c.88 1.58 1.28 1.92 1.58 1.75.43-.24.3-2.21.3-2.21s.01-.71-.22-.99c-.18-.22-.52-.28-.67-.3-.12-.02.08-.28.34-.4.31-.14.86-.15 1.51-.14.5.01.65.04.84.09.44.13.42.45.39 1.28l-.02 1.95c-.03.55.13.66.42.61.27-.05 1.54-1.71 2.46-3.41.38-.7.66-1.26.66-1.26s.08-.17.21-.24c.14-.07.33-.05.33-.05h2.17s.65-.07.76.24c.12.32-.13.97-1.2 2.35-.9 1.16-1.35 1.91-1.33 2.48.01.45.45.69 1.03 1.31.92.97 1.28 1.71 1.38 1.93.27.56-.15.85-.15.85h-1.94s-.34.04-.63-.21c-.25-.21-.61-.74-1.26-1.67-.62-.89-.89-.99-1.16-.96-.38.04-.29.43-.29.43v1.66s-.04.63-.37.76c-.33.13-.78.04-1.8-.01z"/></svg>
           </a>
         </div>
-        <button type="button" class="mythfel-logout" id="btnLogout" title="Выйти">Logout</button>
         <div id="liveopsPill" class="status-pill">LiveOps…</div>
         <div id="battlePill" class="status-pill">Battle…</div>
-        <div class="locale-switch" id="localeSwitch"></div>
+        <button type="button" class="mythfel-settings-btn" id="btnSettings" title="Настройки" aria-label="Настройки">
+          <span class="material-symbols-outlined" aria-hidden="true">settings</span>
+        </button>
       </div>
     </div>
     <nav id="appSubTabs" class="mythfel-subtabs" aria-label="Подразделы"></nav>
@@ -126,7 +127,7 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
 <strong>Хранитель Ур. 48</strong>
 </div>
 <button type="button" aria-label="Уведомления"><span class="material-symbols-outlined">notifications</span></button>
-<button type="button" aria-label="Настройки"><span class="material-symbols-outlined">settings</span></button>
+<button type="button" aria-label="Настройки" data-hub-go="settings"><span class="material-symbols-outlined">settings</span></button>
 </div>
 </div>
 </header>
@@ -12175,6 +12176,374 @@ body:not(.is-hud-ready)>:not(#mfBootSplash){visibility:hidden!important}
         <h2 id="soonTitle">Скоро</h2>
         <p id="soonBody">Скоро</p>
         <div class="soon-links" id="soonLinks"></div>
+      </div>
+    </section>
+
+    <section id="viewSettings" class="stitch-view mythfel-form hidden" data-stitch="settings" data-layout="landscape">
+      <div class="mf-settings-shell">
+        <div class="mf-settings-flare mf-settings-flare-a" aria-hidden="true"></div>
+        <div class="mf-settings-flare mf-settings-flare-b" aria-hidden="true"></div>
+
+        <!-- Section Header Bar with Category Tabs and Breadcrumbs -->
+        <div class="mf-settings-head">
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="w-10 h-10 rounded-lg bg-surface-container flex items-center justify-center shadow-inner shrink-0">
+              <span class="material-symbols-outlined text-primary text-[24px]" style="font-variation-settings:'FILL' 1;">shield_person</span>
+            </div>
+            <div class="min-w-0">
+              <div class="flex items-center gap-1 text-on-surface-variant font-label-sm text-label-sm uppercase tracking-wider">
+                <span>Таверна Хранителей</span>
+                <span class="text-outline">/</span>
+                <span class="text-primary font-bold">Настройки Аккаунта</span>
+              </div>
+              <h1 class="font-headline-md text-headline-md text-on-surface tracking-tight truncate">Палата Защиты &amp; Профиль Хранителя</h1>
+            </div>
+          </div>
+          <div class="mf-settings-tabs" id="settingsTabs" role="tablist" aria-label="Категории настроек">
+            <button class="mf-settings-tab is-active" type="button" role="tab" aria-selected="true" data-settings-tab="profile">
+              <span class="material-symbols-outlined text-[18px]">manage_accounts</span>
+              <span>Профиль и Безопасность</span>
+            </button>
+            <button class="mf-settings-tab" type="button" role="tab" aria-selected="false" data-settings-tab="graphics">
+              <span class="material-symbols-outlined text-[18px]">display_settings</span>
+              <span>Графика и Экран</span>
+            </button>
+            <button class="mf-settings-tab" type="button" role="tab" aria-selected="false" data-settings-tab="audio">
+              <span class="material-symbols-outlined text-[18px]">volume_up</span>
+              <span>Звук и Музыка</span>
+            </button>
+            <button class="mf-settings-tab" type="button" role="tab" aria-selected="false" data-settings-tab="network">
+              <span class="material-symbols-outlined text-[18px]">notifications_active</span>
+              <span>Уведомления и Сеть</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Main 2-Column Tavern Layout -->
+        <div class="mf-settings-grid">
+          <!-- LEFT COLUMN: KEEPER PROFILE & SYSTEM SETTINGS -->
+          <div class="mf-settings-col-left">
+            <!-- Keeper Hero Card -->
+            <div class="mf-settings-card mf-settings-hero" data-settings-section="profile">
+              <div class="relative flex flex-row items-center gap-3">
+                <div class="relative shrink-0">
+                  <div class="w-20 h-20 rounded-full p-1 bg-gradient-to-tr from-primary via-primary-fixed to-outline-variant shadow-[0_0_20px_rgba(253,186,69,0.35)] flex items-center justify-center">
+                    <div class="w-full h-full rounded-full overflow-hidden bg-surface-container-lowest relative">
+                      <img id="settingsAvatarImg" class="w-full h-full object-cover" alt="Аватар Хранителя" src="/stitch-assets/cat-heroes/tank-fire.webp">
+                      <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+                    </div>
+                  </div>
+                  <div class="absolute -bottom-1 -right-1 bg-primary text-on-primary font-stat-numeral text-label-sm px-2 py-0.5 rounded-full shadow-[0_2px_8px_rgba(0,0,0,0.7)] flex items-center gap-0.5">
+                    <span class="material-symbols-outlined text-[12px]" style="font-variation-settings:'FILL' 1;">bolt</span>
+                    <span id="settingsLevelBadge">50 УР</span>
+                  </div>
+                </div>
+                <div class="flex-1 flex flex-col items-start text-left min-w-0">
+                  <div class="flex items-center gap-1">
+                    <span class="material-symbols-outlined text-primary text-[16px]" style="font-variation-settings:'FILL' 1;">military_tech</span>
+                    <span class="font-label-sm text-label-sm text-primary uppercase tracking-wide">Легендарный Защитник Очага</span>
+                  </div>
+                  <h2 id="settingsKeeperName" class="font-headline-md text-headline-md text-on-surface truncate w-full mt-0.5">Мяурицио Громоносный</h2>
+                  <div class="flex flex-wrap items-center gap-x-3 gap-y-0.5 mt-0.5 text-on-surface-variant font-body-sm text-body-sm">
+                    <span class="flex items-center gap-1 font-mono text-outline">
+                      <span class="material-symbols-outlined text-[13px]">tag</span><span id="settingsKeeperTag">#MF-849204</span>
+                    </span>
+                    <span class="flex items-center gap-1 text-secondary">
+                      <span class="w-1.5 h-1.5 rounded-full bg-secondary animate-pulse"></span>Очаг Мурр-1 (18 мс)
+                    </span>
+                  </div>
+                  <div class="flex items-center gap-2 mt-2 w-full">
+                    <button id="btnSettingsAvatar" class="flex-1 flex items-center justify-center gap-1.5 bg-surface-container hover:bg-surface-container-high text-on-surface px-2.5 py-1.5 rounded-lg font-label-md text-label-md transition-colors shadow-sm" type="button">
+                      <span class="material-symbols-outlined text-[15px] text-primary">auto_fix_high</span>
+                      <span>Сменить аватар</span>
+                    </button>
+                    <button id="btnSettingsNickname" class="flex items-center gap-1 bg-surface-container hover:bg-surface-container-high text-on-surface px-2.5 py-1.5 rounded-lg font-label-md text-label-md transition-colors shadow-sm" title="Изменить Никнейм" type="button">
+                      <span class="material-symbols-outlined text-[15px] text-primary">edit</span>
+                      <span>Никнейм</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <div id="settingsNicknameRow" class="hidden mt-2 flex items-center gap-2 bg-surface-container-lowest/80 p-2 rounded-lg">
+                <input id="settingsNicknameInput" class="flex-1 bg-surface-container text-on-surface text-body-sm px-2.5 py-1.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary" type="text" maxlength="24" placeholder="Новый никнейм...">
+                <button id="btnSettingsNicknameSave" class="px-3 py-1.5 bg-primary-container text-on-primary-container hover:bg-primary font-label-sm text-label-sm rounded-lg" type="button">OK</button>
+                <button id="btnSettingsNicknameCancel" class="px-2 py-1.5 text-on-surface-variant hover:text-on-surface font-label-sm text-label-sm" type="button">✕</button>
+              </div>
+              <div class="grid grid-cols-3 gap-1.5 mt-3 bg-surface-container-lowest/60 p-1.5 rounded-lg">
+                <div class="flex flex-col items-center justify-center p-1 text-center">
+                  <span class="font-body-sm text-body-sm text-on-surface-variant">Создание прайда</span>
+                  <span class="font-label-lg text-label-lg text-on-surface mt-0.5">14.03.2023</span>
+                </div>
+                <div class="flex flex-col items-center justify-center p-1 text-center bg-surface-container-low rounded">
+                  <span class="font-body-sm text-body-sm text-on-surface-variant">Мифических карт</span>
+                  <span id="settingsStatCards" class="font-stat-numeral text-stat-numeral text-primary mt-0.5">12 / 12</span>
+                </div>
+                <div class="flex flex-col items-center justify-center p-1 text-center">
+                  <span class="font-body-sm text-body-sm text-on-surface-variant">Побед на Арене</span>
+                  <span id="settingsStatWins" class="font-stat-numeral text-stat-numeral text-secondary mt-0.5">842</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Game System Settings (Language, Graphics, Audio, Notifications) -->
+            <div class="mf-settings-card flex flex-col gap-2.5 flex-1">
+              <div class="flex items-center justify-between border-b border-outline-variant/40 pb-1.5">
+                <div class="flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-primary text-[18px]">tune</span>
+                  <h3 class="font-label-lg text-label-lg text-on-surface">Игровые настройки системы</h3>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="font-body-sm text-body-sm text-on-surface-variant flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[15px] text-primary">language</span>
+                    <span>Язык:</span>
+                  </span>
+                  <div class="locale-switch" id="localeSwitch"></div>
+                </div>
+              </div>
+
+              <div class="flex flex-col gap-2">
+                <!-- Graphics -->
+                <div class="bg-surface-container/60 p-2 rounded-lg flex flex-col gap-1.5" data-settings-section="graphics">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-1.5 text-primary font-label-md text-label-md">
+                      <span class="material-symbols-outlined text-[16px]">display_settings</span>
+                      <span>Графика и Экран</span>
+                    </div>
+                    <span class="font-label-sm text-label-sm text-primary bg-primary-container/20 px-2 py-0.5 rounded font-mono">60 FPS • Ультра</span>
+                  </div>
+                  <div class="grid grid-cols-2 gap-1.5">
+                    <button type="button" class="mf-toggle-row" data-setting-toggle="runeGlow" aria-pressed="true">
+                      <span class="font-body-sm text-body-sm text-on-surface">Свечение рун</span>
+                      <span class="mf-toggle-pill is-on"><span></span></span>
+                    </button>
+                    <button type="button" class="mf-toggle-row" data-setting-toggle="hearthParticles" aria-pressed="true">
+                      <span class="font-body-sm text-body-sm text-on-surface">Частицы очага</span>
+                      <span class="mf-toggle-pill is-on"><span></span></span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Audio -->
+                <div class="bg-surface-container/60 p-2 rounded-lg flex flex-col gap-1.5" data-settings-section="audio">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-1.5 text-primary font-label-md text-label-md">
+                      <span class="material-symbols-outlined text-[16px]">volume_up</span>
+                      <span>Звук и Музыка</span>
+                    </div>
+                    <span id="settingsAudioMaster" class="font-body-sm text-body-sm text-on-surface-variant">Мастер: 78%</span>
+                  </div>
+                  <div class="flex flex-col gap-1.5">
+                    <label class="flex items-center gap-2">
+                      <span class="font-body-sm text-body-sm text-on-surface-variant w-28 shrink-0">Музыка таверны</span>
+                      <input id="settingsMusicRange" class="mf-range mf-range-gold flex-1" type="range" min="0" max="100" value="65" aria-label="Музыка таверны">
+                      <span id="settingsMusicVal" class="font-mono text-body-sm text-on-surface w-9 text-right">65%</span>
+                    </label>
+                    <label class="flex items-center gap-2">
+                      <span class="font-body-sm text-body-sm text-on-surface-variant w-28 shrink-0">Бой и Мяуканье</span>
+                      <input id="settingsSfxRange" class="mf-range mf-range-green flex-1" type="range" min="0" max="100" value="90" aria-label="Бой и Мяуканье">
+                      <span id="settingsSfxVal" class="font-mono text-body-sm text-secondary w-9 text-right">90%</span>
+                    </label>
+                  </div>
+                </div>
+
+                <!-- Notifications -->
+                <div class="bg-surface-container/60 p-2 rounded-lg flex flex-col gap-1.5" data-settings-section="network">
+                  <div class="flex items-center justify-between">
+                    <div class="flex items-center gap-1.5 text-primary font-label-md text-label-md">
+                      <span class="material-symbols-outlined text-[16px]">notifications_active</span>
+                      <span>Уведомления и Сеть</span>
+                    </div>
+                    <span id="settingsNetStatus" class="font-label-sm text-label-sm text-secondary">Активно</span>
+                  </div>
+                  <div class="grid grid-cols-2 gap-1.5">
+                    <button type="button" class="mf-toggle-row" data-setting-toggle="notifyFarm" aria-pressed="true">
+                      <span class="font-body-sm text-body-sm text-on-surface truncate">Урожай фермы</span>
+                      <span class="mf-toggle-pill is-on"><span></span></span>
+                    </button>
+                    <button type="button" class="mf-toggle-row" data-setting-toggle="notifyColosseum" aria-pressed="true">
+                      <span class="font-body-sm text-body-sm text-on-surface truncate">Дуэли Колизея</span>
+                      <span class="mf-toggle-pill is-on"><span></span></span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tavern Session Quick Monitor -->
+            <div class="mf-settings-card flex items-center justify-between gap-2" data-settings-section="network">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <span class="material-symbols-outlined text-secondary text-[22px] shrink-0">devices</span>
+                <div class="flex flex-col min-w-0">
+                  <span class="font-label-md text-label-md text-on-surface truncate">Текущая сессия: ПК Клиент (Windows 11)</span>
+                  <span class="font-body-sm text-body-sm text-on-surface-variant truncate">Москва, IP 178.62.***.11 • В сети 42 мин.</span>
+                </div>
+              </div>
+              <button id="btnSettingsResetSessions" class="px-2.5 py-1 rounded bg-surface-container hover:bg-surface-container-high text-tertiary font-label-sm text-label-sm transition-colors shrink-0" title="Завершить все остальные сеансы" type="button">
+                Сбросить другие
+              </button>
+            </div>
+          </div>
+
+          <!-- RIGHT COLUMN: SECURITY, 2FA, CREDENTIALS & PRIVACY -->
+          <div class="mf-settings-col-right" data-settings-section="profile">
+            <!-- 1. Email -->
+            <div class="mf-settings-card flex flex-col gap-2">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-primary text-[18px]">mark_email_read</span>
+                  <h3 class="font-label-lg text-label-lg text-on-surface">Почтовый адрес Хранителя</h3>
+                </div>
+                <span class="flex items-center gap-1 text-secondary font-label-sm text-label-sm bg-secondary-container/30 px-2 py-0.5 rounded-full">
+                  <span class="material-symbols-outlined text-[13px]">verified</span> Верифицирован
+                </span>
+              </div>
+              <div class="grid grid-cols-12 gap-2 items-center bg-surface-container p-2 rounded-lg">
+                <div class="col-span-4 flex flex-col min-w-0">
+                  <span class="font-body-sm text-body-sm text-on-surface-variant">Текущая почта:</span>
+                  <span id="settingsCurrentEmail" class="font-label-md text-label-md text-on-surface truncate">keeper.m***@mifius.realm</span>
+                </div>
+                <div class="col-span-5">
+                  <input id="settingsNewEmail" class="w-full bg-surface-container-lowest text-on-surface placeholder:text-outline text-body-sm px-2.5 py-1.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" placeholder="Новый email для свитков..." type="email">
+                </div>
+                <div class="col-span-3">
+                  <button id="btnSettingsSendEmailCode" class="w-full bg-surface-container-high hover:bg-primary hover:text-on-primary text-on-surface py-1.5 px-2 rounded-lg font-label-sm text-label-sm text-center transition-colors shadow-sm" type="button">
+                    Выслать код
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- 2. Password Update -->
+            <div class="mf-settings-card flex flex-col gap-2">
+              <div class="flex items-center justify-between">
+                <div class="flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-primary text-[18px]">lock_reset</span>
+                  <h3 class="font-label-lg text-label-lg text-on-surface">Магический пароль учетной записи</h3>
+                </div>
+                <span class="font-body-sm text-body-sm text-outline">Сменялся 48 дней назад</span>
+              </div>
+              <div class="grid grid-cols-3 gap-2">
+                <div class="flex flex-col gap-1">
+                  <label class="font-body-sm text-body-sm text-on-surface-variant" for="settingsPwdCur">Текущий пароль</label>
+                  <div class="relative">
+                    <input id="settingsPwdCur" class="w-full bg-surface-container text-on-surface text-body-sm px-2.5 py-1.5 pr-8 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" type="password" value="••••••••••••">
+                    <button id="btnSettingsPwdEye" type="button" class="material-symbols-outlined text-outline hover:text-primary text-[16px] absolute right-2 top-1.5 cursor-pointer bg-transparent border-0" aria-label="Показать пароль">visibility</button>
+                  </div>
+                </div>
+                <div class="flex flex-col gap-1">
+                  <label class="font-body-sm text-body-sm text-on-surface-variant" for="settingsPwdNew">Новый пароль</label>
+                  <input id="settingsPwdNew" class="w-full bg-surface-container text-on-surface text-body-sm px-2.5 py-1.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" placeholder="Мин. 8 рун и знаков" type="password">
+                </div>
+                <div class="flex flex-col gap-1">
+                  <label class="font-body-sm text-body-sm text-on-surface-variant" for="settingsPwdConfirm">Повтор нового</label>
+                  <input id="settingsPwdConfirm" class="w-full bg-surface-container text-on-surface text-body-sm px-2.5 py-1.5 rounded-lg focus:outline-none focus:ring-1 focus:ring-primary shadow-inner" placeholder="Повторите защиту" type="password">
+                </div>
+              </div>
+              <div class="flex items-center justify-between bg-surface-container-lowest/80 px-2.5 py-1.5 rounded-lg gap-3">
+                <div class="flex items-center gap-2 flex-1 min-w-0">
+                  <span class="font-body-sm text-body-sm text-on-surface-variant whitespace-nowrap">Уровень защиты:</span>
+                  <div id="settingsPwdMeter" class="flex-1 h-2 bg-surface-container rounded-full overflow-hidden flex gap-1">
+                    <div class="h-full w-1/4 bg-primary rounded-full"></div>
+                    <div class="h-full w-1/4 bg-primary rounded-full"></div>
+                    <div class="h-full w-1/4 bg-secondary rounded-full"></div>
+                    <div class="h-full w-1/4 bg-secondary rounded-full"></div>
+                  </div>
+                  <span id="settingsPwdStrength" class="font-label-sm text-label-sm text-secondary whitespace-nowrap">Рунический монолит</span>
+                </div>
+                <button id="btnSettingsPwdUpdate" class="px-3 py-1 bg-primary-container text-on-primary-container hover:bg-primary font-label-md text-label-md rounded-lg shadow-sm transition-colors shrink-0" type="button">
+                  Обновить пароль
+                </button>
+              </div>
+            </div>
+
+            <!-- 3. 2FA & Privacy -->
+            <div class="grid grid-cols-2 gap-2.5">
+              <div class="mf-settings-card flex flex-col justify-between gap-2">
+                <div>
+                  <div class="flex items-center justify-between mb-1">
+                    <div class="flex items-center gap-1.5">
+                      <span class="material-symbols-outlined text-primary text-[18px]">security</span>
+                      <h4 class="font-label-lg text-label-lg text-on-surface">Двухфакторная защита (2FA)</h4>
+                    </div>
+                    <button id="btnSettings2faToggle" type="button" class="mf-toggle-pill is-on" data-setting-toggle="twoFactor" aria-pressed="true" aria-label="2FA"><span></span></button>
+                  </div>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Защищает редких котиков и передачу легендарного снаряжения с кодом из Authenticator при входе с нового устройства.
+                  </p>
+                </div>
+                <div class="flex items-center justify-between bg-surface-container/60 px-2 py-1.5 rounded-lg">
+                  <span id="settings2faBadge" class="font-label-sm text-label-sm text-secondary flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[13px]">key</span> Ключ привязан
+                  </span>
+                  <button id="btnSettings2faSetup" class="font-label-sm text-label-sm text-primary hover:underline bg-transparent border-0 cursor-pointer" type="button">
+                    Настроить приложение
+                  </button>
+                </div>
+              </div>
+
+              <div class="mf-settings-card flex flex-col gap-1">
+                <div class="flex items-center gap-1.5 mb-1">
+                  <span class="material-symbols-outlined text-primary text-[18px]">visibility</span>
+                  <h4 class="font-label-lg text-label-lg text-on-surface">Приватность и Дуэли</h4>
+                </div>
+                <button type="button" class="mf-toggle-row" data-setting-toggle="showHallOfFame" aria-pressed="true">
+                  <span class="font-body-sm text-body-sm text-on-surface">Показывать отряд в Зале Славы</span>
+                  <span class="mf-toggle-pill is-on"><span></span></span>
+                </button>
+                <button type="button" class="mf-toggle-row" data-setting-toggle="allowFriendDuels" aria-pressed="true">
+                  <span class="font-body-sm text-body-sm text-on-surface">Разрешить вызовы на дуэль от друзей</span>
+                  <span class="mf-toggle-pill is-on"><span></span></span>
+                </button>
+                <button type="button" class="mf-toggle-row" data-setting-toggle="hideTavernStats" aria-pressed="false">
+                  <span class="font-body-sm text-body-sm text-on-surface">Скрывать статистику в таверне</span>
+                  <span class="mf-toggle-pill"><span></span></span>
+                </button>
+              </div>
+            </div>
+
+            <!-- 4. Danger Zone -->
+            <div class="mf-settings-card mf-settings-danger flex items-center justify-between gap-3">
+              <div class="flex items-center gap-2.5 min-w-0">
+                <div class="w-9 h-9 rounded-lg bg-error-container/30 text-error flex items-center justify-center shrink-0">
+                  <span class="material-symbols-outlined text-[22px]">warning</span>
+                </div>
+                <div class="min-w-0">
+                  <h4 class="font-label-lg text-label-lg text-tertiary">Опасная зона: Прощание с Усадьбой</h4>
+                  <p class="font-body-sm text-body-sm text-on-surface-variant">
+                    Удаление аккаунта безвозвратно развеет 12 мифических котиков, питомник и артефакты. Предусмотрена заморозка на 14 дней.
+                  </p>
+                </div>
+              </div>
+              <button id="btnSettingsDeleteAcc" class="px-3 py-2 rounded-lg bg-error-container hover:bg-error text-on-error font-label-md text-label-md transition-colors shadow-sm whitespace-nowrap shrink-0" type="button">
+                Удалить аккаунт Хранителя
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- BOTTOM HUD ACTIONS STRIP -->
+        <div class="mf-settings-footer">
+          <div class="flex items-center gap-2">
+            <button id="btnSettingsReset" class="flex items-center justify-center gap-1.5 px-3 py-1.5 bg-surface-container hover:bg-surface-container-high text-on-surface-variant hover:text-on-surface rounded-lg font-label-md text-label-md transition-colors" type="button">
+              <span class="material-symbols-outlined text-[16px]">restart_alt</span>
+              <span>Сбросить настройки</span>
+            </button>
+            <button id="btnLogout" class="flex items-center justify-center gap-1.5 px-3 py-1.5 bg-surface-container hover:bg-surface-container-high text-tertiary hover:text-on-surface rounded-lg font-label-md text-label-md transition-colors" type="button" title="Выйти">
+              <span class="material-symbols-outlined text-[16px]">logout</span>
+              <span>Выйти из учетной записи</span>
+            </button>
+          </div>
+          <div class="flex items-center gap-3">
+            <button id="btnSettingsCancel" class="px-3 py-1.5 text-on-surface-variant hover:text-on-surface font-label-md text-label-md transition-colors bg-transparent border-0 cursor-pointer" type="button">
+              Отмена
+            </button>
+            <button id="btnSettingsSave" class="flex items-center justify-center gap-1.5 px-5 py-2 bg-gradient-to-b from-primary via-primary-container to-inverse-primary text-on-primary-container font-headline-md text-label-lg rounded-xl shadow-[0_4px_16px_rgba(217,155,38,0.45)] hover:brightness-110 active:translate-y-0.5 transition-all" type="button">
+              <span class="material-symbols-outlined text-[18px]" style="font-variation-settings:'FILL' 1;">save</span>
+              <span>СОХРАНИТЬ ИЗМЕНЕНИЯ</span>
+              <span class="ml-1 px-1.5 py-0.5 rounded bg-on-primary-container/20 text-on-primary-container font-label-sm text-label-sm">ПРОБЕЛ</span>
+            </button>
+          </div>
+        </div>
       </div>
     </section>
   </main>

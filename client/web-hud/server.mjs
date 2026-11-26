@@ -425,6 +425,8 @@ const server = http.createServer(async (req, res) => {
     rel === "/pvp-load/" ||
     rel === "/codex" ||
     rel === "/codex/" ||
+    rel === "/settings" ||
+    rel === "/settings/" ||
     rel === "/home" ||
     rel === "/home/"
   ) {
