@@ -125,6 +125,8 @@ Party size picker 3 / 6 / 12, lobby slots, CTAs search / formation / hub.
 Same visual language as guild hall. No empty footer band. Russian UI.
 ```
 
+**Live fight (осада · ворота + башни):** отдельный промпт → [`docs/stitch-prompts-guild-siege-fight.md`](stitch-prompts-guild-siege-fight.md) — не путать с этим лобби.
+
 ---
 
 ## 10. Боевой пасс (`pass`)
