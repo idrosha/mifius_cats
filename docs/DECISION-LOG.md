@@ -24,12 +24,13 @@ Append-only. Новые записи — **сверху** (после шабло
 24 cutout’а на одном бое. Соблазн — шире экран или horizontal scroll; в card battler это ломает выбор цели и phone landscape.
 
 ### Decision
-1. **Один** landscape **16:9** кадр; **все 24** юнита видны (overview scale), без horizontal scroll борда и без ultra-wide aspect.
-2. Плотнее practice 3v3; role silhouette (`D-048`) сохраняется, общий floor ниже. Tray ≤ ~22% высоты.
-3. Опционально tap → highlight/focus; камера/поле **не** уезжает лентой. Не прятать половину легиона за «страницей».
+1. **Один** landscape **16:9** кадр; **все 24** юнита видны как маленькие **full-body** cutouts; без horizontal scroll / ultra-wide.
+2. **Атака (лево):** фон подход к замку; колонка **слева→направо** саппорты → DPS → танки; facing вправо.
+3. **Защита (право):** фон мост + стены/башни; слоты ворота/башни как `D-065`; facing влево.
+4. **Focus:** hover/tap → enlarge юнита для прицела карты; остальные мелкие; поле не уезжает. Tray ≤ ~22% высоты. Role silhouette (`D-048`) с более низким siege floor.
 
 ### Consequences
-+ Стабильный таргет + phone landscape. − Нельзя «раздвинуть» осаду скроллом; нужен siege-scale CSS/layout.
++ Осада читается как штурм→замок, не как 3v3. + Таргет без скролла. − Нужен siege-scale + hover-enlarge в HUD.
 
 ---
 
