@@ -13,6 +13,7 @@ COPY --from=battle /mythfel-devapi /usr/local/bin/mythfel-devapi
 COPY client/web-hud/server.mjs ./server.mjs
 COPY client/web-hud/dungeon-dev-api.mjs ./dungeon-dev-api.mjs
 COPY client/web-hud/accounts-dev-api.mjs ./accounts-dev-api.mjs
+COPY client/web-hud/mvp-beta-api.mjs ./mvp-beta-api.mjs
 COPY client/web-hud/pvp-mm-dev-api.mjs ./pvp-mm-dev-api.mjs
 COPY client/web-hud/telegram-auth.mjs ./telegram-auth.mjs
 COPY client/web-hud/telegram-bot.mjs ./telegram-bot.mjs
