@@ -12,6 +12,40 @@ Append-only. Новые записи — **сверху** (после шабло
 6. Одна запись = одно решение. Не смешивать баланс и IA в одном D-id.
 7. В коде/доках ссылайся `D-0xx`, не копируй абзац Context.
 
+## D-066 · 2026-11-27 · MVP Beta scope (срез 1) vs Full post-beta
+
+- **Status:** Accepted
+- **Area:** process | economy | liveops
+- **SSOT:** docs/FULL-SPEC.md §1.1, §5 (MVP limits), §14
+- **Owner:** Andrew · design
+- **Branch:** `cursor/mvp-beta-dad5`
+
+### Context
+Нужен узкий бета-срез для Telegram + Web + APK/iOS, уже текущего soft-launch §1 (таверна/рынок/аукцион/гача-банки/ads/«Скоро»). Полный контент репо остаётся на этап 2 после беты. Q&A Andrew 2026-11-27.
+
+### Decision
+**Этап 1 — MVP Beta MUST**
+- Режимы: tutorial; practice 3v3; PvE 3v3 ≈**30** узлов; PvP ranked 3v3; PvP **unranked** 3v3; friendly duel (инвайт/ссылка).
+- Мета: команды/пресеты; коллекция; прокачка **котов R1–R8** (account-level XP track — нет); рейтинги + **сезоны ~28д** + призы (titles/frames/cats/fish/yarn); реплеи ≤**10**; чат; настройки; минимальный кодекс; **Новости** in-game + закреп TG-канала про Full update.
+- Магазин: прямая продажа котиков + боевой пасс. **Гача-банки (`gacha_jar`) в MVP нет.**
+- Пасс (пакет **C** + финал): free track + premium; лимиты **free 3 PvE / 5 PvP**, **pass 4 PvE / 10 PvP** (не ×2→6 из §5 SL); ×2 cat rank XP на ACTIVE; cosmetics на треке; **завершение пасса → 1 случайный кот (server RNG)**. Ads — **нет**.
+- Daily quests — **да** (отдельно от мисок/билетов).
+- Зелья в бою — да (≤1/type). Стартовый грант §5.1 — да.
+- Валюты: soft **Мифиус / MIFOUS** (= `fish` brand, wiki §10); premium `yarn` IAP. Тикер **`$MIFOUS`** зарезервирован как имя мем-коина; **on-chain в MVP не шипится**; NFT нет; сила боя / MMR за коин не покупается (анти-P2W). Модель интеграции ончейна — отдельный D-0xx позже.
+- Платформы: Telegram (bot/Mini App) · Web · Android · iOS; **кросс-плей один MM-пул**. Auth: device/TG + **email link**.
+- RU+EN.
+
+**Этап 2 — Full (только News/backlog в этой ветке)**
+Ферма, питомник, гильдии/клан-босс, данжи/рейды, таверна/рынок/аукцион, shop-гача/pity, Steam/PC, расширенный кодекс и пр. уже сделанное + доработки.
+
+**Не делать в MVP билде:** включать post-beta системы «заодно»; client SoT боя; крипту/NFT в матчмейкинге.
+
+### Consequences
+- Агенты режут фичи по §1.1 + этот D-id; soft-launch §1 остаётся целью Full/SL, не путать с MVP Beta.
+- Пасс-лимиты 4/10 и финальный random cat — LiveOps/`feature_flags.mvp_beta`; SL-числа §5 (6/10, jars, ads) не подставлять в MVP без нового D-0xx.
+- Nav IA MVP-срез и экран News — отдельные задачи web-hud после этого lock.
+- Сезонные призы (Top1 / 2–10 / 11–100 / 101–1000 / participation) — LiveOps season table; без покупки победы.
+
 ## D-065 · 2026-11-26 · Web HUD телефон: портретный режим, rotate gate снят
 
 - **Status:** Accepted

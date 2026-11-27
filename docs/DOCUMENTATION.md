@@ -7,6 +7,7 @@
 | Тема | Файл | Кто |
 |---|---|---|
 | Механика боя, скоуп SL, экономика ядра | `docs/FULL-SPEC.md` (§) | `design` |
+| MVP Beta scope (срез 1) | `docs/FULL-SPEC.md` §1.1 + `D-066` | `design` / orchestrator |
 | Player-facing числа/лор/вики | `docs/game-wiki.md` | `wiki` / `design` |
 | Locked product decision (почему так) | `docs/DECISION-LOG.md` | любой + апрув Andrew при Locked |
 | LiveOps числа/флаги/офферы | `liveops/CHANGELOG.md` + JSON | `liveops` |

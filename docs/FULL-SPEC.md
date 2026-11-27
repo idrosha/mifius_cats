@@ -1,9 +1,9 @@
 # Мифоус / Mythfel — полное ТЗ приложения
 
-**Версия:** 1.6 · **SSOT** (единственный источник правды для сборки)  
+**Версия:** 1.7 · **SSOT** (единственный источник правды для сборки)  
 **Язык дока:** RU (строки игры: RU+EN)  
 **Стек:** Unity C# URP 2D · Nakama · battle-service Go · LiveOps JSON  
-**Крипта/NFT:** нет  
+**Крипта/NFT:** нет (on-chain не в матчмейкинге / силе боя). Soft brand **Мифиус / MIFOUS** (= `fish`). Тикер `$MIFOUS` зарезервирован (`D-066`); ончейн-шип — отдельный D-0xx.  
 
 Читать агентам целиком **запрещено**, если задача узкая — см. `AGENTS.md` (только нужные §).
 
@@ -13,23 +13,24 @@
 
 | Поле | Значение |
 |---|---|
-| Имя | **Мифоус** / **Mythfel** |
+| Имя | **Мифоус** / **Mythfel** (player-facing бренд: **Мифиус**) |
 | Питч | Мифические котики (роль+стихия), карточный пошаговый 3v3 |
 | **Core fantasy** | Из **обычных** котов сделать **мифических** через скрещивание (питомник). Мифики редки; без free unlimited breeding |
 | Аудитория | Подростки + взрослые |
-| Платформы | Mobile (iOS, Android), PC (**Steam** + desktop), Web — **один** Unity-проект |
-| Кросс-плей | Игроки матчятся **независимо от клиента** (mobile / web / desktop). Общий пул матчмейкинга; сегментации PvP по платформе нет |
+| Платформы | Mobile (iOS, Android), PC (**Steam** + desktop), Web — **один** Unity-проект; **MVP Beta** также Telegram (bot/Mini App) — `D-066` |
+| Кросс-плей | Игроки матчятся **независимо от клиента** (mobile / web / desktop / TG на MVP). Общий пул матчмейкинга; сегментации PvP по платформе нет |
 | North Star | Кланы + рейтинг кланов |
-| Soft launch | Мифмир (PvE, бывш. Двор) + PvP (+ магазин/пасс/гача + таверна/рынок/аукцион). Ферма, питомник, клан-босс = вкладка «Скоро» |
+| **MVP Beta** | Узкий срез §1.1 (`D-066`); ветка `cursor/mvp-beta-dad5` |
+| Soft launch / Full | Мифмир (PvE) + PvP (+ магазин/пасс/гача + таверна/рынок/аукцион) и post-MVP системы. Ферма, питомник, клан-босс = вкладка «Скоро» / этап 2 |
 | Домены | `mifous.ru`, `mythfel.com` (зарегистрировать) |
 | Bundle | `com.mythfel.game` |
 
 **Не бренд:** Битва котиков/котов, Battle Cats, Axie, Lunacia.
 
 **Платформы / дистрибуция (требования, без API сторов в SSOT):**  
-- Цели: mobile stores, **Steam (PC)**, web-клиент.  
+- Цели: mobile stores (Android + iOS), **Steam (PC)**, web-клиент; MVP Beta + Telegram.  
 - Бой и награды — единый серверный авторитет (§3.6, §8.2); клиент только input + VFX.  
-- Конкретные Steamworks / IAP / store SDK — вне SSOT; подключать отдельной задачей по чеклисту стора.
+- Конкретные Steamworks / IAP / store SDK / TG Stars — вне SSOT; подключать отдельной задачей по чеклисту канала.
 
 ---
 
@@ -62,6 +63,28 @@
 
 ### POST-SL
 Кланы полные → клан-босс 8–12 → ферма → питомник → сезоны контента.
+
+### §1.1 MVP Beta (MUST) — `D-066`
+
+Ужее, чем **§1 Soft launch** — не вместо него. Билд/флаг `mvp_beta`. Full post-beta = §1 + вырезанное ниже + доработки; в MVP только экран **Новости** (+ закреп TG).
+
+**MUST**
+- Tutorial / онбординг
+- Practice 3v3; PvE 3v3 ≈ **30** узлов; PvP ranked 3v3; PvP **unranked** 3v3; friendly duel (инвайт/ссылка)
+- Команды/пресеты; коллекция; прокачка котов **R1–R8** (без отдельного account-level XP track)
+- Рейтинги + сезоны ~28д + призы победителям (LiveOps; анти-P2W)
+- Реплеи ≤ **10**; чат; настройки; минимальная База знаний; Новости (in-game + TG pin)
+- Магазин: котики + боевой пасс; зелья ≤1/type; daily quests (отдельно от мисок)
+- Пасс: free **3 PvE / 5 PvP**; ACTIVE **4 PvE / 10 PvP** + ×2 cat rank XP + free/premium tracks; **финал пасса → 1 random cat (server RNG)**
+- Soft **Мифиус/MIFOUS** (`fish`) + premium `yarn`; auth device/TG + **email link**
+- Клиенты: Telegram · Web · Android · iOS; кросс-плей один MM-пул; RU+EN
+- Стартовый грант §5.1
+
+**MUST NOT (MVP)**
+- Shop-гача / `gacha_jar` / pity UI (финал пасса ≠ shop-банка)
+- Ads / rewarded ads
+- Ферма, питомник live, гильдии/клан-босс, данжи/рейды, таверна, рынок, аукцион, Steam-only path
+- On-chain / NFT в экономике боя; P2W победа
 
 ---
 
@@ -281,18 +304,20 @@ Guild vs guild (клан vs клан). Сторона выставляет **3�
 
 ## §5. Экономика и монетизация
 
-| Источник | Free | Pass |
-|---|---|---|
-| PvE/day | 3 | 6 |
-| PvP/day | 5 | 10 |
-| Rank XP | 1.0× | **2.0×** |
-| Ads | rewarded bonuses | hidden |
-| Gacha pity | soft50 / hard80 | same |
+| Источник | Free | Pass (SL / Full) | Pass (**MVP Beta** `D-066`) |
+|---|---|---|---|
+| PvE/day | 3 | 6 | **4** |
+| PvP/day | 5 | 10 | **10** |
+| Rank XP (коты R1–R8) | 1.0× | **2.0×** | **2.0×** |
+| Ads | rewarded bonuses | hidden | **нет** (MVP и целевой продукт без ads) |
+| Gacha pity (shop jars) | soft50 / hard80 | same | **нет shop-гачи**; финал пасса = 1 random cat |
 
-Pass track: cosmetics, bows, fish, jar keys, **armor boxes by current rank** (гарантии сезона: R1×6 common; green+blue×3; R4+ ×1 each rarity unlocked).  
-**Pass ACTIVE perk — автономная ферма (Phase 6 / HUD stub на SL):** при активном платном пассе и купленных seeds/consumables на Рынке — фермеры auto-harvest + replant; gather mats → склад алхимика (auto-craft зелий); дровосек/шахтёр/каменотёс auto-gather → кузнец; кузнец может включить auto-craft выбранных предметов. Без ACTIVE пасса тумблеры gated. Сервер авторитетен; клиент не SoT.  
-IAP: yarn packs, pass, slot expand, maybe jar bundles.  
-Server validates all purchases.
+Pass track (SL/Full): cosmetics, bows, fish, jar keys, **armor boxes by current rank** (гарантии сезона: R1×6 common; green+blue×3; R4+ ×1 each rarity unlocked).  
+**MVP Beta pass track (`D-066` пакет C + финал):** free + premium cosmetics/fish/medals; ACTIVE = лимиты 4/10 + ×2 cat XP; **completion → server RNG random cat** (не `gacha_jar` shop).  
+**Pass ACTIVE perk — автономная ферма (Phase 6 / HUD stub на SL; не MVP):** при активном платном пассе и купленных seeds/consumables на Рынке — фермеры auto-harvest + replant; gather mats → склад алхимика (auto-craft зелий); дровосек/шахтёр/каменотёс auto-gather → кузнец; кузнец может включить auto-craft выбранных предметов. Без ACTIVE пасса тумблеры gated. Сервер авторитетен; клиент не SoT.  
+IAP: yarn packs, pass, slot expand, maybe jar bundles (jars — не MVP).  
+Server validates all purchases.  
+Soft display name: **Мифиус / MIFOUS** (`fish`). Тикер `$MIFOUS` — reserve only (`D-066`).
 
 **Каналы торговли (не смешивать):**
 - **Shop** — IAP/donate, pass, fish packs, breeding ingredients, **18** common cats (6×3 element, `D-059`), common (grey R1) starter armor; `battle_coin`/medals с PvE/PvP → полезный gear при здоровом онлайне.
@@ -512,8 +537,9 @@ Assets/
 |---|---|
 | 0 Preprod | этот SSOT + арт-направление + каталог карт draft |
 | 1 Slice | 3v3 vs bot на server seed |
-| 2 PvE | главы 1–3 + прогрессия |
-| 3 PvP+$ | дуэли, арена, магазин, пасс, ads, pity |
+| **1b MVP Beta** | §1.1 зелёный на TG + Web + Android/iOS (`D-066`); News + season prizes; **до** полного SL |
+| 2 PvE | главы 1–3 + прогрессия (MVP целится ≈30 узлов суммарно) |
+| 3 PvP+$ | дуэли, арена, магазин, пасс (§5); shop-гача/pity — Full, не MVP |
 | 4 Soft launch | §13 зелёный на ограниченном гео (ops allowlist + device smoke; CDN signed JSON); кросс-плей в одном матчмейкинг-пуле; Steam — целевой PC-канал (сборка/дистрибуция, без обязательного store SDK в SL-gate) |
 | 5 Clans/boss | North Star жив |
 | 6 Farm/nursery | daily retention + **core fantasy** breed→mythic (§0, §4.4.1) |
@@ -548,4 +574,4 @@ CI: schema validate card JSON; battle golden replays; client compile.
 
 ---
 
-*Конец SSOT v1.6. Механика-расширение и лор — приложения, не дублировать сюда.*
+*Конец SSOT v1.7. Механика-расширение и лор — приложения, не дублировать сюда.*

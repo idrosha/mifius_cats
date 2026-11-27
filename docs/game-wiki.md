@@ -772,7 +772,7 @@ Pass: ×2 bowls/tickets и ×2 rank XP.
 
 ## 10. Мем-коин «Мифиус»
 
-**Не** blockchain / NFT / токен. Это **бренд-имя soft currency** (отображение поверх `fish` или alias wallet `mifius`).
+**Не** blockchain / NFT в силе боя. Это **бренд-имя soft currency** (отображение поверх `fish` / **MIFOUS**). Тикер `$MIFOUS` зарезервирован (`D-066`); ончейн не в MVP.
 
 ### 10.1 Earn (faucets)
 
