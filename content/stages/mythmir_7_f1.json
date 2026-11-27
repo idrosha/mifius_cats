@@ -1,0 +1,268 @@
+{
+  "bowlCost": 1,
+  "chapter": 7,
+  "enemyTeam": [
+    {
+      "baseStats": {
+        "atk": 6,
+        "charm": 1,
+        "hp": 40,
+        "skill": 2,
+        "spd": 4
+      },
+      "deck": [
+        {
+          "atk": 6,
+          "cardId": "card_wolf_claw_m2f1_ch7_0",
+          "cost": 1,
+          "effectOps": [],
+          "element": "ice",
+          "hits": 1,
+          "name_key": "card.bot_wolf_claw",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        },
+        {
+          "atk": 6,
+          "cardId": "card_wolf_claw2_m2f1_ch7_1",
+          "cost": 1,
+          "effectOps": [],
+          "element": "ice",
+          "hits": 1,
+          "name_key": "card.bot_wolf_claw",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        },
+        {
+          "atk": 7,
+          "cardId": "card_wolf_claw3_m2f1_ch7_2",
+          "cost": 1,
+          "effectOps": [],
+          "element": "ice",
+          "hits": 1,
+          "name_key": "card.bot_wolf_claw",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        },
+        {
+          "atk": 6,
+          "cardId": "card_wolf_claw4_m2f1_ch7_3",
+          "cost": 1,
+          "effectOps": [],
+          "element": "ice",
+          "hits": 1,
+          "name_key": "card.bot_wolf_claw",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        }
+      ],
+      "element": "ice",
+      "level": 7,
+      "meta": {
+        "display_ru": "Волк-лучник",
+        "faction": "wolves",
+        "isPitboss": false
+      },
+      "role": "ranger",
+      "templateId": "bot_wolf_fighter_m2f1_ch7"
+    },
+    {
+      "baseStats": {
+        "atk": 4,
+        "charm": 1,
+        "hp": 34,
+        "skill": 2,
+        "spd": 3
+      },
+      "deck": [
+        {
+          "atk": 0,
+          "cardId": "card_wolf_sip_m2f1_ch7_0",
+          "cost": 1,
+          "effectOps": [
+            {
+              "amount": 5,
+              "op": "heal"
+            }
+          ],
+          "element": "ice",
+          "hits": 0,
+          "name_key": "card.bot_wolf_sip",
+          "shield": 0,
+          "tags": [
+            "heal"
+          ],
+          "targetRule": "ally_lowest_hp"
+        },
+        {
+          "atk": 0,
+          "cardId": "card_wolf_sip2_m2f1_ch7_1",
+          "cost": 1,
+          "effectOps": [
+            {
+              "amount": 5,
+              "op": "heal"
+            }
+          ],
+          "element": "ice",
+          "hits": 0,
+          "name_key": "card.bot_wolf_sip",
+          "shield": 0,
+          "tags": [
+            "heal"
+          ],
+          "targetRule": "ally_lowest_hp"
+        },
+        {
+          "atk": 0,
+          "cardId": "card_wolf_sip3_m2f1_ch7_2",
+          "cost": 1,
+          "effectOps": [
+            {
+              "amount": 6,
+              "op": "heal"
+            }
+          ],
+          "element": "ice",
+          "hits": 0,
+          "name_key": "card.bot_wolf_sip",
+          "shield": 0,
+          "tags": [
+            "heal"
+          ],
+          "targetRule": "ally_lowest_hp"
+        },
+        {
+          "atk": 0,
+          "cardId": "card_wolf_sip4_m2f1_ch7_3",
+          "cost": 1,
+          "effectOps": [
+            {
+              "amount": 5,
+              "op": "heal"
+            }
+          ],
+          "element": "ice",
+          "hits": 0,
+          "name_key": "card.bot_wolf_sip",
+          "shield": 0,
+          "tags": [
+            "heal"
+          ],
+          "targetRule": "ally_lowest_hp"
+        }
+      ],
+      "element": "ice",
+      "level": 7,
+      "meta": {
+        "display_ru": "Волк-хил",
+        "faction": "wolves",
+        "isPitboss": false
+      },
+      "role": "support",
+      "templateId": "bot_wolf_support_m2f1_ch7"
+    },
+    {
+      "baseStats": {
+        "atk": 6,
+        "charm": 1,
+        "hp": 36,
+        "skill": 2,
+        "spd": 5
+      },
+      "deck": [
+        {
+          "atk": 7,
+          "cardId": "card_wolf_shot_m2f1_ch7_0",
+          "cost": 1,
+          "effectOps": [],
+          "element": "ice",
+          "hits": 1,
+          "name_key": "card.bot_wolf_shot",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        },
+        {
+          "atk": 7,
+          "cardId": "card_wolf_shot2_m2f1_ch7_1",
+          "cost": 1,
+          "effectOps": [],
+          "element": "ice",
+          "hits": 1,
+          "name_key": "card.bot_wolf_shot",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        },
+        {
+          "atk": 8,
+          "cardId": "card_wolf_shot3_m2f1_ch7_2",
+          "cost": 1,
+          "effectOps": [],
+          "element": "ice",
+          "hits": 1,
+          "name_key": "card.bot_wolf_shot",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        },
+        {
+          "atk": 7,
+          "cardId": "card_wolf_shot4_m2f1_ch7_3",
+          "cost": 1,
+          "effectOps": [],
+          "element": "ice",
+          "hits": 1,
+          "name_key": "card.bot_wolf_shot",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        }
+      ],
+      "element": "ice",
+      "level": 7,
+      "meta": {
+        "display_ru": "Волк-лучник",
+        "faction": "wolves",
+        "isPitboss": false
+      },
+      "role": "ranger",
+      "templateId": "bot_wolf_ranger_m2f1_ch7"
+    }
+  ],
+  "meta": {
+    "faction": "wolves",
+    "fightIndex": 1,
+    "fight_ru": "Лучник · хил · лучник",
+    "location_ru": "Хребет Вьюги",
+    "stageIndex": 7,
+    "tactic_ru": "Хил всегда 1E на heal; лучник center+taunt.",
+    "title_ru": "Хребет Вьюги",
+    "waveTheme": "ranger_heal_ranger",
+    "title_en": "Blizzard Ridge",
+    "location_en": "Blizzard Ridge"
+  },
+  "name_key": "stage.mythmir_7_f1",
+  "stageId": "mythmir_7_f1"
+}

@@ -9,7 +9,13 @@
 const API_BASE = "https://api.telegram.org";
 const BUTTON_TEXT = "⚔ Играть";
 const WELCOME =
-  "Мифиус: Мифические котики.\nНажми «Играть» — игра откроется прямо здесь, в Telegram.";
+  "Мифиус: Мифические котики (MVP Beta).\nНажми «Играть» — игра откроется прямо здесь, в Telegram.\nКоманды: /start · /news";
+
+const NEWS_PIN =
+  "🐾 МИФИУС — MVP BETA!\n" +
+  "Кросс-плей 3v3: Telegram · Web · Android · iOS.\n" +
+  "Сейчас в бете: обучение, тренировка, PvE (30 узлов), PvP (Рейтинг / Свободный / Дружеская дуэль), пасс (4 PvE / 10 PvP + финальный котик), дейлики, сезоны 28д, реплеи ≤10.\n" +
+  "В Большом обновлении (Этап 2): Ферма, Питомник, Гильдии/Клан-босс, Данжи/Рейды, Таверна/Рынок/Аукцион, Steam.";
 
 async function callApi(token, method, payload = {}) {
   const res = await fetch(`${API_BASE}/bot${token}/${method}`, {
@@ -28,12 +34,38 @@ function sleep(ms) {
   return new Promise((r) => setTimeout(r, ms));
 }
 
-function playKeyboard(webAppUrl) {
-  return { inline_keyboard: [[{ text: BUTTON_TEXT, web_app: { url: webAppUrl } }]] };
+function playKeyboard(webAppUrl, label = BUTTON_TEXT) {
+  return { inline_keyboard: [[{ text: label, web_app: { url: webAppUrl } }]] };
+}
+
+function duelUrlFor(webAppUrl, code) {
+  const u = new URL(webAppUrl);
+  u.searchParams.set("duel", code);
+  return u.toString();
 }
 
 async function handleMessage(token, webAppUrl, message) {
   if (!message?.chat?.id) return;
+  const text = String(message.text || "").trim();
+  if (/^\/news\b/i.test(text)) {
+    const newsUrl = new URL("/news", webAppUrl).toString();
+    await callApi(token, "sendMessage", {
+      chat_id: message.chat.id,
+      text: NEWS_PIN,
+      reply_markup: playKeyboard(newsUrl, "📰 Открыть Новости"),
+    });
+    return;
+  }
+  const duelMatch = /^\/start\s+duel_([A-Za-z0-9]{4,16})/i.exec(text);
+  if (duelMatch) {
+    const code = duelMatch[1].toUpperCase();
+    await callApi(token, "sendMessage", {
+      chat_id: message.chat.id,
+      text: `⚔ Приглашение в дружескую дуэль 3v3 (код ${code}). Нажми кнопку ниже, чтобы принять вызов!`,
+      reply_markup: playKeyboard(duelUrlFor(webAppUrl, code), `⚔ Принять дуэль ${code}`),
+    });
+    return;
+  }
   await callApi(token, "sendMessage", {
     chat_id: message.chat.id,
     text: WELCOME,

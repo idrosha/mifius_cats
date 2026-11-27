@@ -132,7 +132,13 @@
     "raid_attempts_weekly": 3,
     "raid_weekly_lock": true,
     "raid_soft_wipe_cap": 5,
-    "battle_turn_sec": 60
+    "battle_turn_sec": 60,
+    "pve_per_day_pass_mvp": 4,
+    "pvp_per_day_pass_mvp": 10,
+    "pass_cat_xp_multiplier": 2,
+    "ads_enabled": false,
+    "shop_gacha_enabled": false,
+    "replays_max": 10
   },
   "pity": {
     "soft": 50,
@@ -339,10 +345,108 @@
     ]
   },
   "season": {
+    "id": "mvp_beta_s1",
+    "name_ru": "Сезон I · MVP Beta",
+    "name_en": "Season I · MVP Beta",
     "duration_days": 28,
-    "soft_cap_pendant_bow_rarity": false
+    "soft_cap_pendant_bow_rarity": false,
+    "soft_decay_factor": 0.25,
+    "mmr_baseline": 1200,
+    "prizes": [
+      {
+        "tier": "top_1",
+        "rank_min": 1,
+        "rank_max": 1,
+        "title_ru": "Топ 1",
+        "title_en": "Top 1",
+        "reward_ru": "Титул чемпиона + золотая рамка + эксклюзивный кот/скин + 2 500 MIFOUS + 500 Пряжи",
+        "reward_en": "Champion title + gold frame + exclusive cat/skin + 2,500 MIFOUS + 500 Yarn",
+        "fish": 2500,
+        "yarn": 500,
+        "medals": 200
+      },
+      {
+        "tier": "top_2_10",
+        "rank_min": 2,
+        "rank_max": 10,
+        "title_ru": "Топ 2–10",
+        "title_en": "Top 2–10",
+        "reward_ru": "Рамка сезона + редкий кот/скин + 1 200 MIFOUS + 200 Пряжи",
+        "reward_en": "Season frame + rarer cat/skin + 1,200 MIFOUS + 200 Yarn",
+        "fish": 1200,
+        "yarn": 200,
+        "medals": 120
+      },
+      {
+        "tier": "top_11_100",
+        "rank_min": 11,
+        "rank_max": 100,
+        "title_ru": "Топ 11–100",
+        "title_en": "Top 11–100",
+        "reward_ru": "Рамка аватара + 600 MIFOUS + 60 медалей",
+        "reward_en": "Avatar border + 600 MIFOUS + 60 medals",
+        "fish": 600,
+        "yarn": 0,
+        "medals": 60
+      },
+      {
+        "tier": "top_101_1000",
+        "rank_min": 101,
+        "rank_max": 1000,
+        "title_ru": "Топ 101–1000",
+        "title_en": "Top 101–1000",
+        "reward_ru": "300 MIFOUS + 30 медалей",
+        "reward_en": "300 MIFOUS + 30 medals",
+        "fish": 300,
+        "yarn": 0,
+        "medals": 30
+      },
+      {
+        "tier": "participation",
+        "rank_min": 0,
+        "rank_max": 0,
+        "min_ranked_wins": 5,
+        "title_ru": "Участие (5+ побед)",
+        "title_en": "Participation (5+ wins)",
+        "reward_ru": "150 MIFOUS + значок сезона",
+        "reward_en": "150 MIFOUS + season badge",
+        "fish": 150,
+        "yarn": 0,
+        "medals": 10
+      }
+    ]
   },
+  "daily_quests": [
+    {
+      "quest_id": "dq_pve_1",
+      "kind": "pve_battle",
+      "target": 1,
+      "reward_fish": 50,
+      "reward_pass_xp": 200,
+      "title_ru": "Пройти 1 бой в Мифмире (PvE)",
+      "title_en": "Complete 1 Mythmir PvE battle"
+    },
+    {
+      "quest_id": "dq_pvp_1",
+      "kind": "pvp_battle",
+      "target": 1,
+      "reward_fish": 60,
+      "reward_pass_xp": 250,
+      "title_ru": "Сыграть 1 бой на Арене (PvP)",
+      "title_en": "Play 1 Arena PvP battle"
+    },
+    {
+      "quest_id": "dq_practice_1",
+      "kind": "any_battle",
+      "target": 2,
+      "reward_fish": 40,
+      "reward_pass_xp": 150,
+      "title_ru": "Сыграть 2 любых боя 3v3",
+      "title_en": "Play any 2 3v3 battles"
+    }
+  ],
   "feature_flags": {
+    "mvp_beta": true,
     "clan_boss_gameplay": false,
     "farm_gameplay": false,
     "nursery_gameplay": false,

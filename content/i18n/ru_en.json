@@ -1872,5 +1872,149 @@
     "card.raid_solar_taunt": "Lion's Challenge",
     "card.raid_tide": "Talass Tide",
     "card.raid_verdict": "Myaurra's Verdict"
+  },
+  "nav.primary.news": {
+    "ru": "Новости",
+    "en": "News"
+  },
+  "nav.primary.shop": {
+    "ru": "Магазин",
+    "en": "Shop"
+  },
+  "nav.sub.news": {
+    "ru": "Новости",
+    "en": "News"
+  },
+  "mvp.badge": {
+    "ru": "MVP Beta",
+    "en": "MVP Beta"
+  },
+  "currency.mifous": {
+    "ru": "Мифиус",
+    "en": "MIFOUS"
+  },
+  "currency.yarn": {
+    "ru": "Пряжа",
+    "en": "Yarn"
+  },
+  "pvp.mode.ranked": {
+    "ru": "Рейтинг",
+    "en": "Ranked"
+  },
+  "pvp.mode.unranked": {
+    "ru": "Свободный",
+    "en": "Unranked"
+  },
+  "pvp.mode.friendly": {
+    "ru": "Дружеская дуэль",
+    "en": "Friendly Duel"
+  },
+  "pvp.crossplay.badge": {
+    "ru": "Кросс-плей: TG · Web · Android · iOS (общий пул)",
+    "en": "Cross-play: TG · Web · Android · iOS (single pool)"
+  },
+  "quests.title": {
+    "ru": "Ежедневные задания",
+    "en": "Daily Quests"
+  },
+  "quests.claim": {
+    "ru": "Забрать",
+    "en": "Claim"
+  },
+  "quests.claimed": {
+    "ru": "Получено",
+    "en": "Claimed"
+  },
+  "news.title": {
+    "ru": "Новости · MVP Beta → Большое обновление",
+    "en": "News · MVP Beta → Full Update"
+  },
+  "news.copy_tg": {
+    "ru": "Скопировать закреп для TG-канала",
+    "en": "Copy TG Channel Pin"
+  },
+  "news.redirect_tip": {
+    "ru": "Этот раздел выйдет в Большом обновлении (Этап 2). Подробности в Новостях!",
+    "en": "This feature arrives in the Full Update (Stage 2). See News!"
+  },
+  "pass.mvp.limits": {
+    "ru": "Free: 3 PvE / 5 PvP · Пасс ACTIVE: 4 PvE / 10 PvP · ×2 XP котам",
+    "en": "Free: 3 PvE / 5 PvP · Pass ACTIVE: 4 PvE / 10 PvP · 2× Cat XP"
+  },
+  "pass.mvp.finale": {
+    "ru": "Финал пропуска: 1 случайный котик (серверный RNG)",
+    "en": "Pass Finale: 1 random cat (server RNG)"
+  },
+  "shop.mvp.lead": {
+    "ru": "Прямая покупка котиков и Боевого пропуска · без shop-гачи и рекламы",
+    "en": "Direct Cat purchases & Battle Pass · no shop gacha, no ads"
+  },
+  "settings.email.linked": {
+    "ru": "Привязан (кросс-платформа)",
+    "en": "Linked (cross-platform)"
+  },
+  "tutorial.mvp.cta": {
+    "ru": "Пройти обучение (первый бой)",
+    "en": "Start Tutorial (First Battle)"
+  },
+  "stage.mythmir_6_f1": {
+    "ru": "Багровые Рудники · Волна 1/3",
+    "en": "Crimson Mines · Wave 1/3"
+  },
+  "stage.mythmir_6_f2": {
+    "ru": "Багровые Рудники · Волна 2/3",
+    "en": "Crimson Mines · Wave 2/3"
+  },
+  "stage.mythmir_6_f3": {
+    "ru": "Багровые Рудники · Волна 3/3",
+    "en": "Crimson Mines · Wave 3/3"
+  },
+  "stage.mythmir_7_f1": {
+    "ru": "Хребет Вьюги · Волна 1/3",
+    "en": "Blizzard Ridge · Wave 1/3"
+  },
+  "stage.mythmir_7_f2": {
+    "ru": "Хребет Вьюги · Волна 2/3",
+    "en": "Blizzard Ridge · Wave 2/3"
+  },
+  "stage.mythmir_7_f3": {
+    "ru": "Хребет Вьюги · Волна 3/3",
+    "en": "Blizzard Ridge · Wave 3/3"
+  },
+  "stage.mythmir_8_f1": {
+    "ru": "Пепельный Форт · Волна 1/3",
+    "en": "Ashen Fort · Wave 1/3"
+  },
+  "stage.mythmir_8_f2": {
+    "ru": "Пепельный Форт · Волна 2/3",
+    "en": "Ashen Fort · Wave 2/3"
+  },
+  "stage.mythmir_8_f3": {
+    "ru": "Пепельный Форт · Волна 3/3",
+    "en": "Ashen Fort · Wave 3/3"
+  },
+  "stage.mythmir_9_f1": {
+    "ru": "Склеп Теней · Волна 1/3",
+    "en": "Crypt of Shadows · Wave 1/3"
+  },
+  "stage.mythmir_9_f2": {
+    "ru": "Склеп Теней · Волна 2/3",
+    "en": "Crypt of Shadows · Wave 2/3"
+  },
+  "stage.mythmir_9_f3": {
+    "ru": "Склеп Теней · Волна 3/3",
+    "en": "Crypt of Shadows · Wave 3/3"
+  },
+  "stage.mythmir_10_f1": {
+    "ru": "Цитадель Затмения · Волна 1/3",
+    "en": "Eclipse Citadel · Wave 1/3"
+  },
+  "stage.mythmir_10_f2": {
+    "ru": "Цитадель Затмения · Волна 2/3",
+    "en": "Eclipse Citadel · Wave 2/3"
+  },
+  "stage.mythmir_10_f3": {
+    "ru": "Цитадель Затмения · Волна 3/3",
+    "en": "Eclipse Citadel · Wave 3/3"
   }
 }

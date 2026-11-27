@@ -12,6 +12,34 @@ Append-only. Новые записи — **сверху** (после шабло
 6. Одна запись = одно решение. Не смешивать баланс и IA в одном D-id.
 7. В коде/доках ссылайся `D-0xx`, не копируй абзац Context.
 
+## D-067 · 2026-11-27 · MVP Beta Nav IA slice + экран News (поверх D-033)
+
+- **Status:** Accepted
+- **Area:** hud
+- **SSOT:** docs/nav-ia.md; docs/FULL-SPEC.md §1.1, §6
+- **Owner:** Andrew · design / web-hud
+- **Patches:** D-033 (только под флагом `feature_flags.mvp_beta`; Full/SL IA без изменений)
+
+### Context
+Под `D-066` (MVP Beta) часть экранов из `D-033` (Ферма, Крафт, Склад, Питомник, Таверна, Рынок, Аукцион, Походы, Гильдии, рейтинги данжей/рейдов/гильдий) перенесена в Этап 2 (Full). В MVP нужен узкий nav и отдельный экран **Новости** (`news`) с описанием Большого обновления и закрепом для TG-канала.
+
+### Decision
+1. Базовый массив `NAV` (`D-033`) остаётся каноном Full/SL (`mvp_beta=false`).
+2. При `feature_flags.mvp_beta === true` отображается MVP-срез:
+   - `pass` (Боевой пропуск)
+   - `character` (Дом Хранителя: `home`, `collection`)
+   - `trade` (Магазин: `shop` напрямую, без subtabs)
+   - `combat` (Бои: `practice`, `pve`, `pvp`)
+   - `ratings` (Рейтинги: `rating_players` напрямую)
+   - `friends` (Друзья: `chat_friends`, `chat_global`)
+   - `knowledge` (База знаний: `codex`, фильтр только MVP-темы)
+   - `news` (Новости: route `/news`, `#viewNews`)
+   - Кнопка Настроек (`settings`, `/settings`) в chrome сохраняется.
+3. Прямой переход на скрытые post-beta маршруты при `mvp_beta=true` переводит на `news` с подсказкой про Этап 2 (не пустая заглушка «Скоро»).
+
+### Consequences
++ Ноль ломки Full/SL `NAV` и существующих smoke-проверок. + Игрок в бете видит только рабочие MVP-экраны и понятный roadmap в `Новости`.
+
 ## D-066 · 2026-11-27 · MVP Beta scope (срез 1) vs Full post-beta
 
 - **Status:** Accepted

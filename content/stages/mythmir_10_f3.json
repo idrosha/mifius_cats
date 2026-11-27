@@ -1,0 +1,285 @@
+{
+  "stageId": "mythmir_10_f3",
+  "chapter": 10,
+  "name_key": "stage.mythmir_10_f3",
+  "bowlCost": 1,
+  "enemyTeam": [
+    {
+      "templateId": "bot_ghost_tank_m5f3_ch10",
+      "role": "tank",
+      "element": "bolt",
+      "level": 8,
+      "baseStats": {
+        "hp": 53,
+        "atk": 5,
+        "spd": 2,
+        "skill": 1,
+        "charm": 1
+      },
+      "deck": [
+        {
+          "cardId": "bot_ghost_tank_m5f3_t1_ch10_0",
+          "name_key": "card.bot_ghost_ward",
+          "element": "bolt",
+          "cost": 1,
+          "atk": 0,
+          "shield": 6,
+          "hits": 0,
+          "targetRule": "nearest",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "taunt",
+              "stacks": 1,
+              "duration": 2
+            }
+          ]
+        },
+        {
+          "cardId": "bot_ghost_tank_m5f3_t2_ch10_1",
+          "name_key": "card.bot_ghost_ward",
+          "element": "bolt",
+          "cost": 1,
+          "atk": 0,
+          "shield": 5,
+          "hits": 0,
+          "targetRule": "nearest",
+          "tags": [
+            "shield"
+          ],
+          "effectOps": [
+            {
+              "op": "apply_status",
+              "status": "taunt",
+              "stacks": 1,
+              "duration": 2
+            }
+          ]
+        },
+        {
+          "cardId": "bot_ghost_tank_m5f3_b1_ch10_2",
+          "name_key": "card.bot_ghost_bash",
+          "element": "bolt",
+          "cost": 1,
+          "atk": 6,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "bot_ghost_tank_m5f3_b2_ch10_3",
+          "name_key": "card.bot_ghost_bash",
+          "element": "bolt",
+          "cost": 1,
+          "atk": 6,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        }
+      ],
+      "meta": {
+        "display_ru": "Могильный страж",
+        "faction": "ghosts",
+        "isPitboss": false
+      }
+    },
+    {
+      "templateId": "bot_pitboss_ghost_gul_m5f3_ch10",
+      "role": "fighter",
+      "element": "bolt",
+      "level": 8,
+      "baseStats": {
+        "hp": 63,
+        "atk": 7,
+        "spd": 4,
+        "skill": 3,
+        "charm": 1
+      },
+      "deck": [
+        {
+          "cardId": "card_ghost_slash_m5f3_ch10_0",
+          "name_key": "card.bot_ghost_slash",
+          "element": "bolt",
+          "cost": 1,
+          "atk": 7,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "backline",
+          "tags": [
+            "attack",
+            "backline"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_ghost_slash2_m5f3_ch10_1",
+          "name_key": "card.bot_ghost_slash",
+          "element": "bolt",
+          "cost": 1,
+          "atk": 7,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "backline",
+          "tags": [
+            "attack",
+            "backline"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_ghost_cleave_m5f3_ch10_2",
+          "name_key": "card.bot_ghost_cleave",
+          "element": "bolt",
+          "cost": 2,
+          "atk": 7,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "all_enemies",
+          "tags": [
+            "attack",
+            "aoe"
+          ],
+          "effectOps": []
+        },
+        {
+          "cardId": "card_ghost_center_m5f3_ch10_3",
+          "name_key": "card.bot_ghost_slash",
+          "element": "bolt",
+          "cost": 1,
+          "atk": 7,
+          "shield": 0,
+          "hits": 1,
+          "targetRule": "nearest",
+          "tags": [
+            "attack"
+          ],
+          "effectOps": []
+        }
+      ],
+      "meta": {
+        "display_ru": "Фантом Гул",
+        "faction": "ghosts",
+        "isPitboss": true
+      }
+    },
+    {
+      "templateId": "bot_ghost_support_m5f3_ch10",
+      "role": "support",
+      "element": "bolt",
+      "level": 8,
+      "baseStats": {
+        "hp": 33,
+        "atk": 5,
+        "spd": 3,
+        "skill": 2,
+        "charm": 1
+      },
+      "deck": [
+        {
+          "cardId": "bot_ghost_support_m5f3_h1_ch10_0",
+          "name_key": "card.bot_ghost_sip",
+          "element": "bolt",
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "ally_lowest_hp",
+          "tags": [
+            "heal"
+          ],
+          "effectOps": [
+            {
+              "op": "heal",
+              "amount": 4
+            }
+          ]
+        },
+        {
+          "cardId": "bot_ghost_support_m5f3_h2_ch10_1",
+          "name_key": "card.bot_ghost_sip",
+          "element": "bolt",
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "ally_lowest_hp",
+          "tags": [
+            "heal"
+          ],
+          "effectOps": [
+            {
+              "op": "heal",
+              "amount": 4
+            }
+          ]
+        },
+        {
+          "cardId": "bot_ghost_support_m5f3_h3_ch10_2",
+          "name_key": "card.bot_ghost_sip",
+          "element": "bolt",
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "ally_lowest_hp",
+          "tags": [
+            "heal"
+          ],
+          "effectOps": [
+            {
+              "op": "heal",
+              "amount": 5
+            }
+          ]
+        },
+        {
+          "cardId": "bot_ghost_support_m5f3_h4_ch10_3",
+          "name_key": "card.bot_ghost_sip",
+          "element": "bolt",
+          "cost": 1,
+          "atk": 0,
+          "shield": 0,
+          "hits": 0,
+          "targetRule": "ally_lowest_hp",
+          "tags": [
+            "heal"
+          ],
+          "effectOps": [
+            {
+              "op": "heal",
+              "amount": 4
+            }
+          ]
+        }
+      ],
+      "meta": {
+        "display_ru": "Призрак-хил",
+        "faction": "ghosts",
+        "isPitboss": false
+      }
+    }
+  ],
+  "meta": {
+    "stageIndex": 10,
+    "fightIndex": 3,
+    "title_ru": "Цитадель Затмения",
+    "fight_ru": "Танк · босс · хил",
+    "faction": "ghosts",
+    "waveTheme": "tank_boss_heal",
+    "location_ru": "Цитадель Затмения",
+    "tactic_ru": "Босс backline+taunt; масс cost2; dodge.",
+    "title_en": "Eclipse Citadel",
+    "location_en": "Eclipse Citadel"
+  }
+}

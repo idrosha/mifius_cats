@@ -1,0 +1,268 @@
+{
+  "bowlCost": 1,
+  "chapter": 8,
+  "enemyTeam": [
+    {
+      "baseStats": {
+        "atk": 6,
+        "charm": 1,
+        "hp": 39,
+        "skill": 2,
+        "spd": 6
+      },
+      "deck": [
+        {
+          "atk": 6,
+          "cardId": "bot_redd_assassin_m3f2_a_1_ch8_0",
+          "cost": 1,
+          "effectOps": [],
+          "element": "fire",
+          "hits": 1,
+          "name_key": "card.bot_redd_stab",
+          "shield": 0,
+          "tags": [
+            "attack",
+            "backline"
+          ],
+          "targetRule": "backline"
+        },
+        {
+          "atk": 6,
+          "cardId": "bot_redd_assassin_m3f2_a_2_ch8_1",
+          "cost": 1,
+          "effectOps": [],
+          "element": "fire",
+          "hits": 1,
+          "name_key": "card.bot_redd_stab",
+          "shield": 0,
+          "tags": [
+            "attack",
+            "backline"
+          ],
+          "targetRule": "backline"
+        },
+        {
+          "atk": 6,
+          "cardId": "bot_redd_assassin_m3f2_a_3_ch8_2",
+          "cost": 1,
+          "effectOps": [],
+          "element": "fire",
+          "hits": 1,
+          "name_key": "card.bot_redd_stab",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        },
+        {
+          "atk": 6,
+          "cardId": "bot_redd_assassin_m3f2_a_4_ch8_3",
+          "cost": 1,
+          "effectOps": [],
+          "element": "fire",
+          "hits": 1,
+          "name_key": "card.bot_redd_stab",
+          "shield": 0,
+          "tags": [
+            "attack",
+            "backline"
+          ],
+          "targetRule": "backline"
+        }
+      ],
+      "element": "fire",
+      "level": 8,
+      "meta": {
+        "display_ru": "Пёс-искромёт",
+        "faction": "red_dogs",
+        "isPitboss": false
+      },
+      "role": "assassin",
+      "templateId": "bot_redd_assassin_m3f2_a_ch8"
+    },
+    {
+      "baseStats": {
+        "atk": 5,
+        "charm": 1,
+        "hp": 49,
+        "skill": 1,
+        "spd": 2
+      },
+      "deck": [
+        {
+          "atk": 0,
+          "cardId": "card_redd_taunt_m3f2_ch8_0",
+          "cost": 1,
+          "effectOps": [
+            {
+              "duration": 2,
+              "op": "apply_status",
+              "stacks": 1,
+              "status": "taunt"
+            }
+          ],
+          "element": "fire",
+          "hits": 0,
+          "name_key": "card.bot_redd_roar",
+          "shield": 5,
+          "tags": [
+            "shield"
+          ],
+          "targetRule": "nearest"
+        },
+        {
+          "atk": 0,
+          "cardId": "card_redd_taunt2_m3f2_ch8_1",
+          "cost": 1,
+          "effectOps": [
+            {
+              "duration": 2,
+              "op": "apply_status",
+              "stacks": 1,
+              "status": "taunt"
+            }
+          ],
+          "element": "fire",
+          "hits": 0,
+          "name_key": "card.bot_redd_roar",
+          "shield": 4,
+          "tags": [
+            "shield"
+          ],
+          "targetRule": "nearest"
+        },
+        {
+          "atk": 4,
+          "cardId": "card_redd_bash_m3f2_ch8_2",
+          "cost": 1,
+          "effectOps": [],
+          "element": "fire",
+          "hits": 1,
+          "name_key": "card.bot_redd_bite",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        },
+        {
+          "atk": 4,
+          "cardId": "card_redd_bash2_m3f2_ch8_3",
+          "cost": 1,
+          "effectOps": [],
+          "element": "fire",
+          "hits": 1,
+          "name_key": "card.bot_redd_bite",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        }
+      ],
+      "element": "fire",
+      "level": 8,
+      "meta": {
+        "display_ru": "Алый щитоносец",
+        "faction": "red_dogs",
+        "isPitboss": false
+      },
+      "role": "tank",
+      "templateId": "bot_redd_tank_m3f2_ch8"
+    },
+    {
+      "baseStats": {
+        "atk": 6,
+        "charm": 1,
+        "hp": 39,
+        "skill": 2,
+        "spd": 6
+      },
+      "deck": [
+        {
+          "atk": 6,
+          "cardId": "bot_redd_assassin_m3f2_b_1_ch8_0",
+          "cost": 1,
+          "effectOps": [],
+          "element": "fire",
+          "hits": 1,
+          "name_key": "card.bot_redd_stab",
+          "shield": 0,
+          "tags": [
+            "attack",
+            "backline"
+          ],
+          "targetRule": "backline"
+        },
+        {
+          "atk": 6,
+          "cardId": "bot_redd_assassin_m3f2_b_2_ch8_1",
+          "cost": 1,
+          "effectOps": [],
+          "element": "fire",
+          "hits": 1,
+          "name_key": "card.bot_redd_stab",
+          "shield": 0,
+          "tags": [
+            "attack",
+            "backline"
+          ],
+          "targetRule": "backline"
+        },
+        {
+          "atk": 6,
+          "cardId": "bot_redd_assassin_m3f2_b_3_ch8_2",
+          "cost": 1,
+          "effectOps": [],
+          "element": "fire",
+          "hits": 1,
+          "name_key": "card.bot_redd_stab",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        },
+        {
+          "atk": 6,
+          "cardId": "bot_redd_assassin_m3f2_b_4_ch8_3",
+          "cost": 1,
+          "effectOps": [],
+          "element": "fire",
+          "hits": 1,
+          "name_key": "card.bot_redd_stab",
+          "shield": 0,
+          "tags": [
+            "attack",
+            "backline"
+          ],
+          "targetRule": "backline"
+        }
+      ],
+      "element": "fire",
+      "level": 8,
+      "meta": {
+        "display_ru": "Пёс-искромёт",
+        "faction": "red_dogs",
+        "isPitboss": false
+      },
+      "role": "assassin",
+      "templateId": "bot_redd_assassin_m3f2_b_ch8"
+    }
+  ],
+  "meta": {
+    "faction": "red_dogs",
+    "fightIndex": 2,
+    "fight_ru": "Убийца · танк · убийца",
+    "location_ru": "Пепельный Форт",
+    "stageIndex": 8,
+    "tactic_ru": "Убийцы center/backline; таунт уважают.",
+    "title_ru": "Пепельный Форт",
+    "waveTheme": "assassin_tank_assassin",
+    "title_en": "Ashen Fort",
+    "location_en": "Ashen Fort"
+  },
+  "name_key": "stage.mythmir_8_f2",
+  "stageId": "mythmir_8_f2"
+}

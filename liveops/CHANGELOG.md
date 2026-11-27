@@ -2,6 +2,7 @@
 
 Одна строка на изменение конфига/схемы (skill `docs/skills/liveops.md`).
 
+- 2026-11-27: MVP Beta flag & config (`D-066`/`D-067`) — `feature_flags.mvp_beta=true`, pass limits 4 PvE / 10 PvP (`pve_per_day_pass_mvp=4`, `pvp_per_day_pass_mvp=10`), `pass_cat_xp_multiplier=2`, `ads_enabled=false`, `shop_gacha_enabled=false`, `replays_max=10`, `daily_quests` (3/day), `season.prizes` + soft MMR decay
 - 2026-11-25: Mythmir clear-band (D-060) — ch1 Baron HP 110; ch3 f2 / scarlet short_2 assassin ATK↓ HP↓ + tank shields↓; ch5 f1/f2 ghost HP/ATK/heal↓ so starter AutoPlay clears; golden yard turn 6/36
 - 2026-11-26: Unspent energy on `endTurn` no longer grants milk drops (`0`, was `+1`); eliminates 5/5 AP and 9-card hand buildup on skipped turns (`D-058` / §3.3–3.4; sim `action.go`)
 - 2026-11-25: Milk unspent energy — leftover AP on `endTurn` → **+1** milk drop (not +E); stops empty-end BonusE runaway (`D-058` / §3.4; sim `action.go`, threshold config unchanged)

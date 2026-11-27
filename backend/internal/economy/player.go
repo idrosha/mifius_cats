@@ -21,6 +21,16 @@ type Player struct {
 	// но нужен для §8.3 daily refill без выдуманной TZ-логики (§16: UTC).
 	LastRefillUTCDate string
 
+	// MVP Beta (D-066 / §1.1): флаг билда, email-линк, финал пасса, дейлики и сезон.
+	MVPBeta                 bool
+	LinkedEmail             string
+	PassFinaleClaimedSeason string
+	DailyQuestUTCDate       string
+	DailyQuests             map[string]*DailyQuestProgress
+	RankedMMR               int
+	RankedWins              int
+	SeasonID                string
+
 	// Кооп-данжи (docs/dungeons-coop-3.md) — server SoT stub; HUD may mirror.
 	DungeonKeys        map[string]int  // dungeonId → keys
 	DungeonKeysSeeded  bool
@@ -65,8 +75,14 @@ func (p *Player) PassActive(now time.Time) bool {
 	return now.Before(p.PassActiveUntil) || now.Equal(p.PassActiveUntil)
 }
 
-// AdsHidden — pass → no-ads (§5 Ads hidden / §13.3). Без пасса rewarded ads доступны.
+// AdsHidden — pass → no-ads (§5 Ads hidden / §13.3); в MVP Beta рекламы нет всегда (D-066).
 func (p *Player) AdsHidden(now time.Time) bool {
+	if p == nil {
+		return false
+	}
+	if p.MVPBeta {
+		return true
+	}
 	return p.PassActive(now)
 }
 

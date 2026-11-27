@@ -14,7 +14,7 @@ const STORE_PATH = path.join(DATA_DIR, "qa-accounts.json");
 const QA_LOGINS = ["login1", "login2", "login3", "login4"];
 
 /** Elven-18 shop commons — user kit = exactly these 18 combat cats. */
-const SHOP_COMMON_COMBAT = [
+export const SHOP_COMMON_COMBAT = [
   { templateId: "shop_tank_fire", role: "tank", element: "fire" },
   { templateId: "shop_tank_water", role: "tank", element: "water" },
   { templateId: "shop_tank_wind", role: "tank", element: "wind" },
@@ -34,6 +34,135 @@ const SHOP_COMMON_COMBAT = [
   { templateId: "shop_support_water", role: "support", element: "water" },
   { templateId: "shop_support_wind", role: "support", element: "wind" },
 ];
+
+const STARTER_POTION_IDS = [
+  "potion_life",
+  "potion_stone_skin",
+  "potion_spark_claw",
+  "potion_nine_lives",
+  "potion_cleanse",
+  "potion_mint",
+];
+
+function utcDayString(now = Date.now()) {
+  return new Date(now).toISOString().slice(0, 10);
+}
+
+/**
+ * Pure §5.1 starter grant for MVP Beta registration (D-066):
+ * 3 combat starters (equal decks), preset tank→fighter→support, 6 potions ×1,
+ * 3 PvE bowls / 5 PvP tickets (free daily caps), 200 MIFOUS (fish), 20 scrap, 0 yarn.
+ */
+export function buildMvpStarterProfile(userId, login = userId) {
+  const starters = [
+    { templateId: "starter_tank_stone", role: "tank", element: "stone" },
+    { templateId: "starter_fighter_fire", role: "fighter", element: "fire" },
+    { templateId: "starter_support_water", role: "support", element: "water" },
+  ];
+  const cats = starters.map((c, i) => ({
+    catId: `${userId}_c${i + 1}`,
+    templateId: c.templateId,
+    role: c.role,
+    element: c.element,
+    level: 1,
+    xp: 0,
+    rarity: "common",
+    origin: "starter",
+    pendantId: "",
+    bowByPart: {},
+  }));
+  // Visual collection preset L→R: rear(support), mid(fighter), front(tank) → sim [tank, fighter, support]
+  const presetIds = [cats[2].catId, cats[1].catId, cats[0].catId];
+  return {
+    userId,
+    login,
+    fish: 200,
+    yarn: 0,
+    scrap: 20,
+    medals: 0,
+    bowls: 3,
+    pvpTickets: 5,
+    jarKey: 0,
+    cats,
+    presets: [{ name: "Стартовый 3v3", catIds: presetIds }],
+    potions: STARTER_POTION_IDS.map((potionId) => ({ potionId, count: 1 })),
+    equalDecks: true,
+    gear: null,
+    qaFullKit: false,
+    mvpBetaStarter: true,
+    passActiveUntil: 0,
+    passOwned: false,
+    passLevel: 1,
+    passXp: 0,
+    passClaimed: {},
+    passFinaleClaimedSeason: "",
+    lastRefillUtcDate: utcDayString(),
+    tutorialDone: false,
+    linkedEmail: "",
+    mmr: 1200,
+    rankedWins: 0,
+    rankedLosses: 0,
+    dailyQuestDay: utcDayString(),
+    dailyQuests: {},
+    replays: [],
+  };
+}
+
+export function ensureMvpFields(acc) {
+  if (!acc || !acc.profile) return acc;
+  const p = acc.profile;
+  if (!Number.isFinite(p.mmr)) p.mmr = 1200;
+  if (!Number.isFinite(p.rankedWins)) p.rankedWins = 0;
+  if (!Number.isFinite(p.rankedLosses)) p.rankedLosses = 0;
+  if (!Number.isFinite(p.passActiveUntil)) p.passActiveUntil = 0;
+  if (typeof p.passOwned !== "boolean") p.passOwned = p.passActiveUntil > Date.now();
+  if (!Number.isFinite(p.passLevel) || p.passLevel < 1) p.passLevel = 1;
+  if (!Number.isFinite(p.passXp) || p.passXp < 0) p.passXp = 0;
+  if (!p.passClaimed || typeof p.passClaimed !== "object") p.passClaimed = {};
+  if (typeof p.passFinaleClaimedSeason !== "string") p.passFinaleClaimedSeason = "";
+  if (typeof p.tutorialDone !== "boolean") p.tutorialDone = !!p.qaFullKit;
+  if (typeof p.linkedEmail !== "string") p.linkedEmail = acc.linkedEmail || "";
+  if (!p.dailyQuests || typeof p.dailyQuests !== "object") p.dailyQuests = {};
+  if (typeof p.dailyQuestDay !== "string") p.dailyQuestDay = utcDayString();
+  if (!Array.isArray(p.replays)) p.replays = [];
+  if (typeof p.lastRefillUtcDate !== "string") p.lastRefillUtcDate = utcDayString();
+  for (const c of p.cats || []) {
+    if (!Number.isFinite(c.level) || c.level < 1) c.level = 1;
+    if (!Number.isFinite(c.xp) || c.xp < 0) c.xp = 0;
+  }
+  return acc;
+}
+
+export function getAccountById(loginOrId) {
+  const key = String(loginOrId || "").trim();
+  if (!key) return null;
+  const s = loadStore();
+  if (s.accounts[key]) return ensureMvpFields(s.accounts[key]);
+  for (const acc of Object.values(s.accounts)) {
+    if (acc?.userId === key) return ensureMvpFields(acc);
+  }
+  return null;
+}
+
+export function findAccountByEmail(email) {
+  const norm = String(email || "").trim().toLowerCase();
+  if (!norm || !norm.includes("@")) return null;
+  const s = loadStore();
+  for (const acc of Object.values(s.accounts)) {
+    const bound = String(acc?.linkedEmail || acc?.profile?.linkedEmail || "").trim().toLowerCase();
+    if (bound && bound === norm) return ensureMvpFields(acc);
+  }
+  return null;
+}
+
+export function listAllAccounts() {
+  const s = loadStore();
+  return Object.values(s.accounts).map((acc) => ensureMvpFields(acc));
+}
+
+export function saveAccountsStore() {
+  saveStore();
+}
 
 const BATTLE_POTIONS = [
   { potionId: "potion_heal", count: 999 },
@@ -203,11 +332,12 @@ export function loginTelegramAccount({ tgId, firstName = "" }) {
   const s = loadStore();
   let acc = s.accounts[login];
   if (!acc) {
+    const useMvp = process.env.MVP_BETA !== "0";
     acc = {
       login,
       password: crypto.randomBytes(24).toString("hex"),
       userId: login,
-      profile: buildQaProfile(login),
+      profile: useMvp ? buildMvpStarterProfile(login, login) : buildQaProfile(login),
       friends: [],
       createdAt: Date.now(),
       telegram: { id: String(tgId), firstName: String(firstName).slice(0, 64) },
@@ -215,6 +345,7 @@ export function loginTelegramAccount({ tgId, firstName = "" }) {
     s.accounts[login] = acc;
     saveStore();
   }
+  ensureMvpFields(acc);
   return {
     ok: true,
     stubAuth: true,
@@ -300,53 +431,75 @@ export async function handleAccountsDevApi(req, res, send) {
       return json(400, { ok: false, error: "login_required" }), true;
     }
 
-    let acc = s.accounts[login];
+    let acc = s.accounts[login] || (!register && login.includes("@") ? findAccountByEmail(login) : null);
     if (register) {
       if (acc) return json(409, { ok: false, error: "already_exists" }), true;
+      const safeId = login.replace(/[^\w.-]+/g, "_").slice(0, 48) || `user_${Date.now().toString(36)}`;
+      const useMvpStarter = body?.starterMode === "mvp" || (process.env.MVP_BETA !== "0" && !QA_LOGINS.includes(login));
       acc = {
         login,
         password: password || login,
-        userId: login.replace(/[^\w.-]+/g, "_").slice(0, 48) || `user_${Date.now().toString(36)}`,
-        profile: buildQaProfile(login.replace(/[^\w.-]+/g, "_").slice(0, 48) || login),
+        userId: safeId,
+        profile: useMvpStarter ? buildMvpStarterProfile(safeId, login) : buildQaProfile(safeId),
         friends: [],
         createdAt: Date.now(),
       };
-      // Non-QA register still gets equal 18-kit for parity when password matches pattern.
-      if (!QA_LOGINS.includes(login)) {
-        acc.profile = buildQaProfile(acc.userId);
+      if (login.includes("@")) {
+        acc.linkedEmail = login.toLowerCase();
+        acc.profile.linkedEmail = login.toLowerCase();
       }
       s.accounts[login] = acc;
       saveStore();
     } else if (acc) {
-      if (String(acc.password) !== password) {
+      ensureMvpFields(acc);
+      if (String(acc.password) !== password && !(login.includes("@") && body?.viaEmailLink)) {
         return json(401, { ok: false, error: "bad_password" }), true;
       }
     } else if (QA_LOGINS.includes(login)) {
       // Auto-heal missing seed
       seedQaAccounts();
       acc = s.accounts[login];
+      ensureMvpFields(acc);
       if (String(acc.password) !== password) {
         return json(401, { ok: false, error: "bad_password" }), true;
       }
     } else {
-      // Free smoke login (legacy): ephemeral kit, not persisted.
+      // In MVP Beta, persist new guest/player accounts so limits/pass/email/replays stay server-authoritative.
       const userId = login.replace(/[^\w.-]+/g, "_").slice(0, 48) || "guest_smoke";
-      const kit = buildQaProfile(userId);
-      return (
-        json(200, {
-          ok: true,
-          stubAuth: true,
-          message: "ephemeral smoke login — not persisted",
+      if (process.env.MVP_BETA !== "0") {
+        acc = {
           login,
-          passwordAccepted: true,
-          session: { userId, token: `stub_${userId}` },
-          profile: kit,
+          password: password || login,
+          userId,
+          profile: buildMvpStarterProfile(userId, login),
           friends: [],
-        }),
-        true
-      );
+          createdAt: Date.now(),
+        };
+        if (login.includes("@")) {
+          acc.linkedEmail = login.toLowerCase();
+          acc.profile.linkedEmail = login.toLowerCase();
+        }
+        s.accounts[login] = acc;
+        saveStore();
+      } else {
+        const kit = buildQaProfile(userId);
+        return (
+          json(200, {
+            ok: true,
+            stubAuth: true,
+            message: "ephemeral smoke login — not persisted",
+            login,
+            passwordAccepted: true,
+            session: { userId, token: `stub_${userId}` },
+            profile: kit,
+            friends: [],
+          }),
+          true
+        );
+      }
     }
 
+    ensureMvpFields(acc);
     // Ensure QA quartet stays mutual on every login (no DM wipe).
     if (QA_LOGINS.includes(acc.login)) linkQaFriends();
     return (

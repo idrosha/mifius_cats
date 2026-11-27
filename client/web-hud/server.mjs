@@ -11,6 +11,7 @@ import zlib from "node:zlib";
 import { fileURLToPath } from "node:url";
 import { handleDungeonDevApi } from "./dungeon-dev-api.mjs";
 import { handleAccountsDevApi } from "./accounts-dev-api.mjs";
+import { handleMvpBetaApi } from "./mvp-beta-api.mjs";
 import { handlePvpMmDevApi } from "./pvp-mm-dev-api.mjs";
 import { handleTelegramApi } from "./telegram-auth.mjs";
 import { startTelegramBot } from "./telegram-bot.mjs";
@@ -489,6 +490,11 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  /** MVP Beta server-side limits, pass, shop, daily quests, seasons, email link, replays ≤10 (D-066). */
+  if (await handleMvpBetaApi(req, res, send, REPO)) {
+    return;
+  }
+
   /** QA accounts + friends + DM (login1–4). Falls through if path not matched. */
   if (await handleAccountsDevApi(req, res, send)) {
     return;
@@ -521,9 +527,20 @@ const server = http.createServer(async (req, res) => {
     return;
   }
   if (u.pathname.startsWith("/api/liveops")) {
-    // Prefer LiveOps CDN; if unreachable/slow, ship repo liveops.json so boot still enters the game.
+    // Prefer LiveOps CDN; if unreachable/slow (or explicit MVP_BETA build-flavor override), ship repo liveops.json.
     const rest = u.pathname.slice("/api/liveops".length) || "/";
     const wantsBundle = rest.includes("liveops.json");
+    const hasFlavorOverride = process.env.MVP_BETA === "0" || process.env.MVP_BETA === "1";
+    if (wantsBundle && hasFlavorOverride && fs.existsSync(LIVEOPS_FALLBACK)) {
+      try {
+        const doc = JSON.parse(fs.readFileSync(LIVEOPS_FALLBACK, "utf8"));
+        doc.feature_flags = { ...(doc.feature_flags || {}), mvp_beta: process.env.MVP_BETA === "1" };
+        send(res, 200, doc, { "Content-Type": "application/json; charset=utf-8" }, req);
+        return;
+      } catch {
+        /* fall through */
+      }
+    }
     try {
       const target = `${LIVEOPS_URL}${rest}${u.search}`;
       const upstream = await fetch(target, {
@@ -554,6 +571,16 @@ const server = http.createServer(async (req, res) => {
       /* fall through to disk fallback */
     }
     if (wantsBundle && fs.existsSync(LIVEOPS_FALLBACK)) {
+      if (process.env.MVP_BETA === "0" || process.env.MVP_BETA === "1") {
+        try {
+          const doc = JSON.parse(fs.readFileSync(LIVEOPS_FALLBACK, "utf8"));
+          doc.feature_flags = { ...(doc.feature_flags || {}), mvp_beta: process.env.MVP_BETA === "1" };
+          send(res, 200, doc, { "Content-Type": "application/json; charset=utf-8" }, req);
+          return;
+        } catch {
+          /* fall through */
+        }
+      }
       serveFile(res, LIVEOPS_FALLBACK, req, u.searchParams.has("v"));
       return;
     }
@@ -590,6 +617,8 @@ const server = http.createServer(async (req, res) => {
     rel === "/pvp-load/" ||
     rel === "/codex" ||
     rel === "/codex/" ||
+    rel === "/news" ||
+    rel === "/news/" ||
     rel === "/settings" ||
     rel === "/settings/" ||
     rel === "/home" ||

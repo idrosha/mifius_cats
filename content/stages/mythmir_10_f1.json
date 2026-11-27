@@ -1,0 +1,282 @@
+{
+  "bowlCost": 1,
+  "chapter": 10,
+  "enemyTeam": [
+    {
+      "baseStats": {
+        "atk": 5,
+        "charm": 1,
+        "hp": 48,
+        "skill": 1,
+        "spd": 2
+      },
+      "deck": [
+        {
+          "atk": 0,
+          "cardId": "bot_ghost_tank_m5f1_t1_ch10_0",
+          "cost": 1,
+          "effectOps": [
+            {
+              "duration": 2,
+              "op": "apply_status",
+              "stacks": 1,
+              "status": "taunt"
+            }
+          ],
+          "element": "bolt",
+          "hits": 0,
+          "name_key": "card.bot_ghost_ward",
+          "shield": 4,
+          "tags": [
+            "shield"
+          ],
+          "targetRule": "nearest"
+        },
+        {
+          "atk": 0,
+          "cardId": "bot_ghost_tank_m5f1_t2_ch10_1",
+          "cost": 1,
+          "effectOps": [
+            {
+              "duration": 2,
+              "op": "apply_status",
+              "stacks": 1,
+              "status": "taunt"
+            }
+          ],
+          "element": "bolt",
+          "hits": 0,
+          "name_key": "card.bot_ghost_ward",
+          "shield": 3,
+          "tags": [
+            "shield"
+          ],
+          "targetRule": "nearest"
+        },
+        {
+          "atk": 4,
+          "cardId": "bot_ghost_tank_m5f1_b1_ch10_2",
+          "cost": 1,
+          "effectOps": [],
+          "element": "bolt",
+          "hits": 1,
+          "name_key": "card.bot_ghost_bash",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        },
+        {
+          "atk": 4,
+          "cardId": "bot_ghost_tank_m5f1_b2_ch10_3",
+          "cost": 1,
+          "effectOps": [],
+          "element": "bolt",
+          "hits": 1,
+          "name_key": "card.bot_ghost_bash",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        }
+      ],
+      "element": "bolt",
+      "level": 8,
+      "meta": {
+        "display_ru": "Могильный страж",
+        "faction": "ghosts",
+        "isPitboss": false
+      },
+      "role": "tank",
+      "templateId": "bot_ghost_tank_m5f1_ch10"
+    },
+    {
+      "baseStats": {
+        "atk": 6,
+        "charm": 1,
+        "hp": 40,
+        "skill": 2,
+        "spd": 4
+      },
+      "deck": [
+        {
+          "atk": 5,
+          "cardId": "bot_ghost_fighter_m5f1_1_ch10_0",
+          "cost": 1,
+          "effectOps": [],
+          "element": "bolt",
+          "hits": 1,
+          "name_key": "card.bot_ghost_slash",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        },
+        {
+          "atk": 5,
+          "cardId": "bot_ghost_fighter_m5f1_2_ch10_1",
+          "cost": 1,
+          "effectOps": [],
+          "element": "bolt",
+          "hits": 1,
+          "name_key": "card.bot_ghost_slash",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        },
+        {
+          "atk": 5,
+          "cardId": "bot_ghost_fighter_m5f1_3_ch10_2",
+          "cost": 1,
+          "effectOps": [],
+          "element": "bolt",
+          "hits": 1,
+          "name_key": "card.bot_ghost_slash",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        },
+        {
+          "atk": 5,
+          "cardId": "bot_ghost_fighter_m5f1_4_ch10_3",
+          "cost": 1,
+          "effectOps": [],
+          "element": "bolt",
+          "hits": 1,
+          "name_key": "card.bot_ghost_slash",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        }
+      ],
+      "element": "bolt",
+      "level": 8,
+      "meta": {
+        "display_ru": "Призрак-боец",
+        "faction": "ghosts",
+        "isPitboss": false
+      },
+      "role": "fighter",
+      "templateId": "bot_ghost_fighter_m5f1_ch10"
+    },
+    {
+      "baseStats": {
+        "atk": 5,
+        "charm": 1,
+        "hp": 30,
+        "skill": 2,
+        "spd": 3
+      },
+      "deck": [
+        {
+          "atk": 0,
+          "cardId": "bot_ghost_support_m5f1_h1_ch10_0",
+          "cost": 1,
+          "effectOps": [
+            {
+              "amount": 2,
+              "op": "heal"
+            }
+          ],
+          "element": "bolt",
+          "hits": 0,
+          "name_key": "card.bot_ghost_sip",
+          "shield": 0,
+          "tags": [
+            "heal"
+          ],
+          "targetRule": "ally_lowest_hp"
+        },
+        {
+          "atk": 0,
+          "cardId": "bot_ghost_support_m5f1_h2_ch10_1",
+          "cost": 1,
+          "effectOps": [
+            {
+              "amount": 2,
+              "op": "heal"
+            }
+          ],
+          "element": "bolt",
+          "hits": 0,
+          "name_key": "card.bot_ghost_sip",
+          "shield": 0,
+          "tags": [
+            "heal"
+          ],
+          "targetRule": "ally_lowest_hp"
+        },
+        {
+          "atk": 0,
+          "cardId": "bot_ghost_support_m5f1_h3_ch10_2",
+          "cost": 1,
+          "effectOps": [
+            {
+              "amount": 3,
+              "op": "heal"
+            }
+          ],
+          "element": "bolt",
+          "hits": 0,
+          "name_key": "card.bot_ghost_sip",
+          "shield": 0,
+          "tags": [
+            "heal"
+          ],
+          "targetRule": "ally_lowest_hp"
+        },
+        {
+          "atk": 0,
+          "cardId": "bot_ghost_support_m5f1_h4_ch10_3",
+          "cost": 1,
+          "effectOps": [
+            {
+              "amount": 2,
+              "op": "heal"
+            }
+          ],
+          "element": "bolt",
+          "hits": 0,
+          "name_key": "card.bot_ghost_sip",
+          "shield": 0,
+          "tags": [
+            "heal"
+          ],
+          "targetRule": "ally_lowest_hp"
+        }
+      ],
+      "element": "bolt",
+      "level": 8,
+      "meta": {
+        "display_ru": "Призрак-хил",
+        "faction": "ghosts",
+        "isPitboss": false
+      },
+      "role": "support",
+      "templateId": "bot_ghost_support_m5f1_ch10"
+    }
+  ],
+  "meta": {
+    "faction": "ghosts",
+    "fightIndex": 1,
+    "fight_ru": "Танк · боец · хил",
+    "location_ru": "Цитадель Затмения",
+    "stageIndex": 10,
+    "tactic_ru": "Dodge 1/4 у призраков.",
+    "title_ru": "Цитадель Затмения",
+    "waveTheme": "tank_fighter_heal",
+    "title_en": "Eclipse Citadel",
+    "location_en": "Eclipse Citadel"
+  },
+  "name_key": "stage.mythmir_10_f1",
+  "stageId": "mythmir_10_f1"
+}

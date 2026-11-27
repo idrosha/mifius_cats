@@ -1,0 +1,262 @@
+{
+  "bowlCost": 1,
+  "chapter": 6,
+  "enemyTeam": [
+    {
+      "baseStats": {
+        "atk": 5,
+        "charm": 1,
+        "hp": 37,
+        "skill": 1,
+        "spd": 2
+      },
+      "deck": [
+        {
+          "atk": 0,
+          "cardId": "card_dog_bark_m1f2_ch6_0",
+          "cost": 1,
+          "effectOps": [
+            {
+              "duration": 2,
+              "op": "apply_status",
+              "stacks": 1,
+              "status": "taunt"
+            }
+          ],
+          "element": "stone",
+          "hits": 0,
+          "name_key": "card.bot_dog_bark",
+          "shield": 7,
+          "tags": [
+            "shield"
+          ],
+          "targetRule": "nearest"
+        },
+        {
+          "atk": 0,
+          "cardId": "card_dog_bark2_m1f2_ch6_1",
+          "cost": 1,
+          "effectOps": [
+            {
+              "duration": 2,
+              "op": "apply_status",
+              "stacks": 1,
+              "status": "taunt"
+            }
+          ],
+          "element": "stone",
+          "hits": 0,
+          "name_key": "card.bot_dog_bark",
+          "shield": 6,
+          "tags": [
+            "shield"
+          ],
+          "targetRule": "nearest"
+        },
+        {
+          "atk": 5,
+          "cardId": "card_dog_bite_m1f2_ch6_2",
+          "cost": 1,
+          "effectOps": [],
+          "element": "stone",
+          "hits": 1,
+          "name_key": "card.bot_dog_bite",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        },
+        {
+          "atk": 5,
+          "cardId": "card_dog_bite2_m1f2_ch6_3",
+          "cost": 1,
+          "effectOps": [],
+          "element": "stone",
+          "hits": 1,
+          "name_key": "card.bot_dog_bite",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "nearest"
+        }
+      ],
+      "element": "stone",
+      "level": 6,
+      "meta": {
+        "display_ru": "Пёс-щитоносец",
+        "faction": "dogs",
+        "isPitboss": false
+      },
+      "role": "tank",
+      "templateId": "bot_dog_tank_m1f2_ch6"
+    },
+    {
+      "baseStats": {
+        "atk": 5,
+        "charm": 1,
+        "hp": 26,
+        "skill": 2,
+        "spd": 5
+      },
+      "deck": [
+        {
+          "atk": 5,
+          "cardId": "bot_dog_ranger_m1f2_a_s1_ch6_0",
+          "cost": 1,
+          "effectOps": [],
+          "element": "stone",
+          "hits": 1,
+          "name_key": "card.bot_dog_shot",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        },
+        {
+          "atk": 5,
+          "cardId": "bot_dog_ranger_m1f2_a_s2_ch6_1",
+          "cost": 1,
+          "effectOps": [],
+          "element": "stone",
+          "hits": 1,
+          "name_key": "card.bot_dog_shot",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        },
+        {
+          "atk": 6,
+          "cardId": "bot_dog_ranger_m1f2_a_s3_ch6_2",
+          "cost": 1,
+          "effectOps": [],
+          "element": "stone",
+          "hits": 1,
+          "name_key": "card.bot_dog_shot",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        },
+        {
+          "atk": 5,
+          "cardId": "bot_dog_ranger_m1f2_a_s4_ch6_3",
+          "cost": 1,
+          "effectOps": [],
+          "element": "stone",
+          "hits": 1,
+          "name_key": "card.bot_dog_shot",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        }
+      ],
+      "element": "stone",
+      "level": 6,
+      "meta": {
+        "display_ru": "Пёс-лучник",
+        "faction": "dogs",
+        "isPitboss": false
+      },
+      "role": "ranger",
+      "templateId": "bot_dog_ranger_m1f2_a_ch6"
+    },
+    {
+      "baseStats": {
+        "atk": 5,
+        "charm": 1,
+        "hp": 26,
+        "skill": 2,
+        "spd": 5
+      },
+      "deck": [
+        {
+          "atk": 5,
+          "cardId": "bot_dog_ranger_m1f2_b_s1_ch6_0",
+          "cost": 1,
+          "effectOps": [],
+          "element": "stone",
+          "hits": 1,
+          "name_key": "card.bot_dog_shot",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        },
+        {
+          "atk": 5,
+          "cardId": "bot_dog_ranger_m1f2_b_s2_ch6_1",
+          "cost": 1,
+          "effectOps": [],
+          "element": "stone",
+          "hits": 1,
+          "name_key": "card.bot_dog_shot",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        },
+        {
+          "atk": 6,
+          "cardId": "bot_dog_ranger_m1f2_b_s3_ch6_2",
+          "cost": 1,
+          "effectOps": [],
+          "element": "stone",
+          "hits": 1,
+          "name_key": "card.bot_dog_shot",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        },
+        {
+          "atk": 5,
+          "cardId": "bot_dog_ranger_m1f2_b_s4_ch6_3",
+          "cost": 1,
+          "effectOps": [],
+          "element": "stone",
+          "hits": 1,
+          "name_key": "card.bot_dog_shot",
+          "shield": 0,
+          "tags": [
+            "attack"
+          ],
+          "targetRule": "center"
+        }
+      ],
+      "element": "stone",
+      "level": 6,
+      "meta": {
+        "display_ru": "Пёс-лучник",
+        "faction": "dogs",
+        "isPitboss": false
+      },
+      "role": "ranger",
+      "templateId": "bot_dog_ranger_m1f2_b_ch6"
+    }
+  ],
+  "meta": {
+    "faction": "dogs",
+    "fightIndex": 2,
+    "fight_ru": "Танк + лучники",
+    "location_ru": "Багровые Рудники",
+    "stageIndex": 6,
+    "tactic_ru": "Танк фронт, два лучника; center + taunt.",
+    "title_ru": "Багровые Рудники",
+    "waveTheme": "tank_two_rangers",
+    "title_en": "Crimson Mines",
+    "location_en": "Crimson Mines"
+  },
+  "name_key": "stage.mythmir_6_f2",
+  "stageId": "mythmir_6_f2"
+}

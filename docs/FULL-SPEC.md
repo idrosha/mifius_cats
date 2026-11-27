@@ -378,7 +378,7 @@ Soft display name: **Мифиус / MIFOUS** (`fish`). Тикер `$MIFOUS` — 
 
 10. `Result` + rewards  
 11. `ReplayList` (10)  
-12. `Soon` placeholder sheets  
+12. `Soon` placeholder sheets (Full/SL) · `News` (`/news`, `#viewNews`, `D-067`) — в `mvp_beta` заменяет скрытые post-beta вкладки описанием Этапа 2 + закрепом для TG-канала.  
 
 Адаптив (web-hud): stage **landscape** (~16:9) на десктопе и планшете. На **телефоне** — портрет и альбом: портрет (≤767px) использует блок `PHONE PORTRAIT` в `styles.css`, rotate gate снят (`D-065`, supersedes `D-036`). Отдельные mobile/tablet shells — после wide web (`D-012`). PC = keyboard hotkeys later.
 

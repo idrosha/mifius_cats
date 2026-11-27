@@ -48,6 +48,9 @@ func OpenJar(p *Player, state *PityState, tableID string, cfg PityConfig, pool J
 	if p == nil {
 		return JarDrop{}, ErrNilPlayer
 	}
+	if p.MVPBeta {
+		return JarDrop{}, ErrShopGachaDisabled
+	}
 	if state == nil {
 		return JarDrop{}, ErrNilPityState
 	}

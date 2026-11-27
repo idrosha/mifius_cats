@@ -31,6 +31,23 @@ Atlas (`armor_sets` / `class_sets` / `equip_cards` / `heroes`) — из коде
 - Alias: `sklad` → `gear` (legacy stitch paths)
 - SL: HUD stub (`D-028` Accepted); бой не считает статы экипа с клиента как SoT
 
+## MVP Beta slice (`D-067`, флаг `feature_flags.mvp_beta = true`)
+
+При активном флаге `mvp_beta` (`D-066` / `FULL-SPEC §1.1`) `#appNav` / `#appSubTabs` режут `NAV` до MVP-среза без изменения Full/SL структуры:
+
+| Primary | Label | Default route | Subtabs (порядок) |
+|---|---|---|---|
+| `pass` | Боевой пропуск | `pass` | _(нет)_ |
+| `character` | Дом Хранителя | `home` | `home` (Персонаж), `collection` (Команды) |
+| `trade` | Магазин | `shop` | _(нет)_ |
+| `combat` | Бои | `pve` | `practice`, `pve` (Мифмир), `pvp` (Арена: Ranked · Unranked · Friendly) |
+| `ratings` | Рейтинги | `rating_players` | _(нет)_ |
+| `friends` | Друзья | `chat_friends` | `chat_friends` (Друзья), `chat_global` (Общий чат) |
+| `knowledge` | База знаний | `codex` | _(нет; только MVP-темы)_ |
+| `news` | Новости | `news` (`/news`) | _(нет; Этап 2 / Full roadmap + закреп TG)_ |
+
+Скрытые в MVP маршруты (`farm`, `craft`, `gear`, `breeding`, `trade_hub`, `tavern`, `market`, `auction`, `battle_hub`, `boss_dungeon`, `boss_raid`, `guild_battle`, `guild_hub`, `guild`, `chat_guild`, `rating_dungeon`, `rating_raid`, `rating_guilds`) перенаправляются в `news`.
+
 ## Правила правок IA
 
 1. Менять структуру только в `NAV` (+ этот файл + SCREEN-MAP при новых routes) **и только с новым D-0xx** (`D-033` locked).

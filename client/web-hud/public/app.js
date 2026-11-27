@@ -1905,6 +1905,7 @@ async function bootLiveOps() {
       signal: ctrl.signal,
     });
     state.liveOps = data;
+    syncMvpBetaBodyClass();
     state.liveOpsMeta = {
       version: headers.get("X-LiveOps-Version") || data?.version || "?",
       sig: headers.get("X-LiveOps-Signature") || "",
@@ -1924,13 +1925,162 @@ function featureFlags() {
   return state.liveOps?.feature_flags || {};
 }
 
+/** MVP Beta feature flag (D-066 / D-067 · FULL-SPEC §1.1). */
+function isMvpBeta() {
+  try {
+    const q = new URLSearchParams(location.search).get("mvp_beta");
+    if (q === "0" || q === "false") return false;
+    if (q === "1" || q === "true") return true;
+  } catch (_) {}
+  if (state.liveOps?.feature_flags && "mvp_beta" in state.liveOps.feature_flags) {
+    return !!state.liveOps.feature_flags.mvp_beta;
+  }
+  return true;
+}
+
+function syncMvpBetaBodyClass() {
+  document.body?.classList?.toggle("mvp-beta", isMvpBeta());
+}
+
+const MVP_HIDDEN_TABS = new Set([
+  "farm",
+  "craft",
+  "gear",
+  "breeding",
+  "trade_hub",
+  "tavern",
+  "market",
+  "auction",
+  "battle_hub",
+  "boss_dungeon",
+  "boss_raid",
+  "raid_battle",
+  "guild_battle",
+  "guild_hub",
+  "guild",
+  "guild_members",
+  "guild_tech",
+  "guild_treasury",
+  "chat_guild",
+  "soon_clan",
+  "rating_dungeon",
+  "rating_raid",
+  "rating_guilds",
+  "armor_sets",
+  "class_sets",
+  "equip_cards",
+]);
+
+const MVP_CODEX_IDS = new Set([
+  "battle_core",
+  "heroes_atlas",
+  "heroes_skills",
+  "hp_classes",
+  "levels_stats",
+  "elements",
+  "formation",
+  "practice",
+  "mythmir_pve",
+  "pvp_modes",
+  "ratings",
+  "tickets_energy",
+  "potions",
+  "collection",
+  "shop",
+  "pass",
+  "mifius_coin",
+  "currencies",
+  "starter",
+  "crossplay",
+]);
+
+/** Nav projection: Full/SL = locked D-033 NAV; mvp_beta = narrow D-067 slice. */
+function visibleNav() {
+  if (!isMvpBeta()) return NAV;
+  return [
+    { id: "pass", key: "nav.primary.pass", label: "Боевой пропуск", route: "pass", tabs: [] },
+    {
+      id: "character",
+      key: "nav.primary.character",
+      label: "Дом Хранителя",
+      route: "home",
+      tabs: [
+        { id: "home", key: "nav.sub.home" },
+        { id: "collection", key: "nav.sub.collection" },
+      ],
+    },
+    { id: "trade", key: "nav.primary.shop", label: "Магазин", route: "shop", tabs: [] },
+    {
+      id: "combat",
+      key: "nav.primary.combat",
+      label: "Бои",
+      route: "pve",
+      tabs: [
+        { id: "practice", key: "nav.sub.practice" },
+        { id: "pve", key: "nav.sub.pve" },
+        { id: "pvp", key: "nav.sub.pvp", gated: "pvp" },
+      ],
+    },
+    { id: "ratings", key: "nav.primary.ratings", label: "Рейтинги", route: "rating_players", tabs: [] },
+    {
+      id: "friends",
+      key: "nav.primary.chats",
+      label: "Друзья",
+      route: "chat_friends",
+      tabs: [
+        { id: "chat_friends", key: "nav.sub.chat_friends" },
+        { id: "chat_global", key: "nav.sub.chat_global" },
+      ],
+    },
+    { id: "knowledge", key: "nav.primary.knowledge", label: "База знаний", route: "codex", tabs: [] },
+    { id: "news", key: "nav.primary.news", label: "Новости", route: "news", tabs: [] },
+  ];
+}
+
+function clientPlatform() {
+  if (window.Telegram?.WebApp?.initData) return "telegram";
+  const ua = navigator.userAgent || "";
+  if (/android/i.test(ua)) return "android";
+  if (/iphone|ipad|ipod/i.test(ua)) return "ios";
+  return "web";
+}
+
+async function syncMvpStateFromServer() {
+  const uid = state.session?.userId || state.profile?.userId;
+  if (!uid) return null;
+  try {
+    const { data } = await api(`/api/dev/mvp/state?userId=${encodeURIComponent(uid)}`);
+    if (!data?.ok) return null;
+    state.mvpState = data;
+    if (data.profile) {
+      state.profile = { ...(state.profile || {}), ...data.profile };
+      state.passOwned = !!data.pass?.owned;
+      state.passActiveStub = !!data.pass?.active;
+      state.passLevel = Number(data.pass?.level || state.passLevel || 1);
+      state.passXp = Number(data.pass?.xp || 0);
+      if (data.linkedEmail) {
+        const s = loadSettingsState();
+        s.email = data.linkedEmail;
+        saveSettingsState();
+      }
+    }
+    renderCurrency();
+    return data;
+  } catch {
+    return null;
+  }
+}
+
 /** Smoke / stub: pass ACTIVE until real passActiveUntil from profile. */
 function passActive() {
-  if (state.passActiveStub) return true;
   const until = state.profile?.passActiveUntil;
-  if (!until) return false;
-  const ts = typeof until === "number" ? until : Date.parse(until);
-  return Number.isFinite(ts) && ts > Date.now();
+  if (until) {
+    const ts = typeof until === "number" ? until : Date.parse(until);
+    if (Number.isFinite(ts) && ts > Date.now()) return true;
+  }
+  if (state.mvpState?.pass) return !!state.mvpState.pass.active;
+  if (state.passActiveStub) return true;
+  return false;
 }
 
 function showPassGateTip() {
@@ -2033,6 +2183,7 @@ function logicalViewId() {
     rating_dungeon: "viewRatingDungeon",
     rating_raid: "viewRatingRaid",
     rating_guilds: "viewRatingGuilds",
+    news: "viewNews",
   };
   return map[state.tab] || "viewHub";
 }
@@ -2252,6 +2403,10 @@ function codexAddressOpen() {
   return normalizedPath() === "/codex";
 }
 
+function newsAddressOpen() {
+  return normalizedPath() === "/news";
+}
+
 function loginAddressOpen() {
   return normalizedPath() === "/home";
 }
@@ -2268,6 +2423,7 @@ function screenAddressFor(tab) {
   if (tab === "pve_load") return "/pve-load";
   if (tab === "pvp_load") return "/pvp-load";
   if (tab === "codex" || tab === "knowledge") return "/codex";
+  if (tab === "news") return "/news";
   if (tab === "settings") return "/settings";
   if (tab === "login") return "/home";
   return "/";
@@ -2317,8 +2473,20 @@ function navigate(tab, { soon = null, clearBattle = true, primary = null, fromGa
     primary = primary || "knowledge";
   }
   if (tab === "mythmir") {
-    tab = "battle_hub";
+    tab = isMvpBeta() ? "yard" : "battle_hub";
     primary = primary || "combat";
+  }
+  // MVP Beta (D-066 / D-067): redirect hidden Stage-2 tabs to News roadmap.
+  if (isMvpBeta() && MVP_HIDDEN_TABS.has(tab)) {
+    tab = "news";
+    primary = "news";
+    soon = null;
+    toast(
+      t(
+        "news.redirect_tip",
+        "Этот раздел выйдет в Большом обновлении (Этап 2). Подробности в Новостях!",
+      ),
+    );
   }
   // Inline formation: keep combat primary highlighted even though it is not a subtab.
   if (tab === "formation" && primary == null) primary = "combat";
@@ -2396,10 +2564,13 @@ function renderCurrency() {
     if (el) el.textContent = String(v);
   };
   const p = state.profile;
-  // Prefer §5.1 grant currencies when profile loaded (stub chrome — not economy SoT)
+  const mvp = isMvpBeta();
+  const bowlsCap = state.mvpState?.limits?.bowlsCap ?? (passActive() ? (mvp ? 4 : 6) : 3);
+  const pvpCap = state.mvpState?.limits?.pvpTicketsCap ?? (passActive() ? 10 : 5);
+  // Prefer §5.1 grant currencies when profile loaded (soft brand = Мифиус / MIFOUS)
   const gold = p ? p.fish : state.wallet.gold;
-  const milk = p ? p.bowls : state.wallet.milk;
-  const energy = p ? `${p.pvpTickets}/5` : state.wallet.energy;
+  const milk = p ? `${p.bowls}/${bowlsCap}` : state.wallet.milk;
+  const energy = p ? `${p.pvpTickets}/${pvpCap}` : state.wallet.energy;
   const gems = p ? p.yarn : state.wallet.gems;
   set("curGold", gold);
   set("curMilk", milk);
@@ -2409,7 +2580,11 @@ function renderCurrency() {
   set("navMilk", milk);
   set("navEnergy", energy);
   set("navGems", gems);
-  const rank = state.locale === "ru" ? "Ур. 1 · Soft Launch" : "Lv. 1 · Soft Launch";
+  const rank = mvp
+    ? t("mvp.badge", "MVP Beta")
+    : state.locale === "ru"
+      ? "Ур. 1 · Soft Launch"
+      : "Lv. 1 · Soft Launch";
   set("brandSub", rank);
   set("navRank", rank);
 }
@@ -2914,7 +3089,29 @@ function applyPassGrant(grant) {
   }
 }
 
-function buyBattlePass() {
+async function buyBattlePass() {
+  const uid = state.session?.userId || state.profile?.userId;
+  if (isMvpBeta() && uid) {
+    try {
+      const { data } = await api("/api/dev/shop/buy-pass", {
+        method: "POST",
+        body: JSON.stringify({ userId: uid }),
+      });
+      if (data?.ok) {
+        await syncMvpStateFromServer();
+        toast(
+          state.locale === "ru"
+            ? "Боевой пасс активирован · лимиты 4 PvE / 10 PvP · ×2 XP котам · финал: случайный кот"
+            : "Battle Pass ACTIVE · limits 4 PvE / 10 PvP · 2× Cat XP · Finale: random cat",
+        );
+        renderPass();
+        renderShop();
+        return true;
+      }
+    } catch (err) {
+      toast(err?.message || "Не удалось активировать пасс");
+    }
+  }
   if (state.passOwned && state.passSetGranted) {
     state.passActiveStub = true;
     toast("Боевой пасс уже куплен · элита ACTIVE");
@@ -2926,7 +3123,11 @@ function buyBattlePass() {
   state.passActiveStub = true;
   if (!state.passSetGranted) grantPassGuaranteedSet();
   persistPassStub();
-  toast("Боевой пасс куплен · ×2 XP · сет на котика · финал: Герой");
+  toast(
+    isMvpBeta()
+      ? "Боевой пасс активирован · 4 PvE / 10 PvP · ×2 XP котам"
+      : "Боевой пасс куплен · ×2 XP · сет на котика · финал: Герой",
+  );
   renderPass();
   renderShop();
   if (!$("viewGear")?.classList.contains("hidden")) renderBarn();
@@ -3146,12 +3347,13 @@ function openPrimary(group) {
 
 function fillNav(primaryEl, subEl, activeGroup, battleActive, activeClass) {
   if (!primaryEl || !subEl || !activeGroup) return;
+  const navList = visibleNav();
   const shownPrimary = state.tab === "hub" ? "character" : state.primary;
   primaryEl.innerHTML = "";
   subEl.innerHTML = "";
   subEl.setAttribute("aria-label", t(activeGroup.key, activeGroup.id));
 
-  for (const group of NAV) {
+  for (const group of navList) {
     const b = document.createElement("button");
     b.type = "button";
     b.textContent = t(group.key, group.label || group.id);
@@ -3187,11 +3389,18 @@ function renderTabs() {
   const hubTabs = $("hubTabs");
   if (hubTabs) hubTabs.innerHTML = "";
 
+  const navList = visibleNav();
   const battleActive = !!state.battle && !state.battle.result;
+  const matchInVisible = (tabId) => {
+    if (tabId === "news") return navList.find((g) => g.id === "news");
+    if (tabId === "shop") return navList.find((g) => g.id === "trade");
+    if (tabId === "yard" || tabId === "pve") return navList.find((g) => g.id === "combat");
+    return navList.find((g) => g.route === tabId || g.tabs.some((x) => x.id === tabId));
+  };
   const activeGroup =
-    (state.tab === "hub" ? NAV.find((g) => g.id === "character") : findNavForTab(state.tab)) ||
-    NAV.find((g) => g.id === state.primary) ||
-    NAV.find((g) => g.id === "character");
+    (state.tab === "hub" ? navList.find((g) => g.id === "character") : matchInVisible(state.tab) || findNavForTab(state.tab)) ||
+    navList.find((g) => g.id === state.primary) ||
+    navList[0];
   if (state.tab !== "hub" && activeGroup) state.primary = activeGroup.id;
 
   fillNav($("appTabs"), $("appSubTabs"), activeGroup, battleActive, "active");
@@ -7850,7 +8059,20 @@ function purchaseShopSku(sku, price, card) {
       return false;
     }
     if (!spendYarn(cost)) return false;
+    const uid = state.session?.userId || state.profile?.userId;
+    if (isMvpBeta() && uid) {
+      api("/api/dev/shop/buy-cat", {
+        method: "POST",
+        body: JSON.stringify({ userId: uid, templateId: id, currency: "yarn", price: cost || 299 }),
+      })
+        .then(() => syncMvpStateFromServer())
+        .catch(() => {});
+    }
     return grantShopHero(id);
+  }
+  if (isMvpBeta() && (id.startsWith("chest_") || id === "gacha_jar")) {
+    toast(state.locale === "ru" ? "Банки-гача отключены в MVP Beta (D-066)" : "Shop gacha disabled in MVP Beta");
+    return false;
   }
   if (id.startsWith("set_") || id.startsWith("pvp_set_") || id.startsWith("armor_")) {
     const setId =
@@ -8224,15 +8446,20 @@ function renderShop() {
   if (eyebrow) eyebrow.textContent = t("hub.tab.shop");
   const lead = $("shopLead");
   if (lead) {
-    lead.textContent = t(
-      "shop.lead_channels",
-      "IAP · пасс (сет+герой) · рыбки · breeding · PvP броня · PvE сеты — редкий дроп данжей/рейдов",
-    );
+    lead.textContent = isMvpBeta()
+      ? t("shop.mvp.lead", "Прямая покупка котиков и Боевого пропуска · без shop-гачи и рекламы")
+      : t(
+          "shop.lead_channels",
+          "IAP · пасс (сет+герой) · рыбки · breeding · PvP броня · PvE сеты — редкий дроп данжей/рейдов",
+        );
   }
   bindShopPassBuyOnce();
   bindShopCatalogOnce();
   hydrateShopOfferUi($("viewShop"));
-  setShopCategory($("viewShop")?.dataset.shopCat || "featured");
+  const defaultShopCat = isMvpBeta() ? "heroes" : "featured";
+  const curCat = $("viewShop")?.dataset.shopCat || defaultShopCat;
+  const blockedMvpCats = new Set(["breed", "armor", "chests", "weapons"]);
+  setShopCategory(isMvpBeta() && blockedMvpCats.has(curCat) ? "heroes" : curCat);
   const passCard = $("viewShop")?.querySelector('[data-sku="pass_buy"]');
   if (passCard && state.passOwned) {
     for (const btn of passCard.querySelectorAll(".shop-cart-add, .shop-buy-btn")) {
@@ -8921,11 +9148,15 @@ window.inspectTier = inspectTier;
 
 
 function codexTopics() {
-  return window.CODEX_TOPICS || [];
+  const all = window.CODEX_TOPICS || [];
+  if (!isMvpBeta()) return all;
+  return all.filter((x) => MVP_CODEX_IDS.has(x.id));
 }
 
 function codexFilters() {
-  return window.CODEX_FILTERS || [];
+  const all = window.CODEX_FILTERS || [];
+  if (!isMvpBeta()) return all;
+  return all.filter((f) => f.id !== "yard" && f.id !== "gear");
 }
 
 /**
@@ -9263,7 +9494,9 @@ function renderCodex() {
   const main = root.querySelector("main");
   if (main && main.scrollTop) main.scrollTop = 0;
 
-  if (!state.codexEntryId) state.codexEntryId = "class_sets";
+  if (!state.codexEntryId || !topics.some((x) => x.id === state.codexEntryId)) {
+    state.codexEntryId = isMvpBeta() ? topics[0]?.id || "battle_core" : "class_sets";
+  }
   if (!state.codexFilter) state.codexFilter = "all";
   if (state.codexQuery == null) state.codexQuery = "";
   if (!state.codexRead) state.codexRead = {};
@@ -12967,7 +13200,292 @@ function renderPass() {
   if (bossHint) bossHint.textContent = `Ур. 28+ (Ваш Ур: ${state.passLevel})`;
 
   renderPassTrack();
+  renderMvpPassPanel();
   requestAnimationFrame(() => centerPassTrackOnCurrent());
+}
+
+/** MVP Beta Pass summary (Pack C: 4/10 + ×2 cat XP + server-RNG finale cat) + Daily Quests (D-066). */
+function renderMvpPassPanel() {
+  if (!isMvpBeta()) return;
+  const panel = $("mvpPassPanel");
+  if (!panel) return;
+  const ru = state.locale === "ru";
+  const active = passActive();
+  const st = state.mvpState;
+  const lim = st?.limits || { bowls: state.profile?.bowls ?? 3, bowlsCap: active ? 4 : 3, pvpTickets: state.profile?.pvpTickets ?? 5, pvpTicketsCap: active ? 10 : 5 };
+  const passInfo = st?.pass || { level: state.passLevel || 1, maxLevel: 28, finaleReady: false, finaleClaimed: false };
+
+  const titleEl = $("mvpPassTitle");
+  if (titleEl) titleEl.textContent = ru ? "Боевой пасс · MVP Beta (Пакет C)" : "Battle Pass · MVP Beta (Pack C)";
+  const chip = $("mvpPassStatusChip");
+  if (chip) {
+    chip.textContent = active ? "PASS ACTIVE" : "FREE";
+    chip.className = `px-2 py-0.5 rounded text-[10px] font-bold ${active ? "bg-secondary/20 text-secondary" : "bg-surface-container-highest text-on-surface-variant"}`;
+  }
+  const pveCap = $("mvpPassPveCap");
+  if (pveCap) pveCap.textContent = `${lim.bowls}/${lim.bowlsCap} (Pass: 4)`;
+  const pvpCap = $("mvpPassPvpCap");
+  if (pvpCap) pvpCap.textContent = `${lim.pvpTickets}/${lim.pvpTicketsCap} (Pass: 10)`;
+  const xpMult = $("mvpPassXpMult");
+  if (xpMult) xpMult.textContent = active ? "2.0× ACTIVE" : "1.0× (Pass: 2.0×)";
+
+  const buyBtn = $("btnMvpBuyPass");
+  if (buyBtn) {
+    buyBtn.textContent = active
+      ? (ru ? "Пасс активен" : "Pass Active")
+      : (ru ? "Активировать Пасс" : "Activate Pass");
+    buyBtn.disabled = active;
+    if (buyBtn.dataset.bound !== "1") {
+      buyBtn.dataset.bound = "1";
+      buyBtn.addEventListener("click", () => buyBattlePass());
+    }
+  }
+
+  const finBtn = $("btnPassFinaleCat");
+  if (finBtn) {
+    finBtn.textContent = passInfo.finaleClaimed
+      ? (ru ? "Финальный кот получен" : "Finale Cat Claimed")
+      : passInfo.finaleReady
+        ? (ru ? "Забрать случайного кота (RNG)" : "Claim Random Cat (RNG)")
+        : (ru ? `Финал Ур. ${passInfo.level}/${passInfo.maxLevel}` : `Finale Lv ${passInfo.level}/${passInfo.maxLevel}`);
+    finBtn.disabled = !!passInfo.finaleClaimed;
+    if (finBtn.dataset.bound !== "1") {
+      finBtn.dataset.bound = "1";
+      finBtn.addEventListener("click", async () => {
+        const uid = state.session?.userId || state.profile?.userId;
+        if (!uid) return;
+        try {
+          const { data } = await api("/api/dev/pass/complete", {
+            method: "POST",
+            body: JSON.stringify({ userId: uid }),
+          });
+          if (data?.ok) {
+            await syncMvpStateFromServer();
+            toast(
+              state.locale === "ru"
+                ? `Финал пасса! Получен котик: ${data.cat?.templateId} (server RNG)`
+                : `Pass Complete! Received cat: ${data.cat?.templateId} (server RNG)`,
+            );
+            renderPass();
+          }
+        } catch (err) {
+          toast(
+            state.locale === "ru"
+              ? "Достигните уровня 28 пропуска, чтобы забрать случайного котика"
+              : err?.message || "Reach Pass Lv 28 to claim random cat",
+          );
+        }
+      });
+    }
+  }
+
+  const tutBtn = $("btnMvpTutorialStart");
+  if (tutBtn) {
+    const showTut = st && !st.tutorialDone;
+    tutBtn.classList.toggle("hidden", !showTut);
+    tutBtn.textContent = t("tutorial.mvp.cta", "Пройти обучение (первый бой)");
+    if (tutBtn.dataset.bound !== "1") {
+      tutBtn.dataset.bound = "1";
+      tutBtn.addEventListener("click", () => startTutorial());
+    }
+  }
+
+  const qTitle = $("mvpQuestsTitle");
+  if (qTitle) qTitle.textContent = t("quests.title", "Ежедневные задания");
+  const qList = $("mvpDailyQuestsList");
+  if (qList) {
+    const quests = st?.quests || [];
+    if (!quests.length) {
+      qList.innerHTML = `<div class="text-[11px] text-outline">${ru ? "Войдите в аккаунт для ежедневных заданий" : "Sign in for daily quests"}</div>`;
+    } else {
+      qList.innerHTML = quests
+        .map((q) => {
+          const label = ru ? q.title_ru : q.title_en;
+          const btn = q.claimed
+            ? `<span class="text-[10px] text-secondary font-bold">${t("quests.claimed", "Получено")}</span>`
+            : q.ready
+              ? `<button type="button" data-quest-claim="${q.quest_id}" class="px-2.5 py-1 rounded bg-secondary text-on-secondary text-[10px] font-bold">${t("quests.claim", "Забрать")}</button>`
+              : `<span class="text-[10px] text-outline">${q.progress}/${q.target}</span>`;
+          return `<div class="mvp-quest-row">
+            <div class="min-w-0">
+              <div class="font-bold text-on-surface truncate">${label}</div>
+              <div class="text-[10px] text-outline">+${q.reward_fish} MIFOUS · +${q.reward_pass_xp} Pass XP</div>
+            </div>
+            <div class="shrink-0">${btn}</div>
+          </div>`;
+        })
+        .join("");
+    }
+    if (qList.dataset.bound !== "1") {
+      qList.dataset.bound = "1";
+      qList.addEventListener("click", async (ev) => {
+        const b = ev.target.closest("[data-quest-claim]");
+        if (!b) return;
+        const questId = b.getAttribute("data-quest-claim");
+        const uid = state.session?.userId || state.profile?.userId;
+        if (!uid || !questId) return;
+        try {
+          const { data } = await api("/api/dev/quests/claim", {
+            method: "POST",
+            body: JSON.stringify({ userId: uid, questId }),
+          });
+          if (data?.ok) {
+            await syncMvpStateFromServer();
+            toast(`+${data.reward?.fish || 0} MIFOUS · +${data.reward?.passXp || 0} Pass XP`);
+            renderPass();
+          }
+        } catch (err) {
+          toast(err?.message || "Quest claim failed");
+        }
+      });
+    }
+  }
+}
+
+/** News screen (D-066 / D-067): MVP Beta live scope, Stage 2 Full update roadmap, TG channel pin copy. */
+const NEWS_TG_PIN_RU = `🐾 МИФИУС: МИФИЧЕСКИЕ КОТИКИ — СТАРТ MVP BETA!
+Карточные пошаговые бои 3v3 с общим кросс-плеем: Telegram Mini App · Web · Android · iOS.
+
+🔥 Уже в MVP Beta:
+• Обучение + стартовый отряд 3 котика (равные колоды)
+• Тренировка 3v3 и PvE Мифмир (30 узлов)
+• PvP: Рейтинг (сезоны 28д + призы), Свободный и Дружеская дуэль по ссылке
+• Прокачка котов R1–R8, пресеты 3v3, боевые зелья (≤1/вид)
+• Ежедневные задания, реплеи последних 10 боёв, друзья и чат
+• Магазин котиков и Боевой пасс (4 PvE / 10 PvP, ×2 XP котам, финал = случайный кот)
+• Без рекламы, без shop-гачи, анти-P2W
+
+🚀 Большое обновление (Этап 2 / Full):
+Ферма и автоферма · Питомник и скрещивание мификов · Гильдии и Клан-босс · Кооп-данжи и Рейды 12 героев · Таверна, Рынок, Аукцион · Лавки-банки · Steam/PC · Расширенный Кодекс.`;
+
+const NEWS_TG_PIN_EN = `🐾 MYTHFEL — MVP BETA IS LIVE!
+3v3 turn-based cat card battles with single-pool cross-play: Telegram Mini App · Web · Android · iOS.
+
+🔥 Live in MVP Beta:
+• Tutorial + 3 starter cats (equal decks)
+• 3v3 Practice & Mythmir PvE (30 nodes)
+• PvP: Ranked (28d seasons + prizes), Unranked & Friendly Duel links
+• Cat rank progression R1–R8, 3v3 presets, battle potions (≤1/type)
+• Daily quests, last 10 battle replays, friends & global chat
+• Direct Cat Shop & Battle Pass (4 PvE / 10 PvP, 2× cat XP, server-RNG random cat finale)
+• Zero ads, zero shop gacha jars, anti-P2W
+
+🚀 Coming in the Full Update (Stage 2):
+Farm & autofarm · Mythic Nursery/Breeding · Guilds & Clan Boss · Co-op Dungeons & 12-Hero Raids · Tavern, Market & Auction · Steam/PC · Extended Codex.`;
+
+function renderNews() {
+  const host = $("newsRoot");
+  if (!host) return;
+  const ru = state.locale === "ru";
+  const pinText = ru ? NEWS_TG_PIN_RU : NEWS_TG_PIN_EN;
+  host.innerHTML = `
+    <div class="mf-news-hero">
+      <div class="flex flex-col gap-1 min-w-0">
+        <div class="flex items-center gap-2 flex-wrap">
+          <span class="mf-news-badge">MVP Beta · D-066</span>
+          <span class="text-[11px] text-secondary font-bold">${ru ? "Кросс-плей: TG · Web · Android · iOS" : "Cross-play: TG · Web · Android · iOS"}</span>
+        </div>
+        <h1 class="font-headline-md text-[19px] text-primary font-extrabold m-0">${t("news.title", "Новости · MVP Beta → Большое обновление")}</h1>
+        <p class="text-[12px] text-on-surface-variant m-0">${ru ? "Всё, что работает в текущей бете, и что войдёт в Большое обновление (Этап 2 / Full)." : "What is live in MVP Beta today and what arrives in the Full Update (Stage 2)."}</p>
+      </div>
+      <div class="flex items-center gap-2">
+        <button type="button" id="btnNewsGoCombat" class="px-3 py-1.5 rounded-lg bg-primary text-on-primary text-[11px] font-bold">${ru ? "В Мифмир (PvE)" : "Play PvE"}</button>
+        <button type="button" id="btnNewsGoPvp" class="px-3 py-1.5 rounded-lg bg-surface-container-high text-on-surface border border-outline-variant/40 text-[11px] font-bold">${ru ? "На Арену (PvP)" : "PvP Arena"}</button>
+      </div>
+    </div>
+
+    <div class="mf-news-grid">
+      <article class="mf-news-card">
+        <h3>${ru ? "Этап 1 · Доступно в MVP Beta" : "Stage 1 · Live in MVP Beta"}</h3>
+        <ul class="mf-news-list">
+          <li>${ru ? "Обучение + стартовый грант: 3 котика с равными колодами (танк → боец → саппорт)" : "Tutorial + starter grant: 3 cats with equal decks (tank → fighter → support)"}</li>
+          <li>${ru ? "Тренировка 3v3, Мифмир PvE (30 узлов, 10 глав), PvP Рейтинг / Свободный / Дружеская дуэль" : "3v3 Practice, Mythmir PvE (30 nodes, 10 chapters), PvP Ranked / Unranked / Friendly Duel"}</li>
+          <li>${ru ? "Прокачка котиков R1–R8, пресеты команд 3v3, боевые зелья (≤1 каждого вида)" : "Cat rank progression R1–R8, 3v3 squad presets, battle potions (≤1 per type)"}</li>
+          <li>${ru ? "Боевой пасс (Пакет C): 4 PvE / 10 PvP в день, ×2 XP котам, финал — 1 случайный кот (server RNG)" : "Battle Pass (Pack C): 4 PvE / 10 PvP daily, 2× cat XP, finale = 1 server-RNG random cat"}</li>
+          <li>${ru ? "Ежедневные задания, сезоны 28 дней с призами (анти-P2W + soft decay MMR), реплеи ≤10" : "Daily quests, 28-day ranked seasons with prizes (anti-P2W + soft MMR decay), replays ≤10"}</li>
+          <li>${ru ? "Мягкая валюта Мифиус (MIFOUS) и Пряжа (Yarn), друзья/чат, привязка Email, RU + EN, без рекламы и shop-гачи" : "Soft currency MIFOUS & premium Yarn, friends/chat, Email linking, RU+EN, zero ads & zero shop gacha"}</li>
+        </ul>
+      </article>
+
+      <article class="mf-news-card">
+        <h3>${ru ? "Этап 2 · Большое обновление (Full post-beta)" : "Stage 2 · Full Update (Post-Beta Roadmap)"}</h3>
+        <ul class="mf-news-list">
+          <li>${ru ? "🌾 Ферма и автоферма для владельцев Боевого пропуска" : "🌾 Farm zones & Battle Pass autofarm"}</li>
+          <li>${ru ? "🧬 Питомник и скрещивание обычных котиков в мифических" : "🧬 Mythic Nursery & Cat Breeding"}</li>
+          <li>${ru ? "🏰 Гильдии, Зал Ордена, Гильдейский чат и Клан-босс" : "🏰 Guilds, Guild Chat, GvG & Clan Boss"}</li>
+          <li>${ru ? "⚔️ Кооперативные Данжи и Рейды на 12 героев" : "⚔️ Co-op Dungeons & 12-Hero Legion Raids"}</li>
+          <li>${ru ? "🍺 Таверна (молоко/баффы), Рынок ресурсов и Аукцион игроков" : "🍺 Tavern, Resource Market & Player Auction"}</li>
+          <li>${ru ? "🏺 Расширенный Магазин (банки/pity), расширенный Кодекс и Steam/PC-версия" : "🏺 Extended Shop, Full Codex & Steam/PC build"}</li>
+        </ul>
+      </article>
+    </div>
+
+    <div class="mf-news-tg-box">
+      <div class="flex items-center justify-between gap-2 flex-wrap">
+        <strong class="text-[12px] text-primary">${ru ? "Закреп для Telegram-канала (дубль анонса)" : "Telegram Channel Pin Copy"}</strong>
+        <button type="button" id="btnNewsCopyTg" class="px-3 py-1 rounded-lg bg-primary/20 text-primary border border-primary/40 text-[11px] font-bold">${t("news.copy_tg", "Скопировать закреп для TG-канала")}</button>
+      </div>
+      <pre id="newsTgPinText" class="mf-news-tg-pre"></pre>
+    </div>
+  `;
+  const pre = $("newsTgPinText");
+  if (pre) pre.textContent = pinText;
+  $("btnNewsGoCombat")?.addEventListener("click", () => navigate("yard", { primary: "combat" }));
+  $("btnNewsGoPvp")?.addEventListener("click", () => navigate("pvp", { primary: "combat" }));
+  $("btnNewsCopyTg")?.addEventListener("click", async () => {
+    try {
+      await navigator.clipboard?.writeText(pinText);
+      toast(ru ? "Текст закрепа скопирован для TG-канала" : "Telegram pin copy copied");
+    } catch {
+      toast(ru ? "Выделите текст выше и скопируйте" : "Select and copy text above");
+    }
+  });
+}
+
+/** Live 28-day season ratings & prize table in MVP Beta (/api/dev/season). */
+async function renderMvpSeasonRatings() {
+  if (!isMvpBeta()) return;
+  const uid = state.session?.userId || state.profile?.userId || "";
+  try {
+    const { data } = await api(`/api/dev/season?userId=${encodeURIComponent(uid)}`);
+    if (!data?.ok) return;
+    const ru = state.locale === "ru";
+    const body = $("ratingPlayersLiveBody");
+    if (body && Array.isArray(data.leaderboard) && data.leaderboard.length) {
+      body.innerHTML = data.leaderboard
+        .map((r) => {
+          const isMe = uid && (r.userId === uid || r.login === uid);
+          return `<div class="grid grid-cols-12 items-center px-2 py-1.5 rounded-lg ${isMe ? "bg-[#2e2926] border border-primary/60" : "bg-[#1a1613] border border-outline-variant/25"}">
+            <div class="col-span-1 text-center font-extrabold text-[11px] ${r.rank <= 3 ? "text-primary" : "text-outline"}">${r.rank}</div>
+            <div class="col-span-4 truncate font-bold text-[11px] ${isMe ? "text-primary" : "text-on-surface"}">${r.login}${isMe ? " (Вы)" : ""}</div>
+            <div class="col-span-2 text-right text-[10px] text-outline">${r.cats} ${ru ? "кот." : "cats"}</div>
+            <div class="col-span-2 text-right font-bold text-[11px] text-primary">${r.mmr}</div>
+            <div class="col-span-1 text-center text-[9px] text-secondary font-bold">${r.winRate}%</div>
+            <div class="col-span-2 text-center text-[9px] text-on-surface-variant">${r.wins}W/${r.losses}L</div>
+          </div>`;
+        })
+        .join("");
+    }
+    const prizesHost = $("mvpSeasonPrizesList");
+    if (prizesHost && Array.isArray(data.season?.prizes)) {
+      prizesHost.innerHTML = data.season.prizes
+        .map((p) => `<div class="mvp-prize-row">
+          <div class="flex items-center justify-between gap-1">
+            <b class="text-primary">${ru ? p.title_ru : p.title_en}</b>
+            <span class="text-[9px] text-secondary">${p.fish ? `${p.fish} MIFOUS` : ""}${p.yarn ? ` · ${p.yarn} Yarn` : ""}</span>
+          </div>
+          <span class="text-on-surface-variant leading-tight">${ru ? p.reward_ru : p.reward_en}</span>
+        </div>`)
+        .join("");
+    }
+    const decayBadge = $("mvpSeasonDecayBadge");
+    if (decayBadge && data.season) {
+      const pct = Math.round((data.season.softDecayFactor || 0.25) * 100);
+      decayBadge.textContent = ru ? `${data.season.durationDays}д · Decay −${pct}%` : `${data.season.durationDays}d · Decay −${pct}%`;
+    }
+  } catch {
+    /* keep fallback layout */
+  }
 }
 
 function breedingGateTip() {
@@ -18556,6 +19074,7 @@ async function pvpStart() {
 }
 
 function renderAll() {
+  syncMvpBetaBodyClass();
   renderLocale();
   renderCurrency();
   renderTabs();
@@ -18764,6 +19283,12 @@ function renderAll() {
       break;
     case "chat_global":
       renderChatSocial();
+      break;
+    case "rating_players":
+      renderMvpSeasonRatings();
+      break;
+    case "news":
+      renderNews();
       break;
     case "soon_clan":
       renderClanPanel();
@@ -20548,13 +21073,68 @@ function renderPvpArena() {
   if (!root) return;
   ensurePvpSquad();
   renderPvpArenaSquadList();
+  const mode = state.pvpArenaMode || "ranked";
   root.querySelectorAll("[data-arena-mode]").forEach((btn) => {
-    const on = btn.getAttribute("data-arena-mode") === (state.pvpArenaMode || "ranked");
+    const on = btn.getAttribute("data-arena-mode") === mode;
     btn.classList.toggle("is-on", on);
     btn.setAttribute("aria-selected", on ? "true" : "false");
   });
+  const friendlyPanel = $("pvpFriendlyPanel");
+  if (friendlyPanel) {
+    friendlyPanel.classList.toggle("hidden", mode !== "friendly");
+  }
+  const crossChip = $("pvpCrossplayChip");
+  if (crossChip) {
+    crossChip.textContent = t("pvp.crossplay.badge", "Кросс-плей: TG · Web · Android · iOS (общий пул)");
+  }
   syncPvpBotMmToggleUi();
   syncPvpSearchStatusUi();
+  renderMvpPvpReplays();
+}
+
+async function renderMvpPvpReplays() {
+  const ul = $("pvpReplaysList");
+  const uid = state.session?.userId || state.profile?.userId;
+  if (!ul || !uid || !isMvpBeta()) return;
+  try {
+    const { data } = await api(`/api/dev/replays?userId=${encodeURIComponent(uid)}`);
+    if (!data?.ok) return;
+    const countEl = $("pvpReplaysCount");
+    if (countEl) countEl.textContent = `${data.replays.length}/${data.max || 10}`;
+    if (!data.replays.length) {
+      ul.innerHTML = `<li class="text-[10px] text-outline px-2 py-2">${state.locale === "ru" ? "Пока нет завершённых дуэлей" : "No finished battles yet"}</li>`;
+      return;
+    }
+    ul.innerHTML = data.replays
+      .map((r) => {
+        const win = r.result === "p1_win";
+        return `<li class="flex items-center gap-2 rounded-lg bg-[#1a1613] border ${win ? "border-secondary/25" : "border-tertiary/25"} px-2 py-1.5">
+          <span class="w-10 text-center text-[9px] font-extrabold ${win ? "text-secondary bg-secondary/15" : "text-tertiary bg-tertiary/15"} rounded py-0.5">${win ? "WIN" : "LOSS"}</span>
+          <span class="flex-1 min-w-0"><b class="truncate block">vs ${r.opponent || "?"}</b><span class="text-[9px] text-outline">${r.mode || "ranked"} · ${r.frameCount || 1}f</span></span>
+          <button type="button" data-replay-open="${r.battleId}" class="px-1.5 py-0.5 rounded bg-primary/15 text-primary text-[9px] font-bold">Смотреть</button>
+        </li>`;
+      })
+      .join("");
+    if (ul.dataset.replayBound !== "1") {
+      ul.dataset.replayBound = "1";
+      ul.addEventListener("click", async (ev) => {
+        const btn = ev.target.closest("[data-replay-open]");
+        if (!btn) return;
+        const bid = btn.getAttribute("data-replay-open");
+        const curUid = state.session?.userId || state.profile?.userId;
+        if (!bid || !curUid) return;
+        try {
+          const { data: rep } = await api(`/api/dev/replays/get?userId=${encodeURIComponent(curUid)}&battleId=${encodeURIComponent(bid)}`);
+          const r = rep?.replay;
+          toast(`Реплей ${bid}: ${r?.mode || "pvp"} · ${r?.result || "?"} · ${(r?.frames || []).length} кадров`);
+        } catch {
+          toast("Реплей недоступен");
+        }
+      });
+    }
+  } catch {
+    /* keep fallback */
+  }
 }
 
 function startPvpSearch() {
@@ -20611,6 +21191,8 @@ function startPvpSearch() {
           userId: pvpMmUserId(),
           name: pvpMmDisplayName(),
           team: [...(state.pvpSquad || [])],
+          mode: state.pvpArenaMode === "casual" ? "unranked" : "ranked",
+          platform: clientPlatform(),
         }),
       });
       if (!state.pvpSearching) return;
@@ -21101,8 +21683,69 @@ function bindPvpArena() {
       const mode = modeBtn.getAttribute("data-arena-mode");
       state.pvpArenaMode = mode;
       renderPvpArena();
-      const labels = { ranked: "Рейтинг", casual: "Свободный", gauntlet: "Гонтлет" };
+      const labels = { ranked: "Рейтинг", casual: "Свободный (Unranked)", friendly: "Дружеская дуэль", gauntlet: "Гонтлет" };
       toast(`Режим: ${labels[mode] || mode}`);
+      return;
+    }
+    if (ev.target.closest("#btnFriendlyCreate")) {
+      ev.preventDefault();
+      ensurePvpSquad();
+      api("/api/dev/pvp/friendly/create", {
+        method: "POST",
+        body: JSON.stringify({
+          userId: pvpMmUserId(),
+          name: pvpMmDisplayName(),
+          team: [...(state.pvpSquad || [])],
+          platform: clientPlatform(),
+        }),
+      })
+        .then(({ data }) => {
+          if (!data?.ok) return;
+          const url = `${location.origin}${data.webPath}`;
+          const out = $("friendlyCodeOut");
+          const txt = $("friendlyCodeText");
+          if (txt) txt.textContent = `${data.inviteCode} · ${url}`;
+          if (out) out.classList.remove("hidden");
+          state.friendlyInviteUrl = url;
+          state.friendlyInviteCode = data.inviteCode;
+          toast(`Инвайт создан: ${data.inviteCode}`);
+        })
+        .catch(() => toast("Не удалось создать дружескую дуэль"));
+      return;
+    }
+    if (ev.target.closest("#btnFriendlyCopy")) {
+      ev.preventDefault();
+      const link = state.friendlyInviteUrl || state.friendlyInviteCode || "";
+      if (link) {
+        navigator.clipboard?.writeText(link).catch(() => {});
+        toast(`Скопировано: ${link}`);
+      }
+      return;
+    }
+    if (ev.target.closest("#btnFriendlyJoin")) {
+      ev.preventDefault();
+      const code = ($("friendlyCodeInput")?.value || "").trim().toUpperCase();
+      if (!code) {
+        toast("Введите код дружеской дуэли");
+        return;
+      }
+      ensurePvpSquad();
+      api("/api/dev/pvp/friendly/join", {
+        method: "POST",
+        body: JSON.stringify({
+          inviteCode: code,
+          userId: pvpMmUserId(),
+          name: pvpMmDisplayName(),
+          team: [...(state.pvpSquad || [])],
+          platform: clientPlatform(),
+        }),
+      })
+        .then(({ data }) => {
+          if (data?.status === "matched") {
+            applyPvpMmMatch(data);
+          }
+        })
+        .catch((err) => toast(err?.message || "Инвайт не найден"));
       return;
     }
     const arenaTip = ev.target.closest("[data-arena]");
@@ -21700,6 +22343,7 @@ async function stubLogin({ login = "", password = "", register = false, tgInitDa
       else loadGearStub();
     }
     state.loggedIn = true;
+    await syncMvpStateFromServer();
     log(
       `stubAuth ok user=${state.session.userId} cats=${(data?.profile?.cats || []).length} friends=${state.friends.length}`,
     );
@@ -21709,9 +22353,21 @@ async function stubLogin({ login = "", password = "", register = false, tgInitDa
           ? `Вход ${login} · ${data.profile?.cats?.length || 0} котов`
           : `Signed in ${login}`
         : state.locale === "ru"
-          ? "Свободный вход — smoke"
-          : "Free smoke login",
+          ? "Вход выполнен"
+          : "Signed in",
     );
+    // Friendly duel deep-link (?duel=CODE or TG start_param=duel_CODE)
+    const duelParam =
+      new URLSearchParams(location.search).get("duel") ||
+      (window.Telegram?.WebApp?.initDataUnsafe?.start_param || "").replace(/^duel_/i, "");
+    if (duelParam && /^[A-Za-z0-9]{4,16}$/.test(duelParam)) {
+      state.pvpArenaMode = "friendly";
+      navigate("pvp", { primary: "combat" });
+      const inp = $("friendlyCodeInput");
+      if (inp) inp.value = duelParam.toUpperCase();
+      toast(`Код дружеской дуэли: ${duelParam.toUpperCase()}`);
+      return true;
+    }
     navigate(bootTabAfterLogin());
     return true;
   } catch (err) {
@@ -21907,8 +22563,17 @@ function renderSettings() {
     avatarEl.src = SETTINGS_AVATARS[s.avatarIdx % SETTINGS_AVATARS.length];
   }
 
+  const linkedEmail = state.profile?.linkedEmail || "";
   const emailEl = $("settingsCurrentEmail");
-  if (emailEl) emailEl.textContent = s.email || DEFAULT_SETTINGS.email;
+  if (emailEl) {
+    emailEl.textContent = linkedEmail || s.email || (isMvpBeta() ? (state.locale === "ru" ? "Не привязан" : "Not linked") : DEFAULT_SETTINGS.email);
+  }
+  const emailBadge = $("settingsEmailStatusBadge");
+  if (emailBadge) {
+    emailBadge.textContent = linkedEmail
+      ? t("settings.email.linked", "Привязан для кросс-платформенного входа")
+      : (state.locale === "ru" ? "Привяжите email для переноса прогресса" : "Link email to sync across devices");
+  }
 
   const catsCount = state.profile?.cats?.length || 12;
   const statCards = $("settingsStatCards");
@@ -22055,20 +22720,39 @@ function wireSettings() {
     toast("Все остальные сеансы завершены");
   });
 
-  // Email code
-  $("btnSettingsSendEmailCode")?.addEventListener("click", () => {
+  // Email code / cross-client email link (D-066)
+  $("btnSettingsSendEmailCode")?.addEventListener("click", async () => {
     const inp = $("settingsNewEmail");
-    const email = (inp?.value || "").trim();
+    const email = (inp?.value || "").trim().toLowerCase();
     if (!email || !email.includes("@")) {
-      toast("Укажите корректный email");
+      toast(state.locale === "ru" ? "Укажите корректный email" : "Enter a valid email");
       return;
+    }
+    const uid = state.session?.userId || state.profile?.userId;
+    if (uid) {
+      try {
+        const { data } = await api("/api/dev/account/email", {
+          method: "POST",
+          body: JSON.stringify({ userId: uid, email }),
+        });
+        if (data?.ok) {
+          if (state.profile) state.profile.linkedEmail = data.linkedEmail;
+        }
+      } catch (err) {
+        toast(err?.message || "Email link error");
+        return;
+      }
     }
     const s = loadSettingsState();
     s.email = email;
     saveSettingsState();
     if (inp) inp.value = "";
     renderSettings();
-    toast(`Код подтверждения отправлен на ${email}`);
+    toast(
+      state.locale === "ru"
+        ? `Email ${email} привязан для кросс-платформенного входа`
+        : `Email ${email} linked for cross-platform sync`,
+    );
   });
 
   // Password eye toggle
@@ -22385,6 +23069,7 @@ function bootTabAfterLogin() {
   if (pveLoadAddressOpen()) return "pve_load";
   if (pvpLoadAddressOpen()) return "pvp_load";
   if (codexAddressOpen()) return "codex";
+  if (newsAddressOpen()) return "news";
   if (settingsAddressOpen()) return "settings";
   return "pass";
 }
@@ -22548,6 +23233,12 @@ async function main() {
     document.body.classList.remove("mythfel-login");
     navigate(bootTabAfterLogin());
     dismissBootSplash();
+    if (isMvpBeta()) {
+      syncMvpStateFromServer().then(() => {
+        if (state.tab === "pass") renderMvpPassPanel();
+        if (state.tab === "settings") renderSettings();
+      });
+    }
   } catch (err) {
     $("bootMsg").textContent = `Boot fail: ${err.message}. Подними CDN :8090 и battle :8081 (см. README).`;
     const loFail = $("liveopsPill");

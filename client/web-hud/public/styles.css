@@ -12013,7 +12013,149 @@ html, body {
   #viewPracticeFight #pfBack .material-symbols-outlined {
     font-size: 16px !important;
   }
+  .mf-news-grid {
+    grid-template-columns: 1fr !important;
+  }
 }
+
+/* ============================================================================
+   MVP BETA SLICE (D-066 / D-067 · FULL-SPEC §1.1)
+   ============================================================================ */
+.mvp-only {
+  display: none !important;
+}
+body.mvp-beta .mvp-only {
+  display: revert !important;
+}
+body.mvp-beta #mvpPassPanel.mvp-only {
+  display: grid !important;
+}
+body.mvp-beta #mvpSeasonPrizesList.mvp-only {
+  display: flex !important;
+}
+body.mvp-beta [data-mvp-hide="1"] {
+  display: none !important;
+}
+body.mvp-beta #viewShop [data-shop-section="breed"],
+body.mvp-beta #viewShop [data-shop-section="armor"],
+body.mvp-beta #viewShop [data-shop-section="chests"],
+body.mvp-beta #viewShop [data-shop-section="weapons"],
+body.mvp-beta #viewShop [data-sku*="jar"],
+body.mvp-beta #viewShop [data-sku*="chest"],
+body.mvp-beta #viewShop [data-sku*="breed"],
+body.mvp-beta #viewShop [data-sku*="armor"],
+body.mvp-beta #viewShop [data-sku*="weapon"] {
+  display: none !important;
+}
+
+#viewNews {
+  background: radial-gradient(circle at 18% 12%, rgba(253, 186, 69, 0.14), transparent 46%), #120f0d;
+  color: #f3eadc;
+  overflow-y: auto;
+}
+.mf-news-shell {
+  width: 100%;
+  min-height: 100%;
+  padding: 1rem 1.25rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.9rem;
+}
+.mf-news-hero {
+  background: linear-gradient(135deg, rgba(46, 36, 26, 0.95), rgba(22, 19, 16, 0.98));
+  border: 1px solid rgba(253, 186, 69, 0.45);
+  border-radius: 0.85rem;
+  padding: 0.9rem 1.1rem;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+.mf-news-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(253, 186, 69, 0.18);
+  border: 1px solid rgba(253, 186, 69, 0.55);
+  color: #fdba45;
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.mf-news-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.85rem;
+}
+.mf-news-card {
+  background: #1a1613;
+  border: 1px solid rgba(145, 130, 114, 0.32);
+  border-radius: 0.85rem;
+  padding: 0.85rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.mf-news-card h3 {
+  margin: 0;
+  font-size: 0.96rem;
+  font-weight: 800;
+  color: #fdba45;
+}
+.mf-news-list {
+  margin: 0;
+  padding-left: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.32rem;
+  font-size: 0.8rem;
+  line-height: 1.38;
+  color: #e2d7c8;
+}
+.mf-news-tg-box {
+  background: #14110f;
+  border: 1px dashed rgba(253, 186, 69, 0.45);
+  border-radius: 0.75rem;
+  padding: 0.75rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.mf-news-tg-pre {
+  margin: 0;
+  white-space: pre-wrap;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.74rem;
+  line-height: 1.4;
+  color: #d8ccbc;
+  max-height: 24rem;
+  overflow-y: auto;
+}
+.mvp-quest-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: 0.6rem;
+  background: #161310;
+  border: 1px solid rgba(145, 130, 114, 0.3);
+  font-size: 0.76rem;
+}
+.mvp-prize-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+  padding: 0.35rem 0.5rem;
+  border-radius: 0.5rem;
+  background: #1a1613;
+  border: 1px solid rgba(253, 186, 69, 0.22);
+}
+
 
 
 
